@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardUseCompatPadding="true"
+        card_view:cardElevation="4dp"
+        app:cardBackgroundColor="#333333">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/activity_card_image"
+                    android:layout_width="190dp"
+                    android:layout_height="110dp"
+                    android:src="@drawable/img"/>
+
+                <ProgressBar
+                    android:id="@+id/progressbar"
+                    android:layout_width="190dp"
+                    android:layout_height="4dp"
+                    android:layout_alignBottom="@id/activity_card_image"
+                    style="?android:attr/progressBarStyleHorizontal" />
+
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/activity_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Silicon Valley - Server Space Lorem Ipsum More Text Server Space Lorem Ipsum More Text"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:textSize="12dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="S02E05"
+                    android:layout_below="@id/activity_card_title"
+                    android:textSize="8dp"/>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="User"
+                            android:textSize="7dp"
+                            android:textAlignment="textEnd" />
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="State"
+                            android:textSize="7dp"
+                            android:textAlignment="textEnd" />
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Player"
+                            android:textSize="7dp"
+                            android:textAlignment="textEnd" />
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Stream"
+                            android:textSize="7dp"
+                            android:textAlignment="textEnd" />
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Video"
+                            android:textSize="7dp"
+                            android:textAlignment="textEnd" />
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Audio"
+                            android:textSize="7dp"
+                            android:textAlignment="textEnd" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="William Comartin"
+                            android:textSize="7dp"
+                            android:textColor="#FFFFFF" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Playing"
+                            android:textSize="7dp"
+                            android:textColor="#FFFFFF" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Chromecast"
+                            android:textSize="7dp"
+                            android:textColor="#FFFFFF" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Transcoding (Speed 0.0)(Throttled)"
+                            android:textSize="7dp"
+                            android:textColor="#FFFFFF" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Transcoding (h264)(569x320)"
+                            android:textSize="7dp"
+                            android:textColor="#FFFFFF" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Transcoding (aac)(2ch)"
+                            android:textSize="7dp"
+                            android:textColor="#FFFFFF" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

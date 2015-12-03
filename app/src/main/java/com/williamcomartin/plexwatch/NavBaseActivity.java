@@ -1,28 +1,35 @@
 package com.williamcomartin.plexwatch;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 /**
  * Created by wcomartin on 2015-11-04.
  */
-public class NavBaseActivity extends AppCompatActivity {
-
-    private ListView mDrawerList;
-    private ArrayAdapter<String> mAdapter;
+public class NavBaseActivity extends AppBaseActivity {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
+    private NavigationView navigationView;
+    private TextView drawerText1;
+    private TextView drawerText2;
 
     @Override
     public void setContentView(@LayoutRes int layoutResID)
@@ -31,29 +38,102 @@ public class NavBaseActivity extends AppCompatActivity {
         onCreateDrawer();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        drawerText1.setText("PlexPy");
+        drawerText2.setText("PennyTwo");
+    }
+
     protected void onCreateDrawer() {
+
+        moveDrawerToTop();
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView)findViewById(R.id.navList);
+        navigationView = (NavigationView) findViewById(R.id.navigation);
+
+        // setup nav drawer items
+        navigationView.inflateMenu(R.menu.drawer);
+        final View headerView = navigationView.inflateHeaderView(R.layout.drawer_header);
+
+        drawerText1 = (TextView) headerView.findViewById(R.id.drawerText1);
+        drawerText2 = (TextView) headerView.findViewById(R.id.drawerText2);
+
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        onNavItemClick(menuItem.getItemId());
+                        return true;
+                    }
+                });
 
         setupDrawer();
-        addDrawerItems();
 
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedFromList = (String) (mDrawerList.getItemAtPosition(position));
-                Toast.makeText(NavBaseActivity.this, selectedFromList, Toast.LENGTH_SHORT).show();
-            }
-        });
+
+
+
+
+
     }
 
-    private void addDrawerItems() {
-        String[] osArray = {"Home", "History", "Users", "Stats", "Charts"};
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
-        mDrawerList.setAdapter(mAdapter);
+    private void moveDrawerToTop() {
+        // Inflate the "decor.xml"
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.decor, null); // "null" is important.
+
+        // HACK: "steal" the first child of decor view
+        ViewGroup decor = (ViewGroup) getWindow().getDecorView();
+        View child = decor.getChildAt(0);
+        decor.removeView(child);
+        FrameLayout container = (FrameLayout) drawer.findViewById(R.id.container); // This is the container we defined just now.
+        container.addView(child);
+
+        // Make the drawer replace the first child
+        decor.addView(drawer);
+    }
+
+    private void onNavItemClick(int itemId) {
+        Intent launchIntent = null;
+
+        switch(itemId){
+            case R.id.navigation_item_activity:
+                launchIntent = new Intent(this, ActivityActivity.class);
+                break;
+            case R.id.navigation_item_users:
+                launchIntent = new Intent(this, UsersActivity.class);
+                break;
+            case R.id.navigation_item_recently_added:
+                launchIntent = new Intent(this, RecentlyAddedActivity.class);
+                break;
+            case R.id.navigation_item_history:
+                launchIntent = new Intent(this, HistoryActivity.class);
+                break;
+            case R.id.navigation_item_graphs:
+                launchIntent = new Intent(this, GraphsActivity.class);
+                break;
+            case R.id.navigation_item_statistics:
+                launchIntent = new Intent(this, StatisticsActivity.class);
+                break;
+
+            case R.id.navigation_sub_item_settings:
+                launchIntent = new Intent(this, SettingsActivity.class);
+                break;
+            case R.id.navigation_sub_item_about:
+                launchIntent = new Intent(this, AboutActivity.class);
+                break;
+        }
+
+        if (launchIntent != null) {
+            startActivity(launchIntent);
+            overridePendingTransition(R.anim.activity_fade_enter, R.anim.activity_fade_exit);
+        }
+        mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
     private void setupDrawer() {

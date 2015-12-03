@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/navigation_items"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_activity"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/activity" />
+        <item
+            android:id="@+id/navigation_item_users"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/users" />
+        <item
+            android:id="@+id/navigation_item_recently_added"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/recently_added" />
+        <item
+            android:id="@+id/navigation_item_history"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/history" />
+        <item
+            android:id="@+id/navigation_item_graphs"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/graphs" />
+        <item
+            android:id="@+id/navigation_item_statistics"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/statistics" />
+    </group>
+
+    <group
+        android:id="@+id/navigation_actions"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/navigation_sub_item_settings"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/navigation_sub_item_about"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/about" />
+    </group>
+</menu>

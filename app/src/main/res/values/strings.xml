@@ -2,4 +2,27 @@
     <string name="app_name">PlexWatch</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+
+    <string name='activity'>Activity</string>
+    <string name="users">Users</string>
+    <string name="recently_added">Recently Added</string>
+    <string name="history">History</string>
+    <string name="graphs">Graphs</string>
+    <string name="statistics">Statistics</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="StatisticsTabs">
+        <item>Most Watched TV</item>
+        <item>Most Popular TV</item>
+        <item>Most Watched Movie</item>
+        <item>Most Popular Movie</item>
+        <item>Most Active User</item>
+        <item>Most Active Platform</item>
+        <item>Last Watched</item>
+    </string-array>
+
 </resources>

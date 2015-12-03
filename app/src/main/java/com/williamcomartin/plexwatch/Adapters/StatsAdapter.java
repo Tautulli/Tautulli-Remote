@@ -1,4 +1,4 @@
-package com.williamcomartin.plexwatch.HomeComponents;
+package com.williamcomartin.plexwatch.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
