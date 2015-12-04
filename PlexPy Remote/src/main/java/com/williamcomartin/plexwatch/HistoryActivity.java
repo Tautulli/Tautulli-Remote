@@ -1,22 +1,17 @@
 package com.williamcomartin.plexwatch;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.williamcomartin.plexwatch.Adapters.ActivityAdapter;
 import com.williamcomartin.plexwatch.Adapters.HistoryAdapter;
 import com.williamcomartin.plexwatch.Helpers.GsonRequest;
-import com.williamcomartin.plexwatch.Models.ActivityModels;
 import com.williamcomartin.plexwatch.Models.HistoryModels;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class HistoryActivity extends NavBaseActivity {
 
@@ -39,7 +34,6 @@ public class HistoryActivity extends NavBaseActivity {
                 "&cmd=getHistory" +
                 "&json_data={\"draw\":4,\"columns\":[{\"data\":\"date\",\"name\":\"\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}}],\"order\":[{\"column\":0,\"dir\":\"desc\"}],\"start\":0,\"length\":25,\"search\":{\"value\":\"\",\"regex\":false}}";
 
-        RequestQueue queue = ApplicationController.getInstance().getRequestQueue();
         GsonRequest<HistoryModels.HistoryResponse> request = new GsonRequest<>(
                 url,
                 HistoryModels.HistoryResponse.class,
@@ -48,7 +42,7 @@ public class HistoryActivity extends NavBaseActivity {
                 errorListener()
         );
 
-        queue.add(request);
+        ApplicationController.getInstance().addToRequestQueue(request);
 
     }
 
@@ -60,6 +54,9 @@ public class HistoryActivity extends NavBaseActivity {
         return new Response.Listener<HistoryModels.HistoryResponse>() {
             @Override
             public void onResponse(HistoryModels.HistoryResponse response) {
+                Log.d("HistoryActivity", response.toString());
+
+
                 HistoryAdapter adapter = new HistoryAdapter(response.response.data.data);
                 rvHistory.setAdapter(adapter);
             }

@@ -41,7 +41,6 @@ public class UsersActivity extends NavBaseActivity {
                 "&cmd=getUsers" +
                 "&json_data={\"draw\":1,\"columns\":[{\"data\":\"friendly_name\",\"name\":\"\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}}],\"order\":[{\"column\":0,\"dir\":\"asc\"}],\"start\":0,\"length\":100,\"search\":{\"value\":\"\",\"regex\":false}}";
 
-        RequestQueue queue = ApplicationController.getInstance().getRequestQueue();
         GsonRequest<UserModels.UserResponse> request = new GsonRequest<>(
                 url,
                 UserModels.UserResponse.class,
@@ -50,7 +49,7 @@ public class UsersActivity extends NavBaseActivity {
                 errorListener()
         );
 
-        queue.add(request);
+        ApplicationController.getInstance().addToRequestQueue(request);
 
         rvUsers.setLayoutManager(new LinearLayoutManager(this));
     }

@@ -41,7 +41,6 @@ public class ActivityActivity extends NavBaseActivity {
                 SP.getString("server_settings_apikey", "") +
                 "&cmd=getActivities";
 
-        RequestQueue queue = ApplicationController.getInstance().getRequestQueue();
         GsonRequest<ActivityModels.ResponseParent> request = new GsonRequest<>(
                 url,
                 ActivityModels.ResponseParent.class,
@@ -50,7 +49,7 @@ public class ActivityActivity extends NavBaseActivity {
                 errorListener()
         );
 
-        queue.add(request);
+        ApplicationController.getInstance().addToRequestQueue(request);
 
 
 
