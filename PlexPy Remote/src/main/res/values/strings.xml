@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PlexWatch</string>
+    <string name="app_name">PlexPy Remote</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
@@ -12,7 +12,11 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <string name="server_settings_title">Server Settings</string>
+    <string name="server_settings_address_title">Server Address</string>
+    <string name="server_settings_apikey_title">Server ApiKey</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="StatisticsTabs">

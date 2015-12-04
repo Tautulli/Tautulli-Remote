@@ -1,6 +1,8 @@
 package com.williamcomartin.plexwatch.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import java.util.List;
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder> {
 
     View itemView;
+    private SharedPreferences SP;
 
     public ActivityAdapter() {
 
@@ -133,13 +136,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             viewHolder.vVideoLabel.setVisibility(View.GONE);
         }
 
-
+        SP = PreferenceManager.getDefaultSharedPreferences(ApplicationController.getInstance().getApplicationContext());
 
         viewHolder.vprogress.setProgress(Integer.parseInt(activity.progress_percent));
         if(!activity.art.equals("")) {
-            viewHolder.vImage.setImageUrl("http://192.168.1.116:8181/pms_image_proxy?width=500&height=280&img=" + activity.art, ApplicationController.getInstance().getImageLoader());
+            viewHolder.vImage.setImageUrl(SP.getString("server_settings_address", "") + "/pms_image_proxy?width=500&height=280&img=" + activity.art, ApplicationController.getInstance().getImageLoader());
         } else {
-            viewHolder.vImage.setImageUrl("http://192.168.1.116:8181/pms_image_proxy?width=500&height=280&img=" + activity.thumb, ApplicationController.getInstance().getImageLoader());
+            viewHolder.vImage.setImageUrl(SP.getString("server_settings_address", "") + "/pms_image_proxy?width=500&height=280&img=" + activity.thumb, ApplicationController.getInstance().getImageLoader());
         }
 
 
@@ -160,6 +163,18 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     stream += " (Throttled)";
                 }
             }
+        } else {
+            if(activity.audio_decision.equals("direct play") && activity.video_decision.equals("direct play")){
+                stream += "Direct Play";
+            } else if (activity.audio_decision.equals("copy") && activity.video_decision.equals("copy")){
+                stream += "Direct Stream";
+            } else {
+                stream += "Transcoding";
+                stream += " (" + activity.transcode_speed + ")";
+                if(activity.throttled.equals("1")){
+                    stream += " (Throttled)";
+                }
+            }
         }
 
         return stream;
@@ -168,20 +183,18 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     private String buildVideoString(Activity activity) {
         String video = "";
 
-        if(activity.media_type.equals("track")){
-            if(activity.video_decision.equals("direct play")){
-                video += "Direct Play";
-                video += " (" + activity.video_codec + ")";
-                video += " (" + activity.width + "x" + activity.height + ")";
-            } else if (activity.video_decision.equals("copy")){
-                video += "Direct Stream";
-                video += " (" + activity.transcode_video_codec + ")";
-                video += " (" + activity.width + "x" + activity.height + ")";
-            } else {
-                video += "Transcoding";
-                video += " (" + activity.transcode_video_codec + ")";
-                video += " (" + activity.transcode_width + "x" + activity.transcode_height + ")";
-            }
+        if(activity.video_decision.equals("direct play")){
+            video += "Direct Play";
+            video += " (" + activity.video_codec + ")";
+            video += " (" + activity.width + "x" + activity.height + ")";
+        } else if (activity.video_decision.equals("copy")){
+            video += "Direct Stream";
+            video += " (" + activity.transcode_video_codec + ")";
+            video += " (" + activity.width + "x" + activity.height + ")";
+        } else {
+            video += "Transcoding";
+            video += " (" + activity.transcode_video_codec + ")";
+            video += " (" + activity.transcode_width + "x" + activity.transcode_height + ")";
         }
 
         return video;
@@ -190,20 +203,18 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     private String buildAudioString(Activity activity) {
         String audio = "";
 
-        if(activity.media_type.equals("track")){
-            if(activity.audio_decision.equals("direct play")){
-                audio += "Direct Play";
-                audio += " (" + activity.audio_codec + ")";
-                audio += " (" + activity.audio_channels + " ch)";
-            } else if (activity.audio_decision.equals("copy")){
-                audio += "Direct Stream";
-                audio += " (" + activity.transcode_audio_codec + ")";
-                audio += " (" + activity.transcode_audio_channels + " ch)";
-            } else {
-                audio += "Transcoding";
-                audio += " (" + activity.transcode_audio_codec + ")";
-                audio += " (" + activity.transcode_audio_channels + " ch)";
-            }
+        if(activity.audio_decision.equals("direct play")){
+            audio += "Direct Play";
+            audio += " (" + activity.audio_codec + ")";
+            audio += " (" + activity.audio_channels + " ch)";
+        } else if (activity.audio_decision.equals("copy")){
+            audio += "Direct Stream";
+            audio += " (" + activity.transcode_audio_codec + ")";
+            audio += " (" + activity.transcode_audio_channels + " ch)";
+        } else {
+            audio += "Transcoding";
+            audio += " (" + activity.transcode_audio_codec + ")";
+            audio += " (" + activity.transcode_audio_channels + " ch)";
         }
 
         return audio;

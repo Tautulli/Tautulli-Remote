@@ -24,11 +24,13 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/user_card_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/sym_def_app_icon"/>
+                android:src="@android:drawable/sym_def_app_icon"
+                android:layout_marginRight="3dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -39,7 +41,6 @@
                     android:id="@+id/user_card_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="William Comartin"
                     style="@style/Base.TextAppearance.AppCompat.Headline"
                     android:textSize="12dp" />
 
@@ -61,20 +62,20 @@
                     android:text="Total Plays: "
                     android:textSize="9dp" />
                 <TextView
+                    android:id="@+id/user_card_last_seen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/user_card_last_seen_label"
                     android:layout_alignTop="@id/user_card_last_seen_label"
-                    android:text="10 months ago"
                     android:textColor="#ffffff"
                     android:textSize="9dp" />
 
                 <TextView
+                    android:id="@+id/user_card_total_plays"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/user_card_total_plays_label"
                     android:layout_alignTop="@id/user_card_total_plays_label"
-                    android:text="67"
                     android:textColor="#FFFFFF"
                     android:textSize="9dp" />
 
@@ -124,7 +125,6 @@
                     android:id="@+id/user_card_ip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100.100.100.100"
                     android:textSize="9dp"
                     android:textColor="#FFFFFF"
                     android:ellipsize="end"
@@ -134,7 +134,6 @@
                     android:id="@+id/user_card_platform"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chromecast"
                     android:textSize="9dp"
                     android:textColor="#FFFFFF"
                     android:ellipsize="end"
@@ -144,7 +143,6 @@
                     android:id="@+id/user_card_player"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Plex for Sony (Playstation 4 01.17)"
                     android:textSize="9dp"
                     android:textColor="#FFFFFF"
                     android:ellipsize="end"
@@ -154,7 +152,6 @@
                     android:id="@+id/user_card_watched"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" Marvel's Agents of S.H.I.E.L.D. - The Frenemy of My Enemy (S2· E18)"
                     android:textSize="9dp"
                     android:textColor="#FFFFFF"
                     android:ellipsize="end"

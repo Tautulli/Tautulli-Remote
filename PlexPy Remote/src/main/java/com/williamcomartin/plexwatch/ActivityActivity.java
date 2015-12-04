@@ -1,6 +1,9 @@
 package com.williamcomartin.plexwatch;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,15 +23,23 @@ public class ActivityActivity extends NavBaseActivity {
 
     private RecyclerView rvActivities;
 
+    private SharedPreferences SP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity);
         setupActionBar();
 
+        SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         rvActivities = (RecyclerView) findViewById(R.id.rvActivities);
 
-        String url = "http://192.168.1.116:8181/api_data?apikey=c90f2b6909393a8d2f38103d947a67c5&cmd=getActivities";
+        String url =
+                SP.getString("server_settings_address", "") +
+                "/api_data?apikey=" +
+                SP.getString("server_settings_apikey", "") +
+                "&cmd=getActivities";
 
         RequestQueue queue = ApplicationController.getInstance().getRequestQueue();
         GsonRequest<ActivityModels.ResponseParent> request = new GsonRequest<>(
