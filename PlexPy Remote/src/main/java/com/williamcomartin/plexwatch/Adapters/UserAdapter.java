@@ -83,21 +83,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         // Set item views based on the data model
 
-        viewHolder.vUserName.setText(user.user);
+        viewHolder.vUserName.setText(user.friendlyName);
         viewHolder.vTotalPlays.setText(user.plays.toString());
 
-        if (user.ip_address != null) {
-            viewHolder.vIPAddress.setText(user.ip_address);
+        if (user.ipAddress != null) {
+            viewHolder.vIPAddress.setText(user.ipAddress);
         }
 
         viewHolder.vPlatform.setText(user.platform);
         viewHolder.vPlayer.setText(user.player);
-        viewHolder.vLastWatched.setText(user.last_watched);
+        viewHolder.vLastWatched.setText(user.lastPlayed);
 
-        viewHolder.vImage.setImageUrl(user.user_thumb, ApplicationController.getInstance().getImageLoader());
+        viewHolder.vImage.setImageUrl(user.userThumb, ApplicationController.getInstance().getImageLoader());
 
-        if(user.last_seen != null && !user.last_seen.equals("null")){
-            CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(user.last_seen, System.currentTimeMillis(), 0);
+        if(user.lastSeen != null && !user.lastSeen.equals("null")){
+            CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(user.lastSeen, System.currentTimeMillis(), 0);
             viewHolder.vLastSeen.setText(timeAgo.toString());
         }
 

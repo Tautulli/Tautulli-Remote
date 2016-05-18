@@ -1,5 +1,8 @@
 package com.williamcomartin.plexwatch.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,52 +11,130 @@ import java.util.List;
  */
 public class HistoryModels {
 
-    public class Data {
-        public List<History> data = new ArrayList<>();
-        public Integer draw;
-        public Integer recordsFiltered;
-        public Integer recordsTotal;
-    }
-
-    public class History {
-        public String audioDecision;
-        public Integer date;
-        public Integer duration;
-        public String friendlyName;
-        public String fullTitle;
-        public Integer grandparentRatingKey;
-        public Integer groupCount;
-        public String groupIds;
-        public Integer id;
-        public String ipAddress;
-        public Integer mediaIndex;
-        public String mediaType;
-        public Integer parentMediaIndex;
-        public Integer parentRatingKey;
-        public String parentTitle;
-        public Integer pausedCounter;
-        public Integer percentComplete;
-        public String platform;
-        public String player;
-        public Integer ratingKey;
-        public Integer referenceId;
-        public Integer started;
-        public Integer stopped;
-        public String thumb;
-        public String user;
-        public Integer userId;
-        public String videoDecision;
-        public Integer watchedStatus;
-        public Integer year;
-    }
-
-    public class HistoryResponse {
-        public Response response;
-    }
+    public Response response;
 
     public class Response {
+
+        @SerializedName("message")
+        @Expose
+        public Object message;
+        @SerializedName("data")
+        @Expose
         public Data data;
-        public String message;
+        @SerializedName("result")
+        @Expose
         public String result;
+
     }
+
+    public class Data {
+        @SerializedName("draw")
+        @Expose
+        public Integer draw;
+        @SerializedName("total_duration")
+        @Expose
+        public String totalDuration;
+        @SerializedName("recordsTotal")
+        @Expose
+        public Integer recordsTotal;
+        @SerializedName("recordsFiltered")
+        @Expose
+        public Integer recordsFiltered;
+        @SerializedName("data")
+        @Expose
+        public List<HistoryRecord> data = new ArrayList<HistoryRecord>();
+        @SerializedName("filter_duration")
+        @Expose
+        public String filterDuration;
+    }
+
+    public class HistoryRecord {
+
+        @SerializedName("parent_title")
+        @Expose
+        public String parentTitle;
+        @SerializedName("paused_counter")
+        @Expose
+        public Integer pausedCounter;
+        @SerializedName("player")
+        @Expose
+        public String player;
+        @SerializedName("parent_rating_key")
+        @Expose
+        public Integer parentRatingKey;
+        @SerializedName("year")
+        @Expose
+        public Integer year;
+        @SerializedName("duration")
+        @Expose
+        public Integer duration;
+        @SerializedName("transcode_decision")
+        @Expose
+        public String transcodeDecision;
+        @SerializedName("rating_key")
+        @Expose
+        public Integer ratingKey;
+        @SerializedName("user_id")
+        @Expose
+        public Integer userId;
+        @SerializedName("thumb")
+        @Expose
+        public String thumb;
+        @SerializedName("id")
+        @Expose
+        public Integer id;
+        @SerializedName("platform")
+        @Expose
+        public String platform;
+        @SerializedName("media_type")
+        @Expose
+        public String mediaType;
+        @SerializedName("grandparent_rating_key")
+        @Expose
+        public Integer grandparentRatingKey;
+        @SerializedName("started")
+        @Expose
+        public Integer started;
+        @SerializedName("full_title")
+        @Expose
+        public String fullTitle;
+        @SerializedName("reference_id")
+        @Expose
+        public Integer referenceId;
+        @SerializedName("date")
+        @Expose
+        public Long date;
+        @SerializedName("percent_complete")
+        @Expose
+        public Integer percentComplete;
+        @SerializedName("ip_address")
+        @Expose
+        public String ipAddress;
+        @SerializedName("group_ids")
+        @Expose
+        public String groupIds;
+        @SerializedName("media_index")
+        @Expose
+        public Integer mediaIndex;
+        @SerializedName("friendly_name")
+        @Expose
+        public String friendlyName;
+        @SerializedName("watched_status")
+        @Expose
+        public Integer watchedStatus;
+        @SerializedName("group_count")
+        @Expose
+        public Integer groupCount;
+        @SerializedName("stopped")
+        @Expose
+        public Integer stopped;
+        @SerializedName("parent_media_index")
+        @Expose
+        public Integer parentMediaIndex;
+        @SerializedName("user")
+        @Expose
+        public String user;
+
+    }
+
 }

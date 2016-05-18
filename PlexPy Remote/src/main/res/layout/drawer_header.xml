@@ -24,7 +24,7 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.Body"
-            android:text="Test1"/>
+            android:text=""/>
 
         <TextView
             android:id="@+id/drawerText2"
@@ -34,7 +34,7 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.Body.Bold"
-            android:text="Test2"/>
+            android:text=""/>
 
     </RelativeLayout>
 </FrameLayout>

@@ -1,6 +1,11 @@
 package com.williamcomartin.plexwatch.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -8,13 +13,17 @@ import java.util.Map;
  */
 public class ActivityModels {
 
-    public class ResponseParent {
-        public Response response;
-        public Map<String, Object> additionalProperties = new HashMap<>();
-    }
+    public Response response;
 
     public class Response {
-        public Activity[] data;
+        public Object message;
+        public Data data;
+        public String result;
+    }
+
+    public class Data {
+        public String stream_count;
+        public List<Activity> sessions = new ArrayList<>();
     }
 
     public class Activity {

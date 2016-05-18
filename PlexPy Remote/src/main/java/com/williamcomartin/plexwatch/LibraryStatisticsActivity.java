@@ -2,39 +2,39 @@ package com.williamcomartin.plexwatch;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.app.Activity;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.williamcomartin.plexwatch.Adapters.HistoryAdapter;
+import com.williamcomartin.plexwatch.Adapters.LibraryStatisticsAdapter;
 import com.williamcomartin.plexwatch.Helpers.GsonRequest;
-import com.williamcomartin.plexwatch.Models.HistoryModels;
+import com.williamcomartin.plexwatch.Models.LibraryStatisticsModels;
 
-public class HistoryActivity extends NavBaseActivity {
+public class LibraryStatisticsActivity extends NavBaseActivity {
 
     private SharedPreferences SP;
-    private RecyclerView rvHistory;
+    private RecyclerView rvLibStats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
+        setContentView(R.layout.activity_library_statistics);
         setupActionBar();
 
-        rvHistory = (RecyclerView) findViewById(R.id.rvHistory);
+        rvLibStats = (RecyclerView) findViewById(R.id.rvLibStats);
 
         SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_history";
+        String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_libraries";
 
-        GsonRequest<HistoryModels> request = new GsonRequest<>(
+        GsonRequest<LibraryStatisticsModels> request = new GsonRequest<>(
                 url,
-                HistoryModels.class,
+                LibraryStatisticsModels.class,
                 null,
                 requestListener(),
                 errorListener()
@@ -42,32 +42,30 @@ public class HistoryActivity extends NavBaseActivity {
 
         ApplicationController.getInstance().addToRequestQueue(request);
 
-        rvHistory.setLayoutManager(new LinearLayoutManager(this));
+        rvLibStats.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private Response.ErrorListener errorListener() {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("HistoryActivity", error.toString());
             }
         };
     }
 
-    private Response.Listener<HistoryModels> requestListener() {
-        return new Response.Listener<HistoryModels>() {
+    private Response.Listener<LibraryStatisticsModels> requestListener() {
+        return new Response.Listener<LibraryStatisticsModels>() {
             @Override
-            public void onResponse(HistoryModels response) {
-                Log.d("HistoryActivity", response.toString());
-
-                HistoryAdapter adapter = new HistoryAdapter(response.response.data.data);
-                rvHistory.setAdapter(adapter);
+            public void onResponse(LibraryStatisticsModels response) {
+                LibraryStatisticsAdapter adapter = new LibraryStatisticsAdapter(response.response.data);
+                rvLibStats.setAdapter(adapter);
             }
         };
     }
 
     protected void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.history);
+        actionBar.setTitle(R.string.library_statistics);
     }
+
 }

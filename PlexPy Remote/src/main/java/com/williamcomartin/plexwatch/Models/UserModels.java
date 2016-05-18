@@ -1,5 +1,8 @@
 package com.williamcomartin.plexwatch.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +10,7 @@ import java.util.List;
  * Created by wcomartin on 2015-11-20.
  */
 public class UserModels {
-    public class UserResponse {
-        public Response response;
-    }
+    public Response response;
 
     public class Response {
         public Data data;
@@ -18,29 +19,79 @@ public class UserModels {
     }
 
     public class Data {
-        public List<User> data = new ArrayList<>();
+        public Integer recordsFiltered;
+        public Integer recordsTotal;
         public Integer draw;
-        public Integer records_filtered;
-        public Integer records_total;
+        public List<User> data = new ArrayList<User>();
     }
 
     public class User {
-        public String do_notify;
-        public String friendly_name;
-        public Integer id;
-        public String ip_address;
-        public String keep_history;
-        public Integer last_seen;
-        public String last_watched;
-        public String media_type;
-        public String platform;
+
+        @SerializedName("user_thumb")
+        @Expose
+        public String userThumb;
+        @SerializedName("parent_title")
+        @Expose
+        public String parentTitle;
+        @SerializedName("player")
+        @Expose
         public String player;
-        public Integer plays;
-        public Integer rating_key;
+        @SerializedName("year")
+        @Expose
+        public Integer year;
+        @SerializedName("duration")
+        @Expose
+        public Integer duration;
+        @SerializedName("rating_key")
+        @Expose
+        public Integer ratingKey;
+        @SerializedName("user_id")
+        @Expose
+        public Integer userId;
+        @SerializedName("thumb")
+        @Expose
         public String thumb;
-        public String user;
-        public Integer user_id;
-        public String user_thumb;
-        public String video_decision;
+        @SerializedName("id")
+        @Expose
+        public Integer id;
+        @SerializedName("platform")
+        @Expose
+        public String platform;
+        @SerializedName("media_type")
+        @Expose
+        public String mediaType;
+        @SerializedName("do_notify")
+        @Expose
+        public String doNotify;
+        @SerializedName("allow_guest")
+        @Expose
+        public String allowGuest;
+        @SerializedName("last_played")
+        @Expose
+        public String lastPlayed;
+        @SerializedName("transcode_decision")
+        @Expose
+        public String transcodeDecision;
+        @SerializedName("plays")
+        @Expose
+        public Integer plays;
+        @SerializedName("ip_address")
+        @Expose
+        public String ipAddress;
+        @SerializedName("media_index")
+        @Expose
+        public Integer mediaIndex;
+        @SerializedName("friendly_name")
+        @Expose
+        public String friendlyName;
+        @SerializedName("keep_history")
+        @Expose
+        public String keepHistory;
+        @SerializedName("parent_media_index")
+        @Expose
+        public Integer parentMediaIndex;
+        @SerializedName("last_seen")
+        @Expose
+        public Integer lastSeen;
     }
 }

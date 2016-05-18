@@ -28,5 +28,7 @@
         <item>Most Active Platform</item>
         <item>Last Watched</item>
     </string-array>
+    <string name="title_activity_library_statistics">LibraryStatisticsActivity</string>
+    <string name="library_statistics">Library Statistics</string>
 
 </resources>

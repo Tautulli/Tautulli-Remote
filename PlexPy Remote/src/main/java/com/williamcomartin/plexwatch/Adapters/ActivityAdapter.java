@@ -119,7 +119,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
         }
 
-        viewHolder.vUser.setText(activity.user);
+        viewHolder.vUser.setText(activity.friendly_name);
         viewHolder.vStatus.setText(activity.state);
         viewHolder.vPlayer.setText(activity.platform + " - " + activity.player);
 

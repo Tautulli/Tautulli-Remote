@@ -1,5 +1,7 @@
 package com.williamcomartin.plexwatch.Helpers;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -7,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.williamcomartin.plexwatch.Models.ActivityModels;
 
@@ -18,7 +21,7 @@ import java.util.Map;
  */
 public class GsonRequest<T> extends Request<T> {
 
-    private final Gson gson = new Gson();
+    private Gson gson;
     private final Class<T> clazz;
     private final Map<String, String> headers;
     private final Response.Listener<T> listener;
@@ -27,6 +30,11 @@ public class GsonRequest<T> extends Request<T> {
     public GsonRequest(String url, Class<T> clazz, Map<String, String> headers,
                        Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
+
+        GsonBuilder gsonB = new GsonBuilder();
+        gsonB.registerTypeAdapter(Double.class, GSONTypeAdapters.DoubleTypeAdapter);
+        gsonB.registerTypeAdapter(Integer.class, GSONTypeAdapters.IntegerTypeAdapter);
+        gson = gsonB.create();
 
         this.clazz = clazz;
         this.headers = headers;

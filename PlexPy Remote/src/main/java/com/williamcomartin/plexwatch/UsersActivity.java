@@ -34,16 +34,11 @@ public class UsersActivity extends NavBaseActivity {
 
         rvUsers = (RecyclerView) findViewById(R.id.rvUsers);
 
-        String url =
-                SP.getString("server_settings_address", "") +
-                "/api_data?apikey=" +
-                SP.getString("server_settings_apikey", "") +
-                "&cmd=getUsers" +
-                "&json_data={\"draw\":1,\"columns\":[{\"data\":\"friendly_name\",\"name\":\"\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}}],\"order\":[{\"column\":0,\"dir\":\"asc\"}],\"start\":0,\"length\":100,\"search\":{\"value\":\"\",\"regex\":false}}";
+        String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_users_table";
 
-        GsonRequest<UserModels.UserResponse> request = new GsonRequest<>(
+        GsonRequest<UserModels> request = new GsonRequest<>(
                 url,
-                UserModels.UserResponse.class,
+                UserModels.class,
                 null,
                 requestListener(),
                 errorListener()
@@ -58,10 +53,10 @@ public class UsersActivity extends NavBaseActivity {
         return null;
     }
 
-    private Response.Listener<UserModels.UserResponse> requestListener() {
-        return new Response.Listener<UserModels.UserResponse>() {
+    private Response.Listener<UserModels> requestListener() {
+        return new Response.Listener<UserModels>() {
             @Override
-            public void onResponse(UserModels.UserResponse response) {
+            public void onResponse(UserModels response) {
                 UserAdapter adapter = new UserAdapter(response.response.data.data);
                 rvUsers.setAdapter(adapter);
             }

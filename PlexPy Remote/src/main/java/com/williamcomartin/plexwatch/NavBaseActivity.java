@@ -2,7 +2,9 @@ package com.williamcomartin.plexwatch;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +22,14 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.williamcomartin.plexwatch.Adapters.HistoryAdapter;
+import com.williamcomartin.plexwatch.Helpers.GsonRequest;
+import com.williamcomartin.plexwatch.Models.ActivityModels;
+import com.williamcomartin.plexwatch.Models.HistoryModels;
+import com.williamcomartin.plexwatch.Models.ServerFriendlyNameModels;
+
 /**
  * Created by wcomartin on 2015-11-04.
  */
@@ -30,6 +40,8 @@ public class NavBaseActivity extends AppBaseActivity {
     private NavigationView navigationView;
     private TextView drawerText1;
     private TextView drawerText2;
+
+    private SharedPreferences SP;
 
     @Override
     public void setContentView(@LayoutRes int layoutResID)
@@ -42,8 +54,38 @@ public class NavBaseActivity extends AppBaseActivity {
     protected void onStart() {
         super.onStart();
 
+        SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_server_friendly_name";
+
+        GsonRequest<ServerFriendlyNameModels> request = new GsonRequest<>(
+                url,
+                ServerFriendlyNameModels.class,
+                null,
+                requestListener(),
+                errorListener()
+        );
+
+        ApplicationController.getInstance().addToRequestQueue(request);
+
         drawerText1.setText("PlexPy");
-        drawerText2.setText("PennyTwo");
+    }
+
+    private Response.ErrorListener errorListener() {
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        };
+    }
+
+    private Response.Listener<ServerFriendlyNameModels> requestListener() {
+        return new Response.Listener<ServerFriendlyNameModels>() {
+            @Override
+            public void onResponse(ServerFriendlyNameModels response) {
+                drawerText2.setText(response.response.data);
+            }
+        };
     }
 
     protected void onCreateDrawer() {
@@ -74,11 +116,6 @@ public class NavBaseActivity extends AppBaseActivity {
                 });
 
         setupDrawer();
-
-
-
-
-
 
     }
 
@@ -119,6 +156,9 @@ public class NavBaseActivity extends AppBaseActivity {
                 break;
             case R.id.navigation_item_statistics:
                 launchIntent = new Intent(this, StatisticsActivity.class);
+                break;
+            case R.id.navigation_item_library_statistics:
+                launchIntent = new Intent(this, LibraryStatisticsActivity.class);
                 break;
 
             case R.id.navigation_sub_item_settings:
