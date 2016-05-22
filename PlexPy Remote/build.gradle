@@ -30,4 +30,8 @@ dependencies {
     compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
     compile 'com.google.code.gson:gson:2.5'
     compile 'com.android.support:support-v4:23.1.1'
+
+    compile 'com.joanzapata.iconify:android-iconify:2.2.2'
+    compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
+    compile 'com.joanzapata.iconify:android-iconify-material:2.2.2'
 }

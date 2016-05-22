@@ -71,8 +71,13 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
         // Get the data model based on position
         RecentlyAddedModels.RecentItem recentlyAddedItem = recentlyAddedItems.get(position);
 
-        viewHolder.vTitle.setText(recentlyAddedItem.title);
-        viewHolder.vParentTitle.setText(recentlyAddedItem.parentTitle);
+        if(recentlyAddedItem.parentTitle == ""){
+            viewHolder.vTitle.setText(recentlyAddedItem.year);
+            viewHolder.vParentTitle.setText(recentlyAddedItem.title);
+        } else {
+            viewHolder.vTitle.setText(recentlyAddedItem.title);
+            viewHolder.vParentTitle.setText(recentlyAddedItem.parentTitle);
+        }
 
         if(recentlyAddedItem.addedAt != null && !recentlyAddedItem.addedAt.equals("null")){
             Long dateTimeStamp = Long.parseLong(recentlyAddedItem.addedAt) * 1000;

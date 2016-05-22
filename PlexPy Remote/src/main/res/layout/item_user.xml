@@ -32,130 +32,153 @@
                 android:src="@android:drawable/sym_def_app_icon"
                 android:layout_marginRight="3dp" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/user_card_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/Base.TextAppearance.AppCompat.Headline"
-                    android:textSize="12dp" />
-
-                <TextView
-                    android:id="@+id/user_card_last_seen_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/user_card_name"
-                    android:paddingRight="4dp"
-                    android:text="Last Seen:"
-                    android:textSize="9dp" />
-
-                <TextView
-                    android:id="@+id/user_card_total_plays_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/user_card_last_seen_label"
-                    android:paddingRight="4dp"
-                    android:text="Total Plays: "
-                    android:textSize="9dp" />
-                <TextView
-                    android:id="@+id/user_card_last_seen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/user_card_last_seen_label"
-                    android:layout_alignTop="@id/user_card_last_seen_label"
-                    android:textColor="#ffffff"
-                    android:textSize="9dp" />
-
-                <TextView
-                    android:id="@+id/user_card_total_plays"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/user_card_total_plays_label"
-                    android:layout_alignTop="@id/user_card_total_plays_label"
-                    android:textColor="#FFFFFF"
-                    android:textSize="9dp" />
-
-            </RelativeLayout>
-
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="4dp"
-                android:layout_marginLeft="4dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Last Known IP"
-                    android:textSize="9dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Last Platform"
-                    android:textSize="9dp"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Last Player"
-                    android:textSize="9dp"/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Last Watched"
-                    android:textSize="9dp"/>
+                        <TextView
+                            android:id="@+id/user_card_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Base.TextAppearance.AppCompat.Headline"
+                            android:textSize="12dp" />
 
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/user_card_last_seen_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/user_card_name"
+                            android:paddingRight="4dp"
+                            android:text="Last Seen"
+                            android:textSize="9dp" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical">
+                        <TextView
+                            android:id="@+id/user_card_total_plays_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/user_card_last_seen_label"
+                            android:paddingRight="4dp"
+                            android:text="Total Plays"
+                            android:textSize="9dp" />
+                        <TextView
+                            android:id="@+id/user_card_last_seen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/user_card_last_seen_label"
+                            android:layout_alignTop="@id/user_card_last_seen_label"
+                            android:textColor="#ffffff"
+                            android:textSize="9dp" />
 
-                <TextView
-                    android:id="@+id/user_card_ip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="9dp"
-                    android:textColor="#FFFFFF"
-                    android:ellipsize="end"
-                    android:singleLine="true" />
+                        <TextView
+                            android:id="@+id/user_card_total_plays"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/user_card_total_plays_label"
+                            android:layout_alignTop="@id/user_card_total_plays_label"
+                            android:textColor="#FFFFFF"
+                            android:textSize="9dp" />
 
-                <TextView
-                    android:id="@+id/user_card_platform"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="9dp"
-                    android:textColor="#FFFFFF"
-                    android:ellipsize="end"
-                    android:singleLine="true" />
+                    </RelativeLayout>
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/user_card_player"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="9dp"
-                    android:textColor="#FFFFFF"
-                    android:ellipsize="end"
-                    android:singleLine="true" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/user_card_watched"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="9dp"
-                    android:textColor="#FFFFFF"
-                    android:ellipsize="end"
-                    android:singleLine="true"/>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginLeft="4dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Last Known IP"
+                            android:textSize="9dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Last Platform"
+                            android:textSize="9dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Last Player"
+                            android:textSize="9dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Last Watched"
+                            android:textSize="9dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/user_card_ip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="9dp"
+                            android:textColor="#FFFFFF"
+                            android:ellipsize="end"
+                            android:singleLine="true" />
+
+                        <TextView
+                            android:id="@+id/user_card_platform"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="9dp"
+                            android:textColor="#FFFFFF"
+                            android:ellipsize="end"
+                            android:singleLine="true" />
+
+                        <TextView
+                            android:id="@+id/user_card_player"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="9dp"
+                            android:textColor="#FFFFFF"
+                            android:ellipsize="end"
+                            android:singleLine="true" />
+
+                        <TextView
+                            android:id="@+id/user_card_watched"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="9dp"
+                            android:textColor="#FFFFFF"
+                            android:ellipsize="end"
+                            android:singleLine="true"/>
+
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -92,6 +92,6 @@ public class UserModels {
         public Integer parentMediaIndex;
         @SerializedName("last_seen")
         @Expose
-        public Integer lastSeen;
+        public Long lastSeen;
     }
 }

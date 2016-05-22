@@ -35,7 +35,6 @@ public class UsersActivity extends NavBaseActivity {
         rvUsers = (RecyclerView) findViewById(R.id.rvUsers);
 
         String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_users_table";
-
         GsonRequest<UserModels> request = new GsonRequest<>(
                 url,
                 UserModels.class,

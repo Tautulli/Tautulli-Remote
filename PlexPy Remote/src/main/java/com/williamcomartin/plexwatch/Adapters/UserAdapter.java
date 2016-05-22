@@ -97,7 +97,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         viewHolder.vImage.setImageUrl(user.userThumb, ApplicationController.getInstance().getImageLoader());
 
         if(user.lastSeen != null && !user.lastSeen.equals("null")){
-            CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(user.lastSeen, System.currentTimeMillis(), 0);
+            CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(user.lastSeen * 1000, System.currentTimeMillis(), 0);
             viewHolder.vLastSeen.setText(timeAgo.toString());
         }
 

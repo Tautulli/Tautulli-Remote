@@ -10,25 +10,25 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.williamcomartin.plexwatch.Adapters.HistoryAdapter;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.FontAwesomeIcons;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.williamcomartin.plexwatch.Helpers.GsonRequest;
-import com.williamcomartin.plexwatch.Models.ActivityModels;
-import com.williamcomartin.plexwatch.Models.HistoryModels;
 import com.williamcomartin.plexwatch.Models.ServerFriendlyNameModels;
+import com.williamcomartin.plexwatch.Services.NavService;
 
 /**
  * Created by wcomartin on 2015-11-04.
@@ -43,11 +43,89 @@ public class NavBaseActivity extends AppBaseActivity {
 
     private SharedPreferences SP;
 
+
+    private static MenuItem activeMenuItem;
+
     @Override
     public void setContentView(@LayoutRes int layoutResID)
     {
         super.setContentView(layoutResID);
         onCreateDrawer();
+
+        setIcons();
+    }
+
+    private void setIcons() {
+
+        Menu menu = navigationView.getMenu();
+
+        menu.findItem(R.id.navigation_item_activity).setIcon(
+                new IconDrawable(this, MaterialIcons.md_tv)
+                        .colorRes(R.color.colorTextPrimary)
+                        .actionBarSize());
+
+        menu.findItem(R.id.navigation_item_users).setIcon(
+                new IconDrawable(this, MaterialIcons.md_people)
+                        .colorRes(R.color.colorTextPrimary)
+                        .actionBarSize());
+
+        menu.findItem(R.id.navigation_item_recently_added).setIcon(
+                new IconDrawable(this, MaterialIcons.md_movie)
+                        .colorRes(R.color.colorTextPrimary)
+                        .actionBarSize());
+
+        menu.findItem(R.id.navigation_item_history).setIcon(
+                new IconDrawable(this, MaterialIcons.md_restore)
+                        .colorRes(R.color.colorTextPrimary)
+                        .actionBarSize());
+
+        menu.findItem(R.id.navigation_item_graphs).setIcon(
+                new IconDrawable(this, FontAwesomeIcons.fa_line_chart)
+                        .colorRes(R.color.colorTextPrimary)
+                        .actionBarSize());
+
+        menu.findItem(R.id.navigation_item_statistics).setIcon(
+                new IconDrawable(this, MaterialIcons.md_insert_chart)
+                        .colorRes(R.color.colorTextPrimary)
+                        .actionBarSize());
+
+        menu.findItem(R.id.navigation_item_library_statistics).setIcon(
+                new IconDrawable(this, FontAwesomeIcons.fa_th_list)
+                        .colorRes(R.color.colorTextPrimary)
+                        .actionBarSize());
+
+        menu.findItem(R.id.navigation_sub_item_settings).setIcon(
+                new IconDrawable(this, MaterialIcons.md_settings)
+                        .colorRes(R.color.colorTextPrimary)
+                        .actionBarSize());
+
+        menu.findItem(R.id.navigation_sub_item_about).setIcon(
+                new IconDrawable(this, MaterialIcons.md_info)
+                        .colorRes(R.color.colorTextPrimary)
+                        .actionBarSize());
+
+        if(NavService.getInstance().currentNav == 0){
+            NavService.getInstance().currentNav = R.id.navigation_item_activity;
+            setActive(NavService.getInstance().currentNav);
+        } else {
+            setActive(NavService.getInstance().currentNav);
+        }
+    }
+
+    private void setActive(int item){
+        NavService.getInstance().currentNav = item;
+
+        Menu menu = navigationView.getMenu();
+
+        NavBaseActivity.activeMenuItem = menu.findItem(item);
+
+        SpannableString s = new SpannableString(NavBaseActivity.activeMenuItem.getTitle());
+        int color = getResources().getColor(R.color.colorAccent);
+        s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
+        NavBaseActivity.activeMenuItem.setTitle(s);
+
+        IconDrawable activeIcon = (IconDrawable) NavBaseActivity.activeMenuItem.getIcon();
+        activeIcon.colorRes(R.color.colorAccent);
     }
 
     @Override
@@ -140,31 +218,40 @@ public class NavBaseActivity extends AppBaseActivity {
 
         switch(itemId){
             case R.id.navigation_item_activity:
+                setActive(R.id.navigation_item_activity);
                 launchIntent = new Intent(this, ActivityActivity.class);
                 break;
             case R.id.navigation_item_users:
+                setActive(R.id.navigation_item_users);
                 launchIntent = new Intent(this, UsersActivity.class);
                 break;
             case R.id.navigation_item_recently_added:
+                setActive(R.id.navigation_item_recently_added);
                 launchIntent = new Intent(this, RecentlyAddedActivity.class);
                 break;
             case R.id.navigation_item_history:
+                setActive(R.id.navigation_item_history);
                 launchIntent = new Intent(this, HistoryActivity.class);
                 break;
             case R.id.navigation_item_graphs:
+                setActive(R.id.navigation_item_graphs);
                 launchIntent = new Intent(this, GraphsActivity.class);
                 break;
             case R.id.navigation_item_statistics:
+                setActive(R.id.navigation_item_statistics);
                 launchIntent = new Intent(this, StatisticsActivity.class);
                 break;
             case R.id.navigation_item_library_statistics:
+                setActive(R.id.navigation_item_library_statistics);
                 launchIntent = new Intent(this, LibraryStatisticsActivity.class);
                 break;
 
             case R.id.navigation_sub_item_settings:
+                setActive(R.id.navigation_sub_item_settings);
                 launchIntent = new Intent(this, SettingsActivity.class);
                 break;
             case R.id.navigation_sub_item_about:
+                setActive(R.id.navigation_sub_item_about);
                 launchIntent = new Intent(this, AboutActivity.class);
                 break;
         }
@@ -216,7 +303,7 @@ public class NavBaseActivity extends AppBaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // as you specify a parent activityMenuItem in AndroidManifest.xml.
 //        int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement

@@ -6,20 +6,19 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.williamcomartin.plexwatch.Adapters.WatchStatistics.MostWatchedTVAdapter;
+import com.williamcomartin.plexwatch.Adapters.WatchStatistics.MostPopularTVAdapter;
 import com.williamcomartin.plexwatch.ApplicationController;
 import com.williamcomartin.plexwatch.Helpers.GsonRequest;
 import com.williamcomartin.plexwatch.Models.StatisticsModels;
 import com.williamcomartin.plexwatch.R;
 
-public class MostWatchedTVFragment extends Fragment {
+public class MostPopularTVFragment extends Fragment {
 
     private SharedPreferences SP;
     private RecyclerView rvStat;
@@ -64,9 +63,9 @@ public class MostWatchedTVFragment extends Fragment {
         return new Response.Listener<StatisticsModels>() {
             @Override
             public void onResponse(StatisticsModels response) {
-                StatisticsModels.StatisticsGroup group = response.response.FindStat("top_tv");
+                StatisticsModels.StatisticsGroup group = response.response.FindStat("popular_tv");
 
-                MostWatchedTVAdapter adapter = new MostWatchedTVAdapter(group.rows);
+                MostPopularTVAdapter adapter = new MostPopularTVAdapter(group.rows);
                 rvStat.setAdapter(adapter);
             }
         };
