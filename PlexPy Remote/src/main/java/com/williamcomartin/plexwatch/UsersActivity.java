@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.williamcomartin.plexwatch.Adapters.ActivityAdapter;
 import com.williamcomartin.plexwatch.Adapters.UserAdapter;
 import com.williamcomartin.plexwatch.Helpers.GsonRequest;
@@ -49,7 +50,11 @@ public class UsersActivity extends NavBaseActivity {
     }
 
     private Response.ErrorListener errorListener() {
-        return null;
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        };
     }
 
     private Response.Listener<UserModels> requestListener() {

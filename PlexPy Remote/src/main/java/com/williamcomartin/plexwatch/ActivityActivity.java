@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.williamcomartin.plexwatch.Adapters.ActivityAdapter;
 import com.williamcomartin.plexwatch.Helpers.GsonRequest;
 import com.williamcomartin.plexwatch.Models.ActivityModels;
@@ -74,9 +75,12 @@ public class ActivityActivity extends NavBaseActivity {
     }
 
     private Response.ErrorListener errorListener() {
-//        Toast.makeText(getApplicationContext(), "Error Connecting to Server", Toast.LENGTH_LONG).show();
         onItemsLoadComplete();
-        return null;
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        };
     }
 
     private Response.Listener<ActivityModels> requestListener() {

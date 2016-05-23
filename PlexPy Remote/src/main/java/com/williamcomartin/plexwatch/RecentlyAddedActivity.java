@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.williamcomartin.plexwatch.Adapters.RecentlyAddedAdapter;
 import com.williamcomartin.plexwatch.Helpers.GsonRequest;
 import com.williamcomartin.plexwatch.Models.RecentlyAddedModels;
@@ -41,14 +42,15 @@ public class RecentlyAddedActivity extends NavBaseActivity {
 
         ApplicationController.getInstance().addToRequestQueue(request);
 
-
-
         rvActivities.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private Response.ErrorListener errorListener() {
-//        Toast.makeText(getApplicationContext(), "Error Connecting to Server", Toast.LENGTH_LONG).show();
-        return null;
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        };
     }
 
     private Response.Listener<RecentlyAddedModels> requestListener() {
