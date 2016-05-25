@@ -11,14 +11,19 @@ import android.support.v7.widget.RecyclerView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexwatch.Adapters.RecentlyAddedAdapter;
+import com.williamcomartin.plexwatch.Helpers.EndlessScrollListener;
 import com.williamcomartin.plexwatch.Helpers.GsonRequest;
 import com.williamcomartin.plexwatch.Models.RecentlyAddedModels;
+
+import java.util.ArrayList;
 
 public class RecentlyAddedActivity extends NavBaseActivity {
 
     private RecyclerView rvActivities;
 
     private SharedPreferences SP;
+
+    private RecentlyAddedAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +34,10 @@ public class RecentlyAddedActivity extends NavBaseActivity {
         SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         rvActivities = (RecyclerView) findViewById(R.id.rvRecentlyAdded);
+        adapter = new RecentlyAddedAdapter(new ArrayList<RecentlyAddedModels.RecentItem>());
+        rvActivities.setAdapter(adapter);
 
-        String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_recently_added&count=30";
+        String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_recently_added&count=10";
 
         GsonRequest<RecentlyAddedModels> request = new GsonRequest<>(
                 url,
@@ -42,7 +49,26 @@ public class RecentlyAddedActivity extends NavBaseActivity {
 
         ApplicationController.getInstance().addToRequestQueue(request);
 
-        rvActivities.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvActivities.setLayoutManager(linearLayoutManager);
+
+        rvActivities.setOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_recently_added&count=10&start=" + ((Integer) current_page).toString();
+
+                GsonRequest<RecentlyAddedModels> request = new GsonRequest<>(
+                        url,
+                        RecentlyAddedModels.class,
+                        null,
+                        requestListener(),
+                        errorListener()
+                );
+
+                ApplicationController.getInstance().addToRequestQueue(request);
+            }
+        });
+
     }
 
     private Response.ErrorListener errorListener() {
@@ -57,8 +83,9 @@ public class RecentlyAddedActivity extends NavBaseActivity {
         return new Response.Listener<RecentlyAddedModels>() {
             @Override
             public void onResponse(RecentlyAddedModels response) {
-                RecentlyAddedAdapter adapter = new RecentlyAddedAdapter(response.response.data.recentlyAdded);
-                rvActivities.setAdapter(adapter);
+                adapter.addItems(response.response.data.recentlyAdded);
+                adapter.notifyDataSetChanged();
+//                rvActivities.setAdapter(adapter);
             }
         };
     }

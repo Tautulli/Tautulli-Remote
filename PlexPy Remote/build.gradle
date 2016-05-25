@@ -1,4 +1,10 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'com.github.triplet.play'
+
+//play {
+//    serviceAccountEmail = 'williamcomartin@gmail.com'
+//    pk12File = file('key.p12')
+//}
 
 android {
     compileSdkVersion 23

@@ -18,6 +18,7 @@ import com.williamcomartin.plexwatch.Models.RecentlyAddedModels;
 import com.williamcomartin.plexwatch.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,12 +46,15 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
         }
     }
 
-    private List<RecentlyAddedModels.RecentItem> recentlyAddedItems;
+    private List<RecentlyAddedModels.RecentItem> recentlyAddedItems = new ArrayList<>();
 
     // Pass in the contact array into the constructor
     public RecentlyAddedAdapter(List<RecentlyAddedModels.RecentItem> recentlyAddedItems) {
-        this.recentlyAddedItems = recentlyAddedItems;
         SP = PreferenceManager.getDefaultSharedPreferences(ApplicationController.getInstance().getApplicationContext());
+    }
+
+    public void addItems(List<RecentlyAddedModels.RecentItem> recentlyAddedItems){
+        this.recentlyAddedItems.addAll(recentlyAddedItems);
     }
 
     @Override
