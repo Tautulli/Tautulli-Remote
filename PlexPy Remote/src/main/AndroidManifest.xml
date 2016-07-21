@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.williamcomartin.plexwatch">
+    package="com.williamcomartin.plexpyremote">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".ApplicationController"
+        android:name="com.williamcomartin.plexpyremote.ApplicationController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityActivity">
+        <activity android:name="com.williamcomartin.plexpyremote.ActivityActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UsersActivity"></activity>
-        <activity android:name=".RecentlyAddedActivity"></activity>
-        <activity android:name=".HistoryActivity"></activity>
-        <activity android:name=".GraphsActivity"></activity>
-        <activity android:name=".StatisticsActivity"></activity>
-        <activity android:name=".SettingsActivity"></activity>
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name="com.williamcomartin.plexpyremote.UsersActivity"></activity>
+        <activity android:name="com.williamcomartin.plexpyremote.UserDetailActivity"></activity>
+        <activity android:name="com.williamcomartin.plexpyremote.RecentlyAddedActivity"></activity>
+        <activity android:name="com.williamcomartin.plexpyremote.HistoryActivity"></activity>
+        <activity android:name="com.williamcomartin.plexpyremote.GraphsActivity"></activity>
+        <activity android:name="com.williamcomartin.plexpyremote.StatisticsActivity"></activity>
+        <activity android:name="com.williamcomartin.plexpyremote.SettingsActivity"></activity>
+        <activity android:name="com.williamcomartin.plexpyremote.AboutActivity"></activity>
         <activity
-            android:name=".LibraryStatisticsActivity"
+            android:name="com.williamcomartin.plexpyremote.LibraryStatisticsActivity"
             android:label="@string/title_activity_library_statistics"></activity>
     </application>
 

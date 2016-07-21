@@ -9,7 +9,7 @@
         android:id="@+id/settings_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.williamcomartin.plexwatch.SettingsFragment" />
+        android:name="com.williamcomartin.plexpyremote.SettingsFragment" />
 
 
 </LinearLayout>

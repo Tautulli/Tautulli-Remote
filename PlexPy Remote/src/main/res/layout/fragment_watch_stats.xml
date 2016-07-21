@@ -1,0 +1,125 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserDetailsFragments.UserWatchStatsFragment">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/watch_stats_card"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardUseCompatPadding="true"
+        card_view:cardElevation="4dp"
+        app:cardBackgroundColor="#333333">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/watch_stats_card_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:textSize="25dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dp">
+
+                <TextView
+                    android:id="@+id/watch_stats_card_plays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/watch_stats_card_plays_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Plays"
+                    android:textSize="10dp"
+                    android:layout_toEndOf="@+id/watch_stats_card_plays"
+                    android:layout_alignBaseline="@+id/watch_stats_card_plays" />
+
+                <TextView
+                    android:id="@+id/watch_stats_card_slash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:text=" / "
+                    android:textColor="@color/colorTextPrimary"
+                    android:layout_toEndOf="@id/watch_stats_card_plays_label"
+                    android:layout_alignBaseline="@+id/watch_stats_card_plays"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/watch_stats_card_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="00"
+                    android:layout_toRightOf="@+id/watch_stats_card_slash" />
+
+                <TextView
+                    android:id="@+id/watch_stats_card_days_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Days "
+                    android:textSize="10dp"
+                    android:layout_toEndOf="@+id/watch_stats_card_days"
+                    android:layout_alignBaseline="@+id/watch_stats_card_days" />
+
+                <TextView
+                    android:id="@+id/watch_stats_card_hrs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="00"
+                    android:layout_toRightOf="@+id/watch_stats_card_days_label" />
+
+                <TextView
+                    android:id="@+id/watch_stats_card_hrs_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Hrs "
+                    android:textSize="10dp"
+                    android:layout_toEndOf="@+id/watch_stats_card_hrs"
+                    android:layout_alignBaseline="@+id/watch_stats_card_hrs" />
+
+                <TextView
+                    android:id="@+id/watch_stats_card_mins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="00"
+                    android:layout_toRightOf="@+id/watch_stats_card_hrs_label" />
+
+                <TextView
+                    android:id="@+id/watch_stats_card_mins_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Mins"
+                    android:textSize="10dp"
+                    android:layout_toEndOf="@+id/watch_stats_card_mins"
+                    android:layout_alignBaseline="@+id/watch_stats_card_mins" />
+
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>
