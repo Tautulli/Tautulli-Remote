@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.williamcomartin.plexpyremote.Helpers.NukeSSLCerts;
 
 /**
  * Created by wcomartin on 2015-11-29.
@@ -25,6 +26,7 @@ public class ApplicationController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        NukeSSLCerts.nuke();
         mInstance = this;
     }
 
