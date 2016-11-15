@@ -71,8 +71,7 @@ public class UserDetailActivity extends NavBaseActivity {
     private void setupPlayerStats() {
         if (findViewById(R.id.player_stats) != null) {
 
-            String url = SP.getString("server_settings_address", "")
-                    + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "")
+            String url = UrlHelpers.getHostPlusAPIKey()
                     + "&cmd=get_user_player_stats&user_id=" + ((Integer) intent.getIntExtra("ID", 0)).toString();
 
             GsonRequest<UserPlayerStatsModels> request = new GsonRequest<>(

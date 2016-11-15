@@ -1,23 +1,28 @@
 package com.williamcomartin.plexpyremote;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.ActivityAdapter;
+import com.williamcomartin.plexpyremote.Helpers.EmptyRecyclerView;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
 
 public class ActivityActivity extends NavBaseActivity {
 
-    private RecyclerView rvActivities;
+    private EmptyRecyclerView rvActivities;
 
     private SharedPreferences SP;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -44,7 +49,7 @@ public class ActivityActivity extends NavBaseActivity {
     private void refreshItems() {
         SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        rvActivities = (RecyclerView) findViewById(R.id.rvActivities);
+        rvActivities = (EmptyRecyclerView) findViewById(R.id.rvActivities);
 
         String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_activity";
 
@@ -59,6 +64,9 @@ public class ActivityActivity extends NavBaseActivity {
         ApplicationController.getInstance().addToRequestQueue(request);
 
         rvActivities.setLayoutManager(new LinearLayoutManager(this));
+
+        View emptyView = findViewById(R.id.emptyRvActivities);
+        rvActivities.setEmptyView(emptyView);
     }
 
     private void onItemsLoadComplete() {
@@ -72,6 +80,9 @@ public class ActivityActivity extends NavBaseActivity {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                TextView text = (TextView) findViewById(R.id.emptyTextView);
+                text.setText(error.getMessage());
+                text.setTextColor(Color.RED);
             }
         };
     }

@@ -5,12 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/emptyRvActivities"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:textAlignment="center">
+
+        <TextView
+            android:id="@+id/emptyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="50dp"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:text="No Current Activity"
+            android:textAppearance="@style/TextAppearance.Body.Bold" />
+
+    </LinearLayout>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayoutActivities"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <com.williamcomartin.plexpyremote.Helpers.EmptyRecyclerView
             android:id="@+id/rvActivities"
             android:layout_width="match_parent"
             android:layout_height="0dp"
