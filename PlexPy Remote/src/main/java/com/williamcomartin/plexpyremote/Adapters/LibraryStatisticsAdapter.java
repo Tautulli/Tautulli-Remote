@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.LibraryStatisticsModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -76,8 +77,7 @@ public class LibraryStatisticsAdapter extends RecyclerView.Adapter<LibraryStatis
         viewHolder.vTitle.setText(item.sectionName);
         viewHolder.vCount.setText(item.count);
         viewHolder.vChildCount.setText(item.childCount);
-        viewHolder.vImage.setImageUrl(SP.getString("server_settings_address", "") +
-                        "/pms_image_proxy?width=400&height=400&img=" + item.thumb,
+        viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(item.thumb, "400", "400", "cover"),
                 ApplicationController.getInstance().getImageLoader());
 
         if(item.childCount == null){

@@ -26,6 +26,7 @@ import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.ServerFriendlyNameModels;
 import com.williamcomartin.plexpyremote.Services.NavService;
 
@@ -133,7 +134,7 @@ public class NavBaseActivity extends AppBaseActivity {
 
         SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_server_friendly_name";
+        String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_server_friendly_name";
 
         GsonRequest<ServerFriendlyNameModels> request = new GsonRequest<>(
                 url,
@@ -145,7 +146,7 @@ public class NavBaseActivity extends AppBaseActivity {
 
         ApplicationController.getInstance().addToRequestQueue(request);
 
-        drawerText1.setText("PlexPy");
+        drawerText1.setText(SP.getString("server_settings_address", ""));
     }
 
     private Response.ErrorListener errorListener() {

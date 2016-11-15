@@ -10,6 +10,7 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.UserPlayerStatsModels;
 import com.williamcomartin.plexpyremote.Models.UserWatchStatsModels;
 import com.williamcomartin.plexpyremote.UserDetailsFragments.UserPlayerStatsFragment;
@@ -38,8 +39,7 @@ public class UserDetailActivity extends NavBaseActivity {
     private void setupWatchStats() {
         if (findViewById(R.id.watch_stats) != null) {
 
-            String url = SP.getString("server_settings_address", "")
-                    + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "")
+            String url = UrlHelpers.getHostPlusAPIKey()
                     + "&cmd=get_user_watch_time_stats&user_id=" + ((Integer) intent.getIntExtra("ID", 0)).toString();
 
             GsonRequest<UserWatchStatsModels> request = new GsonRequest<>(

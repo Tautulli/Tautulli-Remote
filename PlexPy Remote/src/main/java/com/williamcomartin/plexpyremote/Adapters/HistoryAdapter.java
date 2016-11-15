@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.HistoryModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -73,8 +74,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         // Set item views based on the data model
         viewHolder.vTitle.setText(historyItem.fullTitle);
         viewHolder.vUser.setText(historyItem.friendlyName);
-        viewHolder.vImage.setImageUrl(SP.getString("server_settings_address", "") +
-                        "/pms_image_proxy?width=600&height=400&img=" + historyItem.thumb,
+        viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(historyItem.thumb, "600", "400"),
                 ApplicationController.getInstance().getImageLoader());
 
         if(historyItem.date != null && !historyItem.date.equals("null")){

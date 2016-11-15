@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.StatisticsModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -67,12 +68,10 @@ public class LastWatchedAdapter extends RecyclerView.Adapter<LastWatchedAdapter.
         StatisticsModels.StatisticsRow item = statisticsItems.get(position);
 
         if(item.media_type.equals("episode")){
-            viewHolder.vImage.setImageUrl(SP.getString("server_settings_address", "") +
-                    "/pms_image_proxy?width=400&height=600&img=" + item.grandparent_thumb,
+            viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(item.grandparent_thumb, "400", "600"),
                     ApplicationController.getInstance().getImageLoader());
         } else {
-            viewHolder.vImage.setImageUrl(SP.getString("server_settings_address", "") +
-                    "/pms_image_proxy?width=400&height=600&img=" + item.thumb,
+            viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(item.thumb, "400", "600"),
                     ApplicationController.getInstance().getImageLoader());
         }
 

@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.UserAdapter;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.UserModels;
 
 public class UsersActivity extends NavBaseActivity {
@@ -29,7 +30,7 @@ public class UsersActivity extends NavBaseActivity {
 
         rvUsers = (RecyclerView) findViewById(R.id.rvUsers);
 
-        String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_users_table";
+        String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_users_table";
         GsonRequest<UserModels> request = new GsonRequest<>(
                 url,
                 UserModels.class,

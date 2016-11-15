@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.StatisticsModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -65,8 +66,7 @@ public class MostPopularTVAdapter extends RecyclerView.Adapter<MostPopularTVAdap
         // Get the data model based on position
         StatisticsModels.StatisticsRow item = statisticsItems.get(position);
 
-        viewHolder.vImage.setImageUrl(SP.getString("server_settings_address", "") +
-                        "/pms_image_proxy?width=400&height=600&img=" + item.grandparent_thumb,
+        viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(item.grandparent_thumb, "400", "600"),
                 ApplicationController.getInstance().getImageLoader());
 
         viewHolder.vBadge.setText(((Integer) (position + 1)).toString());

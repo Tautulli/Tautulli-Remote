@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.HistoryAdapter;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.HistoryModels;
 
 public class HistoryActivity extends NavBaseActivity {
@@ -29,7 +30,7 @@ public class HistoryActivity extends NavBaseActivity {
 
         SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_history";
+        String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history";
 
         GsonRequest<HistoryModels> request = new GsonRequest<>(
                 url,

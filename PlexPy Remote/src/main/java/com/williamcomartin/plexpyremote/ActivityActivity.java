@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.ActivityAdapter;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
 
 public class ActivityActivity extends NavBaseActivity {
@@ -45,7 +46,7 @@ public class ActivityActivity extends NavBaseActivity {
 
         rvActivities = (RecyclerView) findViewById(R.id.rvActivities);
 
-        String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_activity";
+        String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_activity";
 
         GsonRequest<ActivityModels> request = new GsonRequest<>(
                 url,

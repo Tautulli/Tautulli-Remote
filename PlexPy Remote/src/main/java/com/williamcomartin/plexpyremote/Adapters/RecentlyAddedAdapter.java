@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.RecentlyAddedModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -87,8 +88,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
             viewHolder.vDate.setText(date);
         }
 
-        viewHolder.vImage.setImageUrl(SP.getString("server_settings_address", "") +
-                        "/pms_image_proxy?width=600&height=400&img=" + recentlyAddedItem.thumb,
+        viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(recentlyAddedItem.thumb, "600", "400"),
                 ApplicationController.getInstance().getImageLoader());
 
     }

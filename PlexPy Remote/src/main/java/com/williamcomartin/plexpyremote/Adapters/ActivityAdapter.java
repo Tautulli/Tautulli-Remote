@@ -4,18 +4,23 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.ActivityModels.Activity;
 import com.williamcomartin.plexpyremote.R;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wcomartin on 2015-11-25.
@@ -97,7 +102,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ActivityAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final ActivityAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
         Activity activity = activities.get(position);
 
@@ -138,11 +143,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         SP = PreferenceManager.getDefaultSharedPreferences(ApplicationController.getInstance().getApplicationContext());
 
         viewHolder.vprogress.setProgress(Integer.parseInt(activity.progress_percent));
+        String imageUrl;
         if(!activity.art.equals("")) {
-            viewHolder.vImage.setImageUrl(SP.getString("server_settings_address", "") + "/pms_image_proxy?width=500&height=280&img=" + activity.art, ApplicationController.getInstance().getImageLoader());
+            imageUrl = UrlHelpers.getImageUrl(activity.art, "500", "280", "art");
         } else {
-            viewHolder.vImage.setImageUrl(SP.getString("server_settings_address", "") + "/pms_image_proxy?width=500&height=280&img=" + activity.thumb, ApplicationController.getInstance().getImageLoader());
+            imageUrl = UrlHelpers.getImageUrl(activity.thumb, "500", "280", "art");
         }
+        viewHolder.vImage.setImageUrl(imageUrl, ApplicationController.getInstance().getImageLoader());
 
 
     }

@@ -11,7 +11,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.williamcomartin.plexwatch"
+        applicationId "com.williamcomartin.plexpyremote"
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 1

@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.RecentlyAddedAdapter;
 import com.williamcomartin.plexpyremote.Helpers.EndlessScrollListener;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.RecentlyAddedModels;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class RecentlyAddedActivity extends NavBaseActivity {
         adapter = new RecentlyAddedAdapter(new ArrayList<RecentlyAddedModels.RecentItem>());
         rvActivities.setAdapter(adapter);
 
-        String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_recently_added&count=10";
+        String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_recently_added&count=10";
 
         GsonRequest<RecentlyAddedModels> request = new GsonRequest<>(
                 url,
@@ -54,7 +55,7 @@ public class RecentlyAddedActivity extends NavBaseActivity {
         rvActivities.setOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int current_page) {
-                String url = SP.getString("server_settings_address", "") + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "") + "&cmd=get_recently_added&count=10&start=" + ((Integer) current_page).toString();
+                String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_recently_added&count=10&start=" + ((Integer) current_page).toString();
 
                 GsonRequest<RecentlyAddedModels> request = new GsonRequest<>(
                         url,
