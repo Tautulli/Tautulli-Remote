@@ -9,8 +9,8 @@ android {
         applicationId "com.williamcomartin.plexpyremote"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.5"
     }
 
     if (System.getenv("TRAVIS")) {
