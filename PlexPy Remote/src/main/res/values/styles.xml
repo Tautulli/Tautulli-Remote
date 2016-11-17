@@ -11,6 +11,14 @@
 
     </style>
 
+    <style name="Headline" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/colorTextHeading</item>
+    </style>
+
+    <style name="Subhead" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">@color/colorTextHeading</item>
+    </style>
+
     <style name="TextAppearance" parent="@android:style/TextAppearance">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">@dimen/text_size_default_sg</item>

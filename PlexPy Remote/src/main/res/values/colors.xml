@@ -9,5 +9,6 @@
 
     <color name="colorTranscodeBufferBar">#444</color>
 
+    <color name="colorTextHeading">#EEE</color>
     <color name="colorTextPrimary">#999</color>
 </resources>
