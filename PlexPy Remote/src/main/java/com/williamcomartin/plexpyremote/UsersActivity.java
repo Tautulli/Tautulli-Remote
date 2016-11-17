@@ -75,4 +75,11 @@ public class UsersActivity extends NavBaseActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.users);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ActivityActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
 }

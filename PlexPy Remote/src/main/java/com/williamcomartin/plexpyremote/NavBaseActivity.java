@@ -220,6 +220,7 @@ public class NavBaseActivity extends AppBaseActivity {
             case R.id.navigation_item_activity:
                 setActive(R.id.navigation_item_activity);
                 launchIntent = new Intent(this, ActivityActivity.class);
+                launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 break;
             case R.id.navigation_item_users:
                 setActive(R.id.navigation_item_users);

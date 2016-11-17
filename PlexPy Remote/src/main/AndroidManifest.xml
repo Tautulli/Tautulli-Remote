@@ -18,17 +18,56 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.williamcomartin.plexpyremote.UsersActivity"></activity>
+
+        <activity android:name="com.williamcomartin.plexpyremote.UsersActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.williamcomartin.plexpyremote.ActivityActivity" />
+        </activity>
         <activity android:name="com.williamcomartin.plexpyremote.UserDetailActivity"></activity>
-        <activity android:name="com.williamcomartin.plexpyremote.RecentlyAddedActivity"></activity>
-        <activity android:name="com.williamcomartin.plexpyremote.HistoryActivity"></activity>
-        <activity android:name="com.williamcomartin.plexpyremote.GraphsActivity"></activity>
-        <activity android:name="com.williamcomartin.plexpyremote.StatisticsActivity"></activity>
-        <activity android:name="com.williamcomartin.plexpyremote.SettingsActivity"></activity>
-        <activity android:name="com.williamcomartin.plexpyremote.AboutActivity"></activity>
-        <activity
-            android:name="com.williamcomartin.plexpyremote.LibraryStatisticsActivity"
-            android:label="@string/title_activity_library_statistics"></activity>
+
+        <activity android:name="com.williamcomartin.plexpyremote.RecentlyAddedActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.williamcomartin.plexpyremote.ActivityActivity" />
+        </activity>
+
+        <activity android:name="com.williamcomartin.plexpyremote.HistoryActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.williamcomartin.plexpyremote.ActivityActivity" />
+        </activity>
+
+        <activity android:name="com.williamcomartin.plexpyremote.GraphsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.williamcomartin.plexpyremote.ActivityActivity" />
+        </activity>
+
+        <activity android:name="com.williamcomartin.plexpyremote.StatisticsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.williamcomartin.plexpyremote.ActivityActivity" />
+        </activity>
+
+        <activity android:name="com.williamcomartin.plexpyremote.SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.williamcomartin.plexpyremote.ActivityActivity" />
+        </activity>
+
+        <activity android:name="com.williamcomartin.plexpyremote.AboutActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.williamcomartin.plexpyremote.ActivityActivity" />
+        </activity>
+
+        <activity android:name="com.williamcomartin.plexpyremote.LibraryStatisticsActivity"
+            android:label="@string/title_activity_library_statistics">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.williamcomartin.plexpyremote.ActivityActivity" />
+        </activity>
     </application>
 
 </manifest>

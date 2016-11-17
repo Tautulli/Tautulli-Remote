@@ -1,5 +1,6 @@
 package com.williamcomartin.plexpyremote;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -93,5 +94,12 @@ public class RecentlyAddedActivity extends NavBaseActivity {
     protected void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.recently_added);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ActivityActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

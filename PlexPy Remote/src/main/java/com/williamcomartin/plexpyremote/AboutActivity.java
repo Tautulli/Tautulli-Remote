@@ -1,5 +1,6 @@
 package com.williamcomartin.plexpyremote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
@@ -15,5 +16,12 @@ public class AboutActivity extends NavBaseActivity {
     protected void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.about);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ActivityActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

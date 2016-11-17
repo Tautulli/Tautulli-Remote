@@ -155,11 +155,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
         String imageUrl;
         if (!activity.grandparent_thumb.equals("")) {
-            imageUrl = UrlHelpers.getImageUrl(activity.grandparent_thumb, "500", "280");
+            imageUrl = UrlHelpers.getImageUrl(activity.grandparent_thumb, "600", "400");
         } else if (!activity.parent_thumb.equals("")) {
-            imageUrl = UrlHelpers.getImageUrl(activity.parent_thumb, "500", "280");
+            imageUrl = UrlHelpers.getImageUrl(activity.parent_thumb, "600", "400");
         } else {
-            imageUrl = UrlHelpers.getImageUrl(activity.thumb, "500", "280");
+            imageUrl = UrlHelpers.getImageUrl(activity.thumb, "600", "400");
         }
         viewHolder.vImage.setImageUrl(imageUrl, ApplicationController.getInstance().getImageLoader());
 
