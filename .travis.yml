@@ -43,4 +43,4 @@ before_script:
 
 script:
    - ./gradlew build connectedCheck --debug
-   - ./gradlew publishApkRelease --debug
+   - ./gradlew publishApkRelease
