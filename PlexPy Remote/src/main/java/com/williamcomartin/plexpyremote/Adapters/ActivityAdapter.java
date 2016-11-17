@@ -3,6 +3,7 @@ package com.williamcomartin.plexpyremote.Adapters;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -96,7 +97,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(final ActivityAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final ViewHolder viewHolder, int position) {
         Context context = ApplicationController.getInstance().getApplicationContext();
         // Get the data model based on position
         Activity activity = activities.get(position);
@@ -145,7 +146,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
         viewHolder.vprogress.setProgress(Integer.parseInt(activity.progress_percent));
         viewHolder.vprogress.setSecondaryProgress(Integer.parseInt(activity.transcode_progress));
-
 
 
 //        if (!activity.thumb.equals("")) {

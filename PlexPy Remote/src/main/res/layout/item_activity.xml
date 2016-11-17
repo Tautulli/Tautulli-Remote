@@ -55,6 +55,7 @@
                 android:layout_toEndOf="@id/activity_card_image"
                 android:progressBackgroundTint="#00000000"
                 android:secondaryProgressTint="@color/colorTranscodeBufferBar"
+                android:secondaryProgressTintMode="src_over"
                 style="?android:attr/progressBarStyleHorizontal" />
 
             <RelativeLayout
