@@ -23,6 +23,8 @@ import com.williamcomartin.plexpyremote.R;
 import org.w3c.dom.Text;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by wcomartin on 2015-11-25.
@@ -43,42 +45,32 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         protected TextView vSubTitle;
         protected TextView vEpisode;
 
-        protected TextView vMediaType;
-
         protected TextView vStateIcon;
-        protected TextView vStateText;
-
-        protected TextView vUserIcon;
         protected TextView vUserText;
-
-        protected TextView vDecisionIcon;
         protected TextView vDecisionText;
+        protected TextView vProgressText;
 
         protected ProgressBar vprogress;
 
         protected NetworkImageView vImage;
+        protected NetworkImageView vImageBlurred;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             vTitle = (TextView) itemView.findViewById(R.id.activity_card_title);
             vSubTitle = (TextView) itemView.findViewById(R.id.activity_card_subtitle);
-            vEpisode = (TextView) itemView.findViewById(R.id.activity_card_episode);
-
-            vMediaType = (TextView) itemView.findViewById(R.id.activity_card_media_type);
+            vEpisode = (TextView) itemView.findViewById(R.id.activity_card_muted_title);
 
             vStateIcon = (TextView) itemView.findViewById(R.id.activity_card_state_icon);
-            vStateText = (TextView) itemView.findViewById(R.id.activity_card_state_text);
-
-            vUserIcon = (TextView) itemView.findViewById(R.id.activity_card_user_icon);
             vUserText = (TextView) itemView.findViewById(R.id.activity_card_user_text);
-
-            vDecisionIcon = (TextView) itemView.findViewById(R.id.activity_card_decision_icon);
             vDecisionText = (TextView) itemView.findViewById(R.id.activity_card_decision_text);
+            vProgressText = (TextView) itemView.findViewById(R.id.activity_card_progress_text);
 
             vprogress = (ProgressBar) itemView.findViewById(R.id.progressbar);
 
             vImage = (NetworkImageView) itemView.findViewById(R.id.activity_card_image);
+            vImageBlurred = (NetworkImageView) itemView.findViewById(R.id.activity_card_image_blurred);
 
         }
     }
@@ -110,38 +102,37 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         Activity activity = activities.get(position);
 
         // Set item views based on the data model
+        String imageUrl;
+
         if (activity.media_type.equals("episode")) {
             viewHolder.vTitle.setText(activity.grandparent_title);
             viewHolder.vSubTitle.setText(activity.title);
-            viewHolder.vMediaType.setText("{fa-television}");
-            viewHolder.vEpisode.setText("S" + String.format("%02d", Integer.parseInt(activity.parent_media_index))
-                    + "E" + String.format("%02d", Integer.parseInt(activity.media_index)));
+            viewHolder.vEpisode.setText("S" + activity.parent_media_index + " - E" + activity.media_index);
+            imageUrl = UrlHelpers.getImageUrl(activity.grandparent_thumb, "600", "400");
+            viewHolder.vImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        } else if (activity.media_type.equals("track")) {
+            viewHolder.vTitle.setText(activity.grandparent_title);
+            viewHolder.vSubTitle.setText(activity.title);
+            viewHolder.vEpisode.setText(activity.parent_title);
+            imageUrl = UrlHelpers.getImageUrl(activity.thumb, "600", "400");
         } else {
             viewHolder.vTitle.setText(activity.title);
-            if (activity.media_type.equals("track")){
-                viewHolder.vSubTitle.setText(activity.grandparent_title + " - " + activity.parent_title);
-                viewHolder.vMediaType.setText("{fa-headphones}");
-            } else {
-                viewHolder.vSubTitle.setText(activity.year);
-                viewHolder.vMediaType.setText("{fa-film}");
-            }
+            viewHolder.vSubTitle.setVisibility(View.GONE);
+            viewHolder.vEpisode.setText(activity.year);
+            imageUrl = UrlHelpers.getImageUrl(activity.thumb, "600", "400");
+            viewHolder.vImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
 
-        if(activity.state.equals("playing")) {
+        if (activity.state.equals("playing")) {
             viewHolder.vStateIcon.setText("{fa-play}");
-            viewHolder.vStateText.setText("Playing");
-        } else if(activity.state.equals("paused")) {
+        } else if (activity.state.equals("paused")) {
             viewHolder.vStateIcon.setText("{fa-pause}");
-            viewHolder.vStateText.setText("Paused");
-        } else if(activity.state.equals("buffering")){
+        } else if (activity.state.equals("buffering")) {
             viewHolder.vStateIcon.setText("{fa-spinner}");
-            viewHolder.vStateText.setText("Buffering");
         }
 
-        viewHolder.vUserIcon.setText("{fa-user}");
         viewHolder.vUserText.setText(activity.friendly_name);
 
-        viewHolder.vDecisionIcon.setText("{fa-server}");
         if (activity.video_decision.equals("direct play")) {
             viewHolder.vDecisionText.setText("Direct Play");
         } else if (activity.video_decision.equals("copy")) {
@@ -150,20 +141,33 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             viewHolder.vDecisionText.setText("Transcoding");
         }
 
+        viewHolder.vProgressText.setText(formatSeconds(activity.view_offset) + "/" + formatSeconds(activity.duration));
+
         viewHolder.vprogress.setProgress(Integer.parseInt(activity.progress_percent));
         viewHolder.vprogress.setSecondaryProgress(Integer.parseInt(activity.transcode_progress));
 
-        String imageUrl;
-        if (!activity.grandparent_thumb.equals("")) {
-            imageUrl = UrlHelpers.getImageUrl(activity.grandparent_thumb, "600", "400");
-        } else if (!activity.parent_thumb.equals("")) {
-            imageUrl = UrlHelpers.getImageUrl(activity.parent_thumb, "600", "400");
-        } else {
-            imageUrl = UrlHelpers.getImageUrl(activity.thumb, "600", "400");
-        }
+
+
+//        if (!activity.thumb.equals("")) {
+//            imageUrl = UrlHelpers.getImageUrl(activity.thumb, "600", "400");
+//        } else if (!activity.parent_thumb.equals("")) {
+//            imageUrl = UrlHelpers.getImageUrl(activity.parent_thumb, "600", "400");
+//        } else {
+//            imageUrl = UrlHelpers.getImageUrl(activity.grandparent_thumb, "600", "400");
+//        }
         viewHolder.vImage.setImageUrl(imageUrl, ApplicationController.getInstance().getImageLoader());
+        viewHolder.vImageBlurred.setImageUrl(imageUrl, ApplicationController.getInstance().getImageLoader());
+        viewHolder.vImageBlurred.setAlpha(0.75f);
 
 
+    }
+
+    private String formatSeconds(String millis){
+        return String.format(Locale.US, "%d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(Integer.parseInt(millis)),
+                TimeUnit.MILLISECONDS.toSeconds(Integer.parseInt(millis)) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(Integer.parseInt(millis)))
+        );
     }
 
     @Override

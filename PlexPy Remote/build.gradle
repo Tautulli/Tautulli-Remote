@@ -13,8 +13,8 @@ android {
         versionName "1.0.3"
     }
 
-    signingConfigs {
-        if (System.getenv("TRAVIS")) {
+    if (System.getenv("TRAVIS")) {
+        signingConfigs {
             release {
                 storeFile rootProject.file('release.keystore')
                 storePassword System.getenv("KEYSTORE_PASS")
@@ -28,7 +28,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            if (System.getenv("TRAVIS")) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 }

@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#000</color>
-    <color name="colorPrimaryDark">#1f1f1f</color>
-    <color name="colorAccent">#f9be03</color>
+    <color name="colorPrimaryDark">#000</color>
+    <color name="colorAccent">#faa732</color>
 
-    <color name="colorTextPrimary">#E1E1E1</color>
+    <color name="colorBackground">#1f1f1f</color>
+    <color name="colorCardBackground">#282828</color>
+
+    <color name="colorTranscodeBufferBar">#444</color>
+
+    <color name="colorTextPrimary">#999</color>
 </resources>

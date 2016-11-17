@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_gravity="center"
-        card_view:cardBackgroundColor="#333333"
+        card_view:cardBackgroundColor="@color/colorCardBackground"
         card_view:cardCornerRadius="0dp"
-        card_view:cardElevation="4dp"
+        card_view:cardElevation="2dp"
         card_view:cardUseCompatPadding="true">
 
         <RelativeLayout
@@ -20,138 +20,126 @@
             android:layout_height="match_parent">
 
             <com.joanzapata.iconify.widget.IconTextView
-                android:id="@+id/activity_card_media_type"
-                android:layout_alignParentRight="true"
-                android:textSize="12sp"
+                android:text="{fa-info-circle}"
+                android:layout_alignParentEnd="true"
+                android:textSize="25sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
+                android:layout_margin="10dp" />
+
+            <View
+                android:layout_width="73.5dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/black_poster_background"/>
+
+            <com.williamcomartin.plexpyremote.Helpers.BlurredNetworkImageView
+                android:id="@+id/activity_card_image_blurred"
+                android:layout_width="73.5dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:layout_alignParentStart="true"/>
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/activity_card_image"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="73.5dp"
+                android:layout_height="120dp"
                 android:layout_alignParentStart="true" />
 
             <ProgressBar
                 android:id="@+id/progressbar"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="4dp"
                 android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@id/activity_card_image"
+                android:layout_toEndOf="@id/activity_card_image"
                 android:progressBackgroundTint="#00000000"
+                android:secondaryProgressTint="@color/colorTranscodeBufferBar"
                 style="?android:attr/progressBarStyleHorizontal" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/activity_card_image"
+                android:layout_toEndOf="@+id/activity_card_image"
                 android:paddingLeft="5dp">
 
-                <TextView
-                    android:id="@+id/activity_card_title"
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:text="Media Title"
-                    android:textStyle="bold"
-                    style="@style/TextAppearance.AppCompat.Headline"
-                    android:textSize="18sp" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/activity_card_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textStyle="bold"
+                        style="@style/TextAppearance.AppCompat.Headline"
+                        android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/activity_card_subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Episode Title"
-                    android:layout_below="@id/activity_card_title"
-                    style="@style/TextAppearance.AppCompat.Subhead"/>
+                    <TextView
+                        android:id="@+id/activity_card_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textSize="14sp"
+                        style="@style/TextAppearance.AppCompat.Subhead"/>
 
-                <TextView
-                    android:id="@+id/activity_card_episode"
+                    <TextView
+                        android:id="@+id/activity_card_muted_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/activity_card_subtitle"
-                    android:layout_toRightOf="@id/activity_card_subtitle"
-                    android:text=""
-                    android:textSize="8sp"
-                    android:layout_margin="5dp"
-                    style="@style/TextAppearance.AppCompat"/>
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="8dp">
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:id="@+id/activity_card_state_icon"
+                        android:textSize="10sp"
+                        android:layout_width="12sp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/activity_card_user_text"
+                        android:textSize="10sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="5dp">
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="5dp">
 
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/activity_card_decision_text"
+                        android:textSize="10sp"
+                        android:textAlignment="viewEnd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-                        <com.joanzapata.iconify.widget.IconTextView
-                            android:id="@+id/activity_card_state_icon"
-                            android:textSize="10sp"
-                            android:layout_width="12sp"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:id="@+id/activity_card_state_text"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <com.joanzapata.iconify.widget.IconTextView
-                            android:id="@+id/activity_card_user_icon"
-                            android:textSize="10sp"
-                            android:layout_width="12sp"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:id="@+id/activity_card_user_text"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <com.joanzapata.iconify.widget.IconTextView
-                            android:id="@+id/activity_card_decision_icon"
-                            android:textSize="10sp"
-                            android:layout_width="12sp"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:id="@+id/activity_card_decision_text"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/activity_card_progress_text"
+                        android:textSize="10sp"
+                        android:textAlignment="viewEnd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
-
-                <com.joanzapata.iconify.widget.IconTextView
-                    android:text="{fa-info-circle}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:textSize="30dp"
-                    android:layout_margin="15dp"/>
 
             </RelativeLayout>
 
