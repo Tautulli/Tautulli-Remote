@@ -7,11 +7,11 @@ android {
 
 
     defaultConfig {
-        versionCode System.getenv("TRAVIS_BUILD_NUMBER")
-        versionName "1.1"
         applicationId "com.williamcomartin.plexpyremote"
         minSdkVersion 17
         targetSdkVersion 23
+        versionCode System.getenv("TRAVIS_BUILD_NUMBER").toInteger()
+        versionName "1.1"
     }
 
 
