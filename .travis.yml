@@ -42,5 +42,5 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-   - ./gradlew build connectedCheck --debug
+   - ./gradlew build connectedCheck --info
    - ./gradlew publishApkRelease
