@@ -24,9 +24,17 @@ import com.williamcomartin.plexpyremote.Models.ActivityModels;
 public class ActivityActivity extends NavBaseActivity {
 
     private EmptyRecyclerView rvActivities;
+    private ActivityAdapter adapter;
 
-    private SharedPreferences SP;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout2;
+
+    private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            refreshItems();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,28 +42,27 @@ public class ActivityActivity extends NavBaseActivity {
         setContentView(R.layout.activity_activity);
         setupActionBar();
 
+        rvActivities = (EmptyRecyclerView) findViewById(R.id.rvActivities);
+        adapter = new ActivityAdapter();
+        rvActivities.setAdapter(adapter);
+        rvActivities.setLayoutManager(new LinearLayoutManager(this));
+
+        View emptyView = findViewById(R.id.emptyRvActivities);
+        rvActivities.setEmptyView(emptyView);
+
         refreshItems();
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayoutActivities);
+        mSwipeRefreshLayout.setOnRefreshListener(refreshListener);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Refresh items
-                refreshItems();
-            }
-        });
+        mSwipeRefreshLayout2 = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayoutActivities2);
+        mSwipeRefreshLayout2.setOnRefreshListener(refreshListener);
     }
 
+
     private void refreshItems() {
-        SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        rvActivities = (EmptyRecyclerView) findViewById(R.id.rvActivities);
-
-        String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_activity";
-
         GsonRequest<ActivityModels> request = new GsonRequest<>(
-                url,
+                UrlHelpers.getHostPlusAPIKey() + "&cmd=get_activity",
                 ActivityModels.class,
                 null,
                 requestListener(),
@@ -63,16 +70,14 @@ public class ActivityActivity extends NavBaseActivity {
         );
 
         ApplicationController.getInstance().addToRequestQueue(request);
-
-        rvActivities.setLayoutManager(new LinearLayoutManager(this));
-
-        View emptyView = findViewById(R.id.emptyRvActivities);
-        rvActivities.setEmptyView(emptyView);
     }
 
     private void onItemsLoadComplete() {
-        if(mSwipeRefreshLayout != null) {
+        if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(false);
+        }
+        if (mSwipeRefreshLayout2 != null) {
+            mSwipeRefreshLayout2.setRefreshing(false);
         }
     }
 
@@ -94,14 +99,11 @@ public class ActivityActivity extends NavBaseActivity {
         return new Response.Listener<ActivityModels>() {
             @Override
             public void onResponse(ActivityModels response) {
-                ActivityAdapter adapter = new ActivityAdapter(response.response.data.sessions);
-
-                rvActivities.setAdapter(adapter);
+                adapter.SetActivities(response.response.data.sessions);
                 onItemsLoadComplete();
             }
         };
     }
-
 
 
     protected void setupActionBar() {

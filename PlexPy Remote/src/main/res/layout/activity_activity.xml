@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
+
 
     <LinearLayout
         android:id="@+id/emptyRvActivities"
@@ -13,23 +13,30 @@
         android:orientation="vertical"
         android:textAlignment="center">
 
-        <TextView
-            android:id="@+id/emptyTextView"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayoutActivities2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="50dp"
-            android:textSize="20dp"
-            android:textAlignment="center"
-            android:text="No Current Activity"
-            android:textAppearance="@style/TextAppearance.Body.Bold" />
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/errorImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/error"
-            android:visibility="gone"/>
+            <TextView
+                android:id="@+id/emptyTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="50dp"
+                android:text="No Current Activity"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Body.Bold"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/errorImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/error"
+                android:visibility="gone" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 

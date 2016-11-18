@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.internal.util.Predicate;
 import com.android.volley.toolbox.NetworkImageView;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
@@ -23,6 +24,7 @@ import com.williamcomartin.plexpyremote.R;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -34,10 +36,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     View itemView;
     private SharedPreferences SP;
-
-    public ActivityAdapter() {
-
-    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -78,9 +76,19 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     private List<Activity> activities;
 
+    public ActivityAdapter() {
+        this.activities = new ArrayList<>();
+    }
+
     // Pass in the contact array into the constructor
     public ActivityAdapter(List<Activity> activities) {
         this.activities = activities;
+    }
+
+    public void SetActivities(List<Activity> activities) {
+        this.activities.clear();
+        this.activities.addAll(activities);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -118,10 +126,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             imageUrl = UrlHelpers.getImageUrl(activity.thumb, "600", "400");
         } else {
             viewHolder.vTitle.setText(activity.title);
-            viewHolder.vSubTitle.setVisibility(View.GONE);
             viewHolder.vEpisode.setText(activity.year);
             imageUrl = UrlHelpers.getImageUrl(activity.thumb, "600", "400");
             viewHolder.vImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
+
+        if(viewHolder.vSubTitle.getText().equals("")) {
+            viewHolder.vSubTitle.setVisibility(View.GONE);
         }
 
         if (activity.state.equals("playing")) {
@@ -162,7 +173,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     }
 
-    private String formatSeconds(String millis){
+    private String formatSeconds(String millis) {
         return String.format(Locale.US, "%d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(Integer.parseInt(millis)),
                 TimeUnit.MILLISECONDS.toSeconds(Integer.parseInt(millis)) -
