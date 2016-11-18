@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -83,6 +84,8 @@ public class ActivityActivity extends NavBaseActivity {
                 TextView text = (TextView) findViewById(R.id.emptyTextView);
                 text.setText(error.getMessage());
                 text.setTextColor(Color.RED);
+                ImageView errorImage = (ImageView) findViewById(R.id.errorImageView);
+                errorImage.setVisibility(View.VISIBLE);
             }
         };
     }
