@@ -1,8 +1,6 @@
 package com.williamcomartin.plexpyremote.Adapters;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -28,8 +26,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         void onItemClick(UserModels.User item);
     }
 
-    private SharedPreferences SP;
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView vUserName;
@@ -49,11 +45,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
             vUserName = (TextView) itemView.findViewById(R.id.user_card_name);
             vLastSeen = (TextView) itemView.findViewById(R.id.user_card_last_seen);
-//            vTotalPlays = (TextView) itemView.findViewById(R.id.user_card_total_plays);
-//
-//            vIPAddress = (TextView) itemView.findViewById(R.id.user_card_ip);
-//            vPlayer = (TextView) itemView.findViewById(R.id.user_card_player);
-//            vPlatform = (TextView) itemView.findViewById(R.id.user_card_platform);
             vLastWatched = (TextView) itemView.findViewById(R.id.user_card_watched);
 
             vImage = (NetworkImageView) itemView.findViewById(R.id.user_card_image);
@@ -66,7 +57,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public UserAdapter(List<UserModels.User> users, OnItemClickListener listener) {
         this.users = users;
         this.listener = listener;
-        SP = PreferenceManager.getDefaultSharedPreferences(ApplicationController.getInstance().getApplicationContext());
     }
 
     @Override
@@ -90,29 +80,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         // Set item views based on the data model
 
         viewHolder.vUserName.setText(user.friendlyName);
-//        viewHolder.vTotalPlays.setText(user.plays.toString());
-//
-//        if (user.ipAddress != null) {
-//            viewHolder.vIPAddress.setText(user.ipAddress);
-//        }
-//
-//        viewHolder.vPlatform.setText(user.platform);
-//        viewHolder.vPlayer.setText(user.player);
         viewHolder.vLastWatched.setText(user.lastPlayed);
 
-        viewHolder.vImage.setImageUrl(user.userThumb, ApplicationController.getInstance().getImageLoader());
+        viewHolder.vImage.setImageUrl(null, ApplicationController.getInstance().getImageLoader());
+        if(user.userThumb.equals("interfaces/default/images/gravatar-default-80x80.png")){
+            viewHolder.vImage.setImageResource(R.drawable.gravatar_default_circle);
+        } else {
+            viewHolder.vImage.setImageUrl(user.userThumb, ApplicationController.getInstance().getImageLoader());
+        }
 
         if(user.lastSeen != null && !user.lastSeen.equals("null")){
             CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(user.lastSeen * 1000, System.currentTimeMillis(), 0);
             viewHolder.vLastSeen.setText(timeAgo.toString());
+        } else {
+            viewHolder.vLastSeen.setText("");
         }
-//
-//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                listener.onItemClick(user);
-//            }
-//        });
 
     }
 
