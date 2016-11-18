@@ -49,11 +49,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
             vUserName = (TextView) itemView.findViewById(R.id.user_card_name);
             vLastSeen = (TextView) itemView.findViewById(R.id.user_card_last_seen);
-            vTotalPlays = (TextView) itemView.findViewById(R.id.user_card_total_plays);
-
-            vIPAddress = (TextView) itemView.findViewById(R.id.user_card_ip);
-            vPlayer = (TextView) itemView.findViewById(R.id.user_card_player);
-            vPlatform = (TextView) itemView.findViewById(R.id.user_card_platform);
+//            vTotalPlays = (TextView) itemView.findViewById(R.id.user_card_total_plays);
+//
+//            vIPAddress = (TextView) itemView.findViewById(R.id.user_card_ip);
+//            vPlayer = (TextView) itemView.findViewById(R.id.user_card_player);
+//            vPlatform = (TextView) itemView.findViewById(R.id.user_card_platform);
             vLastWatched = (TextView) itemView.findViewById(R.id.user_card_watched);
 
             vImage = (NetworkImageView) itemView.findViewById(R.id.user_card_image);
@@ -90,14 +90,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         // Set item views based on the data model
 
         viewHolder.vUserName.setText(user.friendlyName);
-        viewHolder.vTotalPlays.setText(user.plays.toString());
-
-        if (user.ipAddress != null) {
-            viewHolder.vIPAddress.setText(user.ipAddress);
-        }
-
-        viewHolder.vPlatform.setText(user.platform);
-        viewHolder.vPlayer.setText(user.player);
+//        viewHolder.vTotalPlays.setText(user.plays.toString());
+//
+//        if (user.ipAddress != null) {
+//            viewHolder.vIPAddress.setText(user.ipAddress);
+//        }
+//
+//        viewHolder.vPlatform.setText(user.platform);
+//        viewHolder.vPlayer.setText(user.player);
         viewHolder.vLastWatched.setText(user.lastPlayed);
 
         viewHolder.vImage.setImageUrl(user.userThumb, ApplicationController.getInstance().getImageLoader());
@@ -106,13 +106,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(user.lastSeen * 1000, System.currentTimeMillis(), 0);
             viewHolder.vLastSeen.setText(timeAgo.toString());
         }
-
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(user);
-            }
-        });
+//
+//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                listener.onItemClick(user);
+//            }
+//        });
 
     }
 
