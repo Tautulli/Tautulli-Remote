@@ -2,18 +2,18 @@ package com.williamcomartin.plexpyremote;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
@@ -23,9 +23,15 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SettingsActivity extends NavBaseActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
+    protected final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,25 +90,77 @@ public class SettingsActivity extends NavBaseActivity {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() == null) {
-                Log.d("MainActivity", "Cancelled scan");
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                Log.d("MainActivity", "Scanned");
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                String r = result.getContents();
-                Log.d("CONTENT", r);
-                String[] parts = r.split("\\|");
-                Log.d("Server", parts[0]);
-                Log.d("APIKEY", parts[1]);
+                String[] parts = result.getContents().split("\\|");
+
                 SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                SharedPreferences.Editor editor  = SP.edit();
+                SharedPreferences.Editor editor = SP.edit();
                 editor.putString("server_settings_address", parts[0]);
                 editor.putString("server_settings_apikey", parts[1]);
                 editor.apply();
+
+                new CheckLocalAsync().execute(parts[0]);
+
+                SettingsFragment frag = (SettingsFragment) getFragmentManager().findFragmentById(R.id.settings_fragment);
+                frag.onResume();
             }
         } else {
             // This is important, otherwise the result will not be passed to the fragment
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private class CheckLocalAsync extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... params) {
+            String address = getAddress(params[0]);
+            Boolean isLocal = testAddress(address);
+            return isLocal;
+        }
+
+        private String getAddress(String part){
+            String address = "";
+
+            String pattern = "https?:\\/\\/([\\w\\.]*)(:\\d+)?(\\/.*)?";
+            Pattern r = Pattern.compile(pattern);
+            Matcher m = r.matcher(part);
+
+            if(m.find()){
+                address = m.group(1);
+            }
+            return address;
+        }
+
+        private Boolean testAddress(String address){
+            try{
+                InetAddress ad = InetAddress.getByName(address);
+                if(ad.isSiteLocalAddress()){
+                    Log.d("CheckIfLocal", "LOCAL TRUE");
+                    return true;
+                }
+            } catch (UnknownHostException e){
+                Log.d("CheckIfLocal", e.getMessage());
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isLocal) {
+            if(isLocal) {
+                new AlertDialog.Builder(context)
+                        .setTitle("Local Address")
+                        .setMessage("Note: This is a private IP address. PlexPy will not be reachable outside of your home network. Access PlexPy externally to generate the QR code for remote access.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //do things
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
         }
     }
 

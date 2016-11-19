@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.UserAdapter;
+import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.UserModels;
@@ -30,16 +31,22 @@ public class UsersActivity extends NavBaseActivity {
 
         rvUsers = (RecyclerView) findViewById(R.id.rvUsers);
 
-        String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_users_table";
-        GsonRequest<UserModels> request = new GsonRequest<>(
-                url,
-                UserModels.class,
-                null,
-                requestListener(),
-                errorListener()
-        );
+        try {
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_users_table";
 
-        ApplicationController.getInstance().addToRequestQueue(request);
+            GsonRequest<UserModels> request = new GsonRequest<>(
+                    url,
+                    UserModels.class,
+                    null,
+                    requestListener(),
+                    errorListener()
+            );
+
+            ApplicationController.getInstance().addToRequestQueue(request);
+        } catch (NoServerException e) {
+            e.printStackTrace();
+        }
+
 
         rvUsers.setLayoutManager(new LinearLayoutManager(this));
     }

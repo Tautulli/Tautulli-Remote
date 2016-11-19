@@ -17,9 +17,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.ActivityAdapter;
 import com.williamcomartin.plexpyremote.Helpers.EmptyRecyclerView;
+import com.williamcomartin.plexpyremote.Helpers.ErrorListener;
+import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
+
+import java.util.ArrayList;
 
 public class ActivityActivity extends NavBaseActivity {
 
@@ -27,7 +31,7 @@ public class ActivityActivity extends NavBaseActivity {
     private ActivityAdapter adapter;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private SwipeRefreshLayout mSwipeRefreshLayout2;
+//    private SwipeRefreshLayout mSwipeRefreshLayout2;
 
     private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
@@ -43,54 +47,63 @@ public class ActivityActivity extends NavBaseActivity {
         setupActionBar();
 
         rvActivities = (EmptyRecyclerView) findViewById(R.id.rvActivities);
+        rvActivities.setEmptyView(findViewById(R.id.emptyRvActivities));
         adapter = new ActivityAdapter();
         rvActivities.setAdapter(adapter);
         rvActivities.setLayoutManager(new LinearLayoutManager(this));
 
-        View emptyView = findViewById(R.id.emptyRvActivities);
-        rvActivities.setEmptyView(emptyView);
 
-        refreshItems();
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayoutActivities);
         mSwipeRefreshLayout.setOnRefreshListener(refreshListener);
 
-        mSwipeRefreshLayout2 = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayoutActivities2);
-        mSwipeRefreshLayout2.setOnRefreshListener(refreshListener);
+        refreshItems();
     }
 
 
     private void refreshItems() {
-        GsonRequest<ActivityModels> request = new GsonRequest<>(
-                UrlHelpers.getHostPlusAPIKey() + "&cmd=get_activity",
-                ActivityModels.class,
-                null,
-                requestListener(),
-                errorListener()
-        );
 
-        ApplicationController.getInstance().addToRequestQueue(request);
+        try {
+            GsonRequest<ActivityModels> request = new GsonRequest<>(
+                    UrlHelpers.getHostPlusAPIKey() + "&cmd=get_activity",
+                    ActivityModels.class,
+                    null,
+                    requestListener(),
+                    errorListener()
+            );
+
+            ApplicationController.getInstance().addToRequestQueue(request);
+        } catch (NoServerException e) {
+            TextView text = (TextView) findViewById(R.id.emptyTextView);
+            text.setText("Invalid Server Address");
+            text.setTextColor(getColor(R.color.colorAccent));
+            findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
+            adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
+        }
+
+
     }
 
     private void onItemsLoadComplete() {
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(false);
         }
-        if (mSwipeRefreshLayout2 != null) {
-            mSwipeRefreshLayout2.setRefreshing(false);
-        }
     }
 
     private Response.ErrorListener errorListener() {
         onItemsLoadComplete();
-        return new Response.ErrorListener() {
+        return new ErrorListener(this) {
             @Override
             public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
                 TextView text = (TextView) findViewById(R.id.emptyTextView);
-                text.setText(error.getMessage());
-                text.setTextColor(Color.RED);
-                ImageView errorImage = (ImageView) findViewById(R.id.errorImageView);
-                errorImage.setVisibility(View.VISIBLE);
+                if(error.getMessage().contains("No address associated with hostname")){
+                    text.setText("Invalid Server Address");
+                } else {
+                    text.setText(error.getMessage());
+                }
+                text.setTextColor(getColor(R.color.colorAccent));
+                findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
             }
         };
     }
@@ -99,7 +112,17 @@ public class ActivityActivity extends NavBaseActivity {
         return new Response.Listener<ActivityModels>() {
             @Override
             public void onResponse(ActivityModels response) {
-                adapter.SetActivities(response.response.data.sessions);
+                if(response.response.data.sessions != null) {
+                    adapter.SetActivities(response.response.data.sessions);
+                } else if(response.response.message.equals("Invalid apikey")){
+                    TextView text = (TextView) findViewById(R.id.emptyTextView);
+                    text.setText("Invalid API Key");
+                    text.setTextColor(getColor(R.color.colorAccent));
+                    findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
+                    adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
+                } else {
+                    adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
+                }
                 onItemsLoadComplete();
             }
         };

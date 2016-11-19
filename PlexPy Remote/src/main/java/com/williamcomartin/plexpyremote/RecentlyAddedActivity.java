@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.RecentlyAddedAdapter;
 import com.williamcomartin.plexpyremote.Helpers.EndlessScrollListener;
+import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.RecentlyAddedModels;
@@ -38,17 +39,23 @@ public class RecentlyAddedActivity extends NavBaseActivity {
         adapter = new RecentlyAddedAdapter(new ArrayList<RecentlyAddedModels.RecentItem>());
         rvActivities.setAdapter(adapter);
 
-        String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_recently_added&count=10";
+        try {
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_recently_added&count=10";
 
-        GsonRequest<RecentlyAddedModels> request = new GsonRequest<>(
-                url,
-                RecentlyAddedModels.class,
-                null,
-                requestListener(),
-                errorListener()
-        );
+            GsonRequest<RecentlyAddedModels> request = new GsonRequest<>(
+                    url,
+                    RecentlyAddedModels.class,
+                    null,
+                    requestListener(),
+                    errorListener()
+            );
 
-        ApplicationController.getInstance().addToRequestQueue(request);
+            ApplicationController.getInstance().addToRequestQueue(request);
+        } catch (NoServerException e) {
+            e.printStackTrace();
+        }
+
+
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvActivities.setLayoutManager(linearLayoutManager);
@@ -56,17 +63,23 @@ public class RecentlyAddedActivity extends NavBaseActivity {
         rvActivities.setOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int current_page) {
-                String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_recently_added&count=10&start=" + ((Integer) current_page).toString();
+                try {
+                    String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_recently_added&count=10&start=" + ((Integer) current_page).toString();
 
-                GsonRequest<RecentlyAddedModels> request = new GsonRequest<>(
-                        url,
-                        RecentlyAddedModels.class,
-                        null,
-                        requestListener(),
-                        errorListener()
-                );
+                    GsonRequest<RecentlyAddedModels> request = new GsonRequest<>(
+                            url,
+                            RecentlyAddedModels.class,
+                            null,
+                            requestListener(),
+                            errorListener()
+                    );
 
-                ApplicationController.getInstance().addToRequestQueue(request);
+                    ApplicationController.getInstance().addToRequestQueue(request);
+                } catch (NoServerException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
 

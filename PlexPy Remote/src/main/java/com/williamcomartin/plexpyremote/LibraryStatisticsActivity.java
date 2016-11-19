@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.LibraryStatisticsAdapter;
+import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.LibraryStatisticsModels;
@@ -30,17 +31,23 @@ public class LibraryStatisticsActivity extends NavBaseActivity {
 
         SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_libraries";
+        try {
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_libraries";
 
-        GsonRequest<LibraryStatisticsModels> request = new GsonRequest<>(
-                url,
-                LibraryStatisticsModels.class,
-                null,
-                requestListener(),
-                errorListener()
-        );
+            GsonRequest<LibraryStatisticsModels> request = new GsonRequest<>(
+                    url,
+                    LibraryStatisticsModels.class,
+                    null,
+                    requestListener(),
+                    errorListener()
+            );
 
-        ApplicationController.getInstance().addToRequestQueue(request);
+            ApplicationController.getInstance().addToRequestQueue(request);
+        } catch (NoServerException e) {
+            e.printStackTrace();
+        }
+
+
 
         rvLibStats.setLayoutManager(new LinearLayoutManager(this));
     }

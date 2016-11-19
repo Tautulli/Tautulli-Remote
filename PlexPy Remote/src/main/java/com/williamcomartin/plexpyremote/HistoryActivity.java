@@ -12,6 +12,7 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.HistoryAdapter;
+import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.HistoryModels;
@@ -31,17 +32,23 @@ public class HistoryActivity extends NavBaseActivity {
 
         SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history";
+        try {
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history";
 
-        GsonRequest<HistoryModels> request = new GsonRequest<>(
-                url,
-                HistoryModels.class,
-                null,
-                requestListener(),
-                errorListener()
-        );
+            GsonRequest<HistoryModels> request = new GsonRequest<>(
+                    url,
+                    HistoryModels.class,
+                    null,
+                    requestListener(),
+                    errorListener()
+            );
 
-        ApplicationController.getInstance().addToRequestQueue(request);
+            ApplicationController.getInstance().addToRequestQueue(request);
+        } catch (NoServerException e) {
+            e.printStackTrace();
+        }
+
+        
 
         rvHistory.setLayoutManager(new LinearLayoutManager(this));
     }

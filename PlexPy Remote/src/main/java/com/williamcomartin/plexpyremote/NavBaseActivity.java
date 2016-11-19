@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.ServerFriendlyNameModels;
@@ -134,17 +135,20 @@ public class NavBaseActivity extends AppBaseActivity {
 
         SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_server_friendly_name";
+        try {
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_server_friendly_name";
+            GsonRequest<ServerFriendlyNameModels> request = new GsonRequest<>(
+                    url,
+                    ServerFriendlyNameModels.class,
+                    null,
+                    requestListener(),
+                    errorListener()
+            );
 
-        GsonRequest<ServerFriendlyNameModels> request = new GsonRequest<>(
-                url,
-                ServerFriendlyNameModels.class,
-                null,
-                requestListener(),
-                errorListener()
-        );
-
-        ApplicationController.getInstance().addToRequestQueue(request);
+            ApplicationController.getInstance().addToRequestQueue(request);
+        } catch (NoServerException e) {
+            e.printStackTrace();
+        }
 
         drawerText1.setText(SP.getString("server_settings_address", ""));
     }

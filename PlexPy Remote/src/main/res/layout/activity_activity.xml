@@ -5,53 +5,84 @@
     android:background="@color/colorBackground"
     android:orientation="vertical">
 
-
-    <LinearLayout
-        android:id="@+id/emptyRvActivities"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:textAlignment="center">
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayoutActivities2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/emptyTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="50dp"
-                android:text="No Current Activity"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.Body.Bold"
-                android:textSize="20dp" />
-
-            <ImageView
-                android:id="@+id/errorImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/error"
-                android:visibility="gone" />
-
-        </android.support.v4.widget.SwipeRefreshLayout>
-
-    </LinearLayout>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayoutActivities"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.williamcomartin.plexpyremote.Helpers.EmptyRecyclerView
-            android:id="@+id/rvActivities"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5" />
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:id="@+id/emptyRvActivities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/oopsView"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:src="@drawable/sad_cloud" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="50dp"
+                        android:text="Oops"
+                        android:textAppearance="@style/Headline"
+                        android:textAlignment="center"/>
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textAppearance="@style/Subhead"-->
+                        <!--android:text="Something Went Wrong"-->
+                        <!--android:textAlignment="center"/>-->
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="200dp"-->
+                    <!--android:src="@drawable/bad_poker_face" />-->
+
+                    <TextView
+                        android:id="@+id/emptyTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="No Current Activity"
+                        android:textAppearance="@style/TextAppearance.Body.Bold"
+                        android:textSize="20dp"
+                        android:textAlignment="center" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <com.williamcomartin.plexpyremote.Helpers.EmptyRecyclerView
+                android:id="@+id/rvActivities"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
 
 </LinearLayout>
