@@ -18,6 +18,10 @@
             android:id="@+id/navigation_item_history"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/history" />
+        <!--<item
+            android:id="@+id/navigation_item_graphs"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/graphs" />-->
         <item
             android:id="@+id/navigation_item_statistics"
             android:icon="@mipmap/ic_launcher"

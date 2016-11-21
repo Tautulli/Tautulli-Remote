@@ -233,6 +233,10 @@ public class NavBaseActivity extends AppBaseActivity {
                 setActive(R.id.navigation_item_history);
                 launchIntent = new Intent(this, HistoryActivity.class);
                 break;
+            /*case R.id.navigation_item_graphs:
+                setActive(R.id.navigation_item_graphs);
+                launchIntent = new Intent(this, GraphsActivity.class);
+                break;*/
             case R.id.navigation_item_statistics:
                 setActive(R.id.navigation_item_statistics);
                 launchIntent = new Intent(this, StatisticsActivity.class);
