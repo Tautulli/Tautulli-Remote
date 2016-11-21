@@ -72,7 +72,7 @@ public class LibraryStatisticsActivity extends NavBaseActivity {
 
     protected void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.library_statistics);
+        actionBar.setTitle(R.string.libraries);
     }
 
     @Override

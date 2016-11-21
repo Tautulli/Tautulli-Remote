@@ -18,18 +18,18 @@
             android:id="@+id/navigation_item_history"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/history" />
-        <item
+        <!--<item
             android:id="@+id/navigation_item_graphs"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/graphs" />
+            android:title="@string/graphs" />-->
         <item
             android:id="@+id/navigation_item_statistics"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/statistics" />
         <item
-            android:id="@+id/navigation_item_library_statistics"
+            android:id="@+id/navigation_item_libraries"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/library_statistics" />
+            android:title="@string/libraries" />
     </group>
 
     <group
