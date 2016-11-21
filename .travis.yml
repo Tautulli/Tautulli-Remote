@@ -45,5 +45,5 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-   - ./gradlew build connectedCheck --stacktrace
-   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./gradlew publishApkRelease; fi'
+   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./gradlew assembleDebug connectedCheck --stacktrace; fi'
+   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./gradlew assembleRelease connectedCheck publishApkRelease --stacktrace; fi'
