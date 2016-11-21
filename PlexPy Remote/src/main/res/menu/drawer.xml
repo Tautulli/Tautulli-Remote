@@ -27,9 +27,9 @@
             android:icon="@mipmap/ic_launcher"
             android:title="@string/statistics" />
         <item
-            android:id="@+id/navigation_item_library_statistics"
+            android:id="@+id/navigation_item_libraries"
             android:icon="@mipmap/ic_launcher"
-            android:title="@string/library_statistics" />
+            android:title="@string/libraries" />
     </group>
 
     <group

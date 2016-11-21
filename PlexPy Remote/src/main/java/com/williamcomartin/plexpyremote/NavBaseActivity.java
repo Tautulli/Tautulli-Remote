@@ -85,7 +85,7 @@ public class NavBaseActivity extends AppBaseActivity {
                         .colorRes(R.color.colorTextPrimary)
                         .actionBarSize());
 
-        menu.findItem(R.id.navigation_item_library_statistics).setIcon(
+        menu.findItem(R.id.navigation_item_libraries).setIcon(
                 new IconDrawable(this, FontAwesomeIcons.fa_th_list)
                         .colorRes(R.color.colorTextPrimary)
                         .actionBarSize());
@@ -241,8 +241,8 @@ public class NavBaseActivity extends AppBaseActivity {
                 setActive(R.id.navigation_item_statistics);
                 launchIntent = new Intent(this, StatisticsActivity.class);
                 break;
-            case R.id.navigation_item_library_statistics:
-                setActive(R.id.navigation_item_library_statistics);
+            case R.id.navigation_item_libraries:
+                setActive(R.id.navigation_item_libraries);
                 launchIntent = new Intent(this, LibraryStatisticsActivity.class);
                 break;
 
