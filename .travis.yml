@@ -1,5 +1,8 @@
 language: android
 sudo: false
+branches:
+  only:
+  - master
 addons:
   apt:
     packages:
@@ -42,5 +45,5 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-   - ./gradlew build connectedCheck
-   - ./gradlew publishApkRelease
+   - ./gradlew build connectedCheck --stacktrace
+   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./gradlew publishApkRelease; fi'
