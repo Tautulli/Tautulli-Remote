@@ -80,12 +80,7 @@ public class NavBaseActivity extends AppBaseActivity {
                         .colorRes(R.color.colorTextPrimary)
                         .actionBarSize());
 
-        menu.findItem(R.id.navigation_item_graphs).setIcon(
-                new IconDrawable(this, FontAwesomeIcons.fa_line_chart)
-                        .colorRes(R.color.colorTextPrimary)
-                        .actionBarSize());
-
-        menu.findItem(R.id.navigation_item_statistics).setIcon(
+       menu.findItem(R.id.navigation_item_statistics).setIcon(
                 new IconDrawable(this, MaterialIcons.md_insert_chart)
                         .colorRes(R.color.colorTextPrimary)
                         .actionBarSize());
@@ -237,10 +232,6 @@ public class NavBaseActivity extends AppBaseActivity {
             case R.id.navigation_item_history:
                 setActive(R.id.navigation_item_history);
                 launchIntent = new Intent(this, HistoryActivity.class);
-                break;
-            case R.id.navigation_item_graphs:
-                setActive(R.id.navigation_item_graphs);
-                launchIntent = new Intent(this, GraphsActivity.class);
                 break;
             case R.id.navigation_item_statistics:
                 setActive(R.id.navigation_item_statistics);
