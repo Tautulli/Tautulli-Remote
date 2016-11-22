@@ -1,17 +1,13 @@
 package com.williamcomartin.plexpyremote;
 
-import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.content.Context;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -28,13 +24,13 @@ import java.util.ArrayList;
 
 public class ActivityActivity extends NavBaseActivity {
 
+    private final Context context = this;
     private EmptyRecyclerView rvActivities;
     private ActivityAdapter adapter;
 
     private DrawerLayout mDrawerLayout;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
-//    private SwipeRefreshLayout mSwipeRefreshLayout2;
 
     private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
@@ -59,8 +55,6 @@ public class ActivityActivity extends NavBaseActivity {
         rvActivities.setAdapter(adapter);
         rvActivities.setLayoutManager(new LinearLayoutManager(this));
 
-
-
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayoutActivities);
         mSwipeRefreshLayout.setOnRefreshListener(refreshListener);
 
@@ -82,8 +76,8 @@ public class ActivityActivity extends NavBaseActivity {
             ApplicationController.getInstance().addToRequestQueue(request);
         } catch (NoServerException e) {
             TextView text = (TextView) findViewById(R.id.emptyTextView);
-            text.setText("Invalid Server Address");
-            text.setTextColor(getColor(R.color.colorAccent));
+            text.setText(getString(R.string.InvalidServer));
+            text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
             findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
             adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
         }
@@ -98,19 +92,28 @@ public class ActivityActivity extends NavBaseActivity {
     }
 
     private Response.ErrorListener errorListener() {
-        onItemsLoadComplete();
         return new ErrorListener(this) {
             @Override
             public void onErrorResponse(VolleyError error) {
                 super.onErrorResponse(error);
                 TextView text = (TextView) findViewById(R.id.emptyTextView);
-                if(error.getMessage().contains("No address associated with hostname")){
-                    text.setText("Invalid Server Address");
+                if(error.getMessage() != null) {
+                    if (error.getMessage().contains("No address associated with hostname")) {
+                        text.setText(getString(R.string.InvalidServer));
+                    } else if (error.getMessage().contains("JsonSyntaxException")) {
+                        text.setText(getString(R.string.InvalidServer));
+                    } else if (error.getMessage().contains("Network is unreachable")){
+                        text.setText(getString(R.string.NetworkUnreachable));
+                    } else {
+                        text.setText(getString(R.string.UnexpectedError) + ", " + error.getMessage());
+                    }
                 } else {
-                    text.setText(error.getMessage());
+                    text.setText(getString(R.string.InvalidServer));
                 }
-                text.setTextColor(getColor(R.color.colorAccent));
+                text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                 findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
+                adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
+                onItemsLoadComplete();
             }
         };
     }
@@ -123,11 +126,14 @@ public class ActivityActivity extends NavBaseActivity {
                     adapter.SetActivities(response.response.data.sessions);
                 } else if(response.response.message.equals("Invalid apikey")){
                     TextView text = (TextView) findViewById(R.id.emptyTextView);
-                    text.setText("Invalid API Key");
-                    text.setTextColor(getColor(R.color.colorAccent));
+                    text.setText(getString(R.string.InvalidAPIKey));
+                    text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                     findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
                     adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
                 } else {
+                    TextView text = (TextView) findViewById(R.id.emptyTextView);
+                    text.setText(getString(R.string.NoActivity));
+                    findViewById(R.id.oopsView).setVisibility(View.GONE);
                     adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
                 }
                 onItemsLoadComplete();

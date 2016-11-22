@@ -59,28 +59,14 @@
                     </LinearLayout>
 
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/emptyTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <!--<ImageView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="200dp"-->
-                        <!--android:src="@drawable/bad_poker_face" />-->
-
-                        <TextView
-                            android:id="@+id/emptyTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="No Current Activity"
-                            android:textAlignment="center"
-                            android:textAppearance="@style/TextAppearance.Body.Bold"
-                            android:textSize="20dp" />
-
-                    </LinearLayout>
-
-
+                        android:text="@string/NoActivity"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.Body.Bold"
+                        android:textSize="20dp" />
                 </LinearLayout>
 
                 <com.williamcomartin.plexpyremote.Helpers.EmptyRecyclerView
@@ -97,10 +83,10 @@
 
     <fragment
         android:id="@+id/activity_stream_info_fragment"
+        android:name="com.williamcomartin.plexpyremote.StreamInfoFragment"
         android:layout_width="320dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:name="com.williamcomartin.plexpyremote.StreamInfoFragment"
         tools:layout="@layout/fragment_stream_info" />
 
 

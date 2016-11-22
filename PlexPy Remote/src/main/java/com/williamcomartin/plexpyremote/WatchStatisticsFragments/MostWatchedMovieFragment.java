@@ -18,6 +18,8 @@ import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Models.StatisticsModels;
 import com.williamcomartin.plexpyremote.R;
 
+import java.util.ArrayList;
+
 public class MostWatchedMovieFragment extends Fragment {
 
     private SharedPreferences SP;
@@ -65,8 +67,14 @@ public class MostWatchedMovieFragment extends Fragment {
             public void onResponse(StatisticsModels response) {
                 StatisticsModels.StatisticsGroup group = response.response.FindStat("top_movies");
 
-                MostWatchedMovieAdapter adapter = new MostWatchedMovieAdapter(group.rows);
+                MostWatchedMovieAdapter adapter;
+                if (group != null) {
+                    adapter = new MostWatchedMovieAdapter(group.rows);
+                } else {
+                    adapter = new MostWatchedMovieAdapter(new ArrayList<StatisticsModels.StatisticsRow>());
+                }
                 rvStat.setAdapter(adapter);
+
             }
         };
     }
