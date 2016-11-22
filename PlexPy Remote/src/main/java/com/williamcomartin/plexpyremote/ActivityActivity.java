@@ -75,7 +75,7 @@ public class ActivityActivity extends NavBaseActivity {
             ApplicationController.getInstance().addToRequestQueue(request);
         } catch (NoServerException e) {
             TextView text = (TextView) findViewById(R.id.emptyTextView);
-            text.setText("Invalid Server Address");
+            text.setText(getString(R.string.InvalidServer));
             text.setTextColor(getColor(R.color.colorAccent));
             findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
             adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
@@ -99,14 +99,14 @@ public class ActivityActivity extends NavBaseActivity {
                 TextView text = (TextView) findViewById(R.id.emptyTextView);
                 if(error.getMessage() != null) {
                     if (error.getMessage().contains("No address associated with hostname")) {
-                        text.setText("Invalid Server Address");
+                        text.setText(getString(R.string.InvalidServer));
                     } else if (error.getMessage().contains("Network is unreachable")){
-                        text.setText("Network Is Unreachable");
+                        text.setText(getString(R.string.NetworkUnreachable));
                     } else {
-                        text.setText("Unexpected Error, " + error.getMessage());
+                        text.setText(getString(R.string.UnexpectedError) + ", " + error.getMessage());
                     }
                 } else {
-                    text.setText("Invalid Server Address");
+                    text.setText(getString(R.string.InvalidServer));
                 }
                 text.setTextColor(getColor(R.color.colorAccent));
                 findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
@@ -123,11 +123,14 @@ public class ActivityActivity extends NavBaseActivity {
                     adapter.SetActivities(response.response.data.sessions);
                 } else if(response.response.message.equals("Invalid apikey")){
                     TextView text = (TextView) findViewById(R.id.emptyTextView);
-                    text.setText("Invalid API Key");
+                    text.setText(getString(R.string.InvalidAPIKey));
                     text.setTextColor(getColor(R.color.colorAccent));
                     findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
                     adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
                 } else {
+                    TextView text = (TextView) findViewById(R.id.emptyTextView);
+                    text.setText(getString(R.string.NoActivity));
+                    findViewById(R.id.oopsView).setVisibility(View.GONE);
                     adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
                 }
                 onItemsLoadComplete();
