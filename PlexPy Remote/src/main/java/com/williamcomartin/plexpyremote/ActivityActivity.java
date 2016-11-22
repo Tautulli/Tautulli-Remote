@@ -1,9 +1,11 @@
 package com.williamcomartin.plexpyremote;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 
 public class ActivityActivity extends NavBaseActivity {
 
+    private final Context context = this;
     private EmptyRecyclerView rvActivities;
     private ActivityAdapter adapter;
 
@@ -76,7 +79,7 @@ public class ActivityActivity extends NavBaseActivity {
         } catch (NoServerException e) {
             TextView text = (TextView) findViewById(R.id.emptyTextView);
             text.setText(getString(R.string.InvalidServer));
-            text.setTextColor(getColor(R.color.colorAccent));
+            text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
             findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
             adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
         }
@@ -109,7 +112,7 @@ public class ActivityActivity extends NavBaseActivity {
                 } else {
                     text.setText(getString(R.string.InvalidServer));
                 }
-                text.setTextColor(getColor(R.color.colorAccent));
+                text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                 findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
                 adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
                 onItemsLoadComplete();
@@ -126,7 +129,7 @@ public class ActivityActivity extends NavBaseActivity {
                 } else if(response.response.message.equals("Invalid apikey")){
                     TextView text = (TextView) findViewById(R.id.emptyTextView);
                     text.setText(getString(R.string.InvalidAPIKey));
-                    text.setTextColor(getColor(R.color.colorAccent));
+                    text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                     findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
                     adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
                 } else {
