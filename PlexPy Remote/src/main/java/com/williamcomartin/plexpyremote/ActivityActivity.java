@@ -97,13 +97,20 @@ public class ActivityActivity extends NavBaseActivity {
             public void onErrorResponse(VolleyError error) {
                 super.onErrorResponse(error);
                 TextView text = (TextView) findViewById(R.id.emptyTextView);
-                if(error.getMessage().contains("No address associated with hostname")){
-                    text.setText("Invalid Server Address");
+                if(error.getMessage() != null) {
+                    if (error.getMessage().contains("No address associated with hostname")) {
+                        text.setText("Invalid Server Address");
+                    } else if (error.getMessage().contains("Network is unreachable")){
+                        text.setText("Network Is Unreachable");
+                    } else {
+                        text.setText("Unexpected Error, " + error.getMessage());
+                    }
                 } else {
-                    text.setText(error.getMessage());
+                    text.setText("Invalid Server Address");
                 }
                 text.setTextColor(getColor(R.color.colorAccent));
                 findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
+                adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
             }
         };
     }
