@@ -91,7 +91,6 @@ public class ActivityActivity extends NavBaseActivity {
     }
 
     private Response.ErrorListener errorListener() {
-        onItemsLoadComplete();
         return new ErrorListener(this) {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -99,6 +98,8 @@ public class ActivityActivity extends NavBaseActivity {
                 TextView text = (TextView) findViewById(R.id.emptyTextView);
                 if(error.getMessage() != null) {
                     if (error.getMessage().contains("No address associated with hostname")) {
+                        text.setText(getString(R.string.InvalidServer));
+                    } else if (error.getMessage().contains("JsonSyntaxException")) {
                         text.setText(getString(R.string.InvalidServer));
                     } else if (error.getMessage().contains("Network is unreachable")){
                         text.setText(getString(R.string.NetworkUnreachable));
@@ -111,6 +112,7 @@ public class ActivityActivity extends NavBaseActivity {
                 text.setTextColor(getColor(R.color.colorAccent));
                 findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
                 adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
+                onItemsLoadComplete();
             }
         };
     }
