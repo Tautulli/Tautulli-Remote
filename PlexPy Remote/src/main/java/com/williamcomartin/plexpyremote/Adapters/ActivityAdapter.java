@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Build;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,8 @@ import com.android.internal.util.Predicate;
 import com.android.volley.toolbox.NetworkImageView;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
+import com.joanzapata.iconify.widget.IconTextView;
+import com.williamcomartin.plexpyremote.ActivityActivity;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.ActivityModels.Activity;
@@ -36,9 +41,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     View itemView;
     private SharedPreferences SP;
+    private ActivityActivity mActivity;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        protected IconTextView vInfoIcon;
 
         protected TextView vTitle;
         protected TextView vSubTitle;
@@ -54,8 +61,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         protected NetworkImageView vImage;
         protected NetworkImageView vImageBlurred;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
+
+            vInfoIcon = (IconTextView) itemView.findViewById(R.id.activity_card_info_icon);
+
 
             vTitle = (TextView) itemView.findViewById(R.id.activity_card_title);
             vSubTitle = (TextView) itemView.findViewById(R.id.activity_card_subtitle);
@@ -87,8 +97,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     public void SetActivities(List<Activity> activities) {
         this.activities.clear();
-        this.activities.addAll(activities);
+        if(activities != null) {
+            this.activities.addAll(activities);
+        }
         notifyDataSetChanged();
+    }
+
+    public void setActivityView(ActivityActivity activity){
+        this.mActivity = activity;
     }
 
     @Override
@@ -106,9 +122,17 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int position) {
-        Context context = ApplicationController.getInstance().getApplicationContext();
+//        Context context = ApplicationController.getInstance().getApplicationContext();
         // Get the data model based on position
-        Activity activity = activities.get(position);
+        final Activity activity = activities.get(position);
+
+        viewHolder.vInfoIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawerLayout = (DrawerLayout) mActivity.findViewById(R.id.activity_drawer);
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
 
         // Set item views based on the data model
         String imageUrl;
@@ -131,7 +155,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             viewHolder.vImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
 
-        if(viewHolder.vSubTitle.getText().equals("")) {
+        if (viewHolder.vSubTitle.getText().equals("")) {
             viewHolder.vSubTitle.setVisibility(View.GONE);
         }
 

@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,8 @@ public class ActivityActivity extends NavBaseActivity {
     private EmptyRecyclerView rvActivities;
     private ActivityAdapter adapter;
 
+    private DrawerLayout mDrawerLayout;
+
     private SwipeRefreshLayout mSwipeRefreshLayout;
 //    private SwipeRefreshLayout mSwipeRefreshLayout2;
 
@@ -46,9 +49,13 @@ public class ActivityActivity extends NavBaseActivity {
         setContentView(R.layout.activity_activity);
         setupActionBar();
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_drawer);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
         rvActivities = (EmptyRecyclerView) findViewById(R.id.rvActivities);
         rvActivities.setEmptyView(findViewById(R.id.emptyRvActivities));
         adapter = new ActivityAdapter();
+        adapter.setActivityView(this);
         rvActivities.setAdapter(adapter);
         rvActivities.setLayoutManager(new LinearLayoutManager(this));
 

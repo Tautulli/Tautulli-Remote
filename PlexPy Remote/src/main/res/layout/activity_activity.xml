@@ -1,88 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:orientation="vertical">
+    android:choiceMode="singleChoice">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayoutActivities"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayoutActivities"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:visibility="gone"
-                android:orientation="vertical"
-                android:id="@+id/emptyRvActivities"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
+                android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/oopsView"
-                    android:visibility="gone"
+                    android:id="@+id/emptyRvActivities"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:src="@drawable/sad_cloud" />
-
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/oopsView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="50dp"
-                        android:text="Oops"
-                        android:textAppearance="@style/Headline"
-                        android:textAlignment="center"/>
-                    <!--<TextView-->
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:src="@drawable/sad_cloud" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Oops"
+                            android:textAlignment="center"
+                            android:textAppearance="@style/Headline"
+                            android:textSize="50dp" />
+                        <!--<TextView-->
                         <!--android:layout_width="match_parent"-->
                         <!--android:layout_height="wrap_content"-->
                         <!--android:textAppearance="@style/Subhead"-->
                         <!--android:text="Something Went Wrong"-->
                         <!--android:textAlignment="center"/>-->
 
-                </LinearLayout>
+                    </LinearLayout>
 
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="200dp"-->
-                    <!--android:src="@drawable/bad_poker_face" />-->
-
-                    <TextView
-                        android:id="@+id/emptyTextView"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="No Current Activity"
-                        android:textAppearance="@style/TextAppearance.Body.Bold"
-                        android:textSize="20dp"
-                        android:textAlignment="center" />
+                        android:orientation="vertical">
+
+                        <!--<ImageView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="200dp"-->
+                        <!--android:src="@drawable/bad_poker_face" />-->
+
+                        <TextView
+                            android:id="@+id/emptyTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="No Current Activity"
+                            android:textAlignment="center"
+                            android:textAppearance="@style/TextAppearance.Body.Bold"
+                            android:textSize="20dp" />
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
+                <com.williamcomartin.plexpyremote.Helpers.EmptyRecyclerView
+                    android:id="@+id/rvActivities"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </RelativeLayout>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
 
 
-            </LinearLayout>
+    <fragment
+        android:id="@+id/activity_stream_info_fragment"
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:name="com.williamcomartin.plexpyremote.StreamInfoFragment"
+        tools:layout="@layout/fragment_stream_info" />
 
-            <com.williamcomartin.plexpyremote.Helpers.EmptyRecyclerView
-                android:id="@+id/rvActivities"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
-        </RelativeLayout>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>
