@@ -65,7 +65,7 @@
                         android:id="@+id/emptyTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="No Current Activity"
+                        android:text="@string/NoActivity"
                         android:textAppearance="@style/TextAppearance.Body.Bold"
                         android:textSize="20dp"
                         android:textAlignment="center" />

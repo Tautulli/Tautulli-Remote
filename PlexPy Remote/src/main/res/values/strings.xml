@@ -31,4 +31,11 @@
     <string name="title_activity_library_statistics">LibraryStatisticsActivity</string>
     <string name="libraries">Libraries</string>
 
+
+    <!-- Error Messages -->
+    <string name="InvalidServer">Invalid Server Address</string>
+    <string name="NetworkUnreachable">Network Is Unreachable</string>
+    <string name="InvalidAPIKey">Invalid API Key</string>
+    <string name="NoActivity">No Current Activity</string>
+    <string name="UnexpectedError">Unexpected Error</string>
 </resources>
