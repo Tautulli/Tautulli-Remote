@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
 
 
@@ -13,6 +14,7 @@ public class StreamInfoFragment extends Fragment {
 
 
     private ActivityModels.Activity mActivity;
+    private NetworkImageView vImage;
 
     public StreamInfoFragment() {
         // Required empty public constructor
@@ -24,7 +26,7 @@ public class StreamInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stream_info, container, false);
 
-
+        vImage = (NetworkImageView) view.findViewById(R.id.activity_stream_thumb);
 
         return view;
     }
