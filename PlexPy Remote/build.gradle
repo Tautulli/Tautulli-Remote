@@ -54,6 +54,7 @@ if (System.getenv("TRAVIS")) {
         serviceAccountEmail = System.getenv("SERVICE_EMAIL")
         pk12File = rootProject.file('play.p12')
         track = 'alpha' // or 'alpha' or 'beta' or 'production'
+        uploadImages = true
     }
 }
 
