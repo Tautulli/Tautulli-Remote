@@ -39,6 +39,13 @@ public class UrlHelpers {
         return null;
     }
 
+    public static String getHost () throws NoServerException {
+        if(SP.getString("server_settings_address", "").equals("")){
+            throw new NoServerException();
+        }
+        return SP.getString("server_settings_address", "");
+    }
+
     public static String getHostPlusAPIKey () throws NoServerException {
         if(SP.getString("server_settings_address", "").equals("")){
             throw new NoServerException();

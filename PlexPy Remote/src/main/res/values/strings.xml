@@ -16,9 +16,6 @@
     <string name="server_settings_address_title">Server Address</string>
     <string name="server_settings_apikey_title">Server ApiKey</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string-array name="StatisticsTabs">
         <item>Most Watched TV</item>
         <item>Most Popular TV</item>
@@ -30,6 +27,8 @@
     </string-array>
     <string name="title_activity_library_statistics">LibraryStatisticsActivity</string>
     <string name="libraries">Libraries</string>
+
+    <string name="eta">ETA: %s</string>
 
 
     <!-- Error Messages -->

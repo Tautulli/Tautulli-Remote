@@ -50,7 +50,7 @@ public class ActivityActivity extends NavBaseActivity {
 
         rvActivities = (EmptyRecyclerView) findViewById(R.id.rvActivities);
         rvActivities.setEmptyView(findViewById(R.id.emptyRvActivities));
-        adapter = new ActivityAdapter();
+        adapter = new ActivityAdapter(this, getSupportFragmentManager());
         adapter.setActivityView(this);
         rvActivities.setAdapter(adapter);
         rvActivities.setLayoutManager(new LinearLayoutManager(this));

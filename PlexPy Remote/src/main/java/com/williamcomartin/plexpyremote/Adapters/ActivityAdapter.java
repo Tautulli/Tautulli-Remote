@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Build;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.ActivityModels.Activity;
 import com.williamcomartin.plexpyremote.R;
+import com.williamcomartin.plexpyremote.StreamInfoFragment;
 
 import org.w3c.dom.Text;
 
@@ -39,6 +41,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder> {
 
+    private Context context;
+    private FragmentManager fragmentManager;
     View itemView;
     private SharedPreferences SP;
     private ActivityActivity mActivity;
@@ -86,7 +90,9 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     private List<Activity> activities;
 
-    public ActivityAdapter() {
+    public ActivityAdapter(Context context, FragmentManager fragmentManager) {
+        this.context = context;
+        this.fragmentManager = fragmentManager;
         this.activities = new ArrayList<>();
     }
 
@@ -131,6 +137,9 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             public void onClick(View v) {
                 DrawerLayout drawerLayout = (DrawerLayout) mActivity.findViewById(R.id.activity_drawer);
                 drawerLayout.openDrawer(GravityCompat.END);
+
+                StreamInfoFragment frag = (StreamInfoFragment) fragmentManager.findFragmentById(R.id.activity_stream_info_fragment);
+                frag.setStreamInfo(activity);
             }
         });
 

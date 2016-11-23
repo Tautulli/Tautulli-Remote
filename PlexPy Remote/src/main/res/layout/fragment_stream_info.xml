@@ -41,26 +41,25 @@
             android:background="@drawable/activity_stream_gradient"/>
 
         <TextView
+            android:id="@+id/activity_stream_eta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/activity_stream_thumb"
             android:layout_margin="5dp"
-            android:textSize="10sp"
-            android:text="ETA: 19:18:19"
-            android:id="@+id/activity_stream_eta" />
+            android:textSize="10sp" />
 
         <TextView
+            android:id="@+id/activity_stream_time_remaining"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/activity_stream_thumb"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="5dp"
-            android:textSize="10sp"
-            android:text="4:06/42:22"
-            android:id="@+id/activity_stream_time_remaining" />
+            android:textSize="10sp" />
 
         <com.joanzapata.iconify.widget.IconTextView
+            android:id="@+id/activity_stream_state_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/activity_stream_time_remaining"
@@ -71,7 +70,7 @@
             android:text="{fa-play}" />
 
         <ProgressBar
-            android:id="@+id/progressbar"
+            android:id="@+id/activity_stream_progress_bar"
             android:layout_width="match_parent"
             android:layout_height="4dp"
             android:layout_alignBottom="@+id/activity_stream_thumb"
@@ -91,7 +90,8 @@
         android:layout_below="@+id/activity_stream_image"
         android:layout_alignParentStart="true">
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -99,25 +99,20 @@
                 android:id="@+id/activity_stream_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Supergirl"
                 style="@style/Headline"/>
 
             <TextView
                 android:id="@+id/activity_stream_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_stream_title"
-                android:text="Episode Name"
                 style="@style/Subhead"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_stream_subtitle"
-                android:text="S1 - E1"
                 android:textSize="10dp"
                 android:id="@+id/activity_stream_episode" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -125,7 +120,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp">
 
-            <ImageView
+            <com.williamcomartin.plexpyremote.Helpers.CircularNetworkImageView
                 android:id="@+id/activity_stream_user_avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -144,15 +139,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:textColor="@color/colorTextHeading"
-                    android:text="William Comartin"/>
+                    android:textColor="@color/colorTextHeading"/>
 
                 <TextView
                     android:id="@+id/activity_stream_user_ip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTextHeading"
-                    android:text="IP: 127.0.0.1"/>
+                    android:textColor="@color/colorTextHeading"/>
 
             </LinearLayout>
 
@@ -165,7 +158,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp">
 
-            <ImageView
+            <com.williamcomartin.plexpyremote.Helpers.CircularNetworkImageView
                 android:id="@+id/activity_stream_player_avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -199,25 +192,6 @@
 
         </RelativeLayout>
 
-        <!--<LinearLayout-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_marginBottom="5dp">-->
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="14sp"-->
-                <!--android:text="Player"/>-->
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="18sp"-->
-                <!--android:textColor="@color/colorTextHeading"-->
-                <!--android:text="Plex Web (Chrome)"/>-->
-        <!--</LinearLayout>-->
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
@@ -234,7 +208,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="@color/colorTextHeading"
-                android:text="Transcoding (Speed: 4.5) (Throttled)"
                 android:id="@+id/activity_stream_stream_decision" />
         </LinearLayout>
 
@@ -254,7 +227,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="@color/colorTextHeading"
-                android:text="Transcoding (h264) (1280 x 718)"
                 android:id="@+id/activity_stream_video_decision" />
         </LinearLayout>
 
@@ -274,7 +246,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="@color/colorTextHeading"
-                android:text="Direct Stream (aac) (6 ch)"
                 android:id="@+id/activity_stream_audio_decision" />
         </LinearLayout>
 
