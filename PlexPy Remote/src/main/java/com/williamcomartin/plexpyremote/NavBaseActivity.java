@@ -48,8 +48,7 @@ public class NavBaseActivity extends AppBaseActivity {
     private static MenuItem activeMenuItem;
 
     @Override
-    public void setContentView(@LayoutRes int layoutResID)
-    {
+    public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         onCreateDrawer();
 
