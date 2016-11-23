@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -45,6 +46,8 @@ public class StreamInfoFragment extends Fragment {
     private TextView vVideoDecision;
     private TextView vAudioDecision;
 
+    private ScrollView vScroller;
+
     public StreamInfoFragment() {
         // Required empty public constructor
     }
@@ -77,10 +80,14 @@ public class StreamInfoFragment extends Fragment {
         vVideoDecision = (TextView) view.findViewById(R.id.activity_stream_video_decision);
         vAudioDecision = (TextView) view.findViewById(R.id.activity_stream_audio_decision);
 
+        vScroller = (ScrollView) view.findViewById(R.id.activity_stream_scroller);
+
         return view;
     }
 
     public void setStreamInfo(ActivityModels.Activity activity) {
+        vScroller.fullScroll(ScrollView.FOCUS_UP);
+
         vImage.setImageUrl(UrlHelpers.getImageUrl(activity.thumb, "400", "600"),
                 ApplicationController.getInstance().getImageLoader());
 
