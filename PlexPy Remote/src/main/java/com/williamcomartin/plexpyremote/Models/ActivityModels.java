@@ -37,6 +37,7 @@ public class ActivityModels {
         public String grandparent_title;
         public String height;
         public int indexes;
+        public String ip_address;
         public String machine_id;
         public String media_index;
         public String media_type;

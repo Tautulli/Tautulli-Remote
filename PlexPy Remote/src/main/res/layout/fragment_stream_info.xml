@@ -1,0 +1,263 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorCardBackground"
+    android:orientation="vertical"
+    tools:context="com.williamcomartin.plexpyremote.StreamInfoFragment">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_stream_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground">
+        <com.joanzapata.iconify.widget.IconTextView
+            style="@style/Headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="{fa-info} Stream Details"
+            android:textSize="18sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/activity_stream_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/activity_stream_thumb"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:padding="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_alignParentStart="true" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@+id/activity_stream_thumb"
+            android:background="@drawable/activity_stream_gradient"/>
+
+        <TextView
+            android:id="@+id/activity_stream_eta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/activity_stream_thumb"
+            android:layout_margin="5dp"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/activity_stream_time_remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/activity_stream_thumb"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:textSize="10sp" />
+
+        <com.joanzapata.iconify.widget.IconTextView
+            android:id="@+id/activity_stream_state_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/activity_stream_time_remaining"
+            android:layout_alignBaseline="@id/activity_stream_time_remaining"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="4dp"
+            android:textSize="10sp"
+            android:text="{fa-play}" />
+
+        <ProgressBar
+            android:id="@+id/activity_stream_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_alignBottom="@+id/activity_stream_thumb"
+            android:progress="75"
+            android:secondaryProgress="89"
+            android:progressBackgroundTint="#00000000"
+            android:secondaryProgressTint="@color/colorTranscodeBufferBar"
+            android:secondaryProgressTintMode="src_over"
+            style="?android:attr/progressBarStyleHorizontal" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/activity_stream_scroller"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:layout_below="@+id/activity_stream_image"
+            android:layout_alignParentStart="true">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/activity_stream_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Headline"/>
+
+                <TextView
+                    android:id="@+id/activity_stream_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Subhead"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:id="@+id/activity_stream_episode" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+
+                <com.williamcomartin.plexpyremote.Helpers.CircularNetworkImageView
+                    android:id="@+id/activity_stream_user_avatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/gravatar_default_circle"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/activity_stream_user_avatar"
+                    android:layout_centerInParent="true">
+
+                    <TextView
+                        android:id="@+id/activity_stream_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorTextHeading"/>
+
+                    <TextView
+                        android:id="@+id/activity_stream_user_ip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTextHeading"/>
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+
+                <com.williamcomartin.plexpyremote.Helpers.CircularNetworkImageView
+                    android:id="@+id/activity_stream_player_avatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/gravatar_default_circle"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/activity_stream_player_avatar"
+                    android:layout_centerInParent="true">
+
+                    <TextView
+                        android:id="@+id/activity_stream_player_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorTextHeading"
+                        android:text="Chrome"/>
+
+                    <TextView
+                        android:id="@+id/activity_stream_player_platform"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTextHeading"
+                        android:text="Plex Web"/>
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="Stream"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorTextHeading"
+                    android:id="@+id/activity_stream_stream_decision" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="Video"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorTextHeading"
+                    android:id="@+id/activity_stream_video_decision" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="Audio"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorTextHeading"
+                    android:id="@+id/activity_stream_audio_decision" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>
