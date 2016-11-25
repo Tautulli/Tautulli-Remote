@@ -1,10 +1,13 @@
 package com.williamcomartin.plexpyremote;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
+import com.williamcomartin.plexpyremote.Helpers.ImageHelper;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
 import com.williamcomartin.plexpyremote.Services.PlatformService;
@@ -38,7 +42,7 @@ public class StreamInfoFragment extends Fragment {
     private TextView vUserName;
     private TextView vUserIP;
 
-    private NetworkImageView vPlayerAvatar;
+    private ImageView vPlayerAvatar;
     private TextView vPlayerName;
     private TextView vPlayerPlatform;
 
@@ -72,7 +76,7 @@ public class StreamInfoFragment extends Fragment {
         vUserName = (TextView) view.findViewById(R.id.activity_stream_user_name);
         vUserIP = (TextView) view.findViewById(R.id.activity_stream_user_ip);
 
-        vPlayerAvatar = (NetworkImageView) view.findViewById(R.id.activity_stream_player_avatar);
+        vPlayerAvatar = (ImageView) view.findViewById(R.id.activity_stream_player_avatar);
         vPlayerName = (TextView) view.findViewById(R.id.activity_stream_player_name);
         vPlayerPlatform = (TextView) view.findViewById(R.id.activity_stream_player_platform);
 
@@ -88,7 +92,7 @@ public class StreamInfoFragment extends Fragment {
     public void setStreamInfo(ActivityModels.Activity activity) {
         vScroller.fullScroll(ScrollView.FOCUS_UP);
 
-        vImage.setImageUrl(UrlHelpers.getImageUrl(activity.thumb, "400", "600"),
+        vImage.setImageUrl(UrlHelpers.getImageUrl(activity.art, "400", "600"),
                 ApplicationController.getInstance().getImageLoader());
 
         vEta.setText(String.format(getString(R.string.eta), formatDuration(activity.duration, activity.view_offset)));
@@ -131,12 +135,10 @@ public class StreamInfoFragment extends Fragment {
         vUserName.setText(activity.friendly_name);
         vUserIP.setText("IP: " + activity.ip_address);
 
-        try {
-            String url = UrlHelpers.getHost() + PlatformService.getInstance().getPlatformImagePath(activity.platform);
-            vPlayerAvatar.setImageUrl(url, ApplicationController.getInstance().getImageLoader());
-        } catch (NoServerException e) {
-            e.printStackTrace();
-        }
+//            String url = UrlHelpers.getHost() + PlatformService.getInstance().getPlatformImagePath(activity.platform);
+        Bitmap platform = BitmapFactory.decodeResource(
+                getResources(), PlatformService.getInstance().getPlatformImagePath(activity.platform));
+        vPlayerAvatar.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
         vPlayerName.setText(activity.player);
         vPlayerPlatform.setText(activity.platform);
 

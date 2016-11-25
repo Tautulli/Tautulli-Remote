@@ -2,6 +2,8 @@ package com.williamcomartin.plexpyremote.Services;
 
 import android.util.Log;
 
+import com.williamcomartin.plexpyremote.R;
+
 /**
  * Created by wcomartin on 16-05-22.
  */
@@ -18,70 +20,72 @@ public class PlatformService {
         return mInstance;
     }
 
-    public String getPlatformImagePath(String platformName) {
+    public int getPlatformImagePath(String platformName) {
 
         Log.d("GetPlatformImagePath", platformName);
 
         switch(platformName) {
             case "Roku":
-                return "/images/platforms/roku.png";
+                return R.drawable.platform_roku;
             case "Apple TV":
-                return "/images/platforms/atv.png";
+                return R.drawable.platform_atv;
             case "tvOS":
-                return "/images/platforms/atv.png";
+                return R.drawable.platform_atv;
             case "Firefox":
-                return "/images/platforms/firefox.png";
+                return R.drawable.platform_firefox;
             case "Chromecast":
-                return "/images/platforms/chromecast.png";
+                return R.drawable.platform_chromecast;
             case "Chrome":
-                return "/images/platforms/chrome.png";
+                return R.drawable.platform_chrome;
             case "Android":
-                return "/images/platforms/android.png";
+                return R.drawable.platform_android;
             case "Nexus":
-                return "/images/platforms/android.png";
+                return R.drawable.platform_android;
             case "iPad":
-                return "/images/platforms/ios.png";
+                return R.drawable.platform_ios;
             case "iPhone":
-                return "/images/platforms/ios.png";
+                return R.drawable.platform_ios;
             case "iOS":
-                return "/images/platforms/ios.png";
+                return R.drawable.platform_ios;
             case "Plex Home Theater":
-                return "/images/platforms/pht.png";
+                return R.drawable.platform_pht;
             case "Linux/RPi-XMBC":
-                return "/images/platforms/xbmc.png";
+                return R.drawable.platform_xbmc;
             case "Safari":
-                return "/images/platforms/safari.png";
+                return R.drawable.platform_safari;
             case "Internet Explorer":
-                return "/images/platforms/ie.png";
+                return R.drawable.platform_ie;
             case "Microsoft Edge":
-                return "/images/platforms/msedge.png";
+                return R.drawable.platform_msedge;
             case "Unknown Browser":
-                return "/images/platforms/dafault.png";
+                return R.drawable.platform_default;
             case "Windows-XBMC":
-                return "/images/platforms/xbmc.png";
+                return R.drawable.platform_xbmc;
             case "Xbox":
-                return "/images/platforms/xbox.png";
+                return R.drawable.platform_xbox;
             case "Samsung":
-                return "/images/platforms/samsung.png";
+                return R.drawable.platform_samsung;
             case "Opera":
-                return "/images/platforms/opera.png";
+                return R.drawable.platform_opera;
             case "KODI":
-                return "/images/platforms/kodi.png";
+                return R.drawable.platform_kodi;
             case "Playstation 3":
-                return "/images/platforms/playstation.png";
+                return R.drawable.platform_playstation;
             case "Playstation 4":
-                return "/images/platforms/playstation.png";
+                return R.drawable.platform_playstation;
             case "Xbox 360":
-                return "/images/platforms/xbox.png";
+                return R.drawable.platform_xbox;
             case "Windows":
-                return "/images/platforms/win8.png";
+                return R.drawable.platform_win8;
             case "Windows phone":
-                return "/images/platforms/wp.png";
+                return R.drawable.platform_wp;
             case "Plex Media Player":
-                return "/images/platforms/pmp.png";
+                return R.drawable.platform_pmp;
+            case "DLNA":
+                return R.drawable.platform_dlna;
 
             default:
-                return "/images/platforms/default.png";
+                return R.drawable.platform_default;
         }
     }
 }

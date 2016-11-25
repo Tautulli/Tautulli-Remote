@@ -82,6 +82,11 @@ public class ActivityActivity extends NavBaseActivity {
         refreshItems();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mDrawerLayout.closeDrawers();
+    }
 
     private void refreshItems() {
 
@@ -123,8 +128,12 @@ public class ActivityActivity extends NavBaseActivity {
                         text.setText(getString(R.string.InvalidServer));
                     } else if (error.getMessage().contains("JsonSyntaxException")) {
                         text.setText(getString(R.string.InvalidServer));
+                    } else if (error.getMessage().contains("Bad url")) {
+                        text.setText(getString(R.string.InvalidServer));
                     } else if (error.getMessage().contains("Network is unreachable")){
                         text.setText(getString(R.string.NetworkUnreachable));
+                    } else if (error.getMessage().contains("Connection refused")){
+                        text.setText(getString(R.string.ConnectionRefused));
                     } else {
                         text.setText(getString(R.string.UnexpectedError) + ", " + error.getMessage());
                     }

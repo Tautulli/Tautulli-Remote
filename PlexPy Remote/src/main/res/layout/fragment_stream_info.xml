@@ -16,7 +16,7 @@
             style="@style/Headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="{fa-info} Stream Details"
+            android:text="{fa-info-circle} Stream Details"
             android:textSize="18sp" />
     </android.support.v7.widget.Toolbar>
 
@@ -138,7 +138,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/activity_stream_user_avatar"
-                    android:layout_centerInParent="true">
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="8dp">
 
                     <TextView
                         android:id="@+id/activity_stream_user_name"
@@ -164,7 +165,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp">
 
-                <com.williamcomartin.plexpyremote.Helpers.CircularNetworkImageView
+                <ImageView
                     android:id="@+id/activity_stream_player_avatar"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -176,7 +177,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/activity_stream_player_avatar"
-                    android:layout_centerInParent="true">
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="8dp">
 
                     <TextView
                         android:id="@+id/activity_stream_player_name"

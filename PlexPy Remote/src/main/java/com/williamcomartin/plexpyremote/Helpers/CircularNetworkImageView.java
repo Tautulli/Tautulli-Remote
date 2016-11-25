@@ -41,37 +41,6 @@ public class CircularNetworkImageView extends NetworkImageView {
     public void setImageBitmap(Bitmap bm) {
         if (bm == null) return;
         setImageDrawable(new BitmapDrawable(mContext.getResources(),
-                getCircularBitmap(bm)));
-    }
-
-    /**
-     * Creates a circular bitmap and uses whichever dimension is smaller to determine the width
-     * <br/>Also constrains the circle to the leftmost part of the image
-     *
-     * @param bitmap
-     * @return bitmap
-     */
-    public Bitmap getCircularBitmap(Bitmap bitmap) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                bitmap.getHeight(), Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-        int width = bitmap.getWidth();
-        if (bitmap.getWidth() > bitmap.getHeight())
-            width = bitmap.getHeight();
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, width, width);
-        final RectF rectF = new RectF(rect);
-        final float roundPx = width / 2;
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        return output;
+                ImageHelper.getCircularBitmap(bm)));
     }
 }
