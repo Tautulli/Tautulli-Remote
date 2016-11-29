@@ -21,10 +21,11 @@
 
         <EditTextPreference
             android:numeric="integer"
+            android:defaultValue="0"
             android:key="app_settings_refresh"
             android:title="@string/app_settings_refresh_title"
             android:dialogTitle="@string/app_settings_refresh_title"
-            android:summary="Activity page refresh interval (in seconds)" />
+            android:summary="Activity page refresh interval in seconds (0=disabled)" />
 
     </PreferenceCategory>
 </PreferenceScreen>
