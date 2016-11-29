@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.IntentCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -90,7 +91,13 @@ public class ActivityActivity extends NavBaseActivity {
         refreshItems();
 
         SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        int refreshPeriod = Integer.valueOf(SP.getString("app_settings_refresh", "0"));
+        int refreshPeriod;
+        String refreshString = SP.getString("app_settings_refresh", "0");
+        try {
+            refreshPeriod = Integer.parseInt(refreshString);
+        } catch (NumberFormatException e) {
+            refreshPeriod = 0;
+        }
         refreshPeriod = refreshPeriod * 1000;
 
         if (refreshPeriod > 0) {
