@@ -15,6 +15,8 @@
     <string name="server_settings_title">Server Settings</string>
     <string name="server_settings_address_title">Server Address</string>
     <string name="server_settings_apikey_title">Server ApiKey</string>
+    <string name="app_settings_title">App Settings</string>
+    <string name="app_settings_refresh_title">Activity Refresh</string>
 
     <string-array name="StatisticsTabs">
         <item>Most Watched TV</item>

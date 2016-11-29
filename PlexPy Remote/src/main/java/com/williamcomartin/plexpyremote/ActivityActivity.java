@@ -1,12 +1,15 @@
 package com.williamcomartin.plexpyremote;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +23,9 @@ import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import java.util.ArrayList;
 
 public class ActivityActivity extends NavBaseActivity {
@@ -27,6 +33,8 @@ public class ActivityActivity extends NavBaseActivity {
     private final Context context = this;
     private EmptyRecyclerView rvActivities;
     private ActivityAdapter adapter;
+    private SharedPreferences SP;
+    private Timer myTimer = new Timer();
 
     private DrawerLayout mDrawerLayout;
 
@@ -80,6 +88,19 @@ public class ActivityActivity extends NavBaseActivity {
         mSwipeRefreshLayout.setOnRefreshListener(refreshListener);
 
         refreshItems();
+
+        SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        int refreshPeriod = Integer.valueOf(SP.getString("app_settings_refresh", "0"));
+        refreshPeriod = refreshPeriod * 1000;
+
+        if (refreshPeriod > 0) {
+            myTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    refreshItems();
+                }
+            }, 0, refreshPeriod);
+        }
     }
 
     @Override
@@ -123,16 +144,16 @@ public class ActivityActivity extends NavBaseActivity {
             public void onErrorResponse(VolleyError error) {
                 super.onErrorResponse(error);
                 TextView text = (TextView) findViewById(R.id.emptyTextView);
-                if(error.getMessage() != null) {
+                if (error.getMessage() != null) {
                     if (error.getMessage().contains("No address associated with hostname")) {
                         text.setText(getString(R.string.InvalidServer));
                     } else if (error.getMessage().contains("JsonSyntaxException")) {
                         text.setText(getString(R.string.InvalidServer));
                     } else if (error.getMessage().contains("Bad url")) {
                         text.setText(getString(R.string.InvalidServer));
-                    } else if (error.getMessage().contains("Network is unreachable")){
+                    } else if (error.getMessage().contains("Network is unreachable")) {
                         text.setText(getString(R.string.NetworkUnreachable));
-                    } else if (error.getMessage().contains("Connection refused")){
+                    } else if (error.getMessage().contains("Connection refused")) {
                         text.setText(getString(R.string.ConnectionRefused));
                     } else {
                         text.setText(getString(R.string.UnexpectedError) + ", " + error.getMessage());
@@ -152,9 +173,9 @@ public class ActivityActivity extends NavBaseActivity {
         return new Response.Listener<ActivityModels>() {
             @Override
             public void onResponse(ActivityModels response) {
-                if(response.response.data.sessions != null) {
+                if (response.response.data.sessions != null) {
                     adapter.SetActivities(response.response.data.sessions);
-                } else if(response.response.message.equals("Invalid apikey")){
+                } else if (response.response.message.equals("Invalid apikey")) {
                     TextView text = (TextView) findViewById(R.id.emptyTextView);
                     text.setText(getString(R.string.InvalidAPIKey));
                     text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
@@ -177,4 +198,9 @@ public class ActivityActivity extends NavBaseActivity {
         actionBar.setTitle(R.string.activity);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        myTimer.cancel();
+    }
 }
