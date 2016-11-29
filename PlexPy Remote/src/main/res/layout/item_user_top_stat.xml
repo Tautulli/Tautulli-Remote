@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <com.williamcomartin.plexpyremote.Helpers.CircularNetworkImageView
+        android:id="@+id/user_top_stat_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:id="@+id/user_top_stat_name"
+        android:layout_toEndOf="@id/user_top_stat_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/Subhead"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/user_top_stat_plays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_top_stat_name"
+        android:layout_alignStart="@+id/user_top_stat_name"
+        android:textAppearance="@style/Subhead"
+        android:textColor="@color/colorAccent"
+        android:text="1607"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/user_top_stat_plays"
+        android:layout_alignBaseline="@id/user_top_stat_plays"
+        android:textSize="10sp"
+        android:text="plays"/>
+
+</RelativeLayout>

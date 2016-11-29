@@ -1,5 +1,6 @@
 package com.williamcomartin.plexpyremote;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ public class LibraryStatisticsActivity extends NavBaseActivity {
 
     private SharedPreferences SP;
     private RecyclerView rvLibStats;
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class LibraryStatisticsActivity extends NavBaseActivity {
         return new Response.Listener<LibraryStatisticsModels>() {
             @Override
             public void onResponse(LibraryStatisticsModels response) {
-                LibraryStatisticsAdapter adapter = new LibraryStatisticsAdapter(response.response.data);
+                LibraryStatisticsAdapter adapter = new LibraryStatisticsAdapter(context, response.response.data);
                 rvLibStats.setAdapter(adapter);
             }
         };
