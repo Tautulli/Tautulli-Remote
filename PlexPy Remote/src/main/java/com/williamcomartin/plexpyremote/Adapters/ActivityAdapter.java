@@ -103,13 +103,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     public void SetActivities(List<Activity> activities) {
         this.activities.clear();
-        if(activities != null) {
+        if (activities != null) {
             this.activities.addAll(activities);
         }
         notifyDataSetChanged();
     }
 
-    public void setActivityView(ActivityActivity activity){
+    public void setActivityView(ActivityActivity activity) {
         this.mActivity = activity;
     }
 
@@ -131,14 +131,17 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 //        Context context = ApplicationController.getInstance().getApplicationContext();
         // Get the data model based on position
         final Activity activity = activities.get(position);
+        final DrawerLayout drawerLayout = (DrawerLayout) mActivity.findViewById(R.id.activity_drawer);
+        final StreamInfoFragment frag = (StreamInfoFragment) fragmentManager.findFragmentById(R.id.activity_stream_info_fragment);
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)
+                && frag.getSessionKey() == Integer.parseInt(activity.session_key)) {
+            frag.setStreamInfo(activity);
+        }
 
         viewHolder.vInfoIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DrawerLayout drawerLayout = (DrawerLayout) mActivity.findViewById(R.id.activity_drawer);
                 drawerLayout.openDrawer(GravityCompat.END);
-
-                StreamInfoFragment frag = (StreamInfoFragment) fragmentManager.findFragmentById(R.id.activity_stream_info_fragment);
                 frag.setStreamInfo(activity);
             }
         });
