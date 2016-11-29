@@ -7,12 +7,13 @@
             android:key="server_settings_address"
             android:title="@string/server_settings_address_title"
             android:dialogTitle="@string/server_settings_address_title"
-            android:summary="enter full url including http, port and path" />
+            android:summary="Manually enter full URL including http, port and path" />
 
         <EditTextPreference
             android:key="server_settings_apikey"
             android:title="@string/server_settings_apikey_title"
-            android:dialogTitle="@string/server_settings_apikey_title" />
+            android:dialogTitle="@string/server_settings_apikey_title"
+            android:summary="Manually enter the PlexPy API key" />
 
     </PreferenceCategory>
 
