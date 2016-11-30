@@ -95,6 +95,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
 
     @Override
     public int getItemCount() {
+        if(recentlyAddedItems == null) return 0;
         return recentlyAddedItems.size();
     }
 }
