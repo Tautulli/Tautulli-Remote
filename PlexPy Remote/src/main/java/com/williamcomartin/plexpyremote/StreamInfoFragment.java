@@ -51,6 +51,7 @@ public class StreamInfoFragment extends Fragment {
     private TextView vAudioDecision;
 
     private ScrollView vScroller;
+    private Activity activity;
 
     public StreamInfoFragment() {
         // Required empty public constructor
@@ -89,7 +90,12 @@ public class StreamInfoFragment extends Fragment {
         return view;
     }
 
+    public int getSessionKey() {
+        return Integer.parseInt(activity.session_key);
+    }
+
     public void setStreamInfo(ActivityModels.Activity activity) {
+        this.activity = activity;
         vScroller.fullScroll(ScrollView.FOCUS_UP);
 
         vImage.setImageUrl(UrlHelpers.getImageUrl(activity.art, "400", "600"),

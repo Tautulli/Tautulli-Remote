@@ -76,5 +76,6 @@ dependencies {
     compile 'com.joanzapata.iconify:android-iconify-material:2.2.2'
     compile 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
     compile 'com.google.zxing:core:3.2.0'
+    compile 'com.github.nirhart:parallaxscroll:1.0'
     testCompile 'junit:junit:4.12'
 }
