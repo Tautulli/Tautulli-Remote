@@ -88,6 +88,7 @@ public class LibraryStatisticsAdapter extends RecyclerView.Adapter<LibraryStatis
 
     @Override
     public int getItemCount() {
+        if(libraryStatisticsItem == null) return 0;
         return libraryStatisticsItem.size();
     }
 }

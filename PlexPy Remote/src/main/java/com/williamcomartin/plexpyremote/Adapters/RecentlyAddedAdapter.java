@@ -52,6 +52,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
     }
 
     public void addItems(List<RecentlyAddedModels.RecentItem> recentlyAddedItems){
+        if(recentlyAddedItems == null) return;
         this.recentlyAddedItems.addAll(recentlyAddedItems);
     }
 
@@ -95,6 +96,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
 
     @Override
     public int getItemCount() {
+        if(recentlyAddedItems == null) return 0;
         return recentlyAddedItems.size();
     }
 }

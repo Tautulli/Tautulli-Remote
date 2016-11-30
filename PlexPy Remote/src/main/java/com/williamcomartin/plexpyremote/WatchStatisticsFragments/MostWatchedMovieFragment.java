@@ -66,13 +66,9 @@ public class MostWatchedMovieFragment extends Fragment {
             @Override
             public void onResponse(StatisticsModels response) {
                 StatisticsModels.StatisticsGroup group = response.response.FindStat("top_movies");
+                if(group == null) return;
 
-                MostWatchedMovieAdapter adapter;
-                if (group != null) {
-                    adapter = new MostWatchedMovieAdapter(group.rows);
-                } else {
-                    adapter = new MostWatchedMovieAdapter(new ArrayList<StatisticsModels.StatisticsRow>());
-                }
+                MostWatchedMovieAdapter adapter = new MostWatchedMovieAdapter(group.rows);
                 rvStat.setAdapter(adapter);
 
             }

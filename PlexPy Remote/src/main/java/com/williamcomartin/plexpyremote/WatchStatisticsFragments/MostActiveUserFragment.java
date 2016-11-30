@@ -64,6 +64,7 @@ public class MostActiveUserFragment extends Fragment {
             @Override
             public void onResponse(StatisticsModels response) {
                 StatisticsModels.StatisticsGroup group = response.response.FindStat("top_users");
+                if(group == null) return;
 
                 MostActiveUserAdapter adapter = new MostActiveUserAdapter(group.rows);
                 rvStat.setAdapter(adapter);
