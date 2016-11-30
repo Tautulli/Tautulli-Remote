@@ -239,7 +239,7 @@
                     android:id="@+id/activity_stream_image_gradient"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:background="@drawable/activity_stream_gradient" />
+                    android:background="@drawable/poster_gradient_bottom" />
 
                 <TextView
                     android:id="@+id/activity_stream_eta"

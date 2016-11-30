@@ -372,12 +372,12 @@
                     <GridView
                         android:id="@+id/library_details_profile_user_grid"
                         android:layout_width="match_parent"
-                        android:layout_height="85dp"
+                        android:layout_height="140dp"
                         android:layout_below="@+id/library_details_profile_user_title"
                         android:layout_marginTop="10dp"
                         android:verticalSpacing="10dp"
                         android:horizontalSpacing="5dp"
-                        android:numColumns="3"
+                        android:numColumns="2"
                         android:stretchMode="columnWidth"/>
 
                 </RelativeLayout>
@@ -385,56 +385,68 @@
             </android.support.v7.widget.CardView>
 
             <!-- Recently Played -->
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="4dp"
-                card_view:cardBackgroundColor="@color/colorCardBackground"
-                card_view:cardCornerRadius="0dp"
-                card_view:cardElevation="2dp"
-                card_view:cardUseCompatPadding="true">
+            <!--<android.support.v7.widget.CardView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_margin="4dp"-->
+                <!--card_view:cardBackgroundColor="@color/colorCardBackground"-->
+                <!--card_view:cardCornerRadius="0dp"-->
+                <!--card_view:cardElevation="2dp"-->
+                <!--card_view:cardUseCompatPadding="true">-->
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp">
+                <!--<LinearLayout-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_margin="10dp">-->
 
-                    <com.joanzapata.iconify.widget.IconTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="{fa-history} Recently Played"
-                        android:textAppearance="@style/Headline" />
+                    <!--<com.joanzapata.iconify.widget.IconTextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="{fa-history} Recently Played"-->
+                        <!--android:textAppearance="@style/Headline" />-->
+                    <!---->
+                    <!--<android.support.v7.widget.RecyclerView-->
+                        <!--android:id="@+id/library_details_profile_recently_played_recycler_view"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="165dp" />-->
 
-                </RelativeLayout>
+                <!--</LinearLayout>-->
 
-            </android.support.v7.widget.CardView>
+            <!--</android.support.v7.widget.CardView>-->
 
-            <!-- Recently Added -->
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="4dp"
-                card_view:cardBackgroundColor="@color/colorCardBackground"
-                card_view:cardCornerRadius="0dp"
-                card_view:cardElevation="2dp"
-                card_view:cardUseCompatPadding="true">
+            <!--&lt;!&ndash; Recently Added &ndash;&gt;-->
+            <!--<android.support.v7.widget.CardView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_margin="4dp"-->
+                <!--card_view:cardBackgroundColor="@color/colorCardBackground"-->
+                <!--card_view:cardCornerRadius="0dp"-->
+                <!--card_view:cardElevation="2dp"-->
+                <!--card_view:cardUseCompatPadding="true">-->
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp">
+                <!--<LinearLayout-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_margin="10dp">-->
 
-                    <com.joanzapata.iconify.widget.IconTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="{fa-history} Recently Added"
-                        android:textAppearance="@style/Headline" />
+                    <!--<com.joanzapata.iconify.widget.IconTextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="{fa-history} Recently Added"-->
+                        <!--android:textAppearance="@style/Headline" />-->
 
-                </RelativeLayout>
+                    <!--<android.support.v7.widget.RecyclerView-->
+                        <!--android:id="@+id/library_details_profile_recently_added_recycler_view"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="140dp" />-->
 
-            </android.support.v7.widget.CardView>
+                <!--</LinearLayout>-->
+
+            <!--</android.support.v7.widget.CardView>-->
 
         </LinearLayout>
     </ScrollView>
