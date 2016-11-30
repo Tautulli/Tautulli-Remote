@@ -64,6 +64,7 @@ public class MostActivePlatformFragment extends Fragment {
             @Override
             public void onResponse(StatisticsModels response) {
                 StatisticsModels.StatisticsGroup group = response.response.FindStat("top_platforms");
+                if(group == null) return;
 
                 MostActivePlatformAdapter adapter = new MostActivePlatformAdapter(group.rows);
                 rvStat.setAdapter(adapter);
