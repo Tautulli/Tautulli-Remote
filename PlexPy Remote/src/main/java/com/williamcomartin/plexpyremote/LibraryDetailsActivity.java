@@ -85,7 +85,7 @@ public class LibraryDetailsActivity extends NavBaseActivity {
             }
         };
 
-        String[] tabNames = {"Profile", "History", "Media Info"};
+        String[] tabNames = {"Stats", "History", "New", "Media"};
 
         for(int i = 0; i < tabNames.length; i++){
             actionBar.addTab(
