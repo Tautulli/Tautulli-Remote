@@ -35,9 +35,11 @@
 
     <!-- Error Messages -->
     <string name="InvalidServer">Invalid Server Address</string>
+    <string name="InvalidTimeoutServer">Invalid Server Address Or Network Timeout</string>
     <string name="NetworkUnreachable">Network Is Unreachable</string>
     <string name="ConnectionRefused">Invalid Server Port</string>
     <string name="InvalidAPIKey">Invalid API Key</string>
     <string name="NoActivity">No Current Activity</string>
+    <string name="CheckingActivity">Checking for Activity…</string>
     <string name="UnexpectedError">Unexpected Error</string>
 </resources>

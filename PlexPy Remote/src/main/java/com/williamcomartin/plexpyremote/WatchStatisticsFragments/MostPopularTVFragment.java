@@ -64,6 +64,7 @@ public class MostPopularTVFragment extends Fragment {
             @Override
             public void onResponse(StatisticsModels response) {
                 StatisticsModels.StatisticsGroup group = response.response.FindStat("popular_tv");
+                if(group == null) return;
 
                 MostPopularTVAdapter adapter = new MostPopularTVAdapter(group.rows);
                 rvStat.setAdapter(adapter);

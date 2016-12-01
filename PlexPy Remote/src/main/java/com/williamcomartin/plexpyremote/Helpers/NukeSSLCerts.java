@@ -1,5 +1,11 @@
 package com.williamcomartin.plexpyremote.Helpers;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.williamcomartin.plexpyremote.ApplicationController;
+
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -46,7 +52,10 @@ public class NukeSSLCerts {
             HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String arg0, SSLSession arg1) {
-                    return true;
+                    SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(ApplicationController.getInstance().getApplicationContext());
+                    String setHostname = SP.getString("server_settings_address", "");
+                    if(setHostname.contains(arg0)) return true;
+                    return false;
                 }
             });
         } catch (Exception e) {

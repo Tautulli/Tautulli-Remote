@@ -90,6 +90,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public int getItemCount() {
+        if(historyItems == null) return 0;
         return historyItems.size();
     }
 }

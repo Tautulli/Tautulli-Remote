@@ -64,6 +64,7 @@ public class MostPopularMovieFragment extends Fragment {
             @Override
             public void onResponse(StatisticsModels response) {
                 StatisticsModels.StatisticsGroup group = response.response.FindStat("popular_movies");
+                if(group == null) return;
 
                 MostPopularMovieAdapter adapter = new MostPopularMovieAdapter(group.rows);
                 rvStat.setAdapter(adapter);

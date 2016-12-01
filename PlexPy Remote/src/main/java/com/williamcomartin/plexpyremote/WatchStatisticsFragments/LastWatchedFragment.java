@@ -64,6 +64,7 @@ public class LastWatchedFragment extends Fragment {
             @Override
             public void onResponse(StatisticsModels response) {
                 StatisticsModels.StatisticsGroup group = response.response.FindStat("last_watched");
+                if(group == null) return;
 
                 LastWatchedAdapter adapter = new LastWatchedAdapter(group.rows);
                 rvStat.setAdapter(adapter);
