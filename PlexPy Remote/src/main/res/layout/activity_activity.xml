@@ -63,7 +63,7 @@
                         android:id="@+id/emptyTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/NoActivity"
+                        android:text="@string/CheckingActivity"
                         android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.Body.Bold"
                         android:textSize="20dp" />

@@ -88,6 +88,7 @@ public class ActivityActivity extends NavBaseActivity {
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayoutActivities);
         mSwipeRefreshLayout.setOnRefreshListener(refreshListener);
 
+        mSwipeRefreshLayout.setRefreshing(true);
         refreshItems();
 
         SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -166,7 +167,7 @@ public class ActivityActivity extends NavBaseActivity {
                         text.setText(getString(R.string.UnexpectedError) + ", " + error.getMessage());
                     }
                 } else {
-                    text.setText(getString(R.string.InvalidServer));
+                    text.setText(getString(R.string.InvalidTimeoutServer));
                 }
                 text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                 findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
