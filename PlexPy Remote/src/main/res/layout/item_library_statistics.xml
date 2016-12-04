@@ -13,11 +13,11 @@
         android:id="@+id/recently_added_card_view"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="100dp"
+        card_view:cardBackgroundColor="@color/colorCardBackground"
         card_view:cardCornerRadius="0dp"
-        card_view:cardUseCompatPadding="true"
-        card_view:cardElevation="4dp"
-        app:cardBackgroundColor="#333333">
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,8 +30,8 @@
                 android:layout_height="70dp"
                 android:layout_gravity="center_vertical"
                 android:src="@android:drawable/sym_def_app_icon"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"/>
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -45,68 +45,61 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:singleLine="true"
-                    android:textSize="20dp"
-                    android:layout_margin="20dp"
-                    android:layout_marginLeft="0dp"
-                    android:text="Testing"
+                    android:maxLines="2"
+                    android:textSize="20sp"
+                    android:layout_marginStart="0dp"
                     style="@style/Base.TextAppearance.AppCompat.Title" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_below="@id/library_statistics_card_title"
-                    android:weightSum="1.0">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight=".5"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/library_statistics_card_count_title"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
-                            android:textSize="14dp"
+                            android:textSize="12sp"
                             android:text="Shows"
                             style="@style/Base.TextAppearance.AppCompat.Title" />
 
                         <TextView
                             android:id="@+id/library_statistics_card_count"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:textSize="30dp"
-                            android:text="1212"
+                            android:layout_marginStart="5dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/library_statistics_card_child"
-                        android:layout_width="0dp"
-                        android:layout_weight=".5"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
-                            android:textSize="14dp"
+                            android:textSize="12sp"
                             android:text="Episodes"
                             style="@style/Base.TextAppearance.AppCompat.Title" />
 
                         <TextView
                             android:id="@+id/library_statistics_card_child_count"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:textSize="30dp"
-                            android:text="1212"
+                            android:layout_marginStart="5dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
 
                     </LinearLayout>

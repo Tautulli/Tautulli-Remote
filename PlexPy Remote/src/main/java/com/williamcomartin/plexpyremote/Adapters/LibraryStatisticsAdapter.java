@@ -89,6 +89,7 @@ public class LibraryStatisticsAdapter extends RecyclerView.Adapter<LibraryStatis
             public void onClick(View v) {
                 Intent intent = new Intent(context, LibraryDetailsActivity.class);
                 intent.putExtra("LibraryTitle", item.sectionName);
+                intent.putExtra("LibraryId", item.sectionId);
                 context.startActivity(intent);
             }
         });

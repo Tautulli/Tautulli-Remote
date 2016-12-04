@@ -42,4 +42,7 @@
     <string name="NoActivity">No Current Activity</string>
     <string name="CheckingActivity">Checking for Activity…</string>
     <string name="UnexpectedError">Unexpected Error</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,7 +20,6 @@ import com.williamcomartin.plexpyremote.Models.LibraryStatisticsModels;
 
 public class LibraryStatisticsActivity extends NavBaseActivity {
 
-    private SharedPreferences SP;
     private RecyclerView rvLibStats;
     private final Context context = this;
 
@@ -30,12 +30,16 @@ public class LibraryStatisticsActivity extends NavBaseActivity {
         setupActionBar();
 
         rvLibStats = (RecyclerView) findViewById(R.id.rvLibStats);
+        rvLibStats.setLayoutManager(new LinearLayoutManager(this));
 
-        SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        refreshData();
+    }
 
+    private void refreshData () {
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_libraries";
 
+            Log.d("RefreshData", url);
             GsonRequest<LibraryStatisticsModels> request = new GsonRequest<>(
                     url,
                     LibraryStatisticsModels.class,
@@ -48,16 +52,13 @@ public class LibraryStatisticsActivity extends NavBaseActivity {
         } catch (NoServerException e) {
             e.printStackTrace();
         }
-
-
-
-        rvLibStats.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private Response.ErrorListener errorListener() {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                refreshData();
             }
         };
     }
