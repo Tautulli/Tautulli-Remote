@@ -3,23 +3,23 @@ package com.williamcomartin.plexpyremote.Adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.williamcomartin.plexpyremote.LibraryDetailsFragments.LibraryDetailsProfileFragment;
-import com.williamcomartin.plexpyremote.WatchStatisticsFragments.LastWatchedFragment;
-import com.williamcomartin.plexpyremote.WatchStatisticsFragments.MostActivePlatformFragment;
-import com.williamcomartin.plexpyremote.WatchStatisticsFragments.MostActiveUserFragment;
-import com.williamcomartin.plexpyremote.WatchStatisticsFragments.MostPopularMovieFragment;
-import com.williamcomartin.plexpyremote.WatchStatisticsFragments.MostPopularTVFragment;
-import com.williamcomartin.plexpyremote.WatchStatisticsFragments.MostWatchedMovieFragment;
-import com.williamcomartin.plexpyremote.WatchStatisticsFragments.MostWatchedTVFragment;
+import com.williamcomartin.plexpyremote.LibraryDetailsFragments.LibraryDetailsMediaFragment;
+import com.williamcomartin.plexpyremote.LibraryDetailsFragments.LibraryDetailsStatsFragment;
+import com.williamcomartin.plexpyremote.SharedFragments.HistoryFragment;
+import com.williamcomartin.plexpyremote.SharedFragments.RecentlyAddedFragment;
 
-/**
- * Created by wcomartin on 2015-11-19.
- */
-public class LibraryDetailsPagerAdapter extends FragmentPagerAdapter {
+public class LibraryDetailsPagerAdapter extends FragmentStatePagerAdapter {
 
-    public LibraryDetailsPagerAdapter(FragmentManager fm) {
+    private final FragmentManager fm;
+    private final String libraryId;
+
+    public LibraryDetailsPagerAdapter(FragmentManager fm, String libraryId) {
         super(fm);
+
+        this.fm = fm;
+        this.libraryId = libraryId;
     }
 
     @Override
@@ -27,16 +27,42 @@ public class LibraryDetailsPagerAdapter extends FragmentPagerAdapter {
 
         switch (index) {
             case 0:
-            // Top Rated fragment activity
-            return new LibraryDetailsProfileFragment();
+                LibraryDetailsStatsFragment statsFrag = new LibraryDetailsStatsFragment();
+                statsFrag.setLibraryId(libraryId);
+                return statsFrag;
+
+            case 1:
+                HistoryFragment historyFrag = new HistoryFragment();
+                historyFrag.setLibraryId(libraryId);
+                return historyFrag;
+
+            case 2:
+                RecentlyAddedFragment newFrag = new RecentlyAddedFragment();
+                newFrag.setLibraryId(libraryId);
+                return newFrag;
+
+//            case 3:
+//                LibraryDetailsMediaFragment mediaFrag = new LibraryDetailsMediaFragment();
+////                mediaFrag.setLibraryId(libraryId);
+//                return mediaFrag;
         }
 
         return null;
     }
 
     @Override
+    public CharSequence getPageTitle(int position) {
+        String[] tabNames = {
+                "Stats",
+                "History",
+                "New",
+//                "Media"
+        };
+        return tabNames[position];
+    }
+
+    @Override
     public int getCount() {
-        // get item count - equal to number of tabs
-        return 1;
+        return 3;
     }
 }

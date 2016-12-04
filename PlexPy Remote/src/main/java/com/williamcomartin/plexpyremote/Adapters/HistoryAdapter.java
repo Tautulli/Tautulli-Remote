@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Models.ActivityModels;
 import com.williamcomartin.plexpyremote.Models.HistoryModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -51,6 +52,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public HistoryAdapter(List<HistoryModels.HistoryRecord> historyItems) {
         this.historyItems = historyItems;
         SP = PreferenceManager.getDefaultSharedPreferences(ApplicationController.getInstance().getApplicationContext());
+    }
+
+    public void setHistory(List<HistoryModels.HistoryRecord> historyItems) {
+        this.historyItems.clear();
+        if (historyItems != null) {
+            this.historyItems.addAll(historyItems);
+        }
+        notifyDataSetChanged();
     }
 
     @Override

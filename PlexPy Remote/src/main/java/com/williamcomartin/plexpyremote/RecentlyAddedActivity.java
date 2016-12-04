@@ -64,7 +64,9 @@ public class RecentlyAddedActivity extends NavBaseActivity {
             @Override
             public void onLoadMore(int current_page) {
                 try {
-                    String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_recently_added&count=10&start=" + ((Integer) current_page).toString();
+                    String url = UrlHelpers.getHostPlusAPIKey()
+                            + "&cmd=get_recently_added&count=10&start="
+                            + String.valueOf(current_page * 10);
 
                     GsonRequest<RecentlyAddedModels> request = new GsonRequest<>(
                             url,
