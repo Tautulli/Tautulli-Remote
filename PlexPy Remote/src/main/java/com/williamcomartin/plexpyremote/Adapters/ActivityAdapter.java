@@ -152,7 +152,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         if (activity.media_type.equals("episode")) {
             viewHolder.vTitle.setText(activity.grandparent_title);
             viewHolder.vSubTitle.setText(activity.title);
-            viewHolder.vEpisode.setText("S" + activity.parent_media_index + " - E" + activity.media_index);
+            viewHolder.vEpisode.setText("S" + activity.parent_media_index + " • E" + activity.media_index);
             imageUrl = UrlHelpers.getImageUrl(activity.grandparent_thumb, "600", "400");
             viewHolder.vImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else if (activity.media_type.equals("track")) {

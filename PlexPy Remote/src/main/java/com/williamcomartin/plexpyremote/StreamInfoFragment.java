@@ -119,7 +119,7 @@ public class StreamInfoFragment extends Fragment {
         if (activity.media_type.equals("episode")) {
             vTitle.setText(activity.grandparent_title);
             vSubtitle.setText(activity.title);
-            vEpisode.setText("S" + activity.parent_media_index + " - E" + activity.media_index);
+            vEpisode.setText("S" + activity.parent_media_index + " • E" + activity.media_index);
         } else if (activity.media_type.equals("track")) {
             vTitle.setText(activity.grandparent_title);
             vSubtitle.setText(activity.title);
