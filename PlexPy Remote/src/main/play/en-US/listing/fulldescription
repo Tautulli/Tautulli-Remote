@@ -1,1 +1,3 @@
 PlexPy Remote connects to your existing PlexPy server for easy mobile access. Just enter your server address and API key to connect and view current activity, server stats, and more.
+
+Note: Picture and Video access is requested for the QR code scanner. This request process will be refined in the future.
