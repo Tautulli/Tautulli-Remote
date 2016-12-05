@@ -37,7 +37,7 @@ import com.williamcomartin.plexpyremote.Services.NavService;
 public class NavBaseActivity extends AppBaseActivity {
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
+    protected DrawerLayout mainDrawerLayout;
     private NavigationView navigationView;
     private TextView drawerText1;
     private TextView drawerText2;
@@ -52,6 +52,12 @@ public class NavBaseActivity extends AppBaseActivity {
         super.setContentView(layoutResID);
         onCreateDrawer();
 
+        setIcons();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setIcons();
     }
 
@@ -171,7 +177,7 @@ public class NavBaseActivity extends AppBaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mainDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation);
 
         // setup nav drawer items
@@ -259,12 +265,12 @@ public class NavBaseActivity extends AppBaseActivity {
             startActivity(launchIntent);
             overridePendingTransition(R.anim.activity_fade_enter, R.anim.activity_fade_exit);
         }
-        mDrawerLayout.closeDrawer(GravityCompat.START);
+        mainDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
     private void setupDrawer() {
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+        mDrawerToggle = new ActionBarDrawerToggle(this, mainDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close) {
 
             /** Called when a drawer has settled in a completely open state. */
@@ -280,7 +286,7 @@ public class NavBaseActivity extends AppBaseActivity {
         };
 
         mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mainDrawerLayout.setDrawerListener(mDrawerToggle);
 
     }
 
@@ -318,4 +324,12 @@ public class NavBaseActivity extends AppBaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(mainDrawerLayout.isDrawerOpen(GravityCompat.START)){
+            mainDrawerLayout.closeDrawer(GravityCompat.START);
+            return;
+        }
+        super.onBackPressed();
+    }
 }

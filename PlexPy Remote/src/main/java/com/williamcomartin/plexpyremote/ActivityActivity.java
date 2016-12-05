@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.content.IntentCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -221,6 +222,10 @@ public class ActivityActivity extends NavBaseActivity {
 
     @Override
     public void onBackPressed() {
+        if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            super.onBackPressed();
+            return;
+        }
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
