@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:title="@string/server_settings_title">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/server_settings_title">
 
-        <EditTextPreference
+        <Preference android:title="Automatic Setup"
+            android:summary="Scan the QR code in the PlexPy settings to connect">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.williamcomartin.plexpyremote"
+                android:targetClass="com.williamcomartin.plexpyremote.ServerQRScannerActivity" />
+        </Preference>
+
+        <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
+            android:dialogTitle="@string/server_settings_address_title"
             android:key="server_settings_address"
             android:title="@string/server_settings_address_title"
-            android:dialogTitle="@string/server_settings_address_title"
-            android:summary="Manually enter full URL including http, port and path" />
+            app:defaultSummary="Manually enter full URL including http, port and path" />
 
         <EditTextPreference
-            android:key="server_settings_apikey"
-            android:title="@string/server_settings_apikey_title"
             android:dialogTitle="@string/server_settings_apikey_title"
-            android:summary="Manually enter the PlexPy API key" />
+            android:key="server_settings_apikey"
+            android:summary="Manually enter the PlexPy API key"
+            android:title="@string/server_settings_apikey_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/app_settings_title">
+    <PreferenceCategory android:title="@string/app_settings_title">
 
-        <EditTextPreference
-            android:numeric="integer"
+        <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
             android:defaultValue="0"
-            android:key="app_settings_refresh"
-            android:title="@string/app_settings_refresh_title"
             android:dialogTitle="@string/app_settings_refresh_title"
-            android:summary="Activity page refresh interval in seconds (0=disabled)" />
+            android:key="app_settings_refresh"
+            android:numeric="integer"
+            android:title="@string/app_settings_refresh_title"
+            app:defaultSummary="Activity page refresh interval in seconds (0=disabled)" />
 
     </PreferenceCategory>
 </PreferenceScreen>

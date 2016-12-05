@@ -60,6 +60,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.williamcomartin.plexpyremote.ActivityActivity" />
         </activity>
+        <activity android:name="com.williamcomartin.plexpyremote.ServerQRScannerActivity" />
 
         <activity android:name="com.williamcomartin.plexpyremote.AboutActivity">
             <meta-data
