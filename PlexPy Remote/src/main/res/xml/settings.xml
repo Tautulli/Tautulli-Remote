@@ -28,7 +28,6 @@
     <PreferenceCategory android:title="@string/app_settings_title">
 
         <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
-            android:defaultValue="0"
             android:dialogTitle="@string/app_settings_refresh_title"
             android:key="app_settings_refresh"
             android:numeric="integer"
