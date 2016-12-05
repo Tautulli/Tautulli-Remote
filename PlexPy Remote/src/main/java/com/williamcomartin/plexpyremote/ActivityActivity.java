@@ -182,6 +182,10 @@ public class ActivityActivity extends NavBaseActivity {
             @Override
             public void onResponse(ActivityModels response) {
                 if (response.response.data.sessions != null) {
+                    if(response.response.data.sessions.isEmpty()){
+                        TextView text = (TextView) findViewById(R.id.emptyTextView);
+                        text.setText(getString(R.string.NoActivity));
+                    }
                     adapter.SetActivities(response.response.data.sessions);
                 } else if (response.response.message.equals("Invalid apikey")) {
                     TextView text = (TextView) findViewById(R.id.emptyTextView);
