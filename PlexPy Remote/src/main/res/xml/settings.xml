@@ -4,7 +4,7 @@
     <PreferenceCategory android:title="@string/server_settings_title">
 
         <Preference
-            android:summary="Scan the QR code under settings in PlexPy to connect (requires PlexPy v2)"
+            android:summary="Scan the QR code in the PlexPy settings to automatically link the app with the server (requires PlexPy v2)"
             android:title="@string/server_settings_qr_title">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -33,7 +33,7 @@
             android:key="app_settings_refresh"
             android:numeric="integer"
             android:title="@string/app_settings_refresh_title"
-            app:defaultSummary="Activity page refresh interval in seconds" />
+            app:defaultSummary="Activity page refresh interval in seconds (blank=disabled)" />
 
         <CheckBoxPreference
             android:defaultValue="true"
