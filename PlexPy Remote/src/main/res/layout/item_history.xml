@@ -29,7 +29,6 @@
                 android:layout_width="46dp"
                 android:layout_height="70dp"
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/sym_def_app_icon"
                 android:layout_marginRight="3dp" />
 
             <RelativeLayout
