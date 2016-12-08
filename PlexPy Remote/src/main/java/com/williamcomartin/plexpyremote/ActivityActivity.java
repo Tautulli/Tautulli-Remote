@@ -227,13 +227,13 @@ public class ActivityActivity extends NavBaseActivity {
     @Override
 
     public void onBackPressed() {
+        if (mainDrawerLayout.isDrawerOpen(GravityCompat.START) || mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
+            super.onBackPressed();
+            return;
+        }
+
         Boolean backBoo = SP.getBoolean("app_settings_back", true);
         if (backBoo) {
-
-            if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                super.onBackPressed();
-                return;
-            }
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
                 return;
