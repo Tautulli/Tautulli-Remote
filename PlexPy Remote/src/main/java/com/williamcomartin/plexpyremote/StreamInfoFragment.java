@@ -154,11 +154,15 @@ public class StreamInfoFragment extends Fragment {
     }
 
     private String formatSeconds(String millis) {
-        return String.format(Locale.US, "%d:%02d",
-                TimeUnit.MILLISECONDS.toMinutes(Integer.parseInt(millis)),
-                TimeUnit.MILLISECONDS.toSeconds(Integer.parseInt(millis))
-                        - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(Integer.parseInt(millis)))
-        );
+        try {
+            return String.format(Locale.US, "%d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(Integer.parseInt(millis)),
+                    TimeUnit.MILLISECONDS.toSeconds(Integer.parseInt(millis)) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(Integer.parseInt(millis)))
+            );
+        } catch (NumberFormatException e) {
+            return "0:00";
+        }
     }
 
     private String formatDuration(String duration, String difference){
