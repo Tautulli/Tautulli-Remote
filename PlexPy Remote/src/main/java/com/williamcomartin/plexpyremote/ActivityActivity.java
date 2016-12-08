@@ -26,6 +26,7 @@ import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
+import com.williamcomartin.plexpyremote.Services.NavService;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -56,6 +57,8 @@ public class ActivityActivity extends NavBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity);
+        NavService.getInstance().currentNav = R.id.navigation_item_activity;
+        setIcons();
         setupActionBar();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_drawer);
