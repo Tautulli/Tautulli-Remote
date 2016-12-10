@@ -194,6 +194,11 @@ public class ActivityActivity extends NavBaseActivity {
                         text.setText(getString(R.string.NoActivity));
                     }
                     adapter.SetActivities(response.response.data.sessions);
+                } else if (response.response.result.equals("error")){
+                    TextView text = (TextView) findViewById(R.id.emptyTextView);
+                    text.setText(getString(R.string.plexerror));
+                    text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+                    findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
                 } else if (response.response.message.equals("Invalid apikey")) {
                     TextView text = (TextView) findViewById(R.id.emptyTextView);
                     text.setText(getString(R.string.InvalidAPIKey));
