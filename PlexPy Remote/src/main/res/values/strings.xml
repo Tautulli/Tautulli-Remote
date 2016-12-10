@@ -43,5 +43,6 @@
     <string name="InvalidAPIKey">Invalid API Key</string>
     <string name="NoActivity">No Current Activity</string>
     <string name="CheckingActivity">Checking for Activity…</string>
+    <string name="plexerror">PlexPy could not communicate with your Plex Server</string>
     <string name="UnexpectedError">Unexpected Error</string>
 </resources>
