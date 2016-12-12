@@ -89,7 +89,6 @@ public class UserDetailActivity extends NavBaseActivity {
                         new Response.Listener<UserPlayerStatsModels>() {
                             @Override
                             public void onResponse(UserPlayerStatsModels response) {
-                                Log.d("UserPlayerStats", response.toString());
                                 for (UserPlayerStatsModels.PlayerStat stat : response.response.data){
                                     UserPlayerStatsFragment fragment = new UserPlayerStatsFragment();
                                     fragment.setStat(stat);

@@ -27,16 +27,7 @@ public class UrlHelpers {
     }
 
     public static String getImageUrl (String image, String width, String height){
-        try {
-            return UrlHelpers.getHostPlusAPIKey()
-                    + "&cmd=pms_image_proxy&width=" + width
-                    + "&height=" + height
-                    + "&img=" + image
-                    + "&fallback=poster";
-        } catch (NoServerException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return getImageUrl(image, width, height, "poster");
     }
 
     public static String getHost () throws NoServerException {

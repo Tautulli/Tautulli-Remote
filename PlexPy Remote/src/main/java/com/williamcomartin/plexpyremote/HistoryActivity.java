@@ -58,7 +58,6 @@ public class HistoryActivity extends NavBaseActivity {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("HistoryActivity", error.toString());
             }
         };
     }
@@ -67,8 +66,6 @@ public class HistoryActivity extends NavBaseActivity {
         return new Response.Listener<HistoryModels>() {
             @Override
             public void onResponse(HistoryModels response) {
-                Log.d("HistoryActivity", response.toString());
-
                 HistoryAdapter adapter = new HistoryAdapter(response.response.data.data);
                 rvHistory.setAdapter(adapter);
             }

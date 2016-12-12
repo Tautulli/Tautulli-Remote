@@ -1,5 +1,6 @@
 package com.williamcomartin.plexpyremote;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,8 +21,8 @@ import com.williamcomartin.plexpyremote.Models.LibraryStatisticsModels;
 
 public class LibraryStatisticsActivity extends NavBaseActivity {
 
-    private SharedPreferences SP;
     private RecyclerView rvLibStats;
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,12 @@ public class LibraryStatisticsActivity extends NavBaseActivity {
         setupActionBar();
 
         rvLibStats = (RecyclerView) findViewById(R.id.rvLibStats);
+        rvLibStats.setLayoutManager(new LinearLayoutManager(this));
 
-        SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        refreshData();
+    }
 
+    private void refreshData () {
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_libraries";
 
@@ -47,16 +52,13 @@ public class LibraryStatisticsActivity extends NavBaseActivity {
         } catch (NoServerException e) {
             e.printStackTrace();
         }
-
-
-
-        rvLibStats.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private Response.ErrorListener errorListener() {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                refreshData();
             }
         };
     }
@@ -65,7 +67,7 @@ public class LibraryStatisticsActivity extends NavBaseActivity {
         return new Response.Listener<LibraryStatisticsModels>() {
             @Override
             public void onResponse(LibraryStatisticsModels response) {
-                LibraryStatisticsAdapter adapter = new LibraryStatisticsAdapter(response.response.data);
+                LibraryStatisticsAdapter adapter = new LibraryStatisticsAdapter(context, response.response.data);
                 rvLibStats.setAdapter(adapter);
             }
         };

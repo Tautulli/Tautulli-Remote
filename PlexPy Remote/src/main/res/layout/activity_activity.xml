@@ -49,12 +49,6 @@
                             android:textAlignment="center"
                             android:textAppearance="@style/Headline"
                             android:textSize="50dp" />
-                        <!--<TextView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textAppearance="@style/Subhead"-->
-                        <!--android:text="Something Went Wrong"-->
-                        <!--android:textAlignment="center"/>-->
 
                     </LinearLayout>
 
@@ -63,7 +57,7 @@
                         android:id="@+id/emptyTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/CheckingActivity"
+                        android:text=""
                         android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.Body.Bold"
                         android:textSize="20dp" />

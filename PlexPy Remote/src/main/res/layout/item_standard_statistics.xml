@@ -14,10 +14,10 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="120dp"
+        card_view:cardBackgroundColor="@color/colorCardBackground"
         card_view:cardCornerRadius="0dp"
-        card_view:cardUseCompatPadding="true"
-        card_view:cardElevation="4dp"
-        app:cardBackgroundColor="#333333">
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"

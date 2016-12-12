@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
-import com.williamcomartin.plexpyremote.Models.ActivityModels;
 import com.williamcomartin.plexpyremote.Models.HistoryModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -23,7 +22,7 @@ import java.util.List;
 /**
  * Created by wcomartin on 2015-12-03.
  */
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
+public class HistoryHorizontalAdapter extends RecyclerView.Adapter<HistoryHorizontalAdapter.ViewHolder> {
 
 
     private SharedPreferences SP;
@@ -49,26 +48,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     private List<HistoryModels.HistoryRecord> historyItems;
 
     // Pass in the contact array into the constructor
-    public HistoryAdapter(List<HistoryModels.HistoryRecord> historyItems) {
+    public HistoryHorizontalAdapter(List<HistoryModels.HistoryRecord> historyItems) {
         this.historyItems = historyItems;
         SP = PreferenceManager.getDefaultSharedPreferences(ApplicationController.getInstance().getApplicationContext());
     }
 
-    public void setHistory(List<HistoryModels.HistoryRecord> historyItems) {
-        this.historyItems.clear();
-        if (historyItems != null) {
-            this.historyItems.addAll(historyItems);
-        }
-        notifyDataSetChanged();
-    }
-
     @Override
-    public HistoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HistoryHorizontalAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View contactView = inflater.inflate(R.layout.item_history, parent, false);
+        View contactView = inflater.inflate(R.layout.item_history_horizontal, parent, false);
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(contactView);
@@ -76,29 +67,28 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(HistoryAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(HistoryHorizontalAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
         HistoryModels.HistoryRecord historyItem = historyItems.get(position);
 
         // Set item views based on the data model
-        viewHolder.vTitle.setText(historyItem.fullTitle);
-        viewHolder.vUser.setText(historyItem.friendlyName);
+//        viewHolder.vTitle.setText(historyItem.fullTitle);
+//        viewHolder.vUser.setText(historyItem.friendlyName);
         viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(historyItem.thumb, "600", "400"),
                 ApplicationController.getInstance().getImageLoader());
-
-        if(historyItem.date != null && !historyItem.date.equals("null")){
-            SimpleDateFormat format = new SimpleDateFormat("MMM dd,yyyy  hh:mm a");
-//            String date = DateUtils.formatDateTime(ApplicationController.getInstance().getBaseContext(), historyItem.date, 0);
-            String date = format.format(historyItem.date * 1000);
-            viewHolder.vDate.setText(date);
-        }
+//
+//        if(historyItem.date != null && !historyItem.date.equals("null")){
+//            SimpleDateFormat format = new SimpleDateFormat("MMM dd,yyyy  hh:mm a");
+////            String date = DateUtils.formatDateTime(ApplicationController.getInstance().getBaseContext(), historyItem.date, 0);
+//            String date = format.format(historyItem.date * 1000);
+//            viewHolder.vDate.setText(date);
+//        }
 
 
     }
 
     @Override
     public int getItemCount() {
-        if(historyItems == null) return 0;
         return historyItems.size();
     }
 }

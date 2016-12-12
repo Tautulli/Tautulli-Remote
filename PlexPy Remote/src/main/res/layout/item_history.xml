@@ -14,10 +14,10 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        card_view:cardBackgroundColor="@color/colorCardBackground"
         card_view:cardCornerRadius="0dp"
-        card_view:cardUseCompatPadding="true"
-        card_view:cardElevation="4dp"
-        app:cardBackgroundColor="#333333">
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,10 +42,10 @@
                     android:id="@+id/history_card_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:ellipsize="end"
-                    android:singleLine="true"
                     android:textSize="18dp"
-                    style="@style/Base.TextAppearance.AppCompat.Title" />
+                    style="@style/Headline" />
 
                 <TextView
                     android:id="@+id/history_card_user"

@@ -54,7 +54,10 @@ public class NukeSSLCerts {
                 public boolean verify(String arg0, SSLSession arg1) {
                     SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(ApplicationController.getInstance().getApplicationContext());
                     String setHostname = SP.getString("server_settings_address", "");
-                    if(setHostname.contains(arg0)) return true;
+                    if(setHostname.contains(arg0)
+                            || arg0.equals("plex.tv")
+                            || arg0.equals("secure.gravatar.com")
+                            || arg0.equals("i2.wp.com")) return true;
                     return false;
                 }
             });
