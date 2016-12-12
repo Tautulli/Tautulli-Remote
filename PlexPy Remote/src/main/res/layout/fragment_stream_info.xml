@@ -70,6 +70,7 @@
 
                     <TextView
                         android:id="@+id/activity_stream_title"
+                        android:textStyle="bold"
                         style="@style/Headline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />

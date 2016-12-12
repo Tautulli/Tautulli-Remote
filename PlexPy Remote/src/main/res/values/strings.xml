@@ -36,15 +36,14 @@
 
 
     <!-- Error Messages -->
-    <string name="InvalidServer">Invalid Server Address</string>
-    <string name="InvalidTimeoutServer">Invalid Server Address Or Network Timeout</string>
-    <string name="NetworkUnreachable">Network Is Unreachable</string>
-    <string name="ConnectionRefused">Invalid Server Port</string>
-    <string name="InvalidAPIKey">Invalid API Key</string>
-    <string name="NoActivity">No Current Activity</string>
-    <string name="CheckingActivity">Checking for Activity…</string>
-    <string name="UnexpectedError">Unexpected Error</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="InvalidServer">Invalid server address</string>
+    <string name="InvalidTimeoutServer">Could not communicate with PlexPy: Possible invalid server address</string>
+    <string name="NetworkUnreachable">Network is unreachable</string>
+    <string name="ConnectionRefused">Invalid server port</string>
+    <string name="InvalidAPIKey">Invalid API key</string>
+    <string name="NoActivity">Nothing is currently being played</string>
+    <string name="CheckingActivity">Checking for activity…</string>
+    <string name="plexerror">PlexPy could not communicate with your Plex Server</string>
+    <string name="UnexpectedError">Unexpected error</string>
 </resources>
