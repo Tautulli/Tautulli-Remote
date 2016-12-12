@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/server_settings_title">
 
-        <Preference android:title="Automatic Setup"
-            android:summary="Scan the QR code in the PlexPy settings to connect">
+        <Preference
+            android:summary="Scan the QR code in the PlexPy settings to automatically link the app with the server (requires PlexPy v2)"
+            android:title="@string/server_settings_qr_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:targetPackage="com.williamcomartin.plexpyremote"
-                android:targetClass="com.williamcomartin.plexpyremote.ServerQRScannerActivity" />
+                android:targetClass="com.williamcomartin.plexpyremote.ServerQRScannerActivity"
+                android:targetPackage="com.williamcomartin.plexpyremote" />
         </Preference>
 
         <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
@@ -17,23 +18,28 @@
             android:title="@string/server_settings_address_title"
             app:defaultSummary="Manually enter full URL including http, port and path" />
 
-        <EditTextPreference
+        <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
             android:dialogTitle="@string/server_settings_apikey_title"
             android:key="server_settings_apikey"
-            android:summary="Manually enter the PlexPy API key"
-            android:title="@string/server_settings_apikey_title" />
+            android:title="@string/server_settings_apikey_title"
+            app:defaultSummary="Manually enter the PlexPy API key" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/app_settings_title">
 
         <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
-            android:defaultValue="0"
             android:dialogTitle="@string/app_settings_refresh_title"
             android:key="app_settings_refresh"
             android:numeric="integer"
             android:title="@string/app_settings_refresh_title"
-            app:defaultSummary="Activity page refresh interval in seconds (0=disabled)" />
+            app:defaultSummary="Activity page refresh interval in seconds (blank=disabled)" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="app_settings_back"
+            android:summary="Tap back button twice to exit"
+            android:title="@string/app_settings_back_title" />
 
     </PreferenceCategory>
 </PreferenceScreen>

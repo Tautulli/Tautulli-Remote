@@ -3,8 +3,10 @@ package com.williamcomartin.plexpyremote;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.content.IntentCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -23,6 +26,7 @@ import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
+import com.williamcomartin.plexpyremote.Services.NavService;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,6 +40,7 @@ public class ActivityActivity extends NavBaseActivity {
     private ActivityAdapter adapter;
     private SharedPreferences SP;
     private Timer myTimer = new Timer();
+    boolean doubleBackToExitPressedOnce = false;
 
     private DrawerLayout mDrawerLayout;
 
@@ -52,6 +57,8 @@ public class ActivityActivity extends NavBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity);
+        NavService.getInstance().currentNav = R.id.navigation_item_activity;
+        setIcons();
         setupActionBar();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_drawer);
@@ -182,6 +189,10 @@ public class ActivityActivity extends NavBaseActivity {
             @Override
             public void onResponse(ActivityModels response) {
                 if (response.response.data.sessions != null) {
+                    if (response.response.data.sessions.isEmpty()) {
+                        TextView text = (TextView) findViewById(R.id.emptyTextView);
+                        text.setText(getString(R.string.NoActivity));
+                    }
                     adapter.SetActivities(response.response.data.sessions);
                 } else if (response.response.message.equals("Invalid apikey")) {
                     TextView text = (TextView) findViewById(R.id.emptyTextView);
@@ -210,5 +221,36 @@ public class ActivityActivity extends NavBaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         myTimer.cancel();
+    }
+
+
+    @Override
+
+    public void onBackPressed() {
+        if (mainDrawerLayout.isDrawerOpen(GravityCompat.START) || mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
+            super.onBackPressed();
+            return;
+        }
+
+        Boolean backBoo = SP.getBoolean("app_settings_back", true);
+        if (backBoo) {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        } else {
+            super.onBackPressed();
+            return;
+        }
     }
 }

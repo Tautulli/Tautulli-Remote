@@ -1,12 +1,15 @@
 package com.williamcomartin.plexpyremote;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,6 +25,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.joanzapata.iconify.Icon;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.joanzapata.iconify.fonts.MaterialIcons;
@@ -37,8 +41,8 @@ import com.williamcomartin.plexpyremote.Services.NavService;
 public class NavBaseActivity extends AppBaseActivity {
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
-    private NavigationView navigationView;
+    protected DrawerLayout mainDrawerLayout;
+    protected NavigationView navigationView;
     private TextView drawerText1;
     private TextView drawerText2;
 
@@ -55,72 +59,55 @@ public class NavBaseActivity extends AppBaseActivity {
         setIcons();
     }
 
-    private void setIcons() {
-
-        Menu menu = navigationView.getMenu();
-
-        menu.findItem(R.id.navigation_item_activity).setIcon(
-                new IconDrawable(this, MaterialIcons.md_tv)
-                        .colorRes(R.color.colorTextPrimary)
-                        .actionBarSize());
-
-        menu.findItem(R.id.navigation_item_users).setIcon(
-                new IconDrawable(this, MaterialIcons.md_people)
-                        .colorRes(R.color.colorTextPrimary)
-                        .actionBarSize());
-
-        menu.findItem(R.id.navigation_item_recently_added).setIcon(
-                new IconDrawable(this, MaterialIcons.md_movie)
-                        .colorRes(R.color.colorTextPrimary)
-                        .actionBarSize());
-
-        menu.findItem(R.id.navigation_item_history).setIcon(
-                new IconDrawable(this, MaterialIcons.md_restore)
-                        .colorRes(R.color.colorTextPrimary)
-                        .actionBarSize());
-
-       menu.findItem(R.id.navigation_item_statistics).setIcon(
-                new IconDrawable(this, MaterialIcons.md_insert_chart)
-                        .colorRes(R.color.colorTextPrimary)
-                        .actionBarSize());
-
-        menu.findItem(R.id.navigation_item_libraries).setIcon(
-                new IconDrawable(this, FontAwesomeIcons.fa_th_list)
-                        .colorRes(R.color.colorTextPrimary)
-                        .actionBarSize());
-
-        menu.findItem(R.id.navigation_sub_item_settings).setIcon(
-                new IconDrawable(this, MaterialIcons.md_settings)
-                        .colorRes(R.color.colorTextPrimary)
-                        .actionBarSize());
-
-        menu.findItem(R.id.navigation_sub_item_about).setIcon(
-                new IconDrawable(this, MaterialIcons.md_info)
-                        .colorRes(R.color.colorTextPrimary)
-                        .actionBarSize());
-
-        if(NavService.getInstance().currentNav == 0){
-            NavService.getInstance().currentNav = R.id.navigation_item_activity;
-            setActive(NavService.getInstance().currentNav);
-        } else {
-            setActive(NavService.getInstance().currentNav);
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setIcons();
     }
 
-    private void setActive(int item){
-        NavService.getInstance().currentNav = item;
+    protected void setIcons() {
 
         Menu menu = navigationView.getMenu();
 
-        NavBaseActivity.activeMenuItem = menu.findItem(item);
+        setupNavItem(R.id.navigation_item_activity, MaterialIcons.md_tv);
+        setupNavItem(R.id.navigation_item_users, MaterialIcons.md_people);
+        setupNavItem(R.id.navigation_item_recently_added, MaterialIcons.md_movie);
+        setupNavItem(R.id.navigation_item_history, MaterialIcons.md_restore);
+        setupNavItem(R.id.navigation_item_statistics, MaterialIcons.md_insert_chart);
+        setupNavItem(R.id.navigation_item_libraries, FontAwesomeIcons.fa_th_list);
+        setupNavItem(R.id.navigation_sub_item_settings, MaterialIcons.md_settings);
+        setupNavItem(R.id.navigation_sub_item_about, MaterialIcons.md_info);
+
+        if (NavService.getInstance().currentNav == 0) {
+            NavService.getInstance().currentNav = R.id.navigation_item_activity;
+        }
+        setActive(NavService.getInstance().currentNav);
+    }
+
+    private void setupNavItem(int item, Icon icon) {
+        MenuItem navItem = navigationView.getMenu().findItem(item);
+
+        int color = ContextCompat.getColor(this, R.color.colorTextPrimary);
+
+        SpannableString s = new SpannableString(navItem.getTitle());
+        s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
+        navItem.setTitle(s);
+
+        navItem.setIcon(new IconDrawable(this, icon).color(color));
+    }
+
+    private void setActive(int item) {
+        NavService.getInstance().currentNav = item;
+
+        NavBaseActivity.activeMenuItem = navigationView.getMenu().findItem(item);
+        int color = ContextCompat.getColor(this, R.color.colorAccent);
 
         SpannableString s = new SpannableString(NavBaseActivity.activeMenuItem.getTitle());
-        int color = getResources().getColor(R.color.colorAccent);
         s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
         NavBaseActivity.activeMenuItem.setTitle(s);
 
         IconDrawable activeIcon = (IconDrawable) NavBaseActivity.activeMenuItem.getIcon();
-        activeIcon.colorRes(R.color.colorAccent);
+        activeIcon.color(color);
     }
 
     @Override
@@ -171,7 +158,7 @@ public class NavBaseActivity extends AppBaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mainDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation);
 
         // setup nav drawer items
@@ -214,7 +201,7 @@ public class NavBaseActivity extends AppBaseActivity {
     private void onNavItemClick(int itemId) {
         Intent launchIntent = null;
 
-        switch(itemId){
+        switch (itemId) {
             case R.id.navigation_item_activity:
                 setActive(R.id.navigation_item_activity);
                 launchIntent = new Intent(this, ActivityActivity.class);
@@ -259,12 +246,12 @@ public class NavBaseActivity extends AppBaseActivity {
             startActivity(launchIntent);
             overridePendingTransition(R.anim.activity_fade_enter, R.anim.activity_fade_exit);
         }
-        mDrawerLayout.closeDrawer(GravityCompat.START);
+        mainDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
     private void setupDrawer() {
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+        mDrawerToggle = new ActionBarDrawerToggle(this, mainDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close) {
 
             /** Called when a drawer has settled in a completely open state. */
@@ -272,6 +259,7 @@ public class NavBaseActivity extends AppBaseActivity {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
+
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -280,7 +268,7 @@ public class NavBaseActivity extends AppBaseActivity {
         };
 
         mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mainDrawerLayout.setDrawerListener(mDrawerToggle);
 
     }
 
@@ -318,4 +306,12 @@ public class NavBaseActivity extends AppBaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mainDrawerLayout.closeDrawer(GravityCompat.START);
+            return;
+        }
+        super.onBackPressed();
+    }
 }

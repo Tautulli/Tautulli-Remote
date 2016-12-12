@@ -42,7 +42,6 @@
                 android:layout_width="72dp"
                 android:layout_height="110dp"
                 android:layout_gravity="center_vertical"
-                android:src="@android:drawable/sym_def_app_icon"
                 android:layout_marginRight="20dp" />
 
             <LinearLayout
