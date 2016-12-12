@@ -39,7 +39,6 @@ public class LibraryStatisticsActivity extends NavBaseActivity {
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_libraries";
 
-            Log.d("RefreshData", url);
             GsonRequest<LibraryStatisticsModels> request = new GsonRequest<>(
                     url,
                     LibraryStatisticsModels.class,

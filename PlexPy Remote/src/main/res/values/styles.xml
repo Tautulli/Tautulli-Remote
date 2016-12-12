@@ -13,6 +13,7 @@
 
     <style name="Headline" parent="TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@color/colorTextHeading</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Subhead" parent="TextAppearance.AppCompat.Subhead">

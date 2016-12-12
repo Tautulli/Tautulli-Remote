@@ -90,7 +90,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             SimpleDateFormat format = new SimpleDateFormat("MMM dd,yyyy  hh:mm a");
 //            String date = DateUtils.formatDateTime(ApplicationController.getInstance().getBaseContext(), historyItem.date, 0);
             String date = format.format(historyItem.date * 1000);
-            Log.d("DATETIME", date);
             viewHolder.vDate.setText(date);
         }
 

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import com.williamcomartin.plexpyremote.LibraryDetailsFragments.LibraryDetailsMediaFragment;
 import com.williamcomartin.plexpyremote.LibraryDetailsFragments.LibraryDetailsStatsFragment;
@@ -24,7 +25,6 @@ public class LibraryDetailsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int index) {
-
         switch (index) {
             case 0:
                 LibraryDetailsStatsFragment statsFrag = new LibraryDetailsStatsFragment();
@@ -41,10 +41,10 @@ public class LibraryDetailsPagerAdapter extends FragmentStatePagerAdapter {
                 newFrag.setLibraryId(libraryId);
                 return newFrag;
 
-//            case 3:
-//                LibraryDetailsMediaFragment mediaFrag = new LibraryDetailsMediaFragment();
-////                mediaFrag.setLibraryId(libraryId);
-//                return mediaFrag;
+            case 3:
+                LibraryDetailsMediaFragment mediaFrag = new LibraryDetailsMediaFragment();
+                mediaFrag.setLibraryId(libraryId);
+                return mediaFrag;
         }
 
         return null;
@@ -56,13 +56,13 @@ public class LibraryDetailsPagerAdapter extends FragmentStatePagerAdapter {
                 "Stats",
                 "History",
                 "New",
-//                "Media"
+                "Media"
         };
         return tabNames[position];
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 }

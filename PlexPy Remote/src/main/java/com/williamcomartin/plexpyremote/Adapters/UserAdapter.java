@@ -10,9 +10,12 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
+import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
 import com.williamcomartin.plexpyremote.Models.UserModels;
 import com.williamcomartin.plexpyremote.R;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -55,6 +58,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     // Pass in the contact array into the constructor
     public UserAdapter(List<UserModels.User> users, OnItemClickListener listener) {
+        Collections.sort(users, new Comparator<UserModels.User>() {
+            public int compare(UserModels.User v1, UserModels.User v2) {
+                return v1.friendlyName.compareTo(v2.friendlyName);
+            }
+        });
         this.users = users;
         this.listener = listener;
     }

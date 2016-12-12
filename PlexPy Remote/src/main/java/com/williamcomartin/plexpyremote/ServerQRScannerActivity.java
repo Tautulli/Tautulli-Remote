@@ -81,7 +81,6 @@ public class ServerQRScannerActivity extends Activity {
                 }
             }
         } catch (CameraAccessException e) {
-            Log.d("No Camera Access", e.getMessage());
         }
 
     }
@@ -136,11 +135,9 @@ public class ServerQRScannerActivity extends Activity {
             try{
                 InetAddress ad = InetAddress.getByName(address);
                 if(ad.isSiteLocalAddress()){
-                    Log.d("CheckIfLocal", "LOCAL TRUE");
                     return true;
                 }
             } catch (UnknownHostException e){
-                Log.d("CheckIfLocal", e.getMessage());
             }
             return false;
         }

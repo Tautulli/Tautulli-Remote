@@ -42,10 +42,10 @@
                     android:id="@+id/recently_added_card_parent_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:ellipsize="end"
-                    android:singleLine="true"
                     android:textSize="18dp"
-                    style="@style/Base.TextAppearance.AppCompat.Title" />
+                    style="@style/Headline" />
 
                 <TextView
                     android:id="@+id/recently_added_card_title"

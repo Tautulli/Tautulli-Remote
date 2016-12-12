@@ -52,7 +52,6 @@ public class NukeSSLCerts {
             HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String arg0, SSLSession arg1) {
-                    Log.d("Hostname", arg0);
                     SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(ApplicationController.getInstance().getApplicationContext());
                     String setHostname = SP.getString("server_settings_address", "");
                     if(setHostname.contains(arg0)

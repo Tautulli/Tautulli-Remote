@@ -50,8 +50,6 @@ public class LibraryDetailsStatsFragment extends Fragment {
         statsLayout.setVisibility(View.GONE);
         statsLayout.removeAllViewsInLayout();
 
-        Log.d("SetupStats", libraryId);
-
         setupLibraryGlobalStats(statsLayout, libraryId);
         setupLibraryUserStats(statsLayout, libraryId);
     }

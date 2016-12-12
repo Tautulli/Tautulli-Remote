@@ -21,9 +21,6 @@ public class PlatformService {
     }
 
     public int getPlatformImagePath(String platformName) {
-
-        Log.d("GetPlatformImagePath", platformName);
-
         switch(platformName) {
             case "Roku":
                 return R.drawable.platform_roku;
