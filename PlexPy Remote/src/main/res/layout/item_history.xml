@@ -26,9 +26,9 @@
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/history_card_image"
-                android:layout_width="46dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center_vertical"
+                android:layout_width="52dp"
+                android:layout_height="80dp"
+                android:layout_gravity="fill"
                 android:layout_marginRight="3dp" />
 
             <RelativeLayout
