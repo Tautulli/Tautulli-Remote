@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -77,6 +78,7 @@ public class NavBaseActivity extends AppBaseActivity {
         setupNavItem(R.id.navigation_item_libraries, FontAwesomeIcons.fa_th_list);
         setupNavItem(R.id.navigation_sub_item_settings, MaterialIcons.md_settings);
         setupNavItem(R.id.navigation_sub_item_about, MaterialIcons.md_info);
+        setupNavItem(R.id.navigation_sub_item_donate, FontAwesomeIcons.fa_paypal);
 
         if (NavService.getInstance().currentNav == 0) {
             NavService.getInstance().currentNav = R.id.navigation_item_activity;
@@ -239,6 +241,10 @@ public class NavBaseActivity extends AppBaseActivity {
             case R.id.navigation_sub_item_about:
                 setActive(R.id.navigation_sub_item_about);
                 launchIntent = new Intent(this, AboutActivity.class);
+                break;
+            case R.id.navigation_sub_item_donate:
+                launchIntent = new Intent(Intent.ACTION_VIEW);
+                launchIntent.setData(Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ADRXXSWUJF788"));
                 break;
         }
 

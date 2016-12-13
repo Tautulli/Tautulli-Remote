@@ -11,6 +11,7 @@
     <string name="statistics">Statistics</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
+    <string name="donate">Donate</string>
 
     <string name="server_settings_title">Server Settings</string>
     <string name="server_settings_qr_title">Scan QR Code</string>
