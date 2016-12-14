@@ -192,6 +192,9 @@ public class ActivityActivity extends NavBaseActivity {
                     if (response.response.data.sessions.isEmpty()) {
                         TextView text = (TextView) findViewById(R.id.emptyTextView);
                         text.setText(getString(R.string.NoActivity));
+                        text.setTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary));
+                        findViewById(R.id.oopsView).setVisibility(View.GONE);
+                        adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
                     }
                     adapter.SetActivities(response.response.data.sessions);
                 } else if (response.response.result.equals("error")){

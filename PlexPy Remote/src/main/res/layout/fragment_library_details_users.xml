@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="{fa-users} User Stats (Top 6)"
+            android:text="{fa-users} User Stats"
             android:textAppearance="@style/Headline"
             android:textSize="28sp" />
 

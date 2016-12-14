@@ -21,7 +21,7 @@
     </style>
 
     <style name="TextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="android:textSize">@dimen/text_size_default_sg</item>
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif</item>

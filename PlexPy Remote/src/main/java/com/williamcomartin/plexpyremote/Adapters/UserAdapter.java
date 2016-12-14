@@ -88,7 +88,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         // Set item views based on the data model
 
         viewHolder.vUserName.setText(user.friendlyName);
-        viewHolder.vLastWatched.setText(user.lastPlayed);
+        if(user.lastPlayed != null) {
+            viewHolder.vLastWatched.setText(user.lastPlayed);
+        } else {
+            viewHolder.vLastWatched.setText("None");
+        }
 
         viewHolder.vImage.setImageUrl(null, ApplicationController.getInstance().getImageLoader());
         if(user.userThumb.equals("interfaces/default/images/gravatar-default-80x80.png")){
@@ -101,7 +105,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(user.lastSeen * 1000, System.currentTimeMillis(), 0);
             viewHolder.vLastSeen.setText(timeAgo.toString());
         } else {
-            viewHolder.vLastSeen.setText("");
+            viewHolder.vLastSeen.setText("Never");
         }
 
     }
