@@ -1,7 +1,9 @@
 package com.williamcomartin.plexpyremote.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +15,8 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.MediaActivities.Show.ShowActivity;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
-import com.williamcomartin.plexpyremote.Models.RecentlyAddedModels;
 import com.williamcomartin.plexpyremote.R;
 
 import java.text.SimpleDateFormat;
@@ -28,8 +30,11 @@ import java.util.List;
  */
 public class LibraryDetailsMediaListAdapter extends RecyclerView.Adapter<LibraryDetailsMediaListAdapter.ViewHolder> implements FastScrollRecyclerView.SectionedAdapter {
 
+    private Context context;
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        protected final CardView mCard;
         protected final NetworkImageView mImage;
         protected final TextView mTitle;
         protected final TextView mLastPlayed;
@@ -39,6 +44,7 @@ public class LibraryDetailsMediaListAdapter extends RecyclerView.Adapter<Library
         public ViewHolder(View itemView) {
             super(itemView);
 
+            mCard = (CardView) itemView.findViewById(R.id.library_details_media_card);
             mImage = (NetworkImageView) itemView.findViewById(R.id.library_details_media_image);
             mTitle = (TextView) itemView.findViewById(R.id.library_details_media_title);
             mLastPlayed = (TextView) itemView.findViewById(R.id.library_details_media_last_played);
@@ -50,7 +56,8 @@ public class LibraryDetailsMediaListAdapter extends RecyclerView.Adapter<Library
     private List<LibraryMediaModels.LibraryMediaItem> mediaItems = new ArrayList<>();
 
     // Pass in the contact array into the constructor
-    public LibraryDetailsMediaListAdapter() {
+    public LibraryDetailsMediaListAdapter(Context context) {
+        this.context = context;
         resetItems();
     }
 
@@ -93,7 +100,22 @@ public class LibraryDetailsMediaListAdapter extends RecyclerView.Adapter<Library
     @Override
     public void onBindViewHolder(LibraryDetailsMediaListAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
-        LibraryMediaModels.LibraryMediaItem mediaItem = mediaItems.get(position);
+        final LibraryMediaModels.LibraryMediaItem mediaItem = mediaItems.get(position);
+
+        viewHolder.mCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = null;
+                if(mediaItem.mediaType.equals("show")) {
+                    intent = new Intent(context, ShowActivity.class);
+                    intent.putExtra("RatingKey", mediaItem.ratingKey);
+                    intent.putExtra("Title", mediaItem.title);
+                }
+                if(intent != null) {
+                    context.startActivity(intent);
+                }
+            }
+        });
 
         viewHolder.mImage.setImageUrl(UrlHelpers.getImageUrl(mediaItem.thumb, "400", "600"),
                 ApplicationController.getInstance().getImageLoader());

@@ -1,4 +1,4 @@
-package com.williamcomartin.plexpyremote.Helpers.Exceptions;
+package com.williamcomartin.plexpyremote.Helpers;
 
 import android.content.Context;
 import android.util.AttributeSet;

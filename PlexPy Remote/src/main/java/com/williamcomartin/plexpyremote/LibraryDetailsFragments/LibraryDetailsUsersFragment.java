@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.williamcomartin.plexpyremote.Adapters.UserTopStatAdapter;
-import com.williamcomartin.plexpyremote.Helpers.Exceptions.ExpandableHeightGridView;
+import com.williamcomartin.plexpyremote.Helpers.ExpandableHeightGridView;
 import com.williamcomartin.plexpyremote.Models.LibraryUsersStatsModels;
 import com.williamcomartin.plexpyremote.R;
 

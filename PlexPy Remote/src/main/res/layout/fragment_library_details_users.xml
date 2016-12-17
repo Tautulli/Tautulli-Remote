@@ -27,7 +27,7 @@
             card_view:cardElevation="2dp"
             card_view:cardUseCompatPadding="true">
 
-            <com.williamcomartin.plexpyremote.Helpers.Exceptions.ExpandableHeightGridView
+            <com.williamcomartin.plexpyremote.Helpers.ExpandableHeightGridView
                 android:id="@+id/library_details_user_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

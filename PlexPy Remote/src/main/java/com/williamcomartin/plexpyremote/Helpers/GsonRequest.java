@@ -50,6 +50,7 @@ public class GsonRequest<T> extends Request<T> {
         GsonBuilder gsonB = new GsonBuilder();
         gsonB.registerTypeAdapter(Double.class, GSONTypeAdapters.DoubleTypeAdapter);
         gsonB.registerTypeAdapter(Integer.class, GSONTypeAdapters.IntegerTypeAdapter);
+        gsonB.registerTypeAdapter(Long.class, GSONTypeAdapters.LongTypeAdapter);
         gson = gsonB.create();
 
         this.clazz = clazz;

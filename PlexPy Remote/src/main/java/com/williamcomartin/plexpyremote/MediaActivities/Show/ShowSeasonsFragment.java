@@ -1,35 +1,39 @@
-package com.williamcomartin.plexpyremote.LibraryDetailsFragments;
+package com.williamcomartin.plexpyremote.MediaActivities.Show;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.williamcomartin.plexpyremote.Adapters.LibraryDetailsMediaListAdapter;
+import com.williamcomartin.plexpyremote.Adapters.UserTopStatAdapter;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
+import com.williamcomartin.plexpyremote.Models.LibraryUsersStatsModels;
 import com.williamcomartin.plexpyremote.R;
 
-public class LibraryDetailsMediaFragment extends Fragment {
+import java.util.ArrayList;
 
-    private String libraryId;
-    private RecyclerView mMediaListRecyclerView;
-//    private VerticalRecyclerViewFastScroller mMediaListRecyclerFastScroller;
-//    private SectionTitleIndicator mMediaListRecyclerFastScrollerIndicator;
+/**
+ * Created by wcomartin on 2016-12-14.
+ */
 
-    public LibraryDetailsMediaFragment() {
-        // Required empty public constructor
+public class ShowSeasonsFragment extends Fragment {
+    private View view;
+    private String ratingKey;
+
+    private GridView vSeasonsGrid;
+    private ShowSeasonsGridAdapter gridAdapter;
+
+    public ShowSeasonsFragment() {
     }
 
     @Override
@@ -40,28 +44,30 @@ public class LibraryDetailsMediaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_library_details_media, container, false);
+        view = inflater.inflate(R.layout.fragment_show_seasons, container, false);
 
-        mMediaListRecyclerView = (RecyclerView) view.findViewById(R.id.library_details_media_list);
+        gridAdapter = new ShowSeasonsGridAdapter(this.getContext(), new ArrayList<LibraryMediaModels.LibraryMediaItem>());
 
-        mMediaListRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        mMediaListRecyclerView.setAdapter(new LibraryDetailsMediaListAdapter(this.getContext()));
+        vSeasonsGrid = (GridView) view.findViewById(R.id.show_seasons_grid);
+        vSeasonsGrid.setAdapter(gridAdapter);
+
+        fetchProfile();
 
         return view;
     }
 
-    public void setLibraryId(String libraryId){
-        this.libraryId = libraryId;
+    public void setRatingKey(String ratingKey) {
+        this.ratingKey = ratingKey;
+    }
+
+    private void fetchProfile(){
+        String url = "";
         try {
-            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_library_media_info&length=100000000000&section_id=" + libraryId;
-            fetchData(url);
+            url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_library_media_info&length=1000&rating_key=" + ratingKey;
         } catch (NoServerException e) {
             e.printStackTrace();
         }
-    }
-
-    private void fetchData (String url){
+        Log.d("ShowSeasonsFrag", url);
         GsonRequest<LibraryMediaModels> request = new GsonRequest<>(
                 url,
                 LibraryMediaModels.class,
@@ -77,6 +83,7 @@ public class LibraryDetailsMediaFragment extends Fragment {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("ShowSeasonFrag", error.getMessage());
             }
         };
     }
@@ -85,10 +92,9 @@ public class LibraryDetailsMediaFragment extends Fragment {
         return new Response.Listener<LibraryMediaModels>() {
             @Override
             public void onResponse(LibraryMediaModels response) {
-                LibraryDetailsMediaListAdapter adapter = (LibraryDetailsMediaListAdapter) mMediaListRecyclerView.getAdapter();
-                adapter.addItems(response.response.data.data);
+                Log.d("ShowSeasonFrag", response.toString());
+                gridAdapter.setSeasons(response.response.data.data);
             }
         };
     }
-
 }

@@ -75,6 +75,7 @@
                 android:value="com.williamcomartin.plexpyremote.ActivityActivity" />
         </activity>
         <activity android:name=".LibraryDetailsActivity" />
+        <activity android:name=".MediaActivities.Show.ShowActivity" />
     </application>
 
 </manifest>

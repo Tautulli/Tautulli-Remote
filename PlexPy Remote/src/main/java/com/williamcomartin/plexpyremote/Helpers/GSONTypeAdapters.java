@@ -58,4 +58,27 @@ public class GSONTypeAdapters {
         }
     };
 
+    public static final TypeAdapter<Long> LongTypeAdapter = new TypeAdapter<Long>() {
+
+        @Override
+        public void write(JsonWriter out, Long value)
+                throws IOException {
+            out.value(value);
+        }
+
+        @Override
+        public Long read(JsonReader in) throws IOException {
+            if (in.peek() == JsonToken.NULL) {
+                in.nextNull();
+                return null;
+            }
+            try {
+                String result = in.nextString();
+                return Long.parseLong(result);
+            } catch (NumberFormatException e) {
+                return null;
+            }
+        }
+    };
+
 }

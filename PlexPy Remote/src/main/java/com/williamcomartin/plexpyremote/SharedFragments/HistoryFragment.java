@@ -55,7 +55,17 @@ public class HistoryFragment extends Fragment {
         }
     }
 
+    public void setGrandParentRatingKey(String ratingKey){
+        try {
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history&grandparent_rating_key=" + ratingKey;
+            fetchData(url);
+        } catch (NoServerException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void fetchData (String url){
+//        Log.d("HistoryFragment", url);
         GsonRequest<HistoryModels> request = new GsonRequest<>(
                 url,
                 HistoryModels.class,
