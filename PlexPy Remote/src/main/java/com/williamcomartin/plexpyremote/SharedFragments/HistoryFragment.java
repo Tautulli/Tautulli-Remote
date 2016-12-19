@@ -41,7 +41,7 @@ public class HistoryFragment extends Fragment {
 
         mHistoryRecyclerView = (RecyclerView) view.findViewById(R.id.shared_history_rv);
         mHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        mHistoryRecyclerView.setAdapter(new HistoryAdapter(new ArrayList<HistoryModels.HistoryRecord>()));
+        mHistoryRecyclerView.setAdapter(new HistoryAdapter(this.getContext(), new ArrayList<HistoryModels.HistoryRecord>()));
 
         return view;
     }

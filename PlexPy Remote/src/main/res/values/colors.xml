@@ -6,6 +6,8 @@
 
     <color name="colorBackground">#1f1f1f</color>
     <color name="colorCardBackground">#282828</color>
+    <color name="colorCardLightBackground">#3d3d3d</color>
+    <color name="colorCardSecondaryBackground">#626262</color>
 
     <color name="colorTranscodeBufferBar">#444</color>
 

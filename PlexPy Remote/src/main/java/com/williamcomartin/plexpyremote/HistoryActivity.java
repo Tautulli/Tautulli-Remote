@@ -1,5 +1,6 @@
 package com.williamcomartin.plexpyremote;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,12 +23,15 @@ public class HistoryActivity extends NavBaseActivity {
 
     private SharedPreferences SP;
     private RecyclerView rvHistory;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         setupActionBar();
+        
+        context = this;
 
         rvHistory = (RecyclerView) findViewById(R.id.rvHistory);
 
@@ -66,7 +70,7 @@ public class HistoryActivity extends NavBaseActivity {
         return new Response.Listener<HistoryModels>() {
             @Override
             public void onResponse(HistoryModels response) {
-                HistoryAdapter adapter = new HistoryAdapter(response.response.data.data);
+                HistoryAdapter adapter = new HistoryAdapter(context, response.response.data.data);
                 rvHistory.setAdapter(adapter);
             }
         };

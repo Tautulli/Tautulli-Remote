@@ -1,19 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="4dp"
-    android:layout_marginRight="4dp">
+    android:layout_marginRight="4dp"
+    android:orientation="horizontal">
 
     <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/user_card_view"
-        android:layout_gravity="center"
+        android:id="@+id/history_card_secondary_view"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        card_view:cardBackgroundColor="@color/colorCardSecondaryBackground"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardElevation="1dp"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Started: "/>
+
+                    <TextView
+                        android:id="@+id/history_card_started"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Stopped: "/>
+
+                    <TextView
+                        android:id="@+id/history_card_stopped"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IP Address: "/>
+
+                    <TextView
+                        android:id="@+id/history_card_ipaddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Paused: "/>
+
+                    <TextView
+                        android:id="@+id/history_card_paused"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Duration: "/>
+
+                    <TextView
+                        android:id="@+id/history_card_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Player: "/>
+
+                    <TextView
+                        android:id="@+id/history_card_player"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/history_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/standard_item_card_height"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         card_view:cardBackgroundColor="@color/colorCardBackground"
         card_view:cardCornerRadius="0dp"
         card_view:cardElevation="2dp"
@@ -26,40 +150,78 @@
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/history_card_image"
-                android:layout_width="52dp"
-                android:layout_height="80dp"
-                android:layout_gravity="fill"
-                android:layout_marginRight="3dp" />
+                android:layout_width="@dimen/standard_item_image_width"
+                android:layout_height="@dimen/standard_item_image_height"
+                android:scaleType="centerCrop" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp">
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="0dp">
 
                 <TextView
                     android:id="@+id/history_card_title"
+                    style="@style/Headline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:ellipsize="end"
-                    android:textSize="18dp"
-                    style="@style/Headline" />
+                    android:maxLines="2" />
 
-                <TextView
-                    android:id="@+id/history_card_user"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10dp"
-                    android:layout_below="@id/history_card_title" />
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/history_card_date"
+                    <TextView
+                        android:id="@+id/history_card_user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/history_card_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10dp"
-                    android:layout_below="@id/history_card_user" />
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:id="@+id/history_card_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp" />
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:id="@+id/history_card_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:rotation="180" />
+
+                </LinearLayout>
+
+                <!--<TextView-->
+                <!--android:id="@+id/history_card_user"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="10dp"-->
+                <!--android:layout_below="@id/history_card_title" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/history_card_date"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="10dp"-->
+                <!--android:layout_below="@id/history_card_user" />-->
 
             </RelativeLayout>
 
@@ -68,4 +230,4 @@
 
     </android.support.v7.widget.CardView>
 
-</LinearLayout>
+</RelativeLayout>

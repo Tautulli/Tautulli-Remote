@@ -12,7 +12,7 @@
         android:id="@+id/recently_added_card_view"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="@dimen/standard_item_card_height"
         card_view:cardBackgroundColor="@color/colorCardBackground"
         card_view:cardCornerRadius="0dp"
         card_view:cardElevation="2dp"
@@ -25,8 +25,8 @@
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/recently_added_card_image"
-                android:layout_width="52dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/standard_item_image_width"
+                android:layout_height="@dimen/standard_item_image_height"
                 android:layout_gravity="fill"
                 android:layout_marginEnd="3dp" />
 
