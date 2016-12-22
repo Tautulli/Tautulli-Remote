@@ -1,4 +1,4 @@
-package com.williamcomartin.plexpyremote.Helpers;
+package com.williamcomartin.plexpyremote.Helpers.VolleyHelpers;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

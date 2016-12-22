@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,33 +113,42 @@ public class ShowProfileFragment extends Fragment {
         return new Response.Listener<ShowProfileModels>() {
             @Override
             public void onResponse(ShowProfileModels response) {
-                vImage.setImageUrl(UrlHelpers.getImageUrl(response.response.data.thumb, "400", "600"),
+
+                ShowProfileModels.Data item;
+                if(response.response.data.metadata != null) item = response.response.data.metadata;
+                else item = response.response.data;
+
+                vImage.setImageUrl(UrlHelpers.getImageUrl(item.thumb, "400", "600"),
                         ImageCacheManager.getInstance().getImageLoader());
 
-                vStudio.setText(response.response.data.studio);
-                vAired.setText(response.response.data.year);
+                vStudio.setText(item.studio);
+                vAired.setText(item.year);
                 int duration;
                 try {
-                    duration = Integer.parseInt(response.response.data.duration) / 60 / 1000;
+                    duration = Integer.parseInt(item.duration) / 60 / 1000;
                 } catch (NumberFormatException e){
                     duration = 0;
                 }
                 vRuntime.setText(String.valueOf(duration) + " mins");
-                vRated.setText(response.response.data.contentRating);
+                vRated.setText(item.contentRating);
 
                 try {
-                    vRating.setRating(Float.parseFloat(response.response.data.rating) / 2);
+                    vRating.setRating(Float.parseFloat(item.rating) / 2);
                 } catch (NumberFormatException e){
+                    vRating.setRating(0.0f);
+                } catch (NullPointerException e){
                     vRating.setRating(0.0f);
                 }
 
-                vDescription.setText(response.response.data.summary);
+                vDescription.setText(item.summary);
 
-                int listLength;
-                if(response.response.data.actors.size() > 5){
-                    listLength = 5;
-                } else {
-                    listLength = response.response.data.actors.size();
+                int listLength = 0;
+                if(item.actors != null) {
+                    if (item.actors.size() > 5) {
+                        listLength = 5;
+                    } else {
+                        listLength = item.actors.size();
+                    }
                 }
 
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -157,22 +167,24 @@ public class ShowProfileFragment extends Fragment {
                     TextView text = new TextView(context);
                     text.setLayoutParams(params);
 
-                    SpannableString s = new SpannableString(response.response.data.actors.get(i));
+                    SpannableString s = new SpannableString(item.actors.get(i));
                     s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
 
                     text.setText(s);
                     vStarring.addView(text);
                 }
 
-                for (String genre : response.response.data.genres){
-                    TextView text = new TextView(context);
-                    text.setLayoutParams(params);
+                if(item.genres != null) {
+                    for (String genre : item.genres) {
+                        TextView text = new TextView(context);
+                        text.setLayoutParams(params);
 
-                    SpannableString s = new SpannableString(genre);
-                    s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
+                        SpannableString s = new SpannableString(genre);
+                        s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
 
-                    text.setText(s);
-                    vGenres.addView(text);
+                        text.setText(s);
+                        vGenres.addView(text);
+                    }
                 }
             }
         };

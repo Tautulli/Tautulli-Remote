@@ -26,6 +26,9 @@ public class ShowProfileModels {
 
     public class Data {
 
+        @SerializedName("metadata")
+        public Data metadata;
+
         @SerializedName("library_name")
         public String libraryName;
 
