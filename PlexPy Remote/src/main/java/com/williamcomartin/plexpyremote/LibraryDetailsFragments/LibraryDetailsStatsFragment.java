@@ -2,7 +2,6 @@ package com.williamcomartin.plexpyremote.LibraryDetailsFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,9 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
-import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.LibraryGlobalStatsModels;
 import com.williamcomartin.plexpyremote.Models.LibraryUsersStatsModels;
 import com.williamcomartin.plexpyremote.R;
@@ -95,7 +95,7 @@ public class LibraryDetailsStatsFragment extends Fragment {
                 }
             });
 
-            ApplicationController.getInstance().addToRequestQueue(request);
+            RequestManager.addToRequestQueue(request);
         } catch (NoServerException e) {
 
         }
@@ -142,7 +142,7 @@ public class LibraryDetailsStatsFragment extends Fragment {
                 }
             });
 
-            ApplicationController.getInstance().addToRequestQueue(request);
+            RequestManager.addToRequestQueue(request);
         } catch (NoServerException e) {
 
         }

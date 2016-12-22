@@ -47,7 +47,7 @@
                             android:layout_height="wrap_content"
                             android:text="Oops"
                             android:textAlignment="center"
-                            android:textAppearance="@style/Headline"
+                            android:textAppearance="@style/TextHeadline"
                             android:textSize="50dp" />
 
                     </LinearLayout>

@@ -68,6 +68,7 @@ dependencies {
     compile 'com.android.support:percent:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
     compile 'com.google.code.gson:gson:2.5'
     compile 'com.android.support:support-v4:24.2.1'

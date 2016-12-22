@@ -17,9 +17,9 @@
     <dimen name="text_size_default_sg">14sp</dimen>
     <dimen name="text_size_caption_sg">12sp</dimen>
 
-    <dimen name="standard_item_card_height">100dp</dimen>
-    <dimen name="standard_item_image_height">100dp</dimen>
-    <dimen name="standard_item_image_width">66dp</dimen>
+    <dimen name="standard_item_card_height">105dp</dimen>
+    <dimen name="standard_item_image_height">105dp</dimen>
+    <dimen name="standard_item_image_width">70dp</dimen>
 
 
 </resources>

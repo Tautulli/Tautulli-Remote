@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Models.StatisticsModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -69,10 +70,10 @@ public class LastWatchedAdapter extends RecyclerView.Adapter<LastWatchedAdapter.
 
         if(item.media_type.equals("episode")){
             viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(item.grandparent_thumb, "400", "600"),
-                    ApplicationController.getInstance().getImageLoader());
+                    ImageCacheManager.getInstance().getImageLoader());
         } else {
             viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(item.thumb, "400", "600"),
-                    ApplicationController.getInstance().getImageLoader());
+                    ImageCacheManager.getInstance().getImageLoader());
         }
 
         viewHolder.vBadge.setText(((Integer) (position + 1)).toString());

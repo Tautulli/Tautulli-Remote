@@ -14,11 +14,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.WatchStatistics.MostWatchedMovieAdapter;
 import com.williamcomartin.plexpyremote.ApplicationController;
-import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.StatisticsModels;
 import com.williamcomartin.plexpyremote.R;
-
-import java.util.ArrayList;
 
 public class MostWatchedMovieFragment extends Fragment {
 
@@ -46,7 +45,7 @@ public class MostWatchedMovieFragment extends Fragment {
                 errorListener()
         );
 
-        ApplicationController.getInstance().addToRequestQueue(request);
+        RequestManager.addToRequestQueue(request);
 
         rvStat.setLayoutManager(new LinearLayoutManager(this.getContext()));
 

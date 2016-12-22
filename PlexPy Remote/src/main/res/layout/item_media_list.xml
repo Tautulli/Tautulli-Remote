@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textAppearance="@style/Headline" />
+                    android:textAppearance="@style/TextHeadline" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

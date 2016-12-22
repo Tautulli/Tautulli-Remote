@@ -20,6 +20,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
 import com.williamcomartin.plexpyremote.Models.HistoryModels;
 import com.williamcomartin.plexpyremote.R;
@@ -46,9 +47,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         private final TextView vDate;
         private final NetworkImageView vImage;
         private final TextView vUser;
+        private final TextView vEpisode;
 
         private final IconTextView vState;
         private final IconTextView vProgress;
+        private final TextView vProgressText;
 
         private final TextView vStarted;
         private final TextView vStopped;
@@ -67,9 +70,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             vDate = (TextView) itemView.findViewById(R.id.history_card_date);
             vImage = (NetworkImageView) itemView.findViewById(R.id.history_card_image);
             vUser = (TextView) itemView.findViewById(R.id.history_card_user);
+            vEpisode = (TextView) itemView.findViewById(R.id.history_card_episode);
 
             vState = (IconTextView) itemView.findViewById(R.id.history_card_state);
             vProgress = (IconTextView) itemView.findViewById(R.id.history_card_progress);
+            vProgressText = (TextView) itemView.findViewById(R.id.history_card_progress_text);
 
             vStarted = (TextView) itemView.findViewById(R.id.history_card_started);
             vStopped = (TextView) itemView.findViewById(R.id.history_card_stopped);
@@ -117,14 +122,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         final HistoryModels.HistoryRecord historyItem = historyItems.get(position);
 
         if(historyItem.detailsOpen == null) historyItem.detailsOpen = false;
-        toggleDetailsView(viewHolder.vCardSecondary, historyItem.detailsOpen);
+        toggleDetailsView(viewHolder, historyItem.detailsOpen);
         viewHolder.vCard.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.vCardSecondary.getLayoutParams();
                 if (params.topMargin == 0) historyItem.detailsOpen = true;
                 else historyItem.detailsOpen = false;
-                toggleDetailsView(viewHolder.vCardSecondary, historyItem.detailsOpen);
+                toggleDetailsView(viewHolder, historyItem.detailsOpen);
                 return true;
             }
         });
@@ -133,13 +138,24 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         viewHolder.vTitle.setText(historyItem.fullTitle);
         viewHolder.vUser.setText(historyItem.friendlyName);
         viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(historyItem.thumb, "600", "400"),
-                ApplicationController.getInstance().getImageLoader());
+                ImageCacheManager.getInstance().getImageLoader());
 
-        SimpleDateFormat format = new SimpleDateFormat("MMM dd,yyyy  HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
         if (historyItem.date != null && !historyItem.date.equals("null")) {
             String date = format.format(historyItem.date * 1000);
             viewHolder.vDate.setText(date);
+        }
+
+        if(historyItem.mediaType != null) {
+            switch (historyItem.mediaType){
+                case "episode":
+                    viewHolder.vEpisode.setText("S" + historyItem.parentMediaIndex + " • E" + historyItem.mediaIndex);
+                    break;
+                case "movie":
+                    viewHolder.vEpisode.setText(String.valueOf(historyItem.year));
+                    break;
+            }
         }
 
         if (historyItem.state != null) {
@@ -157,6 +173,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                     viewHolder.vCard.setCardBackgroundColor(ContextCompat.getColor(this.context, R.color.colorCardBackground));
                     break;
             }
+        } else {
+            viewHolder.vState.setText("");
+            viewHolder.vCard.setCardBackgroundColor(ContextCompat.getColor(this.context, R.color.colorCardBackground));
         }
 
         if (historyItem.percentComplete != null) {
@@ -167,6 +186,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             } else {
                 viewHolder.vProgress.setText("{fa-circle}");
             }
+
+            viewHolder.vProgressText.setText(String.valueOf(historyItem.percentComplete) + "%");
         }
 
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -212,12 +233,20 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         );
     }
 
-    private void toggleDetailsView(CardView card, Boolean detailsOpen){
+    private void toggleDetailsView(HistoryAdapter.ViewHolder viewHolder, Boolean detailsOpen){
         int topMargin;
-        if(detailsOpen) topMargin = convertDpToPixel(94); else topMargin = 0;
+        if(detailsOpen) {
+            topMargin = convertDpToPixel(99);
+            viewHolder.vProgressText.setVisibility(View.VISIBLE);
+            viewHolder.vProgress.setVisibility(View.GONE);
+        } else {
+            topMargin = 0;
+            viewHolder.vProgressText.setVisibility(View.GONE);
+            viewHolder.vProgress.setVisibility(View.VISIBLE);
+        }
 
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) card.getLayoutParams();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.vCardSecondary.getLayoutParams();
         params.setMargins(0, topMargin, 0, 0);
-        card.setLayoutParams(params);
+        viewHolder.vCardSecondary.setLayoutParams(params);
     }
 }

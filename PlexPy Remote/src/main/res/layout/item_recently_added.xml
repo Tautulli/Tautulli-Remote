@@ -44,7 +44,7 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textSize="18dp"
-                    style="@style/Headline" />
+                    style="@style/TextHeadline" />
 
                 <TextView
                     android:id="@+id/recently_added_card_title"

@@ -1,11 +1,9 @@
 package com.williamcomartin.plexpyremote;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
@@ -31,8 +29,9 @@ import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
-import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.ServerFriendlyNameModels;
 import com.williamcomartin.plexpyremote.Services.NavService;
 
@@ -128,7 +127,7 @@ public class NavBaseActivity extends AppBaseActivity {
                     errorListener()
             );
 
-            ApplicationController.getInstance().addToRequestQueue(request);
+            RequestManager.addToRequestQueue(request);
         } catch (NoServerException e) {
             e.printStackTrace();
         }

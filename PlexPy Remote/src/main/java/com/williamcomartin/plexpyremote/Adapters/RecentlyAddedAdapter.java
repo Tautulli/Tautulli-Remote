@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Models.HistoryModels;
 import com.williamcomartin.plexpyremote.Models.RecentlyAddedModels;
 import com.williamcomartin.plexpyremote.R;
@@ -100,7 +101,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
         }
 
         viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(getImageUrl(recentlyAddedItem), "600", "400"),
-                ApplicationController.getInstance().getImageLoader());
+                ImageCacheManager.getInstance().getImageLoader());
     }
 
     private String getImageUrl(RecentlyAddedModels.RecentItem recentlyAddedItem) {

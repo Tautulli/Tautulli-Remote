@@ -43,9 +43,9 @@ public class StatisticsPagerAdapter extends FragmentPagerAdapter {
             case 5:
                 // Movies fragment activity
                 return new MostActivePlatformFragment();
-            case 6:
-                // Movies fragment activity
-                return new LastWatchedFragment();
+//            case 6:
+//                // Movies fragment activity
+//                return new LastWatchedFragment();
         }
 
         return null;
@@ -54,6 +54,6 @@ public class StatisticsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // get item count - equal to number of tabs
-        return 7;
+        return 6;
     }
 }

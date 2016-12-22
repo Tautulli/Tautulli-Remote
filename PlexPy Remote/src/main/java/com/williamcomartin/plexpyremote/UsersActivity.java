@@ -13,8 +13,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.UserAdapter;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
-import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.UserModels;
 
 public class UsersActivity extends NavBaseActivity {
@@ -43,7 +44,7 @@ public class UsersActivity extends NavBaseActivity {
                     errorListener()
             );
 
-            ApplicationController.getInstance().addToRequestQueue(request);
+            RequestManager.addToRequestQueue(request);
         } catch (NoServerException e) {
             e.printStackTrace();
         }

@@ -14,8 +14,9 @@ import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.RecentlyAddedAdapter;
 import com.williamcomartin.plexpyremote.Helpers.EndlessScrollListener;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
-import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.RecentlyAddedModels;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class RecentlyAddedActivity extends NavBaseActivity {
                     errorListener()
             );
 
-            ApplicationController.getInstance().addToRequestQueue(request);
+            RequestManager.addToRequestQueue(request);
         } catch (NoServerException e) {
             e.printStackTrace();
         }
@@ -77,7 +78,7 @@ public class RecentlyAddedActivity extends NavBaseActivity {
                             errorListener()
                     );
 
-                    ApplicationController.getInstance().addToRequestQueue(request);
+                    RequestManager.addToRequestQueue(request);
                 } catch (NoServerException e) {
                     e.printStackTrace();
                 }

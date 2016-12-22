@@ -18,6 +18,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.AboutActivity;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.LibraryDetailsActivity;
 import com.williamcomartin.plexpyremote.Models.LibraryStatisticsModels;
 import com.williamcomartin.plexpyremote.R;
@@ -99,7 +100,7 @@ public class LibraryStatisticsAdapter extends RecyclerView.Adapter<LibraryStatis
         viewHolder.vCount.setText(item.count);
         viewHolder.vChildCount.setText(item.childCount);
         viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(item.thumb, "400", "400", "cover"),
-                ApplicationController.getInstance().getImageLoader());
+                ImageCacheManager.getInstance().getImageLoader());
 
         if(item.childCount == null){
             viewHolder.vEpisodeLayout.setVisibility(LinearLayout.GONE);

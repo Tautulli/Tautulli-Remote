@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
 import com.williamcomartin.plexpyremote.Models.UserModels;
 import com.williamcomartin.plexpyremote.R;
@@ -94,11 +95,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             viewHolder.vLastWatched.setText("None");
         }
 
-        viewHolder.vImage.setImageUrl(null, ApplicationController.getInstance().getImageLoader());
+        viewHolder.vImage.setImageUrl(null, ImageCacheManager.getInstance().getImageLoader());
         if(user.userThumb.equals("interfaces/default/images/gravatar-default-80x80.png")){
             viewHolder.vImage.setImageResource(R.drawable.gravatar_default_circle);
         } else {
-            viewHolder.vImage.setImageUrl(user.userThumb, ApplicationController.getInstance().getImageLoader());
+            viewHolder.vImage.setImageUrl(user.userThumb, ImageCacheManager.getInstance().getImageLoader());
         }
 
         if(user.lastSeen != null && !user.lastSeen.equals("null")){

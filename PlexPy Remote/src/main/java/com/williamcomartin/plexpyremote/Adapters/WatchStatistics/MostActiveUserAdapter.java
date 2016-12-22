@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Models.StatisticsModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -65,7 +66,7 @@ public class MostActiveUserAdapter extends RecyclerView.Adapter<MostActiveUserAd
         // Get the data model based on position
         StatisticsModels.StatisticsRow item = statisticsItems.get(position);
 
-        viewHolder.vImage.setImageUrl(item.user_thumb, ApplicationController.getInstance().getImageLoader());
+        viewHolder.vImage.setImageUrl(item.user_thumb, ImageCacheManager.getInstance().getImageLoader());
 
         viewHolder.vBadge.setText(((Integer) (position + 1)).toString());
         viewHolder.vTitle.setText(item.friendly_name);

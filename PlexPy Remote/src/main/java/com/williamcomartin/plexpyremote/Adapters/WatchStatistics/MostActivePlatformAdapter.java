@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Models.StatisticsModels;
 import com.williamcomartin.plexpyremote.R;
 import com.williamcomartin.plexpyremote.Services.PlatformService;
@@ -68,7 +69,7 @@ public class MostActivePlatformAdapter extends RecyclerView.Adapter<MostActivePl
 
         viewHolder.vImage.setImageUrl(SP.getString("server_settings_address", "") +
                 PlatformService.getInstance().getPlatformImagePath(item.platform),
-                ApplicationController.getInstance().getImageLoader());
+                ImageCacheManager.getInstance().getImageLoader());
 
         viewHolder.vBadge.setText(((Integer) (position + 1)).toString());
         viewHolder.vTitle.setText(item.platform);

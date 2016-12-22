@@ -25,6 +25,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 import com.williamcomartin.plexpyremote.ActivityActivity;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Models.ActivityModels.Activity;
 import com.williamcomartin.plexpyremote.R;
 import com.williamcomartin.plexpyremote.StreamInfoFragment;
@@ -202,8 +203,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 //        } else {
 //            imageUrl = UrlHelpers.getImageUrl(activity.grandparent_thumb, "600", "400");
 //        }
-        viewHolder.vImage.setImageUrl(imageUrl, ApplicationController.getInstance().getImageLoader());
-        viewHolder.vImageBlurred.setImageUrl(imageUrl, ApplicationController.getInstance().getImageLoader());
+        viewHolder.vImage.setImageUrl(imageUrl, ImageCacheManager.getInstance().getImageLoader());
+        viewHolder.vImageBlurred.setImageUrl(imageUrl, ImageCacheManager.getInstance().getImageLoader());
         viewHolder.vImageBlurred.setAlpha(0.75f);
 
 

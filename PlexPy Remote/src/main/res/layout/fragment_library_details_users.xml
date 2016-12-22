@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="{fa-users} User Stats"
-            android:textAppearance="@style/Headline"
+            android:textAppearance="@style/TextHeadline"
             android:textSize="28sp" />
 
         <android.support.v7.widget.CardView

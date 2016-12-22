@@ -8,16 +8,19 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowActionBarOverlay">true</item>
-
     </style>
 
-    <style name="Headline" parent="TextAppearance.AppCompat.Headline">
+    <style name="TextSmall">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextHeadline" parent="TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@color/colorTextHeading</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="Subhead" parent="TextAppearance.AppCompat.Subhead">
+    <style name="TextSubhead" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:textColor">@color/colorTextHeading</item>
     </style>
 

@@ -1,6 +1,5 @@
 package com.williamcomartin.plexpyremote.MediaActivities.Show;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,13 +10,12 @@ import android.widget.GridView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.williamcomartin.plexpyremote.Adapters.UserTopStatAdapter;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
-import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
-import com.williamcomartin.plexpyremote.Models.LibraryUsersStatsModels;
 import com.williamcomartin.plexpyremote.R;
 
 import java.util.ArrayList;
@@ -76,7 +74,7 @@ public class ShowSeasonsFragment extends Fragment {
                 errorListener()
         );
 
-        ApplicationController.getInstance().addToRequestQueue(request);
+        RequestManager.addToRequestQueue(request);
     }
 
     private Response.ErrorListener errorListener() {

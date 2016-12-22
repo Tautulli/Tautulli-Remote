@@ -14,7 +14,7 @@
         android:background="@color/colorBackground">
 
         <com.joanzapata.iconify.widget.IconTextView
-            style="@style/Headline"
+            style="@style/TextHeadline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="{fa-info-circle} Stream Details"
@@ -71,13 +71,13 @@
                     <TextView
                         android:id="@+id/activity_stream_title"
                         android:textStyle="bold"
-                        style="@style/Headline"
+                        style="@style/TextHeadline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <TextView
                         android:id="@+id/activity_stream_subtitle"
-                        style="@style/Subhead"
+                        style="@style/TextSubhead"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 

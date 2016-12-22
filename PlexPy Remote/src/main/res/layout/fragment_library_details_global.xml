@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="{fa-line-chart} Global Stats"
-            android:textAppearance="@style/Headline"
+            android:textAppearance="@style/TextHeadline"
             android:textSize="28sp" />
 
         <android.support.v7.widget.CardView
@@ -44,7 +44,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Last 24 hours"
-                        android:textAppearance="@style/Headline" />
+                        android:textAppearance="@style/TextHeadline" />
 
                     <TextView
                         android:id="@+id/library_details_global_24_plays"
@@ -53,7 +53,7 @@
                         android:layout_below="@+id/library_details_global_24_title"
                         android:text="999999"
                         android:textAlignment="textEnd"
-                        android:textAppearance="@style/Headline"
+                        android:textAppearance="@style/TextHeadline"
                         android:textColor="@color/colorAccent" />
 
                     <TextView
@@ -82,7 +82,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="999"
-                                android:textAppearance="@style/Headline"
+                                android:textAppearance="@style/TextHeadline"
                                 android:textColor="@color/colorAccent" />
 
                             <TextView
@@ -106,7 +106,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="23"
-                                android:textAppearance="@style/Headline"
+                                android:textAppearance="@style/TextHeadline"
                                 android:textColor="@color/colorAccent" />
 
                             <TextView
@@ -130,7 +130,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="59"
-                                android:textAppearance="@style/Headline"
+                                android:textAppearance="@style/TextHeadline"
                                 android:textColor="@color/colorAccent" />
 
                             <TextView
@@ -158,7 +158,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Last 7 days"
-                        android:textAppearance="@style/Headline" />
+                        android:textAppearance="@style/TextHeadline" />
 
                     <TextView
                         android:id="@+id/library_details_global_7_plays"
@@ -167,7 +167,7 @@
                         android:layout_below="@+id/library_details_global_7_title"
                         android:text="999999"
                         android:textAlignment="textEnd"
-                        android:textAppearance="@style/Headline"
+                        android:textAppearance="@style/TextHeadline"
                         android:textColor="@color/colorAccent" />
 
                     <TextView
@@ -196,7 +196,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="999"
-                                android:textAppearance="@style/Headline"
+                                android:textAppearance="@style/TextHeadline"
                                 android:textColor="@color/colorAccent" />
 
                             <TextView
@@ -220,7 +220,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="23"
-                                android:textAppearance="@style/Headline"
+                                android:textAppearance="@style/TextHeadline"
                                 android:textColor="@color/colorAccent" />
 
                             <TextView
@@ -244,7 +244,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="59"
-                                android:textAppearance="@style/Headline"
+                                android:textAppearance="@style/TextHeadline"
                                 android:textColor="@color/colorAccent" />
 
                             <TextView
@@ -272,7 +272,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Last 30 days"
-                        android:textAppearance="@style/Headline" />
+                        android:textAppearance="@style/TextHeadline" />
 
                     <TextView
                         android:id="@+id/library_details_global_30_plays"
@@ -281,7 +281,7 @@
                         android:layout_below="@+id/library_details_global_30_title"
                         android:text="999999"
                         android:textAlignment="textEnd"
-                        android:textAppearance="@style/Headline"
+                        android:textAppearance="@style/TextHeadline"
                         android:textColor="@color/colorAccent" />
 
                     <TextView
@@ -310,7 +310,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="999"
-                                android:textAppearance="@style/Headline"
+                                android:textAppearance="@style/TextHeadline"
                                 android:textColor="@color/colorAccent" />
 
                             <TextView
@@ -334,7 +334,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="23"
-                                android:textAppearance="@style/Headline"
+                                android:textAppearance="@style/TextHeadline"
                                 android:textColor="@color/colorAccent" />
 
                             <TextView
@@ -358,7 +358,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="59"
-                                android:textAppearance="@style/Headline"
+                                android:textAppearance="@style/TextHeadline"
                                 android:textColor="@color/colorAccent" />
 
                             <TextView
@@ -386,7 +386,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="All time"
-                        android:textAppearance="@style/Headline" />
+                        android:textAppearance="@style/TextHeadline" />
 
                     <TextView
                         android:id="@+id/library_details_global_all_plays"
@@ -395,7 +395,7 @@
                         android:layout_below="@+id/library_details_global_all_title"
                         android:text="999999"
                         android:textAlignment="textEnd"
-                        android:textAppearance="@style/Headline"
+                        android:textAppearance="@style/TextHeadline"
                         android:textColor="@color/colorAccent" />
 
                     <TextView
@@ -424,7 +424,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="999"
-                                android:textAppearance="@style/Headline"
+                                android:textAppearance="@style/TextHeadline"
                                 android:textColor="@color/colorAccent" />
 
                             <TextView
@@ -448,7 +448,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="23"
-                                android:textAppearance="@style/Headline"
+                                android:textAppearance="@style/TextHeadline"
                                 android:textColor="@color/colorAccent" />
 
                             <TextView
@@ -472,7 +472,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="59"
-                                android:textAppearance="@style/Headline"
+                                android:textAppearance="@style/TextHeadline"
                                 android:textColor="@color/colorAccent" />
 
                             <TextView

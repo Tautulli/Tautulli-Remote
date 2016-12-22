@@ -15,6 +15,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.MediaActivities.Show.ShowActivity;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
 import com.williamcomartin.plexpyremote.R;
@@ -118,7 +119,7 @@ public class LibraryDetailsMediaListAdapter extends RecyclerView.Adapter<Library
         });
 
         viewHolder.mImage.setImageUrl(UrlHelpers.getImageUrl(mediaItem.thumb, "400", "600"),
-                ApplicationController.getInstance().getImageLoader());
+                ImageCacheManager.getInstance().getImageLoader());
 
         viewHolder.mTitle.setText(mediaItem.title);
 
@@ -136,7 +137,9 @@ public class LibraryDetailsMediaListAdapter extends RecyclerView.Adapter<Library
             viewHolder.mTotalPlays.setText("None");
         }
 
-        viewHolder.mFileSize.setText(humanReadableByteCount(mediaItem.fileSize, false));
+        if(mediaItem.fileSize != null) {
+            viewHolder.mFileSize.setText(humanReadableByteCount(mediaItem.fileSize, false));
+        }
 
     }
 

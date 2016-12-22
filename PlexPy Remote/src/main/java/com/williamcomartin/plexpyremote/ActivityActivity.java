@@ -5,14 +5,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.content.IntentCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,8 +21,9 @@ import com.williamcomartin.plexpyremote.Adapters.ActivityAdapter;
 import com.williamcomartin.plexpyremote.Helpers.EmptyRecyclerView;
 import com.williamcomartin.plexpyremote.Helpers.ErrorListener;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
-import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
 import com.williamcomartin.plexpyremote.Services.NavService;
 
@@ -135,7 +134,7 @@ public class ActivityActivity extends NavBaseActivity {
                     errorListener()
             );
 
-            ApplicationController.getInstance().addToRequestQueue(request);
+            RequestManager.addToRequestQueue(request);
         } catch (NoServerException e) {
             TextView text = (TextView) findViewById(R.id.emptyTextView);
             text.setText(getString(R.string.InvalidServer));

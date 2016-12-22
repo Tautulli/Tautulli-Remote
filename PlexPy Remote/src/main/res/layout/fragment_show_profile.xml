@@ -43,7 +43,7 @@
 
                     <TextView
                         android:id="@+id/show_profile_studio"
-                        style="@style/Subhead"
+                        style="@style/TextSubhead"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="HBO"
@@ -63,7 +63,7 @@
 
                     <TextView
                         android:id="@+id/show_profile_aired"
-                        style="@style/Subhead"
+                        style="@style/TextSubhead"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2016"
@@ -83,7 +83,7 @@
 
                     <TextView
                         android:id="@+id/show_profile_runtime"
-                        style="@style/Subhead"
+                        style="@style/TextSubhead"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="45 mins"
@@ -103,7 +103,7 @@
 
                     <TextView
                         android:id="@+id/show_profile_rated"
-                        style="@style/Subhead"
+                        style="@style/TextSubhead"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="TV-14"
@@ -124,7 +124,7 @@
 
         <TextView
             android:id="@+id/show_profile_description"
-            style="@style/Subhead"
+            style="@style/TextSubhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

@@ -78,7 +78,7 @@
                         android:maxLines="1"
                         android:text=""
                         android:textStyle="bold"
-                        style="@style/Headline"
+                        style="@style/TextHeadline"
                         android:textSize="18sp" />
 
                     <TextView
@@ -89,7 +89,7 @@
                         android:maxLines="2"
                         android:text=""
                         android:textSize="14sp"
-                        style="@style/Subhead"/>
+                        style="@style/TextSubhead"/>
 
                     <TextView
                         android:id="@+id/activity_card_muted_title"

@@ -17,6 +17,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.ImageHelper;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
 import com.williamcomartin.plexpyremote.Services.PlatformService;
 import com.williamcomartin.plexpyremote.Models.ActivityModels.Activity;
@@ -99,7 +100,7 @@ public class StreamInfoFragment extends Fragment {
         vScroller.fullScroll(ScrollView.FOCUS_UP);
 
         vImage.setImageUrl(UrlHelpers.getImageUrl(activity.art, "400", "600"),
-                ApplicationController.getInstance().getImageLoader());
+                ImageCacheManager.getInstance().getImageLoader());
 
         vEta.setText(String.format(getString(R.string.eta), formatDuration(activity.duration, activity.view_offset)));
 
@@ -137,7 +138,7 @@ public class StreamInfoFragment extends Fragment {
         }
 
         vUserAvatar.setImageUrl(activity.user_thumb,
-                ApplicationController.getInstance().getImageLoader());
+                ImageCacheManager.getInstance().getImageLoader());
         vUserName.setText(activity.friendly_name);
         vUserIP.setText("IP: " + activity.ip_address);
 

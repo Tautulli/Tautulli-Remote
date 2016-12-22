@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="@style/Subhead"
+            android:textAppearance="@style/TextSubhead"
             android:textSize="12sp"/>
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_top_stat_name"
             android:layout_alignStart="@+id/user_top_stat_name"
-            android:textAppearance="@style/Subhead"
+            android:textAppearance="@style/TextSubhead"
             android:textColor="@color/colorAccent"
             android:text="1607"/>
 

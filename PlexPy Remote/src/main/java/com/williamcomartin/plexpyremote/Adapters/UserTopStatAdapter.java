@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 
 import com.williamcomartin.plexpyremote.ApplicationController;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Models.LibraryUsersStatsModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -72,7 +73,7 @@ public class UserTopStatAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.vAvatar.setImageUrl(user.userThumb, ApplicationController.getInstance().getImageLoader());
+        viewHolder.vAvatar.setImageUrl(user.userThumb, ImageCacheManager.getInstance().getImageLoader());
         viewHolder.vAvatar.setDefaultImageResId(R.drawable.gravatar_default_circle);
         viewHolder.vAvatar.setErrorImageResId(R.drawable.gravatar_default_circle);
 

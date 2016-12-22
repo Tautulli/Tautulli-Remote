@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Models.HistoryModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -75,7 +76,7 @@ public class HistoryHorizontalAdapter extends RecyclerView.Adapter<HistoryHorizo
 //        viewHolder.vTitle.setText(historyItem.fullTitle);
 //        viewHolder.vUser.setText(historyItem.friendlyName);
         viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(historyItem.thumb, "600", "400"),
-                ApplicationController.getInstance().getImageLoader());
+                ImageCacheManager.getInstance().getImageLoader());
 //
 //        if(historyItem.date != null && !historyItem.date.equals("null")){
 //            SimpleDateFormat format = new SimpleDateFormat("MMM dd,yyyy  hh:mm a");

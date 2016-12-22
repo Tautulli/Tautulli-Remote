@@ -10,9 +10,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -21,8 +19,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
-import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.R;
 
 /**
@@ -97,7 +97,7 @@ public class ShowProfileFragment extends Fragment {
                 errorListener()
         );
 
-        ApplicationController.getInstance().addToRequestQueue(request);
+        RequestManager.addToRequestQueue(request);
     }
 
     private Response.ErrorListener errorListener() {
@@ -113,15 +113,24 @@ public class ShowProfileFragment extends Fragment {
             @Override
             public void onResponse(ShowProfileModels response) {
                 vImage.setImageUrl(UrlHelpers.getImageUrl(response.response.data.thumb, "400", "600"),
-                        ApplicationController.getInstance().getImageLoader());
+                        ImageCacheManager.getInstance().getImageLoader());
 
                 vStudio.setText(response.response.data.studio);
                 vAired.setText(response.response.data.year);
-                int duration = Integer.parseInt(response.response.data.duration) / 60 / 1000;
+                int duration;
+                try {
+                    duration = Integer.parseInt(response.response.data.duration) / 60 / 1000;
+                } catch (NumberFormatException e){
+                    duration = 0;
+                }
                 vRuntime.setText(String.valueOf(duration) + " mins");
                 vRated.setText(response.response.data.contentRating);
 
-                vRating.setRating(Float.parseFloat(response.response.data.rating) / 2);
+                try {
+                    vRating.setRating(Float.parseFloat(response.response.data.rating) / 2);
+                } catch (NumberFormatException e){
+                    vRating.setRating(0.0f);
+                }
 
                 vDescription.setText(response.response.data.summary);
 

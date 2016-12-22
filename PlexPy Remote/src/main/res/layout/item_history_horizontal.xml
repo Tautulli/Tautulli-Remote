@@ -32,7 +32,7 @@
 
     <TextView
         android:id="@+id/history_card_title"
-        style="@style/Headline"
+        style="@style/TextHeadline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
@@ -42,7 +42,7 @@
 
     <TextView
         android:id="@+id/history_card_subtitle"
-        style="@style/Subhead"
+        style="@style/TextSubhead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"

@@ -1,12 +1,9 @@
 package com.williamcomartin.plexpyremote.SharedFragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +13,9 @@ import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.HistoryAdapter;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
-import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.HistoryModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -74,7 +72,7 @@ public class HistoryFragment extends Fragment {
                 errorListener()
         );
 
-        ApplicationController.getInstance().addToRequestQueue(request);
+        RequestManager.addToRequestQueue(request);
     }
 
     private Response.ErrorListener errorListener() {

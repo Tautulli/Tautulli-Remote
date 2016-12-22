@@ -15,6 +15,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.ImageHelper;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
 import com.williamcomartin.plexpyremote.Models.LibraryUsersStatsModels;
 import com.williamcomartin.plexpyremote.Models.UserModels;
@@ -88,7 +89,7 @@ public class ShowSeasonsGridAdapter  extends BaseAdapter {
 //        viewHolder.vLayout.requestLayout();
 
         viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(season.thumb, "666", "1000"),
-                ApplicationController.getInstance().getImageLoader());
+                ImageCacheManager.getInstance().getImageLoader());
 
         viewHolder.vTitle.setText(season.title);
 

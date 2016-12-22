@@ -1,7 +1,5 @@
 package com.williamcomartin.plexpyremote.SharedFragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,8 +14,9 @@ import com.williamcomartin.plexpyremote.Adapters.RecentlyAddedAdapter;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.EndlessScrollListener;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
-import com.williamcomartin.plexpyremote.Helpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.RecentlyAddedModels;
 import com.williamcomartin.plexpyremote.R;
 
@@ -82,7 +81,7 @@ public class RecentlyAddedFragment extends Fragment {
                 errorListener()
         );
 
-        ApplicationController.getInstance().addToRequestQueue(request);
+        RequestManager.addToRequestQueue(request);
     }
 
     private Response.ErrorListener errorListener() {

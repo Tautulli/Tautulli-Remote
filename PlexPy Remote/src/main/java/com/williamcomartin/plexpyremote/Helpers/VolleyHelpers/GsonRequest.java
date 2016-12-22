@@ -1,4 +1,4 @@
-package com.williamcomartin.plexpyremote.Helpers;
+package com.williamcomartin.plexpyremote.Helpers.VolleyHelpers;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -11,6 +11,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.williamcomartin.plexpyremote.Helpers.GSONTypeAdapters;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -29,23 +30,6 @@ public class GsonRequest<T> extends Request<T> {
     public GsonRequest(String url, Class<T> clazz, Map<String, String> headers,
                        Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
-
-        setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 50000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 50000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
 
         GsonBuilder gsonB = new GsonBuilder();
         gsonB.registerTypeAdapter(Double.class, GSONTypeAdapters.DoubleTypeAdapter);

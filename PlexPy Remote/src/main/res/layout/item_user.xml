@@ -48,7 +48,7 @@
                     android:maxLines="1"
                     android:text="User Name"
                     android:textStyle="bold"
-                    style="@style/Headline"
+                    style="@style/TextHeadline"
                     android:textSize="18sp" />
 
                 <LinearLayout
@@ -61,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:text="Last Seen: "
                         android:textSize="14sp"
-                        style="@style/Subhead"/>
+                        style="@style/TextSubhead"/>
 
                     <TextView
                         android:id="@+id/user_card_last_seen"
@@ -71,7 +71,7 @@
                         android:maxLines="1"
                         android:text=""
                         android:textSize="14sp"
-                        style="@style/Subhead"/>
+                        style="@style/TextSubhead"/>
 
                 </LinearLayout>
 
@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:text="Last Played: "
                         android:textSize="14sp"
-                        style="@style/Subhead"/>
+                        style="@style/TextSubhead"/>
 
                     <TextView
                         android:id="@+id/user_card_watched"
@@ -95,7 +95,7 @@
                         android:maxLines="1"
                         android:text=""
                         android:textSize="14sp"
-                        style="@style/Subhead"/>
+                        style="@style/TextSubhead"/>
 
                 </LinearLayout>
                 <!--<TextView-->
