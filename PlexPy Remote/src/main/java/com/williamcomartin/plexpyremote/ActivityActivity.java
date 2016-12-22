@@ -169,6 +169,8 @@ public class ActivityActivity extends NavBaseActivity {
                         text.setText(getString(R.string.NetworkUnreachable));
                     } else if (error.getMessage().contains("Connection refused")) {
                         text.setText(getString(R.string.ConnectionRefused));
+                    } else if (error.getMessage().contains("Bad URL")) {
+                        text.setText(getString(R.string.FormatError));
                     } else {
                         text.setText(getString(R.string.UnexpectedError) + ", " + error.getMessage());
                     }
@@ -198,7 +200,7 @@ public class ActivityActivity extends NavBaseActivity {
                     adapter.SetActivities(response.response.data.sessions);
                 } else if (response.response.result.equals("error")){
                     TextView text = (TextView) findViewById(R.id.emptyTextView);
-                    text.setText(getString(R.string.plexerror));
+                    text.setText(getString(R.string.PlexError));
                     text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                     findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
                 } else if (response.response.message.equals("Invalid apikey")) {

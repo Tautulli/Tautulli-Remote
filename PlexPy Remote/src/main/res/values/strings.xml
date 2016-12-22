@@ -21,6 +21,8 @@
     <string name="app_settings_refresh_title">Activity Refresh Interval</string>
     <string name="app_settings_back_title">Double Tap to Exit</string>
 
+    <string name="CheckingActivity">Checking for activity…</string>
+
     <string-array name="StatisticsTabs">
         <item>Most Watched TV</item>
         <item>Most Popular TV</item>
@@ -38,13 +40,13 @@
 
     <!-- Error Messages -->
 
-    <string name="InvalidServer">Invalid server address</string>
-    <string name="InvalidTimeoutServer">Could not communicate with PlexPy: Possible invalid server address</string>
+    <string name="InvalidServer">Unable to connect to PlexPy. Check server address or network connection.</string>
+    <string name="InvalidTimeoutServer">Connection to PlexPy timed out: Possible invalid server address</string>
     <string name="NetworkUnreachable">Network is unreachable</string>
     <string name="ConnectionRefused">Invalid server port</string>
     <string name="InvalidAPIKey">Invalid API key</string>
     <string name="NoActivity">Nothing is currently being played</string>
-    <string name="CheckingActivity">Checking for activity…</string>
-    <string name="plexerror">PlexPy could not communicate with your Plex Server</string>
+    <string name="PlexError">PlexPy could not communicate with your Plex Server</string>
+    <string name="FormatError">Incorrect server address format</string>
     <string name="UnexpectedError">Unexpected error</string>
 </resources>
