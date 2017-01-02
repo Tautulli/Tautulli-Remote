@@ -136,11 +136,20 @@ public class ActivityActivity extends NavBaseActivity {
 
             RequestManager.addToRequestQueue(request);
         } catch (NoServerException e) {
-            TextView text = (TextView) findViewById(R.id.emptyTextView);
-            text.setText(getString(R.string.InvalidServer));
-            text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-            findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
-            adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
+            try {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView text = (TextView) findViewById(R.id.emptyTextView);
+                        text.setText(getString(R.string.InvalidServer));
+                        text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+                        findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
+                        adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
+                    }
+                });
+            } catch (Exception ex){
+                Toast.makeText(context, getString(R.string.InvalidServer), Toast.LENGTH_LONG).show();
+            }
         }
 
 
@@ -198,7 +207,7 @@ public class ActivityActivity extends NavBaseActivity {
                         adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
                     }
                     adapter.SetActivities(response.response.data.sessions);
-                } else if (response.response.result.equals("error")){
+                } else if (response.response.result.equals("error")) {
                     TextView text = (TextView) findViewById(R.id.emptyTextView);
                     text.setText(getString(R.string.PlexError));
                     text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
