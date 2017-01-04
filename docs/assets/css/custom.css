@@ -1,6 +1,16 @@
+@media screen and (min-width: 64em){
+    .page-header {
+        padding: 10rem 6rem;
+    }
+}
+
 .page-header {
     background: #1f1f1f;
     background-image: none;
+}
+.page-header .project-name img {
+    width: 100%; 
+    max-width:600px;
 }
 .page-header .project-tagline a {
     color: #cc7b19
