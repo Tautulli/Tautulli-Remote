@@ -31,13 +31,17 @@
         flex: 1; 
         margin: 5px;
       }
+      .header-btn a {
+        width: 180px;
+        height: 50px;
+        font-size: 1rem !important;
+      }
       .header-btn-play-img {
           float: left;
-          height: 50px;
-          width: 170px;
           display: inline-block;
           background-image: url(images/play_button.png);
           background-repeat: no-repeat;
+          background-position: center;
           background-size: contain;
 
           background-color: rgba(255, 255, 255, 0.08);
@@ -53,11 +57,25 @@
           background-color: rgba(255, 255, 255, 0.2);
           border-color: #cc7b19;
       }
+
+      @media screen and (max-width: 42em) {
+        .header-btns {
+          display: block;
+          width: 100%;
+        }
+        .header-btn {
+          flex: none;
+        }
+        .header-btn a {
+          display: inline-block;
+          float:none !important;
+        }
+      }
     </style>
   </head>
   <body>
     <section class="page-header">
-      <h1 class="project-name">{{ site.title | default: site.github.repository_name }}</h1>
+      <h1 class="project-name"><img src="images/logo-thin.png" style="width: 100%; max-width:400px;" /></h1>
       <h2 class="project-tagline">{{ site.description | default: site.github.project_tagline }}</h2>
       <div class="header-btns">
       {% if site.github.is_project_page %}
