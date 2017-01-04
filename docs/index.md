@@ -1,1 +1,1 @@
-# Plexpy Remote
+# PlexPy-Remote
