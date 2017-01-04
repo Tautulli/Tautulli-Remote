@@ -4,10 +4,26 @@
     <meta charset="UTF-8">
     <title>{{ page.title | default: site.title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#157878">
+    <meta name="theme-color" content="#1f1f1f">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <style>
+      .page-header {
+        background: #1f1f1f;
+        background-image: none;
+      }
+      .main-content h1 {
+        color: #1f1f1f;
+      }
+
+      .btn {
+        border-color: #cc7b19;
+      }
+      .btn:hover {
+        border-color: #cc7b19;
+      }
+
       .header-btns {
         display: flex;
       }
@@ -21,7 +37,21 @@
           width: 170px;
           display: inline-block;
           background-image: url(images/play_button.png);
+          background-repeat: no-repeat;
           background-size: contain;
+
+          background-color: rgba(255, 255, 255, 0.08);
+          border-color: #cc7b19;
+          border-style: solid;
+          border-width: 1px;
+          border-radius: 0.3rem;
+      }
+
+      .header-btn-play-img:hover {
+          color: rgba(255, 255, 255, 0.8);
+          text-decoration: none;
+          background-color: rgba(255, 255, 255, 0.2);
+          border-color: #cc7b19;
       }
     </style>
   </head>
