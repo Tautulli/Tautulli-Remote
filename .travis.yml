@@ -14,7 +14,7 @@ android:
     - tools
     - platform-tools
     - build-tools-24.0.3
-    - android-24
+    - android-25
 
     # Additional components
     - extra-google-google_play_services
