@@ -16,6 +16,7 @@ import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
+import com.williamcomartin.plexpyremote.MediaActivities.Movie.MovieActivity;
 import com.williamcomartin.plexpyremote.MediaActivities.Show.ShowActivity;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
 import com.williamcomartin.plexpyremote.R;
@@ -38,6 +39,7 @@ public class LibraryDetailsMediaListAdapter extends RecyclerView.Adapter<Library
         protected final CardView mCard;
         protected final NetworkImageView mImage;
         protected final TextView mTitle;
+        protected final TextView mYear;
         protected final TextView mLastPlayed;
         protected final TextView mTotalPlays;
         protected final TextView mFileSize;
@@ -48,6 +50,7 @@ public class LibraryDetailsMediaListAdapter extends RecyclerView.Adapter<Library
             mCard = (CardView) itemView.findViewById(R.id.library_details_media_card);
             mImage = (NetworkImageView) itemView.findViewById(R.id.library_details_media_image);
             mTitle = (TextView) itemView.findViewById(R.id.library_details_media_title);
+            mYear = (TextView) itemView.findViewById(R.id.library_details_media_year);
             mLastPlayed = (TextView) itemView.findViewById(R.id.library_details_media_last_played);
             mTotalPlays = (TextView) itemView.findViewById(R.id.library_details_media_total_plays);
             mFileSize = (TextView) itemView.findViewById(R.id.library_details_media_file_size);
@@ -112,6 +115,11 @@ public class LibraryDetailsMediaListAdapter extends RecyclerView.Adapter<Library
                     intent.putExtra("RatingKey", mediaItem.ratingKey);
                     intent.putExtra("Title", mediaItem.title);
                 }
+                if(mediaItem.mediaType.equals("movie")) {
+                    intent = new Intent(context, MovieActivity.class);
+                    intent.putExtra("RatingKey", mediaItem.ratingKey);
+                    intent.putExtra("Title", mediaItem.title);
+                }
                 if(intent != null) {
                     context.startActivity(intent);
                 }
@@ -122,6 +130,7 @@ public class LibraryDetailsMediaListAdapter extends RecyclerView.Adapter<Library
                 ImageCacheManager.getInstance().getImageLoader());
 
         viewHolder.mTitle.setText(mediaItem.title);
+        viewHolder.mYear.setText(mediaItem.year);
 
         if (mediaItem.lastPlayed != null && !mediaItem.lastPlayed.equals("null")) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

@@ -53,6 +53,24 @@ public class HistoryFragment extends Fragment {
         }
     }
 
+    public void setRatingKey(String ratingKey){
+        try {
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history&rating_key=" + ratingKey;
+            fetchData(url);
+        } catch (NoServerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setParentRatingKey(String ratingKey){
+        try {
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history&parent_rating_key=" + ratingKey;
+            fetchData(url);
+        } catch (NoServerException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setGrandParentRatingKey(String ratingKey){
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history&grandparent_rating_key=" + ratingKey;

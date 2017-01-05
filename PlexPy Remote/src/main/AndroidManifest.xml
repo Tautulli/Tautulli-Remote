@@ -76,6 +76,8 @@
         </activity>
         <activity android:name=".LibraryDetailsActivity" />
         <activity android:name=".MediaActivities.Show.ShowActivity" />
+        <activity android:name=".MediaActivities.Season.SeasonActivity" />
+        <activity android:name=".MediaActivities.Movie.MovieActivity" />
     </application>
 
 </manifest>

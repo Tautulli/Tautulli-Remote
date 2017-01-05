@@ -2,6 +2,7 @@ package com.williamcomartin.plexpyremote.LibraryDetailsFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,7 +121,11 @@ public class LibraryDetailsStatsFragment extends Fragment {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-//                            setupStats(statsLayout, libraryId);
+                            Log.d("LibraryStats", error.getMessage());
+                            if(error.getMessage().contains("com.google.gson.JsonSyntaxException")){
+                                userVisible = true;
+                                checkVisibility(statsLayout);
+                            }
                         }
                     }
             );

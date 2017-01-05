@@ -34,13 +34,27 @@
                 android:layout_marginBottom="0dp"
                 android:layout_marginTop="0dp">
 
-                <TextView
-                    android:id="@+id/library_details_media_title"
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textAppearance="@style/TextHeadline" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/library_details_media_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextHeadline" />
+
+                    <TextView
+                        android:id="@+id/library_details_media_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"

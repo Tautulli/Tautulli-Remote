@@ -38,7 +38,7 @@ public class ActivityActivity extends NavBaseActivity {
     private EmptyRecyclerView rvActivities;
     private ActivityAdapter adapter;
     private SharedPreferences SP;
-    private Timer myTimer = new Timer();
+    private Timer myTimer;
     boolean doubleBackToExitPressedOnce = false;
 
     private DrawerLayout mDrawerLayout;
@@ -96,7 +96,47 @@ public class ActivityActivity extends NavBaseActivity {
 
         mSwipeRefreshLayout.setRefreshing(true);
         refreshItems();
+        startTimer();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startTimer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startTimer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mDrawerLayout.closeDrawers();
+        if(myTimer != null) {
+            myTimer.cancel();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(myTimer != null) {
+            myTimer.cancel();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(myTimer != null) {
+            myTimer.cancel();
+        }
+    }
+
+    private void startTimer() {
         SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int refreshPeriod;
         String refreshString = SP.getString("app_settings_refresh", "0");
@@ -108,19 +148,17 @@ public class ActivityActivity extends NavBaseActivity {
         refreshPeriod = refreshPeriod * 1000;
 
         if (refreshPeriod > 0) {
+            if(myTimer != null) {
+                myTimer.cancel();
+            }
+            myTimer = new Timer();
             myTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     refreshItems();
                 }
-            }, 0, refreshPeriod);
+            }, refreshPeriod, refreshPeriod);
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mDrawerLayout.closeDrawers();
     }
 
     private void refreshItems() {
@@ -236,14 +274,6 @@ public class ActivityActivity extends NavBaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        myTimer.cancel();
-    }
-
-
-    @Override
-
     public void onBackPressed() {
         if (mainDrawerLayout.isDrawerOpen(GravityCompat.START) || mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
             super.onBackPressed();

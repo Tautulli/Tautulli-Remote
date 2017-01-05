@@ -1,6 +1,8 @@
 package com.williamcomartin.plexpyremote.MediaActivities.Show;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,8 @@ import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.ImageHelper;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
+import com.williamcomartin.plexpyremote.MediaActivities.Movie.MovieActivity;
+import com.williamcomartin.plexpyremote.MediaActivities.Season.SeasonActivity;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
 import com.williamcomartin.plexpyremote.Models.LibraryUsersStatsModels;
 import com.williamcomartin.plexpyremote.Models.UserModels;
@@ -31,18 +35,20 @@ import java.util.List;
  * Created by wcomartin on 2016-12-15.
  */
 
-public class ShowSeasonsGridAdapter  extends BaseAdapter {
+public class ShowSeasonsGridAdapter extends BaseAdapter {
     private Context context;
     private List<LibraryMediaModels.LibraryMediaItem> seasons;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        protected CardView vCard;
         protected RelativeLayout vLayout;
         protected NetworkImageView vImage;
         protected TextView vTitle;
 
         public ViewHolder(final View itemView) {
             super(itemView);
+            vCard = (CardView) itemView.findViewById(R.id.show_seasons_card);
             vLayout = (RelativeLayout) itemView.findViewById(R.id.show_seasons_card_layout);
             vImage = (NetworkImageView) itemView.findViewById(R.id.show_seasons_image);
             vTitle = (TextView) itemView.findViewById(R.id.show_seasons_title);
@@ -73,7 +79,7 @@ public class ShowSeasonsGridAdapter  extends BaseAdapter {
         View view = convertView;
         final ShowSeasonsGridAdapter.ViewHolder viewHolder;
 
-        if(view == null){
+        if (view == null) {
             view = inflater.inflate(R.layout.item_season, null);
             viewHolder = new ShowSeasonsGridAdapter.ViewHolder(view);
             view.setTag(viewHolder);
@@ -81,12 +87,17 @@ public class ShowSeasonsGridAdapter  extends BaseAdapter {
             viewHolder = (ShowSeasonsGridAdapter.ViewHolder) view.getTag();
         }
 
-//        Log.d("SeasonGridWidth", String.valueOf(viewHolder.vImage.getMeasuredWidth()));
-//        Log.d("SeasonGridHeight", String.valueOf(viewHolder.vImage.getMeasuredHeight()));
-//
-//        int width = viewHolder.vLayout.getMeasuredWidth();
-//        viewHolder.vLayout.setMinimumHeight(width * 7 / 5);
-//        viewHolder.vLayout.requestLayout();
+        viewHolder.vCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = null;
+                intent = new Intent(context, SeasonActivity.class);
+                intent.putExtra("RatingKey", season.ratingKey);
+                intent.putExtra("Title", season.title);
+
+                context.startActivity(intent);
+            }
+        });
 
         viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(season.thumb, "666", "1000"),
                 ImageCacheManager.getInstance().getImageLoader());

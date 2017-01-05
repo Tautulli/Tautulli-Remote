@@ -40,3 +40,6 @@ proguard/
 
 # Android Studio captures folder
 captures/
+
+*/*.lock
+docs/_site/
