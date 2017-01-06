@@ -38,7 +38,9 @@ public class LibraryStatisticsAdapter extends RecyclerView.Adapter<LibraryStatis
 
         private final CardView vCard;
         private final TextView vTitle;
+        private final TextView vCountTitle;
         private final TextView vCount;
+        private final TextView vChildCountTitle;
         private final TextView vChildCount;
         private final LinearLayout vEpisodeLayout;
         private final NetworkImageView vImage;
@@ -48,7 +50,9 @@ public class LibraryStatisticsAdapter extends RecyclerView.Adapter<LibraryStatis
 
             vCard = (CardView) itemView.findViewById(R.id.recently_added_card_view);
             vTitle = (TextView) itemView.findViewById(R.id.library_statistics_card_title);
+            vCountTitle = (TextView) itemView.findViewById(R.id.library_statistics_card_count_title);
             vCount = (TextView) itemView.findViewById(R.id.library_statistics_card_count);
+            vChildCountTitle = (TextView) itemView.findViewById(R.id.library_statistics_card_child_count_title);
             vChildCount = (TextView) itemView.findViewById(R.id.library_statistics_card_child_count);
             vImage = (NetworkImageView) itemView.findViewById(R.id.library_statistics_card_image);
 
@@ -98,13 +102,23 @@ public class LibraryStatisticsAdapter extends RecyclerView.Adapter<LibraryStatis
         // Set item views based on the data model
         viewHolder.vTitle.setText(item.sectionName);
         viewHolder.vCount.setText(item.count);
-        viewHolder.vChildCount.setText(item.childCount);
+        if(item.sectionType.equals("artist")){
+            viewHolder.vCountTitle.setText("Artists");
+            viewHolder.vChildCountTitle.setText("Albums");
+            viewHolder.vEpisodeLayout.setVisibility(LinearLayout.VISIBLE);
+            viewHolder.vChildCount.setText(item.parentCount);
+        } else if(item.sectionType.equals("movie")){
+            viewHolder.vCountTitle.setText("Movies");
+            viewHolder.vEpisodeLayout.setVisibility(LinearLayout.GONE);
+        } else if(item.sectionType.equals("show")){
+            viewHolder.vCountTitle.setText("Shows");
+            viewHolder.vChildCountTitle.setText("Episodes");
+            viewHolder.vEpisodeLayout.setVisibility(LinearLayout.VISIBLE);
+            viewHolder.vChildCount.setText(item.childCount);
+        }
+
         viewHolder.vImage.setImageUrl(UrlHelpers.getImageUrl(item.thumb, "400", "400", "cover"),
                 ImageCacheManager.getInstance().getImageLoader());
-
-        if(item.childCount == null){
-            viewHolder.vEpisodeLayout.setVisibility(LinearLayout.GONE);
-        }
 
     }
 
