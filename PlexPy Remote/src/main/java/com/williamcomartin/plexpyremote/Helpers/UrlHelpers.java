@@ -31,17 +31,13 @@ public class UrlHelpers {
     }
 
     public static String getHost () throws NoServerException {
-        if(SP.getString("server_settings_address", "").equals("")){
+        if(SP.getString("server_settings_address", "").trim().equals("")){
             throw new NoServerException();
         }
-        return SP.getString("server_settings_address", "");
+        return SP.getString("server_settings_address", "").trim();
     }
 
     public static String getHostPlusAPIKey () throws NoServerException {
-        if(SP.getString("server_settings_address", "").equals("")){
-            throw new NoServerException();
-        }
-        return SP.getString("server_settings_address", "")
-                + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "");
+        return getHost() + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "").trim();
     }
 }

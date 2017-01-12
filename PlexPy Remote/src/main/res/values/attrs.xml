@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="EditTextPreferenceWithDisplay">
         <attr name="defaultSummary" format="string" />
+        <attr name="trimValue" format="boolean" />
     </declare-styleable>
 </resources>
