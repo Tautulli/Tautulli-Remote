@@ -47,6 +47,8 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingBottom="5dp"
                 android:layout_alignBottom="@id/show_seasons_image_placeholder">
                 <TextView
                     android:id="@+id/show_episodes_number"

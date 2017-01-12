@@ -1,7 +1,9 @@
 package com.williamcomartin.plexpyremote;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -29,9 +31,19 @@ public class ApplicationController extends Application {
         RequestManager.init(mInstance);
         ImageCacheManager.getInstance().init(mInstance, mInstance.getPackageCodePath(),
                 1024 * 1024 * 100, Bitmap.CompressFormat.PNG, 100);
+
+        stepOpenCount();
     }
 
     public static synchronized ApplicationController getInstance() {
         return mInstance;
+    }
+
+    public void stepOpenCount () {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        int currentCount = sharedPref.getInt("AppOpenCount", 0);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("AppOpenCount", currentCount + 1);
+        editor.apply();
     }
 }
