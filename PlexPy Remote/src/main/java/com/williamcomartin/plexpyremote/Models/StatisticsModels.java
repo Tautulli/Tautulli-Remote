@@ -36,6 +36,26 @@ public class StatisticsModels {
         @SerializedName("stat_type")
         @Expose
         public String statType;
+
+        public boolean isMovie(){
+            return this.statId.contains("movies");
+        }
+        public boolean isTV(){
+            return this.statId.contains("tv");
+        }
+        public boolean isUser(){
+            return this.statId.contains("users");
+        }
+        public boolean isPlatform(){
+            return this.statId.contains("platforms");
+        }
+        public boolean isTop(){
+            return this.statId.contains("top");
+        }
+        public boolean isPopular(){
+            return this.statId.contains("popular");
+        }
+
     }
 
     public class StatisticsRow {

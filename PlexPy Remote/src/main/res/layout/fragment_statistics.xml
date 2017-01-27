@@ -1,15 +1,424 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorBackground">
+    android:layout_height="wrap_content">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvStatistics"
+    <android.support.v7.widget.CardView
+        android:id="@+id/statistics_secondary_card"
+        android:layout_below="@+id/statistics_primary_card"
+        android:layout_marginTop="-8dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="5" />
+        android:layout_height="0dp"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardElevation="1dp"
+        card_view:cardUseCompatPadding="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+
+                <RelativeLayout
+                    android:layout_width="40dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="3dp">
+
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/statistics_secondary_card_1_image"
+                        android:layout_width="40dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="fill" />
+
+                    <com.williamcomartin.plexpyremote.Helpers.CircularNetworkImageView
+                        android:id="@+id/statistics_secondary_card_1_circle_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="fill" />
+
+                    <ImageView
+                        android:id="@+id/statistics_secondary_card_1_square_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="fill" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="0dp">
+
+                    <TextView
+                        android:id="@+id/statistics_secondary_card_1_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="Testing"
+                        style="@style/TextSubhead" />
 
 
+                    <TextView
+                        android:id="@+id/statistics_secondary_card_1_plays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorAccent"
+                        style="@style/TextHeadline" />
 
-</LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_toEndOf="@id/statistics_secondary_card_1_plays"
+                        android:text=" plays" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+
+                <RelativeLayout
+                    android:layout_width="40dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="3dp">
+
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/statistics_secondary_card_2_image"
+                        android:layout_width="40dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="fill" />
+
+                    <com.williamcomartin.plexpyremote.Helpers.CircularNetworkImageView
+                        android:id="@+id/statistics_secondary_card_2_circle_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="fill" />
+
+                    <ImageView
+                        android:id="@+id/statistics_secondary_card_2_square_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="fill" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="0dp">
+
+                    <TextView
+                        android:id="@+id/statistics_secondary_card_2_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="Testing"
+                        style="@style/TextSubhead" />
+
+
+                    <TextView
+                        android:id="@+id/statistics_secondary_card_2_plays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorAccent"
+                        style="@style/TextHeadline" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_toEndOf="@id/statistics_secondary_card_2_plays"
+                        android:text=" plays" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+
+                <RelativeLayout
+                    android:layout_width="40dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="3dp">
+
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/statistics_secondary_card_3_image"
+                        android:layout_width="40dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="fill" />
+
+                    <com.williamcomartin.plexpyremote.Helpers.CircularNetworkImageView
+                        android:id="@+id/statistics_secondary_card_3_circle_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="fill" />
+
+                    <ImageView
+                        android:id="@+id/statistics_secondary_card_3_square_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="fill" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="0dp">
+
+                    <TextView
+                        android:id="@+id/statistics_secondary_card_3_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="Testing"
+                        style="@style/TextSubhead" />
+
+
+                    <TextView
+                        android:id="@+id/statistics_secondary_card_3_plays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorAccent"
+                        style="@style/TextHeadline" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_toEndOf="@id/statistics_secondary_card_3_plays"
+                        android:text=" plays" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+
+                <RelativeLayout
+                    android:layout_width="40dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="3dp">
+
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/statistics_secondary_card_4_image"
+                        android:layout_width="40dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="fill" />
+
+                    <com.williamcomartin.plexpyremote.Helpers.CircularNetworkImageView
+                        android:id="@+id/statistics_secondary_card_4_circle_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="fill" />
+
+                    <ImageView
+                        android:id="@+id/statistics_secondary_card_4_square_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="fill" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="0dp">
+
+                    <TextView
+                        android:id="@+id/statistics_secondary_card_4_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="Testing"
+                        style="@style/TextSubhead" />
+
+
+                    <TextView
+                        android:id="@+id/statistics_secondary_card_4_plays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorAccent"
+                        style="@style/TextHeadline" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_toEndOf="@id/statistics_secondary_card_4_plays"
+                        android:text=" plays" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/statistics_primary_card"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/standard_item_card_height"
+        android:layout_gravity="center"
+        card_view:cardBackgroundColor="@color/colorCardBackground"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="@dimen/standard_item_image_width"
+                android:layout_height="@dimen/standard_item_image_height"
+                android:layout_marginEnd="3dp">
+
+                <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:src="@drawable/placeholder_poster"/>-->
+
+                <com.android.volley.toolbox.NetworkImageView
+                    android:id="@+id/statistics_primary_card_image"
+                    android:layout_width="@dimen/standard_item_image_width"
+                    android:layout_height="@dimen/standard_item_image_height"
+                    android:layout_gravity="fill" />
+
+                <com.williamcomartin.plexpyremote.Helpers.CircularNetworkImageView
+                    android:id="@+id/statistics_primary_card_circle_image"
+                    android:layout_width="@dimen/standard_item_image_width"
+                    android:layout_height="@dimen/standard_item_image_width"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="fill" />
+
+                <ImageView
+                    android:id="@+id/statistics_primary_card_square_image"
+                    android:layout_width="@dimen/standard_item_image_width"
+                    android:layout_height="@dimen/standard_item_image_width"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="fill" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="0dp">
+
+                <TextView
+                    android:id="@+id/statistics_primary_card_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="18sp"
+                    style="@style/TextHeadline" />
+                <TextView
+                    android:id="@+id/statistics_primary_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/statistics_primary_card_type"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Testing"
+                    style="@style/TextSubhead" />
+
+
+                <TextView
+                    android:id="@+id/statistics_primary_card_plays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorAccent"
+                    style="@style/TextHeadline" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toEndOf="@id/statistics_primary_card_plays"
+                    android:text=" plays" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/statistics_primary_card_chevron"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:textSize="24sp"
+                    android:text="{fa-chevron-down}"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>

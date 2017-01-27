@@ -1,18 +1,24 @@
 package com.williamcomartin.plexpyremote;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.widget.LinearLayout;
 
-import com.williamcomartin.plexpyremote.Adapters.StatisticsPagerAdapter;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
+import com.williamcomartin.plexpyremote.Models.StatisticsModels;
 
 public class StatisticsActivity extends NavBaseActivity {
 
-    ViewPager mViewPager;
-    StatisticsPagerAdapter mStatisticsPagerAdapter;
+    private FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +26,10 @@ public class StatisticsActivity extends NavBaseActivity {
         setContentView(R.layout.activity_statistics);
 
         setupActionBar();
-        setupPager();
-        setupTabs();
 
+        linearLayout = (LinearLayout) findViewById(R.id.statistics_linear_layout);
 
+        fetchStatistics();
     }
 
     protected void setupActionBar() {
@@ -31,53 +37,54 @@ public class StatisticsActivity extends NavBaseActivity {
         actionBar.setTitle(R.string.statistics);
     }
 
-    protected void setupPager() {
-        mStatisticsPagerAdapter  = new StatisticsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.statisticsPager);
-        mViewPager.setAdapter(mStatisticsPagerAdapter);
-        mViewPager.setOnPageChangeListener(
-                new ViewPager.SimpleOnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
-                        // When swiping between pages, select the
-                        // corresponding tab.
-                        getSupportActionBar().setSelectedNavigationItem(position);
-                    }
-                });
+    private void fetchStatistics() {
+        try {
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_home_stats";
+
+            GsonRequest<StatisticsModels> request = new GsonRequest<>(
+                    url,
+                    StatisticsModels.class,
+                    null,
+                    requestListener(),
+                    errorListener()
+            );
+
+            RequestManager.addToRequestQueue(request);
+        } catch (NoServerException e) {
+            e.printStackTrace();
+        }
     }
 
-    protected void setupTabs() {
-        // Create a tab listener that is called when the user changes tabs.
-        final ActionBar actionBar = getSupportActionBar();
-
-        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+    private Response.ErrorListener errorListener() {
+        return new Response.ErrorListener() {
             @Override
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-                mViewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
-            }
-
-            @Override
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
+            public void onErrorResponse(VolleyError error) {
             }
         };
+    }
 
-        String[] tabNames = getResources().getStringArray(R.array.StatisticsTabs);
+    private Response.Listener<StatisticsModels> requestListener() {
+        return new Response.Listener<StatisticsModels>() {
+            @Override
+            public void onResponse(StatisticsModels response) {
+                linearLayout.removeAllViewsInLayout();
+                addStatsFragment("Most Watched TV", response.response.FindStat("top_tv"));
+                addStatsFragment("Most Popular TV", response.response.FindStat("popular_tv"));
+                addStatsFragment("Most Watched Movie", response.response.FindStat("top_movies"));
+                addStatsFragment("Most Popular Movie", response.response.FindStat("popular_movies"));
+                addStatsFragment("Most Active User", response.response.FindStat("top_users"));
+                addStatsFragment("Most Active Platform", response.response.FindStat("top_platforms"));
 
-        for(int i = 0; i < tabNames.length; i++){
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(tabNames[i])
-                            .setTabListener(tabListener));
-        }
+                fragmentTransaction.commit();
+            }
+        };
+    }
 
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+    private void addStatsFragment(String type, StatisticsModels.StatisticsGroup group) {
+        StatisticsFragment frag = new StatisticsFragment();
+        frag.setType(type);
+        frag.setStats(group);
+        fragmentTransaction.add(linearLayout.getId(), frag);
     }
 
     @Override
