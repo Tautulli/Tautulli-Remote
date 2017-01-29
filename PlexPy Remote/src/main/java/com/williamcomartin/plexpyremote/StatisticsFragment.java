@@ -53,11 +53,39 @@ public class StatisticsFragment extends Fragment {
         vType = (TextView) view.findViewById(R.id.statistics_primary_card_type);
         vType.setText(this.type);
 
-        setTopStat(view, this.stats.rows.get(0));
-        setStat1(view, this.stats.rows.get(1));
-        setStat2(view, this.stats.rows.get(2));
-        setStat3(view, this.stats.rows.get(3));
-        setStat4(view, this.stats.rows.get(4));
+        if(this.stats != null) {
+            if(this.stats.rows != null) {
+                try {
+                    setTopStat(view, this.stats.rows.get(0));
+                } catch (IndexOutOfBoundsException e) {
+
+                }
+
+                try {
+                    setStat1(view, this.stats.rows.get(1));
+                } catch (IndexOutOfBoundsException e) {
+
+                }
+
+                try {
+                    setStat2(view, this.stats.rows.get(2));
+                } catch (IndexOutOfBoundsException e) {
+
+                }
+
+                try {
+                    setStat3(view, this.stats.rows.get(3));
+                } catch (IndexOutOfBoundsException e) {
+
+                }
+
+                try {
+                    setStat4(view, this.stats.rows.get(4));
+                } catch (IndexOutOfBoundsException e) {
+
+                }
+            }
+        }
 
         final CardView vSecondaryCard = (CardView) view.findViewById(R.id.statistics_secondary_card);
 

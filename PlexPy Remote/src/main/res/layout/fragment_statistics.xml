@@ -69,7 +69,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="Testing"
+                        android:text="No Statistic Available"
                         style="@style/TextSubhead" />
 
 
@@ -79,6 +79,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:textSize="16sp"
+                        android:text="0"
                         android:textColor="@color/colorAccent"
                         style="@style/TextHeadline" />
 
@@ -142,7 +143,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="Testing"
+                        android:text="No Statistic Available"
                         style="@style/TextSubhead" />
 
 
@@ -152,6 +153,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:textSize="16sp"
+                        android:text="0"
                         android:textColor="@color/colorAccent"
                         style="@style/TextHeadline" />
 
@@ -215,7 +217,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="Testing"
+                        android:text="No Statistic Available"
                         style="@style/TextSubhead" />
 
 
@@ -225,6 +227,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:textSize="16sp"
+                        android:text="0"
                         android:textColor="@color/colorAccent"
                         style="@style/TextHeadline" />
 
@@ -288,7 +291,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="Testing"
+                        android:text="No Statistic Available"
                         style="@style/TextSubhead" />
 
 
@@ -298,6 +301,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:textSize="16sp"
+                        android:text="0"
                         android:textColor="@color/colorAccent"
                         style="@style/TextHeadline" />
 
@@ -386,7 +390,7 @@
                     android:layout_below="@id/statistics_primary_card_type"
                     android:maxLines="1"
                     android:ellipsize="end"
-                    android:text="Testing"
+                    android:text="No Statistic Available"
                     style="@style/TextSubhead" />
 
 
@@ -397,6 +401,7 @@
                     android:layout_alignParentBottom="true"
                     android:textSize="18sp"
                     android:textColor="@color/colorAccent"
+                    android:text="0"
                     style="@style/TextHeadline" />
 
                 <TextView
