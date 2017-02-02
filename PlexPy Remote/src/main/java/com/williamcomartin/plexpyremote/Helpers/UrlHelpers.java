@@ -2,6 +2,7 @@ package com.williamcomartin.plexpyremote.Helpers;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
@@ -40,7 +41,9 @@ public class UrlHelpers {
 
         String protocol = SP.getBoolean("server_settings_ssl", false) ? "https" : "http";
         String host = SP.getString("server_settings_address", "").trim();
-        int port = Integer.parseInt(SP.getString("server_settings_port", "0"));
+
+        String portString = SP.getString("server_settings_port", "8181").trim();
+        int port = Integer.parseInt(portString.equals("") ? "8181" : portString);
 
         String path = SP.getString("server_settings_path", "").trim();
         if(!path.startsWith("/")){
