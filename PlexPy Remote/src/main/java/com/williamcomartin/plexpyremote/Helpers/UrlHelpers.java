@@ -42,8 +42,10 @@ public class UrlHelpers {
         String protocol = SP.getBoolean("server_settings_ssl", false) ? "https" : "http";
         String host = SP.getString("server_settings_address", "").trim();
 
-        String portString = SP.getString("server_settings_port", "8181").trim();
-        int port = Integer.parseInt(portString.equals("") ? "8181" : portString);
+        int port = 8181;
+        try {
+            port = Integer.parseInt(SP.getString("server_settings_port", ""));
+        } catch (NumberFormatException ignored) {}
 
         String path = SP.getString("server_settings_path", "").trim();
         if(!path.startsWith("/")){
