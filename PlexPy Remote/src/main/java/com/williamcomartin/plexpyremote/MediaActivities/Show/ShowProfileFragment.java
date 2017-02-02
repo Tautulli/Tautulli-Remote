@@ -26,6 +26,8 @@ import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.R;
 
+import java.net.MalformedURLException;
+
 /**
  * Created by wcomartin on 2016-12-14.
  */
@@ -87,7 +89,7 @@ public class ShowProfileFragment extends Fragment {
         String url = "";
         try {
             url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_metadata&rating_key=" + ratingKey;
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
         GsonRequest<ShowProfileModels> request = new GsonRequest<>(

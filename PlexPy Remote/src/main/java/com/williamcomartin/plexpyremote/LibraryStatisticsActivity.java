@@ -17,6 +17,8 @@ import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.LibraryStatisticsModels;
 
+import java.net.MalformedURLException;
+
 public class LibraryStatisticsActivity extends NavBaseActivity {
 
     private RecyclerView rvLibStats;
@@ -47,7 +49,7 @@ public class LibraryStatisticsActivity extends NavBaseActivity {
             );
 
             RequestManager.addToRequestQueue(request);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
     }

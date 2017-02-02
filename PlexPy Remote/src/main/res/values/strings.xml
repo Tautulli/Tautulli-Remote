@@ -15,7 +15,10 @@
 
     <string name="server_settings_title">Server Settings</string>
     <string name="server_settings_qr_title">Scan QR Code</string>
+    <string name="server_settings_ssl_title">Use SSL/HTTPS</string>
     <string name="server_settings_address_title">Server Address</string>
+    <string name="server_settings_port_title">Server Port</string>
+    <string name="server_settings_path_title">Server Path</string>
     <string name="server_settings_apikey_title">Server ApiKey</string>
     <string name="app_settings_title">App Settings</string>
     <string name="app_settings_refresh_title">Activity Refresh Interval</string>

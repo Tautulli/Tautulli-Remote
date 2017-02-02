@@ -19,6 +19,8 @@ import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.HistoryModels;
 
+import java.net.MalformedURLException;
+
 public class HistoryActivity extends NavBaseActivity {
 
     private SharedPreferences SP;
@@ -49,11 +51,10 @@ public class HistoryActivity extends NavBaseActivity {
             );
 
             RequestManager.addToRequestQueue(request);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
 
-        
 
         rvHistory.setLayoutManager(new LinearLayoutManager(this));
     }

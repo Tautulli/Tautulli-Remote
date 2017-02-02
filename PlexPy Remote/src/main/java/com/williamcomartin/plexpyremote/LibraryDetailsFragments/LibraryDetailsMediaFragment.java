@@ -19,6 +19,8 @@ import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
 import com.williamcomartin.plexpyremote.R;
 
+import java.net.MalformedURLException;
+
 public class LibraryDetailsMediaFragment extends Fragment {
 
     private String libraryId;
@@ -54,7 +56,7 @@ public class LibraryDetailsMediaFragment extends Fragment {
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_library_media_info&length=100000000000&section_id=" + libraryId;
             fetchData(url);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
     }

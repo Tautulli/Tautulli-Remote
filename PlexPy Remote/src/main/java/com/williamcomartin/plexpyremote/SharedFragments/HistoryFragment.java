@@ -19,6 +19,7 @@ import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.HistoryModels;
 import com.williamcomartin.plexpyremote.R;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class HistoryFragment extends Fragment {
@@ -48,7 +49,7 @@ public class HistoryFragment extends Fragment {
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history&section_id=" + libraryId;
             fetchData(url);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
     }
@@ -57,7 +58,7 @@ public class HistoryFragment extends Fragment {
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history&rating_key=" + ratingKey;
             fetchData(url);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
     }
@@ -66,7 +67,7 @@ public class HistoryFragment extends Fragment {
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history&parent_rating_key=" + ratingKey;
             fetchData(url);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
     }
@@ -75,7 +76,7 @@ public class HistoryFragment extends Fragment {
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history&grandparent_rating_key=" + ratingKey;
             fetchData(url);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
     }

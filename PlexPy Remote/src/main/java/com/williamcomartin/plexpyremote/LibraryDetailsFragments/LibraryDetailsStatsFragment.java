@@ -20,6 +20,8 @@ import com.williamcomartin.plexpyremote.Models.LibraryGlobalStatsModels;
 import com.williamcomartin.plexpyremote.Models.LibraryUsersStatsModels;
 import com.williamcomartin.plexpyremote.R;
 
+import java.net.MalformedURLException;
+
 public class LibraryDetailsStatsFragment extends Fragment {
     private String libraryId;
 
@@ -97,8 +99,8 @@ public class LibraryDetailsStatsFragment extends Fragment {
             });
 
             RequestManager.addToRequestQueue(request);
-        } catch (NoServerException e) {
-
+        } catch (NoServerException | MalformedURLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -148,8 +150,8 @@ public class LibraryDetailsStatsFragment extends Fragment {
             });
 
             RequestManager.addToRequestQueue(request);
-        } catch (NoServerException e) {
-
+        } catch (NoServerException | MalformedURLException e) {
+            e.printStackTrace();
         }
     }
 

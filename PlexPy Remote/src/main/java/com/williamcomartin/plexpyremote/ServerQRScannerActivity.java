@@ -25,7 +25,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -98,9 +101,35 @@ public class ServerQRScannerActivity extends Activity {
 
                 SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = SP.edit();
-                editor.putString("server_settings_address", parts[0]);
+                try {
+                    URL oldUrl = new URL(parts[0]);
+
+                    boolean serverSSL = oldUrl.getProtocol().equals("https");
+                    String serverHost = oldUrl.getHost();
+                    int serverPort = oldUrl.getPort();
+                    String serverPath = oldUrl.getPath();
+
+                    editor.putBoolean("server_settings_ssl", serverSSL);
+                    editor.putString("server_settings_address", serverHost);
+                    if(serverPort != -1) {
+                        editor.putString("server_settings_port", String.valueOf(serverPort));
+                    } else {
+                        editor.putString("server_settings_port", serverSSL ? "443" : "80");
+                    }
+                    editor.putString("server_settings_path", serverPath);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
                 editor.putString("server_settings_apikey", parts[1]);
                 editor.apply();
+
+                Map<String,?> keys = SP.getAll();
+
+                for(Map.Entry<String,?> entry : keys.entrySet()){
+                    Log.d("map values",entry.getKey() + ": " +
+                            entry.getValue().toString());
+                }
 
                 new CheckLocalAsync().execute(parts[0]);
             }

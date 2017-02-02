@@ -35,6 +35,8 @@ import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.ServerFriendlyNameModels;
 import com.williamcomartin.plexpyremote.Services.NavService;
 
+import java.net.MalformedURLException;
+
 /**
  * Created by wcomartin on 2015-11-04.
  */
@@ -128,7 +130,7 @@ public class NavBaseActivity extends AppBaseActivity {
             );
 
             RequestManager.addToRequestQueue(request);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
 

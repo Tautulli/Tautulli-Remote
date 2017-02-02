@@ -12,18 +12,40 @@
                 android:targetPackage="com.williamcomartin.plexpyremote" />
         </Preference>
 
+
+
         <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
             android:dialogTitle="@string/server_settings_address_title"
             android:key="server_settings_address"
             android:title="@string/server_settings_address_title"
-            app:defaultSummary="Manually enter full URL including http, port and path"
+            app:defaultSummary="Manually enter hostname"
             app:trimValue="true"/>
+
+        <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
+            android:dialogTitle="@string/server_settings_port_title"
+            android:key="server_settings_port"
+            android:numeric="integer"
+            android:title="@string/server_settings_port_title"
+            app:defaultSummary="Manually enter port number" />
 
         <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
             android:dialogTitle="@string/server_settings_apikey_title"
             android:key="server_settings_apikey"
             android:title="@string/server_settings_apikey_title"
             app:defaultSummary="Manually enter the PlexPy API key"
+            app:trimValue="true"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="server_settings_ssl"
+            android:summary="Use if you have SSL enabled on your plexpy server"
+            android:title="@string/server_settings_ssl_title" />
+
+        <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
+            android:dialogTitle="@string/server_settings_path_title"
+            android:key="server_settings_path"
+            android:title="@string/server_settings_path_title"
+            app:defaultSummary="Manually enter path"
             app:trimValue="true"/>
 
     </PreferenceCategory>

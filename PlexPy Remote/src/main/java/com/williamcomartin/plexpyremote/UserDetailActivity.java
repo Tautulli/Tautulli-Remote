@@ -17,6 +17,8 @@ import com.williamcomartin.plexpyremote.Models.UserWatchStatsModels;
 import com.williamcomartin.plexpyremote.UserDetailsFragments.UserPlayerStatsFragment;
 import com.williamcomartin.plexpyremote.UserDetailsFragments.UserWatchStatsFragment;
 
+import java.net.MalformedURLException;
+
 public class UserDetailActivity extends NavBaseActivity {
 
     private Intent intent;
@@ -67,11 +69,11 @@ public class UserDetailActivity extends NavBaseActivity {
                 );
 
                 RequestManager.addToRequestQueue(request);
-            } catch (NoServerException e) {
+            } catch (NoServerException | MalformedURLException e) {
                 e.printStackTrace();
             }
 
-            
+
         }
     }
 
@@ -105,7 +107,7 @@ public class UserDetailActivity extends NavBaseActivity {
                 );
 
                 RequestManager.addToRequestQueue(request);
-            } catch (NoServerException e) {
+            } catch (NoServerException | MalformedURLException e) {
                 e.printStackTrace();
             }
 

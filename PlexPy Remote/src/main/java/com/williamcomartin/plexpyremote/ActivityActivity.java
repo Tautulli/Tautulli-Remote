@@ -27,6 +27,7 @@ import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
 import com.williamcomartin.plexpyremote.Services.NavService;
 
+import java.net.MalformedURLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -173,7 +174,7 @@ public class ActivityActivity extends NavBaseActivity {
             );
 
             RequestManager.addToRequestQueue(request);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             try {
                 runOnUiThread(new Runnable() {
                     @Override

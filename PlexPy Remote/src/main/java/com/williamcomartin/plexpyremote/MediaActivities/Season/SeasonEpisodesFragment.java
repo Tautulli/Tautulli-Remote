@@ -17,6 +17,7 @@ import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
 import com.williamcomartin.plexpyremote.R;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 /**
@@ -61,7 +62,7 @@ public class SeasonEpisodesFragment extends Fragment {
         String url = "";
         try {
             url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_library_media_info&length=1000&rating_key=" + ratingKey;
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
         Log.d("ShowSeasonsFrag", url);

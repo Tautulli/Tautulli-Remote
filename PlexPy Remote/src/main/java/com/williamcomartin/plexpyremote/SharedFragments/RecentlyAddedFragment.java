@@ -20,6 +20,7 @@ import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.RecentlyAddedModels;
 import com.williamcomartin.plexpyremote.R;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class RecentlyAddedFragment extends Fragment {
@@ -53,7 +54,7 @@ public class RecentlyAddedFragment extends Fragment {
                             + "&cmd=get_recently_added&count=10&section_id="
                             + libraryId + "&start=" + String.valueOf(current_page * 10);
                     fetchData(url);
-                } catch (NoServerException e) {
+                } catch (NoServerException | MalformedURLException e) {
                     e.printStackTrace();
                 }
             }
@@ -67,7 +68,7 @@ public class RecentlyAddedFragment extends Fragment {
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_recently_added&count=10&section_id=" + libraryId;
             fetchData(url);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
     }

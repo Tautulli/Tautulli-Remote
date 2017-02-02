@@ -18,6 +18,8 @@ import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.UserModels;
 
+import java.net.MalformedURLException;
+
 public class UsersActivity extends NavBaseActivity {
 
     private SharedPreferences SP;
@@ -45,7 +47,7 @@ public class UsersActivity extends NavBaseActivity {
             );
 
             RequestManager.addToRequestQueue(request);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
 

@@ -19,6 +19,7 @@ import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.RecentlyAddedModels;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class RecentlyAddedActivity extends NavBaseActivity {
@@ -53,10 +54,9 @@ public class RecentlyAddedActivity extends NavBaseActivity {
             );
 
             RequestManager.addToRequestQueue(request);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
-
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -79,7 +79,7 @@ public class RecentlyAddedActivity extends NavBaseActivity {
                     );
 
                     RequestManager.addToRequestQueue(request);
-                } catch (NoServerException e) {
+                } catch (NoServerException | MalformedURLException e) {
                     e.printStackTrace();
                 }
 

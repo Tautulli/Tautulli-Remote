@@ -15,6 +15,8 @@ import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.StatisticsModels;
 
+import java.net.MalformedURLException;
+
 public class StatisticsActivity extends NavBaseActivity {
 
     private FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -50,7 +52,7 @@ public class StatisticsActivity extends NavBaseActivity {
             );
 
             RequestManager.addToRequestQueue(request);
-        } catch (NoServerException e) {
+        } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
         }
     }
