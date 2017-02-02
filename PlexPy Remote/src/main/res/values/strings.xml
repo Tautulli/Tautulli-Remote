@@ -15,14 +15,23 @@
 
     <string name="server_settings_title">Server Settings</string>
     <string name="server_settings_qr_title">Scan QR Code</string>
+    <string name="server_settings_qr_summary">Scan the QR code in the PlexPy settings to automatically link the app with the server (requires PlexPy v2)</string>
     <string name="server_settings_ssl_title">Use SSL/HTTPS</string>
+    <string name="server_settings_ssl_summary">Use if you have SSL enabled on your plexpy server</string>
     <string name="server_settings_address_title">Server Address</string>
+    <string name="server_settings_address_summary">Manually enter hostname</string>
     <string name="server_settings_port_title">Server Port</string>
+    <string name="server_settings_port_summary">Manually enter port number</string>
     <string name="server_settings_path_title">Server Path</string>
+    <string name="server_settings_path_summary">Manually enter path</string>
     <string name="server_settings_apikey_title">Server ApiKey</string>
+    <string name="server_settings_apikey_summary">Manually enter the PlexPy API key</string>
+
     <string name="app_settings_title">App Settings</string>
     <string name="app_settings_refresh_title">Activity Refresh Interval</string>
+    <string name="app_settings_refresh_summary">Activity page refresh interval in seconds (blank=disabled)</string>
     <string name="app_settings_back_title">Double Tap to Exit</string>
+    <string name="app_settings_back_summary">Tap back button twice to exit</string>
 
     <string name="CheckingActivity">Checking for activity…</string>
 

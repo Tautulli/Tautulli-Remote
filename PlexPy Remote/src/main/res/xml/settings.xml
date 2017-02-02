@@ -4,7 +4,7 @@
     <PreferenceCategory android:title="@string/server_settings_title">
 
         <Preference
-            android:summary="Scan the QR code in the PlexPy settings to automatically link the app with the server (requires PlexPy v2)"
+            android:summary="@string/server_settings_qr_summary"
             android:title="@string/server_settings_qr_title">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -18,7 +18,7 @@
             android:dialogTitle="@string/server_settings_address_title"
             android:key="server_settings_address"
             android:title="@string/server_settings_address_title"
-            app:defaultSummary="Manually enter hostname"
+            app:defaultSummary="@string/server_settings_address_summary"
             app:trimValue="true"/>
 
         <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
@@ -26,26 +26,26 @@
             android:key="server_settings_port"
             android:numeric="integer"
             android:title="@string/server_settings_port_title"
-            app:defaultSummary="Manually enter port number" />
+            app:defaultSummary="@string/server_settings_port_summary" />
 
         <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
             android:dialogTitle="@string/server_settings_apikey_title"
             android:key="server_settings_apikey"
             android:title="@string/server_settings_apikey_title"
-            app:defaultSummary="Manually enter the PlexPy API key"
+            app:defaultSummary="@string/server_settings_apikey_summary"
             app:trimValue="true"/>
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="server_settings_ssl"
-            android:summary="Use if you have SSL enabled on your plexpy server"
+            android:summary="@string/server_settings_ssl_summary"
             android:title="@string/server_settings_ssl_title" />
 
         <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
             android:dialogTitle="@string/server_settings_path_title"
             android:key="server_settings_path"
             android:title="@string/server_settings_path_title"
-            app:defaultSummary="Manually enter path"
+            app:defaultSummary="@string/server_settings_path_summary"
             app:trimValue="true"/>
 
     </PreferenceCategory>
@@ -57,12 +57,12 @@
             android:key="app_settings_refresh"
             android:numeric="integer"
             android:title="@string/app_settings_refresh_title"
-            app:defaultSummary="Activity page refresh interval in seconds (blank=disabled)" />
+            app:defaultSummary="@string/app_settings_refresh_summary" />
 
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="app_settings_back"
-            android:summary="Tap back button twice to exit"
+            android:summary="@string/app_settings_back_summary"
             android:title="@string/app_settings_back_title" />
 
     </PreferenceCategory>
