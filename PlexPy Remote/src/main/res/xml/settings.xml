@@ -18,6 +18,7 @@
             android:dialogTitle="@string/server_settings_address_title"
             android:key="server_settings_address"
             android:title="@string/server_settings_address_title"
+            android:summary="@string/server_settings_address_summary"
             app:defaultSummary="@string/server_settings_address_summary"
             app:trimValue="true"/>
 
@@ -26,12 +27,14 @@
             android:key="server_settings_port"
             android:numeric="integer"
             android:title="@string/server_settings_port_title"
+            android:summary="@string/server_settings_port_summary"
             app:defaultSummary="@string/server_settings_port_summary" />
 
         <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
             android:dialogTitle="@string/server_settings_apikey_title"
             android:key="server_settings_apikey"
             android:title="@string/server_settings_apikey_title"
+            android:summary="@string/server_settings_apikey_summary"
             app:defaultSummary="@string/server_settings_apikey_summary"
             app:trimValue="true"/>
 
@@ -45,6 +48,7 @@
             android:dialogTitle="@string/server_settings_path_title"
             android:key="server_settings_path"
             android:title="@string/server_settings_path_title"
+            android:summary="@string/server_settings_path_summary"
             app:defaultSummary="@string/server_settings_path_summary"
             app:trimValue="true"/>
 
@@ -57,6 +61,7 @@
             android:key="app_settings_refresh"
             android:numeric="integer"
             android:title="@string/app_settings_refresh_title"
+            android:summary="@string/app_settings_refresh_summary"
             app:defaultSummary="@string/app_settings_refresh_summary" />
 
         <CheckBoxPreference
