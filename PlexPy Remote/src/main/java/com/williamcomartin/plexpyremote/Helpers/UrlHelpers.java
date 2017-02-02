@@ -41,9 +41,13 @@ public class UrlHelpers {
         String protocol = SP.getBoolean("server_settings_ssl", false) ? "https" : "http";
         String host = SP.getString("server_settings_address", "").trim();
         int port = Integer.parseInt(SP.getString("server_settings_port", "0"));
+
         String path = SP.getString("server_settings_path", "").trim();
         if(!path.startsWith("/")){
             path = "/" + path;
+        }
+        if(!path.endsWith("/")){
+            path = path + "/";
         }
 
         URL url = new URL(protocol, host, port, path);
@@ -51,6 +55,6 @@ public class UrlHelpers {
     }
 
     public static String getHostPlusAPIKey () throws NoServerException, MalformedURLException {
-        return getHost() + "/api/v2?apikey=" + SP.getString("server_settings_apikey", "").trim();
+        return getHost() + "api/v2?apikey=" + SP.getString("server_settings_apikey", "").trim();
     }
 }
