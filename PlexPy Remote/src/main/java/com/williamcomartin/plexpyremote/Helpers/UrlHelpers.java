@@ -42,10 +42,12 @@ public class UrlHelpers {
         String host = SP.getString("server_settings_address", "").trim();
         int port = Integer.parseInt(SP.getString("server_settings_port", "0"));
         String path = SP.getString("server_settings_path", "").trim();
+        if(!path.startsWith("/")){
+            path = "/" + path;
+        }
 
         URL url = new URL(protocol, host, port, path);
         return url.toString();
-//        return SP.getString("server_settings_address", "").trim();
     }
 
     public static String getHostPlusAPIKey () throws NoServerException, MalformedURLException {

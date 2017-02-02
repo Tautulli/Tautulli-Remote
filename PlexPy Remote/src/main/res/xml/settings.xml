@@ -31,11 +31,11 @@
             app:defaultSummary="@string/server_settings_port_summary" />
 
         <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
-            android:dialogTitle="@string/server_settings_apikey_title"
-            android:key="server_settings_apikey"
-            android:title="@string/server_settings_apikey_title"
-            android:summary="@string/server_settings_apikey_summary"
-            app:defaultSummary="@string/server_settings_apikey_summary"
+            android:dialogTitle="@string/server_settings_path_title"
+            android:key="server_settings_path"
+            android:title="@string/server_settings_path_title"
+            android:summary="@string/server_settings_path_summary"
+            app:defaultSummary="@string/server_settings_path_summary"
             app:trimValue="true"/>
 
         <CheckBoxPreference
@@ -45,12 +45,13 @@
             android:title="@string/server_settings_ssl_title" />
 
         <com.williamcomartin.plexpyremote.Helpers.CustomPreferences.EditTextPreferenceWithDisplay
-            android:dialogTitle="@string/server_settings_path_title"
-            android:key="server_settings_path"
-            android:title="@string/server_settings_path_title"
-            android:summary="@string/server_settings_path_summary"
-            app:defaultSummary="@string/server_settings_path_summary"
+            android:dialogTitle="@string/server_settings_apikey_title"
+            android:key="server_settings_apikey"
+            android:title="@string/server_settings_apikey_title"
+            android:summary="@string/server_settings_apikey_summary"
+            app:defaultSummary="@string/server_settings_apikey_summary"
             app:trimValue="true"/>
+
 
     </PreferenceCategory>
 
