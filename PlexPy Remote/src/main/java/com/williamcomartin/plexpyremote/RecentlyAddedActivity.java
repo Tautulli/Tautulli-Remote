@@ -2,6 +2,7 @@ package com.williamcomartin.plexpyremote;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
@@ -43,10 +44,14 @@ public class RecentlyAddedActivity extends NavBaseActivity {
         rvActivities.setAdapter(adapter);
 
         try {
-            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_recently_added&count=10";
+//            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_recently_added&count=10";
+
+            Uri.Builder builder = UrlHelpers.getUriBuilder();
+            builder.appendQueryParameter("cmd", "get_recently_added");
+            builder.appendQueryParameter("count", "10");
 
             GsonRequest<RecentlyAddedModels> request = new GsonRequest<>(
-                    url,
+                    builder.toString(),
                     RecentlyAddedModels.class,
                     null,
                     requestListener(),
@@ -66,12 +71,13 @@ public class RecentlyAddedActivity extends NavBaseActivity {
             @Override
             public void onLoadMore(int current_page) {
                 try {
-                    String url = UrlHelpers.getHostPlusAPIKey()
-                            + "&cmd=get_recently_added&count=10&start="
-                            + String.valueOf(current_page * 10);
+                    Uri.Builder builder = UrlHelpers.getUriBuilder();
+                    builder.appendQueryParameter("cmd", "get_recently_added");
+                    builder.appendQueryParameter("count", "10");
+                    builder.appendQueryParameter("start", String.valueOf(current_page * 10));
 
                     GsonRequest<RecentlyAddedModels> request = new GsonRequest<>(
-                            url,
+                            builder.toString(),
                             RecentlyAddedModels.class,
                             null,
                             requestListener(),

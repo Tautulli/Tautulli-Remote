@@ -2,6 +2,7 @@ package com.williamcomartin.plexpyremote;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -11,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -165,8 +167,11 @@ public class ActivityActivity extends NavBaseActivity {
     private void refreshItems() {
 
         try {
+            Uri.Builder builder = UrlHelpers.getUriBuilder();
+            builder.appendQueryParameter("cmd", "get_activity");
+
             GsonRequest<ActivityModels> request = new GsonRequest<>(
-                    UrlHelpers.getHostPlusAPIKey() + "&cmd=get_activity",
+                    builder.toString(),
                     ActivityModels.class,
                     null,
                     requestListener(),

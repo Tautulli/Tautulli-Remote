@@ -1,6 +1,7 @@
 package com.williamcomartin.plexpyremote.Helpers;
 
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -42,7 +43,7 @@ public class UrlHelpers {
         String protocol = SP.getBoolean("server_settings_ssl", false) ? "https" : "http";
         String host = SP.getString("server_settings_address", "").trim();
 
-        int port = 8181;
+        int port = SP.getBoolean("server_settings_ssl", false) ? 443 : 80;
         try {
             port = Integer.parseInt(SP.getString("server_settings_port", ""));
         } catch (NumberFormatException ignored) {}
@@ -61,5 +62,11 @@ public class UrlHelpers {
 
     public static String getHostPlusAPIKey () throws NoServerException, MalformedURLException {
         return getHost() + "api/v2?apikey=" + SP.getString("server_settings_apikey", "").trim();
+    }
+
+    public static Uri.Builder getUriBuilder () throws NoServerException, MalformedURLException {
+        Uri.Builder builder =  Uri.parse(getHost() + "api/v2").buildUpon();
+        builder.appendQueryParameter("apikey", SP.getString("server_settings_apikey", "").trim());
+        return builder;
     }
 }
