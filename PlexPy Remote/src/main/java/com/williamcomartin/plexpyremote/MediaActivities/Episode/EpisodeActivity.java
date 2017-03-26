@@ -1,4 +1,4 @@
-package com.williamcomartin.plexpyremote.MediaActivities.Season;
+package com.williamcomartin.plexpyremote.MediaActivities.Episode;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,11 +8,7 @@ import android.support.v7.app.ActionBar;
 import com.williamcomartin.plexpyremote.NavBaseActivity;
 import com.williamcomartin.plexpyremote.R;
 
-/**
- * Created by wcomartin on 2016-12-22.
- */
-
-public class SeasonActivity extends NavBaseActivity {
+public class EpisodeActivity extends NavBaseActivity {
 
     private Bundle extras;
 
@@ -41,7 +37,7 @@ public class SeasonActivity extends NavBaseActivity {
 
     protected void setupPager() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.media_pager);
-        SeasonPagerAdapter pagerAdapter = new SeasonPagerAdapter(getSupportFragmentManager(), extras.getString("RatingKey"));
+        EpisodePagerAdapter pagerAdapter = new EpisodePagerAdapter(getSupportFragmentManager(), extras.getString("RatingKey"));
         viewPager.setAdapter(pagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.media_taber);

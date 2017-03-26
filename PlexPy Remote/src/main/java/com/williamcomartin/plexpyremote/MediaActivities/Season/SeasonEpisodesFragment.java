@@ -1,7 +1,9 @@
 package com.williamcomartin.plexpyremote.MediaActivities.Season;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
+import com.williamcomartin.plexpyremote.NavBaseActivity;
 import com.williamcomartin.plexpyremote.R;
 
 import java.net.MalformedURLException;
@@ -30,6 +33,7 @@ public class SeasonEpisodesFragment extends Fragment {
 
     private GridView vEpisodesGrid;
     private SeasonEpisodesGridAdapter gridAdapter;
+    private String parentTitle;
 
     public SeasonEpisodesFragment() {
     }
@@ -52,6 +56,13 @@ public class SeasonEpisodesFragment extends Fragment {
         fetchProfile();
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ActionBar actionBar = ((NavBaseActivity)activity).getSupportActionBar();
+        parentTitle = String.valueOf(actionBar.getTitle());
     }
 
     public void setRatingKey(String ratingKey) {
@@ -92,6 +103,7 @@ public class SeasonEpisodesFragment extends Fragment {
             public void onResponse(LibraryMediaModels response) {
                 Log.d("ShowSeasonFrag", response.toString());
                 gridAdapter.setEpisodes(response.response.data.data);
+                gridAdapter.setParentTitle(parentTitle);
             }
         };
     }

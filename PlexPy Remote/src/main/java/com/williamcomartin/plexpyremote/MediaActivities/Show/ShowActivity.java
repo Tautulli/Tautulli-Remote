@@ -21,6 +21,13 @@ public class ShowActivity extends NavBaseActivity {
         setupPager();
     }
 
+    @Override
+    protected void setupDrawer(){
+        super.setupDrawer();
+        pageHasDrawer = false;
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
+    }
+
     protected void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (extras != null) {

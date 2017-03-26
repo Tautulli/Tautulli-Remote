@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.view.View;
 
 import com.williamcomartin.plexpyremote.Adapters.LibraryDetailsPagerAdapter;
 
@@ -25,6 +26,13 @@ public class LibraryDetailsActivity extends NavBaseActivity {
         setupActionBar();
         setupPager();
 
+    }
+
+    @Override
+    protected void setupDrawer(){
+        super.setupDrawer();
+        pageHasDrawer = false;
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
     protected void setupActionBar() {

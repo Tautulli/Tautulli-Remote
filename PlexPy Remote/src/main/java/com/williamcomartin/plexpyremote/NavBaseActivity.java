@@ -42,9 +42,10 @@ import java.net.MalformedURLException;
  */
 public class NavBaseActivity extends AppBaseActivity {
 
-    private ActionBarDrawerToggle mDrawerToggle;
+    protected ActionBarDrawerToggle mDrawerToggle;
     protected DrawerLayout mainDrawerLayout;
     protected NavigationView navigationView;
+    protected boolean pageHasDrawer = true;
     private TextView drawerText1;
     private TextView drawerText2;
 
@@ -256,7 +257,7 @@ public class NavBaseActivity extends AppBaseActivity {
         mainDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
-    private void setupDrawer() {
+    protected void setupDrawer() {
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mainDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close) {
@@ -298,12 +299,17 @@ public class NavBaseActivity extends AppBaseActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activityMenuItem in AndroidManifest.xml.
-//        int id = item.getItemId();
+        int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
 //            return true;
 //        }
+
+        if(id == android.R.id.home && !pageHasDrawer){
+            onBackPressed();
+            return true;
+        }
 
         // Activate the navigation drawer toggle
         if (mDrawerToggle.onOptionsItemSelected(item)) {

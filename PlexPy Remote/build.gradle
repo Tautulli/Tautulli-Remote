@@ -5,6 +5,10 @@ android {
     compileSdkVersion 25
     buildToolsVersion "24.0.3"
 
+    dataBinding {
+        enabled = true
+    }
+
     lintOptions {
         abortOnError false
     }

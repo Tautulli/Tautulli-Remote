@@ -1,7 +1,9 @@
 package com.williamcomartin.plexpyremote.MediaActivities.Show;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
+import com.williamcomartin.plexpyremote.NavBaseActivity;
 import com.williamcomartin.plexpyremote.R;
 
 import java.net.MalformedURLException;
@@ -31,6 +34,7 @@ public class ShowSeasonsFragment extends Fragment {
 
     private GridView vSeasonsGrid;
     private ShowSeasonsGridAdapter gridAdapter;
+    private String parentTitle;
 
     public ShowSeasonsFragment() {
     }
@@ -53,6 +57,13 @@ public class ShowSeasonsFragment extends Fragment {
         fetchProfile();
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ActionBar actionBar = ((NavBaseActivity)activity).getSupportActionBar();
+        parentTitle = String.valueOf(actionBar.getTitle());
     }
 
     public void setRatingKey(String ratingKey) {
@@ -91,8 +102,11 @@ public class ShowSeasonsFragment extends Fragment {
         return new Response.Listener<LibraryMediaModels>() {
             @Override
             public void onResponse(LibraryMediaModels response) {
-                Log.d("ShowSeasonFrag", response.toString());
+//                Log.d("ShowSeasonFrag1", response.toString());
+//                Log.d("ShowSeasonFrag2", response.response.data.toString());
+//                Log.d("ShowSeasonFrag3", response.response.data.data.toString());
                 gridAdapter.setSeasons(response.response.data.data);
+                gridAdapter.setParentTitle(parentTitle);
             }
         };
     }

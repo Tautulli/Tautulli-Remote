@@ -1,5 +1,6 @@
 package com.williamcomartin.plexpyremote.MediaActivities.Show;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -38,6 +39,7 @@ import java.util.List;
 public class ShowSeasonsGridAdapter extends BaseAdapter {
     private Context context;
     private List<LibraryMediaModels.LibraryMediaItem> seasons;
+    private String parentTitle;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -60,7 +62,12 @@ public class ShowSeasonsGridAdapter extends BaseAdapter {
         setSeasons(seasons);
     }
 
+    public void setParentTitle(String parentTitle){
+        this.parentTitle = parentTitle;
+    }
+
     public void setSeasons(final List<LibraryMediaModels.LibraryMediaItem> seasons) {
+        if(seasons == null) return;
         Collections.sort(seasons, new Comparator<LibraryMediaModels.LibraryMediaItem>() {
             public int compare(LibraryMediaModels.LibraryMediaItem v1, LibraryMediaModels.LibraryMediaItem v2) {
                 int v1MediaIndex = Integer.parseInt(v1.mediaIndex);
@@ -93,7 +100,7 @@ public class ShowSeasonsGridAdapter extends BaseAdapter {
                 Intent intent = null;
                 intent = new Intent(context, SeasonActivity.class);
                 intent.putExtra("RatingKey", season.ratingKey);
-                intent.putExtra("Title", season.title);
+                intent.putExtra("Title", parentTitle + " - " + season.title);
 
                 context.startActivity(intent);
             }
