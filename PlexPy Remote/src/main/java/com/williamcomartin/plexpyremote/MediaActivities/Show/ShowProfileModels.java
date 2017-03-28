@@ -1,7 +1,6 @@
 package com.williamcomartin.plexpyremote.MediaActivities.Show;
 
 import com.google.gson.annotations.SerializedName;
-import com.williamcomartin.plexpyremote.Models.BaseModels;
 
 import java.util.List;
 

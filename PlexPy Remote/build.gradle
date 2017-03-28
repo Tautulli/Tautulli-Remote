@@ -51,6 +51,17 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
 }
 
 if (System.getenv("TRAVIS")) {
@@ -65,23 +76,43 @@ if (System.getenv("TRAVIS")) {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-
+    // Android Support
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:cardview-v7:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.android.support:percent:25.1.0'
     compile 'com.android.support:design:25.1.0'
     compile 'com.android.support:support-v4:25.1.0'
+
+    // HTTP Request
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.jakewharton:disklrucache:2.0.2'
-    compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
     compile 'com.google.code.gson:gson:2.5'
+
+    compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
+
+    // Icons
     compile 'com.joanzapata.iconify:android-iconify:2.2.2'
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
     compile 'com.joanzapata.iconify:android-iconify-material:2.2.2'
+
+    // QR Scanner
     compile 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
     compile 'com.google.zxing:core:3.2.0'
+
+    // 3rd Party UI
     compile 'com.github.nirhart:parallaxscroll:1.0'
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.11'
+
+    // Pushy SDK
+    compile 'me.pushy:sdk:1.0.24'
+
+    // Pushy SDK Dependency - Jackson
+    compile (
+            [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.2.3'],
+            [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.2.3'],
+            [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.2.3']
+    )
+
     testCompile 'junit:junit:4.12'
 }
