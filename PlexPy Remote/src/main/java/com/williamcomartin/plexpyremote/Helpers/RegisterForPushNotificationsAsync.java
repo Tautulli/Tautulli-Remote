@@ -91,7 +91,7 @@ public class RegisterForPushNotificationsAsync {
         try {
             Uri.Builder uriBuilder = UrlHelpers.getUriBuilder();
             uriBuilder.appendQueryParameter("cmd", "register_device");
-            uriBuilder.appendQueryParameter("device_token", deviceToken);
+            uriBuilder.appendQueryParameter("device_id", deviceToken);
             uriBuilder.appendQueryParameter("device_name", deviceName);
 
             Log.d("RegistrationURL", uriBuilder.toString());
