@@ -57,7 +57,8 @@ public class NukeSSLCerts {
                     if(setHostname.contains(arg0)
                             || arg0.equals("plex.tv")
                             || arg0.equals("secure.gravatar.com")
-                            || arg0.equals("i2.wp.com")) return true;
+                            || arg0.equals("i2.wp.com")
+                            || arg0.equals("onesignal.com")) return true;
                     return false;
                 }
             });

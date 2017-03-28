@@ -21,6 +21,10 @@ android {
             versionCode System.getenv("TRAVIS_BUILD_NUMBER").toInteger()
             versionName "1.4"
         }
+
+        manifestPlaceholders = [onesignal_app_id: "3b4b666a-d557-4b92-acdf-e2c8c4b95357",
+                                // Project number pulled from dashboard, local value is ignored.
+                                onesignal_google_project_number: "159358117861"]
     }
 
 
@@ -104,15 +108,11 @@ dependencies {
     compile 'com.github.nirhart:parallaxscroll:1.0'
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.11'
 
-    // Pushy SDK
-    compile 'me.pushy:sdk:1.0.24'
-
-    // Pushy SDK Dependency - Jackson
-    compile (
-            [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.2.3'],
-            [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.2.3'],
-            [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.2.3']
-    )
+    compile 'com.onesignal:OneSignal:3.+@aar'
+    // Required for OneSignal, even if you have added FCM.
+    compile 'com.google.android.gms:play-services-gcm:+'
+    // Required for geotagging
+    compile "com.google.android.gms:play-services-location:+"
 
     testCompile 'junit:junit:4.12'
 }

@@ -7,37 +7,50 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.volley.Response;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
+import com.onesignal.OneSignal;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.NoDataModels;
+import com.williamcomartin.plexpyremote.R;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
-
-import me.pushy.sdk.Pushy;
 
 /**
  * Created by wcomartin on 2017-03-27.
  */
 
-public class RegisterForPushNotificationsAsync extends AsyncTask<Void, Void, Exception> {
-    protected Exception doInBackground(Void... params) {
-        try {
-            // Assign a unique token to this device
-            String deviceToken = Pushy.register(ApplicationController.getInstance().getApplicationContext());
-            String deviceName = DeviceName.getDeviceName();
+public class RegisterForPushNotificationsAsync {
 
-            // Log it for debugging purposes
-            Log.d("MyApp", "Pushy device token: " + deviceToken + " - Device Name: " + deviceName);
+    public RegisterForPushNotificationsAsync() {
 
-            if(shouldRegister(deviceToken)){
-                registerWithServer(deviceToken, deviceName);
+    }
+
+    public void execute() {
+        OneSignal.startInit(ApplicationController.getInstance().getApplicationContext()).init();
+
+        OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
+            @Override
+            public void idsAvailable(String userId, String registrationId) {
+                Log.d("debug", "User:" + userId);
+                if (registrationId != null)
+                    Log.d("debug", "registrationId:" + registrationId);
+
+                String deviceToken = userId;
+                String deviceName = DeviceName.getDeviceName();
+
+                // Log it for debugging purposes
+                Log.d("MyApp", "Pushy device token: " + deviceToken + " - Device Name: " + deviceName);
+
+                if (shouldRegister(deviceToken)) {
+                    registerWithServer(deviceToken, deviceName);
+                }
             }
-        } catch (Exception exc) {
-            return exc;
-        }
-        return null;
+        });
     }
 
     private boolean shouldRegister(String deviceToken) {
@@ -64,7 +77,8 @@ public class RegisterForPushNotificationsAsync extends AsyncTask<Void, Void, Exc
         String host = null;
         try {
             host = UrlHelpers.getHost();
-        } catch (NoServerException | MalformedURLException ignored) {}
+        } catch (NoServerException | MalformedURLException ignored) {
+        }
 
         String tokenKey = host + ":" + SP.getString("server_settings_apikey", "").trim();
 
@@ -104,7 +118,7 @@ public class RegisterForPushNotificationsAsync extends AsyncTask<Void, Void, Exc
         return new Response.Listener<NoDataModels>() {
             @Override
             public void onResponse(NoDataModels response) {
-                if(response.response.result.equals("success")){
+                if (response.response.result.equals("success")) {
                     setRegistration(deviceToken);
                 }
             }

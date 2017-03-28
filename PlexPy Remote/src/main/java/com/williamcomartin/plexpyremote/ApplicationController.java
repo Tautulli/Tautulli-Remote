@@ -1,35 +1,17 @@
 package com.williamcomartin.plexpyremote;
 
 import android.app.Application;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
 import com.williamcomartin.plexpyremote.Helpers.RegisterForPushNotificationsAsync;
-import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.DiskLruImageCache;
 import com.williamcomartin.plexpyremote.Helpers.NukeSSLCerts;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import me.pushy.sdk.Pushy;
-import me.pushy.sdk.util.exceptions.PushyException;
 
 /**
  * Created by wcomartin on 2015-11-29.
@@ -50,6 +32,7 @@ public class ApplicationController extends Application {
         stepOpenCount();
 
         parseServerForBackwardsCompatibility();
+
 
         new RegisterForPushNotificationsAsync().execute();
     }
