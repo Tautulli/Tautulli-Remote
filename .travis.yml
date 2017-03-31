@@ -53,5 +53,5 @@ directories:
   - $HOME/.gradle/wrapper/
 
 script:
-   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./gradlew assembleDebug connectedCheck --stacktrace; fi'
-   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./gradlew assembleRelease connectedCheck publishRelease --stacktrace; fi'
+   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./gradlew assembleDebug --stacktrace; fi'
+   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./gradlew assembleRelease publishRelease --stacktrace; fi'
