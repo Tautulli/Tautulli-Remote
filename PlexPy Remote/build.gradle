@@ -88,6 +88,8 @@ dependencies {
     compile 'com.android.support:design:25.1.0'
     compile 'com.android.support:support-v4:25.1.0'
 
+    compile 'com.google.firebase:firebase-core:10.2.1'
+
     // HTTP Request
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.jakewharton:disklrucache:2.0.2'
@@ -110,9 +112,11 @@ dependencies {
 
     compile 'com.onesignal:OneSignal:3.+@aar'
     // Required for OneSignal, even if you have added FCM.
-    compile 'com.google.android.gms:play-services-gcm:+'
+    compile 'com.google.android.gms:play-services-gcm:10.2.1'
     // Required for geotagging
-    compile "com.google.android.gms:play-services-location:+"
+    compile "com.google.android.gms:play-services-location:10.2.1"
 
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'
