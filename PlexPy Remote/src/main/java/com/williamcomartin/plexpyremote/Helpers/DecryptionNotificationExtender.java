@@ -1,5 +1,6 @@
 package com.williamcomartin.plexpyremote.Helpers;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -51,9 +52,11 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
                             .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle(body)
-                            .setContentText(subject)
+                            .setContentTitle(subject)
+                            .setContentText(body)
                             .setPriority(priority)
+                            .setAutoCancel(true)
+                            .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                             .setColor(getResources().getColor(R.color.colorAccent));
 
             Long tsLong = System.currentTimeMillis();
