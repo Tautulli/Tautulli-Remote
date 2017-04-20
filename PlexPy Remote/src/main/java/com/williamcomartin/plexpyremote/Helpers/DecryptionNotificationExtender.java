@@ -40,7 +40,7 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
             if(data.getBoolean("encrypted")) {
                 jsonMessage = new JSONObject(GetUnencryptedMessage(data));
             } else {
-                jsonMessage = new JSONObject(data.getString("plaintext_data"));
+                jsonMessage = new JSONObject(data.getString("plain_text"));
             }
 
             final String body = jsonMessage.getString("body");
