@@ -31,7 +31,10 @@ public class RegisterForPushNotificationsAsync {
     }
 
     public void execute() {
-        OneSignal.startInit(ApplicationController.getInstance().getApplicationContext()).init();
+        OneSignal
+                .startInit(ApplicationController.getInstance().getApplicationContext())
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.None)
+                .init();
 
         OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
             @Override

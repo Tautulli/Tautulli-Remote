@@ -86,6 +86,14 @@
         <activity android:name=".MediaActivities.Season.SeasonActivity" />
         <activity android:name=".MediaActivities.Episode.EpisodeActivity" />
         <activity android:name=".MediaActivities.Movie.MovieActivity" />
+
+        <service
+            android:name=".Helpers.DecryptionNotificationExtender"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.onesignal.NotificationExtender" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
