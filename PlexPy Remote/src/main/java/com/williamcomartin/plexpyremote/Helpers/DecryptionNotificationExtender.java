@@ -1,18 +1,24 @@
 package com.williamcomartin.plexpyremote.Helpers;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.onesignal.NotificationExtenderService;
 import com.onesignal.OSNotificationReceivedResult;
+import com.williamcomartin.plexpyremote.ActivityActivity;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.net.URL;
 
 /**
  * Created by wcomartin on 2017-04-18.
@@ -24,13 +30,11 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
 
     @Override
     protected boolean onNotificationProcessing(OSNotificationReceivedResult notification) {
-        Log.d("DecryptionNotification", notification.payload.additionalData.toString());
-
         JSONObject data = notification.payload.additionalData;
 
         try {
             final JSONObject jsonMessage;
-            if(data.getBoolean("encrypted")) {
+            if (data.getBoolean("encrypted")) {
                 jsonMessage = new JSONObject(GetUnencryptedMessage(data));
             } else {
                 jsonMessage = new JSONObject(data.getString("plain_text"));
@@ -40,7 +44,21 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
             final String subject = jsonMessage.getString("subject");
             final int priority = jsonMessage.getInt("priority");
 
-            Log.d("DecryptionNotification", jsonMessage.toString());
+            Bitmap icon;
+
+            try {
+                URL url = new URL(UrlHelpers.getImageUrl(jsonMessage.getString("poster_thumb"), "200", "200"));
+                icon = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch(Exception e) {
+                icon = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.placeholder_poster);
+            }
+
+            Intent launchIntent = new Intent(this, ActivityActivity.class);
+            launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
 
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
@@ -49,8 +67,11 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
                             .setContentText(body)
                             .setPriority(priority)
                             .setAutoCancel(true)
+                            .setContentIntent(resultPendingIntent)
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                             .setColor(getResources().getColor(R.color.colorAccent));
+
+            mBuilder.setLargeIcon(icon);
 
             Long tsLong = System.currentTimeMillis();
             String ts = tsLong.toString();
