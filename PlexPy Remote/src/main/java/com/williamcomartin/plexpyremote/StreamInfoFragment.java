@@ -92,6 +92,7 @@ public class StreamInfoFragment extends Fragment {
     }
 
     public int getSessionKey() {
+        if(activity.session_key == null) return 0;
         return Integer.parseInt(activity.session_key);
     }
 
