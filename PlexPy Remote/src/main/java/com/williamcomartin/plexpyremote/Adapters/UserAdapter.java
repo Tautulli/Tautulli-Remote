@@ -59,13 +59,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     // Pass in the contact array into the constructor
     public UserAdapter(List<UserModels.User> users, OnItemClickListener listener) {
-        Collections.sort(users, new Comparator<UserModels.User>() {
-            public int compare(UserModels.User v1, UserModels.User v2) {
-                return v1.friendlyName.compareTo(v2.friendlyName);
-            }
-        });
-        this.users = users;
-        this.listener = listener;
+        if(users != null) {
+            Collections.sort(users, new Comparator<UserModels.User>() {
+                public int compare(UserModels.User v1, UserModels.User v2) {
+                    return v1.friendlyName.compareTo(v2.friendlyName);
+                }
+            });
+            this.users = users;
+            this.listener = listener;
+        }
     }
 
     @Override
