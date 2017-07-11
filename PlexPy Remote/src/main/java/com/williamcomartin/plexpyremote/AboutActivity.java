@@ -1,17 +1,36 @@
 package com.williamcomartin.plexpyremote;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 
+import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.mikepenz.aboutlibraries.ui.LibsFragment;
+
 public class AboutActivity extends NavBaseActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         setupActionBar();
+
+        LibsFragment fragment = new LibsBuilder()
+                .withLicenseShown(true)
+                .withAboutIconShown(true)
+                .withAboutAppName("PlexPy Remote")
+                .withVersionShown(true)
+                .withAboutVersionShown(true)
+                .withAboutDescription("PlexPy Remote connects to your existing PlexPy server for easy mobile access. " +
+                        "Just enter your server address and API key to connect and view current activity, server stats, and more.")
+                .fragment();
+
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.about_frame_layout, fragment);
+        fragmentTransaction.commit();
     }
 
     protected void setupActionBar() {

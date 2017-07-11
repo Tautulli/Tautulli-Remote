@@ -115,6 +115,10 @@ dependencies {
     // Required for geotagging
     compile "com.google.android.gms:play-services-location:10.2.1"
 
+    compile('com.mikepenz:aboutlibraries:5.9.6@aar') {
+        transitive = true
+    }
+
     testCompile 'junit:junit:4.12'
 }
 
