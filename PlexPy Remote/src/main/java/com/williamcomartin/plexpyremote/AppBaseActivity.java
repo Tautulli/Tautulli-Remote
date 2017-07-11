@@ -12,6 +12,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.joanzapata.iconify.fonts.MaterialModule;
+import com.williamcomartin.plexpyremote.Helpers.RegisterForPushNotificationsAsync;
 
 /**
  * Created by wcomartin on 2015-11-20.
@@ -31,5 +32,17 @@ public class AppBaseActivity extends AppCompatActivity {
 
         Iconify.with(new FontAwesomeModule()).with(new MaterialModule());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        new RegisterForPushNotificationsAsync().execute();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new RegisterForPushNotificationsAsync().execute();
     }
 }
