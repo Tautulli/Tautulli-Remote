@@ -1,4 +1,4 @@
-package com.williamcomartin.plexpyremote.UserDetailsFragments;
+package com.williamcomartin.plexpyremote.UserActivities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

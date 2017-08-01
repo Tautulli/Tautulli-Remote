@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,15 @@ public class HistoryFragment extends Fragment {
         return view;
     }
 
+    public void setUserID(String userID) {
+        try {
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history&user_id=" + userID;
+            fetchData(url);
+        } catch (NoServerException | MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setLibraryId(String libraryId){
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history&section_id=" + libraryId;
@@ -82,7 +92,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private void fetchData (String url){
-//        Log.d("HistoryFragment", url);
+        Log.d("HistoryFragment", url);
         GsonRequest<HistoryModels> request = new GsonRequest<>(
                 url,
                 HistoryModels.class,

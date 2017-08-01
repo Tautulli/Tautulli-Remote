@@ -1,8 +1,12 @@
 package com.williamcomartin.plexpyremote.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
+import com.williamcomartin.plexpyremote.MediaActivities.Season.SeasonActivity;
 import com.williamcomartin.plexpyremote.Models.LibraryMediaModels;
 import com.williamcomartin.plexpyremote.Models.UserModels;
 import com.williamcomartin.plexpyremote.R;
@@ -32,6 +37,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        protected CardView vCard;
+
         protected TextView vUserName;
         protected TextView vLastSeen;
         protected TextView vTotalPlays;
@@ -46,6 +53,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
+
+            vCard = (CardView) itemView.findViewById(R.id.user_card_view);
 
             vUserName = (TextView) itemView.findViewById(R.id.user_card_name);
             vLastSeen = (TextView) itemView.findViewById(R.id.user_card_last_seen);
@@ -66,8 +75,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 }
             });
             this.users = users;
-            this.listener = listener;
         }
+        this.listener = listener;
     }
 
     @Override
@@ -90,6 +99,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         // Set item views based on the data model
 
+        viewHolder.vCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(user);
+            }
+        });
+
         viewHolder.vUserName.setText(user.friendlyName);
         if(user.lastPlayed != null) {
             viewHolder.vLastWatched.setText(user.lastPlayed);
@@ -101,7 +117,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         if(user.userThumb.equals("interfaces/default/images/gravatar-default-80x80.png")){
             viewHolder.vImage.setImageResource(R.drawable.gravatar_default_circle);
         } else {
-            viewHolder.vImage.setImageUrl(user.userThumb, ImageCacheManager.getInstance().getImageLoader());
+            Uri.Builder builder =  Uri.parse(user.userThumb).buildUpon();
+            builder.appendQueryParameter("s", "100");
+            viewHolder.vImage.setImageUrl(builder.toString(), ImageCacheManager.getInstance().getImageLoader());
+            Log.d("UserAdapter", builder.toString());
         }
 
         if(user.lastSeen != null && !user.lastSeen.equals("null")){

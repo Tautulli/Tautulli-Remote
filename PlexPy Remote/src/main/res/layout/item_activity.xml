@@ -19,6 +19,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/activity_card_background_art"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/activity_card_image"
+                android:alpha="0.15"
+                android:scaleType="centerCrop"/>
+
             <com.joanzapata.iconify.widget.IconTextView
                 android:id="@+id/activity_card_info_icon"
                 android:text="{fa-info-circle}"

@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:name="com.williamcomartin.plexpyremote.SharedFragments.PlayerStatsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserDetailsFragments.UserPlayerStatsFragment">
+    android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/watch_stats_card"
-        android:layout_gravity="center"
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/library_details_global_title"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        card_view:cardCornerRadius="0dp"
-        card_view:cardUseCompatPadding="true"
-        card_view:cardElevation="4dp"
-        app:cardBackgroundColor="#333333">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="{fa-television} Player Stats"
+        android:textAppearance="@style/TextHeadline"
+        android:textSize="28sp" />
 
-    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/player_stats_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context="com.williamcomartin.plexpyremote.SharedFragments.PlayerStatsFragment"
+        tools:listitem="@layout/fragment_player_stats_item" />
 
-</FrameLayout>
+</LinearLayout>

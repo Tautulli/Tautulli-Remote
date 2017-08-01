@@ -1,8 +1,7 @@
-package com.williamcomartin.plexpyremote.LibraryDetailsFragments;
+package com.williamcomartin.plexpyremote.UserActivities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,29 +11,23 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
-import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.LibraryGlobalStatsModels;
-import com.williamcomartin.plexpyremote.Models.LibraryUsersStatsModels;
+import com.williamcomartin.plexpyremote.Models.UserPlayerStatsModels;
 import com.williamcomartin.plexpyremote.R;
+import com.williamcomartin.plexpyremote.SharedFragments.PlayerStatsFragment;
 import com.williamcomartin.plexpyremote.SharedFragments.WatchTimeStatsFragment;
 
 import java.net.MalformedURLException;
 
-public class LibraryDetailsStatsFragment extends Fragment {
-    private String libraryId;
+public class UserStatsFragment extends Fragment {
 
-    private boolean globalVisible = false;
-    private boolean userVisible = false;
+    private LinearLayout linearLayout;
+    private String userID;
 
-    private View view;
-
-    public LibraryDetailsStatsFragment() {}
-
-    public void setLibraryId(String libraryId){
-        this.libraryId = libraryId;
-    }
+    public UserStatsFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,41 +35,35 @@ public class LibraryDetailsStatsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_library_details_profile, container, false);
-        setupStats((LinearLayout) view.findViewById(R.id.library_details_stats_layout), libraryId);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_user_stats, container, false);
+        linearLayout = (LinearLayout) view.findViewById(R.id.user_stats_watch_time_stats);
+        setupWatchTimeStats();
+        setupPlayerStats();
         return view;
     }
 
-    private void setupStats(LinearLayout statsLayout, String libraryId){
-        statsLayout.setVisibility(View.GONE);
-        statsLayout.removeAllViewsInLayout();
-
-        setupLibraryGlobalStats(statsLayout, libraryId);
-        setupLibraryUserStats(statsLayout, libraryId);
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
-    private void setupLibraryGlobalStats(final LinearLayout statsLayout, final String libraryId){
+    public void setupWatchTimeStats() {
         final WatchTimeStatsFragment frag = new WatchTimeStatsFragment();
-        getFragmentManager().beginTransaction().add(statsLayout.getId(), frag).commit();
+        getFragmentManager().beginTransaction().add(linearLayout.getId(), frag).commit();
         try {
             GsonRequest<LibraryGlobalStatsModels> request = new GsonRequest<>(
-                    UrlHelpers.getHostPlusAPIKey() + "&cmd=get_library_watch_time_stats&section_id=" + libraryId,
+                    UrlHelpers.getHostPlusAPIKey() + "&cmd=get_user_watch_time_stats&user_id=" + userID,
                     LibraryGlobalStatsModels.class,
                     null,
                     new Response.Listener<LibraryGlobalStatsModels>() {
                         @Override
                         public void onResponse(LibraryGlobalStatsModels response) {
                             frag.setGlobalStats(response.response.data);
-                            globalVisible = true;
-                            checkVisibility(statsLayout);
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-//                            setupStats(statsLayout, libraryId);
                         }
                     }
             );
@@ -104,30 +91,23 @@ public class LibraryDetailsStatsFragment extends Fragment {
         }
     }
 
-    private void setupLibraryUserStats(final LinearLayout statsLayout, final String libraryId){
-        final LibraryDetailsUsersFragment frag = new LibraryDetailsUsersFragment();
-        getFragmentManager().beginTransaction().add(statsLayout.getId(), frag).commit();
+    public void setupPlayerStats() {
+        final PlayerStatsFragment frag = new PlayerStatsFragment();
+        getFragmentManager().beginTransaction().add(linearLayout.getId(), frag).commit();
         try {
-            GsonRequest<LibraryUsersStatsModels> request = new GsonRequest<>(
-                    UrlHelpers.getHostPlusAPIKey() + "&cmd=get_library_user_stats&section_id=" + libraryId,
-                    LibraryUsersStatsModels.class,
+            GsonRequest<UserPlayerStatsModels> request = new GsonRequest<>(
+                    UrlHelpers.getHostPlusAPIKey() + "&cmd=get_user_player_stats&user_id=" + userID,
+                    UserPlayerStatsModels.class,
                     null,
-                    new Response.Listener<LibraryUsersStatsModels>() {
+                    new Response.Listener<UserPlayerStatsModels>() {
                         @Override
-                        public void onResponse(LibraryUsersStatsModels response) {
-                            frag.setUsersStats(response.response.data);
-                            userVisible = true;
-                            checkVisibility(statsLayout);
+                        public void onResponse(UserPlayerStatsModels response) {
+                            frag.setPlayerStats(response.response.data);
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.d("LibraryStats", error.getMessage());
-                            if(error.getMessage().contains("com.google.gson.JsonSyntaxException")){
-                                userVisible = true;
-                                checkVisibility(statsLayout);
-                            }
                         }
                     }
             );
@@ -152,13 +132,6 @@ public class LibraryDetailsStatsFragment extends Fragment {
             RequestManager.addToRequestQueue(request);
         } catch (NoServerException | MalformedURLException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void checkVisibility(LinearLayout statsLayout){
-        if(globalVisible && userVisible){
-            view.findViewById(R.id.progressbar).setVisibility(View.GONE);
-            statsLayout.setVisibility(View.VISIBLE);
         }
     }
 }

@@ -8,7 +8,6 @@
         android:id="@+id/drawer_header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/selectableItemBackground"
         android:paddingLeft="@dimen/keyline"
         android:paddingRight="@dimen/keyline"
         android:paddingTop="@dimen/large_padding"
@@ -35,6 +34,12 @@
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.Body.Bold"
             android:text=""/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/drawerText2"
+            android:src="@mipmap/ic_launcher"/>
 
     </RelativeLayout>
 </FrameLayout>

@@ -21,7 +21,7 @@ public class AboutActivity extends NavBaseActivity {
         LibsFragment fragment = new LibsBuilder()
                 .withLicenseShown(true)
                 .withAboutIconShown(true)
-                .withAboutAppName("PlexPy Remote")
+//                .withAboutAppName(getString(R.string.app_name))
                 .withVersionShown(true)
                 .withAboutVersionShown(true)
                 .withAboutDescription("PlexPy Remote connects to your existing PlexPy server for easy mobile access. " +

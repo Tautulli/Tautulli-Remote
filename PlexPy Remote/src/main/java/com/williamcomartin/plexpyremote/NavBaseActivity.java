@@ -34,6 +34,7 @@ import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.ServerFriendlyNameModels;
 import com.williamcomartin.plexpyremote.Services.NavService;
+import com.williamcomartin.plexpyremote.UserActivities.UsersActivity;
 
 import java.net.MalformedURLException;
 

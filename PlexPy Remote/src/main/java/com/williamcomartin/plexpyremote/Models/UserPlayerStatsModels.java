@@ -21,10 +21,10 @@ public class UserPlayerStatsModels {
     public class PlayerStat {
         @SerializedName("platform_type")
         @Expose
-        public Integer platformType;
+        public String platformType;
         @SerializedName("player_name")
         @Expose
-        public Long playerName;
+        public String playerName;
         @SerializedName("total_plays")
         @Expose
         public Integer totalPlays;

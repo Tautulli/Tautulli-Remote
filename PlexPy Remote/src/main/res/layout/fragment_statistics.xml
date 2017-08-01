@@ -9,6 +9,7 @@
         android:layout_marginTop="-8dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        card_view:cardBackgroundColor="@color/colorCardLightBackground"
         card_view:cardCornerRadius="0dp"
         card_view:cardElevation="1dp"
         card_view:cardUseCompatPadding="true"

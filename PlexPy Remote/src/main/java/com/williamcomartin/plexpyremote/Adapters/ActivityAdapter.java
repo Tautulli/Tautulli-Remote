@@ -63,6 +63,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
         protected ProgressBar vprogress;
 
+        protected NetworkImageView vBackgroundImage;
         protected NetworkImageView vImage;
         protected NetworkImageView vImageBlurred;
 
@@ -83,6 +84,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
             vprogress = (ProgressBar) itemView.findViewById(R.id.progressbar);
 
+            vBackgroundImage = (NetworkImageView) itemView.findViewById(R.id.activity_card_background_art);
             vImage = (NetworkImageView) itemView.findViewById(R.id.activity_card_image);
             vImageBlurred = (NetworkImageView) itemView.findViewById(R.id.activity_card_image_blurred);
 
@@ -195,14 +197,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         viewHolder.vprogress.setProgress(Integer.parseInt(activity.progress_percent));
         viewHolder.vprogress.setSecondaryProgress(Integer.parseInt(activity.transcode_progress));
 
-
-//        if (!activity.thumb.equals("")) {
-//            imageUrl = UrlHelpers.getImageUrl(activity.thumb, "600", "400");
-//        } else if (!activity.parent_thumb.equals("")) {
-//            imageUrl = UrlHelpers.getImageUrl(activity.parent_thumb, "600", "400");
-//        } else {
-//            imageUrl = UrlHelpers.getImageUrl(activity.grandparent_thumb, "600", "400");
-//        }
+        viewHolder.vBackgroundImage.setImageUrl(UrlHelpers.getImageUrl(activity.art, "600", "400"), ImageCacheManager.getInstance().getImageLoader());
         viewHolder.vImage.setImageUrl(imageUrl, ImageCacheManager.getInstance().getImageLoader());
         viewHolder.vImageBlurred.setImageUrl(imageUrl, ImageCacheManager.getInstance().getImageLoader());
         viewHolder.vImageBlurred.setAlpha(0.75f);

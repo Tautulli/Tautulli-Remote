@@ -15,6 +15,7 @@
         android:id="@+id/navigation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"/>
+        android:layout_gravity="start"
+        android:background="@color/colorCardBackground"/>
 
 </android.support.v4.widget.DrawerLayout>

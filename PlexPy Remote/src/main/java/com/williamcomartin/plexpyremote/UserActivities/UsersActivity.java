@@ -1,4 +1,4 @@
-package com.williamcomartin.plexpyremote;
+package com.williamcomartin.plexpyremote.UserActivities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,15 +8,19 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.williamcomartin.plexpyremote.ActivityActivity;
 import com.williamcomartin.plexpyremote.Adapters.UserAdapter;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.UserModels;
+import com.williamcomartin.plexpyremote.NavBaseActivity;
+import com.williamcomartin.plexpyremote.R;
 
 import java.net.MalformedURLException;
 
@@ -36,7 +40,7 @@ public class UsersActivity extends NavBaseActivity {
         rvUsers = (RecyclerView) findViewById(R.id.rvUsers);
 
         try {
-            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_users_table";
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_users_table&length=10000000";
 
             GsonRequest<UserModels> request = new GsonRequest<>(
                     url,
@@ -70,9 +74,10 @@ public class UsersActivity extends NavBaseActivity {
                 UserAdapter adapter = new UserAdapter(response.response.data.data, new UserAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(UserModels.User item) {
+                        Log.d("UsersActivity", item.userId.toString());
                         Intent intent = new Intent(getApplicationContext(), UserDetailActivity.class);
-                        intent.putExtra("ID", item.userId);
-                        intent.putExtra("NAME", item.friendlyName);
+                        intent.putExtra("UserID", item.userId.toString());
+                        intent.putExtra("UserName", item.friendlyName);
                         startActivity(intent);
                     }
                 });
@@ -93,7 +98,6 @@ public class UsersActivity extends NavBaseActivity {
             super.onBackPressed();
             return;
         }
-
 
         Intent intent = new Intent(this, ActivityActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
