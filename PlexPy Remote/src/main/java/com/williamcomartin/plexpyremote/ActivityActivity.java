@@ -224,6 +224,8 @@ public class ActivityActivity extends NavBaseActivity {
                         text.setText(getString(R.string.ConnectionRefused));
                     } else if (error.getMessage().contains("Bad URL")) {
                         text.setText(getString(R.string.FormatError));
+                    } else if (error.getMessage().contains("SSLHandshakeException")) {
+                        text.setText(getString(R.string.SSLError));
                     } else {
                         text.setText(getString(R.string.UnexpectedError) + ", " + error.getMessage());
                     }

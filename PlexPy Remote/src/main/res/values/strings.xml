@@ -60,5 +60,6 @@
     <string name="NoActivity">Nothing is currently being played</string>
     <string name="PlexError">Failed to authenticate with either PlexPy or Plex</string>
     <string name="FormatError">Incorrect server address format</string>
+    <string name="SSLError">HTTPS in enabled but port is set to 80</string>
     <string name="UnexpectedError">Unexpected error</string>
 </resources>
