@@ -4,16 +4,20 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.HistoryAdapter;
 import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
+import com.williamcomartin.plexpyremote.Helpers.StringHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
@@ -26,6 +30,9 @@ import java.util.ArrayList;
 public class HistoryFragment extends Fragment {
 
     private RecyclerView mHistoryRecyclerView;
+
+    private String mLatestUrl;
+    private EditText mSearchField;
 
     public HistoryFragment() {
     }
@@ -42,6 +49,27 @@ public class HistoryFragment extends Fragment {
         mHistoryRecyclerView = (RecyclerView) view.findViewById(R.id.shared_history_rv);
         mHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mHistoryRecyclerView.setAdapter(new HistoryAdapter(this.getContext(), new ArrayList<HistoryModels.HistoryRecord>()));
+
+        mSearchField = (EditText) view.findViewById(R.id.shared_history_search);
+        mSearchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                Log.d("HistoryFragment", charSequence.toString());
+                if(charSequence.length() != 0){
+                    fetchData(mLatestUrl, charSequence.toString());
+                }
+            }
+        });
 
         return view;
     }
@@ -91,10 +119,22 @@ public class HistoryFragment extends Fragment {
         }
     }
 
-    private void fetchData (String url){
+    private void fetchData (String url) {
+        fetchData(url, null);
+    }
+
+    private void fetchData (String url, String search) {
+        mLatestUrl = url;
         Log.d("HistoryFragment", url);
+
+        String requestUrl = !StringHelpers.isNullOrWhiteSpace(search)
+                ? String.format("%s&search=%s", url, search)
+                : url;
+
+        Log.d("HistoryFragment", requestUrl);
+
         GsonRequest<HistoryModels> request = new GsonRequest<>(
-                url,
+                requestUrl,
                 HistoryModels.class,
                 null,
                 requestListener(),

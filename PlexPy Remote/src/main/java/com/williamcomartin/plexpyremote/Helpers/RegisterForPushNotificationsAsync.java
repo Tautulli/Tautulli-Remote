@@ -74,6 +74,10 @@ public class RegisterForPushNotificationsAsync {
             return false;
         }
 
+        if(StringHelpers.isNullOrWhiteSpace(deviceToken)){
+            return true;
+        }
+
         String tokenKey = host + ":" + sharedPreferences.getString("server_settings_apikey", "").trim();
         String storedDeviceToken = sharedPreferences.getString(tokenKey, "").trim();
 

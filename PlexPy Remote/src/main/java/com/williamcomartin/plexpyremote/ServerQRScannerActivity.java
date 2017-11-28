@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.williamcomartin.plexpyremote.Helpers.RegisterForPushNotificationsAsync;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -132,6 +133,8 @@ public class ServerQRScannerActivity extends Activity {
                 }
 
                 new CheckLocalAsync().execute(parts[0]);
+
+                new RegisterForPushNotificationsAsync().execute();
             }
         } else {
             // This is important, otherwise the result will not be passed to the fragment

@@ -62,4 +62,5 @@
     <string name="FormatError">Incorrect server address format</string>
     <string name="SSLError">HTTPS in enabled but port is set to 80</string>
     <string name="UnexpectedError">Unexpected error</string>
+    <string name="search_text">Search</string>
 </resources>
