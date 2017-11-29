@@ -15,8 +15,8 @@ env:
     - ANDROID_BUILD_TOOLS_VERSION=26.0.1
     - ANDROID_EMU_API_LEVEL=22
     - ANDROID_ABI=armeabi-v7a
-    - ADB_INSTALL_TIMEOUT=20 # minutes (2 minutes by default)
-    - QEMU_AUDIO_DRV=none # Remove audio
+    - ADB_INSTALL_TIMEOUT=20
+    - QEMU_AUDIO_DRV=none
 android:
   components:
     - tools
@@ -24,7 +24,7 @@ android:
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
     - android-$ANDROID_API_LEVEL
     - android-$ANDROID_EMU_API_LEVEL
-    - sys-img-$ANDROID_ABI-google_apis-$ANDROID_EMU_API_LEVEL
+    - sys-img-$ANDROID_ABI-android-$ANDROID_EMU_API_LEVEL
 
     # Additional components
     - extra-google-google_play_services
@@ -37,7 +37,7 @@ android:
 
 # Emulator Management: Create, Start and Wait
 before_script:
-  - echo no | android create avd --force -n test -t android-$ANDROID_EMU_API_LEVEL --abi google_apis/$ANDROID_ABI
+  - echo no | android create avd --force -n test -t android-$ANDROID_EMU_API_LEVEL --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
