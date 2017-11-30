@@ -33,7 +33,7 @@ public class RegisterForPushNotificationsAsync {
         String deviceName = DeviceName.getDeviceName();
         String deviceToken = sharedPreferences.getString("one_signal_device_token", "");
 
-        if(deviceToken.equals("")) {
+        if(!deviceToken.equals("")) {
             if (shouldRegister(deviceToken)) {
                 registerWithServer(deviceToken, deviceName);
             }

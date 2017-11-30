@@ -1,11 +1,13 @@
 package com.williamcomartin.plexpyremote.Helpers;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
@@ -27,6 +29,9 @@ import java.net.URL;
 public class DecryptionNotificationExtender extends NotificationExtenderService {
 
     private static final SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(ApplicationController.getInstance().getApplicationContext());
+
+    private static final String CHANNEL_ID = "plexpy_remote_main";
+    private NotificationChannel mChannel;
 
     @Override
     protected boolean onNotificationProcessing(OSNotificationReceivedResult notification) {
@@ -59,9 +64,13 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
 
             PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                CharSequence name = getString(R.string.app_name);
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+            }
             NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this)
+                    new NotificationCompat.Builder(this, CHANNEL_ID)
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentTitle(subject)
                             .setContentText(body)
@@ -78,8 +87,10 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
             String tsTrunc = ts.substring(ts.length() - 9);
             int notificationID = Integer.parseInt(tsTrunc);
 
-            NotificationManager mNotifyMgr =
-                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                mNotifyMgr.createNotificationChannel(mChannel);
+            }
             mNotifyMgr.notify(notificationID, mBuilder.build());
             return true;
 
