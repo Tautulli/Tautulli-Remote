@@ -23,9 +23,12 @@ android {
         applicationId "com.williamcomartin.plexpyremote"
         minSdkVersion 17
         targetSdkVersion 26
+
+        versionName "1.4"
         if (System.getenv("TRAVIS")) {
             versionCode System.getenv("TRAVIS_BUILD_NUMBER").toInteger()
-            versionName "1.4"
+        } else {
+            versionCode 0
         }
 
         manifestPlaceholders = [onesignal_app_id               : "3b4b666a-d557-4b92-acdf-e2c8c4b95357",

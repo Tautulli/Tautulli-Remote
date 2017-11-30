@@ -13,22 +13,15 @@
 
     <color name="colorTextHeading">#F9F9F9</color>
     <color name="colorTextPrimary">#B3BAC1</color>
+
+    <!-- AboutLibraries DEFAULT colors -->
+    <color name="about_libraries_card">@color/colorCardBackground</color>
+    <color name="about_libraries_title_openSource">@color/colorTextHeading</color>
+    <color name="about_libraries_text_openSource">@color/colorTextPrimary</color>
+    <color name="about_libraries_dividerDark_openSource">@color/colorCardLightBackground</color>
+    <color name="about_libraries_dividerLight_openSource">@color/colorCardLightBackground</color>
+
+    <color name="about_libraries_title_description">@color/about_libraries_title_openSource</color>
+    <color name="about_libraries_text_description">@color/about_libraries_text_openSource</color>
+    <color name="about_libraries_divider_description">@color/about_libraries_dividerDark_openSource</color>
 </resources>
-
-
-
-<!--<resources>-->
-<!--<color name="colorPrimary">#000</color>-->
-<!--<color name="colorPrimaryDark">#1f1f1f</color>-->
-<!--<color name="colorAccent">#faa732</color>-->
-
-<!--<color name="colorBackground">#1f1f1f</color>-->
-<!--<color name="colorCardBackground">#282828</color>-->
-<!--<color name="colorCardLightBackground">#3d3d3d</color>-->
-<!--<color name="colorCardSecondaryBackground">#313131</color>-->
-
-<!--<color name="colorTranscodeBufferBar">#444</color>-->
-
-<!--<color name="colorTextHeading">#EEE</color>-->
-<!--<color name="colorTextPrimary">#999</color>-->
-<!--</resources>-->
