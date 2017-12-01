@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.onesignal.NotificationExtenderService;
 import com.onesignal.OSNotificationReceivedResult;
@@ -41,9 +40,7 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
         try {
             final JSONObject jsonMessage;
             if (data.getBoolean("encrypted")) {
-                String unencryptedMessage = GetUnencryptedMessage(data);
-                jsonMessage = new JSONObject(unencryptedMessage);
-                Log.d("DecryptionNotification", unencryptedMessage);
+                jsonMessage = new JSONObject(GetUnencryptedMessage(data));
             } else {
                 jsonMessage = new JSONObject(data.getString("plain_text"));
             }

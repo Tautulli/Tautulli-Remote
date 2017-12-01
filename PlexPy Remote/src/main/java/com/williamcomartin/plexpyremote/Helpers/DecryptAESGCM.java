@@ -2,7 +2,6 @@ package com.williamcomartin.plexpyremote.Helpers;
 
 import android.os.Build;
 import android.util.Base64;
-import android.util.Log;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -30,15 +29,9 @@ public class DecryptAESGCM {
                 cipher.init(Cipher.DECRYPT_MODE, encryptionKey, new GCMParameterSpec(16 * 8, nonce));
                 byte[] plainText = cipher.doFinal(cipherText);
 
-                String plainTextOut = new String(plainText, "UTF8");
-
-                return plainTextOut;
+                return new String(plainText, "UTF8");
             }
         } catch (Exception e) {
-            Log.d("DecryptAESGCM", e.toString());
-            for (StackTraceElement el: e.getStackTrace()) {
-                Log.d("DecryptAESGCM", el.toString());
-            }
             e.printStackTrace();
         }
 
@@ -47,7 +40,7 @@ public class DecryptAESGCM {
 
     public static SecretKey deriveKey(String p, byte[] s, int i, int l) throws Exception {
         PBEKeySpec ks = new PBEKeySpec(p.toCharArray(), s, i, l);
-        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         SecretKey tmp = skf.generateSecret(ks);
         SecretKey key = new SecretKeySpec(tmp.getEncoded(), "AES");
         return key;
