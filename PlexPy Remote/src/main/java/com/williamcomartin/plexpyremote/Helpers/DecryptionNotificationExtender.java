@@ -55,6 +55,7 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
             try {
                 URL url = new URL(UrlHelpers.getImageUrl(jsonMessage.getString("poster_thumb"), "200", "200"));
                 URLConnection urlConnection = url.openConnection();
+                urlConnection.setReadTimeout(10000);
                 urlConnection.setConnectTimeout(10000);
                 icon = BitmapFactory.decodeStream(urlConnection.getInputStream());
             } catch(Exception e) {
