@@ -2,6 +2,7 @@ package com.williamcomartin.plexpyremote.Helpers;
 
 import android.os.Build;
 import android.util.Base64;
+import android.util.Log;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -34,6 +35,10 @@ public class DecryptAESGCM {
                 return plainTextOut;
             }
         } catch (Exception e) {
+            Log.d("DecryptAESGCM", e.toString());
+            for (StackTraceElement el: e.getStackTrace()) {
+                Log.d("DecryptAESGCM", el.toString());
+            }
             e.printStackTrace();
         }
 
