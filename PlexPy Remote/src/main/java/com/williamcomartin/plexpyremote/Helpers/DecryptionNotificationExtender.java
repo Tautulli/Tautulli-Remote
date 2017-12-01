@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Created by wcomartin on 2017-04-18.
@@ -53,7 +54,9 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
 
             try {
                 URL url = new URL(UrlHelpers.getImageUrl(jsonMessage.getString("poster_thumb"), "200", "200"));
-                icon = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                URLConnection urlConnection = url.openConnection();
+                urlConnection.setConnectTimeout(10000);
+                icon = BitmapFactory.decodeStream(urlConnection.getInputStream());
             } catch(Exception e) {
                 icon = BitmapFactory.decodeResource(getResources(),
                         R.drawable.placeholder_poster);
