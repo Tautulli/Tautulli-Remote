@@ -74,6 +74,15 @@ public class HistoryFragment extends Fragment {
         return view;
     }
 
+    public void setGlobal() {
+        try {
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history";
+            fetchData(url);
+        } catch (NoServerException | MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setUserID(String userID) {
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_history&user_id=" + userID;
