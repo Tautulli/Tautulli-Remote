@@ -7,13 +7,12 @@
     android:layout_marginLeft="4dp"
     android:layout_marginRight="4dp">
 
-    <android.support.v7.widget.CardView
+    <android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/recently_added_card_view"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="65dp"
+        android:layout_gravity="center"
         card_view:cardBackgroundColor="@color/colorCardBackground"
         card_view:cardCornerRadius="0dp"
         card_view:cardElevation="2dp"
@@ -26,28 +25,28 @@
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/library_statistics_card_image"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="15dp"/>
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp">
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="0dp">
 
                 <TextView
                     android:id="@+id/library_statistics_card_title"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:textSize="20sp"
-                    android:layout_marginStart="0dp"
-                    style="@style/Base.TextAppearance.AppCompat.Title" />
+                    android:textSize="20sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -62,20 +61,20 @@
 
                         <TextView
                             android:id="@+id/library_statistics_card_count_title"
+                            style="@style/Base.TextAppearance.AppCompat.Title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:textSize="12sp"
                             android:text="Shows"
-                            style="@style/Base.TextAppearance.AppCompat.Title" />
+                            android:textAlignment="center"
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/library_statistics_card_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-                            android:textSize="12sp"
-                            android:textColor="@color/colorAccent" />
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -87,20 +86,20 @@
 
                         <TextView
                             android:id="@+id/library_statistics_card_child_count_title"
+                            style="@style/Base.TextAppearance.AppCompat.Title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:textSize="12sp"
                             android:text="Episodes"
-                            style="@style/Base.TextAppearance.AppCompat.Title" />
+                            android:textAlignment="center"
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/library_statistics_card_child_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-                            android:textSize="12sp"
-                            android:textColor="@color/colorAccent" />
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
