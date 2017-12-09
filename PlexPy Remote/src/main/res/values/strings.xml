@@ -26,8 +26,8 @@
     <string name="server_settings_port_summary">Port your web server is bound to.</string>
     <string name="server_settings_path_title">HTTP Root</string>
     <string name="server_settings_path_summary">The base URL of the web server. Used for reverse proxies.</string>
-    <string name="server_settings_apikey_title">Server API Key</string>
-    <string name="server_settings_apikey_summary">Manually enter the PlexPy API key</string>
+    <string name="server_settings_apikey_title">Device Token</string>
+    <string name="server_settings_apikey_summary">Manually enter the Device Token</string>
 
     <string name="app_settings_title">App Settings</string>
     <string name="app_settings_refresh_title">Activity Refresh Interval</string>

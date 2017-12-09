@@ -60,13 +60,19 @@ public class UrlHelpers {
         return url.toString();
     }
 
+    /**
+     * @deprecated
+     * use getUriBuilder instead
+     */
+    @Deprecated
     public static String getHostPlusAPIKey () throws NoServerException, MalformedURLException {
-        return getHost() + "api/v2?apikey=" + SP.getString("server_settings_apikey", "").trim();
+        return getHost() + "api/v2?apikey=" + SP.getString("server_settings_apikey", "").trim() + "app=true";
     }
 
     public static Uri.Builder getUriBuilder () throws NoServerException, MalformedURLException {
         Uri.Builder builder =  Uri.parse(getHost() + "api/v2").buildUpon();
         builder.appendQueryParameter("apikey", SP.getString("server_settings_apikey", "").trim());
+        builder.appendQueryParameter("app", "true");
         return builder;
     }
 }

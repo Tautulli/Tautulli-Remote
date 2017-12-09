@@ -1,5 +1,6 @@
 package com.williamcomartin.plexpyremote.UserActivities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -26,7 +27,6 @@ import java.net.MalformedURLException;
 
 public class UsersActivity extends NavBaseActivity {
 
-    private SharedPreferences SP;
     private RecyclerView rvUsers;
 
     @Override
@@ -35,9 +35,7 @@ public class UsersActivity extends NavBaseActivity {
         setContentView(R.layout.activity_users);
         setupActionBar();
 
-        SP = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        rvUsers = (RecyclerView) findViewById(R.id.rvUsers);
+        rvUsers = findViewById(R.id.rvUsers);
 
         try {
             String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_users_table&length=10000000";
