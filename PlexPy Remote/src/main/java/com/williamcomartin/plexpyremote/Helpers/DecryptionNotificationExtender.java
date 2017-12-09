@@ -1,5 +1,6 @@
 package com.williamcomartin.plexpyremote.Helpers;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.onesignal.NotificationExtenderService;
 import com.onesignal.OSNotificationReceivedResult;
@@ -52,8 +54,11 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
 
             Bitmap icon;
 
+            Log.d("Notification", jsonMessage.getString("poster_thumb"));
             try {
-                URL url = new URL(UrlHelpers.getImageUrl(jsonMessage.getString("poster_thumb"), "200", "200"));
+                String urlString = UrlHelpers.getImageUrl(jsonMessage.getString("poster_thumb"), "200", "200");
+                Log.d("Notification", urlString);
+                URL url = new URL(urlString);
                 URLConnection urlConnection = url.openConnection();
                 urlConnection.setReadTimeout(10000);
                 urlConnection.setConnectTimeout(10000);
@@ -68,34 +73,44 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
 
             PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                CharSequence name = getString(R.string.app_name);
-                int importance = NotificationManager.IMPORTANCE_HIGH;
-                mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-            }
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this, CHANNEL_ID)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle(subject)
-                            .setContentText(body)
-                            .setPriority(priority)
-                            .setAutoCancel(true)
-                            .setContentIntent(resultPendingIntent)
-                            .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
-                            .setColor(getResources().getColor(R.color.colorAccent));
-
-            mBuilder.setLargeIcon(icon);
-
             Long tsLong = System.currentTimeMillis();
             String ts = tsLong.toString();
             String tsTrunc = ts.substring(ts.length() - 9);
             int notificationID = Integer.parseInt(tsTrunc);
 
-            NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                CharSequence name = getString(R.string.app_name);
+                int importance = NotificationManager.IMPORTANCE_DEFAULT;
+                mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+
+                Notification.Builder mBuilder = new Notification.Builder(this, CHANNEL_ID)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(subject)
+                        .setContentText(body)
+                        .setAutoCancel(true)
+                        .setContentIntent(resultPendingIntent)
+                        .setStyle(new Notification.MediaStyle())
+                        .setColor(getResources().getColor(R.color.colorAccent))
+                        .setLargeIcon(icon);
+
+                NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 mNotifyMgr.createNotificationChannel(mChannel);
+                mNotifyMgr.notify(notificationID, mBuilder.build());
+            } else {
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(subject)
+                        .setContentText(body)
+                        .setPriority(priority)
+                        .setAutoCancel(true)
+                        .setContentIntent(resultPendingIntent)
+                        .setLargeIcon(icon)
+                        .setColor(getResources().getColor(R.color.colorAccent))
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(body));
+
+                NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                mNotifyMgr.notify(notificationID, mBuilder.build());
             }
-            mNotifyMgr.notify(notificationID, mBuilder.build());
             return true;
 
         } catch (JSONException e) {

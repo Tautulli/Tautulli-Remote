@@ -66,7 +66,7 @@ public class UrlHelpers {
      */
     @Deprecated
     public static String getHostPlusAPIKey () throws NoServerException, MalformedURLException {
-        return getHost() + "api/v2?apikey=" + SP.getString("server_settings_apikey", "").trim() + "app=true";
+        return getHost() + "api/v2?apikey=" + SP.getString("server_settings_apikey", "").trim() + "&app=true";
     }
 
     public static Uri.Builder getUriBuilder () throws NoServerException, MalformedURLException {
