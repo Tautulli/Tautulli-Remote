@@ -39,6 +39,7 @@ android:
 
 # Emulator Management: Create, Start and Wait
 before_script:
+  - yes | sdkmanager --licenses
   - echo no | android create avd --force -n test -t android-$ANDROID_EMU_API_LEVEL --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
