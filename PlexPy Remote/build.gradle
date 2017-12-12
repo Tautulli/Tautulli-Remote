@@ -22,7 +22,7 @@ android {
     defaultConfig {
         applicationId "com.williamcomartin.plexpyremote"
         minSdkVersion 17
-        targetSdkVersion 26
+        targetSdkVersion 27
 
         versionName "1.4"
         if (System.getenv("TRAVIS")) {
