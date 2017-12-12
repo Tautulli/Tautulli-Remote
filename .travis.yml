@@ -12,7 +12,7 @@ jdk:
 env:
   global:
     - ANDROID_API_LEVEL=27
-    - ANDROID_BUILD_TOOLS_VERSION=27.0.1
+    - ANDROID_BUILD_TOOLS_VERSION=27.0.2
     - ANDROID_EMU_API_LEVEL=22
     - ANDROID_ABI=armeabi-v7a
     - ADB_INSTALL_TIMEOUT=20
@@ -39,7 +39,6 @@ android:
 
 # Emulator Management: Create, Start and Wait
 before_script:
-  - yes | sdkmanager --licenses
   - echo no | android create avd --force -n test -t android-$ANDROID_EMU_API_LEVEL --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
