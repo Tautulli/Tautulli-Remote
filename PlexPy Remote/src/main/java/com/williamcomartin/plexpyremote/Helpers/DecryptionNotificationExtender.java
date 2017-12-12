@@ -64,6 +64,8 @@ public class DecryptionNotificationExtender extends NotificationExtenderService 
                 urlConnection.setConnectTimeout(10000);
                 icon = BitmapFactory.decodeStream(urlConnection.getInputStream());
             } catch(Exception e) {
+                Log.d("Notification", e.toString());
+                e.printStackTrace();
                 icon = BitmapFactory.decodeResource(getResources(),
                         R.drawable.placeholder_poster);
             }
