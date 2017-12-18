@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tautulli</string>
+    <string name="app_name">Tautulli Remote</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
@@ -13,13 +13,13 @@
     <string name="about">About</string>
     <string name="donate">Donate</string>
 
-    <string name="app_about_description">Tautulli connects to your existing PlexPy server for easy mobile access. Just enter your server address and API key to connect and view current activity, server stats, and more.</string>
+    <string name="app_about_description">Tautulli Remote connects to your existing Tautulli server for easy mobile access. Just enter your server address and API key to connect and view current activity, server stats, and more.</string>
 
     <string name="server_settings_title">Server Settings</string>
     <string name="server_settings_qr_title">Scan QR Code</string>
-    <string name="server_settings_qr_summary">Scan the QR code in the PlexPy settings to automatically link the app with the server (requires PlexPy v2)</string>
+    <string name="server_settings_qr_summary">Scan the QR code in the Tautulli settings to automatically link the app with the server (requires Tautulli v2)</string>
     <string name="server_settings_ssl_title">HTTPS/TLS</string>
-    <string name="server_settings_ssl_summary">Enable if you use HTTPS to communicate with PlexPy.</string>
+    <string name="server_settings_ssl_summary">Enable if you use HTTPS to communicate with Tautulli.</string>
     <string name="server_settings_address_title">Hostname or IP Address</string>
     <string name="server_settings_address_summary">Hostname or an IP address such as plexpy.example.com or 192.168.1.1</string>
     <string name="server_settings_port_title">Port</string>
@@ -54,13 +54,13 @@
 
     <!-- Error Messages -->
 
-    <string name="InvalidServer">Unable to connect to PlexPy. Check server configuration or network connection.</string>
-    <string name="InvalidTimeoutServer">Connection to PlexPy failed: Possible invalid server settings</string>
+    <string name="InvalidServer">Unable to connect to Tautulli. Check server configuration or network connection.</string>
+    <string name="InvalidTimeoutServer">Connection to Tautulli failed: Possible invalid server settings</string>
     <string name="NetworkUnreachable">Network is unreachable</string>
     <string name="ConnectionRefused">Invalid server port</string>
     <string name="InvalidAPIKey">Invalid API key</string>
     <string name="NoActivity">Nothing is currently being played</string>
-    <string name="PlexError">Failed to authenticate with either PlexPy or Plex</string>
+    <string name="PlexError">Failed to authenticate with either Tautulli or Plex</string>
     <string name="FormatError">Incorrect server address format</string>
     <string name="SSLError">HTTPS in enabled but port is set to 80</string>
     <string name="UnexpectedError">Unexpected error</string>
