@@ -20,6 +20,6 @@ public class ErrorListener implements Response.ErrorListener {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Log.d("ErrorListener", error.getMessage());
+//        Log.d("ErrorListener", error.getMessage());
     }
 }
