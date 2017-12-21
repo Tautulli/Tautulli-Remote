@@ -24,4 +24,35 @@
     <color name="about_libraries_title_description">@color/about_libraries_title_openSource</color>
     <color name="about_libraries_text_description">@color/about_libraries_text_openSource</color>
     <color name="about_libraries_divider_description">@color/about_libraries_dividerDark_openSource</color>
+
+
+
+    <!-- Platform Colors -->
+    <color name="platform_android">#a4ca39</color>
+    <color name="platform_atv">#858487</color>
+    <color name="platform_chrome">#ed5e50</color>
+    <color name="platform_chromecast">#10a4e8</color>
+    <color name="platform_cloudsync">#e5a00d</color>
+    <color name="platform_default">#e5a00d</color>
+    <color name="platform_dlna">#0cb14b</color>
+    <color name="platform_firefox">#e67817</color>
+    <color name="platform_gtv">#008bcf</color>
+    <color name="platform_ie">#00599e</color>
+    <color name="platform_ios">#858487</color>
+    <color name="platform_kodi">#31afe1</color>
+    <color name="platform_linux">#1793d0</color>
+    <color name="platform_macos">#858487</color>
+    <color name="platform_msedge">#0078d7</color>
+    <color name="platform_opera">#ff1b2d</color>
+    <color name="platform_playstation">#034da2</color>
+    <color name="platform_plex">#e5a00d</color>
+    <color name="platform_plexamp">#e5a00d</color>
+    <color name="platform_roku">#6d3c97</color>
+    <color name="platform_safari">#00a9ec</color>
+    <color name="platform_samsung">#034ea2</color>
+    <color name="platform_synclounge">#151924</color>
+    <color name="platform_tivo">#00a7e1</color>
+    <color name="platform_wiiu">#03a9f4</color>
+    <color name="platform_windows">#2fc0f5</color>
+    <color name="platform_xbox">#107c10</color>
 </resources>

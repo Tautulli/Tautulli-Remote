@@ -2,9 +2,6 @@ package com.williamcomartin.plexpyremote;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Icon;
-import android.net.Network;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -140,8 +137,9 @@ public class StatisticsFragment extends Fragment {
         }
 
         if(this.stats.isPlatform()) {
-            Bitmap platform = BitmapFactory.decodeResource(
-                    getResources(), PlatformService.getInstance().getPlatformImagePath(stat.platform));
+            int platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
+            int platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getActivity().getApplicationContext(), platformResource, platformColorResource);
             vSquareImage.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
             vTitle.setText(stat.platform);
         }
@@ -179,8 +177,9 @@ public class StatisticsFragment extends Fragment {
         }
 
         if(this.stats.isPlatform()) {
-            Bitmap platform = BitmapFactory.decodeResource(
-                    getResources(), PlatformService.getInstance().getPlatformImagePath(stat.platform));
+            int platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
+            int platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getActivity().getApplicationContext(), platformResource, platformColorResource);
             vSquareImage1.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
             vTitle1.setText(stat.platform);
         }
@@ -218,8 +217,9 @@ public class StatisticsFragment extends Fragment {
         }
 
         if(this.stats.isPlatform()) {
-            Bitmap platform = BitmapFactory.decodeResource(
-                    getResources(), PlatformService.getInstance().getPlatformImagePath(stat.platform));
+            int platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
+            int platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getActivity().getApplicationContext(), platformResource, platformColorResource);
             vSquareImage2.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
             vTitle2.setText(stat.platform);
         }
@@ -257,8 +257,9 @@ public class StatisticsFragment extends Fragment {
         }
 
         if(this.stats.isPlatform()) {
-            Bitmap platform = BitmapFactory.decodeResource(
-                    getResources(), PlatformService.getInstance().getPlatformImagePath(stat.platform));
+            int platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
+            int platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getActivity().getApplicationContext(), platformResource, platformColorResource);
             vSquareImage3.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
             vTitle3.setText(stat.platform);
         }
@@ -296,8 +297,9 @@ public class StatisticsFragment extends Fragment {
         }
 
         if(this.stats.isPlatform()) {
-            Bitmap platform = BitmapFactory.decodeResource(
-                    getResources(), PlatformService.getInstance().getPlatformImagePath(stat.platform));
+            int platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
+            int platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getActivity().getApplicationContext(), platformResource, platformColorResource);
             vSquareImage4.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
             vTitle4.setText(stat.platform);
         }

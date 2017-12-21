@@ -68,7 +68,7 @@ public class MostActivePlatformAdapter extends RecyclerView.Adapter<MostActivePl
         StatisticsModels.StatisticsRow item = statisticsItems.get(position);
 
         viewHolder.vImage.setImageUrl(SP.getString("server_settings_address", "") +
-                PlatformService.getInstance().getPlatformImagePath(item.platform),
+                PlatformService.getPlatformImagePath(item.platform),
                 ImageCacheManager.getInstance().getImageLoader());
 
         viewHolder.vBadge.setText(((Integer) (position + 1)).toString());

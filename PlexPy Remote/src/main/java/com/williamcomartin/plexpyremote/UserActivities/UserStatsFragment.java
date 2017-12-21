@@ -2,6 +2,7 @@ package com.williamcomartin.plexpyremote.UserActivities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +95,14 @@ public class UserStatsFragment extends Fragment {
     public void setupPlayerStats() {
         final PlayerStatsFragment frag = new PlayerStatsFragment();
         getFragmentManager().beginTransaction().add(linearLayout.getId(), frag).commit();
+
+        try {
+            Log.d("UserStats", UrlHelpers.getHostPlusAPIKey() + "&cmd=get_user_player_stats&user_id=" + userID);
+        } catch (NoServerException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         try {
             GsonRequest<UserPlayerStatsModels> request = new GsonRequest<>(
                     UrlHelpers.getHostPlusAPIKey() + "&cmd=get_user_player_stats&user_id=" + userID,

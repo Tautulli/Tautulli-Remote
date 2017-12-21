@@ -23,6 +23,7 @@ android {
         applicationId "com.williamcomartin.plexpyremote"
         minSdkVersion 17
         targetSdkVersion 27
+        vectorDrawables.useSupportLibrary = true
 
         versionName "1.4"
         if (System.getenv("TRAVIS")) {
@@ -96,7 +97,7 @@ dependencies {
     implementation 'com.android.support:design:27.0.2'
     implementation 'com.android.support:support-v4:27.0.2'
 
-    implementation 'com.google.firebase:firebase-core:11.6.2'
+    implementation 'com.google.firebase:firebase-core:11.8.0'
 
     // HTTP Request
     implementation 'com.mcxiaoke.volley:library:1.0.19'
@@ -120,9 +121,9 @@ dependencies {
 
     implementation 'com.onesignal:OneSignal:3.6.5'
     // Required for OneSignal, even if you have added FCM.
-    implementation 'com.google.android.gms:play-services-gcm:11.6.2'
+    implementation 'com.google.android.gms:play-services-gcm:11.8.0'
     // Required for geotagging
-    implementation "com.google.android.gms:play-services-location:11.6.2"
+    implementation "com.google.android.gms:play-services-location:11.8.0"
 
     implementation('com.mikepenz:aboutlibraries:5.9.6@aar') {
         transitive = true

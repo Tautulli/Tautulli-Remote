@@ -46,6 +46,7 @@ public class ActivityModels {
         public String parent_thumb;
         public String parent_title;
         public String platform;
+        public String platform_name;
         public String player;
         public String progress_percent;
         public String rating_key;

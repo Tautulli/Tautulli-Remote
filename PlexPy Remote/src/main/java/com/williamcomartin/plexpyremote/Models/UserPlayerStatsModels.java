@@ -19,9 +19,13 @@ public class UserPlayerStatsModels {
     }
 
     public class PlayerStat {
-        @SerializedName("platform_type")
+        @SerializedName("platform")
         @Expose
         public String platformType;
+        @SerializedName("platform_name")
+        @Expose
+        public String platform_name;
+
         @SerializedName("player_name")
         @Expose
         public String playerName;

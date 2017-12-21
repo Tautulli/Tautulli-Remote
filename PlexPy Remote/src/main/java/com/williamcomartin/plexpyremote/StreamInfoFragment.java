@@ -1,7 +1,6 @@
 package com.williamcomartin.plexpyremote;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,13 +13,12 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.joanzapata.iconify.widget.IconTextView;
-import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
 import com.williamcomartin.plexpyremote.Helpers.ImageHelper;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.ImageCacheManager;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
-import com.williamcomartin.plexpyremote.Services.PlatformService;
 import com.williamcomartin.plexpyremote.Models.ActivityModels.Activity;
+import com.williamcomartin.plexpyremote.Services.PlatformService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -143,10 +141,11 @@ public class StreamInfoFragment extends Fragment {
         vUserName.setText(activity.friendly_name);
         vUserIP.setText("IP: " + activity.ip_address);
 
-//            String url = UrlHelpers.getHost() + PlatformService.getInstance().getPlatformImagePath(activity.platform);
-        Bitmap platform = BitmapFactory.decodeResource(
-                getResources(), PlatformService.getInstance().getPlatformImagePath(activity.platform));
-        vPlayerAvatar.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
+        int platformResource = PlatformService.getPlatformImagePath(activity.platform_name);
+        int platformColorResource = PlatformService.getPlatformColor(activity.platform_name);
+        Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getContext(), platformResource, platformColorResource);
+        vPlayerAvatar.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 15));
+
         vPlayerName.setText(activity.player);
         vPlayerPlatform.setText(activity.platform);
 

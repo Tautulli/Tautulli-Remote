@@ -61,6 +61,7 @@ public class StatisticsModels {
     public class StatisticsRow {
         public String content_rating;
         public String platform;
+        public String platform_name;
         public String thumb;
         public String users_watched;
         public String title;
