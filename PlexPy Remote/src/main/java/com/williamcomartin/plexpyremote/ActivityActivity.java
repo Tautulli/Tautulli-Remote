@@ -6,15 +6,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,17 +22,16 @@ import com.williamcomartin.plexpyremote.Adapters.ActivityAdapter;
 import com.williamcomartin.plexpyremote.Helpers.EmptyRecyclerView;
 import com.williamcomartin.plexpyremote.Helpers.ErrorListener;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
-import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.ActivityModels;
 import com.williamcomartin.plexpyremote.Services.NavService;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import java.util.ArrayList;
 
 public class ActivityActivity extends NavBaseActivity {
 
@@ -241,6 +238,7 @@ public class ActivityActivity extends NavBaseActivity {
                 }
                 text.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                 findViewById(R.id.oopsView).setVisibility(View.VISIBLE);
+                findViewById(R.id.oopsSettingsButton).setVisibility(View.VISIBLE);
                 adapter.SetActivities(new ArrayList<ActivityModels.Activity>());
                 onItemsLoadComplete();
             }

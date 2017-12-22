@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,10 @@ import android.view.ViewGroup;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.williamcomartin.plexpyremote.Adapters.RecentlyAddedAdapter;
-import com.williamcomartin.plexpyremote.ApplicationController;
 import com.williamcomartin.plexpyremote.Helpers.EndlessScrollListener;
 import com.williamcomartin.plexpyremote.Helpers.Exceptions.NoServerException;
-import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
+import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.GsonRequest;
 import com.williamcomartin.plexpyremote.Helpers.VolleyHelpers.RequestManager;
 import com.williamcomartin.plexpyremote.Models.RecentlyAddedModels;
 import com.williamcomartin.plexpyremote.R;
@@ -27,6 +27,8 @@ public class RecentlyAddedFragment extends Fragment {
 
     private RecyclerView mRecentlyAddedRecyclerView;
     private String libraryId;
+
+    private String mLatestUrl;
 
     public RecentlyAddedFragment() {}
 
@@ -49,18 +51,21 @@ public class RecentlyAddedFragment extends Fragment {
         mRecentlyAddedRecyclerView.setOnScrollListener(new EndlessScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int current_page) {
-                try {
-                    String url = UrlHelpers.getHostPlusAPIKey()
-                            + "&cmd=get_recently_added&count=10&section_id="
-                            + libraryId + "&start=" + String.valueOf(current_page * 10);
-                    fetchData(url);
-                } catch (NoServerException | MalformedURLException e) {
-                    e.printStackTrace();
-                }
+                Log.d("RecentlyAddedFragment", String.valueOf(current_page));
+                fetchData(mLatestUrl, current_page - 1);
             }
         });
 
         return view;
+    }
+
+    public void setGlobal() {
+        try {
+            String url = UrlHelpers.getHostPlusAPIKey() + "&cmd=get_recently_added&count=10";
+            fetchData(url);
+        } catch (NoServerException | MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setLibraryId(String libraryId){
@@ -73,9 +78,18 @@ public class RecentlyAddedFragment extends Fragment {
         }
     }
 
-    private void fetchData (String url){
+    private void fetchData (String url) {
+        fetchData(url, 0);
+    }
+
+    private void fetchData (String url, int page) {
+        mLatestUrl = url;
+        Log.d("RecentlyAddedFragment", url);
+        String requestUrl = String.format("%s&start=%s", url, page * 10);
+        Log.d("RecentlyAddedFragment", requestUrl);
+
         GsonRequest<RecentlyAddedModels> request = new GsonRequest<>(
-                url,
+                requestUrl,
                 RecentlyAddedModels.class,
                 null,
                 requestListener(),

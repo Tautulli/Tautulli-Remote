@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvRecentlyAdded"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
-        android:scrollbars="vertical"/>
-
-
-</LinearLayout>
+    android:background="@color/colorBackground"
+    android:id="@+id/recently_added_frame_layout" />
