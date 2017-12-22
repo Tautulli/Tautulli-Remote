@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -100,6 +101,12 @@ public class ActivityActivity extends NavBaseActivity {
         mSwipeRefreshLayout.setRefreshing(true);
         refreshItems();
         startTimer();
+
+        findViewById(R.id.oopsSettingsButton).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onNavItemClick(R.id.navigation_sub_item_settings);
+            }
+        });
     }
 
     @Override

@@ -61,6 +61,13 @@
                         android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.Body.Bold"
                         android:textSize="20dp" />
+
+                    <Button
+                        android:id="@+id/oopsSettingsButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/edit_settings"
+                        android:layout_marginTop="5dp"/>
                 </LinearLayout>
 
                 <com.williamcomartin.plexpyremote.Helpers.EmptyRecyclerView

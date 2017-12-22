@@ -65,4 +65,5 @@
     <string name="SSLError">HTTPS in enabled but port is set to 80</string>
     <string name="UnexpectedError">Unexpected error</string>
     <string name="search_text">Search</string>
+    <string name="edit_settings">Edit Settings</string>
 </resources>

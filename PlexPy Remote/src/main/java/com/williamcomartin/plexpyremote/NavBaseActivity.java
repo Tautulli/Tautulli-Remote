@@ -203,7 +203,7 @@ public class NavBaseActivity extends AppBaseActivity {
         decor.addView(drawer);
     }
 
-    private void onNavItemClick(int itemId) {
+    protected void onNavItemClick(int itemId) {
         Intent launchIntent = null;
 
         switch (itemId) {
