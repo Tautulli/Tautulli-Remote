@@ -25,6 +25,9 @@ public class StatisticsActivity extends NavBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!UrlHelpers.hasServer()){
+            onBackPressed();
+        }
         setContentView(R.layout.activity_statistics);
 
         setupActionBar();
@@ -91,11 +94,10 @@ public class StatisticsActivity extends NavBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (mainDrawerLayout != null && mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             super.onBackPressed();
             return;
         }
-
 
         Intent intent = new Intent(this, ActivityActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

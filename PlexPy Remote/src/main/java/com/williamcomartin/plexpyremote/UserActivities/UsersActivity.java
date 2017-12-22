@@ -32,6 +32,10 @@ public class UsersActivity extends NavBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!UrlHelpers.hasServer()){
+            onBackPressed();
+        }
+
         setContentView(R.layout.activity_users);
         setupActionBar();
 
@@ -92,7 +96,7 @@ public class UsersActivity extends NavBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (mainDrawerLayout != null && mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             super.onBackPressed();
             return;
         }

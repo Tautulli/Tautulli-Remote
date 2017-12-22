@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 
+import com.williamcomartin.plexpyremote.Helpers.UrlHelpers;
 import com.williamcomartin.plexpyremote.SharedFragments.HistoryFragment;
 
 public class HistoryActivity extends NavBaseActivity {
@@ -12,6 +13,9 @@ public class HistoryActivity extends NavBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!UrlHelpers.hasServer()){
+            onBackPressed();
+        }
         setContentView(R.layout.activity_history);
         setupActionBar();
         
@@ -27,7 +31,7 @@ public class HistoryActivity extends NavBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (mainDrawerLayout != null && mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             super.onBackPressed();
             return;
         }

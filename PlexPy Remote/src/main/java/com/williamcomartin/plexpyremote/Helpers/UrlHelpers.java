@@ -75,4 +75,8 @@ public class UrlHelpers {
         builder.appendQueryParameter("app", "true");
         return builder;
     }
+
+    public static boolean hasServer () {
+        return !SP.getString("server_settings_apikey", "").trim().equals("") && !SP.getString("server_settings_address", "").trim().equals("");
+    }
 }

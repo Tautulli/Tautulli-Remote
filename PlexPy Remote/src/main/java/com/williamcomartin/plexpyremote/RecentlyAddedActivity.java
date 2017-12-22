@@ -34,6 +34,9 @@ public class RecentlyAddedActivity extends NavBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!UrlHelpers.hasServer()){
+            onBackPressed();
+        }
         setContentView(R.layout.activity_recently_added);
         setupActionBar();
 
@@ -121,7 +124,7 @@ public class RecentlyAddedActivity extends NavBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (mainDrawerLayout != null && mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             super.onBackPressed();
             return;
         }
