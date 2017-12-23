@@ -165,6 +165,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             imageUrl = UrlHelpers.getImageUrl(activity.thumb, "600", "400");
         } else {
             viewHolder.vTitle.setText(activity.title);
+            viewHolder.vSubTitle.setText("");
             viewHolder.vEpisode.setText(activity.year);
             imageUrl = UrlHelpers.getImageUrl(activity.thumb, "600", "400");
             viewHolder.vImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
