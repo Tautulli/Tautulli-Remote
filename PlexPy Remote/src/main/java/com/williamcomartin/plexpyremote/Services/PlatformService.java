@@ -38,6 +38,7 @@ public class PlatformService {
     }
 
     public static int getPlatformColor(String platformName) {
+        if (platformName == null) return R.color.platform_default;
         switch (platformName.toLowerCase()) {
             case "android":
                 return R.color.platform_android;
@@ -93,9 +94,76 @@ public class PlatformService {
         }
     }
 
+    public static int getV1PlatformColor(String platformName) {
+        if (platformName == null) return R.color.platform_default;
+        switch (platformName) {
+            case "Roku":
+                return R.color.platform_roku;
+            case "Apple TV":
+                return R.color.platform_atv;
+            case "tvOS":
+                return R.color.platform_atv;
+            case "Firefox":
+                return R.color.platform_firefox;
+            case "Chromecast":
+                return R.color.platform_chromecast;
+            case "Chrome":
+                return R.color.platform_chrome;
+            case "Android":
+                return R.color.platform_android;
+            case "Nexus":
+                return R.color.platform_android;
+            case "iPad":
+                return R.color.platform_ios;
+            case "iPhone":
+                return R.color.platform_ios;
+            case "iOS":
+                return R.color.platform_ios;
+            case "Plex Home Theater":
+                return R.color.platform_plex;
+            case "Linux/RPi-XMBC":
+                return R.color.platform_kodi;
+            case "Safari":
+                return R.color.platform_safari;
+            case "Internet Explorer":
+                return R.color.platform_ie;
+            case "Microsoft Edge":
+                return R.color.platform_msedge;
+            case "Unknown Browser":
+                return R.color.platform_default;
+            case "Windows-XBMC":
+                return R.color.platform_kodi;
+            case "Xbox":
+                return R.color.platform_xbox;
+            case "Samsung":
+                return R.color.platform_samsung;
+            case "Opera":
+                return R.color.platform_opera;
+            case "KODI":
+                return R.color.platform_kodi;
+            case "Playstation 3":
+                return R.color.platform_playstation;
+            case "Playstation 4":
+                return R.color.platform_playstation;
+            case "Xbox 360":
+                return R.color.platform_xbox;
+            case "Windows":
+                return R.color.platform_windows;
+            case "Windows phone":
+                return R.color.platform_windows;
+            case "Plex Media Player":
+                return R.color.platform_plex;
+            case "DLNA":
+                return R.color.platform_dlna;
+
+            default:
+                return R.color.platform_default;
+        }
+    }
+
     public static int getPlatformImagePath(String platformName) {
-        if(platformName == null) return R.drawable.platform_default;
-        switch(platformName.toLowerCase()) {
+        if (platformName == null) return R.drawable.platform_default;
+        switch (platformName.toLowerCase()) {
             case "android":
                 return R.drawable.platform_android;
             case "atv":
@@ -144,6 +212,73 @@ public class PlatformService {
                 return R.drawable.platform_xbox;
             case "tivo":
                 return R.drawable.platform_tivo;
+
+            default:
+                return R.drawable.platform_default;
+        }
+    }
+
+    public static int getV1Platform(String platformName) {
+        if (platformName == null) return R.drawable.platform_default;
+        switch (platformName) {
+            case "Roku":
+                return R.drawable.platform_roku;
+            case "Apple TV":
+                return R.drawable.platform_atv;
+            case "tvOS":
+                return R.drawable.platform_atv;
+            case "Firefox":
+                return R.drawable.platform_firefox;
+            case "Chromecast":
+                return R.drawable.platform_chromecast;
+            case "Chrome":
+                return R.drawable.platform_chrome;
+            case "Android":
+                return R.drawable.platform_android;
+            case "Nexus":
+                return R.drawable.platform_android;
+            case "iPad":
+                return R.drawable.platform_ios;
+            case "iPhone":
+                return R.drawable.platform_ios;
+            case "iOS":
+                return R.drawable.platform_ios;
+            case "Plex Home Theater":
+                return R.drawable.platform_plex;
+            case "Linux/RPi-XMBC":
+                return R.drawable.platform_kodi;
+            case "Safari":
+                return R.drawable.platform_safari;
+            case "Internet Explorer":
+                return R.drawable.platform_ie;
+            case "Microsoft Edge":
+                return R.drawable.platform_msedge;
+            case "Unknown Browser":
+                return R.drawable.platform_default;
+            case "Windows-XBMC":
+                return R.drawable.platform_kodi;
+            case "Xbox":
+                return R.drawable.platform_xbox;
+            case "Samsung":
+                return R.drawable.platform_samsung;
+            case "Opera":
+                return R.drawable.platform_opera;
+            case "KODI":
+                return R.drawable.platform_kodi;
+            case "Playstation 3":
+                return R.drawable.platform_playstation;
+            case "Playstation 4":
+                return R.drawable.platform_playstation;
+            case "Xbox 360":
+                return R.drawable.platform_xbox;
+            case "Windows":
+                return R.drawable.platform_windows;
+            case "Windows phone":
+                return R.drawable.platform_windows;
+            case "Plex Media Player":
+                return R.drawable.platform_plex;
+            case "DLNA":
+                return R.drawable.platform_dlna;
 
             default:
                 return R.drawable.platform_default;

@@ -141,8 +141,16 @@ public class StreamInfoFragment extends Fragment {
         vUserName.setText(activity.friendly_name);
         vUserIP.setText("IP: " + activity.ip_address);
 
-        int platformResource = PlatformService.getPlatformImagePath(activity.platform_name);
-        int platformColorResource = PlatformService.getPlatformColor(activity.platform_name);
+        int platformResource;
+        int platformColorResource;
+        if(activity.platform_name == null){
+            platformResource = PlatformService.getV1Platform(activity.platform);
+            platformColorResource = PlatformService.getV1PlatformColor(activity.platform);
+        } else {
+            platformResource = PlatformService.getPlatformImagePath(activity.platform_name);
+            platformColorResource = PlatformService.getPlatformColor(activity.platform_name);
+        }
+
         Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getContext(), platformResource, platformColorResource);
         vPlayerAvatar.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 15));
 

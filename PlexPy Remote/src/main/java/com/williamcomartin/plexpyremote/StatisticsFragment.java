@@ -137,8 +137,16 @@ public class StatisticsFragment extends Fragment {
         }
 
         if(this.stats.isPlatform()) {
-            int platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
-            int platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            int platformResource;
+            int platformColorResource;
+            if(stat.platform_name == null){
+                platformResource = PlatformService.getV1Platform(stat.platform);
+                platformColorResource = PlatformService.getV1PlatformColor(stat.platform);
+            } else {
+                platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
+                platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            }
+
             Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getActivity().getApplicationContext(), platformResource, platformColorResource);
             vSquareImage.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
             vTitle.setText(stat.platform);
@@ -177,8 +185,16 @@ public class StatisticsFragment extends Fragment {
         }
 
         if(this.stats.isPlatform()) {
-            int platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
-            int platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            int platformResource;
+            int platformColorResource;
+            if(stat.platform_name == null){
+                platformResource = PlatformService.getV1Platform(stat.platform);
+                platformColorResource = PlatformService.getV1PlatformColor(stat.platform);
+            } else {
+                platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
+                platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            }
+
             Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getActivity().getApplicationContext(), platformResource, platformColorResource);
             vSquareImage1.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
             vTitle1.setText(stat.platform);
@@ -217,8 +233,16 @@ public class StatisticsFragment extends Fragment {
         }
 
         if(this.stats.isPlatform()) {
-            int platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
-            int platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            int platformResource;
+            int platformColorResource;
+            if(stat.platform_name == null){
+                platformResource = PlatformService.getV1Platform(stat.platform);
+                platformColorResource = PlatformService.getV1PlatformColor(stat.platform);
+            } else {
+                platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
+                platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            }
+
             Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getActivity().getApplicationContext(), platformResource, platformColorResource);
             vSquareImage2.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
             vTitle2.setText(stat.platform);
@@ -257,8 +281,16 @@ public class StatisticsFragment extends Fragment {
         }
 
         if(this.stats.isPlatform()) {
-            int platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
-            int platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            int platformResource;
+            int platformColorResource;
+            if(stat.platform_name == null){
+                platformResource = PlatformService.getV1Platform(stat.platform);
+                platformColorResource = PlatformService.getV1PlatformColor(stat.platform);
+            } else {
+                platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
+                platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            }
+
             Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getActivity().getApplicationContext(), platformResource, platformColorResource);
             vSquareImage3.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
             vTitle3.setText(stat.platform);
@@ -297,8 +329,16 @@ public class StatisticsFragment extends Fragment {
         }
 
         if(this.stats.isPlatform()) {
-            int platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
-            int platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            int platformResource;
+            int platformColorResource;
+            if(stat.platform_name == null){
+                platformResource = PlatformService.getV1Platform(stat.platform);
+                platformColorResource = PlatformService.getV1PlatformColor(stat.platform);
+            } else {
+                platformResource = PlatformService.getPlatformImagePath(stat.platform_name);
+                platformColorResource = PlatformService.getPlatformColor(stat.platform_name);
+            }
+
             Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getActivity().getApplicationContext(), platformResource, platformColorResource);
             vSquareImage4.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
             vTitle4.setText(stat.platform);

@@ -38,8 +38,16 @@ public class PlayerStatsRecyclerViewAdapter extends RecyclerView.Adapter<PlayerS
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        int platformResource = PlatformService.getPlatformImagePath(holder.mItem.platform_name);
-        int platformColorResource = PlatformService.getPlatformColor(holder.mItem.platform_name);
+        int platformResource;
+        int platformColorResource;
+        if(holder.mItem.platform_name == null){
+            platformResource = PlatformService.getV1Platform(holder.mItem.platformType);
+            platformColorResource = PlatformService.getV1PlatformColor(holder.mItem.platformType);
+        } else {
+            platformResource = PlatformService.getPlatformImagePath(holder.mItem.platform_name);
+            platformColorResource = PlatformService.getPlatformColor(holder.mItem.platform_name);
+        }
+
         Bitmap platform = PlatformService.getBitmapFromVectorDrawable(context, platformResource, platformColorResource);
         holder.mAvatarView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 30));
 
