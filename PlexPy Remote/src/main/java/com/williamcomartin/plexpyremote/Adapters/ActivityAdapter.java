@@ -173,6 +173,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
         if (viewHolder.vSubTitle.getText().equals("")) {
             viewHolder.vSubTitle.setVisibility(View.GONE);
+        } else {
+            viewHolder.vSubTitle.setVisibility(View.VISIBLE);
         }
 
         if (activity.state.equals("playing")) {
