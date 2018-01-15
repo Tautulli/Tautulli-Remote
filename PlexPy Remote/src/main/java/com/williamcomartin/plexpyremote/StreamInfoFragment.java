@@ -1,8 +1,14 @@
 package com.williamcomartin.plexpyremote;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,64 +33,55 @@ import java.util.concurrent.TimeUnit;
 
 public class StreamInfoFragment extends Fragment {
 
-    private NetworkImageView vImage;
     private TextView vEta;
     private TextView vRemaining;
     private IconTextView vState;
     private ProgressBar vProgress;
 
+    private Activity activity;
+    private ViewDataBinding binding;
+
+    private NetworkImageView vBackgroundImage;
+    private NetworkImageView vImage;
+    private NetworkImageView vImageBlurred;
+
+    private ImageView vPlayerAvatar;
+
     private TextView vTitle;
     private TextView vSubtitle;
     private TextView vEpisode;
 
-    private NetworkImageView vUserAvatar;
-    private TextView vUserName;
-    private TextView vUserIP;
-
-    private ImageView vPlayerAvatar;
-    private TextView vPlayerName;
-    private TextView vPlayerPlatform;
-
-    private TextView vStreamDecision;
-    private TextView vVideoDecision;
-    private TextView vAudioDecision;
-
-    private ScrollView vScroller;
-    private Activity activity;
+    private TextView vIPAddressButton;
+    private TextView vBandwidthButton;
 
     public StreamInfoFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_stream_info, container, false);
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stream_info, container, false);
+        View view = binding.getRoot();
 
-        vImage = (NetworkImageView) view.findViewById(R.id.activity_stream_thumb);
-        vEta = (TextView) view.findViewById(R.id.activity_stream_eta);
-        vRemaining = (TextView) view.findViewById(R.id.activity_stream_time_remaining);
-        vState = (IconTextView) view.findViewById(R.id.activity_stream_state_icon);
-        vProgress = (ProgressBar) view.findViewById(R.id.activity_stream_progress_bar);
+        vBackgroundImage = view.findViewById(R.id.activity_stream_background_art);
+        vImage = view.findViewById(R.id.activity_stream_image);
+        vImageBlurred = view.findViewById(R.id.activity_stream_image_blurred);
 
-        vTitle = (TextView) view.findViewById(R.id.activity_stream_title);
-        vSubtitle = (TextView) view.findViewById(R.id.activity_stream_subtitle);
-        vEpisode = (TextView) view.findViewById(R.id.activity_stream_episode);
+        vEta = view.findViewById(R.id.activity_stream_eta);
+        vRemaining = view.findViewById(R.id.activity_stream_time_remaining);
+        vState = view.findViewById(R.id.activity_stream_state_icon);
+        vProgress = view.findViewById(R.id.activity_stream_progress_bar);
 
-        vUserAvatar = (NetworkImageView) view.findViewById(R.id.activity_stream_user_avatar);
-        vUserName = (TextView) view.findViewById(R.id.activity_stream_user_name);
-        vUserIP = (TextView) view.findViewById(R.id.activity_stream_user_ip);
+        vTitle = view.findViewById(R.id.activity_stream_title);
+        vSubtitle = view.findViewById(R.id.activity_stream_subtitle);
+        vEpisode = view.findViewById(R.id.activity_stream_muted_title);
 
-        vPlayerAvatar = (ImageView) view.findViewById(R.id.activity_stream_player_avatar);
-        vPlayerName = (TextView) view.findViewById(R.id.activity_stream_player_name);
-        vPlayerPlatform = (TextView) view.findViewById(R.id.activity_stream_player_platform);
+        vPlayerAvatar = view.findViewById(R.id.activity_stream_player_avatar);
 
-        vStreamDecision = (TextView) view.findViewById(R.id.activity_stream_stream_decision);
-        vVideoDecision = (TextView) view.findViewById(R.id.activity_stream_video_decision);
-        vAudioDecision = (TextView) view.findViewById(R.id.activity_stream_audio_decision);
-
-        vScroller = (ScrollView) view.findViewById(R.id.activity_stream_scroller);
+        vIPAddressButton = view.findViewById(R.id.activity_stream_open_ip_address);
+        vBandwidthButton = view.findViewById(R.id.activity_stream_open_bandwidth);
 
         return view;
     }
@@ -96,10 +93,9 @@ public class StreamInfoFragment extends Fragment {
 
     public void setStreamInfo(ActivityModels.Activity activity) {
         this.activity = activity;
-        vScroller.fullScroll(ScrollView.FOCUS_UP);
+        binding.setVariable(BR.activity, activity);
 
-        vImage.setImageUrl(UrlHelpers.getImageUrl(activity.art, "400", "600"),
-                ImageCacheManager.getInstance().getImageLoader());
+        vBackgroundImage.setImageUrl(UrlHelpers.getImageUrl(activity.art, "600", "400"), ImageCacheManager.getInstance().getImageLoader());
 
         vEta.setText(String.format(getString(R.string.eta), formatDuration(activity.duration, activity.view_offset)));
 
@@ -116,30 +112,37 @@ public class StreamInfoFragment extends Fragment {
         vProgress.setProgress(Integer.parseInt(activity.progress_percent));
         vProgress.setSecondaryProgress(Integer.parseInt(activity.transcode_progress));
 
+        String imageUrl;
+
         if (activity.media_type.equals("episode")) {
             vTitle.setText(activity.grandparent_title);
             vSubtitle.setText(activity.title);
             vEpisode.setText("S" + activity.parent_media_index + " • E" + activity.media_index);
+            imageUrl = UrlHelpers.getImageUrl(activity.grandparent_thumb, "600", "400");
+            vImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else if (activity.media_type.equals("track")) {
             vTitle.setText(activity.grandparent_title);
             vSubtitle.setText(activity.title);
             vEpisode.setText(activity.parent_title);
+            imageUrl = UrlHelpers.getImageUrl(activity.thumb, "600", "400");
+            vImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         } else {
             vTitle.setText(activity.title);
             vSubtitle.setText("");
             vEpisode.setText(activity.year);
+            imageUrl = UrlHelpers.getImageUrl(activity.thumb, "600", "400");
+            vImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
+
+        vImage.setImageUrl(imageUrl, ImageCacheManager.getInstance().getImageLoader());
+        vImageBlurred.setImageUrl(imageUrl, ImageCacheManager.getInstance().getImageLoader());
+        vImageBlurred.setAlpha(0.75f);
 
         if (vSubtitle.getText().equals("")) {
             vSubtitle.setVisibility(View.GONE);
         } else {
             vSubtitle.setVisibility(View.VISIBLE);
         }
-
-        vUserAvatar.setImageUrl(activity.user_thumb,
-                ImageCacheManager.getInstance().getImageLoader());
-        vUserName.setText(activity.friendly_name);
-        vUserIP.setText("IP: " + activity.ip_address);
 
         int platformResource;
         int platformColorResource;
@@ -154,12 +157,32 @@ public class StreamInfoFragment extends Fragment {
         Bitmap platform = PlatformService.getBitmapFromVectorDrawable(getContext(), platformResource, platformColorResource);
         vPlayerAvatar.setImageBitmap(ImageHelper.getRoundedCornerBitmap(platform, 15));
 
-        vPlayerName.setText(activity.player);
-        vPlayerPlatform.setText(activity.platform);
+        vBandwidthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("StreamInfo", "Bandwidth Button");
 
-        vStreamDecision.setText(buildStreamString(activity));
-        vVideoDecision.setText(buildVideoString(activity));
-        vAudioDecision.setText(buildAudioString(activity));
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(R.string.bandwidth_dialog);
+
+                builder.setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+
+                dialog.show();
+            }
+        });
+
+        vIPAddressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("StreamInfo", "IP Address Button");
+            }
+        });
     }
 
     private String formatSeconds(String millis) {
@@ -179,77 +202,5 @@ public class StreamInfoFragment extends Fragment {
         long eta = new Date().getTime() + timeleft;
         SimpleDateFormat dt = new SimpleDateFormat("hh:mm", Locale.US);
         return dt.format(new Date(eta));
-    }
-
-    private String buildStreamString(Activity activity) {
-        String stream = "";
-
-        if(activity.media_type.equals("track")){
-            if(activity.audio_decision.equals("direct play")){
-                stream += "Direct Play";
-            } else if (activity.audio_decision.equals("copy")){
-                stream += "Direct Stream";
-            } else {
-                stream += "Transcoding";
-                stream += " (" + activity.transcode_speed + ")";
-                if(activity.throttled.equals("1")){
-                    stream += " (Throttled)";
-                }
-            }
-        } else {
-            if(activity.audio_decision.equals("direct play") && activity.video_decision.equals("direct play")){
-                stream += "Direct Play";
-            } else if (activity.audio_decision.equals("copy") && activity.video_decision.equals("copy")){
-                stream += "Direct Stream";
-            } else {
-                stream += "Transcoding";
-                stream += " (" + activity.transcode_speed + ")";
-                if(activity.throttled.equals("1")){
-                    stream += " (Throttled)";
-                }
-            }
-        }
-
-        return stream;
-    }
-
-    private String buildVideoString(Activity activity) {
-        String video = "";
-
-        if(activity.video_decision.equals("direct play")){
-            video += "Direct Play";
-            video += " (" + activity.video_codec + ")";
-            video += " (" + activity.width + "x" + activity.height + ")";
-        } else if (activity.video_decision.equals("copy")){
-            video += "Direct Stream";
-            video += " (" + activity.transcode_video_codec + ")";
-            video += " (" + activity.width + "x" + activity.height + ")";
-        } else {
-            video += "Transcoding";
-            video += " (" + activity.transcode_video_codec + ")";
-            video += " (" + activity.transcode_width + "x" + activity.transcode_height + ")";
-        }
-
-        return video;
-    }
-
-    private String buildAudioString(Activity activity) {
-        String audio = "";
-
-        if(activity.audio_decision.equals("direct play")){
-            audio += "Direct Play";
-            audio += " (" + activity.audio_codec + ")";
-            audio += " (" + activity.audio_channels + " ch)";
-        } else if (activity.audio_decision.equals("copy")){
-            audio += "Direct Stream";
-            audio += " (" + activity.transcode_audio_codec + ")";
-            audio += " (" + activity.transcode_audio_channels + " ch)";
-        } else {
-            audio += "Transcoding";
-            audio += " (" + activity.transcode_audio_codec + ")";
-            audio += " (" + activity.transcode_audio_channels + " ch)";
-        }
-
-        return audio;
     }
 }

@@ -66,4 +66,5 @@
     <string name="UnexpectedError">Unexpected error</string>
     <string name="search_text">Search</string>
     <string name="edit_settings">Edit Settings</string>
+    <string name="bandwidth_dialog">Streaming Brain Estimate (Required Bandwidth)</string>
 </resources>

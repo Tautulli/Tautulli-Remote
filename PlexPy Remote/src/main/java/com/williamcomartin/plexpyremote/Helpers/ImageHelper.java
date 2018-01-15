@@ -68,7 +68,7 @@ public class ImageHelper {
     }
 
     public static Bitmap getBlurBitmap(Bitmap bitmap){
-        return ImageHelper.getBlurBitmap(bitmap, 25.f);
+        return ImageHelper.getBlurBitmap(bitmap, 15.f);
     }
 
     public static Bitmap getBlurBitmap(Bitmap bitmap, float blurRadius){

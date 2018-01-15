@@ -129,6 +129,8 @@ dependencies {
         transitive = true
     }
 
+    implementation 'org.apache.commons:commons-lang3:3.6'
+
     testCompile 'junit:junit:4.12'
 }
 

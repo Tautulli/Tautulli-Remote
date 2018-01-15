@@ -1,263 +1,140 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorCardBackground"
-    android:orientation="vertical"
-    tools:context="com.williamcomartin.plexpyremote.StreamInfoFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="activity"
+            type="com.williamcomartin.plexpyremote.Models.ActivityModels.Activity" />
+    </data>
 
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/activity_stream_heading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorBackground">
-
-        <com.joanzapata.iconify.widget.IconTextView
-            style="@style/TextHeadline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="{fa-info-circle} Stream Details"
-            android:textSize="18sp" />
-    </android.support.v7.widget.Toolbar>
-
-    <com.nirhart.parallaxscroll.views.ParallaxScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/activity_stream_scroller"
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:context=".MainActivity">
+        android:background="@color/colorCardBackground"
+        android:orientation="vertical"
+        tools:context="com.williamcomartin.plexpyremote.StreamInfoFragment">
 
-        <LinearLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/activity_stream_heading"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <RelativeLayout
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackground">
+
+            <com.joanzapata.iconify.widget.IconTextView
+                style="@style/TextHeadline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="{fa-info-circle} Stream Details"
+                android:textSize="18sp" />
+        </android.support.v7.widget.Toolbar>
 
-                <RelativeLayout
-                    android:id="@+id/activity_stream_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
 
-                    <com.android.volley.toolbox.NetworkImageView
-                        android:id="@+id/activity_stream_thumb"
-                        android:layout_width="match_parent"
-                        android:layout_height="180dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginRight="0dp"
-                        android:padding="0dp"
-                        android:scaleType="centerCrop" />
+            <com.williamcomartin.plexpyremote.Helpers.BlurredNetworkImageView
+                android:id="@+id/activity_stream_background_art"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/activity_stream_image"
+                android:alpha="0.25"
+                android:scaleType="centerCrop" />
 
-                </RelativeLayout>
+            <ImageView
+                android:id="@+id/activity_stream_player_avatar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="5dp"
+                android:src="@drawable/gravatar_default_circle" />
+
+            <View
+                android:layout_width="73.5dp"
+                android:layout_height="120dp"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/black_poster_background"
+                android:scaleType="centerCrop" />
+
+            <com.williamcomartin.plexpyremote.Helpers.BlurredNetworkImageView
+                android:id="@+id/activity_stream_image_blurred"
+                android:layout_width="73.5dp"
+                android:layout_height="120dp"
+                android:layout_alignParentStart="true"
+                android:scaleType="centerCrop" />
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/activity_stream_image"
+                android:layout_width="73.5dp"
+                android:layout_height="120dp"
+                android:layout_alignParentStart="true" />
+
+            <ProgressBar
+                android:id="@+id/activity_stream_progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@id/activity_stream_image"
+                android:progressBackgroundTint="#00000000"
+                android:secondaryProgressTint="@color/colorTranscodeBufferBar"
+                android:secondaryProgressTintMode="src_over" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/activity_stream_image"
+                android:paddingLeft="5dp">
 
                 <LinearLayout
-                    android:id="@+id/activity_stream_info"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/activity_stream_image"
-                    android:background="@color/colorCardBackground"
-                    android:orientation="vertical"
-                    android:paddingLeft="8dp">
+                    android:layout_marginEnd="45dp"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/activity_stream_title"
-                            android:textStyle="bold"
-                            style="@style/TextHeadline"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:id="@+id/activity_stream_subtitle"
-                            style="@style/TextSubhead"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:id="@+id/activity_stream_episode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp">
-
-                        <com.williamcomartin.plexpyremote.Helpers.CircularNetworkImageView
-                            android:id="@+id/activity_stream_user_avatar"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:src="@drawable/gravatar_default_circle" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_marginStart="8dp"
-                            android:layout_toRightOf="@id/activity_stream_user_avatar"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/activity_stream_user_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/colorTextHeading"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/activity_stream_user_ip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/colorTextHeading" />
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp">
-
-                        <ImageView
-                            android:id="@+id/activity_stream_player_avatar"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_margin="5dp"
-                            android:src="@drawable/gravatar_default_circle" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_marginStart="8dp"
-                            android:layout_toRightOf="@id/activity_stream_player_avatar"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/activity_stream_player_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Chrome"
-                                android:textColor="@color/colorTextHeading"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/activity_stream_player_platform"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Plex Web"
-                                android:textColor="@color/colorTextHeading" />
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/activity_stream_title"
+                        style="@style/TextHeadline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        android:orientation="vertical">
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Stream"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/activity_stream_stream_decision"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorTextHeading"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/activity_stream_subtitle"
+                        style="@style/TextSubhead"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        android:orientation="vertical">
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text=""
+                        android:textSize="14sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Video"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/activity_stream_video_decision"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorTextHeading"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/activity_stream_muted_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Audio"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/activity_stream_audio_decision"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorTextHeading"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
+                        android:text="" />
                 </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/activity_stream_info">
+                    android:layout_alignParentBottom="true">
 
-                    <View
-                        android:id="@+id/activity_stream_image_gradient"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:background="@drawable/poster_gradient_bottom" />
 
                     <TextView
                         android:id="@+id/activity_stream_eta"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/activity_stream_image_gradient"
-                        android:layout_margin="5dp"
+                        android:layout_marginBottom="5dp"
                         android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/activity_stream_time_remaining"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/activity_stream_image_gradient"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginBottom="5dp"
                         android:layout_marginEnd="5dp"
                         android:textSize="10sp" />
 
@@ -266,28 +143,327 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBaseline="@id/activity_stream_time_remaining"
-                        android:layout_marginBottom="5dp"
                         android:layout_marginEnd="4dp"
                         android:layout_toLeftOf="@id/activity_stream_time_remaining"
                         android:text="{fa-play}"
                         android:textSize="10sp" />
-
-                    <ProgressBar
-                        android:id="@+id/activity_stream_progress_bar"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="4dp"
-                        android:layout_alignBottom="@+id/activity_stream_image_gradient"
-                        android:progress="75"
-                        android:progressBackgroundTint="#00000000"
-                        android:secondaryProgress="89"
-                        android:secondaryProgressTint="@color/colorTranscodeBufferBar"
-                        android:secondaryProgressTintMode="src_over" />
                 </RelativeLayout>
 
             </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="6dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="User"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textSize="10sp" />
+
+            <TextView
+                style="@style/TextHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{activity.friendly_name}"
+                android:textSize="14sp" />
         </LinearLayout>
 
-    </com.nirhart.parallaxscroll.views.ParallaxScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
 
-</LinearLayout>
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Product"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textSize="10sp" />
+
+            <TextView
+                style="@style/TextHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{activity.product}"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Player"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textSize="10sp" />
+
+            <TextView
+                style="@style/TextHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{activity.player}"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Quality"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textSize="10sp" />
+
+            <TextView
+                style="@style/TextHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{activity.quality_profile + ` (` + activity.get_bitrate() + `)`}"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="6dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Stream"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textSize="10sp" />
+
+            <com.joanzapata.iconify.widget.IconTextView
+                style="@style/TextHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{activity.get_stream_string()}"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Container"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textSize="10sp" />
+
+            <com.joanzapata.iconify.widget.IconTextView
+                style="@style/TextHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{activity.get_container()}"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Video"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textSize="10sp" />
+
+            <com.joanzapata.iconify.widget.IconTextView
+                style="@style/TextHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{activity.get_video_stream_string()}"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Audio"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textSize="10sp" />
+
+            <com.joanzapata.iconify.widget.IconTextView
+                style="@style/TextHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{activity.get_audio_codec_string()}"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Subtitle"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textSize="10sp" />
+
+            <TextView
+                style="@style/TextHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{activity.get_subtitle_codec_string()}"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="6dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Location"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textSize="10sp" />
+
+            <TextView
+                style="@style/TextHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{activity.get_ip_address_string()}"
+                android:textSize="14sp" />
+
+            <com.joanzapata.iconify.widget.IconTextView
+                android:id="@+id/activity_stream_open_ip_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="{fa-map-marker}"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Bandwidth"
+                android:textAlignment="textEnd"
+                android:textAllCaps="true"
+                android:textSize="10sp" />
+
+            <TextView
+                style="@style/TextHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{activity.get_bandwidth_string()}"
+                android:textSize="14sp" />
+
+            <com.joanzapata.iconify.widget.IconTextView
+                android:id="@+id/activity_stream_open_bandwidth"
+                style="@style/TextHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="{fa-info-circle}"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
