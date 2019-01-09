@@ -245,10 +245,10 @@ public class NavBaseActivity extends AppBaseActivity {
                 setActive(R.id.navigation_sub_item_about);
                 launchIntent = new Intent(this, AboutActivity.class);
                 break;
-            case R.id.navigation_sub_item_donate:
-                launchIntent = new Intent(Intent.ACTION_VIEW);
-                launchIntent.setData(Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ADRXXSWUJF788"));
-                break;
+//            case R.id.navigation_sub_item_donate:
+//                launchIntent = new Intent(Intent.ACTION_VIEW);
+//                launchIntent.setData(Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ADRXXSWUJF788"));
+//                break;
         }
 
         if (launchIntent != null) {
