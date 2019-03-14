@@ -81,7 +81,7 @@ public class NavBaseActivity extends AppBaseActivity {
         setupNavItem(R.id.navigation_item_libraries, FontAwesomeIcons.fa_th_list);
         setupNavItem(R.id.navigation_sub_item_settings, MaterialIcons.md_settings);
         setupNavItem(R.id.navigation_sub_item_about, MaterialIcons.md_info);
-        setupNavItem(R.id.navigation_sub_item_donate, FontAwesomeIcons.fa_paypal);
+//        setupNavItem(R.id.navigation_sub_item_donate, FontAwesomeIcons.fa_paypal);
 
         if (NavService.getInstance().currentNav == 0) {
             NavService.getInstance().currentNav = R.id.navigation_item_activity;
