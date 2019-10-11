@@ -301,7 +301,13 @@ public class ActivityModels {
         }
 
         public String get_bandwidth_string() {
-            Integer bw = Integer.valueOf(bandwidth);
+            Integer bw;
+            try {
+                bw = Integer.valueOf(bandwidth);
+            } catch (NumberFormatException e) {
+                bw = 0;
+            }
+
             if(!media_type.equals("photo") && !bw.equals(0)) {
                 if(bw > 1000) {
                     return String.format("%.1f %s", bw / 1000.0, "Mbps");
