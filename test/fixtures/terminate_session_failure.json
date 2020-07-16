@@ -1,0 +1,7 @@
+{
+    "response": {
+        "result": "error",
+        "message": "Failed to terminate session: Invalid session_key (18) or session_id ().",
+        "data": {}
+    }
+}

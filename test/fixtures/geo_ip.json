@@ -1,0 +1,18 @@
+{
+    "response": {
+        "result": "success",
+        "message": null,
+        "data": {
+            "code": "CA",
+            "country": "Canada",
+            "region": "Ontario",
+            "city": "Toronto",
+            "postal_code": "M5E",
+            "timezone": "America/Toronto",
+            "latitude": 43.6403,
+            "longitude": -79.3711,
+            "continent": null,
+            "accuracy": null
+        }
+    }
+}

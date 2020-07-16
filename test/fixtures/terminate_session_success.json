@@ -1,0 +1,7 @@
+{
+    "response": {
+        "result": "success",
+        "message": "Session terminated.",
+        "data": {}
+    }
+}
