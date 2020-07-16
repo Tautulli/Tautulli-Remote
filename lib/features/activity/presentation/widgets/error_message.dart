@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/error/failure.dart';
+
 class ErrorMessage extends StatelessWidget {
+  final Failure failure;
   final String message;
   final String suggestion;
 
   const ErrorMessage({
     Key key,
-    this.message,
+    @required this.failure,
+    @required this.message,
     this.suggestion,
   }) : super(key: key);
 
@@ -16,6 +20,7 @@ class ErrorMessage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          if (failure != SettingsFailure())
           Text(
             'ERROR',
             textAlign: TextAlign.center,

@@ -37,10 +37,12 @@ class ActivityLoadSuccess extends ActivityState {
 }
 
 class ActivityLoadFailure extends ActivityState {
+  final Failure failure;
   final String message;
   final String suggestion;
 
   ActivityLoadFailure({
+    @required this.failure,
     @required this.message,
     this.suggestion,
   });

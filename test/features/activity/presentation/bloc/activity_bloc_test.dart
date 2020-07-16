@@ -126,12 +126,14 @@ void main() {
       'should emit [ActivityLoadInProgress, ActivityLoadFailure] with a proper message when getting activity fails',
       () async {
         // arrange
-        when(mockGetActivity()).thenAnswer((_) async => Left(ServerFailure()));
+        final failure = ServerFailure();
+        when(mockGetActivity()).thenAnswer((_) async => Left(failure));
         // assert later
         final expected = [
           ActivityEmpty(),
           ActivityLoadInProgress(),
           ActivityLoadFailure(
+            failure: failure,
             message: SERVER_FAILURE_MESSAGE,
             suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
           ),
@@ -197,11 +199,13 @@ void main() {
       'should emit [ActivityLoadFailure] with a proper message when getting activity fails',
       () async {
         // arrange
-        when(mockGetActivity()).thenAnswer((_) async => Left(ServerFailure()));
+        final failure = ServerFailure();
+        when(mockGetActivity()).thenAnswer((_) async => Left(failure));
         // assert later
         final expected = [
           ActivityEmpty(),
           ActivityLoadFailure(
+            failure: failure,
             message: SERVER_FAILURE_MESSAGE,
             suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
           ),

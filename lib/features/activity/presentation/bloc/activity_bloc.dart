@@ -26,7 +26,7 @@ const String URL_FORMAT_FAILURE_MESSAGE = 'Incorrect URL format.';
 const String CHECK_CONNECTION_ADDRESS_SUGGESTION =
     'Check your Connection Address for errors.';
 const String CHECK_SERVER_SETTINGS_SUGGESTION =
-    'Check your Connection Address or Device Token for errors.';
+    'Please register with a Tautulli server.';
 
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   final GetActivity getActivity;
@@ -65,6 +65,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     yield* failureOrActivity.fold(
       (failure) async* {
         yield ActivityLoadFailure(
+          failure: failure,
           message: _mapFailureToMessage(failure),
           suggestion: _mapFailureToSuggestion(failure),
         );

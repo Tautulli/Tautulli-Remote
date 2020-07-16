@@ -10,6 +10,7 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/activity_bloc.dart';
 import '../widgets/activity_card.dart';
 import '../widgets/error_message.dart';
+import '../widgets/error_button.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({Key key}) : super(key: key);
@@ -56,19 +57,24 @@ class _ActivityPageState extends State<ActivityPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   ErrorMessage(
+                    failure: state.failure,
                     message: state.message,
                     suggestion: state.suggestion,
                   ),
-                  RaisedButton.icon(
-                    icon: FaIcon(FontAwesomeIcons.redoAlt),
-                    label: Text('Retry'),
-                    color: Theme.of(context).primaryColor,
-                    onPressed: () {
-                      BlocProvider.of<ActivityBloc>(context)
-                          .add(ActivityLoad());
-                      return _refreshCompleter.future;
-                    },
+                  ErrorButton(
+                    completer: _refreshCompleter,
+                    failure: state.failure,
                   ),
+                  // RaisedButton.icon(
+                  //   icon: FaIcon(FontAwesomeIcons.redoAlt),
+                  //   label: Text('Retry'),
+                  //   color: Theme.of(context).primaryColor,
+                  //   onPressed: () {
+                  //     BlocProvider.of<ActivityBloc>(context)
+                  //         .add(ActivityLoad());
+                  //     return _refreshCompleter.future;
+                  //   },
+                  // ),
                 ],
               );
             }
