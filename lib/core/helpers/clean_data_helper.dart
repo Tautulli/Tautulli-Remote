@@ -371,7 +371,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     if (mediaType != 'photo' && qualityProfile != 'Unknown') {
       if (streamBitrate > 1000) {
         formattedBitrate =
-            '${(streamBitrate / 1000).round().toStringAsFixed(1)} Mbps';
+            '${(streamBitrate / 1000).toStringAsFixed(1)} Mbps';
       } else {
         formattedBitrate = '$streamBitrate kbps';
       }
