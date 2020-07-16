@@ -74,7 +74,7 @@ void main() {
       setUpSuccess();
       // act
       bloc.add(
-        RegisterDeviceStarted(
+        RegisterDeviceFromQrStarted(
           result: tQrCodeResult,
           settingsBloc: mockSettingsBloc,
         ),
@@ -92,7 +92,7 @@ void main() {
       setUpSuccess();
       // act
       bloc.add(
-        RegisterDeviceStarted(
+        RegisterDeviceFromQrStarted(
           result: tQrCodeResult,
           settingsBloc: mockSettingsBloc,
         ),
@@ -133,7 +133,7 @@ void main() {
       expectLater(bloc, emitsInOrder(expected));
       // act
       bloc.add(
-        RegisterDeviceStarted(
+        RegisterDeviceFromQrStarted(
           result: tQrCodeResult,
           settingsBloc: mockSettingsBloc,
         ),
@@ -147,7 +147,7 @@ void main() {
   //     // arrange
   //     setUpSuccess();
   //     // act
-  //     bloc.add(RegisterDeviceStarted(result: qrCodeResult));
+  //     bloc.add(RegisterDeviceFromQrStarted(result: qrCodeResult));
   //     await untilCalled(mockSetSettings.setConnectionAddress(any));
   //     // assert
   //     verify(mockSetSettings.setConnectionAddress(connectionAddress));
@@ -161,7 +161,7 @@ void main() {
       setUpSuccess();
       // act
       bloc.add(
-        RegisterDeviceStarted(
+        RegisterDeviceFromQrStarted(
           result: tQrCodeResult,
           settingsBloc: mockSettingsBloc,
         ),
@@ -180,7 +180,7 @@ void main() {
   //     // arrange
   //     setUpSuccess();
   //     // act
-  //     bloc.add(RegisterDeviceStarted(result: qrCodeResult));
+  //     bloc.add(RegisterDeviceFromQrStarted(result: qrCodeResult));
   //     await untilCalled(mockSetSettings.setDeviceToken(any));
   //     // assert
   //     verify(mockSetSettings.setDeviceToken(deviceToken));
@@ -194,7 +194,7 @@ void main() {
       setUpSuccess();
       // act
       bloc.add(
-        RegisterDeviceStarted(
+        RegisterDeviceFromQrStarted(
           result: tQrCodeResult,
           settingsBloc: mockSettingsBloc,
         ),
@@ -231,7 +231,7 @@ void main() {
       expectLater(bloc, emitsInOrder(expected));
       // act
       bloc.add(
-        RegisterDeviceStarted(
+        RegisterDeviceFromQrStarted(
           result: tQrCodeResult,
           settingsBloc: mockSettingsBloc,
         ),

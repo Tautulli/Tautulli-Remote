@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tautulli_remote_tdd/features/settings/presentation/bloc/register_device_bloc.dart';
 
 import '../../../../core/widgets/app_drawer.dart';
+import '../../../../injection_container.dart' as di;
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
+import '../bloc/register_device_bloc.dart';
 import '../bloc/settings_bloc.dart';
 import '../widgets/onesignal_connection_banner.dart';
 import '../widgets/server_info.dart';
 import '../widgets/settings_header.dart';
-import 'package:tautulli_remote_tdd/injection_container.dart' as di;
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key key}) : super(key: key);
@@ -36,6 +36,7 @@ class SettingsPage extends StatelessWidget {
         child: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
           listener: (context, state) {
             if (state is RegisterDeviceFailure) {
+              Scaffold.of(context).hideCurrentSnackBar();
               //TODO: add a link to a wiki page for registration
               Scaffold.of(context).showSnackBar(
                 SnackBar(
@@ -45,6 +46,7 @@ class SettingsPage extends StatelessWidget {
               );
             }
             if (state is RegisterDeviceSuccess) {
+              Scaffold.of(context).hideCurrentSnackBar();
               Scaffold.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: Colors.green,

@@ -142,7 +142,7 @@ class ServerInfo extends StatelessWidget {
                 );
                 // Passes in the SettingsBloc to maintain context so items update correctly
                 registerDeviceBloc.add(
-                  RegisterDeviceStarted(
+                  RegisterDeviceFromQrStarted(
                     result: qrCodeScan,
                     settingsBloc: settingsBloc,
                   ),
