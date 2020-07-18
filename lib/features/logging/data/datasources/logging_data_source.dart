@@ -1,16 +1,24 @@
 import 'package:f_logs/f_logs.dart';
 
 abstract class LoggingDataSource {
+  /// Logs `text` to [FLog] plugin with the log level DEBUG.
   dynamic debug(String text);
 
+  /// Logs `text` to [FLog] plugin with the log level INFO.
   dynamic info(String text);
 
+  /// Logs `text` to [FLog] plugin with the log level WARNING.
   dynamic warning(String text);
 
+  /// Logs `text` to [FLog] plugin with the log level ERROR.
   dynamic error(String text);
 
+  /// Returns a list of [Log] from [FLog] plugin.
+  /// 
+  /// Returns an empty list if there are no logs.
   Future<List<Log>> getAllLogs();
 
+  /// Calls [FLog] plugin to clear all logs from storage.
   dynamic clearLogs();
 }
 

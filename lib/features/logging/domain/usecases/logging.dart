@@ -8,26 +8,34 @@ class Logging {
 
   Logging({@required this.repository});
 
+  /// Logs `text` with the log level DEBUG.
   dynamic debug(String text) {
     repository.debug(text);
   }
 
+  /// Logs `text` with the log level INFO.
   dynamic info(String text) {
     repository.info(text);
   }
 
+  /// Logs `text` with the log level WARNING.
   dynamic warning(String text) {
     repository.warning(text);
   }
 
+  /// Logs `text` with the log level ERROR.
   dynamic error(String text) {
     repository.error(text);
   }
 
+  /// Returns a list of [Log] items.
+  ///
+  /// Returns an empty list if there are no logs.
   Future<List<Log>> getAllLogs() {
     return repository.getAllLogs();
   }
 
+  /// Clears all logs from storage.
   dynamic clearLogs() {
     repository.clearLogs();
   }
