@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:quiver/strings.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/get_settings.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/register_device.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/update_device_registration.dart';
 
+import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/domain/usecases/get_settings.dart';
+import '../../../settings/domain/usecases/register_device.dart';
 import '../../data/datasources/onesignal_data_source.dart';
 
 part 'onesignal_privacy_event.dart';
@@ -19,12 +18,14 @@ class OneSignalPrivacyBloc
   final GetSettings getSettings;
   final RegisterDevice registerDevice;
   // final UpdateDeviceRegistration updateDeviceRegistration;
+  final Logging logging;
 
   OneSignalPrivacyBloc({
     @required this.oneSignal,
     @required this.getSettings,
     @required this.registerDevice,
     // @required this.updateDeviceRegistration,
+    @required this.logging,
   }) : super(OneSignalPrivacyInitial());
 
   @override
@@ -32,9 +33,15 @@ class OneSignalPrivacyBloc
     OneSignalPrivacyEvent event,
   ) async* {
     if (event is OneSignalPrivacyCheckConsent) {
+      //TODO: Change to dubug
+      logging.info('OneSignal: Checking for privacy consent');
       if (await oneSignal.isSubscribed != null) {
+        //TODO: Change to dubug
+        logging.info('OneSignal: Privacy consent verified');
         yield OneSignalPrivacyConsentSuccess();
       } else {
+        //TODO: Change to dubug
+        logging.info('OneSignal: Privacy consent has not been granted');
         yield OneSignalPrivacyConsentFailure();
       }
     }
@@ -47,7 +54,7 @@ class OneSignalPrivacyBloc
       // if (isNotBlank(settings.connectionAddress) && oneSignal.userId != null) {
       //   updateDeviceRegistration();
       // }
-
+      logging.info('OneSignal: Privacy consent accepted');
       yield OneSignalPrivacyConsentSuccess();
     }
     if (event is OneSignalPrivacyRevokeConsent) {
@@ -59,7 +66,7 @@ class OneSignalPrivacyBloc
       // if (isNotBlank(settings.connectionAddress)) {
       //   updateDeviceRegistration(clearOnesignalId: true);
       // }
-
+      logging.info('OneSignal: Privacy consent revoked');
       yield OneSignalPrivacyConsentFailure();
     }
   }

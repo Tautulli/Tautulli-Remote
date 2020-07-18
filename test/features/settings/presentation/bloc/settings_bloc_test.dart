@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/device_info/device_info.dart';
+import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote_tdd/features/settings/data/models/settings_model.dart';
 import 'package:tautulli_remote_tdd/features/settings/domain/entities/settings.dart';
 import 'package:tautulli_remote_tdd/features/settings/domain/usecases/get_settings.dart';
@@ -11,18 +11,23 @@ class MockGetSettings extends Mock implements GetSettings {}
 
 class MockSetSettings extends Mock implements SetSettings {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   SettingsBloc bloc;
   MockGetSettings mockGetSettings;
   MockSetSettings mockSetSettings;
+  MockLogging mockLogging;
 
   setUp(() {
     mockGetSettings = MockGetSettings();
     mockSetSettings = MockSetSettings();
+    mockLogging = MockLogging();
 
     bloc = SettingsBloc(
       getSettings: mockGetSettings,
       setSettings: mockSetSettings,
+      logging: mockLogging,
     );
   });
 

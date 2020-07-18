@@ -11,6 +11,7 @@ import 'package:tautulli_remote_tdd/features/activity/domain/entities/activity.d
 import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_activity.dart';
 import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_geo_ip.dart';
 import 'package:tautulli_remote_tdd/features/activity/presentation/bloc/activity_bloc.dart';
+import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -20,21 +21,26 @@ class MockGetGeoIp extends Mock implements GetGeoIp {}
 
 class MockTautulliApiUrls extends Mock implements TautulliApiUrls {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   ActivityBloc bloc;
   MockTautulliApiUrls mockTautulliApiUrls;
   MockGetActivity mockGetActivity;
   MockGetGeoIp mockGetGeoIp;
+  MockLogging mockLogging;
 
   setUp(() {
     mockGetActivity = MockGetActivity();
     mockGetGeoIp = MockGetGeoIp();
     mockTautulliApiUrls = MockTautulliApiUrls();
+    mockLogging = MockLogging();
 
     bloc = ActivityBloc(
       activity: mockGetActivity,
       geoIp: mockGetGeoIp,
       tautulliApiUrls: mockTautulliApiUrls,
+      logging: mockLogging,
     );
   });
 

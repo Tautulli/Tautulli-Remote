@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:tautulli_remote_tdd/core/helpers/tautulli_api_url_helper.dart';
-import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_geo_ip.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../../core/helpers/tautulli_api_url_helper.dart';
+import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/usecases/get_activity.dart';
+import '../../domain/usecases/get_geo_ip.dart';
 
 part 'activity_event.dart';
 part 'activity_state.dart';
@@ -32,11 +33,13 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   final GetActivity getActivity;
   final GetGeoIp getGeoIp;
   final TautulliApiUrls tautulliApiUrls;
+  final Logging logging;
 
   ActivityBloc({
     @required GetActivity activity,
     @required GetGeoIp geoIp,
     @required this.tautulliApiUrls,
+    @required this.logging,
   })  : assert(activity != null),
         assert(geoIp != null),
         getActivity = activity,
@@ -48,14 +51,14 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     ActivityEvent event,
   ) async* {
     if (event is ActivityLoad) {
-      //TODO: Remove this print statement
-      print('fetching activity');
+      //TODO: Change to dubug
+      logging.info('Activity: Attempting to load activity');
       yield ActivityLoadInProgress();
       yield* _loadActivityOrFailure();
     }
     if (event is ActivityRefresh) {
-      //TODO: Remove this print statement
       print('refreshing activity');
+      logging.info('Activity: Attempting to load activity');
       yield* _loadActivityOrFailure();
     }
   }
@@ -64,6 +67,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     final failureOrActivity = await getActivity();
     yield* failureOrActivity.fold(
       (failure) async* {
+        logging.error('Activity: Failed to load activity [$failure]');
         yield ActivityLoadFailure(
           failure: failure,
           message: _mapFailureToMessage(failure),
@@ -73,11 +77,17 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       (activity) async* {
         final Map<String, dynamic> geoIpMap = {};
 
+        //TODO: Change to dubug
+        logging.info(
+            'Activity: Attempting to load activity Geo IP information');
+
         for (ActivityItem activityItem in activity) {
           final failureOrGeoIp = await getGeoIp(activityItem.ipAddress);
 
           failureOrGeoIp.fold(
             (failure) {
+              logging.warning(
+                  'Activit: Failed to load Geo IP data for ${activityItem.ipAddress}');
               print('failure');
               return null;
             },
@@ -86,6 +96,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             },
           );
         }
+
+        logging.info('Activity: Activity loaded successfully');
 
         yield ActivityLoadSuccess(
           activity: activity,

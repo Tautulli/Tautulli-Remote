@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/core/error/failure.dart';
 import 'package:tautulli_remote_tdd/core/helpers/connection_address_helper.dart';
+import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote_tdd/features/settings/domain/usecases/register_device.dart';
 import 'package:tautulli_remote_tdd/features/settings/presentation/bloc/register_device_bloc.dart';
 import 'package:tautulli_remote_tdd/features/settings/presentation/bloc/settings_bloc.dart';
@@ -14,19 +15,24 @@ class MockSettingsBloc extends Mock implements SettingsBloc {}
 class MockConnectionAddressHelper extends Mock
     implements ConnectionAddressHelper {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   MockRegisterDevice mockRegisterDevice;
   MockConnectionAddressHelper mockConnectionAddressHelper;
   MockSettingsBloc mockSettingsBloc;
+  MockLogging mockLogging;
   RegisterDeviceBloc bloc;
 
   setUp(() {
     mockRegisterDevice = MockRegisterDevice();
     mockSettingsBloc = MockSettingsBloc();
     mockConnectionAddressHelper = MockConnectionAddressHelper();
+    mockLogging = MockLogging();
     bloc = RegisterDeviceBloc(
       registerDevice: mockRegisterDevice,
       connectionAddressHelper: mockConnectionAddressHelper,
+      logging: mockLogging,
     );
   });
 

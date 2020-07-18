@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/device_info/device_info.dart';
 import 'core/helpers/connection_address_helper.dart';
+import 'core/helpers/log_format_helper.dart';
 import 'core/helpers/tautulli_api_url_helper.dart';
 import 'core/network/network_info.dart';
 import 'features/activity/data/datasources/activity_data_source.dart';
@@ -17,6 +18,11 @@ import 'features/activity/domain/repositories/geo_ip_repository.dart';
 import 'features/activity/domain/usecases/get_activity.dart';
 import 'features/activity/domain/usecases/get_geo_ip.dart';
 import 'features/activity/presentation/bloc/activity_bloc.dart';
+import 'features/logging/data/datasources/logging_data_source.dart';
+import 'features/logging/data/repositories/logging_repository_impl.dart';
+import 'features/logging/domain/repositories/logging_repository.dart';
+import 'features/logging/domain/usecases/logging.dart';
+import 'features/logging/presentation/bloc/load_logs_bloc.dart';
 import 'features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -44,12 +50,16 @@ Future<void> init() async {
     () => SettingsBloc(
       getSettings: sl(),
       setSettings: sl(),
+      logging: sl(),
     ),
   );
 
   sl.registerFactory(
-    () =>
-        RegisterDeviceBloc(registerDevice: sl(), connectionAddressHelper: sl()),
+    () => RegisterDeviceBloc(
+      registerDevice: sl(),
+      connectionAddressHelper: sl(),
+      logging: sl(),
+    ),
   );
 
   // Use case
@@ -107,6 +117,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => OneSignalHealthBloc(
       oneSignal: sl(),
+      logging: sl(),
     ),
   );
 
@@ -116,6 +127,7 @@ Future<void> init() async {
       getSettings: sl(),
       registerDevice: sl(),
       // updateDeviceRegistration: sl()
+      logging: sl(),
     ),
   );
 
@@ -133,6 +145,34 @@ Future<void> init() async {
     ),
   );
 
+  //! Features - Logging
+  // Bloc
+  sl.registerFactory(
+    () => LogsBloc(
+      logging: sl(),
+      logFormatHelper: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => Logging(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<LoggingRepository>(
+    () => LoggingRepositoryImpl(
+      dataSource: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<LoggingDataSource>(
+    () => LoggingDataSourceImpl(),
+  );
+
   //! Features - Activity
   // Bloc
   sl.registerFactory(
@@ -140,6 +180,7 @@ Future<void> init() async {
       activity: sl(),
       geoIp: sl(),
       tautulliApiUrls: sl(),
+      logging: sl(),
     ),
   );
 
@@ -191,7 +232,7 @@ Future<void> init() async {
   //! Core
   sl.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(
-      sl(),
+      connectivityChecker: sl(),
     ),
   );
 
@@ -199,6 +240,10 @@ Future<void> init() async {
     () => TautulliApiUrlsImpl(
       getSettings: sl(),
     ),
+  );
+
+  sl.registerLazySingleton<LogFormatHelper>(
+    () => LogFormatHelperImpl(),
   );
 
   sl.registerLazySingleton<ConnectionAddressHelper>(
