@@ -35,8 +35,13 @@ class Logging {
     return repository.getAllLogs();
   }
 
-  /// Clears all logs from storage.
+  /// Clears all logs from database.
   dynamic clearLogs() {
     repository.clearLogs();
+  }
+
+  /// Exports all logs to storage.
+  dynamic exportLogs() {
+    repository.exportLogs();
   }
 }

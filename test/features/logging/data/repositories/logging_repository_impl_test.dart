@@ -89,4 +89,16 @@ void main() {
       },
     );
   });
+
+  group('exportLogs', () {
+    test(
+      'should call the data source',
+      () async {
+        // act
+        repository.exportLogs();
+        // assert
+        verify(mockLoggingDataSource.exportLogs());
+      },
+    );
+  });
 }

@@ -38,4 +38,9 @@ class LoggingRepositoryImpl implements LoggingRepository {
   clearLogs() {
     dataSource.clearLogs();
   }
+
+  @override
+  exportLogs() {
+    dataSource.exportLogs();
+  }
 }

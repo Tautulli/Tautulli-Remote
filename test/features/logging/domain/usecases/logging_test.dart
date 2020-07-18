@@ -89,4 +89,16 @@ void main() {
       },
     );
   });
+
+  group('exportLogs', () {
+    test(
+      'should forward to the repository',
+      () async {
+        // act
+        usecase.exportLogs();
+        // assert
+        verify(mockLoggingRepository.exportLogs());
+      },
+    );
+  });
 }

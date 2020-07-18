@@ -18,6 +18,9 @@ abstract class LoggingRepository {
   /// Returns an empty list if there are no logs.
   Future<List<Log>> getAllLogs();
 
-  /// Clears all logs from storage.
+  /// Clears all logs from database.
   dynamic clearLogs();
+
+  /// Exports logs to storage;
+  dynamic exportLogs();
 }

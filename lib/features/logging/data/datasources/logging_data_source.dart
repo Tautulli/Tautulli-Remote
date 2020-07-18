@@ -18,8 +18,11 @@ abstract class LoggingDataSource {
   /// Returns an empty list if there are no logs.
   Future<List<Log>> getAllLogs();
 
-  /// Calls [FLog] plugin to clear all logs from storage.
+  /// Calls [FLog] plugin to clear all logs from database.
   dynamic clearLogs();
+
+  /// Calls [FLog] plugin to export the logs to storage.
+  dynamic exportLogs();
 }
 
 class LoggingDataSourceImpl implements LoggingDataSource {
@@ -51,5 +54,10 @@ class LoggingDataSourceImpl implements LoggingDataSource {
   @override
   clearLogs() {
     FLog.clearLogs();
+  }
+
+  @override
+  exportLogs() {
+    FLog.exportLogs();
   }
 }
