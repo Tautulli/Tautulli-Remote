@@ -98,20 +98,6 @@ class AppDrawer extends StatelessWidget {
                 Navigator.of(context).pushNamed('/privacy');
               },
             ),
-            //TODO: Logs page
-            // ListTile(
-            //   leading: FaIcon(
-            //     FontAwesomeIcons.solidListAlt,
-            //     color: PlexColorPalette.gray_chateau,
-            //   ),
-            //   title: Text(
-            //     'Logs',
-            //     style: TextStyle(
-            //       color: PlexColorPalette.gray_chateau,
-            //     ),
-            //   ),
-            //   onTap: () {},
-            // ),
             //TODO: Help page
             // ListTile(
             //   leading: FaIcon(

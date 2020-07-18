@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../injection_container.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/activity_bloc.dart';
 import '../widgets/activity_card.dart';
-import '../widgets/error_message.dart';
 import '../widgets/error_button.dart';
+import '../widgets/error_message.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({Key key}) : super(key: key);
@@ -65,16 +64,6 @@ class _ActivityPageState extends State<ActivityPage> {
                     completer: _refreshCompleter,
                     failure: state.failure,
                   ),
-                  // RaisedButton.icon(
-                  //   icon: FaIcon(FontAwesomeIcons.redoAlt),
-                  //   label: Text('Retry'),
-                  //   color: Theme.of(context).primaryColor,
-                  //   onPressed: () {
-                  //     BlocProvider.of<ActivityBloc>(context)
-                  //         .add(ActivityLoad());
-                  //     return _refreshCompleter.future;
-                  //   },
-                  // ),
                 ],
               );
             }

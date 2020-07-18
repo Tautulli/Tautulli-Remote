@@ -22,6 +22,7 @@ class PrivacyPage extends StatelessWidget {
     final oneSignalHealthBloc = BlocProvider.of<OneSignalHealthBloc>(context);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title: Text('Privacy'),
       ),
