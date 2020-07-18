@@ -27,4 +27,8 @@ class Logging {
   Future<List<Log>> getAllLogs() {
     return repository.getAllLogs();
   }
+
+  dynamic clearLogs() {
+    repository.clearLogs();
+  }
 }

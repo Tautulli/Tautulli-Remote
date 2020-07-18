@@ -33,4 +33,9 @@ class LoggingRepositoryImpl implements LoggingRepository {
   Future<List<Log>> getAllLogs() {
     return dataSource.getAllLogs();
   }
+
+  @override
+  clearLogs() {
+    dataSource.clearLogs();
+  }
 }

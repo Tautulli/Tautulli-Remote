@@ -77,4 +77,16 @@ void main() {
       },
     );
   });
+
+  group('clearLogs', () {
+    test(
+      'should forward to the repository',
+      () async {
+        // act
+        usecase.clearLogs();
+        // assert
+        verify(mockLoggingRepository.clearLogs());
+      },
+    );
+  });
 }

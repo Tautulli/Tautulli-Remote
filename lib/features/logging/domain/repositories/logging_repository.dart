@@ -10,4 +10,6 @@ abstract class LoggingRepository {
   dynamic error(String text);
 
   Future<List<Log>> getAllLogs();
+
+  dynamic clearLogs();
 }

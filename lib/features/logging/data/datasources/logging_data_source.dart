@@ -10,6 +10,8 @@ abstract class LoggingDataSource {
   dynamic error(String text);
 
   Future<List<Log>> getAllLogs();
+
+  dynamic clearLogs();
 }
 
 class LoggingDataSourceImpl implements LoggingDataSource {
@@ -36,5 +38,10 @@ class LoggingDataSourceImpl implements LoggingDataSource {
   @override
   Future<List<Log>> getAllLogs() {
     return FLog.getAllLogs();
+  }
+
+  @override
+  clearLogs() {
+    FLog.clearLogs();
   }
 }

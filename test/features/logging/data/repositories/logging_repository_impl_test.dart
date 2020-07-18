@@ -77,4 +77,16 @@ void main() {
       },
     );
   });
+
+  group('clearLogs', () {
+    test(
+      'should call the data source',
+      () async {
+        // act
+        repository.clearLogs();
+        // assert
+        verify(mockLoggingDataSource.clearLogs());
+      },
+    );
+  });
 }
