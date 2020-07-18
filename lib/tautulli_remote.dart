@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:tautulli_remote_tdd/features/privacy/presentation/pages/privacy_page.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/activity/presentation/pages/activity_page.dart';
+import 'features/logging/presentation/pages/logs_page.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
+import 'features/privacy/presentation/pages/privacy_page.dart';
 import 'features/settings/presentation/pages/advanced_server_settings_page.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 
@@ -60,8 +61,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       //? call an update to the device registration when userid goes from null to a value
       BlocProvider.of<OneSignalSubscriptionBloc>(context)
           .add(OneSignalSubscriptionCheck());
-      BlocProvider.of<OneSignalHealthBloc>(context)
-          .add(OneSignalHealthCheck());
+      BlocProvider.of<OneSignalHealthBloc>(context).add(OneSignalHealthCheck());
     });
   }
 
@@ -102,6 +102,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
               ),
             ),
         buttonTheme: ThemeData.dark().buttonTheme.copyWith(),
+        popupMenuTheme: ThemeData.dark().popupMenuTheme.copyWith(
+          color: PlexColorPalette.river_bed,
+        ),
       ),
       home: ActivityPage(),
       routes: {
@@ -110,6 +113,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         AdvancedServerSettingsPage.routeName: (ctx) =>
             AdvancedServerSettingsPage(),
         PrivacyPage.routeName: (ctx) => PrivacyPage(),
+        LogsPage.routeName: (ctx) => LogsPage(),
       },
     );
   }

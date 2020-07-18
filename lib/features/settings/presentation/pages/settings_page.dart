@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
@@ -92,19 +94,24 @@ class SettingsPage extends StatelessWidget {
                             .pushNamed('/advanced_server_settings');
                       },
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(
-                    //     left: 10,
-                    //     right: 10,
-                    //     bottom: 10,
-                    //   ),
-                    //   child: Divider(
-                    //     color: Theme.of(context).accentColor,
-                    //   ),
-                    // ),
-                    // SettingsHeader(
-                    //   headingText: 'App Settings',
-                    // ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                        bottom: 10,
+                      ),
+                      child: Divider(
+                        color: Theme.of(context).accentColor,
+                      ),
+                    ),
+                    ListTile(
+                      leading: FaIcon(
+                        FontAwesomeIcons.solidListAlt,
+                        color: Colors.white,
+                      ),
+                      title: Text('Tautulli Remote Logs'),
+                      onTap: () => Navigator.of(context).pushNamed('/logs'),
+                    ),
                   ],
                 );
               } else {
