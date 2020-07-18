@@ -1,19 +1,25 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote_tdd/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote_tdd/features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 
 class MockOneSignalDataSourceImpl extends Mock
     implements OneSignalDataSourceImpl {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   OneSignalHealthBloc bloc;
   MockOneSignalDataSourceImpl mockOneSignalDataSourceImpl;
+  MockLogging mockLogging;
 
   setUp(() {
     mockOneSignalDataSourceImpl = MockOneSignalDataSourceImpl();
+    mockLogging = MockLogging();
     bloc = OneSignalHealthBloc(
       oneSignal: mockOneSignalDataSourceImpl,
+      logging: mockLogging,
     );
   });
 

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote_tdd/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote_tdd/features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'package:tautulli_remote_tdd/features/settings/data/models/settings_model.dart';
@@ -14,20 +15,26 @@ class MockGetSettings extends Mock implements GetSettings {}
 
 class MockRegisterDevice extends Mock implements RegisterDevice {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   OneSignalPrivacyBloc bloc;
   MockGetSettings mockGetSettings;
   MockRegisterDevice mockRegisterDevice;
   MockOneSignalDataSourceImpl mockOneSignalDataSourceImpl;
+  MockLogging mockLogging;
 
   setUp(() {
     mockGetSettings = MockGetSettings();
     mockRegisterDevice = MockRegisterDevice();
     mockOneSignalDataSourceImpl = MockOneSignalDataSourceImpl();
+    mockLogging = MockLogging();
+
     bloc = OneSignalPrivacyBloc(
       oneSignal: mockOneSignalDataSourceImpl,
       getSettings: mockGetSettings,
       registerDevice: mockRegisterDevice,
+      logging: mockLogging,
     );
   });
 
