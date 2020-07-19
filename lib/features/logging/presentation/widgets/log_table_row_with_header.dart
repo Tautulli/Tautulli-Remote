@@ -22,7 +22,7 @@ class LogTableRowWithHeader extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Container(
-                width: 97,
+                width: 100,
                 padding: const EdgeInsets.only(
                   top: 8,
                   bottom: 8,
