@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../bloc/register_device_bloc.dart';
 import '../bloc/settings_bloc.dart';
-import '../widgets/onesignal_connection_banner.dart';
 import '../widgets/server_info.dart';
+import '../widgets/settings_alert.dart';
 import '../widgets/settings_header.dart';
+import '../widgets/custom_settings_tile.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key key}) : super(key: key);
@@ -62,20 +63,9 @@ class SettingsPage extends StatelessWidget {
               if (state is SettingsLoadSuccess) {
                 return ListView(
                   children: <Widget>[
-                    //* OneSignal connection banner
-                    BlocBuilder<OneSignalHealthBloc, OneSignalHealthState>(
-                      builder: (context, state) {
-                        // make sure the user has consented to OneSignal privacy before displaying banner
-                        if (state is OneSignalHealthFailure &&
-                            oneSignalPrivacyBloc.state
-                                is OneSignalPrivacyConsentSuccess) {
-                          return OneSignalConnectionBanner();
-                        }
-                        return Container(width: 0, height: 0);
-                      },
-                    ),
-                    SizedBox(
-                      height: 20,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: SettingsAlert(),
                     ),
                     SettingsHeader(
                       headingText: 'Server Info',
@@ -83,17 +73,76 @@ class SettingsPage extends StatelessWidget {
                     ServerInfo(
                       settings: state.settings,
                     ),
-                    ListTile(
-                      title: Text(
-                        'Advanced server settings',
-                        style: TextStyle(fontSize: 16),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: SettingsHeader(
+                        headingText: 'Server Settings',
                       ),
-                      dense: true,
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushNamed('/advanced_server_settings');
+                    ),
+                    CustomSettingsTile(
+                      title: 'Register with Tautulli',
+                      icon: FaIcon(
+                        FontAwesomeIcons.qrcode,
+                        color: Colors.white,
+                      ),
+                      onTap: () async {
+                        final qrCodeScan =
+                            await FlutterBarcodeScanner.scanBarcode(
+                          '#e5a00d',
+                          'Cancel',
+                          false,
+                          ScanMode.QR,
+                        );
+                        // Passes in the SettingsBloc to maintain context so items update correctly
+                        BlocProvider.of<RegisterDeviceBloc>(context).add(
+                          RegisterDeviceFromQrStarted(
+                            result: qrCodeScan,
+                            settingsBloc:
+                                BlocProvider.of<SettingsBloc>(context),
+                          ),
+                        );
                       },
                     ),
+                    // ListTile(
+                    //   title: Text('Register with Tautulli'),
+                    //   onTap: () async {
+                    //     final qrCodeScan =
+                    //         await FlutterBarcodeScanner.scanBarcode(
+                    //       '#e5a00d',
+                    //       'Cancel',
+                    //       false,
+                    //       ScanMode.QR,
+                    //     );
+                    //     // Passes in the SettingsBloc to maintain context so items update correctly
+                    //     BlocProvider.of<RegisterDeviceBloc>(context).add(
+                    //       RegisterDeviceFromQrStarted(
+                    //         result: qrCodeScan,
+                    //         settingsBloc:
+                    //             BlocProvider.of<SettingsBloc>(context),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
+                    CustomSettingsTile(
+                      title: 'Advanced server settings',
+                      icon: FaIcon(
+                        FontAwesomeIcons.cogs,
+                        color: Colors.white,
+                      ),
+                      onTap: () => Navigator.of(context)
+                          .pushNamed('/advanced_server_settings'),
+                    ),
+                    // ListTile(
+                    //   title: Text(
+                    //     'Advanced server settings',
+                    //     style: TextStyle(fontSize: 16),
+                    //   ),
+                    //   dense: true,
+                    //   onTap: () {
+                    //     Navigator.of(context)
+                    //         .pushNamed('/advanced_server_settings');
+                    //   },
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(
                         left: 10,
@@ -104,14 +153,22 @@ class SettingsPage extends StatelessWidget {
                         color: Theme.of(context).accentColor,
                       ),
                     ),
-                    ListTile(
-                      leading: FaIcon(
+                    CustomSettingsTile(
+                      title: 'Tautulli Remote Logs',
+                      icon: FaIcon(
                         FontAwesomeIcons.solidListAlt,
                         color: Colors.white,
                       ),
-                      title: Text('Tautulli Remote Logs'),
                       onTap: () => Navigator.of(context).pushNamed('/logs'),
                     ),
+                    // ListTile(
+                    //   leading: FaIcon(
+                    //     FontAwesomeIcons.solidListAlt,
+                    //     color: Colors.white,
+                    //   ),
+                    //   title: Text('Tautulli Remote Logs'),
+                    //   onTap: () => Navigator.of(context).pushNamed('/logs'),
+                    // ),
                   ],
                 );
               } else {

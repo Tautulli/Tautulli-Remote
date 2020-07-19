@@ -15,7 +15,7 @@ const String CONSENT_ERROR_MESSAGE =
     'To get notifications accept the OneSignal data privacy before registering with Tautulli.';
 const String REGISTER_ERROR_TITLE = 'Device Is Not Registered With OneSignal';
 const String REGISTER_ERROR_MESSAGE =
-    'To get notifications make sure this device has access to onesignal.com so it can register (this process can take up to 2 min).';
+    'To get notifications make sure this device can reach to onesignal.com so it can register (this process may take up to 2 min).';
 const String UNEXPECTED_ERROR_TITLE =
     'Unexpected Error Communicating With OneSignal';
 const String UNEXPECTED_ERROR_MESSAGE =
@@ -43,16 +43,19 @@ class OneSignalSubscriptionBloc
         yield OneSignalSubscriptionFailure(
           title: CONSENT_ERROR_TITLE,
           message: CONSENT_ERROR_MESSAGE,
+          consented: false,
         );
       } else if (isSubscribed == false || userId == null) {
         yield OneSignalSubscriptionFailure(
           title: REGISTER_ERROR_TITLE,
           message: REGISTER_ERROR_MESSAGE,
+          consented: true,
         );
       } else {
         yield OneSignalSubscriptionFailure(
           title: UNEXPECTED_ERROR_TITLE,
           message: UNEXPECTED_ERROR_MESSAGE,
+          consented: true,
         );
       }
     }

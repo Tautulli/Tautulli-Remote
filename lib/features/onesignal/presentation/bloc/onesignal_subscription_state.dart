@@ -17,10 +17,12 @@ class OneSignalSubscriptionSuccess extends OneSignalSubscriptionState {
 class OneSignalSubscriptionFailure extends OneSignalSubscriptionState {
   final String title;
   final String message;
+  final bool consented;
 
   OneSignalSubscriptionFailure({
     @required this.title,
     @required this.message,
+    @required this.consented,
   });
 
   @override
