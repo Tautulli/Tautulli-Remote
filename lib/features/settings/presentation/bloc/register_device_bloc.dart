@@ -75,7 +75,7 @@ class RegisterDeviceBloc
 
     yield* failureOrRegistered.fold(
       (failure) async* {
-        logging.error('RegisterDevice: Failed to register device');
+        logging.error('RegisterDevice: Failed to register device [$failure]');
         yield RegisterDeviceFailure();
       },
       (registered) async* {
