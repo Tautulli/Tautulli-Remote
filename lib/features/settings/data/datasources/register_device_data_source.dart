@@ -11,7 +11,7 @@ import '../../domain/usecases/set_settings.dart';
 
 abstract class RegisterDeviceDataSource {
   /// Registers the device with the Tautulli server.
-  /// 
+  ///
   /// Returns `true` if successful. Otherwise throws an [Exception].
   Future<bool> call({
     @required final String connectionProtocol,
@@ -85,7 +85,16 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
     );
 
     if (response.statusCode == 200) {
-      return true;
+      try {
+        final responseJson = json.decode(response.body);
+        if (responseJson['response']['result'] == 'success') {
+          return true;
+        } else {
+          throw ServerException();
+        }
+      } catch (error) {
+        throw ServerException();
+      }
     } else {
       throw ServerException();
     }
