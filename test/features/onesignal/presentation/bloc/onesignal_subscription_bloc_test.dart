@@ -57,6 +57,7 @@ void main() {
         OneSignalSubscriptionFailure(
           title: CONSENT_ERROR_TITLE,
           message: CONSENT_ERROR_MESSAGE,
+          consented: false,
         ),
       ];
       expectLater(bloc, emitsInOrder(expected));
@@ -80,6 +81,7 @@ void main() {
         OneSignalSubscriptionFailure(
           title: REGISTER_ERROR_TITLE,
           message: REGISTER_ERROR_MESSAGE,
+          consented: true,
         ),
       ];
       expectLater(bloc, emitsInOrder(expected));
@@ -103,6 +105,7 @@ void main() {
         OneSignalSubscriptionFailure(
           title: REGISTER_ERROR_TITLE,
           message: REGISTER_ERROR_MESSAGE,
+          consented: true,
         ),
       ];
       expectLater(bloc, emitsInOrder(expected));
@@ -126,6 +129,7 @@ void main() {
         OneSignalSubscriptionFailure(
           title: UNEXPECTED_ERROR_TITLE,
           message: UNEXPECTED_ERROR_MESSAGE,
+          consented: true,
         ),
       ];
       expectLater(bloc, emitsInOrder(expected));
