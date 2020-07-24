@@ -1,65 +1,73 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
+import 'package:tautulli_remote_tdd/core/database/domain/entities/server.dart';
 import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
-import 'package:tautulli_remote_tdd/features/settings/data/models/settings_model.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/entities/settings.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/get_settings.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/set_settings.dart';
+import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote_tdd/features/settings/presentation/bloc/settings_bloc.dart';
 
-class MockGetSettings extends Mock implements GetSettings {}
-
-class MockSetSettings extends Mock implements SetSettings {}
+class MockSettings extends Mock implements Settings {}
 
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   SettingsBloc bloc;
-  MockGetSettings mockGetSettings;
-  MockSetSettings mockSetSettings;
+  MockSettings mockSettings;
   MockLogging mockLogging;
 
   setUp(() {
-    mockGetSettings = MockGetSettings();
-    mockSetSettings = MockSetSettings();
+    mockSettings = MockSettings();
     mockLogging = MockLogging();
 
     bloc = SettingsBloc(
-      getSettings: mockGetSettings,
-      setSettings: mockSetSettings,
+      settings: mockSettings,
       logging: mockLogging,
     );
   });
 
-  final String tConnectionAddress = 'http://tautulli.com';
-  final String tConnectionProtocol = 'http';
-  final String tConnectionDomain = 'tautulli.com';
-  final String tConnectionUser = null;
-  final String tConnectionPassword = null;
+  final int tId = 1;
+  final String tPrimaryConnectionAddress = 'http://tautulli.com';
+  final String tPrimaryConnectionProtocol = 'http';
+  final String tPrimaryConnectionDomain = 'tautulli.com';
+  final String tPrimaryConnectionUser = null;
+  final String tPrimaryConnectionPassword = null;
   final String tDeviceToken = 'abc';
-  final String tNewConnectionAddress = 'https://plexpy.com';
-  final String tNewConnectionProtocol = 'https';
-  final String tNewConnectionDomain = 'plexpy.com';
-  final String tNewConnectionUser = 'user';
-  final String tNewConnectionPassword = 'pass';
+  final String tTautulliId = 'jkl';
+  final String tPlexName = 'Plex';
+  final String tNewPrimaryConnectionAddress = 'https://plexpy.com';
+  final String tNewPrimaryConnectionProtocol = 'https';
+  final String tNewPrimaryConnectionDomain = 'plexpy.com';
+  final String tNewPrimaryConnectionUser = 'user';
+  final String tNewPrimaryConnectionPassword = 'pass';
   final String tNewDeviceToken = 'def';
+  final String tNewTautulliId = 'mno';
+  final String tNewPlexName = 'Plex2';
 
-  final Settings tSettingsModel = SettingsModel(
-    connectionAddress: tConnectionAddress,
-    connectionProtocol: tConnectionProtocol,
-    connectionDomain: tConnectionDomain,
-    connectionUser: tConnectionUser,
-    connectionPassword: tConnectionPassword,
+  final Server tServerModel = ServerModel(
+    primaryConnectionAddress: tPrimaryConnectionAddress,
+    primaryConnectionProtocol: tPrimaryConnectionProtocol,
+    primaryConnectionDomain: tPrimaryConnectionDomain,
+    primaryConnectionUser: tPrimaryConnectionUser,
+    primaryConnectionPassword: tPrimaryConnectionPassword,
     deviceToken: tDeviceToken,
+    tautulliId: tTautulliId,
+    plexName: tPlexName,
   );
-  final Settings tUpdatedSettingsModel = SettingsModel(
-    connectionAddress: tNewConnectionAddress,
-    connectionProtocol: tNewConnectionProtocol,
-    connectionDomain: tNewConnectionDomain,
-    connectionUser: tNewConnectionUser,
-    connectionPassword: tNewConnectionPassword,
+
+  final List<ServerModel> tServerList = [tServerModel];
+
+  final Server tUpdatedServerModel = ServerModel(
+    primaryConnectionAddress: tNewPrimaryConnectionAddress,
+    primaryConnectionProtocol: tNewPrimaryConnectionProtocol,
+    primaryConnectionDomain: tNewPrimaryConnectionDomain,
+    primaryConnectionUser: tNewPrimaryConnectionUser,
+    primaryConnectionPassword: tNewPrimaryConnectionPassword,
     deviceToken: tNewDeviceToken,
+    tautulliId: tNewTautulliId,
+    plexName: tNewPlexName,
   );
+
+  final List<ServerModel> tUpdatedServerList = [tUpdatedServerModel];
 
   test(
     'initialState should be SettingsInitial',
@@ -69,91 +77,329 @@ void main() {
     },
   );
 
-  test(
-    'should get SettingsModel from the GetSettings.load() use case',
-    () async {
-      // arrange
-      when(mockGetSettings.load()).thenAnswer((_) async => tSettingsModel);
-      // act
-      bloc.add(SettingsLoad());
-      await untilCalled(mockGetSettings.load());
-      // assert
-      verify(mockGetSettings.load());
-    },
-  );
+  group('SettingsLoad', () {
+    test(
+      'should get SettingsModel from the Settings.getAllServers() use case',
+      () async {
+        // arrange
+        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        // act
+        bloc.add(SettingsLoad());
+        await untilCalled(mockSettings.getAllServers());
+        // assert
+        verify(mockSettings.getAllServers());
+      },
+    );
 
-  test(
-    'should emit [SettingsLoadInProgress, SettingsLoadSuccess] when Settings are loaded successfully',
-    () async {
-      // arrange
-      when(mockGetSettings.load()).thenAnswer((_) async => tSettingsModel);
-      // assert later
-      final expected = [
-        SettingsInitial(),
-        SettingsLoadInProgress(),
-        SettingsLoadSuccess(settings: tSettingsModel),
-      ];
-      expectLater(bloc, emitsInOrder(expected));
-      // act
-      bloc.add(SettingsLoad());
-    },
-  );
+    test(
+      'should emit [SettingsLoadInProgress, SettingsLoadSuccess] when Settings are loaded successfully',
+      () async {
+        // arrange
+        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        // assert later
+        final expected = [
+          SettingsInitial(),
+          SettingsLoadInProgress(),
+          SettingsLoadSuccess(serverList: tServerList),
+        ];
+        expectLater(bloc, emitsInOrder(expected));
+        // act
+        bloc.add(SettingsLoad());
+      },
+    );
+  });
 
-  test(
-    'should save connection details with the GetSettings.setConnection() use case',
-    () async {
-      // act
-      bloc.add(SettingsUpdateConnection(value: tConnectionAddress));
-      await untilCalled(mockSetSettings.setConnection(any));
-      // assert
-      verify(mockSetSettings.setConnection(tConnectionAddress));
-    },
-  );
+  group('SettingsAddServer', () {
+    test(
+      'should call Settings.addServer() use case',
+      () async {
+        // act
+        bloc.add(
+          SettingsAddServer(
+            primaryConnectionAddress: tPrimaryConnectionAddress,
+            deviceToken: tDeviceToken,
+            tautulliId: tTautulliId,
+            plexName: tPlexName,
+          ),
+        );
+        await untilCalled(
+          mockSettings.addServer(
+            primaryConnectionAddress: tPrimaryConnectionAddress,
+            deviceToken: tDeviceToken,
+            tautulliId: tTautulliId,
+            plexName: tPlexName,
+          ),
+        );
+        // assert
+        verify(
+          mockSettings.addServer(
+            primaryConnectionAddress: tPrimaryConnectionAddress,
+            deviceToken: tDeviceToken,
+            tautulliId: tTautulliId,
+            plexName: tPlexName,
+          ),
+        );
+      },
+    );
 
-  test(
-    'should emit [SettingsLoadSuccess] when connectionAddress is updated',
-    () async {
-      // arrange
-      when(mockGetSettings.load())
-          .thenAnswer((_) async => tUpdatedSettingsModel);
-      // assert later
-      final expected = [
-        SettingsInitial(),
-        // SettingsLoadInProgress(),
-        SettingsLoadSuccess(settings: tUpdatedSettingsModel),
-      ];
-      expectLater(bloc, emitsInOrder(expected));
-      // act
-      bloc.add(SettingsUpdateConnection(value: tNewConnectionAddress));
-    },
-  );
+    test(
+      'should emit [SettingsLoadSuccess] after adding a server',
+      () async {
+        // arrange
+        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        // assert later
+        final expected = [
+          SettingsInitial(),
+          SettingsLoadSuccess(serverList: tServerList),
+        ];
+        expectLater(bloc, emitsInOrder(expected));
+        // act
+        bloc.add(
+          SettingsAddServer(
+            primaryConnectionAddress: tPrimaryConnectionAddress,
+            deviceToken: tDeviceToken,
+            tautulliId: tTautulliId,
+            plexName: tPlexName,
+          ),
+        );
+      },
+    );
+  });
 
-  test(
-    'should save Device Token with the GetSettings.setDeviceToken() use case',
-    () async {
-      // act
-      bloc.add(SettingsUpdateDeviceToken(value: tDeviceToken));
-      await untilCalled(mockSetSettings.setDeviceToken(any));
-      // assert
-      verify(mockSetSettings.setDeviceToken(tDeviceToken));
-    },
-  );
+  group('SettingsUpdateServer', () {
+    test(
+      'should call the Settings.updateServerById use case',
+      () async {
+        // act
+        bloc.add(
+          SettingsUpdateServer(
+            id: tId,
+            primaryConnectionAddress: tPrimaryConnectionAddress,
+            deviceToken: tDeviceToken,
+            tautulliId: tTautulliId,
+            plexName: tPlexName,
+          ),
+        );
+        await untilCalled(
+          mockSettings.updateServerById(
+            id: tId,
+            primaryConnectionAddress: tPrimaryConnectionAddress,
+            deviceToken: tDeviceToken,
+            tautulliId: tTautulliId,
+            plexName: tPlexName,
+          ),
+        );
+        // assert
+        verify(
+          mockSettings.updateServerById(
+            id: tId,
+            primaryConnectionAddress: tPrimaryConnectionAddress,
+            deviceToken: tDeviceToken,
+            tautulliId: tTautulliId,
+            plexName: tPlexName,
+          ),
+        );
+      },
+    );
 
-  test(
-    'should emit [SettingsLoadSuccess] when Device Token is updated',
-    () async {
-      // arrange
-      when(mockGetSettings.load())
-          .thenAnswer((_) async => tUpdatedSettingsModel);
-      // assert later
-      final expected = [
-        SettingsInitial(),
-        // SettingsLoadInProgress(),
-        SettingsLoadSuccess(settings: tUpdatedSettingsModel),
-      ];
-      expectLater(bloc, emitsInOrder(expected));
-      // act
-      bloc.add(SettingsUpdateDeviceToken(value: tNewDeviceToken));
-    },
-  );
+    test(
+      'should emit [SettingsLoadSuccess] after updating a server',
+      () async {
+        // arrange
+        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        // assert later
+        final expected = [
+          SettingsInitial(),
+          SettingsLoadSuccess(serverList: tServerList),
+        ];
+        expectLater(bloc, emitsInOrder(expected));
+        // act
+        bloc.add(
+          SettingsUpdateServer(
+            id: tId,
+            primaryConnectionAddress: tPrimaryConnectionAddress,
+            deviceToken: tDeviceToken,
+            tautulliId: tTautulliId,
+            plexName: tPlexName,
+          ),
+        );
+      },
+    );
+  });
+
+  group('SettingsDeleteServer', () {
+    test(
+      'should call the Settings.deleteServer use case',
+      () async {
+        // act
+        bloc.add(SettingsDeleteServer(id: tId));
+        await untilCalled(mockSettings.deleteServer(tId));
+        // assert
+        verify(mockSettings.deleteServer(tId));
+      },
+    );
+
+    test(
+      'should emit [SettingsLoadSuccess] after deleting a server',
+      () async {
+        // arrange
+        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        // assert later
+        final expected = [
+          SettingsInitial(),
+          SettingsLoadSuccess(serverList: tServerList),
+        ];
+        expectLater(bloc, emitsInOrder(expected));
+        // act
+        bloc.add(SettingsDeleteServer(id: tId));
+      },
+    );
+  });
+
+  group('SettingsUpdatePrimaryConnection', () {
+    test(
+      'should call the Settings.updatePrimaryConnection use case',
+      () async {
+        // act
+        bloc.add(
+          SettingsUpdatePrimaryConnection(
+            id: tId,
+            primaryConnectionAddress: tPrimaryConnectionAddress,
+          ),
+        );
+        await untilCalled(
+          mockSettings.updatePrimaryConnection(
+            id: tId,
+            primaryConnectionAddress: tPrimaryConnectionAddress,
+          ),
+        );
+        // assert
+        verify(
+          mockSettings.updatePrimaryConnection(
+            id: tId,
+            primaryConnectionAddress: tPrimaryConnectionAddress,
+          ),
+        );
+      },
+    );
+
+    test(
+      'should emit [SettingsLoadSuccess] after updating a primary connection',
+      () async {
+        // arrange
+        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        // assert later
+        final expected = [
+          SettingsInitial(),
+          SettingsLoadSuccess(serverList: tServerList),
+        ];
+        expectLater(bloc, emitsInOrder(expected));
+        // act
+        bloc.add(
+          SettingsUpdatePrimaryConnection(
+            id: tId,
+            primaryConnectionAddress: tPrimaryConnectionAddress,
+          ),
+        );
+      },
+    );
+  });
+
+  group('SettingsUpdateSecondaryConnection', () {
+    test(
+      'should call the Settings.updateSecondaryConnection use case',
+      () async {
+        // act
+        bloc.add(
+          SettingsUpdateSecondaryConnection(
+            id: tId,
+            secondaryConnectionAddress: tPrimaryConnectionAddress,
+          ),
+        );
+        await untilCalled(
+          mockSettings.updateSecondaryConnection(
+            id: tId,
+            secondaryConnectionAddress: tPrimaryConnectionAddress,
+          ),
+        );
+        // assert
+        verify(
+          mockSettings.updateSecondaryConnection(
+            id: tId,
+            secondaryConnectionAddress: tPrimaryConnectionAddress,
+          ),
+        );
+      },
+    );
+
+    test(
+      'should emit [SettingsLoadSuccess] after updating a secondary connection',
+      () async {
+        // arrange
+        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        // assert later
+        final expected = [
+          SettingsInitial(),
+          SettingsLoadSuccess(serverList: tServerList),
+        ];
+        expectLater(bloc, emitsInOrder(expected));
+        // act
+        bloc.add(
+          SettingsUpdateSecondaryConnection(
+            id: tId,
+            secondaryConnectionAddress: tPrimaryConnectionAddress,
+          ),
+        );
+      },
+    );
+  });
+
+  group('SettingsUpdateDeviceToken', () {
+    test(
+      'should call the Settings.updateDeviceToken use case',
+      () async {
+        // act
+        bloc.add(
+          SettingsUpdateDeviceToken(
+            id: tId,
+            deviceToken: tDeviceToken,
+          ),
+        );
+        await untilCalled(
+          mockSettings.updateDeviceToken(
+            id: tId,
+            deviceToken: tDeviceToken,
+          ),
+        );
+        // assert
+        verify(
+          mockSettings.updateDeviceToken(
+            id: tId,
+            deviceToken: tDeviceToken,
+          ),
+        );
+      },
+    );
+
+    test(
+      'should emit [SettingsLoadSuccess] after updating a secondary connection',
+      () async {
+        // arrange
+        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        // assert later
+        final expected = [
+          SettingsInitial(),
+          SettingsLoadSuccess(serverList: tServerList),
+        ];
+        expectLater(bloc, emitsInOrder(expected));
+        // act
+        bloc.add(
+          SettingsUpdateDeviceToken(
+            id: tId,
+            deviceToken: tDeviceToken,
+          ),
+        );
+      },
+    );
+  });
 }
