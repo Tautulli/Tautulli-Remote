@@ -17,12 +17,12 @@ class RegisterDeviceFromQrStarted extends RegisterDeviceEvent {
   List<Object> get props => [result];
 }
 
-class RegisterDeviceStarted extends RegisterDeviceEvent {
+class RegisterDeviceManualStarted extends RegisterDeviceEvent {
   final String connectionAddress;
   final String deviceToken;
   final SettingsBloc settingsBloc;
 
-  RegisterDeviceStarted({
+  RegisterDeviceManualStarted({
     @required this.connectionAddress,
     @required this.deviceToken,
     @required this.settingsBloc,

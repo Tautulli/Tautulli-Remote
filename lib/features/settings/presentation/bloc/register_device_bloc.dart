@@ -8,6 +8,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/helpers/connection_address_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/usecases/register_device.dart';
+import '../../domain/usecases/settings.dart';
 import 'settings_bloc.dart';
 
 part 'register_device_event.dart';
@@ -16,11 +17,13 @@ part 'register_device_state.dart';
 class RegisterDeviceBloc
     extends Bloc<RegisterDeviceEvent, RegisterDeviceState> {
   final RegisterDevice registerDevice;
+  final Settings settings;
   final ConnectionAddressHelper connectionAddressHelper;
   final Logging logging;
 
   RegisterDeviceBloc({
     @required this.registerDevice,
+    @required this.settings,
     @required this.connectionAddressHelper,
     @required this.logging,
   }) : super(RegisterDeviceInitial());
@@ -30,7 +33,7 @@ class RegisterDeviceBloc
     RegisterDeviceEvent event,
   ) async* {
     if (event is RegisterDeviceFromQrStarted) {
-      //TODO: Change to dubug
+      //TODO: Change to debug
       logging
           .info('RegisterDevice: Attempting to register device with QR code');
       yield RegisterDeviceInProgress();
@@ -43,9 +46,10 @@ class RegisterDeviceBloc
         event.settingsBloc,
       );
     }
-    if (event is RegisterDeviceStarted) {
-      //TODO: Change to dubug
+    if (event is RegisterDeviceManualStarted) {
+      //TODO: Change to debug
       logging.info('RegisterDevice: Attempting to register device manually');
+      yield RegisterDeviceInProgress();
       yield* _registerDeviceOrFailure(
         event.connectionAddress,
         event.deviceToken,
@@ -75,14 +79,39 @@ class RegisterDeviceBloc
 
     yield* failureOrRegistered.fold(
       (failure) async* {
-        logging.error('RegisterDevice: Failed to register device');
+        logging.error('RegisterDevice: Failed to register device [$failure]');
         yield RegisterDeviceFailure();
       },
-      (registered) async* {
-        settingsBloc.add(SettingsUpdateConnection(value: connectionAddress));
-        settingsBloc.add(SettingsUpdateDeviceToken(value: deviceToken));
-        logging.info('RegisterDevice: Successfully registered device');
-        yield RegisterDeviceSuccess();
+      (registeredData) async* {
+        final existingSettings =
+            await settings.getServerByTautulliId(registeredData['server_id']);
+
+        if (existingSettings == null) {
+          settingsBloc.add(
+            SettingsAddServer(
+              primaryConnectionAddress: connectionAddress,
+              deviceToken: deviceToken,
+              tautulliId: registeredData['server_id'],
+              plexName: registeredData['pms_name'],
+            ),
+          );
+          logging
+              .info('RegisterDevice: Successfully registered to a new server');
+          yield RegisterDeviceSuccess();
+        } else {
+          settingsBloc.add(
+            SettingsUpdateServer(
+              id: existingSettings.id,
+              primaryConnectionAddress: connectionAddress,
+              deviceToken: deviceToken,
+              tautulliId: registeredData['server_id'],
+              plexName: registeredData['pms_name'],
+            ),
+          );
+          logging
+              .info('RegisterDevice: Successfully updated server information');
+          yield RegisterDeviceSuccess();
+        }
       },
     );
   }
