@@ -7,13 +7,13 @@ import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/helpers/tautulli_api_url_helper.dart';
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
-import '../../domain/usecases/set_settings.dart';
+import '../../domain/usecases/settings.dart';
 
 abstract class RegisterDeviceDataSource {
   /// Registers the device with the Tautulli server.
-  /// 
+  ///
   /// Returns `true` if successful. Otherwise throws an [Exception].
-  Future<bool> call({
+  Future<Map> call({
     @required final String connectionProtocol,
     @required final String connectionDomain,
     @required final String connectionUser,
@@ -25,21 +25,21 @@ abstract class RegisterDeviceDataSource {
 
 class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
   final http.Client client;
-  final SetSettings setSettings;
+  final Settings settings;
   final TautulliApiUrls tautulliApiUrls;
   final DeviceInfo deviceInfo;
   final OneSignalDataSource oneSignal;
 
   RegisterDeviceDataSourceImpl({
     @required this.client,
-    @required this.setSettings,
+    @required this.settings,
     @required this.tautulliApiUrls,
     @required this.deviceInfo,
     @required this.oneSignal,
   });
 
   @override
-  Future<bool> call({
+  Future<Map> call({
     @required final String connectionProtocol,
     @required final String connectionDomain,
     @required final String connectionUser,
@@ -85,7 +85,17 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
     );
 
     if (response.statusCode == 200) {
-      return true;
+      try {
+        final responseJson = json.decode(response.body);
+        if (responseJson['response']['result'] == 'success') {
+          final Map<String, dynamic> responseData = responseJson['response']['data'];
+          return responseData;
+        } else {
+          throw ServerException();
+        }
+      } catch (error) {
+        throw ServerException();
+      }
     } else {
       throw ServerException();
     }
