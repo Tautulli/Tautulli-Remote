@@ -1,17 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
+import 'package:tautulli_remote_tdd/core/database/domain/entities/server.dart';
 import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote_tdd/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote_tdd/features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
-import 'package:tautulli_remote_tdd/features/settings/data/models/settings_model.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/entities/settings.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/get_settings.dart';
 import 'package:tautulli_remote_tdd/features/settings/domain/usecases/register_device.dart';
+import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
 
 class MockOneSignalDataSourceImpl extends Mock
     implements OneSignalDataSourceImpl {}
 
-class MockGetSettings extends Mock implements GetSettings {}
+class MockSettings extends Mock implements Settings {}
 
 class MockRegisterDevice extends Mock implements RegisterDevice {}
 
@@ -19,33 +19,37 @@ class MockLogging extends Mock implements Logging {}
 
 void main() {
   OneSignalPrivacyBloc bloc;
-  MockGetSettings mockGetSettings;
+  MockSettings mockSettings;
   MockRegisterDevice mockRegisterDevice;
   MockOneSignalDataSourceImpl mockOneSignalDataSourceImpl;
   MockLogging mockLogging;
 
   setUp(() {
-    mockGetSettings = MockGetSettings();
+    mockSettings = MockSettings();
     mockRegisterDevice = MockRegisterDevice();
     mockOneSignalDataSourceImpl = MockOneSignalDataSourceImpl();
     mockLogging = MockLogging();
 
     bloc = OneSignalPrivacyBloc(
       oneSignal: mockOneSignalDataSourceImpl,
-      getSettings: mockGetSettings,
+      settings: mockSettings,
       registerDevice: mockRegisterDevice,
       logging: mockLogging,
     );
   });
 
-  final Settings tSettingsModel = SettingsModel(
-    connectionAddress: 'http://tautulli.com',
-    connectionProtocol: 'http',
-    connectionDomain: 'tautulli.com',
-    connectionUser: null,
-    connectionPassword: null,
+  final Server tServerModel = ServerModel(
+    primaryConnectionAddress: 'http://tautulli.com',
+    primaryConnectionProtocol: 'http',
+    primaryConnectionDomain: 'tautulli.com',
+    primaryConnectionUser: null,
+    primaryConnectionPassword: null,
     deviceToken: 'abc',
+    tautulliId: 'jkl',
+    plexName: 'Plex',
   );
+
+  final List<Server> tServerList = [tServerModel];
 
   test(
     'initialState should be OneSignalPrivacyInitial',
@@ -148,7 +152,7 @@ void main() {
 
   group('RevokeConsent', () {
     setUp(() {
-      when(mockGetSettings.load()).thenAnswer((_) async => tSettingsModel);
+      when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
     });
 
     test(

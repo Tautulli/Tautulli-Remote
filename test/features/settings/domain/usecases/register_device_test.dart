@@ -27,16 +27,22 @@ void main() {
   group('RegisterDevice', () {
     group('without Basic Auth', () {
       test(
-        'should return true when device registration is successful',
+        'should return a Map with response data when device registration is successful',
         () async {
           // arrange
+          Map responseMap = {
+            "data": {
+              "pms_name": "Starlight",
+              "server_id": "abc"
+            }
+          };
           when(mockRegisterDeviceRepository(
             connectionProtocol: tConnectionProtocol,
             connectionDomain: tConnectionDomain,
             connectionUser: null,
             connectionPassword: null,
             deviceToken: deviceToken,
-          )).thenAnswer((_) async => Right(true));
+          )).thenAnswer((_) async => Right(responseMap));
           // act
           final result = await usecase(
             connectionProtocol: tConnectionProtocol,
@@ -46,7 +52,7 @@ void main() {
             deviceToken: deviceToken,
           );
           // assert
-          expect(result, Right(true));
+          expect(result, Right(responseMap));
           verify(
             mockRegisterDeviceRepository(
               connectionProtocol: tConnectionProtocol,
@@ -63,16 +69,22 @@ void main() {
 
     group('with Basic Auth', () {
       test(
-        'should return true when device registration is successful',
+        'should return Map with response data when device registration is successful',
         () async {
           // arrange
+          Map responseMap = {
+            "data": {
+              "pms_name": "Starlight",
+              "server_id": "abc"
+            }
+          };
           when(mockRegisterDeviceRepository(
             connectionProtocol: tConnectionProtocol,
             connectionDomain: tConnectionDomain,
             connectionUser: tConnectionUser,
             connectionPassword: tConnectionPassword,
             deviceToken: deviceToken,
-          )).thenAnswer((_) async => Right(true));
+          )).thenAnswer((_) async => Right(responseMap));
           // act
           final result = await usecase(
             connectionProtocol: tConnectionProtocol,
@@ -82,7 +94,7 @@ void main() {
             deviceToken: deviceToken,
           );
           // assert
-          expect(result, Right(true));
+          expect(result, Right(responseMap));
           verify(
             mockRegisterDeviceRepository(
               connectionProtocol: tConnectionProtocol,

@@ -83,9 +83,12 @@ void main() {
       );
 
       test(
-        'should return true when the call to api is successful',
+        'should return a Map with response data when the call to api is successful',
         () async {
           // arrange
+          Map responseMap = {
+            "data": {"pms_name": "Starlight", "server_id": "abc"}
+          };
           when(
             mockDataSource(
               connectionProtocol: tConnectionProtocol,
@@ -94,7 +97,9 @@ void main() {
               connectionPassword: null,
               deviceToken: tDeviceToken,
             ),
-          ).thenAnswer((_) async => true);
+          ).thenAnswer(
+            (_) async => responseMap,
+          );
           //act
           final result = await repository(
             connectionProtocol: tConnectionProtocol,
@@ -104,7 +109,7 @@ void main() {
             deviceToken: tDeviceToken,
           );
           //assert
-          expect(result, equals(Right(true)));
+          expect(result, equals(Right(responseMap)));
         },
       );
 
@@ -268,6 +273,9 @@ void main() {
         'should return true when the call to api is successful',
         () async {
           // arrange
+          Map responseMap = {
+            "data": {"pms_name": "Starlight", "server_id": "abc"}
+          };
           when(
             mockDataSource(
               connectionProtocol: tConnectionProtocol,
@@ -276,7 +284,7 @@ void main() {
               connectionPassword: tConnectionPassword,
               deviceToken: tDeviceToken,
             ),
-          ).thenAnswer((_) async => true);
+          ).thenAnswer((_) async => responseMap);
           //act
           final result = await repository(
             connectionProtocol: tConnectionProtocol,
@@ -286,7 +294,7 @@ void main() {
             deviceToken: tDeviceToken,
           );
           //assert
-          expect(result, equals(Right(true)));
+          expect(result, equals(Right(responseMap)));
         },
       );
 

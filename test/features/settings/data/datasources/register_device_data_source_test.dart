@@ -8,14 +8,12 @@ import 'package:tautulli_remote_tdd/core/error/exception.dart';
 import 'package:tautulli_remote_tdd/core/helpers/tautulli_api_url_helper.dart';
 import 'package:tautulli_remote_tdd/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote_tdd/features/settings/data/datasources/register_device_data_source.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/set_settings.dart';
 import 'package:matcher/matcher.dart';
-
-import '../../../../fixtures/fixture_reader.dart';
+import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
 
 class MockHttpClient extends Mock implements http.Client {}
 
-class MockSetSettings extends Mock implements SetSettings {}
+class MockSettings extends Mock implements Settings {}
 
 class MockTautulliApiUrls extends Mock implements TautulliApiUrls {}
 
@@ -27,19 +25,19 @@ void main() {
   RegisterDeviceDataSourceImpl dataSource;
   MockTautulliApiUrls mockTautulliApiUrls;
   MockHttpClient mockHttpClient;
-  MockSetSettings mockSetSettings;
+  MockSettings mockSettings;
   MockDeviceInfo mockDeviceInfo;
   MockOneSignalDataSource mockOneSignalDataSource;
 
   setUp(() {
     mockHttpClient = MockHttpClient();
-    mockSetSettings = MockSetSettings();
+    mockSettings = MockSettings();
     mockTautulliApiUrls = MockTautulliApiUrls();
     mockDeviceInfo = MockDeviceInfo();
     mockOneSignalDataSource = MockOneSignalDataSource();
     dataSource = RegisterDeviceDataSourceImpl(
       client: mockHttpClient,
-      setSettings: mockSetSettings,
+      settings: mockSettings,
       tautulliApiUrls: mockTautulliApiUrls,
       deviceInfo: mockDeviceInfo,
       oneSignal: mockOneSignalDataSource,
@@ -56,8 +54,24 @@ void main() {
   final String tOnesignalId = 'xyz';
 
   void setUpMockHttpClientSuccess200() {
+    Map responseBody = {
+      "response": {
+        "result": "success",
+        "data": {"pms_name": "Starlight", "server_id": "<tautulli_server_id>"}
+      }
+    };
     when(mockHttpClient.get(any, headers: anyNamed('headers')))
-        .thenAnswer((_) async => http.Response(fixture('activity.json'), 200));
+        .thenAnswer((_) async => http.Response(json.encode(responseBody), 200));
+  }
+
+  void setUpMockHttpClientFailure200() {
+    Map responseBody = {
+      "response": {
+        "result": "error",
+      }
+    };
+    when(mockHttpClient.get(any, headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(json.encode(responseBody), 200));
   }
 
   void setUpDeviceInfoSuccess() {
@@ -120,7 +134,7 @@ void main() {
         setUpDeviceInfoSuccess();
         setUpOneSignalSuccess();
       });
-      
+
       test(
         'should perform a GET request on a URL provided by tautulliAPI.registerDevice with application/json header',
         () async {
@@ -178,7 +192,7 @@ void main() {
       );
 
       test(
-        'should return true if the status code is 200',
+        'should return Map with response data if the status code is 200 and the response result is success',
         () async {
           // arrange
           setUpMockHttpClientSuccess200();
@@ -191,10 +205,30 @@ void main() {
             deviceToken: tDeviceToken,
           );
           // assert
-          expect(result, true);
+          expect(result, TypeMatcher<Map>());
         },
       );
     });
+
+    test(
+      'should throw a ServerException if the status code is 200 but the response result is failure',
+      () async {
+        // arrange
+        setUpMockHttpClientFailure200();
+        // act
+        final call = dataSource;
+        // assert
+        expect(
+            () => call(
+                  connectionProtocol: tConnectionProtocol,
+                  connectionDomain: tConnectionDomain,
+                  connectionUser: null,
+                  connectionPassword: null,
+                  deviceToken: tDeviceToken,
+                ),
+            throwsA(TypeMatcher<ServerException>()));
+      },
+    );
 
     group('with Basic Auth', () {
       setUp(() {
@@ -262,7 +296,7 @@ void main() {
       );
 
       test(
-        'should return true if the status code is 200',
+        'should return Map with response data if the status code is 200 and the response result is success',
         () async {
           // arrange
           setUpMockHttpClientSuccess200();
@@ -275,7 +309,27 @@ void main() {
             deviceToken: tDeviceToken,
           );
           // assert
-          expect(result, true);
+          expect(result, TypeMatcher<Map>());
+        },
+      );
+
+      test(
+        'should throw a ServerException if the status code is 200 but the response result is failure',
+        () async {
+          // arrange
+          setUpMockHttpClientFailure200();
+          // act
+          final call = dataSource;
+          // assert
+          expect(
+              () => call(
+                    connectionProtocol: tConnectionProtocol,
+                    connectionDomain: tConnectionDomain,
+                    connectionUser: tConnectionUser,
+                    connectionPassword: tConnectionPassword,
+                    deviceToken: tDeviceToken,
+                  ),
+              throwsA(TypeMatcher<ServerException>()));
         },
       );
     });
