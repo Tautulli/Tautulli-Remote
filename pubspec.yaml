@@ -37,6 +37,8 @@ dependencies:
   get_it: ^4.0.2
   # Local storage
   shared_preferences: '>=0.5.8 <2.0.0'
+  # SQL database for local storage
+  sqflite: ^1.3.1
   # Used to convert RGB to HEX
   color: ^2.1.1
   # Used to access Font Awesome icons
@@ -63,6 +65,10 @@ dependencies:
   f_logs: ^1.2.2
   # Permission handling
   permission_handler: ^5.0.1+1
+  # For finding commonly used locations on the filesystem
+  path_provider: ^1.6.11
+  # For creating a FAB speed dial
+  unicorndial: ^1.1.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
