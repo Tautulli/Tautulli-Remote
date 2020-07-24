@@ -26,10 +26,10 @@ class ConnectionAddressHelperImpl implements ConnectionAddressHelper {
     });
 
     final Map<String, String> connectionAddressMap = {
-      'protocol': protocol,
-      'domain': domain,
-      'user': user,
-      'password': password,
+      'protocol': protocol.trim(),
+      'domain': domain.trim(),
+      'user': user.trim(),
+      'password': password.trim(),
     };
     return connectionAddressMap;
   }

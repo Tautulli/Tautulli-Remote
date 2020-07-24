@@ -39,19 +39,19 @@ class ServerModel extends Server {
   factory ServerModel.fromJson(Map<String, dynamic> json) {
     return ServerModel(
       id: json['id'],
-      plexName: json['plex_name'],
-      tautulliId: json['tautulli_id'],
-      primaryConnectionAddress: json['primary_connection_address'],
-      primaryConnectionProtocol: json['primary_connection_protocol'],
-      primaryConnectionDomain: json['primary_connection_domain'],
-      primaryConnectionUser: json['primary_connection_user'],
-      primaryConnectionPassword: json['primary_connection_password'],
-      secondaryConnectionAddress: json['secondary_connection_address'],
-      secondaryConnectionProtocol: json['secondary_connection_protocol'],
-      secondaryConnectionDomain: json['secondary_connection_domain'],
-      secondaryConnectionUser: json['secondary_connection_user'],
-      secondaryConnectionPassword: json['secondary_connection_password'],
-      deviceToken: json['device_token'],
+      plexName: json['plex_name'].trim(),
+      tautulliId: json['tautulli_id'].trim(),
+      primaryConnectionAddress: json['primary_connection_address'].trim(),
+      primaryConnectionProtocol: json['primary_connection_protocol'].trim(),
+      primaryConnectionDomain: json['primary_connection_domain'].trim(),
+      primaryConnectionUser: json['primary_connection_user'].trim(),
+      primaryConnectionPassword: json['primary_connection_password'].trim(),
+      secondaryConnectionAddress: json['secondary_connection_address'].trim(),
+      secondaryConnectionProtocol: json['secondary_connection_protocol'].trim(),
+      secondaryConnectionDomain: json['secondary_connection_domain'].trim(),
+      secondaryConnectionUser: json['secondary_connection_user'].trim(),
+      secondaryConnectionPassword: json['secondary_connection_password'].trim(),
+      deviceToken: json['device_token'].trim(),
     );
   }
 

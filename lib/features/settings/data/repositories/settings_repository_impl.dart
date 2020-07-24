@@ -20,16 +20,16 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String plexName,
   }) async {
     final connectionMap =
-        connectionAddressHelper.parse(primaryConnectionAddress);
+        connectionAddressHelper.parse(primaryConnectionAddress.trim());
     ServerModel server = ServerModel(
-      primaryConnectionAddress: primaryConnectionAddress,
+      primaryConnectionAddress: primaryConnectionAddress.trim(),
       primaryConnectionProtocol: connectionMap['protocol'],
       primaryConnectionDomain: connectionMap['domain'],
       primaryConnectionUser: connectionMap['user'],
       primaryConnectionPassword: connectionMap['password'],
-      deviceToken: deviceToken,
-      tautulliId: tautulliId,
-      plexName: plexName,
+      deviceToken: deviceToken.trim(),
+      tautulliId: tautulliId.trim(),
+      plexName: plexName.trim(),
     );
     return await DBProvider.db.addServer(server);
   }
@@ -53,17 +53,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String plexName,
   }) async {
     final connectionMap =
-        connectionAddressHelper.parse(primaryConnectionAddress);
+        connectionAddressHelper.parse(primaryConnectionAddress.trim());
     ServerModel server = ServerModel(
       id: id,
-      primaryConnectionAddress: primaryConnectionAddress,
+      primaryConnectionAddress: primaryConnectionAddress.trim(),
       primaryConnectionProtocol: connectionMap['protocol'],
       primaryConnectionDomain: connectionMap['domain'],
       primaryConnectionUser: connectionMap['user'],
       primaryConnectionPassword: connectionMap['password'],
-      deviceToken: deviceToken,
-      tautulliId: tautulliId,
-      plexName: plexName,
+      deviceToken: deviceToken.trim(),
+      tautulliId: tautulliId.trim(),
+      plexName: plexName.trim(),
     );
 
     return await DBProvider.db.updateServerById(server);
@@ -94,9 +94,9 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String primaryConnectionAddress,
   }) async {
     final connectionMap =
-        connectionAddressHelper.parse(primaryConnectionAddress);
+        connectionAddressHelper.parse(primaryConnectionAddress.trim());
     final Map<String, dynamic> dbConnectionAddressMap = {
-      'primary_connection_address': primaryConnectionAddress,
+      'primary_connection_address': primaryConnectionAddress.trim(),
       'primary_connection_protocol': connectionMap['protocol'],
       'primary_connection_domain': connectionMap['domain'],
       'primary_connection_user': connectionMap['user'],
@@ -114,9 +114,9 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String secondaryConnectionAddress,
   }) async {
     final connectionMap =
-        connectionAddressHelper.parse(secondaryConnectionAddress);
+        connectionAddressHelper.parse(secondaryConnectionAddress.trim());
     final Map<String, dynamic> dbConnectionAddressMap = {
-      'secondary_connection_address': secondaryConnectionAddress,
+      'secondary_connection_address': secondaryConnectionAddress.trim(),
       'secondary_connection_protocol': connectionMap['protocol'],
       'secondary_connection_domain': connectionMap['domain'],
       'secondary_connection_user': connectionMap['user'],
@@ -135,7 +135,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }) async {
     return await DBProvider.db.updateDeviceToken(
       id: id,
-      deviceToken: deviceToken,
+      deviceToken: deviceToken.trim(),
     );
   }
 }
