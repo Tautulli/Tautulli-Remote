@@ -28,15 +28,12 @@ import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 import 'features/settings/data/datasources/register_device_data_source.dart';
-import 'features/settings/data/datasources/settings_data_source.dart';
 import 'features/settings/data/repositories/register_device_repository_impl.dart';
 import 'features/settings/data/repositories/settings_repository_impl.dart';
 import 'features/settings/domain/repositories/register_device_repository.dart';
 import 'features/settings/domain/repositories/settings_repository.dart';
-import 'features/settings/domain/usecases/get_settings.dart';
 import 'features/settings/domain/usecases/register_device.dart';
-import 'features/settings/domain/usecases/set_settings.dart';
-import 'features/settings/domain/usecases/update_device_registration.dart';
+import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/register_device_bloc.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 
@@ -48,8 +45,7 @@ Future<void> init() async {
   // Bloc
   sl.registerFactory(
     () => SettingsBloc(
-      getSettings: sl(),
-      setSettings: sl(),
+      settings: sl(),
       logging: sl(),
     ),
   );
@@ -57,6 +53,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => RegisterDeviceBloc(
       registerDevice: sl(),
+      settings: sl(),
       connectionAddressHelper: sl(),
       logging: sl(),
     ),
@@ -64,27 +61,19 @@ Future<void> init() async {
 
   // Use case
   sl.registerLazySingleton(
-    () => GetSettings(repository: sl()),
-  );
-
-  sl.registerLazySingleton(
-    () => SetSettings(repository: sl()),
+    () => Settings(repository: sl()),
   );
 
   sl.registerLazySingleton(
     () => RegisterDevice(repository: sl()),
   );
 
-  sl.registerLazySingleton(
-    () => UpdateDeviceRegistration(
-      repository: sl(),
-      getSettings: sl(),
-    ),
-  );
-
   // Repository
   sl.registerLazySingleton<SettingsRepository>(
-    () => SettingsRepositoryImpl(dataSource: sl()),
+    () => SettingsRepositoryImpl(
+      // dataSource: sl(),
+      connectionAddressHelper: sl(),
+    ),
   );
 
   sl.registerLazySingleton<RegisterDeviceRepository>(
@@ -95,17 +84,17 @@ Future<void> init() async {
   );
 
   // Data sources
-  sl.registerLazySingleton<SettingsDataSource>(
-    () => SettingsDataSourceImpl(
-      sharedPreferences: sl(),
-      connectionAddressHelper: sl(),
-    ),
-  );
+  // sl.registerLazySingleton<SettingsDataSource>(
+  //   () => SettingsDataSourceImpl(
+  //     sharedPreferences: sl(),
+  //     connectionAddressHelper: sl(),
+  //   ),
+  // );
 
   sl.registerLazySingleton<RegisterDeviceDataSource>(
     () => RegisterDeviceDataSourceImpl(
       client: sl(),
-      setSettings: sl(),
+      settings: sl(),
       tautulliApiUrls: sl(),
       deviceInfo: sl(),
       oneSignal: sl(),
@@ -124,7 +113,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => OneSignalPrivacyBloc(
       oneSignal: sl(),
-      getSettings: sl(),
+      settings: sl(),
       registerDevice: sl(),
       // updateDeviceRegistration: sl()
       logging: sl(),
@@ -216,7 +205,7 @@ Future<void> init() async {
   sl.registerLazySingleton<ActivityDataSource>(
     () => ActivityDataSourceImpl(
       client: sl(),
-      getSettings: sl(),
+      settings: sl(),
       tautulliApiUrls: sl(),
     ),
   );
@@ -224,7 +213,7 @@ Future<void> init() async {
   sl.registerLazySingleton<GeoIpDataSource>(
     () => GeoIpDataSourceImpl(
       client: sl(),
-      getSettings: sl(),
+      settings: sl(),
       tautulliApiUrls: sl(),
     ),
   );
@@ -238,7 +227,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<TautulliApiUrls>(
     () => TautulliApiUrlsImpl(
-      getSettings: sl(),
+      settings: sl(),
     ),
   );
 
