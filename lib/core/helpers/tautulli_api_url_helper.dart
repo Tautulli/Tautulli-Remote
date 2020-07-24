@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'package:quiver/strings.dart';
 
-import '../../features/settings/domain/usecases/get_settings.dart';
+import '../../features/settings/domain/usecases/settings.dart';
 import '../error/exception.dart';
 
 /// Provides various functions for constructing Tautulli API URLs.
@@ -64,9 +64,9 @@ abstract class TautulliApiUrls {
 }
 
 class TautulliApiUrlsImpl implements TautulliApiUrls {
-  final GetSettings getSettings;
+  final Settings settings;
 
-  TautulliApiUrlsImpl({@required this.getSettings});
+  TautulliApiUrlsImpl({@required this.settings});
 
   @override
   String getActivityUrl({
