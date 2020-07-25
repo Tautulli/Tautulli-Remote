@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -48,6 +49,8 @@ class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
         return Left(UrlFormatFailure());
       } on ArgumentError {
         return Left(UrlFormatFailure());
+      } on TimeoutException {
+        return Left(TimeoutFailure());
       }
     } else {
       return Left(ConnectionFailure());

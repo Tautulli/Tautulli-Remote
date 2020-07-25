@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -242,6 +243,32 @@ void main() {
           expect(result, equals(Left(UrlFormatFailure())));
         },
       );
+
+      test(
+        'should return a TimeoutException when the get request times out',
+        () async {
+          // arrange
+          when(
+            mockDataSource(
+              connectionProtocol: tConnectionProtocol,
+              connectionDomain: tConnectionDomain,
+              connectionUser: null,
+              connectionPassword: null,
+              deviceToken: tDeviceToken,
+            ),
+          ).thenThrow(TimeoutException(''));
+          // act
+          final result = await repository(
+            connectionProtocol: tConnectionProtocol,
+            connectionDomain: tConnectionDomain,
+            connectionUser: null,
+            connectionPassword: null,
+            deviceToken: tDeviceToken,
+          );
+          // assert
+          expect(result, equals(Left(TimeoutFailure())));
+        },
+      );
     });
 
     group('with Basic Auth', () {
@@ -425,6 +452,31 @@ void main() {
           );
           // assert
           expect(result, equals(Left(UrlFormatFailure())));
+        },
+      );
+      test(
+        'should return a TimeoutException when the get request times out',
+        () async {
+          // arrange
+          when(
+            mockDataSource(
+              connectionProtocol: tConnectionProtocol,
+              connectionDomain: tConnectionDomain,
+              connectionUser: tConnectionUser,
+              connectionPassword: tConnectionPassword,
+              deviceToken: tDeviceToken,
+            ),
+          ).thenThrow(TimeoutException(''));
+          // act
+          final result = await repository(
+            connectionProtocol: tConnectionProtocol,
+            connectionDomain: tConnectionDomain,
+            connectionUser: tConnectionUser,
+            connectionPassword: tConnectionPassword,
+            deviceToken: tDeviceToken,
+          );
+          // assert
+          expect(result, equals(Left(TimeoutFailure())));
         },
       );
     });

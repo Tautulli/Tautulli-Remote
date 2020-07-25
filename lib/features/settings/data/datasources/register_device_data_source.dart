@@ -82,7 +82,9 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
         onesignalId: onesignalId,
       ),
       headers: headers,
-    );
+    ).timeout(Duration(seconds: 3));
+
+    
 
     if (response.statusCode == 200) {
       try {
