@@ -45,6 +45,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       await settings.updateServerById(
         id: event.id,
         primaryConnectionAddress: event.primaryConnectionAddress,
+        secondaryConnectionAddress: event.secondaryConnectionAddress,
         deviceToken: event.deviceToken,
         tautulliId: event.tautulliId,
         plexName: event.plexName,

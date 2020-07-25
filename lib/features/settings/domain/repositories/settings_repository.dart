@@ -18,6 +18,7 @@ abstract class SettingsRepository {
   Future updateServerById({
     @required int id,
     @required String primaryConnectionAddress,
+    @required String secondaryConnectionAddress,
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,

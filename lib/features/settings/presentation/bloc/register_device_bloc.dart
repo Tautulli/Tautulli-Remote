@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/connection_address_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/usecases/register_device.dart';
@@ -83,10 +84,10 @@ class RegisterDeviceBloc
         yield RegisterDeviceFailure();
       },
       (registeredData) async* {
-        final existingSettings =
+        final Server existingServer =
             await settings.getServerByTautulliId(registeredData['server_id']);
 
-        if (existingSettings == null) {
+        if (existingServer == null) {
           settingsBloc.add(
             SettingsAddServer(
               primaryConnectionAddress: connectionAddress,
@@ -101,8 +102,9 @@ class RegisterDeviceBloc
         } else {
           settingsBloc.add(
             SettingsUpdateServer(
-              id: existingSettings.id,
+              id: existingServer.id,
               primaryConnectionAddress: connectionAddress,
+              secondaryConnectionAddress: existingServer.secondaryConnectionAddress,
               deviceToken: deviceToken,
               tautulliId: registeredData['server_id'],
               plexName: registeredData['pms_name'],

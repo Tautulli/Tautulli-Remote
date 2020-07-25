@@ -48,19 +48,27 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future updateServerById({
     @required int id,
     @required String primaryConnectionAddress,
+    @required String secondaryConnectionAddress,
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
   }) async {
-    final connectionMap =
+    final primaryConnectionMap =
         connectionAddressHelper.parse(primaryConnectionAddress);
+    final secondaryConnectionMap =
+        connectionAddressHelper.parse(secondaryConnectionAddress);
     ServerModel server = ServerModel(
       id: id,
       primaryConnectionAddress: primaryConnectionAddress,
-      primaryConnectionProtocol: connectionMap['protocol'],
-      primaryConnectionDomain: connectionMap['domain'],
-      primaryConnectionUser: connectionMap['user'],
-      primaryConnectionPassword: connectionMap['password'],
+      primaryConnectionProtocol: primaryConnectionMap['protocol'],
+      primaryConnectionDomain: primaryConnectionMap['domain'],
+      primaryConnectionUser: primaryConnectionMap['user'],
+      primaryConnectionPassword: primaryConnectionMap['password'],
+      secondaryConnectionAddress: secondaryConnectionAddress,
+      secondaryConnectionProtocol: secondaryConnectionMap['protocol'],
+      secondaryConnectionDomain: secondaryConnectionMap['domain'],
+      secondaryConnectionUser: secondaryConnectionMap['user'],
+      secondaryConnectionPassword: secondaryConnectionMap['password'],
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,

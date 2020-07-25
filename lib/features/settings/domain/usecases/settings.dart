@@ -33,6 +33,7 @@ class Settings {
   Future updateServerById({
     @required int id,
     @required String primaryConnectionAddress,
+    @required String secondaryConnectionAddress,
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
@@ -40,6 +41,7 @@ class Settings {
     return repository.updateServerById(
       id: id,
       primaryConnectionAddress: primaryConnectionAddress,
+      secondaryConnectionAddress: secondaryConnectionAddress,
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
