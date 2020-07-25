@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:quiver/strings.dart';
 import 'package:unicorndial/unicorndial.dart';
 
 import '../../../../core/widgets/app_drawer.dart';
@@ -109,8 +110,11 @@ class SettingsPageContent extends StatelessWidget {
                               .map(
                                 (server) => ListTile(
                                   title: Text('${server.plexName}'),
-                                  subtitle:
-                                      Text(server.primaryConnectionAddress),
+                                  subtitle: isNotEmpty(
+                                          server.primaryConnectionAddress)
+                                      ? Text(server.primaryConnectionAddress)
+                                      : Text(
+                                          'Primary Connection Address Missing'),
                                   trailing: FaIcon(
                                     FontAwesomeIcons.cog,
                                     color: Colors.white,
@@ -131,6 +135,20 @@ class SettingsPageContent extends StatelessWidget {
                               )
                               .toList(),
                         ),
+                  // Display loading indicator when device is attemting to register
+                  BlocBuilder<RegisterDeviceBloc, RegisterDeviceState>(
+                    builder: (context, state) {
+                      if (state is RegisterDeviceInProgress) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
+                      return Container(height: 0, width: 0);
+                    },
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(
                       left: 10,
