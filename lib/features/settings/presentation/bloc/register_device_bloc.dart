@@ -41,8 +41,8 @@ class RegisterDeviceBloc
       final List result = event.result.split('|');
 
       yield* _registerDeviceOrFailure(
-        result[0],
-        result[1],
+        result[0].trim(),
+        result[1].trim(),
         event.settingsBloc,
       );
     }
@@ -51,8 +51,8 @@ class RegisterDeviceBloc
       logging.info('RegisterDevice: Attempting to register device manually');
       yield RegisterDeviceInProgress();
       yield* _registerDeviceOrFailure(
-        event.connectionAddress,
-        event.deviceToken,
+        event.connectionAddress.trim(),
+        event.deviceToken.trim(),
         event.settingsBloc,
       );
     }

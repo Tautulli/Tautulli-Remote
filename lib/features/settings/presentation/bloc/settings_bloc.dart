@@ -60,7 +60,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       logging.info('Settings: Updating primary connection address');
       await settings.updatePrimaryConnection(
         id: event.id,
-        primaryConnectionAddress: event.primaryConnectionAddress,
+        primaryConnectionAddress: event.primaryConnectionAddress.trim(),
       );
       yield* _fetchAndYieldServerList(settings);
     }
@@ -68,7 +68,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       logging.info('Settings: Updating secondary connection address');
       await settings.updateSecondaryConnection(
         id: event.id,
-        secondaryConnectionAddress: event.secondaryConnectionAddress,
+        secondaryConnectionAddress: event.secondaryConnectionAddress.trim(),
       );
       yield* _fetchAndYieldServerList(settings);
     }
@@ -76,7 +76,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       logging.info('Settings: Updating device token');
       await settings.updateDeviceToken(
         id: event.id,
-        deviceToken: event.deviceToken,
+        deviceToken: event.deviceToken.trim(),
       );
       yield* _fetchAndYieldServerList(settings);
     }
