@@ -23,6 +23,7 @@ void main() {
   final String tPrimaryConnectionDomain = 'tautuli.domain.com';
   final String tPrimaryConnectionUser = 'user';
   final String tPrimaryConnectionPassword = 'pass';
+  final String tSecondaryConnectionAddress = 'http://tautuli.domain.com';
   final String tDeviceToken = 'abc';
   final String tTautulliId = 'jkl';
   final String tPlexName = 'Plex';
@@ -90,6 +91,7 @@ void main() {
       settings.updateServerById(
         id: tId,
         primaryConnectionAddress: tPrimaryConnectionAddress,
+        secondaryConnectionAddress: tSecondaryConnectionAddress,
         deviceToken: tDeviceToken,
         tautulliId: tTautulliId,
         plexName: tPlexName,
@@ -99,6 +101,7 @@ void main() {
         mockSettingsRepository.updateServerById(
           id: tId,
           primaryConnectionAddress: tPrimaryConnectionAddress,
+          secondaryConnectionAddress: tSecondaryConnectionAddress,
           deviceToken: tDeviceToken,
           tautulliId: tTautulliId,
           plexName: tPlexName,
