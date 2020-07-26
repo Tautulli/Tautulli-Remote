@@ -97,6 +97,11 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future getServerByPlexName(String plexName) async {
+    return await DBProvider.db.getServerByPlexName(plexName);
+  }
+
+  @override
   Future updatePrimaryConnection({
     @required int id,
     @required String primaryConnectionAddress,
