@@ -1,15 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:tautulli_remote_tdd/features/activity/presentation/widgets/background_image_chooser.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/tautulli_api_url_helper.dart';
-import '../../../settings/domain/entities/settings.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/entities/geo_ip.dart';
 import 'activity_media_info.dart';
 import 'activity_modal_bottom_sheet.dart';
+import 'background_image_chooser.dart';
 import 'custom_bottom_sheet.dart' as customBottomSheet;
 import 'platform_icon.dart';
 import 'poster_chooser.dart';
@@ -20,14 +20,14 @@ import 'time_left.dart';
 class ActivityCard extends StatelessWidget {
   final ActivityItem activity;
   final GeoIpItem geoIp;
-  final Settings settings;
+  final ServerModel server;
   final TautulliApiUrls tautulliApiUrls;
 
   const ActivityCard(
       {Key key,
       @required this.activity,
       @required this.geoIp,
-      @required this.settings,
+      @required this.server,
       @required this.tautulliApiUrls})
       : super(key: key);
 
@@ -40,7 +40,7 @@ class ActivityCard extends StatelessWidget {
           tautulliApiUrls: tautulliApiUrls,
           activity: activity,
           geoIp: geoIp,
-          settings: settings,
+          server: server,
         );
       },
       child: Card(
@@ -62,7 +62,7 @@ class ActivityCard extends StatelessWidget {
                       width: constraints.maxWidth,
                       child: BackgroundImageChooser(
                         activity: activity,
-                        settings: settings,
+                        server: server,
                         tautulliApiUrls: tautulliApiUrls,
                       ),
                     );
@@ -91,7 +91,7 @@ class ActivityCard extends StatelessWidget {
                                   child: PosterChooser(
                                     tautulliApiUrls: tautulliApiUrls,
                                     activity: activity,
-                                    settings: settings,
+                                    server: server,
                                   ),
                                 ),
                                 //* Current state poster overlay
@@ -204,7 +204,7 @@ void showActivityModalBottomSheet({
   @required TautulliApiUrls tautulliApiUrls,
   @required ActivityItem activity,
   @required GeoIpItem geoIp,
-  @required Settings settings,
+  @required ServerModel server,
 }) {
   customBottomSheet.showModalBottomSheet(
     context: context,
@@ -215,7 +215,7 @@ void showActivityModalBottomSheet({
         tautulliApiUrls: tautulliApiUrls,
         activity: activity,
         geoIp: geoIp,
-        settings: settings,
+        server: server,
       );
     },
   );

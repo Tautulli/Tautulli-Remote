@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/tautulli_api_url_helper.dart';
-import '../../../settings/domain/entities/settings.dart';
 import '../../domain/entities/activity.dart';
 
 class BackgroundImageChooser extends StatelessWidget {
   final TautulliApiUrls tautulliApiUrls;
   final ActivityItem activity;
-  final Settings settings;
+  final ServerModel server;
 
   const BackgroundImageChooser({
     Key key,
     @required this.tautulliApiUrls,
     @required this.activity,
-    @required this.settings,
+    @required this.server,
   }) : super(key: key);
 
   @override
@@ -23,21 +23,21 @@ class BackgroundImageChooser extends StatelessWidget {
         : activity.mediaType == 'photo'
             ? _BackgroundImageGeneral(
                 tautulliApiUrls: tautulliApiUrls,
-                connectionProtocol: settings.connectionProtocol,
-                connectionDomain: settings.connectionDomain,
-                connectionUser: settings.connectionUser,
-                connectionPassword: settings.connectionPassword,
-                deviceToken: settings.deviceToken,
+                connectionProtocol: server.primaryConnectionProtocol,
+                connectionDomain: server.primaryConnectionDomain,
+                connectionUser: server.primaryConnectionUser,
+                connectionPassword: server.primaryConnectionPassword,
+                deviceToken: server.deviceToken,
                 art: activity.thumb,
                 ratingKey: activity.ratingKey,
               )
             : _BackgroundImageGeneral(
                 tautulliApiUrls: tautulliApiUrls,
-                connectionProtocol: settings.connectionProtocol,
-                connectionDomain: settings.connectionDomain,
-                connectionUser: settings.connectionUser,
-                connectionPassword: settings.connectionPassword,
-                deviceToken: settings.deviceToken,
+                connectionProtocol: server.primaryConnectionProtocol,
+                connectionDomain: server.primaryConnectionDomain,
+                connectionUser: server.primaryConnectionUser,
+                connectionPassword: server.primaryConnectionPassword,
+                deviceToken: server.deviceToken,
                 art: activity.art,
                 ratingKey: activity.ratingKey,
               );

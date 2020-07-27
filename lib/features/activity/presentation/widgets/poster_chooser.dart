@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/tautulli_api_url_helper.dart';
-import '../../../settings/domain/entities/settings.dart';
 import '../../domain/entities/activity.dart';
 
 class PosterChooser extends StatelessWidget {
   final TautulliApiUrls tautulliApiUrls;
   final ActivityItem activity;
-  final Settings settings;
+  final ServerModel server;
 
   const PosterChooser({
     Key key,
     @required this.tautulliApiUrls,
     @required this.activity,
-    @required this.settings,
+    @required this.server,
   }) : super(key: key);
 
   @override
@@ -21,47 +21,47 @@ class PosterChooser extends StatelessWidget {
     return activity.mediaType == 'movie'
         ? _PosterGeneral(
             posterUrl: tautulliApiUrls.pmsImageProxyUrl(
-              protocol: settings.connectionProtocol,
-              domain: settings.connectionDomain,
-              deviceToken: settings.deviceToken,
+              protocol: server.primaryConnectionProtocol,
+              domain: server.primaryConnectionDomain,
+              deviceToken: server.deviceToken,
               img: activity.thumb,
               ratingKey: activity.ratingKey,
               fallback: activity.live == 0 ? 'poster' : 'poster-live',
             ),
             headers: tautulliApiUrls.buildBasicAuthHeader(
-              user: settings.connectionUser,
-              password: settings.connectionPassword,
+              user: server.primaryConnectionUser,
+              password: server.primaryConnectionPassword,
             ),
           )
         : activity.mediaType == 'episode'
             ? _PosterGeneral(
                 posterUrl: tautulliApiUrls.pmsImageProxyUrl(
-                  protocol: settings.connectionProtocol,
-                  domain: settings.connectionDomain,
-                  deviceToken: settings.deviceToken,
+                  protocol: server.primaryConnectionProtocol,
+                  domain: server.primaryConnectionDomain,
+                  deviceToken: server.deviceToken,
                   img: activity.grandparentThumb,
                   ratingKey: activity.grandparentRatingKey,
                   fallback: activity.live == 0 ? 'poster' : 'poster-live',
                 ),
                 headers: tautulliApiUrls.buildBasicAuthHeader(
-                  user: settings.connectionUser,
-                  password: settings.connectionPassword,
+                  user: server.primaryConnectionUser,
+                  password: server.primaryConnectionPassword,
                 ),
               )
             : activity.mediaType == 'track'
                 ? _PosterMusic(
                     posterUrl: tautulliApiUrls.pmsImageProxyUrl(
-                      protocol: settings.connectionProtocol,
-                      domain: settings.connectionDomain,
-                      deviceToken: settings.deviceToken,
+                      protocol: server.primaryConnectionProtocol,
+                      domain: server.primaryConnectionDomain,
+                      deviceToken: server.deviceToken,
                       img: activity.thumb,
                       ratingKey: activity.parentRatingKey,
                       fallback: 'cover',
                     ),
                     posterUrlBlur: tautulliApiUrls.pmsImageProxyUrl(
-                      protocol: settings.connectionProtocol,
-                      domain: settings.connectionDomain,
-                      deviceToken: settings.deviceToken,
+                      protocol: server.primaryConnectionProtocol,
+                      domain: server.primaryConnectionDomain,
+                      deviceToken: server.deviceToken,
                       img: activity.thumb,
                       ratingKey: activity.parentRatingKey,
                       opacity: 40,
@@ -70,20 +70,20 @@ class PosterChooser extends StatelessWidget {
                       fallback: 'poster',
                     ),
                     headers: tautulliApiUrls.buildBasicAuthHeader(
-                      user: settings.connectionUser,
-                      password: settings.connectionPassword,
+                      user: server.primaryConnectionUser,
+                      password: server.primaryConnectionPassword,
                     ),
                   )
                 : _PosterGeneral(
                     posterUrl: tautulliApiUrls.pmsImageProxyUrl(
-                      protocol: settings.connectionProtocol,
-                      domain: settings.connectionDomain,
-                      deviceToken: settings.deviceToken,
+                      protocol: server.primaryConnectionProtocol,
+                      domain: server.primaryConnectionDomain,
+                      deviceToken: server.deviceToken,
                       ratingKey: activity.ratingKey,
                     ),
                     headers: tautulliApiUrls.buildBasicAuthHeader(
-                      user: settings.connectionUser,
-                      password: settings.connectionPassword,
+                      user: server.primaryConnectionUser,
+                      password: server.primaryConnectionPassword,
                     ),
                   );
   }

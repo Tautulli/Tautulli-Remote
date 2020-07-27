@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/tautulli_api_url_helper.dart';
-import '../../../settings/domain/entities/settings.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/entities/geo_ip.dart';
 import 'activity_media_details.dart';
@@ -19,14 +19,14 @@ class ActivityModalBottomSheet extends StatelessWidget {
   final TautulliApiUrls tautulliApiUrls;
   final ActivityItem activity;
   final GeoIpItem geoIp;
-  final Settings settings;
+  final ServerModel server;
 
   const ActivityModalBottomSheet({
     Key key,
     @required this.tautulliApiUrls,
     @required this.activity,
     @required this.geoIp,
-    @required this.settings,
+    @required this.server,
   }) : super(key: key);
 
   @override
@@ -74,7 +74,7 @@ class ActivityModalBottomSheet extends StatelessWidget {
                                   child: BackgroundImageChooser(
                                     tautulliApiUrls: tautulliApiUrls,
                                     activity: activity,
-                                    settings: settings,
+                                    server: server,
                                   ),
                                 ),
                                 BackdropFilter(
@@ -190,7 +190,7 @@ class ActivityModalBottomSheet extends StatelessWidget {
                   PosterChooser(
                     tautulliApiUrls: tautulliApiUrls,
                     activity: activity,
-                    settings: settings,
+                    server: server,
                   ),
                   if (activity.state == 'paused' ||
                       activity.state == 'buffering')
