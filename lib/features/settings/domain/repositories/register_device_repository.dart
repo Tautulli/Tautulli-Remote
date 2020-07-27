@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 
 abstract class RegisterDeviceRepository {
-  Future<Either<Failure, bool>> call({
+  Future<Either<Failure, Map>> call({
     @required final String connectionProtocol,
     @required final String connectionDomain,
     @required final String connectionUser,

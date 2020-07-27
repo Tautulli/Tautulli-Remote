@@ -9,7 +9,7 @@ class RegisterDevice {
 
   RegisterDevice({@required this.repository});
 
-  Future<Either<Failure, bool>> call({
+  Future<Either<Failure, Map>> call({
     @required final String connectionProtocol,
     @required final String connectionDomain,
     @required final String connectionUser,

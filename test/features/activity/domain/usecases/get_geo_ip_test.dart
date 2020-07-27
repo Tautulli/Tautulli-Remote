@@ -18,7 +18,9 @@ void main() {
     );
   });
 
-  final ipAddress = '10.0.0.1';
+  final tPlexName = 'Plex';
+
+  final tIpAddress = '10.0.0.1';
 
   final tGeoIpItemModel = GeoIpItemModel(
     accuracy: null,
@@ -37,13 +39,25 @@ void main() {
     'should get GeoIpItem from repository',
     () async {
       // arrange
-      when(mockGeoIpRepository.getGeoIp(ipAddress))
-          .thenAnswer((_) async => Right(tGeoIpItemModel));
+      when(
+        mockGeoIpRepository.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        ),
+      ).thenAnswer((_) async => Right(tGeoIpItemModel));
       // act
-      final result = await usecase(ipAddress);
+      final result = await usecase(
+        plexName: tPlexName,
+        ipAddress: tIpAddress,
+      );
       // assert
       expect(result, Right(tGeoIpItemModel));
-      verify(mockGeoIpRepository.getGeoIp(ipAddress));
+      verify(
+        mockGeoIpRepository.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        ),
+      );
       verifyNoMoreInteractions(mockGeoIpRepository);
     },
   );

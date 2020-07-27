@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -19,7 +20,7 @@ class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
   });
 
   @override
-  Future<Either<Failure, bool>> call({
+  Future<Either<Failure, Map>> call({
     @required final String connectionProtocol,
     @required final String connectionDomain,
     @required final String connectionUser,
@@ -48,6 +49,8 @@ class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
         return Left(UrlFormatFailure());
       } on ArgumentError {
         return Left(UrlFormatFailure());
+      } on TimeoutException {
+        return Left(TimeoutFailure());
       }
     } else {
       return Left(ConnectionFailure());

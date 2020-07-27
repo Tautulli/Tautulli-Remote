@@ -9,7 +9,6 @@ import 'features/logging/presentation/pages/logs_page.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 import 'features/privacy/presentation/pages/privacy_page.dart';
-import 'features/settings/presentation/pages/advanced_server_settings_page.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 
 class TautulliRemote extends StatefulWidget {
@@ -46,7 +45,6 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     OneSignal.shared
         .setNotificationReceivedHandler((OSNotification notification) async {
       // will be called whenever a notification is received
-      notification.payload.body = 'butts';
     });
 
     OneSignal.shared
@@ -100,6 +98,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
               hintStyle: TextStyle(
                 color: Colors.grey,
               ),
+              labelStyle: TextStyle(
+                color: Colors.white70,
+              ),
             ),
         buttonTheme: ThemeData.dark().buttonTheme.copyWith(),
         popupMenuTheme: ThemeData.dark().popupMenuTheme.copyWith(
@@ -110,8 +111,6 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       routes: {
         ActivityPage.routeName: (ctx) => ActivityPage(),
         SettingsPage.routeName: (ctx) => SettingsPage(),
-        AdvancedServerSettingsPage.routeName: (ctx) =>
-            AdvancedServerSettingsPage(),
         PrivacyPage.routeName: (ctx) => PrivacyPage(),
         LogsPage.routeName: (ctx) => LogsPage(),
       },

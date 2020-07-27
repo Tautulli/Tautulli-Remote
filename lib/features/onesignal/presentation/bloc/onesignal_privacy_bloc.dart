@@ -5,8 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import '../../../logging/domain/usecases/logging.dart';
-import '../../../settings/domain/usecases/get_settings.dart';
 import '../../../settings/domain/usecases/register_device.dart';
+import '../../../settings/domain/usecases/settings.dart';
 import '../../data/datasources/onesignal_data_source.dart';
 
 part 'onesignal_privacy_event.dart';
@@ -15,14 +15,14 @@ part 'onesignal_privacy_state.dart';
 class OneSignalPrivacyBloc
     extends Bloc<OneSignalPrivacyEvent, OneSignalPrivacyState> {
   final OneSignalDataSource oneSignal;
-  final GetSettings getSettings;
+  final Settings settings;
   final RegisterDevice registerDevice;
   // final UpdateDeviceRegistration updateDeviceRegistration;
   final Logging logging;
 
   OneSignalPrivacyBloc({
     @required this.oneSignal,
-    @required this.getSettings,
+    @required this.settings,
     @required this.registerDevice,
     // @required this.updateDeviceRegistration,
     @required this.logging,
@@ -33,20 +33,20 @@ class OneSignalPrivacyBloc
     OneSignalPrivacyEvent event,
   ) async* {
     if (event is OneSignalPrivacyCheckConsent) {
-      //TODO: Change to dubug
+      //TODO: Change to debug
       logging.info('OneSignal: Checking for privacy consent');
       if (await oneSignal.isSubscribed != null) {
-        //TODO: Change to dubug
+        //TODO: Change to debug
         logging.info('OneSignal: Privacy consent verified');
         yield OneSignalPrivacyConsentSuccess();
       } else {
-        //TODO: Change to dubug
+        //TODO: Change to debug
         logging.info('OneSignal: Privacy consent has not been granted');
         yield OneSignalPrivacyConsentFailure();
       }
     }
     if (event is OneSignalPrivacyGrantConsent) {
-      // final settings = await getSettings.load();
+      // final settings = await settings.load();
 
       oneSignal.grantConsent(true);
       oneSignal.setSubscription(true);
@@ -58,7 +58,7 @@ class OneSignalPrivacyBloc
       yield OneSignalPrivacyConsentSuccess();
     }
     if (event is OneSignalPrivacyRevokeConsent) {
-      // final settings = await getSettings.load();
+      // final settings = await settings.load();
 
       oneSignal.setSubscription(false);
       oneSignal.grantConsent(false);

@@ -19,7 +19,7 @@ class ServerSetupInstructions extends StatelessWidget {
         BulletItem('Open the Tautulli web interface on another device'),
         BulletItem('Navigate to Settings > Tautulli Remote App'),
         BulletItem('Select \'Register a new device\''),
-        BulletItem('Use the button below to scan the QR code'),
+        BulletItem('Use the button below to add a new server'),
       ],
     );
   }

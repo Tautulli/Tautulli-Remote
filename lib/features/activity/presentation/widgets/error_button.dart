@@ -19,7 +19,7 @@ class ErrorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return failure == SettingsFailure()
+    return failure == SettingsFailure() || failure == MissingServerFailure()
         ? RaisedButton.icon(
             icon: FaIcon(FontAwesomeIcons.cogs),
             label: Text('Go to settings'),

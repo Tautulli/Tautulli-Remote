@@ -18,22 +18,22 @@ class ActivityLoadInProgress extends ActivityState {
 /// 
 /// Takes a [DateTime] value to ensure this state is always unique.
 class ActivityLoadSuccess extends ActivityState {
-  final List<ActivityItem> activity;
+  final Map<String, Map<String, Object>> activityMap;
   final Map<String, dynamic> geoIpMap;
   final TautulliApiUrls tautulliApiUrls;
   final DateTime loadedAt;
 
   ActivityLoadSuccess({
-    @required this.activity,
+    @required this.activityMap,
     @required this.geoIpMap,
     @required this.tautulliApiUrls,
     @required this.loadedAt,
-  })  : assert(activity != null),
+  })  : assert(activityMap != null),
         assert(tautulliApiUrls != null),
         assert(loadedAt != null);
 
   @override
-  List<Object> get props => [activity, geoIpMap, tautulliApiUrls, loadedAt];
+  List<Object> get props => [activityMap, geoIpMap, tautulliApiUrls, loadedAt];
 }
 
 class ActivityLoadFailure extends ActivityState {

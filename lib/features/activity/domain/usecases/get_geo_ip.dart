@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/features/activity/domain/entities/geo_ip.dart';
 
+import '../../../../core/error/failure.dart';
+import '../entities/geo_ip.dart';
 import '../repositories/geo_ip_repository.dart';
 
 class GetGeoIp {
@@ -10,7 +10,13 @@ class GetGeoIp {
 
   GetGeoIp({@required this.repository});
 
-  Future<Either<Failure, GeoIpItem>> call(String ipAddress) async {
-    return await repository.getGeoIp(ipAddress);
+  Future<Either<Failure, GeoIpItem>> call({
+    @required String plexName,
+    @required String ipAddress,
+  }) async {
+    return await repository.getGeoIp(
+      plexName: plexName,
+      ipAddress: ipAddress,
+    );
   }
 }

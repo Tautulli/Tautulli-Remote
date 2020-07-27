@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -30,7 +31,12 @@ void main() {
   });
 
   group('getActivity', () {
-    final List<ActivityItem> tActivityList = [];
+    final Map<String, Map<String, Object>> tActivityMap = {
+      'Plex': {
+        'result': 'success',
+        'activity': 'failure',
+      }
+    };
 
     test(
       'should check if the device is online',
@@ -60,14 +66,14 @@ void main() {
       );
 
       test(
-        'should return activity data when the call to api is successful',
+        'should return activity data map when the call to api is successful',
         () async {
           // arrange
-          when(dataSource.getActivity()).thenAnswer((_) async => tActivityList);
+          when(dataSource.getActivity()).thenAnswer((_) async => tActivityMap);
           //act
           final result = await repository.getActivity();
           //assert
-          expect(result, equals(Right(tActivityList)));
+          expect(result, equals(Right(tActivityMap)));
         },
       );
 
@@ -75,11 +81,11 @@ void main() {
         'should return activity',
         () async {
           // arrange
-          when(dataSource.getActivity()).thenAnswer((_) async => tActivityList);
+          when(dataSource.getActivity()).thenAnswer((_) async => tActivityMap);
           // act
           final result = await repository.getActivity();
           // assert
-          expect(result, equals(Right(tActivityList)));
+          expect(result, equals(Right(tActivityMap)));
         },
       );
 
@@ -152,6 +158,18 @@ void main() {
           final result = await repository.getActivity();
           // assert
           expect(result, equals(Left(UrlFormatFailure())));
+        },
+      );
+
+      test(
+        'should return a TimeoutFailure when a TimeoutException is thrown',
+        () async {
+          // arrange
+          when(dataSource.getActivity()).thenThrow(TimeoutException(''));
+          // act
+          final result = await repository.getActivity();
+          // assert
+          expect(result, equals(Left(TimeoutFailure())));
         },
       );
     });

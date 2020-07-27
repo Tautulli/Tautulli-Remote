@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -28,7 +29,9 @@ void main() {
     );
   });
 
-  final ipAddress = '10.0.0.1';
+  final tPlexName = 'Plex';
+
+  final tIpAddress = '10.0.0.1';
 
   final tGeoIpItemModel = GeoIpItemModel(
     accuracy: null,
@@ -49,7 +52,10 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       //act
-      repository.getGeoIp(ipAddress);
+      repository.getGeoIp(
+        plexName: tPlexName,
+        ipAddress: tIpAddress,
+      );
       //assert
       verify(mockNetworkInfo.isConnected);
     },
@@ -64,9 +70,17 @@ void main() {
       'should call data source getGeoIp()',
       () async {
         // act
-        await repository.getGeoIp(ipAddress);
+        await repository.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        );
         // assert
-        verify(dataSource.getGeoIp(ipAddress));
+        verify(
+          dataSource.getGeoIp(
+            plexName: tPlexName,
+            ipAddress: tIpAddress,
+          ),
+        );
       },
     );
 
@@ -74,10 +88,17 @@ void main() {
       'should return GeoIpItem when the call to api is successful',
       () async {
         // arrange
-        when(dataSource.getGeoIp(ipAddress))
-            .thenAnswer((_) async => tGeoIpItemModel);
+        when(
+          dataSource.getGeoIp(
+            plexName: tPlexName,
+            ipAddress: tIpAddress,
+          ),
+        ).thenAnswer((_) async => tGeoIpItemModel);
         //act
-        final result = await repository.getGeoIp(ipAddress);
+        final result = await repository.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        );
         //assert
         expect(result, equals(Right(tGeoIpItemModel)));
       },
@@ -87,9 +108,17 @@ void main() {
       'should return SettingsFailure if a SettingsException is thrown',
       () async {
         // arrange
-        when(dataSource.getGeoIp(ipAddress)).thenThrow(SettingsException());
+        when(
+          dataSource.getGeoIp(
+            plexName: tPlexName,
+            ipAddress: tIpAddress,
+          ),
+        ).thenThrow(SettingsException());
         // act
-        final result = await repository.getGeoIp(ipAddress);
+        final result = await repository.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        );
         // assert
         expect(result, equals(Left(SettingsFailure())));
       },
@@ -99,9 +128,17 @@ void main() {
       'should return ServerFailure when the call to the api is unsuccessful',
       () async {
         // arrange
-        when(dataSource.getGeoIp(ipAddress)).thenThrow(ServerException());
+        when(
+          dataSource.getGeoIp(
+            plexName: tPlexName,
+            ipAddress: tIpAddress,
+          ),
+        ).thenThrow(ServerException());
         //act
-        final result = await repository.getGeoIp(ipAddress);
+        final result = await repository.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        );
         //assert
         expect(result, equals(Left(ServerFailure())));
       },
@@ -111,50 +148,99 @@ void main() {
       'should return SocketFailure when a SocketException is thrown',
       () async {
         // arrange
-        when(dataSource.getGeoIp(ipAddress))
-            .thenThrow(SocketException.closed());
+        when(
+          dataSource.getGeoIp(
+            plexName: tPlexName,
+            ipAddress: tIpAddress,
+          ),
+        ).thenThrow(SocketException.closed());
         // act
-        final result = await repository.getGeoIp(ipAddress);
+        final result = await repository.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        );
         // assert
         expect(result, equals(Left(SocketFailure())));
       },
     );
 
-     test(
-        'should return a TlsFailure when a TlsException is thrown',
-        () async {
-          // arrange
-          when(dataSource.getGeoIp(ipAddress)).thenThrow(TlsException());
-          // act
-          final result = await repository.getGeoIp(ipAddress);
-          // assert
-          expect(result, equals(Left(TlsFailure())));
-        },
-      );
+    test(
+      'should return a TlsFailure when a TlsException is thrown',
+      () async {
+        // arrange
+        when(
+          dataSource.getGeoIp(
+            plexName: tPlexName,
+            ipAddress: tIpAddress,
+          ),
+        ).thenThrow(TlsException());
+        // act
+        final result = await repository.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        );
+        // assert
+        expect(result, equals(Left(TlsFailure())));
+      },
+    );
 
-      test(
-        'should return a UrlFormatFailure when a FormatException is thrown',
-        () async {
-          // arrange
-          when(dataSource.getGeoIp(ipAddress)).thenThrow(FormatException());
-          // act
-          final result = await repository.getGeoIp(ipAddress);
-          // assert
-          expect(result, equals(Left(UrlFormatFailure())));
-        },
-      );
+    test(
+      'should return a UrlFormatFailure when a FormatException is thrown',
+      () async {
+        // arrange
+        when(dataSource.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        )).thenThrow(FormatException());
+        // act
+        final result = await repository.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        );
+        // assert
+        expect(result, equals(Left(UrlFormatFailure())));
+      },
+    );
 
-      test(
-        'should return a UrlFormatFailure when an ArgumentError is thrown',
-        () async {
-          // arrange
-          when(dataSource.getGeoIp(ipAddress)).thenThrow(ArgumentError());
-          // act
-          final result = await repository.getGeoIp(ipAddress);
-          // assert
-          expect(result, equals(Left(UrlFormatFailure())));
-        },
-      );
+    test(
+      'should return a UrlFormatFailure when an ArgumentError is thrown',
+      () async {
+        // arrange
+        when(
+          dataSource.getGeoIp(
+            plexName: tPlexName,
+            ipAddress: tIpAddress,
+          ),
+        ).thenThrow(ArgumentError());
+        // act
+        final result = await repository.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        );
+        // assert
+        expect(result, equals(Left(UrlFormatFailure())));
+      },
+    );
+
+    test(
+      'should return a TimeoutFailure when a TimeoutException is thrown',
+      () async {
+        // arrange
+        when(
+          dataSource.getGeoIp(
+            plexName: tPlexName,
+            ipAddress: tIpAddress,
+          ),
+        ).thenThrow(TimeoutException(''));
+        // act
+        final result = await repository.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        );
+        // assert
+        expect(result, equals(Left(TimeoutFailure())));
+      },
+    );
   });
 
   group('device is offline', () {
@@ -164,7 +250,10 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
         //act
-        final result = await repository.getGeoIp(ipAddress);
+        final result = await repository.getGeoIp(
+          plexName: tPlexName,
+          ipAddress: tIpAddress,
+        );
         //assert
         expect(result, equals(Left(ConnectionFailure())));
       },

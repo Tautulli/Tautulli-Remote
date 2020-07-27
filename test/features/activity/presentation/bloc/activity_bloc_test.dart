@@ -47,7 +47,11 @@ void main() {
   final Map<String, dynamic> activityJson =
       json.decode(fixture('activity_item.json'));
   final activityItem = ActivityItemModel.fromJson(activityJson);
-  final List<ActivityItem> tActivity = [activityItem];
+  final List<ActivityItem> tActivityList = [activityItem];
+
+  final Map<String, Map<String, Object>> tActivityMap = {
+    'Plex': {'result': 'success', 'activity': tActivityList}
+  };
 
   final tGeoIpItemModel = GeoIpItemModel(
     accuracy: null,
@@ -61,13 +65,15 @@ void main() {
     region: "Ontario",
     timezone: "America/Toronto",
   );
-  final Map<String, dynamic> tGeoIpMap = {
-    'mock_ip_address': tGeoIpItemModel,
-  };
 
   void setUpSuccess() {
-    when(mockGetActivity()).thenAnswer((_) async => Right(tActivity));
-    when(mockGetGeoIp(any)).thenAnswer((_) async => Right(tGeoIpItemModel));
+    when(mockGetActivity()).thenAnswer((_) async => Right(tActivityMap));
+    when(
+      mockGetGeoIp(
+        plexName: anyNamed('plexName'),
+        ipAddress: anyNamed('ipAddress'),
+      ),
+    ).thenAnswer((_) async => Right(tGeoIpItemModel));
   }
 
   test(
@@ -99,15 +105,25 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(ActivityLoad());
-        await untilCalled(mockGetGeoIp(any));
+        await untilCalled(
+          mockGetGeoIp(
+            plexName: anyNamed('plexName'),
+            ipAddress: anyNamed('ipAddress'),
+          ),
+        );
         // assert
-        verify(mockGetGeoIp(any));
+        verify(
+          mockGetGeoIp(
+            plexName: anyNamed('plexName'),
+            ipAddress: anyNamed('ipAddress'),
+          ),
+        );
       },
     );
 
     //! DateTime.now() is not going to exactly line up in the expected and actual function causing this test to fail
     // test(
-    //   'should emit [ActivityLoadInProgress, ActivityLoadSuccess] when data is gotten successfully',
+    //   'should emit [ActivityLoadSuccess] when data is gotten successfully',
     //   () async {
     //     // arrange
     //     setUpSuccess();
@@ -116,10 +132,11 @@ void main() {
     //       ActivityEmpty(),
     //       ActivityLoadInProgress(),
     //       ActivityLoadSuccess(
-    //         activity: tActivity,
+    //         activityMap: tActivityMap,
     //         geoIpMap: tGeoIpMap,
     //         tautulliApiUrls: mockTautulliApiUrls,
     //         loadedAt: DateTime.now(),
+    //         // DateTime.parse("1969-07-20 20:18:04Z")
     //       ),
     //     ];
     //     expectLater(bloc, emitsInOrder(expected));
@@ -172,9 +189,19 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(ActivityRefresh());
-        await untilCalled(mockGetGeoIp(any));
+        await untilCalled(
+          mockGetGeoIp(
+            plexName: anyNamed('plexName'),
+            ipAddress: anyNamed('ipAddress'),
+          ),
+        );
         // assert
-        verify(mockGetGeoIp(any));
+        verify(
+          mockGetGeoIp(
+            plexName: anyNamed('plexName'),
+            ipAddress: anyNamed('ipAddress'),
+          ),
+        );
       },
     );
 
@@ -187,12 +214,12 @@ void main() {
     //     // assert later
     //     final expected = [
     //       ActivityEmpty(),
-    //       ActivityLoadInProgress(),
     //       ActivityLoadSuccess(
-    //         activity: tActivity,
+    //         activityMap: tActivityMap,
     //         geoIpMap: tGeoIpMap,
     //         tautulliApiUrls: mockTautulliApiUrls,
     //         loadedAt: DateTime.now(),
+    //         // DateTime.parse("1969-07-20 20:18:04Z")
     //       ),
     //     ];
     //     expectLater(bloc, emitsInOrder(expected));

@@ -3,17 +3,17 @@ import 'package:mockito/mockito.dart';
 import 'package:matcher/matcher.dart';
 import 'package:tautulli_remote_tdd/core/helpers/tautulli_api_url_helper.dart';
 import 'package:tautulli_remote_tdd/core/error/exception.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/get_settings.dart';
+import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
 
-class MockGetSettings extends Mock implements GetSettings {}
+class MockSettings extends Mock implements Settings {}
 
 void main() {
   TautulliApiUrlsImpl tautulliApiUrls;
-  MockGetSettings mockGetSettings;
+  MockSettings mockSettings;
 
   setUp(() {
-    mockGetSettings = MockGetSettings();
-    tautulliApiUrls = TautulliApiUrlsImpl(getSettings: mockGetSettings);
+    mockSettings = MockSettings();
+    tautulliApiUrls = TautulliApiUrlsImpl(settings: mockSettings);
   });
 
   test(

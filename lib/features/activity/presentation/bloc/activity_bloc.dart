@@ -15,6 +15,7 @@ part 'activity_event.dart';
 part 'activity_state.dart';
 
 // Error messages
+const String MISSING_SERVER_FAILURE_MESSAGE = 'No servers are configured.';
 const String SERVER_FAILURE_MESSAGE = 'Failed to connect to server.';
 const String CONNECTION_FAILURE_MESSAGE = 'No network connectivity.';
 const String SETTINGS_FAILURE_MESSAGE = 'Required settings are missing.';
@@ -22,12 +23,15 @@ const String SOCKET_FAILURE_MESSAGE =
     'Failed to connect to Connection Address.';
 const String TLS_FAILURE_MESSAGE = 'Failed to establish TLS/SSL connection.';
 const String URL_FORMAT_FAILURE_MESSAGE = 'Incorrect URL format.';
+const String TIMEOUT_FAILURE_MESSAGE = 'Connection to server timed out.';
 
 // Error suggestions
+const String MISSING_SERVER_SUGGESTION =
+    'Please register with a Tautulli server.';
 const String CHECK_CONNECTION_ADDRESS_SUGGESTION =
     'Check your Connection Address for errors.';
 const String CHECK_SERVER_SETTINGS_SUGGESTION =
-    'Please register with a Tautulli server.';
+    'Please verify your connection settings.';
 
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   final GetActivity getActivity;
@@ -51,13 +55,12 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     ActivityEvent event,
   ) async* {
     if (event is ActivityLoad) {
-      //TODO: Change to dubug
+      //TODO: Change to debug
       logging.info('Activity: Attempting to load activity');
       yield ActivityLoadInProgress();
       yield* _loadActivityOrFailure();
     }
     if (event is ActivityRefresh) {
-      print('refreshing activity');
       logging.info('Activity: Attempting to load activity');
       yield* _loadActivityOrFailure();
     }
@@ -74,33 +77,42 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           suggestion: _mapFailureToSuggestion(failure),
         );
       },
-      (activity) async* {
+      (activityMap) async* {
         final Map<String, dynamic> geoIpMap = {};
 
-        //TODO: Change to dubug
-        logging.info(
-            'Activity: Attempting to load activity Geo IP information');
+        //TODO: Change to debug
+        logging
+            .info('Activity: Attempting to load activity Geo IP information');
 
-        for (ActivityItem activityItem in activity) {
-          final failureOrGeoIp = await getGeoIp(activityItem.ipAddress);
+        // Using for loop as .forEach() does not actually respect await
+        final List keys = activityMap.keys.toList();
+        for (int i = 0; i < keys.length; i++) {
+          if (activityMap[keys[i]]['result'] == 'success') {
+            for (ActivityItem activityItem in activityMap[keys[i]]
+                ['activity']) {
+              final failureOrGeoIp = await getGeoIp(
+                plexName: keys[i],
+                ipAddress: activityItem.ipAddress,
+              );
 
-          failureOrGeoIp.fold(
-            (failure) {
-              logging.warning(
-                  'Activit: Failed to load Geo IP data for ${activityItem.ipAddress}');
-              print('failure');
-              return null;
-            },
-            (geoIpItem) {
-              geoIpMap[activityItem.ipAddress] = geoIpItem;
-            },
-          );
+              failureOrGeoIp.fold(
+                (failure) {
+                  logging.warning(
+                      'Activit: Failed to load GeoIP data for ${activityItem.ipAddress}');
+                  return null;
+                },
+                (geoIpItem) {
+                  geoIpMap[activityItem.ipAddress] = geoIpItem;
+                },
+              );
+            }
+          }
         }
 
         logging.info('Activity: Activity loaded successfully');
 
         yield ActivityLoadSuccess(
-          activity: activity,
+          activityMap: activityMap,
           geoIpMap: geoIpMap,
           tautulliApiUrls: tautulliApiUrls,
           loadedAt: DateTime.now(),
@@ -111,6 +123,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
+      case MissingServerFailure:
+        return MISSING_SERVER_FAILURE_MESSAGE;
       case ServerFailure:
         return SERVER_FAILURE_MESSAGE;
       case ConnectionFailure:
@@ -123,6 +137,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         return TLS_FAILURE_MESSAGE;
       case UrlFormatFailure:
         return URL_FORMAT_FAILURE_MESSAGE;
+      case TimeoutFailure:
+        return TIMEOUT_FAILURE_MESSAGE;
       default:
         return 'Unexpected error';
     }
@@ -130,6 +146,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
   String _mapFailureToSuggestion(Failure failure) {
     switch (failure.runtimeType) {
+      case MissingServerFailure:
+        return MISSING_SERVER_SUGGESTION;
       case ServerFailure:
         return CHECK_SERVER_SETTINGS_SUGGESTION;
       case SettingsFailure:
@@ -139,6 +157,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       case TlsFailure:
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
       case UrlFormatFailure:
+        return CHECK_CONNECTION_ADDRESS_SUGGESTION;
+      case TimeoutFailure:
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
       default:
         return '';
