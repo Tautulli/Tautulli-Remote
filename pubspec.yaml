@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   # Bloc for state management
-  flutter_bloc: ^5.0.1
+  flutter_bloc: ^6.0.1
   # To send various requests to URLs
   http: ^0.12.1
   # Value equality
