@@ -7,6 +7,9 @@ abstract class Failure extends Equatable {
 }
 
 // General failures
+/// No servers are configured
+class MissingServerFailure extends Failure {}
+
 /// Server provides an undesired response.
 class ServerFailure extends Failure {}
 
@@ -27,3 +30,6 @@ class UrlFormatFailure extends Failure {}
 
 /// Time to connect to a server exceeded
 class TimeoutFailure extends Failure {}
+
+/// A catch-all Failure
+class UnknownFailure extends Failure {}
