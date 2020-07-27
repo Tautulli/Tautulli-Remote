@@ -160,6 +160,14 @@ class SettingsPageContent extends StatelessWidget {
                     ),
                   ),
                   CustomSettingsTile(
+                    title: 'OneSignal Data Privacy',
+                    icon: FaIcon(
+                      FontAwesomeIcons.userSecret,
+                      color: Colors.white,
+                    ),
+                    onTap: () => Navigator.of(context).pushNamed('/privacy'),
+                  ),
+                  CustomSettingsTile(
                     title: 'Tautulli Remote Logs',
                     icon: FaIcon(
                       FontAwesomeIcons.solidListAlt,

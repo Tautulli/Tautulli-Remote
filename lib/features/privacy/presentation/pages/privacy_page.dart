@@ -1,11 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tautulli_remote_tdd/features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 
@@ -35,12 +33,52 @@ class PrivacyPage extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'OneSignal Data Privacy',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'OneSignal Data Privacy',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: BlocBuilder<OneSignalPrivacyBloc,
+                            OneSignalPrivacyState>(
+                          builder: (context, state) {
+                            return RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Status: ',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                  if (state is OneSignalPrivacyConsentFailure)
+                                    TextSpan(
+                                      text: 'Not Accepted X',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  if (state is OneSignalPrivacyConsentSuccess)
+                                    TextSpan(
+                                      text: 'Accepted ✓',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            );
+                          },
+                        )),
+                  ],
                 ),
               ),
               Padding(
@@ -51,47 +89,37 @@ class PrivacyPage extends StatelessWidget {
               ),
               BlocBuilder<OneSignalPrivacyBloc, OneSignalPrivacyState>(
                 builder: (context, state) {
-                  if (state is OneSignalPrivacyConsentFailure) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        top: 10,
-                        left: 16,
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: SwitchListTile(
+                      title: Text(
+                        'Consent to OneSignal data privacy',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      child: RaisedButton.icon(
-                        icon: FaIcon(FontAwesomeIcons.check),
-                        label: Text('Accept'),
-                        color: PlexColorPalette.atlantis,
-                        onPressed: () async {
+                      value: state is OneSignalPrivacyConsentSuccess
+                          ? true
+                          : false,
+                      onChanged: (_) {
+                        if (state is OneSignalPrivacyConsentFailure) {
                           oneSignalPrivacyBloc
                               .add(OneSignalPrivacyGrantConsent());
                           oneSignalSubscriptionBloc
                               .add(OneSignalSubscriptionCheck());
                           oneSignalHealthBloc.add(OneSignalHealthCheck());
-                        },
-                      ),
-                    );
-                  }
-                  if (state is OneSignalPrivacyConsentSuccess) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        top: 10,
-                        left: 16,
-                      ),
-                      child: RaisedButton.icon(
-                        icon: FaIcon(FontAwesomeIcons.times),
-                        label: Text('Revoke'),
-                        color: PlexColorPalette.cinnabar,
-                        onPressed: () async {
+                        }
+                        if (state is OneSignalPrivacyConsentSuccess) {
                           oneSignalPrivacyBloc
                               .add(OneSignalPrivacyRevokeConsent());
                           oneSignalSubscriptionBloc
                               .add(OneSignalSubscriptionCheck());
                           oneSignalHealthBloc.add(OneSignalHealthCheck());
-                        },
-                      ),
-                    );
-                  }
-                  return Container(height: 0, width: 0);
+                        }
+                      },
+                    ),
+                  );
                 },
               ),
             ],

@@ -83,21 +83,6 @@ class AppDrawer extends StatelessWidget {
                 color: PlexColorPalette.raven,
               ),
             ),
-            ListTile(
-              leading: FaIcon(
-                FontAwesomeIcons.userSecret,
-                color: PlexColorPalette.gray_chateau,
-              ),
-              title: Text(
-                'Privacy',
-                style: TextStyle(
-                  color: PlexColorPalette.gray_chateau,
-                ),
-              ),
-              onTap: () {
-                Navigator.of(context).pushNamed('/privacy');
-              },
-            ),
             //TODO: Help page
             // ListTile(
             //   leading: FaIcon(
