@@ -152,7 +152,6 @@ class ServerSettings extends StatelessWidget {
                 ],
               );
             } catch (error) {
-              print(error.toString());
               return Text('Server not found in settings');
             }
           }

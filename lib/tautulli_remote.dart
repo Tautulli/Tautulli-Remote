@@ -45,7 +45,6 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     OneSignal.shared
         .setNotificationReceivedHandler((OSNotification notification) async {
       // will be called whenever a notification is received
-      notification.payload.body = 'butts';
     });
 
     OneSignal.shared
