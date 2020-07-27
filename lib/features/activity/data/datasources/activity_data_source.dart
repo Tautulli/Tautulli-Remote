@@ -82,6 +82,7 @@ class ActivityDataSourceImpl implements ActivityDataSource {
 
       http.Response response;
 
+      //* Try to connect to primary connection address
       try {
         if (isNotEmpty(server.primaryConnectionUser) &&
             isNotEmpty(server.primaryConnectionPassword)) {
@@ -104,74 +105,55 @@ class ActivityDataSourceImpl implements ActivityDataSource {
             .timeout(
               Duration(seconds: 3),
             );
+
+        if (response.statusCode != 200) {
+          throw ServerException;
+        }
       } catch (error) {
-        if (error == TimeoutException) {
-          logging.error('Activity: Primary connection timed out.');
-
+        logging.error(
+            'Activity: Primary connection failed with [${error.runtimeType}].');
+        //* If secondary connection address exists try to connect to it
+        if (isNotEmpty(server.secondaryConnectionAddress)) {
           try {
-            // If no secondary connection
-            // Throw TimeoutException for single server
-            // Put TimeoutFailure in map for multiserver
-            if (isEmpty(server.secondaryConnectionAddress)) {
-              if (serverList.length <= 1) {
-                throw TimeoutException;
-              }
-              activityMap[server.plexName] = {
-                'result': 'failure',
-                'failure': TimeoutFailure(),
-              };
-              break;
-            } else {
-              if (isNotEmpty(server.secondaryConnectionUser) &&
-                  isNotEmpty(server.secondaryConnectionPassword)) {
-                headers['authorization'] = 'Basic ' +
-                    base64Encode(
-                      utf8.encode(
-                          '${server.secondaryConnectionUser}:${server.secondaryConnectionPassword}'),
-                    );
-              }
-
-              response = await client
-                  .get(
-                    tautulliApiUrls.getActivityUrl(
-                      protocol: server.secondaryConnectionProtocol,
-                      domain: server.secondaryConnectionDomain,
-                      deviceToken: server.deviceToken,
-                    ),
-                    headers: headers,
-                  )
-                  .timeout(
-                    Duration(seconds: 3),
+            if (isNotEmpty(server.secondaryConnectionUser) &&
+                isNotEmpty(server.secondaryConnectionPassword)) {
+              headers['authorization'] = 'Basic ' +
+                  base64Encode(
+                    utf8.encode(
+                        '${server.secondaryConnectionUser}:${server.secondaryConnectionPassword}'),
                   );
             }
-          } catch (error) {
-            if (error == TimeoutException) {
-              logging.error('Activity: Secondary connection timed out.');
 
-              // If secondary connection times out
-              // Throw TimeoutException for single server
-              // Put TimeoutFailure in map for multiserver
-              if (serverList.length <= 1) {
-                throw TimeoutException;
-              }
-              activityMap[server.plexName] = {
-                'result': 'failure',
-                'failure': TimeoutFailure(),
-              };
-              break;
-            } else {
-              // Re-throw error for single server
-              if (serverList.length <= 1) {
-                throw error;
-              }
+            response = await client
+                .get(
+                  tautulliApiUrls.getActivityUrl(
+                    protocol: server.secondaryConnectionProtocol,
+                    domain: server.secondaryConnectionDomain,
+                    deviceToken: server.deviceToken,
+                  ),
+                  headers: headers,
+                )
+                .timeout(
+                  Duration(seconds: 3),
+                );
 
-              // Store related failure in map for multiserver
-              activityMap[server.plexName] = {
-                'result': 'failure',
-                'failure': _mapErrorToFailure(error),
-              };
-              break;
+            if (response.statusCode != 200) {
+              throw ServerException;
             }
+          } catch (error) {
+            logging.error(
+                'Activity: Secondary connection failed with [${error.runtimeType}].');
+            // Re-throw error for single server
+            if (serverList.length <= 1) {
+              throw error;
+            }
+
+            // Store related failure in map for multiserver
+            activityMap[server.plexName] = {
+              'result': 'failure',
+              'failure': _mapErrorToFailure(error),
+            };
+            break;
           }
         } else {
           // Re-throw error for single server
@@ -188,33 +170,24 @@ class ActivityDataSourceImpl implements ActivityDataSource {
         }
       }
 
-      if (response != null && response.statusCode == 200) {
-        final responseJson = json.decode(response.body);
+      //* Build activityList
+      final responseJson = json.decode(response.body);
+      final List<ActivityItem> activityList = [];
+      responseJson['response']['data']['sessions'].forEach(
+        (session) {
+          activityList.add(
+            ActivityItemModel.fromJson(session),
+          );
+        },
+      );
 
-        final List<ActivityItem> activityList = [];
-
-        responseJson['response']['data']['sessions'].forEach(
-          (session) {
-            activityList.add(
-              ActivityItemModel.fromJson(session),
-            );
-          },
-        );
-
-        activityMap[server.plexName] = {
-          'result': 'success',
-          'activity': activityList,
-        };
-      } else {
-        if (serverList.length <= 1) {
-          throw ServerException();
-        }
-        activityMap[server.plexName] = {
-          'result': 'failure',
-          'failure': ServerFailure(),
-        };
-      }
+      //* Build activityMap using activityList
+      activityMap[server.plexName] = {
+        'result': 'success',
+        'activity': activityList,
+      };
     }
+
     return activityMap;
   }
 }
