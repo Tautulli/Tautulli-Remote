@@ -1,60 +1,71 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
+import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
 import 'package:tautulli_remote_tdd/core/error/exception.dart';
 import 'package:tautulli_remote_tdd/core/helpers/tautulli_api_url_helper.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/datasources/geo_ip_data_source.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/models/geo_ip_model.dart';
-import 'package:tautulli_remote_tdd/features/settings/data/models/settings_model.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/get_settings.dart';
 import 'package:matcher/matcher.dart';
+import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
 class MockHttpClient extends Mock implements http.Client {}
 
-class MockGetSettings extends Mock implements GetSettings {}
+class MockGetSettings extends Mock implements Settings {}
 
 class MockTautulliApiUrls extends Mock implements TautulliApiUrls {}
+
+class MockLogging extends Mock implements Logging {}
 
 void main() {
   GeoIpDataSourceImpl dataSource;
   MockHttpClient mockHttpClient;
-  MockGetSettings mockGetSettings;
+  MockGetSettings mockSettings;
   MockTautulliApiUrls mockTautulliApiUrls;
+  MockLogging mockLogging;
 
   setUp(() {
     mockHttpClient = MockHttpClient();
-    mockGetSettings = MockGetSettings();
+    mockSettings = MockGetSettings();
     mockTautulliApiUrls = MockTautulliApiUrls();
+    mockLogging = MockLogging();
     dataSource = GeoIpDataSourceImpl(
       client: mockHttpClient,
-      getSettings: mockGetSettings,
+      settings: mockSettings,
       tautulliApiUrls: mockTautulliApiUrls,
+      logging: mockLogging,
     );
   });
 
-  final settingsModel = SettingsModel(
-    connectionAddress: 'http://tautulli.com',
-    connectionProtocol: 'http',
-    connectionDomain: 'tautulli.com',
-    connectionUser: null,
-    connectionPassword: null,
+  final serverModel = ServerModel(
+    primaryConnectionAddress: 'http://tautulli.com',
+    primaryConnectionProtocol: 'http',
+    primaryConnectionDomain: 'tautulli.com',
+    primaryConnectionUser: null,
+    primaryConnectionPassword: null,
     deviceToken: 'abc',
+    plexName: 'Plex',
+    tautulliId: 'jkl',
   );
 
-  final settingsModelWithBasicAuth = SettingsModel(
-    connectionAddress: 'http://tautulli.com',
-    connectionProtocol: 'http',
-    connectionDomain: 'tautulli.com',
-    connectionUser: 'user',
-    connectionPassword: 'pass',
+  final serverModelWithBasicAuth = ServerModel(
+    primaryConnectionAddress: 'http://tautulli.com',
+    primaryConnectionProtocol: 'http',
+    primaryConnectionDomain: 'tautulli.com',
+    primaryConnectionUser: 'user',
+    primaryConnectionPassword: 'pass',
     deviceToken: 'abc',
+    plexName: 'Plex',
+    tautulliId: 'jkl',
   );
 
-  final ipAddress = '10.0.0.1';
+  final tIpAddress = '10.0.0.1';
 
   final tGeoIpItem = GeoIpItemModel(
     accuracy: null,
@@ -69,45 +80,27 @@ void main() {
     timezone: "America/Toronto",
   );
 
-  void setUpSettingsSuccess() {
-    when(mockGetSettings.load()).thenAnswer(
-      (_) async => settingsModel,
-    );
-  }
-
-  void setUpSettingsSuccessWithBasicAuth() {
-    when(mockGetSettings.load()).thenAnswer(
-      (_) async => settingsModelWithBasicAuth,
-    );
-  }
-
-  void setUpMockHttpClientSuccess200() {
-    when(mockHttpClient.get(any, headers: anyNamed('headers')))
-        .thenAnswer((_) async => http.Response(fixture('geo_ip.json'), 200));
-  }
-
-  void setUpMockHttpClientFailure404() {
-    when(mockHttpClient.get(any, headers: anyNamed('headers')))
-        .thenAnswer((_) async => http.Response('Something went wrong', 404));
-  }
-
   group('getGeoIp', () {
     group('without Basic Auth', () {
       test(
-        'should perform a GET request on a URL provided by tautulliAPI.getGeoIpLookupUrl with application/json header',
+        'should perform a GET request on geoIP URL using priamry connection address with application/json header',
         () async {
           // arrange
-          setUpSettingsSuccess();
-          setUpMockHttpClientSuccess200();
+          when(mockSettings.getServerByPlexName(serverModel.plexName))
+              .thenAnswer((_) async => serverModel);
+          when(mockHttpClient.get(any, headers: anyNamed('headers')))
+              .thenAnswer(
+                  (_) async => http.Response(fixture('geo_ip.json'), 200));
           // act
-          await dataSource.getGeoIp(ipAddress);
+          await dataSource.getGeoIp(
+              plexName: serverModel.plexName, ipAddress: tIpAddress);
           // assert
           verify(
             mockTautulliApiUrls.getGeoIpLookupUrl(
-              protocol: settingsModel.connectionProtocol,
-              domain: settingsModel.connectionDomain,
-              deviceToken: settingsModel.deviceToken,
-              ipAddress: ipAddress,
+              protocol: serverModel.primaryConnectionProtocol,
+              domain: serverModel.primaryConnectionDomain,
+              deviceToken: serverModel.deviceToken,
+              ipAddress: tIpAddress,
             ),
           );
           verify(
@@ -122,24 +115,22 @@ void main() {
       );
 
       test(
-        'should throw a SettingsException when the Connection Address or Device Token settings are null',
+        'should throw a TimeoutException if the GET request takes too long',
         () async {
           // arrange
-          when(mockGetSettings.load()).thenAnswer(
-            (_) async => SettingsModel(
-              connectionAddress: null,
-              connectionProtocol: null,
-              connectionDomain: null,
-              connectionUser: null,
-              connectionPassword: null,
-              deviceToken: null,
-            ),
-          );
+          when(mockSettings.getServerByPlexName(serverModel.plexName))
+              .thenAnswer((_) async => serverModel);
+          when(mockHttpClient.get(any, headers: anyNamed('headers')))
+              .thenAnswer((_) => Future.delayed(Duration(seconds: 10)));
           // act
           final call = dataSource.getGeoIp;
           // assert
           expect(
-              () => call(ipAddress), throwsA(TypeMatcher<SettingsException>()));
+              () => call(
+                    plexName: serverModel.plexName,
+                    ipAddress: tIpAddress,
+                  ),
+              throwsA(TypeMatcher<TimeoutException>()));
         },
       );
 
@@ -147,10 +138,14 @@ void main() {
         'should return GeoIpItem when the response code is 200',
         () async {
           // arrange
-          setUpSettingsSuccess();
-          setUpMockHttpClientSuccess200();
+          when(mockSettings.getServerByPlexName(serverModel.plexName))
+              .thenAnswer((_) async => serverModel);
+          when(mockHttpClient.get(any, headers: anyNamed('headers')))
+              .thenAnswer(
+                  (_) async => http.Response(fixture('geo_ip.json'), 200));
           //act
-          final result = await dataSource.getGeoIp(ipAddress);
+          final result = await dataSource.getGeoIp(
+              plexName: serverModel.plexName, ipAddress: tIpAddress);
           //assert
           expect(result, equals(tGeoIpItem));
         },
@@ -160,33 +155,45 @@ void main() {
         'should throw a ServerException when the response code is 404 or other',
         () async {
           // arrange
-          setUpSettingsSuccess();
-          setUpMockHttpClientFailure404();
+          when(mockSettings.getServerByPlexName(serverModel.plexName))
+              .thenAnswer((_) async => serverModel);
+          when(mockHttpClient.get(any, headers: anyNamed('headers')))
+              .thenAnswer((_) async => http.Response('failure', 404));
           //act
           final call = dataSource.getGeoIp;
           //assert
           expect(
-              () => call(ipAddress), throwsA(TypeMatcher<ServerException>()));
+              () => call(
+                    plexName: serverModel.plexName,
+                    ipAddress: tIpAddress,
+                  ),
+              throwsA(TypeMatcher<ServerException>()));
         },
       );
     });
 
     group('with Basic Auth', () {
       test(
-        'should perform a GET request on a URL provided by tautulliAPI.getGeoIpLookupUrl with application/json and authorization header',
+        'should perform a GET request on geoIP URL using priamry connection address with application/json header',
         () async {
           // arrange
-          setUpSettingsSuccessWithBasicAuth();
-          setUpMockHttpClientSuccess200();
+          when(mockSettings
+                  .getServerByPlexName(serverModelWithBasicAuth.plexName))
+              .thenAnswer((_) async => serverModelWithBasicAuth);
+          when(mockHttpClient.get(any, headers: anyNamed('headers')))
+              .thenAnswer(
+                  (_) async => http.Response(fixture('geo_ip.json'), 200));
           // act
-          await dataSource.getGeoIp(ipAddress);
+          await dataSource.getGeoIp(
+              plexName: serverModelWithBasicAuth.plexName,
+              ipAddress: tIpAddress);
           // assert
           verify(
             mockTautulliApiUrls.getGeoIpLookupUrl(
-              protocol: settingsModel.connectionProtocol,
-              domain: settingsModel.connectionDomain,
-              deviceToken: settingsModel.deviceToken,
-              ipAddress: ipAddress,
+              protocol: serverModelWithBasicAuth.primaryConnectionProtocol,
+              domain: serverModelWithBasicAuth.primaryConnectionDomain,
+              deviceToken: serverModelWithBasicAuth.deviceToken,
+              ipAddress: tIpAddress,
             ),
           );
           verify(
@@ -197,7 +204,7 @@ void main() {
                 'authorization': 'Basic ' +
                     base64Encode(
                       utf8.encode(
-                          '${settingsModelWithBasicAuth.connectionUser}:${settingsModelWithBasicAuth.connectionPassword}'),
+                          '${serverModelWithBasicAuth.primaryConnectionUser}:${serverModelWithBasicAuth.primaryConnectionPassword}'),
                     ),
               },
             ),
@@ -206,24 +213,23 @@ void main() {
       );
 
       test(
-        'should throw a SettingsException when the Connection Address or Device Token settings are null',
+        'should throw a TimeoutException if the GET request takes too long',
         () async {
           // arrange
-          when(mockGetSettings.load()).thenAnswer(
-            (_) async => SettingsModel(
-              connectionAddress: null,
-              connectionProtocol: null,
-              connectionDomain: null,
-              connectionUser: null,
-              connectionPassword: null,
-              deviceToken: null,
-            ),
-          );
+          when(mockSettings
+                  .getServerByPlexName(serverModelWithBasicAuth.plexName))
+              .thenAnswer((_) async => serverModelWithBasicAuth);
+          when(mockHttpClient.get(any, headers: anyNamed('headers')))
+              .thenAnswer((_) => Future.delayed(Duration(seconds: 10)));
           // act
           final call = dataSource.getGeoIp;
           // assert
           expect(
-              () => call(ipAddress), throwsA(TypeMatcher<SettingsException>()));
+              () => call(
+                    plexName: serverModelWithBasicAuth.plexName,
+                    ipAddress: tIpAddress,
+                  ),
+              throwsA(TypeMatcher<TimeoutException>()));
         },
       );
 
@@ -231,10 +237,16 @@ void main() {
         'should return GeoIpItem when the response code is 200',
         () async {
           // arrange
-          setUpSettingsSuccessWithBasicAuth();
-          setUpMockHttpClientSuccess200();
+          when(mockSettings
+                  .getServerByPlexName(serverModelWithBasicAuth.plexName))
+              .thenAnswer((_) async => serverModelWithBasicAuth);
+          when(mockHttpClient.get(any, headers: anyNamed('headers')))
+              .thenAnswer(
+                  (_) async => http.Response(fixture('geo_ip.json'), 200));
           //act
-          final result = await dataSource.getGeoIp(ipAddress);
+          final result = await dataSource.getGeoIp(
+              plexName: serverModelWithBasicAuth.plexName,
+              ipAddress: tIpAddress);
           //assert
           expect(result, equals(tGeoIpItem));
         },
@@ -244,13 +256,20 @@ void main() {
         'should throw a ServerException when the response code is 404 or other',
         () async {
           // arrange
-          setUpSettingsSuccessWithBasicAuth();
-          setUpMockHttpClientFailure404();
+          when(mockSettings
+                  .getServerByPlexName(serverModelWithBasicAuth.plexName))
+              .thenAnswer((_) async => serverModelWithBasicAuth);
+          when(mockHttpClient.get(any, headers: anyNamed('headers')))
+              .thenAnswer((_) async => http.Response('failure', 404));
           //act
           final call = dataSource.getGeoIp;
           //assert
           expect(
-              () => call(ipAddress), throwsA(TypeMatcher<ServerException>()));
+              () => call(
+                    plexName: serverModelWithBasicAuth.plexName,
+                    ipAddress: tIpAddress,
+                  ),
+              throwsA(TypeMatcher<ServerException>()));
         },
       );
     });

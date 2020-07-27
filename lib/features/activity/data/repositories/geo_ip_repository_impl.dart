@@ -1,13 +1,15 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:tautulli_remote_tdd/core/error/exception.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/network/network_info.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/datasources/geo_ip_data_source.dart';
-import 'package:tautulli_remote_tdd/features/activity/domain/entities/geo_ip.dart';
-import 'package:tautulli_remote_tdd/features/activity/domain/repositories/geo_ip_repository.dart';
 import 'package:meta/meta.dart';
+
+import '../../../../core/error/exception.dart';
+import '../../../../core/error/failure.dart';
+import '../../../../core/network/network_info.dart';
+import '../../domain/entities/geo_ip.dart';
+import '../../domain/repositories/geo_ip_repository.dart';
+import '../datasources/geo_ip_data_source.dart';
 
 class GeoIpRepositoryImpl implements GeoIpRepository {
   final GeoIpDataSource dataSource;
@@ -19,10 +21,16 @@ class GeoIpRepositoryImpl implements GeoIpRepository {
   });
 
   @override
-  Future<Either<Failure, GeoIpItem>> getGeoIp(String ipAddress) async {
+  Future<Either<Failure, GeoIpItem>> getGeoIp({
+    @required String plexName,
+    @required String ipAddress,
+  }) async {
     if (await networkInfo.isConnected) {
       try {
-        final geoIpItem = await dataSource.getGeoIp(ipAddress);
+        final geoIpItem = await dataSource.getGeoIp(
+          plexName: plexName,
+          ipAddress: ipAddress,
+        );
         return Right(geoIpItem);
       } on SettingsException {
         return Left(SettingsFailure());
@@ -36,6 +44,8 @@ class GeoIpRepositoryImpl implements GeoIpRepository {
         return Left(UrlFormatFailure());
       } on ArgumentError {
         return Left(UrlFormatFailure());
+      } on TimeoutException {
+        return Left(TimeoutFailure());
       }
     } else {
       return Left(ConnectionFailure());

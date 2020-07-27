@@ -207,6 +207,7 @@ Future<void> init() async {
       client: sl(),
       settings: sl(),
       tautulliApiUrls: sl(),
+      logging: sl(),
     ),
   );
 
@@ -215,6 +216,7 @@ Future<void> init() async {
       client: sl(),
       settings: sl(),
       tautulliApiUrls: sl(),
+      logging: sl(),
     ),
   );
 

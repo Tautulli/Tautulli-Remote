@@ -1,8 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/models/activity_model.dart';
-import 'package:tautulli_remote_tdd/features/activity/domain/entities/activity.dart';
 import 'package:tautulli_remote_tdd/features/activity/domain/repositories/activity_repository.dart';
 import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_activity.dart';
 
@@ -19,22 +17,23 @@ void main() {
     );
   });
 
-  final List<ActivityItem> tActivity = [
-    ActivityItemModel(
-      sessionKey: 25,
-    ),
-  ];
+  final Map<String, Map<String, Object>> tActivityMap = {
+    'Plex': {
+      'result': 'success',
+      'activity': []
+    }
+  };
 
   test(
     'should get Activity from API',
     () async {
       // arrange
       when(mockActivityRepository.getActivity())
-          .thenAnswer((_) async => Right(tActivity));
+          .thenAnswer((_) async => Right(tActivityMap));
       //act
       final result = await usecase();
       //assert
-      expect(result, Right(tActivity));
+      expect(result, Right(tActivityMap));
       verify(mockActivityRepository.getActivity());
       verifyNoMoreInteractions(mockActivityRepository);
     },

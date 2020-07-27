@@ -1,68 +1,117 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
+import 'package:quiver/strings.dart';
 
+import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/helpers/tautulli_api_url_helper.dart';
-import '../../../settings/domain/usecases/get_settings.dart';
+import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/domain/usecases/settings.dart';
 import '../../domain/entities/geo_ip.dart';
 import '../models/geo_ip_model.dart';
 
 abstract class GeoIpDataSource {
   /// Returns a [GeoIpItem] for a provided IP Address.
-  /// 
-  /// Thows a [SettingsException] if the [connectionAddress] or 
-  /// [deviceToken] are null. Throws a [ServerException] if the 
+  ///
+  /// Thows a [SettingsException] if the [connectionAddress] or
+  /// [deviceToken] are null. Throws a [ServerException] if the
   /// server responds with a [StatusCode] other than 200.
-  Future<GeoIpItem> getGeoIp(String ipAddress);
+  Future<GeoIpItem> getGeoIp({
+    @required String plexName,
+    @required String ipAddress,
+  });
 }
 
 class GeoIpDataSourceImpl implements GeoIpDataSource {
   final http.Client client;
-  final GetSettings getSettings;
+  final Settings settings;
   final TautulliApiUrls tautulliApiUrls;
+  final Logging logging;
 
   GeoIpDataSourceImpl({
     @required this.client,
-    @required this.getSettings,
+    @required this.settings,
     @required this.tautulliApiUrls,
+    @required this.logging,
   });
 
   @override
-  Future<GeoIpItem> getGeoIp(String ipAddress) async {
-    final settings = await getSettings.load();
-    final connectionAddress = settings.connectionAddress;
-    final connectionProtocol = settings.connectionProtocol;
-    final connectionDomain = settings.connectionDomain;
-    final connectionUser = settings.connectionUser;
-    final connectionPassword = settings.connectionPassword;
-    final deviceToken = settings.deviceToken;
-
-    if ((connectionAddress == null || deviceToken == null)) {
-      throw SettingsException();
-    }
+  Future<GeoIpItem> getGeoIp({
+    @required String plexName,
+    @required String ipAddress,
+  }) async {
+    final Server server = await settings.getServerByPlexName(plexName);
 
     Map<String, String> headers = {
       'Content-Type': 'application/json',
     };
 
-    if (connectionUser != null && connectionPassword != null) {
-      headers['authorization'] = 'Basic ' +
-          base64Encode(
-            utf8.encode('$connectionUser:$connectionPassword'),
-          );
-    }
+    http.Response response;
 
-    final response = await client.get(
-      tautulliApiUrls.getGeoIpLookupUrl(
-        protocol: connectionProtocol,
-        domain: connectionDomain,
-        deviceToken: deviceToken,
-        ipAddress: ipAddress,
-      ),
-      headers: headers,
-    );
+    try {
+      if (isNotEmpty(server.primaryConnectionUser) &&
+          isNotEmpty(server.primaryConnectionPassword)) {
+        headers['authorization'] = 'Basic ' +
+            base64Encode(
+              utf8.encode(
+                  '${server.primaryConnectionUser}:${server.primaryConnectionPassword}'),
+            );
+      }
+
+      response = await client
+          .get(
+            tautulliApiUrls.getGeoIpLookupUrl(
+              protocol: server.primaryConnectionProtocol,
+              domain: server.primaryConnectionDomain,
+              deviceToken: server.deviceToken,
+              ipAddress: ipAddress,
+            ),
+            headers: headers,
+          )
+          .timeout(
+            Duration(seconds: 3),
+          );
+    } catch (error) {
+      if (error == TimeoutException) {
+        logging.error('GeoIP Lookup: Primary connection timed out.');
+
+        try {
+          if (isNotEmpty(server.secondaryConnectionUser) &&
+              isNotEmpty(server.secondaryConnectionPassword)) {
+            headers['authorization'] = 'Basic ' +
+                base64Encode(
+                  utf8.encode(
+                      '${server.secondaryConnectionUser}:${server.secondaryConnectionPassword}'),
+                );
+          }
+
+          response = await client
+              .get(
+                tautulliApiUrls.getGeoIpLookupUrl(
+                  protocol: server.secondaryConnectionProtocol,
+                  domain: server.secondaryConnectionDomain,
+                  deviceToken: server.deviceToken,
+                  ipAddress: ipAddress,
+                ),
+                headers: headers,
+              )
+              .timeout(
+                Duration(seconds: 3),
+              );
+        } catch (error) {
+          if (error == TimeoutException) {
+            logging.error('GeoIP Lookup: Secondary connection timed out.');
+          }
+          throw error;
+        }
+      } else {
+        // If error is not a TimeoutException throw to be caught by repository
+        throw error;
+      }
+    }
 
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
