@@ -113,6 +113,17 @@ class DBProvider {
     return result.isNotEmpty ? ServerModel.fromJson(result.first) : null;
   }
 
+  Future getServerByPlexName(String plexName) async {
+    final db = await database;
+    var result = await db.query(
+      'servers',
+      where: 'plex_name = ?',
+      whereArgs: [plexName],
+    );
+
+    return result.isNotEmpty ? ServerModel.fromJson(result.first) : null;
+  }
+
   updateConnection({
     @required int id,
     @required Map<String, dynamic> dbConnectionAddressMap,
