@@ -164,7 +164,7 @@ class ActivityItemModel extends ActivityItem {
       mediaType: json['media_type'],
       optimizedVersion: json['optimized_version'],
       optimizedVersionProfile: json['optimized_version_profile'],
-      optimizedVersionTitle: json['optimized_version_profile'],
+      optimizedVersionTitle: json['optimized_version_title'],
       originallyAvailableAt: json['originally_available_at'],
       parentMediaIndex: int.tryParse(json['parent_media_index']),
       parentRatingKey: int.tryParse(json['parent_rating_key']),
