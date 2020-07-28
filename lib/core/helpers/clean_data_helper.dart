@@ -56,7 +56,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
             'Direct Stream (${activity.streamAudioCodec.toUpperCase()} ${StringFormatHelper.capitalize(activity.streamAudioChannelLayout.split("(")[0])})';
 
         list.add([
-          '',
+          title,
           _formatValue(left: textLeft),
         ]);
       } else {
@@ -64,7 +64,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
             'Direct Play (${activity.streamAudioCodec.toUpperCase()} ${StringFormatHelper.capitalize(activity.streamAudioChannelLayout.split("(")[0])})';
 
         list.add([
-          '',
+          title,
           _formatValue(left: textLeft),
         ]);
       }
