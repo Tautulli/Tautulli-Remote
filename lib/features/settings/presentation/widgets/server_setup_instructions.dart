@@ -15,7 +15,7 @@ class ServerSetupInstructions extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        Text('To register this app do the following:'),
+        Text('To register with a Tautulli server:'),
         BulletItem('Open the Tautulli web interface on another device'),
         BulletItem('Navigate to Settings > Tautulli Remote App'),
         BulletItem('Select \'Register a new device\''),
