@@ -32,7 +32,7 @@ class ActivityModalBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: 525,
       child: Stack(
         children: <Widget>[
           LayoutBuilder(
@@ -44,8 +44,7 @@ class ActivityModalBottomSheet extends StatelessWidget {
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: Container(
-                      // height: constraints.maxHeight * 0.12,
-                      height: constraints.maxHeight * 0.05,
+                      height: constraints.maxHeight * 0.02,
                       width: constraints.maxWidth,
                       color: Colors.transparent,
                     ),
@@ -58,14 +57,14 @@ class ActivityModalBottomSheet extends StatelessWidget {
                     ),
                     child: Container(
                       // height: constraints.maxHeight * 0.88,
-                      height: constraints.maxHeight * 0.95,
+                      height: constraints.maxHeight * 0.98,
                       width: constraints.maxWidth,
                       // color: PlexColorPalette.river_bed,
                       child: Column(
                         children: <Widget>[
                           // Activity art section
                           Container(
-                            height: 110,
+                            height: 130,
                             width: constraints.maxWidth,
                             child: Stack(
                               children: <Widget>[
@@ -90,7 +89,8 @@ class ActivityModalBottomSheet extends StatelessWidget {
                                         child: Padding(
                                           padding: const EdgeInsets.only(
                                             top: 4,
-                                            left: 92,
+                                            left: 98,
+                                            bottom: 4,
                                             right: 4,
                                           ),
                                           child: ActivityMediaInfo(
@@ -107,6 +107,34 @@ class ActivityModalBottomSheet extends StatelessWidget {
                                             originallyAvailableAt:
                                                 activity.originallyAvailableAt,
                                           ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          right: 4,
+                                          left: 98,
+                                          top: 4,
+                                          bottom: 4,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            //* User name
+                                            Text(activity.friendlyName),
+                                            //* Time left or Live tv channel
+                                            activity.live == 0 &&
+                                                    activity.duration != null
+                                                ? TimeTotal(
+                                                    viewOffset:
+                                                        activity.viewOffset,
+                                                    duration: activity.duration,
+                                                  )
+                                                : activity.live == 1
+                                                    ? Text(
+                                                        '${activity.channelCallSign} ${activity.channelIdentifier}')
+                                                    : SizedBox(),
+                                          ],
                                         ),
                                       ),
                                       activity.mediaType == 'photo' ||
@@ -133,31 +161,6 @@ class ActivityModalBottomSheet extends StatelessWidget {
                               color: PlexColorPalette.river_bed,
                               child: Column(
                                 children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 4,
-                                      vertical: 4,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        //* User name
-                                        Text(activity.friendlyName),
-                                        //* Time left or Live tv channel
-                                        activity.live == 0 &&
-                                                activity.duration != null
-                                            ? TimeTotal(
-                                                viewOffset: activity.viewOffset,
-                                                duration: activity.duration,
-                                              )
-                                            : activity.live == 1
-                                                ? Text(
-                                                    '${activity.channelCallSign} ${activity.channelIdentifier}')
-                                                : SizedBox(),
-                                      ],
-                                    ),
-                                  ),
                                   Expanded(
                                     child: ActivityMediaDetails(
                                       constraints: constraints,

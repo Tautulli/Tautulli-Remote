@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quiver/strings.dart';
-import 'package:tautulli_remote_tdd/features/activity/domain/entities/geo_ip.dart';
 
 import '../../../../core/helpers/clean_data_helper.dart';
 import '../../domain/entities/activity.dart';
+import '../../domain/entities/geo_ip.dart';
 
 class ActivityMediaDetails extends StatelessWidget {
   final BoxConstraints constraints;
@@ -20,219 +19,221 @@ class ActivityMediaDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cleanDetails = ActivityMediaDetailsCleanerImpl();
-
     return ListView(
-      children: <Widget>[
-        SizedBox(
-          height: 10,
-        ),
-        _rowBuilder(
-          context: context,
-          constraints: constraints,
-          title: "PRODUCT",
-          textSpan: cleanDetails.product(
-            product: activity.product,
-          ),
-        ),
-        _rowBuilder(
-          context: context,
-          constraints: constraints,
-          title: "PLAYER",
-          textSpan: cleanDetails.player(
-            platformName: activity.platformName,
-          ),
-        ),
-        _rowBuilder(
-          context: context,
-          constraints: constraints,
-          title: "QUALITY",
-          textSpan: cleanDetails.quality(
-            mediaType: activity.mediaType,
-            qualityProfile: activity.qualityProfile,
-            streamBitrate: activity.streamBitrate,
-          ),
-        ),
-        if (activity.optimizedVersion == 1)
-          _rowBuilder(
-            context: context,
-            constraints: constraints,
-            title: "OPTIMIZED",
-            textSpan: cleanDetails.optimized(
-              optimizedVersionProfile: activity.optimizedVersionProfile,
-              optimizedVersionTitle: activity.optimizedVersionTitle,
-            ),
-          ),
-        if (activity.syncedVersion == 1)
-          _rowBuilder(
-            context: context,
-            constraints: constraints,
-            title: 'SYNCED',
-            textSpan: cleanDetails.synced(
-                syncedVersionProfile: activity.syncedVersionProfile),
-          ),
-        SizedBox(
-          height: 15,
-        ),
-        _rowBuilder(
-          context: context,
-          constraints: constraints,
-          title: 'STREAM',
-          textSpan: cleanDetails.stream(
-            transcodeDecision: activity.transcodeDecision,
-            transcodeSpeed: activity.transcodeSpeed,
-            transcodeThrottled: activity.transcodeThrottled,
-          ),
-        ),
-        _rowBuilder(
-          context: context,
-          constraints: constraints,
-          title: 'CONTAINER',
-          textSpan: cleanDetails.container(
-            container: activity.container,
-            streamContainer: activity.streamContainer,
-            streamContainerDecision: activity.streamContainerDecision,
-          ),
-        ),
-        if (activity.mediaType != 'track')
-          _rowBuilder(
-            context: context,
-            constraints: constraints,
-            title: 'VIDEO',
-            textSpan: cleanDetails.video(
-              height: activity.height,
-              mediaType: activity.mediaType,
-              streamVideoCodec: activity.streamVideoCodec,
-              streamVideoDecision: activity.streamVideoDecision,
-              streamVideoDynamicRange: activity.streamVideoDynamicRange,
-              streamVideoFullResolution: activity.streamVideoFullResolution,
-              transcodeHwDecoding: activity.transcodeHwDecoding,
-              transcodeHwEncoding: activity.transcodeHwEncoding,
-              videoCodec: activity.videoCodec,
-              videoDynamicRange: activity.videoDynamicRange,
-              videoFullResolution: activity.videoFullResolution,
-              width: activity.width,
-            ),
-          ),
-        if (activity.mediaType != 'photo')
-          _rowBuilder(
-            context: context,
-            constraints: constraints,
-            title: 'AUDIO',
-            textSpan: cleanDetails.audio(
-              audioChannelLayout: activity.audioChannelLayout,
-              audioCodec: activity.audioCodec,
-              streamAudioChannelLayout: activity.streamAudioChannelLayout,
-              streamAudioCodec: activity.streamAudioCodec,
-              streamAudioDecision: activity.streamAudioDecision,
-            ),
-          ),
-        if (activity.mediaType != 'track' && activity.mediaType != 'photo')
-          _rowBuilder(
-            context: context,
-            constraints: constraints,
-            title: 'SUBTITLE',
-            textSpan: cleanDetails.subtitles(
-              streamSubtitleCodec: activity.streamSubtitleCodec,
-              streamSubtitleDecision: activity.streamSubtitleDecision,
-              subtitleCodec: activity.subtitleCodec,
-              subtitles: activity.subtitles,
-              syncedVersion: activity.syncedVersion,
-            ),
-          ),
-        SizedBox(
-          height: 15,
-        ),
-        _rowBuilder(
-          context: context,
-          constraints: constraints,
-          title: 'LOCATION',
-          textSpan: cleanDetails.location(
-            ipAddress: activity.ipAddress,
-            location: activity.location,
-            relayed: activity.relayed,
-            secure: activity.secure,
-          ),
-        ),
-        if (activity.relayed == 1)
-          _rowBuilder(
-            context: context,
-            constraints: constraints,
-            title: '',
-            textSpan: cleanDetails.locationDetails(
-              type: 'relay',
-            ),
-          ),
-        if (activity.relayed == 0 && geoIp != null && geoIp.code != 'ZZ')
-          _rowBuilder(
-            context: context,
-            constraints: constraints,
-            title: '',
-            textSpan: cleanDetails.locationDetails(
-              type: 'ip',
-              city: geoIp.city,
-              region: geoIp.region,
-              code: geoIp.code,
-            ),
-          ),
-        _rowBuilder(
-          context: context,
-          constraints: constraints,
-          title: 'BANDWIDTH',
-          textSpan: cleanDetails.bandwidth(
-            bandwidth: activity.bandwidth,
-            mediaType: activity.mediaType,
-            syncedVersion: activity.syncedVersion,
-          ),
-        ),
-      ],
+      children: _buildList(
+        constraints: constraints,
+        activity: activity,
+        geoIp: geoIp,
+        cleanDetails: cleanDetails,
+      ),
     );
   }
 }
 
-Widget _rowBuilder({
-  @required BuildContext context,
+List<Widget> _buildList({
   @required BoxConstraints constraints,
-  @required String title,
-  @required RichText textSpan,
+  @required ActivityMediaDetailsCleanerImpl cleanDetails,
+  @required ActivityItem activity,
+  @required GeoIpItem geoIp,
 }) {
-  return Padding(
-    padding: const EdgeInsets.only(
-      left: 5,
-      right: 5,
-      bottom: 5,
-    ),
-    child: Column(
-      children: <Widget>[
-        IntrinsicHeight(
-          child: Row(
-            children: <Widget>[
-              Container(
-                width: constraints.maxWidth / 4,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(title),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Flexible(
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      textSpan,
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+  List<Widget> rows = [];
+
+  rows.add(
+    SizedBox(
+      height: 15,
     ),
   );
+
+  _buildRows(
+    constraints: constraints,
+    rowLists: cleanDetails.product(activity),
+  ).forEach((row) {
+    rows.add(row);
+  });
+
+  _buildRows(
+    constraints: constraints,
+    rowLists: cleanDetails.player(activity),
+  ).forEach((row) {
+    rows.add(row);
+  });
+
+  _buildRows(
+    constraints: constraints,
+    rowLists: cleanDetails.quality(activity),
+  ).forEach((row) {
+    rows.add(row);
+  });
+
+  if (activity.optimizedVersion == 1) {
+    _buildRows(
+      constraints: constraints,
+      rowLists: cleanDetails.optimized(activity),
+    ).forEach((row) {
+      rows.add(row);
+    });
+  }
+
+  if (activity.syncedVersion == 1) {
+    _buildRows(
+      constraints: constraints,
+      rowLists: cleanDetails.synced(activity),
+    ).forEach((row) {
+      rows.add(row);
+    });
+  }
+
+  rows.add(
+    SizedBox(
+      height: 15,
+    ),
+  );
+
+  _buildRows(
+    constraints: constraints,
+    rowLists: cleanDetails.stream(activity),
+  ).forEach((row) {
+    rows.add(row);
+  });
+
+  _buildRows(
+    constraints: constraints,
+    rowLists: cleanDetails.container(activity),
+  ).forEach((row) {
+    rows.add(row);
+  });
+
+  if (activity.mediaType != 'track') {
+    _buildRows(
+      constraints: constraints,
+      rowLists: cleanDetails.video(activity),
+    ).forEach((row) {
+      rows.add(row);
+    });
+  }
+
+  if (activity.mediaType != 'photo') {
+    _buildRows(
+      constraints: constraints,
+      rowLists: cleanDetails.audio(activity),
+    ).forEach((row) {
+      rows.add(row);
+    });
+  }
+
+  if (activity.mediaType != 'track' && activity.mediaType != 'photo') {
+    _buildRows(
+      constraints: constraints,
+      rowLists: cleanDetails.subtitles(activity),
+    ).forEach((row) {
+      rows.add(row);
+    });
+  }
+
+  rows.add(
+    SizedBox(
+      height: 15,
+    ),
+  );
+
+  _buildRows(
+    constraints: constraints,
+    rowLists: cleanDetails.location(activity),
+  ).forEach((row) {
+    rows.add(row);
+  });
+
+  if (activity.relayed == 1) {
+    _buildRows(
+      constraints: constraints,
+      rowLists: cleanDetails.locationDetails(type: 'relay'),
+    ).forEach((row) {
+      rows.add(row);
+    });
+  }
+
+  if (activity.relayed == 0 && geoIp != null && geoIp.code != 'ZZ') {
+    _buildRows(
+      constraints: constraints,
+      rowLists: cleanDetails.locationDetails(
+        type: 'ip',
+        city: geoIp.city,
+        region: geoIp.region,
+        code: geoIp.code,
+      ),
+    ).forEach((row) {
+      rows.add(row);
+    });
+  }
+
+  _buildRows(
+    constraints: constraints,
+    rowLists: cleanDetails.bandwidth(activity),
+  ).forEach((row) {
+    rows.add(row);
+  });
+
+  return rows;
+}
+
+List<Widget> _buildRows({
+  @required BoxConstraints constraints,
+  @required List rowLists,
+}) {
+  List<Widget> rows = [];
+
+  rowLists.forEach((row) {
+    rows.add(
+      Padding(
+        padding: const EdgeInsets.only(
+          left: 5,
+          right: 5,
+          bottom: 5,
+        ),
+        child: Column(
+          children: <Widget>[
+            IntrinsicHeight(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    width: constraints.maxWidth / 4,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            Text(
+                              row[0],
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.grey[400],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Flexible(
+                    child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          row[1],
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  });
+  return rows;
 }
