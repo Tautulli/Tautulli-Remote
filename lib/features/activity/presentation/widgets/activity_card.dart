@@ -80,6 +80,7 @@ class ActivityCard extends StatelessWidget {
                       //* Main information area
                       Container(
                         height: 130,
+                        padding: const EdgeInsets.all(4),
                         child: Row(
                           children: <Widget>[
                             //* Poster section
@@ -102,51 +103,44 @@ class ActivityCard extends StatelessWidget {
                             ),
                             //* Info section
                             Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        //* Activity info
-                                        Expanded(
-                                          child: ActivityMediaInfo(
-                                            mediaType: activity.mediaType,
-                                            title: activity.title,
-                                            parentTitle: activity.parentTitle,
-                                            grandparentTitle:
-                                                activity.grandparentTitle,
-                                            year: activity.year,
-                                            mediaIndex: activity.mediaIndex,
-                                            parentMediaIndex:
-                                                activity.parentMediaIndex,
-                                            live: activity.live,
-                                            originallyAvailableAt:
-                                                activity.originallyAvailableAt,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 6),
+                                child: Column(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          //* Activity info
+                                          Expanded(
+                                            child: ActivityMediaInfo(
+                                              mediaType: activity.mediaType,
+                                              title: activity.title,
+                                              parentTitle: activity.parentTitle,
+                                              grandparentTitle:
+                                                  activity.grandparentTitle,
+                                              year: activity.year,
+                                              mediaIndex: activity.mediaIndex,
+                                              parentMediaIndex:
+                                                  activity.parentMediaIndex,
+                                              live: activity.live,
+                                              originallyAvailableAt: activity
+                                                  .originallyAvailableAt,
+                                            ),
                                           ),
-                                        ),
-                                        //* Platform icon
-                                        Container(
-                                          padding: EdgeInsets.only(
-                                            right: 3,
-                                            top: 3,
+                                          //* Platform icon
+                                          Container(
+                                            width: 50,
+                                            child: PlatformIcon(
+                                                activity.platformName),
                                           ),
-                                          width: 50,
-                                          child: PlatformIcon(
-                                              activity.platformName),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      bottom: 3,
-                                      right: 3,
-                                    ),
-                                    child: Row(
+                                    Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
@@ -166,8 +160,8 @@ class ActivityCard extends StatelessWidget {
                                                 : SizedBox(),
                                       ],
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ],

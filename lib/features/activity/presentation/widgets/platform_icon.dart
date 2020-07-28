@@ -20,7 +20,7 @@ class PlatformIcon extends StatelessWidget {
         child: Container(
           color: TautulliColorPalette().mapPlatformToColor(platform),
           child: Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(10),
             child: WebsafeSvg.asset(
               AssetMapperHelper().mapPlatformtoPath(platform),
             ),

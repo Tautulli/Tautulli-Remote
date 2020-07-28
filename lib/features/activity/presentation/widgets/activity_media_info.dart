@@ -29,7 +29,6 @@ class ActivityMediaInfo extends StatelessWidget {
     return Container(
       child: Padding(
         padding: const EdgeInsets.only(
-          top: 3,
           right: 3,
         ),
         child: Column(
@@ -49,7 +48,6 @@ class ActivityMediaInfo extends StatelessWidget {
                         text: title,
                         maxLines: 2,
                       ),
-
             mediaType == 'episode'
                 ? _ActivityMediaInfoH2(text: title)
                 : mediaType == 'track'
@@ -58,7 +56,6 @@ class ActivityMediaInfo extends StatelessWidget {
                         maxLines: 1,
                       )
                     : Container(),
-
             mediaType == 'movie' && year != null
                 ? _ActivityMediaInfoH3(text: year.toString())
                 : mediaType == 'episode' &&

@@ -15,15 +15,12 @@ class StatusPosterOverlay extends StatelessWidget {
         //* Faded background
         AspectRatio(
           aspectRatio: 2 / 3,
-          child: Container(
-            padding: EdgeInsets.all(3),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: Opacity(
-                opacity: 0.5,
-                child: Container(
-                  color: Colors.black,
-                ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: Opacity(
+              opacity: 0.5,
+              child: Container(
+                color: Colors.black,
               ),
             ),
           ),
