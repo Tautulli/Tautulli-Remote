@@ -33,52 +33,12 @@ class PrivacyPage extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'OneSignal Data Privacy',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: BlocBuilder<OneSignalPrivacyBloc,
-                            OneSignalPrivacyState>(
-                          builder: (context, state) {
-                            return RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: 'Status: ',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                  ),
-                                  if (state is OneSignalPrivacyConsentFailure)
-                                    TextSpan(
-                                      text: 'Not Accepted X',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  if (state is OneSignalPrivacyConsentSuccess)
-                                    TextSpan(
-                                      text: 'Accepted ✓',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            );
-                          },
-                        )),
-                  ],
+                child: Text(
+                  'OneSignal Data Privacy',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Padding(
@@ -98,6 +58,39 @@ class PrivacyPage extends StatelessWidget {
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
+                      ),
+                      subtitle: BlocBuilder<OneSignalPrivacyBloc,
+                          OneSignalPrivacyState>(
+                        builder: (context, state) {
+                          return RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Status: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ),
+                                if (state is OneSignalPrivacyConsentFailure)
+                                  TextSpan(
+                                    text: 'Not Accepted X',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                if (state is OneSignalPrivacyConsentSuccess)
+                                  TextSpan(
+                                    text: 'Accepted ✓',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                       value: state is OneSignalPrivacyConsentSuccess
                           ? true
