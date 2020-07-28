@@ -22,13 +22,13 @@ class GeoIpRepositoryImpl implements GeoIpRepository {
 
   @override
   Future<Either<Failure, GeoIpItem>> getGeoIp({
-    @required String plexName,
+    @required String tautulliId,
     @required String ipAddress,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final geoIpItem = await dataSource.getGeoIp(
-          plexName: plexName,
+          tautulliId: tautulliId,
           ipAddress: ipAddress,
         );
         return Right(geoIpItem);

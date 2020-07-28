@@ -15,10 +15,11 @@ import '../../domain/entities/activity.dart';
 import '../models/activity_model.dart';
 
 abstract class ActivityDataSource {
-  /// Returns a map containing activity data with the stored `plexName` for a key.
+  /// Returns a map containing activity data with the stored `tautulliId` for a key.
   ///
-  /// This key has a map with a key of  `result` with a value of `'success'` or `'failure'`
-  /// and either an `activity` or `failure` key based on the `result` value.
+  /// This key has a map with a key of `plex_name` with the server name, `result` with 
+  /// a value of `'success'` or `'failure'` and either an `activity` or `failure` key 
+  /// based on the `result` value.
   ///
   /// `activity` is a list of [ActivityItem] and `failure` will contain a [Failure].
   ///
@@ -68,7 +69,8 @@ class ActivityDataSourceImpl implements ActivityDataSource {
         if (serverList.length <= 1) {
           throw SettingsException();
         } else {
-          activityMap[server.plexName] = {
+          activityMap[server.tautulliId] = {
+            'plex_name': server.plexName,
             'result': 'failure',
             'failure': SettingsFailure(),
           };
@@ -107,7 +109,7 @@ class ActivityDataSourceImpl implements ActivityDataSource {
             );
 
         if (response.statusCode != 200) {
-          throw ServerException;
+          throw ServerException();
         }
       } catch (error) {
         logging.error(
@@ -149,7 +151,8 @@ class ActivityDataSourceImpl implements ActivityDataSource {
             }
 
             // Store related failure in map for multiserver
-            activityMap[server.plexName] = {
+            activityMap[server.tautulliId] = {
+              'plex_name': server.plexName,
               'result': 'failure',
               'failure': _mapErrorToFailure(error),
             };
@@ -162,7 +165,8 @@ class ActivityDataSourceImpl implements ActivityDataSource {
           }
 
           // Store related failure in map for multiserver
-          activityMap[server.plexName] = {
+          activityMap[server.tautulliId] = {
+            'plex_name': server.plexName,
             'result': 'failure',
             'failure': _mapErrorToFailure(error),
           };
@@ -182,7 +186,8 @@ class ActivityDataSourceImpl implements ActivityDataSource {
       );
 
       //* Build activityMap using activityList
-      activityMap[server.plexName] = {
+      activityMap[server.tautulliId] = {
+        'plex_name': server.plexName,
         'result': 'success',
         'activity': activityList,
       };
@@ -194,6 +199,8 @@ class ActivityDataSourceImpl implements ActivityDataSource {
 
 Failure _mapErrorToFailure(dynamic error) {
   switch (error.runtimeType) {
+    case (ServerException):
+      return ServerFailure();
     case (SocketException):
       return SocketFailure();
     case (HandshakeException):

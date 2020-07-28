@@ -11,11 +11,11 @@ class GetGeoIp {
   GetGeoIp({@required this.repository});
 
   Future<Either<Failure, GeoIpItem>> call({
-    @required String plexName,
+    @required String tautulliId,
     @required String ipAddress,
   }) async {
     return await repository.getGeoIp(
-      plexName: plexName,
+      tautulliId: tautulliId,
       ipAddress: ipAddress,
     );
   }

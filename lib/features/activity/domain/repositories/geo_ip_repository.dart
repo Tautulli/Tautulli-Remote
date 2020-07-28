@@ -6,7 +6,7 @@ import '../entities/geo_ip.dart';
 
 abstract class GeoIpRepository {
   Future<Either<Failure, GeoIpItem>> getGeoIp({
-    @required String plexName,
+    @required String tautulliId,
     @required String ipAddress,
   });
 }

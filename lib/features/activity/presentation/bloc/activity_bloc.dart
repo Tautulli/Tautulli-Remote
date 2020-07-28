@@ -91,7 +91,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             for (ActivityItem activityItem in activityMap[keys[i]]
                 ['activity']) {
               final failureOrGeoIp = await getGeoIp(
-                plexName: keys[i],
+                tautulliId: keys[i],
                 ipAddress: activityItem.ipAddress,
               );
 

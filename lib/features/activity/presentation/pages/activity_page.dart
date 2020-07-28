@@ -199,9 +199,9 @@ Widget _buildMultiserverActivity({
 }) {
   List<Widget> activityWidgetList = [];
 
-  activityMap.forEach((serverName, resultMap) {
+  activityMap.forEach((tautulliId, resultMap) {
     activityWidgetList.add(
-      ServerHeader(serverName: serverName),
+      ServerHeader(serverName: resultMap['plex_name']),
     );
     if (resultMap['result'] == 'success') {
       final List<ActivityItem> activityList = resultMap['activity'];
@@ -212,7 +212,7 @@ Widget _buildMultiserverActivity({
             ActivityCard(
               activity: activityItem,
               geoIp: geoIpMap[activityItem.ipAddress],
-              server: serverList.firstWhere((e) => e.plexName == serverName),
+              server: serverList.firstWhere((e) => e.tautulliId == tautulliId),
               tautulliApiUrls: tautulliApiUrls,
             ),
           );

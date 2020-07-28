@@ -20,7 +20,7 @@ abstract class GeoIpDataSource {
   /// [deviceToken] are null. Throws a [ServerException] if the
   /// server responds with a [StatusCode] other than 200.
   Future<GeoIpItem> getGeoIp({
-    @required String plexName,
+    @required String tautulliId,
     @required String ipAddress,
   });
 }
@@ -40,10 +40,10 @@ class GeoIpDataSourceImpl implements GeoIpDataSource {
 
   @override
   Future<GeoIpItem> getGeoIp({
-    @required String plexName,
+    @required String tautulliId,
     @required String ipAddress,
   }) async {
-    final Server server = await settings.getServerByPlexName(plexName);
+    final Server server = await settings.getServerByTautulliId(tautulliId);
 
     Map<String, String> headers = {
       'Content-Type': 'application/json',
