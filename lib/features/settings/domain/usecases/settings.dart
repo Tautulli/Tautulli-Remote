@@ -60,10 +60,6 @@ class Settings {
     return await repository.getServerByTautulliId(tautulliId);
   }
 
-  Future getServerByPlexName(String plexName) async {
-    return await repository.getServerByPlexName(plexName);
-  }
-
   Future updatePrimaryConnection({
     @required int id,
     @required String primaryConnectionAddress,

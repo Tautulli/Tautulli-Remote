@@ -30,8 +30,6 @@ abstract class SettingsRepository {
 
   Future getServerByTautulliId(String tautulliId);
 
-  Future getServerByPlexName(String plexName);
-
   Future updatePrimaryConnection({
     @required int id,
     @required String primaryConnectionAddress,
