@@ -10,6 +10,16 @@ abstract class ConnectionAddressHelper {
 class ConnectionAddressHelperImpl implements ConnectionAddressHelper {
   @override
   Map<String, dynamic> parse(String connectionAddress) {
+    if (connectionAddress == null) {
+      final Map<String, String> connectionAddressMap = {
+        'protocol': null,
+        'domain': null,
+        'user': null,
+        'password': null,
+      };
+      return connectionAddressMap;
+    }
+
     String protocol;
     String domain;
     String user;
