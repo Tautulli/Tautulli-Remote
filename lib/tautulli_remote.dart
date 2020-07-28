@@ -57,9 +57,13 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       // push new events for SubscriptionBloc and HealthBloc when there is a subscription change
       //TODO
       //? call an update to the device registration when userid goes from null to a value
-      BlocProvider.of<OneSignalSubscriptionBloc>(context)
-          .add(OneSignalSubscriptionCheck());
-      BlocProvider.of<OneSignalHealthBloc>(context).add(OneSignalHealthCheck());
+      // Only trigger new checks when userId moves from null to a value
+      if (changes.to.userId != null) {
+        BlocProvider.of<OneSignalSubscriptionBloc>(context)
+            .add(OneSignalSubscriptionCheck());
+        BlocProvider.of<OneSignalHealthBloc>(context)
+            .add(OneSignalHealthCheck());
+      }
     });
   }
 
@@ -104,8 +108,8 @@ class _TautulliRemoteState extends State<TautulliRemote> {
             ),
         buttonTheme: ThemeData.dark().buttonTheme.copyWith(),
         popupMenuTheme: ThemeData.dark().popupMenuTheme.copyWith(
-          color: PlexColorPalette.river_bed,
-        ),
+              color: PlexColorPalette.river_bed,
+            ),
       ),
       home: ActivityPage(),
       routes: {

@@ -18,7 +18,8 @@ void main() async {
           create: (context) => di.sl<SettingsBloc>()..add(SettingsLoad()),
         ),
         BlocProvider<OneSignalHealthBloc>(
-          create: (context) => di.sl<OneSignalHealthBloc>(),
+          create: (context) =>
+              di.sl<OneSignalHealthBloc>()..add(OneSignalHealthCheck()),
         ),
         BlocProvider<OneSignalSubscriptionBloc>(
           create: (context) => di.sl<OneSignalSubscriptionBloc>()
