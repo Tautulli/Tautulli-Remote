@@ -31,179 +31,187 @@ class ActivityModalBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 525,
-      child: Stack(
-        children: <Widget>[
-          LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              return Column(
-                children: <Widget>[
-                  // Creates a transparent area for the poster to hover over
-                  // Allows for that area to be tapped to dismiss the modal bottom sheet
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Container(
-                      height: constraints.maxHeight * 0.02,
-                      width: constraints.maxWidth,
-                      color: Colors.transparent,
-                    ),
-                  ),
-                  // The main area of the modal bottom sheet
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    ),
-                    child: Container(
-                      // height: constraints.maxHeight * 0.88,
-                      height: constraints.maxHeight * 0.98,
-                      width: constraints.maxWidth,
-                      // color: PlexColorPalette.river_bed,
-                      child: Column(
-                        children: <Widget>[
-                          // Activity art section
-                          Container(
-                            height: 130,
-                            width: constraints.maxWidth,
-                            child: Stack(
-                              children: <Widget>[
-                                Container(
-                                  width: constraints.maxWidth,
-                                  child: BackgroundImageChooser(
-                                    tautulliApiUrls: tautulliApiUrls,
-                                    activity: activity,
-                                    server: server,
-                                  ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          height: constraints.maxHeight * 0.70,
+          child: Stack(
+            children: <Widget>[
+              LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return Column(
+                    children: <Widget>[
+                      // Creates a transparent area for the poster to hover over
+                      // Allows for that area to be tapped to dismiss the modal bottom sheet
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          height: constraints.maxHeight * 0.02,
+                          width: constraints.maxWidth,
+                          color: Colors.transparent,
+                        ),
+                      ),
+                      // The main area of the modal bottom sheet
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                        child: Container(
+                          // height: constraints.maxHeight * 0.88,
+                          height: constraints.maxHeight * 0.98,
+                          width: constraints.maxWidth,
+                          // color: PlexColorPalette.river_bed,
+                          child: Column(
+                            children: <Widget>[
+                              // Activity art section
+                              Container(
+                                height: 130,
+                                width: constraints.maxWidth,
+                                child: Stack(
+                                  children: <Widget>[
+                                    Container(
+                                      width: constraints.maxWidth,
+                                      child: BackgroundImageChooser(
+                                        tautulliApiUrls: tautulliApiUrls,
+                                        activity: activity,
+                                        server: server,
+                                      ),
+                                    ),
+                                    BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 8,
+                                        sigmaY: 8,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                top: 4,
+                                                left: 98,
+                                                bottom: 4,
+                                                right: 4,
+                                              ),
+                                              child: ActivityMediaInfo(
+                                                mediaType: activity.mediaType,
+                                                title: activity.title,
+                                                parentTitle:
+                                                    activity.parentTitle,
+                                                grandparentTitle:
+                                                    activity.grandparentTitle,
+                                                year: activity.year,
+                                                mediaIndex: activity.mediaIndex,
+                                                parentMediaIndex:
+                                                    activity.parentMediaIndex,
+                                                live: activity.live,
+                                                originallyAvailableAt: activity
+                                                    .originallyAvailableAt,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              right: 4,
+                                              left: 98,
+                                              top: 4,
+                                              bottom: 4,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                //* User name
+                                                Text(activity.friendlyName),
+                                                //* Time left or Live tv channel
+                                                activity.live == 0 &&
+                                                        activity.duration !=
+                                                            null
+                                                    ? TimeTotal(
+                                                        viewOffset:
+                                                            activity.viewOffset,
+                                                        duration:
+                                                            activity.duration,
+                                                      )
+                                                    : activity.live == 1
+                                                        ? Text(
+                                                            '${activity.channelCallSign} ${activity.channelIdentifier}')
+                                                        : SizedBox(),
+                                              ],
+                                            ),
+                                          ),
+                                          activity.mediaType == 'photo' ||
+                                                  activity.live == 1
+                                              ? ProgressBar(
+                                                  progress: 100,
+                                                  transcodeProgress: 0,
+                                                )
+                                              : ProgressBar(
+                                                  progress:
+                                                      activity.progressPercent,
+                                                  transcodeProgress: activity
+                                                      .transcodeProgress,
+                                                ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                    sigmaX: 8,
-                                    sigmaY: 8,
-                                  ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: constraints.maxWidth,
+                                  color: PlexColorPalette.river_bed,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            top: 4,
-                                            left: 98,
-                                            bottom: 4,
-                                            right: 4,
-                                          ),
-                                          child: ActivityMediaInfo(
-                                            mediaType: activity.mediaType,
-                                            title: activity.title,
-                                            parentTitle: activity.parentTitle,
-                                            grandparentTitle:
-                                                activity.grandparentTitle,
-                                            year: activity.year,
-                                            mediaIndex: activity.mediaIndex,
-                                            parentMediaIndex:
-                                                activity.parentMediaIndex,
-                                            live: activity.live,
-                                            originallyAvailableAt:
-                                                activity.originallyAvailableAt,
-                                          ),
+                                        child: ActivityMediaDetails(
+                                          constraints: constraints,
+                                          activity: activity,
+                                          geoIp: geoIp,
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          right: 4,
-                                          left: 98,
-                                          top: 4,
-                                          bottom: 4,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            //* User name
-                                            Text(activity.friendlyName),
-                                            //* Time left or Live tv channel
-                                            activity.live == 0 &&
-                                                    activity.duration != null
-                                                ? TimeTotal(
-                                                    viewOffset:
-                                                        activity.viewOffset,
-                                                    duration: activity.duration,
-                                                  )
-                                                : activity.live == 1
-                                                    ? Text(
-                                                        '${activity.channelCallSign} ${activity.channelIdentifier}')
-                                                    : SizedBox(),
-                                          ],
-                                        ),
-                                      ),
-                                      activity.mediaType == 'photo' ||
-                                              activity.live == 1
-                                          ? ProgressBar(
-                                              progress: 100,
-                                              transcodeProgress: 0,
-                                            )
-                                          : ProgressBar(
-                                              progress:
-                                                  activity.progressPercent,
-                                              transcodeProgress:
-                                                  activity.transcodeProgress,
-                                            ),
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              width: constraints.maxWidth,
-                              color: PlexColorPalette.river_bed,
-                              child: Column(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: ActivityMediaDetails(
-                                      constraints: constraints,
-                                      activity: activity,
-                                      geoIp: geoIp,
-                                    ),
-                                  ),
-                                ],
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-          // Poster
-          Container(
-            height: 130,
-            padding: EdgeInsets.only(
-              left: 4,
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: Stack(
-                children: <Widget>[
-                  PosterChooser(
-                    tautulliApiUrls: tautulliApiUrls,
-                    activity: activity,
-                    server: server,
-                  ),
-                  if (activity.state == 'paused' ||
-                      activity.state == 'buffering')
-                    StatusPosterOverlay(state: activity.state),
-                ],
+                    ],
+                  );
+                },
               ),
-            ),
+              // Poster
+              Container(
+                height: 130,
+                padding: EdgeInsets.only(
+                  left: 4,
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: Stack(
+                    children: <Widget>[
+                      PosterChooser(
+                        tautulliApiUrls: tautulliApiUrls,
+                        activity: activity,
+                        server: server,
+                      ),
+                      if (activity.state == 'paused' ||
+                          activity.state == 'buffering')
+                        StatusPosterOverlay(state: activity.state),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
