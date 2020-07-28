@@ -13,7 +13,7 @@ import '../bloc/register_device_bloc.dart';
 import '../bloc/settings_bloc.dart';
 import '../widgets/custom_settings_tile.dart';
 import '../widgets/server_setup_instructions.dart';
-import '../widgets/settings_alert.dart';
+import '../widgets/settings_alert_banner.dart';
 import '../widgets/settings_header.dart';
 import 'server_settings_page.dart';
 
@@ -90,8 +90,8 @@ class SettingsPageContent extends StatelessWidget {
               return ListView(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: SettingsAlert(),
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: SettingsAlertBanner(),
                   ),
                   SettingsHeader(
                     headingText: 'Tautulli Servers',
