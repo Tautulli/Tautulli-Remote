@@ -297,13 +297,17 @@ Widget _buildFloatingActionButton(
                 false,
                 ScanMode.QR,
               );
-              // Passes in the SettingsBloc to maintain context so items update correctly
-              registerDeviceBloc.add(
-                RegisterDeviceFromQrStarted(
-                  result: qrCodeScan,
-                  settingsBloc: BlocProvider.of<SettingsBloc>(context),
-                ),
-              );
+              // Scanner seems to return '-1' when scanner is exited
+              // do not attempt to register when this happens
+              if (qrCodeScan != '-1') {
+                registerDeviceBloc.add(
+                  RegisterDeviceFromQrStarted(
+                    result: qrCodeScan,
+                    // Passes in the SettingsBloc to maintain context so items update correctly
+                    settingsBloc: BlocProvider.of<SettingsBloc>(context),
+                  ),
+                );
+              }
             },
           ),
         ),
