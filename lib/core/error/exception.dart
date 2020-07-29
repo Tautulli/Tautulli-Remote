@@ -9,3 +9,6 @@ class ConnectionException implements Exception {}
 
 /// Throw when required settings are missing.
 class SettingsException implements Exception {}
+
+/// Throw when a json.decode() fails.
+class JsonException implements Exception {}
