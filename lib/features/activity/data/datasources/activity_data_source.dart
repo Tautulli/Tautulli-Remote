@@ -111,6 +111,28 @@ class ActivityDataSourceImpl implements ActivityDataSource {
         if (response.statusCode != 200) {
           throw ServerException();
         }
+
+        //* Build activityList
+        try {
+          final responseJson = json.decode(response.body);
+          final List<ActivityItem> activityList = [];
+          responseJson['response']['data']['sessions'].forEach(
+            (session) {
+              activityList.add(
+                ActivityItemModel.fromJson(session),
+              );
+            },
+          );
+
+          //* Build activityMap using activityList
+          activityMap[server.tautulliId] = {
+            'plex_name': server.plexName,
+            'result': 'success',
+            'activity': activityList,
+          };
+        } catch (_) {
+          throw JsonException();
+        }
       } catch (error) {
         logging.error(
             'Activity: Primary connection failed with [${error.runtimeType}].');
@@ -173,7 +195,6 @@ class ActivityDataSourceImpl implements ActivityDataSource {
           break;
         }
       }
-
       //* Build activityList
       try {
         final responseJson = json.decode(response.body);
@@ -204,7 +225,6 @@ class ActivityDataSourceImpl implements ActivityDataSource {
           'result': 'failure',
           'failure': JsonFailure(),
         };
-        break;
       }
     }
 
