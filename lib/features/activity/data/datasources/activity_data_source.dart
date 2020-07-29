@@ -17,8 +17,8 @@ import '../models/activity_model.dart';
 abstract class ActivityDataSource {
   /// Returns a map containing activity data with the stored `tautulliId` for a key.
   ///
-  /// This key has a map with a key of `plex_name` with the server name, `result` with 
-  /// a value of `'success'` or `'failure'` and either an `activity` or `failure` key 
+  /// This key has a map with a key of `plex_name` with the server name, `result` with
+  /// a value of `'success'` or `'failure'` and either an `activity` or `failure` key
   /// based on the `result` value.
   ///
   /// `activity` is a list of [ActivityItem] and `failure` will contain a [Failure].
@@ -175,22 +175,37 @@ class ActivityDataSourceImpl implements ActivityDataSource {
       }
 
       //* Build activityList
-      final responseJson = json.decode(response.body);
-      final List<ActivityItem> activityList = [];
-      responseJson['response']['data']['sessions'].forEach(
-        (session) {
-          activityList.add(
-            ActivityItemModel.fromJson(session),
-          );
-        },
-      );
+      try {
+        final responseJson = json.decode(response.body);
+        final List<ActivityItem> activityList = [];
+        responseJson['response']['data']['sessions'].forEach(
+          (session) {
+            activityList.add(
+              ActivityItemModel.fromJson(session),
+            );
+          },
+        );
 
-      //* Build activityMap using activityList
-      activityMap[server.tautulliId] = {
-        'plex_name': server.plexName,
-        'result': 'success',
-        'activity': activityList,
-      };
+        //* Build activityMap using activityList
+        activityMap[server.tautulliId] = {
+          'plex_name': server.plexName,
+          'result': 'success',
+          'activity': activityList,
+        };
+      } catch (_) {
+        // Re-throw error for single server
+        if (serverList.length <= 1) {
+          throw JsonException();
+        }
+
+        // Store related failure in map for multiserver
+        activityMap[server.tautulliId] = {
+          'plex_name': server.plexName,
+          'result': 'failure',
+          'failure': JsonFailure(),
+        };
+        break;
+      }
     }
 
     return activityMap;
