@@ -12,6 +12,7 @@ import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_activi
 import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_geo_ip.dart';
 import 'package:tautulli_remote_tdd/features/activity/presentation/bloc/activity_bloc.dart';
 import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote_tdd/core/helpers/failure_message_helper.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

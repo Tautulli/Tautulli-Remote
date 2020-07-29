@@ -93,7 +93,8 @@ void main() {
   );
 
   Map<String, Map<String, Object>> tActivityMap = {
-    'Plex': {
+    'jkl': {
+      'plex_name': 'Plex',
       'result': 'success',
       'activity': tActivityList,
     }
@@ -253,7 +254,7 @@ void main() {
           //act
           final call = dataSource.getActivity;
           //assert
-          expect(() => call(), throwsA(TypeMatcher<ServerException>()));
+          expect(() => call(), throwsA(ServerException().runtimeType));
         },
       );
     });
@@ -371,7 +372,7 @@ void main() {
           //act
           final call = dataSource.getActivity;
           //assert
-          expect(() => call(), throwsA(TypeMatcher<ServerException>()));
+          expect(() => call(), throwsA(ServerException().runtimeType));
         },
       );
     });

@@ -36,7 +36,6 @@ void main() {
       when(mockOneSignalDataSourceImpl.userId).thenAnswer((_) async => 'abc');
       // assert later
       final expected = [
-        OneSignalSubscriptionInitial(),
         OneSignalSubscriptionSuccess(),
       ];
       expectLater(bloc, emitsInOrder(expected));
@@ -53,7 +52,6 @@ void main() {
           .thenAnswer((_) async => false);
       // assert later
       final expected = [
-        OneSignalSubscriptionInitial(),
         OneSignalSubscriptionFailure(
           title: CONSENT_ERROR_TITLE,
           message: CONSENT_ERROR_MESSAGE,
@@ -77,7 +75,6 @@ void main() {
       when(mockOneSignalDataSourceImpl.userId).thenAnswer((_) async => null);
       // assert later
       final expected = [
-        OneSignalSubscriptionInitial(),
         OneSignalSubscriptionFailure(
           title: REGISTER_ERROR_TITLE,
           message: REGISTER_ERROR_MESSAGE,
@@ -101,7 +98,6 @@ void main() {
       when(mockOneSignalDataSourceImpl.userId).thenAnswer((_) async => 'abc');
       // assert later
       final expected = [
-        OneSignalSubscriptionInitial(),
         OneSignalSubscriptionFailure(
           title: REGISTER_ERROR_TITLE,
           message: REGISTER_ERROR_MESSAGE,
@@ -125,7 +121,6 @@ void main() {
       when(mockOneSignalDataSourceImpl.userId).thenAnswer((_) async => '');
       // assert later
       final expected = [
-        OneSignalSubscriptionInitial(),
         OneSignalSubscriptionFailure(
           title: UNEXPECTED_ERROR_TITLE,
           message: UNEXPECTED_ERROR_MESSAGE,

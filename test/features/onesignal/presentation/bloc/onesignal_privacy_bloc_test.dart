@@ -67,7 +67,6 @@ void main() {
           .thenAnswer((_) async => true);
       // assert later
       final expected = [
-        OneSignalPrivacyInitial(),
         OneSignalPrivacyConsentSuccess(),
       ];
       expectLater(bloc, emitsInOrder(expected));
@@ -84,7 +83,6 @@ void main() {
           .thenAnswer((_) async => null);
       // assert later
       final expected = [
-        OneSignalPrivacyInitial(),
         OneSignalPrivacyConsentFailure(),
       ];
       expectLater(bloc, emitsInOrder(expected));
@@ -110,7 +108,6 @@ void main() {
       () async {
         // assert later
         final expected = [
-          OneSignalPrivacyInitial(),
           OneSignalPrivacyConsentSuccess(),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -200,7 +197,6 @@ void main() {
       () async {
         // assert later
         final expected = [
-          OneSignalPrivacyInitial(),
           OneSignalPrivacyConsentFailure(),
         ];
         expectLater(bloc, emitsInOrder(expected));

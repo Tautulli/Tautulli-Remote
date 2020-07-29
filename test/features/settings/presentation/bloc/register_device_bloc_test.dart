@@ -185,7 +185,6 @@ void main() {
         setUpSuccess();
         // assert later
         final expected = [
-          RegisterDeviceInitial(),
           RegisterDeviceInProgress(),
           RegisterDeviceSuccess(),
         ];
@@ -217,7 +216,6 @@ void main() {
             .thenReturn(tPrimaryConnectionMap);
         // assert later
         final expected = [
-          RegisterDeviceInitial(),
           RegisterDeviceInProgress(),
           RegisterDeviceFailure(),
         ];
@@ -302,7 +300,6 @@ void main() {
         setUpSuccess();
         // assert later
         final expected = [
-          RegisterDeviceInitial(),
           RegisterDeviceInProgress(),
           RegisterDeviceSuccess(),
         ];
@@ -335,7 +332,6 @@ void main() {
             .thenReturn(tPrimaryConnectionMap);
         // assert later
         final expected = [
-          RegisterDeviceInitial(),
           RegisterDeviceInProgress(),
           RegisterDeviceFailure(),
         ];

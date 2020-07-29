@@ -39,7 +39,6 @@ void main() {
           .thenAnswer((_) async => true);
       // assert later
       final expected = [
-        OneSignalHealthInitial(),
         OneSignalHealthInProgress(),
         OneSignalHealthSuccess(),
       ];
@@ -57,7 +56,6 @@ void main() {
           .thenAnswer((_) async => false);
       // assert later
       final expected = [
-        OneSignalHealthInitial(),
         OneSignalHealthInProgress(),
         OneSignalHealthFailure(),
       ];

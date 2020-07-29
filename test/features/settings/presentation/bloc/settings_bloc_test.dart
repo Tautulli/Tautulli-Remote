@@ -99,7 +99,6 @@ void main() {
         when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
         // assert later
         final expected = [
-          SettingsInitial(),
           SettingsLoadInProgress(),
           SettingsLoadSuccess(serverList: tServerList),
         ];
@@ -150,7 +149,6 @@ void main() {
         when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
         // assert later
         final expected = [
-          SettingsInitial(),
           SettingsLoadSuccess(serverList: tServerList),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -213,7 +211,6 @@ void main() {
         when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
         // assert later
         final expected = [
-          SettingsInitial(),
           SettingsLoadSuccess(serverList: tServerList),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -251,7 +248,6 @@ void main() {
         when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
         // assert later
         final expected = [
-          SettingsInitial(),
           SettingsLoadSuccess(serverList: tServerList),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -295,7 +291,6 @@ void main() {
         when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
         // assert later
         final expected = [
-          SettingsInitial(),
           SettingsLoadSuccess(serverList: tServerList),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -344,7 +339,6 @@ void main() {
         when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
         // assert later
         final expected = [
-          SettingsInitial(),
           SettingsLoadSuccess(serverList: tServerList),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -393,7 +387,6 @@ void main() {
         when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
         // assert later
         final expected = [
-          SettingsInitial(),
           SettingsLoadSuccess(serverList: tServerList),
         ];
         expectLater(bloc, emitsInOrder(expected));
