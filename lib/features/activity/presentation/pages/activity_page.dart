@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/error/failure.dart';
+import '../../../../core/helpers/failure_message_helper.dart';
 import '../../../../core/helpers/tautulli_api_url_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../injection_container.dart';
@@ -248,7 +248,7 @@ Widget _buildMultiserverActivity({
                   bottom: 4,
                 ),
                 child: Text(
-                  _mapFailureToMessage(resultMap['failure']),
+                  FailureMessageHelper().mapFailureToMessage(resultMap['failure']),
                 ),
               ),
               Padding(
@@ -257,7 +257,7 @@ Widget _buildMultiserverActivity({
                   bottom: 4,
                 ),
                 child: Text(
-                  _mapFailureToSuggestion(resultMap['failure']),
+                  FailureMessageHelper().mapFailureToSuggestion(resultMap['failure']),
                 ),
               ),
             ],
@@ -270,46 +270,6 @@ Widget _buildMultiserverActivity({
   return ListView(
     children: activityWidgetList,
   );
-}
-
-String _mapFailureToMessage(Failure failure) {
-  switch (failure.runtimeType) {
-    case ServerFailure:
-      return SERVER_FAILURE_MESSAGE;
-    case ConnectionFailure:
-      return CONNECTION_FAILURE_MESSAGE;
-    case SettingsFailure:
-      return SETTINGS_FAILURE_MESSAGE;
-    case SocketFailure:
-      return SOCKET_FAILURE_MESSAGE;
-    case TlsFailure:
-      return TLS_FAILURE_MESSAGE;
-    case UrlFormatFailure:
-      return URL_FORMAT_FAILURE_MESSAGE;
-    case TimeoutFailure:
-      return TIMEOUT_FAILURE_MESSAGE;
-    default:
-      return 'Unexpected error';
-  }
-}
-
-String _mapFailureToSuggestion(Failure failure) {
-  switch (failure.runtimeType) {
-    case ServerFailure:
-      return CHECK_SERVER_SETTINGS_SUGGESTION;
-    case SettingsFailure:
-      return CHECK_SERVER_SETTINGS_SUGGESTION;
-    case SocketFailure:
-      return CHECK_CONNECTION_ADDRESS_SUGGESTION;
-    case TlsFailure:
-      return CHECK_CONNECTION_ADDRESS_SUGGESTION;
-    case UrlFormatFailure:
-      return CHECK_CONNECTION_ADDRESS_SUGGESTION;
-    case TimeoutFailure:
-      return CHECK_CONNECTION_ADDRESS_SUGGESTION;
-    default:
-      return '';
-  }
 }
 
 
