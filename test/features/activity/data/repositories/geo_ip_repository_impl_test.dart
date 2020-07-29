@@ -29,7 +29,7 @@ void main() {
     );
   });
 
-  final tPlexName = 'Plex';
+  final tTautulliId = 'jkl';
 
   final tIpAddress = '10.0.0.1';
 
@@ -53,7 +53,7 @@ void main() {
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       //act
       repository.getGeoIp(
-        plexName: tPlexName,
+        tautulliId: tTautulliId,
         ipAddress: tIpAddress,
       );
       //assert
@@ -71,13 +71,13 @@ void main() {
       () async {
         // act
         await repository.getGeoIp(
-          plexName: tPlexName,
+          tautulliId: tTautulliId,
           ipAddress: tIpAddress,
         );
         // assert
         verify(
           dataSource.getGeoIp(
-            plexName: tPlexName,
+            tautulliId: tTautulliId,
             ipAddress: tIpAddress,
           ),
         );
@@ -90,13 +90,13 @@ void main() {
         // arrange
         when(
           dataSource.getGeoIp(
-            plexName: tPlexName,
+            tautulliId: tTautulliId,
             ipAddress: tIpAddress,
           ),
         ).thenAnswer((_) async => tGeoIpItemModel);
         //act
         final result = await repository.getGeoIp(
-          plexName: tPlexName,
+          tautulliId: tTautulliId,
           ipAddress: tIpAddress,
         );
         //assert
@@ -110,13 +110,13 @@ void main() {
         // arrange
         when(
           dataSource.getGeoIp(
-            plexName: tPlexName,
+            tautulliId: tTautulliId,
             ipAddress: tIpAddress,
           ),
         ).thenThrow(SettingsException());
         // act
         final result = await repository.getGeoIp(
-          plexName: tPlexName,
+          tautulliId: tTautulliId,
           ipAddress: tIpAddress,
         );
         // assert
@@ -130,13 +130,13 @@ void main() {
         // arrange
         when(
           dataSource.getGeoIp(
-            plexName: tPlexName,
+            tautulliId: tTautulliId,
             ipAddress: tIpAddress,
           ),
         ).thenThrow(ServerException());
         //act
         final result = await repository.getGeoIp(
-          plexName: tPlexName,
+          tautulliId: tTautulliId,
           ipAddress: tIpAddress,
         );
         //assert
@@ -150,13 +150,13 @@ void main() {
         // arrange
         when(
           dataSource.getGeoIp(
-            plexName: tPlexName,
+            tautulliId: tTautulliId,
             ipAddress: tIpAddress,
           ),
         ).thenThrow(SocketException.closed());
         // act
         final result = await repository.getGeoIp(
-          plexName: tPlexName,
+          tautulliId: tTautulliId,
           ipAddress: tIpAddress,
         );
         // assert
@@ -170,13 +170,13 @@ void main() {
         // arrange
         when(
           dataSource.getGeoIp(
-            plexName: tPlexName,
+            tautulliId: tTautulliId,
             ipAddress: tIpAddress,
           ),
         ).thenThrow(TlsException());
         // act
         final result = await repository.getGeoIp(
-          plexName: tPlexName,
+          tautulliId: tTautulliId,
           ipAddress: tIpAddress,
         );
         // assert
@@ -189,12 +189,12 @@ void main() {
       () async {
         // arrange
         when(dataSource.getGeoIp(
-          plexName: tPlexName,
+          tautulliId: tTautulliId,
           ipAddress: tIpAddress,
         )).thenThrow(FormatException());
         // act
         final result = await repository.getGeoIp(
-          plexName: tPlexName,
+          tautulliId: tTautulliId,
           ipAddress: tIpAddress,
         );
         // assert
@@ -208,13 +208,13 @@ void main() {
         // arrange
         when(
           dataSource.getGeoIp(
-            plexName: tPlexName,
+            tautulliId: tTautulliId,
             ipAddress: tIpAddress,
           ),
         ).thenThrow(ArgumentError());
         // act
         final result = await repository.getGeoIp(
-          plexName: tPlexName,
+          tautulliId: tTautulliId,
           ipAddress: tIpAddress,
         );
         // assert
@@ -228,13 +228,13 @@ void main() {
         // arrange
         when(
           dataSource.getGeoIp(
-            plexName: tPlexName,
+            tautulliId: tTautulliId,
             ipAddress: tIpAddress,
           ),
         ).thenThrow(TimeoutException(''));
         // act
         final result = await repository.getGeoIp(
-          plexName: tPlexName,
+          tautulliId: tTautulliId,
           ipAddress: tIpAddress,
         );
         // assert
@@ -251,7 +251,7 @@ void main() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
         //act
         final result = await repository.getGeoIp(
-          plexName: tPlexName,
+          tautulliId: tTautulliId,
           ipAddress: tIpAddress,
         );
         //assert

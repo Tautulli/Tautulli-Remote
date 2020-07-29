@@ -70,7 +70,7 @@ void main() {
     when(mockGetActivity()).thenAnswer((_) async => Right(tActivityMap));
     when(
       mockGetGeoIp(
-        plexName: anyNamed('plexName'),
+        tautulliId: anyNamed('tautulliId'),
         ipAddress: anyNamed('ipAddress'),
       ),
     ).thenAnswer((_) async => Right(tGeoIpItemModel));
@@ -107,14 +107,14 @@ void main() {
         bloc.add(ActivityLoad());
         await untilCalled(
           mockGetGeoIp(
-            plexName: anyNamed('plexName'),
+            tautulliId: anyNamed('tautulliId'),
             ipAddress: anyNamed('ipAddress'),
           ),
         );
         // assert
         verify(
           mockGetGeoIp(
-            plexName: anyNamed('plexName'),
+            tautulliId: anyNamed('tautulliId'),
             ipAddress: anyNamed('ipAddress'),
           ),
         );
@@ -153,7 +153,6 @@ void main() {
         when(mockGetActivity()).thenAnswer((_) async => Left(failure));
         // assert later
         final expected = [
-          ActivityEmpty(),
           ActivityLoadInProgress(),
           ActivityLoadFailure(
             failure: failure,
@@ -191,14 +190,14 @@ void main() {
         bloc.add(ActivityRefresh());
         await untilCalled(
           mockGetGeoIp(
-            plexName: anyNamed('plexName'),
+            tautulliId: anyNamed('tautulliId'),
             ipAddress: anyNamed('ipAddress'),
           ),
         );
         // assert
         verify(
           mockGetGeoIp(
-            plexName: anyNamed('plexName'),
+            tautulliId: anyNamed('tautulliId'),
             ipAddress: anyNamed('ipAddress'),
           ),
         );
@@ -236,7 +235,6 @@ void main() {
         when(mockGetActivity()).thenAnswer((_) async => Left(failure));
         // assert later
         final expected = [
-          ActivityEmpty(),
           ActivityLoadFailure(
             failure: failure,
             message: SERVER_FAILURE_MESSAGE,

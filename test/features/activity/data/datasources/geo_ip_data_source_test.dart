@@ -86,14 +86,14 @@ void main() {
         'should perform a GET request on geoIP URL using priamry connection address with application/json header',
         () async {
           // arrange
-          when(mockSettings.getServerByPlexName(serverModel.plexName))
+          when(mockSettings.getServerByTautulliId(serverModel.tautulliId))
               .thenAnswer((_) async => serverModel);
           when(mockHttpClient.get(any, headers: anyNamed('headers')))
               .thenAnswer(
                   (_) async => http.Response(fixture('geo_ip.json'), 200));
           // act
           await dataSource.getGeoIp(
-              plexName: serverModel.plexName, ipAddress: tIpAddress);
+              tautulliId: serverModel.tautulliId, ipAddress: tIpAddress);
           // assert
           verify(
             mockTautulliApiUrls.getGeoIpLookupUrl(
@@ -118,7 +118,7 @@ void main() {
         'should throw a TimeoutException if the GET request takes too long',
         () async {
           // arrange
-          when(mockSettings.getServerByPlexName(serverModel.plexName))
+          when(mockSettings.getServerByTautulliId(serverModel.tautulliId))
               .thenAnswer((_) async => serverModel);
           when(mockHttpClient.get(any, headers: anyNamed('headers')))
               .thenAnswer((_) => Future.delayed(Duration(seconds: 10)));
@@ -127,7 +127,7 @@ void main() {
           // assert
           expect(
               () => call(
-                    plexName: serverModel.plexName,
+                    tautulliId: serverModel.tautulliId,
                     ipAddress: tIpAddress,
                   ),
               throwsA(TypeMatcher<TimeoutException>()));
@@ -138,14 +138,14 @@ void main() {
         'should return GeoIpItem when the response code is 200',
         () async {
           // arrange
-          when(mockSettings.getServerByPlexName(serverModel.plexName))
+          when(mockSettings.getServerByTautulliId(serverModel.tautulliId))
               .thenAnswer((_) async => serverModel);
           when(mockHttpClient.get(any, headers: anyNamed('headers')))
               .thenAnswer(
                   (_) async => http.Response(fixture('geo_ip.json'), 200));
           //act
           final result = await dataSource.getGeoIp(
-              plexName: serverModel.plexName, ipAddress: tIpAddress);
+              tautulliId: serverModel.tautulliId, ipAddress: tIpAddress);
           //assert
           expect(result, equals(tGeoIpItem));
         },
@@ -155,7 +155,7 @@ void main() {
         'should throw a ServerException when the response code is 404 or other',
         () async {
           // arrange
-          when(mockSettings.getServerByPlexName(serverModel.plexName))
+          when(mockSettings.getServerByTautulliId(serverModel.tautulliId))
               .thenAnswer((_) async => serverModel);
           when(mockHttpClient.get(any, headers: anyNamed('headers')))
               .thenAnswer((_) async => http.Response('failure', 404));
@@ -164,7 +164,7 @@ void main() {
           //assert
           expect(
               () => call(
-                    plexName: serverModel.plexName,
+                    tautulliId: serverModel.tautulliId,
                     ipAddress: tIpAddress,
                   ),
               throwsA(TypeMatcher<ServerException>()));
@@ -178,14 +178,14 @@ void main() {
         () async {
           // arrange
           when(mockSettings
-                  .getServerByPlexName(serverModelWithBasicAuth.plexName))
+                  .getServerByTautulliId(serverModelWithBasicAuth.tautulliId))
               .thenAnswer((_) async => serverModelWithBasicAuth);
           when(mockHttpClient.get(any, headers: anyNamed('headers')))
               .thenAnswer(
                   (_) async => http.Response(fixture('geo_ip.json'), 200));
           // act
           await dataSource.getGeoIp(
-              plexName: serverModelWithBasicAuth.plexName,
+              tautulliId: serverModelWithBasicAuth.tautulliId,
               ipAddress: tIpAddress);
           // assert
           verify(
@@ -217,7 +217,7 @@ void main() {
         () async {
           // arrange
           when(mockSettings
-                  .getServerByPlexName(serverModelWithBasicAuth.plexName))
+                  .getServerByTautulliId(serverModelWithBasicAuth.tautulliId))
               .thenAnswer((_) async => serverModelWithBasicAuth);
           when(mockHttpClient.get(any, headers: anyNamed('headers')))
               .thenAnswer((_) => Future.delayed(Duration(seconds: 10)));
@@ -226,7 +226,7 @@ void main() {
           // assert
           expect(
               () => call(
-                    plexName: serverModelWithBasicAuth.plexName,
+                    tautulliId: serverModelWithBasicAuth.tautulliId,
                     ipAddress: tIpAddress,
                   ),
               throwsA(TypeMatcher<TimeoutException>()));
@@ -238,14 +238,14 @@ void main() {
         () async {
           // arrange
           when(mockSettings
-                  .getServerByPlexName(serverModelWithBasicAuth.plexName))
+                  .getServerByTautulliId(serverModelWithBasicAuth.tautulliId))
               .thenAnswer((_) async => serverModelWithBasicAuth);
           when(mockHttpClient.get(any, headers: anyNamed('headers')))
               .thenAnswer(
                   (_) async => http.Response(fixture('geo_ip.json'), 200));
           //act
           final result = await dataSource.getGeoIp(
-              plexName: serverModelWithBasicAuth.plexName,
+              tautulliId: serverModelWithBasicAuth.tautulliId,
               ipAddress: tIpAddress);
           //assert
           expect(result, equals(tGeoIpItem));
@@ -257,7 +257,7 @@ void main() {
         () async {
           // arrange
           when(mockSettings
-                  .getServerByPlexName(serverModelWithBasicAuth.plexName))
+                  .getServerByTautulliId(serverModelWithBasicAuth.tautulliId))
               .thenAnswer((_) async => serverModelWithBasicAuth);
           when(mockHttpClient.get(any, headers: anyNamed('headers')))
               .thenAnswer((_) async => http.Response('failure', 404));
@@ -266,7 +266,7 @@ void main() {
           //assert
           expect(
               () => call(
-                    plexName: serverModelWithBasicAuth.plexName,
+                    tautulliId: serverModelWithBasicAuth.tautulliId,
                     ipAddress: tIpAddress,
                   ),
               throwsA(TypeMatcher<ServerException>()));
