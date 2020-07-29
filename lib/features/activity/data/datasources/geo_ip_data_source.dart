@@ -72,7 +72,7 @@ class GeoIpDataSourceImpl implements GeoIpDataSource {
             headers: headers,
           )
           .timeout(
-            Duration(seconds: 3),
+            Duration(seconds: 5),
           );
     } catch (error) {
       if (error == TimeoutException) {
@@ -99,7 +99,7 @@ class GeoIpDataSourceImpl implements GeoIpDataSource {
                 headers: headers,
               )
               .timeout(
-                Duration(seconds: 3),
+                Duration(seconds: 5),
               );
         } catch (error) {
           if (error == TimeoutException) {

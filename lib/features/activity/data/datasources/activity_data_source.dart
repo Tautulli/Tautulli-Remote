@@ -105,7 +105,7 @@ class ActivityDataSourceImpl implements ActivityDataSource {
               headers: headers,
             )
             .timeout(
-              Duration(seconds: 3),
+              Duration(seconds: 5),
             );
 
         if (response.statusCode != 200) {
@@ -136,7 +136,7 @@ class ActivityDataSourceImpl implements ActivityDataSource {
                   headers: headers,
                 )
                 .timeout(
-                  Duration(seconds: 3),
+                  Duration(seconds: 5),
                 );
 
             if (response.statusCode != 200) {
