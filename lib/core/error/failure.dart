@@ -32,7 +32,7 @@ class UrlFormatFailure extends Failure {}
 class TimeoutFailure extends Failure {}
 
 /// A json.decode() failed.
-class JsonFailure extends Failure {}
+class JsonDecodeFailure extends Failure {}
 
 /// A catch-all Failure.
 class UnknownFailure extends Failure {}

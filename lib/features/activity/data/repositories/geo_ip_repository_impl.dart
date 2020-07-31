@@ -46,6 +46,8 @@ class GeoIpRepositoryImpl implements GeoIpRepository {
         return Left(UrlFormatFailure());
       } on TimeoutException {
         return Left(TimeoutFailure());
+      } on JsonDecodeException {
+        return Left(JsonDecodeFailure());
       }
     } else {
       return Left(ConnectionFailure());

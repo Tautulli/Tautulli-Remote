@@ -42,7 +42,7 @@ class FailureMessageHelper {
         return URL_FORMAT_FAILURE_MESSAGE;
       case TimeoutFailure:
         return TIMEOUT_FAILURE_MESSAGE;
-      case JsonFailure:
+      case JsonDecodeFailure:
         return JSON_FAILURE_MESSAGE;
       default:
         return 'Unexpected error';
@@ -65,7 +65,7 @@ class FailureMessageHelper {
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
       case TimeoutFailure:
         return TIMEOUT_SUGGESTION;
-      case JsonFailure:
+      case JsonDecodeFailure:
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
       default:
         return '';

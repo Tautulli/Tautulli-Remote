@@ -133,6 +133,8 @@ Failure _mapErrorToFailure(dynamic error) {
       return UrlFormatFailure();
     case (TimeoutException):
       return TimeoutFailure();
+    case (JsonDecodeException):
+      return JsonDecodeFailure();
     default:
       return UnknownFailure();
   }
