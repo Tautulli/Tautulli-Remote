@@ -33,12 +33,6 @@ List<Widget> _buildList({
 }) {
   List<Widget> rows = [];
 
-  rows.add(
-    SizedBox(
-      height: 15,
-    ),
-  );
-
   _buildRows(
     constraints: constraints,
     rowLists: cleanDetails.product(activity),

@@ -131,7 +131,7 @@ class ActivityModalBottomSheet extends StatelessWidget {
                           //* Activity details section
                           Expanded(
                             child: Container(
-                              width: constraints.maxWidth,
+                              padding: EdgeInsets.symmetric(vertical: 15),
                               color: PlexColorPalette.river_bed,
                               child: ActivityMediaDetails(
                                 constraints: constraints,
