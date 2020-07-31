@@ -16,7 +16,7 @@ class ActivityMediaDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cleanDetails = ActivityMediaDetailsCleanerImpl();
-    return ListView(
+    return Column(
       children: _buildList(
         constraints: constraints,
         activity: activity,
@@ -147,7 +147,9 @@ List<Widget> _buildList({
     });
   }
 
-  if (activity.relayed == 0 && activity.geoIpItem != null && activity.geoIpItem.code != 'ZZ') {
+  if (activity.relayed == 0 &&
+      activity.geoIpItem != null &&
+      activity.geoIpItem.code != 'ZZ') {
     _buildRows(
       constraints: constraints,
       rowLists: cleanDetails.locationDetails(
@@ -187,43 +189,41 @@ List<Widget> _buildRows({
         ),
         child: Column(
           children: <Widget>[
-            IntrinsicHeight(
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    width: constraints.maxWidth / 4,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              row[0],
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.grey[400],
-                              ),
+            Row(
+              children: <Widget>[
+                Container(
+                  width: constraints.maxWidth / 4,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            row[0],
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey[400],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Flexible(
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        row[1],
                       ],
                     ),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Flexible(
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          row[1],
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
