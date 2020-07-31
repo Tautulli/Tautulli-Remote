@@ -11,4 +11,4 @@ class ConnectionException implements Exception {}
 class SettingsException implements Exception {}
 
 /// Throw when a json.decode() fails.
-class JsonException implements Exception {}
+class JsonDecodeException implements Exception {}
