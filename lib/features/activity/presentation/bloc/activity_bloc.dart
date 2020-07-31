@@ -199,7 +199,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
         yield ActivityLoadSuccess(
           activityMap: activityMap,
-          loadedAt: DateTime.parse("1969-07-20 20:18:04Z"),
+          loadedAt: DateTime.now(),
         );
       },
     );
