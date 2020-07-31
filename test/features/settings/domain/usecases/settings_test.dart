@@ -21,8 +21,7 @@ void main() {
   final String tPrimaryConnectionAddress = 'http://tautuli.domain.com';
   final String tPrimaryConnectionProtocol = 'http';
   final String tPrimaryConnectionDomain = 'tautuli.domain.com';
-  final String tPrimaryConnectionUser = 'user';
-  final String tPrimaryConnectionPassword = 'pass';
+  final String tPrimaryConnectionPath = '/tautulli';
   final String tSecondaryConnectionAddress = 'http://tautuli.domain.com';
   final String tDeviceToken = 'abc';
   final String tTautulliId = 'jkl';
@@ -33,8 +32,7 @@ void main() {
     primaryConnectionAddress: tPrimaryConnectionAddress,
     primaryConnectionProtocol: tPrimaryConnectionProtocol,
     primaryConnectionDomain: tPrimaryConnectionDomain,
-    primaryConnectionUser: tPrimaryConnectionUser,
-    primaryConnectionPassword: tPrimaryConnectionPassword,
+    primaryConnectionPath: tPrimaryConnectionPath,
     deviceToken: tDeviceToken,
     tautulliId: tTautulliId,
     plexName: tPlexName,

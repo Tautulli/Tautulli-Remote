@@ -39,13 +39,11 @@ class DBProvider {
                     primary_connection_address TEXT,
                     primary_connection_protocol TEXT,
                     primary_connection_domain TEXT,
-                    primary_connection_user TEXT,
-                    primary_connection_password TEXT,
+                    primary_connection_path TEXT,
                     secondary_connection_address TEXT,
                     secondary_connection_protocol TEXT,
                     secondary_connection_domain TEXT,
-                    secondary_connection_user TEXT,
-                    secondary_connection_password TEXT,
+                    secondary_connection_path TEXT,
                     device_token TEXT
                 )
             ''');

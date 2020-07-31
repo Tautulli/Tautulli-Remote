@@ -9,7 +9,7 @@ void main() {
   });
 
   test(
-    'should return a Map with keys [protocol, domain, user, password]',
+    'should return a Map with keys [protocol, domain, path]',
     () async {
       // arrange
       final connectionAddress =
@@ -19,8 +19,7 @@ void main() {
       // assert
       expect(result.containsKey('protocol'), true);
       expect(result.containsKey('domain'), true);
-      expect(result.containsKey('user'), true);
-      expect(result.containsKey('password'), true);
+      expect(result.containsKey('path'), true);
     },
   );
 
@@ -46,12 +45,12 @@ void main() {
       // act
       final result = connectionAddressHelper.parse(connectionAddress);
       // assert
-      expect(result['domain'], equals('www.domain.com:80/example'));
+      expect(result['domain'], equals('user:password@www.domain.com:80'));
     },
   );
 
   test(
-    'should return a map with the correct value for the user key',
+    'should return a map with the correct value for the path key',
     () async {
       // arrange
       final connectionAddress =
@@ -59,20 +58,7 @@ void main() {
       // act
       final result = connectionAddressHelper.parse(connectionAddress);
       // assert
-      expect(result['user'], equals('user'));
-    },
-  );
-
-  test(
-    'should return a map with the correct value for the password key',
-    () async {
-      // arrange
-      final connectionAddress =
-          'https://user:password@www.domain.com:80/example';
-      // act
-      final result = connectionAddressHelper.parse(connectionAddress);
-      // assert
-      expect(result['password'], equals('password'));
+      expect(result['path'], equals('/example'));
     },
   );
 }

@@ -14,32 +14,28 @@ class ConnectionAddressHelperImpl implements ConnectionAddressHelper {
       final Map<String, String> connectionAddressMap = {
         'protocol': null,
         'domain': null,
-        'user': null,
-        'password': null,
+        'path': null,
       };
       return connectionAddressMap;
     }
 
     String protocol;
     String domain;
-    String user;
-    String password;
+    String path;
 
-    RegExp exp = RegExp(r"^(http[s]?):\/\/((.+):(.+)@)*([^\s]+)");
+    RegExp exp = RegExp(r"(http[s]?):\/\/([\S][^\/]+)([\S]*)");
     Iterable<Match> matches = exp.allMatches(connectionAddress);
 
     matches.forEach((m) {
       protocol = m.group(1);
-      user = m.group(3);
-      password = m.group(4);
-      domain = m.group(5);
+      domain = m.group(2);
+      path = m.group(3);
     });
 
     final Map<String, String> connectionAddressMap = {
       'protocol': protocol,
       'domain': domain,
-      'user': user,
-      'password': password,
+      'path': path,
     };
     return connectionAddressMap;
   }

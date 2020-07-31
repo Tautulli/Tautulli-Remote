@@ -29,8 +29,7 @@ void main() {
   final String tPrimaryConnectionAddress = 'http://tautulli.com';
   final String tPrimaryConnectionProtocol = 'http';
   final String tPrimaryConnectionDomain = 'tautulli.com';
-  final String tPrimaryConnectionUser = null;
-  final String tPrimaryConnectionPassword = null;
+  final String tPrimaryConnectionPath = '/tautulli';
   final String tSecondaryConnectionAddress = 'http://tautulli.com';
   final String tDeviceToken = 'abc';
   final String tTautulliId = 'jkl';
@@ -38,8 +37,7 @@ void main() {
   final String tNewPrimaryConnectionAddress = 'https://plexpy.com';
   final String tNewPrimaryConnectionProtocol = 'https';
   final String tNewPrimaryConnectionDomain = 'plexpy.com';
-  final String tNewPrimaryConnectionUser = 'user';
-  final String tNewPrimaryConnectionPassword = 'pass';
+  final String tNewPrimaryConnectionPath = '/plexpy';
   final String tNewDeviceToken = 'def';
   final String tNewTautulliId = 'mno';
   final String tNewPlexName = 'Plex2';
@@ -48,27 +46,13 @@ void main() {
     primaryConnectionAddress: tPrimaryConnectionAddress,
     primaryConnectionProtocol: tPrimaryConnectionProtocol,
     primaryConnectionDomain: tPrimaryConnectionDomain,
-    primaryConnectionUser: tPrimaryConnectionUser,
-    primaryConnectionPassword: tPrimaryConnectionPassword,
+    primaryConnectionPath: tPrimaryConnectionPath,
     deviceToken: tDeviceToken,
     tautulliId: tTautulliId,
     plexName: tPlexName,
   );
 
   final List<ServerModel> tServerList = [tServerModel];
-
-  final Server tUpdatedServerModel = ServerModel(
-    primaryConnectionAddress: tNewPrimaryConnectionAddress,
-    primaryConnectionProtocol: tNewPrimaryConnectionProtocol,
-    primaryConnectionDomain: tNewPrimaryConnectionDomain,
-    primaryConnectionUser: tNewPrimaryConnectionUser,
-    primaryConnectionPassword: tNewPrimaryConnectionPassword,
-    deviceToken: tNewDeviceToken,
-    tautulliId: tNewTautulliId,
-    plexName: tNewPlexName,
-  );
-
-  final List<ServerModel> tUpdatedServerList = [tUpdatedServerModel];
 
   test(
     'initialState should be SettingsInitial',

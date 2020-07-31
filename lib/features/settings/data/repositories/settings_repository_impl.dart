@@ -25,8 +25,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       primaryConnectionAddress: primaryConnectionAddress,
       primaryConnectionProtocol: connectionMap['protocol'],
       primaryConnectionDomain: connectionMap['domain'],
-      primaryConnectionUser: connectionMap['user'],
-      primaryConnectionPassword: connectionMap['password'],
+      primaryConnectionPath: connectionMap['path'],
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
@@ -62,13 +61,11 @@ class SettingsRepositoryImpl implements SettingsRepository {
       primaryConnectionAddress: primaryConnectionAddress,
       primaryConnectionProtocol: primaryConnectionMap['protocol'],
       primaryConnectionDomain: primaryConnectionMap['domain'],
-      primaryConnectionUser: primaryConnectionMap['user'],
-      primaryConnectionPassword: primaryConnectionMap['password'],
+      primaryConnectionPath: primaryConnectionMap['path'],
       secondaryConnectionAddress: secondaryConnectionAddress,
       secondaryConnectionProtocol: secondaryConnectionMap['protocol'],
       secondaryConnectionDomain: secondaryConnectionMap['domain'],
-      secondaryConnectionUser: secondaryConnectionMap['user'],
-      secondaryConnectionPassword: secondaryConnectionMap['password'],
+      secondaryConnectionPath: secondaryConnectionMap['path'],
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
@@ -107,8 +104,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       'primary_connection_address': primaryConnectionAddress,
       'primary_connection_protocol': connectionMap['protocol'],
       'primary_connection_domain': connectionMap['domain'],
-      'primary_connection_user': connectionMap['user'],
-      'primary_connection_password': connectionMap['password']
+      'primary_connection_path': connectionMap['path'],
     };
     return await DBProvider.db.updateConnection(
       id: id,
@@ -127,8 +123,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       'secondary_connection_address': secondaryConnectionAddress,
       'secondary_connection_protocol': connectionMap['protocol'],
       'secondary_connection_domain': connectionMap['domain'],
-      'secondary_connection_user': connectionMap['user'],
-      'secondary_connection_password': connectionMap['password']
+      'secondary_connection_path': connectionMap['path'],
     };
     return await DBProvider.db.updateConnection(
       id: id,

@@ -10,13 +10,11 @@ class ServerModel extends Server {
     @required String primaryConnectionAddress,
     @required String primaryConnectionProtocol,
     @required String primaryConnectionDomain,
-    String primaryConnectionUser,
-    String primaryConnectionPassword,
+    @required String primaryConnectionPath,
     String secondaryConnectionAddress,
     String secondaryConnectionProtocol,
     String secondaryConnectionDomain,
-    String secondaryConnectionUser,
-    String secondaryConnectionPassword,
+    String secondaryConnectionPath,
     @required String deviceToken,
   }) : super(
           id: id,
@@ -25,16 +23,14 @@ class ServerModel extends Server {
           primaryConnectionAddress: primaryConnectionAddress,
           primaryConnectionProtocol: primaryConnectionProtocol,
           primaryConnectionDomain: primaryConnectionDomain,
-          primaryConnectionUser: primaryConnectionUser,
-          primaryConnectionPassword: primaryConnectionPassword,
+          primaryConnectionPath: primaryConnectionPath,
           secondaryConnectionAddress: secondaryConnectionAddress,
           secondaryConnectionProtocol: secondaryConnectionProtocol,
           secondaryConnectionDomain: secondaryConnectionDomain,
-          secondaryConnectionUser: secondaryConnectionUser,
-          secondaryConnectionPassword: secondaryConnectionPassword,
+          secondaryConnectionPath: secondaryConnectionPath,
           deviceToken: deviceToken,
         );
-  
+
   // Create Settings from JSON data
   factory ServerModel.fromJson(Map<String, dynamic> json) {
     return ServerModel(
@@ -44,13 +40,11 @@ class ServerModel extends Server {
       primaryConnectionAddress: json['primary_connection_address'],
       primaryConnectionProtocol: json['primary_connection_protocol'],
       primaryConnectionDomain: json['primary_connection_domain'],
-      primaryConnectionUser: json['primary_connection_user'],
-      primaryConnectionPassword: json['primary_connection_password'],
+      primaryConnectionPath: json['primary_connection_path'],
       secondaryConnectionAddress: json['secondary_connection_address'],
       secondaryConnectionProtocol: json['secondary_connection_protocol'],
       secondaryConnectionDomain: json['secondary_connection_domain'],
-      secondaryConnectionUser: json['secondary_connection_user'],
-      secondaryConnectionPassword: json['secondary_connection_password'],
+      secondaryConnectionPath: json['secondary_connection_path'],
       deviceToken: json['device_token'],
     );
   }
@@ -64,13 +58,11 @@ class ServerModel extends Server {
       'primary_connection_address': primaryConnectionAddress,
       'primary_connection_protocol': primaryConnectionProtocol,
       'primary_connection_domain': primaryConnectionDomain,
-      'primary_connection_user': primaryConnectionUser,
-      'primary_connection_password': primaryConnectionPassword,
+      'primary_connection_path': primaryConnectionPath,
       'secondary_connection_address': secondaryConnectionAddress,
       'secondary_connection_protocol': secondaryConnectionProtocol,
       'secondary_connection_domain': secondaryConnectionDomain,
-      'secondary_connection_user': secondaryConnectionUser,
-      'secondary_connection_password': secondaryConnectionPassword,
+      'secondary_connection_path': secondaryConnectionPath,
       'device_token': deviceToken
     };
   }
