@@ -168,18 +168,6 @@ class TautulliApiImpl implements TautulliApi {
     if (response.statusCode != 200) {
       throw ServerException();
     }
-    return response;
-  }
-
-  /// Returns a Map of the decoded JSON response from
-  /// the `get_activity` endpoint.
-  ///
-  /// Throws a [JsonDecodeException] if the json decode fails.
-  Future<Map<String, dynamic>> getActivity(String tautulliId) async {
-    final response = await connectionHandler(
-      tautulliId: tautulliId,
-      cmd: 'get_activity',
-    );
 
     // Attempt to parse reponse into JSON
     Map<String, dynamic> responseJson;
@@ -193,6 +181,19 @@ class TautulliApiImpl implements TautulliApi {
   }
 
   /// Returns a Map of the decoded JSON response from
+  /// the `get_activity` endpoint.
+  ///
+  /// Throws a [JsonDecodeException] if the json decode fails.
+  Future<Map<String, dynamic>> getActivity(String tautulliId) async {
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_activity',
+    );
+
+    return responseJson;
+  }
+
+  /// Returns a Map of the decoded JSON response from
   /// the `get_geoip_lookup` endpoint.
   ///
   /// Throws a [JsonDecodeException] if the json decode fails.
@@ -200,18 +201,11 @@ class TautulliApiImpl implements TautulliApi {
     @required String tautulliId,
     @required String ipAddress,
   }) async {
-    final response = await connectionHandler(
-        tautulliId: tautulliId,
-        cmd: 'get_geoip_lookup',
-        params: {'ip_address': ipAddress});
-
-    // Attempt to parse reponse into JSON
-    Map<String, dynamic> responseJson;
-    try {
-      responseJson = json.decode(response.body);
-    } catch (_) {
-      throw JsonDecodeException();
-    }
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_geoip_lookup',
+      params: {'ip_address': ipAddress},
+    );
 
     return responseJson;
   }
@@ -255,7 +249,7 @@ class TautulliApiImpl implements TautulliApi {
     @required String deviceName,
     @required String onesignalId,
   }) async {
-    final response = await connectionHandler(
+    final responseJson = await connectionHandler(
       primaryConnectionProtocol: connectionProtocol,
       primaryConnectionDomain: connectionDomain,
       primaryConnectionPath: connectionPath,
@@ -267,14 +261,6 @@ class TautulliApiImpl implements TautulliApi {
         'onesignal_id': onesignalId,
       },
     );
-
-    // Attempt to parse reponse into JSON
-    Map<String, dynamic> responseJson;
-    try {
-      responseJson = json.decode(response.body);
-    } catch (_) {
-      throw JsonDecodeException();
-    }
 
     return responseJson;
   }
