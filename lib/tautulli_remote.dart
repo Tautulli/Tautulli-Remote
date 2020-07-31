@@ -71,7 +71,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.dark.copyWith(
-        systemNavigationBarColor: PlexColorPalette.river_bed,
+        systemNavigationBarColor: PlexColorPalette.shark,
         // statusBarColor: PlexColorPalette.shark,
       ),
     );
@@ -84,7 +84,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       theme: ThemeData(
         primarySwatch: PlexColorPalette.createSwatch(),
         accentColor: PlexColorPalette.gamboge,
-        backgroundColor: PlexColorPalette.river_bed,
+        backgroundColor: TautulliColorPalette.midnight,
         fontFamily: 'OpenSans',
         textTheme: ThemeData.dark().textTheme.copyWith(),
         dialogBackgroundColor: PlexColorPalette.river_bed,
@@ -94,7 +94,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         canvasColor: PlexColorPalette.shark,
         inputDecorationTheme: ThemeData.dark().inputDecorationTheme.copyWith(
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
+                borderSide: BorderSide(color: TautulliColorPalette.not_white),
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: PlexColorPalette.gamboge),
@@ -103,7 +103,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
                 color: Colors.grey,
               ),
               labelStyle: TextStyle(
-                color: Colors.white70,
+                color: TautulliColorPalette.not_white,
               ),
             ),
         buttonTheme: ThemeData.dark().buttonTheme.copyWith(),

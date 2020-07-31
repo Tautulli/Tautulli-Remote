@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quiver/strings.dart';
 
 import '../../features/activity/domain/entities/activity.dart';
+import 'color_palette_helper.dart';
 import 'string_format_helper.dart';
 
 /// Various helper functions to return [RichText] data for activity data.
@@ -163,7 +164,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
                 ),
                 child: FaIcon(
                   icon,
-                  color: Colors.white,
+                  color: TautulliColorPalette.not_white,
                   size: 16.5,
                 ),
               ),
@@ -214,7 +215,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
                 type == 'relay'
                     ? FontAwesomeIcons.exclamationCircle
                     : FontAwesomeIcons.mapMarkerAlt,
-                color: Colors.white,
+                color: TautulliColorPalette.not_white,
                 size: 16.5,
               ),
             ),
@@ -532,7 +533,7 @@ RichText _formatValue({
               ),
               child: FaIcon(
                 FontAwesomeIcons.longArrowAltRight,
-                color: Colors.white,
+                color: TautulliColorPalette.not_white,
                 size: 16.5,
               ),
             ),

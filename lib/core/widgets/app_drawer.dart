@@ -10,17 +10,17 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+        decoration: BoxDecoration(color: PlexColorPalette.shark),
         child: ListView(
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(color: PlexColorPalette.shark),
+              decoration: BoxDecoration(color: TautulliColorPalette.midnight),
               child: Container(),
             ),
             ListTile(
               leading: FaIcon(
                 FontAwesomeIcons.tv,
-                color: Colors.white,
+                color: TautulliColorPalette.not_white,
               ),
               title: Text('Activity'),
               onTap: () {
@@ -70,7 +70,7 @@ class AppDrawer extends StatelessWidget {
             ListTile(
               leading: FaIcon(
                 FontAwesomeIcons.cogs,
-                color: Colors.white,
+                color: TautulliColorPalette.not_white,
               ),
               title: Text('Settings'),
               onTap: () {

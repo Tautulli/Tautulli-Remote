@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quiver/strings.dart';
 import 'package:unicorndial/unicorndial.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
@@ -107,7 +108,7 @@ class SettingsPageContent extends StatelessWidget {
                                           'Primary Connection Address Missing'),
                                   trailing: FaIcon(
                                     FontAwesomeIcons.cog,
-                                    color: Colors.white,
+                                    color: TautulliColorPalette.not_white,
                                   ),
                                   onTap: () {
                                     Navigator.of(context).push(
@@ -153,7 +154,7 @@ class SettingsPageContent extends StatelessWidget {
                     title: 'OneSignal Data Privacy',
                     icon: FaIcon(
                       FontAwesomeIcons.userSecret,
-                      color: Colors.white,
+                      color: TautulliColorPalette.not_white,
                     ),
                     onTap: () => Navigator.of(context).pushNamed('/privacy'),
                   ),
@@ -161,7 +162,7 @@ class SettingsPageContent extends StatelessWidget {
                     title: 'Tautulli Remote Logs',
                     icon: FaIcon(
                       FontAwesomeIcons.solidListAlt,
-                      color: Colors.white,
+                      color: TautulliColorPalette.not_white,
                     ),
                     onTap: () => Navigator.of(context).pushNamed('/logs'),
                   ),
@@ -193,7 +194,7 @@ Widget _buildFloatingActionButton(
       return Theme(
         data: ThemeData(
           floatingActionButtonTheme: FloatingActionButtonThemeData(
-            foregroundColor: Colors.white,
+            foregroundColor: TautulliColorPalette.not_white,
             backgroundColor: Theme.of(context).accentColor,
           ),
         ),
@@ -207,13 +208,13 @@ Widget _buildFloatingActionButton(
               labelHasShadow: false,
               labelText: 'Enter manually',
               labelBackgroundColor: Colors.transparent,
-              labelColor: Colors.white,
+              labelColor: TautulliColorPalette.not_white,
               currentButton: FloatingActionButton(
                 heroTag: 'manual',
                 mini: true,
                 child: FaIcon(
                   FontAwesomeIcons.pencilAlt,
-                  color: Colors.white,
+                  color: TautulliColorPalette.not_white,
                 ),
                 onPressed: () async {
                   // Push manual registration page as a full screen dialog
@@ -247,13 +248,13 @@ Widget _buildFloatingActionButton(
               labelHasShadow: false,
               labelText: 'Scan QR code',
               labelBackgroundColor: Colors.transparent,
-              labelColor: Colors.white,
+              labelColor: TautulliColorPalette.not_white,
               currentButton: FloatingActionButton(
                 heroTag: 'scan',
                 mini: true,
                 child: FaIcon(
                   FontAwesomeIcons.qrcode,
-                  color: Colors.white,
+                  color: TautulliColorPalette.not_white,
                 ),
                 onPressed: () async {
                   final qrCodeScan = await FlutterBarcodeScanner.scanBarcode(

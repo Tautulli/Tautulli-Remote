@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
@@ -25,7 +26,7 @@ class SettingsAlertBanner extends StatelessWidget {
                   title: subscriptionState.title,
                   message: Text(
                     subscriptionState.message,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: TautulliColorPalette.not_white),
                   ),
                   buttonOne: FlatButton(
                     child: Text('VIEW PRIVACY PAGE'),
@@ -63,7 +64,7 @@ class SettingsAlertBanner extends StatelessWidget {
                   title: subscriptionState.title,
                   message: Text(
                     subscriptionState.message,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: TautulliColorPalette.not_white),
                   ),
                   buttonOne: FlatButton(
                     child: Text('LEARN MORE'),
@@ -112,7 +113,7 @@ class _AlertBanner extends StatelessWidget {
       forceActionsBelow: true,
       leading: FaIcon(
         FontAwesomeIcons.exclamationCircle,
-        color: Colors.white,
+        color: TautulliColorPalette.not_white,
         size: 30,
       ),
       content: Column(
@@ -122,7 +123,7 @@ class _AlertBanner extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                color: Colors.white,
+                color: TautulliColorPalette.not_white,
                 fontWeight: FontWeight.bold,
               ),
             ),
