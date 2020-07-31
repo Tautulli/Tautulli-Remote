@@ -1,14 +1,13 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../core/api/tautulli_api.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/tautulli_api_url_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/settings.dart';
 import '../../domain/entities/activity.dart';
@@ -40,13 +39,13 @@ abstract class ActivityDataSource {
 class ActivityDataSourceImpl implements ActivityDataSource {
   final http.Client client;
   final Settings settings;
-  final TautulliApiUrls tautulliApiUrls;
+  final TautulliApi tautulliApi;
   final Logging logging;
 
   ActivityDataSourceImpl({
     @required this.client,
     @required this.settings,
-    @required this.tautulliApiUrls,
+    @required this.tautulliApi,
     @required this.logging,
   });
 
@@ -61,6 +60,15 @@ class ActivityDataSourceImpl implements ActivityDataSource {
     Map<String, Map<String, Object>> activityMap = {};
 
     for (var server in serverList) {
+      if (isEmpty(server.tautulliId) || isEmpty(server.plexName)) {
+        if (serverList.length <= 1) {
+          throw SettingsException();
+        } else {
+          //TODO: Add logging?
+          break;
+        }
+      }
+
       if (isEmpty(server.primaryConnectionAddress) ||
           isEmpty(server.deviceToken)) {
         // If primary connection or device token missing
@@ -74,132 +82,14 @@ class ActivityDataSourceImpl implements ActivityDataSource {
             'result': 'failure',
             'failure': SettingsFailure(),
           };
-          break;
         }
       }
 
-      Map<String, String> headers = {
-        'Content-Type': 'application/json',
-      };
-
-      http.Response response;
-
-      //* Try to connect to primary connection address
       try {
-        if (isNotEmpty(server.primaryConnectionUser) &&
-            isNotEmpty(server.primaryConnectionPassword)) {
-          headers['authorization'] = 'Basic ' +
-              base64Encode(
-                utf8.encode(
-                    '${server.primaryConnectionUser}:${server.primaryConnectionPassword}'),
-              );
-        }
-
-        response = await client
-            .get(
-              tautulliApiUrls.getActivityUrl(
-                protocol: server.primaryConnectionProtocol,
-                domain: server.primaryConnectionDomain,
-                deviceToken: server.deviceToken,
-              ),
-              headers: headers,
-            )
-            .timeout(
-              Duration(seconds: 5),
-            );
-
-        if (response.statusCode != 200) {
-          throw ServerException();
-        }
-
         //* Build activityList
-        try {
-          final responseJson = json.decode(response.body);
-          final List<ActivityItem> activityList = [];
-          responseJson['response']['data']['sessions'].forEach(
-            (session) {
-              activityList.add(
-                ActivityItemModel.fromJson(session),
-              );
-            },
-          );
-
-          //* Build activityMap using activityList
-          activityMap[server.tautulliId] = {
-            'plex_name': server.plexName,
-            'result': 'success',
-            'activity': activityList,
-          };
-        } catch (_) {
-          throw JsonException();
-        }
-      } catch (error) {
-        logging.error(
-            'Activity: Primary connection failed with [${error.runtimeType}].');
-        //* If secondary connection address exists try to connect to it
-        if (isNotEmpty(server.secondaryConnectionAddress)) {
-          try {
-            if (isNotEmpty(server.secondaryConnectionUser) &&
-                isNotEmpty(server.secondaryConnectionPassword)) {
-              headers['authorization'] = 'Basic ' +
-                  base64Encode(
-                    utf8.encode(
-                        '${server.secondaryConnectionUser}:${server.secondaryConnectionPassword}'),
-                  );
-            }
-
-            response = await client
-                .get(
-                  tautulliApiUrls.getActivityUrl(
-                    protocol: server.secondaryConnectionProtocol,
-                    domain: server.secondaryConnectionDomain,
-                    deviceToken: server.deviceToken,
-                  ),
-                  headers: headers,
-                )
-                .timeout(
-                  Duration(seconds: 5),
-                );
-
-            if (response.statusCode != 200) {
-              throw ServerException;
-            }
-          } catch (error) {
-            logging.error(
-                'Activity: Secondary connection failed with [${error.runtimeType}].');
-            // Re-throw error for single server
-            if (serverList.length <= 1) {
-              throw error;
-            }
-
-            // Store related failure in map for multiserver
-            activityMap[server.tautulliId] = {
-              'plex_name': server.plexName,
-              'result': 'failure',
-              'failure': _mapErrorToFailure(error),
-            };
-            break;
-          }
-        } else {
-          // Re-throw error for single server
-          if (serverList.length <= 1) {
-            throw error;
-          }
-
-          // Store related failure in map for multiserver
-          activityMap[server.tautulliId] = {
-            'plex_name': server.plexName,
-            'result': 'failure',
-            'failure': _mapErrorToFailure(error),
-          };
-          break;
-        }
-      }
-      //* Build activityList
-      try {
-        final responseJson = json.decode(response.body);
+        final activityJson = await tautulliApi.getActivity(server.tautulliId);
         final List<ActivityItem> activityList = [];
-        responseJson['response']['data']['sessions'].forEach(
+        activityJson['response']['data']['sessions'].forEach(
           (session) {
             activityList.add(
               ActivityItemModel.fromJson(session),
@@ -213,21 +103,18 @@ class ActivityDataSourceImpl implements ActivityDataSource {
           'result': 'success',
           'activity': activityList,
         };
-      } catch (_) {
-        // Re-throw error for single server
+      } catch (error) {
         if (serverList.length <= 1) {
-          throw JsonException();
+          throw error;
+        } else {
+          activityMap[server.tautulliId] = {
+            'plex_name': server.plexName,
+            'result': 'failure',
+            'failure': _mapErrorToFailure(error),
+          };
         }
-
-        // Store related failure in map for multiserver
-        activityMap[server.tautulliId] = {
-          'plex_name': server.plexName,
-          'result': 'failure',
-          'failure': JsonFailure(),
-        };
       }
     }
-
     return activityMap;
   }
 }
@@ -244,6 +131,8 @@ Failure _mapErrorToFailure(dynamic error) {
       return UrlFormatFailure();
     case (ArgumentError):
       return UrlFormatFailure();
+    case (TimeoutException):
+      return TimeoutFailure();
     default:
       return UnknownFailure();
   }

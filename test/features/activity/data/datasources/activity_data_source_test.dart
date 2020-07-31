@@ -1,11 +1,10 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
+import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
 import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
-import 'package:tautulli_remote_tdd/core/helpers/tautulli_api_url_helper.dart';
 import 'package:tautulli_remote_tdd/core/error/exception.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/datasources/activity_data_source.dart';
 import 'package:tautulli_remote_tdd/features/activity/domain/entities/activity.dart';
@@ -20,13 +19,13 @@ class MockHttpClient extends Mock implements http.Client {}
 
 class MockSettings extends Mock implements Settings {}
 
-class MockTautulliApiUrls extends Mock implements TautulliApiUrls {}
+class MockTautulliApi extends Mock implements TautulliApi {}
 
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   ActivityDataSourceImpl dataSource;
-  MockTautulliApiUrls mockTautulliApiUrls;
+  MockTautulliApi mockTautulliApi;
   MockLogging mockLogging;
   MockHttpClient mockHttpClient;
   MockSettings mockSettings;
@@ -34,12 +33,12 @@ void main() {
   setUp(() {
     mockHttpClient = MockHttpClient();
     mockSettings = MockSettings();
-    mockTautulliApiUrls = MockTautulliApiUrls();
+    mockTautulliApi = MockTautulliApi();
     mockLogging = MockLogging();
     dataSource = ActivityDataSourceImpl(
       client: mockHttpClient,
       settings: mockSettings,
-      tautulliApiUrls: mockTautulliApiUrls,
+      tautulliApi: mockTautulliApi,
       logging: mockLogging,
     );
   });
@@ -48,13 +47,11 @@ void main() {
     primaryConnectionAddress: 'http://tautulli.com',
     primaryConnectionProtocol: 'http',
     primaryConnectionDomain: 'tautulli.com',
-    primaryConnectionUser: null,
-    primaryConnectionPassword: null,
+    primaryConnectionPath: null,
     secondaryConnectionAddress: 'https://plexpy.com',
     secondaryConnectionProtocol: 'https',
     secondaryConnectionDomain: 'plexpy.com',
-    secondaryConnectionUser: null,
-    secondaryConnectionPassword: null,
+    secondaryConnectionPath: null,
     deviceToken: 'abc',
     tautulliId: 'jkl',
     plexName: 'Plex',
@@ -64,21 +61,17 @@ void main() {
     primaryConnectionAddress: 'http://tautulli.com',
     primaryConnectionProtocol: 'http',
     primaryConnectionDomain: 'tautulli.com',
-    primaryConnectionUser: 'user',
-    primaryConnectionPassword: 'pass',
+    primaryConnectionPath: '/tautulli',
     secondaryConnectionAddress: 'https://plexpy.com',
     secondaryConnectionProtocol: 'https',
     secondaryConnectionDomain: 'plexpy.com',
-    secondaryConnectionUser: 'user',
-    secondaryConnectionPassword: 'pass',
+    secondaryConnectionPath: '/plexpy',
     deviceToken: 'abc',
     tautulliId: 'jkl',
     plexName: 'Plex',
   );
 
   List<ServerModel> tServerList = [serverModelOne];
-
-  List<ServerModel> tServerListTwo = [serverModelTwo];
 
   List<ActivityItem> tActivityList = [];
 
@@ -106,8 +99,8 @@ void main() {
       () async {
         // arrange
         when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
-        when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
-            (_) async => http.Response(fixture('activity.json'), 200));
+        when(mockTautulliApi.getActivity(any))
+            .thenAnswer((_) async => json.decode(fixture('activity.json')));
         // act
         await dataSource.getActivity();
         // assert
@@ -128,18 +121,18 @@ void main() {
     );
 
     test(
-      'should throw a SettingsException when the Connection Address or Device Token settings are null',
+      'should throw a SettingsException when the tautulliId or plexName settings are null',
       () async {
         // arrange
         when(mockSettings.getAllServers()).thenAnswer(
           (_) async => [
             ServerModel(
-              primaryConnectionAddress: null,
-              primaryConnectionProtocol: null,
-              primaryConnectionDomain: null,
-              primaryConnectionUser: null,
-              primaryConnectionPassword: null,
-              deviceToken: null,
+              primaryConnectionAddress: serverModelOne.primaryConnectionAddress,
+              primaryConnectionProtocol:
+                  serverModelOne.primaryConnectionProtocol,
+              primaryConnectionDomain: serverModelOne.primaryConnectionDomain,
+              primaryConnectionPath: serverModelOne.primaryConnectionPath,
+              deviceToken: serverModelOne.deviceToken,
               tautulliId: null,
               plexName: null,
             ),
@@ -152,229 +145,56 @@ void main() {
       },
     );
 
-    group('withoutBasicAuth', () {
-      test(
-        'should perform a GET request on activity URL using primary connection address with application/json header',
-        () async {
-          // arrange
-          when(mockSettings.getAllServers())
-              .thenAnswer((_) async => tServerList);
-          when(mockHttpClient.get(any, headers: anyNamed('headers')))
-              .thenAnswer(
-                  (_) async => http.Response(fixture('activity.json'), 200));
-          //act
-          await dataSource.getActivity();
-          //assert
-          verify(
-            mockTautulliApiUrls.getActivityUrl(
-              protocol: serverModelOne.primaryConnectionProtocol,
-              domain: serverModelOne.primaryConnectionDomain,
-              deviceToken: serverModelOne.deviceToken,
+    test(
+      'should throw a SettingsException when the Connection Address or Device Token settings are null',
+      () async {
+        // arrange
+        when(mockSettings.getAllServers()).thenAnswer(
+          (_) async => [
+            ServerModel(
+              primaryConnectionAddress: null,
+              primaryConnectionProtocol: null,
+              primaryConnectionDomain: null,
+              primaryConnectionPath: null,
+              deviceToken: null,
+              tautulliId: serverModelOne.tautulliId,
+              plexName: serverModelOne.plexName,
             ),
-          );
-          verify(
-            mockHttpClient.get(
-              any,
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            ),
-          );
-        },
-      );
+          ],
+        );
+        // act
+        final call = dataSource.getActivity;
+        // assert
+        expect(() => call(), throwsA(TypeMatcher<SettingsException>()));
+      },
+    );
 
-      test(
-        'should throw a TimeoutException if the GET request takes too long',
-        () async {
-          // arrange
-          when(mockSettings.getAllServers())
-              .thenAnswer((_) async => tServerList);
-          when(mockHttpClient.get(any, headers: anyNamed('headers')))
-              .thenAnswer((_) => Future.delayed(Duration(seconds: 10)));
-          // act
-          final call = dataSource.getActivity;
-          // assert
-          expect(() => call(), throwsA(TypeMatcher<TimeoutException>()));
-        },
-      );
+    test(
+      'should call [getActivity] from TautulliApi',
+      () async {
+        // arrange
+        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        when(mockTautulliApi.getActivity(any))
+            .thenAnswer((_) async => json.decode(fixture('activity.json')));
+        //act
+        await dataSource.getActivity();
+        //assert
+        verify(mockTautulliApi.getActivity(tServerList[0].tautulliId));
+      },
+    );
 
-      //! Does not appear to let you test actions based on caught errors
-      // test(
-      //   'should attempt to use secondary connection address when GET using primary throws a TimeoutException',
-      //   () async {
-      //     // arrange
-      //     when(mockSettings.getAllServers()).thenAnswer((_) async => serverList);
-      //     when(mockHttpClient.get(any, headers: anyNamed('headers')))
-      //         .thenThrow(TimeoutException(''));
-      //     // act
-      //     await dataSource.getActivity();
-      //     // assert
-      //     verify(
-      //       mockTautulliApiUrls.getActivityUrl(
-      //         protocol: serverModelOne.secondaryConnectionProtocol,
-      //         domain: serverModelOne.secondaryConnectionDomain,
-      //         deviceToken: serverModelOne.deviceToken,
-      //       ),
-      //     );
-      //     verify(
-      //       mockHttpClient.get(
-      //         any,
-      //         headers: {
-      //           'Content-Type': 'application/json',
-      //         },
-      //       ),
-      //     );
-      //   },
-      // );
-
-      test(
-        'should return a Map of activity data when the response code is 200',
-        () async {
-          // arrange
-          when(mockSettings.getAllServers())
-              .thenAnswer((_) async => tServerList);
-          when(mockHttpClient.get(any, headers: anyNamed('headers')))
-              .thenAnswer(
-                  (_) async => http.Response(fixture('activity.json'), 200));
-          //act
-          final result = await dataSource.getActivity();
-          //assert
-          expect(result, equals(tActivityMap));
-        },
-      );
-
-      test(
-        'should throw a ServerException when the response code is 404 or other',
-        () async {
-          // arrange
-          when(mockSettings.getAllServers())
-              .thenAnswer((_) async => tServerList);
-          when(mockHttpClient.get(any, headers: anyNamed('headers')))
-              .thenAnswer((_) async => http.Response('failed', 404));
-          //act
-          final call = dataSource.getActivity;
-          //assert
-          expect(() => call(), throwsA(ServerException().runtimeType));
-        },
-      );
-    });
-
-    group('withBasicAuth', () {
-      test(
-        'should perform a GET request on activity URL using primary connection address with application/json header',
-        () async {
-          // arrange
-          when(mockSettings.getAllServers())
-              .thenAnswer((_) async => tServerListTwo);
-          when(mockHttpClient.get(any, headers: anyNamed('headers')))
-              .thenAnswer(
-                  (_) async => http.Response(fixture('activity.json'), 200));
-          //act
-          await dataSource.getActivity();
-          //assert
-          verify(
-            mockTautulliApiUrls.getActivityUrl(
-              protocol: serverModelTwo.primaryConnectionProtocol,
-              domain: serverModelTwo.primaryConnectionDomain,
-              deviceToken: serverModelTwo.deviceToken,
-            ),
-          );
-          verify(
-            mockHttpClient.get(
-              any,
-              headers: {
-                'Content-Type': 'application/json',
-                'authorization': 'Basic ' +
-                    base64Encode(
-                      utf8.encode(
-                          '${serverModelTwo.primaryConnectionUser}:${serverModelTwo.primaryConnectionPassword}'),
-                    ),
-              },
-            ),
-          );
-        },
-      );
-
-      test(
-        'should throw a TimeoutException if the GET request takes too long',
-        () async {
-          // arrange
-          when(mockSettings.getAllServers())
-              .thenAnswer((_) async => tServerList);
-          when(mockHttpClient.get(any, headers: anyNamed('headers')))
-              .thenAnswer((_) => Future.delayed(Duration(seconds: 10)));
-          // act
-          final call = dataSource.getActivity;
-          // assert
-          expect(() => call(), throwsA(TypeMatcher<TimeoutException>()));
-        },
-      );
-
-      //! Does not appear to let you test actions based on caught errors
-      // test(
-      //   'should attempt to use secondary connection address when GET using primary throws a TimeoutException',
-      //   () async {
-      //     // arrange
-      //     when(mockSettings.getAllServers())
-      //         .thenAnswer((_) async => tServerListTwo);
-      //     when(mockHttpClient.get(any, headers: anyNamed('headers')))
-      //         .thenThrow(TimeoutException(''));
-      //     // act
-      //     await dataSource.getActivity();
-      //     // assert
-      //     verify(
-      //       mockTautulliApiUrls.getActivityUrl(
-      //         protocol: serverModelTwo.secondaryConnectionProtocol,
-      //         domain: serverModelTwo.secondaryConnectionDomain,
-      //         deviceToken: serverModelTwo.deviceToken,
-      //       ),
-      //     );
-      //     verify(
-      //       mockHttpClient.get(
-      //         any,
-      //         headers: {
-      //           'Content-Type': 'application/json',
-      //           'authorization': 'Basic ' +
-      //               base64Encode(
-      //                 utf8.encode(
-      //                     '${serverModelTwo.primaryConnectionUser}:${serverModelTwo.primaryConnectionPassword}'),
-      //               ),
-      //         },
-      //       ),
-      //     );
-      //   },
-      // );
-
-      test(
-        'should return a Map of activity data when the response code is 200',
-        () async {
-          // arrange
-          when(mockSettings.getAllServers())
-              .thenAnswer((_) async => tServerList);
-          when(mockHttpClient.get(any, headers: anyNamed('headers')))
-              .thenAnswer(
-                  (_) async => http.Response(fixture('activity.json'), 200));
-          //act
-          final result = await dataSource.getActivity();
-          //assert
-          expect(result, equals(tActivityMap));
-        },
-      );
-
-      test(
-        'should throw a ServerException when the response code is 404 or other',
-        () async {
-          // arrange
-          when(mockSettings.getAllServers())
-              .thenAnswer((_) async => tServerList);
-          when(mockHttpClient.get(any, headers: anyNamed('headers')))
-              .thenAnswer((_) async => http.Response('failed', 404));
-          //act
-          final call = dataSource.getActivity;
-          //assert
-          expect(() => call(), throwsA(ServerException().runtimeType));
-        },
-      );
-    });
+    test(
+      'should return a Map of activity data',
+      () async {
+        // arrange
+        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        when(mockTautulliApi.getActivity(any))
+            .thenAnswer((_) async => json.decode(fixture('activity.json')));
+        //act
+        final result = await dataSource.getActivity();
+        //assert
+        expect(result, equals(tActivityMap));
+      },
+    );
   });
 }
