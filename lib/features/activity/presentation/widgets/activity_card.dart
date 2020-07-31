@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../domain/entities/activity.dart';
+import 'activity_media_icon_row.dart';
 import 'activity_media_info.dart';
 import 'activity_modal_bottom_sheet.dart';
 import 'background_image_chooser.dart';
@@ -17,10 +18,10 @@ import 'time_left.dart';
 class ActivityCard extends StatefulWidget {
   final ActivityItem activity;
 
-  const ActivityCard(
-      {Key key,
-      @required this.activity,})
-      : super(key: key);
+  const ActivityCard({
+    Key key,
+    @required this.activity,
+  }) : super(key: key);
 
   @override
   _ActivityCardState createState() => _ActivityCardState();
@@ -87,7 +88,8 @@ class _ActivityCardState extends State<ActivityCard> {
                                 //* Current state poster overlay
                                 if (widget.activity.state == 'paused' ||
                                     widget.activity.state == 'buffering')
-                                  StatusPosterOverlay(state: widget.activity.state),
+                                  StatusPosterOverlay(
+                                      state: widget.activity.state),
                               ],
                             ),
                             //* Info section
@@ -106,25 +108,32 @@ class _ActivityCardState extends State<ActivityCard> {
                                           //* Activity info
                                           Expanded(
                                             child: ActivityMediaInfo(
-                                              mediaType: widget.activity.mediaType,
-                                              title: widget.activity.title,
-                                              parentTitle: widget.activity.parentTitle,
-                                              grandparentTitle:
-                                                  widget.activity.grandparentTitle,
-                                              year: widget.activity.year,
-                                              mediaIndex: widget.activity.mediaIndex,
-                                              parentMediaIndex:
-                                                  widget.activity.parentMediaIndex,
-                                              live: widget.activity.live,
-                                              originallyAvailableAt: widget.activity
-                                                  .originallyAvailableAt,
+                                              activity: widget.activity,
                                             ),
                                           ),
-                                          //* Platform icon
-                                          Container(
+                                          SizedBox(
                                             width: 50,
-                                            child: PlatformIcon(
-                                                widget.activity.platformName),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                //* Platform icon
+                                                PlatformIcon(widget
+                                                    .activity.platformName),
+                                                //* Media Type and Transcode Decision Icons (except photo)
+                                                if (widget.activity.mediaType !=
+                                                    'photo')
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                      bottom: 3,
+                                                    ),
+                                                    child: ActivityMediaIconRow(
+                                                        activity:
+                                                            widget.activity),
+                                                  ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -136,17 +145,25 @@ class _ActivityCardState extends State<ActivityCard> {
                                         //* User name
                                         Text(widget.activity.friendlyName),
                                         //* Time left or Live tv channel
+                                        //* or Photo Media Type and Transcode Decision Icons
                                         widget.activity.live == 0 &&
                                                 widget.activity.duration != null
                                             ? TimeLeft(
-                                                duration: widget.activity.duration,
-                                                progressPercent:
-                                                    widget.activity.progressPercent,
+                                                duration:
+                                                    widget.activity.duration,
+                                                progressPercent: widget
+                                                    .activity.progressPercent,
                                               )
                                             : widget.activity.live == 1
                                                 ? Text(
                                                     '${widget.activity.channelCallSign} ${widget.activity.channelIdentifier}')
-                                                : SizedBox(),
+                                                : widget.activity.mediaType ==
+                                                        'photo'
+                                                    ? ActivityMediaIconRow(
+                                                        activity:
+                                                            widget.activity)
+                                                    : Container(
+                                                        height: 0, width: 0),
                                       ],
                                     ),
                                   ],
@@ -167,7 +184,8 @@ class _ActivityCardState extends State<ActivityCard> {
                               )
                             : ProgressBar(
                                 progress: widget.activity.progressPercent,
-                                transcodeProgress: widget.activity.transcodeProgress,
+                                transcodeProgress:
+                                    widget.activity.transcodeProgress,
                               ),
                       ),
                     ],
