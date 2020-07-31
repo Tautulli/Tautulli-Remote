@@ -1,27 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/helpers/string_format_helper.dart';
+import '../../domain/entities/activity.dart';
+
 class ActivityMediaInfo extends StatelessWidget {
-  final String mediaType;
-  final String title;
-  final String parentTitle;
-  final String grandparentTitle;
-  final int year;
-  final int mediaIndex;
-  final int parentMediaIndex;
-  final int live;
-  final String originallyAvailableAt;
+  final ActivityItem activity;
 
   const ActivityMediaInfo({
     Key key,
-    @required this.mediaType,
-    @required this.title,
-    @required this.parentTitle,
-    @required this.grandparentTitle,
-    @required this.year,
-    @required this.mediaIndex,
-    @required this.parentMediaIndex,
-    @required this.live,
-    @required this.originallyAvailableAt,
+    @required this.activity,
   }) : super(key: key);
 
   @override
@@ -34,42 +21,49 @@ class ActivityMediaInfo extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            mediaType == 'episode'
+            activity.mediaType == 'episode'
                 ? _ActivityMediaInfoH1(
-                    text: grandparentTitle,
+                    text: activity.grandparentTitle,
                     maxLines: 1,
                   )
-                : mediaType == 'movie'
+                : activity.mediaType == 'movie'
                     ? _ActivityMediaInfoH1(
-                        text: title,
+                        text: activity.title,
                         maxLines: 3,
                       )
                     : _ActivityMediaInfoH1(
-                        text: title,
+                        text: activity.title,
                         maxLines: 2,
                       ),
-            mediaType == 'episode'
-                ? _ActivityMediaInfoH2(text: title)
-                : mediaType == 'track'
+            activity.mediaType == 'episode'
+                ? _ActivityMediaInfoH2(text: activity.title)
+                : activity.mediaType == 'track'
                     ? _ActivityMediaInfoH2(
-                        text: grandparentTitle,
+                        text: activity.grandparentTitle,
                         maxLines: 1,
                       )
                     : Container(),
-            mediaType == 'movie' && year != null
-                ? _ActivityMediaInfoH3(text: year.toString())
-                : mediaType == 'episode' &&
-                        parentMediaIndex != null &&
-                        mediaIndex != null
+            activity.mediaType == 'movie' && activity.year != null
+                ? _ActivityMediaInfoH3(text: activity.year.toString())
+                : activity.mediaType == 'episode' &&
+                        activity.parentMediaIndex != null &&
+                        activity.mediaIndex != null
                     ? _ActivityMediaInfoH3(
-                        text: 'S$parentMediaIndex • E$mediaIndex')
-                    : mediaType == 'episode' &&
-                            originallyAvailableAt != null &&
-                            live == 1
-                        ? _ActivityMediaInfoH3(text: originallyAvailableAt)
-                        : mediaType == 'track'
-                            ? _ActivityMediaInfoH3(text: parentTitle)
-                            : Container(),
+                        text:
+                            'S${activity.parentMediaIndex} • E${activity.mediaIndex}')
+                    : activity.mediaType == 'episode' &&
+                            activity.originallyAvailableAt != null &&
+                            activity.live == 1
+                        ? _ActivityMediaInfoH3(
+                            text: activity.originallyAvailableAt)
+                        : activity.mediaType == 'track'
+                            ? _ActivityMediaInfoH3(text: activity.parentTitle)
+                            : activity.mediaType == 'clip'
+                                ? _ActivityMediaInfoH3(
+                                    text: StringFormatHelper.capitalize(
+                                        activity.subType),
+                                  )
+                                : Container(),
           ],
         ),
       ),

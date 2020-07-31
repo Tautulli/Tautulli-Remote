@@ -75,7 +75,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           if (activityMap[keys[i]]['result'] == 'success') {
             for (ActivityItem activityItem in activityMap[keys[i]]
                 ['activity']) {
-
               //* Fetch GeoIP data for activity items
               final failureOrGeoIp = await getGeoIp(
                 tautulliId: keys[i],
@@ -122,6 +121,11 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
                   posterImg = activityItem.thumb;
                   posterRatingKey = activityItem.parentRatingKey;
                   posterFallback = 'cover';
+                  break;
+                case ('clip'):
+                  posterImg = activityItem.art.replaceFirst('/art', '/thumb');
+                  posterRatingKey = activityItem.ratingKey;
+                  posterFallback = 'poster';
                   break;
                 default:
                   posterRatingKey = activityItem.ratingKey;

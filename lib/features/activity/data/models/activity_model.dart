@@ -57,6 +57,7 @@ class ActivityItemModel extends ActivityItem {
     final String streamVideoFullResolution, // 1080p, etc
     final String subtitleCodec, // srt, ass, etc
     final int subtitles, // 1 if subtitles are on
+    final String subType, // Used for clip type
     final int syncedVersion, // 1 if is synced content
     final String syncedVersionProfile,
     final String thumb,
@@ -129,6 +130,7 @@ class ActivityItemModel extends ActivityItem {
           streamVideoFullResolution: streamVideoFullResolution,
           subtitleCodec: subtitleCodec,
           subtitles: subtitles,
+          subType: subType,
           syncedVersion: syncedVersion,
           syncedVersionProfile: syncedVersionProfile,
           thumb: thumb,
@@ -204,6 +206,7 @@ class ActivityItemModel extends ActivityItem {
       streamVideoFullResolution: json['stream_video_full_resolution'],
       subtitleCodec: json['subtitle_codec'],
       subtitles: json['subtitles'],
+      subType: json['sub_type'],
       syncedVersion: json['synced_version'],
       syncedVersionProfile: json['synced_version_profile'],
       thumb: json['thumb'],

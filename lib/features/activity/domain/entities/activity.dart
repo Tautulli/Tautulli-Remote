@@ -55,6 +55,7 @@ class ActivityItem extends Equatable {
   final String streamVideoFullResolution; // 1080p, etc
   final String subtitleCodec; // srt, ass, etc
   final int subtitles; // 1 if subtitles are on
+  final String subType; // Used for clip type
   final int syncedVersion; // 1 if is synced content
   final String syncedVersionProfile;
   final String title; // Movie name or Episode name
@@ -129,6 +130,7 @@ class ActivityItem extends Equatable {
     this.streamVideoFullResolution,
     this.subtitleCodec,
     this.subtitles,
+    this.subType,
     this.syncedVersion,
     this.syncedVersionProfile,
     this.thumb,

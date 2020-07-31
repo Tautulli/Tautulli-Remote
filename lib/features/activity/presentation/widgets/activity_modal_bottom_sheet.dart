@@ -78,18 +78,7 @@ class ActivityModalBottomSheet extends StatelessWidget {
                                             right: 4,
                                           ),
                                           child: ActivityMediaInfo(
-                                            mediaType: activity.mediaType,
-                                            title: activity.title,
-                                            parentTitle: activity.parentTitle,
-                                            grandparentTitle:
-                                                activity.grandparentTitle,
-                                            year: activity.year,
-                                            mediaIndex: activity.mediaIndex,
-                                            parentMediaIndex:
-                                                activity.parentMediaIndex,
-                                            live: activity.live,
-                                            originallyAvailableAt:
-                                                activity.originallyAvailableAt,
+                                            activity: activity,
                                           ),
                                         ),
                                       ),
