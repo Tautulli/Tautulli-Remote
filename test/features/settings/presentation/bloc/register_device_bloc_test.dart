@@ -49,8 +49,7 @@ void main() {
   final String tPrimaryConnectionAddress = 'http://tautulli.com';
   final String tPrimaryConnectionProtocol = 'http';
   final String tPrimaryConnectionDomain = 'tautulli.com';
-  final String tPrimaryConnectionUser = 'user';
-  final String tPrimaryConnectionPassword = 'pass';
+  final String tPrimaryConnectionPath = '/tautulli';
   final String tDeviceToken = 'abc';
   final String tTautulliId = 'jkl';
   final String tPlexName = 'Plex';
@@ -58,8 +57,7 @@ void main() {
   final Map<String, String> tPrimaryConnectionMap = {
     'protocol': tPrimaryConnectionProtocol,
     'domain': tPrimaryConnectionDomain,
-    'user': tPrimaryConnectionUser,
-    'password': tPrimaryConnectionPassword,
+    'user': tPrimaryConnectionPath,
   };
 
   final ServerModel tServerModel = ServerModel(
@@ -67,8 +65,7 @@ void main() {
     primaryConnectionAddress: tPrimaryConnectionAddress,
     primaryConnectionProtocol: tPrimaryConnectionDomain,
     primaryConnectionDomain: tPrimaryConnectionDomain,
-    primaryConnectionUser: tPrimaryConnectionUser,
-    primaryConnectionPassword: tPrimaryConnectionPassword,
+    primaryConnectionPath: tPrimaryConnectionPath,
     deviceToken: tDeviceToken,
     tautulliId: tTautulliId,
     plexName: tPlexName,
@@ -83,8 +80,7 @@ void main() {
       mockRegisterDevice(
         connectionProtocol: anyNamed('connectionProtocol'),
         connectionDomain: anyNamed('connectionDomain'),
-        connectionUser: anyNamed('connectionUser'),
-        connectionPassword: anyNamed('connectionPassword'),
+        connectionPath: anyNamed('connectionPath'),
         deviceToken: anyNamed('deviceToken'),
       ),
     ).thenAnswer((_) async => Right(responseMap));
@@ -135,19 +131,17 @@ void main() {
           mockRegisterDevice(
             connectionProtocol: anyNamed('connectionProtocol'),
             connectionDomain: anyNamed('connectionDomain'),
-            connectionUser: anyNamed('connectionUser'),
-            connectionPassword: anyNamed('connectionPassword'),
+            connectionPath: anyNamed('connectionPath'),
             deviceToken: anyNamed('deviceToken'),
           ),
         );
         // assert
         verify(
           mockRegisterDevice(
-            connectionProtocol: tPrimaryConnectionProtocol,
-            connectionDomain: tPrimaryConnectionDomain,
-            connectionUser: tPrimaryConnectionUser,
-            connectionPassword: tPrimaryConnectionPassword,
-            deviceToken: tDeviceToken,
+            connectionProtocol: anyNamed('connectionProtocol'),
+            connectionDomain: anyNamed('connectionDomain'),
+            connectionPath: anyNamed('connectionPath'),
+            deviceToken: anyNamed('deviceToken'),
           ),
         );
       },
@@ -207,8 +201,7 @@ void main() {
           mockRegisterDevice(
             connectionProtocol: anyNamed('connectionProtocol'),
             connectionDomain: anyNamed('connectionDomain'),
-            connectionUser: anyNamed('connectionUser'),
-            connectionPassword: anyNamed('connectionPassword'),
+            connectionPath: anyNamed('connectionPath'),
             deviceToken: anyNamed('deviceToken'),
           ),
         ).thenAnswer((_) async => Left(ServerFailure()));
@@ -249,19 +242,17 @@ void main() {
           mockRegisterDevice(
             connectionProtocol: anyNamed('connectionProtocol'),
             connectionDomain: anyNamed('connectionDomain'),
-            connectionUser: anyNamed('connectionUser'),
-            connectionPassword: anyNamed('connectionPassword'),
+            connectionPath: anyNamed('connectionPath'),
             deviceToken: anyNamed('deviceToken'),
           ),
         );
         // assert
         verify(
           mockRegisterDevice(
-            connectionProtocol: tPrimaryConnectionProtocol,
-            connectionDomain: tPrimaryConnectionDomain,
-            connectionUser: tPrimaryConnectionUser,
-            connectionPassword: tPrimaryConnectionPassword,
-            deviceToken: tDeviceToken,
+            connectionProtocol: anyNamed('connectionProtocol'),
+            connectionDomain: anyNamed('connectionDomain'),
+            connectionPath: anyNamed('connectionPath'),
+            deviceToken: anyNamed('deviceToken'),
           ),
         );
       },
@@ -323,8 +314,7 @@ void main() {
           mockRegisterDevice(
             connectionProtocol: anyNamed('connectionProtocol'),
             connectionDomain: anyNamed('connectionDomain'),
-            connectionUser: anyNamed('connectionUser'),
-            connectionPassword: anyNamed('connectionPassword'),
+            connectionPath: anyNamed('connectionPath'),
             deviceToken: anyNamed('deviceToken'),
           ),
         ).thenAnswer((_) async => Left(ServerFailure()));

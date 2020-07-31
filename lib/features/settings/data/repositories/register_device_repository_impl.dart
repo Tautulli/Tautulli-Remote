@@ -21,20 +21,18 @@ class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
 
   @override
   Future<Either<Failure, Map>> call({
-    @required final String connectionProtocol,
-    @required final String connectionDomain,
-    @required final String connectionUser,
-    @required final String connectionPassword,
-    @required final String deviceToken,
-    final bool clearOnesignalId,
+    @required String connectionProtocol,
+    @required String connectionDomain,
+    @required String connectionPath,
+    @required String deviceToken,
+    bool clearOnesignalId,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await dataSource(
           connectionProtocol: connectionProtocol,
           connectionDomain: connectionDomain,
-          connectionUser: connectionUser,
-          connectionPassword: connectionPassword,
+          connectionPath: connectionPath,
           deviceToken: deviceToken,
           clearOnesignalId: clearOnesignalId,
         );

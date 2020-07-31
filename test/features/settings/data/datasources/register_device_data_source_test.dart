@@ -3,9 +3,8 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
+import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
 import 'package:tautulli_remote_tdd/core/device_info/device_info.dart';
-import 'package:tautulli_remote_tdd/core/error/exception.dart';
-import 'package:tautulli_remote_tdd/core/helpers/tautulli_api_url_helper.dart';
 import 'package:tautulli_remote_tdd/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote_tdd/features/settings/data/datasources/register_device_data_source.dart';
 import 'package:matcher/matcher.dart';
@@ -15,7 +14,7 @@ class MockHttpClient extends Mock implements http.Client {}
 
 class MockSettings extends Mock implements Settings {}
 
-class MockTautulliApiUrls extends Mock implements TautulliApiUrls {}
+class MockTautulliApi extends Mock implements TautulliApi {}
 
 class MockDeviceInfo extends Mock implements DeviceInfo {}
 
@@ -23,7 +22,7 @@ class MockOneSignalDataSource extends Mock implements OneSignalDataSource {}
 
 void main() {
   RegisterDeviceDataSourceImpl dataSource;
-  MockTautulliApiUrls mockTautulliApiUrls;
+  MockTautulliApi mockTautulliApi;
   MockHttpClient mockHttpClient;
   MockSettings mockSettings;
   MockDeviceInfo mockDeviceInfo;
@@ -32,13 +31,13 @@ void main() {
   setUp(() {
     mockHttpClient = MockHttpClient();
     mockSettings = MockSettings();
-    mockTautulliApiUrls = MockTautulliApiUrls();
+    mockTautulliApi = MockTautulliApi();
     mockDeviceInfo = MockDeviceInfo();
     mockOneSignalDataSource = MockOneSignalDataSource();
     dataSource = RegisterDeviceDataSourceImpl(
       client: mockHttpClient,
       settings: mockSettings,
-      tautulliApiUrls: mockTautulliApiUrls,
+      tautulliApi: mockTautulliApi,
       deviceInfo: mockDeviceInfo,
       oneSignal: mockOneSignalDataSource,
     );
@@ -46,32 +45,30 @@ void main() {
 
   final String tConnectionProtocol = 'http';
   final String tConnectionDomain = 'tautulli.com';
-  final String tConnectionUser = 'user';
-  final String tConnectionPassword = 'pass';
+  final String tConnectionPath = '/tautulli';
   final String tDeviceToken = 'abc';
   final String tDeviceName = 'test';
   final String tDeviceId = 'lmn';
   final String tOnesignalId = 'xyz';
 
-  void setUpMockHttpClientSuccess200() {
-    Map responseBody = {
+  void setUpMockRegisterDeviceSuccess() {
+    Map<String, dynamic> registerJson = {
       "response": {
         "result": "success",
         "data": {"pms_name": "Starlight", "server_id": "<tautulli_server_id>"}
       }
     };
-    when(mockHttpClient.get(any, headers: anyNamed('headers')))
-        .thenAnswer((_) async => http.Response(json.encode(responseBody), 200));
-  }
-
-  void setUpMockHttpClientFailure200() {
-    Map responseBody = {
-      "response": {
-        "result": "error",
-      }
-    };
-    when(mockHttpClient.get(any, headers: anyNamed('headers')))
-        .thenAnswer((_) async => http.Response(json.encode(responseBody), 200));
+    when(
+      mockTautulliApi.registerDevice(
+        connectionProtocol: anyNamed('connectionProtocol'),
+        connectionDomain: anyNamed('connectionDomain'),
+        connectionPath: anyNamed('connectionPath'),
+        deviceToken: anyNamed('deviceToken'),
+        deviceId: anyNamed('deviceId'),
+        deviceName: anyNamed('deviceName'),
+        onesignalId: anyNamed('onesignalId'),
+      ),
+    ).thenAnswer((_) async => registerJson);
   }
 
   void setUpDeviceInfoSuccess() {
@@ -83,24 +80,18 @@ void main() {
     when(mockOneSignalDataSource.userId).thenAnswer((_) async => tOnesignalId);
   }
 
-  void setUpMockHttpClientFailure404() {
-    when(mockHttpClient.get(any, headers: anyNamed('headers')))
-        .thenAnswer((_) async => http.Response('Something went wrong', 404));
-  }
-
   group('register device data source', () {
     test(
       'should query DataInfo for deviceId and uniqueId',
       () async {
         // arrange
-        setUpMockHttpClientSuccess200();
+        setUpMockRegisterDeviceSuccess();
         setUpDeviceInfoSuccess();
         // act
         await dataSource(
           connectionProtocol: tConnectionProtocol,
           connectionDomain: tConnectionDomain,
-          connectionUser: null,
-          connectionPassword: null,
+          connectionPath: tConnectionPath,
           deviceToken: tDeviceToken,
         );
         // assert
@@ -113,15 +104,14 @@ void main() {
       'should query OneSignalDataSource for userId',
       () async {
         // arrange
-        setUpMockHttpClientSuccess200();
+        setUpMockRegisterDeviceSuccess();
         setUpDeviceInfoSuccess();
         setUpOneSignalSuccess();
         // act
         await dataSource(
           connectionProtocol: tConnectionProtocol,
           connectionDomain: tConnectionDomain,
-          connectionUser: null,
-          connectionPassword: null,
+          connectionPath: tConnectionPath,
           deviceToken: tDeviceToken,
         );
         // assert
@@ -129,209 +119,53 @@ void main() {
       },
     );
 
-    group('without Basic Auth', () {
-      setUp(() {
-        setUpDeviceInfoSuccess();
-        setUpOneSignalSuccess();
-      });
-
-      test(
-        'should perform a GET request on a URL provided by tautulliAPI.registerDevice with application/json header',
-        () async {
-          // arrange
-          setUpMockHttpClientSuccess200();
-
-          // act
-          await dataSource(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: null,
-            connectionPassword: null,
-            deviceToken: tDeviceToken,
-          );
-          // assert
-          verify(
-            mockTautulliApiUrls.registerDevice(
-              protocol: tConnectionProtocol,
-              domain: tConnectionDomain,
-              deviceToken: tDeviceToken,
-              deviceName: tDeviceName,
-              deviceId: tDeviceId,
-              onesignalId: tOnesignalId,
-            ),
-          );
-          verify(
-            mockHttpClient.get(
-              any,
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            ),
-          );
-        },
-      );
-
-      test(
-        'should throw a ServerException if the status code is not 200',
-        () async {
-          // arrange
-          setUpMockHttpClientFailure404();
-          // act
-          final call = dataSource;
-          // assert
-          expect(
-              () => call(
-                    connectionProtocol: tConnectionProtocol,
-                    connectionDomain: tConnectionDomain,
-                    connectionUser: null,
-                    connectionPassword: null,
-                    deviceToken: tDeviceToken,
-                  ),
-              throwsA(TypeMatcher<ServerException>()));
-        },
-      );
-
-      test(
-        'should return Map with response data if the status code is 200 and the response result is success',
-        () async {
-          // arrange
-          setUpMockHttpClientSuccess200();
-          // act
-          final result = await dataSource(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: null,
-            connectionPassword: null,
-            deviceToken: tDeviceToken,
-          );
-          // assert
-          expect(result, TypeMatcher<Map>());
-        },
-      );
-    });
-
     test(
-      'should throw a ServerException if the status code is 200 but the response result is failure',
+      'should call [registerDevice] from TautulliApi',
       () async {
         // arrange
-        setUpMockHttpClientFailure200();
+        setUpDeviceInfoSuccess();
+        setUpOneSignalSuccess();
+        setUpMockRegisterDeviceSuccess();
+
         // act
-        final call = dataSource;
+        await dataSource(
+          connectionProtocol: tConnectionProtocol,
+          connectionDomain: tConnectionDomain,
+          connectionPath: tConnectionPath,
+          deviceToken: tDeviceToken,
+        );
         // assert
-        expect(
-            () => call(
-                  connectionProtocol: tConnectionProtocol,
-                  connectionDomain: tConnectionDomain,
-                  connectionUser: null,
-                  connectionPassword: null,
-                  deviceToken: tDeviceToken,
-                ),
-            throwsA(TypeMatcher<ServerException>()));
+        verify(
+          mockTautulliApi.registerDevice(
+            connectionProtocol: tConnectionProtocol,
+            connectionDomain: tConnectionDomain,
+            connectionPath: tConnectionPath,
+            deviceToken: tDeviceToken,
+            deviceName: tDeviceName,
+            deviceId: tDeviceId,
+            onesignalId: tOnesignalId,
+          ),
+        );
       },
     );
 
-    group('with Basic Auth', () {
-      setUp(() {
+    test(
+      'should return Map with response data',
+      () async {
+        // arrange
         setUpDeviceInfoSuccess();
         setUpOneSignalSuccess();
-      });
-
-      test(
-        'should perform a GET request on a URL provided by tautulliAPI.registerDevice with application/json and authorization header',
-        () async {
-          // arrange
-          setUpMockHttpClientSuccess200();
-          // act
-          await dataSource(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: tConnectionUser,
-            connectionPassword: tConnectionPassword,
-            deviceToken: tDeviceToken,
-          );
-          // assert
-          verify(
-            mockTautulliApiUrls.registerDevice(
-              protocol: tConnectionProtocol,
-              domain: tConnectionDomain,
-              deviceToken: tDeviceToken,
-              deviceName: tDeviceName,
-              deviceId: tDeviceId,
-              onesignalId: tOnesignalId,
-            ),
-          );
-          verify(
-            mockHttpClient.get(
-              any,
-              headers: {
-                'Content-Type': 'application/json',
-                'authorization': 'Basic ' +
-                    base64Encode(
-                      utf8.encode('$tConnectionUser:$tConnectionPassword'),
-                    ),
-              },
-            ),
-          );
-        },
-      );
-
-      test(
-        'should throw a ServerException if the status code is not 200',
-        () async {
-          // arrange
-          setUpMockHttpClientFailure404();
-          // act
-          final call = dataSource;
-          // assert
-          expect(
-              () => call(
-                    connectionProtocol: tConnectionProtocol,
-                    connectionDomain: tConnectionDomain,
-                    connectionUser: tConnectionUser,
-                    connectionPassword: tConnectionPassword,
-                    deviceToken: tDeviceToken,
-                  ),
-              throwsA(TypeMatcher<ServerException>()));
-        },
-      );
-
-      test(
-        'should return Map with response data if the status code is 200 and the response result is success',
-        () async {
-          // arrange
-          setUpMockHttpClientSuccess200();
-          // act
-          final result = await dataSource(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: tConnectionUser,
-            connectionPassword: tConnectionPassword,
-            deviceToken: tDeviceToken,
-          );
-          // assert
-          expect(result, TypeMatcher<Map>());
-        },
-      );
-
-      test(
-        'should throw a ServerException if the status code is 200 but the response result is failure',
-        () async {
-          // arrange
-          setUpMockHttpClientFailure200();
-          // act
-          final call = dataSource;
-          // assert
-          expect(
-              () => call(
-                    connectionProtocol: tConnectionProtocol,
-                    connectionDomain: tConnectionDomain,
-                    connectionUser: tConnectionUser,
-                    connectionPassword: tConnectionPassword,
-                    deviceToken: tDeviceToken,
-                  ),
-              throwsA(TypeMatcher<ServerException>()));
-        },
-      );
-    });
+        setUpMockRegisterDeviceSuccess();
+        // act
+        final result = await dataSource(
+          connectionProtocol: tConnectionProtocol,
+          connectionDomain: tConnectionDomain,
+          connectionPath: tConnectionPath,
+          deviceToken: tDeviceToken,
+        );
+        // assert
+        expect(result, TypeMatcher<Map>());
+      },
+    );
   });
 }

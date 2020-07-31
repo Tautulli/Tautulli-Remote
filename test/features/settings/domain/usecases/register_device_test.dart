@@ -20,93 +20,42 @@ void main() {
 
   final String tConnectionProtocol = 'http';
   final String tConnectionDomain = 'tautulli.com';
-  final String tConnectionUser = 'user';
-  final String tConnectionPassword = 'pass';
+  final String tConnectionPath = '/tautulli';
   final String deviceToken = 'abc';
 
   group('RegisterDevice', () {
-    group('without Basic Auth', () {
-      test(
-        'should return a Map with response data when device registration is successful',
-        () async {
-          // arrange
-          Map responseMap = {
-            "data": {
-              "pms_name": "Starlight",
-              "server_id": "abc"
-            }
-          };
-          when(mockRegisterDeviceRepository(
+    test(
+      'should return a Map with response data when device registration is successful',
+      () async {
+        // arrange
+        Map responseMap = {
+          "data": {"pms_name": "Starlight", "server_id": "abc"}
+        };
+        when(mockRegisterDeviceRepository(
+          connectionProtocol: tConnectionProtocol,
+          connectionDomain: tConnectionDomain,
+          connectionPath: tConnectionPath,
+          deviceToken: deviceToken,
+        )).thenAnswer((_) async => Right(responseMap));
+        // act
+        final result = await usecase(
+          connectionProtocol: tConnectionProtocol,
+          connectionDomain: tConnectionDomain,
+          connectionPath: tConnectionPath,
+          deviceToken: deviceToken,
+        );
+        // assert
+        expect(result, Right(responseMap));
+        verify(
+          mockRegisterDeviceRepository(
             connectionProtocol: tConnectionProtocol,
             connectionDomain: tConnectionDomain,
-            connectionUser: null,
-            connectionPassword: null,
+            connectionPath: tConnectionPath,
             deviceToken: deviceToken,
-          )).thenAnswer((_) async => Right(responseMap));
-          // act
-          final result = await usecase(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: null,
-            connectionPassword: null,
-            deviceToken: deviceToken,
-          );
-          // assert
-          expect(result, Right(responseMap));
-          verify(
-            mockRegisterDeviceRepository(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: null,
-              connectionPassword: null,
-              deviceToken: deviceToken,
-            ),
-          );
-          verifyNoMoreInteractions(mockRegisterDeviceRepository);
-        },
-      );
-    });
-
-    group('with Basic Auth', () {
-      test(
-        'should return Map with response data when device registration is successful',
-        () async {
-          // arrange
-          Map responseMap = {
-            "data": {
-              "pms_name": "Starlight",
-              "server_id": "abc"
-            }
-          };
-          when(mockRegisterDeviceRepository(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: tConnectionUser,
-            connectionPassword: tConnectionPassword,
-            deviceToken: deviceToken,
-          )).thenAnswer((_) async => Right(responseMap));
-          // act
-          final result = await usecase(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: tConnectionUser,
-            connectionPassword: tConnectionPassword,
-            deviceToken: deviceToken,
-          );
-          // assert
-          expect(result, Right(responseMap));
-          verify(
-            mockRegisterDeviceRepository(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: tConnectionUser,
-              connectionPassword: tConnectionPassword,
-              deviceToken: deviceToken,
-            ),
-          );
-          verifyNoMoreInteractions(mockRegisterDeviceRepository);
-        },
-      );
-    });
+          ),
+        );
+        verifyNoMoreInteractions(mockRegisterDeviceRepository);
+      },
+    );
   });
 }

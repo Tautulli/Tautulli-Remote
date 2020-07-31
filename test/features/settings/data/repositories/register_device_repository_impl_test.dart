@@ -31,8 +31,7 @@ void main() {
 
   final String tConnectionProtocol = 'http';
   final String tConnectionDomain = 'tautulli.com';
-  final String tConnectionUser = 'user';
-  final String tConnectionPassword = 'pass';
+  final String tConnectionPath = '/tautulli';
   final String tDeviceToken = 'abc';
 
   test(
@@ -44,8 +43,7 @@ void main() {
       repository(
         connectionProtocol: tConnectionProtocol,
         connectionDomain: tConnectionDomain,
-        connectionUser: tConnectionUser,
-        connectionPassword: tConnectionPassword,
+        connectionPath: tConnectionPath,
         deviceToken: tDeviceToken,
       );
       //assert
@@ -58,428 +56,200 @@ void main() {
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
     });
 
-    group('without Basic Auth', () {
-      test(
-        'should call data source ',
-        () async {
-          // act
-          await repository(
+    test(
+      'should call data source ',
+      () async {
+        // act
+        await repository(
+          connectionProtocol: tConnectionProtocol,
+          connectionDomain: tConnectionDomain,
+          connectionPath: tConnectionPath,
+          deviceToken: tDeviceToken,
+        );
+        // assert
+        verify(
+          mockDataSource(
             connectionProtocol: tConnectionProtocol,
             connectionDomain: tConnectionDomain,
-            connectionUser: null,
-            connectionPassword: null,
+            connectionPath: tConnectionPath,
             deviceToken: tDeviceToken,
-          );
-          // assert
-          verify(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: null,
-              connectionPassword: null,
-              deviceToken: tDeviceToken,
-            ),
-          );
-        },
-      );
+          ),
+        );
+      },
+    );
 
-      test(
-        'should return a Map with response data when the call to api is successful',
-        () async {
-          // arrange
-          Map responseMap = {
-            "data": {"pms_name": "Starlight", "server_id": "abc"}
-          };
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: null,
-              connectionPassword: null,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenAnswer(
-            (_) async => responseMap,
-          );
-          //act
-          final result = await repository(
+    test(
+      'should return a Map with response data when the call to api is successful',
+      () async {
+        // arrange
+        Map responseMap = {
+          "data": {"pms_name": "Starlight", "server_id": "abc"}
+        };
+        when(
+          mockDataSource(
             connectionProtocol: tConnectionProtocol,
             connectionDomain: tConnectionDomain,
-            connectionUser: null,
-            connectionPassword: null,
+            connectionPath: tConnectionPath,
             deviceToken: tDeviceToken,
-          );
-          //assert
-          expect(result, equals(Right(responseMap)));
-        },
-      );
+          ),
+        ).thenAnswer(
+          (_) async => responseMap,
+        );
+        //act
+        final result = await repository(
+          connectionProtocol: tConnectionProtocol,
+          connectionDomain: tConnectionDomain,
+          connectionPath: tConnectionPath,
+          deviceToken: tDeviceToken,
+        );
+        //assert
+        expect(result, equals(Right(responseMap)));
+      },
+    );
 
-      test(
-        'should return ServerFailure when the call to the api is unsuccessful',
-        () async {
-          // arrange
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: null,
-              connectionPassword: null,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenThrow(ServerException());
-          //act
-          final result = await repository(
+    test(
+      'should return ServerFailure when the call to the api is unsuccessful',
+      () async {
+        // arrange
+        when(
+          mockDataSource(
             connectionProtocol: tConnectionProtocol,
             connectionDomain: tConnectionDomain,
-            connectionUser: null,
-            connectionPassword: null,
+            connectionPath: tConnectionPath,
             deviceToken: tDeviceToken,
-          );
-          //assert
-          expect(result, equals(Left(ServerFailure())));
-        },
-      );
+          ),
+        ).thenThrow(ServerException());
+        //act
+        final result = await repository(
+          connectionProtocol: tConnectionProtocol,
+          connectionDomain: tConnectionDomain,
+          connectionPath: tConnectionPath,
+          deviceToken: tDeviceToken,
+        );
+        //assert
+        expect(result, equals(Left(ServerFailure())));
+      },
+    );
 
-      test(
-        'should return SocketFailure when a SocketException is thrown',
-        () async {
-          // arrange
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: null,
-              connectionPassword: null,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenThrow(SocketException.closed());
-          // act
-          final result = await repository(
+    test(
+      'should return SocketFailure when a SocketException is thrown',
+      () async {
+        // arrange
+        when(
+          mockDataSource(
             connectionProtocol: tConnectionProtocol,
             connectionDomain: tConnectionDomain,
-            connectionUser: null,
-            connectionPassword: null,
+            connectionPath: tConnectionPath,
             deviceToken: tDeviceToken,
-          );
-          // assert
-          expect(result, equals(Left(SocketFailure())));
-        },
-      );
+          ),
+        ).thenThrow(SocketException.closed());
+        // act
+        final result = await repository(
+          connectionProtocol: tConnectionProtocol,
+          connectionDomain: tConnectionDomain,
+          connectionPath: tConnectionPath,
+          deviceToken: tDeviceToken,
+        );
+        // assert
+        expect(result, equals(Left(SocketFailure())));
+      },
+    );
 
-      test(
-        'should return a TlsFailure when a TlsException is thrown',
-        () async {
-          // arrange
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: null,
-              connectionPassword: null,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenThrow(TlsException());
-          // act
-          final result = await repository(
+    test(
+      'should return a TlsFailure when a TlsException is thrown',
+      () async {
+        // arrange
+        when(
+          mockDataSource(
             connectionProtocol: tConnectionProtocol,
             connectionDomain: tConnectionDomain,
-            connectionUser: null,
-            connectionPassword: null,
+            connectionPath: tConnectionPath,
             deviceToken: tDeviceToken,
-          );
-          // assert
-          expect(result, equals(Left(TlsFailure())));
-        },
-      );
+          ),
+        ).thenThrow(TlsException());
+        // act
+        final result = await repository(
+          connectionProtocol: tConnectionProtocol,
+          connectionDomain: tConnectionDomain,
+          connectionPath: tConnectionPath,
+          deviceToken: tDeviceToken,
+        );
+        // assert
+        expect(result, equals(Left(TlsFailure())));
+      },
+    );
 
-      test(
-        'should return a UrlFormatFailure when a FormatException is thrown',
-        () async {
-          // arrange
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: null,
-              connectionPassword: null,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenThrow(FormatException());
-          // act
-          final result = await repository(
+    test(
+      'should return a UrlFormatFailure when a FormatException is thrown',
+      () async {
+        // arrange
+        when(
+          mockDataSource(
             connectionProtocol: tConnectionProtocol,
             connectionDomain: tConnectionDomain,
-            connectionUser: null,
-            connectionPassword: null,
+            connectionPath: tConnectionPath,
             deviceToken: tDeviceToken,
-          );
-          // assert
-          expect(result, equals(Left(UrlFormatFailure())));
-        },
-      );
+          ),
+        ).thenThrow(FormatException());
+        // act
+        final result = await repository(
+          connectionProtocol: tConnectionProtocol,
+          connectionDomain: tConnectionDomain,
+          connectionPath: tConnectionPath,
+          deviceToken: tDeviceToken,
+        );
+        // assert
+        expect(result, equals(Left(UrlFormatFailure())));
+      },
+    );
 
-      test(
-        'should return a UrlFormatFailure when an ArgumentError is thrown',
-        () async {
-          // arrange
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: null,
-              connectionPassword: null,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenThrow(ArgumentError());
-          // act
-          final result = await repository(
+    test(
+      'should return a UrlFormatFailure when an ArgumentError is thrown',
+      () async {
+        // arrange
+        when(
+          mockDataSource(
             connectionProtocol: tConnectionProtocol,
             connectionDomain: tConnectionDomain,
-            connectionUser: null,
-            connectionPassword: null,
+            connectionPath: tConnectionPath,
             deviceToken: tDeviceToken,
-          );
-          // assert
-          expect(result, equals(Left(UrlFormatFailure())));
-        },
-      );
+          ),
+        ).thenThrow(ArgumentError());
+        // act
+        final result = await repository(
+          connectionProtocol: tConnectionProtocol,
+          connectionDomain: tConnectionDomain,
+          connectionPath: tConnectionPath,
+          deviceToken: tDeviceToken,
+        );
+        // assert
+        expect(result, equals(Left(UrlFormatFailure())));
+      },
+    );
 
-      test(
-        'should return a TimeoutException when the get request times out',
-        () async {
-          // arrange
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: null,
-              connectionPassword: null,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenThrow(TimeoutException(''));
-          // act
-          final result = await repository(
+    test(
+      'should return a TimeoutException when the get request times out',
+      () async {
+        // arrange
+        when(
+          mockDataSource(
             connectionProtocol: tConnectionProtocol,
             connectionDomain: tConnectionDomain,
-            connectionUser: null,
-            connectionPassword: null,
+            connectionPath: tConnectionPath,
             deviceToken: tDeviceToken,
-          );
-          // assert
-          expect(result, equals(Left(TimeoutFailure())));
-        },
-      );
-    });
-
-    group('with Basic Auth', () {
-      test(
-        'should call data source ',
-        () async {
-          // act
-          await repository(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: tConnectionUser,
-            connectionPassword: tConnectionPassword,
-            deviceToken: tDeviceToken,
-          );
-          // assert
-          verify(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: tConnectionUser,
-              connectionPassword: tConnectionPassword,
-              deviceToken: tDeviceToken,
-            ),
-          );
-        },
-      );
-
-      test(
-        'should return true when the call to api is successful',
-        () async {
-          // arrange
-          Map responseMap = {
-            "data": {"pms_name": "Starlight", "server_id": "abc"}
-          };
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: tConnectionUser,
-              connectionPassword: tConnectionPassword,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenAnswer((_) async => responseMap);
-          //act
-          final result = await repository(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: tConnectionUser,
-            connectionPassword: tConnectionPassword,
-            deviceToken: tDeviceToken,
-          );
-          //assert
-          expect(result, equals(Right(responseMap)));
-        },
-      );
-
-      test(
-        'should return ServerFailure when the call to the api is unsuccessful',
-        () async {
-          // arrange
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: tConnectionUser,
-              connectionPassword: tConnectionPassword,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenThrow(ServerException());
-          //act
-          final result = await repository(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: tConnectionUser,
-            connectionPassword: tConnectionPassword,
-            deviceToken: tDeviceToken,
-          );
-          //assert
-          expect(result, equals(Left(ServerFailure())));
-        },
-      );
-
-      test(
-        'should return SocketFailure when a SocketException is thrown',
-        () async {
-          // arrange
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: tConnectionUser,
-              connectionPassword: tConnectionPassword,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenThrow(SocketException.closed());
-          // act
-          final result = await repository(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: tConnectionUser,
-            connectionPassword: tConnectionPassword,
-            deviceToken: tDeviceToken,
-          );
-          // assert
-          expect(result, equals(Left(SocketFailure())));
-        },
-      );
-
-      test(
-        'should return a TlsFailure when a TlsException is thrown',
-        () async {
-          // arrange
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: tConnectionUser,
-              connectionPassword: tConnectionPassword,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenThrow(TlsException());
-          // act
-          final result = await repository(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: tConnectionUser,
-            connectionPassword: tConnectionPassword,
-            deviceToken: tDeviceToken,
-          );
-          // assert
-          expect(result, equals(Left(TlsFailure())));
-        },
-      );
-
-      test(
-        'should return a UrlFormatFailure when a FormatException is thrown',
-        () async {
-          // arrange
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: tConnectionUser,
-              connectionPassword: tConnectionPassword,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenThrow(FormatException());
-          // act
-          final result = await repository(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: tConnectionUser,
-            connectionPassword: tConnectionPassword,
-            deviceToken: tDeviceToken,
-          );
-          // assert
-          expect(result, equals(Left(UrlFormatFailure())));
-        },
-      );
-
-      test(
-        'should return a UrlFormatFailure when an ArgumentError is thrown',
-        () async {
-          // arrange
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: tConnectionUser,
-              connectionPassword: tConnectionPassword,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenThrow(ArgumentError());
-          // act
-          final result = await repository(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: tConnectionUser,
-            connectionPassword: tConnectionPassword,
-            deviceToken: tDeviceToken,
-          );
-          // assert
-          expect(result, equals(Left(UrlFormatFailure())));
-        },
-      );
-      test(
-        'should return a TimeoutException when the get request times out',
-        () async {
-          // arrange
-          when(
-            mockDataSource(
-              connectionProtocol: tConnectionProtocol,
-              connectionDomain: tConnectionDomain,
-              connectionUser: tConnectionUser,
-              connectionPassword: tConnectionPassword,
-              deviceToken: tDeviceToken,
-            ),
-          ).thenThrow(TimeoutException(''));
-          // act
-          final result = await repository(
-            connectionProtocol: tConnectionProtocol,
-            connectionDomain: tConnectionDomain,
-            connectionUser: tConnectionUser,
-            connectionPassword: tConnectionPassword,
-            deviceToken: tDeviceToken,
-          );
-          // assert
-          expect(result, equals(Left(TimeoutFailure())));
-        },
-      );
-    });
+          ),
+        ).thenThrow(TimeoutException(''));
+        // act
+        final result = await repository(
+          connectionProtocol: tConnectionProtocol,
+          connectionDomain: tConnectionDomain,
+          connectionPath: tConnectionPath,
+          deviceToken: tDeviceToken,
+        );
+        // assert
+        expect(result, equals(Left(TimeoutFailure())));
+      },
+    );
   });
 
   group('device is offline', () {
@@ -492,8 +262,7 @@ void main() {
         final result = await repository(
           connectionProtocol: tConnectionProtocol,
           connectionDomain: tConnectionDomain,
-          connectionUser: tConnectionUser,
-          connectionPassword: tConnectionPassword,
+          connectionPath: tConnectionPath,
           deviceToken: tDeviceToken,
         );
         //assert

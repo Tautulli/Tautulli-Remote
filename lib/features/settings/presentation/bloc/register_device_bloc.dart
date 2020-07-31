@@ -67,14 +67,12 @@ class RegisterDeviceBloc
     final connectionMap = connectionAddressHelper.parse(connectionAddress);
     final connectionProtocol = connectionMap['protocol'];
     final connectionDomain = connectionMap['domain'];
-    final connectionUser = connectionMap['user'];
-    final connectionPassword = connectionMap['password'];
+    final connectionPath = connectionMap['path'];
 
     final failureOrRegistered = await registerDevice(
       connectionProtocol: connectionProtocol,
       connectionDomain: connectionDomain,
-      connectionUser: connectionUser,
-      connectionPassword: connectionPassword,
+      connectionPath: connectionPath,
       deviceToken: deviceToken,
     );
 
