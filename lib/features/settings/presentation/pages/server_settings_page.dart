@@ -254,7 +254,7 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
   );
 }
 
-Future _showDeleteServerDialog({
+Future<bool> _showDeleteServerDialog({
   @required BuildContext context,
   @required String plexName,
 }) {
