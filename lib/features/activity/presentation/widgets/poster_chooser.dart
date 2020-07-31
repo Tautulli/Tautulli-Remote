@@ -1,101 +1,33 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/tautulli_api_url_helper.dart';
 import '../../domain/entities/activity.dart';
 
 class PosterChooser extends StatelessWidget {
-  final TautulliApiUrls tautulliApiUrls;
   final ActivityItem activity;
-  final ServerModel server;
 
   const PosterChooser({
     Key key,
-    @required this.tautulliApiUrls,
     @required this.activity,
-    @required this.server,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return activity.mediaType == 'movie'
-        ? _PosterGeneral(
-            posterUrl: tautulliApiUrls.pmsImageProxyUrl(
-              protocol: server.primaryConnectionProtocol,
-              domain: server.primaryConnectionDomain,
-              deviceToken: server.deviceToken,
-              img: activity.thumb,
-              ratingKey: activity.ratingKey,
-              fallback: activity.live == 0 ? 'poster' : 'poster-live',
-            ),
-            headers: tautulliApiUrls.buildBasicAuthHeader(
-              user: server.primaryConnectionUser,
-              password: server.primaryConnectionPassword,
-            ),
+    return activity.mediaType == 'track'
+        ? _PosterMusic(
+            url: activity.posterUrl,
+            posterBackgroundUrl: activity.posterBackgroundUrl,
           )
-        : activity.mediaType == 'episode'
-            ? _PosterGeneral(
-                posterUrl: tautulliApiUrls.pmsImageProxyUrl(
-                  protocol: server.primaryConnectionProtocol,
-                  domain: server.primaryConnectionDomain,
-                  deviceToken: server.deviceToken,
-                  img: activity.grandparentThumb,
-                  ratingKey: activity.grandparentRatingKey,
-                  fallback: activity.live == 0 ? 'poster' : 'poster-live',
-                ),
-                headers: tautulliApiUrls.buildBasicAuthHeader(
-                  user: server.primaryConnectionUser,
-                  password: server.primaryConnectionPassword,
-                ),
-              )
-            : activity.mediaType == 'track'
-                ? _PosterMusic(
-                    posterUrl: tautulliApiUrls.pmsImageProxyUrl(
-                      protocol: server.primaryConnectionProtocol,
-                      domain: server.primaryConnectionDomain,
-                      deviceToken: server.deviceToken,
-                      img: activity.thumb,
-                      ratingKey: activity.parentRatingKey,
-                      fallback: 'cover',
-                    ),
-                    posterUrlBlur: tautulliApiUrls.pmsImageProxyUrl(
-                      protocol: server.primaryConnectionProtocol,
-                      domain: server.primaryConnectionDomain,
-                      deviceToken: server.deviceToken,
-                      img: activity.thumb,
-                      ratingKey: activity.parentRatingKey,
-                      opacity: 40,
-                      background: 282828,
-                      blur: 15,
-                      fallback: 'poster',
-                    ),
-                    headers: tautulliApiUrls.buildBasicAuthHeader(
-                      user: server.primaryConnectionUser,
-                      password: server.primaryConnectionPassword,
-                    ),
-                  )
-                : _PosterGeneral(
-                    posterUrl: tautulliApiUrls.pmsImageProxyUrl(
-                      protocol: server.primaryConnectionProtocol,
-                      domain: server.primaryConnectionDomain,
-                      deviceToken: server.deviceToken,
-                      ratingKey: activity.ratingKey,
-                    ),
-                    headers: tautulliApiUrls.buildBasicAuthHeader(
-                      user: server.primaryConnectionUser,
-                      password: server.primaryConnectionPassword,
-                    ),
-                  );
+        : _PosterGeneral(
+            url: activity.posterUrl,
+          );
   }
 }
 
 class _PosterGeneral extends StatelessWidget {
-  final String posterUrl;
-  final Map headers;
+  final String url;
 
   _PosterGeneral({
-    @required this.posterUrl,
-    @required this.headers,
+    @required this.url,
   });
 
   @override
@@ -105,8 +37,7 @@ class _PosterGeneral extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4),
         child: Image.network(
-          posterUrl,
-          headers: headers,
+          url,
           fit: BoxFit.cover,
         ),
       ),
@@ -115,14 +46,12 @@ class _PosterGeneral extends StatelessWidget {
 }
 
 class _PosterMusic extends StatelessWidget {
-  final String posterUrl;
-  final Map headers;
-  final String posterUrlBlur;
+  final String url;
+  final String posterBackgroundUrl;
 
   _PosterMusic({
-    @required this.posterUrl,
-    @required this.headers,
-    @required this.posterUrlBlur,
+    @required this.url,
+    @required this.posterBackgroundUrl,
   });
 
   @override
@@ -137,16 +66,14 @@ class _PosterMusic extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(4),
                 child: Image.network(
-                  posterUrlBlur,
-                  headers: headers,
+                  posterBackgroundUrl,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
             Positioned.fill(
               child: Image.network(
-                posterUrl,
-                headers: headers,
+                url,
                 fit: BoxFit.contain,
               ),
             ),

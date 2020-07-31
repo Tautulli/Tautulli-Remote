@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/clean_data_helper.dart';
 import '../../domain/entities/activity.dart';
-import '../../domain/entities/geo_ip.dart';
 
 class ActivityMediaDetails extends StatelessWidget {
   final BoxConstraints constraints;
   final ActivityItem activity;
-  final GeoIpItem geoIp;
 
   const ActivityMediaDetails({
     Key key,
     @required this.constraints,
     @required this.activity,
-    @required this.geoIp,
   }) : super(key: key);
 
   @override
@@ -23,7 +20,6 @@ class ActivityMediaDetails extends StatelessWidget {
       children: _buildList(
         constraints: constraints,
         activity: activity,
-        geoIp: geoIp,
         cleanDetails: cleanDetails,
       ),
     );
@@ -34,7 +30,6 @@ List<Widget> _buildList({
   @required BoxConstraints constraints,
   @required ActivityMediaDetailsCleanerImpl cleanDetails,
   @required ActivityItem activity,
-  @required GeoIpItem geoIp,
 }) {
   List<Widget> rows = [];
 
@@ -152,14 +147,14 @@ List<Widget> _buildList({
     });
   }
 
-  if (activity.relayed == 0 && geoIp != null && geoIp.code != 'ZZ') {
+  if (activity.relayed == 0 && activity.geoIpItem != null && activity.geoIpItem.code != 'ZZ') {
     _buildRows(
       constraints: constraints,
       rowLists: cleanDetails.locationDetails(
         type: 'ip',
-        city: geoIp.city,
-        region: geoIp.region,
-        code: geoIp.code,
+        city: activity.geoIpItem.city,
+        region: activity.geoIpItem.region,
+        code: activity.geoIpItem.code,
       ),
     ).forEach((row) {
       rows.add(row);

@@ -3,13 +3,14 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/helpers/tautulli_api_url_helper.dart';
+import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
 import 'package:tautulli_remote_tdd/core/error/failure.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/models/activity_model.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/models/geo_ip_model.dart';
 import 'package:tautulli_remote_tdd/features/activity/domain/entities/activity.dart';
 import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_activity.dart';
 import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_geo_ip.dart';
+import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_image_url.dart';
 import 'package:tautulli_remote_tdd/features/activity/presentation/bloc/activity_bloc.dart';
 import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote_tdd/core/helpers/failure_message_helper.dart';
@@ -20,27 +21,32 @@ class MockGetActivity extends Mock implements GetActivity {}
 
 class MockGetGeoIp extends Mock implements GetGeoIp {}
 
-class MockTautulliApiUrls extends Mock implements TautulliApiUrls {}
+class MockGetImageUrl extends Mock implements GetImageUrl {}
+
+class MockTautulliApi extends Mock implements TautulliApi {}
 
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   ActivityBloc bloc;
-  MockTautulliApiUrls mockTautulliApiUrls;
+  MockTautulliApi mockTautulliApi;
   MockGetActivity mockGetActivity;
   MockGetGeoIp mockGetGeoIp;
+  MockGetImageUrl mockGetImageUrl;
   MockLogging mockLogging;
 
   setUp(() {
     mockGetActivity = MockGetActivity();
     mockGetGeoIp = MockGetGeoIp();
-    mockTautulliApiUrls = MockTautulliApiUrls();
+    mockGetImageUrl = MockGetImageUrl();
+    mockTautulliApi = MockTautulliApi();
     mockLogging = MockLogging();
 
     bloc = ActivityBloc(
       activity: mockGetActivity,
       geoIp: mockGetGeoIp,
-      tautulliApiUrls: mockTautulliApiUrls,
+      imageUrl: mockGetImageUrl,
+      tautulliApi: mockTautulliApi,
       logging: mockLogging,
     );
   });
@@ -51,7 +57,7 @@ void main() {
   final List<ActivityItem> tActivityList = [activityItem];
 
   final Map<String, Map<String, Object>> tActivityMap = {
-    'Plex': {'result': 'success', 'activity': tActivityList}
+    'jkl': {'plex_name': 'Plex', 'result': 'success', 'activity': tActivityList}
   };
 
   final tGeoIpItemModel = GeoIpItemModel(
@@ -68,6 +74,8 @@ void main() {
   );
 
   void setUpSuccess() {
+    String imageUrl =
+        'https://tautulli.wreave.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
     when(mockGetActivity()).thenAnswer((_) async => Right(tActivityMap));
     when(
       mockGetGeoIp(
@@ -75,6 +83,14 @@ void main() {
         ipAddress: anyNamed('ipAddress'),
       ),
     ).thenAnswer((_) async => Right(tGeoIpItemModel));
+    when(
+      mockGetImageUrl(
+        tautulliId: anyNamed('tautulliId'),
+        img: anyNamed('img'),
+        ratingKey: anyNamed('ratingKey'),
+        fallback: anyNamed('fallback'),
+      ),
+    ).thenAnswer((_) async => Right(imageUrl));
   }
 
   test(
@@ -122,6 +138,33 @@ void main() {
       },
     );
 
+    test(
+      'should get data from the GetImageUrl use case',
+      () async {
+        // arrange
+        setUpSuccess();
+        // act
+        bloc.add(ActivityLoad());
+        await untilCalled(
+          mockGetImageUrl(
+            tautulliId: anyNamed('tautulliId'),
+            img: anyNamed('img'),
+            ratingKey: anyNamed('ratingKey'),
+            fallback: anyNamed('fallback'),
+          ),
+        );
+        // assert
+        verify(
+          mockGetImageUrl(
+            tautulliId: anyNamed('tautulliId'),
+            img: anyNamed('img'),
+            ratingKey: anyNamed('ratingKey'),
+            fallback: anyNamed('fallback'),
+          ),
+        );
+      },
+    );
+
     //! DateTime.now() is not going to exactly line up in the expected and actual function causing this test to fail
     // test(
     //   'should emit [ActivityLoadSuccess] when data is gotten successfully',
@@ -130,12 +173,9 @@ void main() {
     //     setUpSuccess();
     //     // assert later
     //     final expected = [
-    //       ActivityEmpty(),
     //       ActivityLoadInProgress(),
     //       ActivityLoadSuccess(
     //         activityMap: tActivityMap,
-    //         geoIpMap: tGeoIpMap,
-    //         tautulliApiUrls: mockTautulliApiUrls,
     //         loadedAt: DateTime.now(),
     //         // DateTime.parse("1969-07-20 20:18:04Z")
     //       ),
@@ -213,11 +253,8 @@ void main() {
     //     setUpSuccess();
     //     // assert later
     //     final expected = [
-    //       ActivityEmpty(),
     //       ActivityLoadSuccess(
     //         activityMap: tActivityMap,
-    //         geoIpMap: tGeoIpMap,
-    //         tautulliApiUrls: mockTautulliApiUrls,
     //         loadedAt: DateTime.now(),
     //         // DateTime.parse("1969-07-20 20:18:04Z")
     //       ),

@@ -1,69 +1,29 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/tautulli_api_url_helper.dart';
 import '../../domain/entities/activity.dart';
 
 class BackgroundImageChooser extends StatelessWidget {
-  final TautulliApiUrls tautulliApiUrls;
   final ActivityItem activity;
-  final ServerModel server;
 
   const BackgroundImageChooser({
     Key key,
-    @required this.tautulliApiUrls,
     @required this.activity,
-    @required this.server,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return activity.live == 1
         ? _BackgroundImageLiveTv()
-        : activity.mediaType == 'photo'
-            ? _BackgroundImageGeneral(
-                tautulliApiUrls: tautulliApiUrls,
-                connectionProtocol: server.primaryConnectionProtocol,
-                connectionDomain: server.primaryConnectionDomain,
-                connectionUser: server.primaryConnectionUser,
-                connectionPassword: server.primaryConnectionPassword,
-                deviceToken: server.deviceToken,
-                art: activity.thumb,
-                ratingKey: activity.ratingKey,
-              )
-            : _BackgroundImageGeneral(
-                tautulliApiUrls: tautulliApiUrls,
-                connectionProtocol: server.primaryConnectionProtocol,
-                connectionDomain: server.primaryConnectionDomain,
-                connectionUser: server.primaryConnectionUser,
-                connectionPassword: server.primaryConnectionPassword,
-                deviceToken: server.deviceToken,
-                art: activity.art,
-                ratingKey: activity.ratingKey,
-              );
+        : _BackgroundImageGeneral(url: activity.backgroundUrl);
   }
 }
 
 class _BackgroundImageGeneral extends StatelessWidget {
-  final TautulliApiUrls tautulliApiUrls;
-  final String connectionProtocol;
-  final String connectionDomain;
-  final String connectionUser;
-  final String connectionPassword;
-  final String deviceToken;
-  final String art;
-  final int ratingKey;
+  final String url;
 
   const _BackgroundImageGeneral({
     Key key,
-    @required this.tautulliApiUrls,
-    @required this.connectionProtocol,
-    @required this.connectionDomain,
-    @required this.connectionUser,
-    @required this.connectionPassword,
-    @required this.deviceToken,
-    this.art,
-    this.ratingKey,
+    @required this.url,
   }) : super(key: key);
 
   @override
@@ -72,18 +32,7 @@ class _BackgroundImageGeneral extends StatelessWidget {
       children: <Widget>[
         Positioned.fill(
           child: Image.network(
-            tautulliApiUrls.pmsImageProxyUrl(
-              protocol: connectionProtocol,
-              domain: connectionDomain,
-              deviceToken: deviceToken,
-              img: art,
-              ratingKey: ratingKey,
-              fallback: 'art',
-            ),
-            headers: tautulliApiUrls.buildBasicAuthHeader(
-              user: connectionUser,
-              password: connectionPassword,
-            ),
+            url,
             fit: BoxFit.cover,
           ),
         ),

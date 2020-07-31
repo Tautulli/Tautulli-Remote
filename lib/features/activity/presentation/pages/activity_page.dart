@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/failure_message_helper.dart';
-import '../../../../core/helpers/tautulli_api_url_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../injection_container.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -122,15 +120,9 @@ class _ActivityPageState extends State<ActivityPage> {
                         child: multiserver
                             ? _buildMultiserverActivity(
                                 activityMap: state.activityMap,
-                                geoIpMap: state.geoIpMap,
-                                serverList: settingsState.serverList,
-                                tautulliApiUrls: state.tautulliApiUrls,
                               )
                             : _buildSingleServerActivity(
                                 activityMap: state.activityMap,
-                                geoIpMap: state.geoIpMap,
-                                serverList: settingsState.serverList,
-                                tautulliApiUrls: state.tautulliApiUrls,
                               ),
                         // ListView(
                         //   children: activityWidgetList,
@@ -152,9 +144,6 @@ class _ActivityPageState extends State<ActivityPage> {
 
 Widget _buildSingleServerActivity({
   @required Map<String, Map<String, Object>> activityMap,
-  @required Map<String, dynamic> geoIpMap,
-  @required List<ServerModel> serverList,
-  @required TautulliApiUrls tautulliApiUrls,
 }) {
   Map<String, Map<String, Object>> map = activityMap;
   List mapKeys = map.keys.toList();
@@ -184,18 +173,12 @@ Widget _buildSingleServerActivity({
     itemCount: activityList.length,
     itemBuilder: (context, index) => ActivityCard(
       activity: activityList[index],
-      geoIp: geoIpMap[activityList[index].ipAddress],
-      server: serverList[0],
-      tautulliApiUrls: tautulliApiUrls,
     ),
   );
 }
 
 Widget _buildMultiserverActivity({
   @required Map<String, Map<String, Object>> activityMap,
-  @required Map<String, dynamic> geoIpMap,
-  @required List<ServerModel> serverList,
-  @required TautulliApiUrls tautulliApiUrls,
 }) {
   List<Widget> activityWidgetList = [];
 
@@ -211,9 +194,6 @@ Widget _buildMultiserverActivity({
           activityWidgetList.add(
             ActivityCard(
               activity: activityItem,
-              geoIp: geoIpMap[activityItem.ipAddress],
-              server: serverList.firstWhere((e) => e.tautulliId == tautulliId),
-              tautulliApiUrls: tautulliApiUrls,
             ),
           );
         }

@@ -2,11 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/helpers/tautulli_api_url_helper.dart';
 import '../../domain/entities/activity.dart';
-import '../../domain/entities/geo_ip.dart';
 import 'activity_media_info.dart';
 import 'activity_modal_bottom_sheet.dart';
 import 'background_image_chooser.dart';
@@ -17,30 +14,26 @@ import 'progress_bar.dart';
 import 'status_poster_overlay.dart';
 import 'time_left.dart';
 
-class ActivityCard extends StatelessWidget {
+class ActivityCard extends StatefulWidget {
   final ActivityItem activity;
-  final GeoIpItem geoIp;
-  final ServerModel server;
-  final TautulliApiUrls tautulliApiUrls;
 
   const ActivityCard(
       {Key key,
-      @required this.activity,
-      @required this.geoIp,
-      @required this.server,
-      @required this.tautulliApiUrls})
+      @required this.activity,})
       : super(key: key);
 
+  @override
+  _ActivityCardState createState() => _ActivityCardState();
+}
+
+class _ActivityCardState extends State<ActivityCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         showActivityModalBottomSheet(
           context: context,
-          tautulliApiUrls: tautulliApiUrls,
-          activity: activity,
-          geoIp: geoIp,
-          server: server,
+          activity: widget.activity,
         );
       },
       child: Card(
@@ -61,9 +54,7 @@ class ActivityCard extends StatelessWidget {
                     return Container(
                       width: constraints.maxWidth,
                       child: BackgroundImageChooser(
-                        activity: activity,
-                        server: server,
-                        tautulliApiUrls: tautulliApiUrls,
+                        activity: widget.activity,
                       ),
                     );
                   },
@@ -90,15 +81,13 @@ class ActivityCard extends StatelessWidget {
                                 Container(
                                   height: 130,
                                   child: PosterChooser(
-                                    tautulliApiUrls: tautulliApiUrls,
-                                    activity: activity,
-                                    server: server,
+                                    activity: widget.activity,
                                   ),
                                 ),
                                 //* Current state poster overlay
-                                if (activity.state == 'paused' ||
-                                    activity.state == 'buffering')
-                                  StatusPosterOverlay(state: activity.state),
+                                if (widget.activity.state == 'paused' ||
+                                    widget.activity.state == 'buffering')
+                                  StatusPosterOverlay(state: widget.activity.state),
                               ],
                             ),
                             //* Info section
@@ -117,17 +106,17 @@ class ActivityCard extends StatelessWidget {
                                           //* Activity info
                                           Expanded(
                                             child: ActivityMediaInfo(
-                                              mediaType: activity.mediaType,
-                                              title: activity.title,
-                                              parentTitle: activity.parentTitle,
+                                              mediaType: widget.activity.mediaType,
+                                              title: widget.activity.title,
+                                              parentTitle: widget.activity.parentTitle,
                                               grandparentTitle:
-                                                  activity.grandparentTitle,
-                                              year: activity.year,
-                                              mediaIndex: activity.mediaIndex,
+                                                  widget.activity.grandparentTitle,
+                                              year: widget.activity.year,
+                                              mediaIndex: widget.activity.mediaIndex,
                                               parentMediaIndex:
-                                                  activity.parentMediaIndex,
-                                              live: activity.live,
-                                              originallyAvailableAt: activity
+                                                  widget.activity.parentMediaIndex,
+                                              live: widget.activity.live,
+                                              originallyAvailableAt: widget.activity
                                                   .originallyAvailableAt,
                                             ),
                                           ),
@@ -135,7 +124,7 @@ class ActivityCard extends StatelessWidget {
                                           Container(
                                             width: 50,
                                             child: PlatformIcon(
-                                                activity.platformName),
+                                                widget.activity.platformName),
                                           ),
                                         ],
                                       ),
@@ -145,18 +134,18 @@ class ActivityCard extends StatelessWidget {
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         //* User name
-                                        Text(activity.friendlyName),
+                                        Text(widget.activity.friendlyName),
                                         //* Time left or Live tv channel
-                                        activity.live == 0 &&
-                                                activity.duration != null
+                                        widget.activity.live == 0 &&
+                                                widget.activity.duration != null
                                             ? TimeLeft(
-                                                duration: activity.duration,
+                                                duration: widget.activity.duration,
                                                 progressPercent:
-                                                    activity.progressPercent,
+                                                    widget.activity.progressPercent,
                                               )
-                                            : activity.live == 1
+                                            : widget.activity.live == 1
                                                 ? Text(
-                                                    '${activity.channelCallSign} ${activity.channelIdentifier}')
+                                                    '${widget.activity.channelCallSign} ${widget.activity.channelIdentifier}')
                                                 : SizedBox(),
                                       ],
                                     ),
@@ -170,15 +159,15 @@ class ActivityCard extends StatelessWidget {
                       //* Progress bar
                       Container(
                         height: 5,
-                        child: activity.mediaType == 'photo' ||
-                                activity.live == 1
+                        child: widget.activity.mediaType == 'photo' ||
+                                widget.activity.live == 1
                             ? ProgressBar(
                                 progress: 100,
                                 transcodeProgress: 0,
                               )
                             : ProgressBar(
-                                progress: activity.progressPercent,
-                                transcodeProgress: activity.transcodeProgress,
+                                progress: widget.activity.progressPercent,
+                                transcodeProgress: widget.activity.transcodeProgress,
                               ),
                       ),
                     ],
@@ -195,10 +184,7 @@ class ActivityCard extends StatelessWidget {
 
 void showActivityModalBottomSheet({
   @required BuildContext context,
-  @required TautulliApiUrls tautulliApiUrls,
   @required ActivityItem activity,
-  @required GeoIpItem geoIp,
-  @required ServerModel server,
 }) {
   customBottomSheet.showModalBottomSheet(
     context: context,
@@ -206,10 +192,7 @@ void showActivityModalBottomSheet({
     backgroundColor: Colors.transparent,
     builder: (context) {
       return ActivityModalBottomSheet(
-        tautulliApiUrls: tautulliApiUrls,
         activity: activity,
-        geoIp: geoIp,
-        server: server,
       );
     },
   );
