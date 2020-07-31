@@ -59,6 +59,12 @@ class PlexColorPalette {
 
 /// Provides access to colors used by Tautulli.
 class TautulliColorPalette {
+  static const Color midnight = Color.fromRGBO(31, 31, 31, 1.0);
+  static const Color gunmetal = Color.fromRGBO(40, 40, 40, 1.0);
+  static const Color smoke = Color.fromRGBO(170, 170, 170, 1.0);
+  static const Color not_white = Color.fromRGBO(238, 238, 238, 1.0);
+  static const Color amber = Color.fromRGBO(249, 190, 3, 1.0);
+
   /// Returns a given [Color] for the provided platform.
   /// 
   /// Unknown platforms default to Plex's `Gamboge` orange.
