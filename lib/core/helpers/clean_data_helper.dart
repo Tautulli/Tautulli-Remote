@@ -158,8 +158,8 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
           if (icon != null)
             WidgetSpan(
               child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 5,
+                padding: EdgeInsets.only(
+                  right: 5,
                 ),
                 child: FaIcon(
                   icon,
@@ -207,8 +207,8 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
         children: [
           WidgetSpan(
             child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 5,
+              padding: EdgeInsets.only(
+                right: 5,
               ),
               child: FaIcon(
                 type == 'relay'
