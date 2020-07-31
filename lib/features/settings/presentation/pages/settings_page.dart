@@ -15,6 +15,7 @@ import '../widgets/custom_settings_tile.dart';
 import '../widgets/server_setup_instructions.dart';
 import '../widgets/settings_alert_banner.dart';
 import '../widgets/settings_header.dart';
+import 'manual_registration_form_page.dart';
 import 'server_settings_page.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -39,9 +40,6 @@ class SettingsPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final oneSignalPrivacyBloc = BlocProvider.of<OneSignalPrivacyBloc>(context);
     final oneSignalHealthBloc = BlocProvider.of<OneSignalHealthBloc>(context);
-    TextEditingController _primaryConnectionAddressController =
-        TextEditingController();
-    TextEditingController _deviceTokenController = TextEditingController();
 
     if (oneSignalPrivacyBloc.state is OneSignalPrivacyConsentSuccess) {
       oneSignalHealthBloc.add(OneSignalHealthCheck());
@@ -53,11 +51,7 @@ class SettingsPageContent extends StatelessWidget {
         title: Text('Settings'),
       ),
       drawer: AppDrawer(),
-      floatingActionButton: _buildFloatingActionButton(
-        context,
-        _primaryConnectionAddressController,
-        _deviceTokenController,
-      ),
+      floatingActionButton: _buildFloatingActionButton(context),
       body: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
         listener: (context, state) {
           if (state is RegisterDeviceFailure) {
@@ -71,10 +65,6 @@ class SettingsPageContent extends StatelessWidget {
             );
           }
           if (state is RegisterDeviceSuccess) {
-            // Clear manual entry fields if registration succeeds
-            _primaryConnectionAddressController.clear();
-            _deviceTokenController.clear();
-
             Scaffold.of(context).hideCurrentSnackBar();
             Scaffold.of(context).showSnackBar(
               SnackBar(
@@ -195,123 +185,100 @@ class SettingsPageContent extends StatelessWidget {
 
 Widget _buildFloatingActionButton(
   BuildContext context,
-  TextEditingController _primaryConnectionAddressController,
-  TextEditingController _deviceTokenController,
 ) {
   final registerDeviceBloc = BlocProvider.of<RegisterDeviceBloc>(context);
   // ThemeData is required to correct bug in Speed Dial package where Icon color was fixed
-  return Theme(
-    data: ThemeData(
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        foregroundColor: Colors.white,
-        backgroundColor: Theme.of(context).accentColor,
-      ),
-    ),
-    child: UnicornDialer(
-      orientation: UnicornOrientation.VERTICAL,
-      hasBackground: false,
-      parentButton: Icon(Icons.add),
-      childButtons: [
-        UnicornButton(
-          hasLabel: true,
-          labelHasShadow: false,
-          labelText: 'Enter manually',
-          labelBackgroundColor: Colors.transparent,
-          labelColor: Colors.white,
-          currentButton: FloatingActionButton(
-            heroTag: 'manual',
-            mini: true,
-            child: FaIcon(
-              FontAwesomeIcons.pencilAlt,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              return showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text('Manually register with Tautulli'),
-                    content: SizedBox(
-                      height: 130,
-                      child: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            controller: _primaryConnectionAddressController,
-                            decoration:
-                                InputDecoration(labelText: 'Tautulli Address'),
-                          ),
-                          TextFormField(
-                            controller: _deviceTokenController,
-                            decoration:
-                                InputDecoration(labelText: 'Device Token'),
-                          ),
-                        ],
-                      ),
+  return Builder(
+    builder: (context) {
+      return Theme(
+        data: ThemeData(
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            foregroundColor: Colors.white,
+            backgroundColor: Theme.of(context).accentColor,
+          ),
+        ),
+        child: UnicornDialer(
+          orientation: UnicornOrientation.VERTICAL,
+          hasBackground: false,
+          parentButton: Icon(Icons.add),
+          childButtons: [
+            UnicornButton(
+              hasLabel: true,
+              labelHasShadow: false,
+              labelText: 'Enter manually',
+              labelBackgroundColor: Colors.transparent,
+              labelColor: Colors.white,
+              currentButton: FloatingActionButton(
+                heroTag: 'manual',
+                mini: true,
+                child: FaIcon(
+                  FontAwesomeIcons.pencilAlt,
+                  color: Colors.white,
+                ),
+                onPressed: () async {
+                  // Push manual registration page as a full screen dialog
+                  bool result = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) {
+                        return BlocProvider(
+                          create: (context) => di.sl<RegisterDeviceBloc>(),
+                          child: ManualRegistrationForm(),
+                        );
+                      },
                     ),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text('Cancel'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      FlatButton(
-                        child: Text('Register'),
-                        onPressed: () {
-                          registerDeviceBloc.add(
-                            RegisterDeviceManualStarted(
-                              connectionAddress:
-                                  _primaryConnectionAddressController.text,
-                              deviceToken: _deviceTokenController.text,
-                              settingsBloc:
-                                  BlocProvider.of<SettingsBloc>(context),
-                            ),
-                          );
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
                   );
+                  
+                  // If manual registration page pops with true show success snackbar
+                  if (result == true) {
+                    Scaffold.of(context).hideCurrentSnackBar();
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text('Tautulli Registration Successful'),
+                      ),
+                    );
+                  }
                 },
-              );
-            },
-          ),
-        ),
-        UnicornButton(
-          hasLabel: true,
-          labelHasShadow: false,
-          labelText: 'Scan QR code',
-          labelBackgroundColor: Colors.transparent,
-          labelColor: Colors.white,
-          currentButton: FloatingActionButton(
-            heroTag: 'scan',
-            mini: true,
-            child: FaIcon(
-              FontAwesomeIcons.qrcode,
-              color: Colors.white,
+              ),
             ),
-            onPressed: () async {
-              final qrCodeScan = await FlutterBarcodeScanner.scanBarcode(
-                '#e5a00d',
-                'Cancel',
-                false,
-                ScanMode.QR,
-              );
-              // Scanner seems to return '-1' when scanner is exited
-              // do not attempt to register when this happens
-              if (qrCodeScan != '-1') {
-                registerDeviceBloc.add(
-                  RegisterDeviceFromQrStarted(
-                    result: qrCodeScan,
-                    // Passes in the SettingsBloc to maintain context so items update correctly
-                    settingsBloc: BlocProvider.of<SettingsBloc>(context),
-                  ),
-                );
-              }
-            },
-          ),
+            UnicornButton(
+              hasLabel: true,
+              labelHasShadow: false,
+              labelText: 'Scan QR code',
+              labelBackgroundColor: Colors.transparent,
+              labelColor: Colors.white,
+              currentButton: FloatingActionButton(
+                heroTag: 'scan',
+                mini: true,
+                child: FaIcon(
+                  FontAwesomeIcons.qrcode,
+                  color: Colors.white,
+                ),
+                onPressed: () async {
+                  final qrCodeScan = await FlutterBarcodeScanner.scanBarcode(
+                    '#e5a00d',
+                    'Cancel',
+                    false,
+                    ScanMode.QR,
+                  );
+                  // Scanner seems to return '-1' when scanner is exited
+                  // do not attempt to register when this happens
+                  if (qrCodeScan != '-1') {
+                    registerDeviceBloc.add(
+                      RegisterDeviceFromQrStarted(
+                        result: qrCodeScan,
+                        // Passes in the SettingsBloc to maintain context so items update correctly
+                        settingsBloc: BlocProvider.of<SettingsBloc>(context),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
         ),
-      ],
-    ),
+      );
+    },
   );
 }
