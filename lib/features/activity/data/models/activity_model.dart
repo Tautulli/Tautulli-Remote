@@ -33,6 +33,7 @@ class ActivityItemModel extends ActivityItem {
     final String parentThumb,
     final String parentTitle, // Album name
     final String platformName, // Player platform (Chrome, etc)
+    final String player, // Name of the player (ex. PC name)
     final String product, // Player product (Plex Media Player, etc)
     final int progressPercent, // Percent watched
     final String qualityProfile, // Streaming quality
@@ -106,6 +107,7 @@ class ActivityItemModel extends ActivityItem {
           parentThumb: parentThumb,
           parentTitle: parentTitle,
           platformName: platformName,
+          player: player,
           product: product,
           progressPercent: progressPercent,
           qualityProfile: qualityProfile,
@@ -180,6 +182,7 @@ class ActivityItemModel extends ActivityItem {
       parentThumb: json['parent_thumb'],
       parentTitle: json['parent_title'],
       platformName: json['platform_name'],
+      player: json['player'],
       product: json['product'],
       progressPercent: int.tryParse(json['progress_percent']),
       qualityProfile: json['quality_profile'],

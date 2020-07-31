@@ -257,7 +257,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
   List<List> player(ActivityItem activity) {
     final formattedPlayer = RichText(
       text: TextSpan(
-        text: StringFormatHelper.capitalize(activity.platformName),
+        text: activity.player,
         style: TextStyle(
           fontSize: 16,
         ),

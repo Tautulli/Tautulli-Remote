@@ -32,6 +32,7 @@ class ActivityItem extends Equatable {
   final String parentThumb;
   final String parentTitle; // Album name
   final String platformName; // Player platform (Chrome, etc)
+  final String player; // Name of the player (ex. PC name)
   final String product; // Player product (Plex Media Player, etc)
   final int progressPercent; // Percent watched
   final String qualityProfile; // Streaming quality
@@ -106,6 +107,7 @@ class ActivityItem extends Equatable {
     this.parentThumb,
     this.parentTitle,
     this.platformName,
+    this.player,
     this.product,
     this.progressPercent,
     this.qualityProfile,
@@ -180,6 +182,7 @@ class ActivityItem extends Equatable {
         parentThumb,
         parentTitle,
         platformName,
+        player,
         product,
         progressPercent,
         qualityProfile,
