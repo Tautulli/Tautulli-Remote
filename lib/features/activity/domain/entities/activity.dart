@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import 'geo_ip.dart';
+
 class ActivityItem extends Equatable {
   final int sessionKey;
   final String art; // Image path for background art
@@ -69,6 +71,11 @@ class ActivityItem extends Equatable {
   final int viewOffset; // Time from begining of file in milliseconds
   final int width;
   final int year; // Release year
+  GeoIpItem geoIpItem;
+  String posterUrl;
+  //TODO: Need to tshoot doing this background natively
+  String posterBackgroundUrl;
+  String backgroundUrl;
 
   ActivityItem({
     @required this.sessionKey,
@@ -137,6 +144,10 @@ class ActivityItem extends Equatable {
     this.viewOffset,
     this.width,
     this.year,
+    this.geoIpItem,
+    this.posterUrl,
+    this.posterBackgroundUrl,
+    this.backgroundUrl,
   });
 
   @override
@@ -207,6 +218,10 @@ class ActivityItem extends Equatable {
         viewOffset,
         width,
         year,
+        geoIpItem,
+        posterUrl,
+        posterBackgroundUrl,
+        backgroundUrl,
       ];
 
   @override

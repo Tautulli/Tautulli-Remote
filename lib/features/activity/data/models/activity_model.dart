@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../../domain/entities/activity.dart';
+import '../../domain/entities/geo_ip.dart';
 
 class ActivityItemModel extends ActivityItem {
   ActivityItemModel({
@@ -72,6 +73,10 @@ class ActivityItemModel extends ActivityItem {
     final int viewOffset, // Time from begining of file in milliseconds
     final int width,
     final int year, // Release year
+    GeoIpItem geoIpItem,
+    String posterUrl,
+    String posterBackgroundUrl,
+    String backgroundUrl,
   }) : super(
           sessionKey: sessionKey,
           art: art,
@@ -139,6 +144,10 @@ class ActivityItemModel extends ActivityItem {
           viewOffset: viewOffset,
           width: width,
           year: year,
+          geoIpItem: geoIpItem,
+          posterUrl: posterUrl,
+          posterBackgroundUrl: posterBackgroundUrl,
+          backgroundUrl: backgroundUrl,
         );
 
   factory ActivityItemModel.fromJson(Map<String, dynamic> json) {
