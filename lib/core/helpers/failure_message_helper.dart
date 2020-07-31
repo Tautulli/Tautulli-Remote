@@ -19,6 +19,8 @@ const String CHECK_CONNECTION_ADDRESS_SUGGESTION =
     'Check your Connection Address for errors.';
 const String CHECK_SERVER_SETTINGS_SUGGESTION =
     'Please verify your connection settings.';
+const String TIMEOUT_SUGGESTION =
+    'Check your Connection Address for errors.\nMake sure Tautulli can communicate with Plex.';
 
 /// Maps [Failures] to appropriate messages and suggestions.
 class FailureMessageHelper {
@@ -62,7 +64,7 @@ class FailureMessageHelper {
       case UrlFormatFailure:
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
       case TimeoutFailure:
-        return CHECK_CONNECTION_ADDRESS_SUGGESTION;
+        return TIMEOUT_SUGGESTION;
       case JsonFailure:
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
       default:
