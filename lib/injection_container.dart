@@ -4,19 +4,23 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'core/api/tautulli_api.dart';
 import 'core/device_info/device_info.dart';
 import 'core/helpers/connection_address_helper.dart';
 import 'core/helpers/log_format_helper.dart';
-import 'core/helpers/tautulli_api_url_helper.dart';
 import 'core/network/network_info.dart';
 import 'features/activity/data/datasources/activity_data_source.dart';
 import 'features/activity/data/datasources/geo_ip_data_source.dart';
+import 'features/activity/data/datasources/image_url_data_source.dart';
 import 'features/activity/data/repositories/activity_repository_impl.dart';
 import 'features/activity/data/repositories/geo_ip_repository_impl.dart';
+import 'features/activity/data/repositories/image_url_repository_impl.dart';
 import 'features/activity/domain/repositories/activity_repository.dart';
 import 'features/activity/domain/repositories/geo_ip_repository.dart';
+import 'features/activity/domain/repositories/image_url_repository.dart';
 import 'features/activity/domain/usecases/get_activity.dart';
 import 'features/activity/domain/usecases/get_geo_ip.dart';
+import 'features/activity/domain/usecases/get_image_url.dart';
 import 'features/activity/presentation/bloc/activity_bloc.dart';
 import 'features/logging/data/datasources/logging_data_source.dart';
 import 'features/logging/data/repositories/logging_repository_impl.dart';
@@ -95,7 +99,7 @@ Future<void> init() async {
     () => RegisterDeviceDataSourceImpl(
       client: sl(),
       settings: sl(),
-      tautulliApiUrls: sl(),
+      tautulliApi: sl(),
       deviceInfo: sl(),
       oneSignal: sl(),
     ),
@@ -168,7 +172,8 @@ Future<void> init() async {
     () => ActivityBloc(
       activity: sl(),
       geoIp: sl(),
-      tautulliApiUrls: sl(),
+      imageUrl: sl(),
+      tautulliApi: sl(),
       logging: sl(),
     ),
   );
@@ -182,6 +187,12 @@ Future<void> init() async {
 
   sl.registerLazySingleton(
     () => GetGeoIp(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetImageUrl(
       repository: sl(),
     ),
   );
@@ -201,12 +212,19 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerLazySingleton<ImageUrlRepository>(
+    () => ImageUrlRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
   // Data sources
   sl.registerLazySingleton<ActivityDataSource>(
     () => ActivityDataSourceImpl(
       client: sl(),
       settings: sl(),
-      tautulliApiUrls: sl(),
+      tautulliApi: sl(),
       logging: sl(),
     ),
   );
@@ -215,8 +233,14 @@ Future<void> init() async {
     () => GeoIpDataSourceImpl(
       client: sl(),
       settings: sl(),
-      tautulliApiUrls: sl(),
+      tautulliApi: sl(),
       logging: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<ImageUrlDataSource>(
+    () => ImageUrlDataSourceImpl(
+      tautulliApi: sl(),
     ),
   );
 
@@ -227,8 +251,9 @@ Future<void> init() async {
     ),
   );
 
-  sl.registerLazySingleton<TautulliApiUrls>(
-    () => TautulliApiUrlsImpl(
+  sl.registerLazySingleton<TautulliApi>(
+    () => TautulliApiImpl(
+      client: sl(),
       settings: sl(),
     ),
   );
