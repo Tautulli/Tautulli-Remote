@@ -76,9 +76,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
   List<List> bandwidth(ActivityItem activity) {
     String finalText;
 
-    if (activity.mediaType != 'photo' &&
-        activity.bandwidth != 'Unknown' &&
-        activity.bandwidth != '') {
+    if (activity.mediaType != 'photo' && activity.bandwidth != 'Unknown') {
       int _bw = int.parse(activity.bandwidth);
       if (_bw > 1000000) {
         finalText = '${(_bw / 1000000).toStringAsFixed(1)} Gbps';
