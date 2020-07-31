@@ -76,7 +76,9 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
   List<List> bandwidth(ActivityItem activity) {
     String finalText;
 
-    if (activity.mediaType != 'photo' && activity.bandwidth != 'Unknown') {
+    if (activity.mediaType != 'photo' &&
+        activity.bandwidth != 'Unknown' &&
+        activity.bandwidth != '') {
       int _bw = int.parse(activity.bandwidth);
       if (_bw > 1000000) {
         finalText = '${(_bw / 1000000).toStringAsFixed(1)} Gbps';
@@ -87,8 +89,6 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
       }
     } else if (activity.syncedVersion == 1) {
       finalText = 'None';
-    } else if (activity.bandwidth == '') {
-      finalText = '0 kbps';
     } else {
       finalText = 'Unknown';
     }
