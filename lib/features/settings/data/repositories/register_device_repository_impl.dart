@@ -37,6 +37,8 @@ class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
           clearOnesignalId: clearOnesignalId,
         );
         return Right(result);
+      } on SettingsException {
+        return Left(SettingsFailure());
       } on ServerException {
         return Left(ServerFailure());
       } on SocketException {
@@ -49,6 +51,8 @@ class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
         return Left(UrlFormatFailure());
       } on TimeoutException {
         return Left(TimeoutFailure());
+      } on JsonDecodeException {
+        return Left(JsonDecodeFailure());
       }
     } else {
       return Left(ConnectionFailure());
