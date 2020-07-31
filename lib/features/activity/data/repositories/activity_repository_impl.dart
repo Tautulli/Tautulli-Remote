@@ -42,7 +42,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
         return Left(UrlFormatFailure());
       } on TimeoutException {
         return Left(TimeoutFailure());
-      } on JsonException {
+      } on JsonDecodeException {
         return Left(JsonFailure());
       }
     } else {
