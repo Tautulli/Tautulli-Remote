@@ -141,7 +141,7 @@ class SettingsPageContent extends StatelessWidget {
                       if (state is RegisterDeviceInProgress) {
                         return Center(
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
+                            padding: const EdgeInsets.only(top: 6, bottom: 8),
                             child: CircularProgressIndicator(),
                           ),
                         );
