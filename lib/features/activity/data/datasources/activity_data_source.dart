@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 import 'package:quiver/strings.dart';
 
@@ -37,13 +36,11 @@ abstract class ActivityDataSource {
 }
 
 class ActivityDataSourceImpl implements ActivityDataSource {
-  final http.Client client;
   final Settings settings;
   final TautulliApi tautulliApi;
   final Logging logging;
 
   ActivityDataSourceImpl({
-    @required this.client,
     @required this.settings,
     @required this.tautulliApi,
     @required this.logging,

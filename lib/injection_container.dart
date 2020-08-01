@@ -97,7 +97,6 @@ Future<void> init() async {
 
   sl.registerLazySingleton<RegisterDeviceDataSource>(
     () => RegisterDeviceDataSourceImpl(
-      client: sl(),
       settings: sl(),
       tautulliApi: sl(),
       deviceInfo: sl(),
@@ -222,7 +221,6 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<ActivityDataSource>(
     () => ActivityDataSourceImpl(
-      client: sl(),
       settings: sl(),
       tautulliApi: sl(),
       logging: sl(),
@@ -231,7 +229,6 @@ Future<void> init() async {
 
   sl.registerLazySingleton<GeoIpDataSource>(
     () => GeoIpDataSourceImpl(
-      client: sl(),
       settings: sl(),
       tautulliApi: sl(),
       logging: sl(),

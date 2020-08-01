@@ -1,4 +1,3 @@
-import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 
 import '../../../../core/api/tautulli_api.dart';
@@ -21,14 +20,12 @@ abstract class RegisterDeviceDataSource {
 }
 
 class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
-  final http.Client client;
   final Settings settings;
   final DeviceInfo deviceInfo;
   final OneSignalDataSource oneSignal;
   final TautulliApi tautulliApi;
 
   RegisterDeviceDataSourceImpl({
-    @required this.client,
     @required this.settings,
     @required this.deviceInfo,
     @required this.oneSignal,

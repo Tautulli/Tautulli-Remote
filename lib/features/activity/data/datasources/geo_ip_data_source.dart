@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 
 import '../../../../core/api/tautulli_api.dart';
@@ -23,13 +22,11 @@ abstract class GeoIpDataSource {
 }
 
 class GeoIpDataSourceImpl implements GeoIpDataSource {
-  final http.Client client;
   final Settings settings;
   final TautulliApi tautulliApi;
   final Logging logging;
 
   GeoIpDataSourceImpl({
-    @required this.client,
     @required this.settings,
     @required this.tautulliApi,
     @required this.logging,
