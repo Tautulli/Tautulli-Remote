@@ -75,8 +75,8 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
                       controller: _deviceTokenController,
                       decoration: InputDecoration(labelText: 'Device Token'),
                       validator: (value) {
-                        if (value.length < 32 || value.length > 32) {
-                          return 'Device Token should be 32 characters long';
+                        if (value.length != 32) {
+                          return 'Device Token should be 32 characters long (current length: ${value.length})';
                         }
                         return null;
                       },
