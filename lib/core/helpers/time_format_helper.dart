@@ -1,4 +1,5 @@
 import 'package:duration/duration.dart';
+import 'package:intl/intl.dart';
 
 /// Provides helper functions to create more readable durations.
 class TimeFormatHelper {
@@ -30,5 +31,23 @@ class TimeFormatHelper {
     } else {
       return '${duration.inHours}:${duration.inMinutes.remainder(60).toString().padLeft(2, "0")}:${duration.inSeconds.remainder(60).toString().padLeft(2, "0")}';
     }
+  }
+
+  static String eta24Hour(int duration, int progressPercent) {
+    Duration time = Duration(
+        milliseconds: (duration * (1 - (progressPercent / 100))).round());
+
+    DateTime eta = DateTime.now().add(time);
+
+    return 'ETA: ${eta.hour.toString().padLeft(1, "0")}:${eta.minute.toString().padLeft(1, "0")}';
+  }
+
+  static String eta12Hour(int duration, int progressPercent) {
+    Duration time = Duration(
+        milliseconds: (duration * (1 - (progressPercent / 100))).round());
+
+    DateTime eta = DateTime.now().add(time);
+
+    return 'ETA: ${DateFormat.jm().format(eta)}';
   }
 }
