@@ -33,7 +33,7 @@ class SettingsAlertBanner extends StatelessWidget {
                     onPressed: () =>
                         Navigator.of(context).pushNamed('/privacy'),
                   ),
-                  backgroundColor: Colors.deepOrange[800],
+                  backgroundColor: Colors.deepOrange[900],
                 );
               }
             }
