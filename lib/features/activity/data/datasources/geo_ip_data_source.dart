@@ -5,7 +5,6 @@ import 'package:meta/meta.dart';
 import '../../../../core/api/tautulli_api.dart';
 import '../../../../core/error/exception.dart';
 import '../../../logging/domain/usecases/logging.dart';
-import '../../../settings/domain/usecases/settings.dart';
 import '../../domain/entities/geo_ip.dart';
 import '../models/geo_ip_model.dart';
 
@@ -22,12 +21,10 @@ abstract class GeoIpDataSource {
 }
 
 class GeoIpDataSourceImpl implements GeoIpDataSource {
-  final Settings settings;
   final TautulliApi tautulliApi;
   final Logging logging;
 
   GeoIpDataSourceImpl({
-    @required this.settings,
     @required this.tautulliApi,
     @required this.logging,
   });

@@ -4,12 +4,11 @@ import '../../../../core/api/tautulli_api.dart';
 import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
-import '../../domain/usecases/settings.dart';
 
 abstract class RegisterDeviceDataSource {
   /// Registers the device with the Tautulli server.
   ///
-  /// Returns `true` if successful. Otherwise throws an [Exception].
+  /// Returns Map with registration data if successful. Otherwise throws an [Exception].
   Future<Map> call({
     @required String connectionProtocol,
     @required String connectionDomain,
@@ -20,13 +19,11 @@ abstract class RegisterDeviceDataSource {
 }
 
 class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
-  final Settings settings;
   final DeviceInfo deviceInfo;
   final OneSignalDataSource oneSignal;
   final TautulliApi tautulliApi;
 
   RegisterDeviceDataSourceImpl({
-    @required this.settings,
     @required this.deviceInfo,
     @required this.oneSignal,
     @required this.tautulliApi,
