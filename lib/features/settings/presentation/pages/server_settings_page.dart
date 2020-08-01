@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quiver/strings.dart';
+import 'package:validators/validators.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
@@ -54,7 +55,9 @@ class ServerSettings extends StatelessWidget {
                 children: <Widget>[
                   ListTile(
                     title: Text('Primary Connection Address'),
-                    subtitle: Text(server.primaryConnectionAddress),
+                    subtitle: isNotEmpty(server.primaryConnectionAddress)
+                        ? Text(server.primaryConnectionAddress)
+                        : Text('Required'),
                     onTap: () {
                       _buildPrimaryConnectionAddressSettingsDialog(
                         context: context,
@@ -152,7 +155,7 @@ class ServerSettings extends StatelessWidget {
                 ],
               );
             } catch (error) {
-              return Text('Server not found in settings');
+              return Text('Server not found in settings [$error]');
             }
           }
           return Text('Bloc error');
@@ -172,16 +175,32 @@ Future _buildPrimaryConnectionAddressSettingsDialog({
   return showDialog(
     context: context,
     builder: (context) {
+      final _primaryConnectionFormKey = GlobalKey<FormState>();
+
       if (primaryConnectionAddress != null) {
         controller.text = primaryConnectionAddress;
       }
       //TODO: Need to add instructions on how the connection address works
       return AlertDialog(
         title: Text('Tautulli Primary Connection Address'),
-        content: TextFormField(
-          controller: controller,
-          decoration: InputDecoration(
-              hintText: 'Input your primary connection address'),
+        content: Form(
+          key: _primaryConnectionFormKey,
+          child: TextFormField(
+            controller: controller,
+            decoration: InputDecoration(
+                hintText: 'Input your primary connection address'),
+            validator: (value) {
+              bool validUrl = isURL(
+                value,
+                protocols: ['http', 'https'],
+                requireProtocol: true,
+              );
+              if (validUrl == false) {
+                return 'Please enter a valid URL format';
+              }
+              return null;
+            },
+          ),
         ),
         actions: <Widget>[
           FlatButton(
@@ -193,13 +212,15 @@ Future _buildPrimaryConnectionAddressSettingsDialog({
           FlatButton(
             child: Text("Save"),
             onPressed: () {
-              settingsBloc.add(
-                SettingsUpdatePrimaryConnection(
-                  id: id,
-                  primaryConnectionAddress: controller.text,
-                ),
-              );
-              Navigator.of(context).pop();
+              if (_primaryConnectionFormKey.currentState.validate()) {
+                settingsBloc.add(
+                  SettingsUpdatePrimaryConnection(
+                    id: id,
+                    primaryConnectionAddress: controller.text,
+                  ),
+                );
+                Navigator.of(context).pop();
+              }
             },
           ),
         ],
@@ -218,16 +239,32 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
   return showDialog(
     context: context,
     builder: (context) {
+      final _secondaryConnectionFormKey = GlobalKey<FormState>();
+
       if (secondaryConnectionAddress != null) {
         controller.text = secondaryConnectionAddress;
       }
       //TODO: Need to add instructions on how the secondary connection address works
       return AlertDialog(
         title: Text('Tautulli Secondary Connection Address'),
-        content: TextFormField(
-          controller: controller,
-          decoration: InputDecoration(
-              hintText: 'Input your secondary connection address'),
+        content: Form(
+          key: _secondaryConnectionFormKey,
+          child: TextFormField(
+            controller: controller,
+            decoration: InputDecoration(
+                hintText: 'Input your secondary connection address'),
+            validator: (value) {
+              bool validUrl = isURL(
+                value,
+                protocols: ['http', 'https'],
+                requireProtocol: true,
+              );
+              if (validUrl == false) {
+                return 'Please enter a valid URL format';
+              }
+              return null;
+            },
+          ),
         ),
         actions: <Widget>[
           FlatButton(
@@ -239,13 +276,15 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
           FlatButton(
             child: Text("Save"),
             onPressed: () {
-              settingsBloc.add(
-                SettingsUpdateSecondaryConnection(
-                  id: id,
-                  secondaryConnectionAddress: controller.text,
-                ),
-              );
-              Navigator.of(context).pop();
+              if (_secondaryConnectionFormKey.currentState.validate()) {
+                settingsBloc.add(
+                  SettingsUpdateSecondaryConnection(
+                    id: id,
+                    secondaryConnectionAddress: controller.text,
+                  ),
+                );
+                Navigator.of(context).pop();
+              }
             },
           ),
         ],
