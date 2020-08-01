@@ -10,6 +10,7 @@ import 'background_image_chooser.dart';
 import 'poster_chooser.dart';
 import 'progress_bar.dart';
 import 'status_poster_overlay.dart';
+import 'time_eta.dart';
 import 'time_total.dart';
 
 class ActivityModalBottomSheet extends StatelessWidget {
@@ -152,6 +153,14 @@ class ActivityModalBottomSheet extends StatelessWidget {
                               ],
                             ),
                           ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 4,
+                        bottom: 28,
+                        child: TimeEta(
+                          duration: activity.duration,
+                          progressPercent: activity.progressPercent,
                         ),
                       ),
                     ],
