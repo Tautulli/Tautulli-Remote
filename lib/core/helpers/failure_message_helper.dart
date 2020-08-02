@@ -21,7 +21,7 @@ const String CHECK_CONNECTION_ADDRESS_SUGGESTION =
 const String CHECK_SERVER_SETTINGS_SUGGESTION =
     'Please verify your connection settings.';
 const String TIMEOUT_SUGGESTION =
-    'Check your Connection Address for errors.\nMake sure Tautulli can communicate with Plex.';
+    'Check your Connection Address for errors and make sure Tautulli can communicate with Plex.';
 const String TERMINATE_SUGGESTION = 'Make sure the stream is still active.';
 
 /// Maps [Failures] to appropriate messages and suggestions.
