@@ -12,7 +12,7 @@ class TerminateSessionButton extends StatelessWidget {
       children: <Widget>[
         Icon(
           Icons.close,
-          color: PlexColorPalette.white,
+          color: TautulliColorPalette.not_white,
           size: 30,
         ),
         Text(
@@ -21,7 +21,7 @@ class TerminateSessionButton extends StatelessWidget {
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w400,
-            color: PlexColorPalette.white,
+            color: TautulliColorPalette.not_white,
           ),
         ),
       ],

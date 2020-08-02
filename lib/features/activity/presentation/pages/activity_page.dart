@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../../core/helpers/failure_message_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../injection_container.dart';
+import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../terminate_session/presentation/bloc/terminate_session_bloc.dart';
 import '../../domain/entities/activity.dart';
 import '../bloc/activity_bloc.dart';
 import '../widgets/activity_card.dart';
@@ -169,10 +172,18 @@ Widget _buildSingleServerActivity({
       ),
     );
   }
-  return ListView.builder(
-    itemCount: activityList.length,
-    itemBuilder: (context, index) => ActivityCard(
-      activity: activityList[index],
+  final SlidableController _slidableController = SlidableController();
+
+  return BlocProvider<TerminateSessionBloc>(
+    create: (context) => di.sl<TerminateSessionBloc>(),
+    child: ListView.builder(
+      itemCount: activityList.length,
+      itemBuilder: (context, index) => ActivityCard(
+        activityMap: activityMap,
+        index: index,
+        tautulliId: mapKeys[0],
+        slidableController: _slidableController,
+      ),
     ),
   );
 }
@@ -181,8 +192,12 @@ Widget _buildMultiserverActivity({
   @required Map<String, Map<String, Object>> activityMap,
 }) {
   List<Widget> activityWidgetList = [];
+  String tautulliId;
 
-  activityMap.forEach((tautulliId, resultMap) {
+  final SlidableController _slidableController = SlidableController();
+
+  activityMap.forEach((serverId, resultMap) {
+    tautulliId = serverId;
     activityWidgetList.add(
       ServerHeader(serverName: resultMap['plex_name']),
     );
@@ -193,7 +208,10 @@ Widget _buildMultiserverActivity({
         for (ActivityItem activityItem in activityList) {
           activityWidgetList.add(
             ActivityCard(
-              activity: activityItem,
+              activityMap: activityMap,
+              index: activityList.indexOf(activityItem),
+              tautulliId: tautulliId,
+              slidableController: _slidableController,
             ),
           );
         }
@@ -228,7 +246,8 @@ Widget _buildMultiserverActivity({
                   bottom: 4,
                 ),
                 child: Text(
-                  FailureMessageHelper().mapFailureToMessage(resultMap['failure']),
+                  FailureMessageHelper()
+                      .mapFailureToMessage(resultMap['failure']),
                 ),
               ),
               Padding(
@@ -237,7 +256,8 @@ Widget _buildMultiserverActivity({
                   bottom: 4,
                 ),
                 child: Text(
-                  FailureMessageHelper().mapFailureToSuggestion(resultMap['failure']),
+                  FailureMessageHelper()
+                      .mapFailureToSuggestion(resultMap['failure']),
                 ),
               ),
             ],
@@ -247,9 +267,10 @@ Widget _buildMultiserverActivity({
     }
   });
 
-  return ListView(
-    children: activityWidgetList,
+  return BlocProvider<TerminateSessionBloc>(
+    create: (context) => di.sl<TerminateSessionBloc>(),
+    child: ListView(
+      children: activityWidgetList,
+    ),
   );
 }
-
-

@@ -50,6 +50,27 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       logging.info('Activity: Attempting to load activity');
       yield* _loadActivityOrFailure();
     }
+    if (event is ActivityRemove) {
+      // Create a new Map that can be manipulated
+      Map<String, Map<String, Object>> newActivityMap =
+          Map<String, Map<String, Object>>.from(event.activityMap);
+
+      // Remove the item from the map where the key is the submitted
+      // tautulliId and the value has the submitted sessionKey
+      newActivityMap.forEach((key, value) {
+        // if (key == event.tautulliId) {
+          List activityList = value['activity'];
+          activityList.removeWhere(
+              (activityItem) => activityItem.sessionId == event.sessionId);
+        // }
+      });
+
+      // Return activity with the map sans the removed item
+      yield ActivityLoadSuccess(
+        activityMap: newActivityMap,
+        loadedAt: DateTime.now(),
+      );
+    }
   }
 
   Stream<ActivityState> _loadActivityOrFailure() async* {
