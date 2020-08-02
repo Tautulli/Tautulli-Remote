@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:validators/validators.dart';
 
+import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../bloc/register_device_bloc.dart';
 import '../bloc/settings_bloc.dart';
 
@@ -28,98 +29,112 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
         return _showExitDialog(context);
       },
       child: Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          appBar: AppBar(
-            title: Text('Manual Device Registration'),
-          ),
-          body: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
-            listener: (context, state) {
-              if (state is RegisterDeviceFailure) {
-                Scaffold.of(context).hideCurrentSnackBar();
-                //TODO: add a link to a wiki page for registration
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: Colors.red,
-                    content: Text('Tautulli Registration Failed'),
-                  ),
-                );
-              }
-              if (state is RegisterDeviceSuccess) {
-                Navigator.of(context).pop(true);
-              }
-            },
-            //TODO: Could be nice to add some extra instructions here maybe?
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      controller: _primaryConnectionAddressController,
-                      decoration:
-                          InputDecoration(labelText: 'Tautulli Address'),
-                      validator: (value) {
-                        bool validUrl = isURL(
-                          value,
-                          protocols: ['http', 'https'],
-                          requireProtocol: true,
-                        );
-                        if (validUrl == false) {
-                          return 'Please enter a valid URL format';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _deviceTokenController,
-                      decoration: InputDecoration(labelText: 'Device Token'),
-                      validator: (value) {
-                        if (value.length != 32) {
-                          return 'Device Token should be 32 characters long (current length: ${value.length})';
-                        }
-                        return null;
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          FlatButton(
-                            onPressed: () async {
-                              bool value = await _showExitDialog(context);
-                              if (value) {
-                                Navigator.of(context).pop();
-                              }
-                            },
-                            child: Text('Cancel'),
-                          ),
-                          FlatButton(
-                            onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                registerDeviceBloc.add(
-                                  RegisterDeviceManualStarted(
-                                    connectionAddress:
-                                        _primaryConnectionAddressController
-                                            .text,
-                                    deviceToken: _deviceTokenController.text,
-                                    settingsBloc:
-                                        BlocProvider.of<SettingsBloc>(context),
-                                  ),
-                                );
-                              }
-                            },
-                            child: Text('Register'),
-                          ),
-                        ],
+        backgroundColor: Theme.of(context).backgroundColor,
+        appBar: AppBar(
+          title: Text('Manual Device Registration'),
+        ),
+        body: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
+          listener: (context, state) {
+            if (state is RegisterDeviceFailure) {
+              //TODO: add a link to a wiki page for registration
+              showFailureAlertDialog(
+                context: context,
+                failure: state.failure,
+              );
+            }
+            if (state is RegisterDeviceSuccess) {
+              Navigator.of(context).pop(true);
+            }
+          },
+          //TODO: Could be nice to add some extra instructions here maybe?
+          child: Column(
+            children: <Widget>[
+              BlocBuilder<RegisterDeviceBloc, RegisterDeviceState>(
+                builder: (context, state) {
+                  if (state is RegisterDeviceInProgress) {
+                    return SizedBox(
+                      height: 2,
+                      child: LinearProgressIndicator(),
+                    );
+                  }
+                  return Container(height: 2, width: 0);
+                },
+              ),
+              Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: _primaryConnectionAddressController,
+                        decoration:
+                            InputDecoration(labelText: 'Tautulli Address'),
+                        validator: (value) {
+                          bool validUrl = isURL(
+                            value,
+                            protocols: ['http', 'https'],
+                            requireProtocol: true,
+                          );
+                          if (validUrl == false) {
+                            return 'Please enter a valid URL format';
+                          }
+                          return null;
+                        },
                       ),
-                    ),
-                  ],
+                      TextFormField(
+                        controller: _deviceTokenController,
+                        decoration: InputDecoration(labelText: 'Device Token'),
+                        validator: (value) {
+                          if (value.length != 32) {
+                            return 'Device Token should be 32 characters long (current length: ${value.length})';
+                          }
+                          return null;
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            FlatButton(
+                              onPressed: () async {
+                                bool value = await _showExitDialog(context);
+                                if (value) {
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                              child: Text('Cancel'),
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  registerDeviceBloc.add(
+                                    RegisterDeviceManualStarted(
+                                      connectionAddress:
+                                          _primaryConnectionAddressController
+                                              .text,
+                                      deviceToken: _deviceTokenController.text,
+                                      settingsBloc:
+                                          BlocProvider.of<SettingsBloc>(
+                                              context),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Text('Register'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          )),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
