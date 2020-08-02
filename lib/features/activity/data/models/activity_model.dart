@@ -6,6 +6,7 @@ import '../../domain/entities/geo_ip.dart';
 class ActivityItemModel extends ActivityItem {
   ActivityItemModel({
     @required final int sessionKey,
+    @required final String sessionId,
     final String art, // Image path for background art
     final String audioChannelLayout, // stereo, 5.1, etc
     final String audioCodec, // Source media audio codec
@@ -81,6 +82,7 @@ class ActivityItemModel extends ActivityItem {
     String backgroundUrl,
   }) : super(
           sessionKey: sessionKey,
+          sessionId: sessionId,
           art: art,
           audioChannelLayout: audioChannelLayout,
           audioCodec: audioCodec,
@@ -157,6 +159,7 @@ class ActivityItemModel extends ActivityItem {
   factory ActivityItemModel.fromJson(Map<String, dynamic> json) {
     return ActivityItemModel(
       sessionKey: int.tryParse(json['session_key']),
+      sessionId: json['session_id'],
       art: json['art'],
       audioChannelLayout: json['audio_channel_layout'],
       audioCodec: json['audio_codec'],

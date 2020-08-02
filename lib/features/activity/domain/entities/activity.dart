@@ -5,6 +5,7 @@ import 'geo_ip.dart';
 
 class ActivityItem extends Equatable {
   final int sessionKey;
+  final String sessionId;
   final String art; // Image path for background art
   final String audioChannelLayout; // stereo, 5.1, etc
   final String audioCodec; // Source media audio codec
@@ -81,6 +82,7 @@ class ActivityItem extends Equatable {
 
   ActivityItem({
     @required this.sessionKey,
+    @required this.sessionId,
     this.art,
     this.audioChannelLayout,
     this.audioCodec,
@@ -157,6 +159,7 @@ class ActivityItem extends Equatable {
   @override
   List<Object> get props => [
         sessionKey,
+        sessionId,
         art,
         audioChannelLayout,
         audioCodec,
