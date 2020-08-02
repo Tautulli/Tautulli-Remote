@@ -20,6 +20,10 @@ class RegisterDeviceSuccess extends RegisterDeviceState {
 }
 
 class RegisterDeviceFailure extends RegisterDeviceState {
+  final Failure failure;
+
+  RegisterDeviceFailure({@required this.failure});
+
   @override
   List<Object> get props => [];
 }

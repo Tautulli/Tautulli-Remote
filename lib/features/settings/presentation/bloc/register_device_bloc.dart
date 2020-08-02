@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
+import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/connection_address_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/usecases/register_device.dart';
@@ -79,7 +80,7 @@ class RegisterDeviceBloc
     yield* failureOrRegistered.fold(
       (failure) async* {
         logging.error('RegisterDevice: Failed to register device [$failure]');
-        yield RegisterDeviceFailure();
+        yield RegisterDeviceFailure(failure: failure);
       },
       (registeredData) async* {
         final Server existingServer =

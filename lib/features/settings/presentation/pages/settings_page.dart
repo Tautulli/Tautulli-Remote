@@ -7,6 +7,7 @@ import 'package:unicorndial/unicorndial.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
+import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -56,13 +57,10 @@ class SettingsPageContent extends StatelessWidget {
       body: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
         listener: (context, state) {
           if (state is RegisterDeviceFailure) {
-            Scaffold.of(context).hideCurrentSnackBar();
             //TODO: add a link to a wiki page for registration
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.red,
-                content: Text('Tautulli Registration Failed'),
-              ),
+            showFailureAlertDialog(
+              context: context,
+              failure: state.failure,
             );
           }
           if (state is RegisterDeviceSuccess) {
@@ -229,7 +227,7 @@ Widget _buildFloatingActionButton(
                       },
                     ),
                   );
-                  
+
                   // If manual registration page pops with true show success snackbar
                   if (result == true) {
                     Scaffold.of(context).hideCurrentSnackBar();
