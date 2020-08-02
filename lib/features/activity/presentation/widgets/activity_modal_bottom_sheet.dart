@@ -134,7 +134,7 @@ class ActivityModalBottomSheet extends StatelessWidget {
                       ),
                       //* Poster
                       Positioned(
-                        bottom: 14,
+                        bottom: 10,
                         child: Container(
                           height: 130,
                           padding: EdgeInsets.only(
