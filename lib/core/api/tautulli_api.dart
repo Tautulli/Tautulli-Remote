@@ -158,7 +158,8 @@ class TautulliApiImpl implements TautulliApi {
     //* Return URI for pmsImageProxy if URI is good
     if (cmd == 'pms_image_proxy') {
       final uriCheck = await client.head(uri);
-      if (uriCheck.statusCode != 200) {
+      if (uriCheck.statusCode != 200 ||
+          uriCheck.headers['content-type'].contains('image') == false) {
         throw ServerException();
       }
       return uri;
