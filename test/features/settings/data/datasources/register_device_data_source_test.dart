@@ -1,18 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:http/http.dart' as http;
 import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
 import 'package:tautulli_remote_tdd/core/device_info/device_info.dart';
 import 'package:tautulli_remote_tdd/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote_tdd/features/settings/data/datasources/register_device_data_source.dart';
 import 'package:matcher/matcher.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
-
-class MockHttpClient extends Mock implements http.Client {}
-
-class MockSettings extends Mock implements Settings {}
 
 class MockTautulliApi extends Mock implements TautulliApi {}
 
@@ -23,20 +15,14 @@ class MockOneSignalDataSource extends Mock implements OneSignalDataSource {}
 void main() {
   RegisterDeviceDataSourceImpl dataSource;
   MockTautulliApi mockTautulliApi;
-  MockHttpClient mockHttpClient;
-  MockSettings mockSettings;
   MockDeviceInfo mockDeviceInfo;
   MockOneSignalDataSource mockOneSignalDataSource;
 
   setUp(() {
-    mockHttpClient = MockHttpClient();
-    mockSettings = MockSettings();
     mockTautulliApi = MockTautulliApi();
     mockDeviceInfo = MockDeviceInfo();
     mockOneSignalDataSource = MockOneSignalDataSource();
     dataSource = RegisterDeviceDataSourceImpl(
-      client: mockHttpClient,
-      settings: mockSettings,
       tautulliApi: mockTautulliApi,
       deviceInfo: mockDeviceInfo,
       oneSignal: mockOneSignalDataSource,

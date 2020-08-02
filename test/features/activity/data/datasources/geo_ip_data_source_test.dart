@@ -1,23 +1,15 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
 import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
-import 'package:tautulli_remote_tdd/core/error/exception.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/datasources/geo_ip_data_source.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/models/geo_ip_model.dart';
 import 'package:matcher/matcher.dart';
 import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
-
-class MockHttpClient extends Mock implements http.Client {}
-
-class MockGetSettings extends Mock implements Settings {}
 
 class MockTautulliApi extends Mock implements TautulliApi {}
 
@@ -25,19 +17,13 @@ class MockLogging extends Mock implements Logging {}
 
 void main() {
   GeoIpDataSourceImpl dataSource;
-  MockHttpClient mockHttpClient;
-  MockGetSettings mockSettings;
   MockTautulliApi mockTautulliApi;
   MockLogging mockLogging;
 
   setUp(() {
-    mockHttpClient = MockHttpClient();
-    mockSettings = MockGetSettings();
     mockTautulliApi = MockTautulliApi();
     mockLogging = MockLogging();
     dataSource = GeoIpDataSourceImpl(
-      client: mockHttpClient,
-      settings: mockSettings,
       tautulliApi: mockTautulliApi,
       logging: mockLogging,
     );

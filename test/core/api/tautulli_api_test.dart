@@ -262,34 +262,32 @@ void main() {
           cmd: '',
         );
         // assert
-        expect(response, TypeMatcher<http.Response>());
+        expect(response, TypeMatcher<Map>());
+      },
+    );
+
+    test(
+      'should throw a JsonDecodeException the response is unable to be decoded into JSON',
+      () async {
+        // arrange
+        when(mockSettings.getServerByTautulliId(any))
+            .thenAnswer((_) async => tServerModel);
+        when(mockHttpClient.get(any, headers: anyNamed('headers')))
+            .thenAnswer((_) async => http.Response('<!doctype html>', 200));
+        // act
+        final call = tautulliApi.fetchTautulli;
+        // assert
+        expect(
+          () async => call(
+            connectionProtocol: tServerModel.primaryConnectionProtocol,
+            connectionDomain: tServerModel.primaryConnectionDomain,
+            connectionPath: tServerModel.primaryConnectionPath,
+            deviceToken: tServerModel.deviceToken,
+            cmd: '',
+          ),
+          throwsA(TypeMatcher<JsonDecodeException>()),
+        );
       },
     );
   });
-
-  // group('getActivity', () {
-  //   test(
-  //     'should throw a JsonDecodeException the response is unable to be decoded into JSON',
-  //     () async {
-  //       // arrange
-  //       when(mockSettings.getServerByTautulliId(any))
-  //           .thenAnswer((_) async => tServerModel);
-  //       when(mockHttpClient.get(any, headers: anyNamed('headers')))
-  //           .thenAnswer((_) async => http.Response('<!doctype html>', 200));
-  //       // act
-  //       final call = tautulliApi.fetchTautulli;
-  //       // assert
-  //       expect(
-  //         () async => call(
-  //           connectionProtocol: tServerModel.primaryConnectionProtocol,
-  //           connectionDomain: tServerModel.primaryConnectionDomain,
-  //           connectionPath: tServerModel.primaryConnectionPath,
-  //           deviceToken: tServerModel.deviceToken,
-  //           cmd: '',
-  //         ),
-  //         throwsA(TypeMatcher<JsonDecodeException>()),
-  //       );
-  //     },
-  //   );
-  // });
 }

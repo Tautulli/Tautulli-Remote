@@ -9,6 +9,7 @@ import '../../../../fixtures/fixture_reader.dart';
 void main() {
   final tActivityItemModel = ActivityItemModel(
     sessionKey: 10,
+    sessionId: 'm8bbpxpywe6i91zib3hnfltz',
     art: "/library/metadata/79309/art/1560867619",
     audioChannelLayout: "5.1(side)",
     audioCodec: "eac3",

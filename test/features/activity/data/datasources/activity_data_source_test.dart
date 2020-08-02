@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:http/http.dart' as http;
 import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
 import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
 import 'package:tautulli_remote_tdd/core/error/exception.dart';
@@ -15,8 +14,6 @@ import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.d
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
-
 class MockSettings extends Mock implements Settings {}
 
 class MockTautulliApi extends Mock implements TautulliApi {}
@@ -27,16 +24,13 @@ void main() {
   ActivityDataSourceImpl dataSource;
   MockTautulliApi mockTautulliApi;
   MockLogging mockLogging;
-  MockHttpClient mockHttpClient;
   MockSettings mockSettings;
 
   setUp(() {
-    mockHttpClient = MockHttpClient();
     mockSettings = MockSettings();
     mockTautulliApi = MockTautulliApi();
     mockLogging = MockLogging();
     dataSource = ActivityDataSourceImpl(
-      client: mockHttpClient,
       settings: mockSettings,
       tautulliApi: mockTautulliApi,
       logging: mockLogging,

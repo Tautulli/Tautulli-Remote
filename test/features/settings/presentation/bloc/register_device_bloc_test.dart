@@ -210,7 +210,7 @@ void main() {
         // assert later
         final expected = [
           RegisterDeviceInProgress(),
-          RegisterDeviceFailure(),
+          RegisterDeviceFailure(failure: ServerFailure()),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
@@ -323,7 +323,7 @@ void main() {
         // assert later
         final expected = [
           RegisterDeviceInProgress(),
-          RegisterDeviceFailure(),
+          RegisterDeviceFailure(failure: ServerFailure()),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
