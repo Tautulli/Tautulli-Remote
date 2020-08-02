@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.0.0-dev.4
+version: 2.0.0-dev.5
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -26,15 +26,15 @@ dependencies:
   # Bloc for state management
   flutter_bloc: ^6.0.1
   # To send various requests to URLs
-  http: ^0.12.1
+  http: ^0.12.2
   # Value equality
-  equatable: ^1.2.2
+  equatable: ^1.2.3
   # Functional programming
   dartz: ^0.9.1
   # Verifies network connectivity
   connectivity: '>=0.4.9 <2.0.0'
   # Service locator
-  get_it: ^4.0.2
+  get_it: ^4.0.4
   # Local storage
   shared_preferences: '>=0.5.8 <2.0.0'
   # SQL database for local storage
@@ -48,7 +48,7 @@ dependencies:
   # Internationalization and localization
   intl: ^0.16.1
   # Slidable list items
-  flutter_slidable: ^0.5.4
+  flutter_slidable: ^0.5.5
   # SVG support
   websafe_svg: ^1.1.0
   # Utility libraries
