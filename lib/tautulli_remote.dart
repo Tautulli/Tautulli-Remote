@@ -93,19 +93,21 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         cursorColor: PlexColorPalette.gamboge,
         canvasColor: PlexColorPalette.shark,
         inputDecorationTheme: ThemeData.dark().inputDecorationTheme.copyWith(
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: TautulliColorPalette.not_white),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: PlexColorPalette.gamboge),
-              ),
-              hintStyle: TextStyle(
-                color: Colors.grey,
-              ),
-              labelStyle: TextStyle(
-                color: TautulliColorPalette.not_white,
-              ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: TautulliColorPalette.not_white),
             ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: PlexColorPalette.gamboge),
+            ),
+            hintStyle: TextStyle(
+              color: Colors.grey,
+            ),
+            labelStyle: TextStyle(
+              color: TautulliColorPalette.not_white,
+            ),
+            helperStyle: TextStyle(
+              color: TautulliColorPalette.not_white,
+            )),
         buttonTheme: ThemeData.dark().buttonTheme.copyWith(),
         popupMenuTheme: ThemeData.dark().popupMenuTheme.copyWith(
               color: PlexColorPalette.river_bed,

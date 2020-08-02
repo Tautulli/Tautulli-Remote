@@ -16,7 +16,9 @@ class LogTableRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: (index % 2 == 0) ? Colors.black12 : PlexColorPalette.river_bed,
+        color: (index % 2 == 0)
+            ? TautulliColorPalette.gunmetal
+            : Colors.transparent,
       ),
       child: Row(
         children: <Widget>[
