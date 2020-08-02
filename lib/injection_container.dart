@@ -40,6 +40,11 @@ import 'features/settings/domain/usecases/register_device.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/register_device_bloc.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
+import 'features/terminate_session/data/datasources/terminate_session_data_source.dart';
+import 'features/terminate_session/data/repositories/terminate_session_repository_impl.dart';
+import 'features/terminate_session/domain/repositories/terminate_session_repository.dart';
+import 'features/terminate_session/domain/usecases/terminate_session.dart';
+import 'features/terminate_session/presentation/bloc/terminate_session_bloc.dart';
 
 // Service locator alias
 final sl = GetIt.instance;
@@ -75,7 +80,6 @@ Future<void> init() async {
   // Repository
   sl.registerLazySingleton<SettingsRepository>(
     () => SettingsRepositoryImpl(
-      // dataSource: sl(),
       connectionAddressHelper: sl(),
     ),
   );
@@ -86,14 +90,6 @@ Future<void> init() async {
       networkInfo: sl(),
     ),
   );
-
-  // Data sources
-  // sl.registerLazySingleton<SettingsDataSource>(
-  //   () => SettingsDataSourceImpl(
-  //     sharedPreferences: sl(),
-  //     connectionAddressHelper: sl(),
-  //   ),
-  // );
 
   sl.registerLazySingleton<RegisterDeviceDataSource>(
     () => RegisterDeviceDataSourceImpl(
@@ -117,7 +113,6 @@ Future<void> init() async {
       oneSignal: sl(),
       settings: sl(),
       registerDevice: sl(),
-      // updateDeviceRegistration: sl()
       logging: sl(),
     ),
   );
@@ -162,6 +157,36 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<LoggingDataSource>(
     () => LoggingDataSourceImpl(),
+  );
+
+  //! Features - TerminateSession
+  // Bloc
+  sl.registerFactory(
+    () => TerminateSessionBloc(
+      terminateSession: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => TerminateSession(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<TerminateSessionRepository>(
+    () => TerminateSessionRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<TerminateSessionDataSource>(
+    () => TerminateSessionDataSourceImpl(
+      tautulliApi: sl(),
+    ),
   );
 
   //! Features - Activity

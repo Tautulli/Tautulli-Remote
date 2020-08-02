@@ -11,6 +11,7 @@ const String TLS_FAILURE_MESSAGE = 'Failed to establish TLS/SSL connection.';
 const String URL_FORMAT_FAILURE_MESSAGE = 'Incorrect URL format.';
 const String TIMEOUT_FAILURE_MESSAGE = 'Connection to server timed out.';
 const String JSON_FAILURE_MESSAGE = 'Failed to parse response.';
+const String TERMINATE_FAILURE_MESSAGE = 'Failed to terminate the stream.';
 
 // Error suggestions
 const String MISSING_SERVER_SUGGESTION =
@@ -21,6 +22,7 @@ const String CHECK_SERVER_SETTINGS_SUGGESTION =
     'Please verify your connection settings.';
 const String TIMEOUT_SUGGESTION =
     'Check your Connection Address for errors.\nMake sure Tautulli can communicate with Plex.';
+const String TERMINATE_SUGGESTION = 'Make sure the stream is still active.';
 
 /// Maps [Failures] to appropriate messages and suggestions.
 class FailureMessageHelper {
@@ -44,6 +46,8 @@ class FailureMessageHelper {
         return TIMEOUT_FAILURE_MESSAGE;
       case JsonDecodeFailure:
         return JSON_FAILURE_MESSAGE;
+      case TerminateFailure:
+        return TERMINATE_FAILURE_MESSAGE;
       default:
         return 'Unexpected error';
     }
@@ -67,6 +71,8 @@ class FailureMessageHelper {
         return TIMEOUT_SUGGESTION;
       case JsonDecodeFailure:
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
+      case TerminateFailure:
+        return TERMINATE_SUGGESTION;
       default:
         return '';
     }

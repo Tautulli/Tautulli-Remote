@@ -36,6 +36,11 @@ abstract class TautulliApi {
     @required String deviceName,
     @required String onesignalId,
   });
+  Future<Map<String, dynamic>> terminateSession({
+    @required String tautulliId,
+    @required String sessionId,
+    String message,
+  });
 }
 
 class TautulliApiImpl implements TautulliApi {
@@ -259,6 +264,23 @@ class TautulliApiImpl implements TautulliApi {
         'device_name': deviceName,
         'device_id': deviceId,
         'onesignal_id': onesignalId,
+      },
+    );
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> terminateSession({
+    @required String tautulliId,
+    @required String sessionId,
+    String message,
+  }) async {
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'terminate_session',
+      params: {
+        'session_id': sessionId,
+        'message': message,
       },
     );
 

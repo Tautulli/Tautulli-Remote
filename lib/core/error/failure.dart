@@ -34,5 +34,8 @@ class TimeoutFailure extends Failure {}
 /// A json.decode() failed.
 class JsonDecodeFailure extends Failure {}
 
+/// The terminate session API call returned false.
+class TerminateFailure extends Failure {}
+
 /// A catch-all Failure.
 class UnknownFailure extends Failure {}
