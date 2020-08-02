@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../../../core/helpers/color_palette_helper.dart';
 
 class ServerHeader extends StatelessWidget {
   final String serverName;
+  final bool alert;
 
   const ServerHeader({
     Key key,
     @required this.serverName,
+    this.alert,
   }) : super(key: key);
 
   @override
@@ -16,13 +21,26 @@ class ServerHeader extends StatelessWidget {
         top: 4,
         bottom: 4,
       ),
-      child: Text(
-        serverName,
-        style: TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w600,
-          color: Theme.of(context).accentColor,
-        ),
+      child: Row(
+        children: <Widget>[
+          Text(
+            serverName,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).accentColor,
+            ),
+          ),
+          if (alert == true)
+            Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: FaIcon(
+                FontAwesomeIcons.exclamationCircle,
+                size: 15,
+                color: TautulliColorPalette.not_white,
+              ),
+            ),
+        ],
       ),
     );
   }

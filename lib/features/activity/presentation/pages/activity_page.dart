@@ -199,7 +199,10 @@ Widget _buildMultiserverActivity({
   activityMap.forEach((serverId, resultMap) {
     tautulliId = serverId;
     activityWidgetList.add(
-      ServerHeader(serverName: resultMap['plex_name']),
+      ServerHeader(
+        serverName: resultMap['plex_name'],
+        alert: resultMap['result'] == 'failure',
+      ),
     );
     if (resultMap['result'] == 'success') {
       final List<ActivityItem> activityList = resultMap['activity'];
@@ -225,7 +228,10 @@ Widget _buildMultiserverActivity({
             ),
             child: Text(
               'Nothing is currently being played.',
-              style: TextStyle(color: Colors.grey),
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+              ),
             ),
           ),
         );
@@ -237,28 +243,38 @@ Widget _buildMultiserverActivity({
           padding: const EdgeInsets.only(
             left: 8,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 4,
-                  bottom: 4,
-                ),
-                child: Text(
-                  FailureMessageHelper()
-                      .mapFailureToMessage(resultMap['failure']),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 4,
-                  bottom: 4,
-                ),
-                child: Text(
-                  FailureMessageHelper()
-                      .mapFailureToSuggestion(resultMap['failure']),
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 4,
+                      bottom: 4,
+                    ),
+                    child: Text(
+                      FailureMessageHelper()
+                          .mapFailureToMessage(resultMap['failure']),
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 4,
+                      bottom: 4,
+                    ),
+                    child: Text(
+                      FailureMessageHelper()
+                          .mapFailureToSuggestion(resultMap['failure']),
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
