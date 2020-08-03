@@ -14,6 +14,7 @@ import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_image_
 import 'package:tautulli_remote_tdd/features/activity/presentation/bloc/activity_bloc.dart';
 import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote_tdd/core/helpers/failure_message_helper.dart';
+import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -23,6 +24,8 @@ class MockGetGeoIp extends Mock implements GetGeoIp {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockTautulliApi extends Mock implements TautulliApi {}
 
 class MockLogging extends Mock implements Logging {}
@@ -30,6 +33,7 @@ class MockLogging extends Mock implements Logging {}
 void main() {
   ActivityBloc bloc;
   MockTautulliApi mockTautulliApi;
+  MockSettings mockSettings;
   MockGetActivity mockGetActivity;
   MockGetGeoIp mockGetGeoIp;
   MockGetImageUrl mockGetImageUrl;
@@ -37,6 +41,7 @@ void main() {
 
   setUp(() {
     mockGetActivity = MockGetActivity();
+    mockSettings = MockSettings();
     mockGetGeoIp = MockGetGeoIp();
     mockGetImageUrl = MockGetImageUrl();
     mockTautulliApi = MockTautulliApi();
@@ -46,6 +51,7 @@ void main() {
       activity: mockGetActivity,
       geoIp: mockGetGeoIp,
       imageUrl: mockGetImageUrl,
+      settings: mockSettings,
       tautulliApi: mockTautulliApi,
       logging: mockLogging,
     );
