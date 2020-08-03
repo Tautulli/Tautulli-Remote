@@ -25,39 +25,51 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
     LogsEvent event,
   ) async* {
     if (event is LogsLoad) {
-      List<Log> logs = await _fetchLogs();
-
-      yield LogsSuccess(
-        logFormatHelper: logFormatHelper,
-        logs: logs,
-      );
+      yield* _mapLogsLoadToState();
     }
     if (event is LogsClear) {
-      logging.clearLogs();
-      yield LogsSuccess(
-        logFormatHelper: logFormatHelper,
-        logs: [],
-      );
+      yield* _mapLogsClearToState();
     }
     if (event is LogsExport) {
-      List<Log> logs = await _fetchLogs();
-
-      yield LogsExportInProgress(
-        logFormatHelper: logFormatHelper,
-        logs: logs,
-      );
-
-      logging.info('Logs: Exporting logs');
-      logging.exportLogs();
-
-      //? Use a completer or similar to force this to wait for the above logging?
-      logs = await _fetchLogs();
-
-      yield LogsSuccess(
-        logFormatHelper: logFormatHelper,
-        logs: logs,
-      );
+      yield* _mapLogsExportToState();
     }
+  }
+
+  Stream<LogsState> _mapLogsLoadToState() async* {
+    List<Log> logs = await _fetchLogs();
+
+    yield LogsSuccess(
+      logFormatHelper: logFormatHelper,
+      logs: logs,
+    );
+  }
+
+  Stream<LogsState> _mapLogsClearToState() async* {
+    logging.clearLogs();
+    yield LogsSuccess(
+      logFormatHelper: logFormatHelper,
+      logs: [],
+    );
+  }
+
+  Stream<LogsState> _mapLogsExportToState() async* {
+    List<Log> logs = await _fetchLogs();
+
+    yield LogsExportInProgress(
+      logFormatHelper: logFormatHelper,
+      logs: logs,
+    );
+
+    logging.info('Logs: Exporting logs');
+    logging.exportLogs();
+
+    //? Use a completer or similar to force this to wait for the above logging?
+    logs = await _fetchLogs();
+
+    yield LogsSuccess(
+      logFormatHelper: logFormatHelper,
+      logs: logs,
+    );
   }
 
   Future<List<Log>> _fetchLogs() async {

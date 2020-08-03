@@ -35,29 +35,51 @@ class RegisterDeviceBloc
     RegisterDeviceEvent event,
   ) async* {
     if (event is RegisterDeviceFromQrStarted) {
-      //TODO: Change to debug
-      logging
-          .info('RegisterDevice: Attempting to register device with QR code');
-      yield RegisterDeviceInProgress();
-
-      final List result = event.result.split('|');
-
-      yield* _registerDeviceOrFailure(
-        result[0].trim(),
-        result[1].trim(),
+      yield* _mapRegisterDeviceFromQrStartedToState(
+        event.result,
         event.settingsBloc,
       );
     }
     if (event is RegisterDeviceManualStarted) {
-      //TODO: Change to debug
-      logging.info('RegisterDevice: Attempting to register device manually');
-      yield RegisterDeviceInProgress();
-      yield* _registerDeviceOrFailure(
-        event.connectionAddress.trim(),
-        event.deviceToken.trim(),
-        event.settingsBloc,
+      yield* _mapRegisterDeviceManualStartedToState(
+        connectionAddress: event.connectionAddress,
+        deviceToken: event.deviceToken,
+        settingsBloc: event.settingsBloc,
       );
     }
+  }
+
+  Stream<RegisterDeviceState> _mapRegisterDeviceFromQrStartedToState(
+    String result,
+    SettingsBloc settingsBloc,
+  ) async* {
+    //TODO: Change to debug
+    // logging
+    //     .info('RegisterDevice: Attempting to register device with QR code');
+    yield RegisterDeviceInProgress();
+
+    final List resultParts = result.split('|');
+
+    yield* _registerDeviceOrFailure(
+      resultParts[0].trim(),
+      resultParts[1].trim(),
+      settingsBloc,
+    );
+  }
+
+  Stream<RegisterDeviceState> _mapRegisterDeviceManualStartedToState({
+    @required String connectionAddress,
+    @required String deviceToken,
+    @required SettingsBloc settingsBloc,
+  }) async* {
+    //TODO: Change to debug
+    logging.info('RegisterDevice: Attempting to register device manually');
+    yield RegisterDeviceInProgress();
+    yield* _registerDeviceOrFailure(
+      connectionAddress.trim(),
+      deviceToken.trim(),
+      settingsBloc,
+    );
   }
 
   Stream<RegisterDeviceState> _registerDeviceOrFailure(
@@ -103,7 +125,8 @@ class RegisterDeviceBloc
             SettingsUpdateServer(
               id: existingServer.id,
               primaryConnectionAddress: connectionAddress,
-              secondaryConnectionAddress: existingServer.secondaryConnectionAddress,
+              secondaryConnectionAddress:
+                  existingServer.secondaryConnectionAddress,
               deviceToken: deviceToken,
               tautulliId: registeredData['server_id'],
               plexName: registeredData['pms_name'],
