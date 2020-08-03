@@ -43,12 +43,8 @@ class _ActivityPageState extends State<ActivityPage> {
         title: Text('Activity'),
       ),
       drawer: AppDrawer(),
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider<ActivityBloc>(
-            create: (_) => sl<ActivityBloc>()..add(ActivityLoad()),
-          ),
-        ],
+      body: BlocProvider<ActivityBloc>(
+        create: (_) => sl<ActivityBloc>()..add(ActivityLoad()),
         child: BlocConsumer<ActivityBloc, ActivityState>(
           listener: (context, state) {
             if (state is ActivityLoadSuccess) {
