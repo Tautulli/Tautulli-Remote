@@ -2,7 +2,6 @@ import 'package:meta/meta.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 
-
 abstract class SettingsRepository {
   Future addServer({
     @required String primaryConnectionAddress,
@@ -44,4 +43,12 @@ abstract class SettingsRepository {
     @required int id,
     @required String deviceToken,
   });
+
+  Future<int> getServerTimeout();
+
+  Future<bool> setServerTimeout(int value);
+
+  Future<int> getRefreshRate();
+
+  Future<bool> setRefreshRate(int value);
 }

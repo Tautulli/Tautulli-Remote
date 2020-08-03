@@ -89,4 +89,20 @@ class Settings {
       deviceToken: deviceToken,
     );
   }
+
+  Future<int> getServerTimeout() async {
+    return await repository.getServerTimeout();
+  }
+
+  Future<bool> setServerTimeout(int value) async {
+    return repository.setServerTimeout(value);
+  }
+
+  Future<int> getRefreshRate() async {
+    return await repository.getRefreshRate();
+  }
+
+  Future<bool> setRefreshRate(int value) async {
+    return repository.setRefreshRate(value);
+  }
 }

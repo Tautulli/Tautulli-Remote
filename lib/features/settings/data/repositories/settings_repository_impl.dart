@@ -4,11 +4,14 @@ import '../../../../core/database/data/datasources/database.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/connection_address_helper.dart';
 import '../../domain/repositories/settings_repository.dart';
+import '../datasources/settings_data_source.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
+  final SettingsDataSource dataSource;
   final ConnectionAddressHelper connectionAddressHelper;
 
   SettingsRepositoryImpl({
+    @required this.dataSource,
     @required this.connectionAddressHelper,
   });
 
@@ -140,5 +143,27 @@ class SettingsRepositoryImpl implements SettingsRepository {
       id: id,
       deviceToken: deviceToken,
     );
+  }
+
+  @override
+  Future<int> getServerTimeout() async {
+    final serverTimeout = await dataSource.getServerTimeout();
+    return serverTimeout;
+  }
+
+  @override
+  Future<bool> setServerTimeout(int value) async {
+    return dataSource.setServerTimeout(value);
+  }
+
+  @override
+  Future<int> getRefreshRate() async {
+    final refreshRate = await dataSource.getRefreshRate();
+    return refreshRate;
+  }
+
+  @override
+  Future<bool> setRefreshRate(int value) async {
+    return dataSource.setRefreshRate(value);
   }
 }
