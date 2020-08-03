@@ -16,11 +16,15 @@ class SettingsLoadInProgress extends SettingsState {
 
 class SettingsLoadSuccess extends SettingsState {
   final List<ServerModel> serverList;
+  final int serverTimeout;
+  final int refreshRate;
 
   SettingsLoadSuccess({
     @required this.serverList,
+    @required this.serverTimeout,
+    @required this.refreshRate,
   });
 
   @override
-  List<Object> get props => [serverList];
+  List<Object> get props => [serverList, serverTimeout, refreshRate];
 }

@@ -94,6 +94,24 @@ class SettingsUpdateDeviceToken extends SettingsEvent {
   List<Object> get props => [id, deviceToken];
 }
 
+class SettingsUpdateServerTimeout extends SettingsEvent {
+  final int timeout;
+
+  SettingsUpdateServerTimeout({@required this.timeout});
+
+  @override
+  List<Object> get props => [timeout];
+}
+
+class SettingsUpdateRefreshRate extends SettingsEvent {
+  final int refreshRate;
+
+  SettingsUpdateRefreshRate({@required this.refreshRate});
+
+  @override
+  List<Object> get props => [refreshRate];
+}
+
 class SettingsDeleteServer extends SettingsEvent {
   final int id;
 

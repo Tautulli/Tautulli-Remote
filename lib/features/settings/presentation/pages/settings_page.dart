@@ -13,8 +13,10 @@ import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../bloc/register_device_bloc.dart';
 import '../bloc/settings_bloc.dart';
+import '../widgets/activity_refresh_rate_dialog.dart';
 import '../widgets/custom_settings_tile.dart';
 import '../widgets/server_setup_instructions.dart';
+import '../widgets/server_timeout_dialog.dart';
 import '../widgets/settings_alert_banner.dart';
 import '../widgets/settings_header.dart';
 import 'manual_registration_form_page.dart';
@@ -138,6 +140,38 @@ class SettingsPageContent extends StatelessWidget {
                       return Container(height: 0, width: 0);
                     },
                   ),
+                  SizedBox(height: 20),
+                  //* App settings
+                  SettingsHeader(
+                    headingText: 'App Settings',
+                  ),
+                  ListTile(
+                    title: Text('Server Timeout'),
+                    subtitle: _serverTimeoutDisplay(state.serverTimeout),
+                    onTap: () {
+                      return showDialog(
+                        context: context,
+                        child: ServerTimeoutDialog(
+                          initialValue: state.serverTimeout == null
+                              ? 5
+                              : state.serverTimeout,
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: Text('Activity Refresh Rate'),
+                    subtitle: _serverRefreshRateDisplay(state.refreshRate),
+                    onTap: () {
+                      return showDialog(
+                        context: context,
+                        child: ActivityRefreshRateDialog(
+                          initialValue:
+                              state.refreshRate == null ? 0 : state.refreshRate,
+                        ),
+                      );
+                    },
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(
                       left: 10,
@@ -179,6 +213,34 @@ class SettingsPageContent extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Widget _serverTimeoutDisplay(int timeout) {
+  switch (timeout) {
+    case (3):
+      return Text('3 sec - Fast');
+    case (8):
+      return Text('8 sec - Slow');
+    default:
+      return Text('5 sec - Default');
+  }
+}
+
+Widget _serverRefreshRateDisplay(int refreshRate) {
+  switch (refreshRate) {
+    case (5):
+      return Text('5 sec - Faster');
+    case (7):
+      return Text('7 sec - Fast');
+    case (10):
+      return Text('10 sec - Normal');
+    case (15):
+      return Text('15 sec - Slow');
+    case (20):
+      return Text('20 sec - Slower');
+    default:
+      return Text('Disabled');
   }
 }
 
