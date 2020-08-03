@@ -200,4 +200,54 @@ void main() {
       );
     },
   );
+
+  test(
+    'getServerTimeout should get server timeout from settings',
+    () async {
+      // arrange
+      when(mockSettingsRepository.getServerTimeout()).thenAnswer((_) async => 3);
+      // act
+      final result = await settings.getServerTimeout();
+      // assert
+      expect(result, equals(3));
+      verify(mockSettingsRepository.getServerTimeout());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setServerTimeout should forward request to the repository',
+    () async {
+      // act
+      await settings.setServerTimeout(3);
+      // assert
+      verify(mockSettingsRepository.setServerTimeout(3));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'getRefreshRate should get refresh rate from settings',
+    () async {
+      // arrange
+      when(mockSettingsRepository.getRefreshRate()).thenAnswer((_) async => 3);
+      // act
+      final result = await settings.getRefreshRate();
+      // assert
+      expect(result, equals(3));
+      verify(mockSettingsRepository.getRefreshRate());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setRefreshRate should forward request to the repository',
+    () async {
+      // act
+      await settings.setRefreshRate(3);
+      // assert
+      verify(mockSettingsRepository.setRefreshRate(3));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
 }

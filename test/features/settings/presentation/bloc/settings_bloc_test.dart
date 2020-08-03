@@ -54,6 +54,16 @@ void main() {
 
   final List<ServerModel> tServerList = [tServerModel];
 
+  final int tServerTimeout = 5;
+  final int tRefreshRate = 10;
+
+  void setUpSuccess() {
+    when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+    when(mockSettings.getServerTimeout())
+        .thenAnswer((_) async => tServerTimeout);
+    when(mockSettings.getRefreshRate()).thenAnswer((_) async => tRefreshRate);
+  }
+
   test(
     'initialState should be SettingsInitial',
     () async {
@@ -80,11 +90,15 @@ void main() {
       'should emit [SettingsLoadInProgress, SettingsLoadSuccess] when Settings are loaded successfully',
       () async {
         // arrange
-        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        setUpSuccess();
         // assert later
         final expected = [
           SettingsLoadInProgress(),
-          SettingsLoadSuccess(serverList: tServerList),
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+          ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
@@ -130,10 +144,14 @@ void main() {
       'should emit [SettingsLoadSuccess] after adding a server',
       () async {
         // arrange
-        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        setUpSuccess();
         // assert later
         final expected = [
-          SettingsLoadSuccess(serverList: tServerList),
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+          ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
@@ -192,10 +210,14 @@ void main() {
       'should emit [SettingsLoadSuccess] after updating a server',
       () async {
         // arrange
-        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        setUpSuccess();
         // assert later
         final expected = [
-          SettingsLoadSuccess(serverList: tServerList),
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+          ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
@@ -229,10 +251,14 @@ void main() {
       'should emit [SettingsLoadSuccess] after deleting a server',
       () async {
         // arrange
-        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        setUpSuccess();
         // assert later
         final expected = [
-          SettingsLoadSuccess(serverList: tServerList),
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+          ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
@@ -272,10 +298,14 @@ void main() {
       'should emit [SettingsLoadSuccess] after updating a primary connection',
       () async {
         // arrange
-        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        setUpSuccess();
         // assert later
         final expected = [
-          SettingsLoadSuccess(serverList: tServerList),
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+          ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
@@ -320,10 +350,14 @@ void main() {
       'should emit [SettingsLoadSuccess] after updating a secondary connection',
       () async {
         // arrange
-        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        setUpSuccess();
         // assert later
         final expected = [
-          SettingsLoadSuccess(serverList: tServerList),
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+          ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
@@ -368,10 +402,14 @@ void main() {
       'should emit [SettingsLoadSuccess] after updating a secondary connection',
       () async {
         // arrange
-        when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+        setUpSuccess();
         // assert later
         final expected = [
-          SettingsLoadSuccess(serverList: tServerList),
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+          ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
