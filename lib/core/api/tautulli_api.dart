@@ -165,11 +165,14 @@ class TautulliApiImpl implements TautulliApi {
       return uri;
     }
 
+    // Get timeout value from settings
+    final timeout = await settings.getServerTimeout();
+
     // Call API using constructed URI
     final response = await client.get(
       uri,
       headers: {'Content-Type': 'application/json'},
-    ).timeout(Duration(seconds: 5));
+    ).timeout(Duration(seconds: timeout != null ? timeout : 5));
 
     if (response.statusCode != 200) {
       throw ServerException();
