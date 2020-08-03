@@ -32,6 +32,7 @@ import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 import 'features/settings/data/datasources/register_device_data_source.dart';
+import 'features/settings/data/datasources/settings_data_source.dart';
 import 'features/settings/data/repositories/register_device_repository_impl.dart';
 import 'features/settings/data/repositories/settings_repository_impl.dart';
 import 'features/settings/domain/repositories/register_device_repository.dart';
@@ -80,6 +81,7 @@ Future<void> init() async {
   // Repository
   sl.registerLazySingleton<SettingsRepository>(
     () => SettingsRepositoryImpl(
+      dataSource: sl(),
       connectionAddressHelper: sl(),
     ),
   );
@@ -88,6 +90,13 @@ Future<void> init() async {
     () => RegisterDeviceRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<SettingsDataSource>(
+    () => SettingsDataSourceImpl(
+      sharedPreferences: sl(),
     ),
   );
 
@@ -196,6 +205,7 @@ Future<void> init() async {
       activity: sl(),
       geoIp: sl(),
       imageUrl: sl(),
+      settings: sl(),
       tautulliApi: sl(),
       logging: sl(),
     ),
