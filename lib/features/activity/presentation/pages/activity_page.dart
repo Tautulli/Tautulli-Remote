@@ -243,40 +243,51 @@ Widget _buildMultiserverActivity({
           padding: const EdgeInsets.only(
             left: 8,
           ),
-          child: Row(
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 4,
-                      bottom: 4,
-                    ),
-                    child: Text(
-                      FailureMessageHelper()
-                          .mapFailureToMessage(resultMap['failure']),
-                      style: TextStyle(
-                        fontSize: 16,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SizedBox(
+                width: constraints.maxWidth,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 4,
+                              bottom: 4,
+                            ),
+                            child: Text(
+                              FailureMessageHelper()
+                                  .mapFailureToMessage(resultMap['failure']),
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 4,
+                              bottom: 4,
+                            ),
+                            child: Text(
+                              FailureMessageHelper()
+                                  .mapFailureToSuggestion(resultMap['failure']),
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.fade,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 4,
-                      bottom: 4,
-                    ),
-                    child: Text(
-                      FailureMessageHelper()
-                          .mapFailureToSuggestion(resultMap['failure']),
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              );
+            },
           ),
         ),
       );
