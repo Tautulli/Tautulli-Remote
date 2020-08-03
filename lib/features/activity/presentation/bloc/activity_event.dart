@@ -14,6 +14,11 @@ class ActivityRefresh extends ActivityEvent {
   List<Object> get props => [];
 }
 
+class ActivityAutoRefresh extends ActivityEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class ActivityRemove extends ActivityEvent {
   final Map<String, Map<String, Object>> activityMap;
   final String tautulliId;

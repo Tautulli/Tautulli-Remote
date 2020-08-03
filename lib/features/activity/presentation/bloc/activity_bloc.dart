@@ -8,6 +8,7 @@ import '../../../../core/api/tautulli_api.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_message_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/domain/usecases/settings.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/usecases/get_activity.dart';
 import '../../domain/usecases/get_geo_ip.dart';
@@ -20,13 +21,17 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   final GetActivity getActivity;
   final GetGeoIp getGeoIp;
   final GetImageUrl getImageUrl;
+  final Settings settings;
   final TautulliApi tautulliApi;
   final Logging logging;
+
+  Timer _timer;
 
   ActivityBloc({
     @required GetActivity activity,
     @required GetGeoIp geoIp,
     @required GetImageUrl imageUrl,
+    @required this.settings,
     @required this.tautulliApi,
     @required this.logging,
   })  : assert(activity != null),
@@ -41,36 +46,74 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     ActivityEvent event,
   ) async* {
     if (event is ActivityLoad) {
-      //TODO: Change to debug
-      logging.info('Activity: Attempting to load activity');
-      yield ActivityLoadInProgress();
-      yield* _loadActivityOrFailure();
+      yield* _mapActivityLoadToState();
     }
     if (event is ActivityRefresh) {
-      logging.info('Activity: Attempting to load activity');
-      yield* _loadActivityOrFailure();
+      yield* _mapActivityRefreshToState();
+    }
+    if (event is ActivityAutoRefresh) {
+      yield* _mapActivityAutoRefreshToState();
     }
     if (event is ActivityRemove) {
-      // Create a new Map that can be manipulated
-      Map<String, Map<String, Object>> newActivityMap =
-          Map<String, Map<String, Object>>.from(event.activityMap);
-
-      // Remove the item from the map where the key is the submitted
-      // tautulliId and the value has the submitted sessionKey
-      newActivityMap.forEach((key, value) {
-        // if (key == event.tautulliId) {
-          List activityList = value['activity'];
-          activityList.removeWhere(
-              (activityItem) => activityItem.sessionId == event.sessionId);
-        // }
-      });
-
-      // Return activity with the map sans the removed item
-      yield ActivityLoadSuccess(
-        activityMap: newActivityMap,
-        loadedAt: DateTime.now(),
+      yield* _mapActivityRemoveToState(
+        event.activityMap,
+        event.sessionId,
       );
     }
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
+  }
+
+  Stream<ActivityState> _mapActivityLoadToState() async* {
+    //TODO: Change to debug
+    // logging.info('Activity: Attempting to load activity');
+    yield ActivityLoadInProgress();
+    yield* _loadActivityOrFailure();
+
+    add(ActivityAutoRefresh());
+  }
+
+  Stream<ActivityState> _mapActivityRefreshToState() async* {
+    //TODO: Change to debug
+    // logging.info('Activity: Attempting to load activity');
+    yield* _loadActivityOrFailure();
+  }
+
+  Stream<ActivityState> _mapActivityAutoRefreshToState() async* {
+    _timer?.cancel();
+    final refreshRate = await settings.getRefreshRate();
+    if (refreshRate != null && refreshRate > 0) {
+      _timer = Timer.periodic(Duration(seconds: refreshRate), (timer) {
+        add(ActivityRefresh());
+      });
+    }
+  }
+
+  Stream<ActivityState> _mapActivityRemoveToState(
+    Map<String, Map<String, Object>> activityMap,
+    String sessionId,
+  ) async* {
+    // Create a new Map that can be manipulated
+    Map<String, Map<String, Object>> newActivityMap =
+        Map<String, Map<String, Object>>.from(activityMap);
+
+    // Remove the item from the map where the key is the submitted
+    // tautulliId and the value has the submitted sessionKey
+    newActivityMap.forEach((key, value) {
+      List activityList = value['activity'];
+      activityList
+          .removeWhere((activityItem) => activityItem.sessionId == sessionId);
+    });
+
+    // Return activity with the map sans the removed item
+    yield ActivityLoadSuccess(
+      activityMap: newActivityMap,
+      loadedAt: DateTime.now(),
+    );
   }
 
   Stream<ActivityState> _loadActivityOrFailure() async* {
@@ -86,8 +129,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       },
       (activityMap) async* {
         //TODO: Change to debug
-        logging
-            .info('Activity: Attempting to load activity Geo IP information');
+        // logging
+        //     .info('Activity: Attempting to load activity Geo IP information');
 
         //* Loop through activity items and get geoIP data and image URLs
         // Using for loop as .forEach() does not actually respect await
