@@ -58,27 +58,24 @@ class _PosterMusic extends StatelessWidget {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 2 / 3,
-      child: Container(
-        padding: EdgeInsets.all(3),
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: Image.network(
-                  posterBackgroundUrl,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Positioned.fill(
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(4),
               child: Image.network(
-                url,
-                fit: BoxFit.contain,
+                posterBackgroundUrl,
+                fit: BoxFit.cover,
               ),
             ),
-          ],
-        ),
+          ),
+          Positioned.fill(
+            child: Image.network(
+              url,
+              fit: BoxFit.contain,
+            ),
+          ),
+        ],
       ),
     );
   }
