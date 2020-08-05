@@ -66,7 +66,9 @@ class _ActivityCardState extends State<ActivityCard> {
       onTap: () {
         showActivityModalBottomSheet(
           context: context,
+          activityBloc: activityBloc,
           activity: activity,
+          tautulliId: widget.tautulliId,
         );
       },
       child: Container(
@@ -74,25 +76,9 @@ class _ActivityCardState extends State<ActivityCard> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(4),
           child: Slidable.builder(
-            // Use unique key rather than value key as there is a delay between
-            // the confirmation and actual termination of a stream
-            // A value key will cause an error as it will still be in the widget tree
-            key: UniqueKey(),
+            key: ValueKey('${widget.tautulliId}:${activity.sessionId}'),
             controller: widget.slidableController,
             actionPane: SlidableBehindActionPane(),
-            dismissal: SlidableDismissal(
-              dragDismissible: false,
-              child: SlidableDrawerDismissal(),
-              onDismissed: (actionType) {
-                activityBloc.add(
-                  ActivityRemove(
-                    activityMap: widget.activityMap,
-                    tautulliId: widget.tautulliId,
-                    sessionId: activity.sessionId,
-                  ),
-                );
-              },
-            ),
             secondaryActionDelegate: isNotEmpty(activity.sessionId)
                 ? SlideActionBuilderDelegate(
                     actionCount: 1,
@@ -101,7 +87,21 @@ class _ActivityCardState extends State<ActivityCard> {
                           TerminateSessionState>(
                         listener: (context, state) {
                           if (state is TerminateSessionSuccess) {
-                            state.slidableState.dismiss();
+                            state.slidableState.close();
+                            Scaffold.of(context).hideCurrentSnackBar();
+                            Scaffold.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.green,
+                                content:
+                                    Text('Termination request sent to Plex.'),
+                                //TODO: Link action to help or wiki
+                                action: SnackBarAction(
+                                  label: 'Learn more',
+                                  onPressed: () {},
+                                  textColor: Colors.white,
+                                ),
+                              ),
+                            );
                           }
                           if (state is TerminateSessionFailure) {
                             showFailureAlertDialog(
@@ -328,15 +328,21 @@ class _ActivityCardState extends State<ActivityCard> {
 
 void showActivityModalBottomSheet({
   @required BuildContext context,
+  @required ActivityBloc activityBloc,
   @required ActivityItem activity,
+  @required String tautulliId,
 }) {
   customBottomSheet.showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (context) {
-      return ActivityModalBottomSheet(
-        activity: activity,
+    builder: (builderContext) {
+      return BlocProvider<ActivityBloc>.value(
+        value: activityBloc,
+        child: ActivityModalBottomSheet(
+          activity: activity,
+          tautulliId: tautulliId,
+        ),
       );
     },
   );
