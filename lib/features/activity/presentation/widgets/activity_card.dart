@@ -6,6 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/helpers/string_format_helper.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../terminate_session/presentation/bloc/terminate_session_bloc.dart';
 import '../../domain/entities/activity.dart';
@@ -53,14 +54,24 @@ class _ActivityCardState extends State<ActivityCard> {
 
     return GestureDetector(
       onPanUpdate: (details) {
-        if (isEmpty(activity.sessionId) && details.delta.dx < 0) {
-          Scaffold.of(context).hideCurrentSnackBar();
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: PlexColorPalette.shark,
-              content: Text('Synced content cannot be terminated.'),
-            ),
-          );
+        if (details.delta.dx < 0) {
+          if (activity.mediaType == 'photo') {
+            Scaffold.of(context).hideCurrentSnackBar();
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: PlexColorPalette.shark,
+                content: Text('Photo streams cannot be terminated.'),
+              ),
+            );
+          } else if (isEmpty(activity.sessionId)) {
+            Scaffold.of(context).hideCurrentSnackBar();
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: PlexColorPalette.shark,
+                content: Text('Synced content cannot be terminated.'),
+              ),
+            );
+          }
         }
       },
       onTap: () {
@@ -116,6 +127,7 @@ class _ActivityCardState extends State<ActivityCard> {
                             final confirm = await _showTerminateSessionDialog(
                               context: context,
                               controller: _terminateMessageController,
+                              activity: activity,
                             );
                             if (confirm) {
                               terminateSessionBloc.add(
@@ -351,6 +363,7 @@ void showActivityModalBottomSheet({
 Future<bool> _showTerminateSessionDialog({
   @required BuildContext context,
   @required TextEditingController controller,
+  @required ActivityItem activity,
 }) {
   return showDialog(
     context: context,
@@ -358,12 +371,19 @@ Future<bool> _showTerminateSessionDialog({
     builder: (context) {
       return AlertDialog(
         title: Text('Are you sure you want to terminate this stream?'),
-        content: TextFormField(
-          controller: controller,
-          maxLines: 2,
-          decoration: InputDecoration(
-              helperText: 'Terminate Message',
-              hintText: 'The server owner has ended the stream.'),
+        content: IntrinsicHeight(
+          child: Column(
+            children: <Widget>[
+              _TerminateSessionMediaInfo(activity: activity),
+              TextFormField(
+                controller: controller,
+                maxLines: 2,
+                decoration: InputDecoration(
+                    helperText: 'Terminate Message',
+                    hintText: 'The server owner has ended the stream.'),
+              ),
+            ],
+          ),
         ),
         actions: <Widget>[
           FlatButton(
@@ -386,4 +406,108 @@ Future<bool> _showTerminateSessionDialog({
       );
     },
   );
+}
+
+class _TerminateSessionMediaInfo extends StatelessWidget {
+  final ActivityItem activity;
+
+  const _TerminateSessionMediaInfo({
+    Key key,
+    @required this.activity,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    String row1;
+    String row2;
+    String row3;
+
+    switch (activity.mediaType) {
+      case ('movie'):
+        if (activity.title != null) {
+          row1 = activity.title;
+        }
+        if (activity.year != null) {
+          row2 = activity.year.toString();
+        }
+        break;
+      case ('episode'):
+        if (activity.grandparentTitle != null) {
+          row1 = activity.grandparentTitle;
+        }
+        if (activity.title != null) {
+          row2 = activity.title;
+        }
+        if (activity.parentMediaIndex != null && activity.mediaIndex != null) {
+          row3 = 'S${activity.parentMediaIndex} • E${activity.mediaIndex}';
+        } else if (activity.originallyAvailableAt != null &&
+            activity.live == 1) {
+          row3 = activity.originallyAvailableAt;
+        }
+        break;
+      case ('track'):
+        if (activity.title != null) {
+          row1 = activity.title;
+        }
+        if (activity.grandparentTitle != null) {
+          row2 = activity.grandparentTitle;
+        }
+        if (activity.parentTitle != null) {
+          row3 = activity.parentTitle;
+        }
+        break;
+      case ('clip'):
+        if (activity.title != null) {
+          row1 = activity.title;
+        }
+        if (activity.subType != null) {
+          row2 = '(${StringFormatHelper.capitalize(activity.subType)})';
+        }
+        break;
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Column(
+        children: <Widget>[
+          Text(
+            activity.friendlyName,
+            style: TextStyle(
+              color: Theme.of(context).accentColor,
+            ),
+          ),
+          if (row1 != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(
+                row1,
+                style: TextStyle(
+                  color: Theme.of(context).accentColor,
+                ),
+              ),
+            ),
+          if (row2 != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(
+                row2,
+                style: TextStyle(
+                  color: Theme.of(context).accentColor,
+                ),
+              ),
+            ),
+          if (row3 != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(
+                row3,
+                style: TextStyle(
+                  color: Theme.of(context).accentColor,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }
