@@ -35,8 +35,8 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
 
   @override
   void initState() {
-    activity = widget.activity;
     super.initState();
+    activity = widget.activity;
   }
 
   @override
