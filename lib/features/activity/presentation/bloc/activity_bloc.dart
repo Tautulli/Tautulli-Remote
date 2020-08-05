@@ -51,8 +51,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     if (event is ActivityRefresh) {
       yield* _mapActivityRefreshToState();
     }
-    if (event is ActivityAutoRefresh) {
-      yield* _mapActivityAutoRefreshToState();
+    if (event is ActivityAutoRefreshStart) {
+      yield* _mapActivityAutoRefreshStartToState();
     }
     if (event is ActivityRemove) {
       yield* _mapActivityRemoveToState(
@@ -74,16 +74,18 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     yield ActivityLoadInProgress();
     yield* _loadActivityOrFailure();
 
-    add(ActivityAutoRefresh());
+    add(ActivityAutoRefreshStart());
   }
 
   Stream<ActivityState> _mapActivityRefreshToState() async* {
     //TODO: Change to debug
     // logging.info('Activity: Attempting to load activity');
     yield* _loadActivityOrFailure();
+
+    add(ActivityAutoRefreshStart());
   }
 
-  Stream<ActivityState> _mapActivityAutoRefreshToState() async* {
+  Stream<ActivityState> _mapActivityAutoRefreshStartToState() async* {
     _timer?.cancel();
     final refreshRate = await settings.getRefreshRate();
     if (refreshRate != null && refreshRate > 0) {

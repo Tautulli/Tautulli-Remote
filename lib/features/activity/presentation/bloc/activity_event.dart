@@ -14,7 +14,7 @@ class ActivityRefresh extends ActivityEvent {
   List<Object> get props => [];
 }
 
-class ActivityAutoRefresh extends ActivityEvent {
+class ActivityAutoRefreshStart extends ActivityEvent {
   @override
   List<Object> get props => [];
 }
