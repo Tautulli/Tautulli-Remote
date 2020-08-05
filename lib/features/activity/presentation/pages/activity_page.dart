@@ -17,22 +17,54 @@ import '../widgets/error_button.dart';
 import '../widgets/error_message.dart';
 import '../widgets/server_header.dart';
 
-class ActivityPage extends StatefulWidget {
+class ActivityPage extends StatelessWidget {
   const ActivityPage({Key key}) : super(key: key);
 
   static const routeName = '/activity';
 
   @override
-  _ActivityPageState createState() => _ActivityPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider<ActivityBloc>(
+      create: (_) => sl<ActivityBloc>()..add(ActivityLoad()),
+      child: ActivityPageContent(),
+    );
+  }
 }
 
-class _ActivityPageState extends State<ActivityPage> {
+class ActivityPageContent extends StatefulWidget {
+  const ActivityPageContent({Key key}) : super(key: key);
+
+  @override
+  _ActivityPageContentState createState() => _ActivityPageContentState();
+}
+
+class _ActivityPageContentState extends State<ActivityPageContent>
+    with WidgetsBindingObserver {
   Completer<void> _refreshCompleter;
 
   @override
   void initState() {
     super.initState();
     _refreshCompleter = Completer<void>();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  // Take action if the app is paused or resumed
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      BlocProvider.of<ActivityBloc>(context).add(ActivityAutoRefreshStop());
+    }
+    if (state == AppLifecycleState.resumed) {
+      BlocProvider.of<ActivityBloc>(context).add(ActivityLoad());
+    }
   }
 
   @override
@@ -43,99 +75,94 @@ class _ActivityPageState extends State<ActivityPage> {
         title: Text('Activity'),
       ),
       drawer: AppDrawer(),
-      body: BlocProvider<ActivityBloc>(
-        create: (_) => sl<ActivityBloc>()..add(ActivityLoad()),
-        child: BlocConsumer<ActivityBloc, ActivityState>(
-          listener: (context, state) {
-            if (state is ActivityLoadSuccess) {
-              _refreshCompleter?.complete();
-              _refreshCompleter = Completer();
-            }
-          },
-          builder: (context, state) {
-            if (state is ActivityLoadFailure) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ErrorMessage(
-                    failure: state.failure,
-                    message: state.message,
-                    suggestion: state.suggestion,
-                  ),
-                  ErrorButton(
-                    completer: _refreshCompleter,
-                    failure: state.failure,
-                  ),
-                ],
-              );
-            }
-            if (state is ActivityEmpty) {
-              return Text('Empty State');
-            }
-            if (state is ActivityLoadInProgress) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (state is ActivityLoadSuccess) {
-              if (state.activityMap.isEmpty) {
-                return RefreshIndicator(
-                  onRefresh: () {
-                    BlocProvider.of<ActivityBloc>(context)
-                        .add(ActivityRefresh());
-                    return _refreshCompleter.future;
-                  },
-                  child: LayoutBuilder(
-                    builder:
-                        (BuildContext context, BoxConstraints constraints) =>
-                            SingleChildScrollView(
-                      physics: AlwaysScrollableScrollPhysics(),
-                      child: Container(
-                        height: constraints.maxHeight,
-                        child: Center(
-                          child: Text(
-                            'Nothing is currently being played.',
-                            style: TextStyle(
-                              fontSize: 18,
-                              // fontWeight: FontWeight.w600,
-                            ),
+      body: BlocConsumer<ActivityBloc, ActivityState>(
+        listener: (context, state) {
+          if (state is ActivityLoadSuccess) {
+            _refreshCompleter?.complete();
+            _refreshCompleter = Completer();
+          }
+        },
+        builder: (context, state) {
+          if (state is ActivityLoadFailure) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ErrorMessage(
+                  failure: state.failure,
+                  message: state.message,
+                  suggestion: state.suggestion,
+                ),
+                ErrorButton(
+                  completer: _refreshCompleter,
+                  failure: state.failure,
+                ),
+              ],
+            );
+          }
+          if (state is ActivityEmpty) {
+            return Text('Empty State');
+          }
+          if (state is ActivityLoadInProgress) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (state is ActivityLoadSuccess) {
+            if (state.activityMap.isEmpty) {
+              return RefreshIndicator(
+                onRefresh: () {
+                  BlocProvider.of<ActivityBloc>(context).add(ActivityRefresh());
+                  return _refreshCompleter.future;
+                },
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) =>
+                      SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: Container(
+                      height: constraints.maxHeight,
+                      child: Center(
+                        child: Text(
+                          'Nothing is currently being played.',
+                          style: TextStyle(
+                            fontSize: 18,
+                            // fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                     ),
                   ),
-                );
-              } else {
-                return BlocBuilder<SettingsBloc, SettingsState>(
-                  builder: (context, settingsState) {
-                    if (settingsState is SettingsLoadSuccess) {
-                      final bool multiserver =
-                          settingsState.serverList.length > 1;
+                ),
+              );
+            } else {
+              return BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, settingsState) {
+                  if (settingsState is SettingsLoadSuccess) {
+                    final bool multiserver =
+                        settingsState.serverList.length > 1;
 
-                      return RefreshIndicator(
-                        onRefresh: () {
-                          BlocProvider.of<ActivityBloc>(context)
-                              .add(ActivityRefresh());
-                          return _refreshCompleter.future;
-                        },
-                        child: multiserver
-                            ? _buildMultiserverActivity(
-                                activityMap: state.activityMap,
-                              )
-                            : _buildSingleServerActivity(
-                                activityMap: state.activityMap,
-                              ),
-                        // ListView(
-                        //   children: activityWidgetList,
-                        // ),
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                );
-              }
+                    return RefreshIndicator(
+                      onRefresh: () {
+                        BlocProvider.of<ActivityBloc>(context)
+                            .add(ActivityRefresh());
+                        return _refreshCompleter.future;
+                      },
+                      child: multiserver
+                          ? _buildMultiserverActivity(
+                              activityMap: state.activityMap,
+                            )
+                          : _buildSingleServerActivity(
+                              activityMap: state.activityMap,
+                            ),
+                      // ListView(
+                      //   children: activityWidgetList,
+                      // ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              );
             }
-          },
-        ),
+          }
+        },
       ),
     );
   }
