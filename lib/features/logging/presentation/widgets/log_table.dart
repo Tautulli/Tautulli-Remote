@@ -23,6 +23,8 @@ class LogTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController _scrollController = ScrollController();
+
     if (logs.isEmpty) {
       return RefreshIndicator(
         onRefresh: () {
@@ -52,28 +54,33 @@ class LogTable extends StatelessWidget {
         BlocProvider.of<LogsBloc>(context).add(LogsLoad());
         return refreshCompleter.future;
       },
-      child: ListView.builder(
-        itemCount: logs.length,
-        itemBuilder: (context, index) {
-          //? Do this to create a list of formatted log maps in the Bloc instead?
-          Map<String, dynamic> logMap = logFormatHelper.formatLog(logs[index]);
+      child: Scrollbar(
+        controller: _scrollController,
+        child: ListView.builder(
+          controller: _scrollController,
+          itemCount: logs.length,
+          itemBuilder: (context, index) {
+            //? Do this to create a list of formatted log maps in the Bloc instead?
+            Map<String, dynamic> logMap =
+                logFormatHelper.formatLog(logs[index]);
 
-          if (index == 0) {
-            return Column(
-              children: <Widget>[
-                LogTableRowWithHeader(
-                  index: index,
-                  logMap: logMap,
-                ),
-              ],
+            if (index == 0) {
+              return Column(
+                children: <Widget>[
+                  LogTableRowWithHeader(
+                    index: index,
+                    logMap: logMap,
+                  ),
+                ],
+              );
+            }
+
+            return LogTableRow(
+              index: index,
+              logMap: logMap,
             );
-          }
-
-          return LogTableRow(
-            index: index,
-            logMap: logMap,
-          );
-        },
+          },
+        ),
       ),
     );
   }
