@@ -60,8 +60,8 @@ class ActivityMediaInfo extends StatelessWidget {
                             ? _ActivityMediaInfoH3(text: activity.parentTitle)
                             : activity.mediaType == 'clip'
                                 ? _ActivityMediaInfoH3(
-                                    text: StringFormatHelper.capitalize(
-                                        activity.subType),
+                                    text: '(${StringFormatHelper.capitalize(
+                                        activity.subType)})',
                                   )
                                 : Container(),
           ],
