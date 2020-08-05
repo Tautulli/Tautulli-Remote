@@ -129,7 +129,7 @@ class _ActivityCardState extends State<ActivityCard> {
                               controller: _terminateMessageController,
                               activity: activity,
                             );
-                            if (confirm) {
+                            if (confirm == 1) {
                               terminateSessionBloc.add(
                                 TerminateSessionStarted(
                                   slidableState: Slidable.of(context),
@@ -360,7 +360,7 @@ void showActivityModalBottomSheet({
   );
 }
 
-Future<bool> _showTerminateSessionDialog({
+Future<int> _showTerminateSessionDialog({
   @required BuildContext context,
   @required TextEditingController controller,
   @required ActivityItem activity,
@@ -389,7 +389,7 @@ Future<bool> _showTerminateSessionDialog({
           FlatButton(
             child: Text('CANCEL'),
             onPressed: () {
-              Navigator.of(context).pop(false);
+              Navigator.of(context).pop(0);
             },
           ),
           Padding(
@@ -398,7 +398,7 @@ Future<bool> _showTerminateSessionDialog({
               child: Text('TERMINATE'),
               color: Colors.red,
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(1);
               },
             ),
           ),
