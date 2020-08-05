@@ -54,6 +54,9 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     if (event is ActivityAutoRefreshStart) {
       yield* _mapActivityAutoRefreshStartToState();
     }
+    if (event is ActivityAutoRefreshStop) {
+      yield* _mapActivityAutoRefreshStopToState();
+    }
     if (event is ActivityRemove) {
       yield* _mapActivityRemoveToState(
         event.activityMap,
@@ -93,6 +96,10 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         add(ActivityRefresh());
       });
     }
+  }
+
+  Stream<ActivityState> _mapActivityAutoRefreshStopToState() async* {
+    _timer?.cancel();
   }
 
   Stream<ActivityState> _mapActivityRemoveToState(
