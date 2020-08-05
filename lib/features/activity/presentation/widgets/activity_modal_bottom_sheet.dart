@@ -193,14 +193,15 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          right: 4,
-                          bottom: 28,
-                          child: TimeEta(
-                            duration: activity.duration,
-                            progressPercent: activity.progressPercent,
+                        if (activity.duration != null)
+                          Positioned(
+                            right: 4,
+                            bottom: 28,
+                            child: TimeEta(
+                              duration: activity.duration,
+                              progressPercent: activity.progressPercent,
+                            ),
                           ),
-                        ),
                       ],
                     ),
                     //* Activity details section
