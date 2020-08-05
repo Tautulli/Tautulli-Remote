@@ -82,39 +82,39 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     return MaterialApp(
       title: 'Tautulli Remote',
       theme: ThemeData(
-        primarySwatch: PlexColorPalette.createSwatch(),
-        accentColor: PlexColorPalette.gamboge,
-        backgroundColor: TautulliColorPalette.midnight,
-        fontFamily: 'OpenSans',
-        textTheme: ThemeData.dark().textTheme.copyWith(),
-        dialogBackgroundColor: PlexColorPalette.river_bed,
-        textSelectionColor: PlexColorPalette.gamboge,
-        textSelectionHandleColor: PlexColorPalette.gamboge,
-        cursorColor: PlexColorPalette.gamboge,
-        canvasColor: PlexColorPalette.shark,
-        inputDecorationTheme: ThemeData.dark().inputDecorationTheme.copyWith(
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: TautulliColorPalette.not_white),
+          primarySwatch: PlexColorPalette.createSwatch(),
+          accentColor: PlexColorPalette.gamboge,
+          backgroundColor: TautulliColorPalette.midnight,
+          fontFamily: 'OpenSans',
+          textTheme: ThemeData.dark().textTheme.copyWith(),
+          dialogBackgroundColor: PlexColorPalette.river_bed,
+          textSelectionColor: PlexColorPalette.gamboge,
+          textSelectionHandleColor: PlexColorPalette.gamboge,
+          cursorColor: PlexColorPalette.gamboge,
+          canvasColor: PlexColorPalette.shark,
+          inputDecorationTheme: ThemeData.dark().inputDecorationTheme.copyWith(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: TautulliColorPalette.not_white),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: PlexColorPalette.gamboge),
+                ),
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                ),
+                labelStyle: TextStyle(
+                  color: TautulliColorPalette.not_white,
+                ),
+                helperStyle: TextStyle(
+                  color: TautulliColorPalette.not_white,
+                ),
               ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: PlexColorPalette.gamboge),
+          unselectedWidgetColor: TautulliColorPalette.not_white,
+          buttonTheme: ThemeData.dark().buttonTheme.copyWith(),
+          popupMenuTheme: ThemeData.dark().popupMenuTheme.copyWith(
+                color: PlexColorPalette.river_bed,
               ),
-              hintStyle: TextStyle(
-                color: Colors.grey,
-              ),
-              labelStyle: TextStyle(
-                color: TautulliColorPalette.not_white,
-              ),
-              helperStyle: TextStyle(
-                color: TautulliColorPalette.not_white,
-              ),
-            ),
-        unselectedWidgetColor: TautulliColorPalette.not_white,
-        buttonTheme: ThemeData.dark().buttonTheme.copyWith(),
-        popupMenuTheme: ThemeData.dark().popupMenuTheme.copyWith(
-              color: PlexColorPalette.river_bed,
-            ),
-      ),
+          cardColor: PlexColorPalette.shark),
       home: ActivityPage(),
       routes: {
         ActivityPage.routeName: (ctx) => ActivityPage(),

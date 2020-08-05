@@ -20,6 +20,10 @@ version: 2.0.0-dev.5
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
+  # Temporary override of flutter_svg until websave_svg is updated
+dependency_overrides:
+  flutter_svg: 0.18.0
+
 dependencies:
   flutter:
     sdk: flutter
@@ -71,6 +75,8 @@ dependencies:
   path_provider: ^1.6.11
   # For creating a FAB speed dial
   unicorndial: ^1.1.5
+  # For querying information about an application package
+  package_info: '>=0.4.1 <2.0.0'
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -129,6 +135,7 @@ flutter:
    - assets/platforms/windows.svg
    - assets/platforms/xbox.svg
    - assets/images/livetv_fallback.png
+   - assets/logo/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

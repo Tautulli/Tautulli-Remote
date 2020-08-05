@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:package_info/package_info.dart';
 
 import '../helpers/color_palette_helper.dart';
 
@@ -108,17 +109,18 @@ class AppDrawer extends StatelessWidget {
                   color: PlexColorPalette.gray_chateau,
                 ),
               ),
-              onTap: () {
-                //TODO: Finish the about dialog
+              onTap: () async {
+                PackageInfo packageInfo = await PackageInfo.fromPlatform();
                 showAboutDialog(
                   context: context,
-                  // applicationIcon: FlutterLogo(),
+                  applicationIcon: SizedBox(
+                    height: 50,
+                    child: Image.asset('assets/logo/logo.png'),
+                  ),
                   applicationName: 'Tautulli Remote',
-                  // applicationVersion: 'August 2019',
-                  // applicationLegalese: '© 2014 The Flutter Authors',
-                  children: <Widget>[],
+                  applicationVersion: packageInfo.version,
+                  applicationLegalese: 'Licensed under the GNU General Public License v3.0',
                 );
-                // Navigator.of(context).pushNamed('/privacy');
               },
             ),
           ],
