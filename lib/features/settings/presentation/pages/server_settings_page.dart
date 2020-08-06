@@ -259,7 +259,7 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
                 protocols: ['http', 'https'],
                 requireProtocol: true,
               );
-              if (validUrl == false) {
+              if (isNotEmpty(controller.text) && validUrl == false) {
                 return 'Please enter a valid URL format';
               }
               return null;
