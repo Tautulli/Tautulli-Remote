@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class SettingsHeader extends StatelessWidget {
+class ListHeader extends StatelessWidget {
   final String headingText;
 
-  const SettingsHeader({
+  const ListHeader({
     Key key,
     @required this.headingText,
   }) : super(key: key);
@@ -13,7 +13,6 @@ class SettingsHeader extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
         left: 16,
-        // top: 20,
       ),
       child: Text(
         headingText,

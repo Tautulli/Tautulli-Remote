@@ -180,7 +180,6 @@ Future _buildPrimaryConnectionAddressSettingsDialog({
       if (primaryConnectionAddress != null) {
         controller.text = primaryConnectionAddress;
       }
-      //TODO: Need to add instructions on how the connection address works
       return AlertDialog(
         title: Text('Tautulli Primary Connection Address'),
         content: Form(
@@ -244,7 +243,6 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
       if (secondaryConnectionAddress != null) {
         controller.text = secondaryConnectionAddress;
       }
-      //TODO: Need to add instructions on how the secondary connection address works
       return AlertDialog(
         title: Text('Tautulli Secondary Connection Address'),
         content: Form(

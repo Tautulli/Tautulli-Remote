@@ -9,6 +9,7 @@ import 'package:unicorndial/unicorndial.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
+import '../../../../core/widgets/list_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -18,7 +19,6 @@ import '../widgets/activity_refresh_rate_dialog.dart';
 import '../widgets/server_setup_instructions.dart';
 import '../widgets/server_timeout_dialog.dart';
 import '../widgets/settings_alert_banner.dart';
-import '../widgets/settings_header.dart';
 import 'manual_registration_form_page.dart';
 import 'server_settings_page.dart';
 
@@ -84,7 +84,7 @@ class SettingsPageContent extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: SettingsAlertBanner(),
                   ),
-                  SettingsHeader(
+                  ListHeader(
                     headingText: 'Tautulli Servers',
                   ),
                   state.serverList.isEmpty
@@ -142,7 +142,7 @@ class SettingsPageContent extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   //* App settings
-                  SettingsHeader(
+                  ListHeader(
                     headingText: 'App Settings',
                   ),
                   ListTile(
@@ -206,7 +206,7 @@ class SettingsPageContent extends StatelessWidget {
                       FontAwesomeIcons.angleRight,
                       color: TautulliColorPalette.smoke,
                     ),
-                    // onTap: () => Navigator.of(context).pushNamed('/privacy'),
+                    onTap: () => Navigator.of(context).pushNamed('/help'),
                   ),
                   ListTile(
                     title: Text(
