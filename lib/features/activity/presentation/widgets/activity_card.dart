@@ -472,6 +472,7 @@ class _TerminateSessionMediaInfo extends StatelessWidget {
         children: <Widget>[
           Text(
             activity.friendlyName,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).accentColor,
             ),
@@ -481,6 +482,7 @@ class _TerminateSessionMediaInfo extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 2),
               child: Text(
                 row1,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Theme.of(context).accentColor,
                 ),
@@ -491,6 +493,7 @@ class _TerminateSessionMediaInfo extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 2),
               child: Text(
                 row2,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Theme.of(context).accentColor,
                 ),
@@ -501,6 +504,7 @@ class _TerminateSessionMediaInfo extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 2),
               child: Text(
                 row3,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Theme.of(context).accentColor,
                 ),
