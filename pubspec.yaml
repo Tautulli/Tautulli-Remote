@@ -136,6 +136,7 @@ flutter:
    - assets/platforms/xbox.svg
    - assets/images/livetv_fallback.png
    - assets/logo/logo.png
+   - assets/logo/logo_transparent.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

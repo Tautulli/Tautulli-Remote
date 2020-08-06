@@ -14,9 +14,47 @@ class AppDrawer extends StatelessWidget {
         decoration: BoxDecoration(color: PlexColorPalette.shark),
         child: ListView(
           children: <Widget>[
-            DrawerHeader(
+            Container(
+              height: 100,
               decoration: BoxDecoration(color: TautulliColorPalette.midnight),
-              child: Container(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          width: 70,
+                          padding: const EdgeInsets.only(right: 3),
+                          child: Image.asset('assets/logo/logo_transparent.png'),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Tautulli',
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'Remote',
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
             ListTile(
               leading: FaIcon(
@@ -119,7 +157,8 @@ class AppDrawer extends StatelessWidget {
                   ),
                   applicationName: 'Tautulli Remote',
                   applicationVersion: packageInfo.version,
-                  applicationLegalese: 'Licensed under the GNU General Public License v3.0',
+                  applicationLegalese:
+                      'Licensed under the GNU General Public License v3.0',
                 );
               },
             ),
