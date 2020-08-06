@@ -60,7 +60,6 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
       logs: logs,
     );
 
-    logging.info('Logs: Exporting logs');
     logging.exportLogs();
 
     //? Use a completer or similar to force this to wait for the above logging?

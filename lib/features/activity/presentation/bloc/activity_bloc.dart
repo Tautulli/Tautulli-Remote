@@ -72,8 +72,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   }
 
   Stream<ActivityState> _mapActivityLoadToState() async* {
-    //TODO: Change to debug
-    // logging.info('Activity: Attempting to load activity');
     yield ActivityLoadInProgress();
     yield* _loadActivityOrFailure();
 
@@ -81,8 +79,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   }
 
   Stream<ActivityState> _mapActivityRefreshToState() async* {
-    //TODO: Change to debug
-    // logging.info('Activity: Attempting to load activity');
     yield* _loadActivityOrFailure();
 
     add(ActivityAutoRefreshStart());
@@ -137,10 +133,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         );
       },
       (activityMap) async* {
-        //TODO: Change to debug
-        // logging
-        //     .info('Activity: Attempting to load activity Geo IP information');
-
         //* Loop through activity items and get geoIP data and image URLs
         // Using for loop as .forEach() does not actually respect await
         final List keys = activityMap.keys.toList();
@@ -156,7 +148,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               failureOrGeoIp.fold(
                 (failure) {
                   logging.warning(
-                      'Activit: Failed to load GeoIP data for ${activityItem.ipAddress}');
+                      'Activity: Failed to load GeoIP data for ${activityItem.ipAddress}');
                   return null;
                 },
                 (geoIpItem) {
@@ -222,8 +214,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               failureOrPosterUrl.fold(
                 (failure) {
-                  //TODO: Log failure?
-                  return null;
+                  logging.warning(
+                      'Activity: Failed to load poster for rating key: $posterRatingKey');
                 },
                 (url) {
                   activityItem.posterUrl = url;
@@ -243,8 +235,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
                 );
                 failureOrPosterBackgroundUrl.fold(
                   (failure) {
-                    //TODO: Log failure?
-                    return null;
+                    logging.warning(
+                        'Activity: Failed to load poster for rating key: $posterRatingKey');
                   },
                   (url) {
                     activityItem.posterBackgroundUrl = url;
@@ -261,8 +253,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               );
               failureOrBackgroundUrl.fold(
                 (failure) {
-                  //TODO: Log failure?
-                  return null;
+                  logging.warning(
+                      'Activity: Failed to load background art for rating key: ${activityItem.ratingKey}');
                 },
                 (url) {
                   activityItem.backgroundUrl = url;
@@ -271,8 +263,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             }
           }
         }
-
-        logging.info('Activity: Activity loaded successfully');
 
         yield ActivityLoadSuccess(
           activityMap: activityMap,

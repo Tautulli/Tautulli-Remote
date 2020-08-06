@@ -94,8 +94,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   Stream<SettingsState> _mapSettingsLoadToState(Settings settings) async* {
-    //TODO: Change to debug
-    // logging.info('Settings: Loading settings');
     yield SettingsLoadInProgress();
     yield* _fetchAndYieldSettings(settings);
   }
@@ -108,7 +106,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     @required String tautulliId,
     @required String plexName,
   }) async* {
-    logging.info('Settings: Adding server');
+    logging.info('Settings: Saving server details');
     await settings.addServer(
       primaryConnectionAddress: primaryConnectionAddress,
       deviceToken: deviceToken,
@@ -128,7 +126,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     @required String tautulliId,
     @required String plexName,
   }) async* {
-    logging.info('Settings: Updating server');
+    logging.info('Settings: Updating server details');
     await settings.updateServerById(
       id: id,
       primaryConnectionAddress: primaryConnectionAddress,

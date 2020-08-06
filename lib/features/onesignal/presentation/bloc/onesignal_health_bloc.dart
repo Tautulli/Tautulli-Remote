@@ -25,13 +25,8 @@ class OneSignalHealthBloc
     OneSignalHealthEvent event,
   ) async* {
     if (event is OneSignalHealthCheck) {
-      //TODO: Change to debug and enable
-      // logging.info(
-          // 'OneSignal: Verifiying ability to communicate with OneSignal');
       yield OneSignalHealthInProgress();
       if (await oneSignal.isReachable) {
-        //TODO: Change to debug and enable
-        // logging.info('OneSignal: Successfully communicated with OneSignal');
         yield OneSignalHealthSuccess();
       } else {
         logging.warning('OneSignal: Failed to communicate with OneSignal');

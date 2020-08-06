@@ -43,15 +43,9 @@ class OneSignalPrivacyBloc
 
   Stream<OneSignalPrivacyState>
       _mapOneSignalPrivacyCheckConsentToState() async* {
-    //TODO: Change to debug
-    // logging.info('OneSignal: Checking for privacy consent');
     if (await oneSignal.isSubscribed != null) {
-      //TODO: Change to debug
-      // logging.info('OneSignal: Privacy consent verified');
       yield OneSignalPrivacyConsentSuccess();
     } else {
-      //TODO: Change to debug
-      // logging.info('OneSignal: Privacy consent has not been granted');
       yield OneSignalPrivacyConsentFailure();
     }
   }

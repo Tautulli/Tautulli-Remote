@@ -53,9 +53,6 @@ class RegisterDeviceBloc
     String result,
     SettingsBloc settingsBloc,
   ) async* {
-    //TODO: Change to debug
-    // logging
-    //     .info('RegisterDevice: Attempting to register device with QR code');
     yield RegisterDeviceInProgress();
 
     final List resultParts = result.split('|');
@@ -72,8 +69,6 @@ class RegisterDeviceBloc
     @required String deviceToken,
     @required SettingsBloc settingsBloc,
   }) async* {
-    //TODO: Change to debug
-    logging.info('RegisterDevice: Attempting to register device manually');
     yield RegisterDeviceInProgress();
     yield* _registerDeviceOrFailure(
       connectionAddress.trim(),

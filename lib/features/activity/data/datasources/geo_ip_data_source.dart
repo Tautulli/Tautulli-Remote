@@ -34,15 +34,10 @@ class GeoIpDataSourceImpl implements GeoIpDataSource {
     @required String tautulliId,
     @required String ipAddress,
   }) async {
-    try {
-      final geoipJson = await tautulliApi.getGeoipLookup(
-        tautulliId: tautulliId,
-        ipAddress: ipAddress,
-      );
-      return GeoIpItemModel.fromJson(geoipJson['response']['data']);
-    } catch (error) {
-      //TODO: Log error if not private IP
-      throw error;
-    }
+    final geoipJson = await tautulliApi.getGeoipLookup(
+      tautulliId: tautulliId,
+      ipAddress: ipAddress,
+    );
+    return GeoIpItemModel.fromJson(geoipJson['response']['data']);
   }
 }
