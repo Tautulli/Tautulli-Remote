@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:package_info/package_info.dart';
 import 'package:quiver/strings.dart';
 import 'package:unicorndial/unicorndial.dart';
 
@@ -14,7 +15,6 @@ import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../bloc/register_device_bloc.dart';
 import '../bloc/settings_bloc.dart';
 import '../widgets/activity_refresh_rate_dialog.dart';
-import '../widgets/custom_settings_tile.dart';
 import '../widgets/server_setup_instructions.dart';
 import '../widgets/server_timeout_dialog.dart';
 import '../widgets/settings_alert_banner.dart';
@@ -182,21 +182,58 @@ class SettingsPageContent extends StatelessWidget {
                       color: Theme.of(context).accentColor,
                     ),
                   ),
-                  CustomSettingsTile(
-                    title: 'OneSignal Data Privacy',
-                    icon: FaIcon(
-                      FontAwesomeIcons.userSecret,
-                      color: TautulliColorPalette.not_white,
+                  ListTile(
+                    title: Text(
+                      'OneSignal Data Privacy',
+                      style: TextStyle(
+                        color: TautulliColorPalette.smoke,
+                      ),
+                    ),
+                    trailing: FaIcon(
+                      FontAwesomeIcons.angleRight,
+                      color: TautulliColorPalette.smoke,
                     ),
                     onTap: () => Navigator.of(context).pushNamed('/privacy'),
                   ),
-                  CustomSettingsTile(
-                    title: 'Tautulli Remote Logs',
-                    icon: FaIcon(
-                      FontAwesomeIcons.solidListAlt,
-                      color: TautulliColorPalette.not_white,
+                  ListTile(
+                    title: Text(
+                      'Help & Support',
+                      style: TextStyle(
+                        color: TautulliColorPalette.smoke,
+                      ),
                     ),
-                    onTap: () => Navigator.of(context).pushNamed('/logs'),
+                    trailing: FaIcon(
+                      FontAwesomeIcons.angleRight,
+                      color: TautulliColorPalette.smoke,
+                    ),
+                    // onTap: () => Navigator.of(context).pushNamed('/privacy'),
+                  ),
+                  ListTile(
+                    title: Text(
+                      'About',
+                      style: TextStyle(
+                        color: TautulliColorPalette.smoke,
+                      ),
+                    ),
+                    trailing: FaIcon(
+                      FontAwesomeIcons.angleRight,
+                      color: TautulliColorPalette.smoke,
+                    ),
+                    onTap: () async {
+                      PackageInfo packageInfo =
+                          await PackageInfo.fromPlatform();
+                      showAboutDialog(
+                        context: context,
+                        applicationIcon: SizedBox(
+                          height: 50,
+                          child: Image.asset('assets/logo/logo.png'),
+                        ),
+                        applicationName: 'Tautulli Remote',
+                        applicationVersion: packageInfo.version,
+                        applicationLegalese:
+                            'Licensed under the GNU General Public License v3.0',
+                      );
+                    },
                   ),
                 ],
               );
@@ -206,8 +243,11 @@ class SettingsPageContent extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             } else {
-              //TODO: Handle if the settings state is something other than Loaded
-              return Text('Something went wrong loading settings');
+              return Center(
+                child: Text(
+                  'There was an error loading settings. Please use the help page to get assistance.',
+                ),
+              );
             }
           },
         ),

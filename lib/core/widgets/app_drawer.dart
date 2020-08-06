@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:package_info/package_info.dart';
 
 import '../helpers/color_palette_helper.dart';
 
@@ -28,7 +27,8 @@ class AppDrawer extends StatelessWidget {
                         Container(
                           width: 70,
                           padding: const EdgeInsets.only(right: 3),
-                          child: Image.asset('assets/logo/logo_transparent.png'),
+                          child:
+                              Image.asset('assets/logo/logo_transparent.png'),
                         ),
                         RichText(
                           text: TextSpan(
@@ -69,7 +69,7 @@ class AppDrawer extends StatelessWidget {
             // ListTile(
             //   leading: FaIcon(
             //     FontAwesomeIcons.history,
-            //     color: Colors.white,
+            //     color: TautulliColorPalette.not_white,
             //   ),
             //   title: Text('History'),
             //   onTap: () {},
@@ -77,7 +77,7 @@ class AppDrawer extends StatelessWidget {
             // ListTile(
             //   leading: FaIcon(
             //     FontAwesomeIcons.clock,
-            //     color: Colors.white,
+            //     color: TautulliColorPalette.not_white,
             //   ),
             //   title: Text('Recently Added'),
             //   onTap: () {},
@@ -85,7 +85,7 @@ class AppDrawer extends StatelessWidget {
             // ListTile(
             //   leading: FaIcon(
             //     FontAwesomeIcons.photoVideo,
-            //     color: Colors.white,
+            //     color: TautulliColorPalette.not_white,
             //   ),
             //   title: Text('Libraries'),
             //   onTap: () {},
@@ -93,7 +93,7 @@ class AppDrawer extends StatelessWidget {
             // ListTile(
             //   leading: FaIcon(
             //     FontAwesomeIcons.users,
-            //     color: Colors.white,
+            //     color: TautulliColorPalette.not_white,
             //   ),
             //   title: Text('Users'),
             //   onTap: () {},
@@ -101,7 +101,7 @@ class AppDrawer extends StatelessWidget {
             // ListTile(
             //   leading: FaIcon(
             //     FontAwesomeIcons.chartArea,
-            //     color: Colors.white,
+            //     color: TautulliColorPalette.not_white,
             //   ),
             //   title: Text('Statistics'),
             //   onTap: () {},
@@ -116,52 +116,12 @@ class AppDrawer extends StatelessWidget {
                 Navigator.of(context).pushReplacementNamed('/settings');
               },
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Divider(
-                color: PlexColorPalette.raven,
-              ),
-            ),
-            //TODO: Help page
-            // ListTile(
-            //   leading: FaIcon(
-            //     FontAwesomeIcons.solidQuestionCircle,
-            //     color: PlexColorPalette.gray_chateau,
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 25),
+            //   child: Divider(
+            //     color: PlexColorPalette.raven,
             //   ),
-            //   title: Text(
-            //     'Help',
-            //     style: TextStyle(
-            //       color: PlexColorPalette.gray_chateau,
-            //     ),
-            //   ),
-            //   onTap: () {},
             // ),
-            ListTile(
-              leading: FaIcon(
-                FontAwesomeIcons.infoCircle,
-                color: PlexColorPalette.gray_chateau,
-              ),
-              title: Text(
-                'About',
-                style: TextStyle(
-                  color: PlexColorPalette.gray_chateau,
-                ),
-              ),
-              onTap: () async {
-                PackageInfo packageInfo = await PackageInfo.fromPlatform();
-                showAboutDialog(
-                  context: context,
-                  applicationIcon: SizedBox(
-                    height: 50,
-                    child: Image.asset('assets/logo/logo.png'),
-                  ),
-                  applicationName: 'Tautulli Remote',
-                  applicationVersion: packageInfo.version,
-                  applicationLegalese:
-                      'Licensed under the GNU General Public License v3.0',
-                );
-              },
-            ),
           ],
         ),
       ),
