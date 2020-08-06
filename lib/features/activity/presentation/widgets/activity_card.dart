@@ -83,7 +83,7 @@ class _ActivityCardState extends State<ActivityCard> {
         );
       },
       child: Container(
-        margin: EdgeInsets.all(4),
+        margin: const EdgeInsets.all(4),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(4),
           child: Slidable.builder(
@@ -169,7 +169,7 @@ class _ActivityCardState extends State<ActivityCard> {
                 : null,
             child: Card(
               // Override Card margin so slidable can display properly
-              margin: EdgeInsets.all(0),
+              margin: const EdgeInsets.all(0),
               elevation: 2,
               // ClipRRect prevents the ImageFilter from affecting the parents (slidable)
               child: ClipRRect(

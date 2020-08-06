@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/failure_message_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../injection_container.dart';
@@ -244,17 +245,20 @@ Widget _buildMultiserverActivity({
         }
       } else {
         activityWidgetList.add(
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 8,
-              top: 4,
-              bottom: 8,
-            ),
-            child: Text(
-              'Nothing is currently being played.',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 16,
+          Container(
+            height: 135,
+            margin: const EdgeInsets.all(4),
+            child: Card(
+              color: TautulliColorPalette.gunmetal,
+              margin: const EdgeInsets.all(0),
+              child: Center(
+                child: Text(
+                  'Nothing is currently being played.',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
               ),
             ),
           ),
@@ -263,56 +267,54 @@ Widget _buildMultiserverActivity({
     }
     if (resultMap['result'] == 'failure') {
       activityWidgetList.add(
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 8,
-          ),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SizedBox(
-                width: constraints.maxWidth,
-                child: Row(
+        LayoutBuilder(
+          builder: (context, constraints) {
+            return Container(
+              margin: const EdgeInsets.all(4),
+              height: 135,
+              child: Card(
+                color: TautulliColorPalette.gunmetal,
+                margin: const EdgeInsets.all(0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 4,
-                              bottom: 4,
-                            ),
-                            child: Text(
-                              FailureMessageHelper()
-                                  .mapFailureToMessage(resultMap['failure']),
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 4,
-                              bottom: 4,
-                            ),
-                            child: Text(
-                              FailureMessageHelper()
-                                  .mapFailureToSuggestion(resultMap['failure']),
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                        ],
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 4,
+                        bottom: 4,
+                      ),
+                      child: Text(
+                        FailureMessageHelper()
+                            .mapFailureToMessage(resultMap['failure']),
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 4,
+                        bottom: 4,
+                      ),
+                      child: Text(
+                        FailureMessageHelper()
+                            .mapFailureToSuggestion(resultMap['failure']),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.fade,
                       ),
                     ),
                   ],
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       );
     }
@@ -320,8 +322,11 @@ Widget _buildMultiserverActivity({
 
   return BlocProvider<TerminateSessionBloc>(
     create: (context) => di.sl<TerminateSessionBloc>(),
-    child: ListView(
-      children: activityWidgetList,
+    child: Padding(
+      padding: const EdgeInsets.only(top: 4),
+      child: ListView(
+        children: activityWidgetList,
+      ),
     ),
   );
 }

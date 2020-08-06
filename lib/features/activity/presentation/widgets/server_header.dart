@@ -18,15 +18,15 @@ class ServerHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(
         left: 8,
-        top: 4,
-        bottom: 4,
+        top: 8,
+        bottom: 8,
       ),
       child: Row(
         children: <Widget>[
           Text(
             serverName,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
               color: Theme.of(context).accentColor,
             ),
