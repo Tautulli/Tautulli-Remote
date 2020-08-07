@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:quick_actions/quick_actions.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/activity/presentation/pages/activity_page.dart';
@@ -116,7 +117,6 @@ class _TautulliRemoteState extends State<TautulliRemote> {
                 color: PlexColorPalette.river_bed,
               ),
           cardColor: PlexColorPalette.shark),
-      home: ActivityPage(),
       routes: {
         ActivityPage.routeName: (ctx) => ActivityPage(),
         SettingsPage.routeName: (ctx) => SettingsPage(),
@@ -124,6 +124,40 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         LogsPage.routeName: (ctx) => LogsPage(),
         HelpPage.routeName: (ctx) => HelpPage(),
       },
+      home: QuickActionsSetup(),
     );
+  }
+}
+
+class QuickActionsSetup extends StatefulWidget {
+  const QuickActionsSetup({Key key}) : super(key: key);
+
+  @override
+  _QuickActionsSetupState createState() => _QuickActionsSetupState();
+}
+
+class _QuickActionsSetupState extends State<QuickActionsSetup> {
+  @override
+  void initState() {
+    super.initState();
+    _initQuickActions();
+  }
+
+  void _initQuickActions() {
+    final QuickActions quickActions = QuickActions();
+    quickActions.initialize((type) {
+      if (type == 'action_activity') {
+        Navigator.of(context).pushNamed('/activity');
+      }
+    });
+    quickActions.setShortcutItems(<ShortcutItem>[
+      const ShortcutItem(
+          type: 'action_activity', localizedTitle: 'Activity', icon: 'tv'),
+    ]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ActivityPage();
   }
 }
