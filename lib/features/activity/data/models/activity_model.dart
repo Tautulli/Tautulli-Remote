@@ -78,7 +78,6 @@ class ActivityItemModel extends ActivityItem {
     final int year, // Release year
     GeoIpItem geoIpItem,
     String posterUrl,
-    String posterBackgroundUrl,
     String backgroundUrl,
   }) : super(
           sessionKey: sessionKey,
@@ -152,7 +151,6 @@ class ActivityItemModel extends ActivityItem {
           year: year,
           geoIpItem: geoIpItem,
           posterUrl: posterUrl,
-          posterBackgroundUrl: posterBackgroundUrl,
           backgroundUrl: backgroundUrl,
         );
 

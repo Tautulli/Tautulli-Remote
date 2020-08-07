@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/activity.dart';
@@ -15,7 +17,6 @@ class PosterChooser extends StatelessWidget {
     return activity.mediaType == 'track'
         ? _PosterMusic(
             url: activity.posterUrl,
-            posterBackgroundUrl: activity.posterBackgroundUrl,
           )
         : _PosterGeneral(
             url: activity.posterUrl,
@@ -47,35 +48,39 @@ class _PosterGeneral extends StatelessWidget {
 
 class _PosterMusic extends StatelessWidget {
   final String url;
-  final String posterBackgroundUrl;
 
   _PosterMusic({
     @required this.url,
-    @required this.posterBackgroundUrl,
   });
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 2 / 3,
-      child: Stack(
-        children: <Widget>[
-          Positioned.fill(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: Stack(
+          children: <Widget>[
+            Positioned.fill(
               child: Image.network(
-                posterBackgroundUrl,
+                url,
                 fit: BoxFit.cover,
               ),
             ),
-          ),
-          Positioned.fill(
-            child: Image.network(
-              url,
-              fit: BoxFit.contain,
+            BackdropFilter(
+              filter: ImageFilter.blur(
+                sigmaX: 8,
+                sigmaY: 8,
+              ),
+              child: Center(
+                child: Image.network(
+                  url,
+                  fit: BoxFit.contain,
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

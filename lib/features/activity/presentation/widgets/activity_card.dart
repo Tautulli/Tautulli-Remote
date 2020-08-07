@@ -146,7 +146,6 @@ class _ActivityCardState extends State<ActivityCard> {
                             }
                           },
                           color: Theme.of(context).errorColor,
-                          //TODO
                           child: BlocBuilder<TerminateSessionBloc,
                               TerminateSessionState>(
                             builder: (context, state) {

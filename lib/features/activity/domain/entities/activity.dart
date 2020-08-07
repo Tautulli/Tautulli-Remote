@@ -76,8 +76,6 @@ class ActivityItem extends Equatable {
   final int year; // Release year
   GeoIpItem geoIpItem;
   String posterUrl;
-  //TODO: Need to tshoot doing this background natively
-  String posterBackgroundUrl;
   String backgroundUrl;
 
   ActivityItem({
@@ -152,7 +150,6 @@ class ActivityItem extends Equatable {
     this.year,
     this.geoIpItem,
     this.posterUrl,
-    this.posterBackgroundUrl,
     this.backgroundUrl,
   });
 
@@ -228,7 +225,6 @@ class ActivityItem extends Equatable {
         year,
         geoIpItem,
         posterUrl,
-        posterBackgroundUrl,
         backgroundUrl,
       ];
 

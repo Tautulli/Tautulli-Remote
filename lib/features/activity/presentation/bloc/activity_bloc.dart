@@ -222,28 +222,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
                 },
               );
 
-              // Attempt to get poster background URL if track
-              if (activityItem.mediaType == 'track') {
-                final failureOrPosterBackgroundUrl = await getImageUrl(
-                  tautulliId: keys[i],
-                  img: posterImg,
-                  ratingKey: posterRatingKey,
-                  opacity: 40,
-                  background: 282828,
-                  blur: 15,
-                  fallback: 'poster',
-                );
-                failureOrPosterBackgroundUrl.fold(
-                  (failure) {
-                    logging.warning(
-                        'Activity: Failed to load poster for rating key: $posterRatingKey');
-                  },
-                  (url) {
-                    activityItem.posterBackgroundUrl = url;
-                  },
-                );
-              }
-
               // Attempt to get background art URL
               final failureOrBackgroundUrl = await getImageUrl(
                 tautulliId: keys[i],
