@@ -7,21 +7,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/api/tautulli_api.dart';
 import 'core/device_info/device_info.dart';
 import 'core/helpers/connection_address_helper.dart';
+import 'core/helpers/failure_mapper_helper.dart';
 import 'core/helpers/log_format_helper.dart';
 import 'core/network/network_info.dart';
 import 'features/activity/data/datasources/activity_data_source.dart';
 import 'features/activity/data/datasources/geo_ip_data_source.dart';
-import 'features/activity/data/datasources/image_url_data_source.dart';
 import 'features/activity/data/repositories/activity_repository_impl.dart';
 import 'features/activity/data/repositories/geo_ip_repository_impl.dart';
-import 'features/activity/data/repositories/image_url_repository_impl.dart';
 import 'features/activity/domain/repositories/activity_repository.dart';
 import 'features/activity/domain/repositories/geo_ip_repository.dart';
-import 'features/activity/domain/repositories/image_url_repository.dart';
 import 'features/activity/domain/usecases/get_activity.dart';
 import 'features/activity/domain/usecases/get_geo_ip.dart';
-import 'features/activity/domain/usecases/get_image_url.dart';
 import 'features/activity/presentation/bloc/activity_bloc.dart';
+import 'features/image_url/data/datasources/image_url_data_source.dart';
+import 'features/image_url/data/respositories/image_url_repository_impl.dart';
+import 'features/image_url/domain/repositories/image_url_repository.dart';
+import 'features/image_url/domain/usecases/get_image_url.dart';
 import 'features/logging/data/datasources/logging_data_source.dart';
 import 'features/logging/data/repositories/logging_repository_impl.dart';
 import 'features/logging/domain/repositories/logging_repository.dart';
@@ -31,6 +32,11 @@ import 'features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
+import 'features/recent/data/datasources/recently_added_data_source.dart';
+import 'features/recent/data/repositories/recently_added_repository_impl.dart';
+import 'features/recent/domain/repositories/recently_added_repository.dart';
+import 'features/recent/domain/usecases/get_recently_added.dart';
+import 'features/recent/presentation/bloc/recently_added_bloc.dart';
 import 'features/settings/data/datasources/register_device_data_source.dart';
 import 'features/settings/data/datasources/settings_data_source.dart';
 import 'features/settings/data/repositories/register_device_repository_impl.dart';
@@ -90,6 +96,7 @@ Future<void> init() async {
     () => RegisterDeviceRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
+      failureMapperHelper: sl(),
     ),
   );
 
@@ -188,12 +195,37 @@ Future<void> init() async {
     () => TerminateSessionRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
+      failureMapperHelper: sl(),
     ),
   );
 
   // Data sources
   sl.registerLazySingleton<TerminateSessionDataSource>(
     () => TerminateSessionDataSourceImpl(
+      tautulliApi: sl(),
+    ),
+  );
+
+  //! Features - ImageUrl
+  // Use case
+  sl.registerLazySingleton(
+    () => GetImageUrl(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<ImageUrlRepository>(
+    () => ImageUrlRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+      failureMapperHelper: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<ImageUrlDataSource>(
+    () => ImageUrlDataSourceImpl(
       tautulliApi: sl(),
     ),
   );
@@ -206,7 +238,6 @@ Future<void> init() async {
       geoIp: sl(),
       imageUrl: sl(),
       settings: sl(),
-      tautulliApi: sl(),
       logging: sl(),
     ),
   );
@@ -224,17 +255,12 @@ Future<void> init() async {
     ),
   );
 
-  sl.registerLazySingleton(
-    () => GetImageUrl(
-      repository: sl(),
-    ),
-  );
-
   // Repository
   sl.registerLazySingleton<ActivityRepository>(
     () => ActivityRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
+      failureMapperHelper: sl(),
     ),
   );
 
@@ -242,13 +268,7 @@ Future<void> init() async {
     () => GeoIpRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
-    ),
-  );
-
-  sl.registerLazySingleton<ImageUrlRepository>(
-    () => ImageUrlRepositoryImpl(
-      dataSource: sl(),
-      networkInfo: sl(),
+      failureMapperHelper: sl(),
     ),
   );
 
@@ -268,9 +288,37 @@ Future<void> init() async {
     ),
   );
 
-  sl.registerLazySingleton<ImageUrlDataSource>(
-    () => ImageUrlDataSourceImpl(
+  //! Features - Recent
+  // Bloc
+  sl.registerFactory(
+    () => RecentlyAddedBloc(
+      recentlyAdded: sl(),
+      getImageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => GetRecentlyAdded(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<RecentlyAddedRepository>(
+    () => RecentlyAddedRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+      failureMapperHelper: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<RecentlyAddedDataSource>(
+    () => RecentlyAddedDataSourceImpl(
       tautulliApi: sl(),
+      logging: sl(),
     ),
   );
 
@@ -290,6 +338,10 @@ Future<void> init() async {
 
   sl.registerLazySingleton<LogFormatHelper>(
     () => LogFormatHelperImpl(),
+  );
+
+  sl.registerLazySingleton(
+    () => FailureMapperHelper(),
   );
 
   sl.registerLazySingleton<ConnectionAddressHelper>(
