@@ -2,24 +2,22 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/activity.dart';
-
 class PosterChooser extends StatelessWidget {
-  final ActivityItem activity;
+  final dynamic item;
 
   const PosterChooser({
     Key key,
-    @required this.activity,
+    @required this.item,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return activity.mediaType == 'track'
+    return item.mediaType == 'track' || item.mediaType == 'album'
         ? _PosterMusic(
-            url: activity.posterUrl,
+            url: item.posterUrl,
           )
         : _PosterGeneral(
-            url: activity.posterUrl,
+            url: item.posterUrl,
           );
   }
 }
@@ -37,10 +35,12 @@ class _PosterGeneral extends StatelessWidget {
       aspectRatio: 2 / 3,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4),
-        child: Image.network(
-          url,
-          fit: BoxFit.cover,
-        ),
+        child: url != null
+            ? Image.network(
+                url,
+                fit: BoxFit.cover,
+              )
+            : null,
       ),
     );
   }
@@ -62,10 +62,12 @@ class _PosterMusic extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Positioned.fill(
-              child: Image.network(
-                url,
-                fit: BoxFit.cover,
-              ),
+              child: url != null
+                  ? Image.network(
+                      url,
+                      fit: BoxFit.cover,
+                    )
+                  : Container(),
             ),
             BackdropFilter(
               filter: ImageFilter.blur(
@@ -73,10 +75,12 @@ class _PosterMusic extends StatelessWidget {
                 sigmaY: 8,
               ),
               child: Center(
-                child: Image.network(
-                  url,
-                  fit: BoxFit.contain,
-                ),
+                child: url != null
+                    ? Image.network(
+                        url,
+                        fit: BoxFit.contain,
+                      )
+                    : Container(),
               ),
             ),
           ],
