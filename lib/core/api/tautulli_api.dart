@@ -12,6 +12,13 @@ abstract class TautulliApi {
   Future connectionHandler();
   Future fetchTautulli();
   Future<Map<String, dynamic>> getActivity(String tautulliId);
+  Future<Map<String, dynamic>> getRecentlyAdded({
+    @required String tautulliId,
+    @required int count,
+    int start,
+    String mediaType,
+    int sectionId,
+  });
   Future<Map<String, dynamic>> getGeoipLookup({
     @required String tautulliId,
     String ipAddress,
@@ -214,6 +221,34 @@ class TautulliApiImpl implements TautulliApi {
       tautulliId: tautulliId,
       cmd: 'get_geoip_lookup',
       params: {'ip_address': ipAddress},
+    );
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getRecentlyAdded({
+    @required String tautulliId,
+    @required int count,
+    int start,
+    String mediaType,
+    int sectionId,
+  }) async {
+    Map<String, String> params = {'count': count.toString()};
+
+    if (start != null) {
+      params['start'] = start.toString();
+    }
+    if (isNotEmpty(mediaType)) {
+      params['media_type'] = mediaType;
+    }
+    if (sectionId != null) {
+      params['section_id'] = sectionId.toString();
+    }
+
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_recently_added',
+      params: params,
     );
 
     return responseJson;
