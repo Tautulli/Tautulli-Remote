@@ -1,4 +1,8 @@
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
+import 'dart:async';
+import 'dart:io';
+
+import '../error/exception.dart';
+import '../error/failure.dart';
 
 // Error messages
 const String MISSING_SERVER_FAILURE_MESSAGE = 'No servers are configured.';
@@ -24,8 +28,45 @@ const String TIMEOUT_SUGGESTION =
     'Check your Connection Address for errors and make sure Tautulli can communicate with Plex.';
 const String TERMINATE_SUGGESTION = 'Make sure the stream is still active.';
 
-/// Maps [Failures] to appropriate messages and suggestions.
-class FailureMessageHelper {
+class FailureMapperHelper {
+  /// Map [Exception] to corresponding [Failure].
+  Failure mapExceptionToFailure(dynamic exception) {
+    Failure failure;
+
+    switch (exception.runtimeType) {
+      case (MissingServerException):
+        failure = MissingServerFailure();
+        break;
+      case (SettingsException):
+        failure = SettingsFailure();
+        break;
+      case (ServerException):
+        failure = ServerFailure();
+        break;
+      case (SocketException):
+        failure = SocketFailure();
+        break;
+      case (TlsException):
+        failure = TlsFailure();
+        break;
+      case (FormatException):
+        failure = UrlFormatFailure();
+        break;
+      case (ArgumentError):
+        failure = UrlFormatFailure();
+        break;
+      case (TimeoutException):
+        failure = TimeoutFailure();
+        break;
+      case (JsonDecodeException):
+        failure = JsonDecodeFailure();
+        break;
+    }
+
+    return failure;
+  }
+
+  /// Maps [Failure] to appropriate message.
   String mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case MissingServerFailure:
@@ -53,6 +94,7 @@ class FailureMessageHelper {
     }
   }
 
+  /// Maps [Failure] to appropriate suggestions.
   String mapFailureToSuggestion(Failure failure) {
     switch (failure.runtimeType) {
       case MissingServerFailure:
