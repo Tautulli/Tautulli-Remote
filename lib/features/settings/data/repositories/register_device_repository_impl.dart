@@ -1,11 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
-import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
+import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/repositories/register_device_repository.dart';
 import '../datasources/register_device_data_source.dart';
@@ -13,10 +12,12 @@ import '../datasources/register_device_data_source.dart';
 class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
   final RegisterDeviceDataSource dataSource;
   final NetworkInfo networkInfo;
+  final FailureMapperHelper failureMapperHelper;
 
   RegisterDeviceRepositoryImpl({
     @required this.dataSource,
     @required this.networkInfo,
+    @required this.failureMapperHelper,
   });
 
   @override
@@ -37,22 +38,10 @@ class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
           clearOnesignalId: clearOnesignalId,
         );
         return Right(result);
-      } on SettingsException {
-        return Left(SettingsFailure());
-      } on ServerException {
-        return Left(ServerFailure());
-      } on SocketException {
-        return Left(SocketFailure());
-      } on TlsException {
-        return Left(TlsFailure());
-      } on FormatException {
-        return Left(UrlFormatFailure());
-      } on ArgumentError {
-        return Left(UrlFormatFailure());
-      } on TimeoutException {
-        return Left(TimeoutFailure());
-      } on JsonDecodeException {
-        return Left(JsonDecodeFailure());
+      } catch (exception) {
+        final Failure failure =
+            failureMapperHelper.mapExceptionToFailure(exception);
+        return (Left(failure));
       }
     } else {
       return Left(ConnectionFailure());

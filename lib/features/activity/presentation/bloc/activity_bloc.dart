@@ -4,15 +4,14 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_message_helper.dart';
+import '../../../../core/helpers/failure_mapper_helper.dart';
+import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/settings.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/usecases/get_activity.dart';
 import '../../domain/usecases/get_geo_ip.dart';
-import '../../domain/usecases/get_image_url.dart';
 
 part 'activity_event.dart';
 part 'activity_state.dart';
@@ -22,7 +21,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   final GetGeoIp getGeoIp;
   final GetImageUrl getImageUrl;
   final Settings settings;
-  final TautulliApi tautulliApi;
   final Logging logging;
 
   Timer _timer;
@@ -32,7 +30,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     @required GetGeoIp geoIp,
     @required GetImageUrl imageUrl,
     @required this.settings,
-    @required this.tautulliApi,
     @required this.logging,
   })  : assert(activity != null),
         assert(geoIp != null),
@@ -128,8 +125,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         logging.error('Activity: Failed to load activity [$failure]');
         yield ActivityLoadFailure(
           failure: failure,
-          message: FailureMessageHelper().mapFailureToMessage(failure),
-          suggestion: FailureMessageHelper().mapFailureToSuggestion(failure),
+          message: FailureMapperHelper().mapFailureToMessage(failure),
+          suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
         );
       },
       (activityMap) async* {

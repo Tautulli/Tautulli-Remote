@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../error/failure.dart';
-import '../helpers/failure_message_helper.dart';
+import '../helpers/failure_mapper_helper.dart';
 
 Future<void> showFailureAlertDialog({
   @required BuildContext context,
@@ -12,8 +12,8 @@ Future<void> showFailureAlertDialog({
     barrierDismissible: true,
     builder: (context) {
       return AlertDialog(
-        title: Text(FailureMessageHelper().mapFailureToMessage(failure)),
-        content: Text(FailureMessageHelper().mapFailureToSuggestion(failure)),
+        title: Text(FailureMapperHelper().mapFailureToMessage(failure)),
+        content: Text(FailureMapperHelper().mapFailureToSuggestion(failure)),
         actions: <Widget>[
           FlatButton(
             child: Text('CLOSE'),

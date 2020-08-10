@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/helpers/failure_message_helper.dart';
+import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
+import '../../../../core/widgets/error_message.dart';
+import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -15,8 +17,6 @@ import '../../domain/entities/activity.dart';
 import '../bloc/activity_bloc.dart';
 import '../widgets/activity_card.dart';
 import '../widgets/error_button.dart';
-import '../widgets/error_message.dart';
-import '../widgets/server_header.dart';
 
 class ActivityPage extends StatelessWidget {
   const ActivityPage({Key key}) : super(key: key);
@@ -285,7 +285,7 @@ Widget _buildMultiserverActivity({
                         bottom: 4,
                       ),
                       child: Text(
-                        FailureMessageHelper()
+                        FailureMapperHelper()
                             .mapFailureToMessage(resultMap['failure']),
                         style: TextStyle(
                           color: Colors.grey,
@@ -299,7 +299,7 @@ Widget _buildMultiserverActivity({
                         bottom: 4,
                       ),
                       child: Text(
-                        FailureMessageHelper()
+                        FailureMapperHelper()
                             .mapFailureToSuggestion(resultMap['failure']),
                         textAlign: TextAlign.center,
                         style: TextStyle(
