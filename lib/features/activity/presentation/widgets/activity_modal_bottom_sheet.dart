@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/widgets/poster_chooser.dart';
 import '../../domain/entities/activity.dart';
 import '../bloc/activity_bloc.dart';
 import 'activity_media_details.dart';
 import 'activity_media_info.dart';
 import 'background_image_chooser.dart';
-import 'poster_chooser.dart';
 import 'progress_bar.dart';
 import 'status_poster_overlay.dart';
 import 'time_eta.dart';
@@ -183,7 +183,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                               child: Stack(
                                 children: <Widget>[
                                   PosterChooser(
-                                    activity: activity,
+                                    item: activity,
                                   ),
                                   if (activity.state == 'paused' ||
                                       activity.state == 'buffering')

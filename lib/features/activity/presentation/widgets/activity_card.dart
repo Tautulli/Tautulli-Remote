@@ -8,6 +8,7 @@ import 'package:quiver/strings.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/string_format_helper.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
+import '../../../../core/widgets/poster_chooser.dart';
 import '../../../terminate_session/presentation/bloc/terminate_session_bloc.dart';
 import '../../domain/entities/activity.dart';
 import '../bloc/activity_bloc.dart';
@@ -17,7 +18,6 @@ import 'activity_modal_bottom_sheet.dart';
 import 'background_image_chooser.dart';
 import 'custom_bottom_sheet.dart' as customBottomSheet;
 import 'platform_icon.dart';
-import 'poster_chooser.dart';
 import 'progress_bar.dart';
 import 'status_poster_overlay.dart';
 import 'terminate_session_button.dart';
@@ -212,7 +212,7 @@ class _ActivityCardState extends State<ActivityCard> {
                                       Container(
                                         height: 130,
                                         child: PosterChooser(
-                                          activity: activity,
+                                          item: activity,
                                         ),
                                       ),
                                       //* Current state poster overlay
