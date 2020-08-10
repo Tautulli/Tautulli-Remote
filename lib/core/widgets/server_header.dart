@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
+import '../helpers/color_palette_helper.dart';
 
 class ServerHeader extends StatelessWidget {
   final String serverName;
