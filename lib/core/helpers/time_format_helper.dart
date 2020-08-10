@@ -1,5 +1,6 @@
 import 'package:duration/duration.dart';
 import 'package:intl/intl.dart';
+import 'package:simple_moment/simple_moment.dart';
 
 /// Provides helper functions to create more readable durations.
 class TimeFormatHelper {
@@ -11,12 +12,24 @@ class TimeFormatHelper {
         milliseconds: (duration * (1 - (progressPercent / 100))).round());
 
     if (time.inMinutes < 1) {
-      return prettyDuration(time,
-          abbreviated: true, tersity: DurationTersity.second);
+      return prettyDuration(
+        time,
+        abbreviated: true,
+        tersity: DurationTersity.second,
+      );
     } else {
-      return prettyDuration(time,
-          abbreviated: true, tersity: DurationTersity.minute);
+      return prettyDuration(
+        time,
+        abbreviated: true,
+        tersity: DurationTersity.minute,
+      );
     }
+  }
+
+  static String addedAgo(int addedAt) {
+    Moment moment = Moment.now();
+
+    return moment.from(DateTime.fromMillisecondsSinceEpoch(addedAt * 1000));
   }
 
   /// Converts a [Duration] to a `mm:ss` format.
