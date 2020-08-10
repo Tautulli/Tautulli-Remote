@@ -74,14 +74,16 @@ class AppDrawer extends StatelessWidget {
             //   title: Text('History'),
             //   onTap: () {},
             // ),
-            // ListTile(
-            //   leading: FaIcon(
-            //     FontAwesomeIcons.clock,
-            //     color: TautulliColorPalette.not_white,
-            //   ),
-            //   title: Text('Recently Added'),
-            //   onTap: () {},
-            // ),
+            ListTile(
+              leading: FaIcon(
+                FontAwesomeIcons.clock,
+                color: TautulliColorPalette.not_white,
+              ),
+              title: Text('Recently Added'),
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed('/recent');
+              },
+            ),
             // ListTile(
             //   leading: FaIcon(
             //     FontAwesomeIcons.photoVideo,

@@ -11,6 +11,7 @@ import 'features/logging/presentation/pages/logs_page.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 import 'features/privacy/presentation/pages/privacy_page.dart';
+import 'features/recent/presentation/pages/recently_added_page.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 
 class TautulliRemote extends StatefulWidget {
@@ -119,6 +120,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
           cardColor: PlexColorPalette.shark),
       routes: {
         ActivityPage.routeName: (ctx) => ActivityPage(),
+        RecentlyAddedPage.routeName: (ctx) => RecentlyAddedPage(),
         SettingsPage.routeName: (ctx) => SettingsPage(),
         PrivacyPage.routeName: (ctx) => PrivacyPage(),
         LogsPage.routeName: (ctx) => LogsPage(),
