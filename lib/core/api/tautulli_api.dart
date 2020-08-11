@@ -132,9 +132,11 @@ class TautulliApiImpl implements TautulliApi {
       if (isNotEmpty(secondaryConnectionAddress)) {
         try {
           if (primaryActive) {
-            logging.warning('ConnectionHandler: Primary connection failed switching to secondary');
+            logging.warning(
+                'ConnectionHandler: Primary connection failed switching to secondary');
           } else {
-            logging.warning('ConnectionHandler: Secondary connection failed switching to primary');
+            logging.warning(
+                'ConnectionHandler: Secondary connection failed switching to primary');
           }
           primaryActive = !primaryActive;
 
@@ -202,13 +204,8 @@ class TautulliApiImpl implements TautulliApi {
         uri = Uri.https('$connectionDomain', '$connectionPath/api/v2', params);
     }
 
-    //* Return URI for pmsImageProxy if URI is good
+    //* Return URI for pmsImageProxy
     if (cmd == 'pms_image_proxy') {
-      // final uriCheck = await client.head(uri);
-      // if (uriCheck.statusCode != 200 ||
-      //     uriCheck.headers['content-type'].contains('image') == false) {
-      //   throw ServerException();
-      // }
       return uri;
     }
 
