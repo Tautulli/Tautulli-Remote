@@ -4,7 +4,6 @@ class RecentItemModel extends RecentItem {
   RecentItemModel({
     final int addedAt,
     final String art,
-    String backgroundUrl,
     final int childCount,
     final int grandparentRatingKey,
     final String grandparentThumb,
@@ -25,7 +24,6 @@ class RecentItemModel extends RecentItem {
   }) : super(
           addedAt: addedAt,
           art: art,
-          backgroundUrl: backgroundUrl,
           childCount: childCount,
           grandparentRatingKey: grandparentRatingKey,
           grandparentThumb: grandparentThumb,

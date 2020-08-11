@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 class RecentItem extends Equatable {
   final int addedAt;
   final String art;
-  String backgroundUrl;
   final int childCount;
   final int grandparentRatingKey;
   final String grandparentThumb;
@@ -25,7 +24,6 @@ class RecentItem extends Equatable {
   RecentItem({
     this.addedAt,
     this.art,
-    this.backgroundUrl,
     this.childCount,
     this.grandparentRatingKey,
     this.grandparentThumb,
@@ -50,7 +48,6 @@ class RecentItem extends Equatable {
   List<Object> get props => [
         addedAt,
         art,
-        backgroundUrl,
         childCount,
         grandparentRatingKey,
         grandparentThumb,

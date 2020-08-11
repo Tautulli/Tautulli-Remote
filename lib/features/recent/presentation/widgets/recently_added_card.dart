@@ -24,7 +24,7 @@ class RecentlyAddedCard extends StatelessWidget {
           padding: const EdgeInsets.all(4),
           child: Stack(
             children: [
-              BackgroundImage(url: recentItem.backgroundUrl),
+              BackgroundImage(url: recentItem.posterUrl),
               BackdropFilter(
                 filter: ImageFilter.blur(
                   sigmaX: 25,

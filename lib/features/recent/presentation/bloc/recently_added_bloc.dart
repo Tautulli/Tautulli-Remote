@@ -127,7 +127,6 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
       String posterImg;
       int posterRatingKey;
       String posterFallback;
-      String backgroundImg;
 
       // Assign values for poster URL
       switch (recentItem.mediaType) {
@@ -155,15 +154,6 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           posterRatingKey = recentItem.ratingKey;
       }
 
-      // Assign values for background URL
-      switch (recentItem.mediaType) {
-        case ('photo'):
-          backgroundImg = recentItem.thumb;
-          break;
-        default:
-          backgroundImg = recentItem.art;
-      }
-
       // Attempt to get poster URL
       final failureOrPosterUrl = await getImageUrl(
         tautulliId: tautulliId,
@@ -178,23 +168,6 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         },
         (url) {
           recentItem.posterUrl = url;
-        },
-      );
-
-      // Attempt to get background art URL
-      final failureOrBackgroundUrl = await getImageUrl(
-        tautulliId: tautulliId,
-        img: backgroundImg,
-        ratingKey: recentItem.ratingKey,
-        fallback: 'art',
-      );
-      failureOrBackgroundUrl.fold(
-        (failure) {
-          logging.warning(
-              'RecentlyAdded: Failed to load background art for rating key: ${recentItem.ratingKey}');
-        },
-        (url) {
-          recentItem.backgroundUrl = url;
         },
       );
     }
