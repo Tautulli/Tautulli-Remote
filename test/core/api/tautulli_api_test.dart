@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
 import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
 import 'package:tautulli_remote_tdd/core/error/exception.dart';
+import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
 import 'package:matcher/matcher.dart';
 
@@ -15,17 +16,22 @@ class MockHttpClient extends Mock implements http.Client {}
 
 class MockSettings extends Mock implements Settings {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   TautulliApiImpl tautulliApi;
   MockHttpClient mockHttpClient;
   MockSettings mockSettings;
+  MockLogging mockLogging;
 
   setUp(() {
     mockHttpClient = MockHttpClient();
     mockSettings = MockSettings();
+    mockLogging = MockLogging();
     tautulliApi = TautulliApiImpl(
       client: mockHttpClient,
       settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -43,6 +49,7 @@ void main() {
     deviceToken: 'abc',
     tautulliId: 'jkl',
     plexName: 'Plex',
+    primaryActive: true,
   );
 
   group('connectionHandler', () {
@@ -80,6 +87,7 @@ void main() {
           deviceToken: 'abc',
           plexName: null,
           tautulliId: null,
+          primaryActive: true,
         );
         when(mockSettings.getServerByTautulliId(any))
             .thenAnswer((_) async => tBadServerModel);
@@ -107,6 +115,7 @@ void main() {
           deviceToken: null,
           plexName: null,
           tautulliId: null,
+          primaryActive: true,
         );
         when(mockSettings.getServerByTautulliId(any))
             .thenAnswer((_) async => tBadServerModel);

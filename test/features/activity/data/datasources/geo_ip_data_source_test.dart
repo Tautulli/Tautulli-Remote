@@ -37,6 +37,7 @@ void main() {
     deviceToken: 'abc',
     plexName: 'Plex',
     tautulliId: 'jkl',
+    primaryActive: true,
   );
 
   final tIpAddress = '10.0.0.1';

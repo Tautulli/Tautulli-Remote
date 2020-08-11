@@ -50,6 +50,7 @@ void main() {
     deviceToken: tDeviceToken,
     tautulliId: tTautulliId,
     plexName: tPlexName,
+    primaryActive: true,
   );
 
   final List<ServerModel> tServerList = [tServerModel];
@@ -126,6 +127,7 @@ void main() {
             deviceToken: tDeviceToken,
             tautulliId: tTautulliId,
             plexName: tPlexName,
+            primaryActive: true,
           ),
         );
         // assert
@@ -135,6 +137,7 @@ void main() {
             deviceToken: tDeviceToken,
             tautulliId: tTautulliId,
             plexName: tPlexName,
+            primaryActive: true,
           ),
         );
       },
@@ -190,6 +193,7 @@ void main() {
             deviceToken: tDeviceToken,
             tautulliId: tTautulliId,
             plexName: tPlexName,
+            primaryActive: true,
           ),
         );
         // assert
@@ -201,6 +205,7 @@ void main() {
             deviceToken: tDeviceToken,
             tautulliId: tTautulliId,
             plexName: tPlexName,
+            primaryActive: true,
           ),
         );
       },

@@ -49,6 +49,7 @@ void main() {
     deviceToken: 'abc',
     tautulliId: 'jkl',
     plexName: 'Plex',
+    primaryActive: true,
   );
 
   final serverModelTwo = ServerModel(
@@ -63,6 +64,7 @@ void main() {
     deviceToken: 'abc',
     tautulliId: 'jkl',
     plexName: 'Plex',
+    primaryActive: true,
   );
 
   List<ServerModel> tServerList = [serverModelOne];
@@ -129,6 +131,7 @@ void main() {
               deviceToken: serverModelOne.deviceToken,
               tautulliId: null,
               plexName: null,
+              primaryActive: true,
             ),
           ],
         );
@@ -153,6 +156,7 @@ void main() {
               deviceToken: null,
               tautulliId: serverModelOne.tautulliId,
               plexName: serverModelOne.plexName,
+              primaryActive: true,
             ),
           ],
         );

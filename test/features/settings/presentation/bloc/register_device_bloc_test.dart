@@ -69,6 +69,7 @@ void main() {
     deviceToken: tDeviceToken,
     tautulliId: tTautulliId,
     plexName: tPlexName,
+    primaryActive: true,
   );
 
   Map responseMap = {

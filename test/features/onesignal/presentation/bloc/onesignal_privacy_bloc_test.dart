@@ -46,6 +46,7 @@ void main() {
     deviceToken: 'abc',
     tautulliId: 'jkl',
     plexName: 'Plex',
+    primaryActive: true,
   );
 
   final List<Server> tServerList = [tServerModel];
