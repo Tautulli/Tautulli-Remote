@@ -255,4 +255,29 @@ void main() {
       verifyNoMoreInteractions(mockSettingsRepository);
     },
   );
+
+  test(
+    'getLastSelectedServer should get refresh rate from settings',
+    () async {
+      // arrange
+      when(mockSettingsRepository.getLastSelectedServer()).thenAnswer((_) async => tTautulliId);
+      // act
+      final result = await settings.getLastSelectedServer();
+      // assert
+      expect(result, equals(tTautulliId));
+      verify(mockSettingsRepository.getLastSelectedServer());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setLastSelectedServer should forward request to the repository',
+    () async {
+      // act
+      await settings.setLastSelectedServer(tTautulliId);
+      // assert
+      verify(mockSettingsRepository.setLastSelectedServer(tTautulliId));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
 }

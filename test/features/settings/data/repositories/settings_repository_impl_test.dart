@@ -25,6 +25,7 @@ void main() {
 
   final int tServerTimeout = 3;
   final int tRefreshRate = 5;
+  final String tTautulliId = 'jkl';
 
   group('Server Timeout', () {
     test(
@@ -72,6 +73,31 @@ void main() {
         await repository.setRefreshRate(tRefreshRate);
         // assert
         verify(mockSettingsDataSource.setRefreshRate(tRefreshRate));
+      },
+    );
+  });
+
+   group('Last Selected Server', () {
+    test(
+      'should return the last selected server from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getLastSelectedServer())
+            .thenAnswer((_) async => tTautulliId);
+        // act
+        final result = await repository.getLastSelectedServer();
+        // assert
+        expect(result, equals(tTautulliId));
+      },
+    );
+
+    test(
+      'should formward the call to the data source to set last selected server',
+      () async {
+        // act
+        await repository.setLastSelectedServer(tTautulliId);
+        // assert
+        verify(mockSettingsDataSource.setLastSelectedServer(tTautulliId));
       },
     );
   });

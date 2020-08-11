@@ -123,4 +123,12 @@ class Settings {
   Future<bool> setRefreshRate(int value) async {
     return repository.setRefreshRate(value);
   }
+
+  Future<String> getLastSelectedServer() async {
+    return await repository.getLastSelectedServer();
+  }
+
+  Future<bool> setLastSelectedServer(String tautulliId) async {
+    return repository.setLastSelectedServer(tautulliId);
+  }
 }

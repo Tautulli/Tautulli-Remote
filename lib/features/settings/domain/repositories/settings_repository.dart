@@ -60,4 +60,8 @@ abstract class SettingsRepository {
   Future<int> getRefreshRate();
 
   Future<bool> setRefreshRate(int value);
+
+  Future<String> getLastSelectedServer();
+
+  Future<bool> setLastSelectedServer(String tautulliId);
 }

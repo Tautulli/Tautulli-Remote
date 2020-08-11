@@ -59,8 +59,7 @@ void main() {
       'should return int from settings',
       () async {
         // arrange
-        when(mockSharedPreferences.getInt(SETTINGS_REFRESH_RATE))
-            .thenReturn(3);
+        when(mockSharedPreferences.getInt(SETTINGS_REFRESH_RATE)).thenReturn(3);
         // act
         final serverTimeout = await dataSource.getRefreshRate();
         // assert
@@ -89,6 +88,44 @@ void main() {
         await dataSource.setRefreshRate(3);
         // assert
         verify(mockSharedPreferences.setInt(SETTINGS_REFRESH_RATE, 3));
+      },
+    );
+  });
+
+  group('Last Selected Server', () {
+    test(
+      'should return String from settings',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getString(LAST_SELECTED_SERVER)).thenReturn('jkl');
+        // act
+        final serverTimeout = await dataSource.getLastSelectedServer();
+        // assert
+        verify(mockSharedPreferences.getString(LAST_SELECTED_SERVER));
+        expect(serverTimeout, equals('jkl'));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getString(LAST_SELECTED_SERVER))
+            .thenReturn(null);
+        // act
+        final serverTimeout = await dataSource.getLastSelectedServer();
+        // assert
+        expect(serverTimeout, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the last selected server',
+      () async {
+        // act
+        await dataSource.setLastSelectedServer('jkl');
+        // assert
+        verify(mockSharedPreferences.setString(LAST_SELECTED_SERVER, 'jkl'));
       },
     );
   });

@@ -200,4 +200,15 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<bool> setRefreshRate(int value) async {
     return dataSource.setRefreshRate(value);
   }
+
+  @override
+  Future<String> getLastSelectedServer() async {
+    final lastSelectedServer = await dataSource.getLastSelectedServer();
+    return lastSelectedServer;
+  }
+
+  @override
+  Future<bool> setLastSelectedServer(String tautulliId) async {
+    return dataSource.setLastSelectedServer(tautulliId);
+  }
 }

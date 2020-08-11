@@ -63,6 +63,8 @@ void main() {
     when(mockSettings.getServerTimeout())
         .thenAnswer((_) async => tServerTimeout);
     when(mockSettings.getRefreshRate()).thenAnswer((_) async => tRefreshRate);
+    when(mockSettings.getLastSelectedServer())
+        .thenAnswer((_) async => tTautulliId);
   }
 
   test(
@@ -99,6 +101,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            lastSelectedServer: tTautulliId,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -154,6 +157,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            lastSelectedServer: tTautulliId,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -222,6 +226,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            lastSelectedServer: tTautulliId,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -263,6 +268,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            lastSelectedServer: tTautulliId,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -310,6 +316,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            lastSelectedServer: tTautulliId,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -362,6 +369,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            lastSelectedServer: tTautulliId,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -414,6 +422,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            lastSelectedServer: tTautulliId,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));

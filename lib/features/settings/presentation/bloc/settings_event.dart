@@ -112,6 +112,15 @@ class SettingsUpdateRefreshRate extends SettingsEvent {
   List<Object> get props => [refreshRate];
 }
 
+class SettingsUpdateLastSelectedServer extends SettingsEvent {
+  final String tautulliId;
+
+  SettingsUpdateLastSelectedServer({@required this.tautulliId});
+
+  @override
+  List<Object> get props => [tautulliId];
+}
+
 class SettingsDeleteServer extends SettingsEvent {
   final int id;
 

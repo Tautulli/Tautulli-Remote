@@ -18,13 +18,20 @@ class SettingsLoadSuccess extends SettingsState {
   final List<ServerModel> serverList;
   final int serverTimeout;
   final int refreshRate;
+  final String lastSelectedServer;
 
   SettingsLoadSuccess({
     @required this.serverList,
     @required this.serverTimeout,
     @required this.refreshRate,
+    @required this.lastSelectedServer,
   });
 
   @override
-  List<Object> get props => [serverList, serverTimeout, refreshRate];
+  List<Object> get props => [
+        serverList,
+        serverTimeout,
+        refreshRate,
+        lastSelectedServer,
+      ];
 }

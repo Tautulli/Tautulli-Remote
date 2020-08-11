@@ -85,10 +85,16 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       );
     }
     if (event is SettingsUpdateRefreshRate) {
-      yield* _mapSettingsSettingsUpdateRefreshRateToState(
+      yield* _mapSettingsUpdateRefreshRateToState(
         settings: settings,
         logging: logging,
         refreshRate: event.refreshRate,
+      );
+    }
+    if (event is SettingsUpdateLastSelectedServer) {
+      yield* _mapSettingsUpdateLastSelectedServerToState(
+        settings: settings,
+        tautulliId: event.tautulliId,
       );
     }
   }
@@ -202,7 +208,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     yield* _fetchAndYieldSettings(settings);
   }
 
-  Stream<SettingsState> _mapSettingsSettingsUpdateRefreshRateToState({
+  Stream<SettingsState> _mapSettingsUpdateRefreshRateToState({
     @required Logging logging,
     @required Settings settings,
     @required int refreshRate,
@@ -215,15 +221,25 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     yield* _fetchAndYieldSettings(settings);
   }
 
+  Stream<SettingsState> _mapSettingsUpdateLastSelectedServerToState({
+    @required Settings settings,
+    @required String tautulliId,
+  }) async* {
+    await settings.setLastSelectedServer(tautulliId);
+    yield* _fetchAndYieldSettings(settings);
+  }
+
   Stream<SettingsState> _fetchAndYieldSettings(Settings settings) async* {
     final serverList = await settings.getAllServers();
     final serverTimeout = await settings.getServerTimeout();
     final refreshRate = await settings.getRefreshRate();
+    final lastSelectedServer = await settings.getLastSelectedServer();
 
     yield SettingsLoadSuccess(
       serverList: serverList,
       serverTimeout: serverTimeout,
       refreshRate: refreshRate,
+      lastSelectedServer: lastSelectedServer,
     );
   }
 }
