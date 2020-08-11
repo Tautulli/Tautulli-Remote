@@ -40,6 +40,8 @@ void main() {
   final tTautulliId = 'jkl';
   final tTautulliId2 = 'mno';
   final tCount = 10;
+  final tMediaType = 'all';
+  final tMediaType2 = 'movie';
 
   final List<RecentItem> tRecentList = [];
 
@@ -102,153 +104,264 @@ void main() {
   );
 
   group('RecentlyAddedFetched', () {
-    test(
-      'should get data from GetRecentlyAdded use case',
-      () async {
-        // arrange
-        setUpSuccess();
-        // act
-        bloc.add(RecentlyAddedFetched(tautulliId: tTautulliId));
-        await untilCalled(mockGetRecentlyAdded(
-          tautulliId: anyNamed('tautulliId'),
-          count: anyNamed('count'),
-          start: anyNamed('start'),
-          mediaType: anyNamed('mediaType'),
-          sectionId: anyNamed('sectionId'),
-        ));
-        // assert
-        verify(
-          mockGetRecentlyAdded(
+    group('media type is all', () {
+      test(
+        'should get data from GetRecentlyAdded use case',
+        () async {
+          // arrange
+          setUpSuccess();
+          // act
+          bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
-            count: tCount,
-          ),
-        );
-      },
-    );
-
-    test(
-      'should get data from the GetImageUrl use case',
-      () async {
-        // arrange
-        setUpSuccess();
-        // act
-        bloc.add(RecentlyAddedFetched(tautulliId: tTautulliId));
-        await untilCalled(
-          mockGetImageUrl(
-            tautulliId: anyNamed('tautulliId'),
-            img: anyNamed('img'),
-            ratingKey: anyNamed('ratingKey'),
-            fallback: anyNamed('fallback'),
-          ),
-        );
-        // assert
-        verify(
-          mockGetImageUrl(
-            tautulliId: anyNamed('tautulliId'),
-            img: anyNamed('img'),
-            ratingKey: anyNamed('ratingKey'),
-            fallback: anyNamed('fallback'),
-          ),
-        );
-      },
-    );
-
-    test(
-      'should emit [RecentlyAddedSuccess] with hasReachedMax as false when data is fetched successfully',
-      () async {
-        // arrange
-        setUpSuccess();
-        // assert later
-        final expected = [
-          RecentlyAddedSuccess(
-            list: tRecentList,
-            hasReachedMax: false,
-          ),
-        ];
-        expectLater(bloc, emitsInOrder(expected));
-        // act
-        bloc.add(RecentlyAddedFetched(tautulliId: tTautulliId));
-      },
-    );
-
-    test(
-      'should emit [RecentlyAddedFailure] with a proper message when getting data fails',
-      () async {
-        // arrange
-        final failure = ServerFailure();
-        when(
-          mockGetRecentlyAdded(
+            mediaType: tMediaType,
+          ));
+          await untilCalled(mockGetRecentlyAdded(
             tautulliId: anyNamed('tautulliId'),
             count: anyNamed('count'),
             start: anyNamed('start'),
             mediaType: anyNamed('mediaType'),
             sectionId: anyNamed('sectionId'),
-          ),
-        ).thenAnswer((_) async => Left(failure));
-        // assert later
-        final expected = [
-          RecentlyAddedFailure(
-            failure: failure,
-            message: SERVER_FAILURE_MESSAGE,
-            suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
-          ),
-        ];
-        expectLater(bloc, emitsInOrder(expected));
-        // act
-        bloc.add(RecentlyAddedFetched(tautulliId: tTautulliId));
-      },
-    );
+          ));
+          // assert
+          verify(
+            mockGetRecentlyAdded(
+              tautulliId: tTautulliId,
+              count: 50,
+            ),
+          );
+        },
+      );
 
-    test(
-      'when state is [RecentlyAddedSuccess] should emit [RecentlyAddedSuccess] with hasReachedMax as false when data is fetched successfully',
-      () async {
-        // arrange
-        setUpSuccess();
-        bloc.emit(
-          RecentlyAddedSuccess(
-            list: tRecentList,
-            hasReachedMax: false,
-          ),
-        );
-        // assert later
-        final expected = [
-          RecentlyAddedSuccess(
-            list: tRecentList + tRecentList,
-            hasReachedMax: false,
-          ),
-        ];
-        expectLater(bloc, emitsInOrder(expected));
-        // act
-        bloc.add(RecentlyAddedFetched(tautulliId: tTautulliId));
-      },
-    );
+      test(
+        'should get data from the GetImageUrl use case',
+        () async {
+          // arrange
+          setUpSuccess();
+          // act
+          bloc.add(RecentlyAddedFetched(
+            tautulliId: tTautulliId,
+            mediaType: tMediaType2,
+          ));
+          await untilCalled(
+            mockGetImageUrl(
+              tautulliId: anyNamed('tautulliId'),
+              img: anyNamed('img'),
+              ratingKey: anyNamed('ratingKey'),
+              fallback: anyNamed('fallback'),
+            ),
+          );
+          // assert
+          verify(
+            mockGetImageUrl(
+              tautulliId: anyNamed('tautulliId'),
+              img: anyNamed('img'),
+              ratingKey: anyNamed('ratingKey'),
+              fallback: anyNamed('fallback'),
+            ),
+          );
+        },
+      );
 
-    test(
-      'when state is [RecentlyAddedSuccess] should emit [RecentlyAddedSuccess] with hasReachedMax as true when data is fetched successfully and empty',
-      () async {
-        // arrange
-        setUpEmptySuccess();
-        bloc.emit(
-          RecentlyAddedSuccess(
-            list: tRecentList,
-            hasReachedMax: false,
-          ),
-        );
-        // assert later
-        final expected = [
-          RecentlyAddedSuccess(
-            list: tRecentList,
-            hasReachedMax: true,
-          ),
-        ];
-        expectLater(bloc, emitsInOrder(expected));
-        // act
-        bloc.add(RecentlyAddedFetched(tautulliId: tTautulliId));
-      },
-    );
+      test(
+        'should emit [RecentlyAddedFailure] with a proper message when getting data fails',
+        () async {
+          // arrange
+          final failure = ServerFailure();
+          when(
+            mockGetRecentlyAdded(
+              tautulliId: anyNamed('tautulliId'),
+              count: anyNamed('count'),
+              start: anyNamed('start'),
+              mediaType: anyNamed('mediaType'),
+              sectionId: anyNamed('sectionId'),
+            ),
+          ).thenAnswer((_) async => Left(failure));
+          // assert later
+          final expected = [
+            RecentlyAddedFailure(
+              failure: failure,
+              message: SERVER_FAILURE_MESSAGE,
+              suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
+            ),
+          ];
+          expectLater(bloc, emitsInOrder(expected));
+          // act
+          bloc.add(RecentlyAddedFetched(
+            tautulliId: tTautulliId,
+            mediaType: tMediaType2,
+          ));
+        },
+      );
+    });
+
+    group('media type is movie, show, artist, other_video', () {
+      test(
+        'should get data from GetRecentlyAdded use case',
+        () async {
+          // arrange
+          setUpSuccess();
+          // act
+          bloc.add(RecentlyAddedFetched(
+            tautulliId: tTautulliId,
+            mediaType: tMediaType2,
+          ));
+          await untilCalled(mockGetRecentlyAdded(
+            tautulliId: anyNamed('tautulliId'),
+            count: anyNamed('count'),
+            start: anyNamed('start'),
+            mediaType: anyNamed('mediaType'),
+            sectionId: anyNamed('sectionId'),
+          ));
+          // assert
+          verify(
+            mockGetRecentlyAdded(
+              tautulliId: tTautulliId,
+              count: tCount,
+              mediaType: tMediaType2,
+            ),
+          );
+        },
+      );
+
+      test(
+        'should get data from the GetImageUrl use case',
+        () async {
+          // arrange
+          setUpSuccess();
+          // act
+          bloc.add(RecentlyAddedFetched(
+            tautulliId: tTautulliId,
+            mediaType: tMediaType2,
+          ));
+          await untilCalled(
+            mockGetImageUrl(
+              tautulliId: anyNamed('tautulliId'),
+              img: anyNamed('img'),
+              ratingKey: anyNamed('ratingKey'),
+              fallback: anyNamed('fallback'),
+            ),
+          );
+          // assert
+          verify(
+            mockGetImageUrl(
+              tautulliId: anyNamed('tautulliId'),
+              img: anyNamed('img'),
+              ratingKey: anyNamed('ratingKey'),
+              fallback: anyNamed('fallback'),
+            ),
+          );
+        },
+      );
+
+      test(
+        'should emit [RecentlyAddedSuccess] with hasReachedMax as false when data is fetched successfully',
+        () async {
+          // arrange
+          setUpSuccess();
+          // assert later
+          final expected = [
+            RecentlyAddedSuccess(
+              list: tRecentList,
+              hasReachedMax: false,
+            ),
+          ];
+          expectLater(bloc, emitsInOrder(expected));
+          // act
+          bloc.add(RecentlyAddedFetched(
+            tautulliId: tTautulliId,
+            mediaType: tMediaType2,
+          ));
+        },
+      );
+
+      test(
+        'should emit [RecentlyAddedFailure] with a proper message when getting data fails',
+        () async {
+          // arrange
+          final failure = ServerFailure();
+          when(
+            mockGetRecentlyAdded(
+              tautulliId: anyNamed('tautulliId'),
+              count: anyNamed('count'),
+              start: anyNamed('start'),
+              mediaType: anyNamed('mediaType'),
+              sectionId: anyNamed('sectionId'),
+            ),
+          ).thenAnswer((_) async => Left(failure));
+          // assert later
+          final expected = [
+            RecentlyAddedFailure(
+              failure: failure,
+              message: SERVER_FAILURE_MESSAGE,
+              suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
+            ),
+          ];
+          expectLater(bloc, emitsInOrder(expected));
+          // act
+          bloc.add(RecentlyAddedFetched(
+            tautulliId: tTautulliId,
+            mediaType: tMediaType2,
+          ));
+        },
+      );
+
+      test(
+        'when state is [RecentlyAddedSuccess] should emit [RecentlyAddedSuccess] with hasReachedMax as false when data is fetched successfully',
+        () async {
+          // arrange
+          setUpSuccess();
+          bloc.emit(
+            RecentlyAddedSuccess(
+              list: tRecentList,
+              hasReachedMax: false,
+            ),
+          );
+          // assert later
+          final expected = [
+            RecentlyAddedSuccess(
+              list: tRecentList + tRecentList,
+              hasReachedMax: false,
+            ),
+          ];
+          expectLater(bloc, emitsInOrder(expected));
+          // act
+          bloc.add(RecentlyAddedFetched(
+            tautulliId: tTautulliId,
+            mediaType: tMediaType2,
+          ));
+        },
+      );
+
+      test(
+        'when state is [RecentlyAddedSuccess] should emit [RecentlyAddedSuccess] with hasReachedMax as true when data is fetched successfully and empty',
+        () async {
+          // arrange
+          setUpEmptySuccess();
+          bloc.emit(
+            RecentlyAddedSuccess(
+              list: tRecentList,
+              hasReachedMax: false,
+            ),
+          );
+          // assert later
+          final expected = [
+            RecentlyAddedSuccess(
+              list: tRecentList,
+              hasReachedMax: true,
+            ),
+          ];
+          expectLater(bloc, emitsInOrder(expected));
+          // act
+          bloc.add(RecentlyAddedFetched(
+            tautulliId: tTautulliId,
+            mediaType: tMediaType2,
+          ));
+        },
+      );
+    });
   });
 
-  group('RecentlyAddedLoadNewServer', () {
+  group('RecentlyAddedFilter', () {
     test(
       'should emit [RecentlyAddedInitial] before executing as normal',
       () async {
@@ -264,7 +377,10 @@ void main() {
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(RecentlyAddedLoadNewServer(tautulliId: tTautulliId2));
+        bloc.add(RecentlyAddedFilter(
+          tautulliId: tTautulliId2,
+          mediaType: tMediaType2,
+        ));
       },
     );
   });
