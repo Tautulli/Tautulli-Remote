@@ -19,6 +19,7 @@ class RecentlyAddedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ClipRRect(
+        borderRadius: BorderRadius.circular(4),
         child: Container(
           height: 100,
           padding: const EdgeInsets.all(4),

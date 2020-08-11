@@ -148,7 +148,6 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (maxScroll - currentScroll <= _scrollThreshold) {
-      print('triggered');
       _recentlyAddedBloc.add(RecentlyAddedFetched(tautulliId: tautulliId));
     }
   }
