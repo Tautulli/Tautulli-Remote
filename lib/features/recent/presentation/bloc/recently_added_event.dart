@@ -6,18 +6,26 @@ abstract class RecentlyAddedEvent extends Equatable {
 
 class RecentlyAddedFetched extends RecentlyAddedEvent {
   final String tautulliId;
+  final String mediaType;
 
-  RecentlyAddedFetched({@required this.tautulliId});
+  RecentlyAddedFetched({
+    @required this.tautulliId,
+    @required this.mediaType,
+  });
 
   @override
-  List<Object> get props => [tautulliId];
+  List<Object> get props => [tautulliId, mediaType];
 }
 
-class RecentlyAddedLoadNewServer extends RecentlyAddedEvent {
+class RecentlyAddedFilter extends RecentlyAddedEvent {
   final String tautulliId;
+  final String mediaType;
 
-  RecentlyAddedLoadNewServer({@required this.tautulliId});
+  RecentlyAddedFilter({
+    @required this.tautulliId,
+    @required this.mediaType,
+  });
 
   @override
-  List<Object> get props => [tautulliId];
+  List<Object> get props => [tautulliId, mediaType];
 }

@@ -45,25 +45,73 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
 
     if (event is RecentlyAddedFetched && !_hasReachedMax(currentState)) {
       if (currentState is RecentlyAddedInitial) {
-        yield* _fetchInitial(event.tautulliId);
+        if (event.mediaType == 'all') {
+          yield* _fetchFixed(
+            tautulliId: event.tautulliId,
+          );
+        } else {
+          yield* _fetchInitial(
+            tautulliId: event.tautulliId,
+            mediaType: event.mediaType,
+          );
+        }
       }
       if (currentState is RecentlyAddedSuccess) {
         yield* _fetchMore(
           tautulliId: event.tautulliId,
           currentState: currentState,
+          mediaType: event.mediaType,
         );
       }
     }
-    if (event is RecentlyAddedLoadNewServer) {
+    if (event is RecentlyAddedFilter) {
       yield RecentlyAddedInitial();
-      yield* _fetchInitial(event.tautulliId);
+      if (event.mediaType == 'all') {
+        yield* _fetchFixed(tautulliId: event.tautulliId);
+      } else {
+        yield* _fetchInitial(
+          tautulliId: event.tautulliId,
+          mediaType: event.mediaType,
+        );
+      }
     }
   }
 
-  Stream<RecentlyAddedState> _fetchInitial(String tautulliId) async* {
+  Stream<RecentlyAddedState> _fetchFixed({
+    @required String tautulliId,
+  }) async* {
+    final recentListOrFailure = await recentlyAdded(
+      tautulliId: tautulliId,
+      count: 50,
+    );
+
+    yield* recentListOrFailure.fold(
+      (failure) async* {
+        yield RecentlyAddedFailure(
+          failure: failure,
+          message: FailureMapperHelper().mapFailureToMessage(failure),
+          suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
+        );
+      },
+      (list) async* {
+        await _getImages(list: list, tautulliId: tautulliId);
+
+        yield RecentlyAddedSuccess(
+          list: list,
+          hasReachedMax: true,
+        );
+      },
+    );
+  }
+
+  Stream<RecentlyAddedState> _fetchInitial({
+    @required String tautulliId,
+    String mediaType,
+  }) async* {
     final recentListOrFailure = await recentlyAdded(
       tautulliId: tautulliId,
       count: 10,
+      mediaType: mediaType,
     );
 
     yield* recentListOrFailure.fold(
@@ -88,11 +136,13 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
   Stream<RecentlyAddedState> _fetchMore({
     @required String tautulliId,
     @required RecentlyAddedSuccess currentState,
+    String mediaType,
   }) async* {
     final recentListOrFailure = await recentlyAdded(
       tautulliId: tautulliId,
-      count: 20,
+      count: 15,
       start: currentState.list.length,
+      mediaType: mediaType,
     );
 
     yield* recentListOrFailure.fold(
@@ -106,14 +156,14 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
       (list) async* {
         if (list.isEmpty) {
           yield currentState.copyWith(hasReachedMax: true);
+        } else {
+          await _getImages(list: list, tautulliId: tautulliId);
+
+          yield RecentlyAddedSuccess(
+            list: currentState.list + list,
+            hasReachedMax: false,
+          );
         }
-
-        await _getImages(list: list, tautulliId: tautulliId);
-
-        yield RecentlyAddedSuccess(
-          list: currentState.list + list,
-          hasReachedMax: false,
-        );
       },
     );
   }
