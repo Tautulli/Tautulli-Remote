@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tautulli_remote_tdd/core/helpers/color_palette_helper.dart';
 
+import '../../../../core/database/domain/entities/server.dart';
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/server_header.dart';
@@ -53,9 +54,27 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
     final state = _settingsBloc.state;
 
     if (state is SettingsLoadSuccess) {
-      setState(() {
-        tautulliId = state.serverList[0].tautulliId;
-      });
+      String lastSelectedServer;
+
+      if (state.lastSelectedServer != null) {
+        for (Server server in state.serverList) {
+          if (server.tautulliId == state.lastSelectedServer) {
+            lastSelectedServer = state.lastSelectedServer;
+            break;
+          }
+        }
+      }
+
+      if (lastSelectedServer != null) {
+        setState(() {
+          tautulliId = lastSelectedServer;
+        });
+      } else {
+        setState(() {
+          tautulliId = state.serverList[0].tautulliId;
+        });
+      }
+
       _recentlyAddedBloc.add(RecentlyAddedFetched(
         tautulliId: tautulliId,
         mediaType: _mediaType,
@@ -78,13 +97,15 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                   : Theme.of(context).accentColor,
             ),
             onSelected: (value) {
-              setState(() {
-                _mediaType = value;
-              });
-              _recentlyAddedBloc.add(RecentlyAddedFilter(
-                tautulliId: tautulliId,
-                mediaType: _mediaType,
-              ));
+              if (_mediaType != value) {
+                setState(() {
+                  _mediaType = value;
+                });
+                _recentlyAddedBloc.add(RecentlyAddedFilter(
+                  tautulliId: tautulliId,
+                  mediaType: _mediaType,
+                ));
+              }
             },
             itemBuilder: (context) {
               return [
@@ -172,6 +193,8 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                             tautulliId = value;
                             _mediaType = 'all';
                           });
+                          _settingsBloc.add(SettingsUpdateLastSelectedServer(
+                              tautulliId: tautulliId));
                           _recentlyAddedBloc.add(RecentlyAddedFilter(
                             tautulliId: value,
                             mediaType: _mediaType,
