@@ -172,10 +172,8 @@ class _ActivityCardState extends State<ActivityCard> {
               elevation: 2,
               // ClipRRect prevents the ImageFilter from affecting the parents (slidable)
               child: ClipRRect(
-                child: Container(
+                child: SizedBox(
                   height: 135,
-                  // Force background of card to not be white
-                  color: PlexColorPalette.shark,
                   child: Stack(
                     children: <Widget>[
                       //* Background art layer
