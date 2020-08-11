@@ -13,12 +13,14 @@ class Settings {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required bool primaryActive,
   }) {
     return repository.addServer(
       primaryConnectionAddress: primaryConnectionAddress,
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
+      primaryActive: primaryActive,
     );
   }
 
@@ -37,6 +39,7 @@ class Settings {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required bool primaryActive,
   }) {
     return repository.updateServerById(
       id: id,
@@ -45,6 +48,7 @@ class Settings {
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
+      primaryActive: primaryActive,
     );
   }
 
@@ -87,6 +91,20 @@ class Settings {
     return repository.updateDeviceToken(
       id: id,
       deviceToken: deviceToken,
+    );
+  }
+
+  Future getPrimaryActive(String tautulliId) async {
+    return await repository.getPrimaryActive(tautulliId);
+  }
+
+  Future updatePrimaryActive({
+    @required String tautulliId,
+    @required bool primaryActive,
+  }) {
+    return repository.updatePrimaryActive(
+      tautulliId: tautulliId,
+      primaryActive: primaryActive,
     );
   }
 

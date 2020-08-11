@@ -44,7 +44,8 @@ class DBProvider {
                     secondary_connection_protocol TEXT,
                     secondary_connection_domain TEXT,
                     secondary_connection_path TEXT,
-                    device_token TEXT
+                    device_token TEXT,
+                    primary_active INTEGER
                 )
             ''');
     });
@@ -100,7 +101,7 @@ class DBProvider {
     return result.isNotEmpty ? ServerModel.fromJson(result.first) : null;
   }
 
-  Future getServerByTautulliId(String tautulliId) async {
+  getServerByTautulliId(String tautulliId) async {
     final db = await database;
     var result = await db.query(
       'servers',
@@ -136,6 +137,33 @@ class DBProvider {
       {'device_token': deviceToken},
       where: 'id = ?',
       whereArgs: [id],
+    );
+
+    return result;
+  }
+
+  getPrimaryActive(String tautulliId) async {
+    final db = await database;
+    var result = await db.query(
+      'servers',
+      columns: ['primary_active'],
+      where: 'tautulli_id = ?',
+      whereArgs: [tautulliId],
+    );
+
+    return result;
+  }
+
+  updatePrimaryActive({
+    @required String tautulliId,
+    @required int primaryActive,
+  }) async {
+    final db = await database;
+    var result = await db.update(
+      'servers',
+      {'primary_active': primaryActive},
+      where: 'tautulli_id = ?',
+      whereArgs: [tautulliId],
     );
 
     return result;

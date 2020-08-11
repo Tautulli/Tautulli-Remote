@@ -8,6 +8,7 @@ abstract class SettingsRepository {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required bool primaryActive,
   });
 
   Future deleteServer(int id);
@@ -21,6 +22,7 @@ abstract class SettingsRepository {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required bool primaryActive,
   });
 
   Future<List<ServerModel>> getAllServers();
@@ -42,6 +44,13 @@ abstract class SettingsRepository {
   Future updateDeviceToken({
     @required int id,
     @required String deviceToken,
+  });
+
+  Future getPrimaryActive(String tautulliId);
+
+  Future updatePrimaryActive({
+    @required String tautulliId,
+    @required bool primaryActive,
   });
 
   Future<int> getServerTimeout();

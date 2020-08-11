@@ -112,6 +112,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
+      primaryActive: true,
     );
     yield* _fetchAndYieldSettings(settings);
   }
@@ -134,6 +135,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
+      primaryActive: true,
     );
     yield* _fetchAndYieldSettings(settings);
   }

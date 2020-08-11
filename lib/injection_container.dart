@@ -333,6 +333,7 @@ Future<void> init() async {
     () => TautulliApiImpl(
       client: sl(),
       settings: sl(),
+      logging: sl(),
     ),
   );
 

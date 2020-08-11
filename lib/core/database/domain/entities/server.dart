@@ -8,12 +8,13 @@ class Server extends Equatable {
   final String primaryConnectionAddress;
   final String primaryConnectionProtocol;
   final String primaryConnectionDomain;
-final String primaryConnectionPath;
+  final String primaryConnectionPath;
   final String secondaryConnectionAddress;
   final String secondaryConnectionProtocol;
   final String secondaryConnectionDomain;
-final String secondaryConnectionPath;
+  final String secondaryConnectionPath;
   final String deviceToken;
+  final bool primaryActive;
 
   Server({
     this.id,
@@ -28,6 +29,7 @@ final String secondaryConnectionPath;
     this.secondaryConnectionDomain,
     this.secondaryConnectionPath,
     @required this.deviceToken,
+    @required this.primaryActive,
   });
 
   @override
@@ -44,6 +46,7 @@ final String secondaryConnectionPath;
         secondaryConnectionDomain,
         secondaryConnectionPath,
         deviceToken,
+        primaryActive,
       ];
 
   @override

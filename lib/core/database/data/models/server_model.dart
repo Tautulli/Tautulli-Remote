@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:validators/sanitizers.dart';
 
 import '../../domain/entities/server.dart';
 
@@ -16,6 +17,7 @@ class ServerModel extends Server {
     String secondaryConnectionDomain,
     String secondaryConnectionPath,
     @required String deviceToken,
+    @required bool primaryActive,
   }) : super(
           id: id,
           plexName: plexName,
@@ -29,10 +31,13 @@ class ServerModel extends Server {
           secondaryConnectionDomain: secondaryConnectionDomain,
           secondaryConnectionPath: secondaryConnectionPath,
           deviceToken: deviceToken,
+          primaryActive: primaryActive,
         );
 
   // Create Settings from JSON data
   factory ServerModel.fromJson(Map<String, dynamic> json) {
+    bool primaryActiveBool = toBoolean(json['primary_active'].toString());
+
     return ServerModel(
       id: json['id'],
       plexName: json['plex_name'],
@@ -46,11 +51,23 @@ class ServerModel extends Server {
       secondaryConnectionDomain: json['secondary_connection_domain'],
       secondaryConnectionPath: json['secondary_connection_path'],
       deviceToken: json['device_token'],
+      primaryActive: primaryActiveBool,
     );
   }
 
   // Convert Settings to JSON to make it easier when we store it in the database
   Map<String, dynamic> toJson() {
+    int primaryActiveInt;
+
+    switch (primaryActive) {
+      case (false):
+        primaryActiveInt = 0;
+        break;
+      case (true):
+        primaryActiveInt = 1;
+        break;
+    }
+
     return {
       'id': id,
       'plex_name': plexName,
@@ -63,7 +80,8 @@ class ServerModel extends Server {
       'secondary_connection_protocol': secondaryConnectionProtocol,
       'secondary_connection_domain': secondaryConnectionDomain,
       'secondary_connection_path': secondaryConnectionPath,
-      'device_token': deviceToken
+      'device_token': deviceToken,
+      'primary_active': primaryActiveInt,
     };
   }
 }

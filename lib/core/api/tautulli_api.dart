@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 import 'package:quiver/strings.dart';
 
+import '../../features/logging/domain/usecases/logging.dart';
 import '../../features/settings/domain/usecases/settings.dart';
 import '../database/domain/entities/server.dart';
 import '../error/exception.dart';
@@ -28,7 +29,7 @@ abstract class TautulliApi {
     String img,
     int ratingKey,
     int width,
-    int height = 300,
+    int height,
     int opacity,
     int background,
     int blur,
@@ -53,10 +54,12 @@ abstract class TautulliApi {
 class TautulliApiImpl implements TautulliApi {
   final http.Client client;
   final Settings settings;
+  final Logging logging;
 
   TautulliApiImpl({
     @required this.client,
     @required this.settings,
+    @required this.logging,
   });
 
   /// Handles failing over to the secondary connection if needed.
@@ -74,6 +77,7 @@ class TautulliApiImpl implements TautulliApi {
     String secondaryConnectionProtocol;
     String secondaryConnectionDomain;
     String secondaryConnectionPath;
+    bool primaryActive;
 
     // If tautulliId is provided then query for existing server info
     if (tautulliId != null) {
@@ -86,6 +90,7 @@ class TautulliApiImpl implements TautulliApi {
       secondaryConnectionDomain = server.secondaryConnectionDomain;
       secondaryConnectionPath = server.secondaryConnectionPath;
       deviceToken = server.deviceToken;
+      primaryActive = server.primaryActive;
 
       // Verify server has primaryConnectionAddress and deviceToken
       if (isEmpty(server.primaryConnectionAddress) ||
@@ -101,31 +106,66 @@ class TautulliApiImpl implements TautulliApi {
       throw SettingsException();
     }
 
+    // If primaryActive has not been set default to true
+    if (primaryActive == null) {
+      primaryActive = true;
+    }
+
     var response;
 
-    // Attempt to connect using primary connection
+    // Attempt to connect using active connection
     try {
       response = await fetchTautulli(
-        connectionProtocol: primaryConnectionProtocol,
-        connectionDomain: primaryConnectionDomain,
-        connectionPath: primaryConnectionPath,
+        connectionProtocol: primaryActive
+            ? primaryConnectionProtocol
+            : secondaryConnectionProtocol,
+        connectionDomain:
+            primaryActive ? primaryConnectionDomain : secondaryConnectionDomain,
+        connectionPath:
+            primaryActive ? primaryConnectionPath : secondaryConnectionPath,
         deviceToken: deviceToken,
         cmd: cmd,
         params: params,
       );
     } catch (error) {
-      // If secondary connection configured try again with that address
+      // If secondary connection configured try again with the other connection
       if (isNotEmpty(secondaryConnectionAddress)) {
-        //? Does this need to be caught if we want the error to actually be thrown
-        //? Probably not
-        response = await fetchTautulli(
-          connectionProtocol: secondaryConnectionProtocol,
-          connectionDomain: secondaryConnectionDomain,
-          connectionPath: secondaryConnectionPath,
-          deviceToken: deviceToken,
-          cmd: cmd,
-          params: params,
-        );
+        try {
+          if (primaryActive) {
+            logging.warning('ConnectionHandler: Primary connection failed switching to secondary');
+          } else {
+            logging.warning('ConnectionHandler: Secondary connection failed switching to primary');
+          }
+          primaryActive = !primaryActive;
+
+          response = await fetchTautulli(
+            connectionProtocol: primaryActive
+                ? primaryConnectionProtocol
+                : secondaryConnectionProtocol,
+            connectionDomain: primaryActive
+                ? primaryConnectionDomain
+                : secondaryConnectionDomain,
+            connectionPath:
+                primaryActive ? primaryConnectionPath : secondaryConnectionPath,
+            deviceToken: deviceToken,
+            cmd: cmd,
+            params: params,
+          );
+
+          settings.updatePrimaryActive(
+            tautulliId: tautulliId,
+            primaryActive: primaryActive,
+          );
+        } catch (error) {
+          // If both connections failed set primary active to true and throw error
+          logging.warning('ConnectionHandler: Both connections failed');
+          settings.updatePrimaryActive(
+            tautulliId: tautulliId,
+            primaryActive: true,
+          );
+
+          throw error;
+        }
       } else {
         // Re-throw caught error if no secondary connection
         throw error;
@@ -164,11 +204,11 @@ class TautulliApiImpl implements TautulliApi {
 
     //* Return URI for pmsImageProxy if URI is good
     if (cmd == 'pms_image_proxy') {
-      final uriCheck = await client.head(uri);
-      if (uriCheck.statusCode != 200 ||
-          uriCheck.headers['content-type'].contains('image') == false) {
-        throw ServerException();
-      }
+      // final uriCheck = await client.head(uri);
+      // if (uriCheck.statusCode != 200 ||
+      //     uriCheck.headers['content-type'].contains('image') == false) {
+      //   throw ServerException();
+      // }
       return uri;
     }
 
@@ -261,25 +301,45 @@ class TautulliApiImpl implements TautulliApi {
     String img,
     int ratingKey,
     int width,
-    int height = 300,
+    int height,
     int opacity,
     int background,
     int blur,
     String fallback,
   }) async {
+    Map<String, String> params = {
+      'height': '300',
+    };
+
+    if (img != null) {
+      params['img'] = img;
+    }
+    if (ratingKey != null) {
+      params['rating_key'] = ratingKey.toString();
+    }
+    if (width != null) {
+      params['width'] = width.toString();
+    }
+    if (height != null) {
+      params['height'] = height.toString();
+    }
+    if (opacity != null) {
+      params['opacity'] = opacity.toString();
+    }
+    if (background != null) {
+      params['background'] = background.toString();
+    }
+    if (blur != null) {
+      params['blur'] = blur.toString();
+    }
+    if (fallback != null) {
+      params['fallback'] = fallback;
+    }
+
     final Uri uri = await connectionHandler(
       tautulliId: tautulliId,
       cmd: 'pms_image_proxy',
-      params: {
-        'img': img,
-        'rating_key': ratingKey.toString(),
-        'width': width.toString(),
-        'height': height.toString(),
-        'opacity': opacity.toString(),
-        'background': background.toString(),
-        'blur': blur.toString(),
-        'fallback': fallback,
-      },
+      params: params,
     );
     return uri.toString();
   }

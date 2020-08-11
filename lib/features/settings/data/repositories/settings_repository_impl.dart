@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:validators/sanitizers.dart';
 
 import '../../../../core/database/data/datasources/database.dart';
 import '../../../../core/database/data/models/server_model.dart';
@@ -21,6 +22,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required bool primaryActive,
   }) async {
     final connectionMap =
         connectionAddressHelper.parse(primaryConnectionAddress);
@@ -32,6 +34,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
+      primaryActive: primaryActive,
     );
     return await DBProvider.db.addServer(server);
   }
@@ -54,6 +57,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required bool primaryActive,
   }) async {
     final primaryConnectionMap =
         connectionAddressHelper.parse(primaryConnectionAddress);
@@ -72,6 +76,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
+      primaryActive: primaryActive,
     );
 
     return await DBProvider.db.updateServerById(server);
@@ -142,6 +147,35 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await DBProvider.db.updateDeviceToken(
       id: id,
       deviceToken: deviceToken,
+    );
+  }
+
+  @override
+  Future getPrimaryActive(String tautulliId) async {
+    final int result = await DBProvider.db.getPrimaryActive(tautulliId);
+
+    return toBoolean(result.toString());
+  }
+
+  @override
+  Future updatePrimaryActive({
+    @required String tautulliId,
+    @required bool primaryActive,
+  }) async {
+    int value;
+
+    switch (primaryActive) {
+      case (false):
+        value = 0;
+        break;
+      case (true):
+        value = 1;
+        break;
+    }
+
+    return await DBProvider.db.updatePrimaryActive(
+      tautulliId: tautulliId,
+      primaryActive: value,
     );
   }
 
