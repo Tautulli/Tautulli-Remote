@@ -191,8 +191,8 @@ class _ActivityCardState extends State<ActivityCard> {
                       // BackdropFilter for frosted glass effect
                       BackdropFilter(
                         filter: ImageFilter.blur(
-                          sigmaX: 8,
-                          sigmaY: 8,
+                          sigmaX: 25,
+                          sigmaY: 25,
                         ),
                         //* Foreground information layer
                         child: Column(

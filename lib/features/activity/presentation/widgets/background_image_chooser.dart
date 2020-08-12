@@ -14,7 +14,7 @@ class BackgroundImageChooser extends StatelessWidget {
   Widget build(BuildContext context) {
     return activity.live == 1
         ? _BackgroundImageLiveTv()
-        : _BackgroundImageGeneral(url: activity.backgroundUrl);
+        : _BackgroundImageGeneral(url: activity.posterUrl);
   }
 }
 

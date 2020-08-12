@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 
 import 'geo_ip.dart';
 
+//TODO: Remove background art code if we stick with poster for background
 class ActivityItem extends Equatable {
   final int sessionKey;
   final String sessionId;
@@ -76,7 +77,7 @@ class ActivityItem extends Equatable {
   final int year; // Release year
   GeoIpItem geoIpItem;
   String posterUrl;
-  String backgroundUrl;
+  // String backgroundUrl;
 
   ActivityItem({
     @required this.sessionKey,
@@ -150,7 +151,7 @@ class ActivityItem extends Equatable {
     this.year,
     this.geoIpItem,
     this.posterUrl,
-    this.backgroundUrl,
+    // this.backgroundUrl,
   });
 
   @override
@@ -225,7 +226,7 @@ class ActivityItem extends Equatable {
         year,
         geoIpItem,
         posterUrl,
-        backgroundUrl,
+        // backgroundUrl,
       ];
 
   @override
