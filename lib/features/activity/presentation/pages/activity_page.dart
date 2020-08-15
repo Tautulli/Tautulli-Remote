@@ -16,7 +16,7 @@ import '../../../terminate_session/presentation/bloc/terminate_session_bloc.dart
 import '../../domain/entities/activity.dart';
 import '../bloc/activity_bloc.dart';
 import '../widgets/activity_card.dart';
-import '../widgets/error_button.dart';
+import '../widgets/activity_error_button.dart';
 
 class ActivityPage extends StatelessWidget {
   const ActivityPage({Key key}) : super(key: key);
@@ -94,7 +94,7 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                   message: state.message,
                   suggestion: state.suggestion,
                 ),
-                ErrorButton(
+                ActivityErrorButton(
                   completer: _refreshCompleter,
                   failure: state.failure,
                 ),

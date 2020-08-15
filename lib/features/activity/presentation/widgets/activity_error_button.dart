@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/error/failure.dart';
 import '../bloc/activity_bloc.dart';
+import '../../../../core/error/failure.dart';
 
-class ErrorButton extends StatelessWidget {
+class ActivityErrorButton extends StatelessWidget {
   final Failure failure;
   final Completer completer;
 
-  const ErrorButton({
+  const ActivityErrorButton({
     Key key,
     @required this.failure,
     @required this.completer,
