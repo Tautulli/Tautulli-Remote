@@ -26,7 +26,7 @@ class TimeFormatHelper {
     }
   }
 
-  static String addedAgo(int addedAt) {
+  static String timeAgo(int addedAt) {
     Moment moment = Moment.now();
 
     return moment.from(DateTime.fromMillisecondsSinceEpoch(addedAt * 1000));
