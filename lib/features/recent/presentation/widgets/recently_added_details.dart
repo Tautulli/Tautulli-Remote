@@ -44,7 +44,7 @@ class RecentlyAddedDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Added ${TimeFormatHelper.addedAgo(recentItem.addedAt)}',
+              'Added ${TimeFormatHelper.timeAgo(recentItem.addedAt)}',
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 15,
