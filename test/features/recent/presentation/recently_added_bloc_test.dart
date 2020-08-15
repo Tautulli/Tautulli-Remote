@@ -44,6 +44,7 @@ void main() {
   final tMediaType2 = 'movie';
 
   final List<RecentItem> tRecentList = [];
+  final List<RecentItem> tRecentList12 = [];
 
   final recentJson = json.decode(fixture('recent.json'));
 
@@ -51,7 +52,13 @@ void main() {
     tRecentList.add(RecentItemModel.fromJson(item));
   });
 
-  void setUpSuccess() {
+  for (int i = 0; i < 4; i++) {
+    recentJson['response']['data']['recently_added'].forEach((item) {
+    tRecentList12.add(RecentItemModel.fromJson(item));
+  });
+  }
+
+  void setUpSuccess(List recentList) {
     String imageUrl =
         'https://tautulli.wreave.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
     when(
@@ -62,7 +69,7 @@ void main() {
         mediaType: anyNamed('mediaType'),
         sectionId: anyNamed('sectionId'),
       ),
-    ).thenAnswer((_) async => Right(tRecentList));
+    ).thenAnswer((_) async => Right(recentList));
     when(
       mockGetImageUrl(
         tautulliId: anyNamed('tautulliId'),
@@ -72,29 +79,7 @@ void main() {
       ),
     ).thenAnswer((_) async => Right(imageUrl));
   }
-
-  void setUpEmptySuccess() {
-    String imageUrl =
-        'https://tautulli.wreave.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
-    when(
-      mockGetRecentlyAdded(
-        tautulliId: anyNamed('tautulliId'),
-        count: anyNamed('count'),
-        start: anyNamed('start'),
-        mediaType: anyNamed('mediaType'),
-        sectionId: anyNamed('sectionId'),
-      ),
-    ).thenAnswer((_) async => Right([]));
-    when(
-      mockGetImageUrl(
-        tautulliId: anyNamed('tautulliId'),
-        img: anyNamed('img'),
-        ratingKey: anyNamed('ratingKey'),
-        fallback: anyNamed('fallback'),
-      ),
-    ).thenAnswer((_) async => Right(imageUrl));
-  }
-
+  
   test(
     'initialState should be RecentlyAddedInitial',
     () async {
@@ -109,7 +94,7 @@ void main() {
         'should get data from GetRecentlyAdded use case',
         () async {
           // arrange
-          setUpSuccess();
+          setUpSuccess(tRecentList);
           // act
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
@@ -136,7 +121,7 @@ void main() {
         'should get data from the GetImageUrl use case',
         () async {
           // arrange
-          setUpSuccess();
+          setUpSuccess(tRecentList);
           // act
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
@@ -199,7 +184,7 @@ void main() {
         'should get data from GetRecentlyAdded use case',
         () async {
           // arrange
-          setUpSuccess();
+          setUpSuccess(tRecentList);
           // act
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
@@ -227,7 +212,7 @@ void main() {
         'should get data from the GetImageUrl use case',
         () async {
           // arrange
-          setUpSuccess();
+          setUpSuccess(tRecentList);
           // act
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
@@ -254,14 +239,14 @@ void main() {
       );
 
       test(
-        'should emit [RecentlyAddedSuccess] with hasReachedMax as false when data is fetched successfully',
+        'should emit [RecentlyAddedSuccess] with hasReachedMax as false when data is fetched successfully and list is 10 or more',
         () async {
           // arrange
-          setUpSuccess();
+          setUpSuccess(tRecentList12);
           // assert later
           final expected = [
             RecentlyAddedSuccess(
-              list: tRecentList,
+              list: tRecentList12,
               hasReachedMax: false,
             ),
           ];
@@ -309,17 +294,17 @@ void main() {
         'when state is [RecentlyAddedSuccess] should emit [RecentlyAddedSuccess] with hasReachedMax as false when data is fetched successfully',
         () async {
           // arrange
-          setUpSuccess();
+          setUpSuccess(tRecentList12);
           bloc.emit(
             RecentlyAddedSuccess(
-              list: tRecentList,
+              list: tRecentList12,
               hasReachedMax: false,
             ),
           );
           // assert later
           final expected = [
             RecentlyAddedSuccess(
-              list: tRecentList + tRecentList,
+              list: tRecentList12 + tRecentList12,
               hasReachedMax: false,
             ),
           ];
@@ -333,10 +318,10 @@ void main() {
       );
 
       test(
-        'when state is [RecentlyAddedSuccess] should emit [RecentlyAddedSuccess] with hasReachedMax as true when data is fetched successfully and empty',
+        'when state is [RecentlyAddedSuccess] should emit [RecentlyAddedSuccess] with hasReachedMax as true when data is fetched successfully and less then 10',
         () async {
           // arrange
-          setUpEmptySuccess();
+          setUpSuccess(tRecentList);
           bloc.emit(
             RecentlyAddedSuccess(
               list: tRecentList,
@@ -346,7 +331,7 @@ void main() {
           // assert later
           final expected = [
             RecentlyAddedSuccess(
-              list: tRecentList,
+              list: tRecentList + tRecentList,
               hasReachedMax: true,
             ),
           ];
@@ -366,12 +351,12 @@ void main() {
       'should emit [RecentlyAddedInitial] before executing as normal',
       () async {
         // arrange
-        setUpSuccess();
+        setUpSuccess(tRecentList12);
         // assert later
         final expected = [
           RecentlyAddedInitial(),
           RecentlyAddedSuccess(
-            list: tRecentList,
+            list: tRecentList12,
             hasReachedMax: false,
           ),
         ];
