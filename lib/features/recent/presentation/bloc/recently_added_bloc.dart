@@ -127,7 +127,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
 
         yield RecentlyAddedSuccess(
           list: list,
-          hasReachedMax: false,
+          hasReachedMax: list.length < 10,
         );
       },
     );
@@ -161,7 +161,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
 
           yield RecentlyAddedSuccess(
             list: currentState.list + list,
-            hasReachedMax: false,
+            hasReachedMax: list.length < 10,
           );
         }
       },
