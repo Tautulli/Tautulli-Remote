@@ -97,8 +97,8 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                     ),
                                     BackdropFilter(
                                       filter: ImageFilter.blur(
-                                        sigmaX: 8,
-                                        sigmaY: 8,
+                                        sigmaX: 25,
+                                        sigmaY: 25,
                                       ),
                                       child: Column(
                                         crossAxisAlignment:
