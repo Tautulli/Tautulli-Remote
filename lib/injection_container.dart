@@ -52,6 +52,11 @@ import 'features/terminate_session/data/repositories/terminate_session_repositor
 import 'features/terminate_session/domain/repositories/terminate_session_repository.dart';
 import 'features/terminate_session/domain/usecases/terminate_session.dart';
 import 'features/terminate_session/presentation/bloc/terminate_session_bloc.dart';
+import 'features/users/data/datasources/users_data_source.dart';
+import 'features/users/data/repositories/users_repository_impl.dart';
+import 'features/users/domain/repositories/users_repository.dart';
+import 'features/users/domain/usercases/get_users.dart';
+import 'features/users/presentation/bloc/users_bloc.dart';
 
 // Service locator alias
 final sl = GetIt.instance;
@@ -319,6 +324,38 @@ Future<void> init() async {
     () => RecentlyAddedDataSourceImpl(
       tautulliApi: sl(),
       logging: sl(),
+    ),
+  );
+
+  //! Features - Users
+  // Bloc
+  sl.registerFactory(
+    () => UsersBloc(
+      getUsers: sl(),
+      logging: sl(),
+    ),
+  );
+
+  //Use case
+  sl.registerLazySingleton(
+    () => GetUsers(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<UsersRepository>(
+    () => UsersRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+      failureMapperHelper: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<UsersDataSource>(
+    () => UsersDataSourceImpl(
+      tautulliApi: sl(),
     ),
   );
 
