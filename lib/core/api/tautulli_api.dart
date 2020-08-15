@@ -24,6 +24,15 @@ abstract class TautulliApi {
     @required String tautulliId,
     String ipAddress,
   });
+  Future<Map<String, dynamic>> getUsersTable({
+    @required String tautulliId,
+    int grouping,
+    String orderColumn,
+    String orderDir,
+    int start,
+    int length,
+    String search,
+  });
   Future<String> pmsImageProxy({
     @required String tautulliId,
     String img,
@@ -285,6 +294,45 @@ class TautulliApiImpl implements TautulliApi {
     final responseJson = await connectionHandler(
       tautulliId: tautulliId,
       cmd: 'get_recently_added',
+      params: params,
+    );
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getUsersTable({
+    @required String tautulliId,
+    int grouping,
+    String orderColumn,
+    String orderDir,
+    int start,
+    int length,
+    String search,
+  }) async {
+    Map<String, String> params = {};
+
+    if (grouping != null) {
+      params['grouping'] = grouping.toString();
+    }
+    if (orderColumn != null) {
+      params['order_column'] = orderColumn;
+    }
+    if (orderDir != null) {
+      params['order_dir'] = orderDir;
+    }
+    if (start != null) {
+      params['start'] = start.toString();
+    }
+    if (length != null) {
+      params['length'] = length.toString();
+    }
+    if (search != null) {
+      params['search'] = search;
+    }
+
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_users_table',
       params: params,
     );
 
