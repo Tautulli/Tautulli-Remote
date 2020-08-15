@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,13 +7,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
+import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/recently_added_bloc.dart';
-import '../widgets/bottom_loader.dart';
 import '../widgets/recently_added_card.dart';
+import '../widgets/recently_added_error_button.dart';
 
 class RecentlyAddedPage extends StatelessWidget {
   const RecentlyAddedPage({Key key}) : super(key: key);
@@ -38,15 +41,17 @@ class RecentlyAddedPageContent extends StatefulWidget {
 class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
   final _scrollController = ScrollController();
   final _scrollThreshold = 500.0;
+  Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
   RecentlyAddedBloc _recentlyAddedBloc;
-  String tautulliId;
+  String _tautulliId;
   String _mediaType;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    _refreshCompleter = Completer<void>();
     _settingsBloc = context.bloc<SettingsBloc>();
     _recentlyAddedBloc = context.bloc<RecentlyAddedBloc>();
     _mediaType = 'all';
@@ -67,16 +72,16 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
 
       if (lastSelectedServer != null) {
         setState(() {
-          tautulliId = lastSelectedServer;
+          _tautulliId = lastSelectedServer;
         });
       } else {
         setState(() {
-          tautulliId = state.serverList[0].tautulliId;
+          _tautulliId = state.serverList[0].tautulliId;
         });
       }
 
       _recentlyAddedBloc.add(RecentlyAddedFetched(
-        tautulliId: tautulliId,
+        tautulliId: _tautulliId,
         mediaType: _mediaType,
       ));
     }
@@ -102,7 +107,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                   _mediaType = value;
                 });
                 _recentlyAddedBloc.add(RecentlyAddedFilter(
-                  tautulliId: tautulliId,
+                  tautulliId: _tautulliId,
                   mediaType: _mediaType,
                 ));
               }
@@ -179,7 +184,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                 if (state.serverList.length > 1) {
                   return DropdownButtonHideUnderline(
                     child: DropdownButton(
-                      value: tautulliId,
+                      value: _tautulliId,
                       style: TextStyle(color: Theme.of(context).accentColor),
                       items: state.serverList.map((server) {
                         return DropdownMenuItem(
@@ -188,44 +193,64 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                         );
                       }).toList(),
                       onChanged: (value) {
-                        if (value != tautulliId) {
+                        if (value != _tautulliId) {
                           setState(() {
-                            tautulliId = value;
+                            _tautulliId = value;
                             _mediaType = 'all';
                           });
-                          _settingsBloc.add(SettingsUpdateLastSelectedServer(
-                              tautulliId: tautulliId));
-                          _recentlyAddedBloc.add(RecentlyAddedFilter(
-                            tautulliId: value,
-                            mediaType: _mediaType,
-                          ));
+                          _settingsBloc.add(
+                            SettingsUpdateLastSelectedServer(
+                                tautulliId: _tautulliId),
+                          );
+                          _recentlyAddedBloc.add(
+                            RecentlyAddedFilter(
+                              tautulliId: value,
+                              mediaType: _mediaType,
+                            ),
+                          );
                         }
                       },
                     ),
                   );
                 }
               }
-
               return Container(height: 0, width: 0);
             },
           ),
-          BlocBuilder<RecentlyAddedBloc, RecentlyAddedState>(
+          BlocConsumer<RecentlyAddedBloc, RecentlyAddedState>(
+            listener: (context, state) {
+              if (state is RecentlyAddedSuccess) {
+                _refreshCompleter?.complete();
+                _refreshCompleter = Completer();
+              }
+            },
             builder: (context, state) {
               if (state is RecentlyAddedSuccess) {
                 if (state.list.length > 0) {
                   return Expanded(
-                    child: Scrollbar(
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return index >= state.list.length
-                              ? BottomLoader()
-                              : RecentlyAddedCard(
-                                  recentItem: state.list[index]);
-                        },
-                        itemCount: state.hasReachedMax
-                            ? state.list.length
-                            : state.list.length + 1,
-                        controller: _scrollController,
+                    child: RefreshIndicator(
+                      onRefresh: () {
+                        _recentlyAddedBloc.add(
+                          RecentlyAddedFilter(
+                            tautulliId: _tautulliId,
+                            mediaType: _mediaType,
+                          ),
+                        );
+                        return _refreshCompleter.future;
+                      },
+                      child: Scrollbar(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return index >= state.list.length
+                                ? BottomLoader()
+                                : RecentlyAddedCard(
+                                    recentItem: state.list[index]);
+                          },
+                          itemCount: state.hasReachedMax
+                              ? state.list.length
+                              : state.list.length + 1,
+                          controller: _scrollController,
+                        ),
                       ),
                     ),
                   );
@@ -253,10 +278,26 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
               }
               if (state is RecentlyAddedFailure) {
                 return Expanded(
-                  child: ErrorMessage(
-                    failure: state.failure,
-                    message: state.message,
-                    suggestion: state.suggestion,
+                  child: Column(
+                    children: [
+                      Expanded(child: const SizedBox()),
+                      Center(
+                        child: ErrorMessage(
+                          failure: state.failure,
+                          message: state.message,
+                          suggestion: state.suggestion,
+                        ),
+                      ),
+                      RecentlyAddedErrorButton(
+                        completer: _refreshCompleter,
+                        failure: state.failure,
+                        recentlyAddedEvent: RecentlyAddedFilter(
+                          tautulliId: _tautulliId,
+                          mediaType: _mediaType,
+                        ),
+                      ),
+                      Expanded(child: const SizedBox()),
+                    ],
                   ),
                 );
               }
@@ -282,10 +323,12 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (maxScroll - currentScroll <= _scrollThreshold) {
-      _recentlyAddedBloc.add(RecentlyAddedFetched(
-        tautulliId: tautulliId,
-        mediaType: _mediaType,
-      ));
+      _recentlyAddedBloc.add(
+        RecentlyAddedFetched(
+          tautulliId: _tautulliId,
+          mediaType: _mediaType,
+        ),
+      );
     }
   }
 }
