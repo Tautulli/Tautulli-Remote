@@ -15,13 +15,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.0.0-dev.7
+version: 2.0.0-dev.8
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
-  # Temporary override of flutter_svg until websave_svg is updated
-dependency_overrides:
-  flutter_svg: 0.18.0
 
 dependencies:
   flutter:
@@ -55,7 +52,7 @@ dependencies:
   # Slidable list items
   flutter_slidable: ^0.5.5
   # SVG support
-  websafe_svg: ^1.1.0
+  websafe_svg: ^1.1.1
   # Utility libraries
   quiver: ^2.1.3
   # String validation and sanitation
@@ -82,6 +79,8 @@ dependencies:
   quick_actions: ^0.4.0+6
   # Adds additional capabilities to Dart Streams and StreamControllers
   rxdart: ^0.24.1
+  # Extract prominent colors from an Image
+  palette_generator: ^0.2.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -139,6 +138,7 @@ flutter:
     - assets/platforms/windows.svg
     - assets/platforms/xbox.svg
     - assets/images/livetv_fallback.png
+    - assets/images/default_profile.png
     - assets/logo/logo.png
     - assets/logo/logo_transparent.png
 
