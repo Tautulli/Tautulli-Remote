@@ -92,14 +92,16 @@ class AppDrawer extends StatelessWidget {
             //   title: Text('Libraries'),
             //   onTap: () {},
             // ),
-            // ListTile(
-            //   leading: FaIcon(
-            //     FontAwesomeIcons.users,
-            //     color: TautulliColorPalette.not_white,
-            //   ),
-            //   title: Text('Users'),
-            //   onTap: () {},
-            // ),
+            ListTile(
+              leading: FaIcon(
+                FontAwesomeIcons.users,
+                color: TautulliColorPalette.not_white,
+              ),
+              title: Text('Users'),
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed('/users');
+              },
+            ),
             // ListTile(
             //   leading: FaIcon(
             //     FontAwesomeIcons.chartArea,
