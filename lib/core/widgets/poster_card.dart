@@ -2,17 +2,16 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../../../../core/widgets/poster_chooser.dart';
-import '../../domain/entities/recent.dart';
-import 'background_image.dart';
-import 'recently_added_details.dart';
+import 'poster_chooser.dart';
 
-class RecentlyAddedCard extends StatelessWidget {
-  final RecentItem recentItem;
+class PosterCard extends StatelessWidget {
+  final dynamic item;
+  final Widget details;
 
-  const RecentlyAddedCard({
+  const PosterCard({
     Key key,
-    @required this.recentItem,
+    @required this.item,
+    @required this.details,
   }) : super(key: key);
 
   @override
@@ -25,7 +24,19 @@ class RecentlyAddedCard extends StatelessWidget {
           padding: const EdgeInsets.all(4),
           child: Stack(
             children: [
-              BackgroundImage(url: recentItem.posterUrl),
+              Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: Image.network(
+                      item.posterUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Container(
+                    color: Colors.black.withOpacity(0.4),
+                  ),
+                ],
+              ),
               BackdropFilter(
                 filter: ImageFilter.blur(
                   sigmaX: 25,
@@ -33,11 +44,11 @@ class RecentlyAddedCard extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    PosterChooser(item: recentItem),
+                    PosterChooser(item: item),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 6),
-                        child: RecentlyAddedDetails(recentItem: recentItem),
+                        child: details,
                       ),
                     ),
                   ],

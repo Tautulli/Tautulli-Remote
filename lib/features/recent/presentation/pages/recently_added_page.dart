@@ -9,11 +9,12 @@ import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/error_message.dart';
+import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/recently_added_bloc.dart';
-import '../widgets/recently_added_card.dart';
+import '../widgets/recently_added_details.dart';
 import '../widgets/recently_added_error_button.dart';
 
 class RecentlyAddedPage extends StatelessWidget {
@@ -243,8 +244,11 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                           itemBuilder: (context, index) {
                             return index >= state.list.length
                                 ? BottomLoader()
-                                : RecentlyAddedCard(
-                                    recentItem: state.list[index]);
+                                : PosterCard(
+                                    item: state.list[index],
+                                    details: RecentlyAddedDetails(
+                                        recentItem: state.list[index]),
+                                  );
                           },
                           itemCount: state.hasReachedMax
                               ? state.list.length
