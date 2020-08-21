@@ -1,7 +1,7 @@
-import '../../domain/entities/user.dart';
+import '../../domain/entities/user_table.dart';
 
-class UserModel extends User {
-  UserModel({
+class UserTableModel extends UserTable {
+  UserTableModel({
     int duration,
     String friendlyName,
     int isActive,
@@ -27,8 +27,8 @@ class UserModel extends User {
           userThumb: userThumb,
         );
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
+  factory UserTableModel.fromJson(Map<String, dynamic> json) {
+    return UserTableModel(
       duration: json['duration'],
       friendlyName: json['friendly_name'],
       isActive: json['is_active'],

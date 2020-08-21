@@ -1,11 +1,11 @@
 import 'package:meta/meta.dart';
 
 import '../../../../core/api/tautulli_api.dart';
-import '../../domain/entities/user.dart';
-import '../models/user_model.dart';
+import '../../domain/entities/user_table.dart';
+import '../models/user_table_model.dart';
 
-abstract class UsersDataSource {
-  Future<List> getUsers({
+abstract class UsersTableDataSource {
+  Future<List> getUsersTable({
     @required tautulliId,
     int grouping,
     String orderColumn,
@@ -16,13 +16,13 @@ abstract class UsersDataSource {
   });
 }
 
-class UsersDataSourceImpl implements UsersDataSource {
+class UsersTableDataSourceImpl implements UsersTableDataSource {
   final TautulliApi tautulliApi;
 
-  UsersDataSourceImpl({@required this.tautulliApi});
+  UsersTableDataSourceImpl({@required this.tautulliApi});
 
   @override
-  Future<List> getUsers({
+  Future<List> getUsersTable({
     @required tautulliId,
     int grouping,
     String orderColumn,
@@ -41,9 +41,9 @@ class UsersDataSourceImpl implements UsersDataSource {
       search: search,
     );
 
-    final List<User> recentList = [];
+    final List<UserTable> recentList = [];
     usersJson['response']['data']['data'].forEach((item) {
-      recentList.add(UserModel.fromJson(item));
+      recentList.add(UserTableModel.fromJson(item));
     });
 
     return recentList;

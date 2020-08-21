@@ -10,7 +10,7 @@ abstract class UsersState extends Equatable {
 class UsersInitial extends UsersState {}
 
 class UsersSuccess extends UsersState {
-  final List<User> list;
+  final List<UserTable> list;
   final bool hasReachedMax;
 
   UsersSuccess({
@@ -19,7 +19,7 @@ class UsersSuccess extends UsersState {
   });
 
   UsersSuccess copyWith({
-    List<User> list,
+    List<UserTable> list,
     bool hasReachedMax,
   }) {
     return UsersSuccess(

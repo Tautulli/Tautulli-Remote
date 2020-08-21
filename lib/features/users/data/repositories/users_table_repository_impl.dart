@@ -4,23 +4,23 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
-import '../../domain/entities/user.dart';
-import '../../domain/repositories/users_repository.dart';
-import '../datasources/users_data_source.dart';
+import '../../domain/entities/user_table.dart';
+import '../../domain/repositories/users_table_repository.dart';
+import '../datasources/users_table_data_source.dart';
 
-class UsersRepositoryImpl implements UsersRepository {
-  final UsersDataSource dataSource;
+class UsersTableRepositoryImpl implements UsersTableRepository {
+  final UsersTableDataSource dataSource;
   final NetworkInfo networkInfo;
   final FailureMapperHelper failureMapperHelper;
 
-  UsersRepositoryImpl({
+  UsersTableRepositoryImpl({
     @required this.dataSource,
     @required this.networkInfo,
     @required this.failureMapperHelper,
   });
 
   @override
-  Future<Either<Failure, List<User>>> getUsers({
+  Future<Either<Failure, List<UserTable>>> getUsersTable({
     @required tautulliId,
     int grouping,
     String orderColumn,
@@ -31,7 +31,7 @@ class UsersRepositoryImpl implements UsersRepository {
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final usersList = await dataSource.getUsers(
+        final usersList = await dataSource.getUsersTable(
           tautulliId: tautulliId,
           grouping: grouping,
           orderColumn: orderColumn,

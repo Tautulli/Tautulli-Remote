@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../domain/entities/user.dart';
+import '../../domain/entities/user_table.dart';
 import 'user_details.dart';
 import 'user_icon.dart';
 
 class UsersCard extends StatefulWidget {
-  final User user;
+  final UserTable user;
 
   const UsersCard({
     Key key,

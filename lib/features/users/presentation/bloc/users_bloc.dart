@@ -8,18 +8,18 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
-import '../../domain/entities/user.dart';
-import '../../domain/usercases/get_users.dart';
+import '../../domain/entities/user_table.dart';
+import '../../domain/usercases/get_users_table.dart';
 
 part 'users_event.dart';
 part 'users_state.dart';
 
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
-  final GetUsers getUsers;
+  final GetUsersTable getUsersTable;
   final Logging logging;
 
   UsersBloc({
-    @required this.getUsers,
+    @required this.getUsersTable,
     @required this.logging,
   }) : super(UsersInitial());
 
@@ -88,7 +88,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     int length,
     String search,
   }) async* {
-    final usersListOrFailure = await getUsers(
+    final usersListOrFailure = await getUsersTable(
       tautulliId: tautulliId,
       grouping: grouping,
       orderColumn: orderColumn,
@@ -125,7 +125,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     int length,
     String search,
   }) async* {
-    final usersListOrFailure = await getUsers(
+    final usersListOrFailure = await getUsersTable(
       tautulliId: tautulliId,
       grouping: grouping,
       orderColumn: orderColumn,

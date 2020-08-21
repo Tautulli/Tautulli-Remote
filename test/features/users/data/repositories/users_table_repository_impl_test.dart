@@ -6,21 +6,21 @@ import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/core/error/failure.dart';
 import 'package:tautulli_remote_tdd/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote_tdd/core/network/network_info.dart';
-import 'package:tautulli_remote_tdd/features/users/data/datasources/users_data_source.dart';
-import 'package:tautulli_remote_tdd/features/users/data/models/user_model.dart';
-import 'package:tautulli_remote_tdd/features/users/data/repositories/users_repository_impl.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/entities/user.dart';
+import 'package:tautulli_remote_tdd/features/users/data/datasources/users_table_data_source.dart';
+import 'package:tautulli_remote_tdd/features/users/data/models/user_table_model.dart';
+import 'package:tautulli_remote_tdd/features/users/data/repositories/users_table_repository_impl.dart';
+import 'package:tautulli_remote_tdd/features/users/domain/entities/user_table.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockUsersDataSource extends Mock implements UsersDataSource {}
+class MockUsersDataSource extends Mock implements UsersTableDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 class MockFailureMapperHelper extends Mock implements FailureMapperHelper {}
 
 void main() {
-  UsersRepositoryImpl repository;
+  UsersTableRepositoryImpl repository;
   MockUsersDataSource mockUsersDataSource;
   MockNetworkInfo mockNetworkInfo;
   MockFailureMapperHelper mockFailureMapperHelper;
@@ -29,7 +29,7 @@ void main() {
     mockUsersDataSource = MockUsersDataSource();
     mockNetworkInfo = MockNetworkInfo();
     mockFailureMapperHelper = MockFailureMapperHelper();
-    repository = UsersRepositoryImpl(
+    repository = UsersTableRepositoryImpl(
       dataSource: mockUsersDataSource,
       networkInfo: mockNetworkInfo,
       failureMapperHelper: mockFailureMapperHelper,
@@ -38,12 +38,12 @@ void main() {
 
   final tTautulliId = 'jkl';
 
-  final List<User> tUserList = [];
+  final List<UserTable> tUserList = [];
 
   final usersJson = json.decode(fixture('users.json'));
 
   usersJson['response']['data']['data'].forEach((item) {
-    tUserList.add(UserModel.fromJson(item));
+    tUserList.add(UserTableModel.fromJson(item));
   });
 
   test(
@@ -52,7 +52,7 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       // act
-      repository.getUsers(tautulliId: tTautulliId);
+      repository.getUsersTable(tautulliId: tTautulliId);
       // assert
       verify(mockNetworkInfo.isConnected);
     },
@@ -64,15 +64,15 @@ void main() {
     });
 
     test(
-      'should call the data source getUsers()',
+      'should call the data source getUsersTable()',
       () async {
         // act
-        await repository.getUsers(
+        await repository.getUsersTable(
           tautulliId: tTautulliId,
         );
         // assert
         verify(
-          mockUsersDataSource.getUsers(
+          mockUsersDataSource.getUsersTable(
             tautulliId: tTautulliId,
           ),
         );
@@ -84,7 +84,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockUsersDataSource.getUsers(
+          mockUsersDataSource.getUsersTable(
             tautulliId: anyNamed('tautulliId'),
             grouping: anyNamed('grouping'),
             orderColumn: anyNamed('orderColumn'),
@@ -95,7 +95,7 @@ void main() {
           ),
         ).thenAnswer((_) async => tUserList);
         // act
-        final result = await repository.getUsers(
+        final result = await repository.getUsersTable(
           tautulliId: tTautulliId,
         );
         // assert
@@ -111,7 +111,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
         // act
-        final result = await repository.getUsers(
+        final result = await repository.getUsersTable(
           tautulliId: tTautulliId,
         );
         // assert

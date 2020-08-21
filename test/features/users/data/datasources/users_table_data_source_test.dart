@@ -3,33 +3,33 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
-import 'package:tautulli_remote_tdd/features/users/data/datasources/users_data_source.dart';
-import 'package:tautulli_remote_tdd/features/users/data/models/user_model.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/entities/user.dart';
+import 'package:tautulli_remote_tdd/features/users/data/datasources/users_table_data_source.dart';
+import 'package:tautulli_remote_tdd/features/users/data/models/user_table_model.dart';
+import 'package:tautulli_remote_tdd/features/users/domain/entities/user_table.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
 class MockTautulliApi extends Mock implements TautulliApi {}
 
 void main() {
-  UsersDataSourceImpl dataSource;
+  UsersTableDataSourceImpl dataSource;
   MockTautulliApi mockTautulliApi;
 
   setUp(() {
     mockTautulliApi = MockTautulliApi();
-    dataSource = UsersDataSourceImpl(
+    dataSource = UsersTableDataSourceImpl(
       tautulliApi: mockTautulliApi,
     );
   });
 
   final String tTautulliId = 'jkl';
 
-  final List<User> tUserList = [];
+  final List<UserTable> tUserList = [];
 
   final usersJson = json.decode(fixture('users.json'));
 
   usersJson['response']['data']['data'].forEach((item) {
-    tUserList.add(UserModel.fromJson(item));
+    tUserList.add(UserTableModel.fromJson(item));
   });
 
   group('getUsers', () {
@@ -47,7 +47,7 @@ void main() {
           search: anyNamed('search'),
         )).thenAnswer((_) async => usersJson);
         // act
-        await dataSource.getUsers(tautulliId: tTautulliId);
+        await dataSource.getUsersTable(tautulliId: tTautulliId);
         // assert
         verify(
           mockTautulliApi.getUsersTable(tautulliId: tTautulliId),
@@ -69,7 +69,7 @@ void main() {
           search: anyNamed('search'),
         )).thenAnswer((_) async => usersJson);
         // act
-        final result = await dataSource.getUsers(tautulliId: tTautulliId);
+        final result = await dataSource.getUsersTable(tautulliId: tTautulliId);
         // assert
         expect(result, equals(tUserList));
       },

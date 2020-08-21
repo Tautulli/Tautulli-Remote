@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/time_format_helper.dart';
-import '../../domain/entities/user.dart';
+import '../../domain/entities/user_table.dart';
 
 class UsersDetails extends StatelessWidget {
-  final User user;
+  final UserTable user;
 
   const UsersDetails({
     Key key,

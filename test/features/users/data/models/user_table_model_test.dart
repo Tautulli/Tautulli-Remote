@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tautulli_remote_tdd/features/users/data/models/user_model.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/entities/user.dart';
+import 'package:tautulli_remote_tdd/features/users/data/models/user_table_model.dart';
+import 'package:tautulli_remote_tdd/features/users/domain/entities/user_table.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  final tUserModel = UserModel(
+  final tUserModel = UserTableModel(
     duration: 8132145,
     friendlyName: 'Derek Rivard',
     isActive: 1,
@@ -23,7 +23,7 @@ void main() {
 
   test('should be a subclass of User entity', () async {
     //assert
-    expect(tUserModel, isA<User>());
+    expect(tUserModel, isA<UserTable>());
   });
   
   group('fromJson', () {
@@ -34,7 +34,7 @@ void main() {
         final Map<String, dynamic> jsonMap =
             json.decode(fixture('user.json'));
         // act
-        final result = UserModel.fromJson(jsonMap);
+        final result = UserTableModel.fromJson(jsonMap);
         // assert
         expect(result, equals(tUserModel));
       },
@@ -47,7 +47,7 @@ void main() {
         final Map<String, dynamic> jsonMap =
             json.decode(fixture('user.json'));
         // act
-        final result = UserModel.fromJson(jsonMap);
+        final result = UserTableModel.fromJson(jsonMap);
         // assert
         expect(result.userId, equals(jsonMap['user_id']));
       },

@@ -6,14 +6,14 @@ import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/core/error/failure.dart';
 import 'package:tautulli_remote_tdd/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
-import 'package:tautulli_remote_tdd/features/users/data/models/user_model.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/entities/user.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/usercases/get_users.dart';
+import 'package:tautulli_remote_tdd/features/users/data/models/user_table_model.dart';
+import 'package:tautulli_remote_tdd/features/users/domain/entities/user_table.dart';
+import 'package:tautulli_remote_tdd/features/users/domain/usercases/get_users_table.dart';
 import 'package:tautulli_remote_tdd/features/users/presentation/bloc/users_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockGetUsers extends Mock implements GetUsers {}
+class MockGetUsers extends Mock implements GetUsersTable {}
 
 class MockLogging extends Mock implements Logging {}
 
@@ -26,25 +26,25 @@ void main() {
     mockGetUsers = MockGetUsers();
     mockLogging = MockLogging();
     bloc = UsersBloc(
-      getUsers: mockGetUsers,
+      getUsersTable: mockGetUsers,
       logging: mockLogging,
     );
   });
 
   final tTautulliId = 'jkl';
 
-  final List<User> tUsersList = [];
-  final List<User> tUsersList25 = [];
+  final List<UserTable> tUsersList = [];
+  final List<UserTable> tUsersList25 = [];
 
   final userJson = json.decode(fixture('users.json'));
 
   userJson['response']['data']['data'].forEach((item) {
-    tUsersList.add(UserModel.fromJson(item));
+    tUsersList.add(UserTableModel.fromJson(item));
   });
 
   for (int i = 0; i < 25; i++) {
     userJson['response']['data']['data'].forEach((item) {
-      tUsersList25.add(UserModel.fromJson(item));
+      tUsersList25.add(UserTableModel.fromJson(item));
     });
   }
 

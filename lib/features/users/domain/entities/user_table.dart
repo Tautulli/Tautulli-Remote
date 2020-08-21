@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class User extends Equatable {
+class UserTable extends Equatable {
   final int duration;
   final String friendlyName;
   final int isActive;
@@ -13,7 +13,7 @@ class User extends Equatable {
   final int userId;
   final String userThumb;
 
-  User({
+  UserTable({
     this.duration,
     this.friendlyName,
     this.isActive,

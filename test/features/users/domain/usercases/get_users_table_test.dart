@@ -3,34 +3,34 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/features/users/data/models/user_model.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/entities/user.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/repositories/users_repository.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/usercases/get_users.dart';
+import 'package:tautulli_remote_tdd/features/users/data/models/user_table_model.dart';
+import 'package:tautulli_remote_tdd/features/users/domain/entities/user_table.dart';
+import 'package:tautulli_remote_tdd/features/users/domain/repositories/users_table_repository.dart';
+import 'package:tautulli_remote_tdd/features/users/domain/usercases/get_users_table.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockUsersRepository extends Mock implements UsersRepository {}
+class MockUsersRepository extends Mock implements UsersTableRepository {}
 
 void main() {
-  GetUsers usecase;
+  GetUsersTable usecase;
   MockUsersRepository mockUsersRepository;
 
   setUp(() {
     mockUsersRepository = MockUsersRepository();
-    usecase = GetUsers(
+    usecase = GetUsersTable(
       repository: mockUsersRepository,
     );
   });
 
   final tTautulliId = 'jkl';
 
-  final List<User> tUserList = [];
+  final List<UserTable> tUserList = [];
 
   final usersJson = json.decode(fixture('users.json'));
 
   usersJson['response']['data']['data'].forEach((item) {
-    tUserList.add(UserModel.fromJson(item));
+    tUserList.add(UserTableModel.fromJson(item));
   });
 
   test(
@@ -38,7 +38,7 @@ void main() {
     () async {
       // arrange
       when(
-        mockUsersRepository.getUsers(
+        mockUsersRepository.getUsersTable(
           tautulliId: anyNamed('tautulliId'),
           grouping: anyNamed('grouping'),
           orderColumn: anyNamed('orderColumn'),
