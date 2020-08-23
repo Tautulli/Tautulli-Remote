@@ -5,12 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/features/users/data/models/user_table_model.dart';
 import 'package:tautulli_remote_tdd/features/users/domain/entities/user_table.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/repositories/users_table_repository.dart';
+import 'package:tautulli_remote_tdd/features/users/domain/repositories/users_repository.dart';
 import 'package:tautulli_remote_tdd/features/users/domain/usercases/get_users_table.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockUsersRepository extends Mock implements UsersTableRepository {}
+class MockUsersRepository extends Mock implements UsersRepository {}
 
 void main() {
   GetUsersTable usecase;
@@ -25,16 +25,16 @@ void main() {
 
   final tTautulliId = 'jkl';
 
-  final List<UserTable> tUserList = [];
+  final List<UserTable> tUserTableList = [];
 
-  final usersJson = json.decode(fixture('users.json'));
+  final usersTableJson = json.decode(fixture('users_table.json'));
 
-  usersJson['response']['data']['data'].forEach((item) {
-    tUserList.add(UserTableModel.fromJson(item));
+  usersTableJson['response']['data']['data'].forEach((item) {
+    tUserTableList.add(UserTableModel.fromJson(item));
   });
 
   test(
-    'should get list of User from repository',
+    'should get list of UserTable from repository',
     () async {
       // arrange
       when(
@@ -47,13 +47,13 @@ void main() {
           length: anyNamed('length'),
           search: anyNamed('search'),
         ),
-      ).thenAnswer((_) async => Right(tUserList));
+      ).thenAnswer((_) async => Right(tUserTableList));
       // act
       final result = await usecase(
         tautulliId: tTautulliId,
       );
       // assert
-      expect(result, equals(Right(tUserList)));
+      expect(result, equals(Right(tUserTableList)));
     },
   );
 }

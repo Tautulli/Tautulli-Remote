@@ -7,7 +7,7 @@ import 'package:tautulli_remote_tdd/features/users/domain/entities/user_table.da
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  final tUserModel = UserTableModel(
+  final tUserTableModel = UserTableModel(
     duration: 8132145,
     friendlyName: 'Derek Rivard',
     isActive: 1,
@@ -21,9 +21,9 @@ void main() {
     userThumb: 'https://plex.tv/users/5df7320378672025/avatar?c=1578073887',
   );
 
-  test('should be a subclass of User entity', () async {
+  test('should be a subclass of UserTable entity', () async {
     //assert
-    expect(tUserModel, isA<UserTable>());
+    expect(tUserTableModel, isA<UserTable>());
   });
   
   group('fromJson', () {
@@ -32,11 +32,11 @@ void main() {
       () async {
         // arrange
         final Map<String, dynamic> jsonMap =
-            json.decode(fixture('user.json'));
+            json.decode(fixture('user_table.json'));
         // act
         final result = UserTableModel.fromJson(jsonMap);
         // assert
-        expect(result, equals(tUserModel));
+        expect(result, equals(tUserTableModel));
       },
     );
 
@@ -45,7 +45,7 @@ void main() {
       () async {
         // arrange
         final Map<String, dynamic> jsonMap =
-            json.decode(fixture('user.json'));
+            json.decode(fixture('user_table.json'));
         // act
         final result = UserTableModel.fromJson(jsonMap);
         // assert

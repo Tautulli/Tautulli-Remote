@@ -36,7 +36,7 @@ void main() {
   final List<UserTable> tUsersList = [];
   final List<UserTable> tUsersList25 = [];
 
-  final userJson = json.decode(fixture('users.json'));
+  final userJson = json.decode(fixture('users_table.json'));
 
   userJson['response']['data']['data'].forEach((item) {
     tUsersList.add(UserTableModel.fromJson(item));

@@ -3,10 +3,10 @@ import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
 import '../entities/user_table.dart';
-import '../repositories/users_table_repository.dart';
+import '../repositories/users_repository.dart';
 
 class GetUsersTable {
-  final UsersTableRepository repository;
+  final UsersRepository repository;
 
   GetUsersTable({@required this.repository});
 
