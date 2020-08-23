@@ -19,6 +19,11 @@ import 'features/activity/domain/repositories/geo_ip_repository.dart';
 import 'features/activity/domain/usecases/get_activity.dart';
 import 'features/activity/domain/usecases/get_geo_ip.dart';
 import 'features/activity/presentation/bloc/activity_bloc.dart';
+import 'features/history/data/datasources/history_data_source.dart';
+import 'features/history/data/repositories/history_repository_impl.dart';
+import 'features/history/domain/repositories/history_repository.dart';
+import 'features/history/domain/usecases/get_history.dart';
+import 'features/history/presentation/bloc/history_bloc.dart';
 import 'features/image_url/data/datasources/image_url_data_source.dart';
 import 'features/image_url/data/respositories/image_url_repository_impl.dart';
 import 'features/image_url/domain/repositories/image_url_repository.dart';
@@ -55,7 +60,8 @@ import 'features/terminate_session/presentation/bloc/terminate_session_bloc.dart
 import 'features/users/data/datasources/users_data_source.dart';
 import 'features/users/data/repositories/users_repository_impl.dart';
 import 'features/users/domain/repositories/users_repository.dart';
-import 'features/users/domain/usercases/get_users.dart';
+import 'features/users/domain/usercases/get_user_names.dart';
+import 'features/users/domain/usercases/get_users_table.dart';
 import 'features/users/presentation/bloc/users_bloc.dart';
 
 // Service locator alias
@@ -331,21 +337,26 @@ Future<void> init() async {
   // Bloc
   sl.registerFactory(
     () => UsersBloc(
-      getUsers: sl(),
+      getUsersTable: sl(),
       logging: sl(),
     ),
   );
 
-  //Use case
+  // Use case
   sl.registerLazySingleton(
-    () => GetUsers(
+    () => GetUserNames(
+      repository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => GetUsersTable(
       repository: sl(),
     ),
   );
 
   // Repository
   sl.registerLazySingleton<UsersRepository>(
-    () => UsersRepositoryImpl(
+    () => UsersTableRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
       failureMapperHelper: sl(),
@@ -356,6 +367,41 @@ Future<void> init() async {
   sl.registerLazySingleton<UsersDataSource>(
     () => UsersDataSourceImpl(
       tautulliApi: sl(),
+    ),
+  );
+
+  //! Features - History
+  // Bloc
+  sl.registerFactory(
+    () => HistoryBloc(
+      getHistory: sl(),
+      getUserNames: sl(),
+      getImageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // User case
+  sl.registerLazySingleton(
+    () => GetHistory(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<HistoryRepository>(
+    () => HistoryRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+      failureMapperHelper: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<HistoryDataSource>(
+    () => HistoryDataSourceImpl(
+      tautulliApi: sl(),
+      logging: sl(),
     ),
   );
 

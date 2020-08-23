@@ -66,14 +66,16 @@ class AppDrawer extends StatelessWidget {
                 Navigator.of(context).pushReplacementNamed('/activity');
               },
             ),
-            // ListTile(
-            //   leading: FaIcon(
-            //     FontAwesomeIcons.history,
-            //     color: TautulliColorPalette.not_white,
-            //   ),
-            //   title: Text('History'),
-            //   onTap: () {},
-            // ),
+            ListTile(
+              leading: FaIcon(
+                FontAwesomeIcons.history,
+                color: TautulliColorPalette.not_white,
+              ),
+              title: Text('History'),
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed('/history');
+              },
+            ),
             ListTile(
               leading: FaIcon(
                 FontAwesomeIcons.clock,
