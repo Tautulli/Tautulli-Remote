@@ -10,17 +10,17 @@ import 'package:tautulli_remote_tdd/features/recent/domain/usecases/get_recently
 
 import '../../../fixtures/fixture_reader.dart';
 
-class MockGetRecentlyAddedRepository extends Mock
+class MockRecentlyAddedRepository extends Mock
     implements RecentlyAddedRepository {}
 
 void main() {
   GetRecentlyAdded usecase;
-  MockGetRecentlyAddedRepository mockGetRecentlyAddedRepository;
+  MockRecentlyAddedRepository mockRecentlyAddedRepository;
 
   setUp(() {
-    mockGetRecentlyAddedRepository = MockGetRecentlyAddedRepository();
+    mockRecentlyAddedRepository = MockRecentlyAddedRepository();
     usecase = GetRecentlyAdded(
-      repository: mockGetRecentlyAddedRepository,
+      repository: mockRecentlyAddedRepository,
     );
   });
 
@@ -40,7 +40,7 @@ void main() {
     () async {
       // arrange
       when(
-        mockGetRecentlyAddedRepository.getRecentlyAdded(
+        mockRecentlyAddedRepository.getRecentlyAdded(
           tautulliId: anyNamed('tautulliId'),
           count: anyNamed('count'),
           start: anyNamed('start'),

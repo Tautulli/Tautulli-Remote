@@ -54,8 +54,8 @@ void main() {
 
   for (int i = 0; i < 4; i++) {
     recentJson['response']['data']['recently_added'].forEach((item) {
-    tRecentList12.add(RecentItemModel.fromJson(item));
-  });
+      tRecentList12.add(RecentItemModel.fromJson(item));
+    });
   }
 
   void setUpSuccess(List recentList) {
@@ -79,7 +79,7 @@ void main() {
       ),
     ).thenAnswer((_) async => Right(imageUrl));
   }
-  
+
   test(
     'initialState should be RecentlyAddedInitial',
     () async {

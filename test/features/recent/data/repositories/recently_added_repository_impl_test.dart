@@ -29,6 +29,7 @@ void main() {
   setUp(() {
     mockRecentlyAddedDataSource = MockRecentlyAddedDataSource();
     mockNetworkInfo = MockNetworkInfo();
+    mockFailureMapperHelper = MockFailureMapperHelper();
     repository = RecentlyAddedRepositoryImpl(
       dataSource: mockRecentlyAddedDataSource,
       networkInfo: mockNetworkInfo,
