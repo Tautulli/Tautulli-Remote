@@ -74,9 +74,13 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else {
+      } else if (state.serverList.length > 0) {
         setState(() {
           _tautulliId = state.serverList[0].tautulliId;
+        });
+      } else {
+        setState(() {
+          _tautulliId = null;
         });
       }
 

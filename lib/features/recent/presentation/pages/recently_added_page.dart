@@ -74,10 +74,12 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else {
+      } else if (state.serverList.length > 0) {
         setState(() {
           _tautulliId = state.serverList[0].tautulliId;
         });
+      } else {
+        _tautulliId = null;
       }
 
       _recentlyAddedBloc.add(RecentlyAddedFetched(

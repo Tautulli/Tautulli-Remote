@@ -72,10 +72,12 @@ class _UsersPageContentState extends State<UsersPageContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else {
+      } else if (state.serverList.length > 0) {
         setState(() {
           _tautulliId = state.serverList[0].tautulliId;
         });
+      } else {
+        _tautulliId = null;
       }
 
       _usersBloc.add(
