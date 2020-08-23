@@ -43,8 +43,8 @@ class _UsersPageContentState extends State<UsersPageContent> {
   SettingsBloc _settingsBloc;
   UsersBloc _usersBloc;
   String _tautulliId;
-  String _orderColumn;
-  String _orderDir;
+  String _orderColumn = 'friendly_name';
+  String _orderDir = 'asc';
 
   @override
   void initState() {
@@ -77,9 +77,6 @@ class _UsersPageContentState extends State<UsersPageContent> {
           _tautulliId = state.serverList[0].tautulliId;
         });
       }
-
-      _orderColumn = 'friendly_name';
-      _orderDir = 'asc';
 
       _usersBloc.add(
         UsersFetch(
