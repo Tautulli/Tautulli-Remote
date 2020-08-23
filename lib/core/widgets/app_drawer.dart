@@ -70,7 +70,8 @@ class AppDrawer extends StatelessWidget {
               ),
               title: Text('Activity'),
               onTap: () {
-                if (route.settings.name != ActivityPage.routeName) {
+                if (route.settings.name != ActivityPage.routeName &&
+                    route.settings.name != '/') {
                   Navigator.of(context)
                       .pushReplacementNamed(ActivityPage.routeName);
                 } else {
