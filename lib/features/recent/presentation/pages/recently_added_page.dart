@@ -274,7 +274,14 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
           }
         },
         child: PopupMenuButton(
-          icon: FaIcon(FontAwesomeIcons.filter),
+          icon: FaIcon(
+            FontAwesomeIcons.filter,
+            color: !_recentlyAddedLoaded
+                ? Theme.of(context).disabledColor
+                : _mediaType != 'all'
+                    ? Theme.of(context).accentColor
+                    : TautulliColorPalette.not_white,
+          ),
           tooltip: 'Filter media type',
           enabled: _recentlyAddedLoaded,
           onSelected: (value) {

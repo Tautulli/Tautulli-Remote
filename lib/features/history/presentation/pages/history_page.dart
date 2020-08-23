@@ -46,8 +46,8 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
   HistoryBloc _historyBloc;
   String _tautulliId;
   int _userId;
-  String _mediaType = 'all';
-  bool _historyLoaded = false;
+  String _mediaType;
+  bool _historyLoaded;
 
   @override
   void initState() {
@@ -56,6 +56,8 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
     _refreshCompleter = Completer<void>();
     _settingsBloc = context.bloc<SettingsBloc>();
     _historyBloc = context.bloc<HistoryBloc>();
+    _mediaType = 'all';
+    _historyLoaded = false;
 
     final state = _settingsBloc.state;
 
@@ -324,7 +326,14 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
         },
       ),
       PopupMenuButton(
-        icon: FaIcon(FontAwesomeIcons.filter),
+        icon: FaIcon(
+          FontAwesomeIcons.filter,
+          color: !_historyLoaded
+              ? Theme.of(context).disabledColor
+              : _mediaType != 'all'
+                  ? Theme.of(context).accentColor
+                  : TautulliColorPalette.not_white,
+        ),
         tooltip: 'Filter media type',
         enabled: _historyLoaded,
         onSelected: (value) {

@@ -260,26 +260,6 @@ class _UsersPageContentState extends State<UsersPageContent> {
     }
   }
 
-  FaIcon _currentSortIcon(
-    String orderColumn,
-    String orderDir,
-  ) {
-    if (orderColumn == 'friendly_name') {
-      if (orderDir == 'asc') {
-        return FaIcon(FontAwesomeIcons.sortAlphaDown);
-      } else {
-        return FaIcon(FontAwesomeIcons.sortAlphaUp);
-      }
-    }
-    if (orderColumn == 'last_seen') {
-      if (orderDir == 'asc') {
-        return FaIcon(FontAwesomeIcons.sortNumericUp);
-      } else {
-        return FaIcon(FontAwesomeIcons.sortNumericDown);
-      }
-    }
-  }
-
   List<Widget> _appBarActions() {
     return [
       BlocListener<UsersBloc, UsersState>(
@@ -295,7 +275,8 @@ class _UsersPageContentState extends State<UsersPageContent> {
           }
         },
         child: PopupMenuButton(
-          icon: _currentSortIcon(_orderColumn, _orderDir),
+          icon:
+              _currentSortIcon(orderColumn: _orderColumn, orderDir: _orderDir),
           tooltip: 'Sort users',
           enabled: _usersLoaded,
           onSelected: (value) {
@@ -352,5 +333,25 @@ class _UsersPageContentState extends State<UsersPageContent> {
         ),
       )
     ];
+  }
+
+  FaIcon _currentSortIcon({
+    @required String orderColumn,
+    @required String orderDir,
+  }) {
+    if (orderColumn == 'friendly_name') {
+      if (orderDir == 'asc') {
+        return FaIcon(FontAwesomeIcons.sortAlphaDown);
+      } else {
+        return FaIcon(FontAwesomeIcons.sortAlphaUp);
+      }
+    }
+    if (orderColumn == 'last_seen') {
+      if (orderDir == 'asc') {
+        return FaIcon(FontAwesomeIcons.sortNumericUp);
+      } else {
+        return FaIcon(FontAwesomeIcons.sortNumericDown);
+      }
+    }
   }
 }
