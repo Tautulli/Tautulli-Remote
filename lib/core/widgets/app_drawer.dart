@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../features/activity/presentation/pages/activity_page.dart';
+import '../../features/history/presentation/pages/history_page.dart';
+import '../../features/recent/presentation/pages/recently_added_page.dart';
+import '../../features/settings/presentation/pages/settings_page.dart';
+import '../../features/users/presentation/pages/users_page.dart';
 import '../helpers/color_palette_helper.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -8,6 +13,8 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final route = ModalRoute.of(context);
+
     return Drawer(
       child: Container(
         decoration: BoxDecoration(color: PlexColorPalette.shark),
@@ -63,7 +70,12 @@ class AppDrawer extends StatelessWidget {
               ),
               title: Text('Activity'),
               onTap: () {
-                Navigator.of(context).pushReplacementNamed('/activity');
+                final String routeName = ActivityPage.routeName;
+                if (route.settings.name != routeName) {
+                  Navigator.of(context).pushReplacementNamed(routeName);
+                } else {
+                  Navigator.pop(context);
+                }
               },
             ),
             ListTile(
@@ -73,7 +85,12 @@ class AppDrawer extends StatelessWidget {
               ),
               title: Text('History'),
               onTap: () {
-                Navigator.of(context).pushReplacementNamed('/history');
+                final String routeName = HistoryPage.routeName;
+                if (route.settings.name != routeName) {
+                  Navigator.of(context).pushReplacementNamed(routeName);
+                } else {
+                  Navigator.pop(context);
+                }
               },
             ),
             ListTile(
@@ -83,7 +100,12 @@ class AppDrawer extends StatelessWidget {
               ),
               title: Text('Recently Added'),
               onTap: () {
-                Navigator.of(context).pushReplacementNamed('/recent');
+                final String routeName = RecentlyAddedPage.routeName;
+                if (route.settings.name != routeName) {
+                  Navigator.of(context).pushReplacementNamed(routeName);
+                } else {
+                  Navigator.pop(context);
+                }
               },
             ),
             // ListTile(
@@ -101,7 +123,12 @@ class AppDrawer extends StatelessWidget {
               ),
               title: Text('Users'),
               onTap: () {
-                Navigator.of(context).pushReplacementNamed('/users');
+                final String routeName = UsersPage.routeName;
+                if (route.settings.name != routeName) {
+                  Navigator.of(context).pushReplacementNamed(routeName);
+                } else {
+                  Navigator.pop(context);
+                }
               },
             ),
             // ListTile(
@@ -119,7 +146,12 @@ class AppDrawer extends StatelessWidget {
               ),
               title: Text('Settings'),
               onTap: () {
-                Navigator.of(context).pushReplacementNamed('/settings');
+                final String routeName = SettingsPage.routeName;
+                if (route.settings.name != routeName) {
+                  Navigator.of(context).pushReplacementNamed(routeName);
+                } else {
+                  Navigator.pop(context);
+                }
               },
             ),
             // Padding(
