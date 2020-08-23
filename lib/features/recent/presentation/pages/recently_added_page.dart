@@ -46,7 +46,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
   SettingsBloc _settingsBloc;
   RecentlyAddedBloc _recentlyAddedBloc;
   String _tautulliId;
-  String _mediaType;
+  String _mediaType = 'all';
 
   @override
   void initState() {
@@ -55,7 +55,6 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
     _refreshCompleter = Completer<void>();
     _settingsBloc = context.bloc<SettingsBloc>();
     _recentlyAddedBloc = context.bloc<RecentlyAddedBloc>();
-    _mediaType = 'all';
 
     final state = _settingsBloc.state;
 
@@ -95,82 +94,92 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
       appBar: AppBar(
         title: Text('Recently Added'),
         actions: [
-          PopupMenuButton(
-            icon: FaIcon(
-              FontAwesomeIcons.filter,
-              color: _mediaType == 'all'
-                  ? TautulliColorPalette.not_white
-                  : Theme.of(context).accentColor,
-            ),
-            onSelected: (value) {
-              if (_mediaType != value) {
-                setState(() {
-                  _mediaType = value;
-                });
-                _recentlyAddedBloc.add(RecentlyAddedFilter(
-                  tautulliId: _tautulliId,
-                  mediaType: _mediaType,
-                ));
+          BlocBuilder<RecentlyAddedBloc, RecentlyAddedState>(
+            builder: (context, state) {
+              if (state is RecentlyAddedSuccess) {
+                return PopupMenuButton(
+                  icon: FaIcon(
+                    FontAwesomeIcons.filter,
+                    color: _mediaType == 'all'
+                        ? TautulliColorPalette.not_white
+                        : Theme.of(context).accentColor,
+                  ),
+                  onSelected: (value) {
+                    if (_mediaType != value) {
+                      setState(() {
+                        _mediaType = value;
+                      });
+                      _recentlyAddedBloc.add(RecentlyAddedFilter(
+                        tautulliId: _tautulliId,
+                        mediaType: _mediaType,
+                      ));
+                    }
+                  },
+                  itemBuilder: (context) {
+                    return [
+                      PopupMenuItem(
+                        child: Text(
+                          'All',
+                          style: TextStyle(
+                            color: _mediaType == 'all'
+                                ? Theme.of(context).accentColor
+                                : TautulliColorPalette.not_white,
+                          ),
+                        ),
+                        value: 'all',
+                      ),
+                      PopupMenuItem(
+                        child: Text(
+                          'Movies',
+                          style: TextStyle(
+                            color: _mediaType == 'movie'
+                                ? Theme.of(context).accentColor
+                                : TautulliColorPalette.not_white,
+                          ),
+                        ),
+                        value: 'movie',
+                      ),
+                      PopupMenuItem(
+                        child: Text(
+                          'TV Shows',
+                          style: TextStyle(
+                            color: _mediaType == 'show'
+                                ? Theme.of(context).accentColor
+                                : TautulliColorPalette.not_white,
+                          ),
+                        ),
+                        value: 'show',
+                      ),
+                      PopupMenuItem(
+                        child: Text(
+                          'Music',
+                          style: TextStyle(
+                            color: _mediaType == 'artist'
+                                ? Theme.of(context).accentColor
+                                : TautulliColorPalette.not_white,
+                          ),
+                        ),
+                        value: 'artist',
+                      ),
+                      PopupMenuItem(
+                        child: Text(
+                          'Videos',
+                          style: TextStyle(
+                            color: _mediaType == 'other_video'
+                                ? Theme.of(context).accentColor
+                                : TautulliColorPalette.not_white,
+                          ),
+                        ),
+                        value: 'other_video',
+                      ),
+                    ];
+                  },
+                );
               }
-            },
-            itemBuilder: (context) {
-              return [
-                PopupMenuItem(
-                  child: Text(
-                    'All',
-                    style: TextStyle(
-                      color: _mediaType == 'all'
-                          ? Theme.of(context).accentColor
-                          : TautulliColorPalette.not_white,
-                    ),
-                  ),
-                  value: 'all',
-                ),
-                PopupMenuItem(
-                  child: Text(
-                    'Movies',
-                    style: TextStyle(
-                      color: _mediaType == 'movie'
-                          ? Theme.of(context).accentColor
-                          : TautulliColorPalette.not_white,
-                    ),
-                  ),
-                  value: 'movie',
-                ),
-                PopupMenuItem(
-                  child: Text(
-                    'TV Shows',
-                    style: TextStyle(
-                      color: _mediaType == 'show'
-                          ? Theme.of(context).accentColor
-                          : TautulliColorPalette.not_white,
-                    ),
-                  ),
-                  value: 'show',
-                ),
-                PopupMenuItem(
-                  child: Text(
-                    'Music',
-                    style: TextStyle(
-                      color: _mediaType == 'artist'
-                          ? Theme.of(context).accentColor
-                          : TautulliColorPalette.not_white,
-                    ),
-                  ),
-                  value: 'artist',
-                ),
-                PopupMenuItem(
-                  child: Text(
-                    'Videos',
-                    style: TextStyle(
-                      color: _mediaType == 'other_video'
-                          ? Theme.of(context).accentColor
-                          : TautulliColorPalette.not_white,
-                    ),
-                  ),
-                  value: 'other_video',
-                ),
-              ];
+              return IconButton(
+                icon: FaIcon(FontAwesomeIcons.filter),
+                onPressed: null,
+              );
             },
           ),
         ],
