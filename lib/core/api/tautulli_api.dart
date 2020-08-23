@@ -24,9 +24,31 @@ abstract class TautulliApi {
     @required String tautulliId,
     String ipAddress,
   });
+  Future<Map<String, dynamic>> getUserNames({
+    @required String tautulliId,
+  });
   Future<Map<String, dynamic>> getUsersTable({
     @required String tautulliId,
     int grouping,
+    String orderColumn,
+    String orderDir,
+    int start,
+    int length,
+    String search,
+  });
+  Future<Map<String, dynamic>> getHistory({
+    @required String tautulliId,
+    int grouping,
+    String user,
+    int userId,
+    int ratingKey,
+    int parentRatingKey,
+    int grandparentRatingKey,
+    String startDate,
+    int sectionId,
+    String mediaType,
+    String transcodeDecision,
+    String guid,
     String orderColumn,
     String orderDir,
     int start,
@@ -272,6 +294,10 @@ class TautulliApiImpl implements TautulliApi {
     return responseJson;
   }
 
+  /// Returns a Map of the decoded JSON response from
+  /// the `get_recently_added` endpoint.
+  ///
+  /// Throws a [JsonDecodeException] if the json decode fails.
   Future<Map<String, dynamic>> getRecentlyAdded({
     @required String tautulliId,
     @required int count,
@@ -300,6 +326,21 @@ class TautulliApiImpl implements TautulliApi {
     return responseJson;
   }
 
+  Future<Map<String, dynamic>> getUserNames({
+    @required String tautulliId,
+  }) async {
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_user_names',
+    );
+
+    return responseJson;
+  }
+
+  /// Returns a Map of the decoded JSON response from
+  /// the `get_users_table` endpoint.
+  ///
+  /// Throws a [JsonDecodeException] if the json decode fails.
   Future<Map<String, dynamic>> getUsersTable({
     @required String tautulliId,
     int grouping,
@@ -333,6 +374,85 @@ class TautulliApiImpl implements TautulliApi {
     final responseJson = await connectionHandler(
       tautulliId: tautulliId,
       cmd: 'get_users_table',
+      params: params,
+    );
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getHistory({
+    @required String tautulliId,
+    int grouping,
+    String user,
+    int userId,
+    int ratingKey,
+    int parentRatingKey,
+    int grandparentRatingKey,
+    String startDate,
+    int sectionId,
+    String mediaType,
+    String transcodeDecision,
+    String guid,
+    String orderColumn,
+    String orderDir,
+    int start,
+    int length,
+    String search,
+  }) async {
+    Map<String, String> params = {};
+
+    if (grouping != null) {
+      params['grouping'] = grouping.toString();
+    }
+    if (user != null) {
+      params['user'] = user;
+    }
+    if (userId != null) {
+      params['user_id'] = userId.toString();
+    }
+    if (ratingKey != null) {
+      params['rating_key'] = ratingKey.toString();
+    }
+    if (parentRatingKey != null) {
+      params['parent_rating_key'] = parentRatingKey.toString();
+    }
+    if (grandparentRatingKey != null) {
+      params['grandparent_rating_key'] = grandparentRatingKey.toString();
+    }
+    if (startDate != null) {
+      params['start_date'] = startDate;
+    }
+    if (sectionId != null) {
+      params['section_id'] = sectionId.toString();
+    }
+    if (mediaType != null) {
+      params['media_type'] = mediaType;
+    }
+    if (transcodeDecision != null) {
+      params['transcode_decision'] = transcodeDecision;
+    }
+    if (guid != null) {
+      params['guid'] = guid;
+    }
+    if (orderColumn != null) {
+      params['order_column'] = orderColumn;
+    }
+    if (orderDir != null) {
+      params['order_dir'] = orderDir;
+    }
+    if (start != null) {
+      params['start'] = start.toString();
+    }
+    if (length != null) {
+      params['length'] = length.toString();
+    }
+    if (search != null) {
+      params['search'] = search;
+    }
+
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_history',
       params: params,
     );
 
