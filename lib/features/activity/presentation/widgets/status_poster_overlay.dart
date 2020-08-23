@@ -33,7 +33,7 @@ class StatusPosterOverlay extends StatelessWidget {
             children: <Widget>[
               FaIcon(
                 _mapStateToIcon(state),
-                color: PlexColorPalette.white,
+                color: TautulliColorPalette.not_white,
                 size: 50,
               ),
             ],
@@ -50,6 +50,8 @@ IconData _mapStateToIcon(String state) {
       return FontAwesomeIcons.pauseCircle;
     case 'buffering':
       return FontAwesomeIcons.spinner;
+    case 'playing':
+      return FontAwesomeIcons.playCircle;
     default:
       return FontAwesomeIcons.exclamationCircle;
   }
