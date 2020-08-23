@@ -63,4 +63,10 @@ class TimeFormatHelper {
 
     return 'ETA: ${DateFormat.jm().format(eta)}';
   }
+
+  static String cleanDateTime(int timeSinceEpochInSeconds) {
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeSinceEpochInSeconds * 1000);
+
+    return '${dateTime.year}-${dateTime.month.toString().padLeft(2, "0")}-${dateTime.day.toString().padLeft(2, "0")} ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, "0")}';
+  }
 }
