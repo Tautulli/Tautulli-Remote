@@ -47,6 +47,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
   RecentlyAddedBloc _recentlyAddedBloc;
   String _tautulliId;
   String _mediaType = 'all';
+  bool _recentlyAddedLoaded = false;
 
   @override
   void initState() {
@@ -91,13 +92,11 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
 
   @override
   Widget build(BuildContext context) {
-    bool _recentlyAddedLoaded = false;
-
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title: Text('Recently Added'),
-        actions: _appBarActions(_recentlyAddedLoaded),
+        actions: _appBarActions(),
       ),
       drawer: AppDrawer(),
       body: Column(
@@ -260,20 +259,24 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
     }
   }
 
-  List<Widget> _appBarActions(bool recentlyAddedLoaded) {
+  List<Widget> _appBarActions() {
     return [
       BlocListener<RecentlyAddedBloc, RecentlyAddedState>(
         listener: (context, state) {
           if (state is RecentlyAddedSuccess) {
-            recentlyAddedLoaded = true;
+            setState(() {
+              _recentlyAddedLoaded = true;
+            });
           } else {
-            recentlyAddedLoaded = false;
+            setState(() {
+              _recentlyAddedLoaded = false;
+            });
           }
         },
         child: PopupMenuButton(
           icon: FaIcon(FontAwesomeIcons.filter),
           tooltip: 'Filter media type',
-          enabled: recentlyAddedLoaded,
+          enabled: _recentlyAddedLoaded,
           onSelected: (value) {
             if (_mediaType != value) {
               setState(() {

@@ -45,6 +45,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
   String _tautulliId;
   String _orderColumn = 'friendly_name';
   String _orderDir = 'asc';
+  bool _usersLoaded = false;
 
   @override
   void initState() {
@@ -92,13 +93,11 @@ class _UsersPageContentState extends State<UsersPageContent> {
 
   @override
   Widget build(BuildContext context) {
-    bool _usersLoaded = false;
-
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title: Text('Users'),
-        actions: _appBarActions(_usersLoaded),
+        actions: _appBarActions(),
       ),
       drawer: AppDrawer(),
       body: LayoutBuilder(
@@ -281,20 +280,24 @@ class _UsersPageContentState extends State<UsersPageContent> {
     }
   }
 
-  List<Widget> _appBarActions(bool usersLoaded) {
+  List<Widget> _appBarActions() {
     return [
       BlocListener<UsersBloc, UsersState>(
         listener: (context, state) {
           if (state is UsersSuccess) {
-            usersLoaded = true;
+            setState(() {
+              _usersLoaded = true;
+            });
           } else {
-            usersLoaded = false;
+            setState(() {
+              _usersLoaded = false;
+            });
           }
         },
         child: PopupMenuButton(
           icon: _currentSortIcon(_orderColumn, _orderDir),
           tooltip: 'Sort users',
-          enabled: usersLoaded,
+          enabled: _usersLoaded,
           onSelected: (value) {
             List<String> values = value.split('|');
 

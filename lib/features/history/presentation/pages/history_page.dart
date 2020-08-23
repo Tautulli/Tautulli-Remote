@@ -47,6 +47,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
   String _tautulliId;
   int _userId;
   String _mediaType = 'all';
+  bool _historyLoaded = false;
 
   @override
   void initState() {
@@ -96,13 +97,11 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
 
   @override
   Widget build(BuildContext context) {
-    bool _historyLoaded = false;
-
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title: Text('History'),
-        actions: _appBarActions(_historyLoaded),
+        actions: _appBarActions(),
       ),
       drawer: AppDrawer(),
       body: Column(
@@ -259,14 +258,18 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
     }
   }
 
-  List<Widget> _appBarActions(bool historyLoaded) {
+  List<Widget> _appBarActions() {
     return [
       BlocConsumer<HistoryBloc, HistoryState>(
         listener: (context, state) {
           if (state is HistorySuccess) {
-            historyLoaded = true;
+            setState(() {
+              _historyLoaded = true;
+            });
           } else {
-            historyLoaded = false;
+            setState(() {
+              _historyLoaded = false;
+            });
           }
         },
         builder: (context, state) {
@@ -323,7 +326,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
       PopupMenuButton(
         icon: FaIcon(FontAwesomeIcons.filter),
         tooltip: 'Filter media type',
-        enabled: historyLoaded,
+        enabled: _historyLoaded,
         onSelected: (value) {
           if (_mediaType != value) {
             setState(() {
