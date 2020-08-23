@@ -153,12 +153,10 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
                 },
               );
 
-              //TODO: Remove background art code if we stick with poster for background
               //* Fetch and assign image URLs
               String posterImg;
               int posterRatingKey;
               String posterFallback;
-              // String backgroundImg;
 
               // Assign values for poster URL
               switch (activityItem.mediaType) {
@@ -186,22 +184,13 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
                   posterFallback = 'cover';
                   break;
                 case ('clip'):
-                  posterImg = activityItem.art.replaceFirst('/art', '/thumb');
+                  posterImg = activityItem.thumb;
                   posterRatingKey = activityItem.ratingKey;
                   posterFallback = 'poster';
                   break;
                 default:
                   posterRatingKey = activityItem.ratingKey;
               }
-
-              // Assign values for background URL
-              // switch (activityItem.mediaType) {
-              //   case ('photo'):
-              //     backgroundImg = activityItem.thumb;
-              //     break;
-              //   default:
-              //     backgroundImg = activityItem.art;
-              // }
 
               // Attempt to get poster URL
               final failureOrPosterUrl = await getImageUrl(
@@ -219,23 +208,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
                   activityItem.posterUrl = url;
                 },
               );
-
-              // Attempt to get background art URL
-              // final failureOrBackgroundUrl = await getImageUrl(
-              //   tautulliId: keys[i],
-              //   img: backgroundImg,
-              //   ratingKey: activityItem.ratingKey,
-              //   fallback: 'art',
-              // );
-              // failureOrBackgroundUrl.fold(
-              //   (failure) {
-              //     logging.warning(
-              //         'Activity: Failed to load background art for rating key: ${activityItem.ratingKey}');
-              //   },
-              //   (url) {
-              //     activityItem.backgroundUrl = url;
-              //   },
-              // );
             }
           }
         }

@@ -77,7 +77,6 @@ class ActivityItem extends Equatable {
   final int year; // Release year
   GeoIpItem geoIpItem;
   String posterUrl;
-  // String backgroundUrl;
 
   ActivityItem({
     @required this.sessionKey,
@@ -151,7 +150,6 @@ class ActivityItem extends Equatable {
     this.year,
     this.geoIpItem,
     this.posterUrl,
-    // this.backgroundUrl,
   });
 
   @override
@@ -226,7 +224,6 @@ class ActivityItem extends Equatable {
         year,
         geoIpItem,
         posterUrl,
-        // backgroundUrl,
       ];
 
   @override

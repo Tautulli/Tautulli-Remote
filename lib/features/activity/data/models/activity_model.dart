@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/entities/geo_ip.dart';
 
-//TODO: Remove background art code if we stick with poster for background
 class ActivityItemModel extends ActivityItem {
   ActivityItemModel({
     @required final int sessionKey,
@@ -79,7 +78,6 @@ class ActivityItemModel extends ActivityItem {
     final int year, // Release year
     GeoIpItem geoIpItem,
     String posterUrl,
-    // String backgroundUrl,
   }) : super(
           sessionKey: sessionKey,
           sessionId: sessionId,
@@ -152,7 +150,6 @@ class ActivityItemModel extends ActivityItem {
           year: year,
           geoIpItem: geoIpItem,
           posterUrl: posterUrl,
-          // backgroundUrl: backgroundUrl,
         );
 
   factory ActivityItemModel.fromJson(Map<String, dynamic> json) {
