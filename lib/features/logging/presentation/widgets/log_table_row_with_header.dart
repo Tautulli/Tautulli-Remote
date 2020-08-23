@@ -15,21 +15,29 @@ class LogTableRowWithHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const Color textColor = TautulliColorPalette.not_white;
+    const double textSize = 13;
+
     return Column(
       children: <Widget>[
         Container(
-          decoration: BoxDecoration(color: PlexColorPalette.shark),
+          decoration: BoxDecoration(color: TautulliColorPalette.midnight),
           child: Row(
             children: <Widget>[
               Container(
                 width: 100,
                 padding: const EdgeInsets.only(
-                  top: 8,
-                  bottom: 8,
+                  top: 14,
+                  bottom: 14,
                   left: 12,
-                  right: 6,
                 ),
-                child: Text('Timestamp'),
+                child: Text(
+                  'Timestamp',
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: textSize,
+                  ),
+                ),
               ),
               Container(
                 width: 86,
@@ -37,7 +45,13 @@ class LogTableRowWithHeader extends StatelessWidget {
                   vertical: 8,
                   horizontal: 6,
                 ),
-                child: Text('Level'),
+                child: Text(
+                  'Level',
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: textSize,
+                  ),
+                ),
               ),
               Expanded(
                 child: Padding(
@@ -47,7 +61,13 @@ class LogTableRowWithHeader extends StatelessWidget {
                     left: 6,
                     right: 12,
                   ),
-                  child: Text('Message'),
+                  child: Text(
+                    'Message',
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: textSize,
+                    ),
+                  ),
                 ),
               ),
             ],

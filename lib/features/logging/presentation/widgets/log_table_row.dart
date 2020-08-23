@@ -14,6 +14,9 @@ class LogTableRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const Color textColor = TautulliColorPalette.not_white;
+    const double textSize = 13;
+
     return Container(
       decoration: BoxDecoration(
         color: (index % 2 == 0)
@@ -30,13 +33,26 @@ class LogTableRow extends StatelessWidget {
               left: 12,
               right: 6,
             ),
-            child: Column(
-              children: <Widget>[
-                Text(
-                    "${logMap['timestamp']['year']}-${logMap['timestamp']['month']}-${logMap['timestamp']['day']}"),
-                Text(
-                    "${logMap['timestamp']['hour']}:${logMap['timestamp']['minute']}:${logMap['timestamp']['second']}"),
-              ],
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    "${logMap['timestamp']['year']}-${logMap['timestamp']['month']}-${logMap['timestamp']['day']}",
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: textSize,
+                    ),
+                  ),
+                  Text(
+                    "${logMap['timestamp']['hour']}:${logMap['timestamp']['minute']}:${logMap['timestamp']['second']}",
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: textSize,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Container(
@@ -45,7 +61,13 @@ class LogTableRow extends StatelessWidget {
               vertical: 8,
               horizontal: 6,
             ),
-            child: Text(logMap['level']),
+            child: Text(
+              logMap['level'],
+              style: TextStyle(
+                color: textColor,
+                fontSize: textSize,
+              ),
+            ),
           ),
           Expanded(
             child: Padding(
@@ -55,7 +77,13 @@ class LogTableRow extends StatelessWidget {
                 left: 6,
                 right: 12,
               ),
-              child: Text(logMap['message']),
+              child: Text(
+                logMap['message'],
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: textSize,
+                ),
+              ),
             ),
           ),
         ],
