@@ -92,67 +92,13 @@ class _UsersPageContentState extends State<UsersPageContent> {
 
   @override
   Widget build(BuildContext context) {
+    bool _usersLoaded = false;
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title: Text('Users'),
-        actions: [
-          PopupMenuButton(
-            icon: _currentSortIcon(_orderColumn, _orderDir),
-            tooltip: 'Sort users',
-            onSelected: (value) {
-              List<String> values = value.split('|');
-
-              setState(() {
-                _orderColumn = values[0];
-                _orderDir = values[1];
-              });
-              _usersBloc.add(
-                UsersFilter(
-                  tautulliId: _tautulliId,
-                  orderColumn: _orderColumn,
-                  orderDir: _orderDir,
-                ),
-              );
-            },
-            itemBuilder: (context) {
-              return [
-                PopupMenuItem(
-                  child: Row(
-                    children: [
-                      _orderColumn == 'friendly_name' && _orderDir == 'asc'
-                          ? FaIcon(FontAwesomeIcons.sortAlphaUp)
-                          : FaIcon(FontAwesomeIcons.sortAlphaDown),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4),
-                        child: Text('Name'),
-                      ),
-                    ],
-                  ),
-                  value: _orderColumn == 'friendly_name' && _orderDir == 'asc'
-                      ? 'friendly_name|desc'
-                      : 'friendly_name|asc',
-                ),
-                PopupMenuItem(
-                  child: Row(
-                    children: [
-                      _orderColumn == 'last_seen' && _orderDir == 'desc'
-                          ? FaIcon(FontAwesomeIcons.sortNumericUp)
-                          : FaIcon(FontAwesomeIcons.sortNumericDown),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4),
-                        child: Text('Last Streamed'),
-                      ),
-                    ],
-                  ),
-                  value: _orderColumn == 'last_seen' && _orderDir == 'desc'
-                      ? 'last_seen|asc'
-                      : 'last_seen|desc',
-                ),
-              ];
-            },
-          ),
-        ],
+        actions: _appBarActions(_usersLoaded),
       ),
       drawer: AppDrawer(),
       body: LayoutBuilder(
@@ -294,7 +240,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
       ),
     );
   }
-  
+
   @override
   void dispose() {
     super.dispose();
@@ -333,5 +279,75 @@ class _UsersPageContentState extends State<UsersPageContent> {
         return FaIcon(FontAwesomeIcons.sortNumericDown);
       }
     }
+  }
+
+  List<Widget> _appBarActions(bool usersLoaded) {
+    return [
+      BlocListener<UsersBloc, UsersState>(
+        listener: (context, state) {
+          if (state is UsersSuccess) {
+            usersLoaded = true;
+          } else {
+            usersLoaded = false;
+          }
+        },
+        child: PopupMenuButton(
+          icon: _currentSortIcon(_orderColumn, _orderDir),
+          tooltip: 'Sort users',
+          enabled: usersLoaded,
+          onSelected: (value) {
+            List<String> values = value.split('|');
+
+            setState(() {
+              _orderColumn = values[0];
+              _orderDir = values[1];
+            });
+            _usersBloc.add(
+              UsersFilter(
+                tautulliId: _tautulliId,
+                orderColumn: _orderColumn,
+                orderDir: _orderDir,
+              ),
+            );
+          },
+          itemBuilder: (context) {
+            return [
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    _orderColumn == 'friendly_name' && _orderDir == 'asc'
+                        ? FaIcon(FontAwesomeIcons.sortAlphaUp)
+                        : FaIcon(FontAwesomeIcons.sortAlphaDown),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Text('Name'),
+                    ),
+                  ],
+                ),
+                value: _orderColumn == 'friendly_name' && _orderDir == 'asc'
+                    ? 'friendly_name|desc'
+                    : 'friendly_name|asc',
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    _orderColumn == 'last_seen' && _orderDir == 'desc'
+                        ? FaIcon(FontAwesomeIcons.sortNumericUp)
+                        : FaIcon(FontAwesomeIcons.sortNumericDown),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Text('Last Streamed'),
+                    ),
+                  ],
+                ),
+                value: _orderColumn == 'last_seen' && _orderDir == 'desc'
+                    ? 'last_seen|asc'
+                    : 'last_seen|desc',
+              ),
+            ];
+          },
+        ),
+      )
+    ];
   }
 }

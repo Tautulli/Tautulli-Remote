@@ -91,100 +91,13 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
 
   @override
   Widget build(BuildContext context) {
+    bool _recentlyAddedLoaded = false;
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title: Text('Recently Added'),
-        actions: [
-          BlocBuilder<RecentlyAddedBloc, RecentlyAddedState>(
-            builder: (context, state) {
-              if (state is RecentlyAddedSuccess) {
-                return PopupMenuButton(
-                  icon: FaIcon(
-                    FontAwesomeIcons.filter,
-                    color: _mediaType == 'all'
-                        ? TautulliColorPalette.not_white
-                        : Theme.of(context).accentColor,
-                  ),
-                  onSelected: (value) {
-                    if (_mediaType != value) {
-                      setState(() {
-                        _mediaType = value;
-                      });
-                      _recentlyAddedBloc.add(RecentlyAddedFilter(
-                        tautulliId: _tautulliId,
-                        mediaType: _mediaType,
-                      ));
-                    }
-                  },
-                  itemBuilder: (context) {
-                    return [
-                      PopupMenuItem(
-                        child: Text(
-                          'All',
-                          style: TextStyle(
-                            color: _mediaType == 'all'
-                                ? Theme.of(context).accentColor
-                                : TautulliColorPalette.not_white,
-                          ),
-                        ),
-                        value: 'all',
-                      ),
-                      PopupMenuItem(
-                        child: Text(
-                          'Movies',
-                          style: TextStyle(
-                            color: _mediaType == 'movie'
-                                ? Theme.of(context).accentColor
-                                : TautulliColorPalette.not_white,
-                          ),
-                        ),
-                        value: 'movie',
-                      ),
-                      PopupMenuItem(
-                        child: Text(
-                          'TV Shows',
-                          style: TextStyle(
-                            color: _mediaType == 'show'
-                                ? Theme.of(context).accentColor
-                                : TautulliColorPalette.not_white,
-                          ),
-                        ),
-                        value: 'show',
-                      ),
-                      PopupMenuItem(
-                        child: Text(
-                          'Music',
-                          style: TextStyle(
-                            color: _mediaType == 'artist'
-                                ? Theme.of(context).accentColor
-                                : TautulliColorPalette.not_white,
-                          ),
-                        ),
-                        value: 'artist',
-                      ),
-                      PopupMenuItem(
-                        child: Text(
-                          'Videos',
-                          style: TextStyle(
-                            color: _mediaType == 'other_video'
-                                ? Theme.of(context).accentColor
-                                : TautulliColorPalette.not_white,
-                          ),
-                        ),
-                        value: 'other_video',
-                      ),
-                    ];
-                  },
-                );
-              }
-              return IconButton(
-                icon: FaIcon(FontAwesomeIcons.filter),
-                onPressed: null,
-              );
-            },
-          ),
-        ],
+        actions: _appBarActions(_recentlyAddedLoaded),
       ),
       drawer: AppDrawer(),
       body: Column(
@@ -345,6 +258,95 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
         ),
       );
     }
+  }
+
+  List<Widget> _appBarActions(bool recentlyAddedLoaded) {
+    return [
+      BlocListener<RecentlyAddedBloc, RecentlyAddedState>(
+        listener: (context, state) {
+          if (state is RecentlyAddedSuccess) {
+            recentlyAddedLoaded = true;
+          } else {
+            recentlyAddedLoaded = false;
+          }
+        },
+        child: PopupMenuButton(
+          icon: FaIcon(FontAwesomeIcons.filter),
+          tooltip: 'Filter media type',
+          enabled: recentlyAddedLoaded,
+          onSelected: (value) {
+            if (_mediaType != value) {
+              setState(() {
+                _mediaType = value;
+              });
+              _recentlyAddedBloc.add(RecentlyAddedFilter(
+                tautulliId: _tautulliId,
+                mediaType: _mediaType,
+              ));
+            }
+          },
+          itemBuilder: (context) {
+            return [
+              PopupMenuItem(
+                child: Text(
+                  'All',
+                  style: TextStyle(
+                    color: _mediaType == 'all'
+                        ? Theme.of(context).accentColor
+                        : TautulliColorPalette.not_white,
+                  ),
+                ),
+                value: 'all',
+              ),
+              PopupMenuItem(
+                child: Text(
+                  'Movies',
+                  style: TextStyle(
+                    color: _mediaType == 'movie'
+                        ? Theme.of(context).accentColor
+                        : TautulliColorPalette.not_white,
+                  ),
+                ),
+                value: 'movie',
+              ),
+              PopupMenuItem(
+                child: Text(
+                  'TV Shows',
+                  style: TextStyle(
+                    color: _mediaType == 'show'
+                        ? Theme.of(context).accentColor
+                        : TautulliColorPalette.not_white,
+                  ),
+                ),
+                value: 'show',
+              ),
+              PopupMenuItem(
+                child: Text(
+                  'Music',
+                  style: TextStyle(
+                    color: _mediaType == 'artist'
+                        ? Theme.of(context).accentColor
+                        : TautulliColorPalette.not_white,
+                  ),
+                ),
+                value: 'artist',
+              ),
+              PopupMenuItem(
+                child: Text(
+                  'Videos',
+                  style: TextStyle(
+                    color: _mediaType == 'other_video'
+                        ? Theme.of(context).accentColor
+                        : TautulliColorPalette.not_white,
+                  ),
+                ),
+                value: 'other_video',
+              ),
+            ];
+          },
+        ),
+      ),
+    ];
   }
 }
 

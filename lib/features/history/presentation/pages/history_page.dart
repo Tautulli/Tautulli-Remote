@@ -96,155 +96,13 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
 
   @override
   Widget build(BuildContext context) {
+    bool _historyLoaded = false;
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title: Text('History'),
-        actions: [
-          BlocBuilder<HistoryBloc, HistoryState>(
-            builder: (context, state) {
-              if (state is HistorySuccess) {
-                return PopupMenuButton(
-                  tooltip: 'Users',
-                  icon: FaIcon(
-                    FontAwesomeIcons.userAlt,
-                    color: _userId != null
-                        ? Theme.of(context).accentColor
-                        : TautulliColorPalette.not_white,
-                  ),
-                  onSelected: (value) {
-                    setState(() {
-                      if (value == -1) {
-                        _userId = null;
-                      } else {
-                        _userId = value;
-                      }
-                      _historyBloc.add(
-                        HistoryFilter(
-                          tautulliId: _tautulliId,
-                          userId: _userId,
-                          mediaType: _mediaType,
-                        ),
-                      );
-                    });
-                  },
-                  itemBuilder: (context) {
-                    return state.usersList
-                        .map(
-                          (user) => PopupMenuItem(
-                            child: Text(
-                              user.friendlyName,
-                              style: TextStyle(
-                                color: _userId == user.userId
-                                    ? Theme.of(context).accentColor
-                                    : TautulliColorPalette.not_white,
-                              ),
-                            ),
-                            value: user.userId,
-                          ),
-                        )
-                        .toList();
-                  },
-                );
-              }
-              return IconButton(
-                icon: FaIcon(FontAwesomeIcons.userAlt),
-                onPressed: null,
-              );
-            },
-          ),
-          BlocBuilder<HistoryBloc, HistoryState>(
-            builder: (context, state) {
-              if (state is HistorySuccess) {
-                return PopupMenuButton(
-                  icon: FaIcon(
-                    FontAwesomeIcons.filter,
-                    color: _mediaType == 'all'
-                        ? TautulliColorPalette.not_white
-                        : Theme.of(context).accentColor,
-                  ),
-                  onSelected: (value) {
-                    if (_mediaType != value) {
-                      setState(() {
-                        _mediaType = value;
-                      });
-                      _historyBloc.add(
-                        HistoryFilter(
-                          tautulliId: _tautulliId,
-                          userId: _userId,
-                          mediaType: _mediaType,
-                        ),
-                      );
-                    }
-                  },
-                  itemBuilder: (context) {
-                    return [
-                      PopupMenuItem(
-                        child: Text(
-                          'All',
-                          style: TextStyle(
-                            color: _mediaType == 'all'
-                                ? Theme.of(context).accentColor
-                                : TautulliColorPalette.not_white,
-                          ),
-                        ),
-                        value: 'all',
-                      ),
-                      PopupMenuItem(
-                        child: Text(
-                          'Movies',
-                          style: TextStyle(
-                            color: _mediaType == 'movie'
-                                ? Theme.of(context).accentColor
-                                : TautulliColorPalette.not_white,
-                          ),
-                        ),
-                        value: 'movie',
-                      ),
-                      PopupMenuItem(
-                        child: Text(
-                          'TV Shows',
-                          style: TextStyle(
-                            color: _mediaType == 'episode'
-                                ? Theme.of(context).accentColor
-                                : TautulliColorPalette.not_white,
-                          ),
-                        ),
-                        value: 'episode',
-                      ),
-                      PopupMenuItem(
-                        child: Text(
-                          'Music',
-                          style: TextStyle(
-                            color: _mediaType == 'track'
-                                ? Theme.of(context).accentColor
-                                : TautulliColorPalette.not_white,
-                          ),
-                        ),
-                        value: 'track',
-                      ),
-                      PopupMenuItem(
-                        child: Text(
-                          'Live TV',
-                          style: TextStyle(
-                            color: _mediaType == 'live'
-                                ? Theme.of(context).accentColor
-                                : TautulliColorPalette.not_white,
-                          ),
-                        ),
-                        value: 'live',
-                      ),
-                    ];
-                  },
-                );
-              }
-              return IconButton(
-                icon: FaIcon(FontAwesomeIcons.filter),
-                onPressed: null,
-              );
-            },
-          ),
-        ],
+        actions: _appBarActions(_historyLoaded),
       ),
       drawer: AppDrawer(),
       body: Column(
@@ -399,5 +257,147 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
         ),
       );
     }
+  }
+
+  List<Widget> _appBarActions(bool historyLoaded) {
+    return [
+      BlocConsumer<HistoryBloc, HistoryState>(
+        listener: (context, state) {
+          if (state is HistorySuccess) {
+            historyLoaded = true;
+          } else {
+            historyLoaded = false;
+          }
+        },
+        builder: (context, state) {
+          if (state is HistorySuccess) {
+            return PopupMenuButton(
+              tooltip: 'Users',
+              icon: FaIcon(
+                FontAwesomeIcons.userAlt,
+                color: _userId != null
+                    ? Theme.of(context).accentColor
+                    : TautulliColorPalette.not_white,
+              ),
+              onSelected: (value) {
+                setState(() {
+                  if (value == -1) {
+                    _userId = null;
+                  } else {
+                    _userId = value;
+                  }
+                  _historyBloc.add(
+                    HistoryFilter(
+                      tautulliId: _tautulliId,
+                      userId: _userId,
+                      mediaType: _mediaType,
+                    ),
+                  );
+                });
+              },
+              itemBuilder: (context) {
+                return state.usersList
+                    .map(
+                      (user) => PopupMenuItem(
+                        child: Text(
+                          user.friendlyName,
+                          style: TextStyle(
+                            color: _userId == user.userId
+                                ? Theme.of(context).accentColor
+                                : TautulliColorPalette.not_white,
+                          ),
+                        ),
+                        value: user.userId,
+                      ),
+                    )
+                    .toList();
+              },
+            );
+          }
+          return IconButton(
+            icon: FaIcon(FontAwesomeIcons.userAlt),
+            onPressed: null,
+          );
+        },
+      ),
+      PopupMenuButton(
+        icon: FaIcon(FontAwesomeIcons.filter),
+        tooltip: 'Filter media type',
+        enabled: historyLoaded,
+        onSelected: (value) {
+          if (_mediaType != value) {
+            setState(() {
+              _mediaType = value;
+            });
+            _historyBloc.add(
+              HistoryFilter(
+                tautulliId: _tautulliId,
+                userId: _userId,
+                mediaType: _mediaType,
+              ),
+            );
+          }
+        },
+        itemBuilder: (context) {
+          return [
+            PopupMenuItem(
+              child: Text(
+                'All',
+                style: TextStyle(
+                  color: _mediaType == 'all'
+                      ? Theme.of(context).accentColor
+                      : TautulliColorPalette.not_white,
+                ),
+              ),
+              value: 'all',
+            ),
+            PopupMenuItem(
+              child: Text(
+                'Movies',
+                style: TextStyle(
+                  color: _mediaType == 'movie'
+                      ? Theme.of(context).accentColor
+                      : TautulliColorPalette.not_white,
+                ),
+              ),
+              value: 'movie',
+            ),
+            PopupMenuItem(
+              child: Text(
+                'TV Shows',
+                style: TextStyle(
+                  color: _mediaType == 'episode'
+                      ? Theme.of(context).accentColor
+                      : TautulliColorPalette.not_white,
+                ),
+              ),
+              value: 'episode',
+            ),
+            PopupMenuItem(
+              child: Text(
+                'Music',
+                style: TextStyle(
+                  color: _mediaType == 'track'
+                      ? Theme.of(context).accentColor
+                      : TautulliColorPalette.not_white,
+                ),
+              ),
+              value: 'track',
+            ),
+            PopupMenuItem(
+              child: Text(
+                'Live TV',
+                style: TextStyle(
+                  color: _mediaType == 'live'
+                      ? Theme.of(context).accentColor
+                      : TautulliColorPalette.not_white,
+                ),
+              ),
+              value: 'live',
+            ),
+          ];
+        },
+      ),
+    ];
   }
 }
