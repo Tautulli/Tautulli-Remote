@@ -70,12 +70,16 @@ class AppDrawer extends StatelessWidget {
               ),
               title: Text('Activity'),
               onTap: () {
-                final String routeName = ActivityPage.routeName;
-                if (route.settings.name != routeName) {
-                  Navigator.of(context).pushReplacementNamed(routeName);
+                if (route.settings.name != ActivityPage.routeName) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(ActivityPage.routeName);
                 } else {
                   Navigator.pop(context);
                 }
+              },
+              onLongPress: () {
+                Navigator.of(context)
+                    .pushReplacementNamed(ActivityPage.routeName);
               },
             ),
             ListTile(
@@ -85,12 +89,16 @@ class AppDrawer extends StatelessWidget {
               ),
               title: Text('History'),
               onTap: () {
-                final String routeName = HistoryPage.routeName;
-                if (route.settings.name != routeName) {
-                  Navigator.of(context).pushReplacementNamed(routeName);
+                if (route.settings.name != HistoryPage.routeName) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(HistoryPage.routeName);
                 } else {
                   Navigator.pop(context);
                 }
+              },
+              onLongPress: () {
+                Navigator.of(context)
+                    .pushReplacementNamed(HistoryPage.routeName);
               },
             ),
             ListTile(
@@ -100,12 +108,16 @@ class AppDrawer extends StatelessWidget {
               ),
               title: Text('Recently Added'),
               onTap: () {
-                final String routeName = RecentlyAddedPage.routeName;
-                if (route.settings.name != routeName) {
-                  Navigator.of(context).pushReplacementNamed(routeName);
+                if (route.settings.name != RecentlyAddedPage.routeName) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(RecentlyAddedPage.routeName);
                 } else {
                   Navigator.pop(context);
                 }
+              },
+              onLongPress: () {
+                Navigator.of(context)
+                    .pushReplacementNamed(RecentlyAddedPage.routeName);
               },
             ),
             // ListTile(
@@ -123,12 +135,15 @@ class AppDrawer extends StatelessWidget {
               ),
               title: Text('Users'),
               onTap: () {
-                final String routeName = UsersPage.routeName;
-                if (route.settings.name != routeName) {
-                  Navigator.of(context).pushReplacementNamed(routeName);
+                if (route.settings.name != UsersPage.routeName) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(UsersPage.routeName);
                 } else {
                   Navigator.pop(context);
                 }
+              },
+              onLongPress: () {
+                Navigator.of(context).pushReplacementNamed(UsersPage.routeName);
               },
             ),
             // ListTile(
@@ -146,12 +161,16 @@ class AppDrawer extends StatelessWidget {
               ),
               title: Text('Settings'),
               onTap: () {
-                final String routeName = SettingsPage.routeName;
-                if (route.settings.name != routeName) {
-                  Navigator.of(context).pushReplacementNamed(routeName);
+                if (route.settings.name != SettingsPage.routeName) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(SettingsPage.routeName);
                 } else {
                   Navigator.pop(context);
                 }
+              },
+              onLongPress: () {
+                Navigator.of(context)
+                    .pushReplacementNamed(SettingsPage.routeName);
               },
             ),
             // Padding(
