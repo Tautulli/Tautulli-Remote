@@ -15,11 +15,11 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider<SettingsBloc>(
-          create: (context) => di.sl<SettingsBloc>()..add(SettingsLoad()),
+          create: (context) => di.sl<SettingsBloc>(),
         ),
         BlocProvider<OneSignalHealthBloc>(
           create: (context) =>
-              di.sl<OneSignalHealthBloc>()..add(OneSignalHealthCheck()),
+              di.sl<OneSignalHealthBloc>(),
         ),
         BlocProvider<OneSignalSubscriptionBloc>(
           create: (context) => di.sl<OneSignalSubscriptionBloc>()

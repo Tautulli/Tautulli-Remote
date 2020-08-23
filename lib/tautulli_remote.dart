@@ -13,6 +13,7 @@ import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 import 'features/privacy/presentation/pages/privacy_page.dart';
 import 'features/recent/presentation/pages/recently_added_page.dart';
+import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/users/presentation/pages/users_page.dart';
 
@@ -26,6 +27,8 @@ class _TautulliRemoteState extends State<TautulliRemote> {
   void initState() {
     super.initState();
     initPlatformState();
+    context.bloc<SettingsBloc>().add(SettingsLoad());
+    context.bloc<OneSignalHealthBloc>().add(OneSignalHealthCheck());
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
