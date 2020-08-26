@@ -137,6 +137,10 @@ flutter:
     - assets/platforms/tivo.svg
     - assets/platforms/windows.svg
     - assets/platforms/xbox.svg
+    - assets/libraries/artist.svg
+    - assets/libraries/movie.svg
+    - assets/libraries/photo.svg
+    - assets/libraries/show.svg
     - assets/images/livetv_fallback.png
     - assets/images/default_profile.png
     - assets/logo/logo.png

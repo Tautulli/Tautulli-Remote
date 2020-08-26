@@ -1,62 +1,80 @@
+import '../../features/libraries/presentation/widgets/library_card.dart';
+
 /// Helper functions for mapping assets to identifiers.
 class AssetMapperHelper {
   static const String _platformsAssetPath = 'assets/platforms/';
+  static const String _librariesAssetPath = 'assets/libraries/';
+
   /// Returns an asset path for a given platform.
   String mapPlatformtoPath(String platform) {
     switch (platform) {
       case 'android':
-      return '${_platformsAssetPath}android.svg';
+        return '${_platformsAssetPath}android.svg';
       case 'atv':
-      return '${_platformsAssetPath}atv.svg';
+        return '${_platformsAssetPath}atv.svg';
       case 'chrome':
-      return '${_platformsAssetPath}chrome.svg';
+        return '${_platformsAssetPath}chrome.svg';
       case 'chromecast':
-      return '${_platformsAssetPath}chromecast.svg';
+        return '${_platformsAssetPath}chromecast.svg';
       case 'dlna':
-      return '${_platformsAssetPath}dlna.svg';
+        return '${_platformsAssetPath}dlna.svg';
       case 'firefox':
-      return '${_platformsAssetPath}firefox.svg';
+        return '${_platformsAssetPath}firefox.svg';
       case 'ie':
-      return '${_platformsAssetPath}ie.svg';
+        return '${_platformsAssetPath}ie.svg';
       case 'ios':
-      return '${_platformsAssetPath}ios.svg';
+        return '${_platformsAssetPath}ios.svg';
       case 'kodi':
-      return '${_platformsAssetPath}kodi.svg';
+        return '${_platformsAssetPath}kodi.svg';
       case 'lg':
-      return '${_platformsAssetPath}lg.svg';
+        return '${_platformsAssetPath}lg.svg';
       case 'linux':
-      return '${_platformsAssetPath}linux.svg';
+        return '${_platformsAssetPath}linux.svg';
       case 'macos':
-      return '${_platformsAssetPath}macos.svg';
+        return '${_platformsAssetPath}macos.svg';
       case 'msedge':
-      return '${_platformsAssetPath}msedge.svg';
+        return '${_platformsAssetPath}msedge.svg';
       case 'opera':
-      return '${_platformsAssetPath}opera.svg';
+        return '${_platformsAssetPath}opera.svg';
       case 'playstation':
-      return '${_platformsAssetPath}playstation.svg';
+        return '${_platformsAssetPath}playstation.svg';
       case 'plex':
-      return '${_platformsAssetPath}plex.svg';
+        return '${_platformsAssetPath}plex.svg';
       case 'plexamp':
-      return '${_platformsAssetPath}plexamp.svg';
+        return '${_platformsAssetPath}plexamp.svg';
       case 'roku':
-      return '${_platformsAssetPath}roku.svg';
+        return '${_platformsAssetPath}roku.svg';
       case 'safari':
-      return '${_platformsAssetPath}safari.svg';
+        return '${_platformsAssetPath}safari.svg';
       case 'samsung':
-      return '${_platformsAssetPath}samsung.svg';
+        return '${_platformsAssetPath}samsung.svg';
       case 'synclounge':
-      return '${_platformsAssetPath}synclounge.svg';
+        return '${_platformsAssetPath}synclounge.svg';
       case 'tivo':
-      return '${_platformsAssetPath}tivo.svg';
+        return '${_platformsAssetPath}tivo.svg';
 
       case 'windows':
       case 'wp':
-      return '${_platformsAssetPath}windows.svg';
-      
+        return '${_platformsAssetPath}windows.svg';
+
       case 'xbox':
-      return '${_platformsAssetPath}xbox.svg';
+        return '${_platformsAssetPath}xbox.svg';
       default:
         return '${_platformsAssetPath}default.svg';
+    }
+  }
+
+  String mapLibrarytoPath(LibraryType libraryType) {
+    switch (libraryType) {
+      case (LibraryType.movie):
+        return '${_librariesAssetPath}movie.svg';
+      case (LibraryType.show):
+        return '${_librariesAssetPath}show.svg';
+      case (LibraryType.artist):
+        return '${_librariesAssetPath}artist.svg';
+      case (LibraryType.photo):
+      default:
+        return '${_librariesAssetPath}photo.svg';
     }
   }
 }
