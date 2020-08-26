@@ -95,43 +95,40 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 48,
-            child: BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (context, state) {
-                if (state is SettingsLoadSuccess) {
-                  if (state.serverList.length > 1) {
-                    return DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        value: _tautulliId,
-                        style: TextStyle(color: Theme.of(context).accentColor),
-                        items: state.serverList.map((server) {
-                          return DropdownMenuItem(
-                            child: ServerHeader(serverName: server.plexName),
-                            value: server.tautulliId,
+          BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              if (state is SettingsLoadSuccess) {
+                if (state.serverList.length > 1) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                      value: _tautulliId,
+                      style: TextStyle(color: Theme.of(context).accentColor),
+                      items: state.serverList.map((server) {
+                        return DropdownMenuItem(
+                          child: ServerHeader(serverName: server.plexName),
+                          value: server.tautulliId,
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        if (value != _tautulliId) {
+                          setState(() {
+                            _tautulliId = value;
+                          });
+                          _settingsBloc.add(
+                            SettingsUpdateLastSelectedServer(
+                                tautulliId: _tautulliId),
                           );
-                        }).toList(),
-                        onChanged: (value) {
-                          if (value != _tautulliId) {
-                            setState(() {
-                              _tautulliId = value;
-                            });
-                            _settingsBloc.add(
-                              SettingsUpdateLastSelectedServer(
-                                  tautulliId: _tautulliId),
-                            );
-                            _librariesBloc.add(
-                              LibrariesFilter(tautulliId: value),
-                            );
-                          }
-                        },
-                      ),
-                    );
-                  }
+                          _librariesBloc.add(
+                            LibrariesFilter(tautulliId: value),
+                          );
+                        }
+                      },
+                    ),
+                  );
                 }
-                return Container(height: 0, width: 0);
-              },
-            ),
+              }
+              return Container(height: 0, width: 0);
+            },
           ),
           BlocConsumer<LibrariesBloc, LibrariesState>(
             listener: (context, state) {
