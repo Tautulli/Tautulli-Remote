@@ -1,0 +1,30 @@
+{
+    "response": {
+        "result": "success",
+        "message": null,
+        "data": [
+            {
+                "section_id": "1",
+                "section_name": "TV Shows",
+                "section_type": "show",
+                "agent": "com.plexapp.agents.thetvdb",
+                "thumb": "/:/resources/show.png",
+                "art": "/:/resources/show-fanart.jpg",
+                "count": "20",
+                "is_active": 1,
+                "parent_count": "60",
+                "child_count": "100"
+            },
+            {
+                "section_id": "2",
+                "section_name": "Movies",
+                "section_type": "movie",
+                "agent": "tv.plex.agents.movie",
+                "thumb": "/:/resources/movie.png",
+                "art": "/:/resources/movie-fanart.jpg",
+                "count": "25",
+                "is_active": 1
+            }
+        ]
+    }
+}

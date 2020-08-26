@@ -55,6 +55,9 @@ abstract class TautulliApi {
     int length,
     String search,
   });
+  Future<Map<String, dynamic>> getLibraries({
+    @required String tautulliId,
+  });
   Future<String> pmsImageProxy({
     @required String tautulliId,
     String img,
@@ -454,6 +457,17 @@ class TautulliApiImpl implements TautulliApi {
       tautulliId: tautulliId,
       cmd: 'get_history',
       params: params,
+    );
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getLibraries({
+    @required tautulliId,
+  }) async {
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_libraries',
     );
 
     return responseJson;

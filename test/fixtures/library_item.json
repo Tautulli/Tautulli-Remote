@@ -1,0 +1,12 @@
+{
+    "section_id": "1",
+    "section_name": "TV Shows",
+    "section_type": "show",
+    "agent": "com.plexapp.agents.thetvdb",
+    "thumb": "/:/resources/show.png",
+    "art": "/:/resources/show-fanart.jpg",
+    "count": "20",
+    "is_active": 1,
+    "parent_count": "60",
+    "child_count": "100"
+}
