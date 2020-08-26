@@ -38,7 +38,7 @@ class HistoryDataSourceImpl implements HistoryDataSource {
 
   @override
   Future<List> getHistory({
-    String tautulliId,
+    @required String tautulliId,
     int grouping,
     String user,
     int userId,
