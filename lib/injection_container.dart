@@ -28,6 +28,11 @@ import 'features/image_url/data/datasources/image_url_data_source.dart';
 import 'features/image_url/data/respositories/image_url_repository_impl.dart';
 import 'features/image_url/domain/repositories/image_url_repository.dart';
 import 'features/image_url/domain/usecases/get_image_url.dart';
+import 'features/libraries/data/datasources/libraries_data_source.dart';
+import 'features/libraries/data/repositories/libraries_repository_impl.dart';
+import 'features/libraries/domain/repositories/libraries_repository.dart';
+import 'features/libraries/domain/usercases/get_libraries.dart';
+import 'features/libraries/presentation/bloc/libraries_bloc.dart';
 import 'features/logging/data/datasources/logging_data_source.dart';
 import 'features/logging/data/repositories/logging_repository_impl.dart';
 import 'features/logging/domain/repositories/logging_repository.dart';
@@ -402,6 +407,38 @@ Future<void> init() async {
     () => HistoryDataSourceImpl(
       tautulliApi: sl(),
       logging: sl(),
+    ),
+  );
+
+  //! Features - Libraries
+  // Bloc
+  sl.registerFactory(
+    () => LibrariesBloc(
+      getLibraries: sl(),
+      getImageUrl: sl(),
+    ),
+  );
+
+  // User case
+  sl.registerLazySingleton(
+    () => GetLibraries(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<LibrariesRepository>(
+    () => LibrariesRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+      failureMapperHelper: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<LibrariesDataSource>(
+    () => LibrariesDataSourceImpl(
+      tautulliApi: sl(),
     ),
   );
 
