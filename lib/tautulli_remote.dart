@@ -8,6 +8,7 @@ import 'core/helpers/color_palette_helper.dart';
 import 'features/activity/presentation/pages/activity_page.dart';
 import 'features/help/presentation/pages/help_page.dart';
 import 'features/history/presentation/pages/history_page.dart';
+import 'features/libraries/presentation/pages/libraries_page.dart';
 import 'features/logging/presentation/pages/logs_page.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
@@ -127,6 +128,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       routes: {
         ActivityPage.routeName: (ctx) => ActivityPage(),
         RecentlyAddedPage.routeName: (ctx) => RecentlyAddedPage(),
+        LibrariesPage.routeName: (ctx) => LibrariesPage(),
         UsersPage.routeName: (ctx) => UsersPage(),
         HistoryPage.routeName: (ctx) => HistoryPage(),
         SettingsPage.routeName: (ctx) => SettingsPage(),
