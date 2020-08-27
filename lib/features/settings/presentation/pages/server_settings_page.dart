@@ -64,7 +64,7 @@ class ServerSettings extends StatelessWidget {
                         border: Border.all(
                           width: 0.5,
                           color: server.primaryActive
-                              ? Colors.green
+                              ? Theme.of(context).accentColor
                               : Colors.grey[700],
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -79,7 +79,7 @@ class ServerSettings extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           color: server.primaryActive
-                              ? Colors.green
+                              ? Theme.of(context).accentColor
                               : Colors.grey[700],
                         ),
                       ),
@@ -120,7 +120,7 @@ class ServerSettings extends StatelessWidget {
                         border: Border.all(
                           width: 0.5,
                           color: !server.primaryActive
-                              ? Colors.green
+                              ? Theme.of(context).accentColor
                               : Colors.grey[700],
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -132,7 +132,7 @@ class ServerSettings extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           color: !server.primaryActive
-                              ? Colors.green
+                              ? Theme.of(context).accentColor
                               : Colors.grey[700],
                         ),
                       ),
