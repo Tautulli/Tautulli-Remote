@@ -58,6 +58,32 @@ class ServerSettings extends StatelessWidget {
                     subtitle: isNotEmpty(server.primaryConnectionAddress)
                         ? Text(server.primaryConnectionAddress)
                         : Text('Required'),
+                    trailing: Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 0.5,
+                          color: server.primaryActive
+                              ? Colors.green
+                              : Colors.grey[700],
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                      ),
+                      child: Text(
+                        isNotEmpty(server.primaryConnectionAddress) &&
+                                server.primaryActive
+                            ? 'Active'
+                            : isNotEmpty(server.primaryConnectionAddress)
+                                ? 'Inactive'
+                                : 'Disabled',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: server.primaryActive
+                              ? Colors.green
+                              : Colors.grey[700],
+                        ),
+                      ),
+                    ),
                     onTap: () {
                       _buildPrimaryConnectionAddressSettingsDialog(
                         context: context,
@@ -88,6 +114,29 @@ class ServerSettings extends StatelessWidget {
                     subtitle: isNotEmpty(server.secondaryConnectionAddress)
                         ? Text(server.secondaryConnectionAddress)
                         : Text('Not configured'),
+                    trailing: Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 0.5,
+                          color: !server.primaryActive
+                              ? Colors.green
+                              : Colors.grey[700],
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                      ),
+                      child: Text(
+                        isEmpty(server.secondaryConnectionAddress)
+                            ? 'Disabled'
+                            : !server.primaryActive ? 'Active' : 'Inactive',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: !server.primaryActive
+                              ? Colors.green
+                              : Colors.grey[700],
+                        ),
+                      ),
+                    ),
                     onTap: () {
                       _buildSecondaryConnectionAddressSettingsDialog(
                         context: context,

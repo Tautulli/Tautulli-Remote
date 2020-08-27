@@ -29,6 +29,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.bloc<SettingsBloc>().add(SettingsLoad());
     // Makes sure RegisterDeviceBloc is available for the FAB
     return BlocProvider(
       create: (context) => di.sl<RegisterDeviceBloc>(),
@@ -101,11 +102,17 @@ class SettingsPageContent extends StatelessWidget {
                               .map(
                                 (server) => ListTile(
                                   title: Text('${server.plexName}'),
-                                  subtitle: isNotEmpty(
-                                          server.primaryConnectionAddress)
+                                  subtitle: isNotEmpty(server
+                                              .primaryConnectionAddress) &&
+                                          server.primaryActive
                                       ? Text(server.primaryConnectionAddress)
-                                      : Text(
-                                          'Primary Connection Address Missing'),
+                                      : isNotEmpty(server
+                                                  .primaryConnectionAddress) &&
+                                              !server.primaryActive
+                                          ? Text(
+                                              server.secondaryConnectionAddress)
+                                          : Text(
+                                              'Primary Connection Address Missing'),
                                   trailing: FaIcon(
                                     FontAwesomeIcons.cog,
                                     color: TautulliColorPalette.not_white,
