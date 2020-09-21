@@ -74,7 +74,7 @@ class ServerSettings extends StatelessWidget {
                                 server.primaryActive
                             ? 'Active'
                             : isNotEmpty(server.primaryConnectionAddress)
-                                ? 'Inactive'
+                                ? 'Passive'
                                 : 'Disabled',
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
@@ -128,7 +128,7 @@ class ServerSettings extends StatelessWidget {
                       child: Text(
                         isEmpty(server.secondaryConnectionAddress)
                             ? 'Disabled'
-                            : !server.primaryActive ? 'Active' : 'Inactive',
+                            : !server.primaryActive ? 'Active' : 'Passive',
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           color: !server.primaryActive
