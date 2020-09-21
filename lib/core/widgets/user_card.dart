@@ -1,32 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
-import '../../domain/entities/user_table.dart';
-import 'user_details.dart';
-import 'user_icon.dart';
+import '../helpers/color_palette_helper.dart';
+import '../../features/users/presentation/widgets/user_icon.dart';
 
-class UsersCard extends StatefulWidget {
-  final UserTable user;
+class UserCard extends StatefulWidget {
+  final String userThumb;
+  final int isActive;
+  final Widget details;
 
-  const UsersCard({
+  const UserCard({
     Key key,
-    @required this.user,
+    this.userThumb,
+    this.isActive,
+    this.details,
   }) : super(key: key);
 
   @override
-  _UsersCardState createState() => _UsersCardState();
+  _UserCardState createState() => _UserCardState();
 }
 
-class _UsersCardState extends State<UsersCard> {
+class _UserCardState extends State<UserCard> {
   Future getColorFuture;
   bool hasNetworkImage;
 
   @override
   void initState() {
     super.initState();
-    hasNetworkImage = widget.user.userThumb.startsWith('http');
-    getColorFuture = _getColor(hasNetworkImage, widget.user.userThumb);
+    hasNetworkImage = widget.userThumb.startsWith('http');
+    getColorFuture = _getColor(hasNetworkImage, widget.userThumb);
   }
 
   @override
@@ -60,14 +62,14 @@ class _UsersCardState extends State<UsersCard> {
                     child: Row(
                       children: [
                         UserIcon(
-                          isActive: widget.user.isActive,
+                          isActive: widget.isActive,
                           hasNetworkImage: hasNetworkImage,
                           snapshot: snapshot,
                         ),
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),
-                            child: UsersDetails(user: widget.user),
+                            child: widget.details,
                           ),
                         ),
                       ],

@@ -9,10 +9,11 @@ import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/server_header.dart';
+import '../../../../core/widgets/user_card.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/users_bloc.dart';
-import '../widgets/user_card.dart';
+import '../widgets/user_details.dart';
 import '../widgets/user_error_button.dart';
 
 class UsersPage extends StatelessWidget {
@@ -179,7 +180,12 @@ class _UsersPageContentState extends State<UsersPageContent> {
                                 itemBuilder: (context, index) {
                                   return index >= state.list.length
                                       ? BottomLoader()
-                                      : UsersCard(user: state.list[index]);
+                                      : UserCard(
+                                          // user: state.list[index],
+                                          userThumb: state.list[index].userThumb,
+                                          isActive: state.list[index].isActive,
+                                          details: UsersDetails(user: state.list[index]),
+                                        );
                                 },
                               ),
                             ),
