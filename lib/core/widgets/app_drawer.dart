@@ -6,6 +6,7 @@ import '../../features/history/presentation/pages/history_page.dart';
 import '../../features/libraries/presentation/pages/libraries_page.dart';
 import '../../features/recent/presentation/pages/recently_added_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
+import '../../features/statistics/presentation/pages/statistics_page.dart';
 import '../../features/users/presentation/pages/users_page.dart';
 import '../helpers/color_palette_helper.dart';
 
@@ -168,14 +169,25 @@ class AppDrawer extends StatelessWidget {
                         .pushReplacementNamed(UsersPage.routeName);
                   },
                 ),
-                // ListTile(
-                //   leading: FaIcon(
-                //     FontAwesomeIcons.chartArea,
-                //     color: TautulliColorPalette.not_white,
-                //   ),
-                //   title: Text('Statistics'),
-                //   onTap: () {},
-                // ),
+                ListTile(
+                  leading: FaIcon(
+                    FontAwesomeIcons.thList,
+                    color: TautulliColorPalette.not_white,
+                  ),
+                  title: Text('Statistics'),
+                  onTap: () {
+                    if (route.settings.name != StatisticsPage.routeName) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(StatisticsPage.routeName);
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  onLongPress: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(StatisticsPage.routeName);
+                  },
+                ),
                 ListTile(
                   leading: FaIcon(
                     FontAwesomeIcons.cogs,
