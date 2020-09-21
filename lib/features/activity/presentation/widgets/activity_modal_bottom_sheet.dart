@@ -208,7 +208,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 15),
-                        color: PlexColorPalette.river_bed,
+                        color: Theme.of(context).backgroundColor,
                         child: ActivityMediaDetails(
                           constraints: constraints,
                           activity: activity,
