@@ -26,6 +26,18 @@ class TimeFormatHelper {
     }
   }
 
+  static String pretty(int durationInSec) {
+    Duration duration = Duration(seconds: durationInSec);
+
+    String hours = '';
+    String minutes = '${duration.inMinutes.remainder(60).toString()} minutes';
+    if (duration.inMinutes > 59) {
+      hours = '${duration.inHours.toString()} hours ';
+    }
+
+    return '$hours$minutes';
+  }
+
   static String timeAgo(int addedAt) {
     Moment moment = Moment.now();
 
@@ -65,7 +77,8 @@ class TimeFormatHelper {
   }
 
   static String cleanDateTime(int timeSinceEpochInSeconds) {
-    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeSinceEpochInSeconds * 1000);
+    DateTime dateTime =
+        DateTime.fromMillisecondsSinceEpoch(timeSinceEpochInSeconds * 1000);
 
     return '${dateTime.year}-${dateTime.month.toString().padLeft(2, "0")}-${dateTime.day.toString().padLeft(2, "0")} ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, "0")}';
   }
