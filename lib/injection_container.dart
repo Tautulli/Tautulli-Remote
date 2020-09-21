@@ -57,6 +57,11 @@ import 'features/settings/domain/usecases/register_device.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/register_device_bloc.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
+import 'features/statistics/data/datasources/statistics_data_source.dart';
+import 'features/statistics/data/repositories/statistics_repository_impl.dart';
+import 'features/statistics/domain/repositories/statistics_repository.dart';
+import 'features/statistics/domain/usecases/get_statistics.dart';
+import 'features/statistics/presentation/bloc/statistics_bloc.dart';
 import 'features/terminate_session/data/datasources/terminate_session_data_source.dart';
 import 'features/terminate_session/data/repositories/terminate_session_repository_impl.dart';
 import 'features/terminate_session/domain/repositories/terminate_session_repository.dart';
@@ -438,6 +443,38 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<LibrariesDataSource>(
     () => LibrariesDataSourceImpl(
+      tautulliApi: sl(),
+    ),
+  );
+
+  //! Features - Statistics
+  // Bloc
+  sl.registerFactory(
+    () => StatisticsBloc(
+      getStatistics: sl(),
+      getImageUrl: sl(),
+    ),
+  );
+
+  // User case
+  sl.registerLazySingleton(
+    () => GetStatistics(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<StatisticsRepository>(
+    () => StatisticsRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+      failureMapperHelper: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<StatisticsDataSource>(
+    () => StatisticsDataSourceImpl(
       tautulliApi: sl(),
     ),
   );
