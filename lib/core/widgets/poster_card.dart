@@ -28,7 +28,7 @@ class PosterCard extends StatelessWidget {
                 children: <Widget>[
                   Positioned.fill(
                     child: Image.network(
-                      item.posterUrl,
+                      item.posterUrl != null ? item.posterUrl : '',
                       fit: BoxFit.cover,
                     ),
                   ),
