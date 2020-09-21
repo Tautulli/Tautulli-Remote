@@ -141,6 +141,7 @@ flutter:
     - assets/libraries/movie.svg
     - assets/libraries/photo.svg
     - assets/libraries/show.svg
+    - assets/icons/concurrent.svg
     - assets/images/livetv_fallback.png
     - assets/images/default_profile.png
     - assets/logo/logo.png
