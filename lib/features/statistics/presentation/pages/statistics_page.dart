@@ -48,7 +48,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
   SettingsBloc _settingsBloc;
   StatisticsBloc _statisticsBloc;
   String _tautulliId;
-  bool _sortByDuration = false;
+  String _statsType = 'plays';
   int _timeRange = 30;
   bool _statisticsLoaded = false;
 
@@ -88,7 +88,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
       _statisticsBloc.add(
         StatisticsFetch(
           tautulliId: _tautulliId,
-          statsType: _sortByDuration ? 'duration' : 'plays',
+          statsType: _statsType,
           timeRange: _timeRange,
         ),
       );
@@ -133,7 +133,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                           _statisticsBloc.add(
                             StatisticsFilter(
                               tautulliId: value,
-                              statsType: _sortByDuration ? 'duration' : 'plays',
+                              statsType: _statsType,
                               timeRange: _timeRange,
                             ),
                           );
@@ -164,7 +164,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                         _statisticsBloc.add(
                           StatisticsFilter(
                             tautulliId: _tautulliId,
-                            statsType: _sortByDuration ? 'duration' : 'plays',
+                            statsType: _statsType,
                             timeRange: _timeRange,
                           ),
                         );
@@ -208,7 +208,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                         failure: state.failure,
                         statisticsAddedEvent: StatisticsFilter(
                           tautulliId: _tautulliId,
-                          statsType: _sortByDuration ? 'duration' : 'plays',
+                          statsType: _statsType,
                         ),
                       ),
                       Expanded(child: const SizedBox()),
@@ -242,30 +242,81 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
             });
           }
         },
-        child: IconButton(
+        child: PopupMenuButton(
           icon: FaIcon(
-            FontAwesomeIcons.clock,
+            _statsType == 'plays'
+                ? FontAwesomeIcons.playCircle
+                : FontAwesomeIcons.clock,
             color: !_statisticsLoaded
                 ? Theme.of(context).disabledColor
-                : _sortByDuration
-                    ? PlexColorPalette.gamboge
-                    : TautulliColorPalette.not_white,
+                : TautulliColorPalette.not_white,
           ),
-          tooltip: 'Sort by duration',
-          onPressed: _statisticsLoaded
-              ? () {
-                  setState(() {
-                    _sortByDuration = !_sortByDuration;
-                  });
-                  _statisticsBloc.add(
-                    StatisticsFilter(
-                      tautulliId: _tautulliId,
-                      statsType: _sortByDuration ? 'duration' : 'plays',
-                      timeRange: _timeRange,
+          tooltip: 'Stats type',
+          enabled: _statisticsLoaded,
+          onSelected: (value) {
+            setState(() {
+              _statsType = value;
+            });
+            _statisticsBloc.add(
+              StatisticsFilter(
+                tautulliId: _tautulliId,
+                statsType: _statsType,
+                timeRange: _timeRange,
+              ),
+            );
+          },
+          itemBuilder: (context) {
+            return [
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.playCircle,
+                      color: _statsType == 'plays'
+                          ? PlexColorPalette.gamboge
+                          : TautulliColorPalette.not_white,
                     ),
-                  );
-                }
-              : null,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Text(
+                        'Plays',
+                        style: TextStyle(
+                          color: _statsType == 'plays'
+                              ? Theme.of(context).accentColor
+                              : TautulliColorPalette.not_white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                value: 'plays',
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.clock,
+                      color: _statsType == 'duration'
+                          ? PlexColorPalette.gamboge
+                          : TautulliColorPalette.not_white,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Text(
+                        'Duration',
+                        style: TextStyle(
+                          color: _statsType == 'duration'
+                              ? Theme.of(context).accentColor
+                              : TautulliColorPalette.not_white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                value: 'duration',
+              ),
+            ];
+          },
         ),
       ),
       PopupMenuButton(
@@ -286,7 +337,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
               _statisticsBloc.add(
                 StatisticsFilter(
                   tautulliId: _tautulliId,
-                  statsType: _sortByDuration ? 'duration' : 'plays',
+                  statsType: _statsType,
                   timeRange: _timeRange,
                 ),
               );
@@ -361,8 +412,8 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
             key: _customTimeRangeFormKey,
             child: TextFormField(
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  hintText: 'Enter a time range in days'),
+              decoration:
+                  InputDecoration(hintText: 'Enter a time range in days'),
               validator: (value) {
                 if (!isNumeric(value)) {
                   return 'Please enter an integer';
@@ -388,7 +439,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                   _statisticsBloc.add(
                     StatisticsFilter(
                       tautulliId: _tautulliId,
-                      statsType: _sortByDuration ? 'duration' : 'plays',
+                      statsType: _statsType,
                       timeRange: _timeRange,
                     ),
                   );
