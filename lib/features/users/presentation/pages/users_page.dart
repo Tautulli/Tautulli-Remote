@@ -282,7 +282,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
         },
         child: PopupMenuButton(
           icon:
-              _currentSortIcon(orderColumn: _orderColumn, orderDir: _orderDir),
+              _currentSortIcon(),
           tooltip: 'Sort users',
           enabled: _usersLoaded,
           onSelected: (value) {
@@ -341,19 +341,16 @@ class _UsersPageContentState extends State<UsersPageContent> {
     ];
   }
 
-  FaIcon _currentSortIcon({
-    @required String orderColumn,
-    @required String orderDir,
-  }) {
-    if (orderColumn == 'friendly_name') {
-      if (orderDir == 'asc') {
+  FaIcon _currentSortIcon() {
+    if (_orderColumn == 'friendly_name') {
+      if (_orderDir == 'asc') {
         return FaIcon(FontAwesomeIcons.sortAlphaDown);
       } else {
         return FaIcon(FontAwesomeIcons.sortAlphaUp);
       }
     }
-    if (orderColumn == 'last_seen') {
-      if (orderDir == 'asc') {
+    if (_orderColumn == 'last_seen') {
+      if (_orderDir == 'asc') {
         return FaIcon(FontAwesomeIcons.sortNumericUp);
       } else {
         return FaIcon(FontAwesomeIcons.sortNumericDown);
