@@ -385,7 +385,6 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
               child: Text("Save"),
               onPressed: () {
                 if (_customTimeRangeFormKey.currentState.validate()) {
-                  print(_timeRange);
                   _statisticsBloc.add(
                     StatisticsFilter(
                       tautulliId: _tautulliId,
