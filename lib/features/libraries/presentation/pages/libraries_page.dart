@@ -3,16 +3,20 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
+import '../../../../core/helpers/asset_mapper_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/error_message.dart';
+import '../../../../core/widgets/icon_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../domain/entities/library.dart';
 import '../bloc/libraries_bloc.dart';
 import '../widgets/libraries_error_button.dart';
-import '../widgets/library_card.dart';
+import '../widgets/library_details.dart';
 
 class LibrariesPage extends StatelessWidget {
   const LibrariesPage({Key key}) : super(key: key);
@@ -40,6 +44,9 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
   SettingsBloc _settingsBloc;
   LibrariesBloc _librariesBloc;
   String _tautulliId;
+  String _orderColumn = 'section_name';
+  String _orderDir = 'asc';
+  bool _librariesLoaded = false;
 
   @override
   void initState() {
@@ -79,6 +86,8 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
       _librariesBloc.add(
         LibrariesFetch(
           tautulliId: _tautulliId,
+          orderColumn: _orderColumn,
+          orderDir: _orderDir,
         ),
       );
     }
@@ -90,6 +99,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title: Text('Libraries'),
+        actions: _appBarActions(),
       ),
       drawer: AppDrawer(),
       body: Column(
@@ -119,7 +129,11 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                                 tautulliId: _tautulliId),
                           );
                           _librariesBloc.add(
-                            LibrariesFilter(tautulliId: value),
+                            LibrariesFilter(
+                              tautulliId: value,
+                              orderColumn: _orderColumn,
+                              orderDir: _orderDir,
+                            ),
                           );
                         }
                       },
@@ -139,43 +153,39 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
             },
             builder: (context, state) {
               if (state is LibrariesSuccess) {
-                if (state.librariesCount > 0) {
+                if (state.librariesList.length > 0) {
                   return Expanded(
                     child: RefreshIndicator(
                       onRefresh: () {
                         _librariesBloc.add(
-                          LibrariesFilter(tautulliId: _tautulliId),
+                          LibrariesFilter(
+                            tautulliId: _tautulliId,
+                            orderColumn: _orderColumn,
+                            orderDir: _orderDir,
+                          ),
                         );
                         return _refreshCompleter.future;
                       },
                       child: Scrollbar(
-                        child: ListView(
-                          children: [
-                            if (state.librariesMap['movie'].length > 0)
-                              LibraryCard(
-                                list: state.librariesMap['movie'],
-                                imageUrl: state.imageMap['movie'],
-                                libraryType: LibraryType.movie,
-                              ),
-                            if (state.librariesMap['show'].length > 0)
-                              LibraryCard(
-                                list: state.librariesMap['show'],
-                                imageUrl: state.imageMap['show'],
-                                libraryType: LibraryType.show,
-                              ),
-                            if (state.librariesMap['artist'].length > 0)
-                              LibraryCard(
-                                list: state.librariesMap['artist'],
-                                imageUrl: state.imageMap['artist'],
-                                libraryType: LibraryType.artist,
-                              ),
-                            if (state.librariesMap['photo'].length > 0)
-                              LibraryCard(
-                                list: state.librariesMap['photo'],
-                                imageUrl: state.imageMap['photo'],
-                                libraryType: LibraryType.photo,
-                              ),
-                          ],
+                        child: ListView.builder(
+                          itemCount: state.librariesList.length,
+                          itemBuilder: (context, index) {
+                            Library library = state.librariesList[index];
+                            return IconCard(
+                              assetPath: AssetMapperHelper()
+                                  .mapLibraryToPath(library.sectionType),
+                              backgroundImage: library.sectionType != 'live'
+                                  ? Image.network(
+                                      state.imageMap[library.sectionId],
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      'assets/images/livetv_fallback.png',
+                                      fit: BoxFit.cover,
+                                    ),
+                              details: LibraryDetails(library: library),
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -211,6 +221,8 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                         failure: state.failure,
                         librariesEvent: LibrariesFilter(
                           tautulliId: _tautulliId,
+                          orderColumn: _orderColumn,
+                          orderDir: _orderDir,
                         ),
                       ),
                       Expanded(child: const SizedBox()),
@@ -228,5 +240,122 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
         ],
       ),
     );
+  }
+
+  List<Widget> _appBarActions() {
+    return [
+      BlocListener<LibrariesBloc, LibrariesState>(
+        listener: (context, state) {
+          if (state is LibrariesSuccess) {
+            setState(() {
+              _librariesLoaded = true;
+            });
+          } else {
+            setState(() {
+              _librariesLoaded = false;
+            });
+          }
+        },
+        child: PopupMenuButton(
+          icon: _currentSortIcon(),
+          tooltip: 'Sort libraries',
+          enabled: _librariesLoaded,
+          onSelected: (value) {
+            List<String> values = value.split('|');
+
+            setState(() {
+              _orderColumn = values[0];
+              _orderDir = values[1];
+            });
+            _librariesBloc.add(
+              LibrariesFilter(
+                tautulliId: _tautulliId,
+                orderColumn: _orderColumn,
+                orderDir: _orderDir,
+              ),
+            );
+          },
+          itemBuilder: (context) {
+            return [
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    _orderColumn == 'section_name' && _orderDir == 'asc'
+                        ? FaIcon(FontAwesomeIcons.sortAmountDown)
+                        : FaIcon(FontAwesomeIcons.sortAmountUp),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Text('Name'),
+                    ),
+                  ],
+                ),
+                value: _orderColumn == 'section_name' && _orderDir == 'asc'
+                    ? 'section_name|desc'
+                    : 'section_name|asc',
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    _orderColumn == 'count,parent_count,child_count' &&
+                            _orderDir == 'desc'
+                        ? FaIcon(FontAwesomeIcons.sortAmountUp)
+                        : FaIcon(FontAwesomeIcons.sortAmountDown),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Text('Count'),
+                    ),
+                  ],
+                ),
+                value: _orderColumn == 'count,parent_count,child_count' &&
+                        _orderDir == 'desc'
+                    ? 'count,parent_count,child_count|asc'
+                    : 'count,parent_count,child_count|desc',
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    _orderColumn == 'duration' && _orderDir == 'desc'
+                        ? FaIcon(FontAwesomeIcons.sortAmountUp)
+                        : FaIcon(FontAwesomeIcons.sortAmountDown),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Text('Duration'),
+                    ),
+                  ],
+                ),
+                value: _orderColumn == 'duration' && _orderDir == 'desc'
+                    ? 'duration|asc'
+                    : 'duration|desc',
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    _orderColumn == 'plays' &&
+                            _orderDir == 'desc'
+                        ? FaIcon(FontAwesomeIcons.sortAmountUp)
+                        : FaIcon(FontAwesomeIcons.sortAmountDown),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Text('Plays'),
+                    ),
+                  ],
+                ),
+                value: _orderColumn == 'plays' && _orderDir == 'desc'
+                    ? 'plays|asc'
+                    : 'plays|desc',
+              ),
+            ];
+          },
+        ),
+      )
+    ];
+  }
+
+  FaIcon _currentSortIcon() {
+    if (_orderDir == 'asc') {
+      return FaIcon(FontAwesomeIcons.sortAmountUp);
+    } else {
+      return FaIcon(FontAwesomeIcons.sortAmountDown);
+    }
   }
 }
