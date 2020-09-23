@@ -82,4 +82,13 @@ class TimeFormatHelper {
 
     return '${dateTime.year}-${dateTime.month.toString().padLeft(2, "0")}-${dateTime.day.toString().padLeft(2, "0")} ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, "0")}';
   }
+
+  static Map<String, int> durationMap(Duration duration) {
+    return {
+      'day': duration.inDays,
+      'hour': duration.inHours.remainder(24),
+      'min': duration.inMinutes.remainder(60),
+      'sec': duration.inSeconds.remainder(60),
+    };
+  }
 }
