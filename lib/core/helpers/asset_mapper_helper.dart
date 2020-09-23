@@ -1,12 +1,10 @@
-import '../../features/libraries/presentation/widgets/library_card.dart';
-
 /// Helper functions for mapping assets to identifiers.
 class AssetMapperHelper {
   static const String _platformsAssetPath = 'assets/platforms/';
   static const String _librariesAssetPath = 'assets/libraries/';
 
   /// Returns an asset path for a given platform.
-  String mapPlatformtoPath(String platform) {
+  String mapPlatformToPath(String platform) {
     switch (platform) {
       case 'android':
         return '${_platformsAssetPath}android.svg';
@@ -64,15 +62,15 @@ class AssetMapperHelper {
     }
   }
 
-  String mapLibrarytoPath(LibraryType libraryType) {
+  String mapLibraryToPath(String libraryType) {
     switch (libraryType) {
-      case (LibraryType.movie):
+      case ('movie'):
         return '${_librariesAssetPath}movie.svg';
-      case (LibraryType.show):
+      case ('show'):
         return '${_librariesAssetPath}show.svg';
-      case (LibraryType.artist):
+      case ('artist'):
         return '${_librariesAssetPath}artist.svg';
-      case (LibraryType.photo):
+      case ('photo'):
       default:
         return '${_librariesAssetPath}photo.svg';
     }

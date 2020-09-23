@@ -416,7 +416,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
         if (s.statId == 'top_platforms') {
           statList.add(
             IconCard(
-              assetPath: AssetMapperHelper().mapPlatformtoPath(s.platformName),
+              assetPath: AssetMapperHelper().mapPlatformToPath(s.platformName),
               backgroundColor:
                   TautulliColorPalette().mapPlatformToColor(s.platformName),
               details: StatisticsDetails(statistic: s),

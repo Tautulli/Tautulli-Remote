@@ -22,7 +22,7 @@ class PlatformIcon extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: WebsafeSvg.asset(
-              AssetMapperHelper().mapPlatformtoPath(platform),
+              AssetMapperHelper().mapPlatformToPath(platform),
             ),
           ),
         ),
