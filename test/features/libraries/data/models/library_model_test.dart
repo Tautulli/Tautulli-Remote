@@ -8,16 +8,17 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   final tLibraryModel = LibraryModel(
-    agent: 'com.plexapp.agents.thetvdb',
-    art: '/:/resources/show-fanart.jpg',
-    childCount: 100,
-    count: 20,
+    childCount: 25214,
+    count: 427,
+    duration: 38085486,
     isActive: 1,
-    parentCount: 60,
+    libraryArt: '/:/resources/show-fanart.jpg',
+    libraryThumb: '/:/resources/show.png',
+    parentCount: 1561,
+    plays: 20299,
     sectionId: 1,
     sectionName: 'TV Shows',
     sectionType: 'show',
-    thumb: '/:/resources/show.png',
   );
 
   test('should be a subclass of Library entity', () async {
@@ -48,7 +49,7 @@ void main() {
         // act
         final result = LibraryModel.fromJson(jsonMap);
         // assert
-        expect(result.sectionId, equals(int.tryParse(jsonMap['section_id'])));
+        expect(result.sectionId, equals(jsonMap['section_id']));
       },
     );
   });

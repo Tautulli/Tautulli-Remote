@@ -31,7 +31,7 @@ import 'features/image_url/domain/usecases/get_image_url.dart';
 import 'features/libraries/data/datasources/libraries_data_source.dart';
 import 'features/libraries/data/repositories/libraries_repository_impl.dart';
 import 'features/libraries/domain/repositories/libraries_repository.dart';
-import 'features/libraries/domain/usercases/get_libraries.dart';
+import 'features/libraries/domain/usercases/get_libraries_table.dart';
 import 'features/libraries/presentation/bloc/libraries_bloc.dart';
 import 'features/logging/data/datasources/logging_data_source.dart';
 import 'features/logging/data/repositories/logging_repository_impl.dart';
@@ -419,14 +419,14 @@ Future<void> init() async {
   // Bloc
   sl.registerFactory(
     () => LibrariesBloc(
-      getLibraries: sl(),
+      getLibrariesTable: sl(),
       getImageUrl: sl(),
     ),
   );
 
   // User case
   sl.registerLazySingleton(
-    () => GetLibraries(
+    () => GetLibrariesTable(
       repository: sl(),
     ),
   );

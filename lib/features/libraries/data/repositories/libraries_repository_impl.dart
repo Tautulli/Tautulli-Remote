@@ -20,13 +20,25 @@ class LibrariesRepositoryImpl implements LibrariesRepository {
   });
 
   @override
-  Future<Either<Failure, List<Library>>> getLibraries({
-    String tautulliId,
+  Future<Either<Failure, List<Library>>> getLibrariesTable({
+    @required String tautulliId,
+    int grouping,
+    int length,
+    String orderColumn,
+    String orderDir,
+    String search,
+    int start,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final librariesList = await dataSource.getLibraries(
+        final librariesList = await dataSource.getLibrariesTable(
           tautulliId: tautulliId,
+          grouping: grouping,
+          length: length,
+          orderColumn: orderColumn,
+          orderDir: orderDir,
+          search: search,
+          start: start,
         );
         return Right(librariesList);
       } catch (exception) {

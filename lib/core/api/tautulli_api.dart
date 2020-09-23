@@ -55,8 +55,14 @@ abstract class TautulliApi {
     int length,
     String search,
   });
-  Future<Map<String, dynamic>> getLibraries({
+  Future<Map<String, dynamic>> getLibrariesTable({
     @required String tautulliId,
+    int grouping,
+    int length,
+    String orderColumn,
+    String orderDir,
+    String search,
+    int start,
   });
   Future<Map<String, dynamic>> getHomeStats({
     @required String tautulliId,
@@ -469,12 +475,40 @@ class TautulliApiImpl implements TautulliApi {
     return responseJson;
   }
 
-  Future<Map<String, dynamic>> getLibraries({
-    @required tautulliId,
+  Future<Map<String, dynamic>> getLibrariesTable({
+    @required String tautulliId,
+    int grouping,
+    int length,
+    String orderColumn,
+    String orderDir,
+    String search,
+    int start,
   }) async {
+    Map<String, String> params = {};
+
+    if (grouping != null) {
+      params['grouping'] = grouping.toString();
+    }
+    if (length != null) {
+      params['length'] = length.toString();
+    }
+    if (orderColumn != null) {
+      params['order_column'] = orderColumn;
+    }
+    if (orderDir != null) {
+      params['order_dir'] = orderDir;
+    }
+    if (search != null) {
+      params['search'] = search;
+    }
+    if (start != null) {
+      params['start'] = start.toString();
+    }
+
     final responseJson = await connectionHandler(
       tautulliId: tautulliId,
-      cmd: 'get_libraries',
+      cmd: 'get_libraries_table',
+      params: params,
     );
 
     return responseJson;

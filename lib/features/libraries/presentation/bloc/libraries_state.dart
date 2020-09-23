@@ -10,18 +10,16 @@ abstract class LibrariesState extends Equatable {
 class LibrariesInitial extends LibrariesState {}
 
 class LibrariesSuccess extends LibrariesState {
-  final Map<String, List<Library>> librariesMap;
-  final Map<String, String> imageMap;
-  final int librariesCount;
+  final List<Library> librariesList;
+  final Map<int, String> imageMap;
 
   LibrariesSuccess({
-    @required this.librariesMap,
+    @required this.librariesList,
     @required this.imageMap,
-    @required this.librariesCount,
   });
 
   @override
-  List<Object> get props => [librariesMap, imageMap, librariesCount];
+  List<Object> get props => [librariesList, imageMap];
 }
 
 class LibrariesFailure extends LibrariesState {

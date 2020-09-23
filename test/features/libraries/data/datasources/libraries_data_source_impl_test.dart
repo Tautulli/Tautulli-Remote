@@ -26,24 +26,24 @@ void main() {
 
   final librariesJson = json.decode(fixture('libraries.json'));
 
-  librariesJson['response']['data'].forEach((item) {
+  librariesJson['response']['data']['data'].forEach((item) {
     tLibrariesList.add(LibraryModel.fromJson(item));
   });
 
-  group('getLibraries', () {
+  group('getLibrariesTable', () {
     test(
-      'should call [getLibraries] from TautilliApi',
+      'should call [getLibrariesTable] from TautilliApi',
       () async {
         // arrange
         when(
-          mockTautulliApi.getLibraries(
+          mockTautulliApi.getLibrariesTable(
             tautulliId: anyNamed('tautulliId'),
           ),
         ).thenAnswer((_) async => librariesJson);
         // act
-        await dataSource.getLibraries(tautulliId: tTautulliId);
+        await dataSource.getLibrariesTable(tautulliId: tTautulliId);
         // assert
-        verify(mockTautulliApi.getLibraries(tautulliId: tTautulliId));
+        verify(mockTautulliApi.getLibrariesTable(tautulliId: tTautulliId));
       },
     );
 
@@ -52,12 +52,12 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getLibraries(
+          mockTautulliApi.getLibrariesTable(
             tautulliId: anyNamed('tautulliId'),
           ),
         ).thenAnswer((_) async => librariesJson);
         // act
-        final result = await dataSource.getLibraries(tautulliId: tTautulliId);
+        final result = await dataSource.getLibrariesTable(tautulliId: tTautulliId);
         // assert
         expect(result, equals(tLibrariesList));
       },

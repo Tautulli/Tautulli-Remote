@@ -8,17 +8,17 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../domain/entities/library.dart';
-import '../../domain/usercases/get_libraries.dart';
+import '../../domain/usercases/get_libraries_table.dart';
 
 part 'libraries_event.dart';
 part 'libraries_state.dart';
 
 class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
-  final GetLibraries getLibraries;
+  final GetLibrariesTable getLibrariesTable;
   final GetImageUrl getImageUrl;
 
   LibrariesBloc({
-    @required this.getLibraries,
+    @required this.getLibrariesTable,
     @required this.getImageUrl,
   }) : super(LibrariesInitial());
 
@@ -27,19 +27,31 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
     LibrariesEvent event,
   ) async* {
     if (event is LibrariesFetch) {
-      yield* _fetchLibraries(tautulliId: event.tautulliId);
+      yield* _fetchLibraries(
+        tautulliId: event.tautulliId,
+        orderColumn: event.orderColumn,
+        orderDir: event.orderDir,
+      );
     }
     if (event is LibrariesFilter) {
       yield LibrariesInitial();
-      yield* _fetchLibraries(tautulliId: event.tautulliId);
+      yield* _fetchLibraries(
+        tautulliId: event.tautulliId,
+        orderColumn: event.orderColumn,
+        orderDir: event.orderDir,
+      );
     }
   }
 
   Stream<LibrariesState> _fetchLibraries({
     @required String tautulliId,
+    String orderColumn,
+    String orderDir,
   }) async* {
-    final librariesOrFailure = await getLibraries(
+    final librariesOrFailure = await getLibrariesTable(
       tautulliId: tautulliId,
+      orderColumn: orderColumn,
+      orderDir: orderDir,
     );
 
     yield* librariesOrFailure.fold(
@@ -51,60 +63,25 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
         );
       },
       (librariesList) async* {
-        Map<String, List<Library>> librariesMap = {
-          'movie': [],
-          'show': [],
-          'artist': [],
-          'photo': [],
-        };
-        Map<String, String> imageMap = {};
+        Map<int, String> imageMap = {};
 
-        // Add libraries into proper type list in librariesMap
-        for (int i = 0; i < librariesList.length; i++) {
-          librariesMap[librariesList[i].sectionType].add(librariesList[i]);
-        }
+        for (Library library in librariesList) {
+          final imageUrlOrFailure = await getImageUrl(
+            tautulliId: tautulliId,
+            img: library.libraryArt,
+          );
 
-        // Sort library type lists and get background image
-        for (String key in librariesMap.keys) {
-          librariesMap[key].sort((a, b) {
-            var result = b.count.compareTo(a.count);
-            if (result != 0) {
-              return result;
-            }
-            if (b.parentCount != null) {
-              result = b.parentCount.compareTo(a.parentCount);
-              if (result != 0) {
-                return result;
-              }
-            }
-            if (b.childCount != null) {
-              result = b.childCount.compareTo(a.childCount);
-              if (result != 0) {
-                return result;
-              }
-            }
-            return a.sectionName.compareTo(b.sectionName);
-          });
-
-          if (librariesMap[key].length > 0) {
-            final imageUrlOrFailure = await getImageUrl(
-              tautulliId: tautulliId,
-              img: librariesMap[key][0].art,
-            );
-
-            imageUrlOrFailure.fold(
-              (failure) => null,
-              (url) {
-                imageMap[key] = url;
-              },
-            );
-          }
+          imageUrlOrFailure.fold(
+            (failure) => null,
+            (url) {
+              imageMap[library.sectionId] = url;
+            },
+          );
         }
 
         yield LibrariesSuccess(
-          librariesMap: librariesMap,
+          librariesList: librariesList,
           imageMap: imageMap,
-          librariesCount: librariesList.length,
         );
       },
     );

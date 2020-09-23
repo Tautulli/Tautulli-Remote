@@ -42,7 +42,7 @@ void main() {
 
   final librariesJson = json.decode(fixture('libraries.json'));
 
-  librariesJson['response']['data'].forEach((item) {
+  librariesJson['response']['data']['data'].forEach((item) {
     tLibrariesList.add(LibraryModel.fromJson(item));
   });
 
@@ -52,7 +52,7 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       // act
-      repository.getLibraries(tautulliId: tTautulliId);
+      repository.getLibrariesTable(tautulliId: tTautulliId);
       // assert
       verify(mockNetworkInfo.isConnected);
     },
@@ -64,13 +64,13 @@ void main() {
     });
 
     test(
-      'should call the data source getLibraries()',
+      'should call the data source getLibrariesTable()',
       () async {
         // act
-        await repository.getLibraries(tautulliId: tTautulliId);
+        await repository.getLibrariesTable(tautulliId: tTautulliId);
         // assert
         verify(
-          mockLibrariesDataSource.getLibraries(tautulliId: tTautulliId),
+          mockLibrariesDataSource.getLibrariesTable(tautulliId: tTautulliId),
         );
       },
     );
@@ -80,12 +80,12 @@ void main() {
       () async {
         // arrange
         when(
-          mockLibrariesDataSource.getLibraries(
+          mockLibrariesDataSource.getLibrariesTable(
             tautulliId: tTautulliId,
           ),
         ).thenAnswer((_) async => tLibrariesList);
         // act
-        final result = await repository.getLibraries(tautulliId: tTautulliId);
+        final result = await repository.getLibrariesTable(tautulliId: tTautulliId);
         // assert
         expect(result, equals(Right(tLibrariesList)));
       },
@@ -99,7 +99,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
         // act
-        final result = await repository.getLibraries(tautulliId: tTautulliId);
+        final result = await repository.getLibrariesTable(tautulliId: tTautulliId);
         // assert
         expect(result, equals(Left(ConnectionFailure())));
       },

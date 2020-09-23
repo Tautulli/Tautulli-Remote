@@ -5,8 +5,14 @@ import '../../domain/entities/library.dart';
 import '../models/library_model.dart';
 
 abstract class LibrariesDataSource {
-  Future<List<Library>> getLibraries({
+  Future<List<Library>> getLibrariesTable({
     @required String tautulliId,
+    int grouping,
+    int length,
+    String orderColumn,
+    String orderDir,
+    String search,
+    int start,
   });
 }
 
@@ -16,15 +22,28 @@ class LibrariesDataSourceImpl implements LibrariesDataSource {
   LibrariesDataSourceImpl({@required this.tautulliApi});
 
   @override
-  Future<List<Library>> getLibraries({
+  Future<List<Library>> getLibrariesTable({
     @required String tautulliId,
+    int grouping,
+    int length,
+    String orderColumn,
+    String orderDir,
+    String search,
+    int start,
   }) async {
-    final librariesJson =
-        await tautulliApi.getLibraries(tautulliId: tautulliId);
+    final librariesJson = await tautulliApi.getLibrariesTable(
+      tautulliId: tautulliId,
+      grouping: grouping,
+      length: length,
+      orderColumn: orderColumn,
+      orderDir: orderDir,
+      search: search,
+      start: start,
+    );
 
     final List<Library> librariesList = [];
 
-    librariesJson['response']['data'].forEach((library) {
+    librariesJson['response']['data']['data'].forEach((library) {
       librariesList.add(LibraryModel.fromJson(library));
     });
 
