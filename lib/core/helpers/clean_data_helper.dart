@@ -117,7 +117,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
         title,
         RichText(
           text: TextSpan(
-            text: 'Transcode',
+            text: 'Converting',
             style: TextStyle(
               fontSize: 16,
             ),
