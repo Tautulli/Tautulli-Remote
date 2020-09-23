@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../core/widgets/media_type_icon.dart';
 import '../../domain/entities/recent.dart';
@@ -24,19 +25,28 @@ class RecentlyAddedDetails extends StatelessWidget {
             Text(
               _rowOne(recentItem),
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontSize: 18,
+                color: TautulliColorPalette.not_white,
+              ),
             ),
             if (recentItem.mediaType != 'movie' &&
                 recentItem.mediaType != 'show')
               Text(
                 _rowTwo(recentItem),
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(
+                  fontSize: 15,
+                  color: TautulliColorPalette.not_white,
+                ),
               ),
             Text(
               _rowThree(recentItem),
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(
+                fontSize: 15,
+                color: TautulliColorPalette.not_white,
+              ),
             ),
           ],
         ),

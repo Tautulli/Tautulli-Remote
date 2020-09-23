@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/string_format_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../core/widgets/media_type_icon.dart';
@@ -27,17 +28,26 @@ class HistoryDetails extends StatelessWidget {
             Text(
               historyItem.fullTitle,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontSize: 18,
+                color: TautulliColorPalette.not_white,
+              ),
             ),
             Text(
               _rowTwo(historyItem),
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(
+                fontSize: 15,
+                color: TautulliColorPalette.not_white,
+              ),
             ),
             Text(
               historyItem.friendlyName,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(
+                fontSize: 15,
+                color: TautulliColorPalette.not_white,
+              ),
             ),
           ],
         ),
