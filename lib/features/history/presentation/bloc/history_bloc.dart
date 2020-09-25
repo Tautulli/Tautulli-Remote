@@ -36,7 +36,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     transitionFn,
   ) {
     return super.transformEvents(
-      events.debounceTime(const Duration(milliseconds: 500)),
+      events.debounceTime(const Duration(milliseconds: 25)),
       transitionFn,
     );
   }
@@ -93,6 +93,8 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     int length,
     String search,
   }) async* {
+    final userNamesOrFailure = await getUserNames(tautulliId: tautulliId);
+    
     final historyOrFailure = await getHistory(
       tautulliId: tautulliId,
       grouping: grouping,
@@ -109,7 +111,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       orderColumn: orderColumn,
       orderDir: orderDir,
       start: start,
-      length: length ?? 10,
+      length: length ?? 25,
       search: search,
     );
 
@@ -123,7 +125,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       },
       (list) async* {
         List<User> sortedUsersList;
-        final userNamesOrFailure = await getUserNames(tautulliId: tautulliId);
         userNamesOrFailure.fold(
           (failure) {
             logging.error('History: Unable to fetch users list');
@@ -143,7 +144,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         yield HistorySuccess(
           list: list,
           usersList: sortedUsersList,
-          hasReachedMax: list.length < 10,
+          hasReachedMax: list.length < 25,
         );
       },
     );
@@ -185,7 +186,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       orderColumn: orderColumn,
       orderDir: orderDir,
       start: currentState.list.length,
-      length: length ?? 10,
+      length: length ?? 25,
       search: search,
     );
 
@@ -206,7 +207,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           yield HistorySuccess(
             list: currentState.list + list,
             usersList: currentState.usersList,
-            hasReachedMax: list.length < 10,
+            hasReachedMax: list.length < 25,
           );
         }
       },

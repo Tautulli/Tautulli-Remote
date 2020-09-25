@@ -29,7 +29,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     transitionFn,
   ) {
     return super.transformEvents(
-      events.debounceTime(const Duration(milliseconds: 500)),
+      events.debounceTime(const Duration(milliseconds: 30)),
       transitionFn,
     );
   }

@@ -32,7 +32,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
     TransitionFunction<RecentlyAddedEvent, RecentlyAddedState> transitionFn,
   ) {
     return super.transformEvents(
-      events.debounceTime(const Duration(milliseconds: 500)),
+      events.debounceTime(const Duration(milliseconds: 30)),
       transitionFn,
     );
   }
@@ -110,7 +110,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
   }) async* {
     final recentListOrFailure = await recentlyAdded(
       tautulliId: tautulliId,
-      count: 10,
+      count: 25,
       mediaType: mediaType,
     );
 
@@ -127,7 +127,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
 
         yield RecentlyAddedSuccess(
           list: list,
-          hasReachedMax: list.length < 10,
+          hasReachedMax: list.length < 25,
         );
       },
     );
@@ -140,7 +140,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
   }) async* {
     final recentListOrFailure = await recentlyAdded(
       tautulliId: tautulliId,
-      count: 15,
+      count: 25,
       start: currentState.list.length,
       mediaType: mediaType,
     );
@@ -161,7 +161,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
 
           yield RecentlyAddedSuccess(
             list: currentState.list + list,
-            hasReachedMax: list.length < 10,
+            hasReachedMax: list.length < 25,
           );
         }
       },
