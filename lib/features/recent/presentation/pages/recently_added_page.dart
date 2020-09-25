@@ -41,7 +41,7 @@ class RecentlyAddedPageContent extends StatefulWidget {
 
 class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
   final _scrollController = ScrollController();
-  final _scrollThreshold = 500.0;
+  final _scrollThreshold = 200.0;
   Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
   RecentlyAddedBloc _recentlyAddedBloc;

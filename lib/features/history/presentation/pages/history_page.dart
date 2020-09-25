@@ -40,7 +40,7 @@ class HistoryPageContent extends StatefulWidget {
 
 class _HistoryPageContentState extends State<HistoryPageContent> {
   final _scrollController = ScrollController();
-  final _scrollThreshold = 500.0;
+  final _scrollThreshold = 200.0;
   Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
   HistoryBloc _historyBloc;

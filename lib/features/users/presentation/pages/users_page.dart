@@ -39,7 +39,7 @@ class UsersPageContent extends StatefulWidget {
 
 class _UsersPageContentState extends State<UsersPageContent> {
   final _scrollController = ScrollController();
-  final _scrollThreshold = 500.0;
+  final _scrollThreshold = 200.0;
   Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
   UsersBloc _usersBloc;
