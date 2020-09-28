@@ -39,12 +39,12 @@ void main() {
 
   final tTautulliId = 'jkl';
   final tTautulliId2 = 'mno';
-  final tCount = 10;
+  final tCount = 25;
   final tMediaType = 'all';
   final tMediaType2 = 'movie';
 
   final List<RecentItem> tRecentList = [];
-  final List<RecentItem> tRecentList12 = [];
+  final List<RecentItem> tRecentList27 = [];
 
   final recentJson = json.decode(fixture('recent.json'));
 
@@ -52,9 +52,9 @@ void main() {
     tRecentList.add(RecentItemModel.fromJson(item));
   });
 
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 9; i++) {
     recentJson['response']['data']['recently_added'].forEach((item) {
-      tRecentList12.add(RecentItemModel.fromJson(item));
+      tRecentList27.add(RecentItemModel.fromJson(item));
     });
   }
 
@@ -242,11 +242,11 @@ void main() {
         'should emit [RecentlyAddedSuccess] with hasReachedMax as false when data is fetched successfully and list is 10 or more',
         () async {
           // arrange
-          setUpSuccess(tRecentList12);
+          setUpSuccess(tRecentList27);
           // assert later
           final expected = [
             RecentlyAddedSuccess(
-              list: tRecentList12,
+              list: tRecentList27,
               hasReachedMax: false,
             ),
           ];
@@ -294,17 +294,17 @@ void main() {
         'when state is [RecentlyAddedSuccess] should emit [RecentlyAddedSuccess] with hasReachedMax as false when data is fetched successfully',
         () async {
           // arrange
-          setUpSuccess(tRecentList12);
+          setUpSuccess(tRecentList27);
           bloc.emit(
             RecentlyAddedSuccess(
-              list: tRecentList12,
+              list: tRecentList27,
               hasReachedMax: false,
             ),
           );
           // assert later
           final expected = [
             RecentlyAddedSuccess(
-              list: tRecentList12 + tRecentList12,
+              list: tRecentList27 + tRecentList27,
               hasReachedMax: false,
             ),
           ];
@@ -351,12 +351,12 @@ void main() {
       'should emit [RecentlyAddedInitial] before executing as normal',
       () async {
         // arrange
-        setUpSuccess(tRecentList12);
+        setUpSuccess(tRecentList27);
         // assert later
         final expected = [
           RecentlyAddedInitial(),
           RecentlyAddedSuccess(
-            list: tRecentList12,
+            list: tRecentList27,
             hasReachedMax: false,
           ),
         ];

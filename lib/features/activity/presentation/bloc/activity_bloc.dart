@@ -138,6 +138,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             for (ActivityItem activityItem in activityMap[keys[i]]
                 ['activity']) {
               //* Fetch GeoIP data for activity items
+              print('fetch geo ip START ${DateTime.now().millisecondsSinceEpoch}');
               final failureOrGeoIp = await getGeoIp(
                 tautulliId: keys[i],
                 ipAddress: activityItem.ipAddress,
@@ -152,6 +153,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
                   activityItem.geoIpItem = geoIpItem;
                 },
               );
+              print('fetch geo ip END ${DateTime.now().millisecondsSinceEpoch}');
 
               //* Fetch and assign image URLs
               String posterImg;

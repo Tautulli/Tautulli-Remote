@@ -64,7 +64,7 @@ class _ActivityCardState extends State<ActivityCard> {
               ),
             );
           } else if (isEmpty(activity.sessionId)) {
-            Scaffold.of(context).hideCurrentSnackBar();
+            // Scaffold.of(context).hideCurrentSnackBar();
             Scaffold.of(context).showSnackBar(
               SnackBar(
                 backgroundColor: PlexColorPalette.shark,

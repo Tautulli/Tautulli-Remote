@@ -50,7 +50,7 @@ void main() {
 
   final List<User> tUserList = [];
   final List<History> tHistoryList = [];
-  final List<History> tHistoryList12 = [];
+  final List<History> tHistoryList25 = [];
 
   final userJson = json.decode(fixture('users.json'));
   userJson['response']['data'].forEach((item) {
@@ -62,9 +62,9 @@ void main() {
     tHistoryList.add(HistoryModel.fromJson(item));
   });
 
-  for (int i = 0; i < 12; i++) {
+  for (int i = 0; i < 25; i++) {
     historyJson['response']['data']['data'].forEach((item) {
-      tHistoryList12.add(HistoryModel.fromJson(item));
+      tHistoryList25.add(HistoryModel.fromJson(item));
     });
   }
 
@@ -204,14 +204,14 @@ void main() {
     );
 
     test(
-      'should emit [HistorySuccess] with hasReachedMax as false when data is fetched successfully and list is 10 or more',
+      'should emit [HistorySuccess] with hasReachedMax as false when data is fetched successfully and list is 25 or more',
       () async {
         // arrange
-        setUpSuccess(tHistoryList12);
+        setUpSuccess(tHistoryList25);
         // assert later
         final expected = [
           HistorySuccess(
-            list: tHistoryList12,
+            list: tHistoryList25,
             usersList: tUserList,
             hasReachedMax: false,
           ),
@@ -272,10 +272,10 @@ void main() {
       'when state is [HistorySuccess] should emit [HistorySuccess] with hasReachedMax as false when data is fetched successfully',
       () async {
         // arrange
-        setUpSuccess(tHistoryList12);
+        setUpSuccess(tHistoryList25);
         bloc.emit(
           HistorySuccess(
-            list: tHistoryList12,
+            list: tHistoryList25,
             usersList: tUserList,
             hasReachedMax: false,
           ),
@@ -283,7 +283,7 @@ void main() {
         // assert later
         final expected = [
           HistorySuccess(
-            list: tHistoryList12 + tHistoryList12,
+            list: tHistoryList25 + tHistoryList25,
             usersList: tUserList,
             hasReachedMax: false,
           ),
@@ -298,7 +298,7 @@ void main() {
     );
 
     test(
-      'when state is [HistorySuccess] should emit [HistorySuccess] with hasReachedMax as true when data is fetched successfully and less then 10',
+      'when state is [HistorySuccess] should emit [HistorySuccess] with hasReachedMax as true when data is fetched successfully and less then 25',
       () async {
         // arrange
         setUpSuccess(tHistoryList);
@@ -332,12 +332,12 @@ void main() {
       'should emit [HistoryInitial] before executing as normal',
       () async {
         // arrange
-        setUpSuccess(tHistoryList12);
+        setUpSuccess(tHistoryList25);
         // assert later
         final expected = [
           HistoryInitial(),
           HistorySuccess(
-            list: tHistoryList12,
+            list: tHistoryList25,
             usersList: tUserList,
             hasReachedMax: false,
           ),

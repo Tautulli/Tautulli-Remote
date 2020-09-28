@@ -35,7 +35,9 @@ void main() {
   final historyJson = json.decode(fixture('history.json'));
 
   historyJson['response']['data']['data'].forEach((item) {
-    tHistoryList.add(HistoryModel.fromJson(item));
+    if (item['state'] == null) {
+      tHistoryList.add(HistoryModel.fromJson(item));
+    }
   });
 
   group('getHistory', () {
