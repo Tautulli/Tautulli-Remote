@@ -19,6 +19,7 @@ import 'features/activity/domain/repositories/geo_ip_repository.dart';
 import 'features/activity/domain/usecases/get_activity.dart';
 import 'features/activity/domain/usecases/get_geo_ip.dart';
 import 'features/activity/presentation/bloc/activity_bloc.dart';
+import 'features/activity/presentation/bloc/geo_ip_bloc.dart';
 import 'features/history/data/datasources/history_data_source.dart';
 import 'features/history/data/repositories/history_repository_impl.dart';
 import 'features/history/domain/repositories/history_repository.dart';
@@ -256,10 +257,16 @@ Future<void> init() async {
   sl.registerFactory(
     () => ActivityBloc(
       activity: sl(),
-      geoIp: sl(),
+      // geoIp: sl(),
       imageUrl: sl(),
       settings: sl(),
       logging: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => GeoIpBloc(
+      getGeoIp: sl(),
     ),
   );
 

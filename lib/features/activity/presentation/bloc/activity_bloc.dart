@@ -11,14 +11,12 @@ import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/settings.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/usecases/get_activity.dart';
-import '../../domain/usecases/get_geo_ip.dart';
 
 part 'activity_event.dart';
 part 'activity_state.dart';
 
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   final GetActivity getActivity;
-  final GetGeoIp getGeoIp;
   final GetImageUrl getImageUrl;
   final Settings settings;
   final Logging logging;
@@ -27,14 +25,11 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
   ActivityBloc({
     @required GetActivity activity,
-    @required GetGeoIp geoIp,
     @required GetImageUrl imageUrl,
     @required this.settings,
     @required this.logging,
   })  : assert(activity != null),
-        assert(geoIp != null),
         getActivity = activity,
-        getGeoIp = geoIp,
         getImageUrl = imageUrl,
         super(ActivityEmpty());
 
@@ -130,31 +125,13 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         );
       },
       (activityMap) async* {
-        //* Loop through activity items and get geoIP data and image URLs
+        //* Loop through activity items and get image URLs
         // Using for loop as .forEach() does not actually respect await
         final List keys = activityMap.keys.toList();
         for (int i = 0; i < keys.length; i++) {
           if (activityMap[keys[i]]['result'] == 'success') {
             for (ActivityItem activityItem in activityMap[keys[i]]
                 ['activity']) {
-              //* Fetch GeoIP data for activity items
-              print('fetch geo ip START ${DateTime.now().millisecondsSinceEpoch}');
-              final failureOrGeoIp = await getGeoIp(
-                tautulliId: keys[i],
-                ipAddress: activityItem.ipAddress,
-              );
-              failureOrGeoIp.fold(
-                (failure) {
-                  logging.warning(
-                      'Activity: Failed to load GeoIP data for ${activityItem.ipAddress}');
-                  return null;
-                },
-                (geoIpItem) {
-                  activityItem.geoIpItem = geoIpItem;
-                },
-              );
-              print('fetch geo ip END ${DateTime.now().millisecondsSinceEpoch}');
-
               //* Fetch and assign image URLs
               String posterImg;
               int posterRatingKey;
