@@ -5,10 +5,8 @@ import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/core/error/failure.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/models/activity_model.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/models/geo_ip_model.dart';
 import 'package:tautulli_remote_tdd/features/activity/domain/entities/activity.dart';
 import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_activity.dart';
-import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_geo_ip.dart';
 import 'package:tautulli_remote_tdd/features/image_url/domain/usecases/get_image_url.dart';
 import 'package:tautulli_remote_tdd/features/activity/presentation/bloc/activity_bloc.dart';
 import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
@@ -18,8 +16,6 @@ import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.d
 import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetActivity extends Mock implements GetActivity {}
-
-class MockGetGeoIp extends Mock implements GetGeoIp {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
@@ -31,20 +27,17 @@ void main() {
   ActivityBloc bloc;
   MockSettings mockSettings;
   MockGetActivity mockGetActivity;
-  MockGetGeoIp mockGetGeoIp;
   MockGetImageUrl mockGetImageUrl;
   MockLogging mockLogging;
 
   setUp(() {
     mockGetActivity = MockGetActivity();
     mockSettings = MockSettings();
-    mockGetGeoIp = MockGetGeoIp();
     mockGetImageUrl = MockGetImageUrl();
     mockLogging = MockLogging();
 
     bloc = ActivityBloc(
       activity: mockGetActivity,
-      geoIp: mockGetGeoIp,
       imageUrl: mockGetImageUrl,
       settings: mockSettings,
       logging: mockLogging,
@@ -60,29 +53,10 @@ void main() {
     'jkl': {'plex_name': 'Plex', 'result': 'success', 'activity': tActivityList}
   };
 
-  final tGeoIpItemModel = GeoIpItemModel(
-    accuracy: null,
-    city: "Toronto",
-    code: "CA",
-    continent: null,
-    country: "Canada",
-    latitude: 43.6403,
-    longitude: -79.3711,
-    postalCode: "M5E",
-    region: "Ontario",
-    timezone: "America/Toronto",
-  );
-
   void setUpSuccess() {
     String imageUrl =
-        'https://tautulli.wreave.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
+        'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
     when(mockGetActivity()).thenAnswer((_) async => Right(tActivityMap));
-    when(
-      mockGetGeoIp(
-        tautulliId: anyNamed('tautulliId'),
-        ipAddress: anyNamed('ipAddress'),
-      ),
-    ).thenAnswer((_) async => Right(tGeoIpItemModel));
     when(
       mockGetImageUrl(
         tautulliId: anyNamed('tautulliId'),
@@ -112,29 +86,6 @@ void main() {
         await untilCalled(mockGetActivity());
         // assert
         verify(mockGetActivity());
-      },
-    );
-
-    test(
-      'should get data from the GetGeoIp use case',
-      () async {
-        // arrange
-        setUpSuccess();
-        // act
-        bloc.add(ActivityLoad());
-        await untilCalled(
-          mockGetGeoIp(
-            tautulliId: anyNamed('tautulliId'),
-            ipAddress: anyNamed('ipAddress'),
-          ),
-        );
-        // assert
-        verify(
-          mockGetGeoIp(
-            tautulliId: anyNamed('tautulliId'),
-            ipAddress: anyNamed('ipAddress'),
-          ),
-        );
       },
     );
 
@@ -219,29 +170,6 @@ void main() {
         await untilCalled(mockGetActivity());
         // assert
         verify(mockGetActivity());
-      },
-    );
-
-    test(
-      'should get data from the GetGeoIp use case',
-      () async {
-        // arrange
-        setUpSuccess();
-        // act
-        bloc.add(ActivityRefresh());
-        await untilCalled(
-          mockGetGeoIp(
-            tautulliId: anyNamed('tautulliId'),
-            ipAddress: anyNamed('ipAddress'),
-          ),
-        );
-        // assert
-        verify(
-          mockGetGeoIp(
-            tautulliId: anyNamed('tautulliId'),
-            ipAddress: anyNamed('ipAddress'),
-          ),
-        );
       },
     );
 
