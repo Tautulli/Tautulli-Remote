@@ -12,6 +12,7 @@ import '../../../../core/widgets/poster_chooser.dart';
 import '../../../terminate_session/presentation/bloc/terminate_session_bloc.dart';
 import '../../domain/entities/activity.dart';
 import '../bloc/activity_bloc.dart';
+import '../bloc/geo_ip_bloc.dart';
 import 'activity_media_icon_row.dart';
 import 'activity_media_info.dart';
 import 'activity_modal_bottom_sheet.dart';
@@ -50,6 +51,7 @@ class _ActivityCardState extends State<ActivityCard> {
     final _terminateMessageController = TextEditingController();
 
     final activityBloc = BlocProvider.of<ActivityBloc>(context);
+    final geoIpBloc = BlocProvider.of<GeoIpBloc>(context);
     final terminateSessionBloc = BlocProvider.of<TerminateSessionBloc>(context);
 
     return GestureDetector(
@@ -78,6 +80,7 @@ class _ActivityCardState extends State<ActivityCard> {
         showActivityModalBottomSheet(
           context: context,
           activityBloc: activityBloc,
+          geoIpBloc: geoIpBloc,
           activity: activity,
           tautulliId: widget.tautulliId,
         );
@@ -338,6 +341,7 @@ class _ActivityCardState extends State<ActivityCard> {
 void showActivityModalBottomSheet({
   @required BuildContext context,
   @required ActivityBloc activityBloc,
+  @required GeoIpBloc geoIpBloc,
   @required ActivityItem activity,
   @required String tautulliId,
 }) {
@@ -348,9 +352,12 @@ void showActivityModalBottomSheet({
     builder: (builderContext) {
       return BlocProvider<ActivityBloc>.value(
         value: activityBloc,
-        child: ActivityModalBottomSheet(
-          activity: activity,
-          tautulliId: tautulliId,
+        child: BlocProvider<GeoIpBloc>.value(
+          value: geoIpBloc,
+          child: ActivityModalBottomSheet(
+            activity: activity,
+            tautulliId: tautulliId,
+          ),
         ),
       );
     },

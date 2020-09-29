@@ -15,6 +15,7 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../terminate_session/presentation/bloc/terminate_session_bloc.dart';
 import '../../domain/entities/activity.dart';
 import '../bloc/activity_bloc.dart';
+import '../bloc/geo_ip_bloc.dart';
 import '../widgets/activity_card.dart';
 import '../widgets/activity_error_button.dart';
 
@@ -25,8 +26,15 @@ class ActivityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ActivityBloc>(
-      create: (_) => sl<ActivityBloc>()..add(ActivityLoad()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ActivityBloc>(
+          create: (_) => sl<ActivityBloc>()..add(ActivityLoad()),
+        ),
+        BlocProvider<GeoIpBloc>(
+          create: (_) => sl<GeoIpBloc>(),
+        ),
+      ],
       child: ActivityPageContent(),
     );
   }
@@ -47,6 +55,7 @@ class _ActivityPageContentState extends State<ActivityPageContent>
   void initState() {
     super.initState();
     _refreshCompleter = Completer<void>();
+
     WidgetsBinding.instance.addObserver(this);
   }
 

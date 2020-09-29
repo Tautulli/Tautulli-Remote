@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/poster_chooser.dart';
 import '../../domain/entities/activity.dart';
 import '../bloc/activity_bloc.dart';
@@ -212,6 +211,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                         child: ActivityMediaDetails(
                           constraints: constraints,
                           activity: activity,
+                          tautulliId: widget.tautulliId,
                         ),
                       ),
                     ),
