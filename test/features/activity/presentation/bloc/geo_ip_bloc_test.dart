@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tautulli_remote_tdd/core/error/failure.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/models/geo_ip_model.dart';
 import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_geo_ip.dart';
 import 'package:tautulli_remote_tdd/features/activity/presentation/bloc/geo_ip_bloc.dart';
@@ -34,6 +35,10 @@ void main() {
     timezone: "America/Toronto",
   );
 
+  final tGeoIpMap = {
+    tIpAddress: tGeoIpItemModel,
+  };
+
   void setUpSuccess() {
     when(
       mockGetGeoIp(
@@ -48,6 +53,7 @@ void main() {
     () async {
       // arrange
       setUpSuccess();
+      clearCache();
       // act
       bloc.add(
         GeoIpLoad(
@@ -64,8 +70,62 @@ void main() {
       // assert
       verify(
         mockGetGeoIp(
-          tautulliId: anyNamed('tautulliId'),
-          ipAddress: anyNamed('ipAddress'),
+          tautulliId: tTautulliId,
+          ipAddress: tIpAddress,
+        ),
+      );
+    },
+  );
+
+  test(
+    'should emit [GeoIpSuccess] when users list is fetched successfully',
+    () async {
+      // arrange
+      setUpSuccess();
+      clearCache();
+      // assert later
+      final expected = [
+        GeoIpInProgress(),
+        GeoIpSuccess(
+          geoIpMap: tGeoIpMap,
+        ),
+      ];
+      expectLater(bloc, emitsInOrder(expected));
+      // act
+      bloc.add(
+        GeoIpLoad(
+          tautulliId: tTautulliId,
+          ipAddress: tIpAddress,
+        ),
+      );
+    },
+  );
+
+  test(
+    'should emit [GeoIpFailure] when fetching users list fails',
+    () async {
+      // arrange
+      final failure = ServerFailure();
+      clearCache();
+      when(
+        mockGetGeoIp(
+          tautulliId: tTautulliId,
+          ipAddress: tIpAddress,
+        ),
+      ).thenAnswer((_) async => Left(failure));
+      // assert later
+      final expected = [
+        GeoIpInProgress(),
+        GeoIpFailure(
+          geoIpMap: {},
+        ),
+      ];
+      expectLater(bloc, emitsInOrder(expected));
+      // act
+      bloc.add(
+        GeoIpLoad(
+          tautulliId: tTautulliId,
+          ipAddress: tIpAddress,
         ),
       );
     },

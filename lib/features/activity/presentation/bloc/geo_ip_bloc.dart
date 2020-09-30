@@ -10,7 +10,7 @@ import '../../domain/usecases/get_geo_ip.dart';
 part 'geo_ip_event.dart';
 part 'geo_ip_state.dart';
 
-Map<String, GeoIpItem> _geoIpMap = {};
+Map<String, GeoIpItem> _geoIpMapCache = {};
 
 class GeoIpBloc extends Bloc<GeoIpEvent, GeoIpState> {
   final GetGeoIp getGeoIp;
@@ -27,7 +27,7 @@ class GeoIpBloc extends Bloc<GeoIpEvent, GeoIpState> {
       yield* _mapGeoIpLoadToState(
         tautulliId: event.tautulliId,
         ipAddress: event.ipAddress,
-        geoIpMap: _geoIpMap,
+        geoIpMap: _geoIpMapCache,
       );
     }
   }
@@ -60,4 +60,8 @@ class GeoIpBloc extends Bloc<GeoIpEvent, GeoIpState> {
       );
     }
   }
+}
+
+void clearCache() {
+  _geoIpMapCache = {};
 }
