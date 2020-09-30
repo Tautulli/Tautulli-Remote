@@ -19,6 +19,7 @@ List<History> _historyListCache;
 bool _hasReachedMaxCache;
 int _userIdCache;
 String _mediaTypeCache;
+String _tautulliIdCache;
 
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   final GetHistory getHistory;
@@ -62,6 +63,8 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           mediaType: event.mediaType,
           useCachedList: true,
         );
+
+        _tautulliIdCache = event.tautulliId;
       }
       if (currentState is HistorySuccess) {
         _userIdCache = event.userId;
@@ -73,6 +76,8 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           userId: event.userId,
           mediaType: event.mediaType,
         );
+
+        _tautulliIdCache = event.tautulliId;
       }
     }
     if (event is HistoryFilter) {
@@ -85,6 +90,8 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         userId: event.userId,
         mediaType: event.mediaType,
       );
+
+      _tautulliIdCache = event.tautulliId;
     }
   }
 
@@ -108,7 +115,9 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     String search,
     bool useCachedList = false,
   }) async* {
-    if (useCachedList && _historyListCache != null) {
+    if (useCachedList &&
+        _historyListCache != null &&
+        _tautulliIdCache == tautulliId) {
       yield HistorySuccess(
         list: _historyListCache,
         hasReachedMax: _hasReachedMaxCache,
