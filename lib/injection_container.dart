@@ -25,6 +25,7 @@ import 'features/history/data/repositories/history_repository_impl.dart';
 import 'features/history/domain/repositories/history_repository.dart';
 import 'features/history/domain/usecases/get_history.dart';
 import 'features/history/presentation/bloc/history_bloc.dart';
+import 'features/history/presentation/bloc/history_users_bloc.dart';
 import 'features/image_url/data/datasources/image_url_data_source.dart';
 import 'features/image_url/data/respositories/image_url_repository_impl.dart';
 import 'features/image_url/domain/repositories/image_url_repository.dart';
@@ -392,9 +393,15 @@ Future<void> init() async {
   sl.registerFactory(
     () => HistoryBloc(
       getHistory: sl(),
-      getUserNames: sl(),
+      // getUserNames: sl(),
       getImageUrl: sl(),
       logging: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => HistoryUsersBloc(
+      getUserNames: sl(),
     ),
   );
 

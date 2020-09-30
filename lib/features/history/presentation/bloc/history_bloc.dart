@@ -9,26 +9,30 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
-import '../../../users/domain/entities/user.dart';
-import '../../../users/domain/usercases/get_user_names.dart';
 import '../../domain/entities/history.dart';
 import '../../domain/usecases/get_history.dart';
 
 part 'history_event.dart';
 part 'history_state.dart';
 
+List<History> _historyListCache;
+bool _hasReachedMaxCache;
+int _userIdCache;
+String _mediaTypeCache;
+
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   final GetHistory getHistory;
-  final GetUserNames getUserNames;
   final GetImageUrl getImageUrl;
   final Logging logging;
 
   HistoryBloc({
     @required this.getHistory,
-    @required this.getUserNames,
     @required this.getImageUrl,
     @required this.logging,
-  }) : super(HistoryInitial());
+  }) : super(HistoryInitial(
+          userId: _userIdCache,
+          mediaType: _mediaTypeCache,
+        ));
 
   @override
   Stream<Transition<HistoryEvent, HistoryState>> transformEvents(
@@ -49,13 +53,20 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
 
     if (event is HistoryFetch && !_hasReachedMax(currentState)) {
       if (currentState is HistoryInitial) {
+        _userIdCache = event.userId;
+        _mediaTypeCache = event.mediaType;
+
         yield* _fetchInitial(
           tautulliId: event.tautulliId,
           userId: event.userId,
           mediaType: event.mediaType,
+          useCachedList: true,
         );
       }
       if (currentState is HistorySuccess) {
+        _userIdCache = event.userId;
+        _mediaTypeCache = event.mediaType;
+
         yield* _fetchMore(
           currentState: currentState,
           tautulliId: event.tautulliId,
@@ -66,6 +77,9 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     }
     if (event is HistoryFilter) {
       yield HistoryInitial();
+      _userIdCache = event.userId;
+      _mediaTypeCache = event.mediaType;
+
       yield* _fetchInitial(
         tautulliId: event.tautulliId,
         userId: event.userId,
@@ -92,62 +106,55 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     int start,
     int length,
     String search,
+    bool useCachedList = false,
   }) async* {
-    final userNamesOrFailure = await getUserNames(tautulliId: tautulliId);
-    
-    final historyOrFailure = await getHistory(
-      tautulliId: tautulliId,
-      grouping: grouping,
-      user: user,
-      userId: userId,
-      ratingKey: ratingKey,
-      parentRatingKey: parentRatingKey,
-      grandparentRatingKey: grandparentRatingKey,
-      startDate: startDate,
-      sectionId: sectionId,
-      mediaType: mediaType,
-      transcodeDecision: transcodeDecision,
-      guid: guid,
-      orderColumn: orderColumn,
-      orderDir: orderDir,
-      start: start,
-      length: length ?? 25,
-      search: search,
-    );
+    if (useCachedList && _historyListCache != null) {
+      yield HistorySuccess(
+        list: _historyListCache,
+        hasReachedMax: _hasReachedMaxCache,
+      );
+    } else {
+      final historyOrFailure = await getHistory(
+        tautulliId: tautulliId,
+        grouping: grouping,
+        user: user,
+        userId: userId,
+        ratingKey: ratingKey,
+        parentRatingKey: parentRatingKey,
+        grandparentRatingKey: grandparentRatingKey,
+        startDate: startDate,
+        sectionId: sectionId,
+        mediaType: mediaType,
+        transcodeDecision: transcodeDecision,
+        guid: guid,
+        orderColumn: orderColumn,
+        orderDir: orderDir,
+        start: start,
+        length: length ?? 25,
+        search: search,
+      );
 
-    yield* historyOrFailure.fold(
-      (failure) async* {
-        yield HistoryFailure(
-          failure: failure,
-          message: FailureMapperHelper().mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
-        );
-      },
-      (list) async* {
-        List<User> sortedUsersList;
-        userNamesOrFailure.fold(
-          (failure) {
-            logging.error('History: Unable to fetch users list');
-          },
-          (list) {
-            User allUsers = User(friendlyName: 'All Users', userId: -1);
-            sortedUsersList = list
-              ..sort((a, b) => a.friendlyName
-                  .toLowerCase()
-                  .compareTo(b.friendlyName.toLowerCase()))
-              ..insert(0, allUsers);
-          },
-        );
+      yield* historyOrFailure.fold(
+        (failure) async* {
+          yield HistoryFailure(
+            failure: failure,
+            message: FailureMapperHelper().mapFailureToMessage(failure),
+            suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
+          );
+        },
+        (list) async* {
+          await _getImages(list: list, tautulliId: tautulliId);
 
-        await _getImages(list: list, tautulliId: tautulliId);
+          _historyListCache = list;
+          _hasReachedMaxCache = list.length < 25;
 
-        yield HistorySuccess(
-          list: list,
-          usersList: sortedUsersList,
-          hasReachedMax: list.length < 25,
-        );
-      },
-    );
+          yield HistorySuccess(
+            list: list,
+            hasReachedMax: list.length < 25,
+          );
+        },
+      );
+    }
   }
 
   Stream<HistoryState> _fetchMore({
@@ -204,9 +211,11 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         } else {
           await _getImages(list: list, tautulliId: tautulliId);
 
+          _historyListCache = currentState.list + list;
+          _hasReachedMaxCache = list.length < 25;
+
           yield HistorySuccess(
             list: currentState.list + list,
-            usersList: currentState.usersList,
             hasReachedMax: list.length < 25,
           );
         }
@@ -268,3 +277,10 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
 
 bool _hasReachedMax(HistoryState state) =>
     state is HistorySuccess && state.hasReachedMax;
+
+void clearCache() {
+  _historyListCache = null;
+  _hasReachedMaxCache = null;
+  _userIdCache = null;
+  _mediaTypeCache = null;
+}

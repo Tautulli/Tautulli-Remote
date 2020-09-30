@@ -7,33 +7,40 @@ abstract class HistoryState extends Equatable {
   List<Object> get props => [];
 }
 
-class HistoryInitial extends HistoryState {}
+class HistoryInitial extends HistoryState {
+  final int userId;
+  final String mediaType;
+
+  HistoryInitial({
+    this.userId,
+    this.mediaType,
+  });
+
+  @override
+  List<Object> get props => [userId, mediaType];
+}
 
 class HistorySuccess extends HistoryState {
   final List<History> list;
-  final List<User> usersList;
   final bool hasReachedMax;
 
   HistorySuccess({
     @required this.list,
-    @required this.usersList,
     @required this.hasReachedMax,
   });
 
   HistorySuccess copyWith({
     List<History> list,
-    List<User> usersList,
     bool hasReachedMax,
   }) {
     return HistorySuccess(
       list: list ?? this.list,
-      usersList: usersList ?? this.usersList,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
 
   @override
-  List<Object> get props => [list, usersList, hasReachedMax];
+  List<Object> get props => [list, hasReachedMax];
 }
 
 class HistoryFailure extends HistoryState {

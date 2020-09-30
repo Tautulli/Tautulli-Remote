@@ -11,15 +11,10 @@ import 'package:tautulli_remote_tdd/features/history/domain/usecases/get_history
 import 'package:tautulli_remote_tdd/features/history/presentation/bloc/history_bloc.dart';
 import 'package:tautulli_remote_tdd/features/image_url/domain/usecases/get_image_url.dart';
 import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
-import 'package:tautulli_remote_tdd/features/users/data/models/user_model.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/entities/user.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/usercases/get_user_names.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
 class MockGetHistory extends Mock implements GetHistory {}
-
-class MockGetUserNames extends Mock implements GetUserNames {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
@@ -28,18 +23,15 @@ class MockLogging extends Mock implements Logging {}
 void main() {
   HistoryBloc bloc;
   MockGetHistory mockGetHistory;
-  MockGetUserNames mockGetUserNames;
   MockGetImageUrl mockGetImageUrl;
   MockLogging mockLogging;
 
   setUp(() {
     mockGetHistory = MockGetHistory();
-    mockGetUserNames = MockGetUserNames();
     mockGetImageUrl = MockGetImageUrl();
     mockLogging = MockLogging();
     bloc = HistoryBloc(
       getHistory: mockGetHistory,
-      getUserNames: mockGetUserNames,
       getImageUrl: mockGetImageUrl,
       logging: mockLogging,
     );
@@ -48,14 +40,8 @@ void main() {
   final tTautulliId = 'jkl';
   final tMediaType = 'all';
 
-  final List<User> tUserList = [];
   final List<History> tHistoryList = [];
   final List<History> tHistoryList25 = [];
-
-  final userJson = json.decode(fixture('users.json'));
-  userJson['response']['data'].forEach((item) {
-    tUserList.add(UserModel.fromJson(item));
-  });
 
   final historyJson = json.decode(fixture('history.json'));
   historyJson['response']['data']['data'].forEach((item) {
@@ -69,8 +55,6 @@ void main() {
   }
 
   void setUpSuccess(List historyList) {
-    when(mockGetUserNames(tautulliId: anyNamed('tautulliId')))
-        .thenAnswer((_) async => Right(tUserList));
     String imageUrl =
         'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
     when(
@@ -118,6 +102,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess(tHistoryList);
+        clearCache();
         // act
         bloc.add(
           HistoryFetch(
@@ -175,6 +160,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess(tHistoryList);
+        clearCache();
         // act
         bloc.add(
           HistoryFetch(
@@ -208,11 +194,11 @@ void main() {
       () async {
         // arrange
         setUpSuccess(tHistoryList25);
+        clearCache();
         // assert later
         final expected = [
           HistorySuccess(
             list: tHistoryList25,
-            usersList: tUserList,
             hasReachedMax: false,
           ),
         ];
@@ -230,6 +216,7 @@ void main() {
       () async {
         // arrange
         final failure = ServerFailure();
+        clearCache();
         when(
           mockGetHistory(
             tautulliId: tTautulliId,
@@ -273,10 +260,10 @@ void main() {
       () async {
         // arrange
         setUpSuccess(tHistoryList25);
+        clearCache();
         bloc.emit(
           HistorySuccess(
             list: tHistoryList25,
-            usersList: tUserList,
             hasReachedMax: false,
           ),
         );
@@ -284,7 +271,6 @@ void main() {
         final expected = [
           HistorySuccess(
             list: tHistoryList25 + tHistoryList25,
-            usersList: tUserList,
             hasReachedMax: false,
           ),
         ];
@@ -302,10 +288,10 @@ void main() {
       () async {
         // arrange
         setUpSuccess(tHistoryList);
+        clearCache();
         bloc.emit(
           HistorySuccess(
             list: tHistoryList,
-            usersList: tUserList,
             hasReachedMax: false,
           ),
         );
@@ -313,7 +299,6 @@ void main() {
         final expected = [
           HistorySuccess(
             list: tHistoryList + tHistoryList,
-            usersList: tUserList,
             hasReachedMax: true,
           ),
         ];
@@ -333,12 +318,12 @@ void main() {
       () async {
         // arrange
         setUpSuccess(tHistoryList25);
+        clearCache();
         // assert later
         final expected = [
           HistoryInitial(),
           HistorySuccess(
             list: tHistoryList25,
-            usersList: tUserList,
             hasReachedMax: false,
           ),
         ];
