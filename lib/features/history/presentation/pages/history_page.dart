@@ -14,6 +14,7 @@ import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/history_bloc.dart';
+import '../bloc/history_users_bloc.dart';
 import '../widgets/history_details.dart';
 import '../widgets/history_error_button.dart';
 
@@ -24,8 +25,15 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => di.sl<HistoryBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<HistoryBloc>(
+          create: (_) => di.sl<HistoryBloc>(),
+        ),
+        BlocProvider<HistoryUsersBloc>(
+          create: (_) => di.sl<HistoryUsersBloc>(),
+        ),
+      ],
       child: HistoryPageContent(),
     );
   }
@@ -47,7 +55,6 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
   String _tautulliId;
   int _userId;
   String _mediaType;
-  bool _historyLoaded;
 
   @override
   void initState() {
@@ -56,18 +63,25 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
     _refreshCompleter = Completer<void>();
     _settingsBloc = context.bloc<SettingsBloc>();
     _historyBloc = context.bloc<HistoryBloc>();
-    _mediaType = 'all';
-    _historyLoaded = false;
 
-    final state = _settingsBloc.state;
+    final historyState = _historyBloc.state;
+    final settingsState = _settingsBloc.state;
 
-    if (state is SettingsLoadSuccess) {
+
+    if (historyState is HistoryInitial) {
+      if (historyState.userId != null) {
+        _userId = historyState.userId;
+      }
+      _mediaType = historyState.mediaType ?? 'all';
+    }
+
+    if (settingsState is SettingsLoadSuccess) {
       String lastSelectedServer;
 
-      if (state.lastSelectedServer != null) {
-        for (Server server in state.serverList) {
-          if (server.tautulliId == state.lastSelectedServer) {
-            lastSelectedServer = state.lastSelectedServer;
+      if (settingsState.lastSelectedServer != null) {
+        for (Server server in settingsState.serverList) {
+          if (server.tautulliId == settingsState.lastSelectedServer) {
+            lastSelectedServer = settingsState.lastSelectedServer;
             break;
           }
         }
@@ -77,15 +91,21 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else if (state.serverList.length > 0) {
+      } else if (settingsState.serverList.length > 0) {
         setState(() {
-          _tautulliId = state.serverList[0].tautulliId;
+          _tautulliId = settingsState.serverList[0].tautulliId;
         });
       } else {
         setState(() {
           _tautulliId = null;
         });
       }
+
+      context.bloc<HistoryUsersBloc>().add(
+            HistoryUsersFetch(
+              tautulliId: _tautulliId,
+            ),
+          );
 
       _historyBloc.add(
         HistoryFetch(
@@ -262,20 +282,10 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
 
   List<Widget> _appBarActions() {
     return [
-      BlocConsumer<HistoryBloc, HistoryState>(
-        listener: (context, state) {
-          if (state is HistorySuccess) {
-            setState(() {
-              _historyLoaded = true;
-            });
-          } else {
-            setState(() {
-              _historyLoaded = false;
-            });
-          }
-        },
+      //* Users dropdown
+      BlocBuilder<HistoryUsersBloc, HistoryUsersState>(
         builder: (context, state) {
-          if (state is HistorySuccess) {
+          if (state is HistoryUsersSuccess) {
             return PopupMenuButton(
               tooltip: 'Users',
               icon: FaIcon(
@@ -319,23 +329,60 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
               },
             );
           }
+          if (state is HistoryUsersInProgress) {
+            return Stack(
+              children: [
+                IconButton(
+                  icon: FaIcon(FontAwesomeIcons.userAlt),
+                  color: Theme.of(context).disabledColor,
+                  onPressed: () {
+                    Scaffold.of(context).hideCurrentSnackBar();
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: PlexColorPalette.shark,
+                        content: Text('Loading users'),
+                      ),
+                    );
+                  },
+                ),
+                Positioned(
+                  right: 0,
+                  top: 25,
+                  child: SizedBox(
+                    height: 15,
+                    width: 15,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
           return IconButton(
             icon: FaIcon(FontAwesomeIcons.userAlt),
-            onPressed: null,
+            color: Theme.of(context).disabledColor,
+            onPressed: () {
+              Scaffold.of(context).hideCurrentSnackBar();
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: PlexColorPalette.shark,
+                  content: Text('Users failed to load'),
+                ),
+              );
+            },
           );
         },
       ),
+      //* Filter dropdown
       PopupMenuButton(
         icon: FaIcon(
           FontAwesomeIcons.filter,
-          color: !_historyLoaded
-              ? Theme.of(context).disabledColor
-              : _mediaType != 'all'
-                  ? Theme.of(context).accentColor
-                  : TautulliColorPalette.not_white,
+          color: _mediaType != 'all'
+              ? Theme.of(context).accentColor
+              : TautulliColorPalette.not_white,
         ),
         tooltip: 'Filter media type',
-        enabled: _historyLoaded,
         onSelected: (value) {
           if (_mediaType != value) {
             setState(() {
