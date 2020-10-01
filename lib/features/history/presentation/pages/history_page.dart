@@ -69,13 +69,6 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
     final historyState = _historyBloc.state;
     final settingsState = _settingsBloc.state;
 
-    if (historyState is HistoryInitial) {
-      if (historyState.userId != null) {
-        _userId = historyState.userId;
-      }
-      _mediaType = historyState.mediaType ?? 'all';
-    }
-
     if (settingsState is SettingsLoadSuccess) {
       String lastSelectedServer;
 
@@ -100,6 +93,15 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
         setState(() {
           _tautulliId = null;
         });
+      }
+
+      if (historyState is HistoryInitial) {
+        if (historyState.tautulliId == _tautulliId) {
+          _userId = historyState.userId;
+        } else {
+          _userId = null;
+        }
+        _mediaType = historyState.mediaType ?? 'all';
       }
 
       _historyUsersBloc.add(
@@ -149,14 +151,17 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                           setState(() {
                             _tautulliId = value;
                             _userId = null;
-                            _mediaType = 'all';
                           });
                           _settingsBloc.add(
                             SettingsUpdateLastSelectedServer(
-                                tautulliId: _tautulliId),
+                              tautulliId: _tautulliId,
+                            ),
                           );
                           _historyBloc.add(
-                            HistoryFilter(tautulliId: value),
+                            HistoryFilter(
+                              tautulliId: value,
+                              mediaType: _mediaType,
+                            ),
                           );
                           _historyUsersBloc.add(
                             HistoryUsersFetch(
@@ -218,7 +223,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                   return Expanded(
                     child: Center(
                       child: Text(
-                        'No history found.',
+                        'No history ${_mediaTypeToTitle(_mediaType)}found.',
                         style: TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
@@ -464,5 +469,22 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
         },
       ),
     ];
+  }
+}
+
+String _mediaTypeToTitle(String mediaType) {
+  switch (mediaType) {
+    case ('movie'):
+      return 'for Movies ';
+    case ('episode'):
+      return 'for TV Shows ';
+    case ('track'):
+      return 'for Music ';
+    case ('other_video'):
+      return 'for Videos ';
+    case ('live'):
+      return 'for Live TV ';
+    default:
+      return '';
   }
 }

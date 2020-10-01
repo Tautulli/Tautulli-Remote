@@ -33,6 +33,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   }) : super(HistoryInitial(
           userId: _userIdCache,
           mediaType: _mediaTypeCache,
+          tautulliId: _tautulliIdCache,
         ));
 
   @override
@@ -287,4 +288,5 @@ void clearCache() {
   _hasReachedMaxCache = null;
   _userIdCache = null;
   _mediaTypeCache = null;
+  _tautulliIdCache = null;
 }

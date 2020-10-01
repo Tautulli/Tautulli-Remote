@@ -34,8 +34,6 @@ class HistoryUsersBloc extends Bloc<HistoryUsersEvent, HistoryUsersState> {
   Stream<HistoryUsersState> _mapHistoryUsersFetchToState({
     @required String tautulliId,
   }) async* {
-    print(tautulliId);
-    print(_tautulliIdCache);
     if (_usersListCache != null && tautulliId == _tautulliIdCache) {
       yield HistoryUsersSuccess(usersList: _usersListCache);
     } else {

@@ -10,10 +10,12 @@ abstract class HistoryState extends Equatable {
 class HistoryInitial extends HistoryState {
   final int userId;
   final String mediaType;
+  final String tautulliId;
 
   HistoryInitial({
     this.userId,
     this.mediaType,
+    this.tautulliId,
   });
 
   @override
