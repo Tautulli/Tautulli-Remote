@@ -52,6 +52,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
   Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
   HistoryBloc _historyBloc;
+  HistoryUsersBloc _historyUsersBloc;
   String _tautulliId;
   int _userId;
   String _mediaType;
@@ -63,10 +64,10 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
     _refreshCompleter = Completer<void>();
     _settingsBloc = context.bloc<SettingsBloc>();
     _historyBloc = context.bloc<HistoryBloc>();
+    _historyUsersBloc = context.bloc<HistoryUsersBloc>();
 
     final historyState = _historyBloc.state;
     final settingsState = _settingsBloc.state;
-
 
     if (historyState is HistoryInitial) {
       if (historyState.userId != null) {
@@ -101,11 +102,11 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
         });
       }
 
-      context.bloc<HistoryUsersBloc>().add(
-            HistoryUsersFetch(
-              tautulliId: _tautulliId,
-            ),
-          );
+      _historyUsersBloc.add(
+        HistoryUsersFetch(
+          tautulliId: _tautulliId,
+        ),
+      );
 
       _historyBloc.add(
         HistoryFetch(
@@ -156,6 +157,11 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                           );
                           _historyBloc.add(
                             HistoryFilter(tautulliId: value),
+                          );
+                          _historyUsersBloc.add(
+                            HistoryUsersFetch(
+                              tautulliId: _tautulliId,
+                            ),
                           );
                         }
                       },

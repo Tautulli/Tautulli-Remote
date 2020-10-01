@@ -53,32 +53,27 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     final currentState = state;
 
     if (event is HistoryFetch && !_hasReachedMax(currentState)) {
-      if (currentState is HistoryInitial) {
-        _userIdCache = event.userId;
-        _mediaTypeCache = event.mediaType;
+      _userIdCache = event.userId;
+      _mediaTypeCache = event.mediaType;
 
+      if (currentState is HistoryInitial) {
         yield* _fetchInitial(
           tautulliId: event.tautulliId,
           userId: event.userId,
           mediaType: event.mediaType,
           useCachedList: true,
         );
-
-        _tautulliIdCache = event.tautulliId;
       }
       if (currentState is HistorySuccess) {
-        _userIdCache = event.userId;
-        _mediaTypeCache = event.mediaType;
-
         yield* _fetchMore(
           currentState: currentState,
           tautulliId: event.tautulliId,
           userId: event.userId,
           mediaType: event.mediaType,
         );
-
-        _tautulliIdCache = event.tautulliId;
       }
+
+      _tautulliIdCache = event.tautulliId;
     }
     if (event is HistoryFilter) {
       yield HistoryInitial();

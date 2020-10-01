@@ -11,6 +11,7 @@ part 'history_users_event.dart';
 part 'history_users_state.dart';
 
 List<User> _usersListCache;
+String _tautulliIdCache;
 
 class HistoryUsersBloc extends Bloc<HistoryUsersEvent, HistoryUsersState> {
   final GetUserNames getUserNames;
@@ -25,13 +26,17 @@ class HistoryUsersBloc extends Bloc<HistoryUsersEvent, HistoryUsersState> {
   ) async* {
     if (event is HistoryUsersFetch) {
       yield* _mapHistoryUsersFetchToState(tautulliId: event.tautulliId);
+
+      _tautulliIdCache = event.tautulliId;
     }
   }
 
   Stream<HistoryUsersState> _mapHistoryUsersFetchToState({
     @required String tautulliId,
   }) async* {
-    if (_usersListCache != null) {
+    print(tautulliId);
+    print(_tautulliIdCache);
+    if (_usersListCache != null && tautulliId == _tautulliIdCache) {
       yield HistoryUsersSuccess(usersList: _usersListCache);
     } else {
       yield HistoryUsersInProgress();
