@@ -15,6 +15,11 @@ import '../../domain/usecases/get_recently_added.dart';
 part 'recently_added_event.dart';
 part 'recently_added_state.dart';
 
+List<RecentItem> _recentListCache;
+bool _hasReachedMaxCache;
+String _mediaTypeCache;
+String _tautulliIdCache;
+
 class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
   final GetRecentlyAdded recentlyAdded;
   final GetImageUrl getImageUrl;
@@ -24,7 +29,9 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
     @required this.recentlyAdded,
     @required this.getImageUrl,
     @required this.logging,
-  }) : super(RecentlyAddedInitial());
+  }) : super(RecentlyAddedInitial(
+          mediaType: _mediaTypeCache,
+        ));
 
   @override
   Stream<Transition<RecentlyAddedEvent, RecentlyAddedState>> transformEvents(
@@ -44,15 +51,19 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
     final currentState = state;
 
     if (event is RecentlyAddedFetched && !_hasReachedMax(currentState)) {
+      _mediaTypeCache = event.mediaType;
+
       if (currentState is RecentlyAddedInitial) {
         if (event.mediaType == 'all') {
           yield* _fetchFixed(
             tautulliId: event.tautulliId,
+            useCachedList: true,
           );
         } else {
           yield* _fetchInitial(
             tautulliId: event.tautulliId,
-            mediaType: event.mediaType,
+            mediaType: _mediaTypeCache,
+            useCachedList: true,
           );
         }
       }
@@ -63,9 +74,13 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           mediaType: event.mediaType,
         );
       }
+
+      _tautulliIdCache = event.tautulliId;
     }
     if (event is RecentlyAddedFilter) {
       yield RecentlyAddedInitial();
+      _mediaTypeCache = event.mediaType;
+
       if (event.mediaType == 'all') {
         yield* _fetchFixed(tautulliId: event.tautulliId);
       } else {
@@ -74,63 +89,91 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           mediaType: event.mediaType,
         );
       }
+
+      _tautulliIdCache = event.tautulliId;
     }
   }
 
   Stream<RecentlyAddedState> _fetchFixed({
     @required String tautulliId,
+    bool useCachedList = false,
   }) async* {
-    final recentListOrFailure = await recentlyAdded(
-      tautulliId: tautulliId,
-      count: 50,
-    );
+    if (useCachedList &&
+        _recentListCache != null &&
+        _tautulliIdCache == tautulliId) {
+      yield RecentlyAddedSuccess(
+        list: _recentListCache,
+        hasReachedMax: _hasReachedMaxCache,
+      );
+    } else {
+      final recentListOrFailure = await recentlyAdded(
+        tautulliId: tautulliId,
+        count: 50,
+      );
 
-    yield* recentListOrFailure.fold(
-      (failure) async* {
-        yield RecentlyAddedFailure(
-          failure: failure,
-          message: FailureMapperHelper().mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
-        );
-      },
-      (list) async* {
-        await _getImages(list: list, tautulliId: tautulliId);
+      yield* recentListOrFailure.fold(
+        (failure) async* {
+          yield RecentlyAddedFailure(
+            failure: failure,
+            message: FailureMapperHelper().mapFailureToMessage(failure),
+            suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
+          );
+        },
+        (list) async* {
+          await _getImages(list: list, tautulliId: tautulliId);
 
-        yield RecentlyAddedSuccess(
-          list: list,
-          hasReachedMax: true,
-        );
-      },
-    );
+          _recentListCache = list;
+          _hasReachedMaxCache = true;
+
+          yield RecentlyAddedSuccess(
+            list: list,
+            hasReachedMax: true,
+          );
+        },
+      );
+    }
   }
 
   Stream<RecentlyAddedState> _fetchInitial({
     @required String tautulliId,
     String mediaType,
+    bool useCachedList = false,
   }) async* {
-    final recentListOrFailure = await recentlyAdded(
-      tautulliId: tautulliId,
-      count: 25,
-      mediaType: mediaType,
-    );
+    if (useCachedList &&
+        _recentListCache != null &&
+        _tautulliIdCache == tautulliId) {
+      yield RecentlyAddedSuccess(
+        list: _recentListCache,
+        hasReachedMax: _hasReachedMaxCache,
+      );
+    } else {
+      final recentListOrFailure = await recentlyAdded(
+        tautulliId: tautulliId,
+        count: 25,
+        mediaType: mediaType,
+      );
 
-    yield* recentListOrFailure.fold(
-      (failure) async* {
-        yield RecentlyAddedFailure(
-          failure: failure,
-          message: FailureMapperHelper().mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
-        );
-      },
-      (list) async* {
-        await _getImages(list: list, tautulliId: tautulliId);
+      yield* recentListOrFailure.fold(
+        (failure) async* {
+          yield RecentlyAddedFailure(
+            failure: failure,
+            message: FailureMapperHelper().mapFailureToMessage(failure),
+            suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
+          );
+        },
+        (list) async* {
+          await _getImages(list: list, tautulliId: tautulliId);
 
-        yield RecentlyAddedSuccess(
-          list: list,
-          hasReachedMax: list.length < 25,
-        );
-      },
-    );
+          _recentListCache = list;
+          _hasReachedMaxCache = list.length < 25;
+
+          yield RecentlyAddedSuccess(
+            list: list,
+            hasReachedMax: list.length < 25,
+          );
+        },
+      );
+    }
   }
 
   Stream<RecentlyAddedState> _fetchMore({
@@ -158,6 +201,9 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           yield currentState.copyWith(hasReachedMax: true);
         } else {
           await _getImages(list: list, tautulliId: tautulliId);
+
+          _recentListCache = currentState.list + list;
+          _hasReachedMaxCache = list.length < 25;
 
           yield RecentlyAddedSuccess(
             list: currentState.list + list,
@@ -226,3 +272,10 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
 
 bool _hasReachedMax(RecentlyAddedState state) =>
     state is RecentlyAddedSuccess && state.hasReachedMax;
+
+void clearCache() {
+  _recentListCache = null;
+  _hasReachedMaxCache = null;
+  _mediaTypeCache = null;
+  _tautulliIdCache = null;
+}

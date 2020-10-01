@@ -5,8 +5,12 @@ abstract class RecentlyAddedState extends Equatable {
 }
 
 class RecentlyAddedInitial extends RecentlyAddedState {
+  final String mediaType;
+
+  RecentlyAddedInitial({this.mediaType});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [mediaType];
 }
 
 class RecentlyAddedSuccess extends RecentlyAddedState {

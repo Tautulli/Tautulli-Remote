@@ -47,7 +47,6 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
   RecentlyAddedBloc _recentlyAddedBloc;
   String _tautulliId;
   String _mediaType = 'all';
-  bool _recentlyAddedLoaded = false;
 
   @override
   void initState() {
@@ -57,15 +56,16 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
     _settingsBloc = context.bloc<SettingsBloc>();
     _recentlyAddedBloc = context.bloc<RecentlyAddedBloc>();
 
-    final state = _settingsBloc.state;
+    final recentlyAddedState = _recentlyAddedBloc.state;
+    final settingsState = _settingsBloc.state;
 
-    if (state is SettingsLoadSuccess) {
+    if (settingsState is SettingsLoadSuccess) {
       String lastSelectedServer;
 
-      if (state.lastSelectedServer != null) {
-        for (Server server in state.serverList) {
-          if (server.tautulliId == state.lastSelectedServer) {
-            lastSelectedServer = state.lastSelectedServer;
+      if (settingsState.lastSelectedServer != null) {
+        for (Server server in settingsState.serverList) {
+          if (server.tautulliId == settingsState.lastSelectedServer) {
+            lastSelectedServer = settingsState.lastSelectedServer;
             break;
           }
         }
@@ -75,12 +75,16 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else if (state.serverList.length > 0) {
+      } else if (settingsState.serverList.length > 0) {
         setState(() {
-          _tautulliId = state.serverList[0].tautulliId;
+          _tautulliId = settingsState.serverList[0].tautulliId;
         });
       } else {
         _tautulliId = null;
+      }
+
+      if (recentlyAddedState is RecentlyAddedInitial) {
+        _mediaType = recentlyAddedState.mediaType ?? 'all';
       }
 
       _recentlyAddedBloc.add(RecentlyAddedFetched(
@@ -120,7 +124,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                         if (value != _tautulliId) {
                           setState(() {
                             _tautulliId = value;
-                            _mediaType = 'all';
+                            // _mediaType = 'all';
                           });
                           _settingsBloc.add(
                             SettingsUpdateLastSelectedServer(
@@ -261,101 +265,85 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
 
   List<Widget> _appBarActions() {
     return [
-      BlocListener<RecentlyAddedBloc, RecentlyAddedState>(
-        listener: (context, state) {
-          if (state is RecentlyAddedSuccess) {
+      PopupMenuButton(
+        icon: FaIcon(
+          FontAwesomeIcons.filter,
+          color: _mediaType != 'all'
+              ? Theme.of(context).accentColor
+              : TautulliColorPalette.not_white,
+        ),
+        tooltip: 'Filter media type',
+        onSelected: (value) {
+          if (_mediaType != value) {
             setState(() {
-              _recentlyAddedLoaded = true;
+              _mediaType = value;
             });
-          } else {
-            setState(() {
-              _recentlyAddedLoaded = false;
-            });
+            _recentlyAddedBloc.add(RecentlyAddedFilter(
+              tautulliId: _tautulliId,
+              mediaType: _mediaType,
+            ));
           }
         },
-        child: PopupMenuButton(
-          icon: FaIcon(
-            FontAwesomeIcons.filter,
-            color: !_recentlyAddedLoaded
-                ? Theme.of(context).disabledColor
-                : _mediaType != 'all'
-                    ? Theme.of(context).accentColor
-                    : TautulliColorPalette.not_white,
-          ),
-          tooltip: 'Filter media type',
-          enabled: _recentlyAddedLoaded,
-          onSelected: (value) {
-            if (_mediaType != value) {
-              setState(() {
-                _mediaType = value;
-              });
-              _recentlyAddedBloc.add(RecentlyAddedFilter(
-                tautulliId: _tautulliId,
-                mediaType: _mediaType,
-              ));
-            }
-          },
-          itemBuilder: (context) {
-            return [
-              PopupMenuItem(
-                child: Text(
-                  'All',
-                  style: TextStyle(
-                    color: _mediaType == 'all'
-                        ? Theme.of(context).accentColor
-                        : TautulliColorPalette.not_white,
-                  ),
+        itemBuilder: (context) {
+          return [
+            PopupMenuItem(
+              child: Text(
+                'All',
+                style: TextStyle(
+                  color: _mediaType == 'all'
+                      ? Theme.of(context).accentColor
+                      : TautulliColorPalette.not_white,
                 ),
-                value: 'all',
               ),
-              PopupMenuItem(
-                child: Text(
-                  'Movies',
-                  style: TextStyle(
-                    color: _mediaType == 'movie'
-                        ? Theme.of(context).accentColor
-                        : TautulliColorPalette.not_white,
-                  ),
+              value: 'all',
+            ),
+            PopupMenuItem(
+              child: Text(
+                'Movies',
+                style: TextStyle(
+                  color: _mediaType == 'movie'
+                      ? Theme.of(context).accentColor
+                      : TautulliColorPalette.not_white,
                 ),
-                value: 'movie',
               ),
-              PopupMenuItem(
-                child: Text(
-                  'TV Shows',
-                  style: TextStyle(
-                    color: _mediaType == 'show'
-                        ? Theme.of(context).accentColor
-                        : TautulliColorPalette.not_white,
-                  ),
+              value: 'movie',
+            ),
+            PopupMenuItem(
+              child: Text(
+                'TV Shows',
+                style: TextStyle(
+                  color: _mediaType == 'show'
+                      ? Theme.of(context).accentColor
+                      : TautulliColorPalette.not_white,
                 ),
-                value: 'show',
               ),
-              PopupMenuItem(
-                child: Text(
-                  'Music',
-                  style: TextStyle(
-                    color: _mediaType == 'artist'
-                        ? Theme.of(context).accentColor
-                        : TautulliColorPalette.not_white,
-                  ),
+              value: 'show',
+            ),
+            PopupMenuItem(
+              child: Text(
+                'Music',
+                style: TextStyle(
+                  color: _mediaType == 'artist'
+                      ? Theme.of(context).accentColor
+                      : TautulliColorPalette.not_white,
                 ),
-                value: 'artist',
               ),
-              PopupMenuItem(
-                child: Text(
-                  'Videos',
-                  style: TextStyle(
-                    color: _mediaType == 'other_video'
-                        ? Theme.of(context).accentColor
-                        : TautulliColorPalette.not_white,
-                  ),
+              value: 'artist',
+            ),
+            PopupMenuItem(
+              child: Text(
+                'Videos',
+                style: TextStyle(
+                  color: _mediaType == 'other_video'
+                      ? Theme.of(context).accentColor
+                      : TautulliColorPalette.not_white,
                 ),
-                value: 'other_video',
               ),
-            ];
-          },
-        ),
-      ),
+              value: 'other_video',
+            ),
+          ];
+        },
+      )
     ];
   }
 }
