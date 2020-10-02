@@ -98,6 +98,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess();
+        clearCache();
         // act
         bloc.add(StatisticsFetch(
           tautulliId: tTautulliId,
@@ -134,6 +135,7 @@ void main() {
     () async {
       // arrange
       setUpSuccess();
+      clearCache();
       // act
       bloc.add(
         StatisticsFetch(
@@ -169,6 +171,7 @@ void main() {
     () async {
       // arrange
       setUpSuccess();
+      clearCache();
       // assert later
       final expected = [
         StatisticsSuccess(
@@ -195,6 +198,7 @@ void main() {
     () async {
       // arrange
       setUpSuccess();
+      clearCache();
       // assert later
       final expected = [
         StatisticsSuccess(
@@ -221,6 +225,7 @@ void main() {
     () async {
       // arrange
       final failure = ServerFailure();
+      clearCache();
       when(
         mockGetStatistics(
           tautulliId: anyNamed('tautulliId'),
@@ -258,6 +263,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess();
+        clearCache();
         // assert later
         final expected = [
           StatisticsInitial(),

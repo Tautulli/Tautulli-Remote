@@ -44,13 +44,13 @@ class StatisticsPageContent extends StatefulWidget {
 }
 
 class _StatisticsPageContentState extends State<StatisticsPageContent> {
+  final GlobalKey _timeRangeKey = GlobalKey();
   Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
   StatisticsBloc _statisticsBloc;
   String _tautulliId;
-  String _statsType = 'plays';
-  int _timeRange = 30;
-  bool _statisticsLoaded = false;
+  String _statsType;
+  int _timeRange;
 
   @override
   void initState() {
@@ -59,15 +59,16 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
     _settingsBloc = context.bloc<SettingsBloc>();
     _statisticsBloc = context.bloc<StatisticsBloc>();
 
-    final state = _settingsBloc.state;
+    final statisticsState = _statisticsBloc.state;
+    final settingsState = _settingsBloc.state;
 
-    if (state is SettingsLoadSuccess) {
+    if (settingsState is SettingsLoadSuccess) {
       String lastSelectedServer;
 
-      if (state.lastSelectedServer != null) {
-        for (Server server in state.serverList) {
-          if (server.tautulliId == state.lastSelectedServer) {
-            lastSelectedServer = state.lastSelectedServer;
+      if (settingsState.lastSelectedServer != null) {
+        for (Server server in settingsState.serverList) {
+          if (server.tautulliId == settingsState.lastSelectedServer) {
+            lastSelectedServer = settingsState.lastSelectedServer;
             break;
           }
         }
@@ -77,12 +78,17 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else if (state.serverList.length > 0) {
+      } else if (settingsState.serverList.length > 0) {
         setState(() {
-          _tautulliId = state.serverList[0].tautulliId;
+          _tautulliId = settingsState.serverList[0].tautulliId;
         });
       } else {
         _tautulliId = null;
+      }
+
+      if (statisticsState is StatisticsInitial) {
+        _statsType = statisticsState.statsType ?? 'plays';
+        _timeRange = statisticsState.timeRange ?? 30;
       }
 
       _statisticsBloc.add(
@@ -230,172 +236,187 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
 
   List<Widget> _appBarActions() {
     return [
-      BlocListener<StatisticsBloc, StatisticsState>(
-        listener: (context, state) {
-          if (state is StatisticsSuccess) {
-            setState(() {
-              _statisticsLoaded = true;
-            });
-          } else {
-            setState(() {
-              _statisticsLoaded = false;
-            });
-          }
-        },
-        child: PopupMenuButton(
-          icon: FaIcon(
-            _statsType == 'plays'
-                ? FontAwesomeIcons.playCircle
-                : FontAwesomeIcons.clock,
-            color: !_statisticsLoaded
-                ? Theme.of(context).disabledColor
-                : TautulliColorPalette.not_white,
-          ),
-          tooltip: 'Stats type',
-          enabled: _statisticsLoaded,
-          onSelected: (value) {
-            setState(() {
-              _statsType = value;
-            });
-            _statisticsBloc.add(
-              StatisticsFilter(
-                tautulliId: _tautulliId,
-                statsType: _statsType,
-                timeRange: _timeRange,
-              ),
-            );
-          },
-          itemBuilder: (context) {
-            return [
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    FaIcon(
-                      FontAwesomeIcons.playCircle,
-                      color: _statsType == 'plays'
-                          ? PlexColorPalette.gamboge
-                          : TautulliColorPalette.not_white,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: Text(
-                        'Plays',
-                        style: TextStyle(
-                          color: _statsType == 'plays'
-                              ? Theme.of(context).accentColor
-                              : TautulliColorPalette.not_white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                value: 'plays',
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    FaIcon(
-                      FontAwesomeIcons.clock,
-                      color: _statsType == 'duration'
-                          ? PlexColorPalette.gamboge
-                          : TautulliColorPalette.not_white,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: Text(
-                        'Duration',
-                        style: TextStyle(
-                          color: _statsType == 'duration'
-                              ? Theme.of(context).accentColor
-                              : TautulliColorPalette.not_white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                value: 'duration',
-              ),
-            ];
-          },
-        ),
-      ),
       PopupMenuButton(
         icon: FaIcon(
-          FontAwesomeIcons.calendarAlt,
-          color: !_statisticsLoaded
-              ? Theme.of(context).disabledColor
-              : TautulliColorPalette.not_white,
+          _statsType == 'plays'
+              ? FontAwesomeIcons.playCircle
+              : FontAwesomeIcons.clock,
+          color: TautulliColorPalette.not_white,
         ),
-        tooltip: 'Time range',
-        enabled: _statisticsLoaded,
+        tooltip: 'Stats type',
         onSelected: (value) {
-          if (_timeRange != value) {
-            if (value > 0) {
-              setState(() {
-                _timeRange = value;
-              });
-              _statisticsBloc.add(
-                StatisticsFilter(
-                  tautulliId: _tautulliId,
-                  statsType: _statsType,
-                  timeRange: _timeRange,
-                ),
-              );
-            } else {
-              _buildCustomTimeRangeDialog();
-            }
-          }
+          setState(() {
+            _statsType = value;
+          });
+          _statisticsBloc.add(
+            StatisticsFilter(
+              tautulliId: _tautulliId,
+              statsType: _statsType,
+              timeRange: _timeRange,
+            ),
+          );
         },
         itemBuilder: (context) {
           return [
             PopupMenuItem(
-              child: Text(
-                '7 Days',
-                style: TextStyle(
-                  color: _timeRange == 7
-                      ? Theme.of(context).accentColor
-                      : TautulliColorPalette.not_white,
-                ),
+              child: Row(
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.playCircle,
+                    color: _statsType == 'plays'
+                        ? PlexColorPalette.gamboge
+                        : TautulliColorPalette.not_white,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text(
+                      'Plays',
+                      style: TextStyle(
+                        color: _statsType == 'plays'
+                            ? Theme.of(context).accentColor
+                            : TautulliColorPalette.not_white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              value: 7,
+              value: 'plays',
             ),
             PopupMenuItem(
-              child: Text(
-                '30 Days',
-                style: TextStyle(
-                  color: _timeRange == 30
-                      ? Theme.of(context).accentColor
-                      : TautulliColorPalette.not_white,
-                ),
+              child: Row(
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.clock,
+                    color: _statsType == 'duration'
+                        ? PlexColorPalette.gamboge
+                        : TautulliColorPalette.not_white,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text(
+                      'Duration',
+                      style: TextStyle(
+                        color: _statsType == 'duration'
+                            ? Theme.of(context).accentColor
+                            : TautulliColorPalette.not_white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              value: 30,
-            ),
-            PopupMenuItem(
-              child: Text(
-                '90 Days',
-                style: TextStyle(
-                  color: _timeRange == 90
-                      ? Theme.of(context).accentColor
-                      : TautulliColorPalette.not_white,
-                ),
-              ),
-              value: 90,
-            ),
-            PopupMenuItem(
-              child: Text(
-                [7, 30, 90].contains(_timeRange)
-                    ? 'Custom'
-                    : 'Custom ($_timeRange Days)',
-                style: TextStyle(
-                  color: ![7, 30, 90].contains(_timeRange)
-                      ? Theme.of(context).accentColor
-                      : TautulliColorPalette.not_white,
-                ),
-              ),
-              value: 0,
+              value: 'duration',
             ),
           ];
         },
+      ),
+      Stack(
+        children: [
+          Center(
+            child: PopupMenuButton(
+              key: _timeRangeKey,
+              icon: FaIcon(
+                FontAwesomeIcons.calendarAlt,
+                color: TautulliColorPalette.not_white,
+              ),
+              tooltip: 'Time range',
+              onSelected: (value) {
+                if (_timeRange != value) {
+                  if (value > 0) {
+                    setState(() {
+                      _timeRange = value;
+                    });
+                    _statisticsBloc.add(
+                      StatisticsFilter(
+                        tautulliId: _tautulliId,
+                        statsType: _statsType,
+                        timeRange: _timeRange,
+                      ),
+                    );
+                  } else {
+                    _buildCustomTimeRangeDialog();
+                  }
+                }
+              },
+              itemBuilder: (context) {
+                return [
+                  PopupMenuItem(
+                    child: Text(
+                      '7 Days',
+                      style: TextStyle(
+                        color: _timeRange == 7
+                            ? Theme.of(context).accentColor
+                            : TautulliColorPalette.not_white,
+                      ),
+                    ),
+                    value: 7,
+                  ),
+                  PopupMenuItem(
+                    child: Text(
+                      '30 Days',
+                      style: TextStyle(
+                        color: _timeRange == 30
+                            ? Theme.of(context).accentColor
+                            : TautulliColorPalette.not_white,
+                      ),
+                    ),
+                    value: 30,
+                  ),
+                  PopupMenuItem(
+                    child: Text(
+                      '90 Days',
+                      style: TextStyle(
+                        color: _timeRange == 90
+                            ? Theme.of(context).accentColor
+                            : TautulliColorPalette.not_white,
+                      ),
+                    ),
+                    value: 90,
+                  ),
+                  PopupMenuItem(
+                    child: Text(
+                      [7, 30, 90].contains(_timeRange)
+                          ? 'Custom'
+                          : 'Custom ($_timeRange Days)',
+                      style: TextStyle(
+                        color: ![7, 30, 90].contains(_timeRange)
+                            ? Theme.of(context).accentColor
+                            : TautulliColorPalette.not_white,
+                      ),
+                    ),
+                    value: 0,
+                  ),
+                ];
+              },
+            ),
+          ),
+          Positioned(
+            right: 3,
+            top: 28,
+            child: GestureDetector(
+              onTap: () {
+                dynamic state = _timeRangeKey.currentState;
+                state.showButtonMenu();
+              },
+              child: Container(
+                height: 20,
+                width: 20,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: PlexColorPalette.gamboge,
+                ),
+                child: Center(
+                  child: Text(
+                    _timeRange > 99 ? '99+' : _timeRange.toString(),
+                    style: TextStyle(
+                      fontSize: _timeRange > 99 ? 9 : 10,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     ];
   }
@@ -420,7 +441,11 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                 } else if (int.tryParse(value) < 1) {
                   return 'Please enter an integer larger than 0';
                 }
-                _timeRange = int.parse(value);
+
+                setState(() {
+                  _timeRange = int.parse(value);
+                });
+
                 return null;
               },
             ),

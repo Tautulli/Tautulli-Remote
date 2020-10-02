@@ -5,8 +5,13 @@ abstract class StatisticsState extends Equatable {
 }
 
 class StatisticsInitial extends StatisticsState {
+  final String statsType;
+  final int timeRange;
+
+  StatisticsInitial({this.statsType, this.timeRange});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [statsType, timeRange];
 }
 
 class StatisticsSuccess extends StatisticsState {
