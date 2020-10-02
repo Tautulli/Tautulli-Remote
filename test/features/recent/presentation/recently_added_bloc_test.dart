@@ -95,6 +95,7 @@ void main() {
         () async {
           // arrange
           setUpSuccess(tRecentList);
+          clearCache();
           // act
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
@@ -122,6 +123,7 @@ void main() {
         () async {
           // arrange
           setUpSuccess(tRecentList);
+          clearCache();
           // act
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
@@ -152,6 +154,7 @@ void main() {
         () async {
           // arrange
           final failure = ServerFailure();
+          clearCache();
           when(
             mockGetRecentlyAdded(
               tautulliId: anyNamed('tautulliId'),
@@ -185,6 +188,7 @@ void main() {
         () async {
           // arrange
           setUpSuccess(tRecentList);
+          clearCache();
           // act
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
@@ -213,6 +217,7 @@ void main() {
         () async {
           // arrange
           setUpSuccess(tRecentList);
+          clearCache();
           // act
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
@@ -243,6 +248,8 @@ void main() {
         () async {
           // arrange
           setUpSuccess(tRecentList27);
+          clearCache();
+          clearCache();
           // assert later
           final expected = [
             RecentlyAddedSuccess(
@@ -264,6 +271,7 @@ void main() {
         () async {
           // arrange
           final failure = ServerFailure();
+          clearCache();
           when(
             mockGetRecentlyAdded(
               tautulliId: anyNamed('tautulliId'),
@@ -295,6 +303,7 @@ void main() {
         () async {
           // arrange
           setUpSuccess(tRecentList27);
+          clearCache();
           bloc.emit(
             RecentlyAddedSuccess(
               list: tRecentList27,
@@ -322,6 +331,7 @@ void main() {
         () async {
           // arrange
           setUpSuccess(tRecentList);
+          clearCache();
           bloc.emit(
             RecentlyAddedSuccess(
               list: tRecentList,

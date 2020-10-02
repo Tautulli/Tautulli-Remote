@@ -74,6 +74,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess(tUsersList);
+        clearCache();
         // act
         bloc.add(UsersFetch(tautulliId: tTautulliId));
         await untilCalled(mockGetUsers(
@@ -100,6 +101,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess(tUsersList);
+        clearCache();
         // assert later
         final expected = [
           UsersSuccess(
@@ -118,6 +120,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess(tUsersList);
+        clearCache();
         bloc.emit(
           UsersSuccess(
             list: tUsersList25,
@@ -142,6 +145,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess(tUsersList25);
+        clearCache();
         // assert later
         final expected = [
           UsersSuccess(
@@ -160,6 +164,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess(tUsersList25);
+        clearCache();
         bloc.emit(
           UsersSuccess(
             list: tUsersList25,
@@ -184,6 +189,7 @@ void main() {
       () async {
         // arrange
         final failure = ServerFailure();
+        clearCache();
         when(mockGetUsers(
           tautulliId: anyNamed('tautulliId'),
           grouping: anyNamed('grouping'),
@@ -214,6 +220,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess(tUsersList);
+        clearCache();
         // assert later
         final expected = [
           UsersInitial(),

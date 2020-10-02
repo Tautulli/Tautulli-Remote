@@ -105,6 +105,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess();
+        clearCache();
         // act
         bloc.add(
           LibrariesFetch(
@@ -142,6 +143,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess();
+        clearCache();
         // act
         bloc.add(
           LibrariesFetch(
@@ -175,6 +177,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess();
+        clearCache();
         // assert later
         final expected = [
           LibrariesSuccess(
@@ -197,6 +200,7 @@ void main() {
       () async {
         // arrange
         final failure = ServerFailure();
+        clearCache();
         when(
           mockGetLibrariesTable(
             tautulliId: tTautulliId,
@@ -233,6 +237,7 @@ void main() {
       () async {
         // arrange
         setUpSuccess();
+        clearCache();
         // assert later
         final expected = [
           LibrariesInitial(),
