@@ -460,50 +460,49 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
     List<Widget> statList = [];
 
     for (String key in keys) {
-      if (map[key].isEmpty) {
-        break;
-      }
-      statList.add(
-        StatisticsHeading(statId: key),
-      );
-      for (Statistics s in map[key]) {
-        if (s.statId == 'top_platforms') {
-          statList.add(
-            IconCard(
-              assetPath: AssetMapperHelper().mapPlatformToPath(s.platformName),
-              backgroundColor:
-                  TautulliColorPalette().mapPlatformToColor(s.platformName),
-              details: StatisticsDetails(statistic: s),
-            ),
-          );
-        } else if (s.statId == 'top_users') {
-          statList.add(
-            UserCard(
-              userThumb: s.userThumb,
-              details: StatisticsDetails(statistic: s),
-            ),
-          );
-        } else if (s.statId == 'most_concurrent') {
-          statList.add(
-            IconCard(
-              assetPath: 'assets/icons/concurrent.svg',
-              details: StatisticsDetails(statistic: s),
-            ),
-          );
-        } else {
-          statList.add(
-            PosterCard(
-              item: s,
-              details: StatisticsDetails(statistic: s),
-            ),
-          );
+      if (map[key].isNotEmpty) {
+        statList.add(
+          StatisticsHeading(statId: key),
+        );
+        for (Statistics s in map[key]) {
+          if (s.statId == 'top_platforms') {
+            statList.add(
+              IconCard(
+                assetPath:
+                    AssetMapperHelper().mapPlatformToPath(s.platformName),
+                backgroundColor:
+                    TautulliColorPalette().mapPlatformToColor(s.platformName),
+                details: StatisticsDetails(statistic: s),
+              ),
+            );
+          } else if (s.statId == 'top_users') {
+            statList.add(
+              UserCard(
+                userThumb: s.userThumb,
+                details: StatisticsDetails(statistic: s),
+              ),
+            );
+          } else if (s.statId == 'most_concurrent') {
+            statList.add(
+              IconCard(
+                assetPath: 'assets/icons/concurrent.svg',
+                details: StatisticsDetails(statistic: s),
+              ),
+            );
+          } else {
+            statList.add(
+              PosterCard(
+                item: s,
+                details: StatisticsDetails(statistic: s),
+              ),
+            );
+          }
         }
+        statList.add(
+          const SizedBox(height: 8),
+        );
       }
-      statList.add(
-        const SizedBox(height: 8),
-      );
     }
-
     return statList;
   }
 }
