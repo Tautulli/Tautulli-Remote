@@ -116,7 +116,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         _tautulliIdCache == tautulliId) {
       yield HistorySuccess(
         list: _historyListCache,
-        hasReachedMax: _hasReachedMaxCache,
+        hasReachedMax: false,
       );
     } else {
       final historyOrFailure = await getHistory(
@@ -212,6 +212,8 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       },
       (list) async* {
         if (list.isEmpty) {
+          _hasReachedMaxCache = true;
+
           yield currentState.copyWith(hasReachedMax: true);
         } else {
           await _getImages(list: list, tautulliId: tautulliId);
