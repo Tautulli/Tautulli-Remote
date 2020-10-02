@@ -35,20 +35,10 @@ class StatisticsDataSourceImpl implements StatisticsDataSource {
       statsCount: statsCount,
     );
 
-    Map<String, List<Statistics>> statisticsMap = {
-      'top_tv': [],
-      'popular_tv': [],
-      'top_movies': [],
-      'popular_movies': [],
-      'top_music': [],
-      'popular_music': [],
-      'last_watched': [],
-      'top_platforms': [],
-      'top_users': [],
-      'most_concurrent': [],
-    };
+    Map<String, List<Statistics>> statisticsMap = {};
 
     statisticsJson['response']['data'].forEach((statistic) {
+      statisticsMap[statistic['stat_id']] = [];
       statistic['rows'].forEach((item) {
         statisticsMap[statistic['stat_id']].add(
           StatisticsModel.fromJson(
