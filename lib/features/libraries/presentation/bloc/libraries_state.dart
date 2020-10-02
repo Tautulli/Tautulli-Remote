@@ -7,7 +7,18 @@ abstract class LibrariesState extends Equatable {
   List<Object> get props => [];
 }
 
-class LibrariesInitial extends LibrariesState {}
+class LibrariesInitial extends LibrariesState {
+  final String orderColumn;
+  final String orderDir;
+
+  LibrariesInitial({
+    this.orderColumn,
+    this.orderDir,
+  });
+
+  @override
+  List<Object> get props => [orderColumn, orderDir];
+}
 
 class LibrariesSuccess extends LibrariesState {
   final List<Library> librariesList;

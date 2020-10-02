@@ -13,6 +13,12 @@ import '../../domain/usercases/get_libraries_table.dart';
 part 'libraries_event.dart';
 part 'libraries_state.dart';
 
+List<Library> _librariesListCache;
+Map<int, String> _imageMapCache;
+String _orderColumnCache;
+String _orderDirCache;
+String _tautulliIdCache;
+
 class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
   final GetLibrariesTable getLibrariesTable;
   final GetImageUrl getImageUrl;
@@ -20,26 +26,40 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
   LibrariesBloc({
     @required this.getLibrariesTable,
     @required this.getImageUrl,
-  }) : super(LibrariesInitial());
+  }) : super(LibrariesInitial(
+          orderColumn: _orderColumnCache,
+          orderDir: _orderDirCache,
+        ));
 
   @override
   Stream<LibrariesState> mapEventToState(
     LibrariesEvent event,
   ) async* {
     if (event is LibrariesFetch) {
+      _orderColumnCache = event.orderColumn;
+      _orderDirCache = event.orderDir;
+
       yield* _fetchLibraries(
         tautulliId: event.tautulliId,
         orderColumn: event.orderColumn,
         orderDir: event.orderDir,
+        useCachedList: true,
       );
+
+      _tautulliIdCache = event.tautulliId;
     }
     if (event is LibrariesFilter) {
+      _orderColumnCache = event.orderColumn;
+      _orderDirCache = event.orderDir;
+
       yield LibrariesInitial();
       yield* _fetchLibraries(
         tautulliId: event.tautulliId,
         orderColumn: event.orderColumn,
         orderDir: event.orderDir,
       );
+
+      _tautulliIdCache = event.tautulliId;
     }
   }
 
@@ -47,7 +67,16 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
     @required String tautulliId,
     String orderColumn,
     String orderDir,
+    bool useCachedList = false,
   }) async* {
+    if (useCachedList &&
+        _librariesListCache != null &&
+        _tautulliIdCache == tautulliId) {
+      yield LibrariesSuccess(
+        librariesList: _librariesListCache,
+        imageMap: _imageMapCache,
+      );
+    }
     final librariesOrFailure = await getLibrariesTable(
       tautulliId: tautulliId,
       orderColumn: orderColumn,
@@ -79,6 +108,9 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
           );
         }
 
+        _librariesListCache = librariesList;
+        _imageMapCache = imageMap;
+
         yield LibrariesSuccess(
           librariesList: librariesList,
           imageMap: imageMap,
@@ -86,4 +118,12 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
       },
     );
   }
+}
+
+void clearCache() {
+  _librariesListCache = null;
+  _imageMapCache = null;
+  _orderColumnCache = null;
+  _orderDirCache = null;
+  _tautulliIdCache = null;
 }

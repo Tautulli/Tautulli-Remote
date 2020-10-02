@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tautulli_remote_tdd/core/helpers/color_palette_helper.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/asset_mapper_helper.dart';
@@ -44,9 +45,8 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
   SettingsBloc _settingsBloc;
   LibrariesBloc _librariesBloc;
   String _tautulliId;
-  String _orderColumn = 'section_name';
-  String _orderDir = 'asc';
-  bool _librariesLoaded = false;
+  String _orderColumn;
+  String _orderDir;
 
   @override
   void initState() {
@@ -55,15 +55,16 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
     _settingsBloc = context.bloc<SettingsBloc>();
     _librariesBloc = context.bloc<LibrariesBloc>();
 
-    final state = _settingsBloc.state;
+    final librariesState = _librariesBloc.state;
+    final settingsState = _settingsBloc.state;
 
-    if (state is SettingsLoadSuccess) {
+    if (settingsState is SettingsLoadSuccess) {
       String lastSelectedServer;
 
-      if (state.lastSelectedServer != null) {
-        for (Server server in state.serverList) {
-          if (server.tautulliId == state.lastSelectedServer) {
-            lastSelectedServer = state.lastSelectedServer;
+      if (settingsState.lastSelectedServer != null) {
+        for (Server server in settingsState.serverList) {
+          if (server.tautulliId == settingsState.lastSelectedServer) {
+            lastSelectedServer = settingsState.lastSelectedServer;
             break;
           }
         }
@@ -73,14 +74,19 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else if (state.serverList.length > 0) {
+      } else if (settingsState.serverList.length > 0) {
         setState(() {
-          _tautulliId = state.serverList[0].tautulliId;
+          _tautulliId = settingsState.serverList[0].tautulliId;
         });
       } else {
         setState(() {
           _tautulliId = null;
         });
+      }
+
+      if (librariesState is LibrariesInitial) {
+        _orderColumn = librariesState.orderColumn ?? 'section_name';
+        _orderDir = librariesState.orderDir ?? 'asc';
       }
 
       _librariesBloc.add(
@@ -244,118 +250,137 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
 
   List<Widget> _appBarActions() {
     return [
-      BlocListener<LibrariesBloc, LibrariesState>(
-        listener: (context, state) {
-          if (state is LibrariesSuccess) {
-            setState(() {
-              _librariesLoaded = true;
-            });
-          } else {
-            setState(() {
-              _librariesLoaded = false;
-            });
-          }
-        },
-        child: PopupMenuButton(
-          icon: _currentSortIcon(),
-          tooltip: 'Sort libraries',
-          enabled: _librariesLoaded,
-          onSelected: (value) {
-            List<String> values = value.split('|');
+      PopupMenuButton(
+        icon: _currentSortIcon(),
+        tooltip: 'Sort libraries',
+        onSelected: (value) {
+          List<String> values = value.split('|');
 
-            setState(() {
-              _orderColumn = values[0];
-              _orderDir = values[1];
-            });
-            _librariesBloc.add(
-              LibrariesFilter(
-                tautulliId: _tautulliId,
-                orderColumn: _orderColumn,
-                orderDir: _orderDir,
-              ),
-            );
-          },
-          itemBuilder: (context) {
-            return [
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    _orderColumn == 'section_name' && _orderDir == 'asc'
-                        ? FaIcon(FontAwesomeIcons.sortAmountDown)
-                        : FaIcon(FontAwesomeIcons.sortAmountUp),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: Text('Name'),
+          setState(() {
+            _orderColumn = values[0];
+            _orderDir = values[1];
+          });
+          _librariesBloc.add(
+            LibrariesFilter(
+              tautulliId: _tautulliId,
+              orderColumn: _orderColumn,
+              orderDir: _orderDir,
+            ),
+          );
+        },
+        itemBuilder: (context) {
+          return <PopupMenuEntry<dynamic>>[
+            PopupMenuItem(
+              child: Row(
+                children: [
+                  _currentSortIcon(color: PlexColorPalette.gamboge),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text(
+                      _currentSortName(),
+                      style: TextStyle(color: PlexColorPalette.gamboge),
                     ),
-                  ],
-                ),
-                value: _orderColumn == 'section_name' && _orderDir == 'asc'
-                    ? 'section_name|desc'
-                    : 'section_name|asc',
+                  ),
+                ],
               ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    _orderColumn == 'count,parent_count,child_count' &&
-                            _orderDir == 'desc'
-                        ? FaIcon(FontAwesomeIcons.sortAmountUp)
-                        : FaIcon(FontAwesomeIcons.sortAmountDown),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: Text('Count'),
-                    ),
-                  ],
-                ),
-                value: _orderColumn == 'count,parent_count,child_count' &&
-                        _orderDir == 'desc'
-                    ? 'count,parent_count,child_count|asc'
-                    : 'count,parent_count,child_count|desc',
+            ),
+            PopupMenuDivider(),
+            PopupMenuItem(
+              child: Row(
+                children: [
+                  _orderColumn == 'section_name' && _orderDir == 'asc'
+                      ? FaIcon(FontAwesomeIcons.sortAmountDown)
+                      : FaIcon(FontAwesomeIcons.sortAmountUp),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text('Name'),
+                  ),
+                ],
               ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    _orderColumn == 'duration' && _orderDir == 'desc'
-                        ? FaIcon(FontAwesomeIcons.sortAmountUp)
-                        : FaIcon(FontAwesomeIcons.sortAmountDown),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: Text('Duration'),
-                    ),
-                  ],
-                ),
-                value: _orderColumn == 'duration' && _orderDir == 'desc'
-                    ? 'duration|asc'
-                    : 'duration|desc',
+              value: _orderColumn == 'section_name' && _orderDir == 'asc'
+                  ? 'section_name|desc'
+                  : 'section_name|asc',
+            ),
+            PopupMenuItem(
+              child: Row(
+                children: [
+                  _orderColumn == 'count,parent_count,child_count' &&
+                          _orderDir == 'desc'
+                      ? FaIcon(FontAwesomeIcons.sortAmountUp)
+                      : FaIcon(FontAwesomeIcons.sortAmountDown),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text('Count'),
+                  ),
+                ],
               ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    _orderColumn == 'plays' &&
-                            _orderDir == 'desc'
-                        ? FaIcon(FontAwesomeIcons.sortAmountUp)
-                        : FaIcon(FontAwesomeIcons.sortAmountDown),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: Text('Plays'),
-                    ),
-                  ],
-                ),
-                value: _orderColumn == 'plays' && _orderDir == 'desc'
-                    ? 'plays|asc'
-                    : 'plays|desc',
+              value: _orderColumn == 'count,parent_count,child_count' &&
+                      _orderDir == 'desc'
+                  ? 'count,parent_count,child_count|asc'
+                  : 'count,parent_count,child_count|desc',
+            ),
+            PopupMenuItem(
+              child: Row(
+                children: [
+                  _orderColumn == 'duration' && _orderDir == 'desc'
+                      ? FaIcon(FontAwesomeIcons.sortAmountUp)
+                      : FaIcon(FontAwesomeIcons.sortAmountDown),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text('Duration'),
+                  ),
+                ],
               ),
-            ];
-          },
-        ),
-      )
+              value: _orderColumn == 'duration' && _orderDir == 'desc'
+                  ? 'duration|asc'
+                  : 'duration|desc',
+            ),
+            PopupMenuItem(
+              child: Row(
+                children: [
+                  _orderColumn == 'plays' && _orderDir == 'desc'
+                      ? FaIcon(FontAwesomeIcons.sortAmountUp)
+                      : FaIcon(FontAwesomeIcons.sortAmountDown),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text('Plays'),
+                  ),
+                ],
+              ),
+              value: _orderColumn == 'plays' && _orderDir == 'desc'
+                  ? 'plays|asc'
+                  : 'plays|desc',
+            ),
+          ];
+        },
+      ),
     ];
   }
 
-  FaIcon _currentSortIcon() {
+  FaIcon _currentSortIcon({Color color}) {
     if (_orderDir == 'asc') {
-      return FaIcon(FontAwesomeIcons.sortAmountUp);
+      return FaIcon(
+        FontAwesomeIcons.sortAmountUp,
+        color: color ?? TautulliColorPalette.not_white,
+      );
     } else {
-      return FaIcon(FontAwesomeIcons.sortAmountDown);
+      return FaIcon(
+        FontAwesomeIcons.sortAmountDown,
+        color: color ?? TautulliColorPalette.not_white,
+      );
+    }
+  }
+
+  String _currentSortName() {
+    switch (_orderColumn) {
+      case ('section_name'):
+        return 'Name';
+      case ('count'):
+        return 'Count';
+      case ('duration'):
+        return 'Duration';
+      case ('plays'):
+        return 'Plays';
     }
   }
 }

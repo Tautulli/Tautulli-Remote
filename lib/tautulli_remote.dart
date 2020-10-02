@@ -124,6 +124,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         popupMenuTheme: ThemeData.dark().popupMenuTheme.copyWith(
               color: PlexColorPalette.river_bed,
             ),
+        dividerColor: TautulliColorPalette.not_white,
         cardColor: PlexColorPalette.shark,
       ),
       routes: {
