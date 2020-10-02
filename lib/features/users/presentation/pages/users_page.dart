@@ -315,7 +315,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
               child: Row(
                 children: [
                   _orderColumn == 'friendly_name' && _orderDir == 'asc'
-                      ? FaIcon(FontAwesomeIcons.sortAlphaUp)
+                      ? FaIcon(FontAwesomeIcons.sortAlphaDownAlt)
                       : FaIcon(FontAwesomeIcons.sortAlphaDown),
                   Padding(
                     padding: const EdgeInsets.only(left: 4),
@@ -331,7 +331,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
               child: Row(
                 children: [
                   _orderColumn == 'last_seen' && _orderDir == 'desc'
-                      ? FaIcon(FontAwesomeIcons.sortNumericUp)
+                      ? FaIcon(FontAwesomeIcons.sortNumericDownAlt)
                       : FaIcon(FontAwesomeIcons.sortNumericDown),
                   Padding(
                     padding: const EdgeInsets.only(left: 4),
@@ -358,7 +358,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
         );
       } else {
         return FaIcon(
-          FontAwesomeIcons.sortAlphaUp,
+          FontAwesomeIcons.sortAlphaDownAlt,
           color: color ?? TautulliColorPalette.not_white,
         );
       }
@@ -366,7 +366,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
     if (_orderColumn == 'last_seen') {
       if (_orderDir == 'asc') {
         return FaIcon(
-          FontAwesomeIcons.sortNumericUp,
+          FontAwesomeIcons.sortNumericDownAlt,
           color: color ?? TautulliColorPalette.not_white,
         );
       } else {
