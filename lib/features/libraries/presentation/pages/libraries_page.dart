@@ -375,7 +375,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
     switch (_orderColumn) {
       case ('section_name'):
         return 'Name';
-      case ('count'):
+      case ('count,parent_count,child_count'):
         return 'Count';
       case ('duration'):
         return 'Duration';
