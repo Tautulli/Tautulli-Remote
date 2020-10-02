@@ -7,7 +7,15 @@ abstract class UsersState extends Equatable {
   List<Object> get props => [];
 }
 
-class UsersInitial extends UsersState {}
+class UsersInitial extends UsersState {
+  final String orderColumn;
+  final String orderDir;
+
+  UsersInitial({this.orderColumn, this.orderDir});
+
+  @override
+  List<Object> get props => [orderColumn, orderDir];
+}
 
 class UsersSuccess extends UsersState {
   final List<UserTable> list;

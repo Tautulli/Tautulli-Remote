@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/error_message.dart';
@@ -44,9 +45,8 @@ class _UsersPageContentState extends State<UsersPageContent> {
   SettingsBloc _settingsBloc;
   UsersBloc _usersBloc;
   String _tautulliId;
-  String _orderColumn = 'friendly_name';
-  String _orderDir = 'asc';
-  bool _usersLoaded = false;
+  String _orderColumn;
+  String _orderDir;
 
   @override
   void initState() {
@@ -56,15 +56,16 @@ class _UsersPageContentState extends State<UsersPageContent> {
     _settingsBloc = context.bloc<SettingsBloc>();
     _usersBloc = context.bloc<UsersBloc>();
 
-    final state = _settingsBloc.state;
+    final usersState = _usersBloc.state;
+    final settingState = _settingsBloc.state;
 
-    if (state is SettingsLoadSuccess) {
+    if (settingState is SettingsLoadSuccess) {
       String lastSelectedServer;
 
-      if (state.lastSelectedServer != null) {
-        for (Server server in state.serverList) {
-          if (server.tautulliId == state.lastSelectedServer) {
-            lastSelectedServer = state.lastSelectedServer;
+      if (settingState.lastSelectedServer != null) {
+        for (Server server in settingState.serverList) {
+          if (server.tautulliId == settingState.lastSelectedServer) {
+            lastSelectedServer = settingState.lastSelectedServer;
             break;
           }
         }
@@ -74,12 +75,17 @@ class _UsersPageContentState extends State<UsersPageContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else if (state.serverList.length > 0) {
+      } else if (settingState.serverList.length > 0) {
         setState(() {
-          _tautulliId = state.serverList[0].tautulliId;
+          _tautulliId = settingState.serverList[0].tautulliId;
         });
       } else {
         _tautulliId = null;
+      }
+
+      if (usersState is UsersInitial) {
+        _orderColumn = usersState.orderColumn ?? 'friendly_name';
+        _orderDir = usersState.orderDir ?? 'asc';
       }
 
       _usersBloc.add(
@@ -182,9 +188,11 @@ class _UsersPageContentState extends State<UsersPageContent> {
                                       ? BottomLoader()
                                       : UserCard(
                                           // user: state.list[index],
-                                          userThumb: state.list[index].userThumb,
+                                          userThumb:
+                                              state.list[index].userThumb,
                                           isActive: state.list[index].isActive,
-                                          details: UsersDetails(user: state.list[index]),
+                                          details: UsersDetails(
+                                              user: state.list[index]),
                                         );
                                 },
                               ),
@@ -268,93 +276,114 @@ class _UsersPageContentState extends State<UsersPageContent> {
 
   List<Widget> _appBarActions() {
     return [
-      BlocListener<UsersBloc, UsersState>(
-        listener: (context, state) {
-          if (state is UsersSuccess) {
-            setState(() {
-              _usersLoaded = true;
-            });
-          } else {
-            setState(() {
-              _usersLoaded = false;
-            });
-          }
-        },
-        child: PopupMenuButton(
-          icon:
-              _currentSortIcon(),
-          tooltip: 'Sort users',
-          enabled: _usersLoaded,
-          onSelected: (value) {
-            List<String> values = value.split('|');
+      PopupMenuButton(
+        icon: _currentSortIcon(),
+        tooltip: 'Sort users',
+        onSelected: (value) {
+          List<String> values = value.split('|');
 
-            setState(() {
-              _orderColumn = values[0];
-              _orderDir = values[1];
-            });
-            _usersBloc.add(
-              UsersFilter(
-                tautulliId: _tautulliId,
-                orderColumn: _orderColumn,
-                orderDir: _orderDir,
-              ),
-            );
-          },
-          itemBuilder: (context) {
-            return [
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    _orderColumn == 'friendly_name' && _orderDir == 'asc'
-                        ? FaIcon(FontAwesomeIcons.sortAlphaUp)
-                        : FaIcon(FontAwesomeIcons.sortAlphaDown),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: Text('Name'),
+          setState(() {
+            _orderColumn = values[0];
+            _orderDir = values[1];
+          });
+          _usersBloc.add(
+            UsersFilter(
+              tautulliId: _tautulliId,
+              orderColumn: _orderColumn,
+              orderDir: _orderDir,
+            ),
+          );
+        },
+        itemBuilder: (context) {
+          return <PopupMenuEntry<dynamic>>[
+            PopupMenuItem(
+              child: Row(
+                children: [
+                  _currentSortIcon(color: PlexColorPalette.gamboge),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text(
+                      _currentSortName(),
+                      style: TextStyle(color: PlexColorPalette.gamboge),
                     ),
-                  ],
-                ),
-                value: _orderColumn == 'friendly_name' && _orderDir == 'asc'
-                    ? 'friendly_name|desc'
-                    : 'friendly_name|asc',
+                  ),
+                ],
               ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    _orderColumn == 'last_seen' && _orderDir == 'desc'
-                        ? FaIcon(FontAwesomeIcons.sortNumericUp)
-                        : FaIcon(FontAwesomeIcons.sortNumericDown),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: Text('Last Streamed'),
-                    ),
-                  ],
-                ),
-                value: _orderColumn == 'last_seen' && _orderDir == 'desc'
-                    ? 'last_seen|asc'
-                    : 'last_seen|desc',
+            ),
+            PopupMenuDivider(),
+            PopupMenuItem(
+              child: Row(
+                children: [
+                  _orderColumn == 'friendly_name' && _orderDir == 'asc'
+                      ? FaIcon(FontAwesomeIcons.sortAlphaUp)
+                      : FaIcon(FontAwesomeIcons.sortAlphaDown),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text('Name'),
+                  ),
+                ],
               ),
-            ];
-          },
-        ),
-      )
+              value: _orderColumn == 'friendly_name' && _orderDir == 'asc'
+                  ? 'friendly_name|desc'
+                  : 'friendly_name|asc',
+            ),
+            PopupMenuItem(
+              child: Row(
+                children: [
+                  _orderColumn == 'last_seen' && _orderDir == 'desc'
+                      ? FaIcon(FontAwesomeIcons.sortNumericUp)
+                      : FaIcon(FontAwesomeIcons.sortNumericDown),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text('Last Streamed'),
+                  ),
+                ],
+              ),
+              value: _orderColumn == 'last_seen' && _orderDir == 'desc'
+                  ? 'last_seen|asc'
+                  : 'last_seen|desc',
+            ),
+          ];
+        },
+      ),
     ];
   }
 
-  FaIcon _currentSortIcon() {
+  FaIcon _currentSortIcon({Color color}) {
     if (_orderColumn == 'friendly_name') {
       if (_orderDir == 'asc') {
-        return FaIcon(FontAwesomeIcons.sortAlphaDown);
+        return FaIcon(
+          FontAwesomeIcons.sortAlphaDown,
+          color: color ?? TautulliColorPalette.not_white,
+        );
       } else {
-        return FaIcon(FontAwesomeIcons.sortAlphaUp);
+        return FaIcon(
+          FontAwesomeIcons.sortAlphaUp,
+          color: color ?? TautulliColorPalette.not_white,
+        );
       }
     }
     if (_orderColumn == 'last_seen') {
       if (_orderDir == 'asc') {
-        return FaIcon(FontAwesomeIcons.sortNumericUp);
+        return FaIcon(
+          FontAwesomeIcons.sortNumericUp,
+          color: color ?? TautulliColorPalette.not_white,
+        );
       } else {
-        return FaIcon(FontAwesomeIcons.sortNumericDown);
+        return FaIcon(
+          FontAwesomeIcons.sortNumericDown,
+          color: color ?? TautulliColorPalette.not_white,
+        );
       }
+    }
+  }
+
+  String _currentSortName() {
+    switch (_orderColumn) {
+      case ('friendly_name'):
+        return 'Name';
+      case ('last_seen'):
+        return 'Last Streamed';
     }
   }
 }
