@@ -460,6 +460,9 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
     List<Widget> statList = [];
 
     for (String key in keys) {
+      if (map[key].isEmpty) {
+        break;
+      }
       statList.add(
         StatisticsHeading(statId: key),
       );
