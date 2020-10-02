@@ -484,6 +484,14 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
     final List keys = map.keys.toList();
     List<Widget> statList = [];
 
+    // Add extra padding to top of list if not multiserver
+    final settingsState = _settingsBloc.state;
+    if (settingsState is SettingsLoadSuccess) {
+      if (settingsState.serverList.length < 2) {
+        statList.add(const SizedBox(height: 15));
+      }
+    }
+
     for (String key in keys) {
       if (map[key].isNotEmpty) {
         statList.addAll([
@@ -530,9 +538,12 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
             );
           }
         }
-        statList.add(
-          const SizedBox(height: 18),
-        );
+        // Do not add spacing after last item in list
+        if (keys.indexOf(key) < keys.length - 1) {
+          statList.add(
+            const SizedBox(height: 18),
+          );
+        }
       }
     }
     return statList;
