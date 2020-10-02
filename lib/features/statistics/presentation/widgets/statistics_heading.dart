@@ -13,14 +13,11 @@ class StatisticsHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 4,
-        bottom: 4,
-      ),
+      padding: const EdgeInsets.only(left: 8),
       child: Text(
         _mapStatIdToHeading(statId),
         style: TextStyle(
-          fontSize: 20,
+          fontSize: 18,
           fontWeight: FontWeight.w600,
           color: TautulliColorPalette.not_white,
         ),

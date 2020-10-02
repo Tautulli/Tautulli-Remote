@@ -486,9 +486,16 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
 
     for (String key in keys) {
       if (map[key].isNotEmpty) {
-        statList.add(
+        statList.addAll([
           StatisticsHeading(statId: key),
-        );
+          Divider(
+            indent: 8,
+            endIndent: MediaQuery.of(context).size.width - 100,
+            height: 15,
+            thickness: 1,
+            color: PlexColorPalette.gamboge,
+          ),
+        ]);
         for (Statistics s in map[key]) {
           if (s.statId == 'top_platforms') {
             statList.add(
@@ -524,7 +531,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
           }
         }
         statList.add(
-          const SizedBox(height: 8),
+          const SizedBox(height: 18),
         );
       }
     }
