@@ -42,8 +42,8 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
   Widget build(BuildContext context) {
     return BlocListener<ActivityBloc, ActivityState>(
       listener: (context, state) {
-        // Update the activityItem to the lastest data when a new ActivityLoadSuccess is pushed
-        if (state is ActivityLoadSuccess) {
+        // Update the activityItem to the lastest data when a new ActivityLoaded is pushed
+        if (state is ActivityLoaded) {
           setState(() {
             // If sessionId no longer exists for a given server close the modal
             try {

@@ -2,39 +2,30 @@ part of 'activity_bloc.dart';
 
 abstract class ActivityEvent extends Equatable {
   const ActivityEvent();
-}
 
-class ActivityLoad extends ActivityEvent {
   @override
   List<Object> get props => [];
 }
 
-class ActivityRefresh extends ActivityEvent {
-  @override
-  List<Object> get props => [];
-}
+class ActivityLoad extends ActivityEvent {}
 
-class ActivityAutoRefreshStart extends ActivityEvent {
-  @override
-  List<Object> get props => [];
-}
-
-class ActivityAutoRefreshStop extends ActivityEvent {
-  @override
-  List<Object> get props => [];
-}
-
-class ActivityRemove extends ActivityEvent {
-  final Map<String, Map<String, Object>> activityMap;
+class ActivityLoadServer extends ActivityEvent {
   final String tautulliId;
-  final String sessionId;
+  final String plexName;
+  final Either<Failure, List<ActivityItem>> failureOrActivity;
 
-  ActivityRemove({
-    @required this.activityMap,
+  ActivityLoadServer({
     @required this.tautulliId,
-    @required this.sessionId,
+    @required this.plexName,
+    @required this.failureOrActivity,
   });
 
   @override
-  List<Object> get props => [activityMap, tautulliId, sessionId];
+  List<Object> get props => [tautulliId, plexName, failureOrActivity];
 }
+
+class ActivityRefresh extends ActivityEvent {}
+
+class ActivityAutoRefreshStart extends ActivityEvent {}
+
+class ActivityAutoRefreshStop extends ActivityEvent {}

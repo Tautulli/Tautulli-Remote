@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
+import '../../domain/entities/activity.dart';
 import '../../domain/repositories/activity_repository.dart';
 import '../datasources/activity_data_source.dart';
 
@@ -21,11 +22,13 @@ class ActivityRepositoryImpl implements ActivityRepository {
   });
 
   @override
-  Future<Either<Failure, Map<String, Map<String, Object>>>>
-      getActivity() async {
+  Future<Either<Failure, List<ActivityItem>>>
+      getActivity({
+        @required String tautulliId,
+      }) async {
     if (await networkInfo.isConnected) {
       try {
-        final activity = await dataSource.getActivity();
+        final activity = await dataSource.getActivity(tautulliId: tautulliId);
         return Right(activity);
       } catch (exception) {
         final Failure failure =

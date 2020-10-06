@@ -45,7 +45,7 @@ class ActivityCard extends StatefulWidget {
 class _ActivityCardState extends State<ActivityCard> {
   @override
   Widget build(BuildContext context) {
-    final List activityList = widget.activityMap[widget.tautulliId]['activity'];
+    final List activityList = widget.activityMap[widget.tautulliId]['activityList'];
     final ActivityItem activity = activityList[widget.index];
 
     final _terminateMessageController = TextEditingController();

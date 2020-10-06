@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../features/activity/presentation/bloc/activity_bloc.dart';
 import '../helpers/color_palette_helper.dart';
 
 class ServerHeader extends StatelessWidget {
   final String serverName;
-  final bool alert;
+  final ActivityLoadingState state;
 
   const ServerHeader({
     Key key,
     @required this.serverName,
-    this.alert,
+    this.state,
   }) : super(key: key);
 
   @override
@@ -31,7 +32,18 @@ class ServerHeader extends StatelessWidget {
               color: Theme.of(context).accentColor,
             ),
           ),
-          if (alert == true)
+          if (state == ActivityLoadingState.inProgress)
+            Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: SizedBox(
+                height: 15,
+                width: 15,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              ),
+            ),
+          if (state == ActivityLoadingState.failure)
             Padding(
               padding: const EdgeInsets.only(left: 4),
               child: FaIcon(

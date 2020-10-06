@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,8 +8,12 @@ import 'package:tautulli_remote_tdd/core/error/failure.dart';
 import 'package:tautulli_remote_tdd/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote_tdd/core/network/network_info.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/datasources/activity_data_source.dart';
+import 'package:tautulli_remote_tdd/features/activity/data/models/activity_model.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/repositories/activity_repository_impl.dart';
 import 'package:matcher/matcher.dart';
+import 'package:tautulli_remote_tdd/features/activity/domain/entities/activity.dart';
+
+import '../../../../fixtures/fixture_reader.dart';
 
 class MockActivityDataSource extends Mock implements ActivityDataSource {}
 
@@ -32,21 +38,27 @@ void main() {
     );
   });
 
-  group('getActivity', () {
-    final Map<String, Map<String, Object>> tActivityMap = {
-      'Plex': {
-        'result': 'success',
-        'activity': 'failure',
-      }
-    };
+  final tTautulliId = 'abc';
 
+  final tActivityJson = json.decode(fixture('activity.json'));
+
+  List<ActivityItem> tActivityList = [];
+  tActivityJson['response']['data']['sessions'].forEach(
+    (session) {
+      tActivityList.add(
+        ActivityItemModel.fromJson(session),
+      );
+    },
+  );
+
+  group('getActivity', () {
     test(
       'should check if the device is online',
       () async {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         //act
-        repository.getActivity();
+        repository.getActivity(tautulliId: tTautulliId);
         //assert
         verify(mockNetworkInfo.isConnected);
       },
@@ -61,9 +73,9 @@ void main() {
         'should call data source getActivity()',
         () async {
           // act
-          await repository.getActivity();
+          await repository.getActivity(tautulliId: tTautulliId);
           // assert
-          verify(dataSource.getActivity());
+          verify(dataSource.getActivity(tautulliId: tTautulliId));
         },
       );
 
@@ -71,11 +83,12 @@ void main() {
         'should return activity data map when the call to api is successful',
         () async {
           // arrange
-          when(dataSource.getActivity()).thenAnswer((_) async => tActivityMap);
+          when(dataSource.getActivity(tautulliId: tTautulliId))
+              .thenAnswer((_) async => tActivityList);
           //act
-          final result = await repository.getActivity();
+          final result = await repository.getActivity(tautulliId: tTautulliId);
           //assert
-          expect(result, equals(Right(tActivityMap)));
+          expect(result, equals(Right(tActivityList)));
         },
       );
 
@@ -83,11 +96,12 @@ void main() {
         'should return activity',
         () async {
           // arrange
-          when(dataSource.getActivity()).thenAnswer((_) async => tActivityMap);
+          when(dataSource.getActivity(tautulliId: tTautulliId))
+              .thenAnswer((_) async => tActivityList);
           // act
-          final result = await repository.getActivity();
+          final result = await repository.getActivity(tautulliId: tTautulliId);
           // assert
-          expect(result, equals(Right(tActivityMap)));
+          expect(result, equals(Right(tActivityList)));
         },
       );
 
@@ -96,10 +110,12 @@ void main() {
         () async {
           // arrange
           final exception = SettingsException();
-          when(dataSource.getActivity()).thenThrow(exception);
-          when(mockFailureMapperHelper.mapExceptionToFailure(exception)).thenReturn(SettingsFailure());
+          when(dataSource.getActivity(tautulliId: tTautulliId))
+              .thenThrow(exception);
+          when(mockFailureMapperHelper.mapExceptionToFailure(exception))
+              .thenReturn(SettingsFailure());
           // act
-          final result = await repository.getActivity();
+          final result = await repository.getActivity(tautulliId: tTautulliId);
           // assert
           expect(result, equals(Left(SettingsFailure())));
         },
@@ -113,7 +129,7 @@ void main() {
           // arrange
           when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
           //act
-          final result = await repository.getActivity();
+          final result = await repository.getActivity(tautulliId: tTautulliId);
           //assert
           expect(result, equals(Left(ConnectionFailure())));
         },

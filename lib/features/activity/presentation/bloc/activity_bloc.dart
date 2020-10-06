@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/settings.dart';
@@ -14,6 +15,12 @@ import '../../domain/usecases/get_activity.dart';
 
 part 'activity_event.dart';
 part 'activity_state.dart';
+
+enum ActivityLoadingState {
+  inProgress,
+  success,
+  failure,
+}
 
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   final GetActivity getActivity;
@@ -31,28 +38,176 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   })  : assert(activity != null),
         getActivity = activity,
         getImageUrl = imageUrl,
-        super(ActivityEmpty());
+        super(ActivityInitial());
 
   @override
   Stream<ActivityState> mapEventToState(
     ActivityEvent event,
   ) async* {
+    final currentState = state;
+    
+    Map<String, Map<String, dynamic>> _activityMap = {};
+    if (currentState is ActivityLoaded) {
+      _activityMap = currentState.activityMap;
+    }
+
     if (event is ActivityLoad) {
-      yield* _mapActivityLoadToState();
+      final serverList = await settings.getAllServers();
+
+      // Add structure to _activityMap and yield for UI placeholder while loading
+      for (ServerModel server in serverList) {
+        _activityMap[server.tautulliId] = {
+          'plex_name': server.plexName,
+          'loadingState': ActivityLoadingState.inProgress,
+          'activityList': <ActivityItem>[],
+          'failure': null,
+        };
+      }
+      yield ActivityLoaded(
+        activityMap: _activityMap,
+        loadedAt: DateTime.now(),
+      );
+
+      _loadServer(
+        serverList: serverList,
+        activityMap: _activityMap,
+      );
     }
     if (event is ActivityRefresh) {
-      yield* _mapActivityRefreshToState();
+      final serverList = await settings.getAllServers();
+      //* Change all servers in activityMap to inProgress and yeild
+      for (String key in _activityMap.keys.toList()) {
+        _activityMap[key]['loadingState'] =
+            ActivityLoadingState.inProgress;
+      }
+      yield ActivityLoaded(
+        activityMap: _activityMap,
+        loadedAt: DateTime.now(),
+      );
+
+      _loadServer(
+        serverList: serverList,
+        activityMap: _activityMap,
+      );
+    }
+    if (event is ActivityLoadServer) {
+      yield* event.failureOrActivity.fold(
+        (failure) async* {
+          _activityMap[event.tautulliId] = {
+            'plex_name': event.plexName,
+            'loadingState': ActivityLoadingState.failure,
+            'activityList': <ActivityItem>[],
+            'failure': failure,
+          };
+
+          yield ActivityLoaded(
+            activityMap: _activityMap,
+            loadedAt: DateTime.now(),
+          );
+        },
+        (list) async* {
+          for (ActivityItem activityItem in list) {
+            //* Fetch and assign image URLs
+            String posterImg;
+            int posterRatingKey;
+            String posterFallback;
+
+            // Assign values for poster URL
+            switch (activityItem.mediaType) {
+              case ('movie'):
+                posterImg = activityItem.thumb;
+                posterRatingKey = activityItem.ratingKey;
+                if (activityItem.live == 0) {
+                  posterFallback = 'poster';
+                } else {
+                  posterFallback = 'poster-live';
+                }
+                break;
+              case ('episode'):
+                posterImg = activityItem.grandparentThumb;
+                posterRatingKey = activityItem.grandparentRatingKey;
+                if (activityItem.live == 0) {
+                  posterFallback = 'poster';
+                } else {
+                  posterFallback = 'poster-live';
+                }
+                break;
+              case ('track'):
+                posterImg = activityItem.thumb;
+                posterRatingKey = activityItem.parentRatingKey;
+                posterFallback = 'cover';
+                break;
+              case ('clip'):
+                posterImg = activityItem.thumb;
+                posterRatingKey = activityItem.ratingKey;
+                posterFallback = 'poster';
+                break;
+              default:
+                posterRatingKey = activityItem.ratingKey;
+            }
+
+            // Attempt to get poster URL
+            final failureOrPosterUrl = await getImageUrl(
+              tautulliId: event.tautulliId,
+              img: posterImg,
+              ratingKey: posterRatingKey,
+              fallback: posterFallback,
+            );
+            failureOrPosterUrl.fold(
+              (failure) {
+                logging.warning(
+                    'Activity: Failed to load poster for rating key: $posterRatingKey');
+              },
+              (url) {
+                activityItem.posterUrl = url;
+              },
+            );
+          }
+          _activityMap[event.tautulliId] = {
+            'plex_name': event.plexName,
+            'loadingState': ActivityLoadingState.success,
+            'activityList': list,
+            'failure': null,
+          };
+          yield ActivityLoaded(
+            activityMap: _activityMap,
+            loadedAt: DateTime.now(),
+          );
+        },
+      );
+      add(ActivityAutoRefreshStart());
     }
     if (event is ActivityAutoRefreshStart) {
-      yield* _mapActivityAutoRefreshStartToState();
+      _timer?.cancel();
+      final refreshRate = await settings.getRefreshRate();
+      if (refreshRate != null && refreshRate > 0) {
+        _timer = Timer.periodic(Duration(seconds: refreshRate), (timer) {
+          add(ActivityRefresh());
+        });
+      }
     }
     if (event is ActivityAutoRefreshStop) {
-      yield* _mapActivityAutoRefreshStopToState();
+      _timer?.cancel();
     }
-    if (event is ActivityRemove) {
-      yield* _mapActivityRemoveToState(
-        event.activityMap,
-        event.sessionId,
+  }
+
+  /// For each server in serverList add the [ActivityLoadServer] event with the current activityMap.
+  ///
+  /// This will allow for asynchronous loading of each server and will yield [ActivityLoaded] with the
+  /// servers data added to the activityMap.
+  void _loadServer({
+    @required List<ServerModel> serverList,
+    @required Map<String, Map<String, dynamic>> activityMap,
+  }) {
+    for (ServerModel server in serverList) {
+      getActivity(tautulliId: server.tautulliId).then(
+        (failureOrActivity) => add(
+          ActivityLoadServer(
+            tautulliId: server.tautulliId,
+            plexName: server.plexName,
+            failureOrActivity: failureOrActivity,
+          ),
+        ),
       );
     }
   }
@@ -61,141 +216,5 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   Future<void> close() {
     _timer?.cancel();
     return super.close();
-  }
-
-  Stream<ActivityState> _mapActivityLoadToState() async* {
-    yield ActivityLoadInProgress();
-    yield* _loadActivityOrFailure();
-
-    add(ActivityAutoRefreshStart());
-  }
-
-  Stream<ActivityState> _mapActivityRefreshToState() async* {
-    yield* _loadActivityOrFailure();
-
-    add(ActivityAutoRefreshStart());
-  }
-
-  Stream<ActivityState> _mapActivityAutoRefreshStartToState() async* {
-    _timer?.cancel();
-    final refreshRate = await settings.getRefreshRate();
-    if (refreshRate != null && refreshRate > 0) {
-      _timer = Timer.periodic(Duration(seconds: refreshRate), (timer) {
-        add(ActivityRefresh());
-      });
-    }
-  }
-
-  Stream<ActivityState> _mapActivityAutoRefreshStopToState() async* {
-    _timer?.cancel();
-  }
-
-  Stream<ActivityState> _mapActivityRemoveToState(
-    Map<String, Map<String, Object>> activityMap,
-    String sessionId,
-  ) async* {
-    // Create a new Map that can be manipulated
-    Map<String, Map<String, Object>> newActivityMap =
-        Map<String, Map<String, Object>>.from(activityMap);
-
-    // Remove the item from the map where the key is the submitted
-    // tautulliId and the value has the submitted sessionKey
-    newActivityMap.forEach((key, value) {
-      List activityList = value['activity'];
-      activityList
-          .removeWhere((activityItem) => activityItem.sessionId == sessionId);
-    });
-
-    // Return activity with the map sans the removed item
-    yield ActivityLoadSuccess(
-      activityMap: newActivityMap,
-      loadedAt: DateTime.now(),
-    );
-  }
-
-  Stream<ActivityState> _loadActivityOrFailure() async* {
-    final failureOrActivity = await getActivity();
-    yield* failureOrActivity.fold(
-      (failure) async* {
-        logging.error('Activity: Failed to load activity [$failure]');
-        yield ActivityLoadFailure(
-          failure: failure,
-          message: FailureMapperHelper().mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
-        );
-      },
-      (activityMap) async* {
-        //* Loop through activity items and get image URLs
-        // Using for loop as .forEach() does not actually respect await
-        final List keys = activityMap.keys.toList();
-        for (int i = 0; i < keys.length; i++) {
-          if (activityMap[keys[i]]['result'] == 'success') {
-            for (ActivityItem activityItem in activityMap[keys[i]]
-                ['activity']) {
-              //* Fetch and assign image URLs
-              String posterImg;
-              int posterRatingKey;
-              String posterFallback;
-
-              // Assign values for poster URL
-              switch (activityItem.mediaType) {
-                case ('movie'):
-                  posterImg = activityItem.thumb;
-                  posterRatingKey = activityItem.ratingKey;
-                  if (activityItem.live == 0) {
-                    posterFallback = 'poster';
-                  } else {
-                    posterFallback = 'poster-live';
-                  }
-                  break;
-                case ('episode'):
-                  posterImg = activityItem.grandparentThumb;
-                  posterRatingKey = activityItem.grandparentRatingKey;
-                  if (activityItem.live == 0) {
-                    posterFallback = 'poster';
-                  } else {
-                    posterFallback = 'poster-live';
-                  }
-                  break;
-                case ('track'):
-                  posterImg = activityItem.thumb;
-                  posterRatingKey = activityItem.parentRatingKey;
-                  posterFallback = 'cover';
-                  break;
-                case ('clip'):
-                  posterImg = activityItem.thumb;
-                  posterRatingKey = activityItem.ratingKey;
-                  posterFallback = 'poster';
-                  break;
-                default:
-                  posterRatingKey = activityItem.ratingKey;
-              }
-
-              // Attempt to get poster URL
-              final failureOrPosterUrl = await getImageUrl(
-                tautulliId: keys[i],
-                img: posterImg,
-                ratingKey: posterRatingKey,
-                fallback: posterFallback,
-              );
-              failureOrPosterUrl.fold(
-                (failure) {
-                  logging.warning(
-                      'Activity: Failed to load poster for rating key: $posterRatingKey');
-                },
-                (url) {
-                  activityItem.posterUrl = url;
-                },
-              );
-            }
-          }
-        }
-
-        yield ActivityLoadSuccess(
-          activityMap: activityMap,
-          loadedAt: DateTime.now(),
-        );
-      },
-    );
   }
 }

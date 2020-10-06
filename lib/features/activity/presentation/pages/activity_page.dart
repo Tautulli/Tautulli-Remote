@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
@@ -88,91 +89,69 @@ class _ActivityPageContentState extends State<ActivityPageContent>
       drawer: AppDrawer(),
       body: BlocConsumer<ActivityBloc, ActivityState>(
         listener: (context, state) {
-          if (state is ActivityLoadSuccess) {
+          if (state is ActivityLoaded) {
             _refreshCompleter?.complete();
             _refreshCompleter = Completer();
           }
         },
         builder: (context, state) {
-          if (state is ActivityLoadFailure) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ErrorMessage(
-                  failure: state.failure,
-                  message: state.message,
-                  suggestion: state.suggestion,
-                ),
-                ActivityErrorButton(
-                  completer: _refreshCompleter,
-                  failure: state.failure,
-                ),
-              ],
+          if (state is ActivityLoaded) {
+            return BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, settingsState) {
+                if (settingsState is SettingsLoadSuccess) {
+                  final bool multiserver = settingsState.serverList.length > 1;
+                  //* If single server display differnet widgets for failure and inProgress then multiserver would
+                  if (!multiserver) {
+                    final Map<String, dynamic> serverMap =
+                        state.activityMap.values.toList()[0];
+                    final ActivityLoadingState result = serverMap['loadingState'];
+                    if (result == ActivityLoadingState.failure) {
+                      final Failure failure = serverMap['failure'];
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          ErrorMessage(
+                            failure: failure,
+                            message: FailureMapperHelper()
+                                .mapFailureToMessage(failure),
+                            suggestion: FailureMapperHelper()
+                                .mapFailureToSuggestion(failure),
+                          ),
+                          ActivityErrorButton(
+                            completer: _refreshCompleter,
+                            failure: failure,
+                          ),
+                        ],
+                      );
+                    } else if (result == ActivityLoadingState.inProgress &&
+                        serverMap['activityList'].isEmpty) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }
+
+                  return RefreshIndicator(
+                    onRefresh: () {
+                      BlocProvider.of<ActivityBloc>(context)
+                          .add(ActivityRefresh());
+                      return _refreshCompleter.future;
+                    },
+                    child: multiserver
+                        ? _buildMultiserverActivity(
+                            activityMap: state.activityMap,
+                          )
+                        : _buildSingleServerActivity(
+                            activityMap: state.activityMap,
+                          ),
+                  );
+                } else {
+                  return Text('ERROR: Settings not loaded');
+                }
+              },
             );
           }
-          if (state is ActivityEmpty) {
-            return Text('Empty State');
-          }
-          if (state is ActivityLoadInProgress) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (state is ActivityLoadSuccess) {
-            if (state.activityMap.isEmpty) {
-              return RefreshIndicator(
-                onRefresh: () {
-                  BlocProvider.of<ActivityBloc>(context).add(ActivityRefresh());
-                  return _refreshCompleter.future;
-                },
-                child: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) =>
-                      SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    child: Container(
-                      height: constraints.maxHeight,
-                      child: Center(
-                        child: Text(
-                          'Nothing is currently being played.',
-                          style: TextStyle(
-                            fontSize: 18,
-                            // fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            } else {
-              return BlocBuilder<SettingsBloc, SettingsState>(
-                builder: (context, settingsState) {
-                  if (settingsState is SettingsLoadSuccess) {
-                    final bool multiserver =
-                        settingsState.serverList.length > 1;
-
-                    return RefreshIndicator(
-                      onRefresh: () {
-                        BlocProvider.of<ActivityBloc>(context)
-                            .add(ActivityRefresh());
-                        return _refreshCompleter.future;
-                      },
-                      child: multiserver
-                          ? _buildMultiserverActivity(
-                              activityMap: state.activityMap,
-                            )
-                          : _buildSingleServerActivity(
-                              activityMap: state.activityMap,
-                            ),
-                      // ListView(
-                      //   children: activityWidgetList,
-                      // ),
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              );
-            }
-          }
+          return const SizedBox(height: 0, width: 0);
         },
       ),
     );
@@ -184,7 +163,7 @@ Widget _buildSingleServerActivity({
 }) {
   Map<String, Map<String, Object>> map = activityMap;
   List mapKeys = map.keys.toList();
-  List<ActivityItem> activityList = map[mapKeys[0]]['activity'];
+  List<ActivityItem> activityList = map[mapKeys[0]]['activityList'];
 
   if (activityList.isEmpty) {
     return LayoutBuilder(
@@ -196,18 +175,15 @@ Widget _buildSingleServerActivity({
           child: Center(
             child: Text(
               'Nothing is currently being played.',
-              style: TextStyle(
-                fontSize: 18,
-                // fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 18),
             ),
           ),
         ),
       ),
     );
   }
-  final SlidableController _slidableController = SlidableController();
 
+  final SlidableController _slidableController = SlidableController();
   return BlocProvider<TerminateSessionBloc>(
     create: (context) => di.sl<TerminateSessionBloc>(),
     child: ListView.builder(
@@ -230,17 +206,45 @@ Widget _buildMultiserverActivity({
 
   final SlidableController _slidableController = SlidableController();
 
-  activityMap.forEach((serverId, resultMap) {
+  activityMap.forEach((serverId, serverData) {
     tautulliId = serverId;
+    List activityList = serverData['activityList'];
+
     activityWidgetList.add(
       ServerHeader(
-        serverName: resultMap['plex_name'],
-        alert: resultMap['result'] == 'failure',
+        serverName: serverData['plex_name'],
+        state: serverData['loadingState'],
       ),
     );
-    if (resultMap['result'] == 'success') {
-      final List<ActivityItem> activityList = resultMap['activity'];
-
+    if (serverData['loadingState'] == ActivityLoadingState.inProgress) {
+      if (serverData['failure'] == null) {
+        if (activityList.isEmpty) {
+          activityWidgetList.add(
+            _StatusCard(customMessage: 'Nothing is currently being played.'),
+          );
+        } else {
+          for (ActivityItem activityItem in activityList) {
+            activityWidgetList.add(
+              ActivityCard(
+                activityMap: activityMap,
+                index: activityList.indexOf(activityItem),
+                tautulliId: tautulliId,
+                slidableController: _slidableController,
+              ),
+            );
+          }
+        }
+      } else {
+        activityWidgetList.add(
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return _StatusCard(failure: serverData['failure']);
+            },
+          ),
+        );
+      }
+    }
+    if (serverData['loadingState'] == ActivityLoadingState.success) {
       if (activityList.isNotEmpty) {
         for (ActivityItem activityItem in activityList) {
           activityWidgetList.add(
@@ -254,75 +258,15 @@ Widget _buildMultiserverActivity({
         }
       } else {
         activityWidgetList.add(
-          Container(
-            height: 135,
-            margin: const EdgeInsets.all(4),
-            child: Card(
-              color: TautulliColorPalette.gunmetal,
-              margin: const EdgeInsets.all(0),
-              child: Center(
-                child: Text(
-                  'Nothing is currently being played.',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          _StatusCard(customMessage: 'Nothing is currently being played.'),
         );
       }
     }
-    if (resultMap['result'] == 'failure') {
+    if (serverData['loadingState'] == ActivityLoadingState.failure) {
       activityWidgetList.add(
         LayoutBuilder(
           builder: (context, constraints) {
-            return Container(
-              margin: const EdgeInsets.all(4),
-              height: 135,
-              child: Card(
-                color: TautulliColorPalette.gunmetal,
-                margin: const EdgeInsets.all(0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 4,
-                        bottom: 4,
-                      ),
-                      child: Text(
-                        FailureMapperHelper()
-                            .mapFailureToMessage(resultMap['failure']),
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 4,
-                        bottom: 4,
-                      ),
-                      child: Text(
-                        FailureMapperHelper()
-                            .mapFailureToSuggestion(resultMap['failure']),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.fade,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
+            return _StatusCard(failure: serverData['failure']);
           },
         ),
       );
@@ -338,4 +282,74 @@ Widget _buildMultiserverActivity({
       ),
     ),
   );
+}
+
+class _StatusCard extends StatelessWidget {
+  final String customMessage;
+  final Failure failure;
+
+  const _StatusCard({
+    Key key,
+    this.customMessage,
+    this.failure,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(4),
+      height: 135,
+      child: Card(
+        color: TautulliColorPalette.gunmetal,
+        margin: const EdgeInsets.all(0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            if (customMessage != null)
+              Center(
+                child: Text(
+                  customMessage,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            if (failure != null)
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 4,
+                  bottom: 4,
+                ),
+                child: Text(
+                  FailureMapperHelper().mapFailureToMessage(failure),
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            if (failure != null)
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 4,
+                  bottom: 4,
+                ),
+                child: Text(
+                  FailureMapperHelper().mapFailureToSuggestion(failure),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.fade,
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
 }
