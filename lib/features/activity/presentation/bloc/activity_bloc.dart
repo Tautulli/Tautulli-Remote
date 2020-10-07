@@ -45,7 +45,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     ActivityEvent event,
   ) async* {
     final currentState = state;
-    
+
     Map<String, Map<String, dynamic>> _activityMap = {};
     if (currentState is ActivityLoaded) {
       _activityMap = currentState.activityMap;
@@ -75,10 +75,14 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     }
     if (event is ActivityRefresh) {
       final serverList = await settings.getAllServers();
-      //* Change all servers in activityMap to inProgress and yeild
+
+      // Do not refresh servers that are still in the process of loading
+      serverList.removeWhere((server) =>
+          _activityMap[server.tautulliId]['loadingState'] ==
+          ActivityLoadingState.inProgress);
+
       for (String key in _activityMap.keys.toList()) {
-        _activityMap[key]['loadingState'] =
-            ActivityLoadingState.inProgress;
+        _activityMap[key]['loadingState'] = ActivityLoadingState.inProgress;
       }
       yield ActivityLoaded(
         activityMap: _activityMap,
