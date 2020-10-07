@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 
 import 'geo_ip.dart';
 
-//TODO: Remove background art code if we stick with poster for background
 class ActivityItem extends Equatable {
   final int sessionKey;
   final String sessionId;
@@ -22,6 +21,7 @@ class ActivityItem extends Equatable {
   final int height;
   final String ipAddress;
   final int live; // 1 if live tv
+  final int local; // Private or Public IP
   final String location; // lan, wan
   final int mediaIndex; // Episode number
   final String mediaType; // movie, episode,
@@ -96,6 +96,7 @@ class ActivityItem extends Equatable {
     this.height,
     this.ipAddress,
     this.live,
+    this.local,
     this.location,
     this.mediaIndex,
     this.mediaType,
@@ -171,6 +172,7 @@ class ActivityItem extends Equatable {
         height,
         ipAddress,
         live,
+        local,
         location,
         mediaIndex,
         mediaType,

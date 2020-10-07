@@ -160,61 +160,62 @@ List<Widget> _buildList({
   }
 
   // Build the GeoIP data row
-  rows.add(
-    BlocBuilder<GeoIpBloc, GeoIpState>(
-      builder: (context, state) {
-        if (state is GeoIpSuccess) {
-          if (state.geoIpMap.containsKey(activity.ipAddress)) {
-            GeoIpItem geoIpItem = state.geoIpMap[activity.ipAddress];
-            if (activity.relayed == 0 &&
-                geoIpItem != null &&
-                geoIpItem.code != 'ZZ') {
-              final List locationDetails =
-                  ActivityMediaDetailsCleaner.locationDetails(
-                type: 'ip',
-                city: geoIpItem.city,
-                region: geoIpItem.region,
-                code: geoIpItem.code,
-              )[0];
+  if (activity.local == 0)
+    rows.add(
+      BlocBuilder<GeoIpBloc, GeoIpState>(
+        builder: (context, state) {
+          if (state is GeoIpSuccess) {
+            if (state.geoIpMap.containsKey(activity.ipAddress)) {
+              GeoIpItem geoIpItem = state.geoIpMap[activity.ipAddress];
+              if (activity.relayed == 0 &&
+                  geoIpItem != null &&
+                  geoIpItem.code != 'ZZ') {
+                final List locationDetails =
+                    ActivityMediaDetailsCleaner.locationDetails(
+                  type: 'ip',
+                  city: geoIpItem.city,
+                  region: geoIpItem.region,
+                  code: geoIpItem.code,
+                )[0];
 
-              return _ActivityMediaDetailsRow(
-                constraints: constraints,
-                left: locationDetails[0],
-                right: locationDetails[1],
-              );
+                return _ActivityMediaDetailsRow(
+                  constraints: constraints,
+                  left: locationDetails[0],
+                  right: locationDetails[1],
+                );
+              }
+              return const SizedBox(height: 0, width: 0);
             }
-            return const SizedBox(height: 0, width: 0);
+            return _ActivityMediaDetailsRow(
+              constraints: constraints,
+              left: '',
+              right: Row(
+                children: [
+                  Text('ERROR: IP Address not in GeoIP map'),
+                ],
+              ),
+            );
           }
           return _ActivityMediaDetailsRow(
             constraints: constraints,
             left: '',
             right: Row(
               children: [
-                Text('ERROR: IP Address not in GeoIP map'),
+                SizedBox(
+                  height: 19,
+                  width: 19,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: Text('Loading location data'),
+                ),
               ],
             ),
           );
-        }
-        return _ActivityMediaDetailsRow(
-          constraints: constraints,
-          left: '',
-          right: Row(
-            children: [
-              SizedBox(
-                height: 19,
-                width: 19,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 5),
-                child: Text('Loading location data'),
-              ),
-            ],
-          ),
-        );
-      },
-    ),
-  );
+        },
+      ),
+    );
 
   _buildRows(
     constraints: constraints,

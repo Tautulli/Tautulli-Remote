@@ -25,6 +25,7 @@ void main() {
     height: 1080,
     ipAddress: "mock_ip_address",
     live: 0,
+    local: 1,
     location: "wan",
     mediaIndex: 2,
     mediaType: "episode",

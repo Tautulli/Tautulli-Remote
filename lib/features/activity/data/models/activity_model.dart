@@ -22,6 +22,7 @@ class ActivityItemModel extends ActivityItem {
     final int height,
     final String ipAddress,
     final int live, // 1 if live tv
+    final int local, // Public or Private IP
     final String location, // lan, wan
     final int mediaIndex, // Episode number
     final String mediaType, // movie, episode,
@@ -96,6 +97,7 @@ class ActivityItemModel extends ActivityItem {
           height: height,
           ipAddress: ipAddress,
           live: live,
+          local: local,
           location: location,
           mediaIndex: mediaIndex,
           mediaType: mediaType,
@@ -171,6 +173,7 @@ class ActivityItemModel extends ActivityItem {
       height: int.tryParse(json['height']),
       ipAddress: json['ip_address'],
       live: json['live'],
+      local: json['local'],
       location: json['location'],
       mediaIndex: int.tryParse(json['media_index']),
       mediaType: json['media_type'],

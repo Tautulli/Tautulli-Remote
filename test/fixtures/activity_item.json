@@ -35,6 +35,7 @@
     "secure": 1,
     "bandwidth": "6478",
     "location": "wan",
+    "local": 1,
     "transcode_throttled": 1,
     "transcode_progress": 21,
     "transcode_speed": "0.0",
