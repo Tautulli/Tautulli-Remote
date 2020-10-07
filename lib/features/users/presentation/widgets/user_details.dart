@@ -23,7 +23,6 @@ class UsersDetails extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(fontSize: 18),
         ),
-        _playsAndDuration(),
         user.lastSeen != null
             ? Text(
                 '${TimeFormatHelper.timeAgo(user.lastSeen)}',
@@ -39,6 +38,7 @@ class UsersDetails extends StatelessWidget {
                   fontSize: 15,
                 ),
               ),
+        _playsAndDuration(),
       ],
     );
   }
