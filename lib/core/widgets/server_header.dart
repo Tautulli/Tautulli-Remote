@@ -19,8 +19,8 @@ class ServerHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(
         left: 8,
-        top: 8,
-        bottom: 8,
+        top: 8.2,
+        bottom: 12.5,
       ),
       child: Row(
         children: <Widget>[
