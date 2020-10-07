@@ -48,7 +48,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
             // If sessionId no longer exists for a given server close the modal
             try {
               List activityList =
-                  state.activityMap[widget.tautulliId]['activity'];
+                  state.activityMap[widget.tautulliId]['activityList'];
               ActivityItem item = activityList.firstWhere(
                   (element) => element.sessionId == activity.sessionId);
               activity = item;
