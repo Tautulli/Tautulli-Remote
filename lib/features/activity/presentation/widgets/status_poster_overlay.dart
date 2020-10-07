@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tautulli_remote_tdd/core/helpers/icon_mapper_helper.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 
@@ -32,7 +33,7 @@ class StatusPosterOverlay extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FaIcon(
-                _mapStateToIcon(state),
+                IconMapperHelper.mapStateToIcon(state),
                 color: TautulliColorPalette.not_white,
                 size: 50,
               ),
@@ -41,18 +42,5 @@ class StatusPosterOverlay extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-IconData _mapStateToIcon(String state) {
-  switch (state) {
-    case 'paused':
-      return FontAwesomeIcons.pauseCircle;
-    case 'buffering':
-      return FontAwesomeIcons.spinner;
-    case 'playing':
-      return FontAwesomeIcons.playCircle;
-    default:
-      return FontAwesomeIcons.exclamationCircle;
   }
 }

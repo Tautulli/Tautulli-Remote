@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/helpers/icon_mapper_helper.dart';
 import '../../../../core/helpers/string_format_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../core/widgets/media_type_icon.dart';
@@ -62,7 +61,8 @@ class HistoryDetails extends StatelessWidget {
                   iconColor: Colors.grey,
                 ),
                 const SizedBox(width: 5),
-                _progressIcon(historyItem.watchedStatus),
+                IconMapperHelper.mapWatchedStatusToIcon(
+                    historyItem.watchedStatus),
               ],
             ),
           ],
@@ -76,7 +76,7 @@ String _rowTwo(History item) {
   switch (item.mediaType) {
     case ('movie'):
     case ('photo'):
-      return item.year.toString();
+      return item.year == null ? '' : item.year.toString();
     case ('episode'):
       return 'S${item.parentMediaIndex} • E${item.mediaIndex}';
     case ('track'):
@@ -100,7 +100,14 @@ Widget _state(History item) {
   }
   return Row(
     children: [
-      _stateIcon(item.state),
+      SizedBox(
+        width: 12,
+        child: FaIcon(
+          IconMapperHelper.mapStateToIcon(item.state),
+          color: Colors.grey,
+          size: 14,
+        ),
+      ),
       Padding(
         padding: const EdgeInsets.only(left: 5),
         child: Text(
@@ -113,55 +120,4 @@ Widget _state(History item) {
       )
     ],
   );
-}
-
-Widget _stateIcon(String state) {
-  IconData icon;
-
-  if (state == 'playing') {
-    icon = FontAwesomeIcons.play;
-  } else if (state == 'paused') {
-    icon = FontAwesomeIcons.pause;
-  } else if (state == 'buffering') {
-    icon = FontAwesomeIcons.spinner;
-  } else {
-    icon = FontAwesomeIcons.questionCircle;
-  }
-
-  return SizedBox(
-    width: 12,
-    child: FaIcon(
-      icon,
-      color: Colors.grey,
-      size: 14,
-    ),
-  );
-}
-
-Widget _progressIcon(num watchedStatus) {
-  const double size = 16;
-  const Color color = Colors.grey;
-
-  if (watchedStatus == 1) {
-    return FaIcon(
-      FontAwesomeIcons.solidCircle,
-      color: color,
-      size: size,
-    );
-  } else if (watchedStatus == 0.5) {
-    return Transform.rotate(
-      angle: 180 * pi / 180,
-      child: FaIcon(
-        FontAwesomeIcons.adjust,
-        color: color,
-        size: size,
-      ),
-    );
-  } else {
-    return FaIcon(
-      FontAwesomeIcons.circle,
-      color: color,
-      size: size,
-    );
-  }
 }
