@@ -13,12 +13,10 @@ import '../datasources/geo_ip_data_source.dart';
 class GeoIpRepositoryImpl implements GeoIpRepository {
   final GeoIpDataSource dataSource;
   final NetworkInfo networkInfo;
-  final FailureMapperHelper failureMapperHelper;
 
   GeoIpRepositoryImpl({
     @required this.dataSource,
     @required this.networkInfo,
-    @required this.failureMapperHelper,
   });
 
   @override
@@ -35,7 +33,7 @@ class GeoIpRepositoryImpl implements GeoIpRepository {
         return Right(geoIpItem);
       } catch (exception) {
         final Failure failure =
-            failureMapperHelper.mapExceptionToFailure(exception);
+            FailureMapperHelper.mapExceptionToFailure(exception);
         return (Left(failure));
       }
     } else {

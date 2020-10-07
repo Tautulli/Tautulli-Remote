@@ -509,9 +509,9 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
             statList.add(
               IconCard(
                 assetPath:
-                    AssetMapperHelper().mapPlatformToPath(s.platformName),
+                    AssetMapperHelper.mapPlatformToPath(s.platformName),
                 backgroundColor:
-                    TautulliColorPalette().mapPlatformToColor(s.platformName),
+                    TautulliColorPalette.mapPlatformToColor(s.platformName),
                 details: StatisticsDetails(statistic: s),
               ),
             );

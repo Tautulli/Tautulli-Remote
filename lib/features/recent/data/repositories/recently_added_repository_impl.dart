@@ -13,12 +13,10 @@ import '../datasources/recently_added_data_source.dart';
 class RecentlyAddedRepositoryImpl implements RecentlyAddedRepository {
   final RecentlyAddedDataSource dataSource;
   final NetworkInfo networkInfo;
-  final FailureMapperHelper failureMapperHelper;
 
   RecentlyAddedRepositoryImpl({
     @required this.dataSource,
     @required this.networkInfo,
-    @required this.failureMapperHelper,
   });
 
   @override
@@ -41,7 +39,7 @@ class RecentlyAddedRepositoryImpl implements RecentlyAddedRepository {
         return Right(recentlyAddedList);
       } catch (exception) {
         final Failure failure =
-            failureMapperHelper.mapExceptionToFailure(exception);
+            FailureMapperHelper.mapExceptionToFailure(exception);
         return (Left(failure));
       }
     } else {

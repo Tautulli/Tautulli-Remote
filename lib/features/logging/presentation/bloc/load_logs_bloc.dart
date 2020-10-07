@@ -5,18 +5,15 @@ import 'package:equatable/equatable.dart';
 import 'package:f_logs/f_logs.dart';
 import 'package:meta/meta.dart';
 
-import '../../../../core/helpers/log_format_helper.dart';
 import '../../domain/usecases/logging.dart';
 
 part 'load_logs_event.dart';
 part 'load_logs_state.dart';
 
 class LogsBloc extends Bloc<LogsEvent, LogsState> {
-  final LogFormatHelper logFormatHelper;
   final Logging logging;
 
   LogsBloc({
-    @required this.logFormatHelper,
     @required this.logging,
   }) : super(LogsInitial());
 
@@ -38,37 +35,25 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
   Stream<LogsState> _mapLogsLoadToState() async* {
     List<Log> logs = await _fetchLogs();
 
-    yield LogsSuccess(
-      logFormatHelper: logFormatHelper,
-      logs: logs,
-    );
+    yield LogsSuccess(logs: logs);
   }
 
   Stream<LogsState> _mapLogsClearToState() async* {
     logging.clearLogs();
-    yield LogsSuccess(
-      logFormatHelper: logFormatHelper,
-      logs: [],
-    );
+    yield LogsSuccess(logs: []);
   }
 
   Stream<LogsState> _mapLogsExportToState() async* {
     List<Log> logs = await _fetchLogs();
 
-    yield LogsExportInProgress(
-      logFormatHelper: logFormatHelper,
-      logs: logs,
-    );
+    yield LogsExportInProgress(logs: logs);
 
     logging.exportLogs();
 
     //? Use a completer or similar to force this to wait for the above logging?
     logs = await _fetchLogs();
 
-    yield LogsSuccess(
-      logFormatHelper: logFormatHelper,
-      logs: logs,
-    );
+    yield LogsSuccess(logs: logs);
   }
 
   Future<List<Log>> _fetchLogs() async {

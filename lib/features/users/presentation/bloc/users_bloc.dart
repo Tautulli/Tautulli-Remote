@@ -131,8 +131,8 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         (failure) async* {
           yield UsersFailure(
             failure: failure,
-            message: FailureMapperHelper().mapFailureToMessage(failure),
-            suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
+            message: FailureMapperHelper.mapFailureToMessage(failure),
+            suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
           );
         },
         (list) async* {
@@ -172,8 +172,8 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       (failure) async* {
         yield UsersFailure(
           failure: failure,
-          message: FailureMapperHelper().mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
+          message: FailureMapperHelper.mapFailureToMessage(failure),
+          suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
         );
       },
       (list) async* {

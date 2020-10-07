@@ -6,9 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/api/tautulli_api.dart';
 import 'core/device_info/device_info.dart';
-import 'core/helpers/connection_address_helper.dart';
-import 'core/helpers/failure_mapper_helper.dart';
-import 'core/helpers/log_format_helper.dart';
 import 'core/network/network_info.dart';
 import 'features/activity/data/datasources/activity_data_source.dart';
 import 'features/activity/data/datasources/geo_ip_data_source.dart';
@@ -93,7 +90,6 @@ Future<void> init() async {
     () => RegisterDeviceBloc(
       registerDevice: sl(),
       settings: sl(),
-      connectionAddressHelper: sl(),
       logging: sl(),
     ),
   );
@@ -111,7 +107,6 @@ Future<void> init() async {
   sl.registerLazySingleton<SettingsRepository>(
     () => SettingsRepositoryImpl(
       dataSource: sl(),
-      connectionAddressHelper: sl(),
     ),
   );
 
@@ -119,7 +114,6 @@ Future<void> init() async {
     () => RegisterDeviceRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
-      failureMapperHelper: sl(),
     ),
   );
 
@@ -175,7 +169,6 @@ Future<void> init() async {
   sl.registerFactory(
     () => LogsBloc(
       logging: sl(),
-      logFormatHelper: sl(),
     ),
   );
 
@@ -218,7 +211,6 @@ Future<void> init() async {
     () => TerminateSessionRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
-      failureMapperHelper: sl(),
     ),
   );
 
@@ -242,7 +234,6 @@ Future<void> init() async {
     () => ImageUrlRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
-      failureMapperHelper: sl(),
     ),
   );
 
@@ -289,7 +280,6 @@ Future<void> init() async {
     () => ActivityRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
-      failureMapperHelper: sl(),
     ),
   );
 
@@ -297,7 +287,6 @@ Future<void> init() async {
     () => GeoIpRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
-      failureMapperHelper: sl(),
     ),
   );
 
@@ -339,7 +328,6 @@ Future<void> init() async {
     () => RecentlyAddedRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
-      failureMapperHelper: sl(),
     ),
   );
 
@@ -377,7 +365,6 @@ Future<void> init() async {
     () => UsersTableRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
-      failureMapperHelper: sl(),
     ),
   );
 
@@ -417,7 +404,6 @@ Future<void> init() async {
     () => HistoryRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
-      failureMapperHelper: sl(),
     ),
   );
 
@@ -450,7 +436,6 @@ Future<void> init() async {
     () => LibrariesRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
-      failureMapperHelper: sl(),
     ),
   );
 
@@ -482,7 +467,6 @@ Future<void> init() async {
     () => StatisticsRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
-      failureMapperHelper: sl(),
     ),
   );
 
@@ -506,18 +490,6 @@ Future<void> init() async {
       settings: sl(),
       logging: sl(),
     ),
-  );
-
-  sl.registerLazySingleton<LogFormatHelper>(
-    () => LogFormatHelperImpl(),
-  );
-
-  sl.registerLazySingleton(
-    () => FailureMapperHelper(),
-  );
-
-  sl.registerLazySingleton<ConnectionAddressHelper>(
-    () => ConnectionAddressHelperImpl(),
   );
 
   sl.registerLazySingleton<DeviceInfo>(

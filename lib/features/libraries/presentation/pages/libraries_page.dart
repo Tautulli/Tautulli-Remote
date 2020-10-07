@@ -178,8 +178,8 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           itemBuilder: (context, index) {
                             Library library = state.librariesList[index];
                             return IconCard(
-                              assetPath: AssetMapperHelper()
-                                  .mapLibraryToPath(library.sectionType),
+                              assetPath: AssetMapperHelper.mapLibraryToPath(
+                                  library.sectionType),
                               backgroundImage: library.sectionType != 'live'
                                   ? Image.network(
                                       state.imageMap[library.sectionId],

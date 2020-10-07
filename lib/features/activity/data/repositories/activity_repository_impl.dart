@@ -13,12 +13,10 @@ import '../datasources/activity_data_source.dart';
 class ActivityRepositoryImpl implements ActivityRepository {
   final ActivityDataSource dataSource;
   final NetworkInfo networkInfo;
-  final FailureMapperHelper failureMapperHelper;
 
   ActivityRepositoryImpl({
     @required this.dataSource,
     @required this.networkInfo,
-    @required this.failureMapperHelper,
   });
 
   @override
@@ -32,7 +30,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
         return Right(activity);
       } catch (exception) {
         final Failure failure =
-            failureMapperHelper.mapExceptionToFailure(exception);
+            FailureMapperHelper.mapExceptionToFailure(exception);
         return (Left(failure));
       }
     } else {

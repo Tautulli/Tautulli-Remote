@@ -12,12 +12,10 @@ import '../datasources/users_data_source.dart';
 class UsersTableRepositoryImpl implements UsersRepository {
   final UsersDataSource dataSource;
   final NetworkInfo networkInfo;
-  final FailureMapperHelper failureMapperHelper;
 
   UsersTableRepositoryImpl({
     @required this.dataSource,
     @required this.networkInfo,
-    @required this.failureMapperHelper,
   });
 
   @override
@@ -32,7 +30,7 @@ class UsersTableRepositoryImpl implements UsersRepository {
         return Right(usersList);
       } catch (exception) {
         final Failure failure =
-            failureMapperHelper.mapExceptionToFailure(exception);
+            FailureMapperHelper.mapExceptionToFailure(exception);
         return (Left(failure));
       }
     } else {
@@ -64,7 +62,7 @@ class UsersTableRepositoryImpl implements UsersRepository {
         return Right(usersTableList);
       } catch (exception) {
         final Failure failure =
-            failureMapperHelper.mapExceptionToFailure(exception);
+            FailureMapperHelper.mapExceptionToFailure(exception);
         return (Left(failure));
       }
     } else {

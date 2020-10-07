@@ -2,12 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tautulli_remote_tdd/core/helpers/connection_address_helper.dart';
 
 void main() {
-  ConnectionAddressHelperImpl connectionAddressHelper;
-
-  setUp(() {
-    connectionAddressHelper = ConnectionAddressHelperImpl();
-  });
-
   test(
     'should return a Map with keys [protocol, domain, path]',
     () async {
@@ -15,7 +9,7 @@ void main() {
       final connectionAddress =
           'https://user:password@www.domain.com:80/example';
       // act
-      final result = connectionAddressHelper.parse(connectionAddress);
+      final result = ConnectionAddressHelper.parse(connectionAddress);
       // assert
       expect(result.containsKey('protocol'), true);
       expect(result.containsKey('domain'), true);
@@ -30,7 +24,7 @@ void main() {
       final connectionAddress =
           'https://user:password@www.domain.com:80/example';
       // act
-      final result = connectionAddressHelper.parse(connectionAddress);
+      final result = ConnectionAddressHelper.parse(connectionAddress);
       // assert
       expect(result['protocol'], equals('https'));
     },
@@ -43,7 +37,7 @@ void main() {
       final connectionAddress =
           'https://user:password@www.domain.com:80/example';
       // act
-      final result = connectionAddressHelper.parse(connectionAddress);
+      final result = ConnectionAddressHelper.parse(connectionAddress);
       // assert
       expect(result['domain'], equals('user:password@www.domain.com:80'));
     },
@@ -56,7 +50,7 @@ void main() {
       final connectionAddress =
           'https://user:password@www.domain.com:80/example';
       // act
-      final result = connectionAddressHelper.parse(connectionAddress);
+      final result = ConnectionAddressHelper.parse(connectionAddress);
       // assert
       expect(result['path'], equals('/example'));
     },

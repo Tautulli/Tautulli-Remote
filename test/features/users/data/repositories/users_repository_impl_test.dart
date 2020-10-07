@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote_tdd/core/network/network_info.dart';
 import 'package:tautulli_remote_tdd/features/users/data/datasources/users_data_source.dart';
 import 'package:tautulli_remote_tdd/features/users/data/models/user_model.dart';
@@ -19,22 +18,17 @@ class MockUsersDataSource extends Mock implements UsersDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
-class MockFailureMapperHelper extends Mock implements FailureMapperHelper {}
-
 void main() {
   UsersTableRepositoryImpl repository;
   MockUsersDataSource mockUsersDataSource;
   MockNetworkInfo mockNetworkInfo;
-  MockFailureMapperHelper mockFailureMapperHelper;
 
   setUp(() {
     mockUsersDataSource = MockUsersDataSource();
     mockNetworkInfo = MockNetworkInfo();
-    mockFailureMapperHelper = MockFailureMapperHelper();
     repository = UsersTableRepositoryImpl(
       dataSource: mockUsersDataSource,
       networkInfo: mockNetworkInfo,
-      failureMapperHelper: mockFailureMapperHelper,
     );
   });
 

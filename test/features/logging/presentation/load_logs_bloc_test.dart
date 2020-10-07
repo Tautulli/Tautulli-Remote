@@ -2,23 +2,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote_tdd/features/logging/presentation/bloc/load_logs_bloc.dart';
-import 'package:tautulli_remote_tdd/core/helpers/log_format_helper.dart';
 
 class MockLogging extends Mock implements Logging {}
-
-class MockLogFormatHelper extends Mock implements LogFormatHelper {}
 
 void main() {
   LogsBloc bloc;
   MockLogging mockLogging;
-  MockLogFormatHelper mockLogFormatHelper;
 
   setUp(() {
     mockLogging = MockLogging();
-    mockLogFormatHelper = MockLogFormatHelper();
     bloc = LogsBloc(
       logging: mockLogging,
-      logFormatHelper: mockLogFormatHelper,
     );
   });
 

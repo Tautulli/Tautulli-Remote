@@ -7,25 +7,8 @@ import 'color_palette_helper.dart';
 import 'string_format_helper.dart';
 
 /// Various helper functions to return [RichText] data for activity data.
-abstract class ActivityMediaDetailsCleaner {
-  List<List> product(ActivityItem activity);
-  List<List> player(ActivityItem activity);
-  List<List> quality(ActivityItem activity);
-  List<List> optimized(ActivityItem activity);
-  List<List> synced(ActivityItem activity);
-  List<List> stream(ActivityItem activity);
-  List<List> container(ActivityItem activity);
-  List<List> video(ActivityItem activity);
-  List<List> audio(ActivityItem activity);
-  List<List> subtitles(ActivityItem activity);
-  List<List> location(ActivityItem activity);
-  List<List> locationDetails({@required String type});
-  List<List> bandwidth(ActivityItem activity);
-}
-
-class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
-  @override
-  List<List> audio(ActivityItem activity) {
+class ActivityMediaDetailsCleaner {
+  static List<List> audio(ActivityItem activity) {
     final String title = 'AUDIO';
     List<List> list = [];
 
@@ -73,8 +56,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     return list;
   }
 
-  @override
-  List<List> bandwidth(ActivityItem activity) {
+  static List<List> bandwidth(ActivityItem activity) {
     String finalText;
 
     if (activity.mediaType != 'photo' &&
@@ -107,8 +89,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     ];
   }
 
-  @override
-  List<List> container(ActivityItem activity) {
+  static List<List> container(ActivityItem activity) {
     String title = 'CONTAINER';
     List<List> list = [];
 
@@ -137,8 +118,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     return list;
   }
 
-  @override
-  List<List> location(ActivityItem activity) {
+  static List<List> location(ActivityItem activity) {
     String text;
     IconData icon;
 
@@ -184,8 +164,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     ];
   }
 
-  @override
-  List<List> locationDetails({
+  static List<List> locationDetails({
     @required String type,
     String city,
     String region,
@@ -237,8 +216,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     ];
   }
 
-  @override
-  List<List> optimized(ActivityItem activity) {
+  static List<List> optimized(ActivityItem activity) {
     final formattedOptimized = RichText(
       text: TextSpan(
         text:
@@ -254,8 +232,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     ];
   }
 
-  @override
-  List<List> player(ActivityItem activity) {
+  static List<List> player(ActivityItem activity) {
     final formattedPlayer = RichText(
       text: TextSpan(
         text: activity.player,
@@ -270,8 +247,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     ];
   }
 
-  @override
-  List<List> product(ActivityItem activity) {
+  static List<List> product(ActivityItem activity) {
     final formattedProduct = RichText(
       text: TextSpan(
         text: activity.product,
@@ -285,8 +261,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     ];
   }
 
-  @override
-  List<List> quality(ActivityItem activity) {
+  static List<List> quality(ActivityItem activity) {
     String formattedBitrate;
     String finalText;
 
@@ -319,8 +294,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     ];
   }
 
-  @override
-  List<List> stream(ActivityItem activity) {
+  static List<List> stream(ActivityItem activity) {
     String finalText;
 
     if (activity.transcodeDecision == 'transcode') {
@@ -348,8 +322,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     ];
   }
 
-  @override
-  List<List> subtitles(ActivityItem activity) {
+  static List<List> subtitles(ActivityItem activity) {
     final String title = 'SUBTITLE';
     List<List> list = [];
 
@@ -419,8 +392,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     return list;
   }
 
-  @override
-  List<List> synced(ActivityItem activity) {
+  static List<List> synced(ActivityItem activity) {
     final formattedSynced = RichText(
       text: TextSpan(
         text: activity.syncedVersionProfile,
@@ -435,8 +407,7 @@ class ActivityMediaDetailsCleanerImpl implements ActivityMediaDetailsCleaner {
     ];
   }
 
-  @override
-  List<List> video(ActivityItem activity) {
+  static List<List> video(ActivityItem activity) {
     final String title = 'VIDEO';
     List<List> list = [];
 

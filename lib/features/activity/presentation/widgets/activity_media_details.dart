@@ -36,13 +36,10 @@ class _ActivityMediaDetailsState extends State<ActivityMediaDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final cleanDetails = ActivityMediaDetailsCleanerImpl();
-
     return Column(
       children: _buildList(
         constraints: widget.constraints,
         activity: widget.activity,
-        cleanDetails: cleanDetails,
       ),
     );
   }
@@ -50,28 +47,27 @@ class _ActivityMediaDetailsState extends State<ActivityMediaDetails> {
 
 List<Widget> _buildList({
   @required BoxConstraints constraints,
-  @required ActivityMediaDetailsCleanerImpl cleanDetails,
   @required ActivityItem activity,
 }) {
   List<Widget> rows = [];
 
   _buildRows(
     constraints: constraints,
-    rowLists: cleanDetails.product(activity),
+    rowLists: ActivityMediaDetailsCleaner.product(activity),
   ).forEach((row) {
     rows.add(row);
   });
 
   _buildRows(
     constraints: constraints,
-    rowLists: cleanDetails.player(activity),
+    rowLists: ActivityMediaDetailsCleaner.player(activity),
   ).forEach((row) {
     rows.add(row);
   });
 
   _buildRows(
     constraints: constraints,
-    rowLists: cleanDetails.quality(activity),
+    rowLists: ActivityMediaDetailsCleaner.quality(activity),
   ).forEach((row) {
     rows.add(row);
   });
@@ -79,7 +75,7 @@ List<Widget> _buildList({
   if (activity.optimizedVersion == 1) {
     _buildRows(
       constraints: constraints,
-      rowLists: cleanDetails.optimized(activity),
+      rowLists: ActivityMediaDetailsCleaner.optimized(activity),
     ).forEach((row) {
       rows.add(row);
     });
@@ -88,7 +84,7 @@ List<Widget> _buildList({
   if (activity.syncedVersion == 1) {
     _buildRows(
       constraints: constraints,
-      rowLists: cleanDetails.synced(activity),
+      rowLists: ActivityMediaDetailsCleaner.synced(activity),
     ).forEach((row) {
       rows.add(row);
     });
@@ -102,14 +98,14 @@ List<Widget> _buildList({
 
   _buildRows(
     constraints: constraints,
-    rowLists: cleanDetails.stream(activity),
+    rowLists: ActivityMediaDetailsCleaner.stream(activity),
   ).forEach((row) {
     rows.add(row);
   });
 
   _buildRows(
     constraints: constraints,
-    rowLists: cleanDetails.container(activity),
+    rowLists: ActivityMediaDetailsCleaner.container(activity),
   ).forEach((row) {
     rows.add(row);
   });
@@ -117,7 +113,7 @@ List<Widget> _buildList({
   if (activity.mediaType != 'track') {
     _buildRows(
       constraints: constraints,
-      rowLists: cleanDetails.video(activity),
+      rowLists: ActivityMediaDetailsCleaner.video(activity),
     ).forEach((row) {
       rows.add(row);
     });
@@ -126,7 +122,7 @@ List<Widget> _buildList({
   if (activity.mediaType != 'photo') {
     _buildRows(
       constraints: constraints,
-      rowLists: cleanDetails.audio(activity),
+      rowLists: ActivityMediaDetailsCleaner.audio(activity),
     ).forEach((row) {
       rows.add(row);
     });
@@ -135,7 +131,7 @@ List<Widget> _buildList({
   if (activity.mediaType != 'track' && activity.mediaType != 'photo') {
     _buildRows(
       constraints: constraints,
-      rowLists: cleanDetails.subtitles(activity),
+      rowLists: ActivityMediaDetailsCleaner.subtitles(activity),
     ).forEach((row) {
       rows.add(row);
     });
@@ -149,7 +145,7 @@ List<Widget> _buildList({
 
   _buildRows(
     constraints: constraints,
-    rowLists: cleanDetails.location(activity),
+    rowLists: ActivityMediaDetailsCleaner.location(activity),
   ).forEach((row) {
     rows.add(row);
   });
@@ -157,7 +153,7 @@ List<Widget> _buildList({
   if (activity.relayed == 1) {
     _buildRows(
       constraints: constraints,
-      rowLists: cleanDetails.locationDetails(type: 'relay'),
+      rowLists: ActivityMediaDetailsCleaner.locationDetails(type: 'relay'),
     ).forEach((row) {
       rows.add(row);
     });
@@ -173,7 +169,8 @@ List<Widget> _buildList({
             if (activity.relayed == 0 &&
                 geoIpItem != null &&
                 geoIpItem.code != 'ZZ') {
-              final List locationDetails = cleanDetails.locationDetails(
+              final List locationDetails =
+                  ActivityMediaDetailsCleaner.locationDetails(
                 type: 'ip',
                 city: geoIpItem.city,
                 region: geoIpItem.region,
@@ -221,7 +218,7 @@ List<Widget> _buildList({
 
   _buildRows(
     constraints: constraints,
-    rowLists: cleanDetails.bandwidth(activity),
+    rowLists: ActivityMediaDetailsCleaner.bandwidth(activity),
   ).forEach((row) {
     rows.add(row);
   });

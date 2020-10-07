@@ -87,8 +87,8 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
       (failure) async* {
         yield LibrariesFailure(
           failure: failure,
-          message: FailureMapperHelper().mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
+          message: FailureMapperHelper.mapFailureToMessage(failure),
+          suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
         );
       },
       (librariesList) async* {

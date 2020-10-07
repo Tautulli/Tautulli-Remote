@@ -5,7 +5,6 @@ import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tautulli_remote_tdd/core/error/exception.dart';
 import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote_tdd/core/network/network_info.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/datasources/activity_data_source.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/models/activity_model.dart';
@@ -19,22 +18,17 @@ class MockActivityDataSource extends Mock implements ActivityDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
-class MockFailureMapperHelper extends Mock implements FailureMapperHelper {}
-
 void main() {
   ActivityRepositoryImpl repository;
   MockActivityDataSource dataSource;
   MockNetworkInfo mockNetworkInfo;
-  MockFailureMapperHelper mockFailureMapperHelper;
 
   setUp(() {
     dataSource = MockActivityDataSource();
     mockNetworkInfo = MockNetworkInfo();
-    mockFailureMapperHelper = MockFailureMapperHelper();
     repository = ActivityRepositoryImpl(
       dataSource: dataSource,
       networkInfo: mockNetworkInfo,
-      failureMapperHelper: mockFailureMapperHelper,
     );
   });
 
@@ -112,8 +106,6 @@ void main() {
           final exception = SettingsException();
           when(dataSource.getActivity(tautulliId: tTautulliId))
               .thenThrow(exception);
-          when(mockFailureMapperHelper.mapExceptionToFailure(exception))
-              .thenReturn(SettingsFailure());
           // act
           final result = await repository.getActivity(tautulliId: tTautulliId);
           // assert

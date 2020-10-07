@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote_tdd/core/network/network_info.dart';
 import 'package:tautulli_remote_tdd/features/libraries/data/datasources/libraries_data_source.dart';
 import 'package:tautulli_remote_tdd/features/libraries/data/models/library_model.dart';
@@ -17,22 +16,17 @@ class MockLibrariesDataSource extends Mock implements LibrariesDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
-class MockFailureMapperHelper extends Mock implements FailureMapperHelper {}
-
 void main() {
   LibrariesRepositoryImpl repository;
   MockLibrariesDataSource mockLibrariesDataSource;
   MockNetworkInfo mockNetworkInfo;
-  MockFailureMapperHelper mockFailureMapperHelper;
 
   setUp(() {
     mockLibrariesDataSource = MockLibrariesDataSource();
     mockNetworkInfo = MockNetworkInfo();
-    mockFailureMapperHelper = MockFailureMapperHelper();
     repository = LibrariesRepositoryImpl(
       dataSource: mockLibrariesDataSource,
       networkInfo: mockNetworkInfo,
-      failureMapperHelper: mockFailureMapperHelper,
     );
   });
 

@@ -12,12 +12,10 @@ import '../datasources/image_url_data_source.dart';
 class ImageUrlRepositoryImpl implements ImageUrlRepository {
   final ImageUrlDataSource dataSource;
   final NetworkInfo networkInfo;
-  final FailureMapperHelper failureMapperHelper;
 
   ImageUrlRepositoryImpl({
     @required this.dataSource,
     @required this.networkInfo,
-    @required this.failureMapperHelper,
   });
 
   @override
@@ -48,7 +46,7 @@ class ImageUrlRepositoryImpl implements ImageUrlRepository {
         return Right(url);
       } catch (exception) {
         final Failure failure =
-            failureMapperHelper.mapExceptionToFailure(exception);
+            FailureMapperHelper.mapExceptionToFailure(exception);
         return (Left(failure));
       }
     } else {

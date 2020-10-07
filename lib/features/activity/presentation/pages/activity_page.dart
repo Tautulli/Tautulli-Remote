@@ -112,9 +112,9 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                         children: <Widget>[
                           ErrorMessage(
                             failure: failure,
-                            message: FailureMapperHelper()
+                            message: FailureMapperHelper
                                 .mapFailureToMessage(failure),
-                            suggestion: FailureMapperHelper()
+                            suggestion: FailureMapperHelper
                                 .mapFailureToSuggestion(failure),
                           ),
                           ActivityErrorButton(
@@ -323,7 +323,7 @@ class _StatusCard extends StatelessWidget {
                   bottom: 4,
                 ),
                 child: Text(
-                  FailureMapperHelper().mapFailureToMessage(failure),
+                  FailureMapperHelper.mapFailureToMessage(failure),
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 16,
@@ -337,7 +337,7 @@ class _StatusCard extends StatelessWidget {
                   bottom: 4,
                 ),
                 child: Text(
-                  FailureMapperHelper().mapFailureToSuggestion(failure),
+                  FailureMapperHelper.mapFailureToSuggestion(failure),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.grey,

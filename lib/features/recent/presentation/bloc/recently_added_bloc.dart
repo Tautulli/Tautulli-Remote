@@ -115,8 +115,8 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         (failure) async* {
           yield RecentlyAddedFailure(
             failure: failure,
-            message: FailureMapperHelper().mapFailureToMessage(failure),
-            suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
+            message: FailureMapperHelper.mapFailureToMessage(failure),
+            suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
           );
         },
         (list) async* {
@@ -157,8 +157,8 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         (failure) async* {
           yield RecentlyAddedFailure(
             failure: failure,
-            message: FailureMapperHelper().mapFailureToMessage(failure),
-            suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
+            message: FailureMapperHelper.mapFailureToMessage(failure),
+            suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
           );
         },
         (list) async* {
@@ -192,8 +192,8 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
       (failure) async* {
         yield RecentlyAddedFailure(
           failure: failure,
-          message: FailureMapperHelper().mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
+          message: FailureMapperHelper.mapFailureToMessage(failure),
+          suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
         );
       },
       (list) async* {

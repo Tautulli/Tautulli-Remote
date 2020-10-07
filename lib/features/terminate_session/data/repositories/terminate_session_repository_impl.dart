@@ -12,12 +12,10 @@ import '../datasources/terminate_session_data_source.dart';
 class TerminateSessionRepositoryImpl implements TerminateSessionRepository {
   final TerminateSessionDataSource dataSource;
   final NetworkInfo networkInfo;
-  final FailureMapperHelper failureMapperHelper;
 
   TerminateSessionRepositoryImpl({
     @required this.dataSource,
     @required this.networkInfo,
-    @required this.failureMapperHelper,
   });
 
   @override
@@ -41,7 +39,7 @@ class TerminateSessionRepositoryImpl implements TerminateSessionRepository {
         }
       } catch (exception) {
         final Failure failure =
-            failureMapperHelper.mapExceptionToFailure(exception);
+            FailureMapperHelper.mapExceptionToFailure(exception);
         return (Left(failure));
       }
     } else {

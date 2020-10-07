@@ -1,15 +1,10 @@
 /// Helper functions for manipulating a connection address.
-abstract class ConnectionAddressHelper {
+class ConnectionAddressHelper {
   /// Parses a connection address into seperate components.
   ///
   /// Extracts a [protocol] and [domain] to construct a URL.
   /// Extracts a [user] and [password] for basic auth.
-  Map<String, dynamic> parse(String connectionAddress);
-}
-
-class ConnectionAddressHelperImpl implements ConnectionAddressHelper {
-  @override
-  Map<String, dynamic> parse(String connectionAddress) {
+  static Map<String, dynamic> parse(String connectionAddress) {
     if (connectionAddress == null) {
       final Map<String, String> connectionAddressMap = {
         'protocol': null,

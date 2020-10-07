@@ -11,12 +11,10 @@ import '../datasources/statistics_data_source.dart';
 class StatisticsRepositoryImpl implements StatisticsRepository {
   final StatisticsDataSource dataSource;
   final NetworkInfo networkInfo;
-  final FailureMapperHelper failureMapperHelper;
 
   StatisticsRepositoryImpl({
     @required this.dataSource,
     @required this.networkInfo,
-    @required this.failureMapperHelper,
   });
 
   @override
@@ -39,7 +37,7 @@ class StatisticsRepositoryImpl implements StatisticsRepository {
         return Right(statisticsMap);
       } catch (exception) {
         final Failure failure =
-            failureMapperHelper.mapExceptionToFailure(exception);
+            FailureMapperHelper.mapExceptionToFailure(exception);
         return (Left(failure));
       }
     } else {

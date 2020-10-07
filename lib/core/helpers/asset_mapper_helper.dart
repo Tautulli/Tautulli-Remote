@@ -4,7 +4,7 @@ class AssetMapperHelper {
   static const String _librariesAssetPath = 'assets/libraries/';
 
   /// Returns an asset path for a given platform.
-  String mapPlatformToPath(String platform) {
+  static String mapPlatformToPath(String platform) {
     switch (platform) {
       case 'android':
         return '${_platformsAssetPath}android.svg';
@@ -62,7 +62,7 @@ class AssetMapperHelper {
     }
   }
 
-  String mapLibraryToPath(String libraryType) {
+  static String mapLibraryToPath(String libraryType) {
     switch (libraryType) {
       case ('movie'):
         return '${_librariesAssetPath}movie.svg';

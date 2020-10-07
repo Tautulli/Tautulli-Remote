@@ -12,12 +12,10 @@ import '../datasources/register_device_data_source.dart';
 class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
   final RegisterDeviceDataSource dataSource;
   final NetworkInfo networkInfo;
-  final FailureMapperHelper failureMapperHelper;
 
   RegisterDeviceRepositoryImpl({
     @required this.dataSource,
     @required this.networkInfo,
-    @required this.failureMapperHelper,
   });
 
   @override
@@ -40,7 +38,7 @@ class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
         return Right(result);
       } catch (exception) {
         final Failure failure =
-            failureMapperHelper.mapExceptionToFailure(exception);
+            FailureMapperHelper.mapExceptionToFailure(exception);
         return (Left(failure));
       }
     } else {

@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote_tdd/core/network/network_info.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/datasources/geo_ip_data_source.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/models/geo_ip_model.dart';
@@ -12,13 +11,10 @@ class MockGeoIpDataSouce extends Mock implements GeoIpDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
-class MockFailureMapperHelper extends Mock implements FailureMapperHelper {}
-
 void main() {
   GeoIpRepositoryImpl repository;
   MockGeoIpDataSouce dataSource;
   MockNetworkInfo mockNetworkInfo;
-  MockFailureMapperHelper mockFailureMapperHelper;
 
   setUp(() {
     dataSource = MockGeoIpDataSouce();
@@ -26,7 +22,6 @@ void main() {
     repository = GeoIpRepositoryImpl(
       dataSource: dataSource,
       networkInfo: mockNetworkInfo,
-      failureMapperHelper: mockFailureMapperHelper,
     );
   });
 

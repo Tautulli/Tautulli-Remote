@@ -95,8 +95,8 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
         (failure) async* {
           yield StatisticsFailure(
             failure: failure,
-            message: FailureMapperHelper().mapFailureToMessage(failure),
-            suggestion: FailureMapperHelper().mapFailureToSuggestion(failure),
+            message: FailureMapperHelper.mapFailureToMessage(failure),
+            suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
           );
         },
         (map) async* {

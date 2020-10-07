@@ -9,11 +9,9 @@ import '../datasources/settings_data_source.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
   final SettingsDataSource dataSource;
-  final ConnectionAddressHelper connectionAddressHelper;
 
   SettingsRepositoryImpl({
     @required this.dataSource,
-    @required this.connectionAddressHelper,
   });
 
   @override
@@ -25,7 +23,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required bool primaryActive,
   }) async {
     final connectionMap =
-        connectionAddressHelper.parse(primaryConnectionAddress);
+        ConnectionAddressHelper.parse(primaryConnectionAddress);
     ServerModel server = ServerModel(
       primaryConnectionAddress: primaryConnectionAddress,
       primaryConnectionProtocol: connectionMap['protocol'],
@@ -60,9 +58,9 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required bool primaryActive,
   }) async {
     final primaryConnectionMap =
-        connectionAddressHelper.parse(primaryConnectionAddress);
+        ConnectionAddressHelper.parse(primaryConnectionAddress);
     final secondaryConnectionMap =
-        connectionAddressHelper.parse(secondaryConnectionAddress);
+        ConnectionAddressHelper.parse(secondaryConnectionAddress);
     ServerModel server = ServerModel(
       id: id,
       primaryConnectionAddress: primaryConnectionAddress,
@@ -107,7 +105,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String primaryConnectionAddress,
   }) async {
     final connectionMap =
-        connectionAddressHelper.parse(primaryConnectionAddress);
+        ConnectionAddressHelper.parse(primaryConnectionAddress);
     final Map<String, dynamic> dbConnectionAddressMap = {
       'primary_connection_address': primaryConnectionAddress,
       'primary_connection_protocol': connectionMap['protocol'],
@@ -126,7 +124,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String secondaryConnectionAddress,
   }) async {
     final connectionMap =
-        connectionAddressHelper.parse(secondaryConnectionAddress);
+        ConnectionAddressHelper.parse(secondaryConnectionAddress);
     final Map<String, dynamic> dbConnectionAddressMap = {
       'secondary_connection_address': secondaryConnectionAddress,
       'secondary_connection_protocol': connectionMap['protocol'],

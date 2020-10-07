@@ -12,13 +12,11 @@ import 'log_table_row_with_header.dart';
 class LogTable extends StatelessWidget {
   final Completer refreshCompleter;
   final List<Log> logs;
-  final LogFormatHelper logFormatHelper;
 
   const LogTable({
     Key key,
     @required this.refreshCompleter,
     @required this.logs,
-    @required this.logFormatHelper,
   }) : super(key: key);
 
   @override
@@ -62,7 +60,7 @@ class LogTable extends StatelessWidget {
           itemBuilder: (context, index) {
             //? Do this to create a list of formatted log maps in the Bloc instead?
             Map<String, dynamic> logMap =
-                logFormatHelper.formatLog(logs[index]);
+                LogFormatHelper.formatLog(logs[index]);
 
             if (index == 0) {
               return Column(

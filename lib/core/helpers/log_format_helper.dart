@@ -1,15 +1,7 @@
 import 'package:f_logs/f_logs.dart';
 
-abstract class LogFormatHelper {
-  Map<String, dynamic> formatLog(Log log);
-
-  Map<String, String> createTimestampMap(int milliseconds);
-
-  String mapLogLevelToString(LogLevel logLevel);
-}
-
-class LogFormatHelperImpl implements LogFormatHelper {
-  Map<String, dynamic> formatLog(Log log) {
+class LogFormatHelper {
+  static Map<String, dynamic> formatLog(Log log) {
     Map<String, String> timestampMap = createTimestampMap(log.timeInMillis);
     String logLevel = mapLogLevelToString(log.logLevel);
 
@@ -22,7 +14,7 @@ class LogFormatHelperImpl implements LogFormatHelper {
     return logMap;
   }
 
-  Map<String, String> createTimestampMap(int milliseconds) {
+  static Map<String, String> createTimestampMap(int milliseconds) {
     final dateTime = DateTime.fromMillisecondsSinceEpoch(milliseconds);
 
     Map<String, String> timestampMap = {
@@ -37,7 +29,7 @@ class LogFormatHelperImpl implements LogFormatHelper {
     return timestampMap;
   }
 
-  String mapLogLevelToString(LogLevel logLevel) {
+  static String mapLogLevelToString(LogLevel logLevel) {
     switch (logLevel) {
       case LogLevel.DEBUG:
         return 'DEBUG';

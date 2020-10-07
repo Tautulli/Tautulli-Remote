@@ -30,7 +30,7 @@ const String TERMINATE_SUGGESTION = 'Make sure the stream is still active.';
 
 class FailureMapperHelper {
   /// Map [Exception] to corresponding [Failure].
-  Failure mapExceptionToFailure(dynamic exception) {
+  static Failure mapExceptionToFailure(dynamic exception) {
     Failure failure;
 
     switch (exception.runtimeType) {
@@ -67,7 +67,7 @@ class FailureMapperHelper {
   }
 
   /// Maps [Failure] to appropriate message.
-  String mapFailureToMessage(Failure failure) {
+  static String mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case MissingServerFailure:
         return MISSING_SERVER_FAILURE_MESSAGE;
@@ -95,7 +95,7 @@ class FailureMapperHelper {
   }
 
   /// Maps [Failure] to appropriate suggestions.
-  String mapFailureToSuggestion(Failure failure) {
+  static String mapFailureToSuggestion(Failure failure) {
     switch (failure.runtimeType) {
       case MissingServerFailure:
         return MISSING_SERVER_SUGGESTION;

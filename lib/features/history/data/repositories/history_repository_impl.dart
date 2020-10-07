@@ -11,12 +11,10 @@ import '../datasources/history_data_source.dart';
 class HistoryRepositoryImpl implements HistoryRepository {
   final HistoryDataSource dataSource;
   final NetworkInfo networkInfo;
-  final FailureMapperHelper failureMapperHelper;
 
   HistoryRepositoryImpl({
     @required this.dataSource,
     @required this.networkInfo,
-    @required this.failureMapperHelper,
   });
 
   @override
@@ -63,7 +61,7 @@ class HistoryRepositoryImpl implements HistoryRepository {
         return Right(historyList);
       } catch (exception) {
         final Failure failure =
-            failureMapperHelper.mapExceptionToFailure(exception);
+            FailureMapperHelper.mapExceptionToFailure(exception);
         return (Left(failure));
       }
     } else {

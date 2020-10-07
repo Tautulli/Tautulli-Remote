@@ -11,12 +11,10 @@ import '../datasources/libraries_data_source.dart';
 class LibrariesRepositoryImpl implements LibrariesRepository {
   final LibrariesDataSource dataSource;
   final NetworkInfo networkInfo;
-  final FailureMapperHelper failureMapperHelper;
 
   LibrariesRepositoryImpl({
     @required this.dataSource,
     @required this.networkInfo,
-    @required this.failureMapperHelper,
   });
 
   @override
@@ -43,7 +41,7 @@ class LibrariesRepositoryImpl implements LibrariesRepository {
         return Right(librariesList);
       } catch (exception) {
         final Failure failure =
-            failureMapperHelper.mapExceptionToFailure(exception);
+            FailureMapperHelper.mapExceptionToFailure(exception);
         return (Left(failure));
       }
     } else {

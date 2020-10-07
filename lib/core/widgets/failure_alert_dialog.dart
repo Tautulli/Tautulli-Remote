@@ -12,8 +12,8 @@ Future<void> showFailureAlertDialog({
     barrierDismissible: true,
     builder: (context) {
       return AlertDialog(
-        title: Text(FailureMapperHelper().mapFailureToMessage(failure)),
-        content: Text(FailureMapperHelper().mapFailureToSuggestion(failure)),
+        title: Text(FailureMapperHelper.mapFailureToMessage(failure)),
+        content: Text(FailureMapperHelper.mapFailureToSuggestion(failure)),
         actions: <Widget>[
           FlatButton(
             child: Text('CLOSE'),

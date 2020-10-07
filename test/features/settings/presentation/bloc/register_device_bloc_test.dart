@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
 import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/helpers/connection_address_helper.dart';
 import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote_tdd/features/settings/domain/usecases/register_device.dart';
 import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
@@ -16,14 +15,10 @@ class MockSettingsBloc extends Mock implements SettingsBloc {}
 
 class MockSettings extends Mock implements Settings {}
 
-class MockConnectionAddressHelper extends Mock
-    implements ConnectionAddressHelper {}
-
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   MockRegisterDevice mockRegisterDevice;
-  MockConnectionAddressHelper mockConnectionAddressHelper;
   MockSettingsBloc mockSettingsBloc;
   MockLogging mockLogging;
   MockSettings mockSettings;
@@ -32,13 +27,11 @@ void main() {
   setUp(() {
     mockRegisterDevice = MockRegisterDevice();
     mockSettingsBloc = MockSettingsBloc();
-    mockConnectionAddressHelper = MockConnectionAddressHelper();
     mockLogging = MockLogging();
     mockSettings = MockSettings();
 
     bloc = RegisterDeviceBloc(
       registerDevice: mockRegisterDevice,
-      connectionAddressHelper: mockConnectionAddressHelper,
       logging: mockLogging,
       settings: mockSettings,
     );
@@ -85,8 +78,6 @@ void main() {
         deviceToken: anyNamed('deviceToken'),
       ),
     ).thenAnswer((_) async => Right(responseMap));
-    when(mockConnectionAddressHelper.parse(tPrimaryConnectionAddress))
-        .thenReturn(tPrimaryConnectionMap);
   }
 
   test(
@@ -98,24 +89,6 @@ void main() {
   );
 
   group('QR code scanner', () {
-    test(
-      'should call connectionAddressHelper.parse() to parse connectionAddress into connection details',
-      () async {
-        // arrange
-        setUpSuccess();
-        // act
-        bloc.add(
-          RegisterDeviceFromQrStarted(
-            result: tQrCodeResult,
-            settingsBloc: mockSettingsBloc,
-          ),
-        );
-        await untilCalled(mockConnectionAddressHelper.parse(any));
-        // assert
-        verify(mockConnectionAddressHelper.parse(tPrimaryConnectionAddress));
-      },
-    );
-
     test(
       'should call RegisterDevice usecase',
       () async {
@@ -206,8 +179,6 @@ void main() {
             deviceToken: anyNamed('deviceToken'),
           ),
         ).thenAnswer((_) async => Left(ServerFailure()));
-        when(mockConnectionAddressHelper.parse(tPrimaryConnectionAddress))
-            .thenReturn(tPrimaryConnectionMap);
         // assert later
         final expected = [
           RegisterDeviceInProgress(),
@@ -319,8 +290,6 @@ void main() {
             deviceToken: anyNamed('deviceToken'),
           ),
         ).thenAnswer((_) async => Left(ServerFailure()));
-        when(mockConnectionAddressHelper.parse(tPrimaryConnectionAddress))
-            .thenReturn(tPrimaryConnectionMap);
         // assert later
         final expected = [
           RegisterDeviceInProgress(),

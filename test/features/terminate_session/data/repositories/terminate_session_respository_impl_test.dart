@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote_tdd/core/network/network_info.dart';
 import 'package:tautulli_remote_tdd/features/terminate_session/data/datasources/terminate_session_data_source.dart';
 import 'package:tautulli_remote_tdd/features/terminate_session/data/repositories/terminate_session_repository_impl.dart';
@@ -12,13 +11,10 @@ class MockTerminateSessionDataSource extends Mock
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
-class MockFailureMapperHelper extends Mock implements FailureMapperHelper {}
-
 void main() {
   TerminateSessionRepositoryImpl repository;
   MockTerminateSessionDataSource mockDataSource;
   MockNetworkInfo mockNetworkInfo;
-  MockFailureMapperHelper mockFailureMapperHelper;
 
   setUp(() {
     mockDataSource = MockTerminateSessionDataSource();
@@ -26,7 +22,6 @@ void main() {
     repository = TerminateSessionRepositoryImpl(
       dataSource: mockDataSource,
       networkInfo: mockNetworkInfo,
-      failureMapperHelper: mockFailureMapperHelper,
     );
   });
 

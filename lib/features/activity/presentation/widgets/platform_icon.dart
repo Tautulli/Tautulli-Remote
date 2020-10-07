@@ -18,11 +18,11 @@ class PlatformIcon extends StatelessWidget {
           Radius.circular(4),
         ),
         child: Container(
-          color: TautulliColorPalette().mapPlatformToColor(platform),
+          color: TautulliColorPalette.mapPlatformToColor(platform),
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: WebsafeSvg.asset(
-              AssetMapperHelper().mapPlatformToPath(platform),
+              AssetMapperHelper.mapPlatformToPath(platform),
             ),
           ),
         ),

@@ -20,13 +20,11 @@ class RegisterDeviceBloc
     extends Bloc<RegisterDeviceEvent, RegisterDeviceState> {
   final RegisterDevice registerDevice;
   final Settings settings;
-  final ConnectionAddressHelper connectionAddressHelper;
   final Logging logging;
 
   RegisterDeviceBloc({
     @required this.registerDevice,
     @required this.settings,
-    @required this.connectionAddressHelper,
     @required this.logging,
   }) : super(RegisterDeviceInitial());
 
@@ -82,7 +80,7 @@ class RegisterDeviceBloc
     String deviceToken,
     SettingsBloc settingsBloc,
   ) async* {
-    final connectionMap = connectionAddressHelper.parse(connectionAddress);
+    final connectionMap = ConnectionAddressHelper.parse(connectionAddress);
     final connectionProtocol = connectionMap['protocol'];
     final connectionDomain = connectionMap['domain'];
     final connectionPath = connectionMap['path'];

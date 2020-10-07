@@ -111,14 +111,12 @@ class _LogsPageContentState extends State<_LogsPageContent> {
           }
           if (state is LogsExportInProgress) {
             return LogTable(
-              logFormatHelper: state.logFormatHelper,
               logs: state.logs,
               refreshCompleter: _refreshCompleter,
             );
           }
           if (state is LogsSuccess) {
             return LogTable(
-              logFormatHelper: state.logFormatHelper,
               logs: state.logs,
               refreshCompleter: _refreshCompleter,
             );
