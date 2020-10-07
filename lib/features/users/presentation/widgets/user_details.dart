@@ -23,21 +23,27 @@ class UsersDetails extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(fontSize: 18),
         ),
-        user.lastSeen != null
-            ? Text(
-                '${TimeFormatHelper.timeAgo(user.lastSeen)}',
-                overflow: TextOverflow.ellipsis,
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'STREAMED ',
                 style: TextStyle(
-                  fontSize: 15,
-                ),
-              )
-            : Text(
-                'never',
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: TautulliColorPalette.not_white,
                 ),
               ),
+              TextSpan(
+                text: user.lastSeen != null
+                    ? '${TimeFormatHelper.timeAgo(user.lastSeen)}'
+                    : 'never',
+                style: TextStyle(
+                  color: PlexColorPalette.gamboge,
+                ),
+              ),
+            ],
+          ),
+        ),
         _playsAndDuration(),
       ],
     );
