@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tautulli_remote_tdd/core/helpers/time_format_helper.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/helpers/time_format_helper.dart';
 import '../../domain/entities/library.dart';
 
 class LibraryDetails extends StatelessWidget {
@@ -25,62 +25,13 @@ class LibraryDetails extends StatelessWidget {
             color: TautulliColorPalette.not_white,
           ),
         ),
-        _rowTwo(),
-        // RichText(
-        //   text: TextSpan(
-        //     children: [
-        //       TextSpan(
-        //         text: 'PLAYS ',
-        //         style: TextStyle(
-        //           fontWeight: FontWeight.w600,
-        //         ),
-        //       ),
-        //       TextSpan(
-        //         text: library.plays.toString(),
-        //         style: TextStyle(
-        //           color: PlexColorPalette.gamboge,
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        _rowThree(),
-        // RichText(
-        //   text: TextSpan(
-        //     children: [
-        //       TextSpan(
-        //         text: 'PLAYS ',
-        //         style: TextStyle(
-        //           fontWeight: FontWeight.w600,
-        //         ),
-        //       ),
-        //       TextSpan(
-        //         text: library.plays.toString(),
-        //         style: TextStyle(
-        //           color: PlexColorPalette.gamboge,
-        //         ),
-        //       ),
-        //       TextSpan(text: '   '),
-        //       TextSpan(
-        //         text: 'DURATION ',
-        //         style: TextStyle(
-        //           fontWeight: FontWeight.w600,
-        //         ),
-        //       ),
-        //       TextSpan(
-        //         text: TimeFormatHelper.pretty(library.duration),
-        //         style: TextStyle(
-        //           color: PlexColorPalette.gamboge,
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
+        _libraryCount(),
+        _playsAndDuration(),
       ],
     );
   }
 
-  RichText _rowTwo() {
+  RichText _libraryCount() {
     String title = '';
     String count = '';
     String parentTitle = '';
@@ -166,7 +117,7 @@ class LibraryDetails extends StatelessWidget {
     );
   }
 
-  RichText _rowThree() {
+  RichText _playsAndDuration() {
     Map<String, int> durationMap =
         TimeFormatHelper.durationMap(Duration(seconds: library.duration));
 
