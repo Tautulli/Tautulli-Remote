@@ -7,7 +7,7 @@ abstract class ActivityEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ActivityLoad extends ActivityEvent {}
+class ActivityLoadAndRefresh extends ActivityEvent {}
 
 class ActivityLoadServer extends ActivityEvent {
   final String tautulliId;
@@ -23,8 +23,6 @@ class ActivityLoadServer extends ActivityEvent {
   @override
   List<Object> get props => [tautulliId, plexName, failureOrActivity];
 }
-
-class ActivityRefresh extends ActivityEvent {}
 
 class ActivityAutoRefreshStart extends ActivityEvent {}
 

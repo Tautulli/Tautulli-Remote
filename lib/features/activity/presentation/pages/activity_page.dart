@@ -30,7 +30,7 @@ class ActivityPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ActivityBloc>(
-          create: (_) => sl<ActivityBloc>()..add(ActivityLoad()),
+          create: (_) => sl<ActivityBloc>()..add(ActivityLoadAndRefresh()),
         ),
         BlocProvider<GeoIpBloc>(
           create: (_) => sl<GeoIpBloc>(),
@@ -71,11 +71,11 @@ class _ActivityPageContentState extends State<ActivityPageContent>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
-      BlocProvider.of<ActivityBloc>(context).add(ActivityAutoRefreshStop());
+      context.bloc<ActivityBloc>().add(ActivityAutoRefreshStop());
       Navigator.popUntil(context, (route) => !(route is PopupRoute));
     }
     if (state == AppLifecycleState.resumed) {
-      BlocProvider.of<ActivityBloc>(context).add(ActivityRefresh());
+      context.bloc<ActivityBloc>().add(ActivityLoadAndRefresh());
     }
   }
 
@@ -104,7 +104,8 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                   if (!multiserver) {
                     final Map<String, dynamic> serverMap =
                         state.activityMap.values.toList()[0];
-                    final ActivityLoadingState result = serverMap['loadingState'];
+                    final ActivityLoadingState result =
+                        serverMap['loadingState'];
                     if (result == ActivityLoadingState.failure) {
                       final Failure failure = serverMap['failure'];
                       return Column(
@@ -112,10 +113,11 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                         children: <Widget>[
                           ErrorMessage(
                             failure: failure,
-                            message: FailureMapperHelper
-                                .mapFailureToMessage(failure),
-                            suggestion: FailureMapperHelper
-                                .mapFailureToSuggestion(failure),
+                            message: FailureMapperHelper.mapFailureToMessage(
+                                failure),
+                            suggestion:
+                                FailureMapperHelper.mapFailureToSuggestion(
+                                    failure),
                           ),
                           ActivityErrorButton(
                             completer: _refreshCompleter,
@@ -134,7 +136,7 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                   return RefreshIndicator(
                     onRefresh: () {
                       BlocProvider.of<ActivityBloc>(context)
-                          .add(ActivityRefresh());
+                          .add(ActivityLoadAndRefresh());
                       return _refreshCompleter.future;
                     },
                     child: multiserver

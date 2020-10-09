@@ -17,10 +17,13 @@ part 'activity_event.dart';
 part 'activity_state.dart';
 
 enum ActivityLoadingState {
+  initial,
   inProgress,
   success,
   failure,
 }
+
+Map<String, Map<String, dynamic>> _activityMap = {};
 
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   final GetActivity getActivity;
@@ -38,44 +41,45 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   })  : assert(activity != null),
         getActivity = activity,
         getImageUrl = imageUrl,
-        super(ActivityInitial());
+        super(ActivityInitial(
+          activityMap: _activityMap,
+        ));
 
   @override
   Stream<ActivityState> mapEventToState(
     ActivityEvent event,
   ) async* {
     final currentState = state;
+    final serverList = await settings.getAllServers();
 
-    Map<String, Map<String, dynamic>> _activityMap = {};
     if (currentState is ActivityLoaded) {
       _activityMap = currentState.activityMap;
     }
 
-    if (event is ActivityLoad) {
-      final serverList = await settings.getAllServers();
-
-      // Add structure to _activityMap and yield for UI placeholder while loading
-      for (ServerModel server in serverList) {
+    // If configured server is not in _activityMap then add it
+    for (ServerModel server in serverList) {
+      if (!_activityMap.containsKey(server.tautulliId)) {
         _activityMap[server.tautulliId] = {
           'plex_name': server.plexName,
-          'loadingState': ActivityLoadingState.inProgress,
+          'loadingState': ActivityLoadingState.initial,
           'activityList': <ActivityItem>[],
           'failure': null,
         };
       }
-      yield ActivityLoaded(
-        activityMap: _activityMap,
-        loadedAt: DateTime.now(),
-      );
-
-      _loadServer(
-        serverList: serverList,
-        activityMap: _activityMap,
-      );
     }
-    if (event is ActivityRefresh) {
-      final serverList = await settings.getAllServers();
 
+    // Remove servers from _activityMap that are no longer configured 
+    List toRemove = [];
+    for (String tautulliId in _activityMap.keys) {
+      int item =
+          serverList.indexWhere((server) => server.tautulliId == tautulliId);
+      if (item == -1) {
+        toRemove.add(tautulliId);
+      }
+    }
+    _activityMap.removeWhere((key, value) => toRemove.contains(key));
+
+    if (event is ActivityLoadAndRefresh) {
       // Do not refresh servers that are still in the process of loading
       serverList.removeWhere((server) =>
           _activityMap[server.tautulliId]['loadingState'] ==
@@ -186,7 +190,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       final refreshRate = await settings.getRefreshRate();
       if (refreshRate != null && refreshRate > 0) {
         _timer = Timer.periodic(Duration(seconds: refreshRate), (timer) {
-          add(ActivityRefresh());
+          add(ActivityLoadAndRefresh());
         });
       }
     }
