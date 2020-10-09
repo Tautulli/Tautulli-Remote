@@ -75,7 +75,7 @@ class _ActivityPageContentState extends State<ActivityPageContent>
       Navigator.popUntil(context, (route) => !(route is PopupRoute));
     }
     if (state == AppLifecycleState.resumed) {
-      BlocProvider.of<ActivityBloc>(context).add(ActivityLoad());
+      BlocProvider.of<ActivityBloc>(context).add(ActivityRefresh());
     }
   }
 
