@@ -50,7 +50,7 @@ class SettingsAlertBanner extends StatelessWidget {
                   ],
                 ),
                 buttonOne: FlatButton(
-                  child: Text('Check again'),
+                  child: Text('CHECK AGAIN'),
                   onPressed: () => BlocProvider.of<OneSignalHealthBloc>(context)
                       .add(OneSignalHealthCheck()),
                 ),

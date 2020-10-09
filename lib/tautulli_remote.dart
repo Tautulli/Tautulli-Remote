@@ -89,6 +89,11 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       DeviceOrientation.portraitUp,
     ]);
 
+    // Function used with textButtonTheme ButtonStyle to force foregroundColor
+    Color getTextButtonColor(Set<MaterialState> states) {
+      return TautulliColorPalette.not_white;
+    }
+
     return MaterialApp(
       title: 'Tautulli Remote',
       theme: ThemeData(
@@ -120,7 +125,15 @@ class _TautulliRemoteState extends State<TautulliRemote> {
               ),
             ),
         unselectedWidgetColor: TautulliColorPalette.not_white,
-        buttonTheme: ThemeData.dark().buttonTheme.copyWith(),
+        buttonTheme: ThemeData.dark().buttonTheme.copyWith(
+              textTheme: ButtonTextTheme.accent,
+            ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor:
+                MaterialStateProperty.resolveWith(getTextButtonColor),
+          ),
+        ),
         popupMenuTheme: ThemeData.dark().popupMenuTheme.copyWith(
               color: PlexColorPalette.river_bed,
             ),

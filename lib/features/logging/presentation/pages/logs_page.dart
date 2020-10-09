@@ -138,13 +138,13 @@ Future _showClearLogsDialog({
         title: Text('Are you sure you want to clear the Tautulli Remote logs?'),
         actions: <Widget>[
           FlatButton(
-            child: Text('Cancel'),
+            child: Text('CANCEL'),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           FlatButton(
-            child: Text('Confirm'),
+            child: Text('CONFIRM'),
             color: Colors.red,
             onPressed: () {
               clearLogs();

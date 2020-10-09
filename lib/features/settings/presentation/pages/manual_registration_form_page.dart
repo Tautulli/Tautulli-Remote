@@ -104,7 +104,7 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
                                   Navigator.of(context).pop();
                                 }
                               },
-                              child: Text('Cancel'),
+                              child: Text('CANCEL'),
                             ),
                             FlatButton(
                               onPressed: () {
@@ -122,7 +122,7 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
                                   );
                                 }
                               },
-                              child: Text('Register'),
+                              child: Text('REGISTER'),
                             ),
                           ],
                         ),
@@ -149,13 +149,13 @@ Future<bool> _showExitDialog(BuildContext context) {
         content: Text('Your current entered information will be discarded.'),
         actions: <Widget>[
           FlatButton(
-            child: Text('Cancel'),
+            child: Text('CANCEL'),
             onPressed: () {
               Navigator.of(context).pop(false);
             },
           ),
           FlatButton(
-            child: Text('Discard'),
+            child: Text('DISCARD'),
             color: Colors.red,
             onPressed: () {
               Navigator.of(context).pop(true);

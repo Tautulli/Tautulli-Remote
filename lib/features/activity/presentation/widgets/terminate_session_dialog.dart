@@ -24,7 +24,7 @@ Future terminateSessionDialog({
       actions: <Widget>[
         FlatButton(
           child: Text(
-            'No',
+            'NO',
           ),
           onPressed: () {
             Navigator.of(ctx).pop(false);
@@ -32,7 +32,7 @@ Future terminateSessionDialog({
         ),
         FlatButton(
           child: Text(
-            'Yes',
+            'YES',
           ),
           onPressed: () {
             Navigator.of(ctx).pop(true);
