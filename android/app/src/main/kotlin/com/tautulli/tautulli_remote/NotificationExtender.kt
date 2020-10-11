@@ -71,7 +71,7 @@ class NotificationExtender : NotificationExtenderService() {
             val colorAccent = ContextCompat.getColor(applicationContext, R.color.colorAccent)
 
             val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_stat_logo_flat)
                 .setContentTitle(subject)
                 .setContentText(body)
                 .setPriority(priority)
