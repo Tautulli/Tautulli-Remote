@@ -70,39 +70,19 @@ class NotificationExtender : NotificationExtenderService() {
 
             val colorAccent = ContextCompat.getColor(applicationContext, R.color.colorAccent)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val name: CharSequence = getString(R.string.app_name)
-                val importance: Int = NotificationManager.IMPORTANCE_DEFAULT
-                val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
+            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(subject)
+                .setContentText(body)
+                .setPriority(priority)
+                .setAutoCancel(true)
+                .setContentIntent(resultPendingIntent)
+                // .setLargeIcon(icon)
+                .setColor(colorAccent)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(body))
 
-                val mBuilder: Notification.Builder = Notification.Builder(this, CHANNEL_ID)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(subject)
-                        .setContentText(body)
-                        .setAutoCancel(true)
-                        .setContentIntent(resultPendingIntent)
-                        .setStyle(Notification.MediaStyle())
-                        .setColor(colorAccent)
-                        .setLargeIcon(icon)
-
-                val mNotifyMgr: NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                mNotifyMgr.createNotificationChannel(mChannel)
+             val mNotifyMgr: NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
                 mNotifyMgr.notify(notificationID, mBuilder.build())
-            } else {
-                val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(this, CHANNEL_ID)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(subject)
-                        .setContentText(body)
-                        .setPriority(priority)
-                        .setAutoCancel(true)
-                        .setContentIntent(resultPendingIntent)
-                        .setLargeIcon(icon)
-                        .setColor(colorAccent)
-                        .setStyle(NotificationCompat.BigTextStyle().bigText(body))
-
-                val mNotifyMgr: NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                mNotifyMgr.notify(notificationID, mBuilder.build())
-            }
             return true
         } catch (e: JSONException) {
             e.printStackTrace()
