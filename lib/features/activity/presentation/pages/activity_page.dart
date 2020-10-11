@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:quiver/strings.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
@@ -314,6 +315,11 @@ class _StatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String failureMessage =
+        FailureMapperHelper.mapFailureToMessage(failure);
+    final String failureSuggestion =
+        FailureMapperHelper.mapFailureToSuggestion(failure);
+
     return Container(
       margin: const EdgeInsets.all(4),
       height: 135,
@@ -334,28 +340,28 @@ class _StatusCard extends StatelessWidget {
                   ),
                 ),
               ),
-            if (failure != null)
+            if (isNotEmpty(failureMessage))
               Padding(
                 padding: const EdgeInsets.only(
                   top: 4,
                   bottom: 4,
                 ),
                 child: Text(
-                  FailureMapperHelper.mapFailureToMessage(failure),
+                  failureMessage,
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 16,
                   ),
                 ),
               ),
-            if (failure != null)
+            if (isNotEmpty(failureSuggestion))
               Padding(
                 padding: const EdgeInsets.only(
                   top: 4,
                   bottom: 4,
                 ),
                 child: Text(
-                  FailureMapperHelper.mapFailureToSuggestion(failure),
+                  failureSuggestion,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.grey,
