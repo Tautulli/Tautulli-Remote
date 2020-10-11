@@ -315,10 +315,13 @@ class _StatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String failureMessage =
-        FailureMapperHelper.mapFailureToMessage(failure);
-    final String failureSuggestion =
-        FailureMapperHelper.mapFailureToSuggestion(failure);
+    String failureMessage;
+    String failureSuggestion;
+
+    if (failure != null) {
+      failureMessage = FailureMapperHelper.mapFailureToMessage(failure);
+      failureSuggestion = FailureMapperHelper.mapFailureToSuggestion(failure);
+    }
 
     return Container(
       margin: const EdgeInsets.all(4),
