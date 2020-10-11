@@ -31,3 +31,18 @@ class ActivityLoaded extends ActivityState {
   @override
   List<Object> get props => [activityMap, loadedAt];
 }
+
+class ActivityLoadFailure extends ActivityState {
+  final Failure failure;
+  final String message;
+  final String suggestion;
+
+  ActivityLoadFailure({
+    @required this.failure,
+    @required this.message,
+    this.suggestion,
+  });
+
+  @override
+  List<Object> get props => [message, suggestion];
+}

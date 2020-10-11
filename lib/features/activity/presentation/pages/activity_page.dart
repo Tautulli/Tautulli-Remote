@@ -153,6 +153,22 @@ class _ActivityPageContentState extends State<ActivityPageContent>
               },
             );
           }
+          if (state is ActivityLoadFailure) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ErrorMessage(
+                  failure: state.failure,
+                  message: state.message,
+                  suggestion: state.suggestion,
+                ),
+                ActivityErrorButton(
+                  completer: _refreshCompleter,
+                  failure: state.failure,
+                ),
+              ],
+            );
+          }
           return const SizedBox(height: 0, width: 0);
         },
       ),

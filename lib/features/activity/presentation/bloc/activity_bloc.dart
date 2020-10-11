@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
+import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/settings.dart';
@@ -68,7 +69,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       }
     }
 
-    // Remove servers from _activityMap that are no longer configured 
+    // Remove servers from _activityMap that are no longer configured
     List toRemove = [];
     for (String tautulliId in _activityMap.keys) {
       int item =
@@ -80,23 +81,30 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     _activityMap.removeWhere((key, value) => toRemove.contains(key));
 
     if (event is ActivityLoadAndRefresh) {
-      // Do not refresh servers that are still in the process of loading
-      serverList.removeWhere((server) =>
-          _activityMap[server.tautulliId]['loadingState'] ==
-          ActivityLoadingState.inProgress);
+      if (serverList.length > 0) {
+        // Do not refresh servers that are still in the process of loading
+        serverList.removeWhere((server) =>
+            _activityMap[server.tautulliId]['loadingState'] ==
+            ActivityLoadingState.inProgress);
 
-      for (String key in _activityMap.keys.toList()) {
-        _activityMap[key]['loadingState'] = ActivityLoadingState.inProgress;
+        for (String key in _activityMap.keys.toList()) {
+          _activityMap[key]['loadingState'] = ActivityLoadingState.inProgress;
+        }
+        yield ActivityLoaded(
+          activityMap: _activityMap,
+          loadedAt: DateTime.now(),
+        );
+        _loadServer(
+          serverList: serverList,
+          activityMap: _activityMap,
+        );
+      } else {
+        yield ActivityLoadFailure(
+          failure: MissingServerFailure(),
+          message: FailureMapperHelper.mapFailureToMessage(MissingServerFailure()),
+          suggestion: FailureMapperHelper.mapFailureToSuggestion(MissingServerFailure()),
+        );
       }
-      yield ActivityLoaded(
-        activityMap: _activityMap,
-        loadedAt: DateTime.now(),
-      );
-
-      _loadServer(
-        serverList: serverList,
-        activityMap: _activityMap,
-      );
     }
     if (event is ActivityLoadServer) {
       yield* event.failureOrActivity.fold(
