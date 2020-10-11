@@ -125,9 +125,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
               ),
             ),
         unselectedWidgetColor: TautulliColorPalette.not_white,
-        buttonTheme: ThemeData.dark().buttonTheme.copyWith(
-              textTheme: ButtonTextTheme.accent,
-            ),
+        buttonTheme: ThemeData.dark().buttonTheme.copyWith(),
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
             foregroundColor:
