@@ -68,8 +68,6 @@ class NotificationExtender : NotificationExtenderService() {
             val tsTrunc: String = ts.substring(ts.length - 9)
             val notificationID: Int = Integer.parseInt(tsTrunc)
 
-            val colorAccent = ContextCompat.getColor(applicationContext, R.color.colorAccent)
-
             val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_logo_flat)
                 .setContentTitle(subject)
@@ -77,8 +75,7 @@ class NotificationExtender : NotificationExtenderService() {
                 .setPriority(priority)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
-                // .setLargeIcon(icon)
-                .setColor(colorAccent)
+                .setColor(ContextCompat.getColor(applicationContext, R.color.amber))
                 .setStyle(NotificationCompat.BigTextStyle().bigText(body))
 
              val mNotifyMgr: NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager

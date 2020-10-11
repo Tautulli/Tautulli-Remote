@@ -3,4 +3,6 @@
     <color name="ic_launcher_background">#292b2f</color>
     <color name="splash">#292b2f</color>
     <color name="colorAccent">#e5a00d</color>
+    <color name="notWhite">#eeeeee</color>
+    <color name="amber">#f9be03</color>
 </resources>
