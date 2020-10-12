@@ -3,6 +3,7 @@ import 'dart:io';
 
 import '../error/exception.dart';
 import '../error/failure.dart';
+import '../requirements/versions.dart';
 
 // Error messages
 const String MISSING_SERVER_FAILURE_MESSAGE = 'No servers are configured.';
@@ -16,6 +17,8 @@ const String URL_FORMAT_FAILURE_MESSAGE = 'Incorrect URL format.';
 const String TIMEOUT_FAILURE_MESSAGE = 'Connection to server timed out.';
 const String JSON_FAILURE_MESSAGE = 'Failed to parse response.';
 const String TERMINATE_FAILURE_MESSAGE = 'Failed to terminate the stream.';
+const String SERVER_VERSION_FAILURE_MESSAGE =
+    'Server version does not meet requirements.';
 
 // Error suggestions
 const String MISSING_SERVER_SUGGESTION =
@@ -27,6 +30,8 @@ const String CHECK_SERVER_SETTINGS_SUGGESTION =
 const String TIMEOUT_SUGGESTION =
     'Check your Connection Address for errors and make sure Tautulli can communicate with Plex.';
 const String TERMINATE_SUGGESTION = 'Make sure the stream is still active.';
+final String serverVersionSuggestion =
+    'Please update the Tautulli server to v${MinimumVersion.tautulliServer} or greater';
 
 class FailureMapperHelper {
   /// Map [Exception] to corresponding [Failure].
@@ -61,6 +66,9 @@ class FailureMapperHelper {
       case (JsonDecodeException):
         failure = JsonDecodeFailure();
         break;
+      case (ServerVersionException):
+        failure = ServerVersionFailure();
+        break;
     }
 
     return failure;
@@ -89,6 +97,8 @@ class FailureMapperHelper {
         return JSON_FAILURE_MESSAGE;
       case TerminateFailure:
         return TERMINATE_FAILURE_MESSAGE;
+      case ServerVersionFailure:
+        return SERVER_VERSION_FAILURE_MESSAGE;
       default:
         return 'Unexpected error';
     }
@@ -115,6 +125,8 @@ class FailureMapperHelper {
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
       case TerminateFailure:
         return TERMINATE_SUGGESTION;
+      case ServerVersionFailure:
+        return serverVersionSuggestion;
       default:
         return '';
     }

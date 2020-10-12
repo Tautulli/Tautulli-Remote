@@ -12,3 +12,6 @@ class SettingsException implements Exception {}
 
 /// Throw when a json.decode() fails.
 class JsonDecodeException implements Exception {}
+
+/// Throw when trying to add a Tautulli server does not meet the min version.
+class ServerVersionException implements Exception {}

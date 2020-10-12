@@ -34,6 +34,9 @@ class TimeoutFailure extends Failure {}
 /// A json.decode() failed.
 class JsonDecodeFailure extends Failure {}
 
+/// Server min version is not met.
+class ServerVersionFailure extends Failure {}
+
 /// The terminate session API call returned false.
 class TerminateFailure extends Failure {}
 

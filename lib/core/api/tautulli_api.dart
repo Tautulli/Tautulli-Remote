@@ -91,6 +91,13 @@ abstract class TautulliApi {
     @required String deviceName,
     @required String onesignalId,
   });
+  Future<Map<String, dynamic>> deleteMobileDevice({
+    @required String connectionProtocol,
+    @required String connectionDomain,
+    @required String connectionPath,
+    @required String deviceToken,
+    @required String deviceId,
+  });
   Future<Map<String, dynamic>> terminateSession({
     @required String tautulliId,
     @required String sessionId,
@@ -614,6 +621,27 @@ class TautulliApiImpl implements TautulliApi {
         'device_name': deviceName,
         'device_id': deviceId,
         'onesignal_id': onesignalId,
+      },
+    );
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> deleteMobileDevice({
+    @required String connectionProtocol,
+    @required String connectionDomain,
+    @required String connectionPath,
+    @required String deviceToken,
+    @required String deviceId,
+  }) async {
+    final responseJson = await connectionHandler(
+      primaryConnectionProtocol: connectionProtocol,
+      primaryConnectionDomain: connectionDomain,
+      primaryConnectionPath: connectionPath,
+      deviceToken: deviceToken,
+      cmd: 'delete_mobile_device',
+      params: {
+        'device_id': deviceId,
       },
     );
 

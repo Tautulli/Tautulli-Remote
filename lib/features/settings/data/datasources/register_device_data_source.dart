@@ -1,8 +1,10 @@
 import 'package:meta/meta.dart';
+import 'package:version/version.dart';
 
 import '../../../../core/api/tautulli_api.dart';
 import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
+import '../../../../core/requirements/versions.dart';
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
 
 abstract class RegisterDeviceDataSource {
@@ -64,6 +66,27 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
     if (registerJson['response']['result'] == 'success') {
       final Map<String, dynamic> responseData =
           registerJson['response']['data'];
+
+      // Verify sevrer meets minimum version requirement
+      String tautulliVersion;
+      try {
+        tautulliVersion = responseData['tautulli_version'];
+        if (Version.parse(tautulliVersion.substring(1)) <
+            MinimumVersion.tautulliServer) {
+          throw Exception;
+        }
+      } catch (error) {
+        //TODO: Log bad version number
+        await tautulliApi.deleteMobileDevice(
+          connectionProtocol: connectionProtocol,
+          connectionDomain: connectionDomain,
+          connectionPath: connectionPath,
+          deviceToken: deviceToken,
+          deviceId: deviceId,
+        );
+        throw ServerVersionException();
+      }
+
       return responseData;
     } else {
       throw ServerException();

@@ -23,75 +23,44 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # Bloc for state management
-  flutter_bloc: ^6.0.1
-  # To send various requests to URLs
-  http: ^0.12.2
-  # Value equality
-  equatable: ^1.2.3
-  # Functional programming
-  dartz: ^0.9.1
-  # Verifies network connectivity
-  connectivity: '>=0.4.9 <2.0.0'
-  # Service locator
-  get_it: ^4.0.4
-  # Local storage
-  shared_preferences: '>=0.5.8 <2.0.0'
-  # SQL database for local storage
-  sqflite: ^1.3.1
-  # Used to convert RGB to HEX
   color: ^2.1.1
-  # Used to access Font Awesome icons
-  font_awesome_flutter: ^8.8.1
-  # Pretty durations
-  duration: ^2.0.15
-  # Implementation of the Moment.js features for relative time in Dart
-  simple_moment: ^1.0.6
-  # Internationalization and localization
-  intl: ^0.16.1
-  # Slidable list items
-  flutter_slidable: ^0.5.5
-  # SVG support
-  websafe_svg: ^1.1.1
-  # Utility libraries
-  quiver: ^2.1.3
-  # String validation and sanitation
-  validators: ^2.0.1
-  # Barcode scanner
-  flutter_barcode_scanner: ^1.0.1
-  # Notifications
-  onesignal_flutter: ^2.6.0
-  # Get current device info
-  device_info: '>=0.4.2+4 <2.0.0'
-  # For launching URLs
-  url_launcher: ^5.5.0
-  # Logging
-  f_logs: ^1.2.2
-  # Permission handling
-  permission_handler: ^5.0.1+1
-  # For finding commonly used locations on the filesystem
-  path_provider: ^1.6.11
-  # For creating a FAB speed dial
-  unicorndial: ^1.1.5
-  # For querying information about an application package
-  package_info: '>=0.4.1 <2.0.0'
-  # Add ability for iOS quick actions and Android app shortcuts
-  quick_actions: ^0.4.0+6
-  # Adds additional capabilities to Dart Streams and StreamControllers
-  rxdart: ^0.24.1
-  # Extract prominent colors from an Image
-  palette_generator: ^0.2.3
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  connectivity: ">=0.4.9+3 <2.0.0"
   cupertino_icons: ^0.1.3
+  dartz: ^0.9.1
+  device_info: ">=0.4.2+4 <2.0.0"
+  duration: ^2.0.15
+  equatable: ^1.2.3
+  f_logs: ^1.2.2
+  flutter_barcode_scanner: ^1.0.1
+  flutter_bloc: ^6.0.1
+  flutter_slidable: ^0.5.5
+  font_awesome_flutter: ^8.8.1
+  get_it: ^4.0.4
+  http: ^0.12.2
+  intl: ^0.16.1
+  onesignal_flutter: ^2.6.0
+  package_info: ">=0.4.1 <2.0.0"
+  palette_generator: ^0.2.3
+  path_provider: ^1.6.11
+  permission_handler: ^5.0.1+1
+  quick_actions: ^0.4.0+6
+  quiver: ^2.1.3
+  rxdart: ^0.24.1
+  shared_preferences: ">=0.5.8 <2.0.0"
+  simple_moment: ^1.0.6
+  sqflite: ^1.3.1
+  unicorndial: ^1.1.5
+  url_launcher: ^5.7.2
+  validators: ^2.0.1
+  version: ^1.2.0
+  websafe_svg: ^1.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mockito: ^4.1.1
   # Simplifies launcher icon creation
   flutter_launcher_icons: ^0.7.5
+  mockito: ^4.1.1
 
 flutter_icons:
   android: true
@@ -185,4 +154,3 @@ flutter:
           style: italic
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
