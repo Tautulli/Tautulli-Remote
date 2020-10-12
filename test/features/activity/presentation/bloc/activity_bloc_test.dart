@@ -4,14 +4,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
 import 'package:tautulli_remote_tdd/features/activity/data/models/activity_model.dart';
 import 'package:tautulli_remote_tdd/features/activity/domain/entities/activity.dart';
 import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_activity.dart';
 import 'package:tautulli_remote_tdd/features/image_url/domain/usecases/get_image_url.dart';
 import 'package:tautulli_remote_tdd/features/activity/presentation/bloc/activity_bloc.dart';
 import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
-import 'package:tautulli_remote_tdd/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
@@ -95,18 +93,18 @@ void main() {
     'initialState should be ActivityEmpty',
     () async {
       // assert
-      expect(bloc.state, ActivityInitial());
+      expect(bloc.state, ActivityInitial(activityMap: {}));
     },
   );
 
-  group('ActivityLoad', () {
+  group('ActivityLoadAndRefresh', () {
     test(
       'should call Settings to get list of servers',
       () async {
         //arrange
         setUpSuccess();
         // act
-        bloc.add(ActivityLoad());
+        bloc.add(ActivityLoadAndRefresh());
         await untilCalled(mockSettings.getAllServers());
         // assert
         verify(mockSettings.getAllServers());
@@ -119,7 +117,7 @@ void main() {
         // arrange
         setUpSuccess();
         // act
-        bloc.add(ActivityLoad());
+        bloc.add(ActivityLoadAndRefresh());
         await untilCalled(mockGetActivity(tautulliId: tTautulliId));
         // assert
         verify(mockGetActivity(tautulliId: tTautulliId));
@@ -132,7 +130,7 @@ void main() {
         // arrange
         setUpSuccess();
         // act
-        bloc.add(ActivityLoad());
+        bloc.add(ActivityLoadAndRefresh());
         await untilCalled(
           mockGetImageUrl(
             tautulliId: anyNamed('tautulliId'),
@@ -155,14 +153,14 @@ void main() {
 
     //   //! DateTime.now() is not going to exactly line up in the expected and actual function causing this test to fail
     //   // test(
-    //   //   'should emit [ActivityLoadSuccess] when data is gotten successfully',
+    //   //   'should emit [ActivityLoadAndRefreshSuccess] when data is gotten successfully',
     //   //   () async {
     //   //     // arrange
     //   //     setUpSuccess();
     //   //     // assert later
     //   //     final expected = [
-    //   //       ActivityLoadInProgress(),
-    //   //       ActivityLoadSuccess(
+    //   //       ActivityLoadAndRefreshInProgress(),
+    //   //       ActivityLoadAndRefreshSuccess(
     //   //         activityMap: tActivityMap,
     //   //         loadedAt: DateTime.now(),
     //   //         // DateTime.parse("1969-07-20 20:18:04Z")
@@ -170,7 +168,7 @@ void main() {
     //   //     ];
     //   //     expectLater(bloc, emitsInOrder(expected));
     //   //     // act
-    //   //     bloc.add(ActivityLoad());
+    //   //     bloc.add(ActivityLoadAndRefresh());
     //   //   },
     //   // );
   });
