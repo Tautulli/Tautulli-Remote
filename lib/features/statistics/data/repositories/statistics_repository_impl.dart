@@ -23,7 +23,9 @@ class StatisticsRepositoryImpl implements StatisticsRepository {
     int grouping,
     int timeRange,
     String statsType,
+    int statsStart,
     int statsCount,
+    String statId,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -31,6 +33,8 @@ class StatisticsRepositoryImpl implements StatisticsRepository {
           tautulliId: tautulliId,
           grouping: grouping,
           statsCount: statsCount,
+          statId: statId,
+          statsStart: statsStart,
           statsType: statsType,
           timeRange: timeRange,
         );

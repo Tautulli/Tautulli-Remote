@@ -10,6 +10,8 @@ abstract class StatisticsRepository {
     int grouping,
     int timeRange,
     String statsType,
+    int statsStart,
     int statsCount,
+    String statId,
   });
 }

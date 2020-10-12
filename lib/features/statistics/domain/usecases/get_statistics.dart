@@ -15,12 +15,16 @@ class GetStatistics {
     int grouping,
     int timeRange,
     String statsType,
+    int statsStart,
     int statsCount,
+    String statId,
   }) async {
     return await repository.getStatistics(
       tautulliId: tautulliId,
       grouping: grouping,
       statsCount: statsCount,
+      statId: statId,
+      statsStart: statsStart,
       statsType: statsType,
       timeRange: timeRange,
     );

@@ -69,7 +69,9 @@ abstract class TautulliApi {
     int grouping,
     int timeRange,
     String statsType,
+    int statsStart,
     int statsCount,
+    String statId,
   });
   Future<String> pmsImageProxy({
     @required String tautulliId,
@@ -521,13 +523,14 @@ class TautulliApiImpl implements TautulliApi {
     return responseJson;
   }
 
-  Future<Map<String, dynamic>> getHomeStats({
-    @required String tautulliId,
-    int grouping,
-    int timeRange,
-    String statsType,
-    int statsCount,
-  }) async {
+  Future<Map<String, dynamic>> getHomeStats(
+      {@required String tautulliId,
+      int grouping,
+      int timeRange,
+      String statsType,
+      int statsStart,
+      int statsCount,
+      String statId}) async {
     Map<String, String> params = {};
 
     if (grouping != null) {
@@ -539,8 +542,14 @@ class TautulliApiImpl implements TautulliApi {
     if (statsType != null) {
       params['stats_type'] = statsType;
     }
+    if (statsStart != null) {
+      params['stats_start'] = statsStart.toString();
+    }
     if (statsCount != null) {
       params['stats_count'] = statsCount.toString();
+    }
+    if (statId != null) {
+      params['stat_id'] = statId;
     }
 
     final responseJson = await connectionHandler(

@@ -10,7 +10,9 @@ abstract class StatisticsDataSource {
     int grouping,
     int timeRange,
     String statsType,
+    int statsStart,
     int statsCount,
+    String statId,
   });
 }
 
@@ -25,14 +27,18 @@ class StatisticsDataSourceImpl implements StatisticsDataSource {
     int grouping,
     int timeRange,
     String statsType,
+    int statsStart,
     int statsCount,
+    String statId,
   }) async {
     final statisticsJson = await tautulliApi.getHomeStats(
       tautulliId: tautulliId,
       grouping: grouping,
       timeRange: timeRange,
       statsType: statsType,
+      statsStart: statsStart,
       statsCount: statsCount,
+      statId: statId,
     );
 
     Map<String, List<Statistics>> statisticsMap = {};
