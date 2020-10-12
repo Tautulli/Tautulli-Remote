@@ -8,6 +8,7 @@ import '../../features/logging/domain/usecases/logging.dart';
 import '../../features/settings/domain/usecases/settings.dart';
 import '../database/domain/entities/server.dart';
 import '../error/exception.dart';
+import '../requirements/versions.dart';
 
 abstract class TautulliApi {
   Future connectionHandler();
@@ -274,16 +275,23 @@ class TautulliApiImpl implements TautulliApi {
       headers: {'Content-Type': 'application/json'},
     ).timeout(Duration(seconds: timeout != null ? timeout : 5));
 
-    if (response.statusCode != 200) {
-      throw ServerException();
-    }
-
     // Attempt to parse reponse into JSON
     Map<String, dynamic> responseJson;
     try {
       responseJson = json.decode(response.body);
     } catch (_) {
       throw JsonDecodeException();
+    }
+
+    if (response.statusCode != 200) {
+      RegExp badServerVersion = RegExp(
+          r'^Device registration failed: Tautulli version v\d.\d.\d does not meet the minimum requirement of v\d.\d.\d.');
+
+      if (badServerVersion.hasMatch(responseJson['response']['message'])) {
+        throw ServerVersionException();
+      }
+
+      throw ServerException();
     }
 
     return responseJson;
@@ -630,6 +638,7 @@ class TautulliApiImpl implements TautulliApi {
         'device_name': deviceName,
         'device_id': deviceId,
         'onesignal_id': onesignalId,
+        'min_version': 'v${MinimumVersion.tautulliServer}',
       },
     );
 
