@@ -8,11 +8,6 @@ import '../../../../injection_container.dart' as di;
 import '../bloc/load_logs_bloc.dart';
 import '../widgets/log_table.dart';
 
-// Allows for a Bloc Provider to be set so that
-// BlocProvider.of can be used before the Scaffold body.
-//
-// Issues when accessing BlocProvider.of inside the widget
-// where it was instantiated.
 class LogsPage extends StatelessWidget {
   const LogsPage({Key key}) : super(key: key);
 
@@ -55,14 +50,13 @@ class _LogsPageContentState extends State<_LogsPageContent> {
               if (value == 'export') {
                 // var status = await Permission.storage.status;
                 if (await Permission.storage.request().isGranted) {
-                  BlocProvider.of<LogsBloc>(context).add(LogsExport());
+                  context.bloc<LogsBloc>().add(LogsExport());
                 }
               }
               if (value == 'clear') {
                 return _showClearLogsDialog(
                   context: context,
-                  clearLogs: () =>
-                      BlocProvider.of<LogsBloc>(context).add(LogsClear()),
+                  clearLogs: () => context.bloc<LogsBloc>().add(LogsClear()),
                 );
               }
               return null;

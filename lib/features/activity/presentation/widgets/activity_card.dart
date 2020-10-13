@@ -45,14 +45,15 @@ class ActivityCard extends StatefulWidget {
 class _ActivityCardState extends State<ActivityCard> {
   @override
   Widget build(BuildContext context) {
-    final List activityList = widget.activityMap[widget.tautulliId]['activityList'];
+    final List activityList =
+        widget.activityMap[widget.tautulliId]['activityList'];
     final ActivityItem activity = activityList[widget.index];
 
     final _terminateMessageController = TextEditingController();
 
-    final activityBloc = BlocProvider.of<ActivityBloc>(context);
-    final geoIpBloc = BlocProvider.of<GeoIpBloc>(context);
-    final terminateSessionBloc = BlocProvider.of<TerminateSessionBloc>(context);
+    final activityBloc = context.bloc<ActivityBloc>();
+    final geoIpBloc = context.bloc<GeoIpBloc>();
+    final terminateSessionBloc = context.bloc<TerminateSessionBloc>();
 
     return GestureDetector(
       onPanUpdate: (details) {

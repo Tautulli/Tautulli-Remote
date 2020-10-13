@@ -27,7 +27,8 @@ class _ServerTimeoutDialogState extends State<ServerTimeoutDialog> {
   void _timeoutRadioValueChanged(int value) {
     setState(() {
       _timeout = value;
-      BlocProvider.of<SettingsBloc>(context)
+      context
+          .bloc<SettingsBloc>()
           .add(SettingsUpdateServerTimeout(timeout: value));
       Navigator.of(context).pop();
     });
@@ -35,7 +36,7 @@ class _ServerTimeoutDialogState extends State<ServerTimeoutDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final settingsBloc = BlocProvider.of<SettingsBloc>(context);
+    final settingsBloc = context.bloc<SettingsBloc>();
 
     return SimpleDialog(
       title: Text('Server Timeout'),

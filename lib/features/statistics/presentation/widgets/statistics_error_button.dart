@@ -35,8 +35,7 @@ class StatisticsErrorButton extends StatelessWidget {
             label: Text('Retry'),
             color: Theme.of(context).primaryColor,
             onPressed: () {
-              BlocProvider.of<StatisticsBloc>(context)
-                  .add(statisticsAddedEvent);
+              context.bloc<StatisticsBloc>().add(statisticsAddedEvent);
               return completer.future;
             },
           );

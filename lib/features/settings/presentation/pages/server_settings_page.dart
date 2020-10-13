@@ -21,7 +21,7 @@ class ServerSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsBloc = BlocProvider.of<SettingsBloc>(context);
+    final settingsBloc = context.bloc<SettingsBloc>();
     final _primaryConnectionAddressController = TextEditingController();
     final _secondaryConnectionAddressController = TextEditingController();
 

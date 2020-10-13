@@ -43,8 +43,8 @@ class SettingsPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final oneSignalPrivacyBloc = BlocProvider.of<OneSignalPrivacyBloc>(context);
-    final oneSignalHealthBloc = BlocProvider.of<OneSignalHealthBloc>(context);
+    final oneSignalPrivacyBloc = context.bloc<OneSignalPrivacyBloc>();
+    final oneSignalHealthBloc = context.bloc<OneSignalHealthBloc>();
 
     if (oneSignalPrivacyBloc.state is OneSignalPrivacyConsentSuccess) {
       oneSignalHealthBloc.add(OneSignalHealthCheck());
@@ -294,7 +294,7 @@ Widget _serverRefreshRateDisplay(int refreshRate) {
 Widget _buildFloatingActionButton(
   BuildContext context,
 ) {
-  final registerDeviceBloc = BlocProvider.of<RegisterDeviceBloc>(context);
+  final registerDeviceBloc = context.bloc<RegisterDeviceBloc>();
   // ThemeData is required to correct bug in Speed Dial package where Icon color was fixed
   return Builder(
     builder: (context) {
@@ -377,7 +377,7 @@ Widget _buildFloatingActionButton(
                       RegisterDeviceFromQrStarted(
                         result: qrCodeScan,
                         // Passes in the SettingsBloc to maintain context so items update correctly
-                        settingsBloc: BlocProvider.of<SettingsBloc>(context),
+                        settingsBloc: context.bloc<SettingsBloc>(),
                       ),
                     );
                   }

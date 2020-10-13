@@ -136,7 +136,8 @@ class _ActivityPageContentState extends State<ActivityPageContent>
 
                   return RefreshIndicator(
                     onRefresh: () {
-                      BlocProvider.of<ActivityBloc>(context)
+                      context
+                          .bloc<ActivityBloc>()
                           .add(ActivityLoadAndRefresh());
                       return _refreshCompleter.future;
                     },

@@ -21,7 +21,7 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
 
   @override
   Widget build(BuildContext context) {
-    final registerDeviceBloc = BlocProvider.of<RegisterDeviceBloc>(context);
+    final registerDeviceBloc = context.bloc<RegisterDeviceBloc>();
 
     return WillPopScope(
       onWillPop: () async {
@@ -116,8 +116,7 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
                                               .text,
                                       deviceToken: _deviceTokenController.text,
                                       settingsBloc:
-                                          BlocProvider.of<SettingsBloc>(
-                                              context),
+                                          context.bloc<SettingsBloc>(),
                                     ),
                                   );
                                 }

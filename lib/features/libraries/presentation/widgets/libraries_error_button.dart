@@ -35,7 +35,7 @@ class LibrariesErrorButton extends StatelessWidget {
             label: Text('Retry'),
             color: Theme.of(context).primaryColor,
             onPressed: () {
-              BlocProvider.of<LibrariesBloc>(context).add(librariesEvent);
+              context.bloc<LibrariesBloc>().add(librariesEvent);
               return completer.future;
             },
           );
