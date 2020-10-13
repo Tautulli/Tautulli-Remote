@@ -433,7 +433,9 @@ class TautulliApiImpl implements TautulliApi {
     int length,
     String search,
   }) async {
-    Map<String, String> params = {};
+    Map<String, String> params = {
+      'include_activity': 'false',
+    };
 
     if (grouping != null) {
       params['grouping'] = grouping.toString();

@@ -78,10 +78,7 @@ class HistoryDataSourceImpl implements HistoryDataSource {
 
     final List<History> historyList = [];
     historyJson['response']['data']['data'].forEach((item) {
-      // Do not include activity in history list
-      if (item['state'] == null) {
-        historyList.add(HistoryModel.fromJson(item));
-      }
+      historyList.add(HistoryModel.fromJson(item));
     });
 
     return historyList;
