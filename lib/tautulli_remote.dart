@@ -69,10 +69,10 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       //? call an update to the device registration when userid goes from null to a value
       // Only trigger new checks when userId moves from null to a value
       if (changes.to.userId != null) {
-        BlocProvider.of<OneSignalSubscriptionBloc>(context)
+        context
+            .bloc<OneSignalSubscriptionBloc>()
             .add(OneSignalSubscriptionCheck());
-        BlocProvider.of<OneSignalHealthBloc>(context)
-            .add(OneSignalHealthCheck());
+        context.bloc<OneSignalHealthBloc>().add(OneSignalHealthCheck());
       }
     });
   }
