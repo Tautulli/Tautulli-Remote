@@ -287,7 +287,8 @@ class TautulliApiImpl implements TautulliApi {
       RegExp badServerVersion = RegExp(
           r'^Device registration failed: Tautulli version v\d.\d.\d does not meet the minimum requirement of v\d.\d.\d.');
 
-      if (badServerVersion.hasMatch(responseJson['response']['message'])) {
+      if (responseJson['response']['message'] != null &&
+          badServerVersion.hasMatch(responseJson['response']['message'])) {
         throw ServerVersionException();
       }
 
