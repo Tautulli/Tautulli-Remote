@@ -41,7 +41,11 @@ void main() {
     Map<String, dynamic> registerJson = {
       "response": {
         "result": "success",
-        "data": {"pms_name": "Starlight", "server_id": "<tautulli_server_id>"}
+        "data": {
+          "pms_name": "Starlight",
+          "server_id": "<tautulli_server_id>",
+          'tautulli_version': 'v0.0.0',
+        }
       }
     };
     when(

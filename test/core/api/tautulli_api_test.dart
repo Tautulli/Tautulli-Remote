@@ -233,11 +233,11 @@ void main() {
     );
 
     test(
-      'should throw a ServerException if the response status code is not 200',
+      'should throw an Exception if the JSON response is parsable but the response status code is not 200',
       () async {
         // arrange
         when(mockHttpClient.get(any, headers: anyNamed('headers')))
-            .thenAnswer((_) async => http.Response('is bad', 404));
+            .thenAnswer((_) async => http.Response(fixture('activity.json'), 400));
         // act
         final call = tautulliApi.fetchTautulli;
         // assert
