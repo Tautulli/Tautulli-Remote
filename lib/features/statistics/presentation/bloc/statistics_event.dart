@@ -9,14 +9,18 @@ class StatisticsFetch extends StatisticsEvent {
   final int grouping;
   final int timeRange;
   final String statsType;
+  final int statsStart;
   final int statsCount;
+  final String statId;
 
   StatisticsFetch({
     @required this.tautulliId,
     this.grouping,
     this.timeRange,
     this.statsType,
+    this.statsStart,
     this.statsCount,
+    this.statId,
   });
 
   @override
@@ -34,14 +38,18 @@ class StatisticsFilter extends StatisticsEvent {
   final int grouping;
   final int timeRange;
   final String statsType;
+  final int statsStart;
   final int statsCount;
+  final String statId;
 
   StatisticsFilter({
     @required this.tautulliId,
     this.grouping,
     this.timeRange,
     this.statsType,
+    this.statsStart,
     this.statsCount,
+    this.statId,
   });
 
   @override

@@ -14,6 +14,7 @@ part 'statistics_event.dart';
 part 'statistics_state.dart';
 
 Map<String, List<Statistics>> _statisticsMapCache;
+Map<String, bool> _hasReachedMaxMapCache = {};
 bool _noStatsCache;
 String _statsTypeCache;
 int _timeRangeCache;
@@ -35,18 +36,29 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
   Stream<StatisticsState> mapEventToState(
     StatisticsEvent event,
   ) async* {
-    if (event is StatisticsFetch) {
-      _statsTypeCache = event.statsType;
-      _timeRangeCache = event.timeRange;
+    final currentState = state;
 
-      yield* _fetchStatistics(
-        tautulliId: event.tautulliId,
-        grouping: event.grouping,
-        statsCount: event.statsCount,
-        statsType: event.statsType,
-        timeRange: event.timeRange > 0 ? event.timeRange : 30,
-        useCachedList: true,
-      );
+    if (event is StatisticsFetch) {
+      if (event.statId == null) {
+        _statsTypeCache = event.statsType;
+        _timeRangeCache = event.timeRange;
+
+        yield* _fetchInitial(
+          tautulliId: event.tautulliId,
+          grouping: event.grouping,
+          statsCount: event.statsCount,
+          statsType: event.statsType,
+          timeRange: event.timeRange > 0 ? event.timeRange : 30,
+          useCachedList: true,
+        );
+      } else {
+        if (!_hasReachedMax(currentState, event.statId)) {
+          yield* _fetchMore(
+            currentState: currentState,
+            statId: event.statId,
+          );
+        }
+      }
 
       _tautulliIdCache = event.tautulliId;
     }
@@ -55,7 +67,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
       _statsTypeCache = event.statsType;
       _timeRangeCache = event.timeRange;
 
-      yield* _fetchStatistics(
+      yield* _fetchInitial(
         tautulliId: event.tautulliId,
         grouping: event.grouping,
         statsCount: event.statsCount,
@@ -67,7 +79,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     }
   }
 
-  Stream<StatisticsState> _fetchStatistics({
+  Stream<StatisticsState> _fetchInitial({
     @required String tautulliId,
     int grouping,
     int timeRange,
@@ -81,6 +93,8 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
       yield StatisticsSuccess(
         map: _statisticsMapCache,
         noStats: _noStatsCache,
+        hasReachedMaxMap: _hasReachedMaxMapCache,
+        lastUpdated: DateTime.now(),
       );
     } else {
       final statisticsOrFailure = await getStatistics(
@@ -100,13 +114,19 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           );
         },
         (map) async* {
-          // Check if all stats are empty
+          // Check if all stats are empty and build hasReachedMaxMap
           final List keys = map.keys.toList();
           bool noStats = true;
           for (String key in keys) {
             if (map[key].length > 0) {
               noStats = false;
-              break;
+              // break;
+            }
+
+            if (map[key].length < 5) {
+              _hasReachedMaxMapCache[key] = true;
+            } else {
+              _hasReachedMaxMapCache[key] = false;
             }
           }
 
@@ -117,6 +137,8 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
             yield StatisticsSuccess(
               map: map,
               noStats: noStats,
+              hasReachedMaxMap: _hasReachedMaxMapCache,
+              lastUpdated: DateTime.now(),
             );
           } else {
             await _getImages(
@@ -127,11 +149,58 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
             yield StatisticsSuccess(
               map: map,
               noStats: noStats,
+              hasReachedMaxMap: _hasReachedMaxMapCache,
+              lastUpdated: DateTime.now(),
             );
           }
         },
       );
     }
+  }
+
+  Stream<StatisticsState> _fetchMore({
+    @required StatisticsSuccess currentState,
+    String statId,
+  }) async* {
+    final statisticsOrFailure = await getStatistics(
+      tautulliId: _tautulliIdCache,
+      statsCount: 25,
+      statsType: _statsTypeCache,
+      timeRange: _timeRangeCache,
+      statsStart: currentState.map[statId].length,
+      statId: statId,
+    );
+
+    yield* statisticsOrFailure.fold(
+      (failure) async* {
+        yield StatisticsFailure(
+          failure: failure,
+          message: FailureMapperHelper.mapFailureToMessage(failure),
+          suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
+        );
+      },
+      (map) async* {
+        if (map[statId].isEmpty) {
+          _hasReachedMaxMapCache[statId] = true;
+          yield currentState.copyWith(hasReachedMaxMap: _hasReachedMaxMapCache);
+        } else {
+          await _getImages(
+            map: map,
+            tautulliId: _tautulliIdCache,
+          );
+
+          _statisticsMapCache[statId] = currentState.map[statId] + map[statId];
+          _hasReachedMaxMapCache[statId] = map[statId].length < 25;
+
+          yield StatisticsSuccess(
+            map: _statisticsMapCache,
+            noStats: _noStatsCache,
+            hasReachedMaxMap: _hasReachedMaxMapCache,
+            lastUpdated: DateTime.now(),
+          );
+        }
+      },
+    );
   }
 
   Future<void> _getImages({
@@ -188,6 +257,9 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     }
   }
 }
+
+bool _hasReachedMax(StatisticsState state, String statId) =>
+    state is StatisticsSuccess && state.hasReachedMaxMap[statId];
 
 void clearCache() {
   _statisticsMapCache = null;

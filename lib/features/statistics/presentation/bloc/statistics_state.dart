@@ -17,14 +17,32 @@ class StatisticsInitial extends StatisticsState {
 class StatisticsSuccess extends StatisticsState {
   final Map<String, List<Statistics>> map;
   final bool noStats;
+  final Map<String, bool> hasReachedMaxMap;
+  final DateTime lastUpdated;
 
   StatisticsSuccess({
     @required this.map,
     @required this.noStats,
+    @required this.hasReachedMaxMap,
+    @required this.lastUpdated,
   });
 
+  StatisticsSuccess copyWith({
+    Map<String, List<Statistics>> map,
+    bool noStats,
+    Map<String, bool> hasReachedMaxMap,
+    DateTime lastUpdated,
+  }) {
+    return StatisticsSuccess(
+      map: map ?? this.map,
+      noStats: noStats ?? this.noStats,
+      hasReachedMaxMap: hasReachedMaxMap ?? this.hasReachedMaxMap,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
+    );
+  }
+
   @override
-  List<Object> get props => [map];
+  List<Object> get props => [lastUpdated];
 }
 
 class StatisticsFailure extends StatisticsState {

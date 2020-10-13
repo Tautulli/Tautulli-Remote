@@ -161,7 +161,10 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
             },
             builder: (context, state) {
               if (state is StatisticsSuccess) {
-                List<Widget> statList = _buildStatisticList(map: state.map);
+                List<Widget> statList = _buildStatisticList(
+                  map: state.map,
+                  hasReachedMaxMap: state.hasReachedMaxMap,
+                );
 
                 if (!state.noStats) {
                   return Expanded(
@@ -452,13 +455,13 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
           ),
           actions: [
             FlatButton(
-              child: Text("Close"),
+              child: Text("CLOSE"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             FlatButton(
-              child: Text("Save"),
+              child: Text("SAVE"),
               onPressed: () {
                 if (_customTimeRangeFormKey.currentState.validate()) {
                   _statisticsBloc.add(
@@ -480,6 +483,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
 
   List<Widget> _buildStatisticList({
     @required Map<String, List<Statistics>> map,
+    @required Map<String, bool> hasReachedMaxMap,
   }) {
     final List keys = map.keys.toList();
     List<Widget> statList = [];
@@ -495,7 +499,14 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
     for (String key in keys) {
       if (map[key].isNotEmpty) {
         statList.addAll([
-          StatisticsHeading(statId: key),
+          BlocProvider<StatisticsBloc>.value(
+            value: _statisticsBloc,
+            child: StatisticsHeading(
+              statId: key,
+              statisticCount: map[key].length,
+              tautulliId: _tautulliId,
+            ),
+          ),
           Divider(
             indent: 8,
             endIndent: MediaQuery.of(context).size.width - 100,
@@ -504,38 +515,41 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
             color: PlexColorPalette.gamboge,
           ),
         ]);
-        for (Statistics s in map[key]) {
-          if (s.statId == 'top_platforms') {
-            statList.add(
-              IconCard(
-                assetPath:
-                    AssetMapperHelper.mapPlatformToPath(s.platformName),
-                backgroundColor:
-                    TautulliColorPalette.mapPlatformToColor(s.platformName),
-                details: StatisticsDetails(statistic: s),
-              ),
-            );
-          } else if (s.statId == 'top_users') {
-            statList.add(
-              UserCard(
-                userThumb: s.userThumb,
-                details: StatisticsDetails(statistic: s),
-              ),
-            );
-          } else if (s.statId == 'most_concurrent') {
-            statList.add(
-              IconCard(
-                assetPath: 'assets/icons/concurrent.svg',
-                details: StatisticsDetails(statistic: s),
-              ),
-            );
-          } else {
-            statList.add(
-              PosterCard(
-                item: s,
-                details: StatisticsDetails(statistic: s),
-              ),
-            );
+        for (int i = 0; i < 5; i++) {
+          if (i < map[key].length) {
+            Statistics s = map[key][i];
+            if (s.statId == 'top_platforms') {
+              statList.add(
+                IconCard(
+                  assetPath:
+                      AssetMapperHelper.mapPlatformToPath(s.platformName),
+                  backgroundColor:
+                      TautulliColorPalette.mapPlatformToColor(s.platformName),
+                  details: StatisticsDetails(statistic: s),
+                ),
+              );
+            } else if (s.statId == 'top_users') {
+              statList.add(
+                UserCard(
+                  userThumb: s.userThumb,
+                  details: StatisticsDetails(statistic: s),
+                ),
+              );
+            } else if (s.statId == 'most_concurrent') {
+              statList.add(
+                IconCard(
+                  assetPath: 'assets/icons/concurrent.svg',
+                  details: StatisticsDetails(statistic: s),
+                ),
+              );
+            } else {
+              statList.add(
+                PosterCard(
+                  item: s,
+                  details: StatisticsDetails(statistic: s),
+                ),
+              );
+            }
           }
         }
         // Do not add spacing after last item in list

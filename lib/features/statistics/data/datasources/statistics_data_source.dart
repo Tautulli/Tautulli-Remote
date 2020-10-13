@@ -43,17 +43,29 @@ class StatisticsDataSourceImpl implements StatisticsDataSource {
 
     Map<String, List<Statistics>> statisticsMap = {};
 
-    statisticsJson['response']['data'].forEach((statistic) {
-      statisticsMap[statistic['stat_id']] = [];
-      statistic['rows'].forEach((item) {
-        statisticsMap[statistic['stat_id']].add(
+    if (statId == null) {
+      statisticsJson['response']['data'].forEach((statistic) {
+        statisticsMap[statistic['stat_id']] = [];
+        statistic['rows'].forEach((item) {
+          statisticsMap[statistic['stat_id']].add(
+            StatisticsModel.fromJson(
+              statId: statistic['stat_id'],
+              json: item,
+            ),
+          );
+        });
+      });
+    } else {
+      statisticsMap[statId] = [];
+      statisticsJson['response']['data']['rows'].forEach((item) {
+        statisticsMap[statId].add(
           StatisticsModel.fromJson(
-            statId: statistic['stat_id'],
+            statId: statId,
             json: item,
           ),
         );
       });
-    });
+    }
 
     return statisticsMap;
   }
