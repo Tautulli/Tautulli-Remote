@@ -65,6 +65,10 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
       final Map<String, dynamic> responseData =
           registerJson['response']['data'];
 
+      if (!responseData.containsKey('tautulli_version')) {
+        throw ServerVersionException();
+      }
+
       return responseData;
     } else {
       throw ServerException();
