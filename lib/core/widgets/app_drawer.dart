@@ -171,7 +171,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: FaIcon(
-                    FontAwesomeIcons.thList,
+                    FontAwesomeIcons.listOl,
                     color: TautulliColorPalette.not_white,
                   ),
                   title: Text('Statistics'),
@@ -188,33 +188,71 @@ class AppDrawer extends StatelessWidget {
                         .pushReplacementNamed(StatisticsPage.routeName);
                   },
                 ),
-                ListTile(
-                  leading: FaIcon(
-                    FontAwesomeIcons.cogs,
-                    color: TautulliColorPalette.not_white,
-                  ),
-                  title: Text('Settings'),
-                  onTap: () {
-                    if (route.settings.name != SettingsPage.routeName) {
-                      Navigator.of(context)
-                          .pushReplacementNamed(SettingsPage.routeName);
-                    } else {
-                      Navigator.pop(context);
-                    }
-                  },
-                  onLongPress: () {
-                    Navigator.of(context)
-                        .pushReplacementNamed(SettingsPage.routeName);
-                  },
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 25),
-                //   child: Divider(
-                //     color: PlexColorPalette.raven,
+                // ListTile(
+                //   leading: FaIcon(
+                //     FontAwesomeIcons.solidArrowAltCircleDown,
+                //     color: TautulliColorPalette.not_white,
                 //   ),
+                //   title: Text('Sycned Items'),
+                //   onTap: () {
+                //     // if (route.settings.name != StatisticsPage.routeName) {
+                //     //   Navigator.of(context)
+                //     //       .pushReplacementNamed(StatisticsPage.routeName);
+                //     // } else {
+                //     //   Navigator.pop(context);
+                //     // }
+                //   },
+                //   onLongPress: () {
+                //     // Navigator.of(context)
+                //     //     .pushReplacementNamed(StatisticsPage.routeName);
+                //   },
                 // ),
               ],
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Divider(
+              color: PlexColorPalette.raven,
+            ),
+          ),
+          // ListTile(
+          //   leading: FaIcon(
+          //     FontAwesomeIcons.solidHeart,
+          //     color: Colors.red[400],
+          //   ),
+          //   title: Text('Donate'),
+          //   onTap: () {
+          //     // if (route.settings.name != StatisticsPage.routeName) {
+          //     //   Navigator.of(context)
+          //     //       .pushReplacementNamed(StatisticsPage.routeName);
+          //     // } else {
+          //     //   Navigator.pop(context);
+          //     // }
+          //   },
+          //   // onLongPress: () {
+          //   //   Navigator.of(context)
+          //   //       .pushReplacementNamed(StatisticsPage.routeName);
+          //   // },
+          // ),
+          ListTile(
+            leading: FaIcon(
+              FontAwesomeIcons.cogs,
+              color: TautulliColorPalette.not_white,
+            ),
+            title: Text('Settings'),
+            onTap: () {
+              if (route.settings.name != SettingsPage.routeName) {
+                Navigator.of(context)
+                    .pushReplacementNamed(SettingsPage.routeName);
+              } else {
+                Navigator.pop(context);
+              }
+            },
+            onLongPress: () {
+              Navigator.of(context)
+                  .pushReplacementNamed(SettingsPage.routeName);
+            },
           ),
         ],
       ),
