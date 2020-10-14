@@ -41,7 +41,6 @@ class _DonatePageContentState extends State<DonatePageContent> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initialize();
   }
@@ -121,7 +120,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
               ),
               const SizedBox(height: 8),
               Text(
-                'However, any contributions you can make towards the app are appriciated!',
+                'However, any contributions you can make towards the app are appreciated!',
                 style: TextStyle(
                   fontSize: 16,
                   // fontWeight: FontWeight.w600,
@@ -211,7 +210,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
                     Card(
                       child: ListTile(
                         title: Text(
-                          'Buy Me a Meal',
+                          'Buy Me A Meal',
                           style:
                               TextStyle(color: TautulliColorPalette.not_white),
                         ),
@@ -247,7 +246,6 @@ class _DonatePageContentState extends State<DonatePageContent> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _subscription.cancel();
   }
