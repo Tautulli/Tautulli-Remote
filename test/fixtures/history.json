@@ -43,7 +43,7 @@
                     "watched_status": 1,
                     "group_count": 3,
                     "group_ids": "30352,30353,30354",
-                    "state": "playing",
+                    "state": null,
                     "session_key": 1
                 }
             ],
