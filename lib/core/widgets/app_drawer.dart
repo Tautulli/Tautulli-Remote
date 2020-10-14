@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../features/activity/presentation/pages/activity_page.dart';
+import '../../features/donate/presentation/pages/donate_page.dart';
 import '../../features/history/presentation/pages/history_page.dart';
 import '../../features/libraries/presentation/pages/libraries_page.dart';
 import '../../features/recent/presentation/pages/recently_added_page.dart';
@@ -216,25 +217,25 @@ class AppDrawer extends StatelessWidget {
               color: PlexColorPalette.raven,
             ),
           ),
-          // ListTile(
-          //   leading: FaIcon(
-          //     FontAwesomeIcons.solidHeart,
-          //     color: Colors.red[400],
-          //   ),
-          //   title: Text('Donate'),
-          //   onTap: () {
-          //     // if (route.settings.name != StatisticsPage.routeName) {
-          //     //   Navigator.of(context)
-          //     //       .pushReplacementNamed(StatisticsPage.routeName);
-          //     // } else {
-          //     //   Navigator.pop(context);
-          //     // }
-          //   },
-          //   // onLongPress: () {
-          //   //   Navigator.of(context)
-          //   //       .pushReplacementNamed(StatisticsPage.routeName);
-          //   // },
-          // ),
+          ListTile(
+            leading: FaIcon(
+              FontAwesomeIcons.solidHeart,
+              color: Colors.red[400],
+            ),
+            title: Text('Donate'),
+            onTap: () {
+              if (route.settings.name != DonatePage.routeName) {
+                Navigator.of(context)
+                    .pushReplacementNamed(DonatePage.routeName);
+              } else {
+                Navigator.pop(context);
+              }
+            },
+            onLongPress: () {
+              Navigator.of(context)
+                  .pushReplacementNamed(DonatePage.routeName);
+            },
+          ),
           ListTile(
             leading: FaIcon(
               FontAwesomeIcons.cogs,

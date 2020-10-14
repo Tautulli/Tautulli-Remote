@@ -6,6 +6,7 @@ import 'package:quick_actions/quick_actions.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/activity/presentation/pages/activity_page.dart';
+import 'features/donate/presentation/pages/donate_page.dart';
 import 'features/help/presentation/pages/help_page.dart';
 import 'features/history/presentation/pages/history_page.dart';
 import 'features/libraries/presentation/pages/libraries_page.dart';
@@ -140,15 +141,16 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       ),
       routes: {
         ActivityPage.routeName: (ctx) => ActivityPage(),
+        HistoryPage.routeName: (ctx) => HistoryPage(),
         RecentlyAddedPage.routeName: (ctx) => RecentlyAddedPage(),
         LibrariesPage.routeName: (ctx) => LibrariesPage(),
         UsersPage.routeName: (ctx) => UsersPage(),
         StatisticsPage.routeName: (ctx) => StatisticsPage(),
-        HistoryPage.routeName: (ctx) => HistoryPage(),
+        HelpPage.routeName: (ctx) => HelpPage(),
+        DonatePage.routeName: (ctx) => DonatePage(),
         SettingsPage.routeName: (ctx) => SettingsPage(),
         PrivacyPage.routeName: (ctx) => PrivacyPage(),
         LogsPage.routeName: (ctx) => LogsPage(),
-        HelpPage.routeName: (ctx) => HelpPage(),
       },
       home: QuickActionsSetup(),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -10,6 +11,7 @@ import 'tautulli_remote.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  InAppPurchaseConnection.enablePendingPurchases();
   await di.init();
   runApp(
     MultiBlocProvider(
