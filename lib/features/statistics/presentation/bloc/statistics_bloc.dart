@@ -100,7 +100,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
       final statisticsOrFailure = await getStatistics(
         tautulliId: tautulliId,
         grouping: grouping,
-        statsCount: statsCount ?? 5,
+        statsCount: statsCount ?? 6,
         statsType: statsType,
         timeRange: timeRange,
       );
@@ -123,7 +123,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
               // break;
             }
 
-            if (map[key].length < 5) {
+            if (map[key].length < 6) {
               _hasReachedMaxMapCache[key] = true;
             } else {
               _hasReachedMaxMapCache[key] = false;

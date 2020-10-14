@@ -24,7 +24,7 @@ class StatisticsHeading extends StatelessWidget {
     final StatisticsBloc _statisticsBloc = context.bloc<StatisticsBloc>();
 
     return InkWell(
-      onTap: statisticCount >= 5
+      onTap: statisticCount > 5
           ? () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -45,17 +45,19 @@ class StatisticsHeading extends StatelessWidget {
         padding: const EdgeInsets.only(left: 8),
         child: Row(
           children: [
-            Text(
-              StringMapperHelper.mapStatIdToTitle(statId),
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: TautulliColorPalette.not_white,
+            Expanded(
+                          child: Text(
+                StringMapperHelper.mapStatIdToTitle(statId),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: TautulliColorPalette.not_white,
+                ),
               ),
             ),
-            if (statisticCount >= 5)
+            if (statisticCount > 5)
               Padding(
-                padding: const EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(right: 30),
                 child: FaIcon(
                   FontAwesomeIcons.angleRight,
                   color: TautulliColorPalette.not_white,
