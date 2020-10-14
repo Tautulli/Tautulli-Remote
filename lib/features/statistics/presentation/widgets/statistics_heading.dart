@@ -40,13 +40,21 @@ class StatisticsHeading extends StatelessWidget {
                 ),
               );
             }
-          : null,
+          : () {
+              Scaffold.of(context).hideCurrentSnackBar();
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: PlexColorPalette.shark,
+                  content: Text('No additional items for this statistic'),
+                ),
+              );
+            },
       child: Padding(
         padding: const EdgeInsets.only(left: 8),
         child: Row(
           children: [
             Expanded(
-                          child: Text(
+              child: Text(
                 StringMapperHelper.mapStatIdToTitle(statId),
                 style: TextStyle(
                   fontSize: 18,
