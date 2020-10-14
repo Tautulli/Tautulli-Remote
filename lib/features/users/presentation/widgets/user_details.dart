@@ -29,7 +29,6 @@ class UsersDetails extends StatelessWidget {
               TextSpan(
                 text: 'STREAMED ',
                 style: TextStyle(
-                  fontWeight: FontWeight.w600,
                   color: TautulliColorPalette.not_white,
                 ),
               ),
@@ -59,7 +58,6 @@ class UsersDetails extends StatelessWidget {
           TextSpan(
             text: 'PLAYS ',
             style: TextStyle(
-              fontWeight: FontWeight.w600,
               color: TautulliColorPalette.not_white,
             ),
           ),
@@ -77,7 +75,6 @@ class UsersDetails extends StatelessWidget {
             TextSpan(
               text: 'DURATION ',
               style: TextStyle(
-                fontWeight: FontWeight.w600,
                 color: TautulliColorPalette.not_white,
               ),
             ),

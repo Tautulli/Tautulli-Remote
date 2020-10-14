@@ -74,7 +74,6 @@ class LibraryDetails extends StatelessWidget {
           TextSpan(
             text: title,
             style: TextStyle(
-              fontWeight: FontWeight.w600,
               color: TautulliColorPalette.not_white,
             ),
           ),
@@ -88,7 +87,6 @@ class LibraryDetails extends StatelessWidget {
           TextSpan(
             text: parentTitle,
             style: TextStyle(
-              fontWeight: FontWeight.w600,
               color: TautulliColorPalette.not_white,
             ),
           ),
@@ -102,7 +100,6 @@ class LibraryDetails extends StatelessWidget {
           TextSpan(
             text: childTitle,
             style: TextStyle(
-              fontWeight: FontWeight.w600,
               color: TautulliColorPalette.not_white,
             ),
           ),
@@ -127,7 +124,6 @@ class LibraryDetails extends StatelessWidget {
           TextSpan(
             text: 'PLAYS ',
             style: TextStyle(
-              fontWeight: FontWeight.w600,
               color: TautulliColorPalette.not_white,
             ),
           ),
@@ -145,7 +141,6 @@ class LibraryDetails extends StatelessWidget {
             TextSpan(
               text: 'DURATION ',
               style: TextStyle(
-                fontWeight: FontWeight.w600,
                 color: TautulliColorPalette.not_white,
               ),
             ),
