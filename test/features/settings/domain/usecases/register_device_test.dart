@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/repositories/register_device_repository.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/register_device.dart';
+import 'package:tautulli_remote/features/settings/domain/repositories/register_device_repository.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 
 class MockRegisterDeviceRepository extends Mock
     implements RegisterDeviceRepository {}

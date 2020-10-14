@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/models/geo_ip_model.dart';
-import 'package:tautulli_remote_tdd/features/activity/domain/repositories/geo_ip_repository.dart';
-import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_geo_ip.dart';
+import 'package:tautulli_remote/features/activity/data/models/geo_ip_model.dart';
+import 'package:tautulli_remote/features/activity/domain/repositories/geo_ip_repository.dart';
+import 'package:tautulli_remote/features/activity/domain/usecases/get_geo_ip.dart';
 
 class MockGeoIpRepository extends Mock implements GeoIpRepository {}
 

@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/models/geo_ip_model.dart';
-import 'package:tautulli_remote_tdd/features/activity/domain/usecases/get_geo_ip.dart';
-import 'package:tautulli_remote_tdd/features/activity/presentation/bloc/geo_ip_bloc.dart';
+import 'package:tautulli_remote/core/error/failure.dart';
+import 'package:tautulli_remote/features/activity/data/models/geo_ip_model.dart';
+import 'package:tautulli_remote/features/activity/domain/usecases/get_geo_ip.dart';
+import 'package:tautulli_remote/features/activity/presentation/bloc/geo_ip_bloc.dart';
 
 class MockGetGeoIp extends Mock implements GetGeoIp {}
 

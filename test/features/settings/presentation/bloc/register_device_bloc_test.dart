@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/register_device.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
-import 'package:tautulli_remote_tdd/features/settings/presentation/bloc/register_device_bloc.dart';
-import 'package:tautulli_remote_tdd/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:tautulli_remote/core/database/data/models/server_model.dart';
+import 'package:tautulli_remote/core/error/failure.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/register_device_bloc.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 class MockRegisterDevice extends Mock implements RegisterDevice {}
 

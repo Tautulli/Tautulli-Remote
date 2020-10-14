@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/network/network_info.dart';
-import 'package:tautulli_remote_tdd/features/statistics/data/datasources/statistics_data_source.dart';
-import 'package:tautulli_remote_tdd/features/statistics/data/models/statistics_model.dart';
-import 'package:tautulli_remote_tdd/features/statistics/data/repositories/statistics_repository_impl.dart';
-import 'package:tautulli_remote_tdd/features/statistics/domain/entities/statistics.dart';
+import 'package:tautulli_remote/core/error/failure.dart';
+import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/statistics/data/datasources/statistics_data_source.dart';
+import 'package:tautulli_remote/features/statistics/data/models/statistics_model.dart';
+import 'package:tautulli_remote/features/statistics/data/repositories/statistics_repository_impl.dart';
+import 'package:tautulli_remote/features/statistics/domain/entities/statistics.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

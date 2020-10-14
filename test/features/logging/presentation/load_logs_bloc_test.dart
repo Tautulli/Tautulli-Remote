@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
-import 'package:tautulli_remote_tdd/features/logging/presentation/bloc/load_logs_bloc.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/logging/presentation/bloc/load_logs_bloc.dart';
 
 class MockLogging extends Mock implements Logging {}
 

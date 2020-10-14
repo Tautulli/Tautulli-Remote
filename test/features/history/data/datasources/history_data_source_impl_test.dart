@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
-import 'package:tautulli_remote_tdd/features/history/data/datasources/history_data_source.dart';
-import 'package:tautulli_remote_tdd/features/history/data/models/history_model.dart';
-import 'package:tautulli_remote_tdd/features/history/domain/entities/history.dart';
-import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/features/history/data/datasources/history_data_source.dart';
+import 'package:tautulli_remote/features/history/data/models/history_model.dart';
+import 'package:tautulli_remote/features/history/domain/entities/history.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

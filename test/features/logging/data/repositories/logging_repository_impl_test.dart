@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/features/logging/data/datasources/logging_data_source.dart';
-import 'package:tautulli_remote_tdd/features/logging/data/repositories/logging_repository_impl.dart';
+import 'package:tautulli_remote/features/logging/data/datasources/logging_data_source.dart';
+import 'package:tautulli_remote/features/logging/data/repositories/logging_repository_impl.dart';
 
 class MockLoggingDataSource extends Mock implements LoggingDataSource {}
 

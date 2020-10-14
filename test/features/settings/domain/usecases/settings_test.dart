@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/repositories/settings_repository.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/core/database/data/models/server_model.dart';
+import 'package:tautulli_remote/features/settings/domain/repositories/settings_repository.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 
 class MockSettingsRepository extends Mock implements SettingsRepository {}
 

@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
-import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
-import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
-import 'package:tautulli_remote_tdd/core/error/exception.dart';
-import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/database/data/models/server_model.dart';
+import 'package:tautulli_remote/core/error/exception.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:matcher/matcher.dart';
 
 import '../../fixtures/fixture_reader.dart';

@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/features/statistics/data/models/statistics_model.dart';
-import 'package:tautulli_remote_tdd/features/statistics/domain/entities/statistics.dart';
-import 'package:tautulli_remote_tdd/features/statistics/domain/repositories/statistics_repository.dart';
-import 'package:tautulli_remote_tdd/features/statistics/domain/usecases/get_statistics.dart';
+import 'package:tautulli_remote/features/statistics/data/models/statistics_model.dart';
+import 'package:tautulli_remote/features/statistics/domain/entities/statistics.dart';
+import 'package:tautulli_remote/features/statistics/domain/repositories/statistics_repository.dart';
+import 'package:tautulli_remote/features/statistics/domain/usecases/get_statistics.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

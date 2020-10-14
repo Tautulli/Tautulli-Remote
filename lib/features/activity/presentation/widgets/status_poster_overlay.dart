@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tautulli_remote_tdd/core/helpers/icon_mapper_helper.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/helpers/icon_mapper_helper.dart';
 
 class StatusPosterOverlay extends StatelessWidget {
   final String state;

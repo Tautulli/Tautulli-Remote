@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
-import 'package:tautulli_remote_tdd/core/device_info/device_info.dart';
-import 'package:tautulli_remote_tdd/features/onesignal/data/datasources/onesignal_data_source.dart';
-import 'package:tautulli_remote_tdd/features/settings/data/datasources/register_device_data_source.dart';
+import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/device_info/device_info.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'package:tautulli_remote/features/settings/data/datasources/register_device_data_source.dart';
 import 'package:matcher/matcher.dart';
 
 class MockTautulliApi extends Mock implements TautulliApi {}

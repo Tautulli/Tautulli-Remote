@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/helpers/failure_mapper_helper.dart';
-import 'package:tautulli_remote_tdd/features/image_url/domain/usecases/get_image_url.dart';
-import 'package:tautulli_remote_tdd/features/libraries/data/models/library_model.dart';
-import 'package:tautulli_remote_tdd/features/libraries/domain/entities/library.dart';
-import 'package:tautulli_remote_tdd/features/libraries/domain/usercases/get_libraries_table.dart';
-import 'package:tautulli_remote_tdd/features/libraries/presentation/bloc/libraries_bloc.dart';
+import 'package:tautulli_remote/core/error/failure.dart';
+import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
+import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
+import 'package:tautulli_remote/features/libraries/data/models/library_model.dart';
+import 'package:tautulli_remote/features/libraries/domain/entities/library.dart';
+import 'package:tautulli_remote/features/libraries/domain/usercases/get_libraries_table.dart';
+import 'package:tautulli_remote/features/libraries/presentation/bloc/libraries_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

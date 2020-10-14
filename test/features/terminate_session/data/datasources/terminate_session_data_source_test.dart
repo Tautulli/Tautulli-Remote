@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
-import 'package:tautulli_remote_tdd/features/terminate_session/data/datasources/terminate_session_data_source.dart';
+import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/features/terminate_session/data/datasources/terminate_session_data_source.dart';
 
 class MockTautulliApi extends Mock implements TautulliApi {}
 

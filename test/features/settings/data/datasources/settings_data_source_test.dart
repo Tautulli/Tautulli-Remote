@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tautulli_remote_tdd/features/settings/data/datasources/settings_data_source.dart';
+import 'package:tautulli_remote/features/settings/data/datasources/settings_data_source.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 

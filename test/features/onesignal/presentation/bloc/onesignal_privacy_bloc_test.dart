@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
-import 'package:tautulli_remote_tdd/core/database/domain/entities/server.dart';
-import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
-import 'package:tautulli_remote_tdd/features/onesignal/data/datasources/onesignal_data_source.dart';
-import 'package:tautulli_remote_tdd/features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/register_device.dart';
-import 'package:tautulli_remote_tdd/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/core/database/data/models/server_model.dart';
+import 'package:tautulli_remote/core/database/domain/entities/server.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'package:tautulli_remote/features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 
 class MockOneSignalDataSourceImpl extends Mock
     implements OneSignalDataSourceImpl {}

@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
-import 'package:tautulli_remote_tdd/core/network/network_info.dart';
-import 'package:tautulli_remote_tdd/features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
 
 class MockHttpClient extends Mock implements http.Client {}
 

@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tautulli_remote_tdd/core/error/exception.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/network/network_info.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/datasources/activity_data_source.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/models/activity_model.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/repositories/activity_repository_impl.dart';
+import 'package:tautulli_remote/core/error/exception.dart';
+import 'package:tautulli_remote/core/error/failure.dart';
+import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/activity/data/datasources/activity_data_source.dart';
+import 'package:tautulli_remote/features/activity/data/models/activity_model.dart';
+import 'package:tautulli_remote/features/activity/data/repositories/activity_repository_impl.dart';
 import 'package:matcher/matcher.dart';
-import 'package:tautulli_remote_tdd/features/activity/domain/entities/activity.dart';
+import 'package:tautulli_remote/features/activity/domain/entities/activity.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

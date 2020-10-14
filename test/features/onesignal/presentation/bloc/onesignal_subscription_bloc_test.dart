@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/features/onesignal/data/datasources/onesignal_data_source.dart';
-import 'package:tautulli_remote_tdd/features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'package:tautulli_remote/features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 
 class MockOneSignalDataSourceImpl extends Mock
     implements OneSignalDataSourceImpl {}

@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/helpers/failure_mapper_helper.dart';
-import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
-import 'package:tautulli_remote_tdd/features/users/data/models/user_table_model.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/entities/user_table.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/usercases/get_users_table.dart';
-import 'package:tautulli_remote_tdd/features/users/presentation/bloc/users_bloc.dart';
+import 'package:tautulli_remote/core/error/failure.dart';
+import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/users/data/models/user_table_model.dart';
+import 'package:tautulli_remote/features/users/domain/entities/user_table.dart';
+import 'package:tautulli_remote/features/users/domain/usercases/get_users_table.dart';
+import 'package:tautulli_remote/features/users/presentation/bloc/users_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

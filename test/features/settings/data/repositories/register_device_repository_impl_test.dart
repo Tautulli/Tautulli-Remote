@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/network/network_info.dart';
-import 'package:tautulli_remote_tdd/features/settings/data/datasources/register_device_data_source.dart';
-import 'package:tautulli_remote_tdd/features/settings/data/repositories/register_device_repository_impl.dart';
+import 'package:tautulli_remote/core/error/failure.dart';
+import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/settings/data/datasources/register_device_data_source.dart';
+import 'package:tautulli_remote/features/settings/data/repositories/register_device_repository_impl.dart';
 
 class MockRegisterDeviceDataSource extends Mock
     implements RegisterDeviceDataSource {}

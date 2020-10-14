@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/helpers/failure_mapper_helper.dart';
-import 'package:tautulli_remote_tdd/features/image_url/domain/usecases/get_image_url.dart';
-import 'package:tautulli_remote_tdd/features/statistics/data/models/statistics_model.dart';
-import 'package:tautulli_remote_tdd/features/statistics/domain/entities/statistics.dart';
-import 'package:tautulli_remote_tdd/features/statistics/domain/usecases/get_statistics.dart';
-import 'package:tautulli_remote_tdd/features/statistics/presentation/bloc/statistics_bloc.dart';
+import 'package:tautulli_remote/core/error/failure.dart';
+import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
+import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
+import 'package:tautulli_remote/features/statistics/data/models/statistics_model.dart';
+import 'package:tautulli_remote/features/statistics/domain/entities/statistics.dart';
+import 'package:tautulli_remote/features/statistics/domain/usecases/get_statistics.dart';
+import 'package:tautulli_remote/features/statistics/presentation/bloc/statistics_bloc.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 

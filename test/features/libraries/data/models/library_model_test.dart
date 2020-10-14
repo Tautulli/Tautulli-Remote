@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tautulli_remote_tdd/features/libraries/data/models/library_model.dart';
-import 'package:tautulli_remote_tdd/features/libraries/domain/entities/library.dart';
+import 'package:tautulli_remote/features/libraries/data/models/library_model.dart';
+import 'package:tautulli_remote/features/libraries/domain/entities/library.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

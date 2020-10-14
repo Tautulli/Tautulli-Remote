@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/network/network_info.dart';
-import 'package:tautulli_remote_tdd/features/users/data/datasources/users_data_source.dart';
-import 'package:tautulli_remote_tdd/features/users/data/models/user_model.dart';
-import 'package:tautulli_remote_tdd/features/users/data/models/user_table_model.dart';
-import 'package:tautulli_remote_tdd/features/users/data/repositories/users_repository_impl.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/entities/user.dart';
-import 'package:tautulli_remote_tdd/features/users/domain/entities/user_table.dart';
+import 'package:tautulli_remote/core/error/failure.dart';
+import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/users/data/datasources/users_data_source.dart';
+import 'package:tautulli_remote/features/users/data/models/user_model.dart';
+import 'package:tautulli_remote/features/users/data/models/user_table_model.dart';
+import 'package:tautulli_remote/features/users/data/repositories/users_repository_impl.dart';
+import 'package:tautulli_remote/features/users/domain/entities/user.dart';
+import 'package:tautulli_remote/features/users/domain/entities/user_table.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/api/tautulli_api.dart';
-import 'package:tautulli_remote_tdd/core/database/data/models/server_model.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/datasources/geo_ip_data_source.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/models/geo_ip_model.dart';
+import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/database/data/models/server_model.dart';
+import 'package:tautulli_remote/features/activity/data/datasources/geo_ip_data_source.dart';
+import 'package:tautulli_remote/features/activity/data/models/geo_ip_model.dart';
 import 'package:matcher/matcher.dart';
-import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

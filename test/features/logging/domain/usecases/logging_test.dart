@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/features/logging/domain/repositories/logging_repository.dart';
-import 'package:tautulli_remote_tdd/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/logging/domain/repositories/logging_repository.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 
 class MockLoggingRepository extends Mock implements LoggingRepository {}
 

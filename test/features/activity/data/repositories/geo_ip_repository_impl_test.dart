@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote_tdd/core/error/failure.dart';
-import 'package:tautulli_remote_tdd/core/network/network_info.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/datasources/geo_ip_data_source.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/models/geo_ip_model.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/repositories/geo_ip_repository_impl.dart';
+import 'package:tautulli_remote/core/error/failure.dart';
+import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/activity/data/datasources/geo_ip_data_source.dart';
+import 'package:tautulli_remote/features/activity/data/models/geo_ip_model.dart';
+import 'package:tautulli_remote/features/activity/data/repositories/geo_ip_repository_impl.dart';
 
 class MockGeoIpDataSouce extends Mock implements GeoIpDataSource {}
 

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tautulli_remote_tdd/features/activity/data/models/geo_ip_model.dart';
-import 'package:tautulli_remote_tdd/features/activity/domain/entities/geo_ip.dart';
+import 'package:tautulli_remote/features/activity/data/models/geo_ip_model.dart';
+import 'package:tautulli_remote/features/activity/domain/entities/geo_ip.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
