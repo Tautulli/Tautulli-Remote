@@ -182,7 +182,10 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
       (map) async* {
         if (map[statId].isEmpty) {
           _hasReachedMaxMapCache[statId] = true;
-          yield currentState.copyWith(hasReachedMaxMap: _hasReachedMaxMapCache);
+          yield currentState.copyWith(
+            hasReachedMaxMap: _hasReachedMaxMapCache,
+            lastUpdated: DateTime.now(),
+          );
         } else {
           await _getImages(
             map: map,
