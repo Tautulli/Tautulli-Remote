@@ -121,10 +121,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
               const SizedBox(height: 8),
               Text(
                 'However, any contributions you can make towards the app are appreciated!',
-                style: TextStyle(
-                  fontSize: 16,
-                  // fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ],
