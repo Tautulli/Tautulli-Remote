@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/widgets/app_drawer.dart';
 
 final List<String> productIds = ['ice_cream', 'pizza', 'hamburger', 'meal'];
 
