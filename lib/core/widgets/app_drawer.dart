@@ -225,15 +225,15 @@ class AppDrawer extends StatelessWidget {
             title: Text('Donate'),
             onTap: () {
               if (route.settings.name != DonatePage.routeName) {
-                Navigator.of(context)
-                    .pushReplacementNamed(DonatePage.routeName);
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed(DonatePage.routeName);
               } else {
                 Navigator.pop(context);
               }
             },
             onLongPress: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(DonatePage.routeName);
+              Navigator.pop(context);
+              Navigator.of(context).pushNamed(DonatePage.routeName);
             },
           ),
           ListTile(
