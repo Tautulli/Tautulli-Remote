@@ -21,7 +21,6 @@ class DonatePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Donate'),
       ),
-      drawer: AppDrawer(),
       body: DonatePageContent(),
     );
   }
