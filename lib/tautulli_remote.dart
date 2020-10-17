@@ -18,6 +18,7 @@ import 'features/recent/presentation/pages/recently_added_page.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/statistics/presentation/pages/statistics_page.dart';
+import 'features/synced_items/presentation/pages/synced_items_page.dart';
 import 'features/users/presentation/pages/users_page.dart';
 
 class TautulliRemote extends StatefulWidget {
@@ -146,6 +147,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         LibrariesPage.routeName: (ctx) => LibrariesPage(),
         UsersPage.routeName: (ctx) => UsersPage(),
         StatisticsPage.routeName: (ctx) => StatisticsPage(),
+        SyncedItemsPage.routeName: (ctx) => SyncedItemsPage(),
         HelpPage.routeName: (ctx) => HelpPage(),
         DonatePage.routeName: (ctx) => DonatePage(),
         SettingsPage.routeName: (ctx) => SettingsPage(),

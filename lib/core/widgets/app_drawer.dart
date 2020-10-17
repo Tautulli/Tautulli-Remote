@@ -8,6 +8,7 @@ import '../../features/libraries/presentation/pages/libraries_page.dart';
 import '../../features/recent/presentation/pages/recently_added_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/statistics/presentation/pages/statistics_page.dart';
+import '../../features/synced_items/presentation/pages/synced_items_page.dart';
 import '../../features/users/presentation/pages/users_page.dart';
 import '../helpers/color_palette_helper.dart';
 
@@ -191,10 +192,10 @@ class AppDrawer extends StatelessWidget {
                 ),
                 // ListTile(
                 //   leading: FaIcon(
-                //     FontAwesomeIcons.solidArrowAltCircleDown,
+                //     FontAwesomeIcons.chartBar,
                 //     color: TautulliColorPalette.not_white,
                 //   ),
-                //   title: Text('Sycned Items'),
+                //   title: Text('Graphs'),
                 //   onTap: () {
                 //     // if (route.settings.name != StatisticsPage.routeName) {
                 //     //   Navigator.of(context)
@@ -208,6 +209,25 @@ class AppDrawer extends StatelessWidget {
                 //     //     .pushReplacementNamed(StatisticsPage.routeName);
                 //   },
                 // ),
+                ListTile(
+                  leading: FaIcon(
+                    FontAwesomeIcons.cloudDownloadAlt,
+                    color: TautulliColorPalette.not_white,
+                  ),
+                  title: Text('Synced Items'),
+                  onTap: () {
+                    if (route.settings.name != SyncedItemsPage.routeName) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(SyncedItemsPage.routeName);
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  onLongPress: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(SyncedItemsPage.routeName);
+                  },
+                ),
               ],
             ),
           ),
