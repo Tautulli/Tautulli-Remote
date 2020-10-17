@@ -37,6 +37,7 @@ void main() {
     tautulliId: tTautulliId,
     plexName: tPlexName,
     primaryActive: true,
+    plexPass: true,
   );
 
   final List<ServerModel> tServerList = [tServerModel];
@@ -51,6 +52,7 @@ void main() {
         tautulliId: tTautulliId,
         plexName: tPlexName,
         primaryActive: true,
+        plexPass: true,
       );
       // assert
       verify(
@@ -60,6 +62,7 @@ void main() {
           tautulliId: tTautulliId,
           plexName: tPlexName,
           primaryActive: true,
+          plexPass: true,
         ),
       );
     },
@@ -97,6 +100,7 @@ void main() {
         tautulliId: tTautulliId,
         plexName: tPlexName,
         primaryActive: true,
+        plexPass: true,
       );
       // assert
       verify(
@@ -108,6 +112,7 @@ void main() {
           tautulliId: tTautulliId,
           plexName: tPlexName,
           primaryActive: true,
+          plexPass: true,
         ),
       );
     },

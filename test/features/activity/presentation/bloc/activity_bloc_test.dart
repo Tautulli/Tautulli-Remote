@@ -69,6 +69,7 @@ void main() {
     tautulliId: 'jkl',
     plexName: 'Plex',
     primaryActive: true,
+    plexPass: true,
   );
 
   List<ServerModel> tServerList = [serverModel];

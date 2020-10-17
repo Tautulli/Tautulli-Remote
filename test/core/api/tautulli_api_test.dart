@@ -50,6 +50,7 @@ void main() {
     tautulliId: 'jkl',
     plexName: 'Plex',
     primaryActive: true,
+    plexPass: true,
   );
 
   group('connectionHandler', () {
@@ -88,6 +89,7 @@ void main() {
           plexName: null,
           tautulliId: null,
           primaryActive: true,
+          plexPass: true,
         );
         when(mockSettings.getServerByTautulliId(any))
             .thenAnswer((_) async => tBadServerModel);
@@ -116,6 +118,7 @@ void main() {
           plexName: null,
           tautulliId: null,
           primaryActive: true,
+          plexPass: true,
         );
         when(mockSettings.getServerByTautulliId(any))
             .thenAnswer((_) async => tBadServerModel);
@@ -236,8 +239,8 @@ void main() {
       'should throw an Exception if the JSON response is parsable but the response status code is not 200',
       () async {
         // arrange
-        when(mockHttpClient.get(any, headers: anyNamed('headers')))
-            .thenAnswer((_) async => http.Response(fixture('activity.json'), 400));
+        when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+            (_) async => http.Response(fixture('activity.json'), 400));
         // act
         final call = tautulliApi.fetchTautulli;
         // assert

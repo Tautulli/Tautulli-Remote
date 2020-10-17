@@ -38,6 +38,7 @@ void main() {
     plexName: 'Plex',
     tautulliId: 'jkl',
     primaryActive: true,
+    plexPass: true,
   );
 
   final tIpAddress = '10.0.0.1';

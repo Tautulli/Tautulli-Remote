@@ -63,6 +63,7 @@ void main() {
     tautulliId: tTautulliId,
     plexName: tPlexName,
     primaryActive: true,
+    plexPass: true,
   );
 
   Map responseMap = {
