@@ -300,7 +300,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
                 children: [
                   _currentSortIcon(color: PlexColorPalette.gamboge),
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    padding: const EdgeInsets.only(left: 5),
                     child: Text(
                       _currentSortName(),
                       style: TextStyle(color: PlexColorPalette.gamboge),
@@ -314,10 +314,16 @@ class _UsersPageContentState extends State<UsersPageContent> {
               child: Row(
                 children: [
                   _orderColumn == 'friendly_name' && _orderDir == 'asc'
-                      ? FaIcon(FontAwesomeIcons.sortAlphaDownAlt)
-                      : FaIcon(FontAwesomeIcons.sortAlphaDown),
+                      ? FaIcon(
+                          FontAwesomeIcons.sortAlphaDownAlt,
+                          size: 20,
+                        )
+                      : FaIcon(
+                          FontAwesomeIcons.sortAlphaDown,
+                          size: 20,
+                        ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    padding: const EdgeInsets.only(left: 5),
                     child: Text('Name'),
                   ),
                 ],
@@ -330,10 +336,16 @@ class _UsersPageContentState extends State<UsersPageContent> {
               child: Row(
                 children: [
                   _orderColumn == 'last_seen' && _orderDir == 'desc'
-                      ? FaIcon(FontAwesomeIcons.sortNumericDownAlt)
-                      : FaIcon(FontAwesomeIcons.sortNumericDown),
+                      ? FaIcon(
+                          FontAwesomeIcons.sortNumericDownAlt,
+                          size: 20,
+                        )
+                      : FaIcon(
+                          FontAwesomeIcons.sortNumericDown,
+                          size: 20,
+                        ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    padding: const EdgeInsets.only(left: 5),
                     child: Text('Last Streamed'),
                   ),
                 ],
@@ -353,11 +365,13 @@ class _UsersPageContentState extends State<UsersPageContent> {
       if (_orderDir == 'asc') {
         return FaIcon(
           FontAwesomeIcons.sortAlphaDown,
+          size: 20,
           color: color ?? TautulliColorPalette.not_white,
         );
       } else {
         return FaIcon(
           FontAwesomeIcons.sortAlphaDownAlt,
+          size: 20,
           color: color ?? TautulliColorPalette.not_white,
         );
       }
@@ -366,11 +380,13 @@ class _UsersPageContentState extends State<UsersPageContent> {
       if (_orderDir == 'asc') {
         return FaIcon(
           FontAwesomeIcons.sortNumericDownAlt,
+          size: 20,
           color: color ?? TautulliColorPalette.not_white,
         );
       } else {
         return FaIcon(
           FontAwesomeIcons.sortNumericDown,
+          size: 20,
           color: color ?? TautulliColorPalette.not_white,
         );
       }

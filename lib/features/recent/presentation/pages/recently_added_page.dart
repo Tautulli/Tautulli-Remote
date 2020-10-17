@@ -268,6 +268,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
       PopupMenuButton(
         icon: FaIcon(
           FontAwesomeIcons.filter,
+          size: 20,
           color: _mediaType != 'all'
               ? Theme.of(context).accentColor
               : TautulliColorPalette.not_white,

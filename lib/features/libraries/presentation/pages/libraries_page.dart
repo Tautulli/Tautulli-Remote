@@ -275,7 +275,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                 children: [
                   _currentSortIcon(color: PlexColorPalette.gamboge),
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    padding: const EdgeInsets.only(left: 5),
                     child: Text(
                       _currentSortName(),
                       style: TextStyle(color: PlexColorPalette.gamboge),
@@ -289,10 +289,16 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
               child: Row(
                 children: [
                   _orderColumn == 'section_name' && _orderDir == 'asc'
-                      ? FaIcon(FontAwesomeIcons.sortAmountDown)
-                      : FaIcon(FontAwesomeIcons.sortAmountDownAlt),
+                      ? FaIcon(
+                          FontAwesomeIcons.sortAmountDown,
+                          size: 20,
+                        )
+                      : FaIcon(
+                          FontAwesomeIcons.sortAmountDownAlt,
+                          size: 20,
+                        ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    padding: const EdgeInsets.only(left: 5),
                     child: Text('Name'),
                   ),
                 ],
@@ -306,10 +312,16 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                 children: [
                   _orderColumn == 'count,parent_count,child_count' &&
                           _orderDir == 'desc'
-                      ? FaIcon(FontAwesomeIcons.sortAmountDownAlt)
-                      : FaIcon(FontAwesomeIcons.sortAmountDown),
+                      ? FaIcon(
+                          FontAwesomeIcons.sortAmountDownAlt,
+                          size: 20,
+                        )
+                      : FaIcon(
+                          FontAwesomeIcons.sortAmountDown,
+                          size: 20,
+                        ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    padding: const EdgeInsets.only(left: 5),
                     child: Text('Count'),
                   ),
                 ],
@@ -323,10 +335,16 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
               child: Row(
                 children: [
                   _orderColumn == 'duration' && _orderDir == 'desc'
-                      ? FaIcon(FontAwesomeIcons.sortAmountDownAlt)
-                      : FaIcon(FontAwesomeIcons.sortAmountDown),
+                      ? FaIcon(
+                          FontAwesomeIcons.sortAmountDownAlt,
+                          size: 20,
+                        )
+                      : FaIcon(
+                          FontAwesomeIcons.sortAmountDown,
+                          size: 20,
+                        ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    padding: const EdgeInsets.only(left: 5),
                     child: Text('Duration'),
                   ),
                 ],
@@ -339,10 +357,16 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
               child: Row(
                 children: [
                   _orderColumn == 'plays' && _orderDir == 'desc'
-                      ? FaIcon(FontAwesomeIcons.sortAmountDownAlt)
-                      : FaIcon(FontAwesomeIcons.sortAmountDown),
+                      ? FaIcon(
+                          FontAwesomeIcons.sortAmountDownAlt,
+                          size: 20,
+                        )
+                      : FaIcon(
+                          FontAwesomeIcons.sortAmountDown,
+                          size: 20,
+                        ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    padding: const EdgeInsets.only(left: 5),
                     child: Text('Plays'),
                   ),
                 ],
@@ -361,11 +385,13 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
     if (_orderDir == 'asc') {
       return FaIcon(
         FontAwesomeIcons.sortAmountDownAlt,
+        size: 20,
         color: color ?? TautulliColorPalette.not_white,
       );
     } else {
       return FaIcon(
         FontAwesomeIcons.sortAmountDown,
+        size: 20,
         color: color ?? TautulliColorPalette.not_white,
       );
     }

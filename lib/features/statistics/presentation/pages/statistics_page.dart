@@ -244,6 +244,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
           _statsType == 'plays'
               ? FontAwesomeIcons.playCircle
               : FontAwesomeIcons.clock,
+          size: 20,
           color: TautulliColorPalette.not_white,
         ),
         tooltip: 'Stats type',
@@ -266,12 +267,13 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                 children: [
                   FaIcon(
                     FontAwesomeIcons.playCircle,
+                    size: 20,
                     color: _statsType == 'plays'
                         ? PlexColorPalette.gamboge
                         : TautulliColorPalette.not_white,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    padding: const EdgeInsets.only(left: 5),
                     child: Text(
                       'Plays',
                       style: TextStyle(
@@ -290,12 +292,13 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                 children: [
                   FaIcon(
                     FontAwesomeIcons.clock,
+                    size: 20,
                     color: _statsType == 'duration'
                         ? PlexColorPalette.gamboge
                         : TautulliColorPalette.not_white,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    padding: const EdgeInsets.only(left: 5),
                     child: Text(
                       'Duration',
                       style: TextStyle(
@@ -319,6 +322,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
               key: _timeRangeKey,
               icon: FaIcon(
                 FontAwesomeIcons.calendarAlt,
+                size: 20,
                 color: TautulliColorPalette.not_white,
               ),
               tooltip: 'Time range',
@@ -393,7 +397,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
             ),
           ),
           Positioned(
-            right: 3,
+            right: 5,
             top: 28,
             child: GestureDetector(
               onTap: () {
@@ -401,8 +405,8 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                 state.showButtonMenu();
               },
               child: Container(
-                height: 20,
-                width: 20,
+                height: 18,
+                width: 18,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: PlexColorPalette.gamboge,

@@ -301,6 +301,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
               tooltip: 'Users',
               icon: FaIcon(
                 FontAwesomeIcons.userAlt,
+                size: 20,
                 color: _userId != null
                     ? Theme.of(context).accentColor
                     : TautulliColorPalette.not_white,
@@ -341,33 +342,38 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
             );
           }
           if (state is HistoryUsersInProgress) {
-            return Stack(
-              children: [
-                IconButton(
-                  icon: FaIcon(FontAwesomeIcons.userAlt),
-                  color: Theme.of(context).disabledColor,
-                  onPressed: () {
-                    Scaffold.of(context).hideCurrentSnackBar();
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: PlexColorPalette.shark,
-                        content: Text('Loading users'),
+            return Center(
+              child: Stack(
+                children: [
+                  IconButton(
+                    icon: FaIcon(
+                      FontAwesomeIcons.userAlt,
+                      size: 20,
+                    ),
+                    color: Theme.of(context).disabledColor,
+                    onPressed: () {
+                      Scaffold.of(context).hideCurrentSnackBar();
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: PlexColorPalette.shark,
+                          content: Text('Loading users'),
+                        ),
+                      );
+                    },
+                  ),
+                  Positioned(
+                    right: 5,
+                    top: 25,
+                    child: SizedBox(
+                      height: 13,
+                      width: 13,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 1,
                       ),
-                    );
-                  },
-                ),
-                Positioned(
-                  right: 0,
-                  top: 25,
-                  child: SizedBox(
-                    height: 15,
-                    width: 15,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           }
           return IconButton(
@@ -389,6 +395,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
       PopupMenuButton(
         icon: FaIcon(
           FontAwesomeIcons.filter,
+          size: 20,
           color: _mediaType != 'all'
               ? Theme.of(context).accentColor
               : TautulliColorPalette.not_white,
