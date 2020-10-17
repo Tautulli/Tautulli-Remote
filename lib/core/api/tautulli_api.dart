@@ -13,29 +13,17 @@ import '../requirements/versions.dart';
 abstract class TautulliApi {
   Future connectionHandler();
   Future fetchTautulli();
-  Future<Map<String, dynamic>> getActivity(String tautulliId);
-  Future<Map<String, dynamic>> getRecentlyAdded({
-    @required String tautulliId,
-    @required int count,
-    int start,
-    String mediaType,
-    int sectionId,
+  Future<Map<String, dynamic>> deleteMobileDevice({
+    @required String connectionProtocol,
+    @required String connectionDomain,
+    @required String connectionPath,
+    @required String deviceToken,
+    @required String deviceId,
   });
+  Future<Map<String, dynamic>> getActivity(String tautulliId);
   Future<Map<String, dynamic>> getGeoipLookup({
     @required String tautulliId,
     String ipAddress,
-  });
-  Future<Map<String, dynamic>> getUserNames({
-    @required String tautulliId,
-  });
-  Future<Map<String, dynamic>> getUsersTable({
-    @required String tautulliId,
-    int grouping,
-    String orderColumn,
-    String orderDir,
-    int start,
-    int length,
-    String search,
   });
   Future<Map<String, dynamic>> getHistory({
     @required String tautulliId,
@@ -56,6 +44,15 @@ abstract class TautulliApi {
     int length,
     String search,
   });
+  Future<Map<String, dynamic>> getHomeStats({
+    @required String tautulliId,
+    int grouping,
+    int timeRange,
+    String statsType,
+    int statsStart,
+    int statsCount,
+    String statId,
+  });
   Future<Map<String, dynamic>> getLibrariesTable({
     @required String tautulliId,
     int grouping,
@@ -65,14 +62,35 @@ abstract class TautulliApi {
     String search,
     int start,
   });
-  Future<Map<String, dynamic>> getHomeStats({
+  Future<Map<String, dynamic>> getMetadata({
+    @required String tautulliId,
+    int ratingKey,
+    int syncId,
+  });
+  Future<Map<String, dynamic>> getRecentlyAdded({
+    @required String tautulliId,
+    @required int count,
+    int start,
+    String mediaType,
+    int sectionId,
+  });
+  Future<Map<String, dynamic>> getServerInfo(String tautulliId);
+  Future<Map<String, dynamic>> getSyncedItems({
+    @required String tautulliId,
+    String machineId,
+    String userId,
+  });
+  Future<Map<String, dynamic>> getUserNames({
+    @required String tautulliId,
+  });
+  Future<Map<String, dynamic>> getUsersTable({
     @required String tautulliId,
     int grouping,
-    int timeRange,
-    String statsType,
-    int statsStart,
-    int statsCount,
-    String statId,
+    String orderColumn,
+    String orderDir,
+    int start,
+    int length,
+    String search,
   });
   Future<String> pmsImageProxy({
     @required String tautulliId,
@@ -93,13 +111,6 @@ abstract class TautulliApi {
     @required String deviceId,
     @required String deviceName,
     @required String onesignalId,
-  });
-  Future<Map<String, dynamic>> deleteMobileDevice({
-    @required String connectionProtocol,
-    @required String connectionDomain,
-    @required String connectionPath,
-    @required String deviceToken,
-    @required String deviceId,
   });
   Future<Map<String, dynamic>> terminateSession({
     @required String tautulliId,
@@ -298,6 +309,27 @@ class TautulliApiImpl implements TautulliApi {
     return responseJson;
   }
 
+  Future<Map<String, dynamic>> deleteMobileDevice({
+    @required String connectionProtocol,
+    @required String connectionDomain,
+    @required String connectionPath,
+    @required String deviceToken,
+    @required String deviceId,
+  }) async {
+    final responseJson = await connectionHandler(
+      primaryConnectionProtocol: connectionProtocol,
+      primaryConnectionDomain: connectionDomain,
+      primaryConnectionPath: connectionPath,
+      deviceToken: deviceToken,
+      cmd: 'delete_mobile_device',
+      params: {
+        'device_id': deviceId,
+      },
+    );
+
+    return responseJson;
+  }
+
   /// Returns a Map of the decoded JSON response from
   /// the `get_activity` endpoint.
   ///
@@ -323,92 +355,6 @@ class TautulliApiImpl implements TautulliApi {
       tautulliId: tautulliId,
       cmd: 'get_geoip_lookup',
       params: {'ip_address': ipAddress},
-    );
-
-    return responseJson;
-  }
-
-  /// Returns a Map of the decoded JSON response from
-  /// the `get_recently_added` endpoint.
-  ///
-  /// Throws a [JsonDecodeException] if the json decode fails.
-  Future<Map<String, dynamic>> getRecentlyAdded({
-    @required String tautulliId,
-    @required int count,
-    int start,
-    String mediaType,
-    int sectionId,
-  }) async {
-    Map<String, String> params = {'count': count.toString()};
-
-    if (start != null) {
-      params['start'] = start.toString();
-    }
-    if (isNotEmpty(mediaType)) {
-      params['media_type'] = mediaType;
-    }
-    if (sectionId != null) {
-      params['section_id'] = sectionId.toString();
-    }
-
-    final responseJson = await connectionHandler(
-      tautulliId: tautulliId,
-      cmd: 'get_recently_added',
-      params: params,
-    );
-
-    return responseJson;
-  }
-
-  Future<Map<String, dynamic>> getUserNames({
-    @required String tautulliId,
-  }) async {
-    final responseJson = await connectionHandler(
-      tautulliId: tautulliId,
-      cmd: 'get_user_names',
-    );
-
-    return responseJson;
-  }
-
-  /// Returns a Map of the decoded JSON response from
-  /// the `get_users_table` endpoint.
-  ///
-  /// Throws a [JsonDecodeException] if the json decode fails.
-  Future<Map<String, dynamic>> getUsersTable({
-    @required String tautulliId,
-    int grouping,
-    String orderColumn,
-    String orderDir,
-    int start,
-    int length,
-    String search,
-  }) async {
-    Map<String, String> params = {};
-
-    if (grouping != null) {
-      params['grouping'] = grouping.toString();
-    }
-    if (orderColumn != null) {
-      params['order_column'] = orderColumn;
-    }
-    if (orderDir != null) {
-      params['order_dir'] = orderDir;
-    }
-    if (start != null) {
-      params['start'] = start.toString();
-    }
-    if (length != null) {
-      params['length'] = length.toString();
-    }
-    if (search != null) {
-      params['search'] = search;
-    }
-
-    final responseJson = await connectionHandler(
-      tautulliId: tautulliId,
-      cmd: 'get_users_table',
-      params: params,
     );
 
     return responseJson;
@@ -495,6 +441,44 @@ class TautulliApiImpl implements TautulliApi {
     return responseJson;
   }
 
+  Future<Map<String, dynamic>> getHomeStats(
+      {@required String tautulliId,
+      int grouping,
+      int timeRange,
+      String statsType,
+      int statsStart,
+      int statsCount,
+      String statId}) async {
+    Map<String, String> params = {};
+
+    if (grouping != null) {
+      params['grouping'] = grouping.toString();
+    }
+    if (timeRange != null) {
+      params['time_range'] = timeRange.toString();
+    }
+    if (statsType != null) {
+      params['stats_type'] = statsType;
+    }
+    if (statsStart != null) {
+      params['stats_start'] = statsStart.toString();
+    }
+    if (statsCount != null) {
+      params['stats_count'] = statsCount.toString();
+    }
+    if (statId != null) {
+      params['stat_id'] = statId;
+    }
+
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_home_stats',
+      params: params,
+    );
+
+    return responseJson;
+  }
+
   Future<Map<String, dynamic>> getLibrariesTable({
     @required String tautulliId,
     int grouping,
@@ -534,38 +518,141 @@ class TautulliApiImpl implements TautulliApi {
     return responseJson;
   }
 
-  Future<Map<String, dynamic>> getHomeStats(
-      {@required String tautulliId,
-      int grouping,
-      int timeRange,
-      String statsType,
-      int statsStart,
-      int statsCount,
-      String statId}) async {
+  Future<Map<String, dynamic>> getMetadata({
+    @required String tautulliId,
+    int ratingKey,
+    int syncId,
+  }) async {
+    Map<String, String> params = {};
+
+    if (ratingKey != null) {
+      params['rating_key'] = ratingKey.toString();
+    }
+    if (syncId != null) {
+      params['sync_id'] = syncId.toString();
+    }
+
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_metadata',
+      params: params,
+    );
+
+    return responseJson;
+  }
+
+  /// Returns a Map of the decoded JSON response from
+  /// the `get_recently_added` endpoint.
+  ///
+  /// Throws a [JsonDecodeException] if the json decode fails.
+  Future<Map<String, dynamic>> getRecentlyAdded({
+    @required String tautulliId,
+    @required int count,
+    int start,
+    String mediaType,
+    int sectionId,
+  }) async {
+    Map<String, String> params = {'count': count.toString()};
+
+    if (start != null) {
+      params['start'] = start.toString();
+    }
+    if (isNotEmpty(mediaType)) {
+      params['media_type'] = mediaType;
+    }
+    if (sectionId != null) {
+      params['section_id'] = sectionId.toString();
+    }
+
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_recently_added',
+      params: params,
+    );
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getServerInfo(String tautulliId) async {
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_server_info',
+    );
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getSyncedItems({
+    @required String tautulliId,
+    String machineId,
+    String userId,
+  }) async {
+    Map<String, String> params = {};
+
+    if (machineId != null) {
+      params['machine_id'] = machineId;
+    }
+    if (userId != null) {
+      params['user_id'] = userId;
+    }
+
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_synced_items',
+      params: params,
+    );
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getUserNames({
+    @required String tautulliId,
+  }) async {
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_user_names',
+    );
+
+    return responseJson;
+  }
+
+  /// Returns a Map of the decoded JSON response from
+  /// the `get_users_table` endpoint.
+  ///
+  /// Throws a [JsonDecodeException] if the json decode fails.
+  Future<Map<String, dynamic>> getUsersTable({
+    @required String tautulliId,
+    int grouping,
+    String orderColumn,
+    String orderDir,
+    int start,
+    int length,
+    String search,
+  }) async {
     Map<String, String> params = {};
 
     if (grouping != null) {
       params['grouping'] = grouping.toString();
     }
-    if (timeRange != null) {
-      params['time_range'] = timeRange.toString();
+    if (orderColumn != null) {
+      params['order_column'] = orderColumn;
     }
-    if (statsType != null) {
-      params['stats_type'] = statsType;
+    if (orderDir != null) {
+      params['order_dir'] = orderDir;
     }
-    if (statsStart != null) {
-      params['stats_start'] = statsStart.toString();
+    if (start != null) {
+      params['start'] = start.toString();
     }
-    if (statsCount != null) {
-      params['stats_count'] = statsCount.toString();
+    if (length != null) {
+      params['length'] = length.toString();
     }
-    if (statId != null) {
-      params['stat_id'] = statId;
+    if (search != null) {
+      params['search'] = search;
     }
 
     final responseJson = await connectionHandler(
       tautulliId: tautulliId,
-      cmd: 'get_home_stats',
+      cmd: 'get_users_table',
       params: params,
     );
 
@@ -642,27 +729,6 @@ class TautulliApiImpl implements TautulliApi {
         'device_id': deviceId,
         'onesignal_id': onesignalId,
         'min_version': 'v${MinimumVersion.tautulliServer}',
-      },
-    );
-
-    return responseJson;
-  }
-
-  Future<Map<String, dynamic>> deleteMobileDevice({
-    @required String connectionProtocol,
-    @required String connectionDomain,
-    @required String connectionPath,
-    @required String deviceToken,
-    @required String deviceId,
-  }) async {
-    final responseJson = await connectionHandler(
-      primaryConnectionProtocol: connectionProtocol,
-      primaryConnectionDomain: connectionDomain,
-      primaryConnectionPath: connectionPath,
-      deviceToken: deviceToken,
-      cmd: 'delete_mobile_device',
-      params: {
-        'device_id': deviceId,
       },
     );
 
