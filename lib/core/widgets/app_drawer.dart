@@ -78,6 +78,7 @@ class AppDrawer extends StatelessWidget {
                 ListTile(
                   leading: FaIcon(
                     FontAwesomeIcons.tv,
+                    size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
                   title: Text('Activity'),
@@ -98,6 +99,7 @@ class AppDrawer extends StatelessWidget {
                 ListTile(
                   leading: FaIcon(
                     FontAwesomeIcons.history,
+                    size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
                   title: Text('History'),
@@ -117,6 +119,7 @@ class AppDrawer extends StatelessWidget {
                 ListTile(
                   leading: FaIcon(
                     FontAwesomeIcons.clock,
+                    size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
                   title: Text('Recently Added'),
@@ -136,6 +139,7 @@ class AppDrawer extends StatelessWidget {
                 ListTile(
                   leading: FaIcon(
                     FontAwesomeIcons.photoVideo,
+                    size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
                   title: Text('Libraries'),
@@ -155,6 +159,7 @@ class AppDrawer extends StatelessWidget {
                 ListTile(
                   leading: FaIcon(
                     FontAwesomeIcons.users,
+                    size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
                   title: Text('Users'),
@@ -174,6 +179,7 @@ class AppDrawer extends StatelessWidget {
                 ListTile(
                   leading: FaIcon(
                     FontAwesomeIcons.listOl,
+                    size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
                   title: Text('Statistics'),
@@ -193,6 +199,7 @@ class AppDrawer extends StatelessWidget {
                 // ListTile(
                 //   leading: FaIcon(
                 //     FontAwesomeIcons.chartBar,
+                //     size: 20,
                 //     color: TautulliColorPalette.not_white,
                 //   ),
                 //   title: Text('Graphs'),
@@ -212,6 +219,7 @@ class AppDrawer extends StatelessWidget {
                 ListTile(
                   leading: FaIcon(
                     FontAwesomeIcons.cloudDownloadAlt,
+                    size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
                   title: Text('Synced Items'),
@@ -240,6 +248,7 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: FaIcon(
               FontAwesomeIcons.solidHeart,
+              size: 20,
               color: Colors.red[400],
             ),
             title: Text('Donate'),
@@ -259,6 +268,7 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: FaIcon(
               FontAwesomeIcons.cogs,
+              size: 20,
               color: TautulliColorPalette.not_white,
             ),
             title: Text('Settings'),
