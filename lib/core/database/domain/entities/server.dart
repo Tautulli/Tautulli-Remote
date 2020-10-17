@@ -15,6 +15,7 @@ class Server extends Equatable {
   final String secondaryConnectionPath;
   final String deviceToken;
   final bool primaryActive;
+  final bool plexPass;
 
   Server({
     this.id,
@@ -30,6 +31,7 @@ class Server extends Equatable {
     this.secondaryConnectionPath,
     @required this.deviceToken,
     @required this.primaryActive,
+    @required this.plexPass,
   });
 
   @override
@@ -47,6 +49,7 @@ class Server extends Equatable {
         secondaryConnectionPath,
         deviceToken,
         primaryActive,
+        plexPass,
       ];
 
   @override

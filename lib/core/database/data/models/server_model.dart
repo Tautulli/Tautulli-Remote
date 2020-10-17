@@ -18,6 +18,7 @@ class ServerModel extends Server {
     String secondaryConnectionPath,
     @required String deviceToken,
     @required bool primaryActive,
+    @required bool plexPass,
   }) : super(
           id: id,
           plexName: plexName,
@@ -32,11 +33,13 @@ class ServerModel extends Server {
           secondaryConnectionPath: secondaryConnectionPath,
           deviceToken: deviceToken,
           primaryActive: primaryActive,
+          plexPass: plexPass,
         );
 
   // Create Settings from JSON data
   factory ServerModel.fromJson(Map<String, dynamic> json) {
     bool primaryActiveBool = toBoolean(json['primary_active'].toString());
+    bool plexPass = toBoolean(json['pms_plexpass'].toString());
 
     return ServerModel(
       id: json['id'],
@@ -52,12 +55,14 @@ class ServerModel extends Server {
       secondaryConnectionPath: json['secondary_connection_path'],
       deviceToken: json['device_token'],
       primaryActive: primaryActiveBool,
+      plexPass: plexPass,
     );
   }
 
   // Convert Settings to JSON to make it easier when we store it in the database
   Map<String, dynamic> toJson() {
     int primaryActiveInt;
+    int plexPassInt;
 
     switch (primaryActive) {
       case (false):
@@ -65,6 +70,15 @@ class ServerModel extends Server {
         break;
       case (true):
         primaryActiveInt = 1;
+        break;
+    }
+
+    switch (plexPass) {
+      case (false):
+        plexPassInt = 0;
+        break;
+      case (true):
+        plexPassInt = 1;
         break;
     }
 
@@ -82,6 +96,7 @@ class ServerModel extends Server {
       'secondary_connection_path': secondaryConnectionPath,
       'device_token': deviceToken,
       'primary_active': primaryActiveInt,
+      'plex_pass': plexPassInt,
     };
   }
 }

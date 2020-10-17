@@ -28,11 +28,27 @@ class DBProvider {
     Directory documentsDir = await getApplicationDocumentsDirectory();
     String path = join(documentsDir.path, 'tautulli_remote.db');
 
-    return await openDatabase(path, version: 1, onOpen: (db) async {},
-        onCreate: (Database db, int version) async {
-      // Create the servers table
-      await db.execute('''
-                CREATE TABLE servers(
+    return await openDatabase(
+      path,
+      version: 2,
+      onOpen: (db) async {},
+      onCreate: (Database db, int version) async {
+        var batch = db.batch();
+        _createTableServerV2(batch);
+        await batch.commit();
+      },
+      onUpgrade: (Database db, int oldVersion, int newVersion) async {
+        var batch = db.batch();
+        if (oldVersion == 1) {
+          _updateTableServerV1toV2(batch);
+        }
+        await batch.commit();
+      },
+    );
+  }
+
+  void _createTableServerV2(Batch batch) {
+    batch.execute('''CREATE TABLE servers(
                     id INTEGER PRIMARY KEY,
                     plex_name TEXT,
                     tautulli_id TEXT,
@@ -45,10 +61,13 @@ class DBProvider {
                     secondary_connection_domain TEXT,
                     secondary_connection_path TEXT,
                     device_token TEXT,
-                    primary_active INTEGER
-                )
-            ''');
-    });
+                    primary_active INTEGER,
+                    plex_pass INTEGER
+                )''');
+  }
+
+  void _updateTableServerV1toV2(Batch batch) {
+    batch.execute('ALTER TABLE servers ADD plex_pass INTEGER');
   }
 
   addServer(ServerModel server) async {
