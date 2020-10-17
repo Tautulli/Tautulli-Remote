@@ -35,6 +35,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         deviceToken: event.deviceToken,
         tautulliId: event.tautulliId,
         plexName: event.plexName,
+        plexPass: event.plexPass,
       );
     }
     if (event is SettingsUpdateServer) {
@@ -47,6 +48,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         deviceToken: event.deviceToken,
         tautulliId: event.tautulliId,
         plexName: event.plexName,
+        plexPass: event.plexPass,
       );
     }
     if (event is SettingsDeleteServer) {
@@ -111,6 +113,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required bool plexPass,
   }) async* {
     logging.info('Settings: Saving server details');
     await settings.addServer(
@@ -119,6 +122,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       tautulliId: tautulliId,
       plexName: plexName,
       primaryActive: true,
+      plexPass: plexPass,
     );
     yield* _fetchAndYieldSettings(settings);
   }
@@ -132,6 +136,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required bool plexPass,
   }) async* {
     logging.info('Settings: Updating server details');
     await settings.updateServerById(
@@ -142,6 +147,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       tautulliId: tautulliId,
       plexName: plexName,
       primaryActive: true,
+      plexPass: plexPass,
     );
     yield* _fetchAndYieldSettings(settings);
   }

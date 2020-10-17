@@ -101,6 +101,16 @@ class RegisterDeviceBloc
         final Server existingServer =
             await settings.getServerByTautulliId(registeredData['server_id']);
 
+        bool plexPass;
+        switch (registeredData['pms_plexpass']) {
+          case (0):
+            plexPass = false;
+            break;
+          case (1):
+            plexPass = true;
+            break;
+        }
+
         if (existingServer == null) {
           settingsBloc.add(
             SettingsAddServer(
@@ -108,6 +118,7 @@ class RegisterDeviceBloc
               deviceToken: deviceToken,
               tautulliId: registeredData['server_id'],
               plexName: registeredData['pms_name'],
+              plexPass: plexPass,
             ),
           );
           logging
@@ -123,6 +134,7 @@ class RegisterDeviceBloc
               deviceToken: deviceToken,
               tautulliId: registeredData['server_id'],
               plexName: registeredData['pms_name'],
+              plexPass: plexPass,
             ),
           );
           logging

@@ -14,17 +14,24 @@ class SettingsAddServer extends SettingsEvent {
   final String deviceToken;
   final String tautulliId;
   final String plexName;
+  final bool plexPass;
 
   SettingsAddServer({
     @required this.primaryConnectionAddress,
     @required this.deviceToken,
     @required this.tautulliId,
     @required this.plexName,
+    @required this.plexPass,
   });
 
   @override
-  List<Object> get props =>
-      [primaryConnectionAddress, deviceToken, tautulliId, plexName];
+  List<Object> get props => [
+        primaryConnectionAddress,
+        deviceToken,
+        tautulliId,
+        plexName,
+        plexPass,
+      ];
 }
 
 class SettingsUpdateServer extends SettingsEvent {
@@ -34,6 +41,7 @@ class SettingsUpdateServer extends SettingsEvent {
   final String deviceToken;
   final String tautulliId;
   final String plexName;
+  final bool plexPass;
 
   SettingsUpdateServer({
     @required this.id,
@@ -42,6 +50,7 @@ class SettingsUpdateServer extends SettingsEvent {
     @required this.deviceToken,
     @required this.tautulliId,
     @required this.plexName,
+    @required this.plexPass,
   });
 
   @override
@@ -52,6 +61,7 @@ class SettingsUpdateServer extends SettingsEvent {
         deviceToken,
         tautulliId,
         plexName,
+        plexPass,
       ];
 }
 

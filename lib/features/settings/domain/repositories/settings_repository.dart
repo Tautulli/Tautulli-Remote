@@ -9,6 +9,7 @@ abstract class SettingsRepository {
     @required String tautulliId,
     @required String plexName,
     @required bool primaryActive,
+    @required bool plexPass,
   });
 
   Future deleteServer(int id);
@@ -23,6 +24,7 @@ abstract class SettingsRepository {
     @required String tautulliId,
     @required String plexName,
     @required bool primaryActive,
+    @required bool plexPass,
   });
 
   Future<List<ServerModel>> getAllServers();

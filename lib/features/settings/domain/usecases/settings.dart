@@ -14,6 +14,7 @@ class Settings {
     @required String tautulliId,
     @required String plexName,
     @required bool primaryActive,
+    @required bool plexPass,
   }) {
     return repository.addServer(
       primaryConnectionAddress: primaryConnectionAddress,
@@ -21,6 +22,7 @@ class Settings {
       tautulliId: tautulliId,
       plexName: plexName,
       primaryActive: primaryActive,
+      plexPass: plexPass,
     );
   }
 
@@ -40,6 +42,7 @@ class Settings {
     @required String tautulliId,
     @required String plexName,
     @required bool primaryActive,
+    @required bool plexPass,
   }) {
     return repository.updateServerById(
       id: id,
@@ -49,6 +52,7 @@ class Settings {
       tautulliId: tautulliId,
       plexName: plexName,
       primaryActive: primaryActive,
+      plexPass: plexPass,
     );
   }
 

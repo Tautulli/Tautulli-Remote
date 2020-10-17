@@ -21,6 +21,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String tautulliId,
     @required String plexName,
     @required bool primaryActive,
+    @required bool plexPass,
   }) async {
     final connectionMap =
         ConnectionAddressHelper.parse(primaryConnectionAddress);
@@ -33,6 +34,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       tautulliId: tautulliId,
       plexName: plexName,
       primaryActive: primaryActive,
+      plexPass: plexPass,
     );
     return await DBProvider.db.addServer(server);
   }
@@ -56,6 +58,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String tautulliId,
     @required String plexName,
     @required bool primaryActive,
+    @required bool plexPass,
   }) async {
     final primaryConnectionMap =
         ConnectionAddressHelper.parse(primaryConnectionAddress);
@@ -75,6 +78,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       tautulliId: tautulliId,
       plexName: plexName,
       primaryActive: primaryActive,
+      plexPass: plexPass,
     );
 
     return await DBProvider.db.updateServerById(server);
