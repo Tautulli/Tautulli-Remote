@@ -187,7 +187,6 @@ class _UsersPageContentState extends State<UsersPageContent> {
                                   return index >= state.list.length
                                       ? BottomLoader()
                                       : UserCard(
-                                          // user: state.list[index],
                                           userThumb:
                                               state.list[index].userThumb,
                                           isActive: state.list[index].isActive,

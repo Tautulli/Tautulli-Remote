@@ -13,17 +13,17 @@ import 'package:tautulli_remote/features/users/presentation/bloc/users_bloc.dart
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockGetUsers extends Mock implements GetUsersTable {}
+class MockGetUsersTable extends Mock implements GetUsersTable {}
 
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   UsersBloc bloc;
-  MockGetUsers mockGetUsers;
+  MockGetUsersTable mockGetUsers;
   MockLogging mockLogging;
 
   setUp(() {
-    mockGetUsers = MockGetUsers();
+    mockGetUsers = MockGetUsersTable();
     mockLogging = MockLogging();
     bloc = UsersBloc(
       getUsersTable: mockGetUsers,
@@ -70,7 +70,7 @@ void main() {
 
   group('UsersFetch', () {
     test(
-      'should get data from GetUsers use case',
+      'should get data from GetUsersTable use case',
       () async {
         // arrange
         setUpSuccess(tUsersList);
@@ -97,7 +97,7 @@ void main() {
     );
 
     test(
-      'should emit [RecentlyAddedSuccess] with hasReachedMax as true when data is fetched successfully and the list length is under 25',
+      'should emit [UsersSuccess] with hasReachedMax as true when data is fetched successfully and the list length is under 25',
       () async {
         // arrange
         setUpSuccess(tUsersList);
@@ -116,7 +116,7 @@ void main() {
     );
 
     test(
-      'when state is [RecentlyAddedSuccess] should emit [RecentlyAddedSuccess] with hasReachedMax as true when data is fetched successfully and list length under 25',
+      'when state is [UsersSuccess] should emit [UsersSuccess] with hasReachedMax as true when data is fetched successfully and list length under 25',
       () async {
         // arrange
         setUpSuccess(tUsersList);
@@ -141,7 +141,7 @@ void main() {
     );
 
     test(
-      'should emit [RecentlyAddedSuccess] with hasReachedMax as false when data is fetched successfully and the list length is 25 or more',
+      'should emit [UsersSuccess] with hasReachedMax as false when data is fetched successfully and the list length is 25 or more',
       () async {
         // arrange
         setUpSuccess(tUsersList25);
@@ -160,7 +160,7 @@ void main() {
     );
 
     test(
-      'when state is [RecentlyAddedSuccess] should emit [RecentlyAddedSuccess] with hasReachedMax as false when data is fetched successfully and list length is 25 or more',
+      'when state is [UsersSuccess] should emit [UsersSuccess] with hasReachedMax as false when data is fetched successfully and list length is 25 or more',
       () async {
         // arrange
         setUpSuccess(tUsersList25);
