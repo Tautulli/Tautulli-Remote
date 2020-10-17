@@ -31,6 +31,7 @@ dependencies:
   duration: ^2.0.15
   equatable: ^1.2.3
   f_logs: ^1.2.2
+  filesize: ^1.0.4
   flutter_barcode_scanner: ^1.0.1
   flutter_bloc: ^6.0.1
   flutter_slidable: ^0.5.5
