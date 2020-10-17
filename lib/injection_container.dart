@@ -37,6 +37,10 @@ import 'features/logging/data/repositories/logging_repository_impl.dart';
 import 'features/logging/domain/repositories/logging_repository.dart';
 import 'features/logging/domain/usecases/logging.dart';
 import 'features/logging/presentation/bloc/load_logs_bloc.dart';
+import 'features/media/data/datasources/metadata_data_source.dart';
+import 'features/media/data/repositories/metadata_repository_impl.dart';
+import 'features/media/domain/repositories/metadata_repository.dart';
+import 'features/media/domain/usecases/get_metadata.dart';
 import 'features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -61,6 +65,11 @@ import 'features/statistics/data/repositories/statistics_repository_impl.dart';
 import 'features/statistics/domain/repositories/statistics_repository.dart';
 import 'features/statistics/domain/usecases/get_statistics.dart';
 import 'features/statistics/presentation/bloc/statistics_bloc.dart';
+import 'features/synced_items/data/datasources/synced_items_data_source.dart';
+import 'features/synced_items/data/repositories/synced_items_repository_impl.dart';
+import 'features/synced_items/domain/repositories/synced_items_repository.dart';
+import 'features/synced_items/domain/usecases/get_synced_items.dart';
+import 'features/synced_items/presentation/bloc/synced_items_bloc.dart';
 import 'features/terminate_session/data/datasources/terminate_session_data_source.dart';
 import 'features/terminate_session/data/repositories/terminate_session_repository_impl.dart';
 import 'features/terminate_session/domain/repositories/terminate_session_repository.dart';
@@ -473,6 +482,61 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<StatisticsDataSource>(
     () => StatisticsDataSourceImpl(
+      tautulliApi: sl(),
+    ),
+  );
+
+  //! Features - Synced
+  // Bloc
+  sl.registerFactory(
+    () => SyncedItemsBloc(
+      getSyncedItems: sl(),
+      getMetadata: sl(),
+      getImageUrl: sl(),
+    ),
+  );
+
+  // User case
+  sl.registerLazySingleton(
+    () => GetSyncedItems(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<SyncedItemsRepository>(
+    () => SyncedItemsRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<SyncedItemsDataSource>(
+    () => SyncedItemsDataSourceImpl(
+      tautulliApi: sl(),
+    ),
+  );
+
+  //! Features - Metadata
+  // User case
+  sl.registerLazySingleton(
+    () => GetMetadata(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<MetadataRepository>(
+    () => MetadataRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<MetadataDataSource>(
+    () => MetadataDataSourceImpl(
       tautulliApi: sl(),
     ),
   );
