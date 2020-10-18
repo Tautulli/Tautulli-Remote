@@ -39,7 +39,7 @@ void main() {
     watchedStatus: 1,
     groupCount: 3,
     groupIds: [30352, 30353, 30354],
-    state: "playing",
+    state: null,
     sessionKey: 1,
   );
 

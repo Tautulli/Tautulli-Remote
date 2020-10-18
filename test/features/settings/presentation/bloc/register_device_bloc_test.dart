@@ -67,7 +67,11 @@ void main() {
   );
 
   Map responseMap = {
-    "data": {"pms_name": "Starlight", "server_id": "jkl"}
+    "data": {
+      "pms_name": "Starlight",
+      "server_id": "jkl",
+      "pms_plexpass": 1,
+    }
   };
 
   void setUpSuccess() {
