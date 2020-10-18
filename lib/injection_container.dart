@@ -116,6 +116,7 @@ Future<void> init() async {
   sl.registerLazySingleton<SettingsRepository>(
     () => SettingsRepositoryImpl(
       dataSource: sl(),
+      networkInfo: sl(),
     ),
   );
 
@@ -130,6 +131,7 @@ Future<void> init() async {
   sl.registerLazySingleton<SettingsDataSource>(
     () => SettingsDataSourceImpl(
       sharedPreferences: sl(),
+      tautulliApi: sl(),
     ),
   );
 
@@ -551,7 +553,6 @@ Future<void> init() async {
   sl.registerLazySingleton<TautulliApi>(
     () => TautulliApiImpl(
       client: sl(),
-      settings: sl(),
       logging: sl(),
     ),
   );
