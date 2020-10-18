@@ -69,14 +69,12 @@ class _ActivityCardState extends State<ActivityCard> {
     return GestureDetector(
       onPanUpdate: (details) {
         if (details.delta.dx < 0) {
-          print(details.delta.dx);
           // If server has plex pass and media type is photo or item is synced show message
           if (hasPlexPass) {
             if (activity.mediaType == 'photo') {
               Scaffold.of(context).hideCurrentSnackBar();
               _debouncer.run(
                 () {
-                  print('SNACKBAR');
                   return Scaffold.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: PlexColorPalette.shark,
