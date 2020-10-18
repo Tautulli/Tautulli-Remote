@@ -25,12 +25,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsEvent event,
   ) async* {
     if (event is SettingsLoad) {
-      yield* _mapSettingsLoadToState(settings);
+      yield* _mapSettingsLoadToState();
     }
     if (event is SettingsAddServer) {
       yield* _mapSettingsAddServerToState(
-        settings: settings,
-        logging: logging,
         primaryConnectionAddress: event.primaryConnectionAddress,
         deviceToken: event.deviceToken,
         tautulliId: event.tautulliId,
@@ -40,8 +38,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
     if (event is SettingsUpdateServer) {
       yield* _mapSettingsUpdateServerToState(
-        settings: settings,
-        logging: logging,
         id: event.id,
         primaryConnectionAddress: event.primaryConnectionAddress,
         secondaryConnectionAddress: event.secondaryConnectionAddress,
@@ -52,63 +48,50 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       );
     }
     if (event is SettingsDeleteServer) {
-      yield* _mapSettingsDeleteServerToState(
-          settings: settings, logging: logging, id: event.id);
+      yield* _mapSettingsDeleteServerToState(id: event.id);
     }
     if (event is SettingsUpdatePrimaryConnection) {
       yield* _mapSettingsUpdatePrimaryConnectionToState(
-        settings: settings,
-        logging: logging,
         id: event.id,
         primaryConnectionAddress: event.primaryConnectionAddress,
       );
     }
     if (event is SettingsUpdateSecondaryConnection) {
       yield* _mapSettingsUpdateSecondaryConnectionToState(
-        settings: settings,
-        logging: logging,
         id: event.id,
         secondaryConnectionAddress: event.secondaryConnectionAddress,
       );
     }
     if (event is SettingsUpdateDeviceToken) {
       yield* _mapSettingsUpdateDeviceTokenToState(
-        settings: settings,
-        logging: logging,
         id: event.id,
         deviceToken: event.deviceToken,
       );
     }
     if (event is SettingsUpdateServerTimeout) {
       yield* _mapSettingsUpdateServerTimeoutToState(
-        settings: settings,
-        logging: logging,
         timeout: event.timeout,
       );
     }
     if (event is SettingsUpdateRefreshRate) {
       yield* _mapSettingsUpdateRefreshRateToState(
-        settings: settings,
-        logging: logging,
         refreshRate: event.refreshRate,
       );
     }
     if (event is SettingsUpdateLastSelectedServer) {
       yield* _mapSettingsUpdateLastSelectedServerToState(
-        settings: settings,
         tautulliId: event.tautulliId,
       );
     }
   }
 
-  Stream<SettingsState> _mapSettingsLoadToState(Settings settings) async* {
+  Stream<SettingsState> _mapSettingsLoadToState() async* {
     yield SettingsLoadInProgress();
-    yield* _fetchAndYieldSettings(settings);
+    yield* _fetchAndYieldSettings();
+    yield* _checkForServerChanges();
   }
 
   Stream<SettingsState> _mapSettingsAddServerToState({
-    @required Settings settings,
-    @required Logging logging,
     @required String primaryConnectionAddress,
     @required String deviceToken,
     @required String tautulliId,
@@ -124,12 +107,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       primaryActive: true,
       plexPass: plexPass,
     );
-    yield* _fetchAndYieldSettings(settings);
+    yield* _fetchAndYieldSettings();
   }
 
   Stream<SettingsState> _mapSettingsUpdateServerToState({
-    @required Settings settings,
-    @required Logging logging,
     @required int id,
     @required String primaryConnectionAddress,
     @required String secondaryConnectionAddress,
@@ -149,22 +130,18 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       primaryActive: true,
       plexPass: plexPass,
     );
-    yield* _fetchAndYieldSettings(settings);
+    yield* _fetchAndYieldSettings();
   }
 
   Stream<SettingsState> _mapSettingsDeleteServerToState({
-    @required Logging logging,
-    @required Settings settings,
     @required int id,
   }) async* {
     logging.info('Settings: Deleting server');
     await settings.deleteServer(id);
-    yield* _fetchAndYieldSettings(settings);
+    yield* _fetchAndYieldSettings();
   }
 
   Stream<SettingsState> _mapSettingsUpdatePrimaryConnectionToState({
-    @required Logging logging,
-    @required Settings settings,
     @required int id,
     @required String primaryConnectionAddress,
   }) async* {
@@ -173,12 +150,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       id: id,
       primaryConnectionAddress: primaryConnectionAddress.trim(),
     );
-    yield* _fetchAndYieldSettings(settings);
+    yield* _fetchAndYieldSettings();
   }
 
   Stream<SettingsState> _mapSettingsUpdateSecondaryConnectionToState({
-    @required Logging logging,
-    @required Settings settings,
     @required int id,
     @required String secondaryConnectionAddress,
   }) async* {
@@ -187,12 +162,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       id: id,
       secondaryConnectionAddress: secondaryConnectionAddress.trim(),
     );
-    yield* _fetchAndYieldSettings(settings);
+    yield* _fetchAndYieldSettings();
   }
 
   Stream<SettingsState> _mapSettingsUpdateDeviceTokenToState({
-    @required Logging logging,
-    @required Settings settings,
     @required int id,
     @required String deviceToken,
   }) async* {
@@ -201,22 +174,18 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       id: id,
       deviceToken: deviceToken.trim(),
     );
-    yield* _fetchAndYieldSettings(settings);
+    yield* _fetchAndYieldSettings();
   }
 
   Stream<SettingsState> _mapSettingsUpdateServerTimeoutToState({
-    @required Logging logging,
-    @required Settings settings,
     @required int timeout,
   }) async* {
     logging.info('Settings: Updating server timeout to ${timeout}s');
     await settings.setServerTimeout(timeout);
-    yield* _fetchAndYieldSettings(settings);
+    yield* _fetchAndYieldSettings();
   }
 
   Stream<SettingsState> _mapSettingsUpdateRefreshRateToState({
-    @required Logging logging,
-    @required Settings settings,
     @required int refreshRate,
   }) async* {
     final String refreshRateString =
@@ -224,18 +193,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     logging.info('Settings: Updating server timeout to $refreshRateString');
 
     await settings.setRefreshRate(refreshRate);
-    yield* _fetchAndYieldSettings(settings);
+    yield* _fetchAndYieldSettings();
   }
 
   Stream<SettingsState> _mapSettingsUpdateLastSelectedServerToState({
-    @required Settings settings,
     @required String tautulliId,
   }) async* {
     await settings.setLastSelectedServer(tautulliId);
-    yield* _fetchAndYieldSettings(settings);
+    yield* _fetchAndYieldSettings();
   }
 
-  Stream<SettingsState> _fetchAndYieldSettings(Settings settings) async* {
+  Stream<SettingsState> _fetchAndYieldSettings() async* {
     final serverList = await settings.getAllServers();
     final serverTimeout = await settings.getServerTimeout();
     final refreshRate = await settings.getRefreshRate();
@@ -247,5 +215,43 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       refreshRate: refreshRate,
       lastSelectedServer: lastSelectedServer,
     );
+  }
+
+  Stream<SettingsState> _checkForServerChanges() async* {
+    final serverList = await settings.getAllServers();
+
+    for (ServerModel server in serverList) {
+      settings.getPlexServerInfo(server.tautulliId).then(
+        (failureOrPlexServerInfo) {
+          return failureOrPlexServerInfo.fold(
+            (failure) => null,
+            (plexServerInfo) {
+              bool plexPass;
+              switch (plexServerInfo.pmsPlexpass) {
+                case (0):
+                  plexPass = false;
+                  break;
+                case (1):
+                  plexPass = true;
+                  break;
+              }
+
+              if (server.plexName != plexServerInfo.pmsName ||
+                  server.plexPass != plexPass) {
+                add(SettingsUpdateServer(
+                  id: server.id,
+                  primaryConnectionAddress: server.primaryConnectionAddress,
+                  secondaryConnectionAddress: server.secondaryConnectionAddress,
+                  deviceToken: server.deviceToken,
+                  tautulliId: server.tautulliId,
+                  plexName: plexServerInfo.pmsName,
+                  plexPass: plexPass,
+                ));
+              }
+            },
+          );
+        },
+      );
+    }
   }
 }
