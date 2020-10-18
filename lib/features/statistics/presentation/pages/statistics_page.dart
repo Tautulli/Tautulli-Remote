@@ -87,7 +87,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
       }
 
       if (statisticsState is StatisticsInitial) {
-        _statsType = statisticsState.statsType ?? 'plays';
+        _statsType = settingsState.statsType ?? 'plays';
         _timeRange = statisticsState.timeRange ?? 30;
       }
 
@@ -249,16 +249,19 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
         ),
         tooltip: 'Stats type',
         onSelected: (value) {
-          setState(() {
-            _statsType = value;
-          });
-          _statisticsBloc.add(
-            StatisticsFilter(
-              tautulliId: _tautulliId,
-              statsType: _statsType,
-              timeRange: _timeRange,
-            ),
-          );
+          if (value != _statsType) {
+            setState(() {
+              _statsType = value;
+            });
+            _settingsBloc.add(SettingsUpdateStatsType(statsType: _statsType));
+            _statisticsBloc.add(
+              StatisticsFilter(
+                tautulliId: _tautulliId,
+                statsType: _statsType,
+                timeRange: _timeRange,
+              ),
+            );
+          }
         },
         itemBuilder: (context) {
           return [

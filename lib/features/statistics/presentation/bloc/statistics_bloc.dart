@@ -16,7 +16,6 @@ part 'statistics_state.dart';
 Map<String, List<Statistics>> _statisticsMapCache;
 Map<String, bool> _hasReachedMaxMapCache = {};
 bool _noStatsCache;
-String _statsTypeCache;
 int _timeRangeCache;
 String _tautulliIdCache;
 
@@ -28,7 +27,6 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     @required this.getStatistics,
     @required this.getImageUrl,
   }) : super(StatisticsInitial(
-          statsType: _statsTypeCache,
           timeRange: _timeRangeCache,
         ));
 
@@ -40,7 +38,6 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
 
     if (event is StatisticsFetch) {
       if (event.statId == null) {
-        _statsTypeCache = event.statsType;
         _timeRangeCache = event.timeRange;
 
         yield* _fetchInitial(
@@ -64,7 +61,6 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     }
     if (event is StatisticsFilter) {
       yield StatisticsInitial();
-      _statsTypeCache = event.statsType;
       _timeRangeCache = event.timeRange;
 
       yield* _fetchInitial(
@@ -165,7 +161,6 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     final statisticsOrFailure = await getStatistics(
       tautulliId: _tautulliIdCache,
       statsCount: 25,
-      statsType: _statsTypeCache,
       timeRange: _timeRangeCache,
       statsStart: currentState.map[statId].length,
       statId: statId,
@@ -267,7 +262,6 @@ bool _hasReachedMax(StatisticsState state, String statId) =>
 void clearCache() {
   _statisticsMapCache = null;
   _noStatsCache = null;
-  _statsTypeCache = null;
   _timeRangeCache = null;
   _tautulliIdCache = null;
 }
