@@ -65,6 +65,7 @@ void main() {
 
   final int tServerTimeout = 5;
   final int tRefreshRate = 10;
+  final String tStatsType = 'duration';
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =
@@ -77,7 +78,9 @@ void main() {
     when(mockSettings.getRefreshRate()).thenAnswer((_) async => tRefreshRate);
     when(mockSettings.getLastSelectedServer())
         .thenAnswer((_) async => tTautulliId);
-    when(mockSettings.getPlexServerInfo(any)).thenAnswer((_) async => Right(tPlexServerInfo));
+    when(mockSettings.getStatsType()).thenAnswer((_) async => tStatsType);
+    when(mockSettings.getPlexServerInfo(any))
+        .thenAnswer((_) async => Right(tPlexServerInfo));
   }
 
   test(
@@ -115,6 +118,7 @@ void main() {
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -174,6 +178,7 @@ void main() {
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -247,6 +252,7 @@ void main() {
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -290,6 +296,7 @@ void main() {
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -338,6 +345,7 @@ void main() {
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -391,6 +399,7 @@ void main() {
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -444,6 +453,7 @@ void main() {
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));

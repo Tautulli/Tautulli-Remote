@@ -131,6 +131,15 @@ class SettingsUpdateLastSelectedServer extends SettingsEvent {
   List<Object> get props => [tautulliId];
 }
 
+class SettingsUpdateStatsType extends SettingsEvent {
+  final String statsType;
+
+  SettingsUpdateStatsType({@required this.statsType});
+
+  @override
+  List<Object> get props => [statsType];
+}
+
 class SettingsDeleteServer extends SettingsEvent {
   final int id;
 

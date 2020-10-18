@@ -19,11 +19,16 @@ abstract class SettingsDataSource {
   Future<String> getLastSelectedServer();
 
   Future<bool> setLastSelectedServer(String tautulliId);
+
+  Future<String> getStatsType();
+
+  Future<bool> setStatsType(String statsType);
 }
 
 const SETTINGS_SERVER_TIMEOUT = 'SETTINGS_SERVER_TIMEOUT';
 const SETTINGS_REFRESH_RATE = 'SETTINGS_REFRESH_RATE';
 const LAST_SELECTED_SERVER = 'LAST_SELECTED_SERVER';
+const STATS_TYPE = 'STATS_TYPE';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
   final SharedPreferences sharedPreferences;
@@ -75,5 +80,16 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setLastSelectedServer(String tautulliId) {
     return sharedPreferences.setString(LAST_SELECTED_SERVER, tautulliId);
+  }
+
+  @override
+  Future<String> getStatsType() {
+    final value = sharedPreferences.getString(STATS_TYPE);
+    return Future.value(value);
+  }
+
+  @override
+  Future<bool> setStatsType(String statsType) {
+    return sharedPreferences.setString(STATS_TYPE, statsType);
   }
 }

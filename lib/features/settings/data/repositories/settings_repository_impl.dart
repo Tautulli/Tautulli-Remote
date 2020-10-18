@@ -237,4 +237,15 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<bool> setLastSelectedServer(String tautulliId) async {
     return dataSource.setLastSelectedServer(tautulliId);
   }
+
+  @override
+  Future<String> getStatsType() async {
+    final statsType = await dataSource.getStatsType();
+    return statsType;
+  }
+
+  @override
+  Future<bool> setStatsType(String statsType) async {
+    return dataSource.setStatsType(statsType);
+  }
 }

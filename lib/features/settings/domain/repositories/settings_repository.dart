@@ -71,4 +71,8 @@ abstract class SettingsRepository {
   Future<String> getLastSelectedServer();
 
   Future<bool> setLastSelectedServer(String tautulliId);
+
+  Future<String> getStatsType();
+
+  Future<bool> setStatsType(String statsType);
 }

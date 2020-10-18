@@ -112,10 +112,10 @@ void main() {
         // arrange
         when(mockSharedPreferences.getInt(SETTINGS_REFRESH_RATE)).thenReturn(3);
         // act
-        final serverTimeout = await dataSource.getRefreshRate();
+        final refreshRate = await dataSource.getRefreshRate();
         // assert
         verify(mockSharedPreferences.getInt(SETTINGS_REFRESH_RATE));
-        expect(serverTimeout, equals(3));
+        expect(refreshRate, equals(3));
       },
     );
 
@@ -126,9 +126,9 @@ void main() {
         when(mockSharedPreferences.getInt(SETTINGS_REFRESH_RATE))
             .thenReturn(null);
         // act
-        final serverTimeout = await dataSource.getRefreshRate();
+        final refreshRate = await dataSource.getRefreshRate();
         // assert
-        expect(serverTimeout, equals(null));
+        expect(refreshRate, equals(null));
       },
     );
 
@@ -151,10 +151,10 @@ void main() {
         when(mockSharedPreferences.getString(LAST_SELECTED_SERVER))
             .thenReturn('jkl');
         // act
-        final serverTimeout = await dataSource.getLastSelectedServer();
+        final lastSelectedServer = await dataSource.getLastSelectedServer();
         // assert
         verify(mockSharedPreferences.getString(LAST_SELECTED_SERVER));
-        expect(serverTimeout, equals('jkl'));
+        expect(lastSelectedServer, equals('jkl'));
       },
     );
 
@@ -165,9 +165,9 @@ void main() {
         when(mockSharedPreferences.getString(LAST_SELECTED_SERVER))
             .thenReturn(null);
         // act
-        final serverTimeout = await dataSource.getLastSelectedServer();
+        final lastSelectedServer = await dataSource.getLastSelectedServer();
         // assert
-        expect(serverTimeout, equals(null));
+        expect(lastSelectedServer, equals(null));
       },
     );
 
@@ -178,6 +178,45 @@ void main() {
         await dataSource.setLastSelectedServer('jkl');
         // assert
         verify(mockSharedPreferences.setString(LAST_SELECTED_SERVER, 'jkl'));
+      },
+    );
+  });
+
+  group('Stats Type', () {
+    test(
+      'should return String from settings',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getString(STATS_TYPE))
+            .thenReturn('duration');
+        // act
+        final statsType = await dataSource.getStatsType();
+        // assert
+        verify(mockSharedPreferences.getString(STATS_TYPE));
+        expect(statsType, equals('duration'));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getString(STATS_TYPE))
+            .thenReturn(null);
+        // act
+        final statsType = await dataSource.getStatsType();
+        // assert
+        expect(statsType, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the stats type',
+      () async {
+        // act
+        await dataSource.setStatsType('duration');
+        // assert
+        verify(mockSharedPreferences.setString(STATS_TYPE, 'duration'));
       },
     );
   });

@@ -33,6 +33,7 @@ void main() {
   final int tServerTimeout = 3;
   final int tRefreshRate = 5;
   final String tTautulliId = 'jkl';
+  final String tStatsType = 'duration';
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =
@@ -169,6 +170,31 @@ void main() {
         await repository.setLastSelectedServer(tTautulliId);
         // assert
         verify(mockSettingsDataSource.setLastSelectedServer(tTautulliId));
+      },
+    );
+  });
+
+  group('Stats Type', () {
+    test(
+      'should return the stats type from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getStatsType())
+            .thenAnswer((_) async => tStatsType);
+        // act
+        final result = await repository.getStatsType();
+        // assert
+        expect(result, equals(tStatsType));
+      },
+    );
+
+    test(
+      'should formward the call to the data source to set stats type',
+      () async {
+        // act
+        await repository.setStatsType(tStatsType);
+        // assert
+        verify(mockSettingsDataSource.setStatsType(tStatsType));
       },
     );
   });

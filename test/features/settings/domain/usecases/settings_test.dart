@@ -34,6 +34,8 @@ void main() {
   final String tTautulliId = 'jkl';
   final String tPlexName = 'Plex';
 
+  final String tStatsType = 'duration';
+
   final ServerModel tServerModel = ServerModel(
     id: tId,
     primaryConnectionAddress: tPrimaryConnectionAddress,
@@ -288,7 +290,7 @@ void main() {
   );
 
   test(
-    'getLastSelectedServer should get refresh rate from settings',
+    'getLastSelectedServer should get last selected server from settings',
     () async {
       // arrange
       when(mockSettingsRepository.getLastSelectedServer())
@@ -309,6 +311,32 @@ void main() {
       await settings.setLastSelectedServer(tTautulliId);
       // assert
       verify(mockSettingsRepository.setLastSelectedServer(tTautulliId));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'getStatsType should get stats type from settings',
+    () async {
+      // arrange
+      when(mockSettingsRepository.getStatsType())
+          .thenAnswer((_) async => tStatsType);
+      // act
+      final result = await settings.getStatsType();
+      // assert
+      expect(result, equals(tStatsType));
+      verify(mockSettingsRepository.getStatsType());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setStatsType should forward request to the repository',
+    () async {
+      // act
+      await settings.setStatsType(tStatsType);
+      // assert
+      verify(mockSettingsRepository.setStatsType(tStatsType));
       verifyNoMoreInteractions(mockSettingsRepository);
     },
   );

@@ -19,12 +19,14 @@ class SettingsLoadSuccess extends SettingsState {
   final int serverTimeout;
   final int refreshRate;
   final String lastSelectedServer;
+  final String statsType;
 
   SettingsLoadSuccess({
     @required this.serverList,
     @required this.serverTimeout,
     @required this.refreshRate,
     @required this.lastSelectedServer,
+    @required this.statsType,
   });
 
   @override
@@ -33,5 +35,6 @@ class SettingsLoadSuccess extends SettingsState {
         serverTimeout,
         refreshRate,
         lastSelectedServer,
+        statsType,
       ];
 }

@@ -144,4 +144,12 @@ class Settings {
   Future<bool> setLastSelectedServer(String tautulliId) async {
     return repository.setLastSelectedServer(tautulliId);
   }
+
+  Future<String> getStatsType() async {
+    return await repository.getStatsType();
+  }
+
+  Future<bool> setStatsType(String statsType) async {
+    return repository.setStatsType(statsType);
+  }
 }

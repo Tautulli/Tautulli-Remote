@@ -25,182 +25,86 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsEvent event,
   ) async* {
     if (event is SettingsLoad) {
-      yield* _mapSettingsLoadToState();
+      yield SettingsLoadInProgress();
+      yield* _fetchAndYieldSettings();
+      yield* _checkForServerChanges();
     }
     if (event is SettingsAddServer) {
-      yield* _mapSettingsAddServerToState(
+      logging.info('Settings: Saving server details');
+      await settings.addServer(
         primaryConnectionAddress: event.primaryConnectionAddress,
         deviceToken: event.deviceToken,
         tautulliId: event.tautulliId,
         plexName: event.plexName,
+        primaryActive: true,
         plexPass: event.plexPass,
       );
+      yield* _fetchAndYieldSettings();
     }
     if (event is SettingsUpdateServer) {
-      yield* _mapSettingsUpdateServerToState(
+      logging.info('Settings: Updating server details');
+      await settings.updateServerById(
         id: event.id,
         primaryConnectionAddress: event.primaryConnectionAddress,
         secondaryConnectionAddress: event.secondaryConnectionAddress,
         deviceToken: event.deviceToken,
         tautulliId: event.tautulliId,
         plexName: event.plexName,
+        primaryActive: true,
         plexPass: event.plexPass,
       );
+      yield* _fetchAndYieldSettings();
     }
     if (event is SettingsDeleteServer) {
-      yield* _mapSettingsDeleteServerToState(id: event.id);
+      logging.info('Settings: Deleting server');
+      await settings.deleteServer(event.id);
+      yield* _fetchAndYieldSettings();
     }
     if (event is SettingsUpdatePrimaryConnection) {
-      yield* _mapSettingsUpdatePrimaryConnectionToState(
+      logging.info('Settings: Updating primary connection address');
+      await settings.updatePrimaryConnection(
         id: event.id,
-        primaryConnectionAddress: event.primaryConnectionAddress,
+        primaryConnectionAddress: event.primaryConnectionAddress.trim(),
       );
+      yield* _fetchAndYieldSettings();
     }
     if (event is SettingsUpdateSecondaryConnection) {
-      yield* _mapSettingsUpdateSecondaryConnectionToState(
+      logging.info('Settings: Updating secondary connection address');
+      await settings.updateSecondaryConnection(
         id: event.id,
-        secondaryConnectionAddress: event.secondaryConnectionAddress,
+        secondaryConnectionAddress: event.secondaryConnectionAddress.trim(),
       );
+      yield* _fetchAndYieldSettings();
     }
     if (event is SettingsUpdateDeviceToken) {
-      yield* _mapSettingsUpdateDeviceTokenToState(
+      logging.info('Settings: Updating device token');
+      await settings.updateDeviceToken(
         id: event.id,
-        deviceToken: event.deviceToken,
+        deviceToken: event.deviceToken.trim(),
       );
+      yield* _fetchAndYieldSettings();
     }
     if (event is SettingsUpdateServerTimeout) {
-      yield* _mapSettingsUpdateServerTimeoutToState(
-        timeout: event.timeout,
-      );
+      logging.info('Settings: Updating server timeout to ${event.timeout}s');
+      await settings.setServerTimeout(event.timeout);
+      yield* _fetchAndYieldSettings();
     }
     if (event is SettingsUpdateRefreshRate) {
-      yield* _mapSettingsUpdateRefreshRateToState(
-        refreshRate: event.refreshRate,
-      );
+      final String refreshRateString =
+          event.refreshRate != null ? '${event.refreshRate}s' : 'disabled';
+      logging.info('Settings: Updating server timeout to $refreshRateString');
+
+      await settings.setRefreshRate(event.refreshRate);
+      yield* _fetchAndYieldSettings();
     }
     if (event is SettingsUpdateLastSelectedServer) {
-      yield* _mapSettingsUpdateLastSelectedServerToState(
-        tautulliId: event.tautulliId,
-      );
+      await settings.setLastSelectedServer(event.tautulliId);
+      yield* _fetchAndYieldSettings();
     }
-  }
-
-  Stream<SettingsState> _mapSettingsLoadToState() async* {
-    yield SettingsLoadInProgress();
-    yield* _fetchAndYieldSettings();
-    yield* _checkForServerChanges();
-  }
-
-  Stream<SettingsState> _mapSettingsAddServerToState({
-    @required String primaryConnectionAddress,
-    @required String deviceToken,
-    @required String tautulliId,
-    @required String plexName,
-    @required bool plexPass,
-  }) async* {
-    logging.info('Settings: Saving server details');
-    await settings.addServer(
-      primaryConnectionAddress: primaryConnectionAddress,
-      deviceToken: deviceToken,
-      tautulliId: tautulliId,
-      plexName: plexName,
-      primaryActive: true,
-      plexPass: plexPass,
-    );
-    yield* _fetchAndYieldSettings();
-  }
-
-  Stream<SettingsState> _mapSettingsUpdateServerToState({
-    @required int id,
-    @required String primaryConnectionAddress,
-    @required String secondaryConnectionAddress,
-    @required String deviceToken,
-    @required String tautulliId,
-    @required String plexName,
-    @required bool plexPass,
-  }) async* {
-    logging.info('Settings: Updating server details');
-    await settings.updateServerById(
-      id: id,
-      primaryConnectionAddress: primaryConnectionAddress,
-      secondaryConnectionAddress: secondaryConnectionAddress,
-      deviceToken: deviceToken,
-      tautulliId: tautulliId,
-      plexName: plexName,
-      primaryActive: true,
-      plexPass: plexPass,
-    );
-    yield* _fetchAndYieldSettings();
-  }
-
-  Stream<SettingsState> _mapSettingsDeleteServerToState({
-    @required int id,
-  }) async* {
-    logging.info('Settings: Deleting server');
-    await settings.deleteServer(id);
-    yield* _fetchAndYieldSettings();
-  }
-
-  Stream<SettingsState> _mapSettingsUpdatePrimaryConnectionToState({
-    @required int id,
-    @required String primaryConnectionAddress,
-  }) async* {
-    logging.info('Settings: Updating primary connection address');
-    await settings.updatePrimaryConnection(
-      id: id,
-      primaryConnectionAddress: primaryConnectionAddress.trim(),
-    );
-    yield* _fetchAndYieldSettings();
-  }
-
-  Stream<SettingsState> _mapSettingsUpdateSecondaryConnectionToState({
-    @required int id,
-    @required String secondaryConnectionAddress,
-  }) async* {
-    logging.info('Settings: Updating secondary connection address');
-    await settings.updateSecondaryConnection(
-      id: id,
-      secondaryConnectionAddress: secondaryConnectionAddress.trim(),
-    );
-    yield* _fetchAndYieldSettings();
-  }
-
-  Stream<SettingsState> _mapSettingsUpdateDeviceTokenToState({
-    @required int id,
-    @required String deviceToken,
-  }) async* {
-    logging.info('Settings: Updating device token');
-    await settings.updateDeviceToken(
-      id: id,
-      deviceToken: deviceToken.trim(),
-    );
-    yield* _fetchAndYieldSettings();
-  }
-
-  Stream<SettingsState> _mapSettingsUpdateServerTimeoutToState({
-    @required int timeout,
-  }) async* {
-    logging.info('Settings: Updating server timeout to ${timeout}s');
-    await settings.setServerTimeout(timeout);
-    yield* _fetchAndYieldSettings();
-  }
-
-  Stream<SettingsState> _mapSettingsUpdateRefreshRateToState({
-    @required int refreshRate,
-  }) async* {
-    final String refreshRateString =
-        refreshRate != null ? '${refreshRate}s' : 'disabled';
-    logging.info('Settings: Updating server timeout to $refreshRateString');
-
-    await settings.setRefreshRate(refreshRate);
-    yield* _fetchAndYieldSettings();
-  }
-
-  Stream<SettingsState> _mapSettingsUpdateLastSelectedServerToState({
-    @required String tautulliId,
-  }) async* {
-    await settings.setLastSelectedServer(tautulliId);
-    yield* _fetchAndYieldSettings();
+    if (event is SettingsUpdateStatsType) {
+      await settings.setStatsType(event.statsType);
+      yield* _fetchAndYieldSettings();
+    }
   }
 
   Stream<SettingsState> _fetchAndYieldSettings() async* {
@@ -208,12 +112,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final serverTimeout = await settings.getServerTimeout();
     final refreshRate = await settings.getRefreshRate();
     final lastSelectedServer = await settings.getLastSelectedServer();
+    final statsType = await settings.getStatsType();
 
     yield SettingsLoadSuccess(
       serverList: serverList,
       serverTimeout: serverTimeout,
       refreshRate: refreshRate,
       lastSelectedServer: lastSelectedServer,
+      statsType: statsType,
     );
   }
 
