@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -7,8 +8,10 @@ import 'package:quiver/strings.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/string_format_helper.dart';
+import '../../../../core/tools/debouncer.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/poster_chooser.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../terminate_session/presentation/bloc/terminate_session_bloc.dart';
 import '../../domain/entities/activity.dart';
 import '../bloc/activity_bloc.dart';
@@ -51,29 +54,48 @@ class _ActivityCardState extends State<ActivityCard> {
 
     final _terminateMessageController = TextEditingController();
 
+    final settingsBloc = context.bloc<SettingsBloc>();
+    final SettingsLoadSuccess settingsLoadSuccess = settingsBloc.state;
+    final bool hasPlexPass = settingsLoadSuccess.serverList
+        .firstWhere((server) => server.tautulliId == widget.tautulliId)
+        .plexPass;
+
     final activityBloc = context.bloc<ActivityBloc>();
     final geoIpBloc = context.bloc<GeoIpBloc>();
     final terminateSessionBloc = context.bloc<TerminateSessionBloc>();
 
+    final _debouncer = Debouncer(milliseconds: 500);
+
     return GestureDetector(
       onPanUpdate: (details) {
         if (details.delta.dx < 0) {
-          if (activity.mediaType == 'photo') {
-            Scaffold.of(context).hideCurrentSnackBar();
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: PlexColorPalette.shark,
-                content: Text('Photo streams cannot be terminated.'),
-              ),
-            );
-          } else if (isEmpty(activity.sessionId)) {
-            // Scaffold.of(context).hideCurrentSnackBar();
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: PlexColorPalette.shark,
-                content: Text('Synced content cannot be terminated.'),
-              ),
-            );
+          print(details.delta.dx);
+          // If server has plex pass and media type is photo or item is synced show message
+          if (hasPlexPass) {
+            if (activity.mediaType == 'photo') {
+              Scaffold.of(context).hideCurrentSnackBar();
+              _debouncer.run(
+                () {
+                  print('SNACKBAR');
+                  return Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: PlexColorPalette.shark,
+                      content: Text('Photo streams cannot be terminated.'),
+                    ),
+                  );
+                },
+              );
+            } else if (isEmpty(activity.sessionId)) {
+              Scaffold.of(context).hideCurrentSnackBar();
+              _debouncer.run(
+                () => Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: PlexColorPalette.shark,
+                    content: Text('Synced content cannot be terminated.'),
+                  ),
+                ),
+              );
+            }
           }
         }
       },
@@ -94,7 +116,9 @@ class _ActivityCardState extends State<ActivityCard> {
             key: ValueKey('${widget.tautulliId}:${activity.sessionId}'),
             controller: widget.slidableController,
             actionPane: SlidableBehindActionPane(),
-            secondaryActionDelegate: isNotEmpty(activity.sessionId)
+            // Do not allow for slidable terminate menu if server doesn't have plex pass or sessionId is empty
+            secondaryActionDelegate: (isNotEmpty(activity.sessionId) &&
+                    hasPlexPass)
                 ? SlideActionBuilderDelegate(
                     actionCount: 1,
                     builder: (context, index, animation, step) {
