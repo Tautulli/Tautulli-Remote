@@ -1,10 +1,17 @@
+import 'dart:convert';
+
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/database/data/models/server_model.dart';
 import 'package:tautulli_remote/core/database/domain/entities/server.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
+import 'package:tautulli_remote/features/settings/domain/entities/plex_server_info.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
+
+import '../../../../fixtures/fixture_reader.dart';
 
 class MockSettings extends Mock implements Settings {}
 
@@ -59,6 +66,10 @@ void main() {
   final int tServerTimeout = 5;
   final int tRefreshRate = 10;
 
+  final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
+  final PlexServerInfo tPlexServerInfo =
+      PlexServerInfoModel.fromJson(plexServerInfoJson['response']['data']);
+
   void setUpSuccess() {
     when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
     when(mockSettings.getServerTimeout())
@@ -66,6 +77,7 @@ void main() {
     when(mockSettings.getRefreshRate()).thenAnswer((_) async => tRefreshRate);
     when(mockSettings.getLastSelectedServer())
         .thenAnswer((_) async => tTautulliId);
+    when(mockSettings.getPlexServerInfo(any)).thenAnswer((_) async => Right(tPlexServerInfo));
   }
 
   test(
