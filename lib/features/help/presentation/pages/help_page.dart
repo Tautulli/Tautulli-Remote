@@ -19,7 +19,11 @@ class HelpPage extends StatelessWidget {
         title: Text('Help & Support'),
         actions: [
           IconButton(
-            icon: FaIcon(FontAwesomeIcons.solidListAlt),
+            icon: FaIcon(
+              FontAwesomeIcons.solidListAlt,
+              color: TautulliColorPalette.not_white,
+              size: 20,
+            ),
             tooltip: 'Logs',
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(
@@ -40,54 +44,54 @@ class HelpPage extends StatelessWidget {
             ListHeader(headingText: 'Help Topics'),
             ListTile(
               title: Text('OneSignal authentication'),
-               trailing: FaIcon(
-                      FontAwesomeIcons.angleRight,
-                      color: TautulliColorPalette.smoke,
-                    ),
+              trailing: FaIcon(
+                FontAwesomeIcons.angleRight,
+                color: TautulliColorPalette.smoke,
+              ),
               onTap: () {},
             ),
             ListTile(
               title: Text('Basic authentication'),
-               trailing: FaIcon(
-                      FontAwesomeIcons.angleRight,
-                      color: TautulliColorPalette.smoke,
-                    ),
+              trailing: FaIcon(
+                FontAwesomeIcons.angleRight,
+                color: TautulliColorPalette.smoke,
+              ),
               onTap: () {},
             ),
             ListTile(
               title: Text('Terminating a stream'),
-               trailing: FaIcon(
-                      FontAwesomeIcons.angleRight,
-                      color: TautulliColorPalette.smoke,
-                    ),
+              trailing: FaIcon(
+                FontAwesomeIcons.angleRight,
+                color: TautulliColorPalette.smoke,
+              ),
               onTap: () {},
             ),
             const SizedBox(height: 15),
             ListHeader(headingText: 'Support'),
             ListTile(
               title: Text('Wiki'),
-               trailing: FaIcon(
-                      FontAwesomeIcons.angleRight,
-                      color: TautulliColorPalette.smoke,
-                    ),
+              trailing: FaIcon(
+                FontAwesomeIcons.angleRight,
+                color: TautulliColorPalette.smoke,
+              ),
               onTap: () {},
             ),
             ListTile(
               title: Text('Discord'),
-               trailing: FaIcon(
-                      FontAwesomeIcons.angleRight,
-                      color: TautulliColorPalette.smoke,
-                    ),
+              trailing: FaIcon(
+                FontAwesomeIcons.angleRight,
+                color: TautulliColorPalette.smoke,
+              ),
               onTap: () {
                 launch('https://tautulli.com/discord.html');
               },
             ),
             ListTile(
               title: Text('Reddit'),
-               trailing: FaIcon(
-                      FontAwesomeIcons.angleRight,
-                      color: TautulliColorPalette.smoke,
-                    ),
+              trailing: FaIcon(
+                FontAwesomeIcons.angleRight,
+                color: TautulliColorPalette.smoke,
+              ),
               onTap: () {
                 launch('https://www.reddit.com/r/Tautulli/');
               },
