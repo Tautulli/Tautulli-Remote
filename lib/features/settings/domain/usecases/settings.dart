@@ -1,6 +1,9 @@
+import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/error/failure.dart';
+import '../entities/plex_server_info.dart';
 import '../repositories/settings_repository.dart';
 
 class Settings {
@@ -110,6 +113,12 @@ class Settings {
       tautulliId: tautulliId,
       primaryActive: primaryActive,
     );
+  }
+
+  Future<Either<Failure, PlexServerInfo>> getPlexServerInfo(
+    String tautulliId,
+  ) async {
+    return repository.getPlexServerInfo(tautulliId);
   }
 
   Future<int> getServerTimeout() async {

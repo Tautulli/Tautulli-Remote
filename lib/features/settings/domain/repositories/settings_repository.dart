@@ -1,6 +1,9 @@
+import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/error/failure.dart';
+import '../entities/plex_server_info.dart';
 
 abstract class SettingsRepository {
   Future addServer({
@@ -54,6 +57,8 @@ abstract class SettingsRepository {
     @required String tautulliId,
     @required bool primaryActive,
   });
+
+  Future<Either<Failure, PlexServerInfo>> getPlexServerInfo(String tautulliId);
 
   Future<int> getServerTimeout();
 

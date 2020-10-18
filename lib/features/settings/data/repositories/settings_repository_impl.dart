@@ -1,17 +1,24 @@
+import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 import 'package:validators/sanitizers.dart';
 
 import '../../../../core/database/data/datasources/database.dart';
 import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/connection_address_helper.dart';
+import '../../../../core/helpers/failure_mapper_helper.dart';
+import '../../../../core/network/network_info.dart';
+import '../../domain/entities/plex_server_info.dart';
 import '../../domain/repositories/settings_repository.dart';
 import '../datasources/settings_data_source.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
   final SettingsDataSource dataSource;
+  final NetworkInfo networkInfo;
 
   SettingsRepositoryImpl({
     @required this.dataSource,
+    @required this.networkInfo,
   });
 
   @override
@@ -179,6 +186,23 @@ class SettingsRepositoryImpl implements SettingsRepository {
       tautulliId: tautulliId,
       primaryActive: value,
     );
+  }
+
+  @override
+  Future<Either<Failure, PlexServerInfo>> getPlexServerInfo(
+      String tautulliId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final plexServerInfo = await dataSource.getPlexServerInfo(tautulliId);
+        return Right(plexServerInfo);
+      } catch (exception) {
+        final Failure failure =
+            FailureMapperHelper.mapExceptionToFailure(exception);
+        return (Left(failure));
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
   }
 
   @override

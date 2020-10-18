@@ -1,7 +1,13 @@
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../core/api/tautulli_api.dart';
+import '../../domain/entities/plex_server_info.dart';
+import '../models/plex_server_info_model.dart';
+
 abstract class SettingsDataSource {
+  Future<PlexServerInfo> getPlexServerInfo(String tautulliId);
+
   Future<int> getServerTimeout();
 
   Future<bool> setServerTimeout(int value);
@@ -21,8 +27,22 @@ const LAST_SELECTED_SERVER = 'LAST_SELECTED_SERVER';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
   final SharedPreferences sharedPreferences;
+  final TautulliApi tautulliApi;
 
-  SettingsDataSourceImpl({@required this.sharedPreferences});
+  SettingsDataSourceImpl({
+    @required this.sharedPreferences,
+    @required this.tautulliApi,
+  });
+
+  @override
+  Future<PlexServerInfo> getPlexServerInfo(String tautulliId) async {
+    final plexServerInfoJson = await tautulliApi.getServerInfo(tautulliId);
+
+    PlexServerInfo plexServerInfo =
+        PlexServerInfoModel.fromJson(plexServerInfoJson['response']['data']);
+
+    return plexServerInfo;
+  }
 
   @override
   Future<int> getServerTimeout() {

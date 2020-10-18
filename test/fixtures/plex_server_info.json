@@ -1,0 +1,19 @@
+{
+    "response": {
+        "result": "success",
+        "message": null,
+        "data": {
+            "pms_name": "Supremacy",
+            "pms_version": "1.20.3.3437-f1f08d65b",
+            "pms_platform": "Linux",
+            "pms_ip": "192.168.0.10",
+            "pms_port": 32400,
+            "pms_ssl": 1,
+            "pms_is_remote": 0,
+            "pms_url": "https://192-168-0-10.def.plex.direct:32400",
+            "pms_url_manual": 0,
+            "pms_identifier": "abc",
+            "pms_plexpass": 1
+        }
+    }
+}

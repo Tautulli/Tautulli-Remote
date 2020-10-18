@@ -1,8 +1,15 @@
+import 'dart:convert';
+
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/database/data/models/server_model.dart';
+import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
+import 'package:tautulli_remote/features/settings/domain/entities/plex_server_info.dart';
 import 'package:tautulli_remote/features/settings/domain/repositories/settings_repository.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+
+import '../../../../fixtures/fixture_reader.dart';
 
 class MockSettingsRepository extends Mock implements SettingsRepository {}
 
@@ -41,6 +48,10 @@ void main() {
   );
 
   final List<ServerModel> tServerList = [tServerModel];
+
+  final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
+  final PlexServerInfo tPlexServerInfo =
+      PlexServerInfoModel.fromJson(plexServerInfoJson['response']['data']);
 
   test(
     'addServer should forward the request to the repository',
@@ -212,10 +223,25 @@ void main() {
   );
 
   test(
+    'should get PlexServerInfo from repository',
+    () async {
+      // arrange
+      when(
+        mockSettingsRepository.getPlexServerInfo(any),
+      ).thenAnswer((_) async => Right(tPlexServerInfo));
+      // act
+      final result = await settings.getPlexServerInfo(tTautulliId);
+      // assert
+      expect(result, equals(Right(tPlexServerInfo)));
+    },
+  );
+
+  test(
     'getServerTimeout should get server timeout from settings',
     () async {
       // arrange
-      when(mockSettingsRepository.getServerTimeout()).thenAnswer((_) async => 3);
+      when(mockSettingsRepository.getServerTimeout())
+          .thenAnswer((_) async => 3);
       // act
       final result = await settings.getServerTimeout();
       // assert
@@ -265,7 +291,8 @@ void main() {
     'getLastSelectedServer should get refresh rate from settings',
     () async {
       // arrange
-      when(mockSettingsRepository.getLastSelectedServer()).thenAnswer((_) async => tTautulliId);
+      when(mockSettingsRepository.getLastSelectedServer())
+          .thenAnswer((_) async => tTautulliId);
       // act
       final result = await settings.getLastSelectedServer();
       // assert
