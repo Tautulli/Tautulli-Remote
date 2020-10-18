@@ -6,6 +6,7 @@ import 'package:quiver/strings.dart';
 
 import '../../features/logging/domain/usecases/logging.dart';
 import '../../features/settings/domain/usecases/settings.dart';
+import '../../injection_container.dart' as di;
 import '../database/domain/entities/server.dart';
 import '../error/exception.dart';
 import '../requirements/versions.dart';
@@ -121,12 +122,10 @@ abstract class TautulliApi {
 
 class TautulliApiImpl implements TautulliApi {
   final http.Client client;
-  final Settings settings;
   final Logging logging;
 
   TautulliApiImpl({
     @required this.client,
-    @required this.settings,
     @required this.logging,
   });
 
@@ -149,7 +148,7 @@ class TautulliApiImpl implements TautulliApi {
 
     // If tautulliId is provided then query for existing server info
     if (tautulliId != null) {
-      final Server server = await settings.getServerByTautulliId(tautulliId);
+      final Server server = await di.sl<Settings>().getServerByTautulliId(tautulliId);
       primaryConnectionProtocol = server.primaryConnectionProtocol;
       primaryConnectionDomain = server.primaryConnectionDomain;
       primaryConnectionPath = server.primaryConnectionPath;
@@ -222,14 +221,14 @@ class TautulliApiImpl implements TautulliApi {
             params: params,
           );
 
-          settings.updatePrimaryActive(
+          di.sl<Settings>().updatePrimaryActive(
             tautulliId: tautulliId,
             primaryActive: primaryActive,
           );
         } catch (error) {
           // If both connections failed set primary active to true and throw error
           logging.warning('ConnectionHandler: Both connections failed');
-          settings.updatePrimaryActive(
+          di.sl<Settings>().updatePrimaryActive(
             tautulliId: tautulliId,
             primaryActive: true,
           );
@@ -278,7 +277,7 @@ class TautulliApiImpl implements TautulliApi {
     }
 
     // Get timeout value from settings
-    final timeout = await settings.getServerTimeout();
+    final timeout = await di.sl<Settings>().getServerTimeout();
 
     // Call API using constructed URI
     final response = await client.get(
