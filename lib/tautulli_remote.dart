@@ -84,7 +84,6 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.dark.copyWith(
         systemNavigationBarColor: PlexColorPalette.shark,
-        // statusBarColor: PlexColorPalette.shark,
       ),
     );
     SystemChrome.setPreferredOrientations([
@@ -154,45 +153,46 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         PrivacyPage.routeName: (ctx) => PrivacyPage(),
         LogsPage.routeName: (ctx) => LogsPage(),
       },
-      home: QuickActionsSetup(),
+      // home: QuickActionsSetup(),
+      home: ActivityPage(),
     );
   }
 }
 
-class QuickActionsSetup extends StatefulWidget {
-  const QuickActionsSetup({Key key}) : super(key: key);
+// class QuickActionsSetup extends StatefulWidget {
+//   const QuickActionsSetup({Key key}) : super(key: key);
 
-  @override
-  _QuickActionsSetupState createState() => _QuickActionsSetupState();
-}
+//   @override
+//   _QuickActionsSetupState createState() => _QuickActionsSetupState();
+// }
 
-class _QuickActionsSetupState extends State<QuickActionsSetup> {
-  @override
-  void initState() {
-    super.initState();
-    _initQuickActions();
-  }
+// class _QuickActionsSetupState extends State<QuickActionsSetup> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     _initQuickActions();
+//   }
 
-  void _initQuickActions() {
-    final QuickActions quickActions = QuickActions();
-    quickActions.initialize((type) {
-      // if (type == 'action_activity') {
-      //   Navigator.of(context).pushReplacementNamed('/activity');
-      // }
-      // if (type == 'action_recent') {
-      //   Navigator.of(context).pushReplacementNamed('/recent');
-      // }
-    });
-    quickActions.setShortcutItems(<ShortcutItem>[
-      // const ShortcutItem(
-      //     type: 'action_activity', localizedTitle: 'Activity', icon: 'tv'),
-      // const ShortcutItem(
-      //     type: 'action_recent', localizedTitle: 'Recent', icon: 'recent'),
-    ]);
-  }
+//   void _initQuickActions() {
+//     final QuickActions quickActions = QuickActions();
+//     quickActions.initialize((type) {
+//       // if (type == 'action_activity') {
+//       //   Navigator.of(context).pushReplacementNamed('/activity');
+//       // }
+//       // if (type == 'action_recent') {
+//       //   Navigator.of(context).pushReplacementNamed('/recent');
+//       // }
+//     });
+//     quickActions.setShortcutItems(<ShortcutItem>[
+//       // const ShortcutItem(
+//       //     type: 'action_activity', localizedTitle: 'Activity', icon: 'tv'),
+//       // const ShortcutItem(
+//       //     type: 'action_recent', localizedTitle: 'Recent', icon: 'recent'),
+//     ]);
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return ActivityPage();
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return ActivityPage();
+//   }
+// }
