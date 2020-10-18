@@ -15,23 +15,22 @@ class RecentlyAddedDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _rowOne(recentItem),
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 18,
-                color: TautulliColorPalette.not_white,
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _rowOne(recentItem),
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: TautulliColorPalette.not_white,
+                ),
               ),
-            ),
-            if (recentItem.mediaType != 'movie' &&
-                recentItem.mediaType != 'show')
               Text(
                 _rowTwo(recentItem),
                 overflow: TextOverflow.ellipsis,
@@ -40,32 +39,33 @@ class RecentlyAddedDetails extends StatelessWidget {
                   color: TautulliColorPalette.not_white,
                 ),
               ),
-            Text(
-              _rowThree(recentItem),
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 15,
-                color: TautulliColorPalette.not_white,
+              Text(
+                _rowThree(recentItem),
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: TautulliColorPalette.not_white,
+                ),
               ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Added ${TimeFormatHelper.timeAgo(recentItem.addedAt)}',
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.grey,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Added ${TimeFormatHelper.timeAgo(recentItem.addedAt)}',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: TautulliColorPalette.not_white,
+                    ),
+                  ),
+                  MediaTypeIcon(
+                    mediaType: recentItem.mediaType,
+                    iconColor: Colors.grey,
+                  ),
+                ],
               ),
-            ),
-            MediaTypeIcon(
-              mediaType: recentItem.mediaType,
-              iconColor: Colors.grey,
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
@@ -94,12 +94,12 @@ String _rowOne(RecentItem item) {
 String _rowTwo(RecentItem item) {
   switch (item.mediaType) {
     case ('movie'):
-      return '';
+      return item.year.toString();
     case ('episode'):
     case ('season'):
       return item.title;
     case ('show'):
-      return '';
+      return '${item.childCount} seasons';
     case ('track'):
       return item.parentTitle;
     case ('album'):
@@ -112,13 +112,13 @@ String _rowTwo(RecentItem item) {
 String _rowThree(RecentItem item) {
   switch (item.mediaType) {
     case ('movie'):
-      return item.year.toString();
+      return '';
     case ('episode'):
       return 'S${item.parentMediaIndex} • E${item.mediaIndex}';
     case ('season'):
       return '';
     case ('show'):
-      return '${item.childCount} seasons';
+      return '';
     case ('track'):
       return item.parentTitle;
     case ('album'):

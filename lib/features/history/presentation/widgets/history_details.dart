@@ -17,55 +17,58 @@ class HistoryDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              historyItem.fullTitle,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 18,
-                color: TautulliColorPalette.not_white,
-              ),
-            ),
-            Text(
-              _rowTwo(historyItem),
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 15,
-                color: TautulliColorPalette.not_white,
-              ),
-            ),
-            Text(
-              historyItem.friendlyName,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 15,
-                color: TautulliColorPalette.not_white,
-              ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _state(historyItem),
-            Row(
-              children: [
-                MediaTypeIcon(
-                  mediaType: historyItem.mediaType,
-                  iconColor: Colors.grey,
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                historyItem.fullTitle,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: TautulliColorPalette.not_white,
                 ),
-                const SizedBox(width: 5),
-                IconMapperHelper.mapWatchedStatusToIcon(
-                    historyItem.watchedStatus),
-              ],
-            ),
-          ],
+              ),
+              Text(
+                _rowTwo(historyItem),
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: TautulliColorPalette.not_white,
+                ),
+              ),
+              Text(
+                historyItem.friendlyName,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: TautulliColorPalette.not_white,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _state(historyItem),
+                  Row(
+                    children: [
+                      MediaTypeIcon(
+                        mediaType: historyItem.mediaType,
+                        iconColor: Colors.grey,
+                      ),
+                      const SizedBox(width: 5),
+                      IconMapperHelper.mapWatchedStatusToIcon(
+                        historyItem.watchedStatus,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -94,7 +97,7 @@ Widget _state(History item) {
       TimeFormatHelper.cleanDateTime(item.stopped),
       style: TextStyle(
         fontSize: 15,
-        color: Colors.grey,
+        color: TautulliColorPalette.not_white,
       ),
     );
   }
