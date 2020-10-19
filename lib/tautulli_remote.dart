@@ -1,8 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:quick_actions/quick_actions.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/activity/presentation/pages/activity_page.dart';
@@ -30,6 +30,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
   @override
   void initState() {
     super.initState();
+    initializeFlutterFire();
     initPlatformState();
     context.bloc<SettingsBloc>().add(SettingsLoad());
     context.bloc<OneSignalHealthBloc>().add(OneSignalHealthCheck());
@@ -77,6 +78,15 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         context.bloc<OneSignalHealthBloc>().add(OneSignalHealthCheck());
       }
     });
+  }
+
+  // Initialize FlutterFire
+  Future<void> initializeFlutterFire() async {
+    try {
+      await Firebase.initializeApp();
+    } catch (e) {
+      print('Error initalizing Firebase: $e');
+    }
   }
 
   @override

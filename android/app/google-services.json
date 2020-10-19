@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "159358117861",
+    "firebase_url": "https://plexpy-remote.firebaseio.com",
+    "project_id": "plexpy-remote",
+    "storage_bucket": "plexpy-remote.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159358117861:android:4b8cc97ee56a82b547310c",
+        "android_client_info": {
+          "package_name": "com.tautulli.tautulli_remote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159358117861-8ic3dfb1f64viklm1p0qhvv5lcnhb9no.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tautulli.tautulli_remote",
+            "certificate_hash": "e8271c1712e54419f8e170668b0c3a6fb4bb888a"
+          }
+        },
+        {
+          "client_id": "159358117861-8a770mc1hjst512kls6m2iamcahd99ss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAhCOF17B9HL8p7v0GxWUofZtJYSBPu20"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159358117861-8a770mc1hjst512kls6m2iamcahd99ss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159358117861:android:53e17f3d7f20db16",
+        "android_client_info": {
+          "package_name": "com.williamcomartin.plexpyremote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159358117861-l3bind80k6a530lmda7pnoqqjir0a5ec.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.williamcomartin.plexpyremote",
+            "certificate_hash": "c00d532e7a695381ba9dca9837d1cc872ddd86e2"
+          }
+        },
+        {
+          "client_id": "159358117861-ccoj4ihbgqmn276olg27i04c8kamobfs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.williamcomartin.plexpyremote",
+            "certificate_hash": "b3e4f98da775f9dacdd606941e69755b63ef285c"
+          }
+        },
+        {
+          "client_id": "159358117861-8a770mc1hjst512kls6m2iamcahd99ss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAhCOF17B9HL8p7v0GxWUofZtJYSBPu20"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159358117861-8a770mc1hjst512kls6m2iamcahd99ss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
