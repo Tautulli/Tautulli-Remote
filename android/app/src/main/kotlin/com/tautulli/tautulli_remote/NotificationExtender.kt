@@ -40,23 +40,7 @@ class NotificationExtender : NotificationExtenderService() {
             val subject: String = jsonMessage.getString("subject")
             val priority: Int = jsonMessage.getInt("priority")
 
-            val icon: Bitmap
-
             Log.d("Notification", jsonMessage.getString("poster_thumb"))
-
-            icon = try {
-                val urlString = ""//UrlHelpers.getImageUrl(jsonMessage.getString("poster_thumb"), "200", "200")
-                Log.d("Notification", urlString)
-                val url = URL(urlString)
-                val urlConnection: URLConnection = url.openConnection()
-                urlConnection.readTimeout = 10000
-                urlConnection.connectTimeout = 10000
-                BitmapFactory.decodeStream(urlConnection.getInputStream())
-            } catch (e: Exception) {
-                Log.d("Notification", e.toString())
-                e.printStackTrace()
-                BitmapFactory.decodeResource(resources, R.drawable.ic_launcher_foreground)
-            }
 
             val launchIntent = Intent(this, MainActivity::class.java)
             launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -67,6 +51,9 @@ class NotificationExtender : NotificationExtenderService() {
             val ts = tsLong.toString()
             val tsTrunc: String = ts.substring(ts.length - 9)
             val notificationID: Int = Integer.parseInt(tsTrunc)
+
+            Log.d(LOG_TAG, subject)
+            Log.d(LOG_TAG, body)
 
             val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_logo_flat)
