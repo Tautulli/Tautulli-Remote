@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tautulli</string>
+    <string name="channel_name">Server notifications</string>
+    <string name="channel_description">Notifications sourced from a Tautulli server</string>
 </resources>

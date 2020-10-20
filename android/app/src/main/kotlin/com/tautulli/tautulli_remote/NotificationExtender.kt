@@ -1,11 +1,13 @@
 package com.tautulli.tautulli_remote
 
+import android.content.Context 
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.onesignal.NotificationExtenderService
 import com.onesignal.OSNotificationReceivedResult
@@ -25,11 +27,10 @@ import android.app.*
  */
 class NotificationExtender : NotificationExtenderService() {
     override fun onNotificationProcessing(notification: OSNotificationReceivedResult): Boolean {
-        Log.d(LOG_TAG, notification.payload.additionalData.toString())
-
+        // Log.d(LOG_TAG, notification.payload.additionalData.toString())
         val data: JSONObject = notification.payload.additionalData
         try {
-
+            // If encrypted decrypt the payload data
             val jsonMessage: JSONObject = if (data.getBoolean("encrypted")) {
                 JSONObject(getUnencryptedMessage(data))
             } else {
@@ -40,38 +41,59 @@ class NotificationExtender : NotificationExtenderService() {
             val subject: String = jsonMessage.getString("subject")
             val priority: Int = jsonMessage.getInt("priority")
 
-            Log.d("Notification", jsonMessage.getString("poster_thumb"))
+            // Create an explicit intent
+            val intent = Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
-            val launchIntent = Intent(this, MainActivity::class.java)
-            launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-            val resultPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-            val tsLong: Long = System.currentTimeMillis()
-            val ts = tsLong.toString()
-            val tsTrunc: String = ts.substring(ts.length - 9)
-            val notificationID: Int = Integer.parseInt(tsTrunc)
-
-            Log.d(LOG_TAG, subject)
-            Log.d(LOG_TAG, body)
-
-            val mBuilder: NotificationCompat.Builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            val builder: NotificationCompat.Builder = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_logo_flat)
                 .setContentTitle(subject)
                 .setContentText(body)
-                .setPriority(priority)
-                .setAutoCancel(true)
-                .setContentIntent(resultPendingIntent)
-                .setColor(ContextCompat.getColor(applicationContext, R.color.amber))
                 .setStyle(NotificationCompat.BigTextStyle().bigText(body))
+                .setColor(ContextCompat.getColor(applicationContext, R.color.amber))
+                .setPriority(priority)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
 
-             val mNotifyMgr: NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                mNotifyMgr.notify(notificationID, mBuilder.build())
+            createNotificationChannel()
+
+            with(NotificationManagerCompat.from(this)) {
+                // Create notification id
+                val tsLong: Long = System.currentTimeMillis()
+                val ts = tsLong.toString()
+                val tsTrunc: String = ts.substring(ts.length - 9)
+                val notificationId: Int = Integer.parseInt(tsTrunc)
+
+                // Send notification
+                notify(notificationId, builder.build())
+            }
+
+            // Do not return original OneSignal notification
             return true
         } catch (e: JSONException) {
             e.printStackTrace()
         }
         return false
+    }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     private fun getUnencryptedMessage(data: JSONObject?): String {
@@ -110,7 +132,7 @@ class NotificationExtender : NotificationExtenderService() {
     }
 
     companion object {
-        private const val CHANNEL_ID = "tautulli_remote_main"
+        private const val CHANNEL_ID = "tautulli_remote"
         private const val LOG_TAG = "NotificationExtender"
     }
 }
