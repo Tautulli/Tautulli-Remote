@@ -50,7 +50,11 @@ class StatisticsHeading extends StatelessWidget {
               );
             },
       child: Padding(
-        padding: const EdgeInsets.only(left: 8),
+        padding: const EdgeInsets.only(
+          left: 8,
+          top: 6,
+          bottom: 6,
+        ),
         child: Row(
           children: [
             Expanded(
@@ -65,7 +69,7 @@ class StatisticsHeading extends StatelessWidget {
             ),
             if (statisticCount > 5)
               Padding(
-                padding: const EdgeInsets.only(right: 30),
+                padding: const EdgeInsets.only(right: 15),
                 child: FaIcon(
                   FontAwesomeIcons.angleRight,
                   color: TautulliColorPalette.not_white,

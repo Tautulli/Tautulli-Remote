@@ -499,7 +499,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
     final settingsState = _settingsBloc.state;
     if (settingsState is SettingsLoadSuccess) {
       if (settingsState.serverList.length < 2) {
-        statList.add(const SizedBox(height: 15));
+        statList.add(const SizedBox(height: 9));
       }
     }
 
@@ -517,10 +517,11 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
           Divider(
             indent: 8,
             endIndent: MediaQuery.of(context).size.width - 100,
-            height: 15,
+            height: 7,
             thickness: 1,
             color: PlexColorPalette.gamboge,
           ),
+          const SizedBox(height: 7),
         ]);
         for (int i = 0; i < 5; i++) {
           if (i < map[key].length) {
@@ -562,7 +563,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
         // Do not add spacing after last item in list
         if (keys.indexOf(key) < keys.length - 1) {
           statList.add(
-            const SizedBox(height: 18),
+            const SizedBox(height: 4),
           );
         }
       }
