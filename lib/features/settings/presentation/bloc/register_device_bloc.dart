@@ -135,6 +135,8 @@ class RegisterDeviceBloc
               tautulliId: registeredData['server_id'],
               plexName: registeredData['pms_name'],
               plexPass: plexPass,
+              dateFormat: existingServer.dateFormat,
+              timeFormat: existingServer.timeFormat,
             ),
           );
           logging
