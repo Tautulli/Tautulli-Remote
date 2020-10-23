@@ -186,6 +186,8 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
             },
             builder: (context, state) {
               if (state is HistorySuccess) {
+                final SettingsLoadSuccess settingsState = _settingsBloc.state;
+
                 if (state.list.length > 0) {
                   return Expanded(
                     child: RefreshIndicator(
@@ -208,6 +210,9 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                                     item: state.list[index],
                                     details: HistoryDetails(
                                       historyItem: state.list[index],
+                                      server: settingsState.serverList
+                                          .firstWhere((server) =>
+                                              server.tautulliId == _tautulliId),
                                     ),
                                   );
                           },

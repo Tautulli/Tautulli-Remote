@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/icon_mapper_helper.dart';
 import '../../../../core/helpers/string_format_helper.dart';
@@ -10,9 +11,12 @@ import '../../domain/entities/history.dart';
 
 class HistoryDetails extends StatelessWidget {
   final History historyItem;
+  final Server server;
+
   const HistoryDetails({
     Key key,
     @required this.historyItem,
+    @required this.server,
   }) : super(key: key);
 
   @override
@@ -52,7 +56,11 @@ class HistoryDetails extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _state(historyItem),
+                  _state(
+                    item: historyItem,
+                    dateFormat: server.dateFormat,
+                    timeFormat: server.timeFormat,
+                  ),
                   Row(
                     children: [
                       MediaTypeIcon(
@@ -91,10 +99,18 @@ String _rowTwo(History item) {
   }
 }
 
-Widget _state(History item) {
+Widget _state({
+  @required History item,
+  String dateFormat,
+  String timeFormat,
+}) {
   if (item.state == null) {
     return Text(
-      TimeFormatHelper.cleanDateTime(item.stopped),
+      TimeFormatHelper.cleanDateTime(
+        item.stopped,
+        dateFormat: dateFormat,
+        timeFormat: timeFormat,
+      ),
       style: TextStyle(
         fontSize: 15,
         color: TautulliColorPalette.not_white,
