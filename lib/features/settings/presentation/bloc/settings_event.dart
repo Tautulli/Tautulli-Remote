@@ -42,6 +42,8 @@ class SettingsUpdateServer extends SettingsEvent {
   final String tautulliId;
   final String plexName;
   final bool plexPass;
+  final String dateFormat;
+  final String timeFormat;
 
   SettingsUpdateServer({
     @required this.id,
@@ -51,6 +53,8 @@ class SettingsUpdateServer extends SettingsEvent {
     @required this.tautulliId,
     @required this.plexName,
     @required this.plexPass,
+    @required this.dateFormat,
+    @required this.timeFormat,
   });
 
   @override
@@ -62,6 +66,8 @@ class SettingsUpdateServer extends SettingsEvent {
         tautulliId,
         plexName,
         plexPass,
+        dateFormat,
+        timeFormat,
       ];
 }
 

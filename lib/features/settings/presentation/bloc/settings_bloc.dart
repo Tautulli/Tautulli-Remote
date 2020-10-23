@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../domain/entities/tautulli_settings_general.dart';
 import '../../domain/usecases/settings.dart';
 
 part 'settings_event.dart';
@@ -40,6 +41,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         plexPass: event.plexPass,
       );
       yield* _fetchAndYieldSettings();
+      yield* _checkForServerChanges();
     }
     if (event is SettingsUpdateServer) {
       logging.info('Settings: Updating server details');
@@ -52,6 +54,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         plexName: event.plexName,
         primaryActive: true,
         plexPass: event.plexPass,
+        dateFormat: event.dateFormat,
+        timeFormat: event.timeFormat,
       );
       yield* _fetchAndYieldSettings();
     }
@@ -127,37 +131,74 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final serverList = await settings.getAllServers();
 
     for (ServerModel server in serverList) {
-      settings.getPlexServerInfo(server.tautulliId).then(
-        (failureOrPlexServerInfo) {
-          return failureOrPlexServerInfo.fold(
-            (failure) => null,
-            (plexServerInfo) {
-              bool plexPass;
-              switch (plexServerInfo.pmsPlexpass) {
-                case (0):
-                  plexPass = false;
-                  break;
-                case (1):
-                  plexPass = true;
-                  break;
-              }
-
-              if (server.plexName != plexServerInfo.pmsName ||
-                  server.plexPass != plexPass) {
-                add(SettingsUpdateServer(
-                  id: server.id,
-                  primaryConnectionAddress: server.primaryConnectionAddress,
-                  secondaryConnectionAddress: server.secondaryConnectionAddress,
-                  deviceToken: server.deviceToken,
-                  tautulliId: server.tautulliId,
-                  plexName: plexServerInfo.pmsName,
-                  plexPass: plexPass,
-                ));
-              }
-            },
-          );
-        },
-      );
+      _serverInformation(server).then((settingsMap) {
+        if (settingsMap['needsUpdate']) {
+          add(SettingsUpdateServer(
+            id: server.id,
+            primaryConnectionAddress: server.primaryConnectionAddress,
+            secondaryConnectionAddress: server.secondaryConnectionAddress,
+            deviceToken: server.deviceToken,
+            tautulliId: server.tautulliId,
+            plexName: settingsMap['pmsName'],
+            plexPass: settingsMap['plexPass'],
+            dateFormat: settingsMap['dateFormat'],
+            timeFormat: settingsMap['timeFormat'],
+          ));
+        }
+      });
     }
+  }
+
+  Future<Map<String, dynamic>> _serverInformation(ServerModel server) async {
+    Map<String, dynamic> settingsMap = {
+      'needsUpdate': false,
+      'plexPass': null,
+      'pmsName': null,
+      'dateFormat': null,
+      'timeFormat': null,
+    };
+
+    // Check for changes to plexPass or pmsName
+    final failureOrPlexServerInfo =
+        await settings.getPlexServerInfo(server.tautulliId);
+    failureOrPlexServerInfo.fold(
+      (failure) => null,
+      (plexServerInfo) {
+        settingsMap['pmsName'] = plexServerInfo.pmsName;
+        switch (plexServerInfo.pmsPlexpass) {
+          case (0):
+            settingsMap['plexPass'] = false;
+            break;
+          case (1):
+            settingsMap['plexPass'] = true;
+            break;
+        }
+
+        if (server.plexName != plexServerInfo.pmsName ||
+            server.plexPass != settingsMap['plexPass']) {
+          settingsMap['needsUpdate'] = true;
+        }
+      },
+    );
+
+    // Check for changes to Tautulli Server settings
+    final failureOrTautulliSettings =
+        await settings.getTautulliSettings(server.tautulliId);
+    failureOrTautulliSettings.fold(
+      (failure) => null,
+      (tautulliSettings) {
+        final TautulliSettingsGeneral generalSettings =
+            tautulliSettings['general'];
+        settingsMap['dateFormat'] = generalSettings.dateFormat;
+        settingsMap['timeFormat'] = generalSettings.timeFormat;
+
+        if (server.dateFormat != settingsMap['dateFormat'] ||
+            server.timeFormat != settingsMap['timeFormat']) {
+          settingsMap['needsUpdate'] = true;
+        }
+      },
+    );
+
+    return settingsMap;
   }
 }

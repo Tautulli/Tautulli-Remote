@@ -7,6 +7,7 @@ import 'package:tautulli_remote/core/database/data/models/server_model.dart';
 import 'package:tautulli_remote/core/database/domain/entities/server.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
+import 'package:tautulli_remote/features/settings/data/models/tautulli_settings_general_model.dart';
 import 'package:tautulli_remote/features/settings/domain/entities/plex_server_info.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
@@ -41,6 +42,8 @@ void main() {
   final String tDeviceToken = 'abc';
   final String tTautulliId = 'jkl';
   final String tPlexName = 'Plex';
+  final String tDateFormat = 'YYYY-MM-DD';
+  final String tTimeFormat = 'HH:mm';
   final String tNewPrimaryConnectionAddress = 'https://plexpy.com';
   final String tNewPrimaryConnectionProtocol = 'https';
   final String tNewPrimaryConnectionDomain = 'plexpy.com';
@@ -59,7 +62,16 @@ void main() {
     plexName: tPlexName,
     primaryActive: true,
     plexPass: true,
+    dateFormat: tDateFormat,
+    timeFormat: tTimeFormat,
   );
+
+  final Map<String, dynamic> tTautulliSettings = {
+    'general': TautulliSettingsGeneralModel(
+      dateFormat: tDateFormat,
+      timeFormat: tTimeFormat,
+    ),
+  };
 
   final List<ServerModel> tServerList = [tServerModel];
 
@@ -81,6 +93,8 @@ void main() {
     when(mockSettings.getStatsType()).thenAnswer((_) async => tStatsType);
     when(mockSettings.getPlexServerInfo(any))
         .thenAnswer((_) async => Right(tPlexServerInfo));
+    when(mockSettings.getTautulliSettings(any))
+        .thenAnswer((_) async => Right(tTautulliSettings));
   }
 
   test(
@@ -210,6 +224,8 @@ void main() {
             tautulliId: tTautulliId,
             plexName: tPlexName,
             plexPass: true,
+            dateFormat: tDateFormat,
+            timeFormat: tTimeFormat,
           ),
         );
         await untilCalled(
@@ -222,6 +238,8 @@ void main() {
             plexName: tPlexName,
             primaryActive: true,
             plexPass: true,
+            dateFormat: tDateFormat,
+            timeFormat: tTimeFormat,
           ),
         );
         // assert
@@ -235,6 +253,8 @@ void main() {
             plexName: tPlexName,
             primaryActive: true,
             plexPass: true,
+            dateFormat: tDateFormat,
+            timeFormat: tTimeFormat,
           ),
         );
       },
@@ -266,6 +286,8 @@ void main() {
             tautulliId: tTautulliId,
             plexName: tPlexName,
             plexPass: true,
+            dateFormat: tDateFormat,
+            timeFormat: tTimeFormat,
           ),
         );
       },
