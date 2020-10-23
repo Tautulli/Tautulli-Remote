@@ -29,7 +29,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.bloc<SettingsBloc>().add(SettingsLoad());
+    context.bloc<SettingsBloc>();
     // Makes sure RegisterDeviceBloc is available for the FAB
     return BlocProvider(
       create: (context) => di.sl<RegisterDeviceBloc>(),
