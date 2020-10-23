@@ -19,6 +19,8 @@ class ServerModel extends Server {
     @required String deviceToken,
     @required bool primaryActive,
     @required bool plexPass,
+    String dateFormat,
+    String timeFormat,
   }) : super(
           id: id,
           plexName: plexName,
@@ -34,6 +36,8 @@ class ServerModel extends Server {
           deviceToken: deviceToken,
           primaryActive: primaryActive,
           plexPass: plexPass,
+          dateFormat: dateFormat,
+          timeFormat: timeFormat,
         );
 
   // Create Settings from JSON data
@@ -56,6 +60,8 @@ class ServerModel extends Server {
       deviceToken: json['device_token'],
       primaryActive: primaryActiveBool,
       plexPass: plexPass,
+      dateFormat: json['date_format'],
+      timeFormat: json['time_format'],
     );
   }
 
@@ -97,6 +103,8 @@ class ServerModel extends Server {
       'device_token': deviceToken,
       'primary_active': primaryActiveInt,
       'plex_pass': plexPassInt,
+      'date_format': dateFormat,
+      'time_format': timeFormat,
     };
   }
 }

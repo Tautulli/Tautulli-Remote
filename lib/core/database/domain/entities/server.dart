@@ -16,6 +16,8 @@ class Server extends Equatable {
   final String deviceToken;
   final bool primaryActive;
   final bool plexPass;
+  final String dateFormat;
+  final String timeFormat;
 
   Server({
     this.id,
@@ -32,6 +34,8 @@ class Server extends Equatable {
     @required this.deviceToken,
     @required this.primaryActive,
     @required this.plexPass,
+    this.dateFormat,
+    this.timeFormat,
   });
 
   @override
@@ -50,6 +54,8 @@ class Server extends Equatable {
         deviceToken,
         primaryActive,
         plexPass,
+        dateFormat,
+        timeFormat,
       ];
 
   @override

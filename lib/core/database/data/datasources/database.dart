@@ -30,24 +30,27 @@ class DBProvider {
 
     return await openDatabase(
       path,
-      version: 2,
+      version: 3,
       onOpen: (db) async {},
       onCreate: (Database db, int version) async {
         var batch = db.batch();
-        _createTableServerV2(batch);
+        _createTableServerV3(batch);
         await batch.commit();
       },
       onUpgrade: (Database db, int oldVersion, int newVersion) async {
         var batch = db.batch();
         if (oldVersion == 1) {
-          _updateTableServerV1toV2(batch);
+          _updateTableServerV1toV3(batch);
+        }
+        if (oldVersion == 2) {
+          _updateTableServerV2toV3(batch);
         }
         await batch.commit();
       },
     );
   }
 
-  void _createTableServerV2(Batch batch) {
+  void _createTableServerV3(Batch batch) {
     batch.execute('''CREATE TABLE servers(
                     id INTEGER PRIMARY KEY,
                     plex_name TEXT,
@@ -62,12 +65,21 @@ class DBProvider {
                     secondary_connection_path TEXT,
                     device_token TEXT,
                     primary_active INTEGER,
-                    plex_pass INTEGER
+                    plex_pass INTEGER,
+                    date_format TEXT,
+                    time_format TEXT,
                 )''');
   }
 
-  void _updateTableServerV1toV2(Batch batch) {
+  void _updateTableServerV1toV3(Batch batch) {
     batch.execute('ALTER TABLE servers ADD plex_pass INTEGER');
+    batch.execute('ALTER TABLE servers ADD date_format TEXT');
+    batch.execute('ALTER TABLE servers ADD time_format TEXT');
+  }
+
+  void _updateTableServerV2toV3(Batch batch) {
+    batch.execute('ALTER TABLE servers ADD date_format TEXT');
+    batch.execute('ALTER TABLE servers ADD time_format TEXT');
   }
 
   addServer(ServerModel server) async {
