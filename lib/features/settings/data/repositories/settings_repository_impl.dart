@@ -66,6 +66,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String plexName,
     @required bool primaryActive,
     @required bool plexPass,
+    @required String dateFormat,
+    @required String timeFormat,
   }) async {
     final primaryConnectionMap =
         ConnectionAddressHelper.parse(primaryConnectionAddress);
@@ -86,6 +88,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
       plexName: plexName,
       primaryActive: primaryActive,
       plexPass: plexPass,
+      dateFormat: dateFormat,
+      timeFormat: timeFormat,
     );
 
     return await DBProvider.db.updateServerById(server);
@@ -195,6 +199,24 @@ class SettingsRepositoryImpl implements SettingsRepository {
       try {
         final plexServerInfo = await dataSource.getPlexServerInfo(tautulliId);
         return Right(plexServerInfo);
+      } catch (exception) {
+        final Failure failure =
+            FailureMapperHelper.mapExceptionToFailure(exception);
+        return (Left(failure));
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Map<String, dynamic>>> getTautulliSettings(
+      String tautulliId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final tautulliSettingsMap =
+            await dataSource.getTautulliSettings(tautulliId);
+        return Right(tautulliSettingsMap);
       } catch (exception) {
         final Failure failure =
             FailureMapperHelper.mapExceptionToFailure(exception);

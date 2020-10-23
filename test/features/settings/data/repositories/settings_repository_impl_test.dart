@@ -7,6 +7,7 @@ import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/network/network_info.dart';
 import 'package:tautulli_remote/features/settings/data/datasources/settings_data_source.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
+import 'package:tautulli_remote/features/settings/data/models/tautulli_settings_general_model.dart';
 import 'package:tautulli_remote/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:tautulli_remote/features/settings/domain/entities/plex_server_info.dart';
 
@@ -38,6 +39,13 @@ void main() {
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =
       PlexServerInfoModel.fromJson(plexServerInfoJson['response']['data']);
+
+  final tautulliSettingsJson = json.decode(fixture('tautulli_settings.json'));
+  final tautulliSettingsGeneral = TautulliSettingsGeneralModel.fromJson(
+      tautulliSettingsJson['response']['data']['General']);
+  final tTautulliSettingsMap = {
+    'general': tautulliSettingsGeneral,
+  };
 
   group('getPlexServerInfo', () {
     test(
@@ -80,6 +88,66 @@ void main() {
           final result = await repository.getPlexServerInfo(tTautulliId);
           // assert
           expect(result, equals(Right(tPlexServerInfo)));
+        },
+      );
+    });
+
+    group('device is offline', () {
+      test(
+        'should return a ConnectionFailure when there is no network connection',
+        () async {
+          // arrange
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+          // act
+          final result = await repository.getPlexServerInfo(tTautulliId);
+          // assert
+          expect(result, equals(Left(ConnectionFailure())));
+        },
+      );
+    });
+  });
+
+  group('getTautulliSettings', () {
+    test(
+      'should check if device is online',
+      () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        // act
+        repository.getPlexServerInfo(tTautulliId);
+        // assert
+        verify(mockNetworkInfo.isConnected);
+      },
+    );
+
+    group('device is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+
+      test(
+        'should call the data source getTautulliSettings()',
+        () async {
+          // act
+          await repository.getTautulliSettings(tTautulliId);
+          // assert
+          verify(
+            mockSettingsDataSource.getTautulliSettings(tTautulliId),
+          );
+        },
+      );
+
+      test(
+        'should return MetadataItem when call to API is successful',
+        () async {
+          // arrange
+          when(
+            mockSettingsDataSource.getTautulliSettings(any),
+          ).thenAnswer((_) async => tTautulliSettingsMap);
+          // act
+          final result = await repository.getTautulliSettings(tTautulliId);
+          // assert
+          expect(result, equals(Right(tTautulliSettingsMap)));
         },
       );
     });

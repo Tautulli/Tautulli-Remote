@@ -3,10 +3,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/api/tautulli_api.dart';
 import '../../domain/entities/plex_server_info.dart';
+import '../../domain/entities/tautulli_settings_general.dart';
 import '../models/plex_server_info_model.dart';
+import '../models/tautulli_settings_general_model.dart';
 
 abstract class SettingsDataSource {
   Future<PlexServerInfo> getPlexServerInfo(String tautulliId);
+
+  Future<Map<String, dynamic>> getTautulliSettings(String tautulliId);
 
   Future<int> getServerTimeout();
 
@@ -47,6 +51,18 @@ class SettingsDataSourceImpl implements SettingsDataSource {
         PlexServerInfoModel.fromJson(plexServerInfoJson['response']['data']);
 
     return plexServerInfo;
+  }
+
+  @override
+  Future<Map<String, dynamic>> getTautulliSettings(String tautulliId) async {
+    final tautulliSettingsJson = await tautulliApi.getSettings(tautulliId);
+
+    TautulliSettingsGeneral tautulliSettingsGeneral =
+        TautulliSettingsGeneralModel.fromJson(tautulliSettingsJson['response']['data']['General']);
+
+    return {
+      'general': tautulliSettingsGeneral,
+    };
   }
 
   @override

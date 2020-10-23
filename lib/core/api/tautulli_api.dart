@@ -76,6 +76,7 @@ abstract class TautulliApi {
     int sectionId,
   });
   Future<Map<String, dynamic>> getServerInfo(String tautulliId);
+  Future<Map<String, dynamic>> getSettings(String tautulliId);
   Future<Map<String, dynamic>> getSyncedItems({
     @required String tautulliId,
     String machineId,
@@ -576,6 +577,15 @@ class TautulliApiImpl implements TautulliApi {
     final responseJson = await connectionHandler(
       tautulliId: tautulliId,
       cmd: 'get_server_info',
+    );
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getSettings(String tautulliId) async {
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_settings',
     );
 
     return responseJson;

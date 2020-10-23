@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tautulli_remote/core/api/tautulli_api.dart';
 import 'package:tautulli_remote/features/settings/data/datasources/settings_data_source.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
+import 'package:tautulli_remote/features/settings/data/models/tautulli_settings_general_model.dart';
 import 'package:tautulli_remote/features/settings/domain/entities/plex_server_info.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
@@ -33,6 +34,13 @@ void main() {
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =
       PlexServerInfoModel.fromJson(plexServerInfoJson['response']['data']);
+
+  final tautulliSettingsJson = json.decode(fixture('tautulli_settings.json'));
+  final tautulliSettingsGeneral = TautulliSettingsGeneralModel.fromJson(
+      tautulliSettingsJson['response']['data']['General']);
+  final tTautulliSettingsMap = {
+    'general': tautulliSettingsGeneral,
+  };
 
   group('Plex Server Info', () {
     test(
@@ -62,6 +70,38 @@ void main() {
         final result = await dataSource.getPlexServerInfo(tTautulliId);
         // assert
         expect(result, equals(tPlexServerInfo));
+      },
+    );
+  });
+
+  group('Tautulli Settings', () {
+    test(
+      'should call [getSettings] from TautulliApi',
+      () async {
+        // arrange
+        when(
+          mockTautulliApi.getSettings(any),
+        ).thenAnswer((_) async => tautulliSettingsJson);
+        // act
+        await dataSource.getTautulliSettings(tTautulliId);
+        // assert
+        verify(
+          mockTautulliApi.getSettings(tTautulliId),
+        );
+      },
+    );
+
+    test(
+      'should return a Map of TautulliSettings items',
+      () async {
+        // arrange
+        when(
+          mockTautulliApi.getSettings(any),
+        ).thenAnswer((_) async => tautulliSettingsJson);
+        // act
+        final result = await dataSource.getTautulliSettings(tTautulliId);
+        // assert
+        expect(result, equals(tTautulliSettingsMap));
       },
     );
   });
@@ -201,8 +241,7 @@ void main() {
       'should return null when there is no stored value',
       () async {
         // arrange
-        when(mockSharedPreferences.getString(STATS_TYPE))
-            .thenReturn(null);
+        when(mockSharedPreferences.getString(STATS_TYPE)).thenReturn(null);
         // act
         final statsType = await dataSource.getStatsType();
         // assert

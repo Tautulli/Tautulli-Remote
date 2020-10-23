@@ -1,0 +1,12 @@
+{
+    "response": {
+        "result": "success",
+        "message": null,
+        "data": {
+            "General": {
+                "time_format": "HH:mm",
+                "date_format": "YYYY-MM-DD"
+            }
+        }
+    }
+}

@@ -46,6 +46,8 @@ class Settings {
     @required String plexName,
     @required bool primaryActive,
     @required bool plexPass,
+    @required String dateFormat,
+    @required String timeFormat,
   }) {
     return repository.updateServerById(
       id: id,
@@ -56,6 +58,8 @@ class Settings {
       plexName: plexName,
       primaryActive: primaryActive,
       plexPass: plexPass,
+      dateFormat: dateFormat,
+      timeFormat: timeFormat,
     );
   }
 
@@ -119,6 +123,12 @@ class Settings {
     String tautulliId,
   ) async {
     return repository.getPlexServerInfo(tautulliId);
+  }
+
+  Future<Either<Failure, Map<String, dynamic>>> getTautulliSettings(
+    String tautulliId,
+  ) async {
+    return repository.getTautulliSettings(tautulliId);
   }
 
   Future<int> getServerTimeout() async {

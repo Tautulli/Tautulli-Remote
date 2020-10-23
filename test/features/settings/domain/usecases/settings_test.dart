@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/database/data/models/server_model.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
+import 'package:tautulli_remote/features/settings/data/models/tautulli_settings_general_model.dart';
 import 'package:tautulli_remote/features/settings/domain/entities/plex_server_info.dart';
 import 'package:tautulli_remote/features/settings/domain/repositories/settings_repository.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
@@ -33,6 +34,8 @@ void main() {
   final String tDeviceToken = 'abc';
   final String tTautulliId = 'jkl';
   final String tPlexName = 'Plex';
+  final String tDateFormat = 'YYYY-MM-DD';
+  final String tTimeFormat = 'HH:mm';
 
   final String tStatsType = 'duration';
 
@@ -47,6 +50,8 @@ void main() {
     plexName: tPlexName,
     primaryActive: true,
     plexPass: true,
+    dateFormat: tDateFormat,
+    timeFormat: tTimeFormat,
   );
 
   final List<ServerModel> tServerList = [tServerModel];
@@ -54,6 +59,13 @@ void main() {
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =
       PlexServerInfoModel.fromJson(plexServerInfoJson['response']['data']);
+
+  final tautulliSettingsJson = json.decode(fixture('tautulli_settings.json'));
+  final tautulliSettingsGeneral = TautulliSettingsGeneralModel.fromJson(
+      tautulliSettingsJson['response']['data']['General']);
+  final tTautulliSettingsMap = {
+    'general': tautulliSettingsGeneral,
+  };
 
   test(
     'addServer should forward the request to the repository',
@@ -114,6 +126,8 @@ void main() {
         plexName: tPlexName,
         primaryActive: true,
         plexPass: true,
+        dateFormat: tDateFormat,
+        timeFormat: tTimeFormat,
       );
       // assert
       verify(
@@ -126,6 +140,8 @@ void main() {
           plexName: tPlexName,
           primaryActive: true,
           plexPass: true,
+          dateFormat: tDateFormat,
+          timeFormat: tTimeFormat,
         ),
       );
     },
@@ -235,6 +251,20 @@ void main() {
       final result = await settings.getPlexServerInfo(tTautulliId);
       // assert
       expect(result, equals(Right(tPlexServerInfo)));
+    },
+  );
+
+  test(
+    'should get TautulliSettings from repository',
+    () async {
+      // arrange
+      when(
+        mockSettingsRepository.getTautulliSettings(any),
+      ).thenAnswer((_) async => Right(tTautulliSettingsMap));
+      // act
+      final result = await settings.getTautulliSettings(tTautulliId);
+      // assert
+      expect(result, equals(Right(tTautulliSettingsMap)));
     },
   );
 
