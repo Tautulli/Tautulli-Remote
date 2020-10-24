@@ -298,94 +298,103 @@ Widget _buildFloatingActionButton(
   // ThemeData is required to correct bug in Speed Dial package where Icon color was fixed
   return Builder(
     builder: (context) {
-      return Theme(
-        data: ThemeData(
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-            foregroundColor: TautulliColorPalette.not_white,
-            backgroundColor: Theme.of(context).accentColor,
-          ),
-        ),
-        child: UnicornDialer(
-          orientation: UnicornOrientation.VERTICAL,
-          hasBackground: false,
-          parentButton: Icon(Icons.add),
-          childButtons: [
-            UnicornButton(
-              hasLabel: true,
-              labelHasShadow: false,
-              labelText: 'Enter manually',
-              labelBackgroundColor: Colors.transparent,
-              labelColor: TautulliColorPalette.not_white,
-              currentButton: FloatingActionButton(
-                heroTag: 'manual',
-                mini: true,
-                child: FaIcon(
-                  FontAwesomeIcons.pencilAlt,
-                  color: TautulliColorPalette.not_white,
+      return BlocBuilder<SettingsBloc, SettingsState>(
+        builder: (context, state) {
+          if (state is SettingsLoadSuccess) {
+            return Theme(
+              data: ThemeData(
+                floatingActionButtonTheme: FloatingActionButtonThemeData(
+                  foregroundColor: TautulliColorPalette.not_white,
+                  backgroundColor: Theme.of(context).accentColor,
                 ),
-                onPressed: () async {
-                  // Push manual registration page as a full screen dialog
-                  bool result = await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      fullscreenDialog: true,
-                      builder: (context) {
-                        return BlocProvider(
-                          create: (context) => di.sl<RegisterDeviceBloc>(),
-                          child: ManualRegistrationForm(),
+              ),
+              child: UnicornDialer(
+                orientation: UnicornOrientation.VERTICAL,
+                hasBackground: false,
+                parentButton: Icon(Icons.add),
+                childButtons: [
+                  UnicornButton(
+                    hasLabel: true,
+                    labelHasShadow: false,
+                    labelText: 'Enter manually',
+                    labelBackgroundColor: Colors.transparent,
+                    labelColor: TautulliColorPalette.not_white,
+                    currentButton: FloatingActionButton(
+                      heroTag: 'manual',
+                      mini: true,
+                      child: FaIcon(
+                        FontAwesomeIcons.pencilAlt,
+                        color: TautulliColorPalette.not_white,
+                      ),
+                      onPressed: () async {
+                        // Push manual registration page as a full screen dialog
+                        bool result = await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            fullscreenDialog: true,
+                            builder: (context) {
+                              return BlocProvider(
+                                create: (context) =>
+                                    di.sl<RegisterDeviceBloc>(),
+                                child: ManualRegistrationForm(),
+                              );
+                            },
+                          ),
                         );
+
+                        // If manual registration page pops with true show success snackbar
+                        if (result == true) {
+                          Scaffold.of(context).hideCurrentSnackBar();
+                          Scaffold.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text('Tautulli Registration Successful'),
+                            ),
+                          );
+                        }
                       },
                     ),
-                  );
-
-                  // If manual registration page pops with true show success snackbar
-                  if (result == true) {
-                    Scaffold.of(context).hideCurrentSnackBar();
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text('Tautulli Registration Successful'),
+                  ),
+                  UnicornButton(
+                    hasLabel: true,
+                    labelHasShadow: false,
+                    labelText: 'Scan QR code',
+                    labelBackgroundColor: Colors.transparent,
+                    labelColor: TautulliColorPalette.not_white,
+                    currentButton: FloatingActionButton(
+                      heroTag: 'scan',
+                      mini: true,
+                      child: FaIcon(
+                        FontAwesomeIcons.qrcode,
+                        color: TautulliColorPalette.not_white,
                       ),
-                    );
-                  }
-                },
+                      onPressed: () async {
+                        final qrCodeScan =
+                            await FlutterBarcodeScanner.scanBarcode(
+                          '#e5a00d',
+                          'Cancel',
+                          false,
+                          ScanMode.QR,
+                        );
+                        // Scanner seems to return '-1' when scanner is exited
+                        // do not attempt to register when this happens
+                        if (qrCodeScan != '-1') {
+                          registerDeviceBloc.add(
+                            RegisterDeviceFromQrStarted(
+                              result: qrCodeScan,
+                              // Passes in the SettingsBloc to maintain context so items update correctly
+                              settingsBloc: context.bloc<SettingsBloc>(),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ),
-            UnicornButton(
-              hasLabel: true,
-              labelHasShadow: false,
-              labelText: 'Scan QR code',
-              labelBackgroundColor: Colors.transparent,
-              labelColor: TautulliColorPalette.not_white,
-              currentButton: FloatingActionButton(
-                heroTag: 'scan',
-                mini: true,
-                child: FaIcon(
-                  FontAwesomeIcons.qrcode,
-                  color: TautulliColorPalette.not_white,
-                ),
-                onPressed: () async {
-                  final qrCodeScan = await FlutterBarcodeScanner.scanBarcode(
-                    '#e5a00d',
-                    'Cancel',
-                    false,
-                    ScanMode.QR,
-                  );
-                  // Scanner seems to return '-1' when scanner is exited
-                  // do not attempt to register when this happens
-                  if (qrCodeScan != '-1') {
-                    registerDeviceBloc.add(
-                      RegisterDeviceFromQrStarted(
-                        result: qrCodeScan,
-                        // Passes in the SettingsBloc to maintain context so items update correctly
-                        settingsBloc: context.bloc<SettingsBloc>(),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
+            );
+          }
+          return const SizedBox(height: 0, width: 0);
+        },
       );
     },
   );
