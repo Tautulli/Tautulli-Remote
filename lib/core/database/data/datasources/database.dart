@@ -67,7 +67,7 @@ class DBProvider {
                     primary_active INTEGER,
                     plex_pass INTEGER,
                     date_format TEXT,
-                    time_format TEXT,
+                    time_format TEXT
                 )''');
   }
 
