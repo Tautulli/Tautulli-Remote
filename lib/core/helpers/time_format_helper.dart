@@ -114,14 +114,14 @@ String _parseDateFormat(String dateFormat) {
           .replaceAll('dddd', 'EEEE')
           .replaceAll('ddd', 'E')
           .replaceAll('dd', 'E')
-          .replaceAll('d', 'E')
           .replaceAll('do', 'E')
+          .replaceAll('d', 'E')
+          .replaceAll('DDDo', 'DD')
           .replaceAll('DDDD', 'DDD')
           .replaceAll('DDD', 'DD')
-          .replaceAll('DDDo', 'DD')
           .replaceAll('DD', 'dd')
-          .replaceAll('D', 'd')
           .replaceAll('Do', 'd')
+          .replaceAll('D', 'd')
       ;
 }
 
