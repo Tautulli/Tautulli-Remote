@@ -56,7 +56,7 @@ class StatisticsDetails extends StatelessWidget {
       case ('popular_music'):
       case ('last_watched'):
       case ('most_concurrent'):
-        return statistic.title;
+        return statistic.title != null ? statistic.title : 'NO TITLE';
       case ('top_platforms'):
         return statistic.platform;
       case ('top_users'):
