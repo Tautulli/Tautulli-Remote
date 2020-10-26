@@ -94,7 +94,7 @@ class StatisticsModel extends Statistics {
       rowId: json.containsKey('row_id') && json['row_id'] != ''
           ? json['row_id']
           : null,
-      sectionId: json.containsKey('section_id') ? json['section_id'] : null,
+      sectionId: json.containsKey('section_id') && json['section_id'] != '' ? json['section_id'] : null,
       started:
           json.containsKey('started') ? int.tryParse(json['started']) : null,
       statId: statId,
