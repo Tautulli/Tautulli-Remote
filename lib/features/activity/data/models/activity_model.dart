@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/entities/geo_ip.dart';
 
@@ -156,76 +157,286 @@ class ActivityItemModel extends ActivityItem {
 
   factory ActivityItemModel.fromJson(Map<String, dynamic> json) {
     return ActivityItemModel(
-      sessionKey: int.tryParse(json['session_key']),
-      sessionId: json['session_id'],
-      art: json['art'],
-      audioChannelLayout: json['audio_channel_layout'],
-      audioCodec: json['audio_codec'],
-      bandwidth: json['bandwidth'],
-      channelCallSign: json['channel_call_sign'],
-      channelIdentifier: json['channel_identifier'],
-      container: json['container'],
-      duration: int.tryParse(json['duration']),
-      friendlyName: json['friendly_name'],
-      grandparentRatingKey: int.tryParse(json['grandparent_rating_key']),
-      grandparentThumb: json['grandparent_thumb'],
-      grandparentTitle: json['grandparent_title'],
-      height: int.tryParse(json['height']),
-      ipAddress: json['ip_address'],
-      live: json['live'],
-      local: json['local'],
-      location: json['location'],
-      mediaIndex: int.tryParse(json['media_index']),
-      mediaType: json['media_type'],
-      optimizedVersion: json['optimized_version'],
-      optimizedVersionProfile: json['optimized_version_profile'],
-      optimizedVersionTitle: json['optimized_version_title'],
-      originallyAvailableAt: json['originally_available_at'],
-      parentMediaIndex: int.tryParse(json['parent_media_index']),
-      parentRatingKey: int.tryParse(json['parent_rating_key']),
-      parentThumb: json['parent_thumb'],
-      parentTitle: json['parent_title'],
-      platformName: json['platform_name'],
-      player: json['player'],
-      product: json['product'],
-      progressPercent: int.tryParse(json['progress_percent']),
-      qualityProfile: json['quality_profile'],
-      ratingKey: int.tryParse(json['rating_key']),
-      relayed: json['relayed'],
-      secure: json['secure'],
-      state: json['state'],
-      streamAudioChannelLayout: json['stream_audio_channel_layout'],
-      streamAudioCodec: json['stream_audio_codec'],
-      streamAudioDecision: json['stream_audio_decision'],
-      streamBitrate: int.tryParse(json['stream_bitrate']),
-      streamContainer: json['stream_container'],
-      streamContainerDecision: json['stream_container_decision'],
-      streamSubtitleCodec: json['stream_subtitle_codec'],
-      streamSubtitleDecision: json['stream_subtitle_decision'],
-      streamVideoCodec: json['stream_video_codec'],
-      streamVideoDecision: json['stream_video_decision'],
-      streamVideoDynamicRange: json['stream_video_dynamic_range'],
-      streamVideoFullResolution: json['stream_video_full_resolution'],
-      subtitleCodec: json['subtitle_codec'],
-      subtitles: json['subtitles'],
-      subType: json['sub_type'],
-      syncedVersion: json['synced_version'],
-      syncedVersionProfile: json['synced_version_profile'],
-      thumb: json['thumb'],
-      title: json['title'],
-      transcodeDecision: json['transcode_decision'],
-      transcodeHwDecoding: json['transcode_hw_decoding'],
-      transcodeHwEncoding: json['transcode_hw_encoding'],
-      transcodeProgress: json['transcode_progress'],
-      transcodeSpeed: double.tryParse(json['transcode_speed']),
-      transcodeThrottled: json['transcode_throttled'],
-      username: json['username'],
-      videoCodec: json['video_codec'],
-      videoDynamicRange: json['video_dynamic_range'],
-      videoFullResolution: json['video_full_resolution'],
-      viewOffset: int.tryParse(json['view_offset']),
-      width: int.tryParse(json['width']),
-      year: int.tryParse(json['year']),
+      sessionKey: ValueHelper.cast(
+        value: json['session_key'],
+        type: CastType.int,
+      ),
+      sessionId: ValueHelper.cast(
+        value: json['session_id'],
+        type: CastType.string,
+      ),
+      art: ValueHelper.cast(
+        value: json['art'],
+        type: CastType.string,
+      ),
+      audioChannelLayout: ValueHelper.cast(
+        value: json['audio_channel_layout'],
+        type: CastType.string,
+      ),
+      audioCodec: ValueHelper.cast(
+        value: json['audio_codec'],
+        type: CastType.string,
+      ),
+      bandwidth: ValueHelper.cast(
+        value: json['bandwidth'],
+        type: CastType.string,
+      ),
+      channelCallSign: ValueHelper.cast(
+        value: json['channel_call_sign'],
+        type: CastType.string,
+      ),
+      channelIdentifier: ValueHelper.cast(
+        value: json['channel_identifier'],
+        type: CastType.string,
+      ),
+      container: ValueHelper.cast(
+        value: json['container'],
+        type: CastType.string,
+      ),
+      duration: ValueHelper.cast(
+        value: json['duration'],
+        type: CastType.int,
+      ),
+      friendlyName: ValueHelper.cast(
+        value: json['friendly_name'],
+        type: CastType.string,
+      ),
+      grandparentRatingKey: ValueHelper.cast(
+        value: json['grandparent_rating_key'],
+        type: CastType.int,
+      ),
+      grandparentThumb: ValueHelper.cast(
+        value: json['grandparent_thumb'],
+        type: CastType.string,
+      ),
+      grandparentTitle: ValueHelper.cast(
+        value: json['grandparent_title'],
+        type: CastType.string,
+      ),
+      height: ValueHelper.cast(
+        value: json['height'],
+        type: CastType.int,
+      ),
+      ipAddress: ValueHelper.cast(
+        value: json['ip_address'],
+        type: CastType.string,
+      ),
+      live: ValueHelper.cast(
+        value: json['live'],
+        type: CastType.int,
+      ),
+      local: ValueHelper.cast(
+        value: json['local'],
+        type: CastType.int,
+      ),
+      location: ValueHelper.cast(
+        value: json['location'],
+        type: CastType.string,
+      ),
+      mediaIndex: ValueHelper.cast(
+        value: json['media_index'],
+        type: CastType.int,
+      ),
+      mediaType: ValueHelper.cast(
+        value: json['media_type'],
+        type: CastType.string,
+      ),
+      optimizedVersion: ValueHelper.cast(
+        value: json['optimized_version'],
+        type: CastType.int,
+      ),
+      optimizedVersionProfile: ValueHelper.cast(
+        value: json['optimized_version_profile'],
+        type: CastType.string,
+      ),
+      optimizedVersionTitle: ValueHelper.cast(
+        value: json['optimized_version_title'],
+        type: CastType.string,
+      ),
+      originallyAvailableAt: ValueHelper.cast(
+        value: json['originally_available_at'],
+        type: CastType.string,
+      ),
+      parentMediaIndex: ValueHelper.cast(
+        value: json['parent_media_index'],
+        type: CastType.int,
+      ),
+      parentRatingKey: ValueHelper.cast(
+        value: json['parent_rating_key'],
+        type: CastType.int,
+      ),
+      parentThumb: ValueHelper.cast(
+        value: json['parent_thumb'],
+        type: CastType.string,
+      ),
+      parentTitle: ValueHelper.cast(
+        value: json['parent_title'],
+        type: CastType.string,
+      ),
+      platformName: ValueHelper.cast(
+        value: json['platform_name'],
+        type: CastType.string,
+      ),
+      player: ValueHelper.cast(
+        value: json['player'],
+        type: CastType.string,
+      ),
+      product: ValueHelper.cast(
+        value: json['product'],
+        type: CastType.string,
+      ),
+      progressPercent: ValueHelper.cast(
+        value: json['progress_percent'],
+        type: CastType.int,
+      ),
+      qualityProfile: ValueHelper.cast(
+        value: json['quality_profile'],
+        type: CastType.string,
+      ),
+      ratingKey: ValueHelper.cast(
+        value: json['rating_key'],
+        type: CastType.int,
+      ),
+      relayed: ValueHelper.cast(
+        value: json['relayed'],
+        type: CastType.int,
+      ),
+      secure: ValueHelper.cast(
+        value: json['secure'],
+        type: CastType.int,
+      ),
+      state: ValueHelper.cast(
+        value: json['state'],
+        type: CastType.string,
+      ),
+      streamAudioChannelLayout: ValueHelper.cast(
+        value: json['stream_audio_channel_layout'],
+        type: CastType.string,
+      ),
+      streamAudioCodec: ValueHelper.cast(
+        value: json['stream_audio_codec'],
+        type: CastType.string,
+      ),
+      streamAudioDecision: ValueHelper.cast(
+        value: json['stream_audio_decision'],
+        type: CastType.string,
+      ),
+      streamBitrate: ValueHelper.cast(
+        value: json['stream_bitrate'],
+        type: CastType.int,
+      ),
+      streamContainer: ValueHelper.cast(
+        value: json['stream_container'],
+        type: CastType.string,
+      ),
+      streamContainerDecision: ValueHelper.cast(
+        value: json['stream_container_decision'],
+        type: CastType.string,
+      ),
+      streamSubtitleCodec: ValueHelper.cast(
+        value: json['stream_subtitle_codec'],
+        type: CastType.string,
+      ),
+      streamSubtitleDecision: ValueHelper.cast(
+        value: json['stream_subtitle_decision'],
+        type: CastType.string,
+      ),
+      streamVideoCodec: ValueHelper.cast(
+        value: json['stream_video_codec'],
+        type: CastType.string,
+      ),
+      streamVideoDecision: ValueHelper.cast(
+        value: json['stream_video_decision'],
+        type: CastType.string,
+      ),
+      streamVideoDynamicRange: ValueHelper.cast(
+        value: json['stream_video_dynamic_range'],
+        type: CastType.string,
+      ),
+      streamVideoFullResolution: ValueHelper.cast(
+        value: json['stream_video_full_resolution'],
+        type: CastType.string,
+      ),
+      subtitleCodec: ValueHelper.cast(
+        value: json['subtitle_codec'],
+        type: CastType.string,
+      ),
+      subtitles: ValueHelper.cast(
+        value: json['subtitles'],
+        type: CastType.int,
+      ),
+      subType: ValueHelper.cast(
+        value: json['sub_type'],
+        type: CastType.string,
+      ),
+      syncedVersion: ValueHelper.cast(
+        value: json['synced_version'],
+        type: CastType.int,
+      ),
+      syncedVersionProfile: ValueHelper.cast(
+        value: json['synced_version_profile'],
+        type: CastType.string,
+      ),
+      thumb: ValueHelper.cast(
+        value: json['thumb'],
+        type: CastType.string,
+      ),
+      title: ValueHelper.cast(
+        value: json['title'],
+        type: CastType.string,
+      ),
+      transcodeDecision: ValueHelper.cast(
+        value: json['transcode_decision'],
+        type: CastType.string,
+      ),
+      transcodeHwDecoding: ValueHelper.cast(
+        value: json['transcode_hw_decoding'],
+        type: CastType.int,
+      ),
+      transcodeHwEncoding: ValueHelper.cast(
+        value: json['transcode_hw_encoding'],
+        type: CastType.int,
+      ),
+      transcodeProgress: ValueHelper.cast(
+        value: json['transcode_progress'],
+        type: CastType.int,
+      ),
+      transcodeSpeed: ValueHelper.cast(
+        value: json['transcode_speed'],
+        type: CastType.double,
+      ),
+      transcodeThrottled: ValueHelper.cast(
+        value: json['transcode_throttled'],
+        type: CastType.int,
+      ),
+      username: ValueHelper.cast(
+        value: json['username'],
+        type: CastType.string,
+      ),
+      videoCodec: ValueHelper.cast(
+        value: json['video_codec'],
+        type: CastType.string,
+      ),
+      videoDynamicRange: ValueHelper.cast(
+        value: json['video_dynamic_range'],
+        type: CastType.string,
+      ),
+      videoFullResolution: ValueHelper.cast(
+        value: json['video_full_resolution'],
+        type: CastType.string,
+      ),
+      viewOffset: ValueHelper.cast(
+        value: json['view_offset'],
+        type: CastType.int,
+      ),
+      width: ValueHelper.cast(
+        value: json['width'],
+        type: CastType.int,
+      ),
+      year: ValueHelper.cast(
+        value: json['year'],
+        type: CastType.int,
+      ),
     );
   }
 }
