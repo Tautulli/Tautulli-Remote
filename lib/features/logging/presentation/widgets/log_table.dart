@@ -26,7 +26,7 @@ class LogTable extends StatelessWidget {
     if (logs.isEmpty) {
       return RefreshIndicator(
         onRefresh: () {
-          context.bloc<LogsBloc>().add(LogsLoad());
+          context.read<LogsBloc>().add(LogsLoad());
           return refreshCompleter.future;
         },
         child: LayoutBuilder(
@@ -49,7 +49,7 @@ class LogTable extends StatelessWidget {
     }
     return RefreshIndicator(
       onRefresh: () {
-        context.bloc<LogsBloc>().add(LogsLoad());
+        context.read<LogsBloc>().add(LogsLoad());
         return refreshCompleter.future;
       },
       child: Scrollbar(

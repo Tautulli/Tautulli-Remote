@@ -35,7 +35,7 @@ class UserErrorButton extends StatelessWidget {
             label: Text('Retry'),
             color: Theme.of(context).primaryColor,
             onPressed: () {
-              context.bloc<UsersBloc>().add(usersEvent);
+              context.read<UsersBloc>().add(usersEvent);
               return completer.future;
             },
           );

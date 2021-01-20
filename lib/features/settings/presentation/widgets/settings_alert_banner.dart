@@ -12,7 +12,7 @@ class SettingsAlertBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final oneSignalPrivacyBloc = context.bloc<OneSignalPrivacyBloc>();
+    final oneSignalPrivacyBloc = context.read<OneSignalPrivacyBloc>();
 
     return BlocBuilder<OneSignalHealthBloc, OneSignalHealthState>(
       builder: (context, healthState) {
@@ -52,7 +52,7 @@ class SettingsAlertBanner extends StatelessWidget {
                 buttonOne: FlatButton(
                   child: Text('CHECK AGAIN'),
                   onPressed: () => context
-                      .bloc<OneSignalHealthBloc>()
+                      .read<OneSignalHealthBloc>()
                       .add(OneSignalHealthCheck()),
                 ),
               );

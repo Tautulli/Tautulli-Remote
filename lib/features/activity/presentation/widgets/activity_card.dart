@@ -54,15 +54,15 @@ class _ActivityCardState extends State<ActivityCard> {
 
     final _terminateMessageController = TextEditingController();
 
-    final settingsBloc = context.bloc<SettingsBloc>();
+    final settingsBloc = context.read<SettingsBloc>();
     final SettingsLoadSuccess settingsLoadSuccess = settingsBloc.state;
     final bool hasPlexPass = settingsLoadSuccess.serverList
         .firstWhere((server) => server.tautulliId == widget.tautulliId)
         .plexPass;
 
-    final activityBloc = context.bloc<ActivityBloc>();
-    final geoIpBloc = context.bloc<GeoIpBloc>();
-    final terminateSessionBloc = context.bloc<TerminateSessionBloc>();
+    final activityBloc = context.read<ActivityBloc>();
+    final geoIpBloc = context.read<GeoIpBloc>();
+    final terminateSessionBloc = context.read<TerminateSessionBloc>();
 
     final _debouncer = Debouncer(milliseconds: 500);
 

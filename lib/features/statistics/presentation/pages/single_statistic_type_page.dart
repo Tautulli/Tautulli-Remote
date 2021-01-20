@@ -36,7 +36,7 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    _statisticsBloc = context.bloc<StatisticsBloc>();
+    _statisticsBloc = context.read<StatisticsBloc>();
 
     StatisticsState statisticsState = _statisticsBloc.state;
 

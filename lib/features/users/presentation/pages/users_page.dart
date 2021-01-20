@@ -53,8 +53,8 @@ class _UsersPageContentState extends State<UsersPageContent> {
     super.initState();
     _scrollController.addListener(_onScroll);
     _refreshCompleter = Completer<void>();
-    _settingsBloc = context.bloc<SettingsBloc>();
-    _usersBloc = context.bloc<UsersBloc>();
+    _settingsBloc = context.read<SettingsBloc>();
+    _usersBloc = context.read<UsersBloc>();
 
     final usersState = _usersBloc.state;
     final settingState = _settingsBloc.state;

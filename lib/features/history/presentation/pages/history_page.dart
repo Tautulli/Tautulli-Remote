@@ -62,9 +62,9 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
     super.initState();
     _scrollController.addListener(_onScroll);
     _refreshCompleter = Completer<void>();
-    _settingsBloc = context.bloc<SettingsBloc>();
-    _historyBloc = context.bloc<HistoryBloc>();
-    _historyUsersBloc = context.bloc<HistoryUsersBloc>();
+    _settingsBloc = context.read<SettingsBloc>();
+    _historyBloc = context.read<HistoryBloc>();
+    _historyUsersBloc = context.read<HistoryUsersBloc>();
 
     final historyState = _historyBloc.state;
     final settingsState = _settingsBloc.state;

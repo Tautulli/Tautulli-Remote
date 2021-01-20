@@ -35,7 +35,7 @@ class HistoryErrorButton extends StatelessWidget {
             label: Text('Retry'),
             color: Theme.of(context).primaryColor,
             onPressed: () {
-              context.bloc<HistoryBloc>().add(historyEvent);
+              context.read<HistoryBloc>().add(historyEvent);
               return completer.future;
             },
           );

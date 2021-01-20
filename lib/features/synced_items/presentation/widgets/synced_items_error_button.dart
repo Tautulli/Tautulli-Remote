@@ -35,7 +35,7 @@ class SyncedItemsErrorButton extends StatelessWidget {
             label: Text('Retry'),
             color: Theme.of(context).primaryColor,
             onPressed: () {
-              context.bloc<SyncedItemsBloc>().add(syncedItemsEvent);
+              context.read<SyncedItemsBloc>().add(syncedItemsEvent);
               return completer.future;
             },
           );

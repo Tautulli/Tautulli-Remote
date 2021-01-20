@@ -21,7 +21,7 @@ class StatisticsHeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StatisticsBloc _statisticsBloc = context.bloc<StatisticsBloc>();
+    final StatisticsBloc _statisticsBloc = context.read<StatisticsBloc>();
 
     return InkWell(
       onTap: statisticCount > 5

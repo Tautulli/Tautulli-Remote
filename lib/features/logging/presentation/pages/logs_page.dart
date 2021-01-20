@@ -50,13 +50,13 @@ class _LogsPageContentState extends State<_LogsPageContent> {
               if (value == 'export') {
                 // var status = await Permission.storage.status;
                 if (await Permission.storage.request().isGranted) {
-                  context.bloc<LogsBloc>().add(LogsExport());
+                  context.read<LogsBloc>().add(LogsExport());
                 }
               }
               if (value == 'clear') {
                 return _showClearLogsDialog(
                   context: context,
-                  clearLogs: () => context.bloc<LogsBloc>().add(LogsClear()),
+                  clearLogs: () => context.read<LogsBloc>().add(LogsClear()),
                 );
               }
               return null;

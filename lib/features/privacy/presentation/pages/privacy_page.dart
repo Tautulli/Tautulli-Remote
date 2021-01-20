@@ -15,9 +15,9 @@ class PrivacyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final oneSignalPrivacyBloc = context.bloc<OneSignalPrivacyBloc>();
-    final oneSignalSubscriptionBloc = context.bloc<OneSignalSubscriptionBloc>();
-    final oneSignalHealthBloc = context.bloc<OneSignalHealthBloc>();
+    final oneSignalPrivacyBloc = context.read<OneSignalPrivacyBloc>();
+    final oneSignalSubscriptionBloc = context.read<OneSignalSubscriptionBloc>();
+    final oneSignalHealthBloc = context.read<OneSignalHealthBloc>();
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,

@@ -32,8 +32,8 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     super.initState();
     initializeFlutterFire();
     initPlatformState();
-    context.bloc<SettingsBloc>().add(SettingsLoad());
-    context.bloc<OneSignalHealthBloc>().add(OneSignalHealthCheck());
+    context.read<SettingsBloc>().add(SettingsLoad());
+    context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -73,9 +73,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       // Only trigger new checks when userId moves from null to a value
       if (changes.to.userId != null) {
         context
-            .bloc<OneSignalSubscriptionBloc>()
+            .read<OneSignalSubscriptionBloc>()
             .add(OneSignalSubscriptionCheck());
-        context.bloc<OneSignalHealthBloc>().add(OneSignalHealthCheck());
+        context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
       }
     });
   }

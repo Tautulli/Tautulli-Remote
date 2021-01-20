@@ -21,7 +21,7 @@ class ServerSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsBloc = context.bloc<SettingsBloc>();
+    final settingsBloc = context.read<SettingsBloc>();
     final _primaryConnectionAddressController = TextEditingController();
     final _secondaryConnectionAddressController = TextEditingController();
 
@@ -128,7 +128,9 @@ class ServerSettings extends StatelessWidget {
                       child: Text(
                         isEmpty(server.secondaryConnectionAddress)
                             ? 'Disabled'
-                            : !server.primaryActive ? 'Active' : 'Passive',
+                            : !server.primaryActive
+                                ? 'Active'
+                                : 'Passive',
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           color: !server.primaryActive

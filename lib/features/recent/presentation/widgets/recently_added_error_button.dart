@@ -35,7 +35,7 @@ class RecentlyAddedErrorButton extends StatelessWidget {
             label: Text('Retry'),
             color: Theme.of(context).primaryColor,
             onPressed: () {
-              context.bloc<RecentlyAddedBloc>().add(recentlyAddedEvent);
+              context.read<RecentlyAddedBloc>().add(recentlyAddedEvent);
               return completer.future;
             },
           );

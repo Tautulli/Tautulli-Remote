@@ -45,8 +45,8 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
   void initState() {
     super.initState();
     _refreshCompleter = Completer<void>();
-    _settingsBloc = context.bloc<SettingsBloc>();
-    _syncedItemsBloc = context.bloc<SyncedItemsBloc>();
+    _settingsBloc = context.read<SettingsBloc>();
+    _syncedItemsBloc = context.read<SyncedItemsBloc>();
     final settingState = _settingsBloc.state;
 
     if (settingState is SettingsLoadSuccess) {

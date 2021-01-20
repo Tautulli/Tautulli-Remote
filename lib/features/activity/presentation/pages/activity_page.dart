@@ -72,11 +72,11 @@ class _ActivityPageContentState extends State<ActivityPageContent>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
-      context.bloc<ActivityBloc>().add(ActivityAutoRefreshStop());
+      context.read<ActivityBloc>().add(ActivityAutoRefreshStop());
       Navigator.popUntil(context, (route) => !(route is PopupRoute));
     }
     if (state == AppLifecycleState.resumed) {
-      context.bloc<ActivityBloc>().add(ActivityLoadAndRefresh());
+      context.read<ActivityBloc>().add(ActivityLoadAndRefresh());
     }
   }
 
@@ -137,7 +137,7 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                   return RefreshIndicator(
                     onRefresh: () {
                       context
-                          .bloc<ActivityBloc>()
+                          .read<ActivityBloc>()
                           .add(ActivityLoadAndRefresh());
                       return _refreshCompleter.future;
                     },

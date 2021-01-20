@@ -29,12 +29,12 @@ dependencies:
   dartz: ^0.9.1
   device_info: ">=0.4.2+4 <2.0.0"
   duration: ^2.0.15
-  equatable: ^1.2.3
+  equatable: ^1.2.5
   f_logs: ^1.2.2
   filesize: ^1.0.4
   firebase_core: ^0.5.0+1
   flutter_barcode_scanner: ^1.0.1
-  flutter_bloc: ^6.0.1
+  flutter_bloc: ^6.1.1
   flutter_slidable: ^0.5.5
   font_awesome_flutter: ^8.8.1
   get_it: ^4.0.4

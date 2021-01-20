@@ -26,7 +26,7 @@ class _ActivityMediaDetailsState extends State<ActivityMediaDetails> {
   @override
   void initState() {
     super.initState();
-    context.bloc<GeoIpBloc>().add(
+    context.read<GeoIpBloc>().add(
           GeoIpLoad(
             tautulliId: widget.tautulliId,
             ipAddress: widget.activity.ipAddress,

@@ -42,7 +42,7 @@ packages:
       name: bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.1"
+    version: "6.1.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -161,7 +161,7 @@ packages:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.3"
+    version: "1.2.5"
   f_logs:
     dependency: "direct main"
     description:
@@ -236,7 +236,7 @@ packages:
       name: flutter_bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.1"
+    version: "6.1.1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -505,7 +505,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.1"
+    version: "4.3.3"
   quick_actions:
     dependency: "direct main"
     description:

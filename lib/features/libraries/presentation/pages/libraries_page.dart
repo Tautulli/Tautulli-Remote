@@ -52,8 +52,8 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
   void initState() {
     super.initState();
     _refreshCompleter = Completer<void>();
-    _settingsBloc = context.bloc<SettingsBloc>();
-    _librariesBloc = context.bloc<LibrariesBloc>();
+    _settingsBloc = context.read<SettingsBloc>();
+    _librariesBloc = context.read<LibrariesBloc>();
 
     final librariesState = _librariesBloc.state;
     final settingsState = _settingsBloc.state;

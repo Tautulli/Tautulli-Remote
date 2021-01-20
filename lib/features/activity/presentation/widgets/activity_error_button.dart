@@ -33,7 +33,7 @@ class ActivityErrorButton extends StatelessWidget {
             label: Text('Retry'),
             color: Theme.of(context).primaryColor,
             onPressed: () {
-              context.bloc<ActivityBloc>().add(ActivityLoadAndRefresh());
+              context.read<ActivityBloc>().add(ActivityLoadAndRefresh());
               return completer.future;
             },
           );

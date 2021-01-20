@@ -56,8 +56,8 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
   void initState() {
     super.initState();
     _refreshCompleter = Completer<void>();
-    _settingsBloc = context.bloc<SettingsBloc>();
-    _statisticsBloc = context.bloc<StatisticsBloc>();
+    _settingsBloc = context.read<SettingsBloc>();
+    _statisticsBloc = context.read<StatisticsBloc>();
 
     final statisticsState = _statisticsBloc.state;
     final settingsState = _settingsBloc.state;

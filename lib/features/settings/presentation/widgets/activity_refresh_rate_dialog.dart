@@ -28,7 +28,7 @@ class _ActivityRefreshRateDialogState extends State<ActivityRefreshRateDialog> {
   void _refreshRadioValueChanged(int value) {
     setState(() {
       _refresh = value;
-      context.bloc<SettingsBloc>().add(
+      context.read<SettingsBloc>().add(
             SettingsUpdateRefreshRate(refreshRate: value == 0 ? null : value),
           );
       Navigator.of(context).pop();
@@ -37,7 +37,7 @@ class _ActivityRefreshRateDialogState extends State<ActivityRefreshRateDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final settingsBloc = context.bloc<SettingsBloc>();
+    final settingsBloc = context.read<SettingsBloc>();
 
     return SimpleDialog(
       title: Text('Activity Refresh Rate'),
