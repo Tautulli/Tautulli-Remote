@@ -214,140 +214,130 @@ class _ActivityCardState extends State<ActivityCard> {
                           );
                         },
                       ),
-                      // BackdropFilter for frosted glass effect
-                      BackdropFilter(
-                        filter: ImageFilter.blur(
-                          sigmaX: 25,
-                          sigmaY: 25,
-                        ),
-                        //* Foreground information layer
-                        child: Column(
-                          children: <Widget>[
-                            //* Main information area
-                            Container(
-                              height: 130,
-                              padding: const EdgeInsets.all(4),
-                              child: Row(
-                                children: <Widget>[
-                                  //* Poster section
-                                  Stack(
-                                    children: <Widget>[
-                                      //* Poster
-                                      Container(
-                                        height: 130,
-                                        child: PosterChooser(
-                                          item: activity,
-                                        ),
+                      //* Foreground information layer
+                      Column(
+                        children: <Widget>[
+                          //* Main information area
+                          Container(
+                            height: 130,
+                            padding: const EdgeInsets.all(4),
+                            child: Row(
+                              children: <Widget>[
+                                //* Poster section
+                                Stack(
+                                  children: <Widget>[
+                                    //* Poster
+                                    Container(
+                                      height: 130,
+                                      child: PosterChooser(
+                                        item: activity,
                                       ),
-                                      //* Current state poster overlay
-                                      if (activity.state == 'paused' ||
-                                          activity.state == 'buffering')
-                                        StatusPosterOverlay(
-                                            state: activity.state),
-                                    ],
-                                  ),
-                                  //* Info section
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 6),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                //* Activity info
-                                                Expanded(
-                                                  child: ActivityMediaInfo(
-                                                    activity: activity,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 50,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: <Widget>[
-                                                      //* Platform icon
-                                                      PlatformIcon(activity
-                                                          .platformName),
-                                                      //* Media Type and Transcode Decision Icons (except photo)
-                                                      if (activity.mediaType !=
-                                                          'photo')
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                            bottom: 3,
-                                                          ),
-                                                          child:
-                                                              ActivityMediaIconRow(
-                                                                  activity:
-                                                                      activity),
-                                                        ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Row(
+                                    ),
+                                    //* Current state poster overlay
+                                    if (activity.state == 'paused' ||
+                                        activity.state == 'buffering')
+                                      StatusPosterOverlay(
+                                          state: activity.state),
+                                  ],
+                                ),
+                                //* Info section
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 6),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
-                                              //* User name
-                                              Text(activity.friendlyName),
-                                              //* Time left or Live tv channel
-                                              //* or Photo Media Type and Transcode Decision Icons
-                                              activity.live == 0 &&
-                                                      activity.duration != null
-                                                  ? TimeLeft(
-                                                      duration:
-                                                          activity.duration,
-                                                      progressPercent: activity
-                                                          .progressPercent,
-                                                    )
-                                                  : activity.live == 1
-                                                      ? Text(
-                                                          '${activity.channelCallSign} ${activity.channelIdentifier}')
-                                                      : activity.mediaType ==
-                                                              'photo'
-                                                          ? ActivityMediaIconRow(
-                                                              activity:
-                                                                  activity)
-                                                          : Container(
-                                                              height: 0,
-                                                              width: 0),
+                                              //* Activity info
+                                              Expanded(
+                                                child: ActivityMediaInfo(
+                                                  activity: activity,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 50,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: <Widget>[
+                                                    //* Platform icon
+                                                    PlatformIcon(
+                                                        activity.platformName),
+                                                    //* Media Type and Transcode Decision Icons (except photo)
+                                                    if (activity.mediaType !=
+                                                        'photo')
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                          bottom: 3,
+                                                        ),
+                                                        child:
+                                                            ActivityMediaIconRow(
+                                                                activity:
+                                                                    activity),
+                                                      ),
+                                                  ],
+                                                ),
+                                              ),
                                             ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            //* User name
+                                            Text(activity.friendlyName),
+                                            //* Time left or Live tv channel
+                                            //* or Photo Media Type and Transcode Decision Icons
+                                            activity.live == 0 &&
+                                                    activity.duration != null
+                                                ? TimeLeft(
+                                                    duration: activity.duration,
+                                                    progressPercent: activity
+                                                        .progressPercent,
+                                                  )
+                                                : activity.live == 1
+                                                    ? Text(
+                                                        '${activity.channelCallSign} ${activity.channelIdentifier}')
+                                                    : activity.mediaType ==
+                                                            'photo'
+                                                        ? ActivityMediaIconRow(
+                                                            activity: activity)
+                                                        : Container(
+                                                            height: 0,
+                                                            width: 0),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            //* Progress bar
-                            Container(
-                              height: 5,
-                              child: activity.mediaType == 'photo' ||
-                                      activity.live == 1
-                                  ? ProgressBar(
-                                      progress: 100,
-                                      transcodeProgress: 0,
-                                    )
-                                  : ProgressBar(
-                                      progress: activity.progressPercent,
-                                      transcodeProgress:
-                                          activity.transcodeProgress,
-                                    ),
-                            ),
-                          ],
-                        ),
+                          ),
+                          //* Progress bar
+                          Container(
+                            height: 5,
+                            child: activity.mediaType == 'photo' ||
+                                    activity.live == 1
+                                ? ProgressBar(
+                                    progress: 100,
+                                    transcodeProgress: 0,
+                                  )
+                                : ProgressBar(
+                                    progress: activity.progressPercent,
+                                    transcodeProgress:
+                                        activity.transcodeProgress,
+                                  ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

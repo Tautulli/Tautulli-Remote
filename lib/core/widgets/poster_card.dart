@@ -21,27 +21,25 @@ class PosterCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
         child: Container(
           height: 100,
-          padding: const EdgeInsets.all(4),
           child: Stack(
             children: [
-              Stack(
-                children: <Widget>[
-                  Positioned.fill(
-                    child: Image.network(
-                      item.posterUrl != null ? item.posterUrl : '',
-                      fit: BoxFit.cover,
-                    ),
+              Positioned.fill(
+                child: ImageFiltered(
+                  imageFilter: ImageFilter.blur(
+                    sigmaX: 25,
+                    sigmaY: 25,
                   ),
-                  Container(
-                    color: Colors.black.withOpacity(0.4),
+                  child: Image.network(
+                    item.posterUrl != null ? item.posterUrl : '',
+                    fit: BoxFit.cover,
                   ),
-                ],
-              ),
-              BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 25,
-                  sigmaY: 25,
                 ),
+              ),
+              Container(
+                color: Colors.black.withOpacity(0.4),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4),
                 child: Row(
                   children: [
                     PosterChooser(item: item),

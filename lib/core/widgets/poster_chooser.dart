@@ -62,26 +62,26 @@ class _PosterMusic extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Positioned.fill(
-              child: url != null
-                  ? Image.network(
-                      url,
-                      fit: BoxFit.cover,
-                    )
-                  : Container(),
-            ),
-            BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 8,
-                sigmaY: 8,
-              ),
-              child: Center(
+              child: ImageFiltered(
+                imageFilter: ImageFilter.blur(
+                  sigmaX: 8,
+                  sigmaY: 8,
+                ),
                 child: url != null
                     ? Image.network(
                         url,
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                       )
                     : Container(),
               ),
+            ),
+            Center(
+              child: url != null
+                  ? Image.network(
+                      url,
+                      fit: BoxFit.contain,
+                    )
+                  : Container(),
             ),
           ],
         ),

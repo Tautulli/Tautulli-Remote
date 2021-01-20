@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/activity.dart';
@@ -12,9 +14,15 @@ class BackgroundImageChooser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return activity.live == 1
-        ? _BackgroundImageLiveTv()
-        : _BackgroundImageGeneral(url: activity.posterUrl);
+    return ImageFiltered(
+      imageFilter: ImageFilter.blur(
+        sigmaX: 25,
+        sigmaY: 25,
+      ),
+      child: activity.live == 1
+          ? _BackgroundImageLiveTv()
+          : _BackgroundImageGeneral(url: activity.posterUrl),
+    );
   }
 }
 

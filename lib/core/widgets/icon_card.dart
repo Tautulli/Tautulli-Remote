@@ -24,35 +24,35 @@ class IconCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
         child: Stack(
           children: [
-            _setBackground(),
+            ImageFiltered(
+              imageFilter: ImageFilter.blur(
+                sigmaX: backgroundImage != null ? 25 : 0,
+                sigmaY: backgroundImage != null ? 25 : 0,
+              ),
+              child: _setBackground(),
+            ),
             SizedBox(
               height: 100,
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: backgroundImage != null ? 25 : 0,
-                  sigmaY: backgroundImage != null ? 25 : 0,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Row(
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 2 / 3,
-                        child: Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: assetPath != null
-                              ? WebsafeSvg.asset(assetPath)
-                              : null,
-                        ),
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Row(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 2 / 3,
+                      child: Padding(
+                        padding: const EdgeInsets.all(4),
+                        child: assetPath != null
+                            ? WebsafeSvg.asset(assetPath)
+                            : null,
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: details,
-                        ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: details,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
