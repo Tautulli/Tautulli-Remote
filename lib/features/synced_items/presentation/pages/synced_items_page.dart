@@ -209,38 +209,8 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                       );
                     }
                     return Expanded(
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: const SizedBox(),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    CircularProgressIndicator(),
-                                    const SizedBox(height: 15),
-                                    Text(
-                                      'This may take longer for a large number of items',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.grey,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      // maxLines: 2,
-                                      // softWrap: true,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          Expanded(
-                            child: const SizedBox(),
-                          ),
-                        ],
+                      child: Center(
+                        child: CircularProgressIndicator(),
                       ),
                     );
                   },
