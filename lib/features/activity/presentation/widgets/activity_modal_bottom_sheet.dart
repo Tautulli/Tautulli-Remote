@@ -232,44 +232,47 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                           //     ),
                           //   ),
                           // ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 4,
-                                right: 8,
-                              ),
-                              child: RaisedButton(
-                                onPressed: () {
-                                  MediaItem mediaItem = MediaItem(
-                                    grandparentTitle: activity.grandparentTitle,
-                                    parentMediaIndex: activity.parentMediaIndex,
-                                    mediaIndex: activity.mediaIndex,
-                                    mediaType: activity.mediaType,
-                                    parentTitle: activity.parentTitle,
-                                    posterUrl: activity.posterUrl,
-                                    ratingKey: activity.ratingKey,
-                                    title: activity.title,
-                                    year: activity.year,
-                                  );
+                          if (activity.mediaType != 'photo')
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 4,
+                                  right: 8,
+                                ),
+                                child: RaisedButton(
+                                  onPressed: () {
+                                    MediaItem mediaItem = MediaItem(
+                                      grandparentTitle:
+                                          activity.grandparentTitle,
+                                      parentMediaIndex:
+                                          activity.parentMediaIndex,
+                                      mediaIndex: activity.mediaIndex,
+                                      mediaType: activity.mediaType,
+                                      parentTitle: activity.parentTitle,
+                                      posterUrl: activity.posterUrl,
+                                      ratingKey: activity.ratingKey,
+                                      title: activity.title,
+                                      year: activity.year,
+                                    );
 
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => MediaItemPage(
-                                        item: mediaItem,
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => MediaItemPage(
+                                          item: mediaItem,
+                                        ),
                                       ),
+                                    );
+                                  },
+                                  color: PlexColorPalette.curious_blue,
+                                  child: Text(
+                                    'View Media',
+                                    style: TextStyle(
+                                      color: TautulliColorPalette.not_white,
                                     ),
-                                  );
-                                },
-                                color: PlexColorPalette.curious_blue,
-                                child: Text(
-                                  'View Media',
-                                  style: TextStyle(
-                                    color: TautulliColorPalette.not_white,
                                   ),
                                 ),
                               ),
                             ),
-                          ),
                         ],
                       ),
                     ),
