@@ -12,7 +12,7 @@ class PosterChooser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return item.mediaType == 'track' || item.mediaType == 'album'
+    return ['artist', 'album', 'track'].contains(item.mediaType)
         ? _PosterMusic(
             url: item.posterUrl,
           )
