@@ -15,6 +15,8 @@ import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../core/widgets/user_card.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../media/domain/entities/media_item.dart';
+import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/statistics.dart';
 import '../bloc/statistics_bloc.dart';
@@ -524,6 +526,8 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
           const SizedBox(height: 7),
         ]);
         for (int i = 0; i < 5; i++) {
+          final Object heroTag = UniqueKey();
+
           if (i < map[key].length) {
             Statistics s = map[key][i];
             if (s.statId == 'top_platforms') {
@@ -552,9 +556,37 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
               );
             } else {
               statList.add(
-                PosterCard(
-                  item: s,
-                  details: StatisticsDetails(statistic: s),
+                GestureDetector(
+                  onTap: () {
+                    MediaItem mediaItem = MediaItem(
+                      grandparentTitle: s.grandparentTitle,
+                      parentMediaIndex: s.parentMediaIndex,
+                      mediaIndex: s.mediaIndex,
+                      mediaType: ['top_tv', 'popular_tv'].contains(s.statId)
+                          ? 'show'
+                          : s.mediaType,
+                      posterUrl: s.posterUrl,
+                      ratingKey: s.ratingKey,
+                      title: s.mediaType == 'episode'
+                          ? s.grandchildTitle
+                          : s.title,
+                      year: s.year,
+                    );
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => MediaItemPage(
+                          item: mediaItem,
+                          heroTag: heroTag,
+                        ),
+                      ),
+                    );
+                  },
+                  child: PosterCard(
+                    item: s,
+                    details: StatisticsDetails(statistic: s),
+                    heroTag: heroTag,
+                  ),
                 ),
               );
             }

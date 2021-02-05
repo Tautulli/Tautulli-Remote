@@ -8,6 +8,8 @@ import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/icon_card.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/user_card.dart';
+import '../../../media/domain/entities/media_item.dart';
+import '../../../media/presentation/pages/media_item_page.dart';
 import '../../domain/entities/statistics.dart';
 import '../bloc/statistics_bloc.dart';
 import '../widgets/statistics_details.dart';
@@ -76,7 +78,9 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                     return BottomLoader();
                   }
 
+                  final Object heroTag = UniqueKey();
                   final Statistics stat = statisticList[index];
+
                   if (widget.statId == 'top_platforms') {
                     return IconCard(
                       assetPath: AssetMapperHelper.mapPlatformToPath(
@@ -96,9 +100,38 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                       details: StatisticsDetails(statistic: stat),
                     );
                   } else {
-                    return PosterCard(
-                      item: stat,
-                      details: StatisticsDetails(statistic: stat),
+                    return GestureDetector(
+                      onTap: () {
+                        MediaItem mediaItem = MediaItem(
+                          grandparentTitle: stat.grandparentTitle,
+                          parentMediaIndex: stat.parentMediaIndex,
+                          mediaIndex: stat.mediaIndex,
+                          mediaType:
+                              ['top_tv', 'popular_tv'].contains(stat.statId)
+                                  ? 'show'
+                                  : stat.mediaType,
+                          posterUrl: stat.posterUrl,
+                          ratingKey: stat.ratingKey,
+                          title: stat.mediaType == 'episode'
+                              ? stat.grandchildTitle
+                              : stat.title,
+                          year: stat.year,
+                        );
+
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => MediaItemPage(
+                              item: mediaItem,
+                              heroTag: heroTag,
+                            ),
+                          ),
+                        );
+                      },
+                      child: PosterCard(
+                        item: stat,
+                        details: StatisticsDetails(statistic: stat),
+                        heroTag: heroTag,
+                      ),
                     );
                   }
                 },
