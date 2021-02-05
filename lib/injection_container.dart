@@ -22,6 +22,7 @@ import 'features/history/data/repositories/history_repository_impl.dart';
 import 'features/history/domain/repositories/history_repository.dart';
 import 'features/history/domain/usecases/get_history.dart';
 import 'features/history/presentation/bloc/history_bloc.dart';
+import 'features/history/presentation/bloc/history_individual_bloc.dart';
 import 'features/history/presentation/bloc/history_users_bloc.dart';
 import 'features/image_url/data/datasources/image_url_data_source.dart';
 import 'features/image_url/data/respositories/image_url_repository_impl.dart';
@@ -30,17 +31,23 @@ import 'features/image_url/domain/usecases/get_image_url.dart';
 import 'features/libraries/data/datasources/libraries_data_source.dart';
 import 'features/libraries/data/repositories/libraries_repository_impl.dart';
 import 'features/libraries/domain/repositories/libraries_repository.dart';
-import 'features/libraries/domain/usercases/get_libraries_table.dart';
+import 'features/libraries/domain/usecases/get_libraries_table.dart';
 import 'features/libraries/presentation/bloc/libraries_bloc.dart';
 import 'features/logging/data/datasources/logging_data_source.dart';
 import 'features/logging/data/repositories/logging_repository_impl.dart';
 import 'features/logging/domain/repositories/logging_repository.dart';
 import 'features/logging/domain/usecases/logging.dart';
 import 'features/logging/presentation/bloc/load_logs_bloc.dart';
+import 'features/media/data/datasources/library_media_data_source.dart';
 import 'features/media/data/datasources/metadata_data_source.dart';
+import 'features/media/data/repositories/library_media_repository_impl.dart';
 import 'features/media/data/repositories/metadata_repository_impl.dart';
+import 'features/media/domain/repositories/library_media_repository.dart';
 import 'features/media/domain/repositories/metadata_repository.dart';
+import 'features/media/domain/usecases/get_library_media_info.dart';
 import 'features/media/domain/usecases/get_metadata.dart';
+import 'features/media/presentation/bloc/library_media_bloc.dart';
+import 'features/media/presentation/bloc/metadata_bloc.dart';
 import 'features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -78,183 +85,14 @@ import 'features/terminate_session/presentation/bloc/terminate_session_bloc.dart
 import 'features/users/data/datasources/users_data_source.dart';
 import 'features/users/data/repositories/users_repository_impl.dart';
 import 'features/users/domain/repositories/users_repository.dart';
-import 'features/users/domain/usercases/get_user_names.dart';
-import 'features/users/domain/usercases/get_users_table.dart';
+import 'features/users/domain/usecases/get_user_names.dart';
+import 'features/users/domain/usecases/get_users_table.dart';
 import 'features/users/presentation/bloc/users_bloc.dart';
 
 // Service locator alias
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  //! Features - Settings
-  // Bloc
-  sl.registerFactory(
-    () => SettingsBloc(
-      settings: sl(),
-      logging: sl(),
-    ),
-  );
-
-  sl.registerFactory(
-    () => RegisterDeviceBloc(
-      registerDevice: sl(),
-      settings: sl(),
-      logging: sl(),
-    ),
-  );
-
-  // Use case
-  sl.registerLazySingleton(
-    () => Settings(repository: sl()),
-  );
-
-  sl.registerLazySingleton(
-    () => RegisterDevice(repository: sl()),
-  );
-
-  // Repository
-  sl.registerLazySingleton<SettingsRepository>(
-    () => SettingsRepositoryImpl(
-      dataSource: sl(),
-      networkInfo: sl(),
-    ),
-  );
-
-  sl.registerLazySingleton<RegisterDeviceRepository>(
-    () => RegisterDeviceRepositoryImpl(
-      dataSource: sl(),
-      networkInfo: sl(),
-    ),
-  );
-
-  // Data sources
-  sl.registerLazySingleton<SettingsDataSource>(
-    () => SettingsDataSourceImpl(
-      sharedPreferences: sl(),
-      tautulliApi: sl(),
-    ),
-  );
-
-  sl.registerLazySingleton<RegisterDeviceDataSource>(
-    () => RegisterDeviceDataSourceImpl(
-      tautulliApi: sl(),
-      deviceInfo: sl(),
-      oneSignal: sl(),
-    ),
-  );
-
-  //! Features - OneSignal
-  // Bloc
-  sl.registerFactory(
-    () => OneSignalHealthBloc(
-      oneSignal: sl(),
-      logging: sl(),
-    ),
-  );
-
-  sl.registerFactory(
-    () => OneSignalPrivacyBloc(
-      oneSignal: sl(),
-      settings: sl(),
-      registerDevice: sl(),
-      logging: sl(),
-    ),
-  );
-
-  sl.registerFactory(
-    () => OneSignalSubscriptionBloc(
-      oneSignal: sl(),
-    ),
-  );
-
-  // Data sources
-  sl.registerLazySingleton<OneSignalDataSource>(
-    () => OneSignalDataSourceImpl(
-      client: sl(),
-      networkInfo: sl(),
-    ),
-  );
-
-  //! Features - Logging
-  // Bloc
-  sl.registerFactory(
-    () => LogsBloc(
-      logging: sl(),
-    ),
-  );
-
-  // Use case
-  sl.registerLazySingleton(
-    () => Logging(
-      repository: sl(),
-    ),
-  );
-
-  // Repository
-  sl.registerLazySingleton<LoggingRepository>(
-    () => LoggingRepositoryImpl(
-      dataSource: sl(),
-    ),
-  );
-
-  // Data sources
-  sl.registerLazySingleton<LoggingDataSource>(
-    () => LoggingDataSourceImpl(),
-  );
-
-  //! Features - TerminateSession
-  // Bloc
-  sl.registerFactory(
-    () => TerminateSessionBloc(
-      terminateSession: sl(),
-    ),
-  );
-
-  // Use case
-  sl.registerLazySingleton(
-    () => TerminateSession(
-      repository: sl(),
-    ),
-  );
-
-  // Repository
-  sl.registerLazySingleton<TerminateSessionRepository>(
-    () => TerminateSessionRepositoryImpl(
-      dataSource: sl(),
-      networkInfo: sl(),
-    ),
-  );
-
-  // Data sources
-  sl.registerLazySingleton<TerminateSessionDataSource>(
-    () => TerminateSessionDataSourceImpl(
-      tautulliApi: sl(),
-    ),
-  );
-
-  //! Features - ImageUrl
-  // Use case
-  sl.registerLazySingleton(
-    () => GetImageUrl(
-      repository: sl(),
-    ),
-  );
-
-  // Repository
-  sl.registerLazySingleton<ImageUrlRepository>(
-    () => ImageUrlRepositoryImpl(
-      dataSource: sl(),
-      networkInfo: sl(),
-    ),
-  );
-
-  // Data sources
-  sl.registerLazySingleton<ImageUrlDataSource>(
-    () => ImageUrlDataSourceImpl(
-      tautulliApi: sl(),
-    ),
-  );
-
   //! Features - Activity
   // Bloc
   sl.registerFactory(
@@ -317,6 +155,221 @@ Future<void> init() async {
     ),
   );
 
+  //! Features - History
+  // Bloc
+  sl.registerFactory(
+    () => HistoryBloc(
+      getHistory: sl(),
+      getImageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => HistoryIndividualBloc(
+      getHistory: sl(),
+      getUsersTable: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => HistoryUsersBloc(
+      getUserNames: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => GetHistory(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<HistoryRepository>(
+    () => HistoryRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<HistoryDataSource>(
+    () => HistoryDataSourceImpl(
+      tautulliApi: sl(),
+      logging: sl(),
+    ),
+  );
+
+  //! Features - ImageUrl
+  // Use case
+  sl.registerLazySingleton(
+    () => GetImageUrl(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<ImageUrlRepository>(
+    () => ImageUrlRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<ImageUrlDataSource>(
+    () => ImageUrlDataSourceImpl(
+      tautulliApi: sl(),
+    ),
+  );
+
+  //! Features - Libraries
+  // Bloc
+  sl.registerFactory(
+    () => LibrariesBloc(
+      getLibrariesTable: sl(),
+      getImageUrl: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => GetLibrariesTable(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<LibrariesRepository>(
+    () => LibrariesRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<LibrariesDataSource>(
+    () => LibrariesDataSourceImpl(
+      tautulliApi: sl(),
+    ),
+  );
+
+  //! Features - Logging
+  // Bloc
+  sl.registerFactory(
+    () => LogsBloc(
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => Logging(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<LoggingRepository>(
+    () => LoggingRepositoryImpl(
+      dataSource: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<LoggingDataSource>(
+    () => LoggingDataSourceImpl(),
+  );
+
+  //! Features - Metadata
+  // Bloc
+  sl.registerFactory(
+    () => MetadataBloc(
+      getMetadata: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => LibraryMediaBloc(
+      getLibraryMediaInfo: sl(),
+      getImageUrl: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => GetMetadata(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetLibraryMediaInfo(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<MetadataRepository>(
+    () => MetadataRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<LibraryMediaRepository>(
+    () => LibraryMediaRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<MetadataDataSource>(
+    () => MetadataDataSourceImpl(
+      tautulliApi: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<LibraryMediaDataSource>(
+    () => LibraryMediaDataSourceImpl(
+      tautulliApi: sl(),
+    ),
+  );
+
+  //! Features - OneSignal
+  // Bloc
+  sl.registerFactory(
+    () => OneSignalHealthBloc(
+      oneSignal: sl(),
+      logging: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => OneSignalPrivacyBloc(
+      oneSignal: sl(),
+      settings: sl(),
+      registerDevice: sl(),
+      logging: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => OneSignalSubscriptionBloc(
+      oneSignal: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<OneSignalDataSource>(
+    () => OneSignalDataSourceImpl(
+      client: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
   //! Features - Recent
   // Bloc
   sl.registerFactory(
@@ -347,6 +400,156 @@ Future<void> init() async {
     () => RecentlyAddedDataSourceImpl(
       tautulliApi: sl(),
       logging: sl(),
+    ),
+  );
+
+  //! Features - Settings
+  // Bloc
+  sl.registerFactory(
+    () => SettingsBloc(
+      settings: sl(),
+      logging: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => RegisterDeviceBloc(
+      registerDevice: sl(),
+      settings: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => Settings(repository: sl()),
+  );
+
+  sl.registerLazySingleton(
+    () => RegisterDevice(repository: sl()),
+  );
+
+  // Repository
+  sl.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<RegisterDeviceRepository>(
+    () => RegisterDeviceRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<SettingsDataSource>(
+    () => SettingsDataSourceImpl(
+      sharedPreferences: sl(),
+      tautulliApi: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<RegisterDeviceDataSource>(
+    () => RegisterDeviceDataSourceImpl(
+      tautulliApi: sl(),
+      deviceInfo: sl(),
+      oneSignal: sl(),
+    ),
+  );
+
+  //! Features - Statistics
+  // Bloc
+  sl.registerFactory(
+    () => StatisticsBloc(
+      getStatistics: sl(),
+      getImageUrl: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => GetStatistics(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<StatisticsRepository>(
+    () => StatisticsRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<StatisticsDataSource>(
+    () => StatisticsDataSourceImpl(
+      tautulliApi: sl(),
+    ),
+  );
+
+  //! Features - Synced
+  // Bloc
+  sl.registerFactory(
+    () => SyncedItemsBloc(
+      getSyncedItems: sl(),
+      getMetadata: sl(),
+      getImageUrl: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => GetSyncedItems(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<SyncedItemsRepository>(
+    () => SyncedItemsRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<SyncedItemsDataSource>(
+    () => SyncedItemsDataSourceImpl(
+      tautulliApi: sl(),
+    ),
+  );
+
+  //! Features - TerminateSession
+  // Bloc
+  sl.registerFactory(
+    () => TerminateSessionBloc(
+      terminateSession: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => TerminateSession(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<TerminateSessionRepository>(
+    () => TerminateSessionRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<TerminateSessionDataSource>(
+    () => TerminateSessionDataSourceImpl(
+      tautulliApi: sl(),
     ),
   );
 
@@ -382,163 +585,6 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<UsersDataSource>(
     () => UsersDataSourceImpl(
-      tautulliApi: sl(),
-    ),
-  );
-
-  //! Features - History
-  // Bloc
-  sl.registerFactory(
-    () => HistoryBloc(
-      getHistory: sl(),
-      // getUserNames: sl(),
-      getImageUrl: sl(),
-      logging: sl(),
-    ),
-  );
-
-  sl.registerFactory(
-    () => HistoryUsersBloc(
-      getUserNames: sl(),
-    ),
-  );
-
-  // User case
-  sl.registerLazySingleton(
-    () => GetHistory(
-      repository: sl(),
-    ),
-  );
-
-  // Repository
-  sl.registerLazySingleton<HistoryRepository>(
-    () => HistoryRepositoryImpl(
-      dataSource: sl(),
-      networkInfo: sl(),
-    ),
-  );
-
-  // Data source
-  sl.registerLazySingleton<HistoryDataSource>(
-    () => HistoryDataSourceImpl(
-      tautulliApi: sl(),
-      logging: sl(),
-    ),
-  );
-
-  //! Features - Libraries
-  // Bloc
-  sl.registerFactory(
-    () => LibrariesBloc(
-      getLibrariesTable: sl(),
-      getImageUrl: sl(),
-    ),
-  );
-
-  // User case
-  sl.registerLazySingleton(
-    () => GetLibrariesTable(
-      repository: sl(),
-    ),
-  );
-
-  // Repository
-  sl.registerLazySingleton<LibrariesRepository>(
-    () => LibrariesRepositoryImpl(
-      dataSource: sl(),
-      networkInfo: sl(),
-    ),
-  );
-
-  // Data source
-  sl.registerLazySingleton<LibrariesDataSource>(
-    () => LibrariesDataSourceImpl(
-      tautulliApi: sl(),
-    ),
-  );
-
-  //! Features - Statistics
-  // Bloc
-  sl.registerFactory(
-    () => StatisticsBloc(
-      getStatistics: sl(),
-      getImageUrl: sl(),
-    ),
-  );
-
-  // User case
-  sl.registerLazySingleton(
-    () => GetStatistics(
-      repository: sl(),
-    ),
-  );
-
-  // Repository
-  sl.registerLazySingleton<StatisticsRepository>(
-    () => StatisticsRepositoryImpl(
-      dataSource: sl(),
-      networkInfo: sl(),
-    ),
-  );
-
-  // Data source
-  sl.registerLazySingleton<StatisticsDataSource>(
-    () => StatisticsDataSourceImpl(
-      tautulliApi: sl(),
-    ),
-  );
-
-  //! Features - Synced
-  // Bloc
-  sl.registerFactory(
-    () => SyncedItemsBloc(
-      getSyncedItems: sl(),
-      getMetadata: sl(),
-      getImageUrl: sl(),
-    ),
-  );
-
-  // User case
-  sl.registerLazySingleton(
-    () => GetSyncedItems(
-      repository: sl(),
-    ),
-  );
-
-  // Repository
-  sl.registerLazySingleton<SyncedItemsRepository>(
-    () => SyncedItemsRepositoryImpl(
-      dataSource: sl(),
-      networkInfo: sl(),
-    ),
-  );
-
-  // Data source
-  sl.registerLazySingleton<SyncedItemsDataSource>(
-    () => SyncedItemsDataSourceImpl(
-      tautulliApi: sl(),
-    ),
-  );
-
-  //! Features - Metadata
-  // User case
-  sl.registerLazySingleton(
-    () => GetMetadata(
-      repository: sl(),
-    ),
-  );
-
-  // Repository
-  sl.registerLazySingleton<MetadataRepository>(
-    () => MetadataRepositoryImpl(
-      dataSource: sl(),
-      networkInfo: sl(),
-    ),
-  );
-
-  // Data source
-  sl.registerLazySingleton<MetadataDataSource>(
-    () => MetadataDataSourceImpl(
       tautulliApi: sl(),
     ),
   );
