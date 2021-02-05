@@ -18,14 +18,14 @@ class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
   MetadataRepositoryImpl repository;
-  MockMetadataDataSource mockUsersDataSource;
+  MockMetadataDataSource mockMetadataDataSource;
   MockNetworkInfo mockNetworkInfo;
 
   setUp(() {
-    mockUsersDataSource = MockMetadataDataSource();
+    mockMetadataDataSource = MockMetadataDataSource();
     mockNetworkInfo = MockNetworkInfo();
     repository = MetadataRepositoryImpl(
-      dataSource: mockUsersDataSource,
+      dataSource: mockMetadataDataSource,
       networkInfo: mockNetworkInfo,
     );
   });
@@ -68,7 +68,7 @@ void main() {
           );
           // assert
           verify(
-            mockUsersDataSource.getMetadata(
+            mockMetadataDataSource.getMetadata(
               tautulliId: tTautulliId,
               ratingKey: tRatingKey,
             ),
@@ -81,7 +81,7 @@ void main() {
         () async {
           // arrange
           when(
-            mockUsersDataSource.getMetadata(
+            mockMetadataDataSource.getMetadata(
               tautulliId: anyNamed('tautulliId'),
               ratingKey: anyNamed('ratingKey'),
             ),

@@ -105,10 +105,11 @@ void main() {
     studio: 'Lucasfilm',
     summary:
         'The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.',
+    tagline: 'The Adventure Continues...',
     title: 'The Empire Strikes Back',
     thumb: '/library/metadata/53052/thumb/1599764717',
     videoCodec: 'h264',
-    videoResolution: 1080,
+    videoFullResolution: '1080p',
     writers: ['Leigh Brackett', 'Lawrence Kasdan'],
     year: 1980,
   );

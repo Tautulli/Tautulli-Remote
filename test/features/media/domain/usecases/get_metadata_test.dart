@@ -43,6 +43,7 @@ void main() {
       // act
       final result = await usecase(
         tautulliId: tTautulliId,
+        ratingKey: tRatingKey,
       );
       // assert
       expect(result, equals(Right(tMetadataItem)));
