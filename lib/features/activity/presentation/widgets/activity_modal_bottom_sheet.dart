@@ -3,7 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/poster_chooser.dart';
+import '../../../media/domain/entities/media_item.dart';
+import '../../../media/presentation/pages/media_item_page.dart';
 import '../../domain/entities/activity.dart';
 import '../bloc/activity_bloc.dart';
 import 'activity_media_details.dart';
@@ -205,6 +208,69 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                           activity: activity,
                           tautulliId: widget.tautulliId,
                         ),
+                      ),
+                    ),
+                    Container(
+                      color: Theme.of(context).backgroundColor,
+                      child: Row(
+                        children: [
+                          // Expanded(
+                          //   child: Padding(
+                          //     padding: const EdgeInsets.only(
+                          //       left: 8,
+                          //       right: 4,
+                          //     ),
+                          //     child: RaisedButton(
+                          //       onPressed: () {},
+                          //       color: PlexColorPalette.gamboge,
+                          //       child: Text(
+                          //         'View User',
+                          //         style: TextStyle(
+                          //           color: TautulliColorPalette.not_white,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 4,
+                                right: 8,
+                              ),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  MediaItem mediaItem = MediaItem(
+                                    grandparentTitle: activity.grandparentTitle,
+                                    parentMediaIndex: activity.parentMediaIndex,
+                                    mediaIndex: activity.mediaIndex,
+                                    mediaType: activity.mediaType,
+                                    parentTitle: activity.parentTitle,
+                                    posterUrl: activity.posterUrl,
+                                    ratingKey: activity.ratingKey,
+                                    title: activity.title,
+                                    year: activity.year,
+                                  );
+
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => MediaItemPage(
+                                        item: mediaItem,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                color: PlexColorPalette.curious_blue,
+                                child: Text(
+                                  'View Media',
+                                  style: TextStyle(
+                                    color: TautulliColorPalette.not_white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
