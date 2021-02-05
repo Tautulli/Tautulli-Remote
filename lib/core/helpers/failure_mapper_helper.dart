@@ -19,6 +19,8 @@ const String JSON_FAILURE_MESSAGE = 'Failed to parse response.';
 const String TERMINATE_FAILURE_MESSAGE = 'Failed to terminate the stream.';
 const String SERVER_VERSION_FAILURE_MESSAGE =
     'Server version does not meet requirements.';
+const String METADATA_EMPTY_FAILURE_MESSAGE = 'No metadata found.';
+const String LIBRARY_MEDIA_INFO_EMPTY_FAILURE_MESSAGE = 'No data found';
 
 // Error suggestions
 const String MISSING_SERVER_SUGGESTION =
@@ -32,13 +34,19 @@ const String TIMEOUT_SUGGESTION =
 const String TERMINATE_SUGGESTION = 'Make sure the stream is still active.';
 final String serverVersionSuggestion =
     'Please update the Tautulli server to v${MinimumVersion.tautulliServer} or greater';
+const String METADATA_EMPTY_FAILURE_SUGGESTION =
+    'The rating key for this item might be incorrect.';
 
 class FailureMapperHelper {
   /// Map [Exception] to corresponding [Failure].
   static Failure mapExceptionToFailure(dynamic exception) {
     Failure failure;
 
-    switch (exception.runtimeType) {
+    if ([TimeoutException, SettingsException].contains(exception.runtimeType)) {
+      exception = exception.runtimeType;
+    }
+
+    switch (exception) {
       case (MissingServerException):
         failure = MissingServerFailure();
         break;
@@ -68,6 +76,9 @@ class FailureMapperHelper {
         break;
       case (ServerVersionException):
         failure = ServerVersionFailure();
+        break;
+      case (MetadataEmptyException):
+        failure = MetadataEmptyFailure();
         break;
     }
 
@@ -99,6 +110,10 @@ class FailureMapperHelper {
         return TERMINATE_FAILURE_MESSAGE;
       case ServerVersionFailure:
         return SERVER_VERSION_FAILURE_MESSAGE;
+      case MetadataEmptyFailure:
+        return METADATA_EMPTY_FAILURE_MESSAGE;
+      case LibraryMediaInfoEmptyFailure:
+        return LIBRARY_MEDIA_INFO_EMPTY_FAILURE_MESSAGE;
       default:
         return 'Unexpected error';
     }
@@ -127,6 +142,9 @@ class FailureMapperHelper {
         return TERMINATE_SUGGESTION;
       case ServerVersionFailure:
         return serverVersionSuggestion;
+      case MetadataEmptyFailure:
+      case LibraryMediaInfoEmptyFailure:
+        return METADATA_EMPTY_FAILURE_SUGGESTION;
       default:
         return '';
     }

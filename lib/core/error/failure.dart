@@ -40,5 +40,11 @@ class ServerVersionFailure extends Failure {}
 /// The terminate session API call returned false.
 class TerminateFailure extends Failure {}
 
+/// The get metadata API call returned an empty result.
+class MetadataEmptyFailure extends Failure {}
+
+/// The get library media info API call returned an empty result.
+class LibraryMediaInfoEmptyFailure extends Failure {}
+
 /// A catch-all Failure.
 class UnknownFailure extends Failure {}

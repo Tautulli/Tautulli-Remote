@@ -15,3 +15,9 @@ class JsonDecodeException implements Exception {}
 
 /// Throw when trying to add a Tautulli server does not meet the min version.
 class ServerVersionException implements Exception {}
+
+/// Throw when the get metadata API call returns an empty result.
+class MetadataEmptyException implements Exception {}
+
+/// Throw when the get library media info API call returns an empty result.
+class LibraryMediaInfoEmptyException implements Exception {}
