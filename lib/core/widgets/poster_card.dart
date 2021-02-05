@@ -7,11 +7,13 @@ import 'poster_chooser.dart';
 class PosterCard extends StatelessWidget {
   final dynamic item;
   final Widget details;
+  final Key heroTag;
 
   const PosterCard({
     Key key,
     @required this.item,
     @required this.details,
+    this.heroTag,
   }) : super(key: key);
 
   @override
@@ -42,7 +44,10 @@ class PosterCard extends StatelessWidget {
                 padding: const EdgeInsets.all(4),
                 child: Row(
                   children: [
-                    PosterChooser(item: item),
+                    Hero(
+                      tag: heroTag ?? UniqueKey(),
+                      child: PosterChooser(item: item),
+                    ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 6),
