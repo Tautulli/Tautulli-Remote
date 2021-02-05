@@ -12,6 +12,8 @@ class MetadataItem extends Equatable {
   final int grandparentRatingKey;
   final String grandparentThumb;
   final String grandparentTitle;
+  final int mediaIndex;
+  final int parentMediaIndex;
   final int parentRatingKey;
   final String parentThumb;
   final String parentTitle;
@@ -20,10 +22,11 @@ class MetadataItem extends Equatable {
   final int ratingKey;
   final String studio;
   final String summary;
+  final String tagline;
   final String title;
   final String thumb;
   final String videoCodec;
-  final int videoResolution;
+  final String videoFullResolution;
   final List writers;
   final int year;
   String posterUrl;
@@ -41,6 +44,8 @@ class MetadataItem extends Equatable {
     this.grandparentRatingKey,
     this.grandparentThumb,
     this.grandparentTitle,
+    this.mediaIndex,
+    this.parentMediaIndex,
     this.parentRatingKey,
     this.parentThumb,
     this.parentTitle,
@@ -49,10 +54,11 @@ class MetadataItem extends Equatable {
     this.ratingKey,
     this.studio,
     this.summary,
+    this.tagline,
     this.title,
     this.thumb,
     this.videoCodec,
-    this.videoResolution,
+    this.videoFullResolution,
     this.writers,
     this.year,
     this.posterUrl,
@@ -72,6 +78,8 @@ class MetadataItem extends Equatable {
         grandparentRatingKey,
         grandparentThumb,
         grandparentTitle,
+        mediaIndex,
+        parentMediaIndex,
         parentRatingKey,
         parentThumb,
         parentTitle,
@@ -80,10 +88,11 @@ class MetadataItem extends Equatable {
         ratingKey,
         studio,
         summary,
+        tagline,
         title,
         thumb,
         videoCodec,
-        videoResolution,
+        videoFullResolution,
         writers,
         year,
         posterUrl,

@@ -13,6 +13,8 @@ class MetadataItemModel extends MetadataItem {
     final int grandparentRatingKey,
     final String grandparentThumb,
     final String grandparentTitle,
+    final int mediaIndex,
+    final int parentMediaIndex,
     final int parentRatingKey,
     final String parentThumb,
     final String parentTitle,
@@ -21,10 +23,11 @@ class MetadataItemModel extends MetadataItem {
     final int ratingKey,
     final String studio,
     final String summary,
+    final String tagline,
     final String title,
     final String thumb,
     final String videoCodec,
-    final int videoResolution,
+    final String videoFullResolution,
     final List writers,
     final int year,
     String posterUrl,
@@ -41,6 +44,8 @@ class MetadataItemModel extends MetadataItem {
           grandparentRatingKey: grandparentRatingKey,
           grandparentThumb: grandparentThumb,
           grandparentTitle: grandparentTitle,
+          mediaIndex: parentMediaIndex,
+          parentMediaIndex: parentMediaIndex,
           parentRatingKey: parentRatingKey,
           parentThumb: parentThumb,
           parentTitle: parentTitle,
@@ -49,10 +54,11 @@ class MetadataItemModel extends MetadataItem {
           ratingKey: ratingKey,
           studio: studio,
           summary: summary,
+          tagline: tagline,
           title: title,
           thumb: thumb,
           videoCodec: videoCodec,
-          videoResolution: videoResolution,
+          videoFullResolution: videoFullResolution,
           writers: writers,
           year: year,
           posterUrl: posterUrl,
@@ -60,11 +66,15 @@ class MetadataItemModel extends MetadataItem {
         );
 
   factory MetadataItemModel.fromJson(Map<String, dynamic> json) {
+    final bool mediaInfoEmpty = json['media_info'].isEmpty;
+
     return MetadataItemModel(
       actors: json['actors'],
       art: json['art'],
-      audioChannels: int.tryParse(json['media_info'][0]['audio_channels']),
-      audioCodec: json['media_info'][0]['audio_codec'],
+      audioChannels: !mediaInfoEmpty
+          ? int.tryParse(json['media_info'][0]['audio_channels'])
+          : null,
+      audioCodec: !mediaInfoEmpty ? json['media_info'][0]['audio_codec'] : null,
       contentRating: json['content_rating'],
       directors: json['directors'],
       duration: int.tryParse(json['duration']),
@@ -75,6 +85,8 @@ class MetadataItemModel extends MetadataItem {
       grandparentThumb:
           json['grandparent_thumb'] != '' ? json['grandparent_thumb'] : null,
       grandparentTitle: json['grandparent_title'],
+      mediaIndex: int.tryParse(json['media_index']),
+      parentMediaIndex: int.tryParse(json['parent_media_index']),
       parentRatingKey: json['parent_rating_key'] != ''
           ? int.tryParse(json['parent_rating_key'])
           : null,
@@ -86,10 +98,14 @@ class MetadataItemModel extends MetadataItem {
           json['rating_key'] != '' ? int.tryParse(json['rating_key']) : null,
       studio: json['studio'],
       summary: json['summary'],
+      tagline: json['tagline'],
       title: json['title'],
       thumb: json['thumb'] != '' ? json['thumb'] : null,
-      videoCodec: json['media_info'][0]['video_codec'],
-      videoResolution: int.tryParse(json['media_info'][0]['video_resolution']),
+      videoCodec: !mediaInfoEmpty ? json['media_info'][0]['video_codec'] : null,
+      videoFullResolution: !mediaInfoEmpty &&
+              json['media_info'][0]['video_full_resolution'] != 'p'
+          ? json['media_info'][0]['video_full_resolution']
+          : null,
       writers: json['writers'],
       year: int.tryParse(json['year']),
     );
