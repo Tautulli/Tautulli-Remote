@@ -179,13 +179,17 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           itemBuilder: (context, index) {
                             Library library = state.librariesList[index];
                             return GestureDetector(
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => LibraryItemsPage(
-                                    library: library,
-                                  ),
-                                ),
-                              ),
+                              onTap: () {
+                                if (library.sectionType != 'live') {
+                                  return Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => LibraryItemsPage(
+                                        library: library,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
                               child: IconCard(
                                 assetPath: AssetMapperHelper.mapLibraryToPath(
                                     library.sectionType),
