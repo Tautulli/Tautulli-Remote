@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/features/users/data/models/user_table_model.dart';
 import 'package:tautulli_remote/features/users/domain/entities/user_table.dart';
 import 'package:tautulli_remote/features/users/domain/repositories/users_repository.dart';
-import 'package:tautulli_remote/features/users/domain/usercases/get_users_table.dart';
+import 'package:tautulli_remote/features/users/domain/usecases/get_users_table.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

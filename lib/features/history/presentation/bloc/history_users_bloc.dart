@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import '../../../users/domain/entities/user.dart';
-import '../../../users/domain/usercases/get_user_names.dart';
+import '../../../users/domain/usecases/get_user_names.dart';
 
 part 'history_users_event.dart';
 part 'history_users_state.dart';

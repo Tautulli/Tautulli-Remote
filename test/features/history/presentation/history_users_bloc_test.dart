@@ -7,7 +7,7 @@ import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/features/history/presentation/bloc/history_users_bloc.dart';
 import 'package:tautulli_remote/features/users/data/models/user_model.dart';
 import 'package:tautulli_remote/features/users/domain/entities/user.dart';
-import 'package:tautulli_remote/features/users/domain/usercases/get_user_names.dart';
+import 'package:tautulli_remote/features/users/domain/usecases/get_user_names.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 

@@ -8,7 +8,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../domain/entities/library.dart';
-import '../../domain/usercases/get_libraries_table.dart';
+import '../../domain/usecases/get_libraries_table.dart';
 
 part 'libraries_event.dart';
 part 'libraries_state.dart';

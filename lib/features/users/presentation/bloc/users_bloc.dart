@@ -9,7 +9,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/entities/user_table.dart';
-import '../../domain/usercases/get_users_table.dart';
+import '../../domain/usecases/get_users_table.dart';
 
 part 'users_event.dart';
 part 'users_state.dart';
