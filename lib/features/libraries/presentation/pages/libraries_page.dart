@@ -18,6 +18,7 @@ import '../../domain/entities/library.dart';
 import '../bloc/libraries_bloc.dart';
 import '../widgets/libraries_error_button.dart';
 import '../widgets/library_details.dart';
+import 'library_items_page.dart';
 
 class LibrariesPage extends StatelessWidget {
   const LibrariesPage({Key key}) : super(key: key);
@@ -177,19 +178,28 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           itemCount: state.librariesList.length,
                           itemBuilder: (context, index) {
                             Library library = state.librariesList[index];
-                            return IconCard(
-                              assetPath: AssetMapperHelper.mapLibraryToPath(
-                                  library.sectionType),
-                              backgroundImage: library.sectionType != 'live'
-                                  ? Image.network(
-                                      state.imageMap[library.sectionId],
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image.asset(
-                                      'assets/images/livetv_fallback.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                              details: LibraryDetails(library: library),
+                            return GestureDetector(
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => LibraryItemsPage(
+                                    library: library,
+                                  ),
+                                ),
+                              ),
+                              child: IconCard(
+                                assetPath: AssetMapperHelper.mapLibraryToPath(
+                                    library.sectionType),
+                                backgroundImage: library.sectionType != 'live'
+                                    ? Image.network(
+                                        state.imageMap[library.sectionId],
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(
+                                        'assets/images/livetv_fallback.png',
+                                        fit: BoxFit.cover,
+                                      ),
+                                details: LibraryDetails(library: library),
+                              ),
                             );
                           },
                         ),
