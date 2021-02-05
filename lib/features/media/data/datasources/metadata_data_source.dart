@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../../../../core/api/tautulli_api.dart';
+import '../../../../core/error/exception.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../models/metadata_item_model.dart';
 
@@ -19,7 +20,7 @@ class MetadataDataSourceImpl implements MetadataDataSource {
 
   @override
   Future<MetadataItem> getMetadata({
-    String tautulliId,
+    @required String tautulliId,
     int ratingKey,
     int syncId,
   }) async {
@@ -29,9 +30,14 @@ class MetadataDataSourceImpl implements MetadataDataSource {
       syncId: syncId,
     );
 
-    MetadataItem metadataItem =
-        MetadataItemModel.fromJson(metadataItemJson['response']['data']);
+    Map<String, dynamic> metadataMap = metadataItemJson['response']['data'];
 
-    return metadataItem;
+    if (metadataMap.isEmpty) {
+      throw MetadataEmptyException;
+    } else {
+      MetadataItem metadataItem = MetadataItemModel.fromJson(metadataMap);
+
+      return metadataItem;
+    }
   }
 }
