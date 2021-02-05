@@ -215,7 +215,6 @@ class _HistoryRow extends StatelessWidget {
         user != null && user.userThumb.startsWith('http');
 
     return Container(
-      height: 80,
       decoration: BoxDecoration(
         color: index % 2 == 0 ? Colors.black26 : null,
       ),
@@ -249,48 +248,51 @@ class _HistoryRow extends StatelessWidget {
             ),
             // History details
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(history.friendlyName),
-                    if (['show', 'season', 'artist', 'album']
-                        .contains(mediaType))
-                      Text(
-                        history.title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    if (mediaType == 'show')
-                      Text(
-                          'S${history.parentMediaIndex} • E${history.mediaIndex}'),
-                    if (mediaType == 'artist') Text(history.parentTitle),
-                    if (mediaType == 'season')
-                      Text('Episode ${history.mediaIndex}'),
-                    Text(
-                      TimeFormatHelper.cleanDateTime(
-                        history.stopped,
-                        dateFormat: server.dateFormat,
-                        timeFormat: server.timeFormat,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(history.friendlyName),
+                          if (['show', 'season', 'artist', 'album']
+                              .contains(mediaType))
+                            Text(
+                              history.title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          if (mediaType == 'show')
+                            Text(
+                                'S${history.parentMediaIndex} • E${history.mediaIndex}'),
+                          if (mediaType == 'artist') Text(history.parentTitle),
+                          if (mediaType == 'season')
+                            Text('Episode ${history.mediaIndex}'),
+                          Text(
+                            TimeFormatHelper.cleanDateTime(
+                              history.stopped,
+                              dateFormat: server.dateFormat,
+                              timeFormat: server.timeFormat,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            // Watched percent icon
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 4),
-                  child: IconMapperHelper.mapWatchedStatusToIcon(
-                    history.watchedStatus,
                   ),
-                ),
-              ],
+                  // Watched percent icon
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: IconMapperHelper.mapWatchedStatusToIcon(
+                      history.watchedStatus,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
