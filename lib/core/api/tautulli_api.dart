@@ -54,6 +54,15 @@ abstract class TautulliApi {
     int statsCount,
     String statId,
   });
+  Future<Map<String, dynamic>> getLibraryMediaInfo({
+    @required String tautulliId,
+    int ratingKey,
+    int sectionId,
+    String orderDir,
+    int start,
+    int length,
+    bool refresh,
+  });
   Future<Map<String, dynamic>> getLibrariesTable({
     @required String tautulliId,
     int grouping,
@@ -149,7 +158,8 @@ class TautulliApiImpl implements TautulliApi {
 
     // If tautulliId is provided then query for existing server info
     if (tautulliId != null) {
-      final Server server = await di.sl<Settings>().getServerByTautulliId(tautulliId);
+      final Server server =
+          await di.sl<Settings>().getServerByTautulliId(tautulliId);
       primaryConnectionProtocol = server.primaryConnectionProtocol;
       primaryConnectionDomain = server.primaryConnectionDomain;
       primaryConnectionPath = server.primaryConnectionPath;
@@ -223,16 +233,16 @@ class TautulliApiImpl implements TautulliApi {
           );
 
           di.sl<Settings>().updatePrimaryActive(
-            tautulliId: tautulliId,
-            primaryActive: primaryActive,
-          );
+                tautulliId: tautulliId,
+                primaryActive: primaryActive,
+              );
         } catch (error) {
           // If both connections failed set primary active to true and throw error
           logging.warning('ConnectionHandler: Both connections failed');
           di.sl<Settings>().updatePrimaryActive(
-            tautulliId: tautulliId,
-            primaryActive: true,
-          );
+                tautulliId: tautulliId,
+                primaryActive: true,
+              );
 
           throw error;
         }
@@ -473,6 +483,45 @@ class TautulliApiImpl implements TautulliApi {
     final responseJson = await connectionHandler(
       tautulliId: tautulliId,
       cmd: 'get_home_stats',
+      params: params,
+    );
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getLibraryMediaInfo({
+    @required String tautulliId,
+    int ratingKey,
+    int sectionId,
+    String orderDir,
+    int start,
+    int length,
+    bool refresh,
+  }) async {
+    Map<String, String> params = {};
+
+    if (ratingKey != null) {
+      params['rating_key'] = ratingKey.toString();
+    }
+    if (sectionId != null) {
+      params['section_id'] = sectionId.toString();
+    }
+    if (refresh != null) {
+      params['refresh'] = refresh.toString();
+    }
+    if (orderDir != null) {
+      params['order_dir'] = orderDir;
+    }
+    if (start != null) {
+      params['start'] = start.toString();
+    }
+    if (length != null) {
+      params['length'] = length.toString();
+    }
+
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_library_media_info',
       params: params,
     );
 
