@@ -363,14 +363,18 @@ void showActivityModalBottomSheet({
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     builder: (builderContext) {
-      return BlocProvider<ActivityBloc>.value(
-        value: activityBloc,
-        child: BlocProvider<GeoIpBloc>.value(
-          value: geoIpBloc,
-          child: ActivityModalBottomSheet(
-            activity: activity,
-            tautulliId: tautulliId,
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider.value(
+            value: activityBloc,
           ),
+          BlocProvider.value(
+            value: geoIpBloc,
+          ),
+        ],
+        child: ActivityModalBottomSheet(
+          activity: activity,
+          tautulliId: tautulliId,
         ),
       );
     },
