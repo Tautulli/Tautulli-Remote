@@ -88,7 +88,7 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
       }
       yield LibraryMediaSuccess(
         libraryMediaList: cachedList,
-        hasReachedMax: false,
+        hasReachedMax: cachedList.length < 25,
       );
     } else {
       final failureOrLibraryMediaList = await getLibraryMediaInfo(

@@ -15,9 +15,13 @@ import '../widgets/library_item_details.dart';
 
 class LibraryItemsPage extends StatelessWidget {
   final Library library;
+  final int ratingKey;
+  final String title;
 
   const LibraryItemsPage({
-    @required this.library,
+    this.library,
+    this.ratingKey,
+    this.title,
     Key key,
   }) : super(key: key);
 
@@ -25,16 +29,24 @@ class LibraryItemsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<LibraryMediaBloc>(),
-      child: LibraryItemsPageContent(library: library),
+      child: LibraryItemsPageContent(
+        library: library,
+        ratingKey: ratingKey,
+        title: title,
+      ),
     );
   }
 }
 
 class LibraryItemsPageContent extends StatefulWidget {
   final Library library;
+  final int ratingKey;
+  final String title;
 
   const LibraryItemsPageContent({
-    @required this.library,
+    this.library,
+    this.ratingKey,
+    this.title,
     Key key,
   }) : super(key: key);
 
@@ -86,7 +98,8 @@ class _LibraryItemsPageContentState extends State<LibraryItemsPageContent> {
       _libraryMediaBloc.add(
         LibraryMediaFetched(
           tautulliId: _tautulliId,
-          sectionId: widget.library.sectionId,
+          sectionId: widget.library != null ? widget.library.sectionId : null,
+          ratingKey: widget.ratingKey,
         ),
       );
     }
@@ -97,7 +110,7 @@ class _LibraryItemsPageContentState extends State<LibraryItemsPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text(widget.library.sectionName),
+        title: Text(widget.title ?? widget.library.sectionName),
       ),
       body: BlocBuilder<LibraryMediaBloc, LibraryMediaState>(
         builder: (context, state) {
@@ -129,7 +142,19 @@ class _LibraryItemsPageContentState extends State<LibraryItemsPageContent> {
                       ? BottomLoader()
                       : GestureDetector(
                           onTap: () {
-                            if (state.libraryMediaList[index].mediaType !=
+                            if (state.libraryMediaList[index].mediaType ==
+                                'photo_album') {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => LibraryItemsPage(
+                                    title: state.libraryMediaList[index].title,
+                                    ratingKey:
+                                        state.libraryMediaList[index].ratingKey,
+                                  ),
+                                ),
+                              );
+                            } else if (state
+                                    .libraryMediaList[index].mediaType !=
                                 'photo') {
                               final libraryItem = state.libraryMediaList[index];
 
@@ -196,7 +221,8 @@ class _LibraryItemsPageContentState extends State<LibraryItemsPageContent> {
       _libraryMediaBloc.add(
         LibraryMediaFetched(
           tautulliId: _tautulliId,
-          sectionId: widget.library.sectionId,
+          sectionId: widget.library != null ? widget.library.sectionId : null,
+          ratingKey: widget.ratingKey,
         ),
       );
     }
