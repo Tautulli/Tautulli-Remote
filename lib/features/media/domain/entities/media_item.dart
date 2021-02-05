@@ -8,6 +8,7 @@ class MediaItem extends Equatable {
   final String parentTitle;
   final String posterUrl;
   final int ratingKey;
+  final int syncId;
   final String title;
   final int year;
 
@@ -19,6 +20,7 @@ class MediaItem extends Equatable {
     this.parentTitle,
     this.posterUrl,
     this.ratingKey,
+    this.syncId,
     this.title,
     this.year,
   });
@@ -32,6 +34,7 @@ class MediaItem extends Equatable {
         parentTitle,
         posterUrl,
         ratingKey,
+        syncId,
         title,
         year,
       ];

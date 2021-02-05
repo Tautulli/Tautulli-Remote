@@ -111,6 +111,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
         MetadataFetched(
           tautulliId: _tautulliId,
           ratingKey: widget.item.ratingKey,
+          syncId: widget.item.syncId,
         ),
       );
 

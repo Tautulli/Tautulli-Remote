@@ -9,6 +9,8 @@ import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../media/domain/entities/media_item.dart';
+import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/synced_items_bloc.dart';
 import '../widgets/synced_items_details.dart';
@@ -159,10 +161,33 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                               child: ListView.builder(
                                 itemCount: state.list.length,
                                 itemBuilder: (context, index) {
-                                  return PosterCard(
-                                    item: state.list[index],
-                                    details: SyncedItemsDetails(
-                                      syncedItem: state.list[index],
+                                  final heroTag = UniqueKey();
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      final syncedItem = state.list[index];
+
+                                      MediaItem mediaItem = MediaItem(
+                                        mediaType: syncedItem.mediaType,
+                                        posterUrl: syncedItem.posterUrl,
+                                        syncId: syncedItem.syncId,
+                                      );
+
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => MediaItemPage(
+                                            item: mediaItem,
+                                            heroTag: heroTag,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: PosterCard(
+                                      item: state.list[index],
+                                      details: SyncedItemsDetails(
+                                        syncedItem: state.list[index],
+                                      ),
+                                      heroTag: heroTag,
                                     ),
                                   );
                                 },
