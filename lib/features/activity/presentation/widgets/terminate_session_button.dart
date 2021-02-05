@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 
@@ -10,10 +11,9 @@ class TerminateSessionButton extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Icon(
-          Icons.close,
+        FaIcon(
+          FontAwesomeIcons.times,
           color: TautulliColorPalette.not_white,
-          size: 30,
         ),
         Text(
           'Terminate Stream',
