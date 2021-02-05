@@ -5,13 +5,17 @@ class Statistics extends Equatable {
   // final String contentRating;
   final int count;
   final String friendlyName;
+  final String grandchildTitle;
   final String grandparentThumb;
+  final String grandparentTitle;
   // final String guid;
   // final List labels;
   // final int lastPlay;
   final int lastWatch;
   // final int live;
+  final int mediaIndex;
   final String mediaType;
+  final int parentMediaIndex;
   final String platform;
   final String platformName;
   // final String player;
@@ -29,6 +33,7 @@ class Statistics extends Equatable {
   final int userId;
   final int usersWatched;
   final String userThumb;
+  final int year;
   String posterUrl;
 
   Statistics({
@@ -36,13 +41,17 @@ class Statistics extends Equatable {
     // this.contentRating,
     this.count,
     this.friendlyName,
+    this.grandchildTitle,
     this.grandparentThumb,
+    this.grandparentTitle,
     // this.guid,
     // this.labels,
     // this.lastPlay,
     this.lastWatch,
     // this.live,
+    this.mediaIndex,
     this.mediaType,
+    this.parentMediaIndex,
     this.platform,
     this.platformName,
     // this.player,
@@ -60,6 +69,7 @@ class Statistics extends Equatable {
     this.userId,
     this.usersWatched,
     this.userThumb,
+    this.year,
     this.posterUrl,
   });
 
@@ -69,13 +79,17 @@ class Statistics extends Equatable {
         // contentRating,
         count,
         friendlyName,
+        grandchildTitle,
         grandparentThumb,
+        grandparentTitle,
         // guid,
         // labels,
         // lastPlay,
         lastWatch,
         // live,
+        mediaIndex,
         mediaType,
+        parentMediaIndex,
         platform,
         platformName,
         // player,
@@ -93,6 +107,7 @@ class Statistics extends Equatable {
         userId,
         usersWatched,
         userThumb,
+        year,
         posterUrl,
       ];
 

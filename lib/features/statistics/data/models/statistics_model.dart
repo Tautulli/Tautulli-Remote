@@ -8,13 +8,17 @@ class StatisticsModel extends Statistics {
     // final String contentRating,
     final int count,
     final String friendlyName,
+    final String grandchildTitle,
     final String grandparentThumb,
+    final String grandparentTitle,
     // final String guid,
     // final List labels,
     // final int lastPlay,
     final int lastWatch,
     // final int live,
+    final int mediaIndex,
     final String mediaType,
+    final int parentMediaIndex,
     final String platform,
     final String platformName,
     // final String player,
@@ -32,19 +36,24 @@ class StatisticsModel extends Statistics {
     final int userId,
     final int usersWatched,
     final String userThumb,
+    final int year,
     String posterUrl,
   }) : super(
           // art: art,
           // contentRating: contentRating,
           count: count,
           friendlyName: friendlyName,
+          grandchildTitle: grandchildTitle,
           grandparentThumb: grandparentThumb,
+          grandparentTitle: grandparentTitle,
           // guid: guid,
           // labels: labels,
           // lastPlay: lastPlay,
           lastWatch: lastWatch,
           // live: live,
+          mediaIndex: mediaIndex,
           mediaType: mediaType,
+          parentMediaIndex: parentMediaIndex,
           platform: platform,
           platformName: platformName,
           // player: player,
@@ -62,6 +71,7 @@ class StatisticsModel extends Statistics {
           userId: userId,
           usersWatched: usersWatched,
           userThumb: userThumb,
+          year: year,
           posterUrl: posterUrl,
         );
 
@@ -75,14 +85,31 @@ class StatisticsModel extends Statistics {
           json.containsKey('friendly_name') && json['friendly_name'] != ''
               ? json['friendly_name']
               : null,
+      grandchildTitle:
+          json.containsKey('grandchild_title') && json['grandchild_title'] != ''
+              ? json['grandchild_title']
+              : null,
+      grandparentTitle: json.containsKey('grandparent_title') &&
+              json['grandparent_title'] != ''
+          ? json['grandparent_title']
+          : null,
       grandparentThumb: json.containsKey('grandparent_thumb') &&
               json['grandparent_thumb'] != ''
           ? json['grandparent_thumb']
           : null,
       lastWatch: json.containsKey('last_watch')
           ? json['last_watch']
-          : json.containsKey('last_play') ? json['last_play'] : null,
+          : json.containsKey('last_play')
+              ? json['last_play']
+              : null,
+      mediaIndex: json.containsKey('media_index') && json['media_index'] != ''
+          ? json['media_index']
+          : null,
       mediaType: json.containsKey('media_type') ? json['media_type'] : null,
+      parentMediaIndex: json.containsKey('parent_media_index') &&
+              json['parent_media_index'] != ''
+          ? json['parent_media_index']
+          : null,
       platform: json.containsKey('platform') && json['platform'] != ''
           ? json['platform']
           : null,
@@ -94,7 +121,9 @@ class StatisticsModel extends Statistics {
       rowId: json.containsKey('row_id') && json['row_id'] != ''
           ? json['row_id']
           : null,
-      sectionId: json.containsKey('section_id') && json['section_id'] != '' ? json['section_id'] : null,
+      sectionId: json.containsKey('section_id') && json['section_id'] != ''
+          ? json['section_id']
+          : null,
       started:
           json.containsKey('started') ? int.tryParse(json['started']) : null,
       statId: statId,
@@ -115,6 +144,7 @@ class StatisticsModel extends Statistics {
               ? json['users_watched']
               : null,
       userThumb: json.containsKey('user_thumb') ? json['user_thumb'] : null,
+      year: json.containsKey('year') ? json['year'] : null,
     );
   }
 }
