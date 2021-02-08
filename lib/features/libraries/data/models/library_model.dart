@@ -1,3 +1,4 @@
+import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/library.dart';
 
 class LibraryModel extends Library {
@@ -71,17 +72,50 @@ class LibraryModel extends Library {
 
   factory LibraryModel.fromJson(Map<String, dynamic> json) {
     return LibraryModel(
-      childCount: json['child_count'],
-      count: json['count'],
-      duration: json['duration'],
-      isActive: json['is_active'],
-      libraryArt: json['library_art'],
-      libraryThumb: json['library_thumb'],
-      parentCount: json['parent_count'],
-      plays: json['plays'],
-      sectionId: json['section_id'],
-      sectionName: json['section_name'],
-      sectionType: json['section_type'],
+      childCount: ValueHelper.cast(
+        value: json['child_count'],
+        type: CastType.int,
+      ),
+      count: ValueHelper.cast(
+        value: json['count'],
+        type: CastType.int,
+      ),
+      duration: ValueHelper.cast(
+        value: json['duration'],
+        type: CastType.int,
+      ),
+      isActive: ValueHelper.cast(
+        value: json['is_active'],
+        type: CastType.int,
+      ),
+      libraryArt: ValueHelper.cast(
+        value: json['library_art'],
+        type: CastType.string,
+      ),
+      libraryThumb: ValueHelper.cast(
+        value: json['library_thumb'],
+        type: CastType.string,
+      ),
+      parentCount: ValueHelper.cast(
+        value: json['parent_count'],
+        type: CastType.int,
+      ),
+      plays: ValueHelper.cast(
+        value: json['plays'],
+        type: CastType.int,
+      ),
+      sectionId: ValueHelper.cast(
+        value: json['section_id'],
+        type: CastType.int,
+      ),
+      sectionName: ValueHelper.cast(
+        value: json['section_name'],
+        type: CastType.string,
+      ),
+      sectionType: ValueHelper.cast(
+        value: json['section_type'],
+        type: CastType.string,
+      ),
     );
   }
 }

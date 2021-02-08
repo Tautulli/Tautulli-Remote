@@ -1,3 +1,4 @@
+import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/tautulli_settings_general.dart';
 
 class TautulliSettingsGeneralModel extends TautulliSettingsGeneral {
@@ -11,8 +12,14 @@ class TautulliSettingsGeneralModel extends TautulliSettingsGeneral {
 
   factory TautulliSettingsGeneralModel.fromJson(Map<String, dynamic> json) {
     return TautulliSettingsGeneralModel(
-      dateFormat: json['date_format'],
-      timeFormat: json['time_format'],
+      dateFormat: ValueHelper.cast(
+        value: json['date_format'],
+        type: CastType.string,
+      ),
+      timeFormat: ValueHelper.cast(
+        value: json['time_format'],
+        type: CastType.string,
+      ),
     );
   }
 }

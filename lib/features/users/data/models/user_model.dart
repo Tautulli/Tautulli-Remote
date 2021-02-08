@@ -1,3 +1,4 @@
+import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/user.dart';
 
 class UserModel extends User {
@@ -11,8 +12,14 @@ class UserModel extends User {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      friendlyName: json['friendly_name'],
-      userId: json['user_id'],
+      friendlyName: ValueHelper.cast(
+        value: json['friendly_name'],
+        type: CastType.string,
+      ),
+      userId: ValueHelper.cast(
+        value: json['user_id'],
+        type: CastType.int,
+      ),
     );
   }
 }

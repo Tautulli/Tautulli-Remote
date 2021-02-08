@@ -1,3 +1,4 @@
+import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/metadata_item.dart';
 
 class MetadataItemModel extends MetadataItem {
@@ -70,44 +71,120 @@ class MetadataItemModel extends MetadataItem {
 
     return MetadataItemModel(
       actors: json['actors'],
-      art: json['art'],
+      art: ValueHelper.cast(
+        value: json['art'],
+        type: CastType.string,
+      ),
       audioChannels: !mediaInfoEmpty
-          ? int.tryParse(json['media_info'][0]['audio_channels'])
+          ? ValueHelper.cast(
+              value: json['media_info'][0]['audio_channels'],
+              type: CastType.int,
+            )
           : null,
-      audioCodec: !mediaInfoEmpty ? json['media_info'][0]['audio_codec'] : null,
-      contentRating: json['content_rating'],
+      audioCodec: !mediaInfoEmpty
+          ? ValueHelper.cast(
+              value: json['media_info'][0]['audio_codec'],
+              type: CastType.string,
+            )
+          : null,
+      contentRating: ValueHelper.cast(
+        value: json['content_rating'],
+        type: CastType.string,
+        nullEmptyString: false,
+      ),
       directors: json['directors'],
-      duration: int.tryParse(json['duration']),
+      duration: ValueHelper.cast(
+        value: json['duration'],
+        type: CastType.int,
+      ),
       genres: json['genres'],
-      grandparentRatingKey: json['grandparent_rating_key'] != ''
-          ? int.tryParse(json['grandparent_rating_key'])
+      grandparentRatingKey: ValueHelper.cast(
+        value: json['grandparent_rating_key'],
+        type: CastType.int,
+      ),
+      grandparentThumb: ValueHelper.cast(
+        value: json['grandparent_thumb'],
+        type: CastType.string,
+      ),
+      grandparentTitle: ValueHelper.cast(
+        value: json['grandparent_title'],
+        type: CastType.string,
+        nullEmptyString: false,
+      ),
+      mediaIndex: ValueHelper.cast(
+        value: json['media_index'],
+        type: CastType.int,
+      ),
+      parentMediaIndex: ValueHelper.cast(
+        value: json['parent_media_index'],
+        type: CastType.int,
+      ),
+      parentRatingKey: ValueHelper.cast(
+        value: json['parent_rating_key'],
+        type: CastType.int,
+      ),
+      parentThumb: ValueHelper.cast(
+        value: json['parent_thumb'],
+        type: CastType.string,
+      ),
+      parentTitle: ValueHelper.cast(
+        value: json['parent_title'],
+        type: CastType.string,
+        nullEmptyString: false,
+      ),
+      rating: ValueHelper.cast(
+        value: json['rating'],
+        type: CastType.double,
+      ),
+      ratingImage: ValueHelper.cast(
+        value: json['rating_image'],
+        type: CastType.string,
+      ),
+      ratingKey: ValueHelper.cast(
+        value: json['rating_key'],
+        type: CastType.int,
+      ),
+      studio: ValueHelper.cast(
+        value: json['studio'],
+        type: CastType.string,
+        nullEmptyString: false,
+      ),
+      summary: ValueHelper.cast(
+        value: json['summary'],
+        type: CastType.string,
+        nullEmptyString: false,
+      ),
+      tagline: ValueHelper.cast(
+        value: json['tagline'],
+        type: CastType.string,
+        nullEmptyString: false,
+      ),
+      title: ValueHelper.cast(
+        value: json['title'],
+        type: CastType.string,
+      ),
+      thumb: ValueHelper.cast(
+        value: json['thumb'],
+        type: CastType.string,
+      ),
+      videoCodec: !mediaInfoEmpty
+          ? ValueHelper.cast(
+              value: json['media_info'][0]['video_codec'],
+              type: CastType.string,
+            )
           : null,
-      grandparentThumb:
-          json['grandparent_thumb'] != '' ? json['grandparent_thumb'] : null,
-      grandparentTitle: json['grandparent_title'],
-      mediaIndex: int.tryParse(json['media_index']),
-      parentMediaIndex: int.tryParse(json['parent_media_index']),
-      parentRatingKey: json['parent_rating_key'] != ''
-          ? int.tryParse(json['parent_rating_key'])
-          : null,
-      parentThumb: json['parent_thumb'] != '' ? json['parent_thumb'] : null,
-      parentTitle: json['parent_title'],
-      rating: double.tryParse(json['rating']),
-      ratingImage: json['rating_image'],
-      ratingKey:
-          json['rating_key'] != '' ? int.tryParse(json['rating_key']) : null,
-      studio: json['studio'],
-      summary: json['summary'],
-      tagline: json['tagline'],
-      title: json['title'],
-      thumb: json['thumb'] != '' ? json['thumb'] : null,
-      videoCodec: !mediaInfoEmpty ? json['media_info'][0]['video_codec'] : null,
       videoFullResolution: !mediaInfoEmpty &&
               json['media_info'][0]['video_full_resolution'] != 'p'
-          ? json['media_info'][0]['video_full_resolution']
+          ? ValueHelper.cast(
+              value: json['media_info'][0]['video_full_resolution'],
+              type: CastType.string,
+            )
           : null,
       writers: json['writers'],
-      year: int.tryParse(json['year']),
+      year: ValueHelper.cast(
+        value: json['year'],
+        type: CastType.int,
+      ),
     );
   }
 }

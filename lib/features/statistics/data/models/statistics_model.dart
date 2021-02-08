@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/statistics.dart';
 
 class StatisticsModel extends Statistics {
@@ -80,71 +81,156 @@ class StatisticsModel extends Statistics {
     @required Map<String, dynamic> json,
   }) {
     return StatisticsModel(
-      count: json.containsKey('count') ? json['count'] : null,
-      friendlyName:
-          json.containsKey('friendly_name') && json['friendly_name'] != ''
-              ? json['friendly_name']
-              : null,
-      grandchildTitle:
-          json.containsKey('grandchild_title') && json['grandchild_title'] != ''
-              ? json['grandchild_title']
-              : null,
-      grandparentTitle: json.containsKey('grandparent_title') &&
-              json['grandparent_title'] != ''
-          ? json['grandparent_title']
+      count: json.containsKey('count')
+          ? ValueHelper.cast(
+              value: json['count'],
+              type: CastType.int,
+            )
           : null,
-      grandparentThumb: json.containsKey('grandparent_thumb') &&
-              json['grandparent_thumb'] != ''
-          ? json['grandparent_thumb']
+      friendlyName: json.containsKey('friendly_name')
+          ? ValueHelper.cast(
+              value: json['friendly_name'],
+              type: CastType.string,
+            )
+          : null,
+      grandchildTitle: json.containsKey('grandchild_title')
+          ? ValueHelper.cast(
+              value: json['grandchild_title'],
+              type: CastType.string,
+            )
+          : null,
+      grandparentTitle: json.containsKey('grandparent_title')
+          ? ValueHelper.cast(
+              value: json['grandparent_title'],
+              type: CastType.string,
+            )
+          : null,
+      grandparentThumb: json.containsKey('grandparent_thumb')
+          ? ValueHelper.cast(
+              value: json['grandparent_thumb'],
+              type: CastType.string,
+            )
           : null,
       lastWatch: json.containsKey('last_watch')
-          ? json['last_watch']
+          ? ValueHelper.cast(
+              value: json['last_watch'],
+              type: CastType.int,
+            )
           : json.containsKey('last_play')
-              ? json['last_play']
+              ? ValueHelper.cast(
+                  value: json['last_play'],
+                  type: CastType.int,
+                )
               : null,
-      mediaIndex: json.containsKey('media_index') && json['media_index'] != ''
-          ? json['media_index']
+      mediaIndex: json.containsKey('media_index')
+          ? ValueHelper.cast(
+              value: json['media_index'],
+              type: CastType.int,
+            )
           : null,
-      mediaType: json.containsKey('media_type') ? json['media_type'] : null,
-      parentMediaIndex: json.containsKey('parent_media_index') &&
-              json['parent_media_index'] != ''
-          ? json['parent_media_index']
+      mediaType: json.containsKey('media_type')
+          ? ValueHelper.cast(
+              value: json['media_type'],
+              type: CastType.string,
+            )
           : null,
-      platform: json.containsKey('platform') && json['platform'] != ''
-          ? json['platform']
+      parentMediaIndex: json.containsKey('parent_media_index')
+          ? ValueHelper.cast(
+              value: json['parent_media_index'],
+              type: CastType.int,
+            )
           : null,
-      platformName:
-          json.containsKey('platform_name') ? json['platform_name'] : null,
-      ratingKey: json.containsKey('rating_key') && json['rating_key'] != ''
-          ? json['rating_key']
+      platform: json.containsKey('platform')
+          ? ValueHelper.cast(
+              value: json['platform'],
+              type: CastType.string,
+            )
           : null,
-      rowId: json.containsKey('row_id') && json['row_id'] != ''
-          ? json['row_id']
+      platformName: json.containsKey('platform_name')
+          ? ValueHelper.cast(
+              value: json['platform_name'],
+              type: CastType.string,
+            )
           : null,
-      sectionId: json.containsKey('section_id') && json['section_id'] != ''
-          ? json['section_id']
+      ratingKey: json.containsKey('rating_key')
+          ? ValueHelper.cast(
+              value: json['rating_key'],
+              type: CastType.int,
+            )
           : null,
-      started:
-          json.containsKey('started') ? int.tryParse(json['started']) : null,
+      rowId: json.containsKey('row_id')
+          ? ValueHelper.cast(
+              value: json['row_id'],
+              type: CastType.int,
+            )
+          : null,
+      sectionId: json.containsKey('section_id')
+          ? ValueHelper.cast(
+              value: json['section_id'],
+              type: CastType.int,
+            )
+          : null,
+      started: json.containsKey('started')
+          ? ValueHelper.cast(
+              value: json['started'],
+              type: CastType.int,
+            )
+          : null,
       statId: statId,
-      thumb: json.containsKey('thumb') && json['thumb'] != ''
-          ? json['thumb']
+      thumb: json.containsKey('thumb')
+          ? ValueHelper.cast(
+              value: json['thumb'],
+              type: CastType.string,
+            )
           : null,
-      title: json.containsKey('title') && json['title'] != ''
-          ? json['title']
+      title: json.containsKey('title')
+          ? ValueHelper.cast(
+              value: json['title'],
+              type: CastType.string,
+            )
           : null,
-      totalDuration:
-          json.containsKey('total_duration') ? json['total_duration'] : null,
-      totalPlays: json.containsKey('total_plays') ? json['total_plays'] : null,
-      user:
-          json.containsKey('user') && json['user'] != '' ? json['user'] : null,
-      userId: json.containsKey('user_id') ? json['user_id'] : null,
-      usersWatched:
-          json.containsKey('users_watched') && json['users_watched'] != ''
-              ? json['users_watched']
-              : null,
-      userThumb: json.containsKey('user_thumb') ? json['user_thumb'] : null,
-      year: json.containsKey('year') ? json['year'] : null,
+      totalDuration: json.containsKey('total_duration')
+          ? ValueHelper.cast(
+              value: json['total_duration'],
+              type: CastType.int,
+            )
+          : null,
+      totalPlays: json.containsKey('total_plays')
+          ? ValueHelper.cast(
+              value: json['total_plays'],
+              type: CastType.int,
+            )
+          : null,
+      user: json.containsKey('user')
+          ? ValueHelper.cast(
+              value: json['user'],
+              type: CastType.string,
+            )
+          : null,
+      userId: json.containsKey('user_id')
+          ? ValueHelper.cast(
+              value: json['user_id'],
+              type: CastType.int,
+            )
+          : null,
+      usersWatched: json.containsKey('users_watched')
+          ? ValueHelper.cast(
+              value: json['users_watched'],
+              type: CastType.int,
+            )
+          : null,
+      userThumb: json.containsKey('user_thumb')
+          ? ValueHelper.cast(
+              value: json['user_thumb'],
+              type: CastType.string,
+            )
+          : null,
+      year: json.containsKey('year')
+          ? ValueHelper.cast(
+              value: json['year'],
+              type: CastType.int,
+            )
+          : null,
     );
   }
 }

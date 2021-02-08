@@ -1,3 +1,4 @@
+import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/plex_server_info.dart';
 
 class PlexServerInfoModel extends PlexServerInfo {
@@ -29,17 +30,50 @@ class PlexServerInfoModel extends PlexServerInfo {
 
   factory PlexServerInfoModel.fromJson(Map<String, dynamic> json) {
     return PlexServerInfoModel(
-      pmsIdentifier: json['pms_identifier'],
-      pmsIp: json['pms_ip'],
-      pmsIsRemote: json['pms_is_remote'],
-      pmsName: json['pms_name'],
-      pmsPlatform: json['pms_platform'],
-      pmsPlexpass: json['pms_plexpass'],
-      pmsPort: json['pms_port'],
-      pmsSsl: json['pms_ssl'],
-      pmsUrl: json['pms_url'],
-      pmsUrlManual: json['pms_url_manual'],
-      pmsVersion: json['pms_version'],
+      pmsIdentifier: ValueHelper.cast(
+        value: json['pms_identifier'],
+        type: CastType.string,
+      ),
+      pmsIp: ValueHelper.cast(
+        value: json['pms_ip'],
+        type: CastType.string,
+      ),
+      pmsIsRemote: ValueHelper.cast(
+        value: json['pms_is_remote'],
+        type: CastType.int,
+      ),
+      pmsName: ValueHelper.cast(
+        value: json['pms_name'],
+        type: CastType.string,
+      ),
+      pmsPlatform: ValueHelper.cast(
+        value: json['pms_platform'],
+        type: CastType.string,
+      ),
+      pmsPlexpass: ValueHelper.cast(
+        value: json['pms_plexpass'],
+        type: CastType.int,
+      ),
+      pmsPort: ValueHelper.cast(
+        value: json['pms_port'],
+        type: CastType.int,
+      ),
+      pmsSsl: ValueHelper.cast(
+        value: json['pms_ssl'],
+        type: CastType.int,
+      ),
+      pmsUrl: ValueHelper.cast(
+        value: json['pms_url'],
+        type: CastType.string,
+      ),
+      pmsUrlManual: ValueHelper.cast(
+        value: json['pms_url_manual'],
+        type: CastType.int,
+      ),
+      pmsVersion: ValueHelper.cast(
+        value: json['pms_version'],
+        type: CastType.string,
+      ),
     );
   }
 }

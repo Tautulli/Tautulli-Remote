@@ -1,3 +1,4 @@
+import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/recent.dart';
 
 class RecentItemModel extends RecentItem {
@@ -45,24 +46,78 @@ class RecentItemModel extends RecentItem {
 
   factory RecentItemModel.fromJson(Map<String, dynamic> json) {
     return RecentItemModel(
-      addedAt: int.parse(json['added_at']),
-      art: json['art'],
-      childCount: int.tryParse(json['child_count']),
-      grandparentRatingKey: int.tryParse(json['grandparent_rating_key']),
-      grandparentThumb: json['grandparent_thumb'],
-      grandparentTitle: json['grandparent_title'],
-      libraryName: json['library_name'],
-      mediaIndex: int.tryParse(json['media_index']),
-      mediaType: json['media_type'],
-      parentMediaIndex: int.tryParse(json['parent_media_index']),
-      parentRatingKey: int.tryParse(json['parent_rating_key']),
-      parentThumb: json['parent_thumb'],
-      parentTitle: json['parent_title'],
-      ratingKey: int.tryParse(json['rating_key']),
-      sectionId: int.tryParse(json['section_id']),
-      thumb: json['thumb'],
-      title: json['title'],
-      year: int.tryParse(json['year']),
+      addedAt: ValueHelper.cast(
+        value: json['added_at'],
+        type: CastType.int,
+      ),
+      art: ValueHelper.cast(
+        value: json['art'],
+        type: CastType.string,
+      ),
+      childCount: ValueHelper.cast(
+        value: json['child_count'],
+        type: CastType.int,
+      ),
+      grandparentRatingKey: ValueHelper.cast(
+        value: json['grandparent_rating_key'],
+        type: CastType.int,
+      ),
+      grandparentThumb: ValueHelper.cast(
+        value: json['grandparent_thumb'],
+        type: CastType.string,
+      ),
+      grandparentTitle: ValueHelper.cast(
+        value: json['grandparent_title'],
+        type: CastType.string,
+      ),
+      libraryName: ValueHelper.cast(
+        value: json['library_name'],
+        type: CastType.string,
+      ),
+      mediaIndex: ValueHelper.cast(
+        value: json['media_index'],
+        type: CastType.int,
+      ),
+      mediaType: ValueHelper.cast(
+        value: json['media_type'],
+        type: CastType.string,
+      ),
+      parentMediaIndex: ValueHelper.cast(
+        value: json['parent_media_index'],
+        type: CastType.int,
+      ),
+      parentRatingKey: ValueHelper.cast(
+        value: json['parent_rating_key'],
+        type: CastType.int,
+      ),
+      parentThumb: ValueHelper.cast(
+        value: json['parent_thumb'],
+        type: CastType.string,
+      ),
+      parentTitle: ValueHelper.cast(
+        value: json['parent_title'],
+        type: CastType.string,
+      ),
+      ratingKey: ValueHelper.cast(
+        value: json['rating_key'],
+        type: CastType.int,
+      ),
+      sectionId: ValueHelper.cast(
+        value: json['section_id'],
+        type: CastType.int,
+      ),
+      thumb: ValueHelper.cast(
+        value: json['thumb'],
+        type: CastType.string,
+      ),
+      title: ValueHelper.cast(
+        value: json['title'],
+        type: CastType.string,
+      ),
+      year: ValueHelper.cast(
+        value: json['year'],
+        type: CastType.int,
+      ),
     );
   }
 }

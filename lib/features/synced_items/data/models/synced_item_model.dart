@@ -1,4 +1,5 @@
-import 'package:tautulli_remote/features/synced_items/domain/entities/synced_item.dart';
+import '../../../../core/helpers/value_helper.dart';
+import '../../domain/entities/synced_item.dart';
 
 class SyncedItemModel extends SyncedItem {
   SyncedItemModel({
@@ -55,21 +56,66 @@ class SyncedItemModel extends SyncedItem {
 
   factory SyncedItemModel.fromJson(Map<String, dynamic> json) {
     return SyncedItemModel(
-      clientId: json['client_id'],
-      deviceName: json['device_name'],
-      itemCompleteCount: int.tryParse(json['item_complete_count']),
-      mediaType: json['metadata_type'],
-      platform: json['platform'],
-      ratingKey: int.tryParse(json['rating_key']),
-      rootTitle: json['root_title'],
-      state: json['state'],
-      syncId: int.tryParse(json['sync_id']),
-      syncTitle: json['sync_title'],
-      totalSize: int.tryParse(json['total_size']),
-      user: json['user'],
-      userId: int.tryParse(json['user_id']),
-      username: json['username'],
-      videoQuality: int.tryParse(json['video_quality']),
+      clientId: ValueHelper.cast(
+        value: json['client_id'],
+        type: CastType.string,
+      ),
+      deviceName: ValueHelper.cast(
+        value: json['device_name'],
+        type: CastType.string,
+      ),
+      itemCompleteCount: ValueHelper.cast(
+        value: json['item_complete_count'],
+        type: CastType.int,
+      ),
+      mediaType: ValueHelper.cast(
+        value: json['metadata_type'],
+        type: CastType.string,
+      ),
+      platform: ValueHelper.cast(
+        value: json['platform'],
+        type: CastType.string,
+      ),
+      ratingKey: ValueHelper.cast(
+        value: json['rating_key'],
+        type: CastType.int,
+      ),
+      rootTitle: ValueHelper.cast(
+        value: json['root_title'],
+        type: CastType.string,
+      ),
+      state: ValueHelper.cast(
+        value: json['state'],
+        type: CastType.string,
+      ),
+      syncId: ValueHelper.cast(
+        value: json['sync_id'],
+        type: CastType.int,
+      ),
+      syncTitle: ValueHelper.cast(
+        value: json['sync_title'],
+        type: CastType.string,
+      ),
+      totalSize: ValueHelper.cast(
+        value: json['total_size'],
+        type: CastType.int,
+      ),
+      user: ValueHelper.cast(
+        value: json['user'],
+        type: CastType.string,
+      ),
+      userId: ValueHelper.cast(
+        value: json['user_id'],
+        type: CastType.int,
+      ),
+      username: ValueHelper.cast(
+        value: json['username'],
+        type: CastType.string,
+      ),
+      videoQuality: ValueHelper.cast(
+        value: json['video_quality'],
+        type: CastType.int,
+      ),
     );
   }
 }

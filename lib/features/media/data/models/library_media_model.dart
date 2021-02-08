@@ -1,3 +1,4 @@
+import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/library_media.dart';
 
 class LibraryMediaModel extends LibraryMedia {
@@ -23,17 +24,34 @@ class LibraryMediaModel extends LibraryMedia {
 
   factory LibraryMediaModel.fromJson(Map<String, dynamic> json) {
     return LibraryMediaModel(
-      mediaIndex:
-          json['media_index'] != '' ? int.tryParse(json['media_index']) : null,
-      mediaType: json['media_type'] != '' ? json['media_type'] : null,
-      parentMediaIndex: json['parent_media_index'] != ''
-          ? int.tryParse(json['parent_media_index'])
-          : null,
-      ratingKey:
-          json['rating_key'] != '' ? int.tryParse(json['rating_key']) : null,
-      thumb: json['thumb'] != '' ? json['thumb'] : null,
-      title: json['title'] != '' ? json['title'] : null,
-      year: json['year'] != '' ? int.tryParse(json['year']) : null,
+      mediaIndex: ValueHelper.cast(
+        value: json['media_index'],
+        type: CastType.int,
+      ),
+      mediaType: ValueHelper.cast(
+        value: json['media_type'],
+        type: CastType.string,
+      ),
+      parentMediaIndex: ValueHelper.cast(
+        value: json['parent_media_index'],
+        type: CastType.int,
+      ),
+      ratingKey: ValueHelper.cast(
+        value: json['rating_key'],
+        type: CastType.int,
+      ),
+      thumb: ValueHelper.cast(
+        value: json['thumb'],
+        type: CastType.string,
+      ),
+      title: ValueHelper.cast(
+        value: json['title'],
+        type: CastType.string,
+      ),
+      year: ValueHelper.cast(
+        value: json['year'],
+        type: CastType.int,
+      ),
     );
   }
 }

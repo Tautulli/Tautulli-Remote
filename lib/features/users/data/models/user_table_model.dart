@@ -1,3 +1,4 @@
+import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/user_table.dart';
 
 class UserTableModel extends UserTable {
@@ -29,17 +30,51 @@ class UserTableModel extends UserTable {
 
   factory UserTableModel.fromJson(Map<String, dynamic> json) {
     return UserTableModel(
-      duration: json['duration'],
-      friendlyName: json['friendly_name'],
-      isActive: json['is_active'],
-      ipAddress: json['ip_address'],
-      lastPlayed: json['last_played'],
-      lastSeen: json['last_seen'],
-      mediaType: json['media_type'],
-      plays: json['plays'],
-      ratingKey: json['rating_key'],
-      userId: json['user_id'],
-      userThumb: json['user_thumb'],
+      duration: ValueHelper.cast(
+        value: json['duration'],
+        type: CastType.int,
+      ),
+      friendlyName: ValueHelper.cast(
+        value: json['friendly_name'],
+        type: CastType.string,
+      ),
+      isActive: ValueHelper.cast(
+        value: json['is_active'],
+        type: CastType.int,
+      ),
+      ipAddress: ValueHelper.cast(
+        value: json['ip_address'],
+        type: CastType.string,
+      ),
+      lastPlayed: ValueHelper.cast(
+        value: json['last_played'],
+        type: CastType.string,
+      ),
+      lastSeen: ValueHelper.cast(
+        value: json['last_seen'],
+        type: CastType.int,
+      ),
+      mediaType: ValueHelper.cast(
+        value: json['media_type'],
+        type: CastType.string,
+      ),
+      plays: ValueHelper.cast(
+        value: json['plays'],
+        type: CastType.int,
+      ),
+      ratingKey: ValueHelper.cast(
+        value: json['rating_key'],
+        type: CastType.int,
+      ),
+      userId: ValueHelper.cast(
+        value: json['user_id'],
+        type: CastType.int,
+      ),
+      userThumb: ValueHelper.cast(
+        value: json['user_thumb'],
+        type: CastType.string,
+        nullEmptyString: false,
+      ),
     );
   }
 }

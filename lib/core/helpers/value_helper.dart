@@ -5,6 +5,7 @@ enum CastType {
   bool,
   int,
   double,
+  num,
   string,
 }
 
@@ -18,6 +19,10 @@ class ValueHelper {
     @required CastType type,
     bool nullEmptyString = true,
   }) {
+    if (value == null) {
+      return null;
+    }
+
     if (type == CastType.bool) {
       if ([1, true, '1', 'true'].contains(value)) {
         return true;
@@ -32,6 +37,9 @@ class ValueHelper {
     }
     if (type == CastType.double) {
       return double.tryParse(value.toString());
+    }
+    if (type == CastType.num) {
+      return num.tryParse(value.toString());
     }
     if (type == CastType.string) {
       if (isEmpty(value)) {
