@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../bloc/users_bloc.dart';
 
 class UserErrorButton extends StatelessWidget {
@@ -21,23 +22,31 @@ class UserErrorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return failure == SettingsFailure() || failure == MissingServerFailure()
-        ? RaisedButton.icon(
-            icon: FaIcon(FontAwesomeIcons.cogs),
-            label: Text('Go to settings'),
-            color: Theme.of(context).primaryColor,
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed('/settings');
-            },
-          )
-        : RaisedButton.icon(
-            icon: FaIcon(FontAwesomeIcons.redoAlt),
-            label: Text('Retry'),
-            color: Theme.of(context).primaryColor,
-            onPressed: () {
-              context.read<UsersBloc>().add(usersEvent);
-              return completer.future;
-            },
-          );
+    if (failure == SettingsFailure() || failure == MissingServerFailure()) {
+      return RaisedButton.icon(
+        icon: FaIcon(
+          FontAwesomeIcons.cogs,
+          color: TautulliColorPalette.not_white,
+        ),
+        label: Text('Go to settings'),
+        color: Theme.of(context).primaryColor,
+        onPressed: () {
+          Navigator.of(context).pushReplacementNamed('/settings');
+        },
+      );
+    } else {
+      return RaisedButton.icon(
+        icon: FaIcon(
+          FontAwesomeIcons.redoAlt,
+          color: TautulliColorPalette.not_white,
+        ),
+        label: Text('Retry'),
+        color: Theme.of(context).primaryColor,
+        onPressed: () {
+          context.read<UsersBloc>().add(usersEvent);
+          return completer.future;
+        },
+      );
+    }
   }
 }

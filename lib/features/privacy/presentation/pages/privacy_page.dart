@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
@@ -55,7 +54,6 @@ class PrivacyPage extends StatelessWidget {
                       title: Text(
                         'Consent to OneSignal data privacy',
                         style: TextStyle(
-                          color: TautulliColorPalette.not_white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

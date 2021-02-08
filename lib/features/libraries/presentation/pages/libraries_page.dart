@@ -305,10 +305,12 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                   _orderColumn == 'section_name' && _orderDir == 'asc'
                       ? FaIcon(
                           FontAwesomeIcons.sortAmountDown,
+                          color: TautulliColorPalette.not_white,
                           size: 20,
                         )
                       : FaIcon(
                           FontAwesomeIcons.sortAmountDownAlt,
+                          color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
                   Padding(
@@ -328,10 +330,12 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           _orderDir == 'desc'
                       ? FaIcon(
                           FontAwesomeIcons.sortAmountDownAlt,
+                          color: TautulliColorPalette.not_white,
                           size: 20,
                         )
                       : FaIcon(
                           FontAwesomeIcons.sortAmountDown,
+                          color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
                   Padding(
@@ -351,10 +355,12 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                   _orderColumn == 'duration' && _orderDir == 'desc'
                       ? FaIcon(
                           FontAwesomeIcons.sortAmountDownAlt,
+                          color: TautulliColorPalette.not_white,
                           size: 20,
                         )
                       : FaIcon(
                           FontAwesomeIcons.sortAmountDown,
+                          color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
                   Padding(
@@ -373,10 +379,12 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                   _orderColumn == 'plays' && _orderDir == 'desc'
                       ? FaIcon(
                           FontAwesomeIcons.sortAmountDownAlt,
+                          color: TautulliColorPalette.not_white,
                           size: 20,
                         )
                       : FaIcon(
                           FontAwesomeIcons.sortAmountDown,
+                          color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
                   Padding(

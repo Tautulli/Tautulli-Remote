@@ -28,9 +28,6 @@ class UsersDetails extends StatelessWidget {
             children: [
               TextSpan(
                 text: 'STREAMED ',
-                style: TextStyle(
-                  color: TautulliColorPalette.not_white,
-                ),
               ),
               TextSpan(
                 text: user.lastSeen != null
@@ -57,9 +54,6 @@ class UsersDetails extends StatelessWidget {
         children: [
           TextSpan(
             text: 'PLAYS ',
-            style: TextStyle(
-              color: TautulliColorPalette.not_white,
-            ),
           ),
           TextSpan(
             text: user.plays.toString(),
@@ -74,9 +68,6 @@ class UsersDetails extends StatelessWidget {
               durationMap['sec'] > 1)
             TextSpan(
               text: 'DURATION ',
-              style: TextStyle(
-                color: TautulliColorPalette.not_white,
-              ),
             ),
           if (durationMap['day'] > 0)
             TextSpan(
@@ -89,9 +80,6 @@ class UsersDetails extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' days ',
-                  style: TextStyle(
-                    color: TautulliColorPalette.not_white,
-                  ),
                 ),
               ],
             ),
@@ -106,9 +94,6 @@ class UsersDetails extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' hrs ',
-                  style: TextStyle(
-                    color: TautulliColorPalette.not_white,
-                  ),
                 ),
               ],
             ),
@@ -123,9 +108,6 @@ class UsersDetails extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' mins',
-                  style: TextStyle(
-                    color: TautulliColorPalette.not_white,
-                  ),
                 ),
               ],
             ),
@@ -143,9 +125,6 @@ class UsersDetails extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' secs',
-                  style: TextStyle(
-                    color: TautulliColorPalette.not_white,
-                  ),
                 ),
               ],
             ),

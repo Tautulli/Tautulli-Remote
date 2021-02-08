@@ -180,7 +180,8 @@ class _ActivityCardState extends State<ActivityCard> {
                                 return Center(
                                   child: CircularProgressIndicator(
                                     valueColor: AlwaysStoppedAnimation<Color>(
-                                        TautulliColorPalette.not_white),
+                                      TautulliColorPalette.not_white,
+                                    ),
                                   ),
                                 );
                               }

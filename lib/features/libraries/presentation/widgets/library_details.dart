@@ -22,7 +22,6 @@ class LibraryDetails extends StatelessWidget {
           library.sectionName,
           style: TextStyle(
             fontSize: 18,
-            color: TautulliColorPalette.not_white,
           ),
         ),
         _libraryCount(),
@@ -73,9 +72,6 @@ class LibraryDetails extends StatelessWidget {
         children: [
           TextSpan(
             text: title,
-            style: TextStyle(
-              color: TautulliColorPalette.not_white,
-            ),
           ),
           TextSpan(
             text: count,
@@ -86,9 +82,6 @@ class LibraryDetails extends StatelessWidget {
           TextSpan(text: '   '),
           TextSpan(
             text: parentTitle,
-            style: TextStyle(
-              color: TautulliColorPalette.not_white,
-            ),
           ),
           TextSpan(
             text: parentCount,
@@ -99,9 +92,6 @@ class LibraryDetails extends StatelessWidget {
           TextSpan(text: '   '),
           TextSpan(
             text: childTitle,
-            style: TextStyle(
-              color: TautulliColorPalette.not_white,
-            ),
           ),
           TextSpan(
             text: childCount,
@@ -123,9 +113,6 @@ class LibraryDetails extends StatelessWidget {
         children: [
           TextSpan(
             text: 'PLAYS ',
-            style: TextStyle(
-              color: TautulliColorPalette.not_white,
-            ),
           ),
           TextSpan(
             text: library.plays.toString(),
@@ -140,9 +127,6 @@ class LibraryDetails extends StatelessWidget {
               durationMap['sec'] > 1)
             TextSpan(
               text: 'DURATION ',
-              style: TextStyle(
-                color: TautulliColorPalette.not_white,
-              ),
             ),
           if (durationMap['day'] > 0)
             TextSpan(
@@ -155,9 +139,6 @@ class LibraryDetails extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' days ',
-                  style: TextStyle(
-                    color: TautulliColorPalette.not_white,
-                  ),
                 ),
               ],
             ),
@@ -172,9 +153,6 @@ class LibraryDetails extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' hrs ',
-                  style: TextStyle(
-                    color: TautulliColorPalette.not_white,
-                  ),
                 ),
               ],
             ),
@@ -189,9 +167,6 @@ class LibraryDetails extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' mins',
-                  style: TextStyle(
-                    color: TautulliColorPalette.not_white,
-                  ),
                 ),
               ],
             ),
@@ -209,9 +184,6 @@ class LibraryDetails extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' secs',
-                  style: TextStyle(
-                    color: TautulliColorPalette.not_white,
-                  ),
                 ),
               ],
             ),

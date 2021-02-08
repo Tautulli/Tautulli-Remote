@@ -15,7 +15,6 @@ class LogTableRowWithHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color textColor = TautulliColorPalette.not_white;
     const double textSize = 13;
 
     return Column(
@@ -34,7 +33,6 @@ class LogTableRowWithHeader extends StatelessWidget {
                 child: Text(
                   'Timestamp',
                   style: TextStyle(
-                    color: textColor,
                     fontSize: textSize,
                   ),
                 ),
@@ -48,7 +46,6 @@ class LogTableRowWithHeader extends StatelessWidget {
                 child: Text(
                   'Level',
                   style: TextStyle(
-                    color: textColor,
                     fontSize: textSize,
                   ),
                 ),
@@ -64,7 +61,6 @@ class LogTableRowWithHeader extends StatelessWidget {
                   child: Text(
                     'Message',
                     style: TextStyle(
-                      color: textColor,
                       fontSize: textSize,
                     ),
                   ),

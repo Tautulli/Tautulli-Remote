@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../helpers/color_palette_helper.dart';
+
 class IconCard extends StatelessWidget {
   final String assetPath;
   final Color backgroundColor;
@@ -42,7 +44,10 @@ class IconCard extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(4),
                         child: assetPath != null
-                            ? WebsafeSvg.asset(assetPath)
+                            ? WebsafeSvg.asset(
+                                assetPath,
+                                color: TautulliColorPalette.not_white,
+                              )
                             : null,
                       ),
                     ),

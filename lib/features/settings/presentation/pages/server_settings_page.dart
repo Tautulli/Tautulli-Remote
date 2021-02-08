@@ -31,7 +31,10 @@ class ServerSettings extends StatelessWidget {
         title: Text('$plexName Settings'),
         actions: <Widget>[
           IconButton(
-            icon: FaIcon(FontAwesomeIcons.trashAlt),
+            icon: FaIcon(
+              FontAwesomeIcons.trashAlt,
+              color: TautulliColorPalette.not_white,
+            ),
             onPressed: () async {
               bool delete = await _showDeleteServerDialog(
                 context: context,

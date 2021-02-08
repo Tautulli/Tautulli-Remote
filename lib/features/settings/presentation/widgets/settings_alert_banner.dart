@@ -26,7 +26,6 @@ class SettingsAlertBanner extends StatelessWidget {
                   title: subscriptionState.title,
                   message: Text(
                     subscriptionState.message,
-                    style: TextStyle(color: TautulliColorPalette.not_white),
                   ),
                   buttonOne: FlatButton(
                     child: Text('VIEW PRIVACY PAGE'),
@@ -65,7 +64,6 @@ class SettingsAlertBanner extends StatelessWidget {
                   title: subscriptionState.title,
                   message: Text(
                     subscriptionState.message,
-                    style: TextStyle(color: TautulliColorPalette.not_white),
                   ),
                   buttonOne: FlatButton(
                     child: Text('LEARN MORE'),
@@ -124,7 +122,6 @@ class _AlertBanner extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                color: TautulliColorPalette.not_white,
                 fontWeight: FontWeight.bold,
               ),
             ),

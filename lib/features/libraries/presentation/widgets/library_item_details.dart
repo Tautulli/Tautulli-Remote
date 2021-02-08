@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../media/domain/entities/library_media.dart';
 
 class LibraryItemDetails extends StatelessWidget {
@@ -21,15 +20,11 @@ class LibraryItemDetails extends StatelessWidget {
           item.title,
           style: TextStyle(
             fontSize: 18,
-            color: TautulliColorPalette.not_white,
           ),
         ),
         if (item.mediaType != 'artist')
           Text(
             item.year != null ? item.year.toString() : '',
-            style: TextStyle(
-              color: TautulliColorPalette.not_white,
-            ),
           ),
       ],
     );

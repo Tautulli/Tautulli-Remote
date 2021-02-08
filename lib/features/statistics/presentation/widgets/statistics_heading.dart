@@ -63,7 +63,6 @@ class StatisticsHeading extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: TautulliColorPalette.not_white,
                 ),
               ),
             ),

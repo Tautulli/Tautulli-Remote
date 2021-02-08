@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../domain/entities/statistics.dart';
 
@@ -16,14 +15,12 @@ class StatisticsDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        // _rowOne(statistic),
         Text(
           _rowOne(),
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
           style: TextStyle(
             fontSize: 18,
-            color: TautulliColorPalette.not_white,
           ),
         ),
         Text(
@@ -31,7 +28,6 @@ class StatisticsDetails extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontSize: 15,
-            color: TautulliColorPalette.not_white,
           ),
         ),
         Text(
@@ -39,7 +35,6 @@ class StatisticsDetails extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontSize: 15,
-            color: TautulliColorPalette.not_white,
           ),
         ),
       ],

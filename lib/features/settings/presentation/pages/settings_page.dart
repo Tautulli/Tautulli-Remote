@@ -311,7 +311,10 @@ Widget _buildFloatingActionButton(
               child: UnicornDialer(
                 orientation: UnicornOrientation.VERTICAL,
                 hasBackground: false,
-                parentButton: Icon(Icons.add),
+                parentButton: Icon(
+                  Icons.add,
+                  color: TautulliColorPalette.not_white,
+                ),
                 childButtons: [
                   UnicornButton(
                     hasLabel: true,

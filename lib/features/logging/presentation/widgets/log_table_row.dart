@@ -14,7 +14,6 @@ class LogTableRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color textColor = TautulliColorPalette.not_white;
     const double textSize = 13;
 
     return Container(
@@ -40,14 +39,12 @@ class LogTableRow extends StatelessWidget {
                   Text(
                     "${logMap['timestamp']['year']}-${logMap['timestamp']['month']}-${logMap['timestamp']['day']}",
                     style: TextStyle(
-                      color: textColor,
                       fontSize: textSize,
                     ),
                   ),
                   Text(
                     "${logMap['timestamp']['hour']}:${logMap['timestamp']['minute']}:${logMap['timestamp']['second']}",
                     style: TextStyle(
-                      color: textColor,
                       fontSize: textSize,
                     ),
                   ),
@@ -64,7 +61,6 @@ class LogTableRow extends StatelessWidget {
             child: Text(
               logMap['level'],
               style: TextStyle(
-                color: textColor,
                 fontSize: textSize,
               ),
             ),
@@ -80,7 +76,6 @@ class LogTableRow extends StatelessWidget {
               child: Text(
                 logMap['message'],
                 style: TextStyle(
-                  color: textColor,
                   fontSize: textSize,
                 ),
               ),

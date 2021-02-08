@@ -112,7 +112,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         accentColor: PlexColorPalette.gamboge,
         backgroundColor: TautulliColorPalette.midnight,
         fontFamily: 'OpenSans',
-        textTheme: ThemeData.dark().textTheme.copyWith(),
+        textTheme: ThemeData.dark().textTheme.apply(
+              bodyColor: TautulliColorPalette.not_white,
+            ),
         dialogBackgroundColor: PlexColorPalette.river_bed,
         textSelectionColor: PlexColorPalette.gamboge,
         textSelectionHandleColor: PlexColorPalette.gamboge,

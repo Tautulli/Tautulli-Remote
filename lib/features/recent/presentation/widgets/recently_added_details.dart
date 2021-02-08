@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../core/widgets/media_type_icon.dart';
 import '../../domain/entities/recent.dart';
@@ -28,7 +27,6 @@ class RecentlyAddedDetails extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 18,
-                  color: TautulliColorPalette.not_white,
                 ),
               ),
               Text(
@@ -36,7 +34,6 @@ class RecentlyAddedDetails extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 15,
-                  color: TautulliColorPalette.not_white,
                 ),
               ),
               Text(
@@ -44,7 +41,6 @@ class RecentlyAddedDetails extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 15,
-                  color: TautulliColorPalette.not_white,
                 ),
               ),
               Row(
@@ -55,7 +51,6 @@ class RecentlyAddedDetails extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 15,
-                      color: TautulliColorPalette.not_white,
                     ),
                   ),
                   MediaTypeIcon(

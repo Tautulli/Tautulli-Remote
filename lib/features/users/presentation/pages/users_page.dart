@@ -316,10 +316,12 @@ class _UsersPageContentState extends State<UsersPageContent> {
                   _orderColumn == 'friendly_name' && _orderDir == 'asc'
                       ? FaIcon(
                           FontAwesomeIcons.sortAlphaDownAlt,
+                          color: TautulliColorPalette.not_white,
                           size: 20,
                         )
                       : FaIcon(
                           FontAwesomeIcons.sortAlphaDown,
+                          color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
                   Padding(
@@ -338,10 +340,12 @@ class _UsersPageContentState extends State<UsersPageContent> {
                   _orderColumn == 'last_seen' && _orderDir == 'desc'
                       ? FaIcon(
                           FontAwesomeIcons.sortNumericDownAlt,
+                          color: TautulliColorPalette.not_white,
                           size: 20,
                         )
                       : FaIcon(
                           FontAwesomeIcons.sortNumericDown,
+                          color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
                   Padding(

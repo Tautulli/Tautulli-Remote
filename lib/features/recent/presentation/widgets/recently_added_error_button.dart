@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../bloc/recently_added_bloc.dart';
 
 class RecentlyAddedErrorButton extends StatelessWidget {
@@ -23,7 +24,10 @@ class RecentlyAddedErrorButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return failure == SettingsFailure() || failure == MissingServerFailure()
         ? RaisedButton.icon(
-            icon: FaIcon(FontAwesomeIcons.cogs),
+            icon: FaIcon(
+              FontAwesomeIcons.cogs,
+              color: TautulliColorPalette.not_white,
+            ),
             label: Text('Go to settings'),
             color: Theme.of(context).primaryColor,
             onPressed: () {
@@ -31,7 +35,10 @@ class RecentlyAddedErrorButton extends StatelessWidget {
             },
           )
         : RaisedButton.icon(
-            icon: FaIcon(FontAwesomeIcons.redoAlt),
+            icon: FaIcon(
+              FontAwesomeIcons.redoAlt,
+              color: TautulliColorPalette.not_white,
+            ),
             label: Text('Retry'),
             color: Theme.of(context).primaryColor,
             onPressed: () {

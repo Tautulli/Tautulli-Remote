@@ -137,17 +137,8 @@ class _DonatePageContentState extends State<DonatePageContent> {
                   children: [
                     Card(
                       child: ListTile(
-                        title: Text(
-                          'Buy Me A Cone',
-                          style: TextStyle(
-                            color: TautulliColorPalette.not_white,
-                          ),
-                        ),
-                        subtitle: Text(
-                          '\$2.00',
-                          style:
-                              TextStyle(color: TautulliColorPalette.not_white),
-                        ),
+                        title: Text('Buy Me A Cone'),
+                        subtitle: Text('\$2.00'),
                         trailing: FaIcon(
                           FontAwesomeIcons.iceCream,
                           color: TautulliColorPalette.not_white,
@@ -160,16 +151,8 @@ class _DonatePageContentState extends State<DonatePageContent> {
                     ),
                     Card(
                       child: ListTile(
-                        title: Text(
-                          'Buy Me A Slice',
-                          style:
-                              TextStyle(color: TautulliColorPalette.not_white),
-                        ),
-                        subtitle: Text(
-                          '\$3.50',
-                          style:
-                              TextStyle(color: TautulliColorPalette.not_white),
-                        ),
+                        title: Text('Buy Me A Slice'),
+                        subtitle: Text('\$3.50'),
                         trailing: FaIcon(
                           FontAwesomeIcons.pizzaSlice,
                           color: TautulliColorPalette.not_white,
@@ -182,16 +165,8 @@ class _DonatePageContentState extends State<DonatePageContent> {
                     ),
                     Card(
                       child: ListTile(
-                        title: Text(
-                          'Buy Me A Burger',
-                          style:
-                              TextStyle(color: TautulliColorPalette.not_white),
-                        ),
-                        subtitle: Text(
-                          '\$5.00',
-                          style:
-                              TextStyle(color: TautulliColorPalette.not_white),
-                        ),
+                        title: Text('Buy Me A Burger'),
+                        subtitle: Text('\$5.00'),
                         trailing: FaIcon(
                           FontAwesomeIcons.hamburger,
                           color: TautulliColorPalette.not_white,
@@ -204,16 +179,8 @@ class _DonatePageContentState extends State<DonatePageContent> {
                     ),
                     Card(
                       child: ListTile(
-                        title: Text(
-                          'Buy Me A Meal',
-                          style:
-                              TextStyle(color: TautulliColorPalette.not_white),
-                        ),
-                        subtitle: Text(
-                          '\$10.00',
-                          style:
-                              TextStyle(color: TautulliColorPalette.not_white),
-                        ),
+                        title: Text('Buy Me A Meal'),
+                        subtitle: Text('\$10.00'),
                         trailing: Icon(
                           Icons.fastfood,
                           color: TautulliColorPalette.not_white,

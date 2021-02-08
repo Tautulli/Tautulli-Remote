@@ -21,7 +21,6 @@ class TerminateSessionButton extends StatelessWidget {
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w400,
-            color: TautulliColorPalette.not_white,
           ),
         ),
       ],

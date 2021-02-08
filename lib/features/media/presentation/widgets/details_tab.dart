@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../domain/entities/metadata_item.dart';
 
@@ -135,9 +134,9 @@ class _ItemRow extends StatelessWidget {
                   Text(
                     item.take(5).join(', '),
                     style: TextStyle(
-                        fontSize: 16,
-                        height: 1.4,
-                        color: TautulliColorPalette.not_white),
+                      fontSize: 16,
+                      height: 1.4,
+                    ),
                   ),
               ],
             ),
