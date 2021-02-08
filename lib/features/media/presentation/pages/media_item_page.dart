@@ -415,25 +415,25 @@ class _MediaFlagsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        if (item.mediaType != 'track' && isNotEmpty(metadata.videoCodec))
+        if (isNotEmpty(metadata.videoCodec))
           Expanded(
             child: _MediaFlagsTag(
               detail: metadata.videoCodec.toUpperCase(),
             ),
           ),
-        if (item.mediaType != 'track' && isNotEmpty(metadata.videoCodec))
+        if (isNotEmpty(metadata.videoCodec))
           SizedBox(
             width: 4,
           ),
-        if (item.mediaType != 'track' &&
-            isNotEmpty(metadata.videoFullResolution))
+        if (isNotEmpty(metadata.videoFullResolution))
           Expanded(
             child: _MediaFlagsTag(
-              detail: metadata.videoFullResolution,
+              detail: metadata.videoFullResolution.contains('k')
+                  ? metadata.videoFullResolution.toUpperCase()
+                  : metadata.videoFullResolution,
             ),
           ),
-        if (item.mediaType != 'track' &&
-            isNotEmpty(metadata.videoFullResolution))
+        if (isNotEmpty(metadata.videoFullResolution))
           SizedBox(
             width: 4,
           ),
