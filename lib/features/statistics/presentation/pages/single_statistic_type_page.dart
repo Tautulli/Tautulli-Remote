@@ -112,7 +112,9 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                                   : stat.mediaType,
                           posterUrl: stat.posterUrl,
                           ratingKey: stat.ratingKey,
-                          title: stat.mediaType == 'episode'
+                          title: stat.mediaType == 'episode' &&
+                                  !['top_tv', 'popular_tv']
+                                      .contains(stat.statId)
                               ? stat.grandchildTitle
                               : stat.title,
                           year: stat.year,
