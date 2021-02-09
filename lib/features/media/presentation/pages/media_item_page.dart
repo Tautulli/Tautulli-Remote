@@ -242,86 +242,31 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                           child: BlocBuilder<MetadataBloc, MetadataState>(
                             builder: (context, state) {
                               if (widget.item.mediaType != null) {
-                                return DefaultTabController(
+                                return _TabController(
                                   length: ['show', 'season', 'artist', 'album']
                                           .contains(widget.item.mediaType)
                                       ? 3
                                       : 2,
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 8),
-                                        child: TabBar(
-                                          indicatorSize:
-                                              TabBarIndicatorSize.label,
-                                          tabs: _tabBuilder(
-                                            mediaType: widget.item.mediaType,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: _TabContents(
-                                          item: widget.item,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  item: widget.item,
+                                  mediaType: widget.item.mediaType,
                                 );
                               } else {
                                 if (state is MetadataInProgress) {
-                                  return DefaultTabController(
+                                  return _TabController(
                                     length: 3,
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 8),
-                                          child: TabBar(
-                                            indicatorSize:
-                                                TabBarIndicatorSize.label,
-                                            tabs: _tabBuilder(
-                                              mediaType: widget.item.mediaType,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: _TabContents(
-                                            item: widget.item,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    item: widget.item,
+                                    mediaType: widget.item.mediaType,
                                   );
                                 }
                                 if (state is MetadataFailure) {
-                                  return DefaultTabController(
+                                  return _TabController(
                                     length: 2,
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 8),
-                                          child: TabBar(
-                                            indicatorSize:
-                                                TabBarIndicatorSize.label,
-                                            tabs: _tabBuilder(
-                                              metadataFailed: true,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: _TabContents(
-                                            item: widget.item,
-                                            metadataFailed: true,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    item: widget.item,
+                                    metadataFailed: true,
                                   );
                                 }
                                 if (state is MetadataSuccess) {
-                                  return DefaultTabController(
+                                  return _TabController(
                                     length: [
                                       'show',
                                       'season',
@@ -330,28 +275,8 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                                     ].contains(state.metadata.mediaType)
                                         ? 3
                                         : 2,
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 8),
-                                          child: TabBar(
-                                            indicatorSize:
-                                                TabBarIndicatorSize.label,
-                                            tabs: _tabBuilder(
-                                              mediaType:
-                                                  state.metadata.mediaType,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: _TabContents(
-                                            item: widget.item,
-                                            mediaType: state.metadata.mediaType,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    item: widget.item,
+                                    mediaType: state.metadata.mediaType,
                                   );
                                 }
                               }
@@ -378,6 +303,49 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                 tag: widget.heroTag ?? UniqueKey(),
                 child: PosterChooser(item: widget.item),
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TabController extends StatelessWidget {
+  final int length;
+  final String mediaType;
+  final MediaItem item;
+  final bool metadataFailed;
+
+  const _TabController({
+    @required this.length,
+    @required this.item,
+    this.mediaType,
+    this.metadataFailed = false,
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: length,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: TabBar(
+              indicatorSize: TabBarIndicatorSize.label,
+              tabs: _tabBuilder(
+                mediaType: mediaType,
+                metadataFailed: metadataFailed,
+              ),
+            ),
+          ),
+          Expanded(
+            child: _TabContents(
+              item: item,
+              mediaType: mediaType,
+              metadataFailed: metadataFailed,
             ),
           ),
         ],
