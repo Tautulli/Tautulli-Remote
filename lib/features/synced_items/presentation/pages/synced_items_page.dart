@@ -170,7 +170,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                       MediaItem mediaItem = MediaItem(
                                         mediaType: syncedItem.mediaType,
                                         posterUrl: syncedItem.posterUrl,
-                                        syncId: syncedItem.syncId,
+                                        ratingKey: syncedItem.ratingKey,
                                       );
 
                                       Navigator.of(context).push(
