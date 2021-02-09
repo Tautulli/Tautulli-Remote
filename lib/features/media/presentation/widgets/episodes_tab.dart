@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/library_media.dart';
 import '../../domain/entities/media_item.dart';
+import '../../domain/entities/metadata_item.dart';
 import '../pages/media_item_page.dart';
 
 class EpisodesTab extends StatelessWidget {
   final MediaItem item;
-  final List<LibraryMedia> episodes;
+  final List<MetadataItem> episodes;
 
   const EpisodesTab({
     @required this.item,

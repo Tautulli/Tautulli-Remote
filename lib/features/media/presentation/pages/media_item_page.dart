@@ -13,7 +13,7 @@ import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/media_item.dart';
 import '../../domain/entities/metadata_item.dart';
-import '../bloc/library_media_bloc.dart';
+import '../bloc/children_metadata_bloc.dart';
 import '../bloc/metadata_bloc.dart';
 import '../widgets/albums_tab.dart';
 import '../widgets/details_tab.dart';
@@ -43,7 +43,7 @@ class MediaItemPage extends StatelessWidget {
           create: (context) => di.sl<MetadataBloc>(),
         ),
         BlocProvider(
-          create: (context) => di.sl<LibraryMediaBloc>(),
+          create: (context) => di.sl<ChildrenMetadataBloc>(),
         ),
       ],
       child: MediaItemPageContent(
@@ -71,7 +71,7 @@ class MediaItemPageContent extends StatefulWidget {
 class _MediaItemPageContentState extends State<MediaItemPageContent> {
   SettingsBloc _settingsBloc;
   MetadataBloc _metadataBloc;
-  LibraryMediaBloc _libraryMediaBloc;
+  ChildrenMetadataBloc _childrenMetadataBloc;
   String _tautulliId;
 
   @override
@@ -79,7 +79,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
     super.initState();
     _settingsBloc = context.read<SettingsBloc>();
     _metadataBloc = context.read<MetadataBloc>();
-    _libraryMediaBloc = context.read<LibraryMediaBloc>();
+    _childrenMetadataBloc = context.read<ChildrenMetadataBloc>();
 
     final settingsState = _settingsBloc.state;
 
@@ -117,8 +117,8 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
 
       if (['show', 'season', 'artist', 'album']
           .contains(widget.item.mediaType)) {
-        _libraryMediaBloc.add(
-          LibraryMediaFetched(
+        _childrenMetadataBloc.add(
+          ChildrenMetadataFetched(
             tautulliId: _tautulliId,
             ratingKey: widget.item.ratingKey,
           ),
@@ -345,9 +345,9 @@ class _TabContents extends StatelessWidget {
         ),
         // Seasons/Episodes/Albums/Tracks tab
         if (['show', 'season', 'artist', 'album'].contains(item.mediaType))
-          BlocBuilder<LibraryMediaBloc, LibraryMediaState>(
+          BlocBuilder<ChildrenMetadataBloc, ChildrenMetadataState>(
             builder: (context, state) {
-              if (state is LibraryMediaFailure) {
+              if (state is ChildrenMetadataFailure) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -359,29 +359,29 @@ class _TabContents extends StatelessWidget {
                   ],
                 );
               }
-              if (state is LibraryMediaSuccess) {
+              if (state is ChildrenMetadataSuccess) {
                 if (item.mediaType == 'show') {
                   return SeasonsTab(
                     item: item,
-                    seasons: state.libraryMediaList,
+                    seasons: state.childrenMetadataList,
                   );
                 }
                 if (item.mediaType == 'season') {
                   return EpisodesTab(
                     item: item,
-                    episodes: state.libraryMediaList,
+                    episodes: state.childrenMetadataList,
                   );
                 }
                 if (item.mediaType == 'artist') {
                   return AlbumsTab(
                     item: item,
-                    albums: state.libraryMediaList,
+                    albums: state.childrenMetadataList,
                   );
                 }
                 if (item.mediaType == 'album') {
                   return TracksTab(
                     item: item,
-                    tracks: state.libraryMediaList,
+                    tracks: state.childrenMetadataList,
                   );
                 }
                 return Text('UNKNOWN MEDIA TYPE ${item.mediaType}');

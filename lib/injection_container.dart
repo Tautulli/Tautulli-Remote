@@ -38,14 +38,19 @@ import 'features/logging/data/repositories/logging_repository_impl.dart';
 import 'features/logging/domain/repositories/logging_repository.dart';
 import 'features/logging/domain/usecases/logging.dart';
 import 'features/logging/presentation/bloc/load_logs_bloc.dart';
+import 'features/media/data/datasources/children_metadata_data_source.dart';
 import 'features/media/data/datasources/library_media_data_source.dart';
 import 'features/media/data/datasources/metadata_data_source.dart';
+import 'features/media/data/repositories/children_metadata_repository_impl.dart';
 import 'features/media/data/repositories/library_media_repository_impl.dart';
 import 'features/media/data/repositories/metadata_repository_impl.dart';
+import 'features/media/domain/repositories/children_metadata_repository.dart';
 import 'features/media/domain/repositories/library_media_repository.dart';
 import 'features/media/domain/repositories/metadata_repository.dart';
+import 'features/media/domain/usecases/get_children_metadata.dart';
 import 'features/media/domain/usecases/get_library_media_info.dart';
 import 'features/media/domain/usecases/get_metadata.dart';
+import 'features/media/presentation/bloc/children_metadata_bloc.dart';
 import 'features/media/presentation/bloc/library_media_bloc.dart';
 import 'features/media/presentation/bloc/metadata_bloc.dart';
 import 'features/onesignal/data/datasources/onesignal_data_source.dart';
@@ -291,6 +296,13 @@ Future<void> init() async {
   );
 
   sl.registerFactory(
+    () => ChildrenMetadataBloc(
+      getChildrenMetadata: sl(),
+      getImageUrl: sl(),
+    ),
+  );
+
+  sl.registerFactory(
     () => LibraryMediaBloc(
       getLibraryMediaInfo: sl(),
       getImageUrl: sl(),
@@ -300,6 +312,12 @@ Future<void> init() async {
   // Use case
   sl.registerLazySingleton(
     () => GetMetadata(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetChildrenMetadata(
       repository: sl(),
     ),
   );
@@ -318,6 +336,13 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerLazySingleton<ChildrenMetadataRepository>(
+    () => ChildrenMetadataRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
   sl.registerLazySingleton<LibraryMediaRepository>(
     () => LibraryMediaRepositoryImpl(
       dataSource: sl(),
@@ -328,6 +353,12 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<MetadataDataSource>(
     () => MetadataDataSourceImpl(
+      tautulliApi: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<ChildrenMetadataDataSource>(
+    () => ChildrenMetadataDataSourceImpl(
       tautulliApi: sl(),
     ),
   );

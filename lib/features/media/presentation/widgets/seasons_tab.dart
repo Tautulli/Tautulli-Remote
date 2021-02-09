@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/poster_chooser.dart';
-import '../../domain/entities/library_media.dart';
 import '../../domain/entities/media_item.dart';
+import '../../domain/entities/metadata_item.dart';
 import '../pages/media_item_page.dart';
 
 class SeasonsTab extends StatelessWidget {
   final MediaItem item;
-  final List<LibraryMedia> seasons;
+  final List<MetadataItem> seasons;
 
   const SeasonsTab({
     @required this.item,
