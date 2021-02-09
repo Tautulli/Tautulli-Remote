@@ -22,7 +22,7 @@ class MediaItemH2 extends StatelessWidget {
         (item.mediaType == 'movie' && item.year == null) ||
         (item.mediaType == 'album' && isEmpty(item.parentTitle)));
 
-    return !titleEmpty
+    return !titleEmpty && item.mediaType != null
         ? _HeadingText(item: item)
         : BlocBuilder<MetadataBloc, MetadataState>(
             builder: (context, state) {
@@ -68,15 +68,17 @@ class _HeadingText extends StatelessWidget {
     String title = item.title;
     int mediaIndex = item.mediaIndex;
     int year = item.year;
+    String mediaType = item.mediaType;
 
     if (metadata != null) {
       parentTitle = metadata.parentTitle;
       title = metadata.title;
       mediaIndex = metadata.mediaIndex;
       year = metadata.year;
+      mediaType = metadata.mediaType;
     }
 
-    switch (item.mediaType) {
+    switch (mediaType) {
       case 'episode':
       case 'track':
         text = title;

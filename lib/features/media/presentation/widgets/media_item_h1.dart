@@ -22,7 +22,7 @@ class MediaItemH1 extends StatelessWidget {
         (['show', 'movie', 'artist', 'album'].contains(item.mediaType) &&
             isEmpty(item.title)));
 
-    return !titleEmpty
+    return !titleEmpty && item.mediaType != null
         ? _HeadingText(item: item)
         : BlocBuilder<MetadataBloc, MetadataState>(
             builder: (context, state) {
@@ -64,14 +64,16 @@ class _HeadingText extends StatelessWidget {
     String grandparentTitle = item.grandparentTitle;
     String parentTitle = item.parentTitle;
     String title = item.title;
+    String mediaType = item.mediaType;
 
     if (metadata != null) {
       grandparentTitle = metadata.grandparentTitle;
       parentTitle = metadata.parentTitle;
       title = metadata.title;
+      mediaType = metadata.mediaType;
     }
 
-    switch (item.mediaType) {
+    switch (mediaType) {
       case 'episode':
       case 'track':
         text = grandparentTitle;
@@ -93,7 +95,7 @@ class _HeadingText extends StatelessWidget {
           fontSize: 20,
         ),
         overflow: TextOverflow.ellipsis,
-        maxLines: ['movie', 'season', 'show'].contains(item.mediaType) ? 3 : 2,
+        maxLines: ['movie', 'season', 'show'].contains(mediaType) ? 3 : 2,
       ),
     );
   }

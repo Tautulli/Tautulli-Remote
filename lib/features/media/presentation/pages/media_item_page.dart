@@ -28,10 +28,12 @@ import '../widgets/tracks_tab.dart';
 class MediaItemPage extends StatelessWidget {
   final MediaItem item;
   final Object heroTag;
+  final bool forceChildrenMetadataFetch;
 
   const MediaItemPage({
     @required this.item,
     this.heroTag,
+    this.forceChildrenMetadataFetch = false,
     Key key,
   }) : super(key: key);
 
@@ -49,6 +51,7 @@ class MediaItemPage extends StatelessWidget {
       child: MediaItemPageContent(
         item: item,
         heroTag: heroTag,
+        forceChildrenMetadataFetch: forceChildrenMetadataFetch,
       ),
     );
   }
@@ -57,11 +60,13 @@ class MediaItemPage extends StatelessWidget {
 class MediaItemPageContent extends StatefulWidget {
   final MediaItem item;
   final Object heroTag;
+  final bool forceChildrenMetadataFetch;
 
   const MediaItemPageContent({
     Key key,
     @required this.item,
-    this.heroTag,
+    @required this.heroTag,
+    @required this.forceChildrenMetadataFetch,
   }) : super(key: key);
 
   @override
@@ -115,8 +120,9 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
         ),
       );
 
-      if (['show', 'season', 'artist', 'album']
-          .contains(widget.item.mediaType)) {
+      if (widget.forceChildrenMetadataFetch ||
+          ['show', 'season', 'artist', 'album']
+              .contains(widget.item.mediaType)) {
         _childrenMetadataBloc.add(
           ChildrenMetadataFetched(
             tautulliId: _tautulliId,
@@ -233,29 +239,124 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                           ],
                         ),
                         Expanded(
-                          child: DefaultTabController(
-                            length: ['show', 'season', 'artist', 'album']
-                                    .contains(widget.item.mediaType)
-                                ? 3
-                                : 2,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: TabBar(
-                                    indicatorSize: TabBarIndicatorSize.label,
-                                    tabs: _tabBuilder(
-                                      mediaType: widget.item.mediaType,
+                          child: BlocBuilder<MetadataBloc, MetadataState>(
+                            builder: (context, state) {
+                              if (widget.item.mediaType != null) {
+                                return DefaultTabController(
+                                  length: ['show', 'season', 'artist', 'album']
+                                          .contains(widget.item.mediaType)
+                                      ? 3
+                                      : 2,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8),
+                                        child: TabBar(
+                                          indicatorSize:
+                                              TabBarIndicatorSize.label,
+                                          tabs: _tabBuilder(
+                                            mediaType: widget.item.mediaType,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: _TabContents(
+                                          item: widget.item,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                if (state is MetadataInProgress) {
+                                  return DefaultTabController(
+                                    length: 3,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 8),
+                                          child: TabBar(
+                                            indicatorSize:
+                                                TabBarIndicatorSize.label,
+                                            tabs: _tabBuilder(
+                                              mediaType: widget.item.mediaType,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: _TabContents(
+                                            item: widget.item,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: _TabContents(
-                                    item: widget.item,
-                                  ),
-                                ),
-                              ],
-                            ),
+                                  );
+                                }
+                                if (state is MetadataFailure) {
+                                  return DefaultTabController(
+                                    length: 2,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 8),
+                                          child: TabBar(
+                                            indicatorSize:
+                                                TabBarIndicatorSize.label,
+                                            tabs: _tabBuilder(
+                                              metadataFailed: true,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: _TabContents(
+                                            item: widget.item,
+                                            metadataFailed: true,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                                if (state is MetadataSuccess) {
+                                  return DefaultTabController(
+                                    length: [
+                                      'show',
+                                      'season',
+                                      'artist',
+                                      'album',
+                                    ].contains(state.metadata.mediaType)
+                                        ? 3
+                                        : 2,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 8),
+                                          child: TabBar(
+                                            indicatorSize:
+                                                TabBarIndicatorSize.label,
+                                            tabs: _tabBuilder(
+                                              mediaType:
+                                                  state.metadata.mediaType,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: _TabContents(
+                                            item: widget.item,
+                                            mediaType: state.metadata.mediaType,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              }
+                              return SizedBox();
+                            },
                           ),
                         ),
                       ],
@@ -286,12 +387,24 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
 }
 
 List<Widget> _tabBuilder({
-  @required String mediaType,
+  String mediaType,
+  bool metadataFailed = false,
 }) {
   return [
     Tab(
       text: 'Details',
     ),
+    if (mediaType == null && !metadataFailed)
+      Tab(
+        child: SizedBox(
+          height: 15,
+          width: 15,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+          ),
+        ),
+      ),
+    // if (mediaType != null)
     if (['show', 'season', 'artist', 'album'].contains(mediaType))
       Tab(
         text: mediaType == 'show'
@@ -310,9 +423,13 @@ List<Widget> _tabBuilder({
 
 class _TabContents extends StatelessWidget {
   final MediaItem item;
+  final String mediaType;
+  final bool metadataFailed;
 
   const _TabContents({
     @required this.item,
+    this.mediaType,
+    this.metadataFailed = false,
     Key key,
   }) : super(key: key);
 
@@ -343,8 +460,13 @@ class _TabContents extends StatelessWidget {
             );
           },
         ),
+        if (mediaType == null && item.mediaType == null && !metadataFailed)
+          Center(
+            child: CircularProgressIndicator(),
+          ),
         // Seasons/Episodes/Albums/Tracks tab
-        if (['show', 'season', 'artist', 'album'].contains(item.mediaType))
+        if (['show', 'season', 'artist', 'album']
+            .contains(mediaType ?? item.mediaType))
           BlocBuilder<ChildrenMetadataBloc, ChildrenMetadataState>(
             builder: (context, state) {
               if (state is ChildrenMetadataFailure) {
@@ -360,31 +482,32 @@ class _TabContents extends StatelessWidget {
                 );
               }
               if (state is ChildrenMetadataSuccess) {
-                if (item.mediaType == 'show') {
+                if (['show'].contains(mediaType ?? item.mediaType)) {
                   return SeasonsTab(
                     item: item,
                     seasons: state.childrenMetadataList,
                   );
                 }
-                if (item.mediaType == 'season') {
+                if (['season'].contains(mediaType ?? item.mediaType)) {
                   return EpisodesTab(
                     item: item,
                     episodes: state.childrenMetadataList,
                   );
                 }
-                if (item.mediaType == 'artist') {
+                if (['artist'].contains(mediaType ?? item.mediaType)) {
                   return AlbumsTab(
                     item: item,
                     albums: state.childrenMetadataList,
                   );
                 }
-                if (item.mediaType == 'album') {
+                if (['album'].contains(mediaType ?? item.mediaType)) {
                   return TracksTab(
                     item: item,
                     tracks: state.childrenMetadataList,
                   );
                 }
-                return Text('UNKNOWN MEDIA TYPE ${item.mediaType}');
+                return Text(
+                    'UNKNOWN MEDIA TYPE ${mediaType ?? item.mediaType}');
               }
               return Center(
                 child: CircularProgressIndicator(),
@@ -394,7 +517,7 @@ class _TabContents extends StatelessWidget {
         // History Tab
         HistoryTab(
           ratingKey: item.ratingKey,
-          mediaType: item.mediaType,
+          mediaType: mediaType ?? item.mediaType,
         ),
       ],
     );

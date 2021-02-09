@@ -53,23 +53,25 @@ class ChildrenMetadataBloc
             );
           },
           (childrenMetadataList) async* {
-            final String mediaType = childrenMetadataList.first.mediaType;
+            if (childrenMetadataList.isNotEmpty) {
+              final String mediaType = childrenMetadataList.first.mediaType;
 
-            await _sortList(
-              mediaType: mediaType,
-              childrenMetadataList: childrenMetadataList,
-            );
+              await _sortList(
+                mediaType: mediaType,
+                childrenMetadataList: childrenMetadataList,
+              );
 
-            await _getImages(
-              list: childrenMetadataList,
-              tautulliId: event.tautulliId,
-            );
+              await _getImages(
+                list: childrenMetadataList,
+                tautulliId: event.tautulliId,
+              );
 
-            _metadataCache[event.ratingKey] = childrenMetadataList;
+              _metadataCache[event.ratingKey] = childrenMetadataList;
 
-            yield ChildrenMetadataSuccess(
-              childrenMetadataList: childrenMetadataList,
-            );
+              yield ChildrenMetadataSuccess(
+                childrenMetadataList: childrenMetadataList,
+              );
+            }
           },
         );
       }
@@ -104,7 +106,7 @@ class ChildrenMetadataBloc
           posterFallback = 'poster';
           break;
         case ('episode'):
-          posterFallback = 'poster';
+          posterFallback = 'art';
           break;
         case ('track'):
           posterFallback = 'cover';

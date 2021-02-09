@@ -21,7 +21,7 @@ class MediaItemH3 extends StatelessWidget {
         (item.mediaType == 'album' && item.year == null) ||
         (item.mediaType == 'track' && isEmpty(item.parentTitle)));
 
-    return !titleEmpty
+    return !titleEmpty && item.mediaType != null
         ? _HeadingText(item: item)
         : BlocBuilder<MetadataBloc, MetadataState>(
             builder: (context, state) {
@@ -67,15 +67,17 @@ class _HeadingText extends StatelessWidget {
     int parentMediaIndex = item.parentMediaIndex;
     int mediaIndex = item.mediaIndex;
     int year = item.year;
+    String mediaType = item.mediaType;
 
     if (metadata != null) {
       parentTitle = metadata.parentTitle;
       parentMediaIndex = metadata.parentMediaIndex;
       mediaIndex = metadata.mediaIndex;
       year = metadata.year;
+      mediaType = metadata.mediaType;
     }
 
-    switch (item.mediaType) {
+    switch (mediaType) {
       case 'episode':
         text = 'S$parentMediaIndex • E$mediaIndex';
         break;
@@ -94,7 +96,7 @@ class _HeadingText extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(
-        top: ['movie', 'season', 'show'].contains(item.mediaType) ? 0 : 5,
+        top: ['movie', 'season', 'show'].contains(mediaType) ? 0 : 5,
       ),
       child: Text(
         text,
