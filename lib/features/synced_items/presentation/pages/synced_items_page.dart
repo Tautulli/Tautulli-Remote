@@ -168,7 +168,6 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                       final syncedItem = state.list[index];
 
                                       MediaItem mediaItem = MediaItem(
-                                        mediaType: syncedItem.mediaType,
                                         posterUrl: syncedItem.posterUrl,
                                         ratingKey: syncedItem.ratingKey,
                                       );
@@ -178,6 +177,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                           builder: (context) => MediaItemPage(
                                             item: mediaItem,
                                             heroTag: heroTag,
+                                            forceChildrenMetadataFetch: true,
                                           ),
                                         ),
                                       );
