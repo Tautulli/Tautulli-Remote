@@ -22,6 +22,10 @@ abstract class TautulliApi {
     @required String deviceId,
   });
   Future<Map<String, dynamic>> getActivity(String tautulliId);
+  Future<Map<String, dynamic>> getChildrenMetadata({
+    @required String tautulliId,
+    @required int ratingKey,
+  });
   Future<Map<String, dynamic>> getGeoipLookup({
     @required String tautulliId,
     String ipAddress,
@@ -348,6 +352,21 @@ class TautulliApiImpl implements TautulliApi {
     final responseJson = await connectionHandler(
       tautulliId: tautulliId,
       cmd: 'get_activity',
+    );
+
+    return responseJson;
+  }
+
+  Future<Map<String, dynamic>> getChildrenMetadata({
+    @required String tautulliId,
+    @required int ratingKey,
+  }) async {
+    final responseJson = await connectionHandler(
+      tautulliId: tautulliId,
+      cmd: 'get_children_metadata',
+      params: {
+        'rating_key': ratingKey.toString(),
+      },
     );
 
     return responseJson;
