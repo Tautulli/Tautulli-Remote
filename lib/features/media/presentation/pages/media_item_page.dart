@@ -406,28 +406,9 @@ class _TabContents extends StatelessWidget {
     return TabBarView(
       children: [
         // Details Tab
-        BlocBuilder<MetadataBloc, MetadataState>(
-          builder: (context, state) {
-            if (state is MetadataFailure) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ErrorMessage(
-                    failure: state.failure,
-                    message: state.message,
-                    suggestion: state.suggestion,
-                  ),
-                ],
-              );
-            }
-            if (state is MetadataSuccess) {
-              return DetailsTab(metadata: state.metadata);
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-        ),
+        DetailsTab(),
+        // Loading tab for when no mediaType is provided and we need to get
+        // it from the fetched metadata
         if (mediaType == null && item.mediaType == null && !metadataFailed)
           Center(
             child: CircularProgressIndicator(),

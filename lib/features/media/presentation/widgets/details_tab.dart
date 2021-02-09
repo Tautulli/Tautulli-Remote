@@ -1,13 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../core/helpers/time_format_helper.dart';
+import '../../../../core/widgets/error_message.dart';
 import '../../domain/entities/metadata_item.dart';
+import '../bloc/metadata_bloc.dart';
 
 class DetailsTab extends StatelessWidget {
+  const DetailsTab({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MetadataBloc, MetadataState>(
+      builder: (context, state) {
+        if (state is MetadataFailure) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ErrorMessage(
+                failure: state.failure,
+                message: state.message,
+                suggestion: state.suggestion,
+              ),
+            ],
+          );
+        }
+        if (state is MetadataSuccess) {
+          return _TabContent(metadata: state.metadata);
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+}
+
+class _TabContent extends StatelessWidget {
   final MetadataItem metadata;
 
-  const DetailsTab({
+  const _TabContent({
     @required this.metadata,
     Key key,
   }) : super(key: key);
