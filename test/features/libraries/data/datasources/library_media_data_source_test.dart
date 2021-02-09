@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api.dart';
-import 'package:tautulli_remote/features/media/data/datasources/library_media_data_source.dart';
-import 'package:tautulli_remote/features/media/data/models/library_media_model.dart';
-import 'package:tautulli_remote/features/media/domain/entities/library_media.dart';
+import 'package:tautulli_remote/features/libraries/data/datasources/library_media_data_source.dart';
+import 'package:tautulli_remote/features/libraries/data/models/library_media_model.dart';
+import 'package:tautulli_remote/features/libraries/domain/entities/library_media.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

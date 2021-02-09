@@ -9,8 +9,11 @@ class LibraryMediaFetched extends LibraryMediaEvent {
   final int ratingKey;
   final int sectionId;
 
-  LibraryMediaFetched(
-      {@required this.tautulliId, this.ratingKey, this.sectionId});
+  LibraryMediaFetched({
+    @required this.tautulliId,
+    this.ratingKey,
+    this.sectionId,
+  });
 
   @override
   List<Object> get props => [tautulliId, ratingKey, sectionId];

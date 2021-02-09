@@ -7,10 +7,10 @@ import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../media/domain/entities/media_item.dart';
-import '../../../media/presentation/bloc/library_media_bloc.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library.dart';
+import '../bloc/library_media_bloc.dart';
 import '../widgets/library_item_details.dart';
 
 class LibraryItemsPage extends StatelessWidget {

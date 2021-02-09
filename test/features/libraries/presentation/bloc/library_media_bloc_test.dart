@@ -3,13 +3,11 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/error/failure.dart';
-import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
-import 'package:tautulli_remote/features/media/data/models/library_media_model.dart';
-import 'package:tautulli_remote/features/media/domain/entities/library_media.dart';
-import 'package:tautulli_remote/features/media/domain/usecases/get_library_media_info.dart';
-import 'package:tautulli_remote/features/media/presentation/bloc/library_media_bloc.dart';
+import 'package:tautulli_remote/features/libraries/data/models/library_media_model.dart';
+import 'package:tautulli_remote/features/libraries/domain/entities/library_media.dart';
+import 'package:tautulli_remote/features/libraries/domain/usecases/get_library_media_info.dart';
+import 'package:tautulli_remote/features/libraries/presentation/bloc/library_media_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 

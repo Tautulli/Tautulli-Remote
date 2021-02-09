@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../media/domain/entities/library_media.dart';
+import '../../domain/entities/library_media.dart';
 
 class LibraryItemDetails extends StatelessWidget {
   final LibraryMedia item;

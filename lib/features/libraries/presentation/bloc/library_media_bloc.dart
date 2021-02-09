@@ -8,8 +8,8 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
-import '../../domain/entities/library_media.dart';
-import '../../domain/usecases/get_library_media_info.dart';
+import '../../../libraries/domain/entities/library_media.dart';
+import '../../../libraries/domain/usecases/get_library_media_info.dart';
 
 part 'library_media_event.dart';
 part 'library_media_state.dart';
