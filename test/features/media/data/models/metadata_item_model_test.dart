@@ -96,6 +96,7 @@ void main() {
     grandparentRatingKey: null,
     grandparentTitle: '',
     grandparentThumb: null,
+    mediaType: 'movie',
     parentRatingKey: null,
     parentTitle: '',
     parentThumb: null,

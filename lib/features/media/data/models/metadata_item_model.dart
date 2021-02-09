@@ -33,7 +33,6 @@ class MetadataItemModel extends MetadataItem {
     final List writers,
     final int year,
     String posterUrl,
-    String backgroundUrl,
   }) : super(
           actors: actors,
           art: art,
@@ -46,7 +45,7 @@ class MetadataItemModel extends MetadataItem {
           grandparentRatingKey: grandparentRatingKey,
           grandparentThumb: grandparentThumb,
           grandparentTitle: grandparentTitle,
-          mediaIndex: parentMediaIndex,
+          mediaIndex: mediaIndex,
           mediaType: mediaType,
           parentMediaIndex: parentMediaIndex,
           parentRatingKey: parentRatingKey,
@@ -65,11 +64,11 @@ class MetadataItemModel extends MetadataItem {
           writers: writers,
           year: year,
           posterUrl: posterUrl,
-          backgroundUrl: backgroundUrl,
         );
 
   factory MetadataItemModel.fromJson(Map<String, dynamic> json) {
-    final bool mediaInfoEmpty = json['media_info'].isEmpty;
+    final bool mediaInfoEmpty =
+        !json.containsKey('media_info') || json['media_info'].isEmpty;
 
     return MetadataItemModel(
       actors: json['actors'],
