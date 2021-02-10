@@ -564,7 +564,9 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                       mediaIndex: s.mediaIndex,
                       mediaType: ['top_tv', 'popular_tv'].contains(s.statId)
                           ? 'show'
-                          : s.mediaType,
+                          : ['top_music', 'popular_music'].contains(s.statId)
+                              ? 'artist'
+                              : s.mediaType,
                       posterUrl: s.posterUrl,
                       ratingKey: s.ratingKey,
                       title: s.mediaType == 'episode' &&
