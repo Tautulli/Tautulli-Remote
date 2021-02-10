@@ -318,6 +318,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => MetadataBloc(
       getMetadata: sl(),
+      getImageUrl: sl(),
     ),
   );
 

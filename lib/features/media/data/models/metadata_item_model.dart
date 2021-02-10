@@ -33,6 +33,8 @@ class MetadataItemModel extends MetadataItem {
     final List writers,
     final int year,
     String posterUrl,
+    String parentPosterUrl,
+    String grandparentPosterUrl,
   }) : super(
           actors: actors,
           art: art,
@@ -64,6 +66,8 @@ class MetadataItemModel extends MetadataItem {
           writers: writers,
           year: year,
           posterUrl: posterUrl,
+          parentPosterUrl: parentPosterUrl,
+          grandparentPosterUrl: grandparentPosterUrl,
         );
 
   factory MetadataItemModel.fromJson(Map<String, dynamic> json) {

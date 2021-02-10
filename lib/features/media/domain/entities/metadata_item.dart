@@ -31,6 +31,8 @@ class MetadataItem extends Equatable {
   final List writers;
   final int year;
   String posterUrl;
+  String parentPosterUrl;
+  String grandparentPosterUrl;
 
   MetadataItem({
     this.actors,
@@ -63,6 +65,8 @@ class MetadataItem extends Equatable {
     this.writers,
     this.year,
     this.posterUrl,
+    this.parentPosterUrl,
+    this.grandparentPosterUrl,
   });
 
   @override
@@ -97,6 +101,8 @@ class MetadataItem extends Equatable {
         writers,
         year,
         posterUrl,
+        parentPosterUrl,
+        grandparentPosterUrl,
       ];
 
   @override
