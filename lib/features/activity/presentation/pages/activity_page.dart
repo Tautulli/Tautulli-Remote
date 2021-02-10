@@ -73,7 +73,6 @@ class _ActivityPageContentState extends State<ActivityPageContent>
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
       context.read<ActivityBloc>().add(ActivityAutoRefreshStop());
-      Navigator.popUntil(context, (route) => !(route is PopupRoute));
     }
     if (state == AppLifecycleState.resumed) {
       context.read<ActivityBloc>().add(ActivityLoadAndRefresh());
