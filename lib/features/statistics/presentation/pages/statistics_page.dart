@@ -581,6 +581,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                         builder: (context) => MediaItemPage(
                           item: mediaItem,
                           heroTag: heroTag,
+                          enableNavOptions: s.statId == 'last_watched',
                         ),
                       ),
                     );

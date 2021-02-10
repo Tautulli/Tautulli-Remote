@@ -259,6 +259,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                       MaterialPageRoute(
                                         builder: (context) => MediaItemPage(
                                           item: mediaItem,
+                                          enableNavOptions: true,
                                         ),
                                       ),
                                     );

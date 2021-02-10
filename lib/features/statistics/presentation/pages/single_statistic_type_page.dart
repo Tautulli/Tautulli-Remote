@@ -128,6 +128,7 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                             builder: (context) => MediaItemPage(
                               item: mediaItem,
                               heroTag: heroTag,
+                              enableNavOptions: stat.statId == 'last_watched',
                             ),
                           ),
                         );

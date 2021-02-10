@@ -198,6 +198,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                                           builder: (context) => MediaItemPage(
                                             item: mediaItem,
                                             heroTag: heroTag,
+                                            enableNavOptions: true,
                                           ),
                                         ),
                                       );

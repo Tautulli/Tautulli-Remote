@@ -29,11 +29,13 @@ class MediaItemPage extends StatelessWidget {
   final MediaItem item;
   final Object heroTag;
   final bool forceChildrenMetadataFetch;
+  final bool enableNavOptions;
 
   const MediaItemPage({
     @required this.item,
     this.heroTag,
     this.forceChildrenMetadataFetch = false,
+    this.enableNavOptions = false,
     Key key,
   }) : super(key: key);
 
@@ -52,6 +54,7 @@ class MediaItemPage extends StatelessWidget {
         item: item,
         heroTag: heroTag,
         forceChildrenMetadataFetch: forceChildrenMetadataFetch,
+        enableNavOptions: enableNavOptions,
       ),
     );
   }
@@ -61,12 +64,14 @@ class MediaItemPageContent extends StatefulWidget {
   final MediaItem item;
   final Object heroTag;
   final bool forceChildrenMetadataFetch;
+  final bool enableNavOptions;
 
   const MediaItemPageContent({
     Key key,
     @required this.item,
     @required this.heroTag,
     @required this.forceChildrenMetadataFetch,
+    @required this.enableNavOptions,
   }) : super(key: key);
 
   @override
@@ -140,6 +145,10 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: _appBarActions(
+          item: widget.item,
+          enableNavOptions: widget.enableNavOptions,
+        ),
       ),
       body: Stack(
         children: [
@@ -309,6 +318,104 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
       ),
     );
   }
+}
+
+List<Widget> _appBarActions({
+  @required MediaItem item,
+  @required bool enableNavOptions,
+}) {
+  return [
+    BlocBuilder<MetadataBloc, MetadataState>(
+      builder: (context, state) {
+        if (state is MetadataSuccess) {
+          if (enableNavOptions &&
+              [
+                'season',
+                'episode',
+                'album',
+              ].contains(state.metadata.mediaType)) {
+            return PopupMenuButton(
+              tooltip: 'More options',
+              onSelected: (value) {
+                final keys = value.split('|');
+                ;
+
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      MediaItem mediaItem = MediaItem(
+                        mediaIndex: ['season', 'album'].contains(keys[0])
+                            ? state.metadata.parentMediaIndex
+                            : null,
+                        mediaType: keys[0],
+                        grandparentTitle: ['show', 'artist'].contains(keys[0])
+                            ? state.metadata.grandparentTitle
+                            : null,
+                        parentMediaIndex: ['show', 'artist', 'season', 'album']
+                                .contains(keys[0])
+                            ? state.metadata.parentMediaIndex
+                            : null,
+                        parentTitle: ['show', 'artist', 'season', 'album']
+                                .contains(keys[0])
+                            ? state.metadata.grandparentTitle
+                            : null,
+                        posterUrl: (keys[0] == 'show' && keys[1] == 'episode')
+                            ? state.metadata.grandparentPosterUrl
+                            : state.metadata.parentPosterUrl,
+                        ratingKey: (keys[0] == 'show' && keys[1] == 'episode')
+                            ? state.metadata.grandparentRatingKey
+                            : state.metadata.parentRatingKey,
+                        title: (keys[0] == 'show' && keys[1] == 'episode')
+                            ? state.metadata.grandparentTitle
+                            : state.metadata.parentTitle,
+                      );
+
+                      return MediaItemPage(
+                        item: mediaItem,
+                        enableNavOptions: enableNavOptions,
+                      );
+                    },
+                  ),
+                );
+              },
+              itemBuilder: (context) {
+                return [
+                  if (['season', 'episode'].contains(state.metadata.mediaType))
+                    PopupMenuItem(
+                      value: 'show|${state.metadata.mediaType}',
+                      child: Text('Go to show'),
+                    ),
+                  if (['episode'].contains(state.metadata.mediaType))
+                    PopupMenuItem(
+                      value: 'season|${state.metadata.mediaType}',
+                      child: Text('Go to season'),
+                    ),
+                  if (['album', 'track'].contains(state.metadata.mediaType))
+                    PopupMenuItem(
+                      value: 'artist|${state.metadata.mediaType}',
+                      child: Text('Go to artist'),
+                    ),
+                  // if (['track'].contains(state.metadata.mediaType))
+                  //   PopupMenuItem(
+                  //     value: 'album|${state.metadata.mediaType}',
+                  //     child: Text('Go to album'),
+                  //   ),
+                ];
+              },
+            );
+          }
+          return IconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: null,
+          );
+        }
+        return IconButton(
+          icon: Icon(Icons.more_vert),
+          onPressed: null,
+        );
+      },
+    ),
+  ];
 }
 
 class _TabController extends StatelessWidget {

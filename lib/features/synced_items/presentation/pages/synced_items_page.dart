@@ -178,6 +178,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                             item: mediaItem,
                                             heroTag: heroTag,
                                             forceChildrenMetadataFetch: true,
+                                            enableNavOptions: true,
                                           ),
                                         ),
                                       );
