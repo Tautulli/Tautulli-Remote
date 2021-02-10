@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
+import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
 import 'package:tautulli_remote/features/media/data/models/metadata_item_model.dart';
 import 'package:tautulli_remote/features/media/domain/usecases/get_metadata.dart';
 import 'package:tautulli_remote/features/media/presentation/bloc/metadata_bloc.dart';
@@ -13,15 +14,20 @@ import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetMetadata extends Mock implements GetMetadata {}
 
+class MockGetImageUrl extends Mock implements GetImageUrl {}
+
 void main() {
   MetadataBloc bloc;
   MockGetMetadata mockGetMetadata;
+  MockGetImageUrl mockGetImageUrl;
 
   setUp(() {
     mockGetMetadata = MockGetMetadata();
+    mockGetImageUrl = MockGetImageUrl();
 
     bloc = MetadataBloc(
       getMetadata: mockGetMetadata,
+      getImageUrl: mockGetImageUrl,
     );
   });
 
@@ -33,6 +39,16 @@ void main() {
       MetadataItemModel.fromJson(tMetadataJson['response']['data']);
 
   void setUpSuccess() {
+    String imageUrl =
+        'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
+    when(
+      mockGetImageUrl(
+        tautulliId: anyNamed('tautulliId'),
+        img: anyNamed('img'),
+        ratingKey: anyNamed('ratingKey'),
+        fallback: anyNamed('fallback'),
+      ),
+    ).thenAnswer((_) async => Right(imageUrl));
     when(
       mockGetMetadata(
         tautulliId: tTautulliId,
