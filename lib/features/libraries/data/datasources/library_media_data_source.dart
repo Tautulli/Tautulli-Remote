@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api.dart';
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../domain/entities/library_media.dart';
 import '../models/library_media_model.dart';
 
@@ -17,9 +17,9 @@ abstract class LibraryMediaDataSource {
 }
 
 class LibraryMediaDataSourceImpl implements LibraryMediaDataSource {
-  final TautulliApi tautulliApi;
+  final tautulliApi.GetLibraryMediaInfo apiGetLibraryMediaInfo;
 
-  LibraryMediaDataSourceImpl({@required this.tautulliApi});
+  LibraryMediaDataSourceImpl({@required this.apiGetLibraryMediaInfo});
 
   @override
   Future<List<LibraryMedia>> getLibraryMediaInfo({
@@ -31,7 +31,7 @@ class LibraryMediaDataSourceImpl implements LibraryMediaDataSource {
     int length,
     bool refresh,
   }) async {
-    final libraryMediaInfoJson = await tautulliApi.getLibraryMediaInfo(
+    final libraryMediaInfoJson = await apiGetLibraryMediaInfo(
       tautulliId: tautulliId,
       ratingKey: ratingKey,
       sectionId: sectionId,

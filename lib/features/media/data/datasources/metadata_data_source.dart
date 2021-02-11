@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api.dart';
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../../../core/error/exception.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../models/metadata_item_model.dart';
@@ -14,9 +14,9 @@ abstract class MetadataDataSource {
 }
 
 class MetadataDataSourceImpl implements MetadataDataSource {
-  final TautulliApi tautulliApi;
+  final tautulliApi.GetMetadata apiGetMetadata;
 
-  MetadataDataSourceImpl({@required this.tautulliApi});
+  MetadataDataSourceImpl({@required this.apiGetMetadata});
 
   @override
   Future<MetadataItem> getMetadata({
@@ -24,7 +24,7 @@ class MetadataDataSourceImpl implements MetadataDataSource {
     int ratingKey,
     int syncId,
   }) async {
-    final metadataItemJson = await tautulliApi.getMetadata(
+    final metadataItemJson = await apiGetMetadata(
       tautulliId: tautulliId,
       ratingKey: ratingKey,
       syncId: syncId,

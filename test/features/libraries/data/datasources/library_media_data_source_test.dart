@@ -2,23 +2,25 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
+    as tautulliApi;
 import 'package:tautulli_remote/features/libraries/data/datasources/library_media_data_source.dart';
 import 'package:tautulli_remote/features/libraries/data/models/library_media_model.dart';
 import 'package:tautulli_remote/features/libraries/domain/entities/library_media.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockTautulliApi extends Mock implements TautulliApi {}
+class MockGetLibraryMediaInfo extends Mock
+    implements tautulliApi.GetLibraryMediaInfo {}
 
 void main() {
   LibraryMediaDataSourceImpl dataSource;
-  MockTautulliApi mockTautulliApi;
+  MockGetLibraryMediaInfo mockApiGetLibraryMediaInfo;
 
   setUp(() {
-    mockTautulliApi = MockTautulliApi();
+    mockApiGetLibraryMediaInfo = MockGetLibraryMediaInfo();
     dataSource = LibraryMediaDataSourceImpl(
-      tautulliApi: mockTautulliApi,
+      apiGetLibraryMediaInfo: mockApiGetLibraryMediaInfo,
     );
   });
 
@@ -38,7 +40,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getLibraryMediaInfo(
+          mockApiGetLibraryMediaInfo(
             tautulliId: anyNamed('tautulliId'),
             ratingKey: anyNamed('ratingKey'),
             refresh: true,
@@ -52,7 +54,7 @@ void main() {
         );
         // assert
         verify(
-          mockTautulliApi.getLibraryMediaInfo(
+          mockApiGetLibraryMediaInfo(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
             refresh: true,
@@ -66,7 +68,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getLibraryMediaInfo(
+          mockApiGetLibraryMediaInfo(
             tautulliId: anyNamed('tautulliId'),
             ratingKey: anyNamed('ratingKey'),
             refresh: true,

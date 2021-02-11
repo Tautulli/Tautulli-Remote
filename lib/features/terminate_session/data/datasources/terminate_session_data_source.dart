@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api.dart';
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 
 abstract class TerminateSessionDataSource {
   /// Calls the TautulliApi to terminate a stream.
@@ -14,10 +14,10 @@ abstract class TerminateSessionDataSource {
 }
 
 class TerminateSessionDataSourceImpl implements TerminateSessionDataSource {
-  final TautulliApi tautulliApi;
+  final tautulliApi.TerminateSession apiTerminateSession;
 
   TerminateSessionDataSourceImpl({
-    @required this.tautulliApi,
+    @required this.apiTerminateSession,
   });
 
   @override
@@ -26,7 +26,7 @@ class TerminateSessionDataSourceImpl implements TerminateSessionDataSource {
     @required String sessionId,
     String message,
   }) async {
-    final terminateJson = await tautulliApi.terminateSession(
+    final terminateJson = await apiTerminateSession(
       tautulliId: tautulliId,
       sessionId: sessionId,
       message: message,

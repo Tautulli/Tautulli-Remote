@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api.dart';
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/entities/history.dart';
 import '../models/history_model.dart';
@@ -28,11 +28,11 @@ abstract class HistoryDataSource {
 }
 
 class HistoryDataSourceImpl implements HistoryDataSource {
-  final TautulliApi tautulliApi;
+  final tautulliApi.GetHistory apiGetHistory;
   final Logging logging;
 
   HistoryDataSourceImpl({
-    @required this.tautulliApi,
+    @required this.apiGetHistory,
     @required this.logging,
   });
 
@@ -56,7 +56,7 @@ class HistoryDataSourceImpl implements HistoryDataSource {
     int length,
     String search,
   }) async {
-    final historyJson = await tautulliApi.getHistory(
+    final historyJson = await apiGetHistory(
       tautulliId: tautulliId,
       grouping: grouping,
       user: user,

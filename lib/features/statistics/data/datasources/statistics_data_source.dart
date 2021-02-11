@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api.dart';
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../domain/entities/statistics.dart';
 import '../models/statistics_model.dart';
 
@@ -17,9 +17,9 @@ abstract class StatisticsDataSource {
 }
 
 class StatisticsDataSourceImpl implements StatisticsDataSource {
-  final TautulliApi tautulliApi;
+  final tautulliApi.GetHomeStats apiGetHomeStats;
 
-  StatisticsDataSourceImpl({@required this.tautulliApi});
+  StatisticsDataSourceImpl({@required this.apiGetHomeStats});
 
   @override
   Future<Map<String, List<Statistics>>> getStatistics({
@@ -31,7 +31,7 @@ class StatisticsDataSourceImpl implements StatisticsDataSource {
     int statsCount,
     String statId,
   }) async {
-    final statisticsJson = await tautulliApi.getHomeStats(
+    final statisticsJson = await apiGetHomeStats(
       tautulliId: tautulliId,
       grouping: grouping,
       timeRange: timeRange,

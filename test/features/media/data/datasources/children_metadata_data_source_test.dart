@@ -2,23 +2,25 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
+    as tautulliApi;
 import 'package:tautulli_remote/features/media/data/datasources/children_metadata_data_source.dart';
 import 'package:tautulli_remote/features/media/data/models/metadata_item_model.dart';
 import 'package:tautulli_remote/features/media/domain/entities/metadata_item.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockTautulliApi extends Mock implements TautulliApi {}
+class MockGetChildrenMetadata extends Mock
+    implements tautulliApi.GetChildrenMetadata {}
 
 void main() {
   ChildrenMetadataDataSourceImpl dataSource;
-  MockTautulliApi mockTautulliApi;
+  MockGetChildrenMetadata mockApiGetChildrenMetadata;
 
   setUp(() {
-    mockTautulliApi = MockTautulliApi();
+    mockApiGetChildrenMetadata = MockGetChildrenMetadata();
     dataSource = ChildrenMetadataDataSourceImpl(
-      tautulliApi: mockTautulliApi,
+      apiGetChildrenMetadata: mockApiGetChildrenMetadata,
     );
   });
 
@@ -40,7 +42,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getChildrenMetadata(
+          mockApiGetChildrenMetadata(
             tautulliId: anyNamed('tautulliId'),
             ratingKey: anyNamed('ratingKey'),
           ),
@@ -52,7 +54,7 @@ void main() {
         );
         // assert
         verify(
-          mockTautulliApi.getChildrenMetadata(
+          mockApiGetChildrenMetadata(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
           ),
@@ -65,7 +67,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getChildrenMetadata(
+          mockApiGetChildrenMetadata(
             tautulliId: anyNamed('tautulliId'),
             ratingKey: anyNamed('ratingKey'),
           ),

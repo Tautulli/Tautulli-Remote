@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
+    as tautulliApi;
 import 'package:tautulli_remote/core/database/data/models/server_model.dart';
 import 'package:tautulli_remote/features/activity/data/datasources/geo_ip_data_source.dart';
 import 'package:tautulli_remote/features/activity/data/models/geo_ip_model.dart';
@@ -11,20 +12,20 @@ import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockTautulliApi extends Mock implements TautulliApi {}
+class MockGetGeoipLookup extends Mock implements tautulliApi.GetGeoipLookup {}
 
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   GeoIpDataSourceImpl dataSource;
-  MockTautulliApi mockTautulliApi;
+  MockGetGeoipLookup mockApiGetGeoipLookup;
   MockLogging mockLogging;
 
   setUp(() {
-    mockTautulliApi = MockTautulliApi();
+    mockApiGetGeoipLookup = MockGetGeoipLookup();
     mockLogging = MockLogging();
     dataSource = GeoIpDataSourceImpl(
-      tautulliApi: mockTautulliApi,
+      apiGetGeoipLookup: mockApiGetGeoipLookup,
       logging: mockLogging,
     );
   });
@@ -62,7 +63,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getGeoipLookup(
+          mockApiGetGeoipLookup(
             tautulliId: anyNamed('tautulliId'),
             ipAddress: anyNamed('ipAddress'),
           ),
@@ -74,7 +75,7 @@ void main() {
         );
         // assert
         verify(
-          mockTautulliApi.getGeoipLookup(
+          mockApiGetGeoipLookup(
             tautulliId: serverModel.tautulliId,
             ipAddress: tIpAddress,
           ),
@@ -87,7 +88,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getGeoipLookup(
+          mockApiGetGeoipLookup(
             tautulliId: anyNamed('tautulliId'),
             ipAddress: anyNamed('ipAddress'),
           ),

@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api.dart';
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
@@ -21,12 +21,12 @@ abstract class RegisterDeviceDataSource {
 class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
   final DeviceInfo deviceInfo;
   final OneSignalDataSource oneSignal;
-  final TautulliApi tautulliApi;
+  final tautulliApi.RegisterDevice apiRegisterDevice;
 
   RegisterDeviceDataSourceImpl({
     @required this.deviceInfo,
     @required this.oneSignal,
-    @required this.tautulliApi,
+    @required this.apiRegisterDevice,
   });
 
   @override
@@ -51,7 +51,7 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
       }
     }
 
-    final registerJson = await tautulliApi.registerDevice(
+    final registerJson = await apiRegisterDevice(
       connectionProtocol: connectionProtocol,
       connectionDomain: connectionDomain,
       connectionPath: connectionPath,

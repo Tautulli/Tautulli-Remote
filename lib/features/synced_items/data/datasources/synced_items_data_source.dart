@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api.dart';
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../domain/entities/synced_item.dart';
 import '../models/synced_item_model.dart';
 
@@ -11,17 +11,16 @@ abstract class SyncedItemsDataSource {
 }
 
 class SyncedItemsDataSourceImpl implements SyncedItemsDataSource {
-  final TautulliApi tautulliApi;
+  final tautulliApi.GetSyncedItems apiGetSyncedItems;
 
-  SyncedItemsDataSourceImpl({@required this.tautulliApi});
+  SyncedItemsDataSourceImpl({@required this.apiGetSyncedItems});
 
   @override
   Future<List> getSyncedItems({
     String tautulliId,
   }) async {
-    final syncedItemsJson =
-        await tautulliApi.getSyncedItems(tautulliId: tautulliId);
-    
+    final syncedItemsJson = await apiGetSyncedItems(tautulliId: tautulliId);
+
     final List<SyncedItem> syncedItemsList = [];
     syncedItemsJson['response']['data'].forEach((item) {
       syncedItemsList.add(SyncedItemModel.fromJson(item));

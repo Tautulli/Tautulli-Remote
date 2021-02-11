@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api.dart';
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../domain/entities/library.dart';
 import '../models/library_model.dart';
 
@@ -17,9 +17,9 @@ abstract class LibrariesDataSource {
 }
 
 class LibrariesDataSourceImpl implements LibrariesDataSource {
-  final TautulliApi tautulliApi;
+  final tautulliApi.GetLibrariesTable apiGetLibrariesTable;
 
-  LibrariesDataSourceImpl({@required this.tautulliApi});
+  LibrariesDataSourceImpl({@required this.apiGetLibrariesTable});
 
   @override
   Future<List<Library>> getLibrariesTable({
@@ -31,7 +31,7 @@ class LibrariesDataSourceImpl implements LibrariesDataSource {
     String search,
     int start,
   }) async {
-    final librariesJson = await tautulliApi.getLibrariesTable(
+    final librariesJson = await apiGetLibrariesTable(
       tautulliId: tautulliId,
       grouping: grouping,
       length: length,

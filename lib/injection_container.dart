@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'core/api/tautulli_api.dart';
+import 'core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import 'core/device_info/device_info.dart';
 import 'core/network/network_info.dart';
 import 'features/activity/data/datasources/activity_data_source.dart';
@@ -148,14 +148,14 @@ Future<void> init() async {
   sl.registerLazySingleton<ActivityDataSource>(
     () => ActivityDataSourceImpl(
       settings: sl(),
-      tautulliApi: sl(),
+      apiGetActivity: sl(),
       logging: sl(),
     ),
   );
 
   sl.registerLazySingleton<GeoIpDataSource>(
     () => GeoIpDataSourceImpl(
-      tautulliApi: sl(),
+      apiGetGeoipLookup: sl(),
       logging: sl(),
     ),
   );
@@ -201,7 +201,7 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<HistoryDataSource>(
     () => HistoryDataSourceImpl(
-      tautulliApi: sl(),
+      apiGetHistory: sl(),
       logging: sl(),
     ),
   );
@@ -225,7 +225,7 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<ImageUrlDataSource>(
     () => ImageUrlDataSourceImpl(
-      tautulliApi: sl(),
+      apiPmsImageProxy: sl(),
     ),
   );
 
@@ -269,13 +269,13 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<LibrariesDataSource>(
     () => LibrariesDataSourceImpl(
-      tautulliApi: sl(),
+      apiGetLibrariesTable: sl(),
     ),
   );
 
   sl.registerLazySingleton<LibraryMediaDataSource>(
     () => LibraryMediaDataSourceImpl(
-      tautulliApi: sl(),
+      apiGetLibraryMediaInfo: sl(),
     ),
   );
 
@@ -360,13 +360,13 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<MetadataDataSource>(
     () => MetadataDataSourceImpl(
-      tautulliApi: sl(),
+      apiGetMetadata: sl(),
     ),
   );
 
   sl.registerLazySingleton<ChildrenMetadataDataSource>(
     () => ChildrenMetadataDataSourceImpl(
-      tautulliApi: sl(),
+      apiGetChildrenMetadata: sl(),
     ),
   );
 
@@ -430,7 +430,7 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<RecentlyAddedDataSource>(
     () => RecentlyAddedDataSourceImpl(
-      tautulliApi: sl(),
+      apiGetRecentlyAdded: sl(),
       logging: sl(),
     ),
   );
@@ -480,13 +480,14 @@ Future<void> init() async {
   sl.registerLazySingleton<SettingsDataSource>(
     () => SettingsDataSourceImpl(
       sharedPreferences: sl(),
-      tautulliApi: sl(),
+      apiGetServerInfo: sl(),
+      apiGetSettings: sl(),
     ),
   );
 
   sl.registerLazySingleton<RegisterDeviceDataSource>(
     () => RegisterDeviceDataSourceImpl(
-      tautulliApi: sl(),
+      apiRegisterDevice: sl(),
       deviceInfo: sl(),
       oneSignal: sl(),
     ),
@@ -519,7 +520,7 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<StatisticsDataSource>(
     () => StatisticsDataSourceImpl(
-      tautulliApi: sl(),
+      apiGetHomeStats: sl(),
     ),
   );
 
@@ -551,7 +552,7 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<SyncedItemsDataSource>(
     () => SyncedItemsDataSourceImpl(
-      tautulliApi: sl(),
+      apiGetSyncedItems: sl(),
     ),
   );
 
@@ -581,7 +582,7 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<TerminateSessionDataSource>(
     () => TerminateSessionDataSourceImpl(
-      tautulliApi: sl(),
+      apiTerminateSession: sl(),
     ),
   );
 
@@ -617,7 +618,8 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<UsersDataSource>(
     () => UsersDataSourceImpl(
-      tautulliApi: sl(),
+      apiGetUserNames: sl(),
+      apiGetUsersTable: sl(),
     ),
   );
 
@@ -628,16 +630,112 @@ Future<void> init() async {
     ),
   );
 
-  sl.registerLazySingleton<TautulliApi>(
-    () => TautulliApiImpl(
-      client: sl(),
-      logging: sl(),
-    ),
-  );
-
   sl.registerLazySingleton<DeviceInfo>(
     () => DeviceInfoImpl(
       sl(),
+    ),
+  );
+
+  // API
+  sl.registerLazySingleton<tautulliApi.ConnectionHandler>(
+    () => tautulliApi.ConnectionHandlerImpl(
+      callTautulli: sl(),
+      logging: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.CallTautulli>(
+    () => tautulliApi.CallTautulliImpl(
+      client: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.DeleteMobileDevice>(
+    () => tautulliApi.DeleteMobileDeviceImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetActivity>(
+    () => tautulliApi.GetActivityImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetChildrenMetadata>(
+    () => tautulliApi.GetChildrenMetadataImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetGeoipLookup>(
+    () => tautulliApi.GetGeoipLookupImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetHistory>(
+    () => tautulliApi.GetHistoryImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetHomeStats>(
+    () => tautulliApi.GetHomeStatsImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetLibrariesTable>(
+    () => tautulliApi.GetLibrariesTableImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetLibraryMediaInfo>(
+    () => tautulliApi.GetLibraryMediaInfoImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetMetadata>(
+    () => tautulliApi.GetMetadataImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetRecentlyAdded>(
+    () => tautulliApi.GetRecentlyAddedImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetServerInfo>(
+    () => tautulliApi.GetServerInfoImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetSettings>(
+    () => tautulliApi.GetSettingsImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetSyncedItems>(
+    () => tautulliApi.GetSyncedItemsImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetUserNames>(
+    () => tautulliApi.GetUserNamesImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetUsersTable>(
+    () => tautulliApi.GetUsersTableImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.PmsImageProxy>(
+    () => tautulliApi.PmsImageProxyImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.RegisterDevice>(
+    () => tautulliApi.RegisterDeviceImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.TerminateSession>(
+    () => tautulliApi.TerminateSessionImpl(
+      connectionHandler: sl(),
     ),
   );
 

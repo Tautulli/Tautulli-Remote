@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/api/tautulli_api.dart';
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../domain/entities/plex_server_info.dart';
 import '../../domain/entities/tautulli_settings_general.dart';
 import '../models/plex_server_info_model.dart';
@@ -36,16 +36,18 @@ const STATS_TYPE = 'STATS_TYPE';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
   final SharedPreferences sharedPreferences;
-  final TautulliApi tautulliApi;
+  final tautulliApi.GetServerInfo apiGetServerInfo;
+  final tautulliApi.GetSettings apiGetSettings;
 
   SettingsDataSourceImpl({
     @required this.sharedPreferences,
-    @required this.tautulliApi,
+    @required this.apiGetServerInfo,
+    @required this.apiGetSettings,
   });
 
   @override
   Future<PlexServerInfo> getPlexServerInfo(String tautulliId) async {
-    final plexServerInfoJson = await tautulliApi.getServerInfo(tautulliId);
+    final plexServerInfoJson = await apiGetServerInfo(tautulliId);
 
     PlexServerInfo plexServerInfo =
         PlexServerInfoModel.fromJson(plexServerInfoJson['response']['data']);
@@ -55,10 +57,11 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   @override
   Future<Map<String, dynamic>> getTautulliSettings(String tautulliId) async {
-    final tautulliSettingsJson = await tautulliApi.getSettings(tautulliId);
+    final tautulliSettingsJson = await apiGetSettings(tautulliId);
 
     TautulliSettingsGeneral tautulliSettingsGeneral =
-        TautulliSettingsGeneralModel.fromJson(tautulliSettingsJson['response']['data']['General']);
+        TautulliSettingsGeneralModel.fromJson(
+            tautulliSettingsJson['response']['data']['General']);
 
     return {
       'general': tautulliSettingsGeneral,

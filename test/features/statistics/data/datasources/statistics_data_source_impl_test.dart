@@ -2,23 +2,24 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
+    as tautulliApi;
 import 'package:tautulli_remote/features/statistics/data/datasources/statistics_data_source.dart';
 import 'package:tautulli_remote/features/statistics/data/models/statistics_model.dart';
 import 'package:tautulli_remote/features/statistics/domain/entities/statistics.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockTautulliApi extends Mock implements TautulliApi {}
+class MockGetHomeStats extends Mock implements tautulliApi.GetHomeStats {}
 
 void main() {
   StatisticsDataSourceImpl dataSource;
-  MockTautulliApi mockTautulliApi;
+  MockGetHomeStats mockApiGetHomeStats;
 
   setUp(() {
-    mockTautulliApi = MockTautulliApi();
+    mockApiGetHomeStats = MockGetHomeStats();
     dataSource = StatisticsDataSourceImpl(
-      tautulliApi: mockTautulliApi,
+      apiGetHomeStats: mockApiGetHomeStats,
     );
   });
 
@@ -55,7 +56,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getHomeStats(
+          mockApiGetHomeStats(
             tautulliId: anyNamed('tautulliId'),
             grouping: anyNamed('grouping'),
             statsCount: anyNamed('statsCount'),
@@ -66,7 +67,7 @@ void main() {
         // act
         await dataSource.getStatistics(tautulliId: tTautulliId);
         // assert
-        verify(mockTautulliApi.getHomeStats(tautulliId: tTautulliId));
+        verify(mockApiGetHomeStats(tautulliId: tTautulliId));
       },
     );
 
@@ -75,7 +76,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getHomeStats(
+          mockApiGetHomeStats(
             tautulliId: anyNamed('tautulliId'),
             grouping: anyNamed('grouping'),
             statsCount: anyNamed('statsCount'),

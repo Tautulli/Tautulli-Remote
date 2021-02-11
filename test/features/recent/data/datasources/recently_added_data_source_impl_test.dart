@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
+    as tautulliApi;
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/recent/data/datasources/recently_added_data_source.dart';
 import 'package:tautulli_remote/features/recent/data/models/recent_model.dart';
@@ -10,20 +11,21 @@ import 'package:tautulli_remote/features/recent/domain/entities/recent.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockTautulliApi extends Mock implements TautulliApi {}
+class MockGetRecentlyAdded extends Mock
+    implements tautulliApi.GetRecentlyAdded {}
 
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   RecentlyAddedDataSourceImpl dataSource;
-  MockTautulliApi mockTautulliApi;
+  MockGetRecentlyAdded mockApiGetRecentlyAdded;
   MockLogging mockLogging;
 
   setUp(() {
-    mockTautulliApi = MockTautulliApi();
+    mockApiGetRecentlyAdded = MockGetRecentlyAdded();
     mockLogging = MockLogging();
     dataSource = RecentlyAddedDataSourceImpl(
-        tautulliApi: mockTautulliApi, logging: mockLogging);
+        apiGetRecentlyAdded: mockApiGetRecentlyAdded, logging: mockLogging);
   });
 
   final String tTautulliId = 'jkl';
@@ -43,7 +45,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getRecentlyAdded(
+          mockApiGetRecentlyAdded(
             tautulliId: anyNamed('tautulliId'),
             count: anyNamed('count'),
             start: anyNamed('start'),
@@ -57,8 +59,10 @@ void main() {
           count: tCount,
         );
         // assert
-        verify(mockTautulliApi.getRecentlyAdded(
-            tautulliId: tTautulliId, count: tCount));
+        verify(mockApiGetRecentlyAdded(
+          tautulliId: tTautulliId,
+          count: tCount,
+        ));
       },
     );
 
@@ -67,7 +71,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getRecentlyAdded(
+          mockApiGetRecentlyAdded(
             tautulliId: anyNamed('tautulliId'),
             count: anyNamed('count'),
             start: anyNamed('start'),

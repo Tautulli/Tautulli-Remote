@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
+    as tautulliApi;
 import 'package:tautulli_remote/features/users/data/datasources/users_data_source.dart';
 import 'package:tautulli_remote/features/users/data/models/user_model.dart';
 import 'package:tautulli_remote/features/users/data/models/user_table_model.dart';
@@ -11,16 +12,21 @@ import 'package:tautulli_remote/features/users/domain/entities/user_table.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockTautulliApi extends Mock implements TautulliApi {}
+class MockGetUserNames extends Mock implements tautulliApi.GetUserNames {}
+
+class MockGetUsersTable extends Mock implements tautulliApi.GetUsersTable {}
 
 void main() {
   UsersDataSourceImpl dataSource;
-  MockTautulliApi mockTautulliApi;
+  MockGetUserNames mockApiGetUserNames;
+  MockGetUsersTable mockApiGetUsersTable;
 
   setUp(() {
-    mockTautulliApi = MockTautulliApi();
+    mockApiGetUserNames = MockGetUserNames();
+    mockApiGetUsersTable = MockGetUsersTable();
     dataSource = UsersDataSourceImpl(
-      tautulliApi: mockTautulliApi,
+      apiGetUserNames: mockApiGetUserNames,
+      apiGetUsersTable: mockApiGetUsersTable,
     );
   });
 
@@ -45,7 +51,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getUserNames(
+          mockApiGetUserNames(
             tautulliId: anyNamed('tautulliId'),
           ),
         ).thenAnswer((_) async => usersJson);
@@ -53,7 +59,7 @@ void main() {
         await dataSource.getUserNames(tautulliId: tTautulliId);
         // assert
         verify(
-          mockTautulliApi.getUserNames(tautulliId: tTautulliId),
+          mockApiGetUserNames(tautulliId: tTautulliId),
         );
       },
     );
@@ -63,7 +69,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getUserNames(
+          mockApiGetUserNames(
             tautulliId: anyNamed('tautulliId'),
           ),
         ).thenAnswer((_) async => usersJson);
@@ -80,7 +86,7 @@ void main() {
       'should call [getUsersTable] from TautulliApi',
       () async {
         // arrange
-        when(mockTautulliApi.getUsersTable(
+        when(mockApiGetUsersTable(
           tautulliId: anyNamed('tautulliId'),
           grouping: anyNamed('grouping'),
           orderColumn: anyNamed('orderColumn'),
@@ -93,7 +99,7 @@ void main() {
         await dataSource.getUsersTable(tautulliId: tTautulliId);
         // assert
         verify(
-          mockTautulliApi.getUsersTable(tautulliId: tTautulliId),
+          mockApiGetUsersTable(tautulliId: tTautulliId),
         );
       },
     );
@@ -102,7 +108,7 @@ void main() {
       'should return a list of UserTableModel',
       () async {
         // arrange
-        when(mockTautulliApi.getUsersTable(
+        when(mockApiGetUsersTable(
           tautulliId: anyNamed('tautulliId'),
           grouping: anyNamed('grouping'),
           orderColumn: anyNamed('orderColumn'),

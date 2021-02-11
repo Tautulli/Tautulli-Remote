@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api.dart';
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../domain/entities/user.dart';
 import '../../domain/entities/user_table.dart';
 import '../models/user_model.dart';
@@ -22,15 +22,19 @@ abstract class UsersDataSource {
 }
 
 class UsersDataSourceImpl implements UsersDataSource {
-  final TautulliApi tautulliApi;
+  final tautulliApi.GetUserNames apiGetUserNames;
+  final tautulliApi.GetUsersTable apiGetUsersTable;
 
-  UsersDataSourceImpl({@required this.tautulliApi});
+  UsersDataSourceImpl({
+    @required this.apiGetUserNames,
+    @required this.apiGetUsersTable,
+  });
 
   @override
   Future<List> getUserNames({
     @required tautulliId,
   }) async {
-    final usersJson = await tautulliApi.getUserNames(tautulliId: tautulliId);
+    final usersJson = await apiGetUserNames(tautulliId: tautulliId);
 
     final List<User> usersList = [];
     usersJson['response']['data'].forEach((item) {
@@ -50,7 +54,7 @@ class UsersDataSourceImpl implements UsersDataSource {
     int length,
     String search,
   }) async {
-    final usersTableJson = await tautulliApi.getUsersTable(
+    final usersTableJson = await apiGetUsersTable(
       tautulliId: tautulliId,
       grouping: grouping,
       orderColumn: orderColumn,

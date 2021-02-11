@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
+    as tautulliApi;
 import 'package:tautulli_remote/features/activity/data/datasources/activity_data_source.dart';
 import 'package:tautulli_remote/features/activity/domain/entities/activity.dart';
 import 'package:tautulli_remote/features/activity/data/models/activity_model.dart';
@@ -14,23 +15,23 @@ import '../../../../fixtures/fixture_reader.dart';
 
 class MockSettings extends Mock implements Settings {}
 
-class MockTautulliApi extends Mock implements TautulliApi {}
+class MockGetActivity extends Mock implements tautulliApi.GetActivity {}
 
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   ActivityDataSourceImpl dataSource;
-  MockTautulliApi mockTautulliApi;
+  MockGetActivity mockApiGetActivity;
   MockLogging mockLogging;
   MockSettings mockSettings;
 
   setUp(() {
     mockSettings = MockSettings();
-    mockTautulliApi = MockTautulliApi();
+    mockApiGetActivity = MockGetActivity();
     mockLogging = MockLogging();
     dataSource = ActivityDataSourceImpl(
       settings: mockSettings,
-      tautulliApi: mockTautulliApi,
+      apiGetActivity: mockApiGetActivity,
       logging: mockLogging,
     );
   });
@@ -38,7 +39,7 @@ void main() {
   final tTautulliId = 'abc';
 
   final tActivityJson = json.decode(fixture('activity.json'));
-  
+
   List<ActivityItem> tActivityList = [];
   tActivityJson['response']['data']['sessions'].forEach(
     (session) {
@@ -49,7 +50,7 @@ void main() {
   );
 
   void setUpSuccess() {
-    when(mockTautulliApi.getActivity(any))
+    when(mockApiGetActivity(any))
         .thenAnswer((_) async => json.decode(fixture('activity.json')));
   }
 
@@ -62,7 +63,7 @@ void main() {
         //act
         await dataSource.getActivity(tautulliId: tTautulliId);
         //assert
-        verify(mockTautulliApi.getActivity(tTautulliId));
+        verify(mockApiGetActivity(tTautulliId));
       },
     );
 

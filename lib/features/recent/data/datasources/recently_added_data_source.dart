@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api.dart';
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/entities/recent.dart';
 import '../models/recent_model.dart';
@@ -16,11 +16,11 @@ abstract class RecentlyAddedDataSource {
 }
 
 class RecentlyAddedDataSourceImpl implements RecentlyAddedDataSource {
-  final TautulliApi tautulliApi;
+  final tautulliApi.GetRecentlyAdded apiGetRecentlyAdded;
   final Logging logging;
 
   RecentlyAddedDataSourceImpl({
-    @required this.tautulliApi,
+    @required this.apiGetRecentlyAdded,
     @required this.logging,
   });
 
@@ -32,7 +32,7 @@ class RecentlyAddedDataSourceImpl implements RecentlyAddedDataSource {
     String mediaType,
     int sectionId,
   }) async {
-    final recentlyAddedJson = await tautulliApi.getRecentlyAdded(
+    final recentlyAddedJson = await apiGetRecentlyAdded(
       tautulliId: tautulliId,
       count: count,
       start: start,

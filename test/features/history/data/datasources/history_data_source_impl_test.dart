@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
+    as tautulliApi;
 import 'package:tautulli_remote/features/history/data/datasources/history_data_source.dart';
 import 'package:tautulli_remote/features/history/data/models/history_model.dart';
 import 'package:tautulli_remote/features/history/domain/entities/history.dart';
@@ -10,20 +11,20 @@ import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockTautulliApi extends Mock implements TautulliApi {}
+class MockGetHistory extends Mock implements tautulliApi.GetHistory {}
 
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   HistoryDataSourceImpl dataSource;
-  MockTautulliApi mockTautulliApi;
+  MockGetHistory mockApiGetHistory;
   MockLogging mockLogging;
 
   setUp(() {
-    mockTautulliApi = MockTautulliApi();
+    mockApiGetHistory = MockGetHistory();
     mockLogging = MockLogging();
     dataSource = HistoryDataSourceImpl(
-      tautulliApi: mockTautulliApi,
+      apiGetHistory: mockApiGetHistory,
       logging: mockLogging,
     );
   });
@@ -43,7 +44,7 @@ void main() {
       'should call [getHistory] from TautulliApi',
       () async {
         // arrange
-        when(mockTautulliApi.getHistory(
+        when(mockApiGetHistory(
           tautulliId: tTautulliId,
           grouping: anyNamed('grouping'),
           user: anyNamed('user'),
@@ -65,7 +66,7 @@ void main() {
         // act
         await dataSource.getHistory(tautulliId: tTautulliId);
         // assert
-        verify(mockTautulliApi.getHistory(tautulliId: tTautulliId));
+        verify(mockApiGetHistory(tautulliId: tTautulliId));
       },
     );
 
@@ -73,7 +74,7 @@ void main() {
       'should return list of HistoryModel',
       () async {
         // arrange
-        when(mockTautulliApi.getHistory(
+        when(mockApiGetHistory(
           tautulliId: tTautulliId,
           grouping: anyNamed('grouping'),
           user: anyNamed('user'),

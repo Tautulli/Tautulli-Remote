@@ -1,18 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
+    as tautulliApi;
 import 'package:tautulli_remote/features/terminate_session/data/datasources/terminate_session_data_source.dart';
 
-class MockTautulliApi extends Mock implements TautulliApi {}
+class MockTerminateSession extends Mock
+    implements tautulliApi.TerminateSession {}
 
 void main() {
   TerminateSessionDataSourceImpl dataSource;
-  MockTautulliApi mockTautulliApi;
+  MockTerminateSession mockApiTerminateSession;
 
   setUp(() {
-    mockTautulliApi = MockTautulliApi();
+    mockApiTerminateSession = MockTerminateSession();
     dataSource = TerminateSessionDataSourceImpl(
-      tautulliApi: mockTautulliApi,
+      apiTerminateSession: mockApiTerminateSession,
     );
   });
 
@@ -36,9 +38,8 @@ void main() {
     () async {
       // arrange
       when(
-        mockTautulliApi.terminateSession(
+        mockApiTerminateSession(
           tautulliId: anyNamed('tautulliId'),
-          
           sessionId: anyNamed('sessionId'),
           message: anyNamed('message'),
         ),
@@ -50,7 +51,7 @@ void main() {
       );
       // assert
       verify(
-        mockTautulliApi.terminateSession(
+        mockApiTerminateSession(
           tautulliId: tTautulliId,
           sessionId: tSessionId,
         ),
@@ -63,9 +64,8 @@ void main() {
     () async {
       // arrange
       when(
-        mockTautulliApi.terminateSession(
+        mockApiTerminateSession(
           tautulliId: anyNamed('tautulliId'),
-          
           sessionId: anyNamed('sessionId'),
           message: anyNamed('message'),
         ),
@@ -85,9 +85,8 @@ void main() {
     () async {
       // arrange
       when(
-        mockTautulliApi.terminateSession(
+        mockApiTerminateSession(
           tautulliId: anyNamed('tautulliId'),
-          
           sessionId: anyNamed('sessionId'),
           message: anyNamed('message'),
         ),

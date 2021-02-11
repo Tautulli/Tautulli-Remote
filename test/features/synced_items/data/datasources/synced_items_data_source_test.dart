@@ -2,23 +2,24 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
+    as tautulliApi;
 import 'package:tautulli_remote/features/synced_items/data/datasources/synced_items_data_source.dart';
 import 'package:tautulli_remote/features/synced_items/data/models/synced_item_model.dart';
 import 'package:tautulli_remote/features/synced_items/domain/entities/synced_item.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockTautulliApi extends Mock implements TautulliApi {}
+class MockGetSyncedItems extends Mock implements tautulliApi.GetSyncedItems {}
 
 void main() {
   SyncedItemsDataSourceImpl dataSource;
-  MockTautulliApi mockTautulliApi;
+  MockGetSyncedItems mockApiGetSyncedItems;
 
   setUp(() {
-    mockTautulliApi = MockTautulliApi();
+    mockApiGetSyncedItems = MockGetSyncedItems();
     dataSource = SyncedItemsDataSourceImpl(
-      tautulliApi: mockTautulliApi,
+      apiGetSyncedItems: mockApiGetSyncedItems,
     );
   });
 
@@ -37,7 +38,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getSyncedItems(
+          mockApiGetSyncedItems(
             tautulliId: anyNamed('tautulliId'),
           ),
         ).thenAnswer((_) async => syncedItemsJson);
@@ -45,7 +46,7 @@ void main() {
         await dataSource.getSyncedItems(tautulliId: tTautulliId);
         // assert
         verify(
-          mockTautulliApi.getSyncedItems(tautulliId: tTautulliId),
+          mockApiGetSyncedItems(tautulliId: tTautulliId),
         );
       },
     );
@@ -55,7 +56,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getSyncedItems(
+          mockApiGetSyncedItems(
             tautulliId: anyNamed('tautulliId'),
           ),
         ).thenAnswer((_) async => syncedItemsJson);

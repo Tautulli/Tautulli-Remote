@@ -1,12 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
+    as tautulliApi;
 import 'package:tautulli_remote/core/device_info/device_info.dart';
 import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote/features/settings/data/datasources/register_device_data_source.dart';
 import 'package:matcher/matcher.dart';
 
-class MockTautulliApi extends Mock implements TautulliApi {}
+class MockRegisterDevice extends Mock implements tautulliApi.RegisterDevice {}
 
 class MockDeviceInfo extends Mock implements DeviceInfo {}
 
@@ -14,16 +15,16 @@ class MockOneSignalDataSource extends Mock implements OneSignalDataSource {}
 
 void main() {
   RegisterDeviceDataSourceImpl dataSource;
-  MockTautulliApi mockTautulliApi;
+  MockRegisterDevice mockApiRegisterDevice;
   MockDeviceInfo mockDeviceInfo;
   MockOneSignalDataSource mockOneSignalDataSource;
 
   setUp(() {
-    mockTautulliApi = MockTautulliApi();
+    mockApiRegisterDevice = MockRegisterDevice();
     mockDeviceInfo = MockDeviceInfo();
     mockOneSignalDataSource = MockOneSignalDataSource();
     dataSource = RegisterDeviceDataSourceImpl(
-      tautulliApi: mockTautulliApi,
+      apiRegisterDevice: mockApiRegisterDevice,
       deviceInfo: mockDeviceInfo,
       oneSignal: mockOneSignalDataSource,
     );
@@ -49,7 +50,7 @@ void main() {
       }
     };
     when(
-      mockTautulliApi.registerDevice(
+      mockApiRegisterDevice(
         connectionProtocol: anyNamed('connectionProtocol'),
         connectionDomain: anyNamed('connectionDomain'),
         connectionPath: anyNamed('connectionPath'),
@@ -126,7 +127,7 @@ void main() {
         );
         // assert
         verify(
-          mockTautulliApi.registerDevice(
+          mockApiRegisterDevice(
             connectionProtocol: tConnectionProtocol,
             connectionDomain: tConnectionDomain,
             connectionPath: tConnectionPath,

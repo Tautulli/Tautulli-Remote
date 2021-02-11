@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tautulli_remote/core/api/tautulli_api.dart';
+import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
+    as tautulliApi;
 import 'package:tautulli_remote/features/settings/data/datasources/settings_data_source.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
 import 'package:tautulli_remote/features/settings/data/models/tautulli_settings_general_model.dart';
@@ -13,19 +14,24 @@ import '../../../../fixtures/fixture_reader.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
-class MockTautulliApi extends Mock implements TautulliApi {}
+class MockGetServerInfo extends Mock implements tautulliApi.GetServerInfo {}
+
+class MockGetSettings extends Mock implements tautulliApi.GetSettings {}
 
 void main() {
   SettingsDataSourceImpl dataSource;
   MockSharedPreferences mockSharedPreferences;
-  MockTautulliApi mockTautulliApi;
+  MockGetServerInfo mockApiGetServerInfo;
+  MockGetSettings mockApiGetSettings;
 
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
-    mockTautulliApi = MockTautulliApi();
+    mockApiGetServerInfo = MockGetServerInfo();
+    mockApiGetSettings = MockGetSettings();
     dataSource = SettingsDataSourceImpl(
       sharedPreferences: mockSharedPreferences,
-      tautulliApi: mockTautulliApi,
+      apiGetServerInfo: mockApiGetServerInfo,
+      apiGetSettings: mockApiGetSettings,
     );
   });
 
@@ -48,13 +54,13 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getServerInfo(any),
+          mockApiGetServerInfo(any),
         ).thenAnswer((_) async => plexServerInfoJson);
         // act
         await dataSource.getPlexServerInfo(tTautulliId);
         // assert
         verify(
-          mockTautulliApi.getServerInfo(tTautulliId),
+          mockApiGetServerInfo(tTautulliId),
         );
       },
     );
@@ -64,7 +70,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getServerInfo(any),
+          mockApiGetServerInfo(any),
         ).thenAnswer((_) async => plexServerInfoJson);
         // act
         final result = await dataSource.getPlexServerInfo(tTautulliId);
@@ -80,13 +86,13 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getSettings(any),
+          mockApiGetSettings(any),
         ).thenAnswer((_) async => tautulliSettingsJson);
         // act
         await dataSource.getTautulliSettings(tTautulliId);
         // assert
         verify(
-          mockTautulliApi.getSettings(tTautulliId),
+          mockApiGetSettings(tTautulliId),
         );
       },
     );
@@ -96,7 +102,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockTautulliApi.getSettings(any),
+          mockApiGetSettings(any),
         ).thenAnswer((_) async => tautulliSettingsJson);
         // act
         final result = await dataSource.getTautulliSettings(tTautulliId);
