@@ -97,6 +97,7 @@ void main() {
     grandparentTitle: '',
     grandparentThumb: null,
     mediaType: 'movie',
+    originallyAvailableAt: '1980-05-17',
     parentRatingKey: null,
     parentTitle: '',
     parentThumb: null,
