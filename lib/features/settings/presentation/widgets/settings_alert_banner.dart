@@ -57,8 +57,7 @@ class SettingsAlertBanner extends StatelessWidget {
               );
             }
             // Display alert banner about waiting to subscribe to OneSignal
-            if (oneSignalPrivacyBloc.state is OneSignalPrivacyConsentSuccess &&
-                healthState is OneSignalHealthSuccess) {
+            if (oneSignalPrivacyBloc.state is OneSignalPrivacyConsentSuccess) {
               if (subscriptionState is OneSignalSubscriptionFailure) {
                 return _AlertBanner(
                   title: subscriptionState.title,

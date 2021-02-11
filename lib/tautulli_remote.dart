@@ -68,10 +68,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     OneSignal.shared
         .setSubscriptionObserver((OSSubscriptionStateChanges changes) {
       // push new events for SubscriptionBloc and HealthBloc when there is a subscription change
-      //TODO
-      //? call an update to the device registration when userid goes from null to a value
-      // Only trigger new checks when userId moves from null to a value
-      if (changes.to.userId != null) {
+
+      // Only trigger new checks when userId or pushToken move from null to a value
+      if (changes.to.userId != null || changes.to.pushToken != null) {
         context
             .read<OneSignalSubscriptionBloc>()
             .add(OneSignalSubscriptionCheck());
