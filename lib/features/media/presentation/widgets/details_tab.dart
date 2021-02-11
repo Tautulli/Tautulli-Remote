@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../core/helpers/time_format_helper.dart';
@@ -47,6 +48,12 @@ class _TabContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formattedOriginallyAvailableAt;
+    if (isNotEmpty(metadata.originallyAvailableAt)) {
+      formattedOriginallyAvailableAt = DateFormat.yMMMMd()
+          .format(DateTime.parse(metadata.originallyAvailableAt))
+          .toString();
+    }
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -78,6 +85,18 @@ class _TabContent extends StatelessWidget {
                 title: 'STUDIO',
                 item: [metadata.studio],
               ),
+            if (metadata.mediaType == 'show' &&
+                isNotEmpty(metadata.year.toString()))
+              _ItemRow(
+                title: 'AIRED',
+                item: [metadata.year.toString()],
+              ),
+            if (metadata.mediaType == 'episode' &&
+                isNotEmpty(formattedOriginallyAvailableAt))
+              _ItemRow(
+                title: 'AIRED',
+                item: [formattedOriginallyAvailableAt],
+              ),
             if (metadata.duration != null)
               _ItemRow(
                 title: 'RUNTIME',
@@ -92,6 +111,11 @@ class _TabContent extends StatelessWidget {
                 title: 'RATED',
                 item: [metadata.contentRating],
               ),
+            if (metadata.genres.isNotEmpty)
+              _ItemRow(
+                title: 'GENRES',
+                item: metadata.genres,
+              ),
             if (metadata.directors.isNotEmpty)
               _ItemRow(
                 title: 'DIRECTED BY',
@@ -101,11 +125,6 @@ class _TabContent extends StatelessWidget {
               _ItemRow(
                 title: 'WRITTEN BY',
                 item: metadata.writers,
-              ),
-            if (metadata.genres.isNotEmpty)
-              _ItemRow(
-                title: 'GENRES',
-                item: metadata.genres,
               ),
             if (metadata.actors.isNotEmpty)
               _ItemRow(

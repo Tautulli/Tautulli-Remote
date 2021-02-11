@@ -16,6 +16,7 @@ class MetadataItemModel extends MetadataItem {
     final String grandparentTitle,
     final int mediaIndex,
     final String mediaType,
+    final String originallyAvailableAt,
     final int parentMediaIndex,
     final int parentRatingKey,
     final String parentThumb,
@@ -49,6 +50,7 @@ class MetadataItemModel extends MetadataItem {
           grandparentTitle: grandparentTitle,
           mediaIndex: mediaIndex,
           mediaType: mediaType,
+          originallyAvailableAt: originallyAvailableAt,
           parentMediaIndex: parentMediaIndex,
           parentRatingKey: parentRatingKey,
           parentThumb: parentThumb,
@@ -122,6 +124,10 @@ class MetadataItemModel extends MetadataItem {
       ),
       mediaType: ValueHelper.cast(
         value: json['media_type'],
+        type: CastType.string,
+      ),
+      originallyAvailableAt: ValueHelper.cast(
+        value: json['originally_available_at'],
         type: CastType.string,
       ),
       parentMediaIndex: ValueHelper.cast(

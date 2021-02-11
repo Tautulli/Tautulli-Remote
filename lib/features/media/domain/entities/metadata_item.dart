@@ -14,6 +14,7 @@ class MetadataItem extends Equatable {
   final String grandparentTitle;
   final int mediaIndex;
   final String mediaType;
+  final String originallyAvailableAt;
   final int parentMediaIndex;
   final int parentRatingKey;
   final String parentThumb;
@@ -48,6 +49,7 @@ class MetadataItem extends Equatable {
     this.grandparentTitle,
     this.mediaIndex,
     this.mediaType,
+    this.originallyAvailableAt,
     this.parentMediaIndex,
     this.parentRatingKey,
     this.parentThumb,
@@ -84,6 +86,7 @@ class MetadataItem extends Equatable {
         grandparentTitle,
         mediaIndex,
         mediaType,
+        originallyAvailableAt,
         parentMediaIndex,
         parentRatingKey,
         parentThumb,
