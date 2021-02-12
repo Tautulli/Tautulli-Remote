@@ -27,6 +27,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required String plexIdentifier,
     @required bool primaryActive,
     @required bool plexPass,
   }) async {
@@ -40,6 +41,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
+      plexIdentifier: plexIdentifier,
       primaryActive: primaryActive,
       plexPass: plexPass,
     );
@@ -64,6 +66,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required String plexIdentifier,
     @required bool primaryActive,
     @required bool plexPass,
     @required String dateFormat,
@@ -86,6 +89,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
+      plexIdentifier: plexIdentifier,
       primaryActive: primaryActive,
       plexPass: plexPass,
       dateFormat: dateFormat,

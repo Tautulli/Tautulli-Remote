@@ -14,6 +14,7 @@ class SettingsAddServer extends SettingsEvent {
   final String deviceToken;
   final String tautulliId;
   final String plexName;
+  final String plexIdentifier;
   final bool plexPass;
 
   SettingsAddServer({
@@ -21,6 +22,7 @@ class SettingsAddServer extends SettingsEvent {
     @required this.deviceToken,
     @required this.tautulliId,
     @required this.plexName,
+    @required this.plexIdentifier,
     @required this.plexPass,
   });
 
@@ -41,6 +43,7 @@ class SettingsUpdateServer extends SettingsEvent {
   final String deviceToken;
   final String tautulliId;
   final String plexName;
+  final String plexIdentifier;
   final bool plexPass;
   final String dateFormat;
   final String timeFormat;
@@ -52,6 +55,7 @@ class SettingsUpdateServer extends SettingsEvent {
     @required this.deviceToken,
     @required this.tautulliId,
     @required this.plexName,
+    @required this.plexIdentifier,
     @required this.plexPass,
     @required this.dateFormat,
     @required this.timeFormat,

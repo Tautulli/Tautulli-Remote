@@ -11,6 +11,7 @@ abstract class SettingsRepository {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required String plexIdentifier,
     @required bool primaryActive,
     @required bool plexPass,
   });
@@ -26,6 +27,7 @@ abstract class SettingsRepository {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required String plexIdentifier,
     @required bool primaryActive,
     @required bool plexPass,
     @required String dateFormat,
@@ -62,7 +64,9 @@ abstract class SettingsRepository {
 
   Future<Either<Failure, PlexServerInfo>> getPlexServerInfo(String tautulliId);
 
-  Future<Either<Failure, Map<String, dynamic>>> getTautulliSettings(String tautulliId);
+  Future<Either<Failure, Map<String, dynamic>>> getTautulliSettings(
+    String tautulliId,
+  );
 
   Future<int> getServerTimeout();
 

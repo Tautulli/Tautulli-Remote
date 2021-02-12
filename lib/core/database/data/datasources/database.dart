@@ -30,30 +30,34 @@ class DBProvider {
 
     return await openDatabase(
       path,
-      version: 3,
+      version: 4,
       onOpen: (db) async {},
       onCreate: (Database db, int version) async {
         var batch = db.batch();
-        _createTableServerV3(batch);
+        _createTableServerV4(batch);
         await batch.commit();
       },
       onUpgrade: (Database db, int oldVersion, int newVersion) async {
         var batch = db.batch();
         if (oldVersion == 1) {
-          _updateTableServerV1toV3(batch);
+          _updateTableServerV1toV4(batch);
         }
         if (oldVersion == 2) {
-          _updateTableServerV2toV3(batch);
+          _updateTableServerV2toV4(batch);
+        }
+        if (oldVersion == 3) {
+          _updateTableServerV3toV4(batch);
         }
         await batch.commit();
       },
     );
   }
 
-  void _createTableServerV3(Batch batch) {
+  void _createTableServerV4(Batch batch) {
     batch.execute('''CREATE TABLE servers(
                     id INTEGER PRIMARY KEY,
                     plex_name TEXT,
+                    plex_identifier TEXT,
                     tautulli_id TEXT,
                     primary_connection_address TEXT,
                     primary_connection_protocol TEXT,
@@ -71,15 +75,21 @@ class DBProvider {
                 )''');
   }
 
-  void _updateTableServerV1toV3(Batch batch) {
+  void _updateTableServerV1toV4(Batch batch) {
     batch.execute('ALTER TABLE servers ADD plex_pass INTEGER');
     batch.execute('ALTER TABLE servers ADD date_format TEXT');
     batch.execute('ALTER TABLE servers ADD time_format TEXT');
+    batch.execute('ALTER TABLE servers ADD plex_identifier TEXT');
   }
 
-  void _updateTableServerV2toV3(Batch batch) {
+  void _updateTableServerV2toV4(Batch batch) {
     batch.execute('ALTER TABLE servers ADD date_format TEXT');
     batch.execute('ALTER TABLE servers ADD time_format TEXT');
+    batch.execute('ALTER TABLE servers ADD plex_identifier TEXT');
+  }
+
+  void _updateTableServerV3toV4(Batch batch) {
+    batch.execute('ALTER TABLE servers ADD plex_identifier TEXT');
   }
 
   addServer(ServerModel server) async {

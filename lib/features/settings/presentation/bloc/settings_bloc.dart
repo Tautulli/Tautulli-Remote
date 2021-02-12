@@ -37,6 +37,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         deviceToken: event.deviceToken,
         tautulliId: event.tautulliId,
         plexName: event.plexName,
+        plexIdentifier: event.plexIdentifier,
         primaryActive: true,
         plexPass: event.plexPass,
       );
@@ -52,6 +53,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         deviceToken: event.deviceToken,
         tautulliId: event.tautulliId,
         plexName: event.plexName,
+        plexIdentifier: event.plexIdentifier,
         primaryActive: true,
         plexPass: event.plexPass,
         dateFormat: event.dateFormat,
@@ -140,6 +142,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             deviceToken: server.deviceToken,
             tautulliId: server.tautulliId,
             plexName: settingsMap['pmsName'],
+            plexIdentifier: settingsMap['pmsIdentifier'],
             plexPass: settingsMap['plexPass'],
             dateFormat: settingsMap['dateFormat'],
             timeFormat: settingsMap['timeFormat'],
@@ -154,6 +157,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       'needsUpdate': false,
       'plexPass': null,
       'pmsName': null,
+      'pmsIdentifier': null,
       'dateFormat': null,
       'timeFormat': null,
     };
@@ -165,6 +169,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       (failure) => null,
       (plexServerInfo) {
         settingsMap['pmsName'] = plexServerInfo.pmsName;
+        settingsMap['pmsIdentifier'] = plexServerInfo.pmsIdentifier;
         switch (plexServerInfo.pmsPlexpass) {
           case (0):
             settingsMap['plexPass'] = false;
@@ -175,7 +180,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         }
 
         if (server.plexName != plexServerInfo.pmsName ||
-            server.plexPass != settingsMap['plexPass']) {
+            server.plexPass != settingsMap['plexPass'] ||
+            server.plexIdentifier != plexServerInfo.pmsIdentifier) {
           settingsMap['needsUpdate'] = true;
         }
       },

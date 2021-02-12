@@ -16,6 +16,7 @@ class Settings {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required String plexIdentifier,
     @required bool primaryActive,
     @required bool plexPass,
   }) {
@@ -24,6 +25,7 @@ class Settings {
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
+      plexIdentifier: plexIdentifier,
       primaryActive: primaryActive,
       plexPass: plexPass,
     );
@@ -44,6 +46,7 @@ class Settings {
     @required String deviceToken,
     @required String tautulliId,
     @required String plexName,
+    @required String plexIdentifier,
     @required bool primaryActive,
     @required bool plexPass,
     @required String dateFormat,
@@ -56,6 +59,7 @@ class Settings {
       deviceToken: deviceToken,
       tautulliId: tautulliId,
       plexName: plexName,
+      plexIdentifier: plexIdentifier,
       primaryActive: primaryActive,
       plexPass: plexPass,
       dateFormat: dateFormat,

@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 class Server extends Equatable {
   final int id;
   final String plexName;
+  final String plexIdentifier;
   final String tautulliId;
   final String primaryConnectionAddress;
   final String primaryConnectionProtocol;
@@ -22,6 +23,7 @@ class Server extends Equatable {
   Server({
     this.id,
     @required this.plexName,
+    @required this.plexIdentifier,
     @required this.tautulliId,
     @required this.primaryConnectionAddress,
     @required this.primaryConnectionProtocol,
@@ -42,6 +44,7 @@ class Server extends Equatable {
   List<Object> get props => [
         id,
         plexName,
+        plexIdentifier,
         tautulliId,
         primaryConnectionAddress,
         primaryConnectionProtocol,

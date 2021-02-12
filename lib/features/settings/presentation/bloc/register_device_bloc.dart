@@ -118,6 +118,7 @@ class RegisterDeviceBloc
               deviceToken: deviceToken,
               tautulliId: registeredData['server_id'],
               plexName: registeredData['pms_name'],
+              plexIdentifier: registeredData['pms_identifier'],
               plexPass: plexPass,
             ),
           );
@@ -134,6 +135,7 @@ class RegisterDeviceBloc
               deviceToken: deviceToken,
               tautulliId: registeredData['server_id'],
               plexName: registeredData['pms_name'],
+              plexIdentifier: registeredData['pms_identifier'],
               plexPass: plexPass,
               dateFormat: existingServer.dateFormat,
               timeFormat: existingServer.timeFormat,

@@ -7,6 +7,7 @@ class ServerModel extends Server {
   ServerModel({
     int id,
     @required String plexName,
+    @required String plexIdentifier,
     @required String tautulliId,
     @required String primaryConnectionAddress,
     @required String primaryConnectionProtocol,
@@ -24,6 +25,7 @@ class ServerModel extends Server {
   }) : super(
           id: id,
           plexName: plexName,
+          plexIdentifier: plexIdentifier,
           tautulliId: tautulliId,
           primaryConnectionAddress: primaryConnectionAddress,
           primaryConnectionProtocol: primaryConnectionProtocol,
@@ -43,11 +45,12 @@ class ServerModel extends Server {
   // Create Settings from JSON data
   factory ServerModel.fromJson(Map<String, dynamic> json) {
     bool primaryActiveBool = toBoolean(json['primary_active'].toString());
-    bool plexPass = toBoolean(json['pms_plexpass'].toString());
+    bool plexPass = toBoolean(json['plex_plexpass'].toString());
 
     return ServerModel(
       id: json['id'],
       plexName: json['plex_name'],
+      plexIdentifier: json['plex_identifier'],
       tautulliId: json['tautulli_id'],
       primaryConnectionAddress: json['primary_connection_address'],
       primaryConnectionProtocol: json['primary_connection_protocol'],
@@ -91,6 +94,7 @@ class ServerModel extends Server {
     return {
       'id': id,
       'plex_name': plexName,
+      'plex_identifier': plexIdentifier,
       'tautulli_id': tautulliId,
       'primary_connection_address': primaryConnectionAddress,
       'primary_connection_protocol': primaryConnectionProtocol,
