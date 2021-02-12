@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiver/strings.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/clean_data_helper.dart';
@@ -83,6 +84,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
   MetadataBloc _metadataBloc;
   ChildrenMetadataBloc _childrenMetadataBloc;
   String _tautulliId;
+  String _plexIdentifier;
 
   @override
   void initState() {
@@ -95,11 +97,13 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
 
     if (settingsState is SettingsLoadSuccess) {
       String lastSelectedServer;
+      String plexIdentifier;
 
       if (settingsState.lastSelectedServer != null) {
         for (Server server in settingsState.serverList) {
           if (server.tautulliId == settingsState.lastSelectedServer) {
             lastSelectedServer = settingsState.lastSelectedServer;
+            plexIdentifier = server.plexIdentifier;
             break;
           }
         }
@@ -108,10 +112,12 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
       if (lastSelectedServer != null) {
         setState(() {
           _tautulliId = lastSelectedServer;
+          _plexIdentifier = plexIdentifier;
         });
       } else if (settingsState.serverList.length > 0) {
         setState(() {
           _tautulliId = settingsState.serverList[0].tautulliId;
+          _plexIdentifier = settingsState.serverList[0].plexIdentifier;
         });
       } else {
         _tautulliId = null;
@@ -147,6 +153,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
         elevation: 0,
         actions: _appBarActions(
           item: widget.item,
+          plexIdentifier: _plexIdentifier,
           enableNavOptions: widget.enableNavOptions,
         ),
       ),
@@ -322,23 +329,23 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
 
 List<Widget> _appBarActions({
   @required MediaItem item,
+  @required String plexIdentifier,
   @required bool enableNavOptions,
 }) {
   return [
     BlocBuilder<MetadataBloc, MetadataState>(
       builder: (context, state) {
         if (state is MetadataSuccess) {
-          if (enableNavOptions &&
-              [
-                'season',
-                'episode',
-                'album',
-              ].contains(state.metadata.mediaType)) {
-            return PopupMenuButton(
-              tooltip: 'More options',
-              onSelected: (value) {
+          return PopupMenuButton(
+            tooltip: 'More options',
+            onSelected: (value) {
+              if (value == 'plex') {
+                _openPlexUrl(
+                  plexIdentifier: plexIdentifier,
+                  ratingKey: state.metadata.ratingKey,
+                );
+              } else {
                 final keys = value.split('|');
-                ;
 
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -377,36 +384,39 @@ List<Widget> _appBarActions({
                     },
                   ),
                 );
-              },
-              itemBuilder: (context) {
-                return [
-                  if (['season', 'episode'].contains(state.metadata.mediaType))
-                    PopupMenuItem(
-                      value: 'show|${state.metadata.mediaType}',
-                      child: Text('Go to show'),
-                    ),
-                  if (['episode'].contains(state.metadata.mediaType))
-                    PopupMenuItem(
-                      value: 'season|${state.metadata.mediaType}',
-                      child: Text('Go to season'),
-                    ),
-                  if (['album', 'track'].contains(state.metadata.mediaType))
-                    PopupMenuItem(
-                      value: 'artist|${state.metadata.mediaType}',
-                      child: Text('Go to artist'),
-                    ),
-                  // if (['track'].contains(state.metadata.mediaType))
-                  //   PopupMenuItem(
-                  //     value: 'album|${state.metadata.mediaType}',
-                  //     child: Text('Go to album'),
-                  //   ),
-                ];
-              },
-            );
-          }
-          return IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: null,
+              }
+            },
+            itemBuilder: (context) {
+              return [
+                if (enableNavOptions &&
+                    ['season', 'episode'].contains(state.metadata.mediaType))
+                  PopupMenuItem(
+                    value: 'show|${state.metadata.mediaType}',
+                    child: Text('Go to show'),
+                  ),
+                if (enableNavOptions &&
+                    ['episode'].contains(state.metadata.mediaType))
+                  PopupMenuItem(
+                    value: 'season|${state.metadata.mediaType}',
+                    child: Text('Go to season'),
+                  ),
+                if (enableNavOptions &&
+                    ['album', 'track'].contains(state.metadata.mediaType))
+                  PopupMenuItem(
+                    value: 'artist|${state.metadata.mediaType}',
+                    child: Text('Go to artist'),
+                  ),
+                PopupMenuItem(
+                  value: 'plex',
+                  child: Text('View on Plex'),
+                ),
+                // if (['track'].contains(state.metadata.mediaType))
+                //   PopupMenuItem(
+                //     value: 'album|${state.metadata.mediaType}',
+                //     child: Text('Go to album'),
+                //   ),
+              ];
+            },
           );
         }
         return IconButton(
@@ -416,6 +426,22 @@ List<Widget> _appBarActions({
       },
     ),
   ];
+}
+
+Future<void> _openPlexUrl({
+  @required int ratingKey,
+  @required String plexIdentifier,
+}) async {
+  String plexAppUrl =
+      'plex://server://$plexIdentifier/com.plexapp.plugins.library/library/metadata/$ratingKey';
+  String plexWebUrl =
+      'https://app.plex.tv/desktop#!/server/$plexIdentifier/details?key=%2Flibrary%2Fmetadata%2F$ratingKey';
+
+  if (await canLaunch(plexAppUrl)) {
+    await launch(plexAppUrl);
+  } else {
+    await launch(plexWebUrl);
+  }
 }
 
 class _TabController extends StatelessWidget {
