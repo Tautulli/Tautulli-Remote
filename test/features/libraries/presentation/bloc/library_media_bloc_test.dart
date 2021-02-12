@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tautulli_remote/core/error/failure.dart';
+import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
 import 'package:tautulli_remote/features/libraries/data/models/library_media_model.dart';
 import 'package:tautulli_remote/features/libraries/domain/entities/library_media.dart';
@@ -34,20 +36,13 @@ void main() {
   final int tRatingKey = 53052;
 
   final List<LibraryMedia> tLibraryMediaList = [];
-  final List<LibraryMedia> tLibraryMediaList25 = [];
 
   final tLibraryMediaInfoJson = json.decode(fixture('library_media_info.json'));
   tLibraryMediaInfoJson['response']['data']['data'].forEach((item) {
     tLibraryMediaList.add(LibraryMediaModel.fromJson(item));
   });
 
-  for (int i = 0; i < 3; i++) {
-    tLibraryMediaInfoJson['response']['data']['data'].forEach((item) {
-      tLibraryMediaList25.add(LibraryMediaModel.fromJson(item));
-    });
-  }
-
-  void setUpSuccess(List<LibraryMedia> libraryMediaList) {
+  void setUpSuccess() {
     String imageUrl =
         'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
     when(
@@ -63,10 +58,9 @@ void main() {
         tautulliId: tTautulliId,
         ratingKey: anyNamed('ratingKey'),
         sectionId: anyNamed('sectionId'),
-        start: anyNamed('start'),
         length: anyNamed('length'),
       ),
-    ).thenAnswer((_) async => Right(libraryMediaList));
+    ).thenAnswer((_) async => Right(tLibraryMediaList));
   }
 
   test(
@@ -82,7 +76,7 @@ void main() {
       'should get data from GetLibraryMedia use case',
       () async {
         // arrange
-        setUpSuccess(tLibraryMediaList);
+        setUpSuccess();
         clearCache();
         // act
         bloc.add(
@@ -115,7 +109,7 @@ void main() {
       'should get data from the ImageUrl use case',
       () async {
         // arrange
-        setUpSuccess(tLibraryMediaList);
+        setUpSuccess();
         clearCache();
         // act
         bloc.add(
@@ -145,73 +139,46 @@ void main() {
     );
 
     test(
-      'should emit [LibraryMediaSuccess] with hasReachedMax as false when data is fetched successfully and list is 25 or more',
+      'should emit [LibraryMediaSuccess] data is fetched successfully',
       () async {
         // arrange
-        setUpSuccess(tLibraryMediaList25);
+        setUpSuccess();
         clearCache();
         // assert later
         final expected = [
           LibraryMediaInProgress(),
           LibraryMediaSuccess(
-            libraryMediaList: tLibraryMediaList25,
-            hasReachedMax: false,
-          ),
-        ];
-        expectLater(bloc, emitsInOrder(expected));
-        // act
-        bloc.add(LibraryMediaFetched(
-          tautulliId: tTautulliId,
-          ratingKey: tRatingKey,
-        ));
-      },
-    );
-
-    test(
-      'when state is [LibraryMediaSuccess] should emit [LibraryMediaSuccess] with hasReachedMax as false when data is fetched successfully',
-      () async {
-        // arrange
-        setUpSuccess(tLibraryMediaList25);
-        clearCache();
-        bloc.emit(
-          LibraryMediaSuccess(
-            libraryMediaList: tLibraryMediaList25,
-            hasReachedMax: false,
-          ),
-        );
-        // assert later
-        final expected = [
-          LibraryMediaSuccess(
-            libraryMediaList: tLibraryMediaList25 + tLibraryMediaList25,
-            hasReachedMax: false,
-          ),
-        ];
-        expectLater(bloc, emitsInOrder(expected));
-        // act
-        bloc.add(LibraryMediaFetched(
-          tautulliId: tTautulliId,
-          ratingKey: tRatingKey,
-        ));
-      },
-    );
-
-    test(
-      'when state is [LibraryMediaSuccess] should emit [LibraryMediaSuccess] with hasReachedMax as true when data is fetched successfully and less then 25',
-      () async {
-        // arrange
-        setUpSuccess(tLibraryMediaList);
-        clearCache();
-        bloc.emit(
-          LibraryMediaSuccess(
             libraryMediaList: tLibraryMediaList,
-            hasReachedMax: false,
           ),
-        );
+        ];
+        expectLater(bloc, emitsInOrder(expected));
+        // act
+        bloc.add(LibraryMediaFetched(
+          tautulliId: tTautulliId,
+          ratingKey: tRatingKey,
+        ));
+      },
+    );
+
+    test(
+      'should emit [LibrariesFailure] with a proper message when getting data fails',
+      () async {
+        // arrange
+        final failure = ServerFailure();
+        clearCache();
+        when(mockGetLibraryMediaInfo(
+          tautulliId: tTautulliId,
+          ratingKey: anyNamed('ratingKey'),
+          sectionId: anyNamed('sectionId'),
+          length: anyNamed('length'),
+        )).thenAnswer((_) async => Left(failure));
         // assert later
         final expected = [
-          LibraryMediaSuccess(
-            libraryMediaList: tLibraryMediaList + tLibraryMediaList,
-            hasReachedMax: true,
+          LibraryMediaInProgress(),
+          LibraryMediaFailure(
+            failure: failure,
+            message: SERVER_FAILURE_MESSAGE,
+            suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));

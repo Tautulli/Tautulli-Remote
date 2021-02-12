@@ -130,63 +130,60 @@ class _LibraryItemsPageContentState extends State<LibraryItemsPageContent> {
           }
           if (state is LibraryMediaSuccess) {
             if (state.libraryMediaList.length > 0) {
-              return ListView.builder(
-                itemCount: state.hasReachedMax
-                    ? state.libraryMediaList.length
-                    : state.libraryMediaList.length + 1,
-                controller: _scrollController,
-                itemBuilder: (context, index) {
-                  final heroTag = UniqueKey();
+              return Scrollbar(
+                child: ListView.builder(
+                  itemCount: state.libraryMediaList.length,
+                  controller: _scrollController,
+                  itemBuilder: (context, index) {
+                    final heroTag = UniqueKey();
 
-                  return index >= state.libraryMediaList.length
-                      ? BottomLoader()
-                      : GestureDetector(
-                          onTap: () {
-                            if (state.libraryMediaList[index].mediaType ==
-                                'photo_album') {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => LibraryItemsPage(
-                                    title: state.libraryMediaList[index].title,
-                                    ratingKey:
-                                        state.libraryMediaList[index].ratingKey,
-                                  ),
-                                ),
-                              );
-                            } else if (state
-                                    .libraryMediaList[index].mediaType !=
-                                'photo') {
-                              final libraryItem = state.libraryMediaList[index];
-
-                              MediaItem mediaItem = MediaItem(
-                                parentMediaIndex: libraryItem.parentMediaIndex,
-                                mediaIndex: libraryItem.mediaIndex,
-                                mediaType: libraryItem.mediaType,
-                                posterUrl: libraryItem.posterUrl,
-                                ratingKey: libraryItem.ratingKey,
-                                title: libraryItem.title,
-                                year: libraryItem.year,
-                              );
-
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => MediaItemPage(
-                                    item: mediaItem,
-                                    heroTag: heroTag,
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                          child: PosterCard(
-                            heroTag: heroTag,
-                            item: state.libraryMediaList[index],
-                            details: LibraryItemDetails(
-                              item: state.libraryMediaList[index],
+                    return GestureDetector(
+                      onTap: () {
+                        if (state.libraryMediaList[index].mediaType ==
+                            'photo_album') {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => LibraryItemsPage(
+                                title: state.libraryMediaList[index].title,
+                                ratingKey:
+                                    state.libraryMediaList[index].ratingKey,
+                              ),
                             ),
-                          ),
-                        );
-                },
+                          );
+                        } else if (state.libraryMediaList[index].mediaType !=
+                            'photo') {
+                          final libraryItem = state.libraryMediaList[index];
+
+                          MediaItem mediaItem = MediaItem(
+                            parentMediaIndex: libraryItem.parentMediaIndex,
+                            mediaIndex: libraryItem.mediaIndex,
+                            mediaType: libraryItem.mediaType,
+                            posterUrl: libraryItem.posterUrl,
+                            ratingKey: libraryItem.ratingKey,
+                            title: libraryItem.title,
+                            year: libraryItem.year,
+                          );
+
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => MediaItemPage(
+                                item: mediaItem,
+                                heroTag: heroTag,
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      child: PosterCard(
+                        heroTag: heroTag,
+                        item: state.libraryMediaList[index],
+                        details: LibraryItemDetails(
+                          item: state.libraryMediaList[index],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               );
             } else {
               return Expanded(

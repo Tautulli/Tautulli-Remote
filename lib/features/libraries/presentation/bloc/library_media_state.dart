@@ -13,25 +13,13 @@ class LibraryMediaInProgress extends LibraryMediaState {}
 
 class LibraryMediaSuccess extends LibraryMediaState {
   final List<LibraryMedia> libraryMediaList;
-  final bool hasReachedMax;
 
   LibraryMediaSuccess({
     @required this.libraryMediaList,
-    @required this.hasReachedMax,
   });
 
-  LibraryMediaSuccess copyWith({
-    List<LibraryMedia> libraryMediaList,
-    bool hasReachedMax,
-  }) {
-    return LibraryMediaSuccess(
-      libraryMediaList: libraryMediaList ?? this.libraryMediaList,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-    );
-  }
-
   @override
-  List<Object> get props => [libraryMediaList, hasReachedMax];
+  List<Object> get props => [libraryMediaList];
 }
 
 class LibraryMediaFailure extends LibraryMediaState {

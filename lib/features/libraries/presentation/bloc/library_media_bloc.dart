@@ -16,7 +16,6 @@ part 'library_media_state.dart';
 
 String _tautulliIdCache;
 Map<int, List<LibraryMedia>> _libraryMediaListCache = {};
-bool _hasReachedMaxCache;
 
 class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
   final GetLibraryMediaInfo getLibraryMediaInfo;
@@ -42,153 +41,63 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
   Stream<LibraryMediaState> mapEventToState(
     LibraryMediaEvent event,
   ) async* {
-    final currentState = state;
-
-    if (event is LibraryMediaFetched && !_hasReachedMax(currentState)) {
-      if (currentState is LibraryMediaInitial) {
+    if (event is LibraryMediaFetched) {
+      if (_tautulliIdCache == event.tautulliId &&
+          (_libraryMediaListCache.containsKey(event.ratingKey) ||
+              _libraryMediaListCache.containsKey(event.sectionId))) {
+        List<LibraryMedia> cachedList = [];
+        if (event.ratingKey != null) {
+          cachedList = _libraryMediaListCache[event.ratingKey];
+        } else if (event.sectionId != null) {
+          cachedList = _libraryMediaListCache[event.sectionId];
+        }
+        yield LibraryMediaSuccess(
+          libraryMediaList: cachedList,
+        );
+      } else {
         yield LibraryMediaInProgress();
 
-        yield* _fetchInitial(
+        final failureOrLibraryMediaList = await getLibraryMediaInfo(
           tautulliId: event.tautulliId,
           ratingKey: event.ratingKey,
           sectionId: event.sectionId,
-          useCachedList: true,
+          length: 100000000000,
         );
-      }
-      if (currentState is LibraryMediaSuccess) {
-        yield* _fetchMore(
-          currentState: currentState,
-          tautulliId: event.tautulliId,
-          ratingKey: event.ratingKey,
-          sectionId: event.sectionId,
-        );
-      }
 
-      _tautulliIdCache = event.tautulliId;
+        yield* failureOrLibraryMediaList.fold(
+          (failure) async* {
+            yield LibraryMediaFailure(
+              failure: failure,
+              message: FailureMapperHelper.mapFailureToMessage(failure),
+              suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
+            );
+          },
+          (libraryMediaList) async* {
+            final String mediaType = libraryMediaList.first.mediaType;
+
+            await _sortList(
+              mediaType: mediaType,
+              libraryMediaList: libraryMediaList,
+            );
+
+            await _getImages(
+                list: libraryMediaList, tautulliId: event.tautulliId);
+
+            if (event.ratingKey != null) {
+              _libraryMediaListCache[event.ratingKey] = libraryMediaList;
+            } else if (event.sectionId != null) {
+              _libraryMediaListCache[event.sectionId] = libraryMediaList;
+            }
+
+            yield LibraryMediaSuccess(
+              libraryMediaList: libraryMediaList,
+            );
+          },
+        );
+
+        _tautulliIdCache = event.tautulliId;
+      }
     }
-  }
-
-  Stream<LibraryMediaState> _fetchInitial({
-    @required String tautulliId,
-    int ratingKey,
-    int sectionId,
-    int start,
-    int length,
-    bool useCachedList = false,
-  }) async* {
-    if (useCachedList &&
-        _tautulliIdCache == tautulliId &&
-        (_libraryMediaListCache.containsKey(ratingKey) ||
-            _libraryMediaListCache.containsKey(sectionId))) {
-      List<LibraryMedia> cachedList = [];
-      if (ratingKey != null) {
-        cachedList = _libraryMediaListCache[ratingKey];
-      } else if (sectionId != null) {
-        cachedList = _libraryMediaListCache[sectionId];
-      }
-      yield LibraryMediaSuccess(
-        libraryMediaList: cachedList,
-        hasReachedMax: cachedList.length < 25,
-      );
-    } else {
-      final failureOrLibraryMediaList = await getLibraryMediaInfo(
-        tautulliId: tautulliId,
-        ratingKey: ratingKey,
-        sectionId: sectionId,
-        start: start,
-        length: length ?? 25,
-      );
-
-      yield* failureOrLibraryMediaList.fold(
-        (failure) async* {
-          yield LibraryMediaFailure(
-            failure: failure,
-            message: FailureMapperHelper.mapFailureToMessage(failure),
-            suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
-          );
-        },
-        (libraryMediaList) async* {
-          final String mediaType = libraryMediaList.first.mediaType;
-
-          await _sortList(
-            mediaType: mediaType,
-            libraryMediaList: libraryMediaList,
-          );
-
-          await _getImages(list: libraryMediaList, tautulliId: tautulliId);
-
-          if (ratingKey != null) {
-            _libraryMediaListCache[ratingKey] = libraryMediaList;
-          } else if (sectionId != null) {
-            _libraryMediaListCache[sectionId] = libraryMediaList;
-          }
-
-          _hasReachedMaxCache = libraryMediaList.length < 25;
-
-          yield LibraryMediaSuccess(
-            libraryMediaList: libraryMediaList,
-            hasReachedMax: libraryMediaList.length < 25,
-          );
-        },
-      );
-    }
-  }
-
-  Stream<LibraryMediaState> _fetchMore({
-    @required LibraryMediaSuccess currentState,
-    @required String tautulliId,
-    int ratingKey,
-    int sectionId,
-    int start,
-    int length,
-  }) async* {
-    final failureOrLibraryMediaList = await getLibraryMediaInfo(
-      tautulliId: tautulliId,
-      ratingKey: ratingKey,
-      sectionId: sectionId,
-      start: currentState.libraryMediaList.length,
-      length: length ?? 25,
-    );
-
-    yield* failureOrLibraryMediaList.fold(
-      (failure) async* {
-        yield LibraryMediaFailure(
-          failure: failure,
-          message: FailureMapperHelper.mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
-        );
-      },
-      (libraryMediaList) async* {
-        if (libraryMediaList.isEmpty) {
-          _hasReachedMaxCache = true;
-          yield currentState.copyWith(hasReachedMax: true);
-        } else {
-          final String mediaType = libraryMediaList[0].mediaType;
-
-          await _sortList(
-            mediaType: mediaType,
-            libraryMediaList: libraryMediaList,
-          );
-
-          await _getImages(list: libraryMediaList, tautulliId: tautulliId);
-
-          if (ratingKey != null) {
-            _libraryMediaListCache[ratingKey] =
-                currentState.libraryMediaList + libraryMediaList;
-          } else if (sectionId != null) {
-            _libraryMediaListCache[sectionId] =
-                currentState.libraryMediaList + libraryMediaList;
-          }
-
-          _hasReachedMaxCache = libraryMediaList.length < 25;
-
-          yield LibraryMediaSuccess(
-            libraryMediaList: currentState.libraryMediaList + libraryMediaList,
-            hasReachedMax: libraryMediaList.length < 25,
-          );
-        }
-      },
-    );
   }
 
   Future<void> _sortList({
@@ -244,11 +153,7 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
   }
 }
 
-bool _hasReachedMax(LibraryMediaState state) =>
-    state is LibraryMediaSuccess && state.hasReachedMax;
-
 void clearCache() {
   _tautulliIdCache = null;
   _libraryMediaListCache = {};
-  _hasReachedMaxCache = null;
 }
