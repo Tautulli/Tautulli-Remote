@@ -68,6 +68,7 @@ void main() {
     deviceToken: 'abc',
     tautulliId: 'jkl',
     plexName: 'Plex',
+    plexIdentifier: 'xyz',
     primaryActive: true,
     plexPass: true,
   );

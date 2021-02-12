@@ -46,6 +46,7 @@ void main() {
   final String tDeviceToken = 'abc';
   final String tTautulliId = 'jkl';
   final String tPlexName = 'Plex';
+  final String tPlexIdentifier = 'xyz';
 
   final Map<String, String> tPrimaryConnectionMap = {
     'protocol': tPrimaryConnectionProtocol,
@@ -62,6 +63,7 @@ void main() {
     deviceToken: tDeviceToken,
     tautulliId: tTautulliId,
     plexName: tPlexName,
+    plexIdentifier: tPlexIdentifier,
     primaryActive: true,
     plexPass: true,
   );

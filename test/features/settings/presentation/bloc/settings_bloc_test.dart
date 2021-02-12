@@ -42,15 +42,9 @@ void main() {
   final String tDeviceToken = 'abc';
   final String tTautulliId = 'jkl';
   final String tPlexName = 'Plex';
+  final String tPlexIdentifier = 'uvw';
   final String tDateFormat = 'YYYY-MM-DD';
   final String tTimeFormat = 'HH:mm';
-  final String tNewPrimaryConnectionAddress = 'https://plexpy.com';
-  final String tNewPrimaryConnectionProtocol = 'https';
-  final String tNewPrimaryConnectionDomain = 'plexpy.com';
-  final String tNewPrimaryConnectionPath = '/plexpy';
-  final String tNewDeviceToken = 'def';
-  final String tNewTautulliId = 'mno';
-  final String tNewPlexName = 'Plex2';
 
   final Server tServerModel = ServerModel(
     primaryConnectionAddress: tPrimaryConnectionAddress,
@@ -60,6 +54,7 @@ void main() {
     deviceToken: tDeviceToken,
     tautulliId: tTautulliId,
     plexName: tPlexName,
+    plexIdentifier: tPlexIdentifier,
     primaryActive: true,
     plexPass: true,
     dateFormat: tDateFormat,
@@ -153,6 +148,7 @@ void main() {
             deviceToken: tDeviceToken,
             tautulliId: tTautulliId,
             plexName: tPlexName,
+            plexIdentifier: tPlexIdentifier,
             plexPass: true,
           ),
         );
@@ -162,6 +158,7 @@ void main() {
             deviceToken: tDeviceToken,
             tautulliId: tTautulliId,
             plexName: tPlexName,
+            plexIdentifier: tPlexIdentifier,
             primaryActive: true,
             plexPass: true,
           ),
@@ -173,6 +170,7 @@ void main() {
             deviceToken: tDeviceToken,
             tautulliId: tTautulliId,
             plexName: tPlexName,
+            plexIdentifier: tPlexIdentifier,
             primaryActive: true,
             plexPass: true,
           ),
@@ -203,6 +201,7 @@ void main() {
             deviceToken: tDeviceToken,
             tautulliId: tTautulliId,
             plexName: tPlexName,
+            plexIdentifier: tPlexIdentifier,
             plexPass: true,
           ),
         );
@@ -223,6 +222,7 @@ void main() {
             deviceToken: tDeviceToken,
             tautulliId: tTautulliId,
             plexName: tPlexName,
+            plexIdentifier: tPlexIdentifier,
             plexPass: true,
             dateFormat: tDateFormat,
             timeFormat: tTimeFormat,
@@ -236,6 +236,7 @@ void main() {
             deviceToken: tDeviceToken,
             tautulliId: tTautulliId,
             plexName: tPlexName,
+            plexIdentifier: tPlexIdentifier,
             primaryActive: true,
             plexPass: true,
             dateFormat: tDateFormat,
@@ -251,6 +252,7 @@ void main() {
             deviceToken: tDeviceToken,
             tautulliId: tTautulliId,
             plexName: tPlexName,
+            plexIdentifier: tPlexIdentifier,
             primaryActive: true,
             plexPass: true,
             dateFormat: tDateFormat,
@@ -285,6 +287,7 @@ void main() {
             deviceToken: tDeviceToken,
             tautulliId: tTautulliId,
             plexName: tPlexName,
+            plexIdentifier: tPlexIdentifier,
             plexPass: true,
             dateFormat: tDateFormat,
             timeFormat: tTimeFormat,

@@ -37,6 +37,7 @@ void main() {
     primaryConnectionPath: null,
     deviceToken: 'abc',
     plexName: 'Plex',
+    plexIdentifier: 'xyz',
     tautulliId: 'jkl',
     primaryActive: true,
     plexPass: true,

@@ -34,6 +34,7 @@ void main() {
   final String tDeviceToken = 'abc';
   final String tTautulliId = 'jkl';
   final String tPlexName = 'Plex';
+  final String tPlexIdentifier = 'xyz';
   final String tDateFormat = 'YYYY-MM-DD';
   final String tTimeFormat = 'HH:mm';
 
@@ -48,6 +49,7 @@ void main() {
     deviceToken: tDeviceToken,
     tautulliId: tTautulliId,
     plexName: tPlexName,
+    plexIdentifier: tPlexIdentifier,
     primaryActive: true,
     plexPass: true,
     dateFormat: tDateFormat,
@@ -76,6 +78,7 @@ void main() {
         deviceToken: tDeviceToken,
         tautulliId: tTautulliId,
         plexName: tPlexName,
+        plexIdentifier: tPlexIdentifier,
         primaryActive: true,
         plexPass: true,
       );
@@ -86,6 +89,7 @@ void main() {
           deviceToken: tDeviceToken,
           tautulliId: tTautulliId,
           plexName: tPlexName,
+          plexIdentifier: tPlexIdentifier,
           primaryActive: true,
           plexPass: true,
         ),
@@ -124,6 +128,7 @@ void main() {
         deviceToken: tDeviceToken,
         tautulliId: tTautulliId,
         plexName: tPlexName,
+        plexIdentifier: tPlexIdentifier,
         primaryActive: true,
         plexPass: true,
         dateFormat: tDateFormat,
@@ -138,6 +143,7 @@ void main() {
           deviceToken: tDeviceToken,
           tautulliId: tTautulliId,
           plexName: tPlexName,
+          plexIdentifier: tPlexIdentifier,
           primaryActive: true,
           plexPass: true,
           dateFormat: tDateFormat,
