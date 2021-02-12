@@ -95,7 +95,11 @@ class _HeadingText extends StatelessWidget {
           fontSize: 20,
         ),
         overflow: TextOverflow.ellipsis,
-        maxLines: ['movie', 'season', 'show'].contains(mediaType) ? 3 : 2,
+        maxLines: ['movie', 'season', 'show'].contains(mediaType)
+            ? 3
+            : (mediaType == 'episode' && item.title.length > 29)
+                ? 1
+                : 2,
       ),
     );
   }
