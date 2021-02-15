@@ -7,9 +7,9 @@ class DataUnitFormatHelper {
 
   static String bitrate(int kiloBitsPerSecond) {
     if (kiloBitsPerSecond < 1000) {
-      return '$kiloBitsPerSecond Kbps';
+      return '${kiloBitsPerSecond.toStringAsFixed(2)} Kbps';
     }
 
-    return '${kiloBitsPerSecond / 1000} Mbps';
+    return '${(kiloBitsPerSecond / 1000).toStringAsFixed(2)} Mbps';
   }
 }
