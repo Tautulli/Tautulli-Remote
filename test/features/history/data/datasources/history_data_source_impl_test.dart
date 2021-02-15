@@ -7,25 +7,19 @@ import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
 import 'package:tautulli_remote/features/history/data/datasources/history_data_source.dart';
 import 'package:tautulli_remote/features/history/data/models/history_model.dart';
 import 'package:tautulli_remote/features/history/domain/entities/history.dart';
-import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetHistory extends Mock implements tautulliApi.GetHistory {}
 
-class MockLogging extends Mock implements Logging {}
-
 void main() {
   HistoryDataSourceImpl dataSource;
   MockGetHistory mockApiGetHistory;
-  MockLogging mockLogging;
 
   setUp(() {
     mockApiGetHistory = MockGetHistory();
-    mockLogging = MockLogging();
     dataSource = HistoryDataSourceImpl(
       apiGetHistory: mockApiGetHistory,
-      logging: mockLogging,
     );
   });
 

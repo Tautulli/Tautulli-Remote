@@ -41,7 +41,12 @@ class ServerSettings extends StatelessWidget {
                 plexName: plexName,
               );
               if (delete) {
-                settingsBloc.add(SettingsDeleteServer(id: id));
+                settingsBloc.add(
+                  SettingsDeleteServer(
+                    id: id,
+                    plexName: plexName,
+                  ),
+                );
                 Navigator.of(context).pop();
               }
             },
@@ -91,6 +96,7 @@ class ServerSettings extends StatelessWidget {
                       _buildPrimaryConnectionAddressSettingsDialog(
                         context: context,
                         id: server.id,
+                        plexName: plexName,
                         primaryConnectionAddress:
                             server.primaryConnectionAddress,
                         controller: _primaryConnectionAddressController,
@@ -146,6 +152,7 @@ class ServerSettings extends StatelessWidget {
                       _buildSecondaryConnectionAddressSettingsDialog(
                         context: context,
                         id: server.id,
+                        plexName: plexName,
                         secondaryConnectionAddress:
                             server.secondaryConnectionAddress,
                         controller: _secondaryConnectionAddressController,
@@ -222,6 +229,7 @@ class ServerSettings extends StatelessWidget {
 Future _buildPrimaryConnectionAddressSettingsDialog({
   @required BuildContext context,
   @required int id,
+  @required String plexName,
   @required String primaryConnectionAddress,
   @required TextEditingController controller,
   @required SettingsBloc settingsBloc,
@@ -270,6 +278,7 @@ Future _buildPrimaryConnectionAddressSettingsDialog({
                   SettingsUpdatePrimaryConnection(
                     id: id,
                     primaryConnectionAddress: controller.text,
+                    plexName: plexName,
                   ),
                 );
                 Navigator.of(context).pop();
@@ -285,6 +294,7 @@ Future _buildPrimaryConnectionAddressSettingsDialog({
 Future _buildSecondaryConnectionAddressSettingsDialog({
   @required BuildContext context,
   @required int id,
+  @required String plexName,
   @required String secondaryConnectionAddress,
   @required TextEditingController controller,
   @required SettingsBloc settingsBloc,
@@ -332,6 +342,7 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
                 settingsBloc.add(
                   SettingsUpdateSecondaryConnection(
                     id: id,
+                    plexName: plexName,
                     secondaryConnectionAddress: controller.text,
                   ),
                 );

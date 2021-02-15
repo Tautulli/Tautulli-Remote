@@ -78,40 +78,46 @@ class SettingsUpdateServer extends SettingsEvent {
 class SettingsUpdatePrimaryConnection extends SettingsEvent {
   final int id;
   final String primaryConnectionAddress;
+  final String plexName;
 
   SettingsUpdatePrimaryConnection({
     @required this.id,
     @required this.primaryConnectionAddress,
+    @required this.plexName,
   });
 
   @override
-  List<Object> get props => [id, primaryConnectionAddress];
+  List<Object> get props => [id, primaryConnectionAddress, plexName];
 }
 
 class SettingsUpdateSecondaryConnection extends SettingsEvent {
   final int id;
   final String secondaryConnectionAddress;
+  final String plexName;
 
   SettingsUpdateSecondaryConnection({
     @required this.id,
     @required this.secondaryConnectionAddress,
+    @required this.plexName,
   });
 
   @override
-  List<Object> get props => [id, secondaryConnectionAddress];
+  List<Object> get props => [id, secondaryConnectionAddress, plexName];
 }
 
 class SettingsUpdateDeviceToken extends SettingsEvent {
   final int id;
   final String deviceToken;
+  final String plexName;
 
   SettingsUpdateDeviceToken({
     @required this.id,
     @required this.deviceToken,
+    @required this.plexName,
   });
 
   @override
-  List<Object> get props => [id, deviceToken];
+  List<Object> get props => [id, deviceToken, plexName];
 }
 
 class SettingsUpdateServerTimeout extends SettingsEvent {
@@ -152,9 +158,13 @@ class SettingsUpdateStatsType extends SettingsEvent {
 
 class SettingsDeleteServer extends SettingsEvent {
   final int id;
+  final String plexName;
 
-  SettingsDeleteServer({@required this.id});
+  SettingsDeleteServer({
+    @required this.id,
+    @required this.plexName,
+  });
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [id, plexName];
 }

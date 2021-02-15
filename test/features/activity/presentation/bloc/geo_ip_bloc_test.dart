@@ -5,17 +5,23 @@ import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/features/activity/data/models/geo_ip_model.dart';
 import 'package:tautulli_remote/features/activity/domain/usecases/get_geo_ip.dart';
 import 'package:tautulli_remote/features/activity/presentation/bloc/geo_ip_bloc.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 
 class MockGetGeoIp extends Mock implements GetGeoIp {}
+
+class MockLogging extends Mock implements Logging {}
 
 void main() {
   GeoIpBloc bloc;
   MockGetGeoIp mockGetGeoIp;
+  MockLogging mockLogging;
 
   setUp(() {
     mockGetGeoIp = MockGetGeoIp();
+    mockLogging = MockLogging();
     bloc = GeoIpBloc(
       getGeoIp: mockGetGeoIp,
+      logging: mockLogging,
     );
   });
 

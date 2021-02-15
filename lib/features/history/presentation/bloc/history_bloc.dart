@@ -119,7 +119,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         hasReachedMax: false,
       );
     } else {
-      final historyOrFailure = await getHistory(
+      final failureOrHistory = await getHistory(
         tautulliId: tautulliId,
         grouping: grouping,
         user: user,
@@ -139,8 +139,12 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         search: search,
       );
 
-      yield* historyOrFailure.fold(
+      yield* failureOrHistory.fold(
         (failure) async* {
+          logging.error(
+            'History: Failed to load history',
+          );
+
           yield HistoryFailure(
             failure: failure,
             message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -182,7 +186,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     int length,
     String search,
   }) async* {
-    final historyOrFailure = await getHistory(
+    final failureOrHistory = await getHistory(
       tautulliId: tautulliId,
       grouping: grouping,
       user: user,
@@ -202,8 +206,12 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       search: search,
     );
 
-    yield* historyOrFailure.fold(
+    yield* failureOrHistory.fold(
       (failure) async* {
+        logging.error(
+          'History: Failed to load additional history',
+        );
+
         yield HistoryFailure(
           failure: failure,
           message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -272,7 +280,8 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       failureOrPosterUrl.fold(
         (failure) {
           logging.warning(
-              'RecentlyAdded: Failed to load poster for rating key: $posterRatingKey');
+            'History: Failed to load poster for rating key $posterRatingKey',
+          );
         },
         (url) {
           historyItem.posterUrl = url;

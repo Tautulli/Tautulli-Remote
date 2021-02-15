@@ -29,7 +29,9 @@ class OneSignalHealthBloc
       if (await oneSignal.isReachable) {
         yield OneSignalHealthSuccess();
       } else {
-        logging.warning('OneSignal: Failed to communicate with OneSignal');
+        logging.warning(
+          'OneSignal: Failed to communicate with OneSignal',
+        );
         yield OneSignalHealthFailure();
       }
     }

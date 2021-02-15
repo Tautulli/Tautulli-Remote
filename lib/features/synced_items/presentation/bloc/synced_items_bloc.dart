@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
+import '../../../logging/domain/usecases/logging.dart';
 import '../../../media/domain/usecases/get_metadata.dart';
 import '../../domain/entities/synced_item.dart';
 import '../../domain/usecases/get_synced_items.dart';
@@ -21,11 +22,13 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
   final GetSyncedItems getSyncedItems;
   final GetMetadata getMetadata;
   final GetImageUrl getImageUrl;
+  final Logging logging;
 
   SyncedItemsBloc({
     @required this.getSyncedItems,
     @required this.getMetadata,
     @required this.getImageUrl,
+    @required this.logging,
   }) : super(SyncedItemsInitial());
 
   @override
@@ -67,6 +70,10 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
 
       yield* syncedItemsListOrFailure.fold(
         (failure) async* {
+          logging.error(
+            'SyncedItems: Failed to load synced item',
+          );
+
           yield SyncedItemsFailure(
             failure: failure,
             message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -100,14 +107,16 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
 
       // If item uses parent or grandparent info for poster then use GetMetadata to fetch correct thumb/rating key
       if (['episode', 'track'].contains(syncedItem.mediaType)) {
-        final metadataOrFailure = await getMetadata(
+        final failureOrMetadata = await getMetadata(
           tautulliId: tautulliId,
           syncId: syncedItem.syncId,
         );
 
-        metadataOrFailure.fold(
+        failureOrMetadata.fold(
           (failure) {
-            //TODO: Log failure
+            logging.error(
+              'Statistics: Failed to load metadata for ${syncedItem.syncTitle}',
+            );
           },
           (item) {
             grandparentRatingKey = item.grandparentRatingKey;
@@ -158,9 +167,9 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
       );
       failureOrPosterUrl.fold(
         (failure) {
-          //TODO: log failure
-          // logging.warning(
-          //     'SyncedItem: Failed to load poster for rating key: ${syncedItem.ratingKey}');
+          logging.warning(
+            'Statistics: Failed to load poster for rating key ${posterRatingKey ?? ratingKey}',
+          );
         },
         (url) {
           syncedItem.posterUrl = url;

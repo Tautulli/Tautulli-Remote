@@ -10,6 +10,7 @@ import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../libraries/domain/entities/library_media.dart';
 import '../../../libraries/domain/usecases/get_library_media_info.dart';
+import '../../../logging/domain/usecases/logging.dart';
 
 part 'library_media_event.dart';
 part 'library_media_state.dart';
@@ -20,10 +21,12 @@ Map<int, List<LibraryMedia>> _libraryMediaListCache = {};
 class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
   final GetLibraryMediaInfo getLibraryMediaInfo;
   final GetImageUrl getImageUrl;
+  final Logging logging;
 
   LibraryMediaBloc({
     @required this.getLibraryMediaInfo,
     @required this.getImageUrl,
+    @required this.logging,
   }) : super(LibraryMediaInitial());
 
   @override
@@ -66,6 +69,10 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
 
         yield* failureOrLibraryMediaList.fold(
           (failure) async* {
+            logging.error(
+              'LibraryMedia: Failed to load items for Section ID ${event.sectionId}',
+            );
+
             yield LibraryMediaFailure(
               failure: failure,
               message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -143,7 +150,9 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
       );
       failureOrPosterUrl.fold(
         (failure) {
-          // logging.warning('RecentlyAdded: Failed to load poster for rating key: $posterRatingKey');
+          logging.warning(
+            'LibraryMedia: Failed to load poster for ${libraryMediaItem.title}',
+          );
         },
         (url) {
           libraryMediaItem.posterUrl = url;

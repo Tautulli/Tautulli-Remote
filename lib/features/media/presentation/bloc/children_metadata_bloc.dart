@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
+import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../../domain/usecases/get_children_metadata.dart';
 
@@ -20,10 +21,12 @@ class ChildrenMetadataBloc
     extends Bloc<ChildrenMetadataEvent, ChildrenMetadataState> {
   final GetChildrenMetadata getChildrenMetadata;
   final GetImageUrl getImageUrl;
+  final Logging logging;
 
   ChildrenMetadataBloc({
     @required this.getChildrenMetadata,
     @required this.getImageUrl,
+    @required this.logging,
   }) : super(ChildrenMetadataInitial());
 
   @override
@@ -46,6 +49,10 @@ class ChildrenMetadataBloc
 
         yield* failureOrChildrenMetadata.fold(
           (failure) async* {
+            logging.error(
+              'ChildrenMetadata: Failed to fetch children metadata for rating key ${event.ratingKey}',
+            );
+
             yield ChildrenMetadataFailure(
               failure: failure,
               message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -121,7 +128,9 @@ class ChildrenMetadataBloc
       );
       failureOrPosterUrl.fold(
         (failure) {
-          // logging.warning('RecentlyAdded: Failed to load poster for rating key: $posterRatingKey');
+          logging.warning(
+            'ChildrenMetadata: Failed to load poster for ${metadataItem.thumb}',
+          );
         },
         (url) {
           metadataItem.posterUrl = url;

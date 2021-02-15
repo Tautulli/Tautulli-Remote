@@ -31,7 +31,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield* _checkForServerChanges();
     }
     if (event is SettingsAddServer) {
-      logging.info('Settings: Saving server details');
+      logging.info(
+        'Settings: Saving server details for ${event.plexName}',
+      );
+
       await settings.addServer(
         primaryConnectionAddress: event.primaryConnectionAddress,
         deviceToken: event.deviceToken,
@@ -45,7 +48,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield* _checkForServerChanges();
     }
     if (event is SettingsUpdateServer) {
-      logging.info('Settings: Updating server details');
+      logging.info(
+        'Settings: Updating server details for ${event.plexName}',
+      );
+
       await settings.updateServerById(
         id: event.id,
         primaryConnectionAddress: event.primaryConnectionAddress,
@@ -62,12 +68,18 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield* _fetchAndYieldSettings();
     }
     if (event is SettingsDeleteServer) {
-      logging.info('Settings: Deleting server');
+      logging.info(
+        'Settings: Deleting server ${event.plexName}',
+      );
+
       await settings.deleteServer(event.id);
       yield* _fetchAndYieldSettings();
     }
     if (event is SettingsUpdatePrimaryConnection) {
-      logging.info('Settings: Updating primary connection address');
+      logging.info(
+        'Settings: Updating primary connection address for ${event.plexName}',
+      );
+
       await settings.updatePrimaryConnection(
         id: event.id,
         primaryConnectionAddress: event.primaryConnectionAddress.trim(),
@@ -75,7 +87,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield* _fetchAndYieldSettings();
     }
     if (event is SettingsUpdateSecondaryConnection) {
-      logging.info('Settings: Updating secondary connection address');
+      logging.info(
+        'Settings: Updating secondary connection address for ${event.plexName}',
+      );
+
       await settings.updateSecondaryConnection(
         id: event.id,
         secondaryConnectionAddress: event.secondaryConnectionAddress.trim(),
@@ -83,7 +98,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield* _fetchAndYieldSettings();
     }
     if (event is SettingsUpdateDeviceToken) {
-      logging.info('Settings: Updating device token');
+      logging.info(
+        'Settings: Updating device token for ${event.plexName}',
+      );
+
       await settings.updateDeviceToken(
         id: event.id,
         deviceToken: event.deviceToken.trim(),
@@ -91,14 +109,20 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield* _fetchAndYieldSettings();
     }
     if (event is SettingsUpdateServerTimeout) {
-      logging.info('Settings: Updating server timeout to ${event.timeout}s');
+      logging.info(
+        'Settings: Updating server timeout to ${event.timeout}s',
+      );
+
       await settings.setServerTimeout(event.timeout);
       yield* _fetchAndYieldSettings();
     }
     if (event is SettingsUpdateRefreshRate) {
       final String refreshRateString =
           event.refreshRate != null ? '${event.refreshRate}s' : 'disabled';
-      logging.info('Settings: Updating server timeout to $refreshRateString');
+
+      logging.info(
+        'Settings: Updating refresh rate to $refreshRateString',
+      );
 
       await settings.setRefreshRate(event.refreshRate);
       yield* _fetchAndYieldSettings();
@@ -166,7 +190,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final failureOrPlexServerInfo =
         await settings.getPlexServerInfo(server.tautulliId);
     failureOrPlexServerInfo.fold(
-      (failure) => null,
+      (failure) {
+        logging.error(
+          'Settings: Failed to fetch Plex server info for ${server.tautulliId}',
+        );
+      },
       (plexServerInfo) {
         settingsMap['pmsName'] = plexServerInfo.pmsName;
         settingsMap['pmsIdentifier'] = plexServerInfo.pmsIdentifier;
@@ -191,7 +219,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final failureOrTautulliSettings =
         await settings.getTautulliSettings(server.tautulliId);
     failureOrTautulliSettings.fold(
-      (failure) => null,
+      (failure) {
+        logging.error(
+          'Settings: Failed to fetch Tautulli settings for ${server.tautulliId}',
+        );
+      },
       (tautulliSettings) {
         final TautulliSettingsGeneral generalSettings =
             tautulliSettings['general'];

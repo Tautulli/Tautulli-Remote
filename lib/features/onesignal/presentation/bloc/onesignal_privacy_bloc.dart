@@ -55,7 +55,9 @@ class OneSignalPrivacyBloc
     oneSignal.grantConsent(true);
     oneSignal.setSubscription(true);
 
-    logging.info('OneSignal: Privacy consent accepted');
+    logging.info(
+      'OneSignal: Privacy consent accepted',
+    );
     yield OneSignalPrivacyConsentSuccess();
   }
 
@@ -63,7 +65,9 @@ class OneSignalPrivacyBloc
     oneSignal.setSubscription(false);
     oneSignal.grantConsent(false);
 
-    logging.info('OneSignal: Privacy consent revoked');
+    logging.info(
+      'OneSignal: Privacy consent revoked',
+    );
     yield OneSignalPrivacyConsentFailure();
   }
 }

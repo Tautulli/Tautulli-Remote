@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
+import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/entities/library.dart';
 import '../../domain/usecases/get_libraries_table.dart';
 
@@ -22,10 +23,12 @@ String _tautulliIdCache;
 class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
   final GetLibrariesTable getLibrariesTable;
   final GetImageUrl getImageUrl;
+  final Logging logging;
 
   LibrariesBloc({
     @required this.getLibrariesTable,
     @required this.getImageUrl,
+    @required this.logging,
   }) : super(LibrariesInitial(
           orderColumn: _orderColumnCache,
           orderDir: _orderDirCache,
@@ -77,14 +80,18 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
         imageMap: _imageMapCache,
       );
     }
-    final librariesOrFailure = await getLibrariesTable(
+    final failureOrLibraries = await getLibrariesTable(
       tautulliId: tautulliId,
       orderColumn: orderColumn,
       orderDir: orderDir,
     );
 
-    yield* librariesOrFailure.fold(
+    yield* failureOrLibraries.fold(
       (failure) async* {
+        logging.error(
+          'Libraries: Failed to load libraries',
+        );
+
         yield LibrariesFailure(
           failure: failure,
           message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -101,7 +108,11 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
           );
 
           imageUrlOrFailure.fold(
-            (failure) => null,
+            (failure) {
+              logging.warning(
+                'Activity: Failed to load art for library ${library.sectionName}',
+              );
+            },
             (url) {
               imageMap[library.sectionId] = url;
             },

@@ -6,6 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/usecases/terminate_session.dart';
 
 part 'terminate_session_event.dart';
@@ -14,9 +15,11 @@ part 'terminate_session_state.dart';
 class TerminateSessionBloc
     extends Bloc<TerminateSessionEvent, TerminateSessionState> {
   final TerminateSession terminateSession;
+  final Logging logging;
 
   TerminateSessionBloc({
     @required this.terminateSession,
+    @required this.logging,
   }) : super(TerminateSessionInitial());
 
   @override
@@ -28,14 +31,18 @@ class TerminateSessionBloc
         sessionId: event.sessionId,
       );
 
-      final terminateStreamOrFailure = await terminateSession(
+      final failureOrTerminateStream = await terminateSession(
         tautulliId: event.tautulliId,
         sessionId: event.sessionId,
         message: event.message,
       );
 
-      yield* terminateStreamOrFailure.fold(
+      yield* failureOrTerminateStream.fold(
         (failure) async* {
+          logging.error(
+            'TerminateStream: Failured to terminate stream ${event.sessionId}',
+          );
+
           yield TerminateSessionFailure(
             failure: failure,
           );

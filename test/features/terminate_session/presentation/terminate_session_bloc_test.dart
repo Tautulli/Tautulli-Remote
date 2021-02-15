@@ -1,20 +1,27 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/terminate_session/domain/usecases/terminate_session.dart';
 import 'package:tautulli_remote/features/terminate_session/presentation/bloc/terminate_session_bloc.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 
 class MockTerminateSession extends Mock implements TerminateSession {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   MockTerminateSession mockTerminateSession;
+  MockLogging mockLogging;
   TerminateSessionBloc bloc;
 
   setUp(() {
     mockTerminateSession = MockTerminateSession();
+    mockLogging = MockLogging();
+
     bloc = TerminateSessionBloc(
       terminateSession: mockTerminateSession,
+      logging: mockLogging,
     );
   });
 

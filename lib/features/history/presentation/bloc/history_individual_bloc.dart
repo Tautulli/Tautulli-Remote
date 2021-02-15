@@ -8,6 +8,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
+import '../../../logging/domain/usecases/logging.dart';
 import '../../../users/domain/entities/user_table.dart';
 import '../../../users/domain/usecases/get_users_table.dart';
 import '../../domain/entities/history.dart';
@@ -25,10 +26,12 @@ class HistoryIndividualBloc
     extends Bloc<HistoryIndividualEvent, HistoryIndividualState> {
   final GetHistory getHistory;
   final GetUsersTable getUsersTable;
+  final Logging logging;
 
   HistoryIndividualBloc({
     @required this.getHistory,
     @required this.getUsersTable,
+    @required this.logging,
   }) : super(HistoryIndividualInitial());
 
   @override
@@ -139,6 +142,10 @@ class HistoryIndividualBloc
 
       yield* failureOrHistory.fold(
         (failure) async* {
+          logging.error(
+            'History: Failed to load history for rating key ${grandparentRatingKey ?? parentRatingKey ?? ratingKey}',
+          );
+
           yield HistoryIndividualFailure(
             failure: failure,
             message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -215,6 +222,10 @@ class HistoryIndividualBloc
 
     yield* failureOrHistory.fold(
       (failure) async* {
+        logging.error(
+          'History: Failed to load additional history for rating key ${grandparentRatingKey ?? parentRatingKey ?? ratingKey}',
+        );
+
         yield HistoryIndividualFailure(
           failure: failure,
           message: FailureMapperHelper.mapFailureToMessage(failure),

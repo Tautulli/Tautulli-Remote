@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
+import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/entities/statistics.dart';
 import '../../domain/usecases/get_statistics.dart';
 
@@ -22,10 +23,12 @@ String _tautulliIdCache;
 class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
   final GetStatistics getStatistics;
   final GetImageUrl getImageUrl;
+  final Logging logging;
 
   StatisticsBloc({
     @required this.getStatistics,
     @required this.getImageUrl,
+    @required this.logging,
   }) : super(StatisticsInitial(
           timeRange: _timeRangeCache,
         ));
@@ -93,7 +96,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
         lastUpdated: DateTime.now(),
       );
     } else {
-      final statisticsOrFailure = await getStatistics(
+      final failureOrStatistics = await getStatistics(
         tautulliId: tautulliId,
         grouping: grouping,
         statsCount: statsCount ?? 6,
@@ -101,8 +104,12 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
         timeRange: timeRange,
       );
 
-      yield* statisticsOrFailure.fold(
+      yield* failureOrStatistics.fold(
         (failure) async* {
+          logging.error(
+            'Statistics: Failed to fetch statistics',
+          );
+
           yield StatisticsFailure(
             failure: failure,
             message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -158,7 +165,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     @required StatisticsSuccess currentState,
     String statId,
   }) async* {
-    final statisticsOrFailure = await getStatistics(
+    final failureOrStatistics = await getStatistics(
       tautulliId: _tautulliIdCache,
       statsCount: 25,
       timeRange: _timeRangeCache,
@@ -166,8 +173,12 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
       statId: statId,
     );
 
-    yield* statisticsOrFailure.fold(
+    yield* failureOrStatistics.fold(
       (failure) async* {
+        logging.error(
+          'Statistics: Failed to fetch additional statistics',
+        );
+
         yield StatisticsFailure(
           failure: failure,
           message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -245,7 +256,11 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
             fallback: posterFallback,
           );
           failureOrPosterUrl.fold(
-            (failure) => null,
+            (failure) {
+              logging.warning(
+                'Statistics: Failed to load poster for rating key $posterRatingKey',
+              );
+            },
             (url) {
               statistic.posterUrl = url;
             },

@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
+import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../../domain/usecases/get_metadata.dart';
 
@@ -19,10 +20,12 @@ Map<int, MetadataItem> _metadataCache = {};
 class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
   final GetMetadata getMetadata;
   final GetImageUrl getImageUrl;
+  final Logging logging;
 
   MetadataBloc({
     @required this.getMetadata,
     @required this.getImageUrl,
+    @required this.logging,
   }) : super(MetadataInitial());
 
   @override
@@ -51,6 +54,10 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
 
         yield* failureorMetadata.fold(
           (failure) async* {
+            logging.error(
+              'Metadata: Failed to fetch metadata for rating key ${event.ratingKey}',
+            );
+
             yield MetadataFailure(
               failure: failure,
               message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -107,7 +114,9 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
     );
     failureOrPosterUrl.fold(
       (failure) {
-        // logging.warning('RecentlyAdded: Failed to load poster for rating key: $posterRatingKey');
+        logging.warning(
+          'Metadata: Failed to load poster for ${item.thumb}',
+        );
       },
       (url) {
         item.posterUrl = url;
@@ -120,7 +129,9 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
     );
     failureOrParentPosterUrl.fold(
       (failure) {
-        // logging.warning('RecentlyAdded: Failed to load poster for rating key: $posterRatingKey');
+        logging.warning(
+          'Metadata: Failed to load poster for ${item.parentThumb}',
+        );
       },
       (url) {
         item.parentPosterUrl = url;
@@ -133,7 +144,9 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
     );
     failureOrGrandparentPosterUrl.fold(
       (failure) {
-        // logging.warning('RecentlyAdded: Failed to load poster for rating key: $posterRatingKey');
+        logging.warning(
+          'Metadata: Failed to load poster for ${item.grandparentThumb}',
+        );
       },
       (url) {
         item.grandparentPosterUrl = url;

@@ -55,7 +55,7 @@ class RegisterDeviceBloc
 
     final List resultParts = result.split('|');
 
-    yield* _registerDeviceOrFailure(
+    yield* _failureOrRegisterDevice(
       resultParts[0].trim(),
       resultParts[1].trim(),
       settingsBloc,
@@ -68,14 +68,14 @@ class RegisterDeviceBloc
     @required SettingsBloc settingsBloc,
   }) async* {
     yield RegisterDeviceInProgress();
-    yield* _registerDeviceOrFailure(
+    yield* _failureOrRegisterDevice(
       connectionAddress.trim(),
       deviceToken.trim(),
       settingsBloc,
     );
   }
 
-  Stream<RegisterDeviceState> _registerDeviceOrFailure(
+  Stream<RegisterDeviceState> _failureOrRegisterDevice(
     String connectionAddress,
     String deviceToken,
     SettingsBloc settingsBloc,
@@ -94,7 +94,10 @@ class RegisterDeviceBloc
 
     yield* failureOrRegistered.fold(
       (failure) async* {
-        logging.error('RegisterDevice: Failed to register device [$failure]');
+        logging.error(
+          'RegisterDevice: Failed to register device [$failure]',
+        );
+
         yield RegisterDeviceFailure(failure: failure);
       },
       (registeredData) async* {
@@ -122,8 +125,11 @@ class RegisterDeviceBloc
               plexPass: plexPass,
             ),
           );
-          logging
-              .info('RegisterDevice: Successfully registered to a new server');
+
+          logging.info(
+            'RegisterDevice: Successfully registered ${registeredData['pms_name']}',
+          );
+
           yield RegisterDeviceSuccess();
         } else {
           settingsBloc.add(
@@ -141,8 +147,11 @@ class RegisterDeviceBloc
               timeFormat: existingServer.timeFormat,
             ),
           );
-          logging
-              .info('RegisterDevice: Successfully updated server information');
+
+          logging.info(
+            'RegisterDevice: Successfully updated information for ${registeredData['pms_name']}',
+          );
+
           yield RegisterDeviceSuccess();
         }
       },

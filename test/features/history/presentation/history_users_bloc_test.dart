@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/features/history/presentation/bloc/history_users_bloc.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/users/data/models/user_model.dart';
 import 'package:tautulli_remote/features/users/domain/entities/user.dart';
 import 'package:tautulli_remote/features/users/domain/usecases/get_user_names.dart';
@@ -13,14 +14,19 @@ import '../../../fixtures/fixture_reader.dart';
 
 class MockGetUserNames extends Mock implements GetUserNames {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   HistoryUsersBloc bloc;
   MockGetUserNames mockGetUserNames;
+  MockLogging mockLogging;
 
   setUp(() {
     mockGetUserNames = MockGetUserNames();
+    mockLogging = MockLogging();
     bloc = HistoryUsersBloc(
       getUserNames: mockGetUserNames,
+      logging: mockLogging,
     );
   });
 

@@ -106,13 +106,17 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         hasReachedMax: _hasReachedMaxCache,
       );
     } else {
-      final recentListOrFailure = await recentlyAdded(
+      final failureOrRecentList = await recentlyAdded(
         tautulliId: tautulliId,
         count: 50,
       );
 
-      yield* recentListOrFailure.fold(
+      yield* failureOrRecentList.fold(
         (failure) async* {
+          logging.error(
+            'RecentlyAdded: Failed to fetch recently added items',
+          );
+
           yield RecentlyAddedFailure(
             failure: failure,
             message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -147,14 +151,18 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         hasReachedMax: _hasReachedMaxCache,
       );
     } else {
-      final recentListOrFailure = await recentlyAdded(
+      final failureOrRecentList = await recentlyAdded(
         tautulliId: tautulliId,
         count: 25,
         mediaType: mediaType,
       );
 
-      yield* recentListOrFailure.fold(
+      yield* failureOrRecentList.fold(
         (failure) async* {
+          logging.error(
+            'RecentlyAdded: Failed to fetch recently added items',
+          );
+
           yield RecentlyAddedFailure(
             failure: failure,
             message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -181,15 +189,19 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
     @required RecentlyAddedSuccess currentState,
     String mediaType,
   }) async* {
-    final recentListOrFailure = await recentlyAdded(
+    final failureOrRecentList = await recentlyAdded(
       tautulliId: tautulliId,
       count: 25,
       start: currentState.list.length,
       mediaType: mediaType,
     );
 
-    yield* recentListOrFailure.fold(
+    yield* failureOrRecentList.fold(
       (failure) async* {
+        logging.error(
+          'RecentlyAdded: Failed to fetch additional recently added items',
+        );
+
         yield RecentlyAddedFailure(
           failure: failure,
           message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -260,7 +272,8 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
       failureOrPosterUrl.fold(
         (failure) {
           logging.warning(
-              'RecentlyAdded: Failed to load poster for rating key: $posterRatingKey');
+            'RecentlyAdded: Failed to load poster for rating key $posterRatingKey',
+          );
         },
         (url) {
           recentItem.posterUrl = url;

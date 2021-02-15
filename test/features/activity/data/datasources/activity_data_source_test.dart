@@ -8,7 +8,6 @@ import 'package:tautulli_remote/features/activity/data/datasources/activity_data
 import 'package:tautulli_remote/features/activity/domain/entities/activity.dart';
 import 'package:tautulli_remote/features/activity/data/models/activity_model.dart';
 import 'package:matcher/matcher.dart';
-import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
@@ -17,22 +16,17 @@ class MockSettings extends Mock implements Settings {}
 
 class MockGetActivity extends Mock implements tautulliApi.GetActivity {}
 
-class MockLogging extends Mock implements Logging {}
-
 void main() {
   ActivityDataSourceImpl dataSource;
   MockGetActivity mockApiGetActivity;
-  MockLogging mockLogging;
   MockSettings mockSettings;
 
   setUp(() {
     mockSettings = MockSettings();
     mockApiGetActivity = MockGetActivity();
-    mockLogging = MockLogging();
     dataSource = ActivityDataSourceImpl(
       settings: mockSettings,
       apiGetActivity: mockApiGetActivity,
-      logging: mockLogging,
     );
   });
 

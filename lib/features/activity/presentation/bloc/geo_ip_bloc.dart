@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/entities/geo_ip.dart';
 import '../../domain/usecases/get_geo_ip.dart';
 
@@ -14,9 +15,11 @@ Map<String, GeoIpItem> _geoIpMapCache = {};
 
 class GeoIpBloc extends Bloc<GeoIpEvent, GeoIpState> {
   final GetGeoIp getGeoIp;
+  final Logging logging;
 
   GeoIpBloc({
     @required this.getGeoIp,
+    @required this.logging,
   }) : super(GeoIpInitial());
 
   @override
@@ -50,6 +53,8 @@ class GeoIpBloc extends Bloc<GeoIpEvent, GeoIpState> {
 
       yield* failureOrGeoIp.fold(
         (failure) async* {
+          logging.error('GeoIP: Failed to load GeoIP data for $ipAddress');
+
           yield GeoIpFailure(geoIpMap: geoIpMap);
         },
         (geoIpItem) async* {

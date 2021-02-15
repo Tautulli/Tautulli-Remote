@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/statistics/data/models/statistics_model.dart';
 import 'package:tautulli_remote/features/statistics/domain/entities/statistics.dart';
 import 'package:tautulli_remote/features/statistics/domain/usecases/get_statistics.dart';
@@ -17,17 +18,23 @@ class MockGetStatistics extends Mock implements GetStatistics {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   StatisticsBloc bloc;
   MockGetStatistics mockGetStatistics;
   MockGetImageUrl mockGetImageUrl;
+  MockLogging mockLogging;
 
   setUp(() {
     mockGetStatistics = MockGetStatistics();
     mockGetImageUrl = MockGetImageUrl();
+    mockLogging = MockLogging();
+
     bloc = StatisticsBloc(
       getStatistics: mockGetStatistics,
       getImageUrl: mockGetImageUrl,
+      logging: mockLogging,
     );
   });
 

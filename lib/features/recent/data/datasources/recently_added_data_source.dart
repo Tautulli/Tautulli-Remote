@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
 import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
-import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/entities/recent.dart';
 import '../models/recent_model.dart';
 
@@ -17,11 +16,9 @@ abstract class RecentlyAddedDataSource {
 
 class RecentlyAddedDataSourceImpl implements RecentlyAddedDataSource {
   final tautulliApi.GetRecentlyAdded apiGetRecentlyAdded;
-  final Logging logging;
 
   RecentlyAddedDataSourceImpl({
     @required this.apiGetRecentlyAdded,
-    @required this.logging,
   });
 
   @override

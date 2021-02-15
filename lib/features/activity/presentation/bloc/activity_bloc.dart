@@ -101,14 +101,20 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       } else {
         yield ActivityLoadFailure(
           failure: MissingServerFailure(),
-          message: FailureMapperHelper.mapFailureToMessage(MissingServerFailure()),
-          suggestion: FailureMapperHelper.mapFailureToSuggestion(MissingServerFailure()),
+          message:
+              FailureMapperHelper.mapFailureToMessage(MissingServerFailure()),
+          suggestion: FailureMapperHelper.mapFailureToSuggestion(
+              MissingServerFailure()),
         );
       }
     }
     if (event is ActivityLoadServer) {
       yield* event.failureOrActivity.fold(
         (failure) async* {
+          logging.error(
+            'Activity: Failed to load activity for ${event.plexName}. ${FailureMapperHelper.mapFailureToMessage(failure)}',
+          );
+
           _activityMap[event.tautulliId] = {
             'plex_name': event.plexName,
             'loadingState': ActivityLoadingState.failure,
@@ -172,7 +178,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             failureOrPosterUrl.fold(
               (failure) {
                 logging.warning(
-                    'Activity: Failed to load poster for rating key: $posterRatingKey');
+                  'Activity: Failed to load poster for rating key $posterRatingKey',
+                );
               },
               (url) {
                 activityItem.posterUrl = url;

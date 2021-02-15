@@ -10,6 +10,7 @@ import 'package:tautulli_remote/features/libraries/data/models/library_media_mod
 import 'package:tautulli_remote/features/libraries/domain/entities/library_media.dart';
 import 'package:tautulli_remote/features/libraries/domain/usecases/get_library_media_info.dart';
 import 'package:tautulli_remote/features/libraries/presentation/bloc/library_media_bloc.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -17,18 +18,23 @@ class MockGetLibraryMediaInfo extends Mock implements GetLibraryMediaInfo {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   LibraryMediaBloc bloc;
   MockGetLibraryMediaInfo mockGetLibraryMediaInfo;
   MockGetImageUrl mockGetImageUrl;
+  MockLogging mockLogging;
 
   setUp(() {
     mockGetLibraryMediaInfo = MockGetLibraryMediaInfo();
     mockGetImageUrl = MockGetImageUrl();
+    mockLogging = MockLogging();
 
     bloc = LibraryMediaBloc(
       getLibraryMediaInfo: mockGetLibraryMediaInfo,
       getImageUrl: mockGetImageUrl,
+      logging: mockLogging,
     );
   });
 

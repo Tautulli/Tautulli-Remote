@@ -302,7 +302,10 @@ void main() {
       'should call the Settings.deleteServer use case',
       () async {
         // act
-        bloc.add(SettingsDeleteServer(id: tId));
+        bloc.add(SettingsDeleteServer(
+          id: tId,
+          plexName: tPlexName,
+        ));
         await untilCalled(mockSettings.deleteServer(tId));
         // assert
         verify(mockSettings.deleteServer(tId));
@@ -326,7 +329,10 @@ void main() {
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(SettingsDeleteServer(id: tId));
+        bloc.add(SettingsDeleteServer(
+          id: tId,
+          plexName: tPlexName,
+        ));
       },
     );
   });
@@ -339,6 +345,7 @@ void main() {
         bloc.add(
           SettingsUpdatePrimaryConnection(
             id: tId,
+            plexName: tPlexName,
             primaryConnectionAddress: tPrimaryConnectionAddress,
           ),
         );
@@ -378,6 +385,7 @@ void main() {
         bloc.add(
           SettingsUpdatePrimaryConnection(
             id: tId,
+            plexName: tPlexName,
             primaryConnectionAddress: tPrimaryConnectionAddress,
           ),
         );
@@ -393,6 +401,7 @@ void main() {
         bloc.add(
           SettingsUpdateSecondaryConnection(
             id: tId,
+            plexName: tPlexName,
             secondaryConnectionAddress: tPrimaryConnectionAddress,
           ),
         );
@@ -432,6 +441,7 @@ void main() {
         bloc.add(
           SettingsUpdateSecondaryConnection(
             id: tId,
+            plexName: tPlexName,
             secondaryConnectionAddress: tPrimaryConnectionAddress,
           ),
         );
@@ -447,6 +457,7 @@ void main() {
         bloc.add(
           SettingsUpdateDeviceToken(
             id: tId,
+            plexName: tPlexName,
             deviceToken: tDeviceToken,
           ),
         );
@@ -486,6 +497,7 @@ void main() {
         bloc.add(
           SettingsUpdateDeviceToken(
             id: tId,
+            plexName: tPlexName,
             deviceToken: tDeviceToken,
           ),
         );

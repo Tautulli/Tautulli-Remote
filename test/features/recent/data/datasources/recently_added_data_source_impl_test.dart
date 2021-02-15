@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
     as tautulliApi;
-import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/recent/data/datasources/recently_added_data_source.dart';
 import 'package:tautulli_remote/features/recent/data/models/recent_model.dart';
 import 'package:tautulli_remote/features/recent/domain/entities/recent.dart';
@@ -14,18 +13,14 @@ import '../../../../fixtures/fixture_reader.dart';
 class MockGetRecentlyAdded extends Mock
     implements tautulliApi.GetRecentlyAdded {}
 
-class MockLogging extends Mock implements Logging {}
-
 void main() {
   RecentlyAddedDataSourceImpl dataSource;
   MockGetRecentlyAdded mockApiGetRecentlyAdded;
-  MockLogging mockLogging;
-
   setUp(() {
     mockApiGetRecentlyAdded = MockGetRecentlyAdded();
-    mockLogging = MockLogging();
     dataSource = RecentlyAddedDataSourceImpl(
-        apiGetRecentlyAdded: mockApiGetRecentlyAdded, logging: mockLogging);
+      apiGetRecentlyAdded: mockApiGetRecentlyAdded,
+    );
   });
 
   final String tTautulliId = 'jkl';

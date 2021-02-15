@@ -10,6 +10,7 @@ import 'package:tautulli_remote/features/libraries/data/models/library_model.dar
 import 'package:tautulli_remote/features/libraries/domain/entities/library.dart';
 import 'package:tautulli_remote/features/libraries/domain/usecases/get_libraries_table.dart';
 import 'package:tautulli_remote/features/libraries/presentation/bloc/libraries_bloc.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -17,17 +18,22 @@ class MockGetLibrariesTable extends Mock implements GetLibrariesTable {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   LibrariesBloc bloc;
   MockGetLibrariesTable mockGetLibrariesTable;
   MockGetImageUrl mockGetImageUrl;
+  MockLogging mockLogging;
 
   setUp(() {
     mockGetLibrariesTable = MockGetLibrariesTable();
     mockGetImageUrl = MockGetImageUrl();
+    mockLogging = MockLogging();
     bloc = LibrariesBloc(
       getLibrariesTable: mockGetLibrariesTable,
       getImageUrl: mockGetImageUrl,
+      logging: mockLogging,
     );
   });
 

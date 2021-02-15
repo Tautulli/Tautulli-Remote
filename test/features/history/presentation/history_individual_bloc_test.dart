@@ -9,6 +9,7 @@ import 'package:tautulli_remote/features/history/data/models/history_model.dart'
 import 'package:tautulli_remote/features/history/domain/entities/history.dart';
 import 'package:tautulli_remote/features/history/domain/usecases/get_history.dart';
 import 'package:tautulli_remote/features/history/presentation/bloc/history_individual_bloc.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/users/data/models/user_table_model.dart';
 import 'package:tautulli_remote/features/users/domain/entities/user_table.dart';
 import 'package:tautulli_remote/features/users/domain/usecases/get_users_table.dart';
@@ -19,17 +20,23 @@ class MockGetHistory extends Mock implements GetHistory {}
 
 class MockGetUsersTable extends Mock implements GetUsersTable {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   HistoryIndividualBloc bloc;
   MockGetHistory mockGetHistory;
   MockGetUsersTable mockGetUsersTable;
+  MockLogging mockLogging;
 
   setUp(() {
     mockGetHistory = MockGetHistory();
     mockGetUsersTable = MockGetUsersTable();
+    mockLogging = MockLogging();
+
     bloc = HistoryIndividualBloc(
       getHistory: mockGetHistory,
       getUsersTable: mockGetUsersTable,
+      logging: mockLogging,
     );
   });
 

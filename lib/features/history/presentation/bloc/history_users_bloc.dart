@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import '../../../logging/domain/usecases/logging.dart';
 import '../../../users/domain/entities/user.dart';
 import '../../../users/domain/usecases/get_user_names.dart';
 
@@ -15,9 +16,11 @@ String _tautulliIdCache;
 
 class HistoryUsersBloc extends Bloc<HistoryUsersEvent, HistoryUsersState> {
   final GetUserNames getUserNames;
+  final Logging logging;
 
   HistoryUsersBloc({
     @required this.getUserNames,
+    @required this.logging,
   }) : super(HistoryUsersInitial());
 
   @override
@@ -43,6 +46,10 @@ class HistoryUsersBloc extends Bloc<HistoryUsersEvent, HistoryUsersState> {
 
       yield* userNamesOrFailure.fold(
         (failure) async* {
+          logging.error(
+            'History: Failed to load list of users',
+          );
+
           yield HistoryUsersFailure();
         },
         (userList) async* {

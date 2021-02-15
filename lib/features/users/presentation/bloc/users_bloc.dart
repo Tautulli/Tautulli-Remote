@@ -117,7 +117,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         hasReachedMax: _hasReachedMaxCache,
       );
     } else {
-      final usersListOrFailure = await getUsersTable(
+      final failureOrUsersList = await getUsersTable(
         tautulliId: tautulliId,
         grouping: grouping,
         orderColumn: orderColumn,
@@ -127,8 +127,12 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         search: search,
       );
 
-      yield* usersListOrFailure.fold(
+      yield* failureOrUsersList.fold(
         (failure) async* {
+          logging.error(
+            'Users: Failed to fetch users',
+          );
+
           yield UsersFailure(
             failure: failure,
             message: FailureMapperHelper.mapFailureToMessage(failure),
@@ -158,7 +162,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     int length,
     String search,
   }) async* {
-    final usersListOrFailure = await getUsersTable(
+    final failureOrUsersList = await getUsersTable(
       tautulliId: tautulliId,
       grouping: grouping,
       orderColumn: orderColumn,
@@ -168,8 +172,12 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       search: search,
     );
 
-    yield* usersListOrFailure.fold(
+    yield* failureOrUsersList.fold(
       (failure) async* {
+        logging.error(
+          'Users: Failed to fetch additional users',
+        );
+
         yield UsersFailure(
           failure: failure,
           message: FailureMapperHelper.mapFailureToMessage(failure),

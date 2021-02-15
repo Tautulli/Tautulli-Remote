@@ -103,7 +103,6 @@ Future<void> init() async {
   sl.registerFactory(
     () => ActivityBloc(
       activity: sl(),
-      // geoIp: sl(),
       imageUrl: sl(),
       settings: sl(),
       logging: sl(),
@@ -113,6 +112,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => GeoIpBloc(
       getGeoIp: sl(),
+      logging: sl(),
     ),
   );
 
@@ -149,14 +149,12 @@ Future<void> init() async {
     () => ActivityDataSourceImpl(
       settings: sl(),
       apiGetActivity: sl(),
-      logging: sl(),
     ),
   );
 
   sl.registerLazySingleton<GeoIpDataSource>(
     () => GeoIpDataSourceImpl(
       apiGetGeoipLookup: sl(),
-      logging: sl(),
     ),
   );
 
@@ -174,12 +172,14 @@ Future<void> init() async {
     () => HistoryIndividualBloc(
       getHistory: sl(),
       getUsersTable: sl(),
+      logging: sl(),
     ),
   );
 
   sl.registerFactory(
     () => HistoryUsersBloc(
       getUserNames: sl(),
+      logging: sl(),
     ),
   );
 
@@ -202,7 +202,6 @@ Future<void> init() async {
   sl.registerLazySingleton<HistoryDataSource>(
     () => HistoryDataSourceImpl(
       apiGetHistory: sl(),
-      logging: sl(),
     ),
   );
 
@@ -235,6 +234,7 @@ Future<void> init() async {
     () => LibrariesBloc(
       getLibrariesTable: sl(),
       getImageUrl: sl(),
+      logging: sl(),
     ),
   );
 
@@ -242,6 +242,7 @@ Future<void> init() async {
     () => LibraryMediaBloc(
       getLibraryMediaInfo: sl(),
       getImageUrl: sl(),
+      logging: sl(),
     ),
   );
 
@@ -319,6 +320,7 @@ Future<void> init() async {
     () => MetadataBloc(
       getMetadata: sl(),
       getImageUrl: sl(),
+      logging: sl(),
     ),
   );
 
@@ -326,6 +328,7 @@ Future<void> init() async {
     () => ChildrenMetadataBloc(
       getChildrenMetadata: sl(),
       getImageUrl: sl(),
+      logging: sl(),
     ),
   );
 
@@ -431,7 +434,6 @@ Future<void> init() async {
   sl.registerLazySingleton<RecentlyAddedDataSource>(
     () => RecentlyAddedDataSourceImpl(
       apiGetRecentlyAdded: sl(),
-      logging: sl(),
     ),
   );
 
@@ -499,6 +501,7 @@ Future<void> init() async {
     () => StatisticsBloc(
       getStatistics: sl(),
       getImageUrl: sl(),
+      logging: sl(),
     ),
   );
 
@@ -531,6 +534,7 @@ Future<void> init() async {
       getSyncedItems: sl(),
       getMetadata: sl(),
       getImageUrl: sl(),
+      logging: sl(),
     ),
   );
 
@@ -561,6 +565,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => TerminateSessionBloc(
       terminateSession: sl(),
+      logging: sl(),
     ),
   );
 

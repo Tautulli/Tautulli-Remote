@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/media/data/models/metadata_item_model.dart';
 import 'package:tautulli_remote/features/media/domain/usecases/get_metadata.dart';
 import 'package:tautulli_remote/features/media/presentation/bloc/metadata_bloc.dart';
@@ -16,18 +17,23 @@ class MockGetMetadata extends Mock implements GetMetadata {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   MetadataBloc bloc;
   MockGetMetadata mockGetMetadata;
   MockGetImageUrl mockGetImageUrl;
+  MockLogging mockLogging;
 
   setUp(() {
     mockGetMetadata = MockGetMetadata();
     mockGetImageUrl = MockGetImageUrl();
+    mockLogging = MockLogging();
 
     bloc = MetadataBloc(
       getMetadata: mockGetMetadata,
       getImageUrl: mockGetImageUrl,
+      logging: mockLogging,
     );
   });
 
