@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../core/helpers/clean_data_helper.dart';
+import '../../../../core/helpers/data_unit_format_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../domain/entities/metadata_item.dart';
@@ -49,11 +51,19 @@ class _TabContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String formattedOriginallyAvailableAt;
+    String formattedFullVideoResolution;
+
     if (isNotEmpty(metadata.originallyAvailableAt)) {
       formattedOriginallyAvailableAt = DateFormat.yMMMMd()
           .format(DateTime.parse(metadata.originallyAvailableAt))
           .toString();
     }
+    if (isNotEmpty(metadata.videoFullResolution)) {
+      formattedFullVideoResolution = metadata.videoFullResolution.contains('k')
+          ? metadata.videoFullResolution.toUpperCase()
+          : metadata.videoFullResolution;
+    }
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -61,7 +71,7 @@ class _TabContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (metadata.tagline.isNotEmpty)
+            if (isNotEmpty(metadata.tagline))
               Padding(
                 padding: const EdgeInsets.only(bottom: 4),
                 child: Text(
@@ -72,14 +82,21 @@ class _TabContent extends StatelessWidget {
                   ),
                 ),
               ),
-            if (metadata.summary.isNotEmpty)
+            if (isNotEmpty(metadata.summary))
               Text(
                 metadata.summary,
                 style: TextStyle(
                   fontSize: 15,
                 ),
               ),
-            if (metadata.summary.isNotEmpty) Divider(),
+            if (isNotEmpty(metadata.summary))
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 6,
+                  bottom: 2,
+                ),
+                child: Divider(color: Colors.grey),
+              ),
             if (isNotEmpty(metadata.studio))
               _ItemRow(
                 title: 'STUDIO',
@@ -91,10 +108,14 @@ class _TabContent extends StatelessWidget {
                 title: 'AIRED',
                 item: [metadata.year.toString()],
               ),
-            if (metadata.mediaType == 'episode' &&
+            if ([
+                  'episode',
+                  'photo',
+                  'clip',
+                ].contains(metadata.mediaType) &&
                 isNotEmpty(formattedOriginallyAvailableAt))
               _ItemRow(
-                title: 'AIRED',
+                title: metadata.mediaType == 'episode' ? 'AIRED' : 'TAKEN',
                 item: [formattedOriginallyAvailableAt],
               ),
             if (metadata.duration != null)
@@ -106,7 +127,7 @@ class _TabContent extends StatelessWidget {
                       : null
                 ],
               ),
-            if (metadata.contentRating.isNotEmpty)
+            if (isNotEmpty(metadata.contentRating))
               _ItemRow(
                 title: 'RATED',
                 item: [metadata.contentRating],
@@ -130,6 +151,41 @@ class _TabContent extends StatelessWidget {
               _ItemRow(
                 title: 'STARRING',
                 item: metadata.actors,
+              ),
+            if (isNotEmpty(metadata.container) ||
+                isNotEmpty(formattedFullVideoResolution) ||
+                metadata.audioChannels != null ||
+                metadata.bitrate != null ||
+                metadata.fileSize != null)
+              SizedBox(height: 10),
+            if (isNotEmpty(metadata.container))
+              _ItemRow(
+                title: 'CONTAINER',
+                item: [metadata.container.toUpperCase()],
+              ),
+            if (isNotEmpty(formattedFullVideoResolution))
+              _ItemRow(
+                title: 'VIDEO',
+                item: [
+                  '$formattedFullVideoResolution (${metadata.videoCodec.toUpperCase()})'
+                ],
+              ),
+            if (metadata.audioChannels != null)
+              _ItemRow(
+                title: 'AUDIO',
+                item: [
+                  '${MediaFlagsCleaner.audioChannels(metadata.audioChannels.toString())} (${metadata.audioCodec.toUpperCase()})'
+                ],
+              ),
+            if (metadata.bitrate != null)
+              _ItemRow(
+                title: 'BITRATE',
+                item: [DataUnitFormatHelper.bitrate(metadata.bitrate)],
+              ),
+            if (metadata.fileSize != null)
+              _ItemRow(
+                title: 'FILE SIZE',
+                item: [DataUnitFormatHelper.prettyFilesize(metadata.fileSize)],
               ),
           ],
         ),
