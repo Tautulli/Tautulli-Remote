@@ -30,12 +30,19 @@ class TimeFormatHelper {
     Duration duration = Duration(seconds: durationInSec);
 
     String hours = '';
-    String minutes = '${duration.inMinutes.remainder(60).toString()} minutes';
+    String minutes = '';
+    String seconds = '';
     if (duration.inMinutes > 59) {
       hours = '${duration.inHours.toString()} hours ';
     }
+    if (duration.inMinutes > 0) {
+      minutes = '${duration.inMinutes.remainder(60).toString()} minutes ';
+    }
+    if (duration.inMinutes < 1) {
+      seconds = '${duration.inSeconds.toString()} seconds';
+    }
 
-    return '$hours$minutes';
+    return '$hours$minutes$seconds';
   }
 
   static String timeAgo(int addedAt) {
@@ -104,25 +111,24 @@ class TimeFormatHelper {
 
 String _parseDateFormat(String dateFormat) {
   return dateFormat
-          .replaceAll('YYYY', 'y')
-          .replaceAll('YY', 'yy')
-          // .replaceAll('MMMM', 'MMMM')
-          // .replaceAll('MMM', 'MMM')
-          // .replaceAll('MM', 'MM')
-          // .replaceAll('M', 'M')
-          .replaceAll('Mo', 'M')
-          .replaceAll('dddd', 'EEEE')
-          .replaceAll('ddd', 'E')
-          .replaceAll('dd', 'E')
-          .replaceAll('do', 'E')
-          .replaceAll('d', 'E')
-          .replaceAll('DDDo', 'DD')
-          .replaceAll('DDDD', 'DDD')
-          .replaceAll('DDD', 'DD')
-          .replaceAll('DD', 'dd')
-          .replaceAll('Do', 'd')
-          .replaceAll('D', 'd')
-      ;
+      .replaceAll('YYYY', 'y')
+      .replaceAll('YY', 'yy')
+      // .replaceAll('MMMM', 'MMMM')
+      // .replaceAll('MMM', 'MMM')
+      // .replaceAll('MM', 'MM')
+      // .replaceAll('M', 'M')
+      .replaceAll('Mo', 'M')
+      .replaceAll('dddd', 'EEEE')
+      .replaceAll('ddd', 'E')
+      .replaceAll('dd', 'E')
+      .replaceAll('do', 'E')
+      .replaceAll('d', 'E')
+      .replaceAll('DDDo', 'DD')
+      .replaceAll('DDDD', 'DDD')
+      .replaceAll('DDD', 'DD')
+      .replaceAll('DD', 'dd')
+      .replaceAll('Do', 'd')
+      .replaceAll('D', 'd');
 }
 
 String _parseTimeFormat(String timeFormat) {
