@@ -2,18 +2,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quiver/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
-import '../../../../core/helpers/clean_data_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/poster_chooser.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/media_item.dart';
-import '../../domain/entities/metadata_item.dart';
 import '../bloc/children_metadata_bloc.dart';
 import '../bloc/metadata_bloc.dart';
 import '../widgets/albums_tab.dart';
@@ -164,7 +161,8 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
             child: Container(
               // Height is 185 to provide 10 pixels background to show
               // behind the rounded corners
-              height: 185 +
+              height: 195 +
+                  10 +
                   MediaQuery.of(context).padding.top -
                   AppBar().preferredSize.height,
               width: MediaQuery.of(context).size.width,
@@ -185,7 +183,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
             children: [
               // Empty space for background to show
               SizedBox(
-                height: 175 +
+                height: 195 +
                     MediaQuery.of(context).padding.top -
                     AppBar().preferredSize.height,
               ),
@@ -207,10 +205,10 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                             //* Title section
                             Expanded(
                               child: Container(
-                                height: 150,
+                                height: 120,
                                 // Make room for the poster
                                 padding: const EdgeInsets.only(
-                                  left: 134.0 + 8.0,
+                                  left: 137.0 + 8.0,
                                   top: 4,
                                   right: 4,
                                 ),
@@ -237,17 +235,6 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                                         ],
                                       ),
                                     ),
-                                    BlocBuilder<MetadataBloc, MetadataState>(
-                                      builder: (context, state) {
-                                        if (state is MetadataSuccess) {
-                                          return _MediaFlagsRow(
-                                            item: widget.item,
-                                            metadata: state.metadata,
-                                          );
-                                        }
-                                        return SizedBox(height: 0, width: 0);
-                                      },
-                                    ),
                                   ],
                                 ),
                               ),
@@ -262,7 +249,12 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                                   length: ['show', 'season', 'artist', 'album']
                                           .contains(widget.item.mediaType)
                                       ? 3
-                                      : 2,
+                                      : [
+                                          'photo',
+                                          'clip',
+                                        ].contains(widget.item.mediaType)
+                                          ? 1
+                                          : 2,
                                   item: widget.item,
                                   mediaType: widget.item.mediaType,
                                 );
@@ -290,7 +282,12 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                                       'album',
                                     ].contains(state.metadata.mediaType)
                                         ? 3
-                                        : 2,
+                                        : [
+                                            'photo',
+                                            'clip',
+                                          ].contains(widget.item.mediaType)
+                                            ? 1
+                                            : 2,
                                     item: widget.item,
                                     mediaType: state.metadata.mediaType,
                                   );
@@ -309,15 +306,35 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
           ),
           //* Poster
           Positioned(
-            top: MediaQuery.of(context).padding.top -
-                AppBar().preferredSize.height +
-                125,
+            top: [
+              'artist',
+              'album',
+              'track',
+              'photo',
+            ].contains(widget.item.mediaType)
+                ? MediaQuery.of(context).padding.top -
+                    AppBar().preferredSize.height +
+                    115 +
+                    63
+                : MediaQuery.of(context).padding.top -
+                    AppBar().preferredSize.height +
+                    115,
             child: Container(
-              height: 200,
+              width: 137,
               padding: EdgeInsets.only(left: 4),
               child: Hero(
                 tag: widget.heroTag ?? UniqueKey(),
-                child: PosterChooser(item: widget.item),
+                child: AspectRatio(
+                  aspectRatio: [
+                    'artist',
+                    'album',
+                    'track',
+                    'photo',
+                  ].contains(widget.item.mediaType)
+                      ? 1
+                      : 2 / 3,
+                  child: PosterChooser(item: widget.item),
+                ),
               ),
             ),
           ),
@@ -336,87 +353,97 @@ List<Widget> _appBarActions({
     BlocBuilder<MetadataBloc, MetadataState>(
       builder: (context, state) {
         if (state is MetadataSuccess) {
-          return PopupMenuButton(
-            tooltip: 'More options',
-            onSelected: (value) {
-              if (value == 'plex') {
-                _openPlexUrl(
-                  plexIdentifier: plexIdentifier,
-                  ratingKey: state.metadata.ratingKey,
-                );
-              } else {
-                final keys = value.split('|');
+          if (!['photo', 'clip'].contains(state.metadata.mediaType)) {
+            return PopupMenuButton(
+              tooltip: 'More options',
+              onSelected: (value) {
+                if (value == 'plex') {
+                  _openPlexUrl(
+                    plexIdentifier: plexIdentifier,
+                    ratingKey: state.metadata.ratingKey,
+                  );
+                } else {
+                  final keys = value.split('|');
 
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      MediaItem mediaItem = MediaItem(
-                        mediaIndex: ['season', 'album'].contains(keys[0])
-                            ? state.metadata.parentMediaIndex
-                            : null,
-                        mediaType: keys[0],
-                        grandparentTitle: ['show', 'artist'].contains(keys[0])
-                            ? state.metadata.grandparentTitle
-                            : null,
-                        parentMediaIndex: ['show', 'artist', 'season', 'album']
-                                .contains(keys[0])
-                            ? state.metadata.parentMediaIndex
-                            : null,
-                        parentTitle: ['show', 'artist', 'season', 'album']
-                                .contains(keys[0])
-                            ? state.metadata.grandparentTitle
-                            : null,
-                        posterUrl: (keys[0] == 'show' && keys[1] == 'episode')
-                            ? state.metadata.grandparentPosterUrl
-                            : state.metadata.parentPosterUrl,
-                        ratingKey: (keys[0] == 'show' && keys[1] == 'episode')
-                            ? state.metadata.grandparentRatingKey
-                            : state.metadata.parentRatingKey,
-                        title: (keys[0] == 'show' && keys[1] == 'episode')
-                            ? state.metadata.grandparentTitle
-                            : state.metadata.parentTitle,
-                      );
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        MediaItem mediaItem = MediaItem(
+                          mediaIndex: ['season', 'album'].contains(keys[0])
+                              ? state.metadata.parentMediaIndex
+                              : null,
+                          mediaType: keys[0],
+                          grandparentTitle: ['show', 'artist'].contains(keys[0])
+                              ? state.metadata.grandparentTitle
+                              : null,
+                          parentMediaIndex: [
+                            'show',
+                            'artist',
+                            'season',
+                            'album'
+                          ].contains(keys[0])
+                              ? state.metadata.parentMediaIndex
+                              : null,
+                          parentTitle: ['show', 'artist', 'season', 'album']
+                                  .contains(keys[0])
+                              ? state.metadata.grandparentTitle
+                              : null,
+                          posterUrl: (keys[0] == 'show' && keys[1] == 'episode')
+                              ? state.metadata.grandparentPosterUrl
+                              : state.metadata.parentPosterUrl,
+                          ratingKey: (keys[0] == 'show' && keys[1] == 'episode')
+                              ? state.metadata.grandparentRatingKey
+                              : state.metadata.parentRatingKey,
+                          title: (keys[0] == 'show' && keys[1] == 'episode')
+                              ? state.metadata.grandparentTitle
+                              : state.metadata.parentTitle,
+                        );
 
-                      return MediaItemPage(
-                        item: mediaItem,
-                        enableNavOptions: enableNavOptions,
-                      );
-                    },
-                  ),
-                );
-              }
-            },
-            itemBuilder: (context) {
-              return [
-                if (enableNavOptions &&
-                    ['season', 'episode'].contains(state.metadata.mediaType))
+                        return MediaItemPage(
+                          item: mediaItem,
+                          enableNavOptions: enableNavOptions,
+                        );
+                      },
+                    ),
+                  );
+                }
+              },
+              itemBuilder: (context) {
+                return [
+                  if (enableNavOptions &&
+                      ['season', 'episode'].contains(state.metadata.mediaType))
+                    PopupMenuItem(
+                      value: 'show|${state.metadata.mediaType}',
+                      child: Text('Go to show'),
+                    ),
+                  if (enableNavOptions &&
+                      ['episode'].contains(state.metadata.mediaType))
+                    PopupMenuItem(
+                      value: 'season|${state.metadata.mediaType}',
+                      child: Text('Go to season'),
+                    ),
+                  if (enableNavOptions &&
+                      ['album', 'track'].contains(state.metadata.mediaType))
+                    PopupMenuItem(
+                      value: 'artist|${state.metadata.mediaType}',
+                      child: Text('Go to artist'),
+                    ),
                   PopupMenuItem(
-                    value: 'show|${state.metadata.mediaType}',
-                    child: Text('Go to show'),
+                    value: 'plex',
+                    child: Text('View on Plex'),
                   ),
-                if (enableNavOptions &&
-                    ['episode'].contains(state.metadata.mediaType))
-                  PopupMenuItem(
-                    value: 'season|${state.metadata.mediaType}',
-                    child: Text('Go to season'),
-                  ),
-                if (enableNavOptions &&
-                    ['album', 'track'].contains(state.metadata.mediaType))
-                  PopupMenuItem(
-                    value: 'artist|${state.metadata.mediaType}',
-                    child: Text('Go to artist'),
-                  ),
-                PopupMenuItem(
-                  value: 'plex',
-                  child: Text('View on Plex'),
-                ),
-                // if (['track'].contains(state.metadata.mediaType))
-                //   PopupMenuItem(
-                //     value: 'album|${state.metadata.mediaType}',
-                //     child: Text('Go to album'),
-                //   ),
-              ];
-            },
+                  // if (['track'].contains(state.metadata.mediaType))
+                  //   PopupMenuItem(
+                  //     value: 'album|${state.metadata.mediaType}',
+                  //     child: Text('Go to album'),
+                  //   ),
+                ];
+              },
+            );
+          }
+          return IconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: null,
           );
         }
         return IconButton(
@@ -438,8 +465,10 @@ Future<void> _openPlexUrl({
       'https://app.plex.tv/desktop#!/server/$plexIdentifier/details?key=%2Flibrary%2Fmetadata%2F$ratingKey';
 
   if (await canLaunch(plexAppUrl)) {
+    print(plexAppUrl);
     await launch(plexAppUrl);
   } else {
+    print(plexWebUrl);
     await launch(plexWebUrl);
   }
 }
@@ -516,9 +545,13 @@ List<Widget> _tabBuilder({
                     ? 'Albums'
                     : 'Tracks',
       ),
-    Tab(
-      text: 'History',
-    ),
+    if (![
+      'photo',
+      'clip',
+    ].contains(mediaType))
+      Tab(
+        text: 'History',
+      ),
   ];
 }
 
@@ -597,99 +630,15 @@ class _TabContents extends StatelessWidget {
             },
           ),
         // History Tab
-        HistoryTab(
-          ratingKey: item.ratingKey,
-          mediaType: mediaType ?? item.mediaType,
-        ),
-      ],
-    );
-  }
-}
-
-class _MediaFlagsRow extends StatelessWidget {
-  final MediaItem item;
-  final MetadataItem metadata;
-
-  const _MediaFlagsRow({
-    Key key,
-    @required this.item,
-    @required this.metadata,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if (isNotEmpty(metadata.videoCodec))
-          Expanded(
-            child: _MediaFlagsTag(
-              detail: metadata.videoCodec.toUpperCase(),
-            ),
-          ),
-        if (isNotEmpty(metadata.videoCodec))
-          SizedBox(
-            width: 4,
-          ),
-        if (isNotEmpty(metadata.videoFullResolution))
-          Expanded(
-            child: _MediaFlagsTag(
-              detail: metadata.videoFullResolution.contains('k')
-                  ? metadata.videoFullResolution.toUpperCase()
-                  : metadata.videoFullResolution,
-            ),
-          ),
-        if (isNotEmpty(metadata.videoFullResolution))
-          SizedBox(
-            width: 4,
-          ),
-        if (isNotEmpty(metadata.audioCodec))
-          Expanded(
-            child: _MediaFlagsTag(
-              detail: metadata.audioCodec.toUpperCase(),
-            ),
-          ),
-        if (isNotEmpty(metadata.audioCodec))
-          SizedBox(
-            width: 4,
-          ),
-        if (isNotEmpty(metadata.audioChannels.toString()))
-          Expanded(
-            child: _MediaFlagsTag(
-              detail: MediaFlagsCleaner.audioChannels(
-                metadata.audioChannels.toString(),
-              ),
-            ),
+        if (![
+          'photo',
+          'clip',
+        ].contains(item.mediaType))
+          HistoryTab(
+            ratingKey: item.ratingKey,
+            mediaType: mediaType ?? item.mediaType,
           ),
       ],
     );
-  }
-}
-
-class _MediaFlagsTag extends StatelessWidget {
-  final String detail;
-
-  const _MediaFlagsTag({
-    @required this.detail,
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ![null, 'null'].contains(detail)
-        ? ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Container(
-              height: 30,
-              color: Colors.black26,
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Text(detail),
-                ),
-              ),
-            ),
-          )
-        : SizedBox(height: 0, width: 0);
   }
 }
