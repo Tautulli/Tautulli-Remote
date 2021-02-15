@@ -94,6 +94,8 @@ class _HeadingText extends StatelessWidget {
         text = '';
         break;
       case 'album':
+      case 'photo':
+      case 'clip':
         text = parentTitle;
     }
 

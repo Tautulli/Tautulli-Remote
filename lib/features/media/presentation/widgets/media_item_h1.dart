@@ -85,6 +85,8 @@ class _HeadingText extends StatelessWidget {
       case 'movie':
       case 'artist':
       case 'album':
+      case 'photo':
+      case 'clip':
         text = title;
     }
 
