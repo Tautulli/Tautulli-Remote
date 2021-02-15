@@ -7,9 +7,12 @@ class MetadataItemModel extends MetadataItem {
     final String art,
     final int audioChannels,
     final String audioCodec,
+    final int bitrate,
+    final String container,
     final String contentRating,
     final List directors,
     final int duration,
+    final int fileSize,
     final List genres,
     final int grandparentRatingKey,
     final String grandparentThumb,
@@ -41,9 +44,12 @@ class MetadataItemModel extends MetadataItem {
           art: art,
           audioChannels: audioChannels,
           audioCodec: audioCodec,
+          bitrate: bitrate,
+          container: container,
           contentRating: contentRating,
           directors: directors,
           duration: duration,
+          fileSize: fileSize,
           genres: genres,
           grandparentRatingKey: grandparentRatingKey,
           grandparentThumb: grandparentThumb,
@@ -94,6 +100,18 @@ class MetadataItemModel extends MetadataItem {
               type: CastType.string,
             )
           : null,
+      bitrate: !mediaInfoEmpty
+          ? ValueHelper.cast(
+              value: json['media_info'][0]['bitrate'],
+              type: CastType.int,
+            )
+          : null,
+      container: !mediaInfoEmpty
+          ? ValueHelper.cast(
+              value: json['media_info'][0]['container'],
+              type: CastType.string,
+            )
+          : null,
       contentRating: ValueHelper.cast(
         value: json['content_rating'],
         type: CastType.string,
@@ -104,6 +122,12 @@ class MetadataItemModel extends MetadataItem {
         value: json['duration'],
         type: CastType.int,
       ),
+      fileSize: !mediaInfoEmpty
+          ? ValueHelper.cast(
+              value: json['media_info'][0]['parts'][0]['file_size'],
+              type: CastType.int,
+            )
+          : null,
       genres: json['genres'],
       grandparentRatingKey: ValueHelper.cast(
         value: json['grandparent_rating_key'],

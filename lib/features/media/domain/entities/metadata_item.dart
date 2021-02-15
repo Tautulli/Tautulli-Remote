@@ -5,9 +5,12 @@ class MetadataItem extends Equatable {
   final String art;
   final int audioChannels;
   final String audioCodec;
+  final int bitrate;
+  final String container;
   final String contentRating;
   final List directors;
   final int duration;
+  final int fileSize;
   final List genres;
   final int grandparentRatingKey;
   final String grandparentThumb;
@@ -40,9 +43,12 @@ class MetadataItem extends Equatable {
     this.art,
     this.audioChannels,
     this.audioCodec,
+    this.bitrate,
+    this.container,
     this.contentRating,
     this.directors,
     this.duration,
+    this.fileSize,
     this.genres,
     this.grandparentRatingKey,
     this.grandparentThumb,
