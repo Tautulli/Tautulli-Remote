@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/widgets/poster_chooser.dart';
+import '../../../../core/widgets/grid_image_item.dart';
 import '../../domain/entities/media_item.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../pages/media_item_page.dart';
@@ -25,66 +25,29 @@ class SeasonsTab extends StatelessWidget {
         childAspectRatio: 2 / 3,
         children: seasons
             .map(
-              (season) => Padding(
-                padding: const EdgeInsets.all(4),
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: Hero(
-                        tag: season.ratingKey,
-                        child: PosterChooser(item: season),
-                      ),
+              (season) => PosterGridItem(
+                item: season,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        MediaItem mediaItem = MediaItem(
+                          mediaIndex: season.mediaIndex,
+                          mediaType: season.mediaType,
+                          parentMediaIndex: season.parentMediaIndex,
+                          parentTitle: item.title,
+                          posterUrl: season.posterUrl,
+                          ratingKey: season.ratingKey,
+                          title: season.title,
+                        );
+                        return MediaItemPage(
+                          item: mediaItem,
+                          heroTag: season.ratingKey,
+                        );
+                      },
                     ),
-                    //* Gradient layer to make text visible
-                    Positioned.fill(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            gradient: LinearGradient(
-                                begin: FractionalOffset.topCenter,
-                                end: FractionalOffset.bottomCenter,
-                                colors: [
-                                  Colors.transparent,
-                                  Colors.black,
-                                ],
-                                stops: [
-                                  0.8,
-                                  1.0
-                                ])),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 4,
-                      left: 4,
-                      child: Text(season.title),
-                    ),
-                    // Draw InkWell over rest of stack
-                    Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              MediaItem mediaItem = MediaItem(
-                                mediaIndex: season.mediaIndex,
-                                mediaType: season.mediaType,
-                                parentMediaIndex: season.parentMediaIndex,
-                                parentTitle: item.title,
-                                posterUrl: season.posterUrl,
-                                ratingKey: season.ratingKey,
-                                title: season.title,
-                              );
-                              return MediaItemPage(
-                                item: mediaItem,
-                                heroTag: season.ratingKey,
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
             )
             .toList(),
