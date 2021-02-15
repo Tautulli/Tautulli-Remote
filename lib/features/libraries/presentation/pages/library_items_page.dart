@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
-import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/error_message.dart';
-import '../../../../core/widgets/poster_card.dart';
+import '../../../../core/widgets/grid_image_item.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library.dart';
 import '../bloc/library_media_bloc.dart';
-import '../widgets/library_item_details.dart';
 
 class LibraryItemsPage extends StatelessWidget {
   final Library library;
   final int ratingKey;
+  final String sectionType;
   final String title;
 
   const LibraryItemsPage({
     this.library,
     this.ratingKey,
+    this.sectionType,
     this.title,
     Key key,
   }) : super(key: key);
@@ -33,6 +33,7 @@ class LibraryItemsPage extends StatelessWidget {
         library: library,
         ratingKey: ratingKey,
         title: title,
+        sectionType: sectionType,
       ),
     );
   }
@@ -41,11 +42,13 @@ class LibraryItemsPage extends StatelessWidget {
 class LibraryItemsPageContent extends StatefulWidget {
   final Library library;
   final int ratingKey;
+  final String sectionType;
   final String title;
 
   const LibraryItemsPageContent({
     this.library,
     this.ratingKey,
+    this.sectionType,
     this.title,
     Key key,
   }) : super(key: key);
@@ -131,31 +134,35 @@ class _LibraryItemsPageContentState extends State<LibraryItemsPageContent> {
           if (state is LibraryMediaSuccess) {
             if (state.libraryMediaList.length > 0) {
               return Scrollbar(
-                child: ListView.builder(
-                  itemCount: state.libraryMediaList.length,
-                  controller: _scrollController,
-                  itemBuilder: (context, index) {
-                    final heroTag = UniqueKey();
-
-                    return GestureDetector(
+                child: GridView.count(
+                  crossAxisCount: 3,
+                  childAspectRatio: [
+                    'artist',
+                    'photo',
+                  ].contains(widget.library != null
+                          ? widget.library.sectionType
+                          : widget.sectionType)
+                      ? 1
+                      : 2 / 3,
+                  children: state.libraryMediaList.map((libraryItem) {
+                    return PosterGridItem(
+                      item: libraryItem,
                       onTap: () {
-                        if (state.libraryMediaList[index].mediaType ==
-                            'photo_album') {
+                        if (libraryItem.mediaType == 'photo_album') {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => LibraryItemsPage(
-                                title: state.libraryMediaList[index].title,
-                                ratingKey:
-                                    state.libraryMediaList[index].ratingKey,
+                                title: libraryItem.title,
+                                ratingKey: libraryItem.ratingKey,
+                                sectionType: 'photo',
                               ),
                             ),
                           );
-                        } else if (state.libraryMediaList[index].mediaType !=
-                            'photo') {
-                          final libraryItem = state.libraryMediaList[index];
-
+                        } else {
                           MediaItem mediaItem = MediaItem(
                             parentMediaIndex: libraryItem.parentMediaIndex,
+                            parentTitle:
+                                widget.title ?? widget.library.sectionName,
                             mediaIndex: libraryItem.mediaIndex,
                             mediaType: libraryItem.mediaType,
                             posterUrl: libraryItem.posterUrl,
@@ -168,21 +175,14 @@ class _LibraryItemsPageContentState extends State<LibraryItemsPageContent> {
                             MaterialPageRoute(
                               builder: (context) => MediaItemPage(
                                 item: mediaItem,
-                                heroTag: heroTag,
+                                heroTag: libraryItem.ratingKey,
                               ),
                             ),
                           );
                         }
                       },
-                      child: PosterCard(
-                        heroTag: heroTag,
-                        item: state.libraryMediaList[index],
-                        details: LibraryItemDetails(
-                          item: state.libraryMediaList[index],
-                        ),
-                      ),
                     );
-                  },
+                  }).toList(),
                 ),
               );
             } else {
