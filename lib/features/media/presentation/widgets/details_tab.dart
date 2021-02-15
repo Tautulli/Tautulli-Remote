@@ -95,7 +95,11 @@ class _TabContent extends StatelessWidget {
                   top: 6,
                   bottom: 2,
                 ),
-                child: Divider(color: Colors.grey),
+                child: Divider(
+                  color: Colors.grey,
+                  indent: MediaQuery.of(context).size.width / 3,
+                  endIndent: MediaQuery.of(context).size.width / 3,
+                ),
               ),
             if (isNotEmpty(metadata.studio))
               _ItemRow(
@@ -157,7 +161,17 @@ class _TabContent extends StatelessWidget {
                 metadata.audioChannels != null ||
                 metadata.bitrate != null ||
                 metadata.fileSize != null)
-              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 6,
+                  bottom: 2,
+                ),
+                child: Divider(
+                  color: Colors.grey,
+                  indent: MediaQuery.of(context).size.width / 3,
+                  endIndent: MediaQuery.of(context).size.width / 3,
+                ),
+              ),
             if (isNotEmpty(metadata.container))
               _ItemRow(
                 title: 'CONTAINER',
