@@ -47,6 +47,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
   String _tautulliId;
   String _orderColumn;
   String _orderDir;
+  bool _maskSensitiveInfo;
 
   @override
   void initState() {
@@ -61,6 +62,8 @@ class _UsersPageContentState extends State<UsersPageContent> {
 
     if (settingState is SettingsLoadSuccess) {
       String lastSelectedServer;
+
+      _maskSensitiveInfo = settingState.maskSensitiveInfo;
 
       if (settingState.lastSelectedServer != null) {
         for (Server server in settingState.serverList) {
@@ -191,7 +194,11 @@ class _UsersPageContentState extends State<UsersPageContent> {
                                               state.list[index].userThumb,
                                           isActive: state.list[index].isActive,
                                           details: UsersDetails(
-                                              user: state.list[index]),
+                                            user: state.list[index],
+                                            maskSensitiveInfo:
+                                                _maskSensitiveInfo,
+                                          ),
+                                          maskSensitiveInfo: _maskSensitiveInfo,
                                         );
                                 },
                               ),

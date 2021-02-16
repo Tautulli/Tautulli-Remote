@@ -118,7 +118,10 @@ class ActivityMediaDetailsCleaner {
     return list;
   }
 
-  static List<List> location(ActivityItem activity) {
+  static List<List> location(
+    ActivityItem activity,
+    bool maskSensitiveInfo,
+  ) {
     String text;
     IconData icon;
 
@@ -128,7 +131,8 @@ class ActivityMediaDetailsCleaner {
       } else {
         icon = FontAwesomeIcons.unlock;
       }
-      text = '${activity.location.toUpperCase()}: ${activity.ipAddress}';
+      text =
+          '${activity.location.toUpperCase()}: ${maskSensitiveInfo ? '*Hidden IP Address*' : activity.ipAddress}';
     } else {
       text = 'N/A';
     }
@@ -169,6 +173,7 @@ class ActivityMediaDetailsCleaner {
     String city,
     String region,
     String code,
+    bool maskSensitiveInfo,
   }) {
     if (city != null && city != 'Unknown') {
       city = '$city, ';
@@ -202,7 +207,9 @@ class ActivityMediaDetailsCleaner {
           TextSpan(
             text: type == 'relay'
                 ? 'This stream is using Plex Relay'
-                : '$city$region $code',
+                : maskSensitiveInfo
+                    ? '*Hidden Location*'
+                    : '$city$region $code',
             style: TextStyle(
               fontSize: 16,
             ),

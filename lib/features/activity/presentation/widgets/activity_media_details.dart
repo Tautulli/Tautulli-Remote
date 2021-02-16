@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/clean_data_helper.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/entities/geo_ip.dart';
 import '../bloc/geo_ip_bloc.dart';
@@ -36,10 +37,14 @@ class _ActivityMediaDetailsState extends State<ActivityMediaDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final settingsBloc = context.read<SettingsBloc>();
+    final SettingsLoadSuccess settingsLoadSuccess = settingsBloc.state;
+
     return Column(
       children: _buildList(
         constraints: widget.constraints,
         activity: widget.activity,
+        maskSensitiveInfo: settingsLoadSuccess.maskSensitiveInfo,
       ),
     );
   }
@@ -48,6 +53,7 @@ class _ActivityMediaDetailsState extends State<ActivityMediaDetails> {
 List<Widget> _buildList({
   @required BoxConstraints constraints,
   @required ActivityItem activity,
+  @required bool maskSensitiveInfo,
 }) {
   List<Widget> rows = [];
 
@@ -145,7 +151,10 @@ List<Widget> _buildList({
 
   _buildRows(
     constraints: constraints,
-    rowLists: ActivityMediaDetailsCleaner.location(activity),
+    rowLists: ActivityMediaDetailsCleaner.location(
+      activity,
+      maskSensitiveInfo,
+    ),
   ).forEach((row) {
     rows.add(row);
   });
@@ -176,6 +185,7 @@ List<Widget> _buildList({
                   city: geoIpItem.city,
                   region: geoIpItem.region,
                   code: geoIpItem.code,
+                  maskSensitiveInfo: maskSensitiveInfo,
                 )[0];
 
                 return _ActivityMediaDetailsRow(

@@ -102,17 +102,24 @@ class SettingsPageContent extends StatelessWidget {
                               .map(
                                 (server) => ListTile(
                                   title: Text('${server.plexName}'),
-                                  subtitle: isNotEmpty(server
-                                              .primaryConnectionAddress) &&
-                                          server.primaryActive
-                                      ? Text(server.primaryConnectionAddress)
+                                  subtitle: (isEmpty(
+                                          server.primaryConnectionAddress))
+                                      ? Text(
+                                          'Primary Connection Address Missing')
                                       : isNotEmpty(server
                                                   .primaryConnectionAddress) &&
-                                              !server.primaryActive
+                                              server.primaryActive &&
+                                              !state.maskSensitiveInfo
                                           ? Text(
-                                              server.secondaryConnectionAddress)
-                                          : Text(
-                                              'Primary Connection Address Missing'),
+                                              server.primaryConnectionAddress)
+                                          : isNotEmpty(server
+                                                      .primaryConnectionAddress) &&
+                                                  !server.primaryActive &&
+                                                  !state.maskSensitiveInfo
+                                              ? Text(server
+                                                  .secondaryConnectionAddress)
+                                              : Text(
+                                                  '*Hidden Connection Address*'),
                                   trailing: FaIcon(
                                     FontAwesomeIcons.cog,
                                     color: TautulliColorPalette.not_white,
@@ -121,9 +128,11 @@ class SettingsPageContent extends StatelessWidget {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) {
-                                          return ServerSettings(
+                                          return ServerSettingsPage(
                                             id: server.id,
                                             plexName: server.plexName,
+                                            maskSensitiveInfo:
+                                                state.maskSensitiveInfo,
                                           );
                                         },
                                       ),
@@ -144,7 +153,7 @@ class SettingsPageContent extends StatelessWidget {
                           ),
                         );
                       }
-                      return Container(height: 0, width: 0);
+                      return SizedBox(height: 0, width: 0);
                     },
                   ),
                   SizedBox(height: 20),
@@ -178,6 +187,18 @@ class SettingsPageContent extends StatelessWidget {
                         ),
                       );
                     },
+                  ),
+                  CheckboxListTile(
+                    title: Text('Mask Sensitive Info'),
+                    subtitle: Text('Hides sensitive info in the UI'),
+                    onChanged: (value) {
+                      context.read<SettingsBloc>().add(
+                            SettingsUpdateMaskSensitiveInfo(
+                              value: value,
+                            ),
+                          );
+                    },
+                    value: state.maskSensitiveInfo ?? false,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(

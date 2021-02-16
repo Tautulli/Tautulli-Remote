@@ -7,10 +7,12 @@ import '../../domain/entities/synced_item.dart';
 
 class SyncedItemsDetails extends StatelessWidget {
   final SyncedItem syncedItem;
+  final bool maskSensitiveInfo;
 
   const SyncedItemsDetails({
     Key key,
     @required this.syncedItem,
+    @required this.maskSensitiveInfo,
   }) : super(key: key);
 
   @override
@@ -31,7 +33,7 @@ class SyncedItemsDetails extends StatelessWidget {
                 ),
               ),
               Text(
-                syncedItem.user,
+                maskSensitiveInfo ? '*Hidden User*' : syncedItem.user,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 15,

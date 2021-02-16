@@ -11,12 +11,14 @@ class StatisticsHeading extends StatelessWidget {
   final String statId;
   final int statisticCount;
   final String tautulliId;
+  final bool maskSensitiveInfo;
 
   const StatisticsHeading({
     Key key,
     @required this.statId,
     @required this.statisticCount,
     @required this.tautulliId,
+    @required this.maskSensitiveInfo,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,7 @@ class StatisticsHeading extends StatelessWidget {
                       child: SingleStatisticTypePage(
                         statId: statId,
                         tautulliId: tautulliId,
+                        maskSensitiveInfo: maskSensitiveInfo,
                       ),
                     );
                   },

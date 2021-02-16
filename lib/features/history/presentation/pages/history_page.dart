@@ -56,6 +56,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
   String _tautulliId;
   int _userId;
   String _mediaType;
+  bool _maskSensitiveInfo;
 
   @override
   void initState() {
@@ -71,6 +72,8 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
 
     if (settingsState is SettingsLoadSuccess) {
       String lastSelectedServer;
+
+      _maskSensitiveInfo = settingsState.maskSensitiveInfo;
 
       if (settingsState.lastSelectedServer != null) {
         for (Server server in settingsState.serverList) {
@@ -210,9 +213,12 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                                     item: state.list[index],
                                     details: HistoryDetails(
                                       historyItem: state.list[index],
-                                      server: settingsState.serverList
-                                          .firstWhere((server) =>
-                                              server.tautulliId == _tautulliId),
+                                      server:
+                                          settingsState.serverList.firstWhere(
+                                        (server) =>
+                                            server.tautulliId == _tautulliId,
+                                      ),
+                                      maskSensitiveInfo: _maskSensitiveInfo,
                                     ),
                                   );
                           },
@@ -332,7 +338,9 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                     .map(
                       (user) => PopupMenuItem(
                         child: Text(
-                          user.friendlyName,
+                          _maskSensitiveInfo
+                              ? '*Hidden User*'
+                              : user.friendlyName,
                           style: TextStyle(
                             color: _userId == user.userId
                                 ? Theme.of(context).accentColor

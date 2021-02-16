@@ -42,6 +42,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
   SettingsBloc _settingsBloc;
   SyncedItemsBloc _syncedItemsBloc;
   String _tautulliId;
+  bool _maskSensitiveInfo;
 
   @override
   void initState() {
@@ -53,6 +54,8 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
 
     if (settingState is SettingsLoadSuccess) {
       String lastSelectedServer;
+
+      _maskSensitiveInfo = settingState.maskSensitiveInfo;
 
       if (settingState.lastSelectedServer != null) {
         for (Server server in settingState.serverList) {
@@ -187,6 +190,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                       item: state.list[index],
                                       details: SyncedItemsDetails(
                                         syncedItem: state.list[index],
+                                        maskSensitiveInfo: _maskSensitiveInfo,
                                       ),
                                       heroTag: heroTag,
                                     ),

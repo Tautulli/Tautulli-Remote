@@ -11,11 +11,13 @@ import '../../domain/entities/history.dart';
 class HistoryDetails extends StatelessWidget {
   final History historyItem;
   final Server server;
+  final bool maskSensitiveInfo;
 
   const HistoryDetails({
     Key key,
     @required this.historyItem,
     @required this.server,
+    @required this.maskSensitiveInfo,
   }) : super(key: key);
 
   @override
@@ -43,7 +45,7 @@ class HistoryDetails extends StatelessWidget {
                 ),
               ),
               Text(
-                historyItem.friendlyName,
+                maskSensitiveInfo ? '*Hidden User*' : historyItem.friendlyName,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 15,

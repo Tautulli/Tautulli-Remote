@@ -9,14 +9,16 @@ import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../bloc/settings_bloc.dart';
 
-class ServerSettings extends StatelessWidget {
+class ServerSettingsPage extends StatelessWidget {
   final int id;
   final String plexName;
+  final bool maskSensitiveInfo;
 
-  const ServerSettings({
+  const ServerSettingsPage({
     Key key,
     @required this.id,
     @required this.plexName,
+    @required this.maskSensitiveInfo,
   }) : super(key: key);
 
   @override
@@ -63,9 +65,12 @@ class ServerSettings extends StatelessWidget {
                 children: <Widget>[
                   ListTile(
                     title: Text('Primary Connection Address'),
-                    subtitle: isNotEmpty(server.primaryConnectionAddress)
-                        ? Text(server.primaryConnectionAddress)
-                        : Text('Required'),
+                    subtitle: isEmpty(server.primaryConnectionAddress)
+                        ? Text('Required')
+                        : isNotEmpty(server.primaryConnectionAddress) &&
+                                !maskSensitiveInfo
+                            ? Text(server.primaryConnectionAddress)
+                            : Text('*Hidden Connection Address*'),
                     trailing: Container(
                       padding: EdgeInsets.all(4),
                       decoration: BoxDecoration(
@@ -120,9 +125,12 @@ class ServerSettings extends StatelessWidget {
                   ),
                   ListTile(
                     title: Text('Secondary Connection Address'),
-                    subtitle: isNotEmpty(server.secondaryConnectionAddress)
-                        ? Text(server.secondaryConnectionAddress)
-                        : Text('Not configured'),
+                    subtitle: isEmpty(server.secondaryConnectionAddress)
+                        ? Text('Not configured')
+                        : isNotEmpty(server.secondaryConnectionAddress) &&
+                                !maskSensitiveInfo
+                            ? Text(server.secondaryConnectionAddress)
+                            : Text('*Hidden Connection Address*'),
                     trailing: Container(
                       padding: EdgeInsets.all(4),
                       decoration: BoxDecoration(
@@ -183,7 +191,9 @@ class ServerSettings extends StatelessWidget {
                       ),
                     ),
                     subtitle: Text(
-                      server.deviceToken,
+                      maskSensitiveInfo
+                          ? '*Hidden Device Token*'
+                          : server.deviceToken,
                       style: TextStyle(
                         color: Colors.grey,
                       ),

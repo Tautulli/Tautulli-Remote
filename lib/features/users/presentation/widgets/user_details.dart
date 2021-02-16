@@ -6,10 +6,12 @@ import '../../domain/entities/user_table.dart';
 
 class UsersDetails extends StatelessWidget {
   final UserTable user;
+  final bool maskSensitiveInfo;
 
   const UsersDetails({
     Key key,
     @required this.user,
+    @required this.maskSensitiveInfo,
   }) : super(key: key);
 
   @override
@@ -19,7 +21,7 @@ class UsersDetails extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          user.friendlyName,
+          maskSensitiveInfo ? '*Hidden User*' : user.friendlyName,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(fontSize: 18),
         ),

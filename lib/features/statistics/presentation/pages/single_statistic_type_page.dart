@@ -17,11 +17,13 @@ import '../widgets/statistics_details.dart';
 class SingleStatisticTypePage extends StatefulWidget {
   final String statId;
   final String tautulliId;
+  final bool maskSensitiveInfo;
 
   const SingleStatisticTypePage({
     Key key,
     @required this.statId,
     @required this.tautulliId,
+    @required this.maskSensitiveInfo,
   }) : super(key: key);
 
   @override
@@ -92,7 +94,11 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                   } else if (widget.statId == 'top_users') {
                     return UserCard(
                       userThumb: stat.userThumb,
-                      details: StatisticsDetails(statistic: stat),
+                      details: StatisticsDetails(
+                        statistic: stat,
+                        maskSensitiveInfo: widget.maskSensitiveInfo,
+                      ),
+                      maskSensitiveInfo: widget.maskSensitiveInfo,
                     );
                   } else if (widget.statId == 'most_concurrent') {
                     return IconCard(
@@ -135,7 +141,10 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                       },
                       child: PosterCard(
                         item: stat,
-                        details: StatisticsDetails(statistic: stat),
+                        details: StatisticsDetails(
+                          statistic: stat,
+                          maskSensitiveInfo: widget.maskSensitiveInfo,
+                        ),
                         heroTag: heroTag,
                       ),
                     );

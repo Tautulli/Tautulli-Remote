@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
+import '../helpers/color_palette_helper.dart';
 
 class UserIcon extends StatelessWidget {
   final int isActive;
   final bool hasNetworkImage;
   final AsyncSnapshot<dynamic> snapshot;
+  final bool maskSensitiveInfo;
 
   const UserIcon({
     Key key,
     @required this.isActive,
     @required this.hasNetworkImage,
     @required this.snapshot,
+    @required this.maskSensitiveInfo,
   }) : super(key: key);
 
   @override
@@ -24,7 +26,9 @@ class UserIcon extends StatelessWidget {
           height: 60,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: (hasNetworkImage && snapshot.data != null)
+              image: (hasNetworkImage &&
+                      snapshot.data != null &&
+                      !maskSensitiveInfo)
                   ? snapshot.data['image']
                   : AssetImage('assets/images/default_profile.png'),
               fit: BoxFit.cover,
@@ -33,7 +37,9 @@ class UserIcon extends StatelessWidget {
               Radius.circular(50.0),
             ),
             border: Border.all(
-              color: (hasNetworkImage && snapshot.data != null)
+              color: (hasNetworkImage &&
+                      snapshot.data != null &&
+                      !maskSensitiveInfo)
                   ? Colors.transparent
                   : Color.fromRGBO(69, 69, 69, 1),
               width: 1,

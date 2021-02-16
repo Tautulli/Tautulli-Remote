@@ -154,6 +154,8 @@ class _ActivityCardState extends State<ActivityCard> {
                               context: context,
                               controller: _terminateMessageController,
                               activity: activity,
+                              maskSensitiveInfo:
+                                  settingsLoadSuccess.maskSensitiveInfo,
                             );
                             if (confirm == 1) {
                               terminateSessionBloc.add(
@@ -294,7 +296,12 @@ class _ActivityCardState extends State<ActivityCard> {
                                               MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             //* User name
-                                            Text(activity.friendlyName),
+                                            Text(
+                                              settingsLoadSuccess
+                                                      .maskSensitiveInfo
+                                                  ? '*Hidden User*'
+                                                  : activity.friendlyName,
+                                            ),
                                             //* Time left or Live tv channel
                                             //* or Photo Media Type and Transcode Decision Icons
                                             activity.live == 0 &&
@@ -306,14 +313,17 @@ class _ActivityCardState extends State<ActivityCard> {
                                                   )
                                                 : activity.live == 1
                                                     ? Text(
-                                                        '${activity.channelCallSign} ${activity.channelIdentifier}')
+                                                        '${activity.channelCallSign} ${activity.channelIdentifier}',
+                                                      )
                                                     : activity.mediaType ==
                                                             'photo'
                                                         ? ActivityMediaIconRow(
-                                                            activity: activity)
+                                                            activity: activity,
+                                                          )
                                                         : Container(
                                                             height: 0,
-                                                            width: 0),
+                                                            width: 0,
+                                                          ),
                                           ],
                                         ),
                                       ],
@@ -386,6 +396,7 @@ Future<int> _showTerminateSessionDialog({
   @required BuildContext context,
   @required TextEditingController controller,
   @required ActivityItem activity,
+  @required bool maskSensitiveInfo,
 }) {
   return showDialog(
     context: context,
@@ -396,7 +407,10 @@ Future<int> _showTerminateSessionDialog({
         content: IntrinsicHeight(
           child: Column(
             children: <Widget>[
-              _TerminateSessionMediaInfo(activity: activity),
+              _TerminateSessionMediaInfo(
+                activity: activity,
+                maskSensitiveInfo: maskSensitiveInfo,
+              ),
               TextFormField(
                 controller: controller,
                 maxLines: 2,
@@ -432,10 +446,12 @@ Future<int> _showTerminateSessionDialog({
 
 class _TerminateSessionMediaInfo extends StatelessWidget {
   final ActivityItem activity;
+  final bool maskSensitiveInfo;
 
   const _TerminateSessionMediaInfo({
     Key key,
     @required this.activity,
+    @required this.maskSensitiveInfo,
   }) : super(key: key);
 
   @override
@@ -493,7 +509,7 @@ class _TerminateSessionMediaInfo extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text(
-            activity.friendlyName,
+            maskSensitiveInfo ? '*Hidden User*' : activity.friendlyName,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).accentColor,

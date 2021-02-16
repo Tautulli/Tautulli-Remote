@@ -53,6 +53,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
   String _tautulliId;
   String _statsType;
   int _timeRange;
+  bool _maskSensitiveInfo;
 
   @override
   void initState() {
@@ -66,6 +67,8 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
 
     if (settingsState is SettingsLoadSuccess) {
       String lastSelectedServer;
+
+      _maskSensitiveInfo = settingsState.maskSensitiveInfo;
 
       if (settingsState.lastSelectedServer != null) {
         for (Server server in settingsState.serverList) {
@@ -514,6 +517,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
               statId: key,
               statisticCount: map[key].length,
               tautulliId: _tautulliId,
+              maskSensitiveInfo: _maskSensitiveInfo,
             ),
           ),
           Divider(
@@ -544,7 +548,11 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
               statList.add(
                 UserCard(
                   userThumb: s.userThumb,
-                  details: StatisticsDetails(statistic: s),
+                  details: StatisticsDetails(
+                    statistic: s,
+                    maskSensitiveInfo: _maskSensitiveInfo,
+                  ),
+                  maskSensitiveInfo: _maskSensitiveInfo,
                 ),
               );
             } else if (s.statId == 'most_concurrent') {
@@ -588,7 +596,10 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                   },
                   child: PosterCard(
                     item: s,
-                    details: StatisticsDetails(statistic: s),
+                    details: StatisticsDetails(
+                      statistic: s,
+                      maskSensitiveInfo: _maskSensitiveInfo,
+                    ),
                     heroTag: heroTag,
                   ),
                 ),

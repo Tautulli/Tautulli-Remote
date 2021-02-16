@@ -7,6 +7,7 @@ import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/poster_chooser.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/activity.dart';
 import '../bloc/activity_bloc.dart';
 import 'activity_media_details.dart';
@@ -43,6 +44,9 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final settingsBloc = context.read<SettingsBloc>();
+    final SettingsLoadSuccess settingsLoadSuccess = settingsBloc.state;
+
     return BlocListener<ActivityBloc, ActivityState>(
       listener: (context, state) {
         // Update the activityItem to the lastest data when a new ActivityLoaded is pushed
@@ -126,7 +130,12 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               //* User name
-                                              Text(activity.friendlyName),
+                                              Text(
+                                                settingsLoadSuccess
+                                                        .maskSensitiveInfo
+                                                    ? '*Hidden User*'
+                                                    : activity.friendlyName,
+                                              ),
                                               //* Time left or Live tv channel
                                               activity.live == 0 &&
                                                       activity.duration != null
@@ -138,7 +147,8 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                                     )
                                                   : activity.live == 1
                                                       ? Text(
-                                                          '${activity.channelCallSign} ${activity.channelIdentifier}')
+                                                          '${activity.channelCallSign} ${activity.channelIdentifier}',
+                                                        )
                                                       : SizedBox(),
                                             ],
                                           ),

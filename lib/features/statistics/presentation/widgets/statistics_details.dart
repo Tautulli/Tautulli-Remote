@@ -5,9 +5,13 @@ import '../../domain/entities/statistics.dart';
 
 class StatisticsDetails extends StatelessWidget {
   final Statistics statistic;
+  final bool maskSensitiveInfo;
 
-  const StatisticsDetails({Key key, @required this.statistic})
-      : super(key: key);
+  const StatisticsDetails({
+    Key key,
+    @required this.statistic,
+    @required this.maskSensitiveInfo,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +59,7 @@ class StatisticsDetails extends StatelessWidget {
       case ('top_platforms'):
         return statistic.platform;
       case ('top_users'):
-        return statistic.friendlyName;
+        return maskSensitiveInfo ? '*Hidden User*' : statistic.friendlyName;
       default:
         return 'UNKNOWN';
     }
@@ -74,7 +78,7 @@ class StatisticsDetails extends StatelessWidget {
       case ('popular_music'):
         return '${statistic.usersWatched} users';
       case ('last_watched'):
-        return statistic.friendlyName;
+        return maskSensitiveInfo ? '*Hidden User*' : statistic.friendlyName;
       case ('most_concurrent'):
         return '${statistic.count.toString()} streams';
       default:

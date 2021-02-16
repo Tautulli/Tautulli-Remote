@@ -54,6 +54,7 @@ class _HistoryTabContentState extends State<HistoryTabContent> {
   SettingsBloc _settingsBloc;
   HistoryIndividualBloc _historyIndividualBloc;
   String _tautulliId;
+  bool _maskSensitiveInfo;
 
   @override
   void initState() {
@@ -66,6 +67,8 @@ class _HistoryTabContentState extends State<HistoryTabContent> {
 
     if (settingsState is SettingsLoadSuccess) {
       String lastSelectedServer;
+
+      _maskSensitiveInfo = settingsState.maskSensitiveInfo;
 
       if (settingsState.lastSelectedServer != null) {
         for (Server server in settingsState.serverList) {
@@ -150,9 +153,11 @@ class _HistoryTabContentState extends State<HistoryTabContent> {
                               history: state.list[index],
                               mediaType: widget.mediaType,
                               user: state.userTableList.firstWhere(
-                                  (user) =>
-                                      user.userId == state.list[index].userId,
-                                  orElse: () => null),
+                                (user) =>
+                                    user.userId == state.list[index].userId,
+                                orElse: () => null,
+                              ),
+                              maskSensitiveInfo: _maskSensitiveInfo,
                             );
                     },
                   ),
@@ -199,6 +204,7 @@ class _HistoryRow extends StatelessWidget {
   final History history;
   final UserTable user;
   final String mediaType;
+  final bool maskSensitiveInfo;
 
   const _HistoryRow({
     @required this.index,
@@ -206,6 +212,7 @@ class _HistoryRow extends StatelessWidget {
     @required this.history,
     this.user,
     @required this.mediaType,
+    @required this.maskSensitiveInfo,
     Key key,
   }) : super(key: key);
 
@@ -231,7 +238,7 @@ class _HistoryRow extends StatelessWidget {
               width: 45,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: hasNetworkImage
+                  image: hasNetworkImage && !maskSensitiveInfo
                       ? NetworkImage(user.userThumb)
                       : AssetImage('assets/images/default_profile.png'),
                 ),
@@ -239,7 +246,7 @@ class _HistoryRow extends StatelessWidget {
                   Radius.circular(50.0),
                 ),
                 border: Border.all(
-                  color: hasNetworkImage
+                  color: hasNetworkImage && !maskSensitiveInfo
                       ? Colors.transparent
                       : Color.fromRGBO(69, 69, 69, 1),
                   width: 1,
@@ -259,7 +266,9 @@ class _HistoryRow extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(history.friendlyName),
+                          Text(maskSensitiveInfo
+                              ? '*Hidden User*'
+                              : history.friendlyName),
                           if (['show', 'season', 'artist', 'album']
                               .contains(mediaType))
                             Text(
