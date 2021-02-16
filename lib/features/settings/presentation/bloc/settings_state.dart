@@ -18,6 +18,7 @@ class SettingsLoadSuccess extends SettingsState {
   final List<ServerModel> serverList;
   final int serverTimeout;
   final int refreshRate;
+  final bool maskSensitiveInfo;
   final String lastSelectedServer;
   final String statsType;
 
@@ -25,6 +26,7 @@ class SettingsLoadSuccess extends SettingsState {
     @required this.serverList,
     @required this.serverTimeout,
     @required this.refreshRate,
+    @required this.maskSensitiveInfo,
     @required this.lastSelectedServer,
     @required this.statsType,
   });
@@ -34,6 +36,7 @@ class SettingsLoadSuccess extends SettingsState {
         serverList,
         serverTimeout,
         refreshRate,
+        maskSensitiveInfo,
         lastSelectedServer,
         statsType,
       ];

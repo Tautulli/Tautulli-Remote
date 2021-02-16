@@ -72,6 +72,7 @@ void main() {
 
   final int tServerTimeout = 5;
   final int tRefreshRate = 10;
+  final bool tMaskSensitiveInfo = true;
   final String tStatsType = 'duration';
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
@@ -126,6 +127,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
           ),
@@ -189,6 +191,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
           ),
@@ -273,6 +276,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
           ),
@@ -323,6 +327,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
           ),
@@ -376,6 +381,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
           ),
@@ -432,6 +438,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
           ),
@@ -488,6 +495,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
           ),

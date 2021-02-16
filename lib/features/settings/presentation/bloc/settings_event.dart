@@ -138,6 +138,15 @@ class SettingsUpdateRefreshRate extends SettingsEvent {
   List<Object> get props => [refreshRate];
 }
 
+class SettingsUpdateMaskSensitiveInfo extends SettingsEvent {
+  final bool value;
+
+  SettingsUpdateMaskSensitiveInfo({@required this.value});
+
+  @override
+  List<Object> get props => [value];
+}
+
 class SettingsUpdateLastSelectedServer extends SettingsEvent {
   final String tautulliId;
 

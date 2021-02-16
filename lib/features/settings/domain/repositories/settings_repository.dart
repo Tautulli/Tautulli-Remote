@@ -76,6 +76,10 @@ abstract class SettingsRepository {
 
   Future<bool> setRefreshRate(int value);
 
+  Future<bool> getMaskSensitiveInfo();
+
+  Future<bool> setMaskSensitiveInfo(bool value);
+
   Future<String> getLastSelectedServer();
 
   Future<bool> setLastSelectedServer(String tautulliId);

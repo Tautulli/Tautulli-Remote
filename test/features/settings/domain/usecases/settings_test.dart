@@ -326,6 +326,33 @@ void main() {
   );
 
   test(
+    'getMaskSensitiveInfo should get mask sensitive info value from settings',
+    () async {
+      // arrange
+      when(
+        mockSettingsRepository.getMaskSensitiveInfo(),
+      ).thenAnswer((_) async => true);
+      // act
+      final result = await settings.getMaskSensitiveInfo();
+      // assert
+      expect(result, equals(true));
+      verify(mockSettingsRepository.getMaskSensitiveInfo());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setMaskSensitiveInfo should forward request to the repository',
+    () async {
+      // act
+      await settings.setMaskSensitiveInfo(true);
+      // assert
+      verify(mockSettingsRepository.setMaskSensitiveInfo(true));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
     'getLastSelectedServer should get last selected server from settings',
     () async {
       // arrange

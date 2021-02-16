@@ -33,6 +33,7 @@ void main() {
 
   final int tServerTimeout = 3;
   final int tRefreshRate = 5;
+  final bool tMaskSensitiveInfo = true;
   final String tTautulliId = 'jkl';
   final String tStatsType = 'duration';
 
@@ -213,6 +214,31 @@ void main() {
         await repository.setRefreshRate(tRefreshRate);
         // assert
         verify(mockSettingsDataSource.setRefreshRate(tRefreshRate));
+      },
+    );
+  });
+
+  group('Mask Sensitive Info', () {
+    test(
+      'should return the mask sensitive info value from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getMaskSensitiveInfo())
+            .thenAnswer((_) async => tMaskSensitiveInfo);
+        // act
+        final result = await repository.getMaskSensitiveInfo();
+        // assert
+        expect(result, equals(tMaskSensitiveInfo));
+      },
+    );
+
+    test(
+      'should formward the call to the data source to set mask sensitive info',
+      () async {
+        // act
+        await repository.setMaskSensitiveInfo(tMaskSensitiveInfo);
+        // assert
+        verify(mockSettingsDataSource.setMaskSensitiveInfo(tMaskSensitiveInfo));
       },
     );
   });

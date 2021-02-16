@@ -127,6 +127,16 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       await settings.setRefreshRate(event.refreshRate);
       yield* _fetchAndYieldSettings();
     }
+    if (event is SettingsUpdateMaskSensitiveInfo) {
+      logging.info(
+        event.value
+            ? 'Settings: Mask Sensitive Info enabled'
+            : 'Settings: Mask Sensitive Info disabled',
+      );
+
+      await settings.setMaskSensitiveInfo(event.value);
+      yield* _fetchAndYieldSettings();
+    }
     if (event is SettingsUpdateLastSelectedServer) {
       await settings.setLastSelectedServer(event.tautulliId);
       yield* _fetchAndYieldSettings();
@@ -141,6 +151,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final serverList = await settings.getAllServers();
     final serverTimeout = await settings.getServerTimeout();
     final refreshRate = await settings.getRefreshRate();
+    final maskSensitiveInfo = await settings.getMaskSensitiveInfo();
     final lastSelectedServer = await settings.getLastSelectedServer();
     final statsType = await settings.getStatsType();
 
@@ -148,6 +159,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       serverList: serverList,
       serverTimeout: serverTimeout,
       refreshRate: refreshRate,
+      maskSensitiveInfo: maskSensitiveInfo ?? false,
       lastSelectedServer: lastSelectedServer,
       statsType: statsType,
     );

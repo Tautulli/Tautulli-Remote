@@ -151,6 +151,14 @@ class Settings {
     return repository.setRefreshRate(value);
   }
 
+  Future<bool> getMaskSensitiveInfo() async {
+    return await repository.getMaskSensitiveInfo();
+  }
+
+  Future<bool> setMaskSensitiveInfo(bool value) async {
+    return repository.setMaskSensitiveInfo(value);
+  }
+
   Future<String> getLastSelectedServer() async {
     return await repository.getLastSelectedServer();
   }

@@ -20,6 +20,10 @@ abstract class SettingsDataSource {
 
   Future<bool> setRefreshRate(int value);
 
+  Future<bool> setMaskSensitiveInfo(bool value);
+
+  Future<bool> getMaskSensitiveInfo();
+
   Future<String> getLastSelectedServer();
 
   Future<bool> setLastSelectedServer(String tautulliId);
@@ -31,6 +35,7 @@ abstract class SettingsDataSource {
 
 const SETTINGS_SERVER_TIMEOUT = 'SETTINGS_SERVER_TIMEOUT';
 const SETTINGS_REFRESH_RATE = 'SETTINGS_REFRESH_RATE';
+const SETTINGS_MASK_SENSITIVE_INFO = 'SETTINGS_MASK_SENSITIVE_INFO';
 const LAST_SELECTED_SERVER = 'LAST_SELECTED_SERVER';
 const STATS_TYPE = 'STATS_TYPE';
 
@@ -88,6 +93,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setRefreshRate(int value) {
     return sharedPreferences.setInt(SETTINGS_REFRESH_RATE, value);
+  }
+
+  @override
+  Future<bool> getMaskSensitiveInfo() {
+    final value = sharedPreferences.getBool(SETTINGS_MASK_SENSITIVE_INFO);
+    return Future.value(value);
+  }
+
+  @override
+  Future<bool> setMaskSensitiveInfo(bool value) {
+    return sharedPreferences.setBool(SETTINGS_MASK_SENSITIVE_INFO, value);
   }
 
   @override

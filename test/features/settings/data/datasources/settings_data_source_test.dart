@@ -189,6 +189,49 @@ void main() {
     );
   });
 
+  group('Mask Sensitive Info', () {
+    test(
+      'should return bool from settings',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(SETTINGS_MASK_SENSITIVE_INFO),
+        ).thenReturn(true);
+        // act
+        final maskSensitiveInfo = await dataSource.getMaskSensitiveInfo();
+        // assert
+        verify(mockSharedPreferences.getBool(SETTINGS_MASK_SENSITIVE_INFO));
+        expect(maskSensitiveInfo, equals(true));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(SETTINGS_MASK_SENSITIVE_INFO),
+        ).thenReturn(null);
+        // act
+        final maskSensitiveInfo = await dataSource.getMaskSensitiveInfo();
+        // assert
+        expect(maskSensitiveInfo, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the mask sensitive info value',
+      () async {
+        // act
+        await dataSource.setMaskSensitiveInfo(true);
+        // assert
+        verify(
+          mockSharedPreferences.setBool(SETTINGS_MASK_SENSITIVE_INFO, true),
+        );
+      },
+    );
+  });
+
   group('Last Selected Server', () {
     test(
       'should return String from settings',

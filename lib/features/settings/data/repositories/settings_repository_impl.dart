@@ -254,6 +254,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<bool> getMaskSensitiveInfo() async {
+    final maskSensitiveInfo = await dataSource.getMaskSensitiveInfo();
+    return maskSensitiveInfo;
+  }
+
+  @override
+  Future<bool> setMaskSensitiveInfo(bool value) async {
+    return dataSource.setMaskSensitiveInfo(value);
+  }
+
+  @override
   Future<String> getLastSelectedServer() async {
     final lastSelectedServer = await dataSource.getLastSelectedServer();
     return lastSelectedServer;
