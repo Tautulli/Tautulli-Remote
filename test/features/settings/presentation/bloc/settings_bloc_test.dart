@@ -84,6 +84,8 @@ void main() {
     when(mockSettings.getServerTimeout())
         .thenAnswer((_) async => tServerTimeout);
     when(mockSettings.getRefreshRate()).thenAnswer((_) async => tRefreshRate);
+    when(mockSettings.getMaskSensitiveInfo())
+        .thenAnswer((_) async => tMaskSensitiveInfo);
     when(mockSettings.getLastSelectedServer())
         .thenAnswer((_) async => tTautulliId);
     when(mockSettings.getStatsType()).thenAnswer((_) async => tStatsType);
