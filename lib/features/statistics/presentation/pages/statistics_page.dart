@@ -541,7 +541,10 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                       AssetMapperHelper.mapPlatformToPath(s.platformName),
                   backgroundColor:
                       TautulliColorPalette.mapPlatformToColor(s.platformName),
-                  details: StatisticsDetails(statistic: s),
+                  details: StatisticsDetails(
+                    statistic: s,
+                    maskSensitiveInfo: _maskSensitiveInfo,
+                  ),
                 ),
               );
             } else if (s.statId == 'top_users') {
@@ -559,7 +562,10 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
               statList.add(
                 IconCard(
                   assetPath: 'assets/icons/concurrent.svg',
-                  details: StatisticsDetails(statistic: s),
+                  details: StatisticsDetails(
+                    statistic: s,
+                    maskSensitiveInfo: _maskSensitiveInfo,
+                  ),
                 ),
               );
             } else {

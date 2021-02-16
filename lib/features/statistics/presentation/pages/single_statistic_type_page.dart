@@ -86,10 +86,15 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                   if (widget.statId == 'top_platforms') {
                     return IconCard(
                       assetPath: AssetMapperHelper.mapPlatformToPath(
-                          stat.platformName),
+                        stat.platformName,
+                      ),
                       backgroundColor: TautulliColorPalette.mapPlatformToColor(
-                          stat.platformName),
-                      details: StatisticsDetails(statistic: stat),
+                        stat.platformName,
+                      ),
+                      details: StatisticsDetails(
+                        statistic: stat,
+                        maskSensitiveInfo: widget.maskSensitiveInfo,
+                      ),
                     );
                   } else if (widget.statId == 'top_users') {
                     return UserCard(
@@ -103,7 +108,10 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                   } else if (widget.statId == 'most_concurrent') {
                     return IconCard(
                       assetPath: 'assets/icons/concurrent.svg',
-                      details: StatisticsDetails(statistic: stat),
+                      details: StatisticsDetails(
+                        statistic: stat,
+                        maskSensitiveInfo: widget.maskSensitiveInfo,
+                      ),
                     );
                   } else {
                     return GestureDetector(
