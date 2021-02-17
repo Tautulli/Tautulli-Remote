@@ -21,7 +21,7 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Change Kbps to kbps on media info details page",
+          "detail": "Change Kbps to kbps on media info page details tab",
         },
         {
           "type": "fix",
