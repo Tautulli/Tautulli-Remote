@@ -36,6 +36,7 @@ void main() {
   final bool tMaskSensitiveInfo = true;
   final String tTautulliId = 'jkl';
   final String tStatsType = 'duration';
+  final String tLastAppVersion = '2.1.5';
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =
@@ -183,7 +184,7 @@ void main() {
     );
 
     test(
-      'should formward the call to the data source to set server timeout',
+      'should forward the call to the data source to set server timeout',
       () async {
         // act
         await repository.setServerTimeout(tServerTimeout);
@@ -208,7 +209,7 @@ void main() {
     );
 
     test(
-      'should formward the call to the data source to set refresh rate',
+      'should forward the call to the data source to set refresh rate',
       () async {
         // act
         await repository.setRefreshRate(tRefreshRate);
@@ -233,7 +234,7 @@ void main() {
     );
 
     test(
-      'should formward the call to the data source to set mask sensitive info',
+      'should forward the call to the data source to set mask sensitive info',
       () async {
         // act
         await repository.setMaskSensitiveInfo(tMaskSensitiveInfo);
@@ -258,7 +259,7 @@ void main() {
     );
 
     test(
-      'should formward the call to the data source to set last selected server',
+      'should forward the call to the data source to set last selected server',
       () async {
         // act
         await repository.setLastSelectedServer(tTautulliId);
@@ -283,12 +284,37 @@ void main() {
     );
 
     test(
-      'should formward the call to the data source to set stats type',
+      'should forward the call to the data source to set stats type',
       () async {
         // act
-        await repository.setStatsType(tStatsType);
+        await repository.setStatsType(tLastAppVersion);
         // assert
-        verify(mockSettingsDataSource.setStatsType(tStatsType));
+        verify(mockSettingsDataSource.setStatsType(tLastAppVersion));
+      },
+    );
+  });
+
+  group('Last app version', () {
+    test(
+      'should return the last app version from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getLastAppVersion())
+            .thenAnswer((_) async => tLastAppVersion);
+        // act
+        final result = await repository.getLastAppVersion();
+        // assert
+        expect(result, equals(tLastAppVersion));
+      },
+    );
+
+    test(
+      'should forward the call to the data source to set last app version',
+      () async {
+        // act
+        await repository.setLastAppVersion(tLastAppVersion);
+        // assert
+        verify(mockSettingsDataSource.setLastAppVersion(tLastAppVersion));
       },
     );
   });

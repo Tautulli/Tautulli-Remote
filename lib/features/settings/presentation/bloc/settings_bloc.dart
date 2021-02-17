@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:package_info/package_info.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../logging/domain/usecases/logging.dart';
@@ -143,6 +144,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
     if (event is SettingsUpdateStatsType) {
       await settings.setStatsType(event.statsType);
+      yield* _fetchAndYieldSettings();
+    }
+    if (event is SettingsUpdateLastAppVersion) {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      await settings.setLastAppVersion(packageInfo.version);
       yield* _fetchAndYieldSettings();
     }
   }

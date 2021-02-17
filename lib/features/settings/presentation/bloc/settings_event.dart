@@ -165,6 +165,11 @@ class SettingsUpdateStatsType extends SettingsEvent {
   List<Object> get props => [statsType];
 }
 
+class SettingsUpdateLastAppVersion extends SettingsEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class SettingsDeleteServer extends SettingsEvent {
   final int id;
   final String plexName;

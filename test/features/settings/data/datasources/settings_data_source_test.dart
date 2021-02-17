@@ -308,4 +308,43 @@ void main() {
       },
     );
   });
+
+  group('Last app version', () {
+    test(
+      'should return String from settings',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getString(LAST_APP_VERSION))
+            .thenReturn('2.1.5');
+        // act
+        final lastAppVersion = await dataSource.getLastAppVersion();
+        // assert
+        verify(mockSharedPreferences.getString(LAST_APP_VERSION));
+        expect(lastAppVersion, equals('2.1.5'));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getString(LAST_APP_VERSION))
+            .thenReturn(null);
+        // act
+        final lastAppVersion = await dataSource.getLastAppVersion();
+        // assert
+        expect(lastAppVersion, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the last app version',
+      () async {
+        // act
+        await dataSource.setLastAppVersion('2.1.5');
+        // assert
+        verify(mockSharedPreferences.setString(LAST_APP_VERSION, '2.1.5'));
+      },
+    );
+  });
 }

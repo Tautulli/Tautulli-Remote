@@ -174,4 +174,12 @@ class Settings {
   Future<bool> setStatsType(String statsType) async {
     return repository.setStatsType(statsType);
   }
+
+  Future<String> getLastAppVersion() async {
+    return await repository.getLastAppVersion();
+  }
+
+  Future<bool> setLastAppVersion(String lastAppVersion) async {
+    return repository.setLastAppVersion(lastAppVersion);
+  }
 }

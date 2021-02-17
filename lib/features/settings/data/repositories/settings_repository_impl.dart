@@ -285,4 +285,15 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<bool> setStatsType(String statsType) async {
     return dataSource.setStatsType(statsType);
   }
+
+  @override
+  Future<String> getLastAppVersion() async {
+    final lastAppVersion = await dataSource.getLastAppVersion();
+    return lastAppVersion;
+  }
+
+  @override
+  Future<bool> setLastAppVersion(String lastAppVersion) async {
+    return dataSource.setLastAppVersion(lastAppVersion);
+  }
 }

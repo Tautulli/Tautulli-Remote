@@ -87,4 +87,8 @@ abstract class SettingsRepository {
   Future<String> getStatsType();
 
   Future<bool> setStatsType(String statsType);
+
+  Future<String> getLastAppVersion();
+
+  Future<bool> setLastAppVersion(String lastAppVersion);
 }

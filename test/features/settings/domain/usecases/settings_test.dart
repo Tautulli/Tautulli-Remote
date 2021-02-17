@@ -39,6 +39,7 @@ void main() {
   final String tTimeFormat = 'HH:mm';
 
   final String tStatsType = 'duration';
+  final String tLastAppVersion = '2.1.5';
 
   final ServerModel tServerModel = ServerModel(
     id: tId,
@@ -400,6 +401,32 @@ void main() {
       await settings.setStatsType(tStatsType);
       // assert
       verify(mockSettingsRepository.setStatsType(tStatsType));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'getLastAppVersion should get the last app version from settings',
+    () async {
+      // arrange
+      when(mockSettingsRepository.getLastAppVersion())
+          .thenAnswer((_) async => tLastAppVersion);
+      // act
+      final result = await settings.getLastAppVersion();
+      // assert
+      expect(result, equals(tLastAppVersion));
+      verify(mockSettingsRepository.getLastAppVersion());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setLastAppVersion should forward request to the repository',
+    () async {
+      // act
+      await settings.setLastAppVersion(tLastAppVersion);
+      // assert
+      verify(mockSettingsRepository.setLastAppVersion(tLastAppVersion));
       verifyNoMoreInteractions(mockSettingsRepository);
     },
   );
