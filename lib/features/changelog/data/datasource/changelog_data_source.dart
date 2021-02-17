@@ -1,6 +1,35 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.2.0",
+      "date": "February 17, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Added an in-app changelog that displays on first start of a new app version",
+        },
+        {
+          "type": "new",
+          "detail":
+              "Setting to mask sensitive info in the UI (useful for sharing screenshots)",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Move the logs page link out of the appbar on Help & Support",
+        },
+        {
+          "type": "fix",
+          "detail": "Change Kbps to kbps on media info details page",
+        },
+        {
+          "type": "fix",
+          "detail": "Prevent failure when sorting albums that have no year",
+        },
+      ]
+    },
+    {
       "version": "v2.1.5",
       "date": "February 15, 2021",
       "changes": [
