@@ -466,13 +466,13 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
             ),
           ),
           actions: [
-            FlatButton(
+            TextButton(
               child: Text("CLOSE"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
-            FlatButton(
+            TextButton(
               child: Text("SAVE"),
               onPressed: () {
                 if (_customTimeRangeFormKey.currentState.validate()) {

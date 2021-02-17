@@ -274,13 +274,13 @@ Future _buildPrimaryConnectionAddressSettingsDialog({
           ),
         ),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text("CLOSE"),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text("SAVE"),
             onPressed: () {
               if (_primaryConnectionFormKey.currentState.validate()) {
@@ -339,13 +339,13 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
           ),
         ),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text("CLOSE"),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text("SAVE"),
             onPressed: () {
               if (_secondaryConnectionFormKey.currentState.validate()) {
@@ -377,15 +377,17 @@ Future<bool> _showDeleteServerDialog({
       return AlertDialog(
         title: Text('Are you sure you want to remove $plexName?'),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('CANCEL'),
             onPressed: () {
               Navigator.of(context).pop(false);
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text('CONFIRM'),
-            color: Colors.red,
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
             onPressed: () {
               Navigator.of(context).pop(true);
             },

@@ -27,7 +27,7 @@ class SettingsAlertBanner extends StatelessWidget {
                   message: Text(
                     subscriptionState.message,
                   ),
-                  buttonOne: FlatButton(
+                  buttonOne: TextButton(
                     child: Text('VIEW PRIVACY PAGE'),
                     onPressed: () =>
                         Navigator.of(context).pushNamed('/privacy'),
@@ -48,7 +48,7 @@ class SettingsAlertBanner extends StatelessWidget {
                     Text('• Registration with OneSignal will fail.'),
                   ],
                 ),
-                buttonOne: FlatButton(
+                buttonOne: TextButton(
                   child: Text('CHECK AGAIN'),
                   onPressed: () => context
                       .read<OneSignalHealthBloc>()
@@ -64,7 +64,7 @@ class SettingsAlertBanner extends StatelessWidget {
                   message: Text(
                     subscriptionState.message,
                   ),
-                  buttonOne: FlatButton(
+                  buttonOne: TextButton(
                     child: Text('LEARN MORE'),
                     //TODO: Link to wiki page
                     onPressed: () {},
@@ -85,8 +85,8 @@ class SettingsAlertBanner extends StatelessWidget {
 class _AlertBanner extends StatelessWidget {
   final String title;
   final Widget message;
-  final FlatButton buttonOne;
-  final FlatButton buttonTwo;
+  final TextButton buttonOne;
+  final TextButton buttonTwo;
   final Color backgroundColor;
 
   const _AlertBanner({

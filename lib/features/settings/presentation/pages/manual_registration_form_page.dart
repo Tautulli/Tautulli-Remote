@@ -97,7 +97,7 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            FlatButton(
+                            TextButton(
                               onPressed: () async {
                                 bool value = await _showExitDialog(context);
                                 if (value) {
@@ -106,7 +106,7 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
                               },
                               child: Text('CANCEL'),
                             ),
-                            FlatButton(
+                            TextButton(
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
                                   registerDeviceBloc.add(
@@ -147,15 +147,17 @@ Future<bool> _showExitDialog(BuildContext context) {
         title: Text('Are you sure you want to exit?'),
         content: Text('Your current entered information will be discarded.'),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('CANCEL'),
             onPressed: () {
               Navigator.of(context).pop(false);
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text('DISCARD'),
-            color: Colors.red,
+            style: TextButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
             onPressed: () {
               Navigator.of(context).pop(true);
             },

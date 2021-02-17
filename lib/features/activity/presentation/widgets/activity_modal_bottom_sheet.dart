@@ -230,9 +230,11 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                           //       left: 8,
                           //       right: 4,
                           //     ),
-                          //     child: RaisedButton(
+                          //     child: ElevatedButton(
                           //       onPressed: () {},
-                          //       color: PlexColorPalette.gamboge,
+                          //       style: ElevatedButton.styleFrom(
+                          //         primary: PlexColorPalette.gamboge,
+                          //       ),
                           //       child: Text(
                           //         'View User',
                           //         style: TextStyle(
@@ -249,7 +251,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                   left: 4,
                                   right: 8,
                                 ),
-                                child: RaisedButton(
+                                child: ElevatedButton(
                                   onPressed: () {
                                     MediaItem mediaItem = MediaItem(
                                       grandparentTitle:
@@ -274,7 +276,9 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                       ),
                                     );
                                   },
-                                  color: PlexColorPalette.curious_blue,
+                                  style: ElevatedButton.styleFrom(
+                                    primary: PlexColorPalette.curious_blue,
+                                  ),
                                   child: Text(
                                     'View Media',
                                     style: TextStyle(

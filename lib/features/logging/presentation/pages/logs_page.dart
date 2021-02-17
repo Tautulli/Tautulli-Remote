@@ -131,15 +131,17 @@ Future _showClearLogsDialog({
       return AlertDialog(
         title: Text('Are you sure you want to clear the Tautulli Remote logs?'),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('CANCEL'),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text('CONFIRM'),
-            color: Colors.red,
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
             onPressed: () {
               clearLogs();
               Navigator.of(context).pop();

@@ -23,25 +23,23 @@ class UserErrorButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (failure == SettingsFailure() || failure == MissingServerFailure()) {
-      return RaisedButton.icon(
+      return ElevatedButton.icon(
         icon: FaIcon(
           FontAwesomeIcons.cogs,
           color: TautulliColorPalette.not_white,
         ),
         label: Text('Go to settings'),
-        color: Theme.of(context).primaryColor,
         onPressed: () {
           Navigator.of(context).pushReplacementNamed('/settings');
         },
       );
     } else {
-      return RaisedButton.icon(
+      return ElevatedButton.icon(
         icon: FaIcon(
           FontAwesomeIcons.redoAlt,
           color: TautulliColorPalette.not_white,
         ),
         label: Text('Retry'),
-        color: Theme.of(context).primaryColor,
         onPressed: () {
           context.read<UsersBloc>().add(usersEvent);
           return completer.future;
