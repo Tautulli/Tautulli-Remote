@@ -92,7 +92,12 @@ class ChildrenMetadataBloc
     // Sort by year if album leave sort alone if movie/show/artist
     // and by mediaIndex for everything else
     if (mediaType == 'album') {
-      childrenMetadataList.sort((a, b) => b.year.compareTo(a.year));
+      childrenMetadataList.sort((a, b) {
+        if (a.year != null && b.year != null) {
+          return b.year.compareTo(a.year);
+        }
+        return 0;
+      });
     } else if (!['movie', 'show', 'artist'].contains(mediaType)) {
       childrenMetadataList.sort((a, b) => a.mediaIndex.compareTo(b.mediaIndex));
     }
