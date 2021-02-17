@@ -20,7 +20,6 @@ import 'activity_media_icon_row.dart';
 import 'activity_media_info.dart';
 import 'activity_modal_bottom_sheet.dart';
 import 'background_image_chooser.dart';
-import 'custom_bottom_sheet.dart' as customBottomSheet;
 import 'platform_icon.dart';
 import 'progress_bar.dart';
 import 'status_poster_overlay.dart';
@@ -369,7 +368,8 @@ void showActivityModalBottomSheet({
   @required ActivityItem activity,
   @required String tautulliId,
 }) {
-  customBottomSheet.showModalBottomSheet(
+  showModalBottomSheet(
+    barrierColor: Colors.black87,
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
@@ -422,7 +422,7 @@ Future<int> _showTerminateSessionDialog({
           ),
         ),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('CANCEL'),
             onPressed: () {
               Navigator.of(context).pop(0);
@@ -430,9 +430,11 @@ Future<int> _showTerminateSessionDialog({
           ),
           Padding(
             padding: const EdgeInsets.only(right: 4),
-            child: FlatButton(
+            child: TextButton(
               child: Text('TERMINATE'),
-              color: Colors.red,
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
               onPressed: () {
                 Navigator.of(context).pop(1);
               },
