@@ -238,6 +238,19 @@ class SettingsPageContent extends StatelessWidget {
                   ),
                   ListTile(
                     title: Text(
+                      'Changelog',
+                      style: TextStyle(
+                        color: TautulliColorPalette.smoke,
+                      ),
+                    ),
+                    trailing: FaIcon(
+                      FontAwesomeIcons.angleRight,
+                      color: TautulliColorPalette.smoke,
+                    ),
+                    onTap: () => Navigator.of(context).pushNamed('/changelog'),
+                  ),
+                  ListTile(
+                    title: Text(
                       'About',
                       style: TextStyle(
                         color: TautulliColorPalette.smoke,
