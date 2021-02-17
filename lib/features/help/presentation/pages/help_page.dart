@@ -4,7 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/list_header.dart';
-import '../../../logging/presentation/pages/logs_page.dart';
 
 class HelpPage extends StatelessWidget {
   const HelpPage({Key key}) : super(key: key);
@@ -17,24 +16,6 @@ class HelpPage extends StatelessWidget {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title: Text('Help & Support'),
-        actions: [
-          IconButton(
-            icon: FaIcon(
-              FontAwesomeIcons.solidListAlt,
-              color: TautulliColorPalette.not_white,
-              size: 20,
-            ),
-            tooltip: 'Logs',
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                fullscreenDialog: true,
-                builder: (context) {
-                  return LogsPage();
-                },
-              ),
-            ),
-          ),
-        ],
       ),
       //TODO: Build out help topics
       body: Padding(
@@ -95,6 +76,16 @@ class HelpPage extends StatelessWidget {
               onTap: () {
                 launch('https://www.reddit.com/r/Tautulli/');
               },
+            ),
+            const SizedBox(height: 15),
+            ListHeader(headingText: 'Logs'),
+            ListTile(
+              title: Text('View Tautulli Remote logs'),
+              trailing: FaIcon(
+                FontAwesomeIcons.angleRight,
+                color: TautulliColorPalette.smoke,
+              ),
+              onTap: () => Navigator.of(context).pushNamed('/logs'),
             ),
           ],
         ),
