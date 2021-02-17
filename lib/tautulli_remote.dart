@@ -6,6 +6,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/activity/presentation/pages/activity_page.dart';
+import 'features/changelog/presentation/pages/changelog_page.dart';
 import 'features/donate/presentation/pages/donate_page.dart';
 import 'features/help/presentation/pages/help_page.dart';
 import 'features/history/presentation/pages/history_page.dart';
@@ -22,6 +23,13 @@ import 'features/synced_items/presentation/pages/synced_items_page.dart';
 import 'features/users/presentation/pages/users_page.dart';
 
 class TautulliRemote extends StatefulWidget {
+  final bool showChangelog;
+
+  const TautulliRemote({
+    @required this.showChangelog,
+    Key key,
+  }) : super(key: key);
+
   @override
   _TautulliRemoteState createState() => _TautulliRemoteState();
 }
@@ -33,6 +41,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     initializeFlutterFire();
     initPlatformState();
     context.read<SettingsBloc>().add(SettingsLoad());
+    context.read<SettingsBloc>().add(SettingsUpdateLastAppVersion());
     context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
   }
 
@@ -163,47 +172,10 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         SettingsPage.routeName: (ctx) => SettingsPage(),
         PrivacyPage.routeName: (ctx) => PrivacyPage(),
         LogsPage.routeName: (ctx) => LogsPage(),
+        ChangelogPage.routeName: (ctx) => ChangelogPage(),
       },
-      // home: QuickActionsSetup(),
+      initialRoute: widget.showChangelog ? '/changelog' : null,
       home: ActivityPage(),
     );
   }
 }
-
-// class QuickActionsSetup extends StatefulWidget {
-//   const QuickActionsSetup({Key key}) : super(key: key);
-
-//   @override
-//   _QuickActionsSetupState createState() => _QuickActionsSetupState();
-// }
-
-// class _QuickActionsSetupState extends State<QuickActionsSetup> {
-//   @override
-//   void initState() {
-//     super.initState();
-//     _initQuickActions();
-//   }
-
-//   void _initQuickActions() {
-//     final QuickActions quickActions = QuickActions();
-//     quickActions.initialize((type) {
-//       // if (type == 'action_activity') {
-//       //   Navigator.of(context).pushReplacementNamed('/activity');
-//       // }
-//       // if (type == 'action_recent') {
-//       //   Navigator.of(context).pushReplacementNamed('/recent');
-//       // }
-//     });
-//     quickActions.setShortcutItems(<ShortcutItem>[
-//       // const ShortcutItem(
-//       //     type: 'action_activity', localizedTitle: 'Activity', icon: 'tv'),
-//       // const ShortcutItem(
-//       //     type: 'action_recent', localizedTitle: 'Recent', icon: 'recent'),
-//     ]);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ActivityPage();
-//   }
-// }

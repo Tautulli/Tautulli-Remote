@@ -46,7 +46,6 @@ dependencies:
   palette_generator: ^0.2.3
   path_provider: ^1.6.27
   permission_handler: ^5.0.1+1
-  quick_actions: ^0.4.0+10
   quiver: ^2.1.5
   rxdart: ^0.25.0
   shared_preferences: ^0.5.12+4
