@@ -1,6 +1,53 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.2.1",
+      "date": "February 18, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Library detail pages now use tabs and show history",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Multiserver headers will now 'stick' to the top when scrolling on the Activity Page",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjusted layout of changelog change type tags",
+        },
+        {
+          "type": "improvement",
+          "detail": "Libraries page sort icons now use alpha and numeric icons",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Do not set refresh to true when calling get_library_media_info (should speed up the time to load library items)",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Move off deprecated FlatButton and RaisedButton to TextButton and ElevatedButton respectively",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Rename history_users to users_list and move from the history to users function",
+        },
+        {
+          "type": "improvement",
+          "detail": "Remove dependency on a custom modalBottomSheet",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Adjust icon card behavior so the Concurrent Streams icon is not all one color",
+        },
+      ]
+    },
+    {
       "version": "v2.2.0",
       "date": "February 17, 2021",
       "changes": [
