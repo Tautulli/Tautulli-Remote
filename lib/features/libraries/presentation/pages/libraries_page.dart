@@ -304,12 +304,12 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                 children: [
                   _orderColumn == 'section_name' && _orderDir == 'asc'
                       ? FaIcon(
-                          FontAwesomeIcons.sortAmountDown,
+                          FontAwesomeIcons.sortAlphaDownAlt,
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         )
                       : FaIcon(
-                          FontAwesomeIcons.sortAmountDownAlt,
+                          FontAwesomeIcons.sortAlphaDown,
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
@@ -329,12 +329,12 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                   _orderColumn == 'count,parent_count,child_count' &&
                           _orderDir == 'desc'
                       ? FaIcon(
-                          FontAwesomeIcons.sortAmountDownAlt,
+                          FontAwesomeIcons.sortNumericDown,
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         )
                       : FaIcon(
-                          FontAwesomeIcons.sortAmountDown,
+                          FontAwesomeIcons.sortNumericDownAlt,
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
@@ -354,12 +354,12 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                 children: [
                   _orderColumn == 'duration' && _orderDir == 'desc'
                       ? FaIcon(
-                          FontAwesomeIcons.sortAmountDownAlt,
+                          FontAwesomeIcons.sortNumericDown,
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         )
                       : FaIcon(
-                          FontAwesomeIcons.sortAmountDown,
+                          FontAwesomeIcons.sortNumericDownAlt,
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
@@ -378,12 +378,12 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                 children: [
                   _orderColumn == 'plays' && _orderDir == 'desc'
                       ? FaIcon(
-                          FontAwesomeIcons.sortAmountDownAlt,
+                          FontAwesomeIcons.sortNumericDown,
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         )
                       : FaIcon(
-                          FontAwesomeIcons.sortAmountDown,
+                          FontAwesomeIcons.sortNumericDownAlt,
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
@@ -404,18 +404,34 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
   }
 
   FaIcon _currentSortIcon({Color color}) {
-    if (_orderDir == 'asc') {
-      return FaIcon(
-        FontAwesomeIcons.sortAmountDownAlt,
-        size: 20,
-        color: color ?? TautulliColorPalette.not_white,
-      );
+    if (_orderColumn == 'section_name') {
+      if (_orderDir == 'asc') {
+        return FaIcon(
+          FontAwesomeIcons.sortAlphaDown,
+          size: 20,
+          color: color ?? TautulliColorPalette.not_white,
+        );
+      } else {
+        return FaIcon(
+          FontAwesomeIcons.sortAlphaDownAlt,
+          size: 20,
+          color: color ?? TautulliColorPalette.not_white,
+        );
+      }
     } else {
-      return FaIcon(
-        FontAwesomeIcons.sortAmountDown,
-        size: 20,
-        color: color ?? TautulliColorPalette.not_white,
-      );
+      if (_orderDir == 'asc') {
+        return FaIcon(
+          FontAwesomeIcons.sortNumericDown,
+          size: 20,
+          color: color ?? TautulliColorPalette.not_white,
+        );
+      } else {
+        return FaIcon(
+          FontAwesomeIcons.sortNumericDownAlt,
+          size: 20,
+          color: color ?? TautulliColorPalette.not_white,
+        );
+      }
     }
   }
 
