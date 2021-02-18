@@ -8,39 +8,39 @@ import '../../../logging/domain/usecases/logging.dart';
 import '../../../users/domain/entities/user.dart';
 import '../../../users/domain/usecases/get_user_names.dart';
 
-part 'history_users_event.dart';
-part 'history_users_state.dart';
+part 'users_list_event.dart';
+part 'users_list_state.dart';
 
 List<User> _usersListCache;
 String _tautulliIdCache;
 
-class HistoryUsersBloc extends Bloc<HistoryUsersEvent, HistoryUsersState> {
+class UsersListBloc extends Bloc<UsersListEvent, UsersListState> {
   final GetUserNames getUserNames;
   final Logging logging;
 
-  HistoryUsersBloc({
+  UsersListBloc({
     @required this.getUserNames,
     @required this.logging,
-  }) : super(HistoryUsersInitial());
+  }) : super(UsersListInitial());
 
   @override
-  Stream<HistoryUsersState> mapEventToState(
-    HistoryUsersEvent event,
+  Stream<UsersListState> mapEventToState(
+    UsersListEvent event,
   ) async* {
-    if (event is HistoryUsersFetch) {
-      yield* _mapHistoryUsersFetchToState(tautulliId: event.tautulliId);
+    if (event is UsersListFetch) {
+      yield* _mapUsersListFetchToState(tautulliId: event.tautulliId);
 
       _tautulliIdCache = event.tautulliId;
     }
   }
 
-  Stream<HistoryUsersState> _mapHistoryUsersFetchToState({
+  Stream<UsersListState> _mapUsersListFetchToState({
     @required String tautulliId,
   }) async* {
     if (_usersListCache != null && tautulliId == _tautulliIdCache) {
-      yield HistoryUsersSuccess(usersList: _usersListCache);
+      yield UsersListSuccess(usersList: _usersListCache);
     } else {
-      yield HistoryUsersInProgress();
+      yield UsersListInProgress();
 
       final userNamesOrFailure = await getUserNames(tautulliId: tautulliId);
 
@@ -50,7 +50,7 @@ class HistoryUsersBloc extends Bloc<HistoryUsersEvent, HistoryUsersState> {
             'History: Failed to load list of users',
           );
 
-          yield HistoryUsersFailure();
+          yield UsersListFailure();
         },
         (userList) async* {
           User allUsers = User(friendlyName: 'All Users', userId: -1);
@@ -61,7 +61,7 @@ class HistoryUsersBloc extends Bloc<HistoryUsersEvent, HistoryUsersState> {
                 .compareTo(b.friendlyName.toLowerCase()))
             ..insert(0, allUsers);
 
-          yield HistoryUsersSuccess(usersList: _usersListCache);
+          yield UsersListSuccess(usersList: _usersListCache);
         },
       );
     }

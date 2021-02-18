@@ -23,7 +23,6 @@ import 'features/history/domain/repositories/history_repository.dart';
 import 'features/history/domain/usecases/get_history.dart';
 import 'features/history/presentation/bloc/history_bloc.dart';
 import 'features/history/presentation/bloc/history_individual_bloc.dart';
-import 'features/history/presentation/bloc/history_users_bloc.dart';
 import 'features/image_url/data/datasources/image_url_data_source.dart';
 import 'features/image_url/data/respositories/image_url_repository_impl.dart';
 import 'features/image_url/domain/repositories/image_url_repository.dart';
@@ -93,6 +92,7 @@ import 'features/users/domain/repositories/users_repository.dart';
 import 'features/users/domain/usecases/get_user_names.dart';
 import 'features/users/domain/usecases/get_users_table.dart';
 import 'features/users/presentation/bloc/users_bloc.dart';
+import 'features/users/presentation/bloc/users_list_bloc.dart';
 
 // Service locator alias
 final sl = GetIt.instance;
@@ -172,13 +172,6 @@ Future<void> init() async {
     () => HistoryIndividualBloc(
       getHistory: sl(),
       getUsersTable: sl(),
-      logging: sl(),
-    ),
-  );
-
-  sl.registerFactory(
-    () => HistoryUsersBloc(
-      getUserNames: sl(),
       logging: sl(),
     ),
   );
@@ -596,6 +589,13 @@ Future<void> init() async {
   sl.registerFactory(
     () => UsersBloc(
       getUsersTable: sl(),
+      logging: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => UsersListBloc(
+      getUserNames: sl(),
       logging: sl(),
     ),
   );

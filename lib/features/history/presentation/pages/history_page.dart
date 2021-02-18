@@ -13,8 +13,8 @@ import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../users/presentation/bloc/users_list_bloc.dart';
 import '../bloc/history_bloc.dart';
-import '../bloc/history_users_bloc.dart';
 import '../widgets/history_details.dart';
 import '../widgets/history_error_button.dart';
 
@@ -30,8 +30,8 @@ class HistoryPage extends StatelessWidget {
         BlocProvider<HistoryBloc>(
           create: (_) => di.sl<HistoryBloc>(),
         ),
-        BlocProvider<HistoryUsersBloc>(
-          create: (_) => di.sl<HistoryUsersBloc>(),
+        BlocProvider<UsersListBloc>(
+          create: (_) => di.sl<UsersListBloc>(),
         ),
       ],
       child: HistoryPageContent(),
@@ -52,7 +52,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
   Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
   HistoryBloc _historyBloc;
-  HistoryUsersBloc _historyUsersBloc;
+  UsersListBloc _usersListBloc;
   String _tautulliId;
   int _userId;
   String _mediaType;
@@ -65,7 +65,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
     _refreshCompleter = Completer<void>();
     _settingsBloc = context.read<SettingsBloc>();
     _historyBloc = context.read<HistoryBloc>();
-    _historyUsersBloc = context.read<HistoryUsersBloc>();
+    _usersListBloc = context.read<UsersListBloc>();
 
     final historyState = _historyBloc.state;
     final settingsState = _settingsBloc.state;
@@ -107,8 +107,8 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
         _mediaType = historyState.mediaType ?? 'all';
       }
 
-      _historyUsersBloc.add(
-        HistoryUsersFetch(
+      _usersListBloc.add(
+        UsersListFetch(
           tautulliId: _tautulliId,
         ),
       );
@@ -166,8 +166,8 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                               mediaType: _mediaType,
                             ),
                           );
-                          _historyUsersBloc.add(
-                            HistoryUsersFetch(
+                          _usersListBloc.add(
+                            UsersListFetch(
                               tautulliId: _tautulliId,
                             ),
                           );
@@ -305,9 +305,9 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
   List<Widget> _appBarActions() {
     return [
       //* Users dropdown
-      BlocBuilder<HistoryUsersBloc, HistoryUsersState>(
+      BlocBuilder<UsersListBloc, UsersListState>(
         builder: (context, state) {
-          if (state is HistoryUsersSuccess) {
+          if (state is UsersListSuccess) {
             return PopupMenuButton(
               tooltip: 'Users',
               icon: FaIcon(
@@ -354,7 +354,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
               },
             );
           }
-          if (state is HistoryUsersInProgress) {
+          if (state is UsersListInProgress) {
             return Center(
               child: Stack(
                 children: [
