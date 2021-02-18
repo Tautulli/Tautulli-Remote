@@ -7,16 +7,19 @@ import '../helpers/color_palette_helper.dart';
 class ServerHeader extends StatelessWidget {
   final String serverName;
   final ActivityLoadingState state;
+  final Color color;
 
   const ServerHeader({
     Key key,
     @required this.serverName,
+    this.color,
     this.state,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: color ?? Colors.transparent,
       padding: const EdgeInsets.only(
         left: 8,
         top: 8.2,

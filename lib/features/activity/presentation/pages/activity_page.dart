@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:quiver/strings.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
@@ -228,22 +229,17 @@ Widget _buildMultiserverActivity({
   activityMap.forEach((serverId, serverData) {
     tautulliId = serverId;
     List activityList = serverData['activityList'];
+    List<Widget> serverActivityList = [];
 
-    activityWidgetList.add(
-      ServerHeader(
-        serverName: serverData['plex_name'],
-        state: serverData['loadingState'],
-      ),
-    );
     if (serverData['loadingState'] == ActivityLoadingState.inProgress) {
       if (serverData['failure'] == null) {
         if (activityList.isEmpty) {
-          activityWidgetList.add(
+          serverActivityList.add(
             _StatusCard(customMessage: 'Nothing is currently being played.'),
           );
         } else {
           for (ActivityItem activityItem in activityList) {
-            activityWidgetList.add(
+            serverActivityList.add(
               ActivityCard(
                 activityMap: activityMap,
                 index: activityList.indexOf(activityItem),
@@ -254,7 +250,7 @@ Widget _buildMultiserverActivity({
           }
         }
       } else {
-        activityWidgetList.add(
+        serverActivityList.add(
           LayoutBuilder(
             builder: (context, constraints) {
               return _StatusCard(failure: serverData['failure']);
@@ -266,7 +262,7 @@ Widget _buildMultiserverActivity({
     if (serverData['loadingState'] == ActivityLoadingState.success) {
       if (activityList.isNotEmpty) {
         for (ActivityItem activityItem in activityList) {
-          activityWidgetList.add(
+          serverActivityList.add(
             ActivityCard(
               activityMap: activityMap,
               index: activityList.indexOf(activityItem),
@@ -276,13 +272,13 @@ Widget _buildMultiserverActivity({
           );
         }
       } else {
-        activityWidgetList.add(
+        serverActivityList.add(
           _StatusCard(customMessage: 'Nothing is currently being played.'),
         );
       }
     }
     if (serverData['loadingState'] == ActivityLoadingState.failure) {
-      activityWidgetList.add(
+      serverActivityList.add(
         LayoutBuilder(
           builder: (context, constraints) {
             return _StatusCard(failure: serverData['failure']);
@@ -290,6 +286,19 @@ Widget _buildMultiserverActivity({
         ),
       );
     }
+
+    activityWidgetList.add(
+      StickyHeader(
+        header: ServerHeader(
+          color: TautulliColorPalette.midnight,
+          serverName: serverData['plex_name'],
+          state: serverData['loadingState'],
+        ),
+        content: Column(
+          children: serverActivityList,
+        ),
+      ),
+    );
   });
 
   return BlocProvider<TerminateSessionBloc>(
