@@ -17,7 +17,7 @@ class GetLibraryMediaInfo {
     String orderDir = 'asc',
     int start,
     int length,
-    bool refresh = true,
+    bool refresh,
   }) async {
     return await repository.getLibraryMediaInfo(
       tautulliId: tautulliId,
