@@ -12,11 +12,11 @@ import '../../../history/presentation/bloc/history_individual_bloc.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/domain/entities/user_table.dart';
 
-class HistoryTab extends StatelessWidget {
+class MediaHistoryTab extends StatelessWidget {
   final int ratingKey;
   final String mediaType;
 
-  const HistoryTab({
+  const MediaHistoryTab({
     @required this.ratingKey,
     @required this.mediaType,
     Key key,
@@ -26,7 +26,7 @@ class HistoryTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<HistoryIndividualBloc>(),
-      child: HistoryTabContent(
+      child: MediaHistoryTabContent(
         ratingKey: ratingKey,
         mediaType: mediaType,
       ),
@@ -34,21 +34,21 @@ class HistoryTab extends StatelessWidget {
   }
 }
 
-class HistoryTabContent extends StatefulWidget {
+class MediaHistoryTabContent extends StatefulWidget {
   final int ratingKey;
   final String mediaType;
 
-  const HistoryTabContent({
+  const MediaHistoryTabContent({
     @required this.ratingKey,
     @required this.mediaType,
     Key key,
   }) : super(key: key);
 
   @override
-  _HistoryTabContentState createState() => _HistoryTabContentState();
+  _MediaHistoryTabContentState createState() => _MediaHistoryTabContentState();
 }
 
-class _HistoryTabContentState extends State<HistoryTabContent> {
+class _MediaHistoryTabContentState extends State<MediaHistoryTabContent> {
   final _scrollController = ScrollController();
   final _scrollThreshold = 200.0;
   SettingsBloc _settingsBloc;

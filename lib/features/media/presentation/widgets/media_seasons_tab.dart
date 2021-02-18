@@ -5,13 +5,13 @@ import '../../domain/entities/media_item.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../pages/media_item_page.dart';
 
-class EpisodesTab extends StatelessWidget {
+class MediaSeasonsTab extends StatelessWidget {
   final MediaItem item;
-  final List<MetadataItem> episodes;
+  final List<MetadataItem> seasons;
 
-  const EpisodesTab({
+  const MediaSeasonsTab({
     @required this.item,
-    @required this.episodes,
+    @required this.seasons,
     Key key,
   }) : super(key: key);
 
@@ -21,26 +21,29 @@ class EpisodesTab extends StatelessWidget {
       context: context,
       removeTop: true,
       child: GridView.count(
-        crossAxisCount: 2,
-        childAspectRatio: 3 / 2,
-        children: episodes
+        crossAxisCount: 3,
+        childAspectRatio: 2 / 3,
+        children: seasons
             .map(
-              (episode) => PosterGridItem(
-                item: episode,
+              (season) => PosterGridItem(
+                item: season,
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
                         MediaItem mediaItem = MediaItem(
-                          mediaIndex: episode.mediaIndex,
-                          mediaType: episode.mediaType,
-                          parentMediaIndex: episode.parentMediaIndex,
-                          grandparentTitle: item.parentTitle,
-                          posterUrl: item.posterUrl,
-                          ratingKey: episode.ratingKey,
-                          title: episode.title,
+                          mediaIndex: season.mediaIndex,
+                          mediaType: season.mediaType,
+                          parentMediaIndex: season.parentMediaIndex,
+                          parentTitle: item.title,
+                          posterUrl: season.posterUrl,
+                          ratingKey: season.ratingKey,
+                          title: season.title,
                         );
-                        return MediaItemPage(item: mediaItem);
+                        return MediaItemPage(
+                          item: mediaItem,
+                          heroTag: season.ratingKey,
+                        );
                       },
                     ),
                   );

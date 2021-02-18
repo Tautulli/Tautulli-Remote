@@ -13,15 +13,15 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/media_item.dart';
 import '../bloc/children_metadata_bloc.dart';
 import '../bloc/metadata_bloc.dart';
-import '../widgets/albums_tab.dart';
-import '../widgets/details_tab.dart';
-import '../widgets/episodes_tab.dart';
-import '../widgets/history_tab.dart';
+import '../widgets/media_albums_tab.dart';
+import '../widgets/media_details_tab.dart';
+import '../widgets/media_episodes_tab.dart';
+import '../widgets/media_history_tab.dart';
 import '../widgets/media_item_h1.dart';
 import '../widgets/media_item_h2.dart';
 import '../widgets/media_item_h3.dart';
-import '../widgets/seasons_tab.dart';
-import '../widgets/tracks_tab.dart';
+import '../widgets/media_seasons_tab.dart';
+import '../widgets/media_tracks_tab.dart';
 
 class MediaItemPage extends StatelessWidget {
   final MediaItem item;
@@ -572,7 +572,7 @@ class _TabContents extends StatelessWidget {
     return TabBarView(
       children: [
         // Details Tab
-        DetailsTab(),
+        MediaDetailsTab(),
         // Loading tab for when no mediaType is provided and we need to get
         // it from the fetched metadata
         if (mediaType == null && item.mediaType == null && !metadataFailed)
@@ -598,25 +598,25 @@ class _TabContents extends StatelessWidget {
               }
               if (state is ChildrenMetadataSuccess) {
                 if (['show'].contains(mediaType ?? item.mediaType)) {
-                  return SeasonsTab(
+                  return MediaSeasonsTab(
                     item: item,
                     seasons: state.childrenMetadataList,
                   );
                 }
                 if (['season'].contains(mediaType ?? item.mediaType)) {
-                  return EpisodesTab(
+                  return MediaEpisodesTab(
                     item: item,
                     episodes: state.childrenMetadataList,
                   );
                 }
                 if (['artist'].contains(mediaType ?? item.mediaType)) {
-                  return AlbumsTab(
+                  return MediaAlbumsTab(
                     item: item,
                     albums: state.childrenMetadataList,
                   );
                 }
                 if (['album'].contains(mediaType ?? item.mediaType)) {
-                  return TracksTab(
+                  return MediaTracksTab(
                     item: item,
                     tracks: state.childrenMetadataList,
                   );
@@ -634,7 +634,7 @@ class _TabContents extends StatelessWidget {
           'photo',
           'clip',
         ].contains(item.mediaType))
-          HistoryTab(
+          MediaHistoryTab(
             ratingKey: item.ratingKey,
             mediaType: mediaType ?? item.mediaType,
           ),

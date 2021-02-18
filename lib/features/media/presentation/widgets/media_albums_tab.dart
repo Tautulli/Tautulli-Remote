@@ -5,13 +5,13 @@ import '../../domain/entities/media_item.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../pages/media_item_page.dart';
 
-class SeasonsTab extends StatelessWidget {
+class MediaAlbumsTab extends StatelessWidget {
   final MediaItem item;
-  final List<MetadataItem> seasons;
+  final List<MetadataItem> albums;
 
-  const SeasonsTab({
+  const MediaAlbumsTab({
     @required this.item,
-    @required this.seasons,
+    @required this.albums,
     Key key,
   }) : super(key: key);
 
@@ -21,28 +21,29 @@ class SeasonsTab extends StatelessWidget {
       context: context,
       removeTop: true,
       child: GridView.count(
-        crossAxisCount: 3,
-        childAspectRatio: 2 / 3,
-        children: seasons
+        crossAxisCount: 2,
+        childAspectRatio: 1,
+        children: albums
             .map(
-              (season) => PosterGridItem(
-                item: season,
+              (album) => PosterGridItem(
+                item: album,
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
                         MediaItem mediaItem = MediaItem(
-                          mediaIndex: season.mediaIndex,
-                          mediaType: season.mediaType,
-                          parentMediaIndex: season.parentMediaIndex,
+                          mediaIndex: album.mediaIndex,
+                          mediaType: album.mediaType,
                           parentTitle: item.title,
-                          posterUrl: season.posterUrl,
-                          ratingKey: season.ratingKey,
-                          title: season.title,
+                          grandparentTitle: item.parentTitle,
+                          posterUrl: album.posterUrl,
+                          ratingKey: album.ratingKey,
+                          title: album.title,
+                          year: album.year,
                         );
                         return MediaItemPage(
                           item: mediaItem,
-                          heroTag: season.ratingKey,
+                          heroTag: album.ratingKey,
                         );
                       },
                     ),

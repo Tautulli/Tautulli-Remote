@@ -4,11 +4,11 @@ import '../../domain/entities/media_item.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../pages/media_item_page.dart';
 
-class TracksTab extends StatelessWidget {
+class MediaTracksTab extends StatelessWidget {
   final MediaItem item;
   final List<MetadataItem> tracks;
 
-  const TracksTab({
+  const MediaTracksTab({
     @required this.item,
     @required this.tracks,
     Key key,

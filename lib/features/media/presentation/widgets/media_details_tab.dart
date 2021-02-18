@@ -10,8 +10,8 @@ import '../../../../core/widgets/error_message.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../bloc/metadata_bloc.dart';
 
-class DetailsTab extends StatelessWidget {
-  const DetailsTab({Key key}) : super(key: key);
+class MediaDetailsTab extends StatelessWidget {
+  const MediaDetailsTab({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
