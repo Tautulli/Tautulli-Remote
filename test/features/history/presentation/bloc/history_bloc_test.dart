@@ -8,48 +8,42 @@ import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote/features/history/data/models/history_model.dart';
 import 'package:tautulli_remote/features/history/domain/entities/history.dart';
 import 'package:tautulli_remote/features/history/domain/usecases/get_history.dart';
-import 'package:tautulli_remote/features/history/presentation/bloc/history_individual_bloc.dart';
+import 'package:tautulli_remote/features/history/presentation/bloc/history_bloc.dart';
+import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
-import 'package:tautulli_remote/features/users/data/models/user_table_model.dart';
-import 'package:tautulli_remote/features/users/domain/entities/user_table.dart';
-import 'package:tautulli_remote/features/users/domain/usecases/get_users_table.dart';
 
-import '../../../fixtures/fixture_reader.dart';
+import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetHistory extends Mock implements GetHistory {}
 
-class MockGetUsersTable extends Mock implements GetUsersTable {}
+class MockGetImageUrl extends Mock implements GetImageUrl {}
 
 class MockLogging extends Mock implements Logging {}
 
 void main() {
-  HistoryIndividualBloc bloc;
+  HistoryBloc bloc;
   MockGetHistory mockGetHistory;
-  MockGetUsersTable mockGetUsersTable;
+  MockGetImageUrl mockGetImageUrl;
   MockLogging mockLogging;
 
   setUp(() {
     mockGetHistory = MockGetHistory();
-    mockGetUsersTable = MockGetUsersTable();
+    mockGetImageUrl = MockGetImageUrl();
     mockLogging = MockLogging();
-
-    bloc = HistoryIndividualBloc(
+    bloc = HistoryBloc(
       getHistory: mockGetHistory,
-      getUsersTable: mockGetUsersTable,
+      getImageUrl: mockGetImageUrl,
       logging: mockLogging,
     );
   });
 
   final tTautulliId = 'jkl';
-  final tRatingKey = 1;
+  final tMediaType = 'all';
 
   final List<History> tHistoryList = [];
   final List<History> tHistoryList25 = [];
-  final List<UserTable> tUsersList = [];
 
-  final userJson = json.decode(fixture('users_table.json'));
   final historyJson = json.decode(fixture('history.json'));
-
   historyJson['response']['data']['data'].forEach((item) {
     tHistoryList.add(HistoryModel.fromJson(item));
   });
@@ -60,20 +54,17 @@ void main() {
     });
   }
 
-  userJson['response']['data']['data'].forEach((item) {
-    tUsersList.add(UserTableModel.fromJson(item));
-  });
-
   void setUpSuccess(List historyList) {
-    when(mockGetUsersTable(
-      tautulliId: anyNamed('tautulliId'),
-      grouping: anyNamed('grouping'),
-      orderColumn: anyNamed('orderColumn'),
-      orderDir: anyNamed('orderDir'),
-      start: anyNamed('start'),
-      length: anyNamed('length'),
-      search: anyNamed('search'),
-    )).thenAnswer((_) async => Right(tUsersList));
+    String imageUrl =
+        'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
+    when(
+      mockGetImageUrl(
+        tautulliId: anyNamed('tautulliId'),
+        img: anyNamed('img'),
+        ratingKey: anyNamed('ratingKey'),
+        fallback: anyNamed('fallback'),
+      ),
+    ).thenAnswer((_) async => Right(imageUrl));
     when(
       mockGetHistory(
         tautulliId: tTautulliId,
@@ -98,14 +89,14 @@ void main() {
   }
 
   test(
-    'initialState should be HistoryIndividualInitial',
+    'initialState should be HistoryInitial',
     () async {
       // assert
-      expect(bloc.state, HistoryIndividualInitial());
+      expect(bloc.state, HistoryInitial());
     },
   );
 
-  group('HistoryIndividualFetch', () {
+  group('HistoryFetch', () {
     test(
       'should get data from GetHistory use case',
       () async {
@@ -114,9 +105,10 @@ void main() {
         clearCache();
         // act
         bloc.add(
-          HistoryIndividualFetch(
+          HistoryFetch(
             tautulliId: tTautulliId,
             userId: null,
+            mediaType: tMediaType,
           ),
         );
         await untilCalled(
@@ -151,7 +143,7 @@ void main() {
           grandparentRatingKey: anyNamed('grandparentRatingKey'),
           startDate: anyNamed('startDate'),
           sectionId: anyNamed('sectionId'),
-          mediaType: anyNamed('mediaType'),
+          mediaType: tMediaType,
           transcodeDecision: anyNamed('transcodeDecision'),
           guid: anyNamed('guid'),
           orderColumn: anyNamed('orderColumn'),
@@ -164,31 +156,63 @@ void main() {
     );
 
     test(
-      'should emit [HistoryIndividualSuccess] with hasReachedMax as false when data is fetched successfully and list is 25 or more',
+      'should get data from the ImageUrl use case',
+      () async {
+        // arrange
+        setUpSuccess(tHistoryList);
+        clearCache();
+        // act
+        bloc.add(
+          HistoryFetch(
+            tautulliId: tTautulliId,
+            userId: null,
+            mediaType: tMediaType,
+          ),
+        );
+        await untilCalled(
+          mockGetImageUrl(
+            tautulliId: anyNamed('tautulliId'),
+            img: anyNamed('img'),
+            ratingKey: anyNamed('ratingKey'),
+            fallback: anyNamed('fallback'),
+          ),
+        );
+        // assert
+        verify(
+          mockGetImageUrl(
+            tautulliId: tTautulliId,
+            img: anyNamed('img'),
+            ratingKey: anyNamed('ratingKey'),
+            fallback: anyNamed('fallback'),
+          ),
+        );
+      },
+    );
+
+    test(
+      'should emit [HistorySuccess] with hasReachedMax as false when data is fetched successfully and list is 25 or more',
       () async {
         // arrange
         setUpSuccess(tHistoryList25);
         clearCache();
         // assert later
         final expected = [
-          HistoryIndividualInProgress(),
-          HistoryIndividualSuccess(
+          HistorySuccess(
             list: tHistoryList25,
-            userTableList: tUsersList,
             hasReachedMax: false,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(HistoryIndividualFetch(
+        bloc.add(HistoryFetch(
           tautulliId: tTautulliId,
-          ratingKey: tRatingKey,
+          mediaType: tMediaType,
         ));
       },
     );
 
     test(
-      'should emit [HistoryIndividualFailure] with a proper message when getting data fails',
+      'should emit [HistoryFailure] with a proper message when getting data fails',
       () async {
         // arrange
         final failure = ServerFailure();
@@ -204,7 +228,7 @@ void main() {
             grandparentRatingKey: anyNamed('grandparentRatingKey'),
             startDate: anyNamed('startDate'),
             sectionId: anyNamed('sectionId'),
-            mediaType: anyNamed('mediaType'),
+            mediaType: tMediaType,
             transcodeDecision: anyNamed('transcodeDecision'),
             guid: anyNamed('guid'),
             orderColumn: anyNamed('orderColumn'),
@@ -216,8 +240,7 @@ void main() {
         ).thenAnswer((_) async => Left(failure));
         // assert later
         final expected = [
-          HistoryIndividualInProgress(),
-          HistoryIndividualFailure(
+          HistoryFailure(
             failure: failure,
             message: SERVER_FAILURE_MESSAGE,
             suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
@@ -225,69 +248,90 @@ void main() {
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(HistoryIndividualFetch(
+        bloc.add(HistoryFetch(
           tautulliId: tTautulliId,
-          ratingKey: tRatingKey,
+          mediaType: tMediaType,
         ));
       },
     );
 
     test(
-      'when state is [HistoryIndividualSuccess] should emit [HistoryIndividualSuccess] with hasReachedMax as false when data is fetched successfully',
+      'when state is [HistorySuccess] should emit [HistorySuccess] with hasReachedMax as false when data is fetched successfully',
       () async {
         // arrange
         setUpSuccess(tHistoryList25);
         clearCache();
         bloc.emit(
-          HistoryIndividualSuccess(
+          HistorySuccess(
             list: tHistoryList25,
-            userTableList: tUsersList,
             hasReachedMax: false,
           ),
         );
         // assert later
         final expected = [
-          HistoryIndividualSuccess(
+          HistorySuccess(
             list: tHistoryList25 + tHistoryList25,
-            userTableList: tUsersList,
             hasReachedMax: false,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(HistoryIndividualFetch(
+        bloc.add(HistoryFetch(
           tautulliId: tTautulliId,
-          ratingKey: tRatingKey,
+          mediaType: tMediaType,
         ));
       },
     );
 
     test(
-      'when state is [HistoryIndividualSuccess] should emit [HistoryIndividualSuccess] with hasReachedMax as true when data is fetched successfully and less then 25',
+      'when state is [HistorySuccess] should emit [HistorySuccess] with hasReachedMax as true when data is fetched successfully and less then 25',
       () async {
         // arrange
         setUpSuccess(tHistoryList);
         clearCache();
         bloc.emit(
-          HistoryIndividualSuccess(
+          HistorySuccess(
             list: tHistoryList,
-            userTableList: tUsersList,
             hasReachedMax: false,
           ),
         );
         // assert later
         final expected = [
-          HistoryIndividualSuccess(
+          HistorySuccess(
             list: tHistoryList + tHistoryList,
-            userTableList: tUsersList,
             hasReachedMax: true,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(HistoryIndividualFetch(
+        bloc.add(HistoryFetch(
           tautulliId: tTautulliId,
-          ratingKey: tRatingKey,
+          mediaType: tMediaType,
+        ));
+      },
+    );
+  });
+
+  group('HistoryFilter', () {
+    test(
+      'should emit [HistoryInitial] before executing as normal',
+      () async {
+        // arrange
+        setUpSuccess(tHistoryList25);
+        clearCache();
+        // assert later
+        final expected = [
+          HistoryInitial(),
+          HistorySuccess(
+            list: tHistoryList25,
+            hasReachedMax: false,
+          ),
+        ];
+        expectLater(bloc, emitsInOrder(expected));
+        // act
+        bloc.add(HistoryFilter(
+          tautulliId: tTautulliId,
+          mediaType: tMediaType,
         ));
       },
     );

@@ -8,11 +8,11 @@ import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote/features/history/data/models/history_model.dart';
 import 'package:tautulli_remote/features/history/domain/entities/history.dart';
 import 'package:tautulli_remote/features/history/domain/usecases/get_history.dart';
-import 'package:tautulli_remote/features/history/presentation/bloc/history_bloc.dart';
+import 'package:tautulli_remote/features/history/presentation/bloc/history_libraries_bloc.dart';
 import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 
-import '../../../fixtures/fixture_reader.dart';
+import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetHistory extends Mock implements GetHistory {}
 
@@ -21,7 +21,7 @@ class MockGetImageUrl extends Mock implements GetImageUrl {}
 class MockLogging extends Mock implements Logging {}
 
 void main() {
-  HistoryBloc bloc;
+  HistoryLibrariesBloc bloc;
   MockGetHistory mockGetHistory;
   MockGetImageUrl mockGetImageUrl;
   MockLogging mockLogging;
@@ -30,7 +30,8 @@ void main() {
     mockGetHistory = MockGetHistory();
     mockGetImageUrl = MockGetImageUrl();
     mockLogging = MockLogging();
-    bloc = HistoryBloc(
+
+    bloc = HistoryLibrariesBloc(
       getHistory: mockGetHistory,
       getImageUrl: mockGetImageUrl,
       logging: mockLogging,
@@ -38,12 +39,13 @@ void main() {
   });
 
   final tTautulliId = 'jkl';
-  final tMediaType = 'all';
+  final tSectionId = 1;
 
   final List<History> tHistoryList = [];
   final List<History> tHistoryList25 = [];
 
   final historyJson = json.decode(fixture('history.json'));
+
   historyJson['response']['data']['data'].forEach((item) {
     tHistoryList.add(HistoryModel.fromJson(item));
   });
@@ -89,14 +91,14 @@ void main() {
   }
 
   test(
-    'initialState should be HistoryInitial',
+    'initialState should be HistoryLibrariesInitial',
     () async {
       // assert
-      expect(bloc.state, HistoryInitial());
+      expect(bloc.state, HistoryLibrariesInitial());
     },
   );
 
-  group('HistoryFetch', () {
+  group('HistoryLibrariesFetch', () {
     test(
       'should get data from GetHistory use case',
       () async {
@@ -105,10 +107,9 @@ void main() {
         clearCache();
         // act
         bloc.add(
-          HistoryFetch(
+          HistoryLibrariesFetch(
             tautulliId: tTautulliId,
-            userId: null,
-            mediaType: tMediaType,
+            sectionId: tSectionId,
           ),
         );
         await untilCalled(
@@ -143,7 +144,7 @@ void main() {
           grandparentRatingKey: anyNamed('grandparentRatingKey'),
           startDate: anyNamed('startDate'),
           sectionId: anyNamed('sectionId'),
-          mediaType: tMediaType,
+          mediaType: anyNamed('mediaType'),
           transcodeDecision: anyNamed('transcodeDecision'),
           guid: anyNamed('guid'),
           orderColumn: anyNamed('orderColumn'),
@@ -156,63 +157,30 @@ void main() {
     );
 
     test(
-      'should get data from the ImageUrl use case',
-      () async {
-        // arrange
-        setUpSuccess(tHistoryList);
-        clearCache();
-        // act
-        bloc.add(
-          HistoryFetch(
-            tautulliId: tTautulliId,
-            userId: null,
-            mediaType: tMediaType,
-          ),
-        );
-        await untilCalled(
-          mockGetImageUrl(
-            tautulliId: anyNamed('tautulliId'),
-            img: anyNamed('img'),
-            ratingKey: anyNamed('ratingKey'),
-            fallback: anyNamed('fallback'),
-          ),
-        );
-        // assert
-        verify(
-          mockGetImageUrl(
-            tautulliId: tTautulliId,
-            img: anyNamed('img'),
-            ratingKey: anyNamed('ratingKey'),
-            fallback: anyNamed('fallback'),
-          ),
-        );
-      },
-    );
-
-    test(
-      'should emit [HistorySuccess] with hasReachedMax as false when data is fetched successfully and list is 25 or more',
+      'should emit [HistoryLibrariesSuccess] with hasReachedMax as false when data is fetched successfully and list is 25 or more',
       () async {
         // arrange
         setUpSuccess(tHistoryList25);
         clearCache();
         // assert later
         final expected = [
-          HistorySuccess(
+          HistoryLibrariesInProgress(),
+          HistoryLibrariesSuccess(
             list: tHistoryList25,
             hasReachedMax: false,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(HistoryFetch(
+        bloc.add(HistoryLibrariesFetch(
           tautulliId: tTautulliId,
-          mediaType: tMediaType,
+          sectionId: tSectionId,
         ));
       },
     );
 
     test(
-      'should emit [HistoryFailure] with a proper message when getting data fails',
+      'should emit [HistoryLibrariesFailure] with a proper message when getting data fails',
       () async {
         // arrange
         final failure = ServerFailure();
@@ -228,7 +196,7 @@ void main() {
             grandparentRatingKey: anyNamed('grandparentRatingKey'),
             startDate: anyNamed('startDate'),
             sectionId: anyNamed('sectionId'),
-            mediaType: tMediaType,
+            mediaType: anyNamed('mediaType'),
             transcodeDecision: anyNamed('transcodeDecision'),
             guid: anyNamed('guid'),
             orderColumn: anyNamed('orderColumn'),
@@ -240,7 +208,8 @@ void main() {
         ).thenAnswer((_) async => Left(failure));
         // assert later
         final expected = [
-          HistoryFailure(
+          HistoryLibrariesInProgress(),
+          HistoryLibrariesFailure(
             failure: failure,
             message: SERVER_FAILURE_MESSAGE,
             suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
@@ -248,90 +217,65 @@ void main() {
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(HistoryFetch(
+        bloc.add(HistoryLibrariesFetch(
           tautulliId: tTautulliId,
-          mediaType: tMediaType,
+          sectionId: tSectionId,
         ));
       },
     );
 
     test(
-      'when state is [HistorySuccess] should emit [HistorySuccess] with hasReachedMax as false when data is fetched successfully',
+      'when state is [HistoryLibrariesSuccess] should emit [HistoryLibrariesSuccess] with hasReachedMax as false when data is fetched successfully',
       () async {
         // arrange
         setUpSuccess(tHistoryList25);
         clearCache();
         bloc.emit(
-          HistorySuccess(
+          HistoryLibrariesSuccess(
             list: tHistoryList25,
             hasReachedMax: false,
           ),
         );
         // assert later
         final expected = [
-          HistorySuccess(
+          HistoryLibrariesSuccess(
             list: tHistoryList25 + tHistoryList25,
             hasReachedMax: false,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(HistoryFetch(
+        bloc.add(HistoryLibrariesFetch(
           tautulliId: tTautulliId,
-          mediaType: tMediaType,
+          sectionId: tSectionId,
         ));
       },
     );
 
     test(
-      'when state is [HistorySuccess] should emit [HistorySuccess] with hasReachedMax as true when data is fetched successfully and less then 25',
+      'when state is [HistoryLibrariesSuccess] should emit [HistoryLibrariesSuccess] with hasReachedMax as true when data is fetched successfully and less then 25',
       () async {
         // arrange
         setUpSuccess(tHistoryList);
         clearCache();
         bloc.emit(
-          HistorySuccess(
+          HistoryLibrariesSuccess(
             list: tHistoryList,
             hasReachedMax: false,
           ),
         );
         // assert later
         final expected = [
-          HistorySuccess(
+          HistoryLibrariesSuccess(
             list: tHistoryList + tHistoryList,
             hasReachedMax: true,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(HistoryFetch(
+        bloc.add(HistoryLibrariesFetch(
           tautulliId: tTautulliId,
-          mediaType: tMediaType,
-        ));
-      },
-    );
-  });
-
-  group('HistoryFilter', () {
-    test(
-      'should emit [HistoryInitial] before executing as normal',
-      () async {
-        // arrange
-        setUpSuccess(tHistoryList25);
-        clearCache();
-        // assert later
-        final expected = [
-          HistoryInitial(),
-          HistorySuccess(
-            list: tHistoryList25,
-            hasReachedMax: false,
-          ),
-        ];
-        expectLater(bloc, emitsInOrder(expected));
-        // act
-        bloc.add(HistoryFilter(
-          tautulliId: tTautulliId,
-          mediaType: tMediaType,
+          sectionId: tSectionId,
         ));
       },
     );

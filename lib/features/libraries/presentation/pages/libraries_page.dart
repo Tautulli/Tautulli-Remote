@@ -18,7 +18,7 @@ import '../../domain/entities/library.dart';
 import '../bloc/libraries_bloc.dart';
 import '../widgets/libraries_error_button.dart';
 import '../widgets/library_details.dart';
-import 'library_items_page.dart';
+import 'library_details_page.dart';
 
 class LibrariesPage extends StatelessWidget {
   const LibrariesPage({Key key}) : super(key: key);
@@ -183,8 +183,9 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                                 if (library.sectionType != 'live') {
                                   return Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => LibraryItemsPage(
+                                      builder: (context) => LibraryDetailsPage(
                                         library: library,
+                                        sectionType: library.sectionType,
                                       ),
                                     ),
                                   );
