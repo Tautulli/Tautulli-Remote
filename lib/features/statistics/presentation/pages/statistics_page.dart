@@ -541,6 +541,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                       AssetMapperHelper.mapPlatformToPath(s.platformName),
                   backgroundColor:
                       TautulliColorPalette.mapPlatformToColor(s.platformName),
+                  iconColor: TautulliColorPalette.not_white,
                   details: StatisticsDetails(
                     statistic: s,
                     maskSensitiveInfo: _maskSensitiveInfo,

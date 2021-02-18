@@ -193,6 +193,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                               child: IconCard(
                                 assetPath: AssetMapperHelper.mapLibraryToPath(
                                     library.sectionType),
+                                iconColor: TautulliColorPalette.not_white,
                                 backgroundImage: library.sectionType != 'live'
                                     ? Image.network(
                                         state.imageMap[library.sectionId],

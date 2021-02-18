@@ -91,6 +91,7 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                       backgroundColor: TautulliColorPalette.mapPlatformToColor(
                         stat.platformName,
                       ),
+                      iconColor: TautulliColorPalette.not_white,
                       details: StatisticsDetails(
                         statistic: stat,
                         maskSensitiveInfo: widget.maskSensitiveInfo,

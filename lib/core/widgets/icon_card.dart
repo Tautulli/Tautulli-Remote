@@ -3,11 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../helpers/color_palette_helper.dart';
-
 class IconCard extends StatelessWidget {
   final String assetPath;
   final Color backgroundColor;
+  final Color iconColor;
   final Image backgroundImage;
   final Widget details;
 
@@ -15,6 +14,7 @@ class IconCard extends StatelessWidget {
     Key key,
     @required this.assetPath,
     this.backgroundColor,
+    this.iconColor,
     this.backgroundImage,
     this.details,
   }) : super(key: key);
@@ -46,7 +46,7 @@ class IconCard extends StatelessWidget {
                         child: assetPath != null
                             ? WebsafeSvg.asset(
                                 assetPath,
-                                color: TautulliColorPalette.not_white,
+                                color: iconColor,
                               )
                             : null,
                       ),
