@@ -33,21 +33,22 @@ class ChangeTypeTag extends StatelessWidget {
         text = '';
         color = Colors.transparent;
     }
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(2),
-      child: Container(
-        padding: const EdgeInsets.only(top: 2),
-        height: 16,
-        width: 40,
-        decoration: BoxDecoration(
-          color: color,
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.only(top: 2),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(2),
+        child: Container(
+          width: 40,
+          decoration: BoxDecoration(
+            color: color,
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
