@@ -4,27 +4,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
-import 'package:tautulli_remote/features/history/presentation/bloc/history_users_bloc.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/users/data/models/user_model.dart';
 import 'package:tautulli_remote/features/users/domain/entities/user.dart';
 import 'package:tautulli_remote/features/users/domain/usecases/get_user_names.dart';
+import 'package:tautulli_remote/features/users/presentation/bloc/users_list_bloc.dart';
 
-import '../../../fixtures/fixture_reader.dart';
+import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetUserNames extends Mock implements GetUserNames {}
 
 class MockLogging extends Mock implements Logging {}
 
 void main() {
-  HistoryUsersBloc bloc;
+  UsersListBloc bloc;
   MockGetUserNames mockGetUserNames;
   MockLogging mockLogging;
 
   setUp(() {
     mockGetUserNames = MockGetUserNames();
     mockLogging = MockLogging();
-    bloc = HistoryUsersBloc(
+    bloc = UsersListBloc(
       getUserNames: mockGetUserNames,
       logging: mockLogging,
     );
@@ -52,7 +52,7 @@ void main() {
       clearCache();
       // act
       bloc.add(
-        HistoryUsersFetch(
+        UsersListFetch(
           tautulliId: tTautulliId,
         ),
       );
@@ -71,22 +71,22 @@ void main() {
   );
 
   test(
-    'should emit [HistoryUsersSuccess] when users list is fetched successfully',
+    'should emit [UsersListSuccess] when users list is fetched successfully',
     () async {
       // arrange
       setUpSuccess();
       clearCache();
       // assert later
       final expected = [
-        HistoryUsersInProgress(),
-        HistoryUsersSuccess(
+        UsersListInProgress(),
+        UsersListSuccess(
           usersList: tUserList,
         ),
       ];
       expectLater(bloc, emitsInOrder(expected));
       // act
       bloc.add(
-        HistoryUsersFetch(
+        UsersListFetch(
           tautulliId: tTautulliId,
         ),
       );
@@ -94,7 +94,7 @@ void main() {
   );
 
   test(
-    'should emit [HistoryUsersFailure] when fetching users list fails',
+    'should emit [UsersListFailure] when fetching users list fails',
     () async {
       // arrange
       final failure = ServerFailure();
@@ -106,13 +106,13 @@ void main() {
       ).thenAnswer((_) async => Left(failure));
       // assert later
       final expected = [
-        HistoryUsersInProgress(),
-        HistoryUsersFailure(),
+        UsersListInProgress(),
+        UsersListFailure(),
       ];
       expectLater(bloc, emitsInOrder(expected));
       // act
       bloc.add(
-        HistoryUsersFetch(
+        UsersListFetch(
           tautulliId: tTautulliId,
         ),
       );
