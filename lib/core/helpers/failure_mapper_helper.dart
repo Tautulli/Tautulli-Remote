@@ -42,7 +42,14 @@ class FailureMapperHelper {
   static Failure mapExceptionToFailure(dynamic exception) {
     Failure failure;
 
-    if ([TimeoutException, SettingsException].contains(exception.runtimeType)) {
+    print(exception);
+
+    if ([
+      TimeoutException,
+      SettingsException,
+      JsonDecodeException,
+      HandshakeException,
+    ].contains(exception.runtimeType)) {
       exception = exception.runtimeType;
     }
 
@@ -59,6 +66,7 @@ class FailureMapperHelper {
       case (SocketException):
         failure = SocketFailure();
         break;
+      case (HandshakeException):
       case (TlsException):
         failure = TlsFailure();
         break;

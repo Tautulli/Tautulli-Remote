@@ -335,6 +335,7 @@ class _StatusCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(4),
       height: 135,
+      width: MediaQuery.of(context).size.width,
       child: Card(
         color: TautulliColorPalette.gunmetal,
         margin: const EdgeInsets.all(0),
