@@ -353,14 +353,14 @@ class _StatusCard extends StatelessWidget {
                   ),
                 ),
               ),
-            if (isNotEmpty(failureMessage))
+            if (customMessage == null)
               Padding(
                 padding: const EdgeInsets.only(
                   top: 4,
                   bottom: 4,
                 ),
                 child: Text(
-                  failureMessage,
+                  isNotEmpty(failureMessage) ? failureMessage : 'Unknown Error',
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 16,
