@@ -42,7 +42,7 @@ packages:
       name: basic_utils
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.7.0"
+    version: "2.7.1"
   bloc:
     dependency: transitive
     description:
@@ -638,7 +638,7 @@ packages:
       name: sembast
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.9"
+    version: "2.4.10+1"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -699,7 +699,7 @@ packages:
       name: source_gen
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.10+2"
+    version: "0.9.10+3"
   source_span:
     dependency: transitive
     description:

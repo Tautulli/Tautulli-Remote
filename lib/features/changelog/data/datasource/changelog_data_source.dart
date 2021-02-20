@@ -1,6 +1,29 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.2.2",
+      "date": "February 20, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail":
+              "Show generic 'Unknown error' in Activity StatusCard when there is no failure mapping",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add logging when an exception has no failure mapping",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add Failure mapping for HandshakeException",
+        },
+        {
+          "type": "fix",
+          "detail": "Make sure Activity StatusCards take up the full width",
+        },
+      ]
+    },
+    {
       "version": "v2.2.1",
       "date": "February 18, 2021",
       "changes": [
