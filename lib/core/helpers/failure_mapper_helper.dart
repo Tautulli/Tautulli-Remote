@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import '../../features/logging/domain/usecases/logging.dart';
+import '../../injection_container.dart' as di;
 import '../error/exception.dart';
 import '../error/failure.dart';
 import '../requirements/versions.dart';
@@ -88,6 +90,10 @@ class FailureMapperHelper {
       case (MetadataEmptyException):
         failure = MetadataEmptyFailure();
         break;
+      default:
+        di
+            .sl<Logging>()
+            .error('FailureMapper: Exception not accounted for: $exception');
     }
 
     return failure;
