@@ -194,12 +194,12 @@ class _ActivityCardState extends State<ActivityCard> {
                     },
                   )
                 : null,
-            child: Card(
-              // Override Card margin so slidable can display properly
-              margin: const EdgeInsets.all(0),
-              elevation: 2,
-              // ClipRRect prevents the ImageFilter from affecting the parents (slidable)
-              child: ClipRRect(
+            // ClipRRect prevents issues with background blur and slidable widget
+            child: ClipRRect(
+              child: Card(
+                // Override Card margin so slidable can display properly
+                margin: const EdgeInsets.all(0),
+                elevation: 2,
                 child: SizedBox(
                   height: 135,
                   child: Stack(
@@ -404,22 +404,21 @@ Future<int> _showTerminateSessionDialog({
     builder: (context) {
       return AlertDialog(
         title: Text('Are you sure you want to terminate this stream?'),
-        content: IntrinsicHeight(
-          child: Column(
-            children: <Widget>[
-              _TerminateSessionMediaInfo(
-                activity: activity,
-                maskSensitiveInfo: maskSensitiveInfo,
-              ),
-              TextFormField(
-                controller: controller,
-                maxLines: 2,
-                decoration: InputDecoration(
-                    helperText: 'Terminate Message',
-                    hintText: 'The server owner has ended the stream.'),
-              ),
-            ],
-          ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            _TerminateSessionMediaInfo(
+              activity: activity,
+              maskSensitiveInfo: maskSensitiveInfo,
+            ),
+            TextFormField(
+              controller: controller,
+              maxLines: 2,
+              decoration: InputDecoration(
+                  helperText: 'Terminate Message',
+                  hintText: 'The server owner has ended the stream.'),
+            ),
+          ],
         ),
         actions: <Widget>[
           TextButton(
