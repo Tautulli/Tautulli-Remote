@@ -40,7 +40,7 @@ class TerminateSessionBloc
       yield* failureOrTerminateStream.fold(
         (failure) async* {
           logging.error(
-            'TerminateStream: Failured to terminate stream ${event.sessionId}',
+            'TerminateStream: Failed to terminate stream ${event.sessionId}',
           );
 
           yield TerminateSessionFailure(
