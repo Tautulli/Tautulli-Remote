@@ -21,7 +21,7 @@ class MediaAlbumsTab extends StatelessWidget {
       context: context,
       removeTop: true,
       child: GridView.count(
-        crossAxisCount: 2,
+        crossAxisCount: 3,
         childAspectRatio: 1,
         children: albums
             .map(
