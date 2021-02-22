@@ -8,19 +8,24 @@ class PosterCard extends StatelessWidget {
   final dynamic item;
   final Widget details;
   final Key heroTag;
+  final EdgeInsets cardMargin;
+  final BorderRadius borderRadius;
 
   const PosterCard({
     Key key,
     @required this.item,
     @required this.details,
     this.heroTag,
+    this.cardMargin,
+    this.borderRadius,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: cardMargin ?? EdgeInsets.all(4.0),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: borderRadius ?? BorderRadius.circular(4),
         child: Container(
           height: 100,
           child: Stack(
