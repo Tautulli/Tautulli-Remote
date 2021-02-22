@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/error_message.dart';
+import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
@@ -15,7 +17,10 @@ import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/presentation/bloc/users_list_bloc.dart';
+import '../../domain/entities/synced_item.dart';
+import '../bloc/delete_synced_item_bloc.dart';
 import '../bloc/synced_items_bloc.dart';
+import '../widgets/delete_synced_item_button.dart';
 import '../widgets/synced_items_details.dart';
 import '../widgets/synced_items_error_button.dart';
 
@@ -30,6 +35,9 @@ class SyncedItemsPage extends StatelessWidget {
       providers: [
         BlocProvider<SyncedItemsBloc>(
           create: (_) => di.sl<SyncedItemsBloc>(),
+        ),
+        BlocProvider<DeleteSyncedItemBloc>(
+          create: (_) => di.sl<DeleteSyncedItemBloc>(),
         ),
         BlocProvider<UsersListBloc>(
           create: (_) => di.sl<UsersListBloc>(),
@@ -119,6 +127,9 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
 
   @override
   Widget build(BuildContext context) {
+    final settingsBloc = context.read<SettingsBloc>();
+    final SettingsLoadSuccess settingsLoadSuccess = settingsBloc.state;
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -225,13 +236,48 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                         ),
                                       );
                                     },
-                                    child: PosterCard(
-                                      item: state.list[index],
-                                      details: SyncedItemsDetails(
-                                        syncedItem: state.list[index],
-                                        maskSensitiveInfo: _maskSensitiveInfo,
+                                    child: Container(
+                                      margin: EdgeInsets.all(4),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(4),
+                                        child: Slidable.builder(
+                                          key: ValueKey(
+                                            '$_tautulliId:${state.list[index].syncId}',
+                                          ),
+                                          actionPane:
+                                              SlidableBehindActionPane(),
+                                          secondaryActionDelegate:
+                                              SlideActionBuilderDelegate(
+                                            actionCount: 1,
+                                            builder: (context, index, animation,
+                                                step) {
+                                              return _SlidableAction(
+                                                tautulliId: _tautulliId,
+                                                slidableState:
+                                                    Slidable.of(context),
+                                                syncedItem: state.list[index],
+                                                maskSensitiveInfo:
+                                                    settingsLoadSuccess
+                                                        .maskSensitiveInfo,
+                                              );
+                                            },
+                                          ),
+                                          child: ClipRRect(
+                                            child: PosterCard(
+                                              cardMargin: EdgeInsets.all(0),
+                                              borderRadius:
+                                                  BorderRadius.circular(0),
+                                              item: state.list[index],
+                                              details: SyncedItemsDetails(
+                                                syncedItem: state.list[index],
+                                                maskSensitiveInfo:
+                                                    _maskSensitiveInfo,
+                                              ),
+                                              heroTag: heroTag,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                      heroTag: heroTag,
                                     ),
                                   );
                                 },
@@ -395,4 +441,146 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
       ),
     ];
   }
+}
+
+class _SlidableAction extends StatelessWidget {
+  final String tautulliId;
+  final SlidableState slidableState;
+  final SyncedItem syncedItem;
+  final bool maskSensitiveInfo;
+
+  const _SlidableAction({
+    @required this.tautulliId,
+    @required this.slidableState,
+    @required this.syncedItem,
+    @required this.maskSensitiveInfo,
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<DeleteSyncedItemBloc, DeleteSyncedItemState>(
+      listener: (context, state) {
+        if (state is DeleteSyncedItemSuccess) {
+          state.slidableState.close();
+          Scaffold.of(context).hideCurrentSnackBar();
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.green,
+              content: Text('Delete synced item request sent to Plex.'),
+              //TODO: Link action to help or wiki
+              action: SnackBarAction(
+                label: 'Learn more',
+                onPressed: () {},
+                textColor: Colors.white,
+              ),
+            ),
+          );
+        }
+        if (state is DeleteSyncedItemFailure) {
+          showFailureAlertDialog(
+            context: context,
+            failure: state.failure,
+          );
+        }
+      },
+      child: SlideAction(
+        closeOnTap: false,
+        onTap: () async {
+          final confirm = await _showDeleteSyncedItemDialog(
+            context: context,
+            syncedItem: syncedItem,
+            maskSensitiveInfo: maskSensitiveInfo,
+          );
+          if (confirm == 1) {
+            context.read<DeleteSyncedItemBloc>().add(
+                  DeleteSyncedItemStarted(
+                    tautulliId: tautulliId,
+                    clientId: syncedItem.clientId,
+                    syncId: syncedItem.syncId,
+                    slidableState: slidableState,
+                  ),
+                );
+          } else {
+            Slidable.of(context).close();
+          }
+        },
+        color: Theme.of(context).errorColor,
+        child: BlocBuilder<DeleteSyncedItemBloc, DeleteSyncedItemState>(
+          builder: (context, state) {
+            if (state is DeleteSyncedItemInProgress &&
+                state.syncId == syncedItem.syncId) {
+              return Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    TautulliColorPalette.not_white,
+                  ),
+                ),
+              );
+            }
+            return DeleteSyncedItemButton();
+          },
+        ),
+      ),
+    );
+  }
+}
+
+Future<int> _showDeleteSyncedItemDialog({
+  @required BuildContext context,
+  @required SyncedItem syncedItem,
+  @required bool maskSensitiveInfo,
+}) {
+  return showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        title: Text('Are you sure you want to delete this synced item?'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              syncedItem.syncTitle,
+              style: TextStyle(
+                color: PlexColorPalette.gamboge,
+              ),
+            ),
+            Text(
+              maskSensitiveInfo ? '*Hidden User*' : syncedItem.user,
+              style: TextStyle(
+                color: PlexColorPalette.gamboge,
+              ),
+            ),
+            Text(
+              syncedItem.deviceName,
+              style: TextStyle(
+                color: PlexColorPalette.gamboge,
+              ),
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('CANCEL'),
+            onPressed: () {
+              Navigator.of(context).pop(0);
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 4),
+            child: TextButton(
+              child: Text('DELETE'),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(1);
+              },
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }
