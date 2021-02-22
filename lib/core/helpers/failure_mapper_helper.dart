@@ -19,6 +19,8 @@ const String URL_FORMAT_FAILURE_MESSAGE = 'Incorrect URL format.';
 const String TIMEOUT_FAILURE_MESSAGE = 'Connection to server timed out.';
 const String JSON_FAILURE_MESSAGE = 'Failed to parse response.';
 const String TERMINATE_FAILURE_MESSAGE = 'Failed to terminate the stream.';
+const String DELETE_SYNCED_FAILURE_MESSAGE =
+    'Failed to delete the synced item.';
 const String SERVER_VERSION_FAILURE_MESSAGE =
     'Server version does not meet requirements.';
 const String METADATA_EMPTY_FAILURE_MESSAGE = 'No metadata found.';
@@ -31,7 +33,7 @@ const String CHECK_CONNECTION_ADDRESS_SUGGESTION =
     'Check your Connection Address for errors.';
 const String CHECK_SERVER_SETTINGS_SUGGESTION =
     'Please verify your connection settings.';
-const String TIMEOUT_SUGGESTION =
+const String PLEX_CONNECTION_SUGGESTION =
     'Check your Connection Address for errors and make sure Tautulli can communicate with Plex.';
 const String TERMINATE_SUGGESTION = 'Make sure the stream is still active.';
 final String serverVersionSuggestion =
@@ -128,6 +130,8 @@ class FailureMapperHelper {
         return METADATA_EMPTY_FAILURE_MESSAGE;
       case LibraryMediaInfoEmptyFailure:
         return LIBRARY_MEDIA_INFO_EMPTY_FAILURE_MESSAGE;
+      case DeleteSyncedFailure:
+        return DELETE_SYNCED_FAILURE_MESSAGE;
       default:
         return 'Unexpected error';
     }
@@ -149,7 +153,7 @@ class FailureMapperHelper {
       case UrlFormatFailure:
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
       case TimeoutFailure:
-        return TIMEOUT_SUGGESTION;
+        return PLEX_CONNECTION_SUGGESTION;
       case JsonDecodeFailure:
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
       case TerminateFailure:
@@ -159,6 +163,8 @@ class FailureMapperHelper {
       case MetadataEmptyFailure:
       case LibraryMediaInfoEmptyFailure:
         return METADATA_EMPTY_FAILURE_SUGGESTION;
+      case DeleteSyncedFailure:
+        return PLEX_CONNECTION_SUGGESTION;
       default:
         return '';
     }

@@ -40,6 +40,9 @@ class ServerVersionFailure extends Failure {}
 /// The terminate session API call returned false.
 class TerminateFailure extends Failure {}
 
+/// The delete synced item API call returned false.
+class DeleteSyncedFailure extends Failure {}
+
 /// The get metadata API call returned an empty result.
 class MetadataEmptyFailure extends Failure {}
 

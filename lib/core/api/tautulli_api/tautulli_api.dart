@@ -1,6 +1,7 @@
 export 'call_tautulli.dart';
 export 'connection_handler.dart';
 export 'delete_mobile_device.dart';
+export 'delete_synced_item.dart';
 export 'get_activity.dart';
 export 'get_children_metadata.dart';
 export 'get_geoip_lookup.dart';
