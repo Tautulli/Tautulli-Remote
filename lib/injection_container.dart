@@ -77,10 +77,15 @@ import 'features/statistics/data/repositories/statistics_repository_impl.dart';
 import 'features/statistics/domain/repositories/statistics_repository.dart';
 import 'features/statistics/domain/usecases/get_statistics.dart';
 import 'features/statistics/presentation/bloc/statistics_bloc.dart';
+import 'features/synced_items/data/datasources/delete_synced_item_data_source.dart';
 import 'features/synced_items/data/datasources/synced_items_data_source.dart';
+import 'features/synced_items/data/repositories/delete_synced_item_respository_impl.dart';
 import 'features/synced_items/data/repositories/synced_items_repository_impl.dart';
+import 'features/synced_items/domain/repositories/delete_synced_item_repository.dart';
 import 'features/synced_items/domain/repositories/synced_items_repository.dart';
+import 'features/synced_items/domain/usecases/delete_synced_item.dart';
 import 'features/synced_items/domain/usecases/get_synced_items.dart';
+import 'features/synced_items/presentation/bloc/delete_synced_item_bloc.dart';
 import 'features/synced_items/presentation/bloc/synced_items_bloc.dart';
 import 'features/terminate_session/data/datasources/terminate_session_data_source.dart';
 import 'features/terminate_session/data/repositories/terminate_session_repository_impl.dart';
@@ -540,9 +545,22 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory(
+    () => DeleteSyncedItemBloc(
+      deleteSyncedItem: sl(),
+      logging: sl(),
+    ),
+  );
+
   // Use case
   sl.registerLazySingleton(
     () => GetSyncedItems(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => DeleteSyncedItem(
       repository: sl(),
     ),
   );
@@ -555,10 +573,23 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerLazySingleton<DeleteSyncedItemRepository>(
+    () => DeleteSyncedItemRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
   // Data source
   sl.registerLazySingleton<SyncedItemsDataSource>(
     () => SyncedItemsDataSourceImpl(
       apiGetSyncedItems: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<DeleteSyncedItemDataSource>(
+    () => DeleteSyncedItemDataSourceImpl(
+      apiDeleteSyncedItem: sl(),
     ),
   );
 
@@ -664,6 +695,11 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulliApi.DeleteMobileDevice>(
     () => tautulliApi.DeleteMobileDeviceImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.DeleteSyncedItem>(
+    () => tautulliApi.DeleteSyncedItemImpl(
       connectionHandler: sl(),
     ),
   );
