@@ -9,18 +9,26 @@ abstract class SyncedItemsEvent extends Equatable {
 
 class SyncedItemsFetch extends SyncedItemsEvent {
   final String tautulliId;
+  final int userId;
 
-  SyncedItemsFetch({@required this.tautulliId});
+  SyncedItemsFetch({
+    @required this.tautulliId,
+    this.userId,
+  });
 
   @override
-  List<Object> get props => [tautulliId];
+  List<Object> get props => [tautulliId, userId];
 }
 
 class SyncedItemsFilter extends SyncedItemsEvent {
   final String tautulliId;
+  final int userId;
 
-  SyncedItemsFilter({@required this.tautulliId});
+  SyncedItemsFilter({
+    @required this.tautulliId,
+    this.userId,
+  });
 
   @override
-  List<Object> get props => [tautulliId];
+  List<Object> get props => [tautulliId, userId];
 }

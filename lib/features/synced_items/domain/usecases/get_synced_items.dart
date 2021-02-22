@@ -12,7 +12,11 @@ class GetSyncedItems {
 
   Future<Either<Failure, List<SyncedItem>>> call({
     @required String tautulliId,
+    int userId,
   }) async {
-    return await repository.getSyncedItems(tautulliId: tautulliId);
+    return await repository.getSyncedItems(
+      tautulliId: tautulliId,
+      userId: userId,
+    );
   }
 }

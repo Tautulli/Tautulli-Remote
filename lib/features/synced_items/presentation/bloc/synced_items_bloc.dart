@@ -17,6 +17,7 @@ part 'synced_items_state.dart';
 
 List<SyncedItem> _syncedItemsListCache;
 String _tautulliIdCache;
+int _userIdCache;
 
 class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
   final GetSyncedItems getSyncedItems;
@@ -29,15 +30,21 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
     @required this.getMetadata,
     @required this.getImageUrl,
     @required this.logging,
-  }) : super(SyncedItemsInitial());
+  }) : super(SyncedItemsInitial(
+          tautulliId: _tautulliIdCache,
+          userId: _userIdCache,
+        ));
 
   @override
   Stream<SyncedItemsState> mapEventToState(
     SyncedItemsEvent event,
   ) async* {
     if (event is SyncedItemsFetch) {
+      _userIdCache = event.userId;
+
       yield* _fetchSyncedItems(
         tautulliId: event.tautulliId,
+        userId: event.userId,
         useCachedList: true,
       );
 
@@ -45,8 +52,11 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
     }
     if (event is SyncedItemsFilter) {
       yield SyncedItemsInitial();
+      _userIdCache = event.userId;
+
       yield* _fetchSyncedItems(
         tautulliId: event.tautulliId,
+        userId: event.userId,
       );
 
       _tautulliIdCache = event.tautulliId;
@@ -55,6 +65,7 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
 
   Stream<SyncedItemsState> _fetchSyncedItems({
     @required String tautulliId,
+    int userId,
     bool useCachedList = false,
   }) async* {
     if (useCachedList &&
@@ -66,6 +77,7 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
     } else {
       final syncedItemsListOrFailure = await getSyncedItems(
         tautulliId: tautulliId,
+        userId: userId,
       );
 
       yield* syncedItemsListOrFailure.fold(
@@ -182,4 +194,5 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
 void clearCache() {
   _syncedItemsListCache = null;
   _tautulliIdCache = null;
+  _userIdCache = null;
 }

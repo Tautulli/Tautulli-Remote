@@ -6,7 +6,7 @@ abstract class GetSyncedItems {
   Future<Map<String, dynamic>> call({
     @required String tautulliId,
     String machineId,
-    String userId,
+    int userId,
   });
 }
 
@@ -19,7 +19,7 @@ class GetSyncedItemsImpl implements GetSyncedItems {
   Future<Map<String, dynamic>> call({
     @required String tautulliId,
     String machineId,
-    String userId,
+    int userId,
   }) async {
     Map<String, String> params = {};
 
@@ -27,7 +27,7 @@ class GetSyncedItemsImpl implements GetSyncedItems {
       params['machine_id'] = machineId;
     }
     if (userId != null) {
-      params['user_id'] = userId;
+      params['user_id'] = userId.toString();
     }
 
     final responseJson = await connectionHandler(

@@ -20,11 +20,13 @@ class SyncedItemsRepositoryImpl implements SyncedItemsRepository {
   @override
   Future<Either<Failure, List<SyncedItem>>> getSyncedItems({
     @required String tautulliId,
+    int userId,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final syncedItemsList = await dataSource.getSyncedItems(
           tautulliId: tautulliId,
+          userId: userId,
         );
         return Right(syncedItemsList);
       } catch (exception) {

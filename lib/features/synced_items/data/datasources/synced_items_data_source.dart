@@ -7,6 +7,7 @@ import '../models/synced_item_model.dart';
 abstract class SyncedItemsDataSource {
   Future<List> getSyncedItems({
     @required String tautulliId,
+    int userId,
   });
 }
 
@@ -18,8 +19,12 @@ class SyncedItemsDataSourceImpl implements SyncedItemsDataSource {
   @override
   Future<List> getSyncedItems({
     String tautulliId,
+    int userId,
   }) async {
-    final syncedItemsJson = await apiGetSyncedItems(tautulliId: tautulliId);
+    final syncedItemsJson = await apiGetSyncedItems(
+      tautulliId: tautulliId,
+      userId: userId,
+    );
 
     final List<SyncedItem> syncedItemsList = [];
     syncedItemsJson['response']['data'].forEach((item) {

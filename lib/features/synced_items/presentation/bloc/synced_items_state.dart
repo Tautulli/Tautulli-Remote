@@ -7,7 +7,18 @@ abstract class SyncedItemsState extends Equatable {
   List<Object> get props => [];
 }
 
-class SyncedItemsInitial extends SyncedItemsState {}
+class SyncedItemsInitial extends SyncedItemsState {
+  final int userId;
+  final String tautulliId;
+
+  SyncedItemsInitial({
+    this.userId,
+    this.tautulliId,
+  });
+
+  @override
+  List<Object> get props => [userId, tautulliId];
+}
 
 class SyncedItemsSuccess extends SyncedItemsState {
   final List<SyncedItem> list;
