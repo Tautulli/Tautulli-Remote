@@ -15,7 +15,7 @@ import 'package:tautulli_remote/features/synced_items/domain/entities/synced_ite
 import 'package:tautulli_remote/features/synced_items/domain/usecases/get_synced_items.dart';
 import 'package:tautulli_remote/features/synced_items/presentation/bloc/synced_items_bloc.dart';
 
-import '../../../fixtures/fixture_reader.dart';
+import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetSyncedItems extends Mock implements GetSyncedItems {}
 
