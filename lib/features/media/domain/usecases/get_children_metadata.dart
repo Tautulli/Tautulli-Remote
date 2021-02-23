@@ -13,10 +13,12 @@ class GetChildrenMetadata {
   Future<Either<Failure, List<MetadataItem>>> call({
     @required String tautulliId,
     @required int ratingKey,
+    String mediaType,
   }) async {
     return await repository.getChildrenMetadata(
       tautulliId: tautulliId,
       ratingKey: ratingKey,
+      mediaType: mediaType,
     );
   }
 }

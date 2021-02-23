@@ -21,6 +21,7 @@ class ChildrenMetadataRepositoryImpl implements ChildrenMetadataRepository {
   Future<Either<Failure, List<MetadataItem>>> getChildrenMetadata({
     @required String tautulliId,
     @required int ratingKey,
+    String mediaType,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -28,6 +29,7 @@ class ChildrenMetadataRepositoryImpl implements ChildrenMetadataRepository {
             await dataSource.getChildrenMetadata(
           tautulliId: tautulliId,
           ratingKey: ratingKey,
+          mediaType: mediaType,
         );
         return Right(childrenMetadataList);
       } catch (exception) {

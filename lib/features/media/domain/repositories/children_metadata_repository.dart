@@ -8,5 +8,6 @@ abstract class ChildrenMetadataRepository {
   Future<Either<Failure, List<MetadataItem>>> getChildrenMetadata({
     @required String tautulliId,
     @required int ratingKey,
+    String mediaType,
   });
 }

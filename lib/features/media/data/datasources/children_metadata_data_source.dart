@@ -9,6 +9,7 @@ abstract class ChildrenMetadataDataSource {
   Future<List<MetadataItem>> getChildrenMetadata({
     @required String tautulliId,
     @required int ratingKey,
+    String mediaType,
   });
 }
 
@@ -21,10 +22,12 @@ class ChildrenMetadataDataSourceImpl implements ChildrenMetadataDataSource {
   Future<List<MetadataItem>> getChildrenMetadata({
     @required String tautulliId,
     @required int ratingKey,
+    String mediaType,
   }) async {
     final childrenMetadataInfoJson = await apiGetChildrenMetadata(
       tautulliId: tautulliId,
       ratingKey: ratingKey,
+      mediaType: mediaType,
     );
 
     List childrenMetadataInfoMap =
