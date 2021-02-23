@@ -130,6 +130,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
         body: TabBarView(
           children: [
             LibrariesMediaTab(
+              tautulliId: _tautulliId,
               library: widget.library,
               sectionType: widget.sectionType,
               title: widget.title,
