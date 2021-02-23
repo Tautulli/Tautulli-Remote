@@ -17,7 +17,7 @@ class ChangelogItem extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: 8,
         right: 8,
-        bottom: 15,
+        bottom: 30,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
