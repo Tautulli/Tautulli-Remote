@@ -17,6 +17,7 @@ abstract class CallTautulli {
     @required String deviceToken,
     @required String cmd,
     Map<String, String> params,
+    int timeoutOverride,
   });
 }
 
@@ -33,6 +34,7 @@ class CallTautulliImpl implements CallTautulli {
     @required String deviceToken,
     @required String cmd,
     Map<String, String> params,
+    int timeoutOverride,
   }) async {
     // If no params provided initalize params
     if (params == null) {
@@ -64,7 +66,15 @@ class CallTautulliImpl implements CallTautulli {
     final response = await client.get(
       uri,
       headers: {'Content-Type': 'application/json'},
-    ).timeout(Duration(seconds: timeout != null ? timeout : 5));
+    ).timeout(
+      Duration(
+        seconds: timeoutOverride != null
+            ? timeoutOverride
+            : timeout != null
+                ? timeout
+                : 5,
+      ),
+    );
 
     // Attempt to parse reponse into JSON
     Map<String, dynamic> responseJson;

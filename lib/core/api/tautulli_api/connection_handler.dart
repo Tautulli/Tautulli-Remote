@@ -19,6 +19,7 @@ abstract class ConnectionHandler {
     String deviceToken,
     @required String cmd,
     Map<String, String> params,
+    int timeoutOverride,
   });
 }
 
@@ -40,6 +41,7 @@ class ConnectionHandlerImpl implements ConnectionHandler {
     String deviceToken,
     @required String cmd,
     Map<String, String> params,
+    int timeoutOverride,
   }) async {
     String secondaryConnectionAddress;
     String secondaryConnectionProtocol;
@@ -95,6 +97,7 @@ class ConnectionHandlerImpl implements ConnectionHandler {
         deviceToken: deviceToken,
         cmd: cmd,
         params: params,
+        timeoutOverride: timeoutOverride,
       );
     } catch (error) {
       // If secondary connection configured try again with the other connection
@@ -121,6 +124,7 @@ class ConnectionHandlerImpl implements ConnectionHandler {
             deviceToken: deviceToken,
             cmd: cmd,
             params: params,
+            timeoutOverride: timeoutOverride,
           );
 
           di.sl<Settings>().updatePrimaryActive(
