@@ -7,10 +7,12 @@ abstract class ChildrenMetadataEvent extends Equatable {
 class ChildrenMetadataFetched extends ChildrenMetadataEvent {
   final String tautulliId;
   final int ratingKey;
+  final String mediaType;
 
   ChildrenMetadataFetched({
     @required this.tautulliId,
     @required this.ratingKey,
+    this.mediaType,
   });
 
   @override

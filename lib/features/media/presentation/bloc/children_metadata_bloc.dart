@@ -45,6 +45,7 @@ class ChildrenMetadataBloc
         final failureOrChildrenMetadata = await getChildrenMetadata(
           tautulliId: event.tautulliId,
           ratingKey: event.ratingKey,
+          mediaType: event.mediaType,
         );
 
         yield* failureOrChildrenMetadata.fold(
@@ -61,7 +62,12 @@ class ChildrenMetadataBloc
           },
           (childrenMetadataList) async* {
             if (childrenMetadataList.isNotEmpty) {
-              final String mediaType = childrenMetadataList.first.mediaType;
+              String mediaType;
+              if (event.mediaType == 'playlist') {
+                mediaType = 'playlist';
+              } else {
+                mediaType = childrenMetadataList.first.mediaType;
+              }
 
               await _sortList(
                 mediaType: mediaType,
@@ -89,7 +95,7 @@ class ChildrenMetadataBloc
     @required String mediaType,
     @required List<MetadataItem> childrenMetadataList,
   }) async {
-    // Sort by year if album leave sort alone if movie/show/artist
+    // Sort by year if album leave sort alone if movie/show/artist/playlist
     // and by mediaIndex for everything else
     if (mediaType == 'album') {
       childrenMetadataList.sort((a, b) {
@@ -98,7 +104,7 @@ class ChildrenMetadataBloc
         }
         return 0;
       });
-    } else if (!['movie', 'show', 'artist'].contains(mediaType)) {
+    } else if (!['movie', 'show', 'artist', 'playlist'].contains(mediaType)) {
       childrenMetadataList.sort((a, b) => a.mediaIndex.compareTo(b.mediaIndex));
     }
   }
