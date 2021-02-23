@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quiver/strings.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
@@ -220,6 +221,27 @@ class ServerSettingsPage extends StatelessWidget {
                             content: Text('Copied to clipboard'),
                           ),
                         );
+                      }
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Divider(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  ListTile(
+                    title: Text('Open ${server.plexName} in browser'),
+                    trailing: FaIcon(
+                      FontAwesomeIcons.externalLinkAlt,
+                      color: TautulliColorPalette.not_white,
+                      size: 20,
+                    ),
+                    onTap: () async {
+                      if (server.primaryActive) {
+                        launch(server.primaryConnectionAddress);
+                      } else {
+                        launch(server.secondaryConnectionAddress);
                       }
                     },
                   ),
