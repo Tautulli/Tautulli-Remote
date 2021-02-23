@@ -91,6 +91,8 @@ class _HeadingText extends StatelessWidget {
         break;
       case 'show':
       case 'artist':
+      case 'collection':
+      case 'playlist':
         text = '';
         break;
       case 'album':

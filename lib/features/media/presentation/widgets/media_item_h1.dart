@@ -19,7 +19,8 @@ class MediaItemH1 extends StatelessWidget {
     final bool titleEmpty = ((['episode', 'track'].contains(item.mediaType) &&
             isEmpty(item.grandparentTitle)) ||
         (item.mediaType == 'season' && isEmpty(item.parentTitle)) ||
-        (['show', 'movie', 'artist', 'album'].contains(item.mediaType) &&
+        (['show', 'movie', 'artist', 'album', 'collection', 'playlist']
+                .contains(item.mediaType) &&
             isEmpty(item.title)));
 
     return !titleEmpty && item.mediaType != null
@@ -87,6 +88,8 @@ class _HeadingText extends StatelessWidget {
       case 'album':
       case 'photo':
       case 'clip':
+      case 'collection':
+      case 'playlist':
         text = title;
     }
 
