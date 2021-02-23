@@ -14,7 +14,7 @@ class DeleteSyncedItemButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           FaIcon(
-            FontAwesomeIcons.trash,
+            FontAwesomeIcons.trashAlt,
             size: 20,
             color: TautulliColorPalette.not_white,
           ),
