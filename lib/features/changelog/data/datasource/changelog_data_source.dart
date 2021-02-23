@@ -1,6 +1,70 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.2.3",
+      "date": "February 23, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Allow synced items to be deleted, swipe left on a synced item to access the delete button",
+        },
+        {
+          "type": "new",
+          "detail":
+              "Added pull to refresh on library media info tab, this triggers a full refresh of the library in Tautulli",
+        },
+        {
+          "type": "new",
+          "detail":
+              "Add link to open Tautulli server in a web browser under the Server Settings page",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Adjust albums to be 3 across on media item page albums tab",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add a user filter to synced items page",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add additional customization to PosterCard widget",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Add fallback to media item page to use metadata poster url if one isn't provided",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Adjust icons for links that navigate outside of the Tautulli Remote",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Add support to override the connection timeout to Tautulli for specific use cases",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Cleaned up various code elements, no changes to functionality",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Correctly display collections and playlists on synced items page",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Correctly display collections and playlists on media item page",
+        },
+      ]
+    },
+    {
       "version": "v2.2.2",
       "date": "February 20, 2021",
       "changes": [
