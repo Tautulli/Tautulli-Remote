@@ -26,24 +26,27 @@ class HelpPage extends StatelessWidget {
             ListTile(
               title: Text('OneSignal authentication'),
               trailing: FaIcon(
-                FontAwesomeIcons.angleRight,
+                FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
+                size: 20,
               ),
               onTap: () {},
             ),
             ListTile(
               title: Text('Basic authentication'),
               trailing: FaIcon(
-                FontAwesomeIcons.angleRight,
+                FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
+                size: 20,
               ),
               onTap: () {},
             ),
             ListTile(
               title: Text('Terminating a stream'),
               trailing: FaIcon(
-                FontAwesomeIcons.angleRight,
+                FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
+                size: 20,
               ),
               onTap: () {},
             ),
@@ -52,16 +55,18 @@ class HelpPage extends StatelessWidget {
             ListTile(
               title: Text('Wiki'),
               trailing: FaIcon(
-                FontAwesomeIcons.angleRight,
+                FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
+                size: 20,
               ),
               onTap: () {},
             ),
             ListTile(
               title: Text('Discord'),
               trailing: FaIcon(
-                FontAwesomeIcons.angleRight,
+                FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
+                size: 20,
               ),
               onTap: () {
                 launch('https://tautulli.com/discord.html');
@@ -70,8 +75,9 @@ class HelpPage extends StatelessWidget {
             ListTile(
               title: Text('Reddit'),
               trailing: FaIcon(
-                FontAwesomeIcons.angleRight,
+                FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
+                size: 20,
               ),
               onTap: () {
                 launch('https://www.reddit.com/r/Tautulli/');
@@ -84,6 +90,7 @@ class HelpPage extends StatelessWidget {
               trailing: FaIcon(
                 FontAwesomeIcons.angleRight,
                 color: TautulliColorPalette.smoke,
+                size: 20,
               ),
               onTap: () => Navigator.of(context).pushNamed('/logs'),
             ),
