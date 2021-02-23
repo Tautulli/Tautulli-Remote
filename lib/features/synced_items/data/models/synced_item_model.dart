@@ -13,6 +13,7 @@ class SyncedItemModel extends SyncedItem {
     int itemCompleteCount,
     // int itemCount,
     String mediaType,
+    bool multipleRatingKeys,
     // int photoBitrate,
     String platform,
     int ratingKey,
@@ -38,6 +39,7 @@ class SyncedItemModel extends SyncedItem {
           itemCompleteCount: itemCompleteCount,
           // itemCount: itemCount,
           mediaType: mediaType,
+          multipleRatingKeys: multipleRatingKeys,
           // photoBitrate: photoBitrate,
           platform: platform,
           ratingKey: ratingKey,
@@ -72,6 +74,7 @@ class SyncedItemModel extends SyncedItem {
         value: json['metadata_type'],
         type: CastType.string,
       ),
+      multipleRatingKeys: json['rating_key'].toString().contains(','),
       platform: ValueHelper.cast(
         value: json['platform'],
         type: CastType.string,

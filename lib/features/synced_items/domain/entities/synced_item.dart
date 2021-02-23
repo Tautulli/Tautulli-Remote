@@ -11,6 +11,7 @@ class SyncedItem extends Equatable {
   final int itemCompleteCount;
   // final int itemCount;
   final String mediaType;
+  final bool multipleRatingKeys;
   // final int photoBitrate;
   final String platform;
   final int ratingKey;
@@ -37,6 +38,7 @@ class SyncedItem extends Equatable {
     this.itemCompleteCount,
     // this.itemCount,
     this.mediaType,
+    this.multipleRatingKeys,
     // this.photoBitrate,
     this.platform,
     this.ratingKey,
@@ -65,6 +67,7 @@ class SyncedItem extends Equatable {
         itemCompleteCount,
         // itemCount,
         mediaType,
+        multipleRatingKeys,
         // photoBitrate,
         platform,
         ratingKey,
