@@ -246,27 +246,28 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
               }
               if (state is HistoryFailure) {
                 return Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(child: const SizedBox()),
-                      Center(
-                        child: ErrorMessage(
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Center(
+                          child: ErrorMessage(
+                            failure: state.failure,
+                            message: state.message,
+                            suggestion: state.suggestion,
+                          ),
+                        ),
+                        HistoryErrorButton(
+                          completer: _refreshCompleter,
                           failure: state.failure,
-                          message: state.message,
-                          suggestion: state.suggestion,
+                          historyEvent: HistoryFilter(
+                            tautulliId: _tautulliId,
+                            userId: _userId,
+                            mediaType: _mediaType,
+                          ),
                         ),
-                      ),
-                      HistoryErrorButton(
-                        completer: _refreshCompleter,
-                        failure: state.failure,
-                        historyEvent: HistoryFilter(
-                          tautulliId: _tautulliId,
-                          userId: _userId,
-                          mediaType: _mediaType,
-                        ),
-                      ),
-                      Expanded(child: const SizedBox()),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }

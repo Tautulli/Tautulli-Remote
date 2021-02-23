@@ -243,26 +243,27 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
               }
               if (state is RecentlyAddedFailure) {
                 return Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(child: const SizedBox()),
-                      Center(
-                        child: ErrorMessage(
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Center(
+                          child: ErrorMessage(
+                            failure: state.failure,
+                            message: state.message,
+                            suggestion: state.suggestion,
+                          ),
+                        ),
+                        RecentlyAddedErrorButton(
+                          completer: _refreshCompleter,
                           failure: state.failure,
-                          message: state.message,
-                          suggestion: state.suggestion,
+                          recentlyAddedEvent: RecentlyAddedFilter(
+                            tautulliId: _tautulliId,
+                            mediaType: _mediaType,
+                          ),
                         ),
-                      ),
-                      RecentlyAddedErrorButton(
-                        completer: _refreshCompleter,
-                        failure: state.failure,
-                        recentlyAddedEvent: RecentlyAddedFilter(
-                          tautulliId: _tautulliId,
-                          mediaType: _mediaType,
-                        ),
-                      ),
-                      Expanded(child: const SizedBox()),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }

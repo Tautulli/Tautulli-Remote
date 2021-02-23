@@ -221,27 +221,28 @@ class _UsersPageContentState extends State<UsersPageContent> {
                     }
                     if (state is UsersFailure) {
                       return Expanded(
-                        child: Column(
-                          children: [
-                            Expanded(child: const SizedBox()),
-                            Center(
-                              child: ErrorMessage(
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Center(
+                                child: ErrorMessage(
+                                  failure: state.failure,
+                                  message: state.message,
+                                  suggestion: state.suggestion,
+                                ),
+                              ),
+                              UserErrorButton(
+                                completer: _refreshCompleter,
                                 failure: state.failure,
-                                message: state.message,
-                                suggestion: state.suggestion,
+                                usersEvent: UsersFilter(
+                                  tautulliId: _tautulliId,
+                                  orderColumn: _orderColumn,
+                                  orderDir: _orderDir,
+                                ),
                               ),
-                            ),
-                            UserErrorButton(
-                              completer: _refreshCompleter,
-                              failure: state.failure,
-                              usersEvent: UsersFilter(
-                                tautulliId: _tautulliId,
-                                orderColumn: _orderColumn,
-                                orderDir: _orderDir,
-                              ),
-                            ),
-                            Expanded(child: const SizedBox()),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     }

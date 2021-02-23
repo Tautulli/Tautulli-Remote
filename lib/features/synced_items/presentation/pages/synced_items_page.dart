@@ -217,12 +217,11 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                               child: ListView.builder(
                                 itemCount: state.list.length,
                                 itemBuilder: (context, index) {
+                                  final syncedItem = state.list[index];
                                   final heroTag = UniqueKey();
 
                                   return GestureDetector(
                                     onTap: () {
-                                      final syncedItem = state.list[index];
-
                                       MediaItem mediaItem = MediaItem(
                                         posterUrl: syncedItem.posterUrl,
                                         ratingKey: syncedItem.ratingKey,
@@ -247,7 +246,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                         borderRadius: BorderRadius.circular(4),
                                         child: Slidable.builder(
                                           key: ValueKey(
-                                            '$_tautulliId:${state.list[index].syncId}',
+                                            '$_tautulliId:${syncedItem.syncId}',
                                           ),
                                           controller: _slidableController,
                                           actionPane:
@@ -261,7 +260,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                                 tautulliId: _tautulliId,
                                                 slidableState:
                                                     Slidable.of(context),
-                                                syncedItem: state.list[index],
+                                                syncedItem: syncedItem,
                                                 maskSensitiveInfo:
                                                     settingsLoadSuccess
                                                         .maskSensitiveInfo,
@@ -273,9 +272,9 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                               cardMargin: EdgeInsets.all(0),
                                               borderRadius:
                                                   BorderRadius.circular(0),
-                                              item: state.list[index],
+                                              item: syncedItem,
                                               details: SyncedItemsDetails(
-                                                syncedItem: state.list[index],
+                                                syncedItem: syncedItem,
                                                 maskSensitiveInfo:
                                                     _maskSensitiveInfo,
                                               ),
@@ -307,25 +306,26 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                     }
                     if (state is SyncedItemsFailure) {
                       return Expanded(
-                        child: Column(
-                          children: [
-                            Expanded(child: const SizedBox()),
-                            Center(
-                              child: ErrorMessage(
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Center(
+                                child: ErrorMessage(
+                                  failure: state.failure,
+                                  message: state.message,
+                                  suggestion: state.suggestion,
+                                ),
+                              ),
+                              SyncedItemsErrorButton(
+                                completer: _refreshCompleter,
                                 failure: state.failure,
-                                message: state.message,
-                                suggestion: state.suggestion,
+                                syncedItemsEvent: SyncedItemsFilter(
+                                  tautulliId: _tautulliId,
+                                ),
                               ),
-                            ),
-                            SyncedItemsErrorButton(
-                              completer: _refreshCompleter,
-                              failure: state.failure,
-                              syncedItemsEvent: SyncedItemsFilter(
-                                tautulliId: _tautulliId,
-                              ),
-                            ),
-                            Expanded(child: const SizedBox()),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     }
@@ -493,6 +493,9 @@ class _SlidableAction extends StatelessWidget {
       child: SlideAction(
         closeOnTap: false,
         onTap: () async {
+          print(syncedItem.syncTitle);
+          print(syncedItem.clientId);
+          print(syncedItem.syncId);
           final confirm = await _showDeleteSyncedItemDialog(
             context: context,
             syncedItem: syncedItem,

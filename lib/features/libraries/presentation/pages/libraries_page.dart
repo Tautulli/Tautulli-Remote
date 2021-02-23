@@ -228,27 +228,28 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
               }
               if (state is LibrariesFailure) {
                 return Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(child: const SizedBox()),
-                      Center(
-                        child: ErrorMessage(
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Center(
+                          child: ErrorMessage(
+                            failure: state.failure,
+                            message: state.message,
+                            suggestion: state.suggestion,
+                          ),
+                        ),
+                        LibrariesErrorButton(
+                          completer: _refreshCompleter,
                           failure: state.failure,
-                          message: state.message,
-                          suggestion: state.suggestion,
+                          librariesEvent: LibrariesFilter(
+                            tautulliId: _tautulliId,
+                            orderColumn: _orderColumn,
+                            orderDir: _orderDir,
+                          ),
                         ),
-                      ),
-                      LibrariesErrorButton(
-                        completer: _refreshCompleter,
-                        failure: state.failure,
-                        librariesEvent: LibrariesFilter(
-                          tautulliId: _tautulliId,
-                          orderColumn: _orderColumn,
-                          orderDir: _orderDir,
-                        ),
-                      ),
-                      Expanded(child: const SizedBox()),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }

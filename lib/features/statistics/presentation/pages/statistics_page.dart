@@ -207,26 +207,27 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
               }
               if (state is StatisticsFailure) {
                 return Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(child: const SizedBox()),
-                      Center(
-                        child: ErrorMessage(
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Center(
+                          child: ErrorMessage(
+                            failure: state.failure,
+                            message: state.message,
+                            suggestion: state.suggestion,
+                          ),
+                        ),
+                        StatisticsErrorButton(
+                          completer: _refreshCompleter,
                           failure: state.failure,
-                          message: state.message,
-                          suggestion: state.suggestion,
+                          statisticsAddedEvent: StatisticsFilter(
+                            tautulliId: _tautulliId,
+                            statsType: _statsType,
+                          ),
                         ),
-                      ),
-                      StatisticsErrorButton(
-                        completer: _refreshCompleter,
-                        failure: state.failure,
-                        statisticsAddedEvent: StatisticsFilter(
-                          tautulliId: _tautulliId,
-                          statsType: _statsType,
-                        ),
-                      ),
-                      Expanded(child: const SizedBox()),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }
