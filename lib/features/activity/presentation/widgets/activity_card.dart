@@ -134,7 +134,6 @@ class _ActivityCardState extends State<ActivityCard> {
                                 action: SnackBarAction(
                                   label: 'Learn more',
                                   onPressed: () {},
-                                  textColor: Colors.white,
                                 ),
                               ),
                             );
