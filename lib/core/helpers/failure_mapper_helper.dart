@@ -46,8 +46,6 @@ class FailureMapperHelper {
   static Failure mapExceptionToFailure(dynamic exception) {
     Failure failure;
 
-    print(exception);
-
     if ([
       TimeoutException,
       SettingsException,
