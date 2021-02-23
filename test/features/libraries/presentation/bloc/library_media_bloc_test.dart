@@ -39,7 +39,7 @@ void main() {
   });
 
   final String tTautulliId = 'jkl';
-  final int tRatingKey = 53052;
+  final int tSectionId = 53052;
 
   final List<LibraryMedia> tLibraryMediaList = [];
 
@@ -65,6 +65,8 @@ void main() {
         ratingKey: anyNamed('ratingKey'),
         sectionId: anyNamed('sectionId'),
         length: anyNamed('length'),
+        refresh: anyNamed('refresh'),
+        timeoutOverride: anyNamed('timeoutOverride'),
       ),
     ).thenAnswer((_) async => Right(tLibraryMediaList));
   }
@@ -88,7 +90,7 @@ void main() {
         bloc.add(
           LibraryMediaFetched(
             tautulliId: tTautulliId,
-            ratingKey: tRatingKey,
+            sectionId: tSectionId,
           ),
         );
         await untilCalled(
@@ -98,6 +100,8 @@ void main() {
             sectionId: anyNamed('sectionId'),
             start: anyNamed('start'),
             length: anyNamed('length'),
+            refresh: anyNamed('refresh'),
+            timeoutOverride: anyNamed('timeoutOverride'),
           ),
         );
         // assert
@@ -107,6 +111,8 @@ void main() {
           sectionId: anyNamed('sectionId'),
           start: anyNamed('start'),
           length: anyNamed('length'),
+          refresh: anyNamed('refresh'),
+          timeoutOverride: anyNamed('timeoutOverride'),
         ));
       },
     );
@@ -121,7 +127,7 @@ void main() {
         bloc.add(
           LibraryMediaFetched(
             tautulliId: tTautulliId,
-            ratingKey: tRatingKey,
+            sectionId: tSectionId,
           ),
         );
         await untilCalled(
@@ -161,13 +167,13 @@ void main() {
         // act
         bloc.add(LibraryMediaFetched(
           tautulliId: tTautulliId,
-          ratingKey: tRatingKey,
+          sectionId: tSectionId,
         ));
       },
     );
 
     test(
-      'should emit [LibrariesFailure] with a proper message when getting data fails',
+      'should emit [LibraryMediaFailure] with a proper message when getting data fails',
       () async {
         // arrange
         final failure = ServerFailure();
@@ -177,6 +183,8 @@ void main() {
           ratingKey: anyNamed('ratingKey'),
           sectionId: anyNamed('sectionId'),
           length: anyNamed('length'),
+          refresh: anyNamed('refresh'),
+          timeoutOverride: anyNamed('timeoutOverride'),
         )).thenAnswer((_) async => Left(failure));
         // assert later
         final expected = [
@@ -191,7 +199,31 @@ void main() {
         // act
         bloc.add(LibraryMediaFetched(
           tautulliId: tTautulliId,
-          ratingKey: tRatingKey,
+          sectionId: tSectionId,
+        ));
+      },
+    );
+  });
+
+  group('LibraryMediaFullRefresh', () {
+    test(
+      'should emit [LibraryMediaInProgress] before executing as normal',
+      () async {
+        // arrange
+        setUpSuccess();
+        clearCache();
+        // assert later
+        final expected = [
+          LibraryMediaInProgress(),
+          LibraryMediaSuccess(
+            libraryMediaList: tLibraryMediaList,
+          ),
+        ];
+        expectLater(bloc, emitsInOrder(expected));
+        // act
+        bloc.add(LibraryMediaFullRefresh(
+          tautulliId: tTautulliId,
+          sectionId: tSectionId,
         ));
       },
     );

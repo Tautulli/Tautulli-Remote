@@ -23,6 +23,7 @@ void main() {
     userId: 152626,
     username: 'TheMeanCanEHdian',
     videoQuality: 100,
+    multipleRatingKeys: false,
   );
 
   test('should be a subclass of SyncedItem entity', () async {
@@ -35,7 +36,8 @@ void main() {
       'should return a valid model',
       () async {
         // arrange
-        final Map<String, dynamic> jsonMap = json.decode(fixture('synced_item.json'));
+        final Map<String, dynamic> jsonMap =
+            json.decode(fixture('synced_item.json'));
         // act
         final result = SyncedItemModel.fromJson(jsonMap);
         // assert
@@ -47,7 +49,8 @@ void main() {
       'should return an item with properly mapped data',
       () async {
         // arrange
-        final Map<String, dynamic> jsonMap = json.decode(fixture('synced_item.json'));
+        final Map<String, dynamic> jsonMap =
+            json.decode(fixture('synced_item.json'));
         // act
         final result = SyncedItemModel.fromJson(jsonMap);
         // assert
