@@ -6,31 +6,28 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/poster_chooser.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/media_item.dart';
 import '../bloc/children_metadata_bloc.dart';
 import '../bloc/metadata_bloc.dart';
-import '../widgets/media_albums_tab.dart';
-import '../widgets/media_details_tab.dart';
-import '../widgets/media_episodes_tab.dart';
-import '../widgets/media_history_tab.dart';
 import '../widgets/media_item_h1.dart';
 import '../widgets/media_item_h2.dart';
 import '../widgets/media_item_h3.dart';
-import '../widgets/media_seasons_tab.dart';
-import '../widgets/media_tracks_tab.dart';
+import '../widgets/media_poster_loader.dart';
+import '../widgets/media_tab_controller.dart';
 
 class MediaItemPage extends StatelessWidget {
   final MediaItem item;
+  final String syncedMediaType;
   final Object heroTag;
   final bool forceChildrenMetadataFetch;
   final bool enableNavOptions;
 
   const MediaItemPage({
     @required this.item,
+    this.syncedMediaType,
     this.heroTag,
     this.forceChildrenMetadataFetch = false,
     this.enableNavOptions = false,
@@ -50,6 +47,7 @@ class MediaItemPage extends StatelessWidget {
       ],
       child: MediaItemPageContent(
         item: item,
+        syncedMediaType: syncedMediaType,
         heroTag: heroTag,
         forceChildrenMetadataFetch: forceChildrenMetadataFetch,
         enableNavOptions: enableNavOptions,
@@ -60,6 +58,7 @@ class MediaItemPage extends StatelessWidget {
 
 class MediaItemPageContent extends StatefulWidget {
   final MediaItem item;
+  final String syncedMediaType;
   final Object heroTag;
   final bool forceChildrenMetadataFetch;
   final bool enableNavOptions;
@@ -67,6 +66,7 @@ class MediaItemPageContent extends StatefulWidget {
   const MediaItemPageContent({
     Key key,
     @required this.item,
+    @required this.syncedMediaType,
     @required this.heroTag,
     @required this.forceChildrenMetadataFetch,
     @required this.enableNavOptions,
@@ -135,6 +135,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
           ChildrenMetadataFetched(
             tautulliId: _tautulliId,
             ratingKey: widget.item.ratingKey,
+            mediaType: widget.syncedMediaType,
           ),
         );
       }
@@ -171,9 +172,24 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                   sigmaX: 25,
                   sigmaY: 25,
                 ),
-                child: Image.network(
-                  widget.item.posterUrl != null ? widget.item.posterUrl : '',
-                  fit: BoxFit.cover,
+                child: BlocBuilder<MetadataBloc, MetadataState>(
+                  builder: (context, state) {
+                    if (widget.item.posterUrl != null) {
+                      return Image.network(
+                        widget.item.posterUrl,
+                        fit: BoxFit.cover,
+                      );
+                    }
+                    if (state is MetadataSuccess) {
+                      return Image.network(
+                        state.metadata.mediaType == 'episode'
+                            ? state.metadata.grandparentPosterUrl
+                            : state.metadata.posterUrl,
+                        fit: BoxFit.cover,
+                      );
+                    }
+                    return SizedBox(height: 0, width: 0);
+                  },
                 ),
               ),
             ),
@@ -245,7 +261,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                           child: BlocBuilder<MetadataBloc, MetadataState>(
                             builder: (context, state) {
                               if (widget.item.mediaType != null) {
-                                return _TabController(
+                                return MediaTabController(
                                   length: ['show', 'season', 'artist', 'album']
                                           .contains(widget.item.mediaType)
                                       ? 3
@@ -260,21 +276,21 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                                 );
                               } else {
                                 if (state is MetadataInProgress) {
-                                  return _TabController(
+                                  return MediaTabController(
                                     length: 3,
                                     item: widget.item,
                                     mediaType: widget.item.mediaType,
                                   );
                                 }
                                 if (state is MetadataFailure) {
-                                  return _TabController(
+                                  return MediaTabController(
                                     length: 2,
                                     item: widget.item,
                                     metadataFailed: true,
                                   );
                                 }
                                 if (state is MetadataSuccess) {
-                                  return _TabController(
+                                  return MediaTabController(
                                     length: [
                                       'show',
                                       'season',
@@ -285,7 +301,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                                         : [
                                             'photo',
                                             'clip',
-                                          ].contains(widget.item.mediaType)
+                                          ].contains(state.metadata.mediaType)
                                             ? 1
                                             : 2,
                                     item: widget.item,
@@ -293,7 +309,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                                   );
                                 }
                               }
-                              return SizedBox();
+                              return SizedBox(height: 0, width: 0);
                             },
                           ),
                         ),
@@ -305,38 +321,42 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
             ],
           ),
           //* Poster
-          Positioned(
-            top: [
-              'artist',
-              'album',
-              'track',
-              'photo',
-            ].contains(widget.item.mediaType)
-                ? MediaQuery.of(context).padding.top -
-                    AppBar().preferredSize.height +
-                    115 +
-                    63
-                : MediaQuery.of(context).padding.top -
-                    AppBar().preferredSize.height +
-                    115,
-            child: Container(
-              width: 137,
-              padding: EdgeInsets.only(left: 4),
-              child: Hero(
-                tag: widget.heroTag ?? UniqueKey(),
-                child: AspectRatio(
-                  aspectRatio: [
-                    'artist',
-                    'album',
-                    'track',
-                    'photo',
-                  ].contains(widget.item.mediaType)
-                      ? 1
-                      : 2 / 3,
+          BlocBuilder<MetadataBloc, MetadataState>(
+            builder: (context, state) {
+              if (widget.item.posterUrl != null) {
+                return MediaPosterLoader(
+                  item: widget.item,
+                  syncedMediaType: widget.syncedMediaType,
+                  heroTag: widget.heroTag,
                   child: PosterChooser(item: widget.item),
-                ),
-              ),
-            ),
+                );
+              }
+              if (state is MetadataInProgress) {
+                return MediaPosterLoader(
+                  item: widget.item,
+                  syncedMediaType: widget.syncedMediaType,
+                  heroTag: widget.heroTag,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+              if (state is MetadataSuccess) {
+                final item = MediaItem(
+                  posterUrl: state.metadata.mediaType == 'episode'
+                      ? state.metadata.grandparentPosterUrl
+                      : state.metadata.posterUrl,
+                );
+
+                return MediaPosterLoader(
+                  item: widget.item,
+                  syncedMediaType: widget.syncedMediaType,
+                  heroTag: widget.heroTag,
+                  child: PosterChooser(item: item),
+                );
+              }
+              return SizedBox(height: 0, width: 0);
+            },
           ),
         ],
       ),
@@ -353,7 +373,8 @@ List<Widget> _appBarActions({
     BlocBuilder<MetadataBloc, MetadataState>(
       builder: (context, state) {
         if (state is MetadataSuccess) {
-          if (!['photo', 'clip'].contains(state.metadata.mediaType)) {
+          if (!['photo', 'clip', 'playlist']
+              .contains(state.metadata.mediaType)) {
             return PopupMenuButton(
               tooltip: 'More options',
               onSelected: (value) {
@@ -465,180 +486,8 @@ Future<void> _openPlexUrl({
       'https://app.plex.tv/desktop#!/server/$plexIdentifier/details?key=%2Flibrary%2Fmetadata%2F$ratingKey';
 
   if (await canLaunch(plexAppUrl)) {
-    print(plexAppUrl);
     await launch(plexAppUrl);
   } else {
-    print(plexWebUrl);
     await launch(plexWebUrl);
-  }
-}
-
-class _TabController extends StatelessWidget {
-  final int length;
-  final String mediaType;
-  final MediaItem item;
-  final bool metadataFailed;
-
-  const _TabController({
-    @required this.length,
-    @required this.item,
-    this.mediaType,
-    this.metadataFailed = false,
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: length,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: TabBar(
-              indicatorSize: TabBarIndicatorSize.label,
-              tabs: _tabBuilder(
-                mediaType: mediaType,
-                metadataFailed: metadataFailed,
-              ),
-            ),
-          ),
-          Expanded(
-            child: _TabContents(
-              item: item,
-              mediaType: mediaType,
-              metadataFailed: metadataFailed,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-List<Widget> _tabBuilder({
-  String mediaType,
-  bool metadataFailed = false,
-}) {
-  return [
-    Tab(
-      text: 'Details',
-    ),
-    if (mediaType == null && !metadataFailed)
-      Tab(
-        child: SizedBox(
-          height: 15,
-          width: 15,
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-          ),
-        ),
-      ),
-    // if (mediaType != null)
-    if (['show', 'season', 'artist', 'album'].contains(mediaType))
-      Tab(
-        text: mediaType == 'show'
-            ? 'Seasons'
-            : mediaType == 'season'
-                ? 'Episodes'
-                : mediaType == 'artist'
-                    ? 'Albums'
-                    : 'Tracks',
-      ),
-    if (![
-      'photo',
-      'clip',
-    ].contains(mediaType))
-      Tab(
-        text: 'History',
-      ),
-  ];
-}
-
-class _TabContents extends StatelessWidget {
-  final MediaItem item;
-  final String mediaType;
-  final bool metadataFailed;
-
-  const _TabContents({
-    @required this.item,
-    this.mediaType,
-    this.metadataFailed = false,
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TabBarView(
-      children: [
-        // Details Tab
-        MediaDetailsTab(),
-        // Loading tab for when no mediaType is provided and we need to get
-        // it from the fetched metadata
-        if (mediaType == null && item.mediaType == null && !metadataFailed)
-          Center(
-            child: CircularProgressIndicator(),
-          ),
-        // Seasons/Episodes/Albums/Tracks tab
-        if (['show', 'season', 'artist', 'album']
-            .contains(mediaType ?? item.mediaType))
-          BlocBuilder<ChildrenMetadataBloc, ChildrenMetadataState>(
-            builder: (context, state) {
-              if (state is ChildrenMetadataFailure) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ErrorMessage(
-                      failure: state.failure,
-                      message: state.message,
-                      suggestion: state.suggestion,
-                    ),
-                  ],
-                );
-              }
-              if (state is ChildrenMetadataSuccess) {
-                if (['show'].contains(mediaType ?? item.mediaType)) {
-                  return MediaSeasonsTab(
-                    item: item,
-                    seasons: state.childrenMetadataList,
-                  );
-                }
-                if (['season'].contains(mediaType ?? item.mediaType)) {
-                  return MediaEpisodesTab(
-                    item: item,
-                    episodes: state.childrenMetadataList,
-                  );
-                }
-                if (['artist'].contains(mediaType ?? item.mediaType)) {
-                  return MediaAlbumsTab(
-                    item: item,
-                    albums: state.childrenMetadataList,
-                  );
-                }
-                if (['album'].contains(mediaType ?? item.mediaType)) {
-                  return MediaTracksTab(
-                    item: item,
-                    tracks: state.childrenMetadataList,
-                  );
-                }
-                return Text(
-                    'UNKNOWN MEDIA TYPE ${mediaType ?? item.mediaType}');
-              }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-          ),
-        // History Tab
-        if (![
-          'photo',
-          'clip',
-        ].contains(item.mediaType))
-          MediaHistoryTab(
-            ratingKey: item.ratingKey,
-            mediaType: mediaType ?? item.mediaType,
-          ),
-      ],
-    );
   }
 }
