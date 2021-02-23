@@ -54,6 +54,18 @@ FaIcon _mapMediaTypeToIcon(
         size: 17,
         color: iconColor ?? TautulliColorPalette.not_white,
       );
+    case ('collection'):
+      return FaIcon(
+        FontAwesomeIcons.layerGroup,
+        size: 17,
+        color: iconColor ?? TautulliColorPalette.not_white,
+      );
+    case ('playlist'):
+      return FaIcon(
+        FontAwesomeIcons.list,
+        size: 17,
+        color: iconColor ?? TautulliColorPalette.not_white,
+      );
     default:
       return FaIcon(
         FontAwesomeIcons.questionCircle,
