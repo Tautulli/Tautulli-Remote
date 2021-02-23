@@ -198,6 +198,9 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                     }
                   },
                   builder: (context, state) {
+                    final SlidableController _slidableController =
+                        SlidableController();
+
                     if (state is SyncedItemsSuccess) {
                       if (state.list.length > 0) {
                         return Expanded(
@@ -229,6 +232,8 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                         MaterialPageRoute(
                                           builder: (context) => MediaItemPage(
                                             item: mediaItem,
+                                            syncedMediaType:
+                                                syncedItem.mediaType,
                                             heroTag: heroTag,
                                             forceChildrenMetadataFetch: true,
                                             enableNavOptions: true,
@@ -244,6 +249,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                           key: ValueKey(
                                             '$_tautulliId:${state.list[index].syncId}',
                                           ),
+                                          controller: _slidableController,
                                           actionPane:
                                               SlidableBehindActionPane(),
                                           secondaryActionDelegate:
