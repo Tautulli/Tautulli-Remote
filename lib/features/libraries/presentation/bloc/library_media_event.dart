@@ -18,3 +18,18 @@ class LibraryMediaFetched extends LibraryMediaEvent {
   @override
   List<Object> get props => [tautulliId, ratingKey, sectionId];
 }
+
+class LibraryMediaFullRefresh extends LibraryMediaEvent {
+  final String tautulliId;
+  final int ratingKey;
+  final int sectionId;
+
+  LibraryMediaFullRefresh({
+    @required this.tautulliId,
+    this.ratingKey,
+    this.sectionId,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, ratingKey, sectionId];
+}

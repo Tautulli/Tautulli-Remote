@@ -60,51 +60,80 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
       } else {
         yield LibraryMediaInProgress();
 
-        final failureOrLibraryMediaList = await getLibraryMediaInfo(
+        yield* _fetchLibraryMedia(
           tautulliId: event.tautulliId,
-          ratingKey: event.ratingKey,
           sectionId: event.sectionId,
-          length: 100000000000,
-        );
-
-        yield* failureOrLibraryMediaList.fold(
-          (failure) async* {
-            logging.error(
-              'LibraryMedia: Failed to load items for Section ID ${event.sectionId}',
-            );
-
-            yield LibraryMediaFailure(
-              failure: failure,
-              message: FailureMapperHelper.mapFailureToMessage(failure),
-              suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
-            );
-          },
-          (libraryMediaList) async* {
-            final String mediaType = libraryMediaList.first.mediaType;
-
-            await _sortList(
-              mediaType: mediaType,
-              libraryMediaList: libraryMediaList,
-            );
-
-            await _getImages(
-                list: libraryMediaList, tautulliId: event.tautulliId);
-
-            if (event.ratingKey != null) {
-              _libraryMediaListCache[event.ratingKey] = libraryMediaList;
-            } else if (event.sectionId != null) {
-              _libraryMediaListCache[event.sectionId] = libraryMediaList;
-            }
-
-            yield LibraryMediaSuccess(
-              libraryMediaList: libraryMediaList,
-            );
-          },
+          ratingKey: event.ratingKey,
+          refresh: false,
         );
 
         _tautulliIdCache = event.tautulliId;
       }
     }
+    if (event is LibraryMediaFullRefresh) {
+      yield LibraryMediaInProgress();
+
+      yield* _fetchLibraryMedia(
+        tautulliId: event.tautulliId,
+        sectionId: event.sectionId,
+        ratingKey: event.ratingKey,
+        refresh: true,
+        timeoutOverride: 10,
+      );
+
+      _tautulliIdCache = event.tautulliId;
+    }
+  }
+
+  Stream<LibraryMediaState> _fetchLibraryMedia({
+    @required String tautulliId,
+    @required int ratingKey,
+    @required int sectionId,
+    @required bool refresh,
+    int timeoutOverride,
+  }) async* {
+    final failureOrLibraryMediaList = await getLibraryMediaInfo(
+      tautulliId: tautulliId,
+      ratingKey: ratingKey,
+      sectionId: sectionId,
+      length: 100000000000,
+      refresh: refresh,
+      timeoutOverride: timeoutOverride,
+    );
+
+    yield* failureOrLibraryMediaList.fold(
+      (failure) async* {
+        logging.error(
+          'LibraryMedia: Failed to load items for Section ID $sectionId',
+        );
+
+        yield LibraryMediaFailure(
+          failure: failure,
+          message: FailureMapperHelper.mapFailureToMessage(failure),
+          suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
+        );
+      },
+      (libraryMediaList) async* {
+        final String mediaType = libraryMediaList.first.mediaType;
+
+        await _sortList(
+          mediaType: mediaType,
+          libraryMediaList: libraryMediaList,
+        );
+
+        await _getImages(list: libraryMediaList, tautulliId: tautulliId);
+
+        if (ratingKey != null) {
+          _libraryMediaListCache[ratingKey] = libraryMediaList;
+        } else if (sectionId != null) {
+          _libraryMediaListCache[sectionId] = libraryMediaList;
+        }
+
+        yield LibraryMediaSuccess(
+          libraryMediaList: libraryMediaList,
+        );
+      },
+    );
   }
 
   Future<void> _sortList({
