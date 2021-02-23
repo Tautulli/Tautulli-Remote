@@ -168,6 +168,9 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
           posterRatingKey = parentRatingKey;
           posterFallback = 'cover';
           break;
+        case ('playlist'):
+          posterImg = '/playlists/$ratingKey/composite/69420';
+          posterFallback = 'cover';
       }
 
       // Attempt to get poster URL
