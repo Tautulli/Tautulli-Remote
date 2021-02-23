@@ -26,6 +26,7 @@ class LibraryMediaRepositoryImpl implements LibraryMediaRepository {
     int start,
     int length,
     bool refresh,
+    int timeoutOverride,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -38,6 +39,7 @@ class LibraryMediaRepositoryImpl implements LibraryMediaRepository {
           start: start,
           length: length,
           refresh: refresh,
+          timeoutOverride: timeoutOverride,
         );
         return Right(libraryMediaList);
       } catch (exception) {

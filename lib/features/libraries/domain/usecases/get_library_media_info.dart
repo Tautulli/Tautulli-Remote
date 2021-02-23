@@ -18,6 +18,7 @@ class GetLibraryMediaInfo {
     int start,
     int length,
     bool refresh,
+    int timeoutOverride,
   }) async {
     return await repository.getLibraryMediaInfo(
       tautulliId: tautulliId,
@@ -27,6 +28,7 @@ class GetLibraryMediaInfo {
       start: start,
       length: length,
       refresh: refresh,
+      timeoutOverride: timeoutOverride,
     );
   }
 }

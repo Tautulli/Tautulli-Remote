@@ -13,6 +13,7 @@ abstract class LibraryMediaDataSource {
     int start,
     int length,
     bool refresh,
+    int timeoutOverride,
   });
 }
 
@@ -30,6 +31,7 @@ class LibraryMediaDataSourceImpl implements LibraryMediaDataSource {
     int start,
     int length,
     bool refresh,
+    int timeoutOverride,
   }) async {
     final libraryMediaInfoJson = await apiGetLibraryMediaInfo(
       tautulliId: tautulliId,
@@ -39,6 +41,7 @@ class LibraryMediaDataSourceImpl implements LibraryMediaDataSource {
       start: start,
       length: length,
       refresh: refresh,
+      timeoutOverride: timeoutOverride,
     );
 
     List libraryMediaInfoMap = libraryMediaInfoJson['response']['data']['data'];

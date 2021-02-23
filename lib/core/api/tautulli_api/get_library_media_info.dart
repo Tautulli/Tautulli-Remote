@@ -11,6 +11,7 @@ abstract class GetLibraryMediaInfo {
     int start,
     int length,
     bool refresh,
+    int timeoutOverride,
   });
 }
 
@@ -28,6 +29,7 @@ class GetLibraryMediaInfoImpl implements GetLibraryMediaInfo {
     int start,
     int length,
     bool refresh,
+    int timeoutOverride,
   }) async {
     Map<String, String> params = {};
 
@@ -54,6 +56,7 @@ class GetLibraryMediaInfoImpl implements GetLibraryMediaInfo {
       tautulliId: tautulliId,
       cmd: 'get_library_media_info',
       params: params,
+      timeoutOverride: timeoutOverride,
     );
 
     return responseJson;

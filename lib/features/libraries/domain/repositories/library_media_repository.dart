@@ -13,5 +13,6 @@ abstract class LibraryMediaRepository {
     int start,
     int length,
     bool refresh,
+    int timeoutOverride,
   });
 }
