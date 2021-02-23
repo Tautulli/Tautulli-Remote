@@ -222,23 +222,42 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
 
                                   return GestureDetector(
                                     onTap: () {
-                                      MediaItem mediaItem = MediaItem(
-                                        posterUrl: syncedItem.posterUrl,
-                                        ratingKey: syncedItem.ratingKey,
-                                      );
-
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => MediaItemPage(
-                                            item: mediaItem,
-                                            syncedMediaType:
-                                                syncedItem.mediaType,
-                                            heroTag: heroTag,
-                                            forceChildrenMetadataFetch: true,
-                                            enableNavOptions: true,
+                                      if (syncedItem.multipleRatingKeys) {
+                                        Scaffold.of(context)
+                                            .hideCurrentSnackBar();
+                                        Scaffold.of(context).showSnackBar(
+                                          SnackBar(
+                                            backgroundColor:
+                                                PlexColorPalette.shark,
+                                            content: Text(
+                                                'Media details for this type of synced item is not supported.'),
+                                            //TODO: Link action to help or wiki
+                                            action: SnackBarAction(
+                                              label: 'Learn more',
+                                              onPressed: () {},
+                                              textColor: Colors.white,
+                                            ),
                                           ),
-                                        ),
-                                      );
+                                        );
+                                      } else {
+                                        MediaItem mediaItem = MediaItem(
+                                          posterUrl: syncedItem.posterUrl,
+                                          ratingKey: syncedItem.ratingKey,
+                                        );
+
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => MediaItemPage(
+                                              item: mediaItem,
+                                              syncedMediaType:
+                                                  syncedItem.mediaType,
+                                              heroTag: heroTag,
+                                              forceChildrenMetadataFetch: true,
+                                              enableNavOptions: true,
+                                            ),
+                                          ),
+                                        );
+                                      }
                                     },
                                     child: Container(
                                       margin: EdgeInsets.all(4),
@@ -493,9 +512,6 @@ class _SlidableAction extends StatelessWidget {
       child: SlideAction(
         closeOnTap: false,
         onTap: () async {
-          print(syncedItem.syncTitle);
-          print(syncedItem.clientId);
-          print(syncedItem.syncId);
           final confirm = await _showDeleteSyncedItemDialog(
             context: context,
             syncedItem: syncedItem,
@@ -551,18 +567,21 @@ Future<int> _showDeleteSyncedItemDialog({
           children: [
             Text(
               syncedItem.syncTitle,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: PlexColorPalette.gamboge,
               ),
             ),
             Text(
               maskSensitiveInfo ? '*Hidden User*' : syncedItem.user,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: PlexColorPalette.gamboge,
               ),
             ),
             Text(
               syncedItem.deviceName,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: PlexColorPalette.gamboge,
               ),
