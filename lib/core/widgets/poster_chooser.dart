@@ -12,8 +12,8 @@ class PosterChooser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ['artist', 'album', 'track'].contains(item.mediaType)
-        ? _PosterMusic(
+    return ['artist', 'album', 'track', 'playlist'].contains(item.mediaType)
+        ? _PosterSquare(
             url: item.posterUrl,
           )
         : _PosterGeneral(
@@ -46,10 +46,10 @@ class _PosterGeneral extends StatelessWidget {
   }
 }
 
-class _PosterMusic extends StatelessWidget {
+class _PosterSquare extends StatelessWidget {
   final String url;
 
-  _PosterMusic({
+  _PosterSquare({
     @required this.url,
   });
 
