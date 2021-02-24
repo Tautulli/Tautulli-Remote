@@ -1,7 +1,10 @@
 package com.williamcomartin.plexpyremote;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
@@ -116,6 +120,7 @@ public class ActivityActivity extends NavBaseActivity {
     protected void onResume() {
         super.onResume();
         startTimer();
+        openAnnoyingPopup();
     }
 
     @Override
@@ -141,6 +146,43 @@ public class ActivityActivity extends NavBaseActivity {
         if(myTimer != null) {
             myTimer.cancel();
         }
+    }
+
+    protected void openAnnoyingPopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityActivity.this);
+
+        builder.setMessage("Tautulli Remote has been completely rewritten from the ground up. As a result this version is now deprecated and it is recommended you switch over.")
+                .setTitle("There is a new Tautulli Remote!");
+
+        builder.setPositiveButton("Get it on Google Play", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String appPackageName = "com.tautulli.tautulli_remote";
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
+            }
+        });
+        builder.setNegativeButton("Remind Me Later", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+
+
+
+        final AlertDialog alertDialog = builder.create();
+        final int negativeButtonColor = this.getApplicationContext().getResources().getColor(R.color.colorTextHeading);
+
+        alertDialog.setOnShowListener( new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(negativeButtonColor);
+            }
+        });
+
+        alertDialog.show();
     }
 
     private void startTimer() {
