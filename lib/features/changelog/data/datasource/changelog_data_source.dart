@@ -1,6 +1,22 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.2.4",
+      "date": "February 23, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail":
+              "When synced item has multiple rating keys use the first one to load poster",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fix issues with playlists identifying incorrectly by switching to use syncMediaType before mediaType",
+        },
+      ]
+    },
+    {
       "version": "v2.2.3",
       "date": "February 23, 2021",
       "changes": [
