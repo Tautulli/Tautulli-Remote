@@ -57,7 +57,7 @@ class SyncedItemsDetails extends StatelessWidget {
                     ),
                   ),
                   MediaTypeIcon(
-                    mediaType: syncedItem.mediaType,
+                    mediaType: syncedItem.syncMediaType ?? syncedItem.mediaType,
                     iconColor: Colors.grey,
                   ),
                 ],

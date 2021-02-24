@@ -249,7 +249,8 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                             builder: (context) => MediaItemPage(
                                               item: mediaItem,
                                               syncedMediaType:
-                                                  syncedItem.mediaType,
+                                                  syncedItem.syncMediaType ??
+                                                      syncedItem.mediaType,
                                               heroTag: heroTag,
                                               forceChildrenMetadataFetch: true,
                                               enableNavOptions: true,

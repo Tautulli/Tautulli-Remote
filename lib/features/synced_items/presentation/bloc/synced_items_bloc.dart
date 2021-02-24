@@ -110,6 +110,7 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
     @required String tautulliId,
   }) async {
     for (SyncedItem syncedItem in list) {
+      final String mediaType = syncedItem.syncMediaType ?? syncedItem.mediaType;
       int grandparentRatingKey;
       String grandparentThumb;
       int parentRatingKey;
@@ -118,7 +119,7 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
       String thumb;
 
       // If item uses parent or grandparent info for poster then use GetMetadata to fetch correct thumb/rating key
-      if (['episode', 'track'].contains(syncedItem.mediaType)) {
+      if (['episode', 'track'].contains(mediaType)) {
         final failureOrMetadata = await getMetadata(
           tautulliId: tautulliId,
           syncId: syncedItem.syncId,
@@ -147,7 +148,7 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
       String posterFallback;
 
       // Assign values for poster URL
-      switch (syncedItem.mediaType) {
+      switch (mediaType) {
         case ('movie'):
           posterImg = thumb;
           posterRatingKey = ratingKey;
