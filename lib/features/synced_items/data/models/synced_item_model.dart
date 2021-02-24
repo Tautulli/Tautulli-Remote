@@ -20,6 +20,7 @@ class SyncedItemModel extends SyncedItem {
     String rootTitle,
     String state,
     int syncId,
+    String syncMediaType,
     String syncTitle,
     int totalSize,
     String user,
@@ -46,6 +47,7 @@ class SyncedItemModel extends SyncedItem {
           rootTitle: rootTitle,
           state: state,
           syncId: syncId,
+          syncMediaType: syncMediaType,
           syncTitle: syncTitle,
           totalSize: totalSize,
           user: user,
@@ -57,6 +59,8 @@ class SyncedItemModel extends SyncedItem {
         );
 
   factory SyncedItemModel.fromJson(Map<String, dynamic> json) {
+    final bool multipleRatingKeys = json['rating_key'].toString().contains(',');
+
     return SyncedItemModel(
       clientId: ValueHelper.cast(
         value: json['client_id'],
@@ -74,15 +78,18 @@ class SyncedItemModel extends SyncedItem {
         value: json['metadata_type'],
         type: CastType.string,
       ),
-      multipleRatingKeys: json['rating_key'].toString().contains(','),
+      multipleRatingKeys: multipleRatingKeys,
       platform: ValueHelper.cast(
         value: json['platform'],
         type: CastType.string,
       ),
-      ratingKey: ValueHelper.cast(
-        value: json['rating_key'],
-        type: CastType.int,
-      ),
+      // Use the first rating key if rating key is comma separated
+      ratingKey: multipleRatingKeys
+          ? int.tryParse(json['rating_key'].toString().split(',')[0])
+          : ValueHelper.cast(
+              value: json['rating_key'],
+              type: CastType.int,
+            ),
       rootTitle: ValueHelper.cast(
         value: json['root_title'],
         type: CastType.string,
@@ -94,6 +101,10 @@ class SyncedItemModel extends SyncedItem {
       syncId: ValueHelper.cast(
         value: json['sync_id'],
         type: CastType.int,
+      ),
+      syncMediaType: ValueHelper.cast(
+        value: json['sync_media_type'],
+        type: CastType.string,
       ),
       syncTitle: ValueHelper.cast(
         value: json['sync_title'],
