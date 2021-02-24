@@ -235,6 +235,8 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                             action: SnackBarAction(
                                               label: 'Learn more',
                                               onPressed: () {},
+                                              textColor: TautulliColorPalette
+                                                  .not_white,
                                             ),
                                           ),
                                         );
@@ -497,6 +499,7 @@ class _SlidableAction extends StatelessWidget {
               action: SnackBarAction(
                 label: 'Learn more',
                 onPressed: () {},
+                textColor: TautulliColorPalette.not_white,
               ),
             ),
           );

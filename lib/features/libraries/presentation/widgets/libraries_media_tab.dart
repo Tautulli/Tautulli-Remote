@@ -102,6 +102,7 @@ class _LibrariesMediaTabState extends State<LibrariesMediaTab> {
                     action: SnackBarAction(
                       label: 'Learn more',
                       onPressed: () {},
+                      textColor: TautulliColorPalette.not_white,
                     ),
                   ),
                 );

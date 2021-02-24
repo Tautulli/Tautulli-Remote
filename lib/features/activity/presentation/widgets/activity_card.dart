@@ -134,6 +134,7 @@ class _ActivityCardState extends State<ActivityCard> {
                                 action: SnackBarAction(
                                   label: 'Learn more',
                                   onPressed: () {},
+                                  textColor: TautulliColorPalette.not_white,
                                 ),
                               ),
                             );
