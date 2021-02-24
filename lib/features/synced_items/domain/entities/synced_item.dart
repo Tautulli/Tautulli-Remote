@@ -18,7 +18,6 @@ class SyncedItem extends Equatable {
   final String rootTitle;
   final String state;
   final int syncId;
-  final String syncMediaType;
   final String syncTitle;
   final int totalSize;
   final String user;
@@ -46,7 +45,6 @@ class SyncedItem extends Equatable {
     this.rootTitle,
     this.state,
     this.syncId,
-    this.syncMediaType,
     this.syncTitle,
     this.totalSize,
     this.user,
@@ -76,7 +74,6 @@ class SyncedItem extends Equatable {
         rootTitle,
         state,
         syncId,
-        syncMediaType,
         syncTitle,
         totalSize,
         user,
