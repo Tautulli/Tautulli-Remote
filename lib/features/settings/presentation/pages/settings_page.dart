@@ -60,7 +60,6 @@ class SettingsPageContent extends StatelessWidget {
       body: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
         listener: (context, state) {
           if (state is RegisterDeviceFailure) {
-            //TODO: add a link to a wiki page for registration
             showFailureAlertDialog(
               context: context,
               failure: state.failure,

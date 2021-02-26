@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
@@ -66,8 +67,11 @@ class SettingsAlertBanner extends StatelessWidget {
                   ),
                   buttonOne: TextButton(
                     child: Text('LEARN MORE'),
-                    //TODO: Link to wiki page
-                    onPressed: () {},
+                    onPressed: () async {
+                      launch(
+                        'https://github.com/Tautulli/Tautulli-Remote/wiki/OneSignal#registering',
+                      );
+                    },
                   ),
                   backgroundColor: Colors.deepOrange[800],
                 );

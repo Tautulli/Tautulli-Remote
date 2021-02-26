@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
@@ -230,11 +231,15 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                             backgroundColor:
                                                 PlexColorPalette.shark,
                                             content: Text(
-                                                'Media details for this type of synced item is not supported.'),
-                                            //TODO: Link action to help or wiki
+                                              'Media details for this type of synced item is not supported.',
+                                            ),
                                             action: SnackBarAction(
-                                              label: 'Learn more',
-                                              onPressed: () {},
+                                              label: 'LEARN MORE',
+                                              onPressed: () async {
+                                                launch(
+                                                  'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#synced_items_caveats',
+                                                );
+                                              },
                                               textColor: TautulliColorPalette
                                                   .not_white,
                                             ),
@@ -495,10 +500,13 @@ class _SlidableAction extends StatelessWidget {
             SnackBar(
               backgroundColor: Colors.green,
               content: Text('Delete synced item request sent to Plex.'),
-              //TODO: Link action to help or wiki
               action: SnackBarAction(
-                label: 'Learn more',
-                onPressed: () {},
+                label: 'LEARN MORE',
+                onPressed: () async {
+                  launch(
+                    'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#synced_items_caveats',
+                  );
+                },
                 textColor: TautulliColorPalette.not_white,
               ),
             ),

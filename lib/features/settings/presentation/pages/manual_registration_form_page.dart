@@ -36,7 +36,6 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
         body: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
           listener: (context, state) {
             if (state is RegisterDeviceFailure) {
-              //TODO: add a link to a wiki page for registration
               showFailureAlertDialog(
                 context: context,
                 failure: state.failure,
@@ -46,7 +45,6 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
               Navigator.of(context).pop(true);
             }
           },
-          //TODO: Could be nice to add some extra instructions here maybe?
           child: Column(
             children: <Widget>[
               BlocBuilder<RegisterDeviceBloc, RegisterDeviceState>(
@@ -156,8 +154,8 @@ Future<bool> _showExitDialog(BuildContext context) {
           TextButton(
             child: Text('DISCARD'),
             style: TextButton.styleFrom(
-                backgroundColor: Colors.red,
-              ),
+              backgroundColor: Colors.red,
+            ),
             onPressed: () {
               Navigator.of(context).pop(true);
             },

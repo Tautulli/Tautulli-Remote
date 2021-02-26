@@ -204,8 +204,16 @@ class ServerSettingsPage extends StatelessWidget {
                       Scaffold.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: PlexColorPalette.shark,
-                          //TODO: Add link to wiki page about this
                           content: Text('Device tokens cannot be edited'),
+                          action: SnackBarAction(
+                            label: 'LEARN MORE',
+                            onPressed: () async {
+                              launch(
+                                'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#device_tokens',
+                              );
+                            },
+                            textColor: TautulliColorPalette.not_white,
+                          ),
                         ),
                       );
                     },

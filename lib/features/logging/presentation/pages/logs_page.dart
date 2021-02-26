@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../injection_container.dart' as di;
 import '../bloc/load_logs_bloc.dart';
 import '../widgets/log_table.dart';
@@ -83,10 +85,19 @@ class _LogsPageContentState extends State<_LogsPageContent> {
           }
           if (state is LogsExportInProgress) {
             Scaffold.of(context).hideCurrentSnackBar();
-            //TODO: add a link to a wiki page for accessing log files
             Scaffold.of(context).showSnackBar(
               SnackBar(
+                backgroundColor: PlexColorPalette.shark,
                 content: Text('Logs exported'),
+                action: SnackBarAction(
+                  label: 'HOW TO ACCESS LOGS',
+                  onPressed: () async {
+                    launch(
+                      'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#logs',
+                    );
+                  },
+                  textColor: TautulliColorPalette.not_white,
+                ),
               ),
             );
           }

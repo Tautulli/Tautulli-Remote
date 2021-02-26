@@ -24,31 +24,43 @@ class HelpPage extends StatelessWidget {
           children: [
             ListHeader(headingText: 'Help Topics'),
             ListTile(
-              title: Text('OneSignal authentication'),
+              title: Text('Secondary Connection Address'),
               trailing: FaIcon(
                 FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
                 size: 20,
               ),
-              onTap: () {},
+              onTap: () async {
+                launch(
+                  'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#secondary_connection',
+                );
+              },
             ),
             ListTile(
-              title: Text('Basic authentication'),
+              title: Text('Using Basic Authentication'),
               trailing: FaIcon(
                 FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
                 size: 20,
               ),
-              onTap: () {},
+              onTap: () async {
+                launch(
+                  'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#basic_authentication',
+                );
+              },
             ),
             ListTile(
-              title: Text('Terminating a stream'),
+              title: Text('Terminating a Stream'),
               trailing: FaIcon(
                 FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
                 size: 20,
               ),
-              onTap: () {},
+              onTap: () {
+                launch(
+                  'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#terminating_stream',
+                );
+              },
             ),
             const SizedBox(height: 15),
             ListHeader(headingText: 'Support'),
@@ -59,7 +71,11 @@ class HelpPage extends StatelessWidget {
                 color: TautulliColorPalette.smoke,
                 size: 20,
               ),
-              onTap: () {},
+              onTap: () async {
+                launch(
+                  'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#basic_authentication',
+                );
+              },
             ),
             ListTile(
               title: Text('Discord'),
@@ -68,7 +84,7 @@ class HelpPage extends StatelessWidget {
                 color: TautulliColorPalette.smoke,
                 size: 20,
               ),
-              onTap: () {
+              onTap: () async {
                 launch('https://tautulli.com/discord.html');
               },
             ),
@@ -79,7 +95,7 @@ class HelpPage extends StatelessWidget {
                 color: TautulliColorPalette.smoke,
                 size: 20,
               ),
-              onTap: () {
+              onTap: () async {
                 launch('https://www.reddit.com/r/Tautulli/');
               },
             ),

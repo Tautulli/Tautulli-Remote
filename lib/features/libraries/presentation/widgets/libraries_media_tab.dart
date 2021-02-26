@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/error_message.dart';
@@ -98,10 +99,13 @@ class _LibrariesMediaTabState extends State<LibrariesMediaTab> {
                     backgroundColor: PlexColorPalette.shark,
                     content:
                         Text('Performing a full refresh of library media.'),
-                    //TODO: Link action to help or wiki
                     action: SnackBarAction(
-                      label: 'Learn more',
-                      onPressed: () {},
+                      label: 'LEARN MORE',
+                      onPressed: () async {
+                        launch(
+                          'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#library_refresh',
+                        );
+                      },
                       textColor: TautulliColorPalette.not_white,
                     ),
                   ),
