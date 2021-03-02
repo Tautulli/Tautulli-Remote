@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
+import '../../../../core/widgets/app_drawer_icon.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/poster_card.dart';
@@ -134,6 +135,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        leading: AppDrawerIcon(),
         title: Text('Synced Items'),
         actions: _appBarActions(),
       ),

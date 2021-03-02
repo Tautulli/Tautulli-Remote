@@ -10,6 +10,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
+import '../../../../core/widgets/app_drawer_icon.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart';
@@ -85,6 +86,7 @@ class _ActivityPageContentState extends State<ActivityPageContent>
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        leading: AppDrawerIcon(),
         title: Text('Activity'),
       ),
       drawer: AppDrawer(),

@@ -9,6 +9,7 @@ import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/asset_mapper_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
+import '../../../../core/widgets/app_drawer_icon.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/icon_card.dart';
 import '../../../../core/widgets/poster_card.dart';
@@ -111,6 +112,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        leading: AppDrawerIcon(),
         title: Text('Statistics'),
         actions: _appBarActions(),
       ),

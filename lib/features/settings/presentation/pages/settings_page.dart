@@ -8,6 +8,7 @@ import 'package:unicorndial/unicorndial.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
+import '../../../../core/widgets/app_drawer_icon.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/list_header.dart';
 import '../../../../injection_container.dart' as di;
@@ -53,6 +54,7 @@ class SettingsPageContent extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        leading: AppDrawerIcon(),
         title: Text('Settings'),
       ),
       drawer: AppDrawer(),

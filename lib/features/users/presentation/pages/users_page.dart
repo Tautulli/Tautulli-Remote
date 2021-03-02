@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
+import '../../../../core/widgets/app_drawer_icon.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/server_header.dart';
@@ -106,6 +107,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        leading: AppDrawerIcon(),
         title: Text('Users'),
         actions: _appBarActions(),
       ),
