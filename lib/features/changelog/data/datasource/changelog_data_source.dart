@@ -1,6 +1,30 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.3.0",
+      "date": "March 1, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Added announcements page, allows for announcements to be shared without an app update",
+        },
+        {
+          "type": "improvement",
+          "detail": "Use square poster for playlist items",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "In-app links are now set to the new wiki (pending wiki update)",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix failure mapping for SocketException",
+        },
+      ]
+    },
+    {
       "version": "v2.2.4",
       "date": "February 23, 2021",
       "changes": [
