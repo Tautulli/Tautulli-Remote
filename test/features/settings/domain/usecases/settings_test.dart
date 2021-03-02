@@ -430,4 +430,30 @@ void main() {
       verifyNoMoreInteractions(mockSettingsRepository);
     },
   );
+
+  test(
+    'getLastReadAnnouncementId should get read announcement count from settings',
+    () async {
+      // arrange
+      when(mockSettingsRepository.getLastReadAnnouncementId())
+          .thenAnswer((_) async => 1);
+      // act
+      final result = await settings.getLastReadAnnouncementId();
+      // assert
+      expect(result, equals(1));
+      verify(mockSettingsRepository.getLastReadAnnouncementId());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setLastReadAnnouncementId should forward request to the repository',
+    () async {
+      // act
+      await settings.setLastReadAnnouncementId(1);
+      // assert
+      verify(mockSettingsRepository.setLastReadAnnouncementId(1));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
 }

@@ -91,4 +91,8 @@ abstract class SettingsRepository {
   Future<String> getLastAppVersion();
 
   Future<bool> setLastAppVersion(String lastAppVersion);
+
+  Future<int> getLastReadAnnouncementId();
+
+  Future<bool> setLastReadAnnouncementId(int value);
 }

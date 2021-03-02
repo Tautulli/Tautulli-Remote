@@ -37,6 +37,7 @@ void main() {
   final String tTautulliId = 'jkl';
   final String tStatsType = 'duration';
   final String tLastAppVersion = '2.1.5';
+  final int tLastReadAnnouncementId = 1;
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =
@@ -315,6 +316,32 @@ void main() {
         await repository.setLastAppVersion(tLastAppVersion);
         // assert
         verify(mockSettingsDataSource.setLastAppVersion(tLastAppVersion));
+      },
+    );
+  });
+
+  group('Read Announcement Count', () {
+    test(
+      'should return the read announcement ID from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getLastReadAnnouncementId())
+            .thenAnswer((_) async => tLastReadAnnouncementId);
+        // act
+        final result = await repository.getLastReadAnnouncementId();
+        // assert
+        expect(result, equals(tLastReadAnnouncementId));
+      },
+    );
+
+    test(
+      'should forward the call to the data source to set read announcement ID',
+      () async {
+        // act
+        await repository.setLastReadAnnouncementId(tLastReadAnnouncementId);
+        // assert
+        verify(mockSettingsDataSource
+            .setLastReadAnnouncementId(tLastReadAnnouncementId));
       },
     );
   });

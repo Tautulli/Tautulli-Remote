@@ -182,4 +182,12 @@ class Settings {
   Future<bool> setLastAppVersion(String lastAppVersion) async {
     return repository.setLastAppVersion(lastAppVersion);
   }
+
+  Future<int> getLastReadAnnouncementId() async {
+    return await repository.getLastReadAnnouncementId();
+  }
+
+  Future<bool> setLastReadAnnouncementId(int value) async {
+    return repository.setLastReadAnnouncementId(value);
+  }
 }

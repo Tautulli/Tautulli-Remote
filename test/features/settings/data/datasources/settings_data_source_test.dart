@@ -347,4 +347,45 @@ void main() {
       },
     );
   });
+
+  group('Read Announcement Count', () {
+    test(
+      'should return int from settings',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getInt(LAST_READ_ANNOUNCEMENT_ID))
+            .thenReturn(1);
+        // act
+        final readAnnouncementCount =
+            await dataSource.getLastReadAnnouncementId();
+        // assert
+        verify(mockSharedPreferences.getInt(LAST_READ_ANNOUNCEMENT_ID));
+        expect(readAnnouncementCount, equals(1));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getInt(LAST_READ_ANNOUNCEMENT_ID))
+            .thenReturn(null);
+        // act
+        final readAnnouncementCount =
+            await dataSource.getLastReadAnnouncementId();
+        // assert
+        expect(readAnnouncementCount, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the refresh rate',
+      () async {
+        // act
+        await dataSource.setLastReadAnnouncementId(1);
+        // assert
+        verify(mockSharedPreferences.setInt(LAST_READ_ANNOUNCEMENT_ID, 1));
+      },
+    );
+  });
 }

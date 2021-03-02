@@ -35,6 +35,10 @@ abstract class SettingsDataSource {
   Future<String> getLastAppVersion();
 
   Future<bool> setLastAppVersion(String lastAppVersion);
+
+  Future<int> getLastReadAnnouncementId();
+
+  Future<bool> setLastReadAnnouncementId(int value);
 }
 
 const SETTINGS_SERVER_TIMEOUT = 'SETTINGS_SERVER_TIMEOUT';
@@ -43,6 +47,7 @@ const SETTINGS_MASK_SENSITIVE_INFO = 'SETTINGS_MASK_SENSITIVE_INFO';
 const LAST_SELECTED_SERVER = 'LAST_SELECTED_SERVER';
 const STATS_TYPE = 'STATS_TYPE';
 const LAST_APP_VERSION = 'LAST_APP_VERSION';
+const LAST_READ_ANNOUNCEMENT_ID = 'LAST_READ_ANNOUNCEMENT_ID';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
   final SharedPreferences sharedPreferences;
@@ -142,5 +147,16 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setLastAppVersion(String lastAppVersion) {
     return sharedPreferences.setString(LAST_APP_VERSION, lastAppVersion);
+  }
+
+  @override
+  Future<int> getLastReadAnnouncementId() {
+    final value = sharedPreferences.getInt(LAST_READ_ANNOUNCEMENT_ID);
+    return Future.value(value);
+  }
+
+  @override
+  Future<bool> setLastReadAnnouncementId(int value) {
+    return sharedPreferences.setInt(LAST_READ_ANNOUNCEMENT_ID, value);
   }
 }
