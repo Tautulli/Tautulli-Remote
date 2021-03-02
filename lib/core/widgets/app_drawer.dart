@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tautulli_remote/features/announcements/presentation/bloc/announcements_bloc.dart';
 
 import '../../features/activity/presentation/pages/activity_page.dart';
+import '../../features/announcements/presentation/pages/announcements_page.dart';
 import '../../features/donate/presentation/pages/donate_page.dart';
 import '../../features/history/presentation/pages/history_page.dart';
 import '../../features/libraries/presentation/pages/libraries_page.dart';
@@ -243,6 +246,41 @@ class AppDrawer extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Divider(
               color: PlexColorPalette.raven,
+            ),
+          ),
+          ListTile(
+            leading: FaIcon(
+              FontAwesomeIcons.solidBell,
+              size: 20,
+              color: TautulliColorPalette.not_white,
+            ),
+            title: Text('Announcements'),
+            onTap: () {
+              if (route.settings.name != AnnouncementsPage.routeName) {
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed(AnnouncementsPage.routeName);
+              } else {
+                Navigator.pop(context);
+              }
+            },
+            onLongPress: () {
+              Navigator.pop(context);
+              Navigator.of(context).pushNamed(AnnouncementsPage.routeName);
+            },
+            trailing: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
+              builder: (context, state) {
+                if (state is AnnouncementsSuccess && state.unread) {
+                  return Container(
+                    height: 13,
+                    width: 13,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: PlexColorPalette.gamboge,
+                    ),
+                  );
+                }
+                return SizedBox(height: 0, width: 0);
+              },
             ),
           ),
           ListTile(

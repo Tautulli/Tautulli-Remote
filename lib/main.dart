@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:package_info/package_info.dart';
 
+import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
@@ -37,6 +38,10 @@ void main() async {
         BlocProvider<OneSignalPrivacyBloc>(
           create: (context) => di.sl<OneSignalPrivacyBloc>()
             ..add(OneSignalPrivacyCheckConsent()),
+        ),
+        BlocProvider<AnnouncementsBloc>(
+          create: (context) =>
+              di.sl<AnnouncementsBloc>()..add(AnnouncementsFetch()),
         ),
       ],
       child: TautulliRemote(

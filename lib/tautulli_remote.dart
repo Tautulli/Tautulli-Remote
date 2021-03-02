@@ -6,6 +6,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/activity/presentation/pages/activity_page.dart';
+import 'features/announcements/presentation/pages/announcements_page.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
 import 'features/donate/presentation/pages/donate_page.dart';
 import 'features/help/presentation/pages/help_page.dart';
@@ -161,6 +162,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       ),
       routes: {
         ActivityPage.routeName: (ctx) => ActivityPage(),
+        AnnouncementsPage.routeName: (ctx) => AnnouncementsPage(),
         HistoryPage.routeName: (ctx) => HistoryPage(),
         RecentlyAddedPage.routeName: (ctx) => RecentlyAddedPage(),
         LibrariesPage.routeName: (ctx) => LibrariesPage(),

@@ -17,6 +17,11 @@ import 'features/activity/domain/usecases/get_activity.dart';
 import 'features/activity/domain/usecases/get_geo_ip.dart';
 import 'features/activity/presentation/bloc/activity_bloc.dart';
 import 'features/activity/presentation/bloc/geo_ip_bloc.dart';
+import 'features/announcements/data/datasources/announcements_data_source.dart';
+import 'features/announcements/data/repositories/announcements_repository_impl.dart';
+import 'features/announcements/domain/repositories/announcements_repository.dart';
+import 'features/announcements/domain/usecases/get_announcements.dart';
+import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/history/data/datasources/history_data_source.dart';
 import 'features/history/data/repositories/history_repository_impl.dart';
 import 'features/history/domain/repositories/history_repository.dart';
@@ -161,6 +166,37 @@ Future<void> init() async {
   sl.registerLazySingleton<GeoIpDataSource>(
     () => GeoIpDataSourceImpl(
       apiGetGeoipLookup: sl(),
+    ),
+  );
+
+  //! Features - Announcements
+  // Bloc
+  sl.registerFactory(
+    () => AnnouncementsBloc(
+      getAnnouncements: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => GetAnnouncements(
+      repository: sl(),
+    ),
+  );
+
+  // Repositories
+  sl.registerLazySingleton<AnnouncementsRepository>(
+    () => AnnouncementsRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<AnnouncementsDataSource>(
+    () => AnnouncementsDataSourceImpl(
+      client: sl(),
     ),
   );
 
