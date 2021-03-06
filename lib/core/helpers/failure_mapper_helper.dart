@@ -52,6 +52,7 @@ class FailureMapperHelper {
       JsonDecodeException,
       HandshakeException,
       SocketException,
+      ServerException,
     ].contains(exception.runtimeType)) {
       exception = exception.runtimeType;
     }
