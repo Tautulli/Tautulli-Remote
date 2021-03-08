@@ -100,6 +100,19 @@ class HelpPage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 15),
+            ListHeader(headingText: 'Bugs/Feature Requests'),
+            ListTile(
+              title: Text('GitHub'),
+              trailing: FaIcon(
+                FontAwesomeIcons.externalLinkAlt,
+                color: TautulliColorPalette.smoke,
+                size: 20,
+              ),
+              onTap: () async {
+                launch('https://github.com/Tautulli/Tautulli-Remote/issues');
+              },
+            ),
+            const SizedBox(height: 15),
             ListHeader(headingText: 'Logs'),
             ListTile(
               title: Text('View Tautulli Remote logs'),
