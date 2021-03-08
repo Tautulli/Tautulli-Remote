@@ -1,6 +1,16 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.3.2",
+      "date": "March 8, 2021",
+      "changes": [
+        {
+          "type": "fix",
+          "detail": "Fix failure mapping for ServerVersionException",
+        },
+      ]
+    },
+    {
       "version": "v2.3.1",
       "date": "March 8, 2021",
       "changes": [
