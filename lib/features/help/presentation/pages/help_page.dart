@@ -73,7 +73,7 @@ class HelpPage extends StatelessWidget {
               ),
               onTap: () async {
                 launch(
-                  'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#basic_authentication',
+                  'https://github.com/Tautulli/Tautulli-Remote/wiki',
                 );
               },
             ),
