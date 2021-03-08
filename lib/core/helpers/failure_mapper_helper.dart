@@ -53,6 +53,7 @@ class FailureMapperHelper {
       HandshakeException,
       SocketException,
       ServerException,
+      ServerVersionException,
     ].contains(exception.runtimeType)) {
       exception = exception.runtimeType;
     }
