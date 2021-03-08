@@ -8,6 +8,10 @@ Map changelog = {
           "type": "fix",
           "detail": "Fix failure mapping for ServerVersionException",
         },
+        {
+          "type": "fix",
+          "detail": "Fix incorrect Support Wiki link",
+        },
       ]
     },
     {
