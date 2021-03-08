@@ -1,6 +1,20 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.3.1",
+      "date": "March 8, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Add Bugs/Feature Requests section to Help & Support",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix failure mapping for ServerException",
+        },
+      ]
+    },
+    {
       "version": "v2.3.0",
       "date": "March 1, 2021",
       "changes": [
