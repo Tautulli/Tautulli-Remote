@@ -456,4 +456,30 @@ void main() {
       verifyNoMoreInteractions(mockSettingsRepository);
     },
   );
+
+  test(
+    'getCustomCertHashList should get customer cert hash list from settings',
+    () async {
+      // arrange
+      when(mockSettingsRepository.getCustomCertHashList())
+          .thenAnswer((_) async => [1, 2]);
+      // act
+      final result = await settings.getCustomCertHashList();
+      // assert
+      expect(result, equals([1, 2]));
+      verify(mockSettingsRepository.getCustomCertHashList());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setCustomCertHashList should forward request to the repository',
+    () async {
+      // act
+      await settings.setCustomCertHashList([1, 2]);
+      // assert
+      verify(mockSettingsRepository.setCustomCertHashList([1, 2]));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
 }

@@ -95,4 +95,8 @@ abstract class SettingsRepository {
   Future<int> getLastReadAnnouncementId();
 
   Future<bool> setLastReadAnnouncementId(int value);
+
+  Future<List<int>> getCustomCertHashList();
+
+  Future<bool> setCustomCertHashList(List<int> certHashList);
 }

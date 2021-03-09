@@ -38,6 +38,7 @@ void main() {
   final String tStatsType = 'duration';
   final String tLastAppVersion = '2.1.5';
   final int tLastReadAnnouncementId = 1;
+  final List<int> tCustomCertHashList = [1, 2];
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =
@@ -342,6 +343,32 @@ void main() {
         // assert
         verify(mockSettingsDataSource
             .setLastReadAnnouncementId(tLastReadAnnouncementId));
+      },
+    );
+  });
+
+  group('Custom Cert Hash List', () {
+    test(
+      'should return the list of custom cert hashes from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getCustomCertHashList())
+            .thenAnswer((_) async => tCustomCertHashList);
+        // act
+        final result = await repository.getCustomCertHashList();
+        // assert
+        expect(result, equals(tCustomCertHashList));
+      },
+    );
+
+    test(
+      'should forward the call to the data source to set custom cert hash list',
+      () async {
+        // act
+        await repository.setCustomCertHashList(tCustomCertHashList);
+        // assert
+        verify(
+            mockSettingsDataSource.setCustomCertHashList(tCustomCertHashList));
       },
     );
   });

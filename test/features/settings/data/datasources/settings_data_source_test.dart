@@ -388,4 +388,46 @@ void main() {
       },
     );
   });
+
+  group('Custom Cert Hash List', () {
+    test(
+      'should return list of custom cert hashes from settings',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getStringList(CUSTOM_CERT_HASH_LIST))
+            .thenReturn(['1', '2']);
+        // act
+        final customCertHashList = await dataSource.getCustomCertHashList();
+        // assert
+        verify(mockSharedPreferences.getStringList(CUSTOM_CERT_HASH_LIST));
+        expect(customCertHashList, equals([1, 2]));
+      },
+    );
+
+    test(
+      'should return empty list when there is no stored value',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getStringList(CUSTOM_CERT_HASH_LIST))
+            .thenReturn([]);
+        // act
+        final customCertHashList = await dataSource.getCustomCertHashList();
+        // assert
+        expect(customCertHashList, equals([]));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the custom cert hash list',
+      () async {
+        // act
+        await dataSource.setCustomCertHashList([1, 2]);
+        // assert
+        verify(
+          mockSharedPreferences
+              .setStringList(CUSTOM_CERT_HASH_LIST, ['1', '2']),
+        );
+      },
+    );
+  });
 }

@@ -39,6 +39,10 @@ abstract class SettingsDataSource {
   Future<int> getLastReadAnnouncementId();
 
   Future<bool> setLastReadAnnouncementId(int value);
+
+  Future<List<int>> getCustomCertHashList();
+
+  Future<bool> setCustomCertHashList(List<int> certHashList);
 }
 
 const SETTINGS_SERVER_TIMEOUT = 'SETTINGS_SERVER_TIMEOUT';
@@ -48,6 +52,7 @@ const LAST_SELECTED_SERVER = 'LAST_SELECTED_SERVER';
 const STATS_TYPE = 'STATS_TYPE';
 const LAST_APP_VERSION = 'LAST_APP_VERSION';
 const LAST_READ_ANNOUNCEMENT_ID = 'LAST_READ_ANNOUNCEMENT_ID';
+const CUSTOM_CERT_HASH_LIST = 'CUSTOM_CERT_HASH_LIST';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
   final SharedPreferences sharedPreferences;
@@ -158,5 +163,25 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setLastReadAnnouncementId(int value) {
     return sharedPreferences.setInt(LAST_READ_ANNOUNCEMENT_ID, value);
+  }
+
+  @override
+  Future<List<int>> getCustomCertHashList() {
+    List<String> stringList = [];
+    List<int> intList = [];
+    try {
+      stringList = sharedPreferences.getStringList(CUSTOM_CERT_HASH_LIST);
+      intList = stringList.map((i) => int.parse(i)).toList();
+    } catch (_) {}
+
+    return Future.value(intList);
+  }
+
+  @override
+  Future<bool> setCustomCertHashList(List<int> certHashList) {
+    final List<String> stringList =
+        certHashList.map((i) => i.toString()).toList();
+
+    return sharedPreferences.setStringList(CUSTOM_CERT_HASH_LIST, stringList);
   }
 }

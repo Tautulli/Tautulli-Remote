@@ -307,4 +307,15 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<bool> setLastReadAnnouncementId(int value) async {
     return dataSource.setLastReadAnnouncementId(value);
   }
+
+  @override
+  Future<List<int>> getCustomCertHashList() async {
+    final certHashList = await dataSource.getCustomCertHashList();
+    return certHashList;
+  }
+
+  @override
+  Future<bool> setCustomCertHashList(List<int> certHashList) async {
+    return dataSource.setCustomCertHashList(certHashList);
+  }
 }

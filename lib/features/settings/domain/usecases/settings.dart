@@ -190,4 +190,12 @@ class Settings {
   Future<bool> setLastReadAnnouncementId(int value) async {
     return repository.setLastReadAnnouncementId(value);
   }
+
+  Future<List<int>> getCustomCertHashList() async {
+    return await repository.getCustomCertHashList();
+  }
+
+  Future<bool> setCustomCertHashList(List<int> certHashList) async {
+    return repository.setCustomCertHashList(certHashList);
+  }
 }
