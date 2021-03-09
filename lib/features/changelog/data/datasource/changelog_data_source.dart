@@ -1,6 +1,21 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.4.0",
+      "date": "March 8, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Added ability to trust self-signed certs and certs that fail to authenticate",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added 15 sec and 30 sec server timeout options",
+        },
+      ]
+    },
+    {
       "version": "v2.3.2",
       "date": "March 8, 2021",
       "changes": [
