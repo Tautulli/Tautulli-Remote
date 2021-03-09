@@ -15,6 +15,10 @@ const String SETTINGS_FAILURE_MESSAGE = 'Required settings are missing.';
 const String SOCKET_FAILURE_MESSAGE =
     'Failed to connect to Connection Address.';
 const String TLS_FAILURE_MESSAGE = 'Failed to establish TLS/SSL connection.';
+const String CERTIFICATE_EXPIRED_FAILURE_MESSAGE =
+    'TLS/SSL Certificate is Expired.';
+const String CERTIFICATE_VERIFICATION_FAILURE_MESSAGE =
+    'Certificate verification failed.';
 const String URL_FORMAT_FAILURE_MESSAGE = 'Incorrect URL format.';
 const String TIMEOUT_FAILURE_MESSAGE = 'Connection to server timed out.';
 const String JSON_FAILURE_MESSAGE = 'Failed to parse response.';
@@ -35,6 +39,10 @@ const String CHECK_SERVER_SETTINGS_SUGGESTION =
     'Please verify your connection settings.';
 const String PLEX_CONNECTION_SUGGESTION =
     'Check your Connection Address for errors and make sure Tautulli can communicate with Plex.';
+const String CERTIFICATE_EXPIRED_FAILURE_SUGGESTION =
+    'Please check your certificate and re-register with your Tautulli server.';
+const String CERTIFICATE_VERIFICATION_FAILURE_SUGGESTION =
+    'Please re-register with your Tautulli server.';
 const String TERMINATE_SUGGESTION = 'Make sure the stream is still active.';
 final String serverVersionSuggestion =
     'Please update the Tautulli server to v${MinimumVersion.tautulliServer} or greater';
@@ -74,6 +82,12 @@ class FailureMapperHelper {
       case (HandshakeException):
       case (TlsException):
         failure = TlsFailure();
+        break;
+      case (CertificateExpiredException):
+        failure = CertificateExpiredFailure();
+        break;
+      case (CertificateVerificationException):
+        failure = CertificateVerificationFailure();
         break;
       case (FormatException):
         failure = UrlFormatFailure();
@@ -117,6 +131,10 @@ class FailureMapperHelper {
         return SOCKET_FAILURE_MESSAGE;
       case TlsFailure:
         return TLS_FAILURE_MESSAGE;
+      case CertificateExpiredFailure:
+        return CERTIFICATE_EXPIRED_FAILURE_MESSAGE;
+      case CertificateVerificationFailure:
+        return CERTIFICATE_VERIFICATION_FAILURE_MESSAGE;
       case UrlFormatFailure:
         return URL_FORMAT_FAILURE_MESSAGE;
       case TimeoutFailure:
@@ -151,6 +169,10 @@ class FailureMapperHelper {
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
       case TlsFailure:
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
+      case CertificateExpiredFailure:
+        return CERTIFICATE_EXPIRED_FAILURE_SUGGESTION;
+      case CertificateVerificationFailure:
+        return CERTIFICATE_VERIFICATION_FAILURE_SUGGESTION;
       case UrlFormatFailure:
         return CHECK_CONNECTION_ADDRESS_SUGGESTION;
       case TimeoutFailure:

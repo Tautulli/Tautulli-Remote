@@ -25,6 +25,12 @@ class SocketFailure extends Failure {}
 /// A failure in TLS/SSL connection.
 class TlsFailure extends Failure {}
 
+/// The TSL/SSL certificate is expired
+class CertificateExpiredFailure extends Failure {}
+
+/// A failure in verifying the TSL/SSL certificate
+class CertificateVerificationFailure extends Failure {}
+
 /// URL provided is improperly formatted.
 class UrlFormatFailure extends Failure {}
 

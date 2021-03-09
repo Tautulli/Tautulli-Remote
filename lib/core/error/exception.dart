@@ -4,6 +4,12 @@ class MissingServerException implements Exception {}
 /// Throw when a server provides an undesired response.
 class ServerException implements Exception {}
 
+/// Throw when a TSL/SSL certificate is expired
+class CertificateExpiredException implements Exception {}
+
+/// Throw when a HandshakeException with CERTIFICATE_VERIFY_FAILED is thrown
+class CertificateVerificationException implements Exception {}
+
 /// Throw when the device has no network connectivity.
 class ConnectionException implements Exception {}
 
