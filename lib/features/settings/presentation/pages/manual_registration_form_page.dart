@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:validators/validators.dart';
 
+import '../../../../core/error/failure.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../bloc/register_device_bloc.dart';
 import '../bloc/settings_bloc.dart';
+import '../widgets/certificate_failure_alert_dialog.dart';
 
 class ManualRegistrationForm extends StatefulWidget {
   ManualRegistrationForm({Key key}) : super(key: key);
@@ -36,10 +38,18 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
         body: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
           listener: (context, state) {
             if (state is RegisterDeviceFailure) {
-              showFailureAlertDialog(
-                context: context,
-                failure: state.failure,
-              );
+              if (state.failure == CertificateVerificationFailure()) {
+                showCertificateFailureAlertDialog(
+                  context: context,
+                  registerDeviceBloc: registerDeviceBloc,
+                  settingsBloc: context.read<SettingsBloc>(),
+                );
+              } else {
+                showFailureAlertDialog(
+                  context: context,
+                  failure: state.failure,
+                );
+              }
             }
             if (state is RegisterDeviceSuccess) {
               Navigator.of(context).pop(true);

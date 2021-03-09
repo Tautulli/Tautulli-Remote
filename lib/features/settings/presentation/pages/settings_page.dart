@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:quiver/strings.dart';
+import '../../../../core/error/failure.dart';
+import '../widgets/certificate_failure_alert_dialog.dart';
 import 'package:unicorndial/unicorndial.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
@@ -62,10 +64,17 @@ class SettingsPageContent extends StatelessWidget {
       body: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
         listener: (context, state) {
           if (state is RegisterDeviceFailure) {
-            showFailureAlertDialog(
-              context: context,
-              failure: state.failure,
-            );
+            if (state.failure == CertificateVerificationFailure()) {
+              showCertificateFailureAlertDialog(
+                  context: context,
+                  registerDeviceBloc: context.read<RegisterDeviceBloc>(),
+                  settingsBloc: context.read<SettingsBloc>());
+            } else {
+              showFailureAlertDialog(
+                context: context,
+                failure: state.failure,
+              );
+            }
           }
           if (state is RegisterDeviceSuccess) {
             Scaffold.of(context).hideCurrentSnackBar();
