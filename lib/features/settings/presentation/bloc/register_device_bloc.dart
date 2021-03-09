@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:validators/validators.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/error/failure.dart';
@@ -66,10 +67,18 @@ class RegisterDeviceBloc
   ) async* {
     yield RegisterDeviceInProgress();
 
-    final List resultParts = result.split('|');
+    try {
+      final List resultParts = result.split('|');
 
-    connectionAddressCache = resultParts[0].trim();
-    deviceTokenCache = resultParts[1].trim();
+      connectionAddressCache = resultParts[0].trim();
+      deviceTokenCache = resultParts[1].trim();
+
+      if (!isURL(connectionAddressCache) || deviceTokenCache.length != 32) {
+        yield RegisterDeviceFailure(failure: QRScanFailure());
+      }
+    } catch (_) {
+      yield RegisterDeviceFailure(failure: QRScanFailure());
+    }
 
     yield* _failureOrRegisterDevice(
       connectionAddressCache,
