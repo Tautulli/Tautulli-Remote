@@ -1,6 +1,17 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.4.1",
+      "date": "March 9, 2021",
+      "changes": [
+        {
+          "type": "fix",
+          "detail":
+              "Fix unknown activity bandwidth breaking activity details bottom sheet",
+        },
+      ]
+    },
+    {
       "version": "v2.4.0",
       "date": "March 8, 2021",
       "changes": [
