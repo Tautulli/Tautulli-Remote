@@ -16,6 +16,9 @@ import 'settings_bloc.dart';
 part 'register_device_event.dart';
 part 'register_device_state.dart';
 
+String connectionAddressCache;
+String deviceTokenCache;
+
 class RegisterDeviceBloc
     extends Bloc<RegisterDeviceEvent, RegisterDeviceState> {
   final RegisterDevice registerDevice;
@@ -45,6 +48,16 @@ class RegisterDeviceBloc
         settingsBloc: event.settingsBloc,
       );
     }
+    if (event is RegisterDeviceUnverifiedCert) {
+      yield RegisterDeviceInProgress();
+
+      yield* _failureOrRegisterDevice(
+        connectionAddressCache,
+        deviceTokenCache,
+        event.settingsBloc,
+        trustCert: true,
+      );
+    }
   }
 
   Stream<RegisterDeviceState> _mapRegisterDeviceFromQrStartedToState(
@@ -55,9 +68,12 @@ class RegisterDeviceBloc
 
     final List resultParts = result.split('|');
 
+    connectionAddressCache = resultParts[0].trim();
+    deviceTokenCache = resultParts[1].trim();
+
     yield* _failureOrRegisterDevice(
-      resultParts[0].trim(),
-      resultParts[1].trim(),
+      connectionAddressCache,
+      deviceTokenCache,
       settingsBloc,
     );
   }
@@ -68,9 +84,13 @@ class RegisterDeviceBloc
     @required SettingsBloc settingsBloc,
   }) async* {
     yield RegisterDeviceInProgress();
+
+    connectionAddressCache = connectionAddress.trim();
+    deviceTokenCache = deviceToken.trim();
+
     yield* _failureOrRegisterDevice(
-      connectionAddress.trim(),
-      deviceToken.trim(),
+      connectionAddressCache,
+      deviceTokenCache,
       settingsBloc,
     );
   }
@@ -78,8 +98,9 @@ class RegisterDeviceBloc
   Stream<RegisterDeviceState> _failureOrRegisterDevice(
     String connectionAddress,
     String deviceToken,
-    SettingsBloc settingsBloc,
-  ) async* {
+    SettingsBloc settingsBloc, {
+    bool trustCert = false,
+  }) async* {
     final connectionMap = ConnectionAddressHelper.parse(connectionAddress);
     final connectionProtocol = connectionMap['protocol'];
     final connectionDomain = connectionMap['domain'];
@@ -90,6 +111,7 @@ class RegisterDeviceBloc
       connectionDomain: connectionDomain,
       connectionPath: connectionPath,
       deviceToken: deviceToken,
+      trustCert: trustCert,
     );
 
     yield* failureOrRegistered.fold(

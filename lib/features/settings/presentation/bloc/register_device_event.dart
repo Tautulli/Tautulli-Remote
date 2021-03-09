@@ -31,3 +31,14 @@ class RegisterDeviceManualStarted extends RegisterDeviceEvent {
   @override
   List<Object> get props => [connectionAddress, deviceToken];
 }
+
+class RegisterDeviceUnverifiedCert extends RegisterDeviceEvent {
+  final SettingsBloc settingsBloc;
+
+  RegisterDeviceUnverifiedCert({
+    @required this.settingsBloc,
+  });
+
+  @override
+  List<Object> get props => [];
+}
