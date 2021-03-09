@@ -313,6 +313,10 @@ Widget _serverTimeoutDisplay(int timeout) {
       return Text('3 sec - Fast');
     case (8):
       return Text('8 sec - Slow');
+    case (15):
+      return Text('15 sec - Very Slow');
+    case (30):
+      return Text('30 sec - Extremely Slow');
     default:
       return Text('5 sec - Default');
   }
