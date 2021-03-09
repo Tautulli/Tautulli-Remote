@@ -180,6 +180,7 @@ class ActivityItemModel extends ActivityItem {
       bandwidth: ValueHelper.cast(
         value: json['bandwidth'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       channelCallSign: ValueHelper.cast(
         value: json['channel_call_sign'],

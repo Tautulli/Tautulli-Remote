@@ -60,8 +60,7 @@ class ActivityMediaDetailsCleaner {
     String finalText;
 
     if (activity.mediaType != 'photo' &&
-        activity.bandwidth != 'Unknown' &&
-        activity.bandwidth != '') {
+        !['Unknown', '', ' '].contains(activity.bandwidth)) {
       int _bw = int.parse(activity.bandwidth);
       if (_bw > 1000000) {
         finalText = '${(_bw / 1000000).toStringAsFixed(1)} Gbps';
