@@ -1,6 +1,17 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.4.2",
+      "date": "March 9, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail":
+              "Fall back to empty strings for various activity properties, this should help prevent bad data from preventing the loading of activity details",
+        },
+      ]
+    },
+    {
       "version": "v2.4.1",
       "date": "March 9, 2021",
       "changes": [
