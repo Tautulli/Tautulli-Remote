@@ -11,6 +11,7 @@ import '../requirements/versions.dart';
 const String MISSING_SERVER_FAILURE_MESSAGE = 'No servers are configured.';
 const String SERVER_FAILURE_MESSAGE = 'Failed to connect to server.';
 const String CONNECTION_FAILURE_MESSAGE = 'No network connectivity.';
+const String QR_SCAN_FAILURE_MESSAGE = 'QR Code Scan Failed.';
 const String SETTINGS_FAILURE_MESSAGE = 'Required settings are missing.';
 const String SOCKET_FAILURE_MESSAGE =
     'Failed to connect to Connection Address.';
@@ -37,6 +38,8 @@ const String CHECK_CONNECTION_ADDRESS_SUGGESTION =
     'Check your Connection Address for errors.';
 const String CHECK_SERVER_SETTINGS_SUGGESTION =
     'Please verify your connection settings.';
+const String QR_SCAN_FAILURE_SUGGESTION =
+    'Check that the QR code you are scanning is correct.';
 const String PLEX_CONNECTION_SUGGESTION =
     'Check your Connection Address for errors and make sure Tautulli can communicate with Plex.';
 const String CERTIFICATE_EXPIRED_FAILURE_SUGGESTION =
@@ -125,6 +128,8 @@ class FailureMapperHelper {
         return SERVER_FAILURE_MESSAGE;
       case ConnectionFailure:
         return CONNECTION_FAILURE_MESSAGE;
+      case QRScanFailure:
+        return QR_SCAN_FAILURE_MESSAGE;
       case SettingsFailure:
         return SETTINGS_FAILURE_MESSAGE;
       case SocketFailure:
@@ -163,6 +168,8 @@ class FailureMapperHelper {
         return MISSING_SERVER_SUGGESTION;
       case ServerFailure:
         return CHECK_SERVER_SETTINGS_SUGGESTION;
+      case QRScanFailure:
+        return QR_SCAN_FAILURE_SUGGESTION;
       case SettingsFailure:
         return CHECK_SERVER_SETTINGS_SUGGESTION;
       case SocketFailure:

@@ -16,6 +16,9 @@ class ServerFailure extends Failure {}
 /// Device is not connected to a network.
 class ConnectionFailure extends Failure {}
 
+/// Scanning QR code fails to return a proper address and device token.
+class QRScanFailure extends Failure {}
+
 /// Required settings are missing.
 class SettingsFailure extends Failure {}
 
