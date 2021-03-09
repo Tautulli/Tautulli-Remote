@@ -59,6 +59,18 @@ class _ServerTimeoutDialogState extends State<ServerTimeoutDialog> {
           groupValue: _timeout,
           onChanged: (value) => _timeoutRadioValueChanged(value),
         ),
+        RadioListTile(
+          title: Text('15 sec - Very Slow'),
+          value: 15,
+          groupValue: _timeout,
+          onChanged: (value) => _timeoutRadioValueChanged(value),
+        ),
+        RadioListTile(
+          title: Text('30 sec - Extremely Slow'),
+          value: 30,
+          groupValue: _timeout,
+          onChanged: (value) => _timeoutRadioValueChanged(value),
+        ),
       ],
     );
   }
