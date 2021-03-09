@@ -726,7 +726,7 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulliApi.CallTautulli>(
     () => tautulliApi.CallTautulliImpl(
-      client: sl(),
+      logging: sl(),
     ),
   );
   sl.registerLazySingleton<tautulliApi.DeleteMobileDevice>(

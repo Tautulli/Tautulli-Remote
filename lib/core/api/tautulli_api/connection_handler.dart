@@ -20,6 +20,7 @@ abstract class ConnectionHandler {
     @required String cmd,
     Map<String, String> params,
     int timeoutOverride,
+    bool trustCert,
   });
 }
 
@@ -42,6 +43,7 @@ class ConnectionHandlerImpl implements ConnectionHandler {
     @required String cmd,
     Map<String, String> params,
     int timeoutOverride,
+    bool trustCert = false,
   }) async {
     String secondaryConnectionAddress;
     String secondaryConnectionProtocol;
@@ -98,6 +100,7 @@ class ConnectionHandlerImpl implements ConnectionHandler {
         cmd: cmd,
         params: params,
         timeoutOverride: timeoutOverride,
+        trustCert: trustCert,
       );
     } catch (error) {
       // If secondary connection configured try again with the other connection

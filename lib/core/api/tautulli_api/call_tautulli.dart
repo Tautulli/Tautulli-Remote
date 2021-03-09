@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'package:meta/meta.dart';
 
+import '../../../features/logging/domain/usecases/logging.dart';
 import '../../../features/settings/domain/usecases/settings.dart';
 import '../../../injection_container.dart' as di;
 import '../../error/exception.dart';
@@ -17,14 +20,15 @@ abstract class CallTautulli {
     @required String deviceToken,
     @required String cmd,
     Map<String, String> params,
+    bool trustCert,
     int timeoutOverride,
   });
 }
 
 class CallTautulliImpl implements CallTautulli {
-  final http.Client client;
+  final Logging logging;
 
-  CallTautulliImpl({@required this.client});
+  CallTautulliImpl({@required this.logging});
 
   @override
   Future call({
@@ -34,6 +38,7 @@ class CallTautulliImpl implements CallTautulli {
     @required String deviceToken,
     @required String cmd,
     Map<String, String> params,
+    bool trustCert,
     int timeoutOverride,
   }) async {
     // If no params provided initalize params
@@ -62,19 +67,64 @@ class CallTautulliImpl implements CallTautulli {
     // Get timeout value from settings
     final timeout = await di.sl<Settings>().getServerTimeout();
 
+    http.Response response;
+
+    // Get list of custom cert hashes
+    List customCertHashList = await di.sl<Settings>().getCustomCertHashList();
+
+    HttpClient client = HttpClient()
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) {
+        int certHashCode = cert.pem.hashCode;
+
+        if (cert.endValidity.isAfter(DateTime.now())) {
+          if (customCertHashList.contains(certHashCode)) {
+            print('Custom cert hash exists');
+            return true;
+          } else {
+            if (trustCert) {
+              logging.info(
+                'Server Call: Saving custom cert hash for $connectionDomain',
+              );
+              customCertHashList.add(certHashCode);
+              return true;
+            }
+          }
+        } else if (cert.endValidity.isBefore(DateTime.now())) {
+          throw CertificateExpiredException;
+        }
+
+        return false;
+      });
+
+    var ioClient = IOClient(client);
+
     // Call API using constructed URI
-    final response = await client.get(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-    ).timeout(
-      Duration(
-        seconds: timeoutOverride != null
-            ? timeoutOverride
-            : timeout != null
-                ? timeout
-                : 5,
-      ),
-    );
+    try {
+      response = await ioClient.get(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+      ).timeout(
+        Duration(
+          seconds: timeoutOverride != null
+              ? timeoutOverride
+              : timeout != null
+                  ? timeout
+                  : 5,
+        ),
+      );
+    } catch (exception) {
+      if (exception.runtimeType == HandshakeException &&
+          exception.toString().contains('CERTIFICATE_VERIFY_FAILED')) {
+        throw CertificateVerificationException;
+      }
+      throw exception;
+    }
+
+    // Make sure to store cert list if new certs were added
+    if (trustCert) {
+      await di.sl<Settings>().setCustomCertHashList(customCertHashList);
+    }
 
     // Attempt to parse reponse into JSON
     Map<String, dynamic> responseJson;
