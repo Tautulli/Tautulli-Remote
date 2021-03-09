@@ -15,6 +15,7 @@ class RegisterDevice {
     @required String connectionPath,
     @required String deviceToken,
     bool clearOnesignalId,
+    bool trustCert,
   }) async {
     return await repository(
       connectionProtocol: connectionProtocol,
@@ -22,6 +23,7 @@ class RegisterDevice {
       connectionPath: connectionPath,
       deviceToken: deviceToken,
       clearOnesignalId: clearOnesignalId,
+      trustCert: trustCert,
     );
   }
 }

@@ -15,6 +15,7 @@ abstract class RegisterDeviceDataSource {
     @required String connectionPath,
     @required String deviceToken,
     bool clearOnesignalId,
+    bool trustCert,
   });
 }
 
@@ -36,6 +37,7 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
     @required String connectionPath,
     @required String deviceToken,
     bool clearOnesignalId = false,
+    bool trustCert,
   }) async {
     final deviceId = await deviceInfo.uniqueId;
     final deviceName = await deviceInfo.model;
@@ -59,6 +61,7 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
       deviceId: deviceId,
       deviceName: deviceName,
       onesignalId: onesignalId,
+      trustCert: trustCert,
     );
 
     if (registerJson['response']['result'] == 'success') {

@@ -83,6 +83,7 @@ void main() {
         connectionDomain: anyNamed('connectionDomain'),
         connectionPath: anyNamed('connectionPath'),
         deviceToken: anyNamed('deviceToken'),
+        trustCert: anyNamed('trustCert'),
       ),
     ).thenAnswer((_) async => Right(responseMap));
   }
@@ -114,6 +115,7 @@ void main() {
             connectionDomain: anyNamed('connectionDomain'),
             connectionPath: anyNamed('connectionPath'),
             deviceToken: anyNamed('deviceToken'),
+            trustCert: anyNamed('trustCert'),
           ),
         );
         // assert
@@ -123,6 +125,7 @@ void main() {
             connectionDomain: anyNamed('connectionDomain'),
             connectionPath: anyNamed('connectionPath'),
             deviceToken: anyNamed('deviceToken'),
+            trustCert: anyNamed('trustCert'),
           ),
         );
       },
@@ -184,6 +187,7 @@ void main() {
             connectionDomain: anyNamed('connectionDomain'),
             connectionPath: anyNamed('connectionPath'),
             deviceToken: anyNamed('deviceToken'),
+            trustCert: anyNamed('trustCert'),
           ),
         ).thenAnswer((_) async => Left(ServerFailure()));
         // assert later
@@ -223,6 +227,7 @@ void main() {
             connectionDomain: anyNamed('connectionDomain'),
             connectionPath: anyNamed('connectionPath'),
             deviceToken: anyNamed('deviceToken'),
+            trustCert: anyNamed('trustCert'),
           ),
         );
         // assert
@@ -232,6 +237,7 @@ void main() {
             connectionDomain: anyNamed('connectionDomain'),
             connectionPath: anyNamed('connectionPath'),
             deviceToken: anyNamed('deviceToken'),
+            trustCert: anyNamed('trustCert'),
           ),
         );
       },
@@ -295,6 +301,7 @@ void main() {
             connectionDomain: anyNamed('connectionDomain'),
             connectionPath: anyNamed('connectionPath'),
             deviceToken: anyNamed('deviceToken'),
+            trustCert: anyNamed('trustCert'),
           ),
         ).thenAnswer((_) async => Left(ServerFailure()));
         // assert later

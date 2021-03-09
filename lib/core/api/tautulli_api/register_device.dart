@@ -12,6 +12,7 @@ abstract class RegisterDevice {
     @required String deviceId,
     @required String deviceName,
     @required String onesignalId,
+    bool trustCert,
   });
 }
 
@@ -28,6 +29,7 @@ class RegisterDeviceImpl implements RegisterDevice {
     @required String deviceId,
     @required String deviceName,
     @required String onesignalId,
+    bool trustCert,
   }) async {
     final responseJson = await connectionHandler(
       primaryConnectionProtocol: connectionProtocol,
@@ -41,6 +43,7 @@ class RegisterDeviceImpl implements RegisterDevice {
         'onesignal_id': onesignalId,
         'min_version': 'v${MinimumVersion.tautulliServer}',
       },
+      trustCert: trustCert,
     );
 
     return responseJson;
