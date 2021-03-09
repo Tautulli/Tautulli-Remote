@@ -23,10 +23,11 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. Pixel 5]
- - OS: [e.g. Android 11]
- - App Version [e.g. 2.3.0]
+**Tautulli Info (please complete the following information):**
+ - Mobile Device: [e.g. Pixel 5]
+ - Mobile OS: [e.g. Android 11]
+ - Tautulli Remote Version [e.g. 2.3.0]
+ - Tautulli Version [e.g. 6.6.8]
 
 **Additional context**
 Add any other context about the problem here.
