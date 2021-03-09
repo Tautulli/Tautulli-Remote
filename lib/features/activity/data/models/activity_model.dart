@@ -193,6 +193,7 @@ class ActivityItemModel extends ActivityItem {
       container: ValueHelper.cast(
         value: json['container'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       duration: ValueHelper.cast(
         value: json['duration'],
@@ -281,10 +282,12 @@ class ActivityItemModel extends ActivityItem {
       player: ValueHelper.cast(
         value: json['player'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       product: ValueHelper.cast(
         value: json['product'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       progressPercent: ValueHelper.cast(
         value: json['progress_percent'],
@@ -293,6 +296,7 @@ class ActivityItemModel extends ActivityItem {
       qualityProfile: ValueHelper.cast(
         value: json['quality_profile'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       ratingKey: ValueHelper.cast(
         value: json['rating_key'],
@@ -317,6 +321,7 @@ class ActivityItemModel extends ActivityItem {
       streamAudioCodec: ValueHelper.cast(
         value: json['stream_audio_codec'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       streamAudioDecision: ValueHelper.cast(
         value: json['stream_audio_decision'],
@@ -329,6 +334,7 @@ class ActivityItemModel extends ActivityItem {
       streamContainer: ValueHelper.cast(
         value: json['stream_container'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       streamContainerDecision: ValueHelper.cast(
         value: json['stream_container_decision'],
@@ -337,6 +343,7 @@ class ActivityItemModel extends ActivityItem {
       streamSubtitleCodec: ValueHelper.cast(
         value: json['stream_subtitle_codec'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       streamSubtitleDecision: ValueHelper.cast(
         value: json['stream_subtitle_decision'],
@@ -345,6 +352,7 @@ class ActivityItemModel extends ActivityItem {
       streamVideoCodec: ValueHelper.cast(
         value: json['stream_video_codec'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       streamVideoDecision: ValueHelper.cast(
         value: json['stream_video_decision'],
@@ -353,14 +361,17 @@ class ActivityItemModel extends ActivityItem {
       streamVideoDynamicRange: ValueHelper.cast(
         value: json['stream_video_dynamic_range'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       streamVideoFullResolution: ValueHelper.cast(
         value: json['stream_video_full_resolution'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       subtitleCodec: ValueHelper.cast(
         value: json['subtitle_codec'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       subtitles: ValueHelper.cast(
         value: json['subtitles'],
@@ -377,6 +388,7 @@ class ActivityItemModel extends ActivityItem {
       syncedVersionProfile: ValueHelper.cast(
         value: json['synced_version_profile'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       thumb: ValueHelper.cast(
         value: json['thumb'],
@@ -385,6 +397,7 @@ class ActivityItemModel extends ActivityItem {
       title: ValueHelper.cast(
         value: json['title'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       transcodeDecision: ValueHelper.cast(
         value: json['transcode_decision'],
@@ -417,14 +430,17 @@ class ActivityItemModel extends ActivityItem {
       videoCodec: ValueHelper.cast(
         value: json['video_codec'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       videoDynamicRange: ValueHelper.cast(
         value: json['video_dynamic_range'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       videoFullResolution: ValueHelper.cast(
         value: json['video_full_resolution'],
         type: CastType.string,
+        nullEmptyString: false,
       ),
       viewOffset: ValueHelper.cast(
         value: json['view_offset'],
