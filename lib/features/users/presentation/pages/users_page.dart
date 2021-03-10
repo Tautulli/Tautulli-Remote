@@ -9,6 +9,7 @@ import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/app_drawer_icon.dart';
 import '../../../../core/widgets/bottom_loader.dart';
+import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../core/widgets/user_card.dart';
@@ -112,153 +113,157 @@ class _UsersPageContentState extends State<UsersPageContent> {
         actions: _appBarActions(),
       ),
       drawer: AppDrawer(),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return Container(
-            height: constraints.maxHeight,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BlocBuilder<SettingsBloc, SettingsState>(
-                  builder: (context, state) {
-                    if (state is SettingsLoadSuccess) {
-                      if (state.serverList.length > 1) {
-                        return DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            value: _tautulliId,
-                            style:
-                                TextStyle(color: Theme.of(context).accentColor),
-                            items: state.serverList.map((server) {
-                              return DropdownMenuItem(
-                                child:
-                                    ServerHeader(serverName: server.plexName),
-                                value: server.tautulliId,
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              if (value != _tautulliId) {
-                                setState(() {
-                                  _tautulliId = value;
-                                  _settingsBloc.add(
-                                    SettingsUpdateLastSelectedServer(
-                                        tautulliId: _tautulliId),
-                                  );
-                                  _usersBloc.add(
-                                    UsersFilter(
-                                      tautulliId: _tautulliId,
-                                      orderColumn: _orderColumn,
-                                      orderDir: _orderDir,
-                                    ),
-                                  );
-                                });
-                              }
-                            },
-                          ),
-                        );
+      body: DoubleTapExit(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Container(
+              height: constraints.maxHeight,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BlocBuilder<SettingsBloc, SettingsState>(
+                    builder: (context, state) {
+                      if (state is SettingsLoadSuccess) {
+                        if (state.serverList.length > 1) {
+                          return DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              value: _tautulliId,
+                              style: TextStyle(
+                                  color: Theme.of(context).accentColor),
+                              items: state.serverList.map((server) {
+                                return DropdownMenuItem(
+                                  child:
+                                      ServerHeader(serverName: server.plexName),
+                                  value: server.tautulliId,
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                if (value != _tautulliId) {
+                                  setState(() {
+                                    _tautulliId = value;
+                                    _settingsBloc.add(
+                                      SettingsUpdateLastSelectedServer(
+                                          tautulliId: _tautulliId),
+                                    );
+                                    _usersBloc.add(
+                                      UsersFilter(
+                                        tautulliId: _tautulliId,
+                                        orderColumn: _orderColumn,
+                                        orderDir: _orderDir,
+                                      ),
+                                    );
+                                  });
+                                }
+                              },
+                            ),
+                          );
+                        }
                       }
-                    }
-                    return Container(height: 0, width: 0);
-                  },
-                ),
-                BlocConsumer<UsersBloc, UsersState>(
-                  listener: (context, state) {
-                    if (state is UsersSuccess) {
-                      _refreshCompleter?.complete();
-                      _refreshCompleter = Completer();
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is UsersSuccess) {
-                      if (state.list.length > 0) {
-                        return Expanded(
-                          child: RefreshIndicator(
-                            onRefresh: () {
-                              _usersBloc.add(
-                                UsersFilter(
-                                  tautulliId: _tautulliId,
-                                  orderColumn: _orderColumn,
-                                  orderDir: _orderDir,
-                                ),
-                              );
-                              return _refreshCompleter.future;
-                            },
-                            child: Scrollbar(
-                              child: ListView.builder(
-                                itemCount: state.hasReachedMax
-                                    ? state.list.length
-                                    : state.list.length + 1,
-                                controller: _scrollController,
-                                itemBuilder: (context, index) {
-                                  return index >= state.list.length
-                                      ? BottomLoader()
-                                      : UserCard(
-                                          userThumb:
-                                              state.list[index].userThumb,
-                                          isActive: state.list[index].isActive,
-                                          details: UsersDetails(
-                                            user: state.list[index],
+                      return Container(height: 0, width: 0);
+                    },
+                  ),
+                  BlocConsumer<UsersBloc, UsersState>(
+                    listener: (context, state) {
+                      if (state is UsersSuccess) {
+                        _refreshCompleter?.complete();
+                        _refreshCompleter = Completer();
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is UsersSuccess) {
+                        if (state.list.length > 0) {
+                          return Expanded(
+                            child: RefreshIndicator(
+                              onRefresh: () {
+                                _usersBloc.add(
+                                  UsersFilter(
+                                    tautulliId: _tautulliId,
+                                    orderColumn: _orderColumn,
+                                    orderDir: _orderDir,
+                                  ),
+                                );
+                                return _refreshCompleter.future;
+                              },
+                              child: Scrollbar(
+                                child: ListView.builder(
+                                  itemCount: state.hasReachedMax
+                                      ? state.list.length
+                                      : state.list.length + 1,
+                                  controller: _scrollController,
+                                  itemBuilder: (context, index) {
+                                    return index >= state.list.length
+                                        ? BottomLoader()
+                                        : UserCard(
+                                            userThumb:
+                                                state.list[index].userThumb,
+                                            isActive:
+                                                state.list[index].isActive,
+                                            details: UsersDetails(
+                                              user: state.list[index],
+                                              maskSensitiveInfo:
+                                                  _maskSensitiveInfo,
+                                            ),
                                             maskSensitiveInfo:
                                                 _maskSensitiveInfo,
-                                          ),
-                                          maskSensitiveInfo: _maskSensitiveInfo,
-                                        );
-                                },
+                                          );
+                                  },
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      } else {
+                          );
+                        } else {
+                          return Expanded(
+                            child: Center(
+                              child: Text(
+                                'No users found.',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                      }
+                      if (state is UsersFailure) {
                         return Expanded(
                           child: Center(
-                            child: Text(
-                              'No users found.',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                              ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Center(
+                                  child: ErrorMessage(
+                                    failure: state.failure,
+                                    message: state.message,
+                                    suggestion: state.suggestion,
+                                  ),
+                                ),
+                                UserErrorButton(
+                                  completer: _refreshCompleter,
+                                  failure: state.failure,
+                                  usersEvent: UsersFilter(
+                                    tautulliId: _tautulliId,
+                                    orderColumn: _orderColumn,
+                                    orderDir: _orderDir,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         );
                       }
-                    }
-                    if (state is UsersFailure) {
                       return Expanded(
                         child: Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Center(
-                                child: ErrorMessage(
-                                  failure: state.failure,
-                                  message: state.message,
-                                  suggestion: state.suggestion,
-                                ),
-                              ),
-                              UserErrorButton(
-                                completer: _refreshCompleter,
-                                failure: state.failure,
-                                usersEvent: UsersFilter(
-                                  tautulliId: _tautulliId,
-                                  orderColumn: _orderColumn,
-                                  orderDir: _orderDir,
-                                ),
-                              ),
-                            ],
-                          ),
+                          child: CircularProgressIndicator(),
                         ),
                       );
-                    }
-                    return Expanded(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          );
-        },
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
