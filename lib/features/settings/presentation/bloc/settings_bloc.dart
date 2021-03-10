@@ -128,6 +128,16 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       await settings.setRefreshRate(event.refreshRate);
       yield* _fetchAndYieldSettings();
     }
+    if (event is SettingsUpdateDoubleTapToExit) {
+      logging.info(
+        event.value
+            ? 'Settings: Double Tap To Exit enabled'
+            : 'Settings: Double Tap To Exit disabled',
+      );
+
+      await settings.setDoubleTapToExit(event.value);
+      yield* _fetchAndYieldSettings();
+    }
     if (event is SettingsUpdateMaskSensitiveInfo) {
       logging.info(
         event.value
@@ -157,6 +167,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final serverList = await settings.getAllServers();
     final serverTimeout = await settings.getServerTimeout();
     final refreshRate = await settings.getRefreshRate();
+    final doubleTapToExit = await settings.getDoubleTapToExit();
     final maskSensitiveInfo = await settings.getMaskSensitiveInfo();
     final lastSelectedServer = await settings.getLastSelectedServer();
     final statsType = await settings.getStatsType();
@@ -165,6 +176,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       serverList: serverList,
       serverTimeout: serverTimeout,
       refreshRate: refreshRate,
+      doubleTapToExit: doubleTapToExit,
       maskSensitiveInfo: maskSensitiveInfo ?? false,
       lastSelectedServer: lastSelectedServer,
       statsType: statsType,

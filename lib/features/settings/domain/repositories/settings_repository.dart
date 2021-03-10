@@ -76,6 +76,10 @@ abstract class SettingsRepository {
 
   Future<bool> setRefreshRate(int value);
 
+  Future<bool> getDoubleTapToExit();
+
+  Future<bool> setDoubleTapToExit(bool value);
+
   Future<bool> getMaskSensitiveInfo();
 
   Future<bool> setMaskSensitiveInfo(bool value);

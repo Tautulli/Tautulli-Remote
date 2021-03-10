@@ -327,6 +327,33 @@ void main() {
   );
 
   test(
+    'getDoubleTapToExit should get double tap to exit value from settings',
+    () async {
+      // arrange
+      when(
+        mockSettingsRepository.getDoubleTapToExit(),
+      ).thenAnswer((_) async => true);
+      // act
+      final result = await settings.getDoubleTapToExit();
+      // assert
+      expect(result, equals(true));
+      verify(mockSettingsRepository.getDoubleTapToExit());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setDoubleTapToExit should forward request to the repository',
+    () async {
+      // act
+      await settings.setDoubleTapToExit(true);
+      // assert
+      verify(mockSettingsRepository.setDoubleTapToExit(true));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
     'getMaskSensitiveInfo should get mask sensitive info value from settings',
     () async {
       // arrange

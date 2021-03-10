@@ -254,6 +254,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<bool> getDoubleTapToExit() async {
+    final doubleTapToExit = await dataSource.getDoubleTapToExit();
+    return doubleTapToExit;
+  }
+
+  @override
+  Future<bool> setDoubleTapToExit(bool value) async {
+    return dataSource.setDoubleTapToExit(value);
+  }
+
+  @override
   Future<bool> getMaskSensitiveInfo() async {
     final maskSensitiveInfo = await dataSource.getMaskSensitiveInfo();
     return maskSensitiveInfo;

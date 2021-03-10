@@ -33,6 +33,7 @@ void main() {
 
   final int tServerTimeout = 3;
   final int tRefreshRate = 5;
+  final bool tDoubleTapToExit = true;
   final bool tMaskSensitiveInfo = true;
   final String tTautulliId = 'jkl';
   final String tStatsType = 'duration';
@@ -217,6 +218,31 @@ void main() {
         await repository.setRefreshRate(tRefreshRate);
         // assert
         verify(mockSettingsDataSource.setRefreshRate(tRefreshRate));
+      },
+    );
+  });
+
+  group('Double Tap To Exit', () {
+    test(
+      'should return the double tap to exit value from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getDoubleTapToExit())
+            .thenAnswer((_) async => tDoubleTapToExit);
+        // act
+        final result = await repository.getDoubleTapToExit();
+        // assert
+        expect(result, equals(tDoubleTapToExit));
+      },
+    );
+
+    test(
+      'should forward the call to the data source to set double tap to exit',
+      () async {
+        // act
+        await repository.setDoubleTapToExit(tDoubleTapToExit);
+        // assert
+        verify(mockSettingsDataSource.setDoubleTapToExit(tDoubleTapToExit));
       },
     );
   });

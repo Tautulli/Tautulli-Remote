@@ -72,6 +72,7 @@ void main() {
 
   final int tServerTimeout = 5;
   final int tRefreshRate = 10;
+  final bool tDoubleTapToExit = true;
   final bool tMaskSensitiveInfo = true;
   final String tStatsType = 'duration';
 
@@ -84,6 +85,8 @@ void main() {
     when(mockSettings.getServerTimeout())
         .thenAnswer((_) async => tServerTimeout);
     when(mockSettings.getRefreshRate()).thenAnswer((_) async => tRefreshRate);
+    when(mockSettings.getDoubleTapToExit())
+        .thenAnswer((_) async => tDoubleTapToExit);
     when(mockSettings.getMaskSensitiveInfo())
         .thenAnswer((_) async => tMaskSensitiveInfo);
     when(mockSettings.getLastSelectedServer())
@@ -129,6 +132,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
@@ -193,6 +197,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
@@ -278,6 +283,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
@@ -329,6 +335,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
@@ -383,6 +390,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
@@ -440,6 +448,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
@@ -497,6 +506,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,

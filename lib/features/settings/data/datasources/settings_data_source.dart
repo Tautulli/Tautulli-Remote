@@ -20,6 +20,10 @@ abstract class SettingsDataSource {
 
   Future<bool> setRefreshRate(int value);
 
+  Future<bool> getDoubleTapToExit();
+
+  Future<bool> setDoubleTapToExit(bool value);
+
   Future<bool> setMaskSensitiveInfo(bool value);
 
   Future<bool> getMaskSensitiveInfo();
@@ -47,6 +51,7 @@ abstract class SettingsDataSource {
 
 const SETTINGS_SERVER_TIMEOUT = 'SETTINGS_SERVER_TIMEOUT';
 const SETTINGS_REFRESH_RATE = 'SETTINGS_REFRESH_RATE';
+const SETTINGS_DOUBLE_TAP_TO_EXIT = 'SETTINGS_DOUBLE_TAP_TO_EXIT';
 const SETTINGS_MASK_SENSITIVE_INFO = 'SETTINGS_MASK_SENSITIVE_INFO';
 const LAST_SELECTED_SERVER = 'LAST_SELECTED_SERVER';
 const STATS_TYPE = 'STATS_TYPE';
@@ -108,6 +113,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setRefreshRate(int value) {
     return sharedPreferences.setInt(SETTINGS_REFRESH_RATE, value);
+  }
+
+  @override
+  Future<bool> getDoubleTapToExit() {
+    final value = sharedPreferences.getBool(SETTINGS_DOUBLE_TAP_TO_EXIT);
+    return Future.value(value);
+  }
+
+  @override
+  Future<bool> setDoubleTapToExit(bool value) {
+    return sharedPreferences.setBool(SETTINGS_DOUBLE_TAP_TO_EXIT, value);
   }
 
   @override

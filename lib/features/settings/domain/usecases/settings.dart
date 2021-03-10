@@ -151,6 +151,14 @@ class Settings {
     return repository.setRefreshRate(value);
   }
 
+  Future<bool> getDoubleTapToExit() async {
+    return await repository.getDoubleTapToExit();
+  }
+
+  Future<bool> setDoubleTapToExit(bool value) async {
+    return repository.setDoubleTapToExit(value);
+  }
+
   Future<bool> getMaskSensitiveInfo() async {
     return await repository.getMaskSensitiveInfo();
   }

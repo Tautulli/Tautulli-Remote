@@ -138,6 +138,15 @@ class SettingsUpdateRefreshRate extends SettingsEvent {
   List<Object> get props => [refreshRate];
 }
 
+class SettingsUpdateDoubleTapToExit extends SettingsEvent {
+  final bool value;
+
+  SettingsUpdateDoubleTapToExit({@required this.value});
+
+  @override
+  List<Object> get props => [value];
+}
+
 class SettingsUpdateMaskSensitiveInfo extends SettingsEvent {
   final bool value;
 

@@ -189,6 +189,49 @@ void main() {
     );
   });
 
+  group('Double Tap To Exit', () {
+    test(
+      'should return bool from settings',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(SETTINGS_DOUBLE_TAP_TO_EXIT),
+        ).thenReturn(true);
+        // act
+        final doubleTapToExit = await dataSource.getDoubleTapToExit();
+        // assert
+        verify(mockSharedPreferences.getBool(SETTINGS_DOUBLE_TAP_TO_EXIT));
+        expect(doubleTapToExit, equals(true));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(SETTINGS_DOUBLE_TAP_TO_EXIT),
+        ).thenReturn(null);
+        // act
+        final doubleTapToExit = await dataSource.getDoubleTapToExit();
+        // assert
+        expect(doubleTapToExit, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the double tap to exit value',
+      () async {
+        // act
+        await dataSource.setDoubleTapToExit(true);
+        // assert
+        verify(
+          mockSharedPreferences.setBool(SETTINGS_DOUBLE_TAP_TO_EXIT, true),
+        );
+      },
+    );
+  });
+
   group('Mask Sensitive Info', () {
     test(
       'should return bool from settings',
