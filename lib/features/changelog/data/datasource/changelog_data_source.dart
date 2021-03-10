@@ -1,6 +1,26 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.4.3",
+      "date": "March 10, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail":
+              "QR code scanner now fails when scanning bad QR codes and barcodes",
+        },
+        {
+          "type": "improvement",
+          "detail": "Long titles on announcement cards now wrap correctly",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fix incorrect values displayed for 15 and 30 sec server timeouts on Settings page",
+        },
+      ]
+    },
+    {
       "version": "v2.4.2",
       "date": "March 9, 2021",
       "changes": [
