@@ -36,27 +36,14 @@ class AnnouncementCard extends StatelessWidget {
             : null,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
+          child: Stack(
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (id > lastReadAnnouncementId)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 4),
-                            child: Container(
-                              height: 13,
-                              width: 13,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color:
-                                    PlexColorPalette.gamboge.withOpacity(0.9),
-                              ),
-                            ),
-                          ),
                         Text(
                           title,
                           style: TextStyle(
@@ -64,33 +51,48 @@ class AnnouncementCard extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Text(
+                            date,
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          body,
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
                       ],
                     ),
+                  ),
+                  if (isNotEmpty(actionUrl))
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Text(
-                        date,
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),
+                      padding: const EdgeInsets.only(left: 4),
+                      child: FaIcon(
+                        FontAwesomeIcons.externalLinkAlt,
+                        size: 20,
+                        color: TautulliColorPalette.not_white,
                       ),
                     ),
-                    Text(
-                      body,
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
+                ],
               ),
-              if (isNotEmpty(actionUrl))
-                Padding(
-                  padding: const EdgeInsets.only(left: 4),
-                  child: FaIcon(
-                    FontAwesomeIcons.externalLinkAlt,
-                    size: 20,
-                    color: TautulliColorPalette.not_white,
+              if (id > lastReadAnnouncementId)
+                Positioned(
+                  right: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 4),
+                    child: Container(
+                      height: 13,
+                      width: 13,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: PlexColorPalette.gamboge.withOpacity(0.9),
+                      ),
+                    ),
                   ),
                 ),
             ],
