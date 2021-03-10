@@ -37,7 +37,8 @@ void main() {
     );
   });
 
-  final String tQrCodeResult = 'http://tautulli.com|abc';
+  final String tQrCodeResult =
+      'http://tautulli.com|abcdefghijklmnopqrstuvwxyzabcdef';
   final int tId = 1;
   final String tPrimaryConnectionAddress = 'http://tautulli.com';
   final String tPrimaryConnectionProtocol = 'http';
@@ -155,6 +156,29 @@ void main() {
     //TODO: Need to test for if the server is not in the db and we add a new one
 
     //TODO: Need to test for if the server is in the db and we do an update
+
+    test(
+      'should emit [RegisterDeviceInProgress, RegisterDeviceFailure] when QR code data is incorrect',
+      () async {
+        // arrange
+        setUpSuccess();
+        // assert later
+        final expected = [
+          RegisterDeviceInProgress(),
+          RegisterDeviceFailure(
+            failure: QRScanFailure(),
+          ),
+        ];
+        expectLater(bloc, emitsInOrder(expected));
+        // act
+        bloc.add(
+          RegisterDeviceFromQrStarted(
+            result: 'http://tautulli.con|abc',
+            settingsBloc: mockSettingsBloc,
+          ),
+        );
+      },
+    );
 
     test(
       'should emit [RegisterDeviceInProgress, RegisterDeviceSuccess] when device is successfully registered',

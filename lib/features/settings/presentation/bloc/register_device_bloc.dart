@@ -75,16 +75,16 @@ class RegisterDeviceBloc
 
       if (!isURL(connectionAddressCache) || deviceTokenCache.length != 32) {
         yield RegisterDeviceFailure(failure: QRScanFailure());
+      } else {
+        yield* _failureOrRegisterDevice(
+          connectionAddressCache,
+          deviceTokenCache,
+          settingsBloc,
+        );
       }
     } catch (_) {
       yield RegisterDeviceFailure(failure: QRScanFailure());
     }
-
-    yield* _failureOrRegisterDevice(
-      connectionAddressCache,
-      deviceTokenCache,
-      settingsBloc,
-    );
   }
 
   Stream<RegisterDeviceState> _mapRegisterDeviceManualStartedToState({
