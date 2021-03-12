@@ -176,7 +176,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       serverList: serverList,
       serverTimeout: serverTimeout,
       refreshRate: refreshRate,
-      doubleTapToExit: doubleTapToExit,
+      doubleTapToExit: doubleTapToExit ?? false,
       maskSensitiveInfo: maskSensitiveInfo ?? false,
       lastSelectedServer: lastSelectedServer,
       statsType: statsType,
