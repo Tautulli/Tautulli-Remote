@@ -1,6 +1,27 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.4.4",
+      "date": "March 12, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Enable Double Tap To Exit to require pressing back twice to exit the app",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fix an issue where a success would be emited after a failure for a failed QR scan",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fix images not loading for manually trusted certs (ex. self-signed certs)",
+        },
+      ]
+    },
+    {
       "version": "v2.4.3",
       "date": "March 10, 2021",
       "changes": [
