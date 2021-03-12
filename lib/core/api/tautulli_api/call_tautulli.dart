@@ -70,7 +70,8 @@ class CallTautulliImpl implements CallTautulli {
     http.Response response;
 
     // Get list of custom cert hashes
-    List customCertHashList = await di.sl<Settings>().getCustomCertHashList();
+    List<int> customCertHashList =
+        await di.sl<Settings>().getCustomCertHashList();
 
     HttpClient client = HttpClient()
       ..badCertificateCallback =
@@ -79,7 +80,6 @@ class CallTautulliImpl implements CallTautulli {
 
         if (cert.endValidity.isAfter(DateTime.now())) {
           if (customCertHashList.contains(certHashCode)) {
-            print('Custom cert hash exists');
             return true;
           } else {
             if (trustCert) {
