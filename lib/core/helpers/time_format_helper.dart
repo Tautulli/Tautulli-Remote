@@ -65,22 +65,20 @@ class TimeFormatHelper {
     }
   }
 
-  static String eta24Hour(int duration, int progressPercent) {
+  static String eta(
+    int duration,
+    int progressPercent,
+    String timeFormat,
+  ) {
     Duration time = Duration(
         milliseconds: (duration * (1 - (progressPercent / 100))).round());
 
     DateTime eta = DateTime.now().add(time);
 
-    return 'ETA: ${DateFormat.Hm().format(eta)}';
-  }
+    final String parsedTimeFormat =
+        timeFormat != null ? _parseTimeFormat(timeFormat) : 'HH:mm';
 
-  static String eta12Hour(int duration, int progressPercent) {
-    Duration time = Duration(
-        milliseconds: (duration * (1 - (progressPercent / 100))).round());
-
-    DateTime eta = DateTime.now().add(time);
-
-    return 'ETA: ${DateFormat.jm().format(eta)}';
+    return DateFormat("'ETA: '$parsedTimeFormat").format(eta);
   }
 
   static String cleanDateTime(
