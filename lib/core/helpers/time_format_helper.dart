@@ -71,7 +71,7 @@ class TimeFormatHelper {
 
     DateTime eta = DateTime.now().add(time);
 
-    return 'ETA: ${eta.hour.toString().padLeft(1, "0")}:${eta.minute.toString().padLeft(1, "0")}';
+    return 'ETA: ${DateFormat.Hm().format(eta)}';
   }
 
   static String eta12Hour(int duration, int progressPercent) {
