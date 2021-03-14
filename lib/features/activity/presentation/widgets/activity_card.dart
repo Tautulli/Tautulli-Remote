@@ -31,6 +31,7 @@ class ActivityCard extends StatefulWidget {
   final Map<String, Map<String, Object>> activityMap;
   final int index;
   final String tautulliId;
+  final String timeFormat;
   final SlidableController slidableController;
 
   const ActivityCard({
@@ -38,6 +39,7 @@ class ActivityCard extends StatefulWidget {
     @required this.activityMap,
     @required this.index,
     @required this.tautulliId,
+    @required this.timeFormat,
     @required this.slidableController,
   }) : super(key: key);
 
@@ -104,6 +106,7 @@ class _ActivityCardState extends State<ActivityCard> {
           geoIpBloc: geoIpBloc,
           activity: activity,
           tautulliId: widget.tautulliId,
+          timeFormat: widget.timeFormat,
         );
       },
       child: Container(
@@ -371,6 +374,7 @@ void showActivityModalBottomSheet({
   @required GeoIpBloc geoIpBloc,
   @required ActivityItem activity,
   @required String tautulliId,
+  @required String timeFormat,
 }) {
   showModalBottomSheet(
     barrierColor: Colors.black87,
@@ -390,6 +394,7 @@ void showActivityModalBottomSheet({
         child: ActivityModalBottomSheet(
           activity: activity,
           tautulliId: tautulliId,
+          timeFormat: timeFormat,
         ),
       );
     },

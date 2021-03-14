@@ -21,11 +21,13 @@ import 'time_total.dart';
 class ActivityModalBottomSheet extends StatefulWidget {
   final ActivityItem activity;
   final String tautulliId;
+  final String timeFormat;
 
   const ActivityModalBottomSheet({
     Key key,
     @required this.activity,
     @required this.tautulliId,
+    @required this.timeFormat,
   }) : super(key: key);
 
   @override
@@ -204,6 +206,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                             child: TimeEta(
                               duration: activity.duration,
                               progressPercent: activity.progressPercent,
+                              timeFormat: widget.timeFormat,
                             ),
                           ),
                       ],

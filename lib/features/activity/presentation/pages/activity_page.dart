@@ -6,6 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:quiver/strings.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
@@ -106,7 +107,8 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                   if (settingsState is SettingsLoadSuccess) {
                     final bool multiserver =
                         settingsState.serverList.length > 1;
-                    //* If single server display differnet widgets for failure and inProgress then multiserver would
+                    //* If single server display different widgets for failure
+                    //* and inProgress then multiserver would display
                     if (!multiserver) {
                       final Map<String, dynamic> serverMap =
                           state.activityMap.values.toList()[0];
@@ -149,9 +151,12 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                       child: multiserver
                           ? _buildMultiserverActivity(
                               activityMap: state.activityMap,
+                              serverList: settingsState.serverList,
                             )
                           : _buildSingleServerActivity(
                               activityMap: state.activityMap,
+                              timeFormat:
+                                  settingsState.serverList[0].timeFormat,
                             ),
                     );
                   } else {
@@ -186,6 +191,7 @@ class _ActivityPageContentState extends State<ActivityPageContent>
 
 Widget _buildSingleServerActivity({
   @required Map<String, Map<String, Object>> activityMap,
+  @required String timeFormat,
 }) {
   Map<String, Map<String, Object>> map = activityMap;
   List mapKeys = map.keys.toList();
@@ -218,6 +224,7 @@ Widget _buildSingleServerActivity({
         activityMap: activityMap,
         index: index,
         tautulliId: mapKeys[0],
+        timeFormat: timeFormat,
         slidableController: _slidableController,
       ),
     ),
@@ -226,6 +233,7 @@ Widget _buildSingleServerActivity({
 
 Widget _buildMultiserverActivity({
   @required Map<String, Map<String, Object>> activityMap,
+  @required List<ServerModel> serverList,
 }) {
   List<Widget> activityWidgetList = [];
   String tautulliId;
@@ -250,6 +258,9 @@ Widget _buildMultiserverActivity({
                 activityMap: activityMap,
                 index: activityList.indexOf(activityItem),
                 tautulliId: tautulliId,
+                timeFormat: serverList
+                    .firstWhere((server) => server.tautulliId == tautulliId)
+                    .timeFormat,
                 slidableController: _slidableController,
               ),
             );
@@ -273,6 +284,9 @@ Widget _buildMultiserverActivity({
               activityMap: activityMap,
               index: activityList.indexOf(activityItem),
               tautulliId: tautulliId,
+              timeFormat: serverList
+                  .firstWhere((server) => server.tautulliId == tautulliId)
+                  .timeFormat,
               slidableController: _slidableController,
             ),
           );
