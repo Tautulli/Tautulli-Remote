@@ -5,7 +5,7 @@ import '../../domain/entities/statistics.dart';
 
 class StatisticsModel extends Statistics {
   StatisticsModel({
-    // final String art,
+    final String art,
     // final String contentRating,
     final int count,
     final String friendlyName,
@@ -26,6 +26,8 @@ class StatisticsModel extends Statistics {
     final int ratingKey,
     final int rowId,
     final int sectionId,
+    final String sectionName,
+    final String sectionType,
     final int started,
     // final int stopped,
     final String statId,
@@ -40,7 +42,7 @@ class StatisticsModel extends Statistics {
     final int year,
     String posterUrl,
   }) : super(
-          // art: art,
+          art: art,
           // contentRating: contentRating,
           count: count,
           friendlyName: friendlyName,
@@ -61,6 +63,8 @@ class StatisticsModel extends Statistics {
           ratingKey: ratingKey,
           rowId: rowId,
           sectionId: sectionId,
+          sectionName: sectionName,
+          sectionType: sectionType,
           started: started,
           // stopped: stopped,
           statId: statId,
@@ -81,6 +85,12 @@ class StatisticsModel extends Statistics {
     @required Map<String, dynamic> json,
   }) {
     return StatisticsModel(
+      art: json.containsKey('art')
+          ? ValueHelper.cast(
+              value: json['art'],
+              type: CastType.string,
+            )
+          : null,
       count: json.containsKey('count')
           ? ValueHelper.cast(
               value: json['count'],
@@ -168,6 +178,18 @@ class StatisticsModel extends Statistics {
           ? ValueHelper.cast(
               value: json['section_id'],
               type: CastType.int,
+            )
+          : null,
+      sectionName: json.containsKey('section_name')
+          ? ValueHelper.cast(
+              value: json['section_name'],
+              type: CastType.string,
+            )
+          : null,
+      sectionType: json.containsKey('section_type')
+          ? ValueHelper.cast(
+              value: json['section_type'],
+              type: CastType.string,
             )
           : null,
       started: json.containsKey('started')

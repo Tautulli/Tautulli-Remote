@@ -248,6 +248,22 @@
                         "users_watched": 1
                     }
                 ]
+            },
+            {
+                "stat_id": "top_libraries",
+                "stat_title": "Most Active Libraries",
+                "rows": [
+                    {
+                        "total_plays": 879,
+                        "total_duration": 1734237,
+                        "section_type": "show",
+                        "section_name": "TV Shows",
+                        "section_id": 1,
+                        "last_play": "",
+                        "thumb": "/:/resources/show.png",
+                        "art": "/:/resources/show-fanart.jpg"
+                    }
+                ]
             }
         ]
     }

@@ -525,6 +525,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
       'top_platforms',
       'top_users',
       'most_concurrent',
+      'top_libraries',
     ];
 
     for (String key in keys) {
@@ -582,6 +583,18 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
               statList.add(
                 IconCard(
                   assetPath: 'assets/icons/concurrent.svg',
+                  details: StatisticsDetails(
+                    statistic: s,
+                    maskSensitiveInfo: _maskSensitiveInfo,
+                  ),
+                ),
+              );
+            } else if (s.statId == 'top_libraries') {
+              statList.add(
+                IconCard(
+                  assetPath: AssetMapperHelper.mapLibraryToPath(s.sectionType),
+                  backgroundImage: Image.network(s.posterUrl),
+                  iconColor: TautulliColorPalette.not_white,
                   details: StatisticsDetails(
                     statistic: s,
                     maskSensitiveInfo: _maskSensitiveInfo,

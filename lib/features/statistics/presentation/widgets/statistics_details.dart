@@ -56,6 +56,8 @@ class StatisticsDetails extends StatelessWidget {
       case ('last_watched'):
       case ('most_concurrent'):
         return statistic.title != null ? statistic.title : 'NO TITLE';
+      case ('top_libraries'):
+        return statistic.sectionName;
       case ('top_platforms'):
         return statistic.platform;
       case ('top_users'):
@@ -72,7 +74,8 @@ class StatisticsDetails extends StatelessWidget {
       case ('top_music'):
       case ('top_platforms'):
       case ('top_users'):
-        return '${statistic.totalPlays.toString()} plays';
+      case ('top_libraries'):
+        return '${statistic.totalPlays} play${statistic.totalPlays > 1 ? "s" : ""}';
       case ('popular_tv'):
       case ('popular_movies'):
       case ('popular_music'):
@@ -93,6 +96,7 @@ class StatisticsDetails extends StatelessWidget {
       case ('top_music'):
       case ('top_platforms'):
       case ('top_users'):
+      case ('top_libraries'):
         return TimeFormatHelper.pretty(statistic.totalDuration);
       case ('popular_tv'):
       case ('popular_movies'):

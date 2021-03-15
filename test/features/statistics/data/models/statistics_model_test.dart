@@ -8,6 +8,7 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   final tTopTv = StatisticsModel(
+    art: '/library/metadata/77725/art/1596182361',
     count: null,
     friendlyName: null,
     grandparentThumb: '/library/metadata/77725/thumb/1596182361',
@@ -29,6 +30,7 @@ void main() {
   );
 
   final tPopularTv = StatisticsModel(
+    art: '/library/metadata/1165/art/1598301159',
     count: null,
     friendlyName: null,
     grandparentThumb: '/library/metadata/1165/thumb/1598301159',
@@ -50,6 +52,7 @@ void main() {
   );
 
   final tTopMovies = StatisticsModel(
+    art: '/library/metadata/99915/art/1597430953',
     count: null,
     friendlyName: null,
     grandparentThumb: null,
@@ -71,6 +74,7 @@ void main() {
   );
 
   final tPopularMovies = StatisticsModel(
+    art: '/library/metadata/99915/art/1597430953',
     count: null,
     friendlyName: null,
     grandparentThumb: null,
@@ -92,6 +96,7 @@ void main() {
   );
 
   final tTopMusic = StatisticsModel(
+    art: '/library/metadata/112694/art/1597994442',
     count: null,
     friendlyName: null,
     grandparentThumb: '/library/metadata/112694/thumb/1597994442',
@@ -113,6 +118,7 @@ void main() {
   );
 
   final tPopularMusic = StatisticsModel(
+    art: '/library/metadata/81222/art/1597825585',
     count: null,
     friendlyName: null,
     grandparentThumb: '/library/metadata/81222/thumb/1597825585',
@@ -134,6 +140,7 @@ void main() {
   );
 
   final tLastWatched = StatisticsModel(
+    art: '/library/metadata/1165/art/1598301159',
     count: null,
     friendlyName: 'Friendly Name',
     grandparentThumb: '/library/metadata/1165/thumb/1598301159',
@@ -216,6 +223,18 @@ void main() {
     userThumb: null,
   );
 
+  final tTopLibraries = StatisticsModel(
+    art: '/:/resources/show-fanart.jpg',
+    lastWatch: null,
+    sectionId: 1,
+    sectionName: 'TV Shows',
+    sectionType: 'show',
+    statId: 'top_libraries',
+    thumb: '/:/resources/show.png',
+    totalDuration: 1734237,
+    totalPlays: 879,
+  );
+
   test('should be a subclass of Statistics entity', () async {
     //assert
     expect(tTopTv, isA<Statistics>());
@@ -228,6 +247,7 @@ void main() {
     expect(tTopPlatforms, isA<Statistics>());
     expect(tTopUsers, isA<Statistics>());
     expect(tMostConcurrent, isA<Statistics>());
+    expect(tTopLibraries, isA<Statistics>());
   });
 
   group('fromJson', () {
@@ -388,6 +408,22 @@ void main() {
         );
         // assert
         expect(result, equals(tMostConcurrent));
+      },
+    );
+
+    test(
+      'should return a valid model for Top Libraries',
+      () async {
+        // arrange
+        final Map<String, dynamic> jsonMap =
+            json.decode(fixture('statistics_top_libraries_item.json'));
+        // act
+        final result = StatisticsModel.fromJson(
+          statId: 'top_libraries',
+          json: jsonMap,
+        );
+        // assert
+        expect(result, equals(tTopLibraries));
       },
     );
   });

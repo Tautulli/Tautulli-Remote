@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Statistics extends Equatable {
-  // final String art;
+  final String art;
   // final String contentRating;
   final int count;
   final String friendlyName;
@@ -22,6 +22,8 @@ class Statistics extends Equatable {
   final int ratingKey;
   final int rowId;
   final int sectionId;
+  final String sectionName;
+  final String sectionType;
   final int started;
   // final int stopped;
   final String statId;
@@ -37,7 +39,7 @@ class Statistics extends Equatable {
   String posterUrl;
 
   Statistics({
-    // this.art,
+    this.art,
     // this.contentRating,
     this.count,
     this.friendlyName,
@@ -58,6 +60,8 @@ class Statistics extends Equatable {
     this.ratingKey,
     this.rowId,
     this.sectionId,
+    this.sectionName,
+    this.sectionType,
     this.started,
     // this.stopped,
     this.statId,
@@ -75,7 +79,7 @@ class Statistics extends Equatable {
 
   @override
   List<Object> get props => [
-        // art,
+        art,
         // contentRating,
         count,
         friendlyName,
@@ -96,6 +100,8 @@ class Statistics extends Equatable {
         ratingKey,
         rowId,
         sectionId,
+        sectionName,
+        sectionType,
         started,
         // stopped,
         statId,

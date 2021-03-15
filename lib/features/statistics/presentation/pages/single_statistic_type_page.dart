@@ -114,6 +114,17 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                         maskSensitiveInfo: widget.maskSensitiveInfo,
                       ),
                     );
+                  } else if (widget.statId == 'top_libraries') {
+                    return IconCard(
+                      assetPath:
+                          AssetMapperHelper.mapLibraryToPath(stat.sectionType),
+                      backgroundImage: Image.network(stat.posterUrl),
+                      iconColor: TautulliColorPalette.not_white,
+                      details: StatisticsDetails(
+                        statistic: stat,
+                        maskSensitiveInfo: widget.maskSensitiveInfo,
+                      ),
+                    );
                   } else {
                     return GestureDetector(
                       onTap: () {

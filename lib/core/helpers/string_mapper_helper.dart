@@ -21,6 +21,8 @@ class StringMapperHelper {
         return 'Most Active Users';
       case ('most_concurrent'):
         return 'Most Concurrent Streams';
+      case ('top_libraries'):
+        return 'Most Active Libraries';
       default:
         return 'UNKNOWN';
     }

@@ -227,25 +227,30 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           int posterRatingKey;
           String posterFallback;
 
-          // Assign values for poster URL
-          switch (statistic.mediaType) {
-            case ('movie'):
-              posterImg = statistic.thumb;
-              posterRatingKey = statistic.ratingKey;
-              posterFallback = 'poster';
-              break;
-            case ('episode'):
-              posterImg = statistic.grandparentThumb;
-              // posterRatingKey = statistic.grandparentRatingKey;
-              posterFallback = 'poster';
-              break;
-            case ('track'):
-              posterImg = statistic.thumb;
-              // posterRatingKey = statistic.parentRatingKey;
-              posterFallback = 'cover';
-              break;
-            default:
-              posterRatingKey = statistic.ratingKey;
+          // If statID is top_libraries use art instead of thumb
+          if (statistic.statId == 'top_libraries') {
+            posterImg = statistic.art;
+          } else {
+            // Assign values for poster URL
+            switch (statistic.mediaType) {
+              case ('movie'):
+                posterImg = statistic.thumb;
+                posterRatingKey = statistic.ratingKey;
+                posterFallback = 'poster';
+                break;
+              case ('episode'):
+                posterImg = statistic.grandparentThumb;
+                // posterRatingKey = statistic.grandparentRatingKey;
+                posterFallback = 'poster';
+                break;
+              case ('track'):
+                posterImg = statistic.thumb;
+                // posterRatingKey = statistic.parentRatingKey;
+                posterFallback = 'cover';
+                break;
+              default:
+                posterRatingKey = statistic.ratingKey;
+            }
           }
 
           // Attempt to get poster URL
