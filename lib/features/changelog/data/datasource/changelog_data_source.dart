@@ -1,6 +1,21 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.4.5",
+      "date": "March 15, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Add support for the upcoming Most Active Libraries statistic",
+        },
+        {
+          "type": "improvement",
+          "detail": "Activity ETA now uses the Time Format from Tautulli",
+        },
+      ]
+    },
+    {
       "version": "v2.4.4",
       "date": "March 12, 2021",
       "changes": [
@@ -12,7 +27,7 @@ Map changelog = {
         {
           "type": "fix",
           "detail":
-              "Fix an issue where a success would be emited after a failure for a failed QR scan",
+              "Fix an issue where a success would be emitted after a failure for a failed QR scan",
         },
         {
           "type": "fix",
