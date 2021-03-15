@@ -514,8 +514,21 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
       }
     }
 
+    List<String> statIds = [
+      'top_tv',
+      'popular_tv',
+      'top_movies',
+      'popular_movies',
+      'top_music',
+      'popular_music',
+      'last_watched',
+      'top_platforms',
+      'top_users',
+      'most_concurrent',
+    ];
+
     for (String key in keys) {
-      if (map[key].isNotEmpty) {
+      if (map[key].isNotEmpty && statIds.contains(key)) {
         statList.addAll([
           BlocProvider<StatisticsBloc>.value(
             value: _statisticsBloc,
