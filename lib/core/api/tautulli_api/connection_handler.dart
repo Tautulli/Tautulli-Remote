@@ -128,6 +128,7 @@ class ConnectionHandlerImpl implements ConnectionHandler {
             cmd: cmd,
             params: params,
             timeoutOverride: timeoutOverride,
+            trustCert: trustCert,
           );
 
           di.sl<Settings>().updatePrimaryActive(
