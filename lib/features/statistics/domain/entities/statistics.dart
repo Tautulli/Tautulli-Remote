@@ -6,6 +6,7 @@ class Statistics extends Equatable {
   final int count;
   final String friendlyName;
   final String grandchildTitle;
+  final int grandparentRatingKey;
   final String grandparentThumb;
   final String grandparentTitle;
   // final String guid;
@@ -44,6 +45,7 @@ class Statistics extends Equatable {
     this.count,
     this.friendlyName,
     this.grandchildTitle,
+    this.grandparentRatingKey,
     this.grandparentThumb,
     this.grandparentTitle,
     // this.guid,
@@ -84,6 +86,7 @@ class Statistics extends Equatable {
         count,
         friendlyName,
         grandchildTitle,
+        grandparentRatingKey,
         grandparentThumb,
         grandparentTitle,
         // guid,

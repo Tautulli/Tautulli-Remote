@@ -10,6 +10,7 @@ class StatisticsModel extends Statistics {
     final int count,
     final String friendlyName,
     final String grandchildTitle,
+    final int grandparentRatingKey,
     final String grandparentThumb,
     final String grandparentTitle,
     // final String guid,
@@ -47,6 +48,7 @@ class StatisticsModel extends Statistics {
           count: count,
           friendlyName: friendlyName,
           grandchildTitle: grandchildTitle,
+          grandparentRatingKey: grandparentRatingKey,
           grandparentThumb: grandparentThumb,
           grandparentTitle: grandparentTitle,
           // guid: guid,
@@ -107,6 +109,12 @@ class StatisticsModel extends Statistics {
           ? ValueHelper.cast(
               value: json['grandchild_title'],
               type: CastType.string,
+            )
+          : null,
+      grandparentRatingKey: json.containsKey('grandparent_rating_key')
+          ? ValueHelper.cast(
+              value: json['grandparent_rating_key'],
+              type: CastType.int,
             )
           : null,
       grandparentTitle: json.containsKey('grandparent_title')

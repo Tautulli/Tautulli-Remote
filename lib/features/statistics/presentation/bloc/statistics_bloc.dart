@@ -223,35 +223,14 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           key != 'most_concurrent') {
         for (Statistics statistic in map[key]) {
           //* Fetch and assign image URLs
-          String posterImg;
-          int posterRatingKey;
-          String posterFallback;
-
-          // If statID is top_libraries use art instead of thumb
-          if (statistic.statId == 'top_libraries') {
-            posterImg = statistic.art;
-          } else {
-            // Assign values for poster URL
-            switch (statistic.mediaType) {
-              case ('movie'):
-                posterImg = statistic.thumb;
-                posterRatingKey = statistic.ratingKey;
-                posterFallback = 'poster';
-                break;
-              case ('episode'):
-                posterImg = statistic.grandparentThumb;
-                // posterRatingKey = statistic.grandparentRatingKey;
-                posterFallback = 'poster';
-                break;
-              case ('track'):
-                posterImg = statistic.thumb;
-                // posterRatingKey = statistic.parentRatingKey;
-                posterFallback = 'cover';
-                break;
-              default:
-                posterRatingKey = statistic.ratingKey;
-            }
-          }
+          final String posterImg = statistic.statId == 'top_libraries'
+              ? statistic.art
+              : statistic.thumb;
+          final int posterRatingKey = statistic.mediaType == 'episode'
+              ? statistic.grandparentRatingKey
+              : statistic.ratingKey;
+          final String posterFallback =
+              statistic.mediaType == 'track' ? 'cover' : 'poster';
 
           // Attempt to get poster URL
           final failureOrPosterUrl = await getImageUrl(

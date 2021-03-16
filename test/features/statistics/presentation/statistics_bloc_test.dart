@@ -56,6 +56,7 @@ void main() {
     'top_platforms': [],
     'top_users': [],
     'most_concurrent': [],
+    'top_libraries': [],
   };
 
   // Map<String, bool> tHasReachedMaxMap = {
