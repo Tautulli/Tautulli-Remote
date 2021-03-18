@@ -32,6 +32,7 @@ class Library extends Equatable {
   // final String serverId;
   // final String thumb;
   // final int year;
+  String iconUrl;
   String backgroundUrl;
 
   Library({
@@ -66,6 +67,7 @@ class Library extends Equatable {
     // this.serverId,
     // this.thumb,
     // this.year,
+    this.iconUrl,
     this.backgroundUrl,
   });
 
@@ -102,6 +104,7 @@ class Library extends Equatable {
         // serverId,
         // thumb,
         // year,
+        iconUrl,
         backgroundUrl,
       ];
 

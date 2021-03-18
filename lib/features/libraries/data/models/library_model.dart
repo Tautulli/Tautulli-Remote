@@ -34,6 +34,7 @@ class LibraryModel extends Library {
     // final String serverId,
     // final String thumb,
     // final int year,
+    String iconUrl,
     String backgroundUrl,
   }) : super(
           childCount: childCount,
@@ -67,6 +68,7 @@ class LibraryModel extends Library {
           // serverId: serverId,
           // thumb: thumb,
           // year: year,
+          iconUrl: iconUrl,
           backgroundUrl: backgroundUrl,
         );
 

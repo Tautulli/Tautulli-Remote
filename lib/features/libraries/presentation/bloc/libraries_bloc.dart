@@ -109,22 +109,43 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
         Map<int, String> imageMap = {};
 
         for (Library library in librariesList) {
-          final imageUrlOrFailure = await getImageUrl(
+          final backgroundImageUrlOrFailure = await getImageUrl(
             tautulliId: tautulliId,
             img: library.libraryArt,
             settingsBloc: settingsBloc,
           );
 
-          imageUrlOrFailure.fold(
+          backgroundImageUrlOrFailure.fold(
             (failure) {
               logging.warning(
                 'Activity: Failed to load art for library ${library.sectionName}',
               );
             },
             (url) {
-              imageMap[library.sectionId] = url;
+              // imageMap[library.sectionId] = url;
+              library.backgroundUrl = url;
             },
           );
+
+          if (library.libraryThumb.contains('http')) {
+            final iconImageUrlOrFailure = await getImageUrl(
+              tautulliId: tautulliId,
+              img: library.libraryThumb,
+              settingsBloc: settingsBloc,
+            );
+
+            iconImageUrlOrFailure.fold(
+              (failure) {
+                logging.warning(
+                  'Activity: Failed to load icon for library ${library.sectionName}',
+                );
+              },
+              (url) {
+                // imageMap[library.sectionId] = url;
+                library.iconUrl = url;
+              },
+            );
+          }
         }
 
         _librariesListCache = librariesList;

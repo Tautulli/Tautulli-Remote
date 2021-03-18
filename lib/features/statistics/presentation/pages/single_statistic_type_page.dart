@@ -89,7 +89,7 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
 
                   if (widget.statId == 'top_platforms') {
                     return IconCard(
-                      assetPath: AssetMapperHelper.mapPlatformToPath(
+                      localIconImagePath: AssetMapperHelper.mapPlatformToPath(
                         stat.platformName,
                       ),
                       backgroundColor: TautulliColorPalette.mapPlatformToColor(
@@ -112,7 +112,7 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                     );
                   } else if (widget.statId == 'most_concurrent') {
                     return IconCard(
-                      assetPath: 'assets/icons/concurrent.svg',
+                      localIconImagePath: 'assets/icons/concurrent.svg',
                       details: StatisticsDetails(
                         statistic: stat,
                         maskSensitiveInfo: widget.maskSensitiveInfo,
@@ -120,7 +120,7 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                     );
                   } else if (widget.statId == 'top_libraries') {
                     return IconCard(
-                      assetPath:
+                      localIconImagePath:
                           AssetMapperHelper.mapLibraryToPath(stat.sectionType),
                       backgroundImage: Image.network(stat.posterUrl),
                       iconColor: TautulliColorPalette.not_white,

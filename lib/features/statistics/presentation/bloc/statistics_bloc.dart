@@ -264,6 +264,27 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
               statistic.posterUrl = url;
             },
           );
+
+          // If library stat and custom icon is set fetch the image url
+          if (statistic.statId == 'top_libraries' &&
+              statistic.thumb.contains('http')) {
+            final failureOrIconUrl = await getImageUrl(
+              tautulliId: tautulliId,
+              img: statistic.thumb,
+              settingsBloc: settingsBloc,
+            );
+
+            failureOrIconUrl.fold(
+              (failure) {
+                logging.warning(
+                  'Statistics: Failed to load icon for library ${statistic.sectionName}',
+                );
+              },
+              (url) {
+                statistic.iconUrl = url;
+              },
+            );
+          }
         }
       }
     }

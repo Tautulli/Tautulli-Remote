@@ -37,6 +37,7 @@ class Statistics extends Equatable {
   final int usersWatched;
   final String userThumb;
   final int year;
+  String iconUrl;
   String posterUrl;
 
   Statistics({
@@ -76,6 +77,7 @@ class Statistics extends Equatable {
     this.usersWatched,
     this.userThumb,
     this.year,
+    this.iconUrl,
     this.posterUrl,
   });
 
@@ -117,6 +119,7 @@ class Statistics extends Equatable {
         usersWatched,
         userThumb,
         year,
+        iconUrl,
         posterUrl,
       ];
 
