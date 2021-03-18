@@ -375,8 +375,8 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                     ),
                     color: Theme.of(context).disabledColor,
                     onPressed: () {
-                      Scaffold.of(context).hideCurrentSnackBar();
-                      Scaffold.of(context).showSnackBar(
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: PlexColorPalette.shark,
                           content: Text('Loading users'),
@@ -403,8 +403,8 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
             icon: FaIcon(FontAwesomeIcons.userAlt),
             color: Theme.of(context).disabledColor,
             onPressed: () {
-              Scaffold.of(context).hideCurrentSnackBar();
-              Scaffold.of(context).showSnackBar(
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: PlexColorPalette.shark,
                   content: Text('Users failed to load'),

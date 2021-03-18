@@ -231,9 +231,10 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                     return GestureDetector(
                                       onTap: () {
                                         if (syncedItem.multipleRatingKeys) {
-                                          Scaffold.of(context)
+                                          ScaffoldMessenger.of(context)
                                               .hideCurrentSnackBar();
-                                          Scaffold.of(context).showSnackBar(
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
                                               backgroundColor:
                                                   PlexColorPalette.shark,
@@ -444,8 +445,8 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                     ),
                     color: Theme.of(context).disabledColor,
                     onPressed: () {
-                      Scaffold.of(context).hideCurrentSnackBar();
-                      Scaffold.of(context).showSnackBar(
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: PlexColorPalette.shark,
                           content: Text('Loading users'),
@@ -472,8 +473,8 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
             icon: FaIcon(FontAwesomeIcons.userAlt),
             color: Theme.of(context).disabledColor,
             onPressed: () {
-              Scaffold.of(context).hideCurrentSnackBar();
-              Scaffold.of(context).showSnackBar(
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: PlexColorPalette.shark,
                   content: Text('Users failed to load'),
@@ -509,8 +510,8 @@ class _SlidableAction extends StatelessWidget {
       listener: (context, state) {
         if (state is DeleteSyncedItemSuccess) {
           state.slidableState.close();
-          Scaffold.of(context).hideCurrentSnackBar();
-          Scaffold.of(context).showSnackBar(
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: Colors.green,
               content: Text('Delete synced item request sent to Plex.'),

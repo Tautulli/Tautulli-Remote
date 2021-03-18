@@ -54,8 +54,8 @@ class _DonatePageContentState extends State<DonatePageContent> {
         _connection.purchaseUpdatedStream.listen((purchaseDetailsList) {
       purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) {
         if (purchaseDetails.status == PurchaseStatus.purchased) {
-          Scaffold.of(context).hideCurrentSnackBar();
-          Scaffold.of(context).showSnackBar(
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: PlexColorPalette.shark,
               content: Row(

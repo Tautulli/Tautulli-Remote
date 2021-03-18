@@ -114,8 +114,8 @@ class ServerSettingsPage extends StatelessWidget {
                         Clipboard.setData(
                           ClipboardData(text: server.primaryConnectionAddress),
                         );
-                        Scaffold.of(context).hideCurrentSnackBar();
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: PlexColorPalette.shark,
                             content: Text('Copied to clipboard'),
@@ -174,8 +174,8 @@ class ServerSettingsPage extends StatelessWidget {
                           ClipboardData(
                               text: server.secondaryConnectionAddress),
                         );
-                        Scaffold.of(context).hideCurrentSnackBar();
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: PlexColorPalette.shark,
                             content: Text('Copied to clipboard'),
@@ -200,8 +200,8 @@ class ServerSettingsPage extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      Scaffold.of(context).hideCurrentSnackBar();
-                      Scaffold.of(context).showSnackBar(
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: PlexColorPalette.shark,
                           content: Text('Device tokens cannot be edited'),
@@ -222,8 +222,8 @@ class ServerSettingsPage extends StatelessWidget {
                         Clipboard.setData(
                           ClipboardData(text: server.deviceToken),
                         );
-                        Scaffold.of(context).hideCurrentSnackBar();
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: PlexColorPalette.shark,
                             content: Text('Copied to clipboard'),

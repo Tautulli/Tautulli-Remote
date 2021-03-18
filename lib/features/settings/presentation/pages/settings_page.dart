@@ -79,8 +79,8 @@ class SettingsPageContent extends StatelessWidget {
               }
             }
             if (state is RegisterDeviceSuccess) {
-              Scaffold.of(context).hideCurrentSnackBar();
-              Scaffold.of(context).showSnackBar(
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: Colors.green,
                   content: Text('Tautulli Registration Successful'),
@@ -179,7 +179,7 @@ class SettingsPageContent extends StatelessWidget {
                       onTap: () {
                         return showDialog(
                           context: context,
-                          child: ServerTimeoutDialog(
+                          builder: (context) => ServerTimeoutDialog(
                             initialValue: state.serverTimeout == null
                                 ? 5
                                 : state.serverTimeout,
@@ -193,7 +193,7 @@ class SettingsPageContent extends StatelessWidget {
                       onTap: () {
                         return showDialog(
                           context: context,
-                          child: ActivityRefreshRateDialog(
+                          builder: (context) => ActivityRefreshRateDialog(
                             initialValue: state.refreshRate == null
                                 ? 0
                                 : state.refreshRate,
@@ -413,8 +413,8 @@ Widget _buildFloatingActionButton(
 
                         // If manual registration page pops with true show success snackbar
                         if (result == true) {
-                          Scaffold.of(context).hideCurrentSnackBar();
-                          Scaffold.of(context).showSnackBar(
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               backgroundColor: Colors.green,
                               content: Text('Tautulli Registration Successful'),

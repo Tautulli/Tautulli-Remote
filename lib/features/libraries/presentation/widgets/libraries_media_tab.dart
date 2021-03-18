@@ -95,8 +95,8 @@ class _LibrariesMediaTabState extends State<LibrariesMediaTab> {
                       ),
                     );
 
-                Scaffold.of(context).hideCurrentSnackBar();
-                Scaffold.of(context).showSnackBar(
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: PlexColorPalette.shark,
                     content:

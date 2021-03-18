@@ -44,8 +44,8 @@ class StatisticsHeading extends StatelessWidget {
               );
             }
           : () {
-              Scaffold.of(context).hideCurrentSnackBar();
-              Scaffold.of(context).showSnackBar(
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: PlexColorPalette.shark,
                   content: Text('No additional items for this statistic'),

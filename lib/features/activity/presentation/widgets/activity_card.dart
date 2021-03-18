@@ -74,10 +74,10 @@ class _ActivityCardState extends State<ActivityCard> {
           // If server has plex pass and media type is photo or item is synced show message
           if (hasPlexPass) {
             if (activity.mediaType == 'photo') {
-              Scaffold.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
               _debouncer.run(
                 () {
-                  return Scaffold.of(context).showSnackBar(
+                  return ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: PlexColorPalette.shark,
                       content: Text('Photo streams cannot be terminated.'),
@@ -86,9 +86,9 @@ class _ActivityCardState extends State<ActivityCard> {
                 },
               );
             } else if (isEmpty(activity.sessionId)) {
-              Scaffold.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
               _debouncer.run(
-                () => Scaffold.of(context).showSnackBar(
+                () => ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: PlexColorPalette.shark,
                     content: Text('Synced content cannot be terminated.'),
@@ -128,8 +128,8 @@ class _ActivityCardState extends State<ActivityCard> {
                         listener: (context, state) {
                           if (state is TerminateSessionSuccess) {
                             state.slidableState.close();
-                            Scaffold.of(context).hideCurrentSnackBar();
-                            Scaffold.of(context).showSnackBar(
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: Colors.green,
                                 content:

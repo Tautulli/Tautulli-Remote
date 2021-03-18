@@ -84,8 +84,8 @@ class _LogsPageContentState extends State<_LogsPageContent> {
             _refreshCompleter = Completer();
           }
           if (state is LogsExportInProgress) {
-            Scaffold.of(context).hideCurrentSnackBar();
-            Scaffold.of(context).showSnackBar(
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 backgroundColor: PlexColorPalette.shark,
                 content: Text('Logs exported'),

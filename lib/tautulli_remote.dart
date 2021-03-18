@@ -121,6 +121,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     return MaterialApp(
       title: 'Tautulli Remote',
       theme: ThemeData(
+        brightness: Brightness.dark,
         primarySwatch: PlexColorPalette.createSwatch(),
         accentColor: PlexColorPalette.gamboge,
         backgroundColor: TautulliColorPalette.midnight,
@@ -129,10 +130,17 @@ class _TautulliRemoteState extends State<TautulliRemote> {
               bodyColor: TautulliColorPalette.not_white,
             ),
         dialogBackgroundColor: PlexColorPalette.river_bed,
-        textSelectionColor: PlexColorPalette.gamboge,
-        textSelectionHandleColor: PlexColorPalette.gamboge,
-        cursorColor: PlexColorPalette.gamboge,
+        textSelectionTheme: TextSelectionThemeData(
+          selectionColor: PlexColorPalette.gamboge,
+          selectionHandleColor: PlexColorPalette.gamboge,
+          cursorColor: PlexColorPalette.gamboge,
+        ),
         canvasColor: PlexColorPalette.shark,
+        snackBarTheme: SnackBarThemeData(
+          contentTextStyle: TextStyle(
+            color: TautulliColorPalette.not_white,
+          ),
+        ),
         inputDecorationTheme: ThemeData.dark().inputDecorationTheme.copyWith(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: TautulliColorPalette.not_white),
