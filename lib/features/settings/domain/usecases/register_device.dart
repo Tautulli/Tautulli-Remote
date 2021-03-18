@@ -22,7 +22,6 @@ class RegisterDevice {
       connectionDomain: connectionDomain,
       connectionPath: connectionPath,
       deviceToken: deviceToken,
-      clearOnesignalId: clearOnesignalId,
       trustCert: trustCert,
     );
   }

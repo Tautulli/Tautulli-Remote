@@ -9,7 +9,6 @@ abstract class RegisterDeviceRepository {
     @required String connectionDomain,
     @required String connectionPath,
     @required String deviceToken,
-    bool clearOnesignalId,
     bool trustCert,
   });
 }

@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:quiver/strings.dart';
 
 import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../../../core/device_info/device_info.dart';
@@ -14,7 +15,6 @@ abstract class RegisterDeviceDataSource {
     @required String connectionDomain,
     @required String connectionPath,
     @required String deviceToken,
-    bool clearOnesignalId,
     bool trustCert,
   });
 }
@@ -36,22 +36,11 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
     @required String connectionDomain,
     @required String connectionPath,
     @required String deviceToken,
-    bool clearOnesignalId = false,
     bool trustCert,
   }) async {
     final deviceId = await deviceInfo.uniqueId;
     final deviceName = await deviceInfo.model;
-    String onesignalId;
-
-    if (clearOnesignalId == true) {
-      onesignalId = '';
-    } else {
-      if (await oneSignal.userId != null) {
-        onesignalId = await oneSignal.userId;
-      } else {
-        onesignalId = '';
-      }
-    }
+    String onesignalId = await oneSignal.userId;
 
     final registerJson = await apiRegisterDevice(
       connectionProtocol: connectionProtocol,
@@ -60,7 +49,7 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
       deviceToken: deviceToken,
       deviceId: deviceId,
       deviceName: deviceName,
-      onesignalId: onesignalId,
+      onesignalId: isNotEmpty(onesignalId) ? onesignalId : 'onesignal-disabled',
       trustCert: trustCert,
     );
 

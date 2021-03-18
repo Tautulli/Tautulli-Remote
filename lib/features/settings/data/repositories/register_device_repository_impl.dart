@@ -24,7 +24,6 @@ class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
     @required String connectionDomain,
     @required String connectionPath,
     @required String deviceToken,
-    bool clearOnesignalId,
     bool trustCert,
   }) async {
     if (await networkInfo.isConnected) {
@@ -34,7 +33,6 @@ class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
           connectionDomain: connectionDomain,
           connectionPath: connectionPath,
           deviceToken: deviceToken,
-          clearOnesignalId: clearOnesignalId,
           trustCert: trustCert,
         );
         return Right(result);
