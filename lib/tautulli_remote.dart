@@ -166,6 +166,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
                 MaterialStateProperty.resolveWith(getTextButtonColor),
           ),
         ),
+        toggleableActiveColor: PlexColorPalette.gamboge,
         popupMenuTheme: ThemeData.dark().popupMenuTheme.copyWith(
               color: PlexColorPalette.river_bed,
             ),
