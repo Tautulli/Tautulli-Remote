@@ -97,6 +97,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
           tautulliId: _tautulliId,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
+          settingsBloc: _settingsBloc,
         ),
       );
     }

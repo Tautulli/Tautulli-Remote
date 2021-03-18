@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/usecases/terminate_session.dart';
 
 part 'terminate_session_event.dart';
@@ -35,6 +36,7 @@ class TerminateSessionBloc
         tautulliId: event.tautulliId,
         sessionId: event.sessionId,
         message: event.message,
+        settingsBloc: event.settingsBloc,
       );
 
       yield* failureOrTerminateStream.fold(

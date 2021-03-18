@@ -10,6 +10,8 @@ import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/media/data/models/metadata_item_model.dart';
 import 'package:tautulli_remote/features/media/domain/usecases/get_metadata.dart';
 import 'package:tautulli_remote/features/media/presentation/bloc/metadata_bloc.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -17,13 +19,17 @@ class MockGetMetadata extends Mock implements GetMetadata {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   MetadataBloc bloc;
   MockGetMetadata mockGetMetadata;
   MockGetImageUrl mockGetImageUrl;
+  MockSettings mockSettings;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetMetadata = MockGetMetadata();
@@ -33,6 +39,11 @@ void main() {
     bloc = MetadataBloc(
       getMetadata: mockGetMetadata,
       getImageUrl: mockGetImageUrl,
+      logging: mockLogging,
+    );
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
       logging: mockLogging,
     );
   });
@@ -53,12 +64,14 @@ void main() {
         img: anyNamed('img'),
         ratingKey: anyNamed('ratingKey'),
         fallback: anyNamed('fallback'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(imageUrl));
     when(
       mockGetMetadata(
         tautulliId: tTautulliId,
         ratingKey: anyNamed('ratingKey'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(tMetadataItem));
   }
@@ -82,17 +95,20 @@ void main() {
         bloc.add(MetadataFetched(
           tautulliId: tTautulliId,
           ratingKey: tRatingKey,
+          settingsBloc: settingsBloc,
         ));
         await untilCalled(
           mockGetMetadata(
             tautulliId: tTautulliId,
             ratingKey: anyNamed('ratingKey'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
         verify(mockGetMetadata(
           tautulliId: tTautulliId,
           ratingKey: anyNamed('ratingKey'),
+          settingsBloc: anyNamed('settingsBloc'),
         ));
       },
     );
@@ -114,6 +130,7 @@ void main() {
           MetadataFetched(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
+            settingsBloc: settingsBloc,
           ),
         );
       },
@@ -128,6 +145,7 @@ void main() {
           mockGetMetadata(
             tautulliId: tTautulliId,
             ratingKey: anyNamed('ratingKey'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => Left(failure));
         clearCache();
@@ -146,6 +164,7 @@ void main() {
           MetadataFetched(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
+            settingsBloc: settingsBloc,
           ),
         );
       },

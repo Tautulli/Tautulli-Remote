@@ -7,6 +7,8 @@ import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/statistics/data/models/statistics_model.dart';
 import 'package:tautulli_remote/features/statistics/domain/entities/statistics.dart';
 import 'package:tautulli_remote/features/statistics/domain/usecases/get_statistics.dart';
@@ -18,22 +20,31 @@ class MockGetStatistics extends Mock implements GetStatistics {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   StatisticsBloc bloc;
   MockGetStatistics mockGetStatistics;
   MockGetImageUrl mockGetImageUrl;
+  MockSettings mockSettings;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetStatistics = MockGetStatistics();
     mockGetImageUrl = MockGetImageUrl();
-    mockLogging = MockLogging();
 
     bloc = StatisticsBloc(
       getStatistics: mockGetStatistics,
       getImageUrl: mockGetImageUrl,
+      logging: mockLogging,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
       logging: mockLogging,
     );
   });
@@ -93,6 +104,7 @@ void main() {
         statsCount: anyNamed('statsCount'),
         statsType: anyNamed('statsType'),
         timeRange: anyNamed('timeRange'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(tStatisticsMap));
     when(
@@ -101,6 +113,7 @@ void main() {
         img: anyNamed('img'),
         ratingKey: anyNamed('ratingKey'),
         fallback: anyNamed('fallback'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(imageUrl));
   }
@@ -127,6 +140,7 @@ void main() {
           statsCount: tStatsCount,
           statsType: tStatsType,
           timeRange: tTimeRange,
+          settingsBloc: settingsBloc,
         ));
         await untilCalled(
           mockGetStatistics(
@@ -135,6 +149,7 @@ void main() {
             statsCount: anyNamed('statsCount'),
             statsType: anyNamed('statsType'),
             timeRange: anyNamed('timeRange'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
@@ -145,6 +160,7 @@ void main() {
             statsCount: tStatsCount,
             statsType: tStatsType,
             timeRange: tTimeRange,
+            settingsBloc: settingsBloc,
           ),
         );
       },
@@ -165,6 +181,7 @@ void main() {
           statsCount: tStatsCount,
           statsType: tStatsType,
           timeRange: tTimeRange,
+          settingsBloc: settingsBloc,
         ),
       );
       await untilCalled(
@@ -173,6 +190,7 @@ void main() {
           img: anyNamed('img'),
           ratingKey: anyNamed('ratingKey'),
           fallback: anyNamed('fallback'),
+          settingsBloc: anyNamed('settingsBloc'),
         ),
       );
       // assert
@@ -182,6 +200,7 @@ void main() {
           img: anyNamed('img'),
           ratingKey: anyNamed('ratingKey'),
           fallback: anyNamed('fallback'),
+          settingsBloc: anyNamed('settingsBloc'),
         ),
       );
     },
@@ -258,6 +277,7 @@ void main() {
           statsCount: anyNamed('statsCount'),
           statsType: anyNamed('statsType'),
           timeRange: anyNamed('timeRange'),
+          settingsBloc: anyNamed('settingsBloc'),
         ),
       ).thenAnswer((_) async => Left(failure));
       // assert later
@@ -277,6 +297,7 @@ void main() {
           statsCount: tStatsCount,
           statsType: tStatsType,
           timeRange: tTimeRange,
+          settingsBloc: settingsBloc,
         ),
       );
     },

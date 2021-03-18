@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 abstract class DeleteMobileDevice {
@@ -9,6 +10,7 @@ abstract class DeleteMobileDevice {
     @required String connectionPath,
     @required String deviceToken,
     @required String deviceId,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -23,6 +25,7 @@ class DeleteMobileDeviceImpl implements DeleteMobileDevice {
     @required String connectionPath,
     @required String deviceToken,
     @required String deviceId,
+    @required SettingsBloc settingsBloc,
   }) async {
     final responseJson = await connectionHandler(
       primaryConnectionProtocol: connectionProtocol,
@@ -33,6 +36,7 @@ class DeleteMobileDeviceImpl implements DeleteMobileDevice {
       params: {
         'device_id': deviceId,
       },
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

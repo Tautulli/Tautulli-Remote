@@ -5,10 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/recent/data/datasources/recently_added_data_source.dart';
 import 'package:tautulli_remote/features/recent/data/models/recent_model.dart';
 import 'package:tautulli_remote/features/recent/data/repositories/recently_added_repository_impl.dart';
 import 'package:tautulli_remote/features/recent/domain/entities/recent.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -17,10 +20,17 @@ class MockRecentlyAddedDataSource extends Mock
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   RecentlyAddedRepositoryImpl repository;
   MockRecentlyAddedDataSource mockRecentlyAddedDataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockRecentlyAddedDataSource = MockRecentlyAddedDataSource();
@@ -28,6 +38,12 @@ void main() {
     repository = RecentlyAddedRepositoryImpl(
       dataSource: mockRecentlyAddedDataSource,
       networkInfo: mockNetworkInfo,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -51,6 +67,7 @@ void main() {
       repository.getRecentlyAdded(
         tautulliId: tTautulliId,
         count: tCount,
+        settingsBloc: settingsBloc,
       );
       // assert
       verify(mockNetworkInfo.isConnected);
@@ -69,12 +86,14 @@ void main() {
         await repository.getRecentlyAdded(
           tautulliId: tTautulliId,
           count: tCount,
+          settingsBloc: settingsBloc,
         );
         // assert
         verify(
           mockRecentlyAddedDataSource.getRecentlyAdded(
             tautulliId: tTautulliId,
             count: tCount,
+            settingsBloc: settingsBloc,
           ),
         );
       },
@@ -91,12 +110,14 @@ void main() {
             start: anyNamed('start'),
             mediaType: anyNamed('mediaType'),
             sectionId: anyNamed('sectionId'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => tRecentList);
         // act
         final result = await repository.getRecentlyAdded(
           tautulliId: tTautulliId,
           count: tCount,
+          settingsBloc: settingsBloc,
         );
         // assert
         expect(result, equals(Right(tRecentList)));
@@ -111,9 +132,10 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
         // act
-         final result = await repository.getRecentlyAdded(
+        final result = await repository.getRecentlyAdded(
           tautulliId: tTautulliId,
           count: tCount,
+          settingsBloc: settingsBloc,
         );
         // assert
         expect(result, equals(Left(ConnectionFailure())));

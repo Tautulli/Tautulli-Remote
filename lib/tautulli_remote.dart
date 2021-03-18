@@ -41,7 +41,11 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     super.initState();
     initializeFlutterFire();
     initPlatformState();
-    context.read<SettingsBloc>().add(SettingsLoad());
+    context.read<SettingsBloc>().add(
+          SettingsLoad(
+            settingsBloc: context.read<SettingsBloc>(),
+          ),
+        );
     context.read<SettingsBloc>().add(SettingsUpdateLastAppVersion());
     context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
   }

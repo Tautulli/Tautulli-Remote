@@ -10,6 +10,8 @@ import 'package:tautulli_remote/features/history/domain/entities/history.dart';
 import 'package:tautulli_remote/features/history/domain/usecases/get_history.dart';
 import 'package:tautulli_remote/features/history/presentation/bloc/history_individual_bloc.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/users/data/models/user_table_model.dart';
 import 'package:tautulli_remote/features/users/domain/entities/user_table.dart';
 import 'package:tautulli_remote/features/users/domain/usecases/get_users_table.dart';
@@ -20,22 +22,31 @@ class MockGetHistory extends Mock implements GetHistory {}
 
 class MockGetUsersTable extends Mock implements GetUsersTable {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   HistoryIndividualBloc bloc;
   MockGetHistory mockGetHistory;
   MockGetUsersTable mockGetUsersTable;
+  MockSettings mockSettings;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetHistory = MockGetHistory();
     mockGetUsersTable = MockGetUsersTable();
     mockLogging = MockLogging();
+    mockSettings = MockSettings();
 
     bloc = HistoryIndividualBloc(
       getHistory: mockGetHistory,
       getUsersTable: mockGetUsersTable,
+      logging: mockLogging,
+    );
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
       logging: mockLogging,
     );
   });
@@ -73,6 +84,7 @@ void main() {
       start: anyNamed('start'),
       length: anyNamed('length'),
       search: anyNamed('search'),
+      settingsBloc: anyNamed('settingsBloc'),
     )).thenAnswer((_) async => Right(tUsersList));
     when(
       mockGetHistory(
@@ -93,6 +105,7 @@ void main() {
         start: anyNamed('start'),
         length: anyNamed('length'),
         search: anyNamed('search'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(historyList));
   }
@@ -117,6 +130,7 @@ void main() {
           HistoryIndividualFetch(
             tautulliId: tTautulliId,
             userId: null,
+            settingsBloc: settingsBloc,
           ),
         );
         await untilCalled(
@@ -138,6 +152,7 @@ void main() {
             start: anyNamed('start'),
             length: anyNamed('length'),
             search: anyNamed('search'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
@@ -159,6 +174,7 @@ void main() {
           start: anyNamed('start'),
           length: anyNamed('length'),
           search: anyNamed('search'),
+          settingsBloc: anyNamed('settingsBloc'),
         ));
       },
     );
@@ -183,6 +199,7 @@ void main() {
         bloc.add(HistoryIndividualFetch(
           tautulliId: tTautulliId,
           ratingKey: tRatingKey,
+          settingsBloc: settingsBloc,
         ));
       },
     );
@@ -212,6 +229,7 @@ void main() {
             start: anyNamed('start'),
             length: anyNamed('length'),
             search: anyNamed('search'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => Left(failure));
         // assert later
@@ -228,6 +246,7 @@ void main() {
         bloc.add(HistoryIndividualFetch(
           tautulliId: tTautulliId,
           ratingKey: tRatingKey,
+          settingsBloc: settingsBloc,
         ));
       },
     );
@@ -258,6 +277,7 @@ void main() {
         bloc.add(HistoryIndividualFetch(
           tautulliId: tTautulliId,
           ratingKey: tRatingKey,
+          settingsBloc: settingsBloc,
         ));
       },
     );
@@ -288,6 +308,7 @@ void main() {
         bloc.add(HistoryIndividualFetch(
           tautulliId: tTautulliId,
           ratingKey: tRatingKey,
+          settingsBloc: settingsBloc,
         ));
       },
     );

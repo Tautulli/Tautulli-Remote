@@ -25,6 +25,7 @@ class HistoryFetch extends HistoryEvent {
   final int start;
   final int length;
   final String search;
+  final SettingsBloc settingsBloc;
 
   HistoryFetch({
     @required this.tautulliId,
@@ -44,6 +45,7 @@ class HistoryFetch extends HistoryEvent {
     this.start,
     this.length,
     this.search,
+    @required this.settingsBloc,
   });
 
   @override
@@ -65,6 +67,7 @@ class HistoryFetch extends HistoryEvent {
         start,
         length,
         search,
+        settingsBloc,
       ];
 }
 

@@ -8,6 +8,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../../domain/usecases/get_children_metadata.dart';
 
@@ -46,6 +47,7 @@ class ChildrenMetadataBloc
           tautulliId: event.tautulliId,
           ratingKey: event.ratingKey,
           mediaType: event.mediaType,
+          settingsBloc: event.settingsBloc,
         );
 
         yield* failureOrChildrenMetadata.fold(
@@ -77,6 +79,7 @@ class ChildrenMetadataBloc
               await _getImages(
                 list: childrenMetadataList,
                 tautulliId: event.tautulliId,
+                settingsBloc: event.settingsBloc,
               );
 
               _metadataCache[event.ratingKey] = childrenMetadataList;
@@ -112,6 +115,7 @@ class ChildrenMetadataBloc
   Future<void> _getImages({
     @required List<MetadataItem> list,
     @required String tautulliId,
+    @required SettingsBloc settingsBloc,
   }) async {
     for (MetadataItem metadataItem in list) {
       //* Fetch and assign image URLs
@@ -136,6 +140,7 @@ class ChildrenMetadataBloc
         tautulliId: tautulliId,
         img: metadataItem.thumb,
         fallback: posterFallback,
+        settingsBloc: settingsBloc,
       );
       failureOrPosterUrl.fold(
         (failure) {

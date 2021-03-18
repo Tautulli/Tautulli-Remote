@@ -10,6 +10,8 @@ import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/media/data/models/metadata_item_model.dart';
 import 'package:tautulli_remote/features/media/domain/entities/metadata_item.dart';
 import 'package:tautulli_remote/features/media/domain/usecases/get_metadata.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/synced_items/data/models/synced_item_model.dart';
 import 'package:tautulli_remote/features/synced_items/domain/entities/synced_item.dart';
 import 'package:tautulli_remote/features/synced_items/domain/usecases/get_synced_items.dart';
@@ -23,6 +25,8 @@ class MockGetMetadata extends Mock implements GetMetadata {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
@@ -30,13 +34,20 @@ void main() {
   MockGetSyncedItems mockGetSyncedItems;
   MockGetMetadata mockGetMetadata;
   MockGetImageUrl mockGetImageUrl;
+  MockSettings mockSettings;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetSyncedItems = MockGetSyncedItems();
     mockGetMetadata = MockGetMetadata();
     mockGetImageUrl = MockGetImageUrl();
     mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
+    );
 
     bloc = SyncedItemsBloc(
       getSyncedItems: mockGetSyncedItems,
@@ -67,15 +78,18 @@ void main() {
         img: anyNamed('img'),
         ratingKey: anyNamed('ratingKey'),
         fallback: anyNamed('fallback'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(imageUrl));
     when(mockGetSyncedItems(
       tautulliId: anyNamed('tautulliId'),
+      settingsBloc: anyNamed('settingsBloc'),
     )).thenAnswer((_) async => Right(tSyncedItemsList));
     when(mockGetMetadata(
       tautulliId: anyNamed('tautulliId'),
       ratingKey: anyNamed('ratingKey'),
       syncId: anyNamed('syncId'),
+      settingsBloc: anyNamed('settingsBloc'),
     )).thenAnswer((_) async => Right(tMetadataItem));
   }
 
@@ -95,14 +109,19 @@ void main() {
         setUpSuccess();
         clearCache();
         // act
-        bloc.add(SyncedItemsFetch(tautulliId: tTautulliId));
+        bloc.add(SyncedItemsFetch(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
         await untilCalled(mockGetSyncedItems(
           tautulliId: anyNamed('tautulliId'),
+          settingsBloc: anyNamed('settingsBloc'),
         ));
         // assert
         verify(
           mockGetSyncedItems(
             tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
           ),
         );
       },
@@ -118,6 +137,7 @@ void main() {
         bloc.add(
           SyncedItemsFetch(
             tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
           ),
         );
         await untilCalled(
@@ -126,6 +146,7 @@ void main() {
             img: anyNamed('img'),
             ratingKey: anyNamed('ratingKey'),
             fallback: anyNamed('fallback'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
@@ -135,6 +156,7 @@ void main() {
             img: anyNamed('img'),
             ratingKey: anyNamed('ratingKey'),
             fallback: anyNamed('fallback'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
       },
@@ -154,7 +176,10 @@ void main() {
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(SyncedItemsFetch(tautulliId: tTautulliId));
+        bloc.add(SyncedItemsFetch(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
       },
     );
 
@@ -166,6 +191,7 @@ void main() {
         clearCache();
         when(mockGetSyncedItems(
           tautulliId: anyNamed('tautulliId'),
+          settingsBloc: anyNamed('settingsBloc'),
         )).thenAnswer((_) async => Left(failure));
         // assert later
         final expected = [
@@ -177,7 +203,10 @@ void main() {
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(SyncedItemsFetch(tautulliId: tTautulliId));
+        bloc.add(SyncedItemsFetch(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
       },
     );
   });

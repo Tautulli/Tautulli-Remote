@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/domain/entities/user.dart';
 import '../../../users/domain/usecases/get_user_names.dart';
 
@@ -28,7 +29,10 @@ class UsersListBloc extends Bloc<UsersListEvent, UsersListState> {
     UsersListEvent event,
   ) async* {
     if (event is UsersListFetch) {
-      yield* _mapUsersListFetchToState(tautulliId: event.tautulliId);
+      yield* _mapUsersListFetchToState(
+        tautulliId: event.tautulliId,
+        settingsBloc: event.settingsBloc,
+      );
 
       _tautulliIdCache = event.tautulliId;
     }
@@ -36,13 +40,17 @@ class UsersListBloc extends Bloc<UsersListEvent, UsersListState> {
 
   Stream<UsersListState> _mapUsersListFetchToState({
     @required String tautulliId,
+    @required SettingsBloc settingsBloc,
   }) async* {
     if (_usersListCache != null && tautulliId == _tautulliIdCache) {
       yield UsersListSuccess(usersList: _usersListCache);
     } else {
       yield UsersListInProgress();
 
-      final userNamesOrFailure = await getUserNames(tautulliId: tautulliId);
+      final userNamesOrFailure = await getUserNames(
+        tautulliId: tautulliId,
+        settingsBloc: settingsBloc,
+      );
 
       yield* userNamesOrFailure.fold(
         (failure) async* {

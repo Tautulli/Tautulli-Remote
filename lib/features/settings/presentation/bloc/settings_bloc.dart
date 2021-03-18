@@ -13,6 +13,8 @@ import '../../domain/usecases/settings.dart';
 part 'settings_event.dart';
 part 'settings_state.dart';
 
+SettingsBloc _settingsBlocCache;
+
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final Settings settings;
   final Logging logging;
@@ -27,9 +29,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsEvent event,
   ) async* {
     if (event is SettingsLoad) {
+      _settingsBlocCache = event.settingsBloc;
+
       yield SettingsLoadInProgress();
       yield* _fetchAndYieldSettings();
-      yield* _checkForServerChanges();
+      yield* _checkForServerChanges(settingsBloc: _settingsBlocCache);
     }
     if (event is SettingsAddServer) {
       logging.info(
@@ -46,7 +50,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         plexPass: event.plexPass,
       );
       yield* _fetchAndYieldSettings();
-      yield* _checkForServerChanges();
+      yield* _checkForServerChanges(settingsBloc: _settingsBlocCache);
     }
     if (event is SettingsUpdateServer) {
       logging.info(
@@ -95,6 +99,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       await settings.updateSecondaryConnection(
         id: event.id,
         secondaryConnectionAddress: event.secondaryConnectionAddress.trim(),
+      );
+      yield* _fetchAndYieldSettings();
+    }
+    if (event is SettingsUpdatePrimaryActive) {
+      await settings.updatePrimaryActive(
+        tautulliId: event.tautulliId,
+        primaryActive: event.primaryActive,
       );
       yield* _fetchAndYieldSettings();
     }
@@ -183,11 +194,16 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
   }
 
-  Stream<SettingsState> _checkForServerChanges() async* {
+  Stream<SettingsState> _checkForServerChanges({
+    @required SettingsBloc settingsBloc,
+  }) async* {
     final serverList = await settings.getAllServers();
 
     for (ServerModel server in serverList) {
-      _serverInformation(server).then((settingsMap) {
+      _serverInformation(
+        server: server,
+        settingsBloc: settingsBloc,
+      ).then((settingsMap) {
         if (settingsMap['needsUpdate']) {
           add(SettingsUpdateServer(
             id: server.id,
@@ -206,7 +222,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  Future<Map<String, dynamic>> _serverInformation(ServerModel server) async {
+  Future<Map<String, dynamic>> _serverInformation({
+    @required ServerModel server,
+    @required SettingsBloc settingsBloc,
+  }) async {
     Map<String, dynamic> settingsMap = {
       'needsUpdate': false,
       'plexPass': null,
@@ -217,8 +236,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     };
 
     // Check for changes to plexPass or pmsName
-    final failureOrPlexServerInfo =
-        await settings.getPlexServerInfo(server.tautulliId);
+    final failureOrPlexServerInfo = await settings.getPlexServerInfo(
+      tautulliId: server.tautulliId,
+      settingsBloc: settingsBloc,
+    );
     failureOrPlexServerInfo.fold(
       (failure) {
         logging.error(
@@ -246,8 +267,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
 
     // Check for changes to Tautulli Server settings
-    final failureOrTautulliSettings =
-        await settings.getTautulliSettings(server.tautulliId);
+    final failureOrTautulliSettings = await settings.getTautulliSettings(
+      tautulliId: server.tautulliId,
+      settingsBloc: settingsBloc,
+    );
     failureOrTautulliSettings.fold(
       (failure) {
         logging.error(

@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 abstract class ImageUrlDataSource {
   Future<String> getImage({
@@ -13,6 +14,7 @@ abstract class ImageUrlDataSource {
     int background,
     int blur,
     String fallback,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -42,6 +44,7 @@ class ImageUrlDataSourceImpl implements ImageUrlDataSource {
     int background,
     int blur,
     String fallback,
+    @required SettingsBloc settingsBloc,
   }) async {
     final String url = await apiPmsImageProxy(
       tautulliId: tautulliId,
@@ -53,6 +56,7 @@ class ImageUrlDataSourceImpl implements ImageUrlDataSource {
       background: background,
       blur: blur,
       fallback: fallback,
+      settingsBloc: settingsBloc,
     );
 
     return url;

@@ -9,6 +9,7 @@ import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../media/domain/usecases/get_metadata.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/synced_item.dart';
 import '../../domain/usecases/get_synced_items.dart';
 
@@ -18,6 +19,7 @@ part 'synced_items_state.dart';
 List<SyncedItem> _syncedItemsListCache;
 String _tautulliIdCache;
 int _userIdCache;
+SettingsBloc _settingsBlocCache;
 
 class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
   final GetSyncedItems getSyncedItems;
@@ -41,11 +43,13 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
   ) async* {
     if (event is SyncedItemsFetch) {
       _userIdCache = event.userId;
+      _settingsBlocCache = event.settingsBloc;
 
       yield* _fetchSyncedItems(
         tautulliId: event.tautulliId,
         userId: event.userId,
         useCachedList: true,
+        settingsBloc: _settingsBlocCache,
       );
 
       _tautulliIdCache = event.tautulliId;
@@ -57,6 +61,7 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
       yield* _fetchSyncedItems(
         tautulliId: event.tautulliId,
         userId: event.userId,
+        settingsBloc: _settingsBlocCache,
       );
 
       _tautulliIdCache = event.tautulliId;
@@ -67,6 +72,7 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
     @required String tautulliId,
     int userId,
     bool useCachedList = false,
+    @required SettingsBloc settingsBloc,
   }) async* {
     if (useCachedList &&
         _syncedItemsListCache != null &&
@@ -78,6 +84,7 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
       final syncedItemsListOrFailure = await getSyncedItems(
         tautulliId: tautulliId,
         userId: userId,
+        settingsBloc: settingsBloc,
       );
 
       yield* syncedItemsListOrFailure.fold(
@@ -93,7 +100,11 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
           );
         },
         (list) async* {
-          await _getImages(list: list, tautulliId: tautulliId);
+          await _getImages(
+            list: list,
+            tautulliId: tautulliId,
+            settingsBloc: settingsBloc,
+          );
 
           _syncedItemsListCache = list;
 
@@ -108,6 +119,7 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
   Future<void> _getImages({
     @required List<SyncedItem> list,
     @required String tautulliId,
+    @required SettingsBloc settingsBloc,
   }) async {
     for (SyncedItem syncedItem in list) {
       final String mediaType = syncedItem.syncMediaType ?? syncedItem.mediaType;
@@ -123,6 +135,7 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
         final failureOrMetadata = await getMetadata(
           tautulliId: tautulliId,
           syncId: syncedItem.syncId,
+          settingsBloc: settingsBloc,
         );
 
         failureOrMetadata.fold(
@@ -180,6 +193,7 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
         img: posterImg,
         ratingKey: posterRatingKey ?? ratingKey,
         fallback: posterFallback,
+        settingsBloc: settingsBloc,
       );
       failureOrPosterUrl.fold(
         (failure) {

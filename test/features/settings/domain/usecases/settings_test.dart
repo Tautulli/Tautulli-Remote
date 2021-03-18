@@ -4,24 +4,39 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/database/data/models/server_model.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
 import 'package:tautulli_remote/features/settings/data/models/tautulli_settings_general_model.dart';
 import 'package:tautulli_remote/features/settings/domain/entities/plex_server_info.dart';
 import 'package:tautulli_remote/features/settings/domain/repositories/settings_repository.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
 class MockSettingsRepository extends Mock implements SettingsRepository {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   Settings settings;
   MockSettingsRepository mockSettingsRepository;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockSettingsRepository = MockSettingsRepository();
     settings = Settings(
       repository: mockSettingsRepository,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -252,10 +267,16 @@ void main() {
     () async {
       // arrange
       when(
-        mockSettingsRepository.getPlexServerInfo(any),
+        mockSettingsRepository.getPlexServerInfo(
+          tautulliId: anyNamed('tautulliId'),
+          settingsBloc: anyNamed('settingsBloc'),
+        ),
       ).thenAnswer((_) async => Right(tPlexServerInfo));
       // act
-      final result = await settings.getPlexServerInfo(tTautulliId);
+      final result = await settings.getPlexServerInfo(
+        tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
+      );
       // assert
       expect(result, equals(Right(tPlexServerInfo)));
     },
@@ -266,10 +287,16 @@ void main() {
     () async {
       // arrange
       when(
-        mockSettingsRepository.getTautulliSettings(any),
+        mockSettingsRepository.getTautulliSettings(
+          tautulliId: anyNamed('tautulliId'),
+          settingsBloc: anyNamed('settingsBloc'),
+        ),
       ).thenAnswer((_) async => Right(tTautulliSettingsMap));
       // act
-      final result = await settings.getTautulliSettings(tTautulliId);
+      final result = await settings.getTautulliSettings(
+        tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
+      );
       // assert
       expect(result, equals(Right(tTautulliSettingsMap)));
     },

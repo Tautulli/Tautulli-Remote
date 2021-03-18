@@ -4,6 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
     as tautulliApi;
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/users/data/datasources/users_data_source.dart';
 import 'package:tautulli_remote/features/users/data/models/user_model.dart';
 import 'package:tautulli_remote/features/users/data/models/user_table_model.dart';
@@ -16,10 +19,17 @@ class MockGetUserNames extends Mock implements tautulliApi.GetUserNames {}
 
 class MockGetUsersTable extends Mock implements tautulliApi.GetUsersTable {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   UsersDataSourceImpl dataSource;
   MockGetUserNames mockApiGetUserNames;
   MockGetUsersTable mockApiGetUsersTable;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockApiGetUserNames = MockGetUserNames();
@@ -27,6 +37,12 @@ void main() {
     dataSource = UsersDataSourceImpl(
       apiGetUserNames: mockApiGetUserNames,
       apiGetUsersTable: mockApiGetUsersTable,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -53,13 +69,20 @@ void main() {
         when(
           mockApiGetUserNames(
             tautulliId: anyNamed('tautulliId'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => usersJson);
         // act
-        await dataSource.getUserNames(tautulliId: tTautulliId);
+        await dataSource.getUserNames(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         verify(
-          mockApiGetUserNames(tautulliId: tTautulliId),
+          mockApiGetUserNames(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          ),
         );
       },
     );
@@ -71,10 +94,14 @@ void main() {
         when(
           mockApiGetUserNames(
             tautulliId: anyNamed('tautulliId'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => usersJson);
         // act
-        final result = await dataSource.getUserNames(tautulliId: tTautulliId);
+        final result = await dataSource.getUserNames(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         expect(result, equals(tUserList));
       },
@@ -94,12 +121,19 @@ void main() {
           start: anyNamed('start'),
           length: anyNamed('length'),
           search: anyNamed('search'),
+          settingsBloc: anyNamed('settingsBloc'),
         )).thenAnswer((_) async => usersTableJson);
         // act
-        await dataSource.getUsersTable(tautulliId: tTautulliId);
+        await dataSource.getUsersTable(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         verify(
-          mockApiGetUsersTable(tautulliId: tTautulliId),
+          mockApiGetUsersTable(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          ),
         );
       },
     );
@@ -116,9 +150,13 @@ void main() {
           start: anyNamed('start'),
           length: anyNamed('length'),
           search: anyNamed('search'),
+          settingsBloc: anyNamed('settingsBloc'),
         )).thenAnswer((_) async => usersTableJson);
         // act
-        final result = await dataSource.getUsersTable(tautulliId: tTautulliId);
+        final result = await dataSource.getUsersTable(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         expect(result, equals(tUserTableList));
       },

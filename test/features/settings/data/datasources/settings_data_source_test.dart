@@ -5,10 +5,13 @@ import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
     as tautulliApi;
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/data/datasources/settings_data_source.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
 import 'package:tautulli_remote/features/settings/data/models/tautulli_settings_general_model.dart';
 import 'package:tautulli_remote/features/settings/domain/entities/plex_server_info.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -18,11 +21,18 @@ class MockGetServerInfo extends Mock implements tautulliApi.GetServerInfo {}
 
 class MockGetSettings extends Mock implements tautulliApi.GetSettings {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   SettingsDataSourceImpl dataSource;
   MockSharedPreferences mockSharedPreferences;
   MockGetServerInfo mockApiGetServerInfo;
   MockGetSettings mockApiGetSettings;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
@@ -32,6 +42,12 @@ void main() {
       sharedPreferences: mockSharedPreferences,
       apiGetServerInfo: mockApiGetServerInfo,
       apiGetSettings: mockApiGetSettings,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -54,13 +70,22 @@ void main() {
       () async {
         // arrange
         when(
-          mockApiGetServerInfo(any),
+          mockApiGetServerInfo(
+            tautulliId: anyNamed('tautulliId'),
+            settingsBloc: anyNamed('settingsBloc'),
+          ),
         ).thenAnswer((_) async => plexServerInfoJson);
         // act
-        await dataSource.getPlexServerInfo(tTautulliId);
+        await dataSource.getPlexServerInfo(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         verify(
-          mockApiGetServerInfo(tTautulliId),
+          mockApiGetServerInfo(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          ),
         );
       },
     );
@@ -70,10 +95,16 @@ void main() {
       () async {
         // arrange
         when(
-          mockApiGetServerInfo(any),
+          mockApiGetServerInfo(
+            tautulliId: anyNamed('tautulliId'),
+            settingsBloc: anyNamed('settingsBloc'),
+          ),
         ).thenAnswer((_) async => plexServerInfoJson);
         // act
-        final result = await dataSource.getPlexServerInfo(tTautulliId);
+        final result = await dataSource.getPlexServerInfo(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         expect(result, equals(tPlexServerInfo));
       },
@@ -86,13 +117,22 @@ void main() {
       () async {
         // arrange
         when(
-          mockApiGetSettings(any),
+          mockApiGetSettings(
+            tautulliId: anyNamed('tautulliId'),
+            settingsBloc: anyNamed('settingsBloc'),
+          ),
         ).thenAnswer((_) async => tautulliSettingsJson);
         // act
-        await dataSource.getTautulliSettings(tTautulliId);
+        await dataSource.getTautulliSettings(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         verify(
-          mockApiGetSettings(tTautulliId),
+          mockApiGetSettings(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          ),
         );
       },
     );
@@ -102,10 +142,16 @@ void main() {
       () async {
         // arrange
         when(
-          mockApiGetSettings(any),
+          mockApiGetSettings(
+            tautulliId: anyNamed('tautulliId'),
+            settingsBloc: anyNamed('settingsBloc'),
+          ),
         ).thenAnswer((_) async => tautulliSettingsJson);
         // act
-        final result = await dataSource.getTautulliSettings(tTautulliId);
+        final result = await dataSource.getTautulliSettings(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         expect(result, equals(tTautulliSettingsMap));
       },

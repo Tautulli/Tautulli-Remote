@@ -11,12 +11,14 @@ import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../libraries/domain/entities/library_media.dart';
 import '../../../libraries/domain/usecases/get_library_media_info.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 part 'library_media_event.dart';
 part 'library_media_state.dart';
 
 String _tautulliIdCache;
 Map<int, List<LibraryMedia>> _libraryMediaListCache = {};
+SettingsBloc _settingsBlocCache;
 
 class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
   final GetLibraryMediaInfo getLibraryMediaInfo;
@@ -45,6 +47,8 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
     LibraryMediaEvent event,
   ) async* {
     if (event is LibraryMediaFetched) {
+      _settingsBlocCache = event.settingsBloc;
+
       if (_tautulliIdCache == event.tautulliId &&
           (_libraryMediaListCache.containsKey(event.ratingKey) ||
               _libraryMediaListCache.containsKey(event.sectionId))) {
@@ -65,6 +69,7 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
           sectionId: event.sectionId,
           ratingKey: event.ratingKey,
           refresh: false,
+          settingsBloc: _settingsBlocCache,
         );
 
         _tautulliIdCache = event.tautulliId;
@@ -79,6 +84,7 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
         ratingKey: event.ratingKey,
         refresh: true,
         timeoutOverride: 10,
+        settingsBloc: _settingsBlocCache,
       );
 
       _tautulliIdCache = event.tautulliId;
@@ -91,6 +97,7 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
     @required int sectionId,
     @required bool refresh,
     int timeoutOverride,
+    @required SettingsBloc settingsBloc,
   }) async* {
     final failureOrLibraryMediaList = await getLibraryMediaInfo(
       tautulliId: tautulliId,
@@ -99,6 +106,7 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
       length: 100000000000,
       refresh: refresh,
       timeoutOverride: timeoutOverride,
+      settingsBloc: settingsBloc,
     );
 
     yield* failureOrLibraryMediaList.fold(
@@ -121,7 +129,11 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
           libraryMediaList: libraryMediaList,
         );
 
-        await _getImages(list: libraryMediaList, tautulliId: tautulliId);
+        await _getImages(
+          list: libraryMediaList,
+          tautulliId: tautulliId,
+          settingsBloc: settingsBloc,
+        );
 
         if (ratingKey != null) {
           _libraryMediaListCache[ratingKey] = libraryMediaList;
@@ -152,6 +164,7 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
   Future<void> _getImages({
     @required List<LibraryMedia> list,
     @required String tautulliId,
+    @required SettingsBloc settingsBloc,
   }) async {
     for (LibraryMedia libraryMediaItem in list) {
       //* Fetch and assign image URLs
@@ -176,6 +189,7 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
         tautulliId: tautulliId,
         img: libraryMediaItem.thumb,
         fallback: posterFallback,
+        settingsBloc: settingsBloc,
       );
       failureOrPosterUrl.fold(
         (failure) {

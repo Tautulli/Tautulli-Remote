@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/entities/user_table.dart';
 import '../../domain/repositories/users_repository.dart';
@@ -21,11 +22,13 @@ class UsersTableRepositoryImpl implements UsersRepository {
   @override
   Future<Either<Failure, List<User>>> getUserNames({
     @required tautulliId,
+    @required SettingsBloc settingsBloc,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final usersList = await dataSource.getUserNames(
           tautulliId: tautulliId,
+          settingsBloc: settingsBloc,
         );
         return Right(usersList);
       } catch (exception) {
@@ -47,6 +50,7 @@ class UsersTableRepositoryImpl implements UsersRepository {
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -58,6 +62,7 @@ class UsersTableRepositoryImpl implements UsersRepository {
           start: start,
           length: length,
           search: search,
+          settingsBloc: settingsBloc,
         );
         return Right(usersTableList);
       } catch (exception) {

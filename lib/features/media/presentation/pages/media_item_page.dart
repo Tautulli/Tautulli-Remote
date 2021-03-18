@@ -125,6 +125,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
           tautulliId: _tautulliId,
           ratingKey: widget.item.ratingKey,
           syncId: widget.item.syncId,
+          settingsBloc: _settingsBloc,
         ),
       );
 
@@ -136,6 +137,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
             tautulliId: _tautulliId,
             ratingKey: widget.item.ratingKey,
             mediaType: widget.syncedMediaType,
+            settingsBloc: _settingsBloc,
           ),
         );
       }

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../entities/statistics.dart';
 import '../repositories/statistics_repository.dart';
 
@@ -18,6 +19,7 @@ class GetStatistics {
     int statsStart,
     int statsCount,
     String statId,
+    @required SettingsBloc settingsBloc,
   }) async {
     return await repository.getStatistics(
       tautulliId: tautulliId,
@@ -27,6 +29,7 @@ class GetStatistics {
       statsStart: statsStart,
       statsType: statsType,
       timeRange: timeRange,
+      settingsBloc: settingsBloc,
     );
   }
 }

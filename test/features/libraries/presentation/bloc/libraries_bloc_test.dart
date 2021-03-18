@@ -11,6 +11,8 @@ import 'package:tautulli_remote/features/libraries/domain/entities/library.dart'
 import 'package:tautulli_remote/features/libraries/domain/usecases/get_libraries_table.dart';
 import 'package:tautulli_remote/features/libraries/presentation/bloc/libraries_bloc.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -18,21 +20,30 @@ class MockGetLibrariesTable extends Mock implements GetLibrariesTable {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   LibrariesBloc bloc;
   MockGetLibrariesTable mockGetLibrariesTable;
   MockGetImageUrl mockGetImageUrl;
+  MockSettings mockSettings;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetLibrariesTable = MockGetLibrariesTable();
     mockGetImageUrl = MockGetImageUrl();
     mockLogging = MockLogging();
+    mockSettings = MockSettings();
     bloc = LibrariesBloc(
       getLibrariesTable: mockGetLibrariesTable,
       getImageUrl: mockGetImageUrl,
+      logging: mockLogging,
+    );
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
       logging: mockLogging,
     );
   });
@@ -82,6 +93,7 @@ void main() {
         img: anyNamed('img'),
         ratingKey: anyNamed('ratingKey'),
         fallback: anyNamed('fallback'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(imageUrl));
     when(
@@ -93,6 +105,7 @@ void main() {
         orderDir: anyNamed('orderDir'),
         search: anyNamed('search'),
         start: anyNamed('start'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(tLibrariesList));
   }
@@ -118,6 +131,7 @@ void main() {
             tautulliId: tTautulliId,
             orderColumn: tOrderColumn,
             orderDir: tOrderDir,
+            settingsBloc: settingsBloc,
           ),
         );
         await untilCalled(
@@ -129,6 +143,7 @@ void main() {
             orderDir: anyNamed('orderDir'),
             search: anyNamed('search'),
             start: anyNamed('start'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
@@ -140,6 +155,7 @@ void main() {
           orderDir: anyNamed('orderDir'),
           search: anyNamed('search'),
           start: anyNamed('start'),
+          settingsBloc: anyNamed('settingsBloc'),
         ));
       },
     );
@@ -156,6 +172,7 @@ void main() {
             tautulliId: tTautulliId,
             orderColumn: tOrderColumn,
             orderDir: tOrderDir,
+            settingsBloc: settingsBloc,
           ),
         );
         await untilCalled(
@@ -164,6 +181,7 @@ void main() {
             img: anyNamed('img'),
             ratingKey: anyNamed('ratingKey'),
             fallback: anyNamed('fallback'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
@@ -173,6 +191,7 @@ void main() {
             img: anyNamed('img'),
             ratingKey: anyNamed('ratingKey'),
             fallback: anyNamed('fallback'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
       },
@@ -197,6 +216,7 @@ void main() {
           tautulliId: tTautulliId,
           orderColumn: tOrderColumn,
           orderDir: tOrderDir,
+          settingsBloc: settingsBloc,
         ));
       },
     );
@@ -216,6 +236,7 @@ void main() {
             orderDir: anyNamed('orderDir'),
             search: anyNamed('search'),
             start: anyNamed('start'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => Left(failure));
         // assert later
@@ -232,6 +253,7 @@ void main() {
           tautulliId: tTautulliId,
           orderColumn: tOrderColumn,
           orderDir: tOrderDir,
+          settingsBloc: settingsBloc,
         ));
       },
     );

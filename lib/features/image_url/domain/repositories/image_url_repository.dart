@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 abstract class ImageUrlRepository {
   Future<Either<Failure, String>> getImage({
@@ -14,5 +15,6 @@ abstract class ImageUrlRepository {
     int background,
     int blur,
     String fallback,
+    @required SettingsBloc settingsBloc,
   });
 }

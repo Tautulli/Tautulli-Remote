@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library_media.dart';
 import '../models/library_media_model.dart';
 
@@ -14,6 +15,7 @@ abstract class LibraryMediaDataSource {
     int length,
     bool refresh,
     int timeoutOverride,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -32,6 +34,7 @@ class LibraryMediaDataSourceImpl implements LibraryMediaDataSource {
     int length,
     bool refresh,
     int timeoutOverride,
+    @required SettingsBloc settingsBloc,
   }) async {
     final libraryMediaInfoJson = await apiGetLibraryMediaInfo(
       tautulliId: tautulliId,
@@ -42,6 +45,7 @@ class LibraryMediaDataSourceImpl implements LibraryMediaDataSource {
       length: length,
       refresh: refresh,
       timeoutOverride: timeoutOverride,
+      settingsBloc: settingsBloc,
     );
 
     List libraryMediaInfoMap = libraryMediaInfoJson['response']['data']['data'];

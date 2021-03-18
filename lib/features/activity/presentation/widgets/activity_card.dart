@@ -173,6 +173,7 @@ class _ActivityCardState extends State<ActivityCard> {
                                           null
                                       ? _terminateMessageController.text
                                       : 'The server owner has ended the stream.',
+                                  settingsBloc: settingsBloc,
                                 ),
                               );
                             } else {

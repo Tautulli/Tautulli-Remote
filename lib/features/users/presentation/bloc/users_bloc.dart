@@ -8,6 +8,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/user_table.dart';
 import '../../domain/usecases/get_users_table.dart';
 
@@ -19,6 +20,7 @@ String _orderColumnCache;
 String _orderDirCache;
 String _tautulliIdCache;
 bool _hasReachedMaxCache;
+SettingsBloc _settingsBlocCache;
 
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
   final GetUsersTable getUsersTable;
@@ -52,6 +54,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     if (event is UsersFetch && !_hasReachedMax(currentState)) {
       _orderColumnCache = event.orderColumn;
       _orderDirCache = event.orderDir;
+      _settingsBlocCache = event.settingsBloc;
 
       if (currentState is UsersInitial) {
         yield* _fetchInitial(
@@ -63,6 +66,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           length: event.length,
           search: event.search,
           useCachedList: true,
+          settingsBloc: _settingsBlocCache,
         );
       }
       if (currentState is UsersSuccess) {
@@ -75,6 +79,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           start: event.start,
           length: event.length,
           search: event.search,
+          settingsBloc: _settingsBlocCache,
         );
       }
 
@@ -93,6 +98,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         start: event.start,
         length: event.length,
         search: event.search,
+        settingsBloc: _settingsBlocCache,
       );
 
       _tautulliIdCache = event.tautulliId;
@@ -108,6 +114,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     int length,
     String search,
     bool useCachedList = false,
+    @required SettingsBloc settingsBloc,
   }) async* {
     if (useCachedList &&
         _userTableListCache != null &&
@@ -125,6 +132,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         start: start,
         length: length ?? 25,
         search: search,
+        settingsBloc: settingsBloc,
       );
 
       yield* failureOrUsersList.fold(
@@ -161,6 +169,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   }) async* {
     final failureOrUsersList = await getUsersTable(
       tautulliId: tautulliId,
@@ -170,6 +179,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       start: currentState.list.length,
       length: length ?? 25,
       search: search,
+      settingsBloc: settingsBloc,
     );
 
     yield* failureOrUsersList.fold(

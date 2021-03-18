@@ -5,10 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/media/data/datasources/children_metadata_data_source.dart';
 import 'package:tautulli_remote/features/media/data/models/metadata_item_model.dart';
 import 'package:tautulli_remote/features/media/data/repositories/children_metadata_repository_impl.dart';
 import 'package:tautulli_remote/features/media/domain/entities/metadata_item.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -17,10 +20,17 @@ class MockChildrenMetadataDataSource extends Mock
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   ChildrenMetadataRepositoryImpl repository;
   MockChildrenMetadataDataSource mockChildrenMetadataDataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockChildrenMetadataDataSource = MockChildrenMetadataDataSource();
@@ -28,6 +38,12 @@ void main() {
     repository = ChildrenMetadataRepositoryImpl(
       dataSource: mockChildrenMetadataDataSource,
       networkInfo: mockNetworkInfo,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -51,6 +67,7 @@ void main() {
         repository.getChildrenMetadata(
           tautulliId: tTautulliId,
           ratingKey: tRatingKey,
+          settingsBloc: settingsBloc,
         );
         // assert
         verify(mockNetworkInfo.isConnected);
@@ -69,12 +86,14 @@ void main() {
           await repository.getChildrenMetadata(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
+            settingsBloc: settingsBloc,
           );
           // assert
           verify(
             mockChildrenMetadataDataSource.getChildrenMetadata(
               tautulliId: tTautulliId,
               ratingKey: tRatingKey,
+              settingsBloc: settingsBloc,
             ),
           );
         },
@@ -88,12 +107,14 @@ void main() {
             mockChildrenMetadataDataSource.getChildrenMetadata(
               tautulliId: anyNamed('tautulliId'),
               ratingKey: anyNamed('ratingKey'),
+              settingsBloc: anyNamed('settingsBloc'),
             ),
           ).thenAnswer((_) async => tChildrenMetadataList);
           // act
           final result = await repository.getChildrenMetadata(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
+            settingsBloc: settingsBloc,
           );
           // assert
           expect(result, equals(Right(tChildrenMetadataList)));
@@ -111,6 +132,7 @@ void main() {
           final result = await repository.getChildrenMetadata(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
+            settingsBloc: settingsBloc,
           );
           // assert
           expect(result, equals(Left(ConnectionFailure())));

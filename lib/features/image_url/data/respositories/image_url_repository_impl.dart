@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/repositories/image_url_repository.dart';
 import '../datasources/image_url_data_source.dart';
 
@@ -29,6 +30,7 @@ class ImageUrlRepositoryImpl implements ImageUrlRepository {
     int background,
     int blur,
     String fallback,
+    @required SettingsBloc settingsBloc,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -42,6 +44,7 @@ class ImageUrlRepositoryImpl implements ImageUrlRepository {
           background: background,
           blur: blur,
           fallback: fallback,
+          settingsBloc: settingsBloc,
         );
         return Right(url);
       } catch (exception) {

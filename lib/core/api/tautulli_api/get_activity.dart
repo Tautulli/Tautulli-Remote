@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 /// Returns a Map of the decoded JSON response from
@@ -7,7 +8,10 @@ import 'connection_handler.dart';
 ///
 /// Throws a [JsonDecodeException] if the json decode fails.
 abstract class GetActivity {
-  Future<Map<String, dynamic>> call(String tautulliId);
+  Future<Map<String, dynamic>> call({
+    @required String tautulliId,
+    @required SettingsBloc settingsBloc,
+  });
 }
 
 class GetActivityImpl implements GetActivity {
@@ -18,10 +22,14 @@ class GetActivityImpl implements GetActivity {
   });
 
   @override
-  Future<Map<String, dynamic>> call(String tautulliId) async {
+  Future<Map<String, dynamic>> call({
+    @required String tautulliId,
+    @required SettingsBloc settingsBloc,
+  }) async {
     final responseJson = await connectionHandler(
       tautulliId: tautulliId,
       cmd: 'get_activity',
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 abstract class TerminateSession {
@@ -7,6 +8,7 @@ abstract class TerminateSession {
     @required String tautulliId,
     @required String sessionId,
     String message,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -19,6 +21,7 @@ class TerminateSessionImpl implements TerminateSession {
     @required String tautulliId,
     @required String sessionId,
     String message,
+    @required SettingsBloc settingsBloc,
   }) async {
     final responseJson = await connectionHandler(
       tautulliId: tautulliId,
@@ -27,6 +30,7 @@ class TerminateSessionImpl implements TerminateSession {
         'session_id': sessionId,
         'message': message,
       },
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

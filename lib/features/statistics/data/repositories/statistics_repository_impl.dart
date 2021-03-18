@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/statistics.dart';
 import '../../domain/repositories/statistics_repository.dart';
 import '../datasources/statistics_data_source.dart';
@@ -26,6 +27,7 @@ class StatisticsRepositoryImpl implements StatisticsRepository {
     int statsStart,
     int statsCount,
     String statId,
+    @required SettingsBloc settingsBloc,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -37,6 +39,7 @@ class StatisticsRepositoryImpl implements StatisticsRepository {
           statsStart: statsStart,
           statsType: statsType,
           timeRange: timeRange,
+          settingsBloc: settingsBloc,
         );
         return Right(statisticsMap);
       } catch (exception) {

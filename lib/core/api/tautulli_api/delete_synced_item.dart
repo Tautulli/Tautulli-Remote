@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 abstract class DeleteSyncedItem {
@@ -7,6 +8,7 @@ abstract class DeleteSyncedItem {
     @required String tautulliId,
     @required String clientId,
     @required int syncId,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -20,6 +22,7 @@ class DeleteSyncedItemImpl implements DeleteSyncedItem {
     @required String tautulliId,
     @required String clientId,
     @required int syncId,
+    @required SettingsBloc settingsBloc,
   }) async {
     final responseJson = await connectionHandler(
       tautulliId: tautulliId,
@@ -28,6 +31,7 @@ class DeleteSyncedItemImpl implements DeleteSyncedItem {
         'client_id': clientId,
         'sync_id': syncId.toString(),
       },
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

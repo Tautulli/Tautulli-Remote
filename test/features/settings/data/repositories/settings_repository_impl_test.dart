@@ -5,11 +5,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/data/datasources/settings_data_source.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
 import 'package:tautulli_remote/features/settings/data/models/tautulli_settings_general_model.dart';
 import 'package:tautulli_remote/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:tautulli_remote/features/settings/domain/entities/plex_server_info.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -17,10 +20,17 @@ class MockSettingsDataSource extends Mock implements SettingsDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   SettingsRepositoryImpl repository;
   MockSettingsDataSource mockSettingsDataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockSettingsDataSource = MockSettingsDataSource();
@@ -28,6 +38,12 @@ void main() {
     repository = SettingsRepositoryImpl(
       dataSource: mockSettingsDataSource,
       networkInfo: mockNetworkInfo,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -59,7 +75,10 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getPlexServerInfo(tTautulliId);
+        repository.getPlexServerInfo(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         verify(mockNetworkInfo.isConnected);
       },
@@ -74,10 +93,16 @@ void main() {
         'should call the data source getPlexServerInfo()',
         () async {
           // act
-          await repository.getPlexServerInfo(tTautulliId);
+          await repository.getPlexServerInfo(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
           // assert
           verify(
-            mockSettingsDataSource.getPlexServerInfo(tTautulliId),
+            mockSettingsDataSource.getPlexServerInfo(
+              tautulliId: tTautulliId,
+              settingsBloc: settingsBloc,
+            ),
           );
         },
       );
@@ -87,10 +112,16 @@ void main() {
         () async {
           // arrange
           when(
-            mockSettingsDataSource.getPlexServerInfo(any),
+            mockSettingsDataSource.getPlexServerInfo(
+              tautulliId: anyNamed('tautulliId'),
+              settingsBloc: anyNamed('settingsBloc'),
+            ),
           ).thenAnswer((_) async => tPlexServerInfo);
           // act
-          final result = await repository.getPlexServerInfo(tTautulliId);
+          final result = await repository.getPlexServerInfo(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
           // assert
           expect(result, equals(Right(tPlexServerInfo)));
         },
@@ -104,7 +135,10 @@ void main() {
           // arrange
           when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
-          final result = await repository.getPlexServerInfo(tTautulliId);
+          final result = await repository.getPlexServerInfo(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
           // assert
           expect(result, equals(Left(ConnectionFailure())));
         },
@@ -119,7 +153,10 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getPlexServerInfo(tTautulliId);
+        repository.getPlexServerInfo(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         verify(mockNetworkInfo.isConnected);
       },
@@ -134,10 +171,16 @@ void main() {
         'should call the data source getTautulliSettings()',
         () async {
           // act
-          await repository.getTautulliSettings(tTautulliId);
+          await repository.getTautulliSettings(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
           // assert
           verify(
-            mockSettingsDataSource.getTautulliSettings(tTautulliId),
+            mockSettingsDataSource.getTautulliSettings(
+              tautulliId: tTautulliId,
+              settingsBloc: settingsBloc,
+            ),
           );
         },
       );
@@ -147,10 +190,16 @@ void main() {
         () async {
           // arrange
           when(
-            mockSettingsDataSource.getTautulliSettings(any),
+            mockSettingsDataSource.getTautulliSettings(
+              tautulliId: anyNamed('tautulliId'),
+              settingsBloc: anyNamed('settingsBloc'),
+            ),
           ).thenAnswer((_) async => tTautulliSettingsMap);
           // act
-          final result = await repository.getTautulliSettings(tTautulliId);
+          final result = await repository.getTautulliSettings(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
           // assert
           expect(result, equals(Right(tTautulliSettingsMap)));
         },
@@ -164,7 +213,10 @@ void main() {
           // arrange
           when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
-          final result = await repository.getPlexServerInfo(tTautulliId);
+          final result = await repository.getPlexServerInfo(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
           // assert
           expect(result, equals(Left(ConnectionFailure())));
         },

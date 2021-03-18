@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library_media.dart';
 import '../../domain/repositories/library_media_repository.dart';
 import '../datasources/library_media_data_source.dart';
@@ -27,6 +28,7 @@ class LibraryMediaRepositoryImpl implements LibraryMediaRepository {
     int length,
     bool refresh,
     int timeoutOverride,
+    @required SettingsBloc settingsBloc,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -40,6 +42,7 @@ class LibraryMediaRepositoryImpl implements LibraryMediaRepository {
           length: length,
           refresh: refresh,
           timeoutOverride: timeoutOverride,
+          settingsBloc: settingsBloc,
         );
         return Right(libraryMediaList);
       } catch (exception) {

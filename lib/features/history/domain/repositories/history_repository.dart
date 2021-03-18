@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../entities/history.dart';
 
 abstract class HistoryRepository {
@@ -23,5 +24,6 @@ abstract class HistoryRepository {
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   });
 }

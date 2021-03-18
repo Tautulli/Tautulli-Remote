@@ -11,6 +11,8 @@ import 'package:tautulli_remote/features/history/domain/usecases/get_history.dar
 import 'package:tautulli_remote/features/history/presentation/bloc/history_libraries_bloc.dart';
 import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -18,22 +20,31 @@ class MockGetHistory extends Mock implements GetHistory {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   HistoryLibrariesBloc bloc;
   MockGetHistory mockGetHistory;
   MockGetImageUrl mockGetImageUrl;
+  MockSettings mockSettings;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetHistory = MockGetHistory();
     mockGetImageUrl = MockGetImageUrl();
     mockLogging = MockLogging();
+    mockSettings = MockSettings();
 
     bloc = HistoryLibrariesBloc(
       getHistory: mockGetHistory,
       getImageUrl: mockGetImageUrl,
+      logging: mockLogging,
+    );
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
       logging: mockLogging,
     );
   });
@@ -65,6 +76,7 @@ void main() {
         img: anyNamed('img'),
         ratingKey: anyNamed('ratingKey'),
         fallback: anyNamed('fallback'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(imageUrl));
     when(
@@ -86,6 +98,7 @@ void main() {
         start: anyNamed('start'),
         length: anyNamed('length'),
         search: anyNamed('search'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(historyList));
   }
@@ -110,6 +123,7 @@ void main() {
           HistoryLibrariesFetch(
             tautulliId: tTautulliId,
             sectionId: tSectionId,
+            settingsBloc: settingsBloc,
           ),
         );
         await untilCalled(
@@ -131,6 +145,7 @@ void main() {
             start: anyNamed('start'),
             length: anyNamed('length'),
             search: anyNamed('search'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
@@ -152,6 +167,7 @@ void main() {
           start: anyNamed('start'),
           length: anyNamed('length'),
           search: anyNamed('search'),
+          settingsBloc: anyNamed('settingsBloc'),
         ));
       },
     );
@@ -175,6 +191,7 @@ void main() {
         bloc.add(HistoryLibrariesFetch(
           tautulliId: tTautulliId,
           sectionId: tSectionId,
+          settingsBloc: settingsBloc,
         ));
       },
     );
@@ -204,6 +221,7 @@ void main() {
             start: anyNamed('start'),
             length: anyNamed('length'),
             search: anyNamed('search'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => Left(failure));
         // assert later
@@ -220,6 +238,7 @@ void main() {
         bloc.add(HistoryLibrariesFetch(
           tautulliId: tTautulliId,
           sectionId: tSectionId,
+          settingsBloc: settingsBloc,
         ));
       },
     );
@@ -248,6 +267,7 @@ void main() {
         bloc.add(HistoryLibrariesFetch(
           tautulliId: tTautulliId,
           sectionId: tSectionId,
+          settingsBloc: settingsBloc,
         ));
       },
     );
@@ -276,6 +296,7 @@ void main() {
         bloc.add(HistoryLibrariesFetch(
           tautulliId: tTautulliId,
           sectionId: tSectionId,
+          settingsBloc: settingsBloc,
         ));
       },
     );

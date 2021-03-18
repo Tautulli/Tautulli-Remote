@@ -103,6 +103,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
           tautulliId: _tautulliId,
           statsType: _statsType,
           timeRange: _timeRange,
+          settingsBloc: _settingsBloc,
         ),
       );
     }

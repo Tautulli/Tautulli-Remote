@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/repositories/terminate_session_repository.dart';
 import '../datasources/terminate_session_data_source.dart';
 
@@ -23,6 +24,7 @@ class TerminateSessionRepositoryImpl implements TerminateSessionRepository {
     @required String tautulliId,
     @required String sessionId,
     String message,
+    @required SettingsBloc settingsBloc,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -30,6 +32,7 @@ class TerminateSessionRepositoryImpl implements TerminateSessionRepository {
           tautulliId: tautulliId,
           sessionId: sessionId,
           message: message,
+          settingsBloc: settingsBloc,
         );
 
         if (result) {

@@ -10,6 +10,7 @@ import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/plex_server_info.dart';
 import '../../domain/repositories/settings_repository.dart';
+import '../../presentation/bloc/settings_bloc.dart';
 import '../datasources/settings_data_source.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
@@ -197,11 +198,16 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<Either<Failure, PlexServerInfo>> getPlexServerInfo(
-      String tautulliId) async {
+  Future<Either<Failure, PlexServerInfo>> getPlexServerInfo({
+    @required String tautulliId,
+    @required SettingsBloc settingsBloc,
+  }) async {
     if (await networkInfo.isConnected) {
       try {
-        final plexServerInfo = await dataSource.getPlexServerInfo(tautulliId);
+        final plexServerInfo = await dataSource.getPlexServerInfo(
+          tautulliId: tautulliId,
+          settingsBloc: settingsBloc,
+        );
         return Right(plexServerInfo);
       } catch (exception) {
         final Failure failure =
@@ -214,12 +220,16 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<Either<Failure, Map<String, dynamic>>> getTautulliSettings(
-      String tautulliId) async {
+  Future<Either<Failure, Map<String, dynamic>>> getTautulliSettings({
+    @required String tautulliId,
+    @required SettingsBloc settingsBloc,
+  }) async {
     if (await networkInfo.isConnected) {
       try {
-        final tautulliSettingsMap =
-            await dataSource.getTautulliSettings(tautulliId);
+        final tautulliSettingsMap = await dataSource.getTautulliSettings(
+          tautulliId: tautulliId,
+          settingsBloc: settingsBloc,
+        );
         return Right(tautulliSettingsMap);
       } catch (exception) {
         final Failure failure =

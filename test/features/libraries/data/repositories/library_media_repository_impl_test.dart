@@ -9,6 +9,9 @@ import 'package:tautulli_remote/features/libraries/data/datasources/library_medi
 import 'package:tautulli_remote/features/libraries/data/models/library_media_model.dart';
 import 'package:tautulli_remote/features/libraries/data/repositories/library_media_repository_impl.dart';
 import 'package:tautulli_remote/features/libraries/domain/entities/library_media.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -17,10 +20,17 @@ class MockLibraryMediaDataSource extends Mock
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   LibraryMediaRepositoryImpl repository;
   MockLibraryMediaDataSource mockLibraryMediaDataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockLibraryMediaDataSource = MockLibraryMediaDataSource();
@@ -28,6 +38,12 @@ void main() {
     repository = LibraryMediaRepositoryImpl(
       dataSource: mockLibraryMediaDataSource,
       networkInfo: mockNetworkInfo,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -52,6 +68,7 @@ void main() {
           tautulliId: tTautulliId,
           ratingKey: tRatingKey,
           refresh: true,
+          settingsBloc: settingsBloc,
         );
         // assert
         verify(mockNetworkInfo.isConnected);
@@ -71,6 +88,7 @@ void main() {
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
             refresh: true,
+            settingsBloc: settingsBloc,
           );
           // assert
           verify(
@@ -78,6 +96,7 @@ void main() {
               tautulliId: tTautulliId,
               ratingKey: tRatingKey,
               refresh: true,
+              settingsBloc: settingsBloc,
             ),
           );
         },
@@ -92,6 +111,7 @@ void main() {
               tautulliId: anyNamed('tautulliId'),
               ratingKey: anyNamed('ratingKey'),
               refresh: true,
+              settingsBloc: anyNamed('settingsBloc'),
             ),
           ).thenAnswer((_) async => tLibraryMediaList);
           // act
@@ -99,6 +119,7 @@ void main() {
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
             refresh: true,
+            settingsBloc: settingsBloc,
           );
           // assert
           expect(result, equals(Right(tLibraryMediaList)));
@@ -117,6 +138,7 @@ void main() {
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
             refresh: true,
+            settingsBloc: settingsBloc,
           );
           // assert
           expect(result, equals(Left(ConnectionFailure())));

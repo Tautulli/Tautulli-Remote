@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 /// Returns a constructed URL as a String for accessing an
@@ -15,6 +16,7 @@ abstract class PmsImageProxy {
     int background,
     int blur,
     String fallback,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -34,6 +36,7 @@ class PmsImageProxyImpl implements PmsImageProxy {
     int background,
     int blur,
     String fallback,
+    @required SettingsBloc settingsBloc,
   }) async {
     Map<String, String> params = {
       'height': '300',
@@ -68,6 +71,7 @@ class PmsImageProxyImpl implements PmsImageProxy {
       tautulliId: tautulliId,
       cmd: 'pms_image_proxy',
       params: params,
+      settingsBloc: settingsBloc,
     );
     return uri.toString();
   }

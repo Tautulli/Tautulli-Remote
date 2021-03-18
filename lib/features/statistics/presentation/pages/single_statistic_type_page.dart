@@ -10,6 +10,7 @@ import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/user_card.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/statistics.dart';
 import '../bloc/statistics_bloc.dart';
 import '../widgets/statistics_details.dart';
@@ -35,12 +36,14 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
   final _scrollController = ScrollController();
   final _scrollThreshold = 200.0;
   StatisticsBloc _statisticsBloc;
+  SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
     _statisticsBloc = context.read<StatisticsBloc>();
+    _settingsBloc = context.read<SettingsBloc>();
 
     StatisticsState statisticsState = _statisticsBloc.state;
 
@@ -50,6 +53,7 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
           StatisticsFetch(
             tautulliId: widget.tautulliId,
             statId: widget.statId,
+            settingsBloc: _settingsBloc,
           ),
         );
       }
@@ -195,6 +199,7 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
         StatisticsFetch(
           tautulliId: widget.tautulliId,
           statId: widget.statId,
+          settingsBloc: _settingsBloc,
         ),
       );
     }

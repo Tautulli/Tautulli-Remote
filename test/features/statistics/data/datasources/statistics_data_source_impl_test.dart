@@ -4,6 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
     as tautulliApi;
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/statistics/data/datasources/statistics_data_source.dart';
 import 'package:tautulli_remote/features/statistics/data/models/statistics_model.dart';
 import 'package:tautulli_remote/features/statistics/domain/entities/statistics.dart';
@@ -12,14 +15,27 @@ import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetHomeStats extends Mock implements tautulliApi.GetHomeStats {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   StatisticsDataSourceImpl dataSource;
   MockGetHomeStats mockApiGetHomeStats;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockApiGetHomeStats = MockGetHomeStats();
     dataSource = StatisticsDataSourceImpl(
       apiGetHomeStats: mockApiGetHomeStats,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -63,12 +79,19 @@ void main() {
             statsCount: anyNamed('statsCount'),
             statsType: anyNamed('statsType'),
             timeRange: anyNamed('timeRange'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => statisticsJson);
         // act
-        await dataSource.getStatistics(tautulliId: tTautulliId);
+        await dataSource.getStatistics(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
-        verify(mockApiGetHomeStats(tautulliId: tTautulliId));
+        verify(mockApiGetHomeStats(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
       },
     );
 
@@ -83,10 +106,14 @@ void main() {
             statsCount: anyNamed('statsCount'),
             statsType: anyNamed('statsType'),
             timeRange: anyNamed('timeRange'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => statisticsJson);
         // act
-        final result = await dataSource.getStatistics(tautulliId: tTautulliId);
+        final result = await dataSource.getStatistics(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         expect(result, equals(tStatisticsMap));
       },

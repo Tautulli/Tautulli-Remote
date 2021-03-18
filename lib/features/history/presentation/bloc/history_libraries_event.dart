@@ -25,6 +25,7 @@ class HistoryLibrariesFetch extends HistoryLibrariesEvent {
   final int start;
   final int length;
   final String search;
+  final SettingsBloc settingsBloc;
 
   HistoryLibrariesFetch({
     @required this.tautulliId,
@@ -44,6 +45,7 @@ class HistoryLibrariesFetch extends HistoryLibrariesEvent {
     this.start,
     this.length,
     this.search,
+    @required this.settingsBloc,
   });
 
   @override
@@ -65,5 +67,6 @@ class HistoryLibrariesFetch extends HistoryLibrariesEvent {
         start,
         length,
         search,
+        settingsBloc,
       ];
 }

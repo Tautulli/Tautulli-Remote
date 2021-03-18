@@ -3,6 +3,9 @@ import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/terminate_session/data/datasources/terminate_session_data_source.dart';
 import 'package:tautulli_remote/features/terminate_session/data/repositories/terminate_session_repository_impl.dart';
 
@@ -11,10 +14,17 @@ class MockTerminateSessionDataSource extends Mock
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   TerminateSessionRepositoryImpl repository;
   MockTerminateSessionDataSource mockDataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockDataSource = MockTerminateSessionDataSource();
@@ -22,6 +32,12 @@ void main() {
     repository = TerminateSessionRepositoryImpl(
       dataSource: mockDataSource,
       networkInfo: mockNetworkInfo,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -38,12 +54,14 @@ void main() {
           tautulliId: anyNamed('tautulliId'),
           sessionId: anyNamed('sessionId'),
           message: anyNamed('message'),
+          settingsBloc: anyNamed('settingsBloc'),
         ),
       ).thenAnswer((_) async => true);
       //act
       await repository(
         tautulliId: tTautulliId,
         sessionId: tSessionId,
+        settingsBloc: settingsBloc,
       );
       //assert
       verify(mockNetworkInfo.isConnected);
@@ -64,18 +82,21 @@ void main() {
             tautulliId: anyNamed('tautulliId'),
             sessionId: anyNamed('sessionId'),
             message: anyNamed('message'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => true);
         // act
         await repository(
           tautulliId: tTautulliId,
           sessionId: tSessionId,
+          settingsBloc: settingsBloc,
         );
         // assert
         verify(
           mockDataSource(
             tautulliId: tTautulliId,
             sessionId: tSessionId,
+            settingsBloc: settingsBloc,
           ),
         );
       },
@@ -90,12 +111,14 @@ void main() {
             tautulliId: anyNamed('tautulliId'),
             sessionId: anyNamed('sessionId'),
             message: anyNamed('message'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => true);
         // act
         final result = await repository(
           tautulliId: tTautulliId,
           sessionId: tSessionId,
+          settingsBloc: settingsBloc,
         );
         // assert
         expect(result, equals(Right(true)));
@@ -111,12 +134,14 @@ void main() {
             tautulliId: anyNamed('tautulliId'),
             sessionId: anyNamed('sessionId'),
             message: anyNamed('message'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => false);
         // act
         final result = await repository(
           tautulliId: tTautulliId,
           sessionId: tSessionId,
+          settingsBloc: settingsBloc,
         );
         // assert
         expect(result, equals(Left(TerminateFailure())));
@@ -134,6 +159,7 @@ void main() {
         final result = await repository(
           tautulliId: tTautulliId,
           sessionId: tSessionId,
+          settingsBloc: settingsBloc,
         );
         //assert
         expect(result, equals(Left(ConnectionFailure())));

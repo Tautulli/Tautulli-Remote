@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 abstract class GetChildrenMetadata {
@@ -7,6 +8,7 @@ abstract class GetChildrenMetadata {
     @required String tautulliId,
     @required int ratingKey,
     String mediaType,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -20,6 +22,7 @@ class GetChildrenMetadataImpl implements GetChildrenMetadata {
     @required String tautulliId,
     @required int ratingKey,
     String mediaType,
+    @required SettingsBloc settingsBloc,
   }) async {
     Map<String, String> params = {
       'rating_key': ratingKey.toString(),
@@ -33,6 +36,7 @@ class GetChildrenMetadataImpl implements GetChildrenMetadata {
       tautulliId: tautulliId,
       cmd: 'get_children_metadata',
       params: params,
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

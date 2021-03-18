@@ -98,6 +98,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
           tautulliId: _tautulliId,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
+          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -283,6 +284,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
           tautulliId: _tautulliId,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
+          settingsBloc: _settingsBloc,
         ),
       );
     }

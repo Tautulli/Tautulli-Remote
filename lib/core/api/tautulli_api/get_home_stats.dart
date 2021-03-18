@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 abstract class GetHomeStats {
@@ -11,6 +12,7 @@ abstract class GetHomeStats {
     int statsStart,
     int statsCount,
     String statId,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -20,14 +22,16 @@ class GetHomeStatsImpl implements GetHomeStats {
   GetHomeStatsImpl({@required this.connectionHandler});
 
   @override
-  Future<Map<String, dynamic>> call(
-      {@required String tautulliId,
-      int grouping,
-      int timeRange,
-      String statsType,
-      int statsStart,
-      int statsCount,
-      String statId}) async {
+  Future<Map<String, dynamic>> call({
+    @required String tautulliId,
+    int grouping,
+    int timeRange,
+    String statsType,
+    int statsStart,
+    int statsCount,
+    String statId,
+    @required SettingsBloc settingsBloc,
+  }) async {
     Map<String, String> params = {};
 
     if (grouping != null) {
@@ -53,6 +57,7 @@ class GetHomeStatsImpl implements GetHomeStats {
       tautulliId: tautulliId,
       cmd: 'get_home_stats',
       params: params,
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

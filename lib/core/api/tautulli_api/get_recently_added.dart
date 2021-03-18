@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 /// Returns a Map of the decoded JSON response from
@@ -14,6 +15,7 @@ abstract class GetRecentlyAdded {
     int start,
     String mediaType,
     int sectionId,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -29,6 +31,7 @@ class GetRecentlyAddedImpl implements GetRecentlyAdded {
     int start,
     String mediaType,
     int sectionId,
+    @required SettingsBloc settingsBloc,
   }) async {
     Map<String, String> params = {'count': count.toString()};
 
@@ -46,6 +49,7 @@ class GetRecentlyAddedImpl implements GetRecentlyAdded {
       tautulliId: tautulliId,
       cmd: 'get_recently_added',
       params: params,
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

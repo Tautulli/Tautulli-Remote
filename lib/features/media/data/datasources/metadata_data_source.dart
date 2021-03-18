@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 
 import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../../../core/error/exception.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../models/metadata_item_model.dart';
 
@@ -10,6 +11,7 @@ abstract class MetadataDataSource {
     @required String tautulliId,
     int ratingKey,
     int syncId,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -23,11 +25,13 @@ class MetadataDataSourceImpl implements MetadataDataSource {
     @required String tautulliId,
     int ratingKey,
     int syncId,
+    @required SettingsBloc settingsBloc,
   }) async {
     final metadataItemJson = await apiGetMetadata(
       tautulliId: tautulliId,
       ratingKey: ratingKey,
       syncId: syncId,
+      settingsBloc: settingsBloc,
     );
 
     Map<String, dynamic> metadataMap = metadataItemJson['response']['data'];

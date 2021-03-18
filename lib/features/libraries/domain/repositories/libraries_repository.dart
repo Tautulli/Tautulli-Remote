@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../entities/library.dart';
 
 abstract class LibrariesRepository {
@@ -13,5 +14,6 @@ abstract class LibrariesRepository {
     String orderDir,
     String search,
     int start,
+    @required SettingsBloc settingsBloc,
   });
 }

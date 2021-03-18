@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../entities/library.dart';
 import '../repositories/libraries_repository.dart';
 
@@ -18,6 +19,7 @@ class GetLibrariesTable {
     String orderDir,
     String search,
     int start,
+    @required SettingsBloc settingsBloc,
   }) async {
     return await repository.getLibrariesTable(
       tautulliId: tautulliId,
@@ -27,6 +29,7 @@ class GetLibrariesTable {
       orderDir: orderDir,
       search: search,
       start: start,
+      settingsBloc: settingsBloc,
     );
   }
 }

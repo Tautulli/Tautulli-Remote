@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../models/metadata_item_model.dart';
 
@@ -10,6 +11,7 @@ abstract class ChildrenMetadataDataSource {
     @required String tautulliId,
     @required int ratingKey,
     String mediaType,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -23,11 +25,13 @@ class ChildrenMetadataDataSourceImpl implements ChildrenMetadataDataSource {
     @required String tautulliId,
     @required int ratingKey,
     String mediaType,
+    @required SettingsBloc settingsBloc,
   }) async {
     final childrenMetadataInfoJson = await apiGetChildrenMetadata(
       tautulliId: tautulliId,
       ratingKey: ratingKey,
       mediaType: mediaType,
+      settingsBloc: settingsBloc,
     );
 
     List childrenMetadataInfoMap =

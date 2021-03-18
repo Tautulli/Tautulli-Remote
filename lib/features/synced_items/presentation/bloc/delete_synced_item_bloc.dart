@@ -4,8 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:meta/meta.dart';
+
 import '../../../../core/error/failure.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/usecases/delete_synced_item.dart';
 
 part 'delete_synced_item_event.dart';
@@ -34,6 +36,7 @@ class DeleteSyncedItemBloc
         tautulliId: event.tautulliId,
         clientId: event.clientId,
         syncId: event.syncId,
+        settingsBloc: event.settingsBloc,
       );
 
       yield* failureOrTerminateStream.fold(

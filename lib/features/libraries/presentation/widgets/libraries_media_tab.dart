@@ -9,6 +9,7 @@ import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/grid_image_item.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library.dart';
 import '../bloc/library_media_bloc.dart';
 import '../pages/library_details_page.dart';
@@ -75,6 +76,7 @@ class _LibrariesMediaTabState extends State<LibrariesMediaTab> {
                     libraryMediaEvent: LibraryMediaFetched(
                       tautulliId: widget.tautulliId,
                       sectionId: widget.library.sectionId,
+                      settingsBloc: context.read<SettingsBloc>(),
                     ),
                   ),
                 ],

@@ -6,15 +6,25 @@ import 'package:tautulli_remote/core/network/network_info.dart';
 import 'package:tautulli_remote/features/activity/data/datasources/geo_ip_data_source.dart';
 import 'package:tautulli_remote/features/activity/data/models/geo_ip_model.dart';
 import 'package:tautulli_remote/features/activity/data/repositories/geo_ip_repository_impl.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 class MockGeoIpDataSouce extends Mock implements GeoIpDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   GeoIpRepositoryImpl repository;
   MockGeoIpDataSouce dataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     dataSource = MockGeoIpDataSouce();
@@ -22,6 +32,12 @@ void main() {
     repository = GeoIpRepositoryImpl(
       dataSource: dataSource,
       networkInfo: mockNetworkInfo,
+    );
+    mockSettings = MockSettings();
+    mockLogging = MockLogging();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -51,6 +67,7 @@ void main() {
       repository.getGeoIp(
         tautulliId: tTautulliId,
         ipAddress: tIpAddress,
+        settingsBloc: settingsBloc,
       );
       //assert
       verify(mockNetworkInfo.isConnected);
@@ -69,12 +86,14 @@ void main() {
         await repository.getGeoIp(
           tautulliId: tTautulliId,
           ipAddress: tIpAddress,
+          settingsBloc: settingsBloc,
         );
         // assert
         verify(
           dataSource.getGeoIp(
             tautulliId: tTautulliId,
             ipAddress: tIpAddress,
+            settingsBloc: settingsBloc,
           ),
         );
       },
@@ -88,12 +107,14 @@ void main() {
           dataSource.getGeoIp(
             tautulliId: tTautulliId,
             ipAddress: tIpAddress,
+            settingsBloc: settingsBloc,
           ),
         ).thenAnswer((_) async => tGeoIpItemModel);
         //act
         final result = await repository.getGeoIp(
           tautulliId: tTautulliId,
           ipAddress: tIpAddress,
+          settingsBloc: settingsBloc,
         );
         //assert
         expect(result, equals(Right(tGeoIpItemModel)));
@@ -134,6 +155,7 @@ void main() {
         final result = await repository.getGeoIp(
           tautulliId: tTautulliId,
           ipAddress: tIpAddress,
+          settingsBloc: settingsBloc,
         );
         //assert
         expect(result, equals(Left(ConnectionFailure())));

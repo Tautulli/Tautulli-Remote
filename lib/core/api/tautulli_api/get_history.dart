@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 abstract class GetHistory {
@@ -21,6 +22,7 @@ abstract class GetHistory {
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -48,6 +50,7 @@ class GetHistoryImpl implements GetHistory {
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   }) async {
     Map<String, String> params = {
       'include_activity': 'false',
@@ -106,6 +109,7 @@ class GetHistoryImpl implements GetHistory {
       tautulliId: tautulliId,
       cmd: 'get_history',
       params: params,
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

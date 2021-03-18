@@ -6,21 +6,32 @@ import 'package:tautulli_remote/features/activity/data/models/geo_ip_model.dart'
 import 'package:tautulli_remote/features/activity/domain/usecases/get_geo_ip.dart';
 import 'package:tautulli_remote/features/activity/presentation/bloc/geo_ip_bloc.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 class MockGetGeoIp extends Mock implements GetGeoIp {}
 
 class MockLogging extends Mock implements Logging {}
 
+class MockSettings extends Mock implements Settings {}
+
 void main() {
   GeoIpBloc bloc;
   MockGetGeoIp mockGetGeoIp;
   MockLogging mockLogging;
+  MockSettings mockSettings;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetGeoIp = MockGetGeoIp();
     mockLogging = MockLogging();
     bloc = GeoIpBloc(
       getGeoIp: mockGetGeoIp,
+      logging: mockLogging,
+    );
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
       logging: mockLogging,
     );
   });
@@ -50,6 +61,7 @@ void main() {
       mockGetGeoIp(
         tautulliId: anyNamed('tautulliId'),
         ipAddress: anyNamed('ipAddress'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(tGeoIpItemModel));
   }
@@ -65,12 +77,14 @@ void main() {
         GeoIpLoad(
           tautulliId: tTautulliId,
           ipAddress: tIpAddress,
+          settingsBloc: settingsBloc,
         ),
       );
       await untilCalled(
         mockGetGeoIp(
           tautulliId: anyNamed('tautulliId'),
           ipAddress: anyNamed('ipAddress'),
+          settingsBloc: anyNamed('settingsBloc'),
         ),
       );
       // assert
@@ -78,6 +92,7 @@ void main() {
         mockGetGeoIp(
           tautulliId: tTautulliId,
           ipAddress: tIpAddress,
+          settingsBloc: settingsBloc,
         ),
       );
     },
@@ -102,6 +117,7 @@ void main() {
         GeoIpLoad(
           tautulliId: tTautulliId,
           ipAddress: tIpAddress,
+          settingsBloc: settingsBloc,
         ),
       );
     },
@@ -117,6 +133,7 @@ void main() {
         mockGetGeoIp(
           tautulliId: tTautulliId,
           ipAddress: tIpAddress,
+          settingsBloc: settingsBloc,
         ),
       ).thenAnswer((_) async => Left(failure));
       // assert later
@@ -132,6 +149,7 @@ void main() {
         GeoIpLoad(
           tautulliId: tTautulliId,
           ipAddress: tIpAddress,
+          settingsBloc: settingsBloc,
         ),
       );
     },

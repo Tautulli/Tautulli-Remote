@@ -92,10 +92,14 @@ void main() {
     when(mockSettings.getLastSelectedServer())
         .thenAnswer((_) async => tTautulliId);
     when(mockSettings.getStatsType()).thenAnswer((_) async => tStatsType);
-    when(mockSettings.getPlexServerInfo(any))
-        .thenAnswer((_) async => Right(tPlexServerInfo));
-    when(mockSettings.getTautulliSettings(any))
-        .thenAnswer((_) async => Right(tTautulliSettings));
+    when(mockSettings.getPlexServerInfo(
+      tautulliId: anyNamed('tautulliId'),
+      settingsBloc: anyNamed('settingsBloc'),
+    )).thenAnswer((_) async => Right(tPlexServerInfo));
+    when(mockSettings.getTautulliSettings(
+      tautulliId: anyNamed('tautulliId'),
+      settingsBloc: anyNamed('settingsBloc'),
+    )).thenAnswer((_) async => Right(tTautulliSettings));
   }
 
   test(
@@ -113,7 +117,7 @@ void main() {
         // arrange
         when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
         // act
-        bloc.add(SettingsLoad());
+        bloc.add(SettingsLoad(settingsBloc: bloc));
         await untilCalled(mockSettings.getAllServers());
         // assert
         verify(mockSettings.getAllServers());
@@ -140,7 +144,7 @@ void main() {
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(SettingsLoad());
+        bloc.add(SettingsLoad(settingsBloc: bloc));
       },
     );
   });

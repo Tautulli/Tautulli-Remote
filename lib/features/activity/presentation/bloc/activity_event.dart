@@ -7,7 +7,14 @@ abstract class ActivityEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ActivityLoadAndRefresh extends ActivityEvent {}
+class ActivityLoadAndRefresh extends ActivityEvent {
+  final SettingsBloc settingsBloc;
+
+  ActivityLoadAndRefresh({@required this.settingsBloc});
+
+  @override
+  List<Object> get props => [settingsBloc];
+}
 
 class ActivityLoadServer extends ActivityEvent {
   final String tautulliId;

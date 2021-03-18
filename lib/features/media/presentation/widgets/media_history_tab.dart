@@ -103,6 +103,7 @@ class _MediaHistoryTabContentState extends State<MediaHistoryTabContent> {
           grandparentRatingKey: ['show', 'artist'].contains(widget.mediaType)
               ? widget.ratingKey
               : null,
+          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -192,6 +193,7 @@ class _MediaHistoryTabContentState extends State<MediaHistoryTabContent> {
           grandparentRatingKey: ['show', 'artist'].contains(widget.mediaType)
               ? widget.ratingKey
               : null,
+          settingsBloc: _settingsBloc,
         ),
       );
     }

@@ -9,6 +9,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/domain/entities/user_table.dart';
 import '../../../users/domain/usecases/get_users_table.dart';
 import '../../domain/entities/history.dart';
@@ -64,6 +65,7 @@ class HistoryIndividualBloc
           parentRatingKey: event.parentRatingKey,
           grandparentRatingKey: event.grandparentRatingKey,
           useCachedList: true,
+          settingsBloc: event.settingsBloc,
         );
       }
       if (currentState is HistoryIndividualSuccess) {
@@ -75,6 +77,7 @@ class HistoryIndividualBloc
           ratingKey: event.ratingKey,
           parentRatingKey: event.parentRatingKey,
           grandparentRatingKey: event.grandparentRatingKey,
+          settingsBloc: event.settingsBloc,
         );
       }
 
@@ -101,6 +104,7 @@ class HistoryIndividualBloc
     int length,
     String search,
     bool useCachedList = false,
+    @required SettingsBloc settingsBloc,
   }) async* {
     int cacheRatingKey = grandparentRatingKey ?? parentRatingKey ?? ratingKey;
     if (useCachedList &&
@@ -130,6 +134,7 @@ class HistoryIndividualBloc
         start: start,
         length: length ?? 25,
         search: search,
+        settingsBloc: settingsBloc,
       );
 
       Either<Failure, List<UserTable>> failureOrUsersTable;
@@ -137,6 +142,7 @@ class HistoryIndividualBloc
         failureOrUsersTable = await getUsersTable(
           tautulliId: tautulliId,
           length: 100,
+          settingsBloc: settingsBloc,
         );
       }
 
@@ -199,6 +205,7 @@ class HistoryIndividualBloc
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   }) async* {
     final failureOrHistory = await getHistory(
       tautulliId: tautulliId,
@@ -218,6 +225,7 @@ class HistoryIndividualBloc
       start: currentState.list.length,
       length: length ?? 25,
       search: search,
+      settingsBloc: settingsBloc,
     );
 
     yield* failureOrHistory.fold(

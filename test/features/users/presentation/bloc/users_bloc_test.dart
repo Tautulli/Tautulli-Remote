@@ -6,6 +6,8 @@ import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/users/data/models/user_table_model.dart';
 import 'package:tautulli_remote/features/users/domain/entities/user_table.dart';
 import 'package:tautulli_remote/features/users/domain/usecases/get_users_table.dart';
@@ -15,16 +17,25 @@ import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetUsersTable extends Mock implements GetUsersTable {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   UsersBloc bloc;
   MockGetUsersTable mockGetUsers;
+  MockSettings mockSettings;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetUsers = MockGetUsersTable();
     mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
+    );
     bloc = UsersBloc(
       getUsersTable: mockGetUsers,
       logging: mockLogging,
@@ -57,6 +68,7 @@ void main() {
       start: anyNamed('start'),
       length: anyNamed('length'),
       search: anyNamed('search'),
+      settingsBloc: anyNamed('settingsBloc'),
     )).thenAnswer((_) async => Right(list));
   }
 
@@ -76,7 +88,10 @@ void main() {
         setUpSuccess(tUsersList);
         clearCache();
         // act
-        bloc.add(UsersFetch(tautulliId: tTautulliId));
+        bloc.add(UsersFetch(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
         await untilCalled(mockGetUsers(
           tautulliId: anyNamed('tautulliId'),
           grouping: anyNamed('grouping'),
@@ -85,12 +100,14 @@ void main() {
           start: anyNamed('start'),
           length: anyNamed('length'),
           search: anyNamed('search'),
+          settingsBloc: anyNamed('settingsBloc'),
         ));
         // assert
         verify(
           mockGetUsers(
             tautulliId: tTautulliId,
             length: 25,
+            settingsBloc: settingsBloc,
           ),
         );
       },
@@ -111,7 +128,10 @@ void main() {
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(UsersFetch(tautulliId: tTautulliId));
+        bloc.add(UsersFetch(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
       },
     );
 
@@ -136,7 +156,10 @@ void main() {
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(UsersFetch(tautulliId: tTautulliId));
+        bloc.add(UsersFetch(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
       },
     );
 
@@ -155,7 +178,10 @@ void main() {
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(UsersFetch(tautulliId: tTautulliId));
+        bloc.add(UsersFetch(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
       },
     );
 
@@ -180,7 +206,10 @@ void main() {
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(UsersFetch(tautulliId: tTautulliId));
+        bloc.add(UsersFetch(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
       },
     );
 
@@ -198,6 +227,7 @@ void main() {
           start: anyNamed('start'),
           length: anyNamed('length'),
           search: anyNamed('search'),
+          settingsBloc: anyNamed('settingsBloc'),
         )).thenAnswer((_) async => Left(failure));
         // assert later
         final expected = [
@@ -209,7 +239,10 @@ void main() {
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(UsersFetch(tautulliId: tTautulliId));
+        bloc.add(UsersFetch(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
       },
     );
   });

@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/repositories/delete_synced_item_repository.dart';
 import '../datasources/delete_synced_item_data_source.dart';
 
@@ -23,6 +24,7 @@ class DeleteSyncedItemRepositoryImpl implements DeleteSyncedItemRepository {
     @required String tautulliId,
     @required String clientId,
     @required int syncId,
+    @required SettingsBloc settingsBloc,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -30,6 +32,7 @@ class DeleteSyncedItemRepositoryImpl implements DeleteSyncedItemRepository {
           tautulliId: tautulliId,
           clientId: clientId,
           syncId: syncId,
+          settingsBloc: settingsBloc,
         );
 
         if (result) {

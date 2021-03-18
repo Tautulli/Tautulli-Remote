@@ -94,6 +94,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
       _recentlyAddedBloc.add(RecentlyAddedFetched(
         tautulliId: _tautulliId,
         mediaType: _mediaType,
+        settingsBloc: _settingsBloc,
       ));
     }
   }
@@ -298,6 +299,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
         RecentlyAddedFetched(
           tautulliId: _tautulliId,
           mediaType: _mediaType,
+          settingsBloc: _settingsBloc,
         ),
       );
     }

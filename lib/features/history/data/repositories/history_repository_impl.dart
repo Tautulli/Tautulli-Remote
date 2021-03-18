@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/history.dart';
 import '../../domain/repositories/history_repository.dart';
 import '../datasources/history_data_source.dart';
@@ -36,6 +37,7 @@ class HistoryRepositoryImpl implements HistoryRepository {
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -57,6 +59,7 @@ class HistoryRepositoryImpl implements HistoryRepository {
           start: start,
           length: length,
           search: search,
+          settingsBloc: settingsBloc,
         );
         return Right(historyList);
       } catch (exception) {

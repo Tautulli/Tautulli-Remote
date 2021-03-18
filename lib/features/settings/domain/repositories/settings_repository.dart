@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
+import '../../presentation/bloc/settings_bloc.dart';
 import '../entities/plex_server_info.dart';
 
 abstract class SettingsRepository {
@@ -62,11 +63,15 @@ abstract class SettingsRepository {
     @required bool primaryActive,
   });
 
-  Future<Either<Failure, PlexServerInfo>> getPlexServerInfo(String tautulliId);
+  Future<Either<Failure, PlexServerInfo>> getPlexServerInfo({
+    @required String tautulliId,
+    @required SettingsBloc settingsBloc,
+  });
 
-  Future<Either<Failure, Map<String, dynamic>>> getTautulliSettings(
-    String tautulliId,
-  );
+  Future<Either<Failure, Map<String, dynamic>>> getTautulliSettings({
+    @required String tautulliId,
+    @required SettingsBloc settingsBloc,
+  });
 
   Future<int> getServerTimeout();
 

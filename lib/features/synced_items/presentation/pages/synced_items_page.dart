@@ -117,12 +117,14 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
       _usersListBloc.add(
         UsersListFetch(
           tautulliId: _tautulliId,
+          settingsBloc: _settingsBloc,
         ),
       );
 
       _syncedItemsBloc.add(
         SyncedItemsFetch(
           tautulliId: _tautulliId,
+          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -184,6 +186,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                   _usersListBloc.add(
                                     UsersListFetch(
                                       tautulliId: _tautulliId,
+                                      settingsBloc: _settingsBloc,
                                     ),
                                   );
                                 }
@@ -297,6 +300,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                                   maskSensitiveInfo:
                                                       settingsLoadSuccess
                                                           .maskSensitiveInfo,
+                                                  settingsBloc: _settingsBloc,
                                                 );
                                               },
                                             ),
@@ -488,12 +492,14 @@ class _SlidableAction extends StatelessWidget {
   final SlidableState slidableState;
   final SyncedItem syncedItem;
   final bool maskSensitiveInfo;
+  final SettingsBloc settingsBloc;
 
   const _SlidableAction({
     @required this.tautulliId,
     @required this.slidableState,
     @required this.syncedItem,
     @required this.maskSensitiveInfo,
+    @required this.settingsBloc,
     Key key,
   }) : super(key: key);
 
@@ -542,6 +548,7 @@ class _SlidableAction extends StatelessWidget {
                     clientId: syncedItem.clientId,
                     syncId: syncedItem.syncId,
                     slidableState: slidableState,
+                    settingsBloc: settingsBloc,
                   ),
                 );
           } else {

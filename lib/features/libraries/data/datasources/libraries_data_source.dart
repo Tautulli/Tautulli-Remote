@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library.dart';
 import '../models/library_model.dart';
 
@@ -13,6 +14,7 @@ abstract class LibrariesDataSource {
     String orderDir,
     String search,
     int start,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -30,6 +32,7 @@ class LibrariesDataSourceImpl implements LibrariesDataSource {
     String orderDir,
     String search,
     int start,
+    @required SettingsBloc settingsBloc,
   }) async {
     final librariesJson = await apiGetLibrariesTable(
       tautulliId: tautulliId,
@@ -39,6 +42,7 @@ class LibrariesDataSourceImpl implements LibrariesDataSource {
       orderDir: orderDir,
       search: search,
       start: start,
+      settingsBloc: settingsBloc,
     );
 
     final List<Library> librariesList = [];

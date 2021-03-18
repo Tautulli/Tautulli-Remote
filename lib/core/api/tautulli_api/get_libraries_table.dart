@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 abstract class GetLibrariesTable {
@@ -11,6 +12,7 @@ abstract class GetLibrariesTable {
     String orderDir,
     String search,
     int start,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -28,6 +30,7 @@ class GetLibrariesTableImpl implements GetLibrariesTable {
     String orderDir,
     String search,
     int start,
+    @required SettingsBloc settingsBloc,
   }) async {
     Map<String, String> params = {};
 
@@ -54,6 +57,7 @@ class GetLibrariesTableImpl implements GetLibrariesTable {
       tautulliId: tautulliId,
       cmd: 'get_libraries_table',
       params: params,
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

@@ -5,6 +5,8 @@ import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/users/data/models/user_model.dart';
 import 'package:tautulli_remote/features/users/domain/entities/user.dart';
 import 'package:tautulli_remote/features/users/domain/usecases/get_user_names.dart';
@@ -14,16 +16,25 @@ import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetUserNames extends Mock implements GetUserNames {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   UsersListBloc bloc;
   MockGetUserNames mockGetUserNames;
+  MockSettings mockSettings;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetUserNames = MockGetUserNames();
     mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
+    );
     bloc = UsersListBloc(
       getUserNames: mockGetUserNames,
       logging: mockLogging,
@@ -40,8 +51,10 @@ void main() {
   });
 
   void setUpSuccess() {
-    when(mockGetUserNames(tautulliId: anyNamed('tautulliId')))
-        .thenAnswer((_) async => Right(tUserList));
+    when(mockGetUserNames(
+      tautulliId: anyNamed('tautulliId'),
+      settingsBloc: anyNamed('settingsBloc'),
+    )).thenAnswer((_) async => Right(tUserList));
   }
 
   test(
@@ -54,17 +67,20 @@ void main() {
       bloc.add(
         UsersListFetch(
           tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
         ),
       );
       await untilCalled(
         mockGetUserNames(
           tautulliId: anyNamed('tautulliId'),
+          settingsBloc: anyNamed('settingsBloc'),
         ),
       );
       // assert
       verify(
         mockGetUserNames(
           tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
         ),
       );
     },
@@ -88,6 +104,7 @@ void main() {
       bloc.add(
         UsersListFetch(
           tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
         ),
       );
     },
@@ -102,6 +119,7 @@ void main() {
       when(
         mockGetUserNames(
           tautulliId: anyNamed('tautulliId'),
+          settingsBloc: anyNamed('settingsBloc'),
         ),
       ).thenAnswer((_) async => Left(failure));
       // assert later
@@ -114,6 +132,7 @@ void main() {
       bloc.add(
         UsersListFetch(
           tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
         ),
       );
     },

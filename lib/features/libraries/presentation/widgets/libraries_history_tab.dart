@@ -90,6 +90,7 @@ class __LibrariesHistoryTabContentState
         HistoryLibrariesFetch(
           tautulliId: _tautulliId,
           sectionId: widget.sectionId,
+          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -165,6 +166,7 @@ class __LibrariesHistoryTabContentState
         HistoryLibrariesFetch(
           tautulliId: _tautulliId,
           sectionId: widget.sectionId,
+          settingsBloc: _settingsBloc,
         ),
       );
     }

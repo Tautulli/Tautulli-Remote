@@ -31,6 +31,7 @@ class _ActivityMediaDetailsState extends State<ActivityMediaDetails> {
           GeoIpLoad(
             tautulliId: widget.tautulliId,
             ipAddress: widget.activity.ipAddress,
+            settingsBloc: context.read<SettingsBloc>(),
           ),
         );
   }

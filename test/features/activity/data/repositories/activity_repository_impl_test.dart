@@ -11,6 +11,9 @@ import 'package:tautulli_remote/features/activity/data/models/activity_model.dar
 import 'package:tautulli_remote/features/activity/data/repositories/activity_repository_impl.dart';
 import 'package:matcher/matcher.dart';
 import 'package:tautulli_remote/features/activity/domain/entities/activity.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -18,10 +21,17 @@ class MockActivityDataSource extends Mock implements ActivityDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   ActivityRepositoryImpl repository;
   MockActivityDataSource dataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     dataSource = MockActivityDataSource();
@@ -29,6 +39,12 @@ void main() {
     repository = ActivityRepositoryImpl(
       dataSource: dataSource,
       networkInfo: mockNetworkInfo,
+    );
+    mockSettings = MockSettings();
+    mockLogging = MockLogging();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -52,7 +68,10 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         //act
-        repository.getActivity(tautulliId: tTautulliId);
+        repository.getActivity(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         //assert
         verify(mockNetworkInfo.isConnected);
       },
@@ -67,9 +86,15 @@ void main() {
         'should call data source getActivity()',
         () async {
           // act
-          await repository.getActivity(tautulliId: tTautulliId);
+          await repository.getActivity(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
           // assert
-          verify(dataSource.getActivity(tautulliId: tTautulliId));
+          verify(dataSource.getActivity(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          ));
         },
       );
 
@@ -77,10 +102,17 @@ void main() {
         'should return activity data map when the call to api is successful',
         () async {
           // arrange
-          when(dataSource.getActivity(tautulliId: tTautulliId))
-              .thenAnswer((_) async => tActivityList);
+          when(
+            dataSource.getActivity(
+              tautulliId: tTautulliId,
+              settingsBloc: settingsBloc,
+            ),
+          ).thenAnswer((_) async => tActivityList);
           //act
-          final result = await repository.getActivity(tautulliId: tTautulliId);
+          final result = await repository.getActivity(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
           //assert
           expect(result, equals(Right(tActivityList)));
         },
@@ -90,10 +122,15 @@ void main() {
         'should return activity',
         () async {
           // arrange
-          when(dataSource.getActivity(tautulliId: tTautulliId))
-              .thenAnswer((_) async => tActivityList);
+          when(dataSource.getActivity(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          )).thenAnswer((_) async => tActivityList);
           // act
-          final result = await repository.getActivity(tautulliId: tTautulliId);
+          final result = await repository.getActivity(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
           // assert
           expect(result, equals(Right(tActivityList)));
         },
@@ -104,10 +141,15 @@ void main() {
         () async {
           // arrange
           final exception = SettingsException();
-          when(dataSource.getActivity(tautulliId: tTautulliId))
-              .thenThrow(exception);
+          when(dataSource.getActivity(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          )).thenThrow(exception);
           // act
-          final result = await repository.getActivity(tautulliId: tTautulliId);
+          final result = await repository.getActivity(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
           // assert
           expect(result, equals(Left(SettingsFailure())));
         },
@@ -121,7 +163,10 @@ void main() {
           // arrange
           when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
           //act
-          final result = await repository.getActivity(tautulliId: tTautulliId);
+          final result = await repository.getActivity(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
           //assert
           expect(result, equals(Left(ConnectionFailure())));
         },

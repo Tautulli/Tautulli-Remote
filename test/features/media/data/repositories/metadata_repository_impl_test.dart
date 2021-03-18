@@ -5,10 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/media/data/datasources/metadata_data_source.dart';
 import 'package:tautulli_remote/features/media/data/models/metadata_item_model.dart';
 import 'package:tautulli_remote/features/media/data/repositories/metadata_repository_impl.dart';
 import 'package:tautulli_remote/features/media/domain/entities/metadata_item.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -16,10 +19,17 @@ class MockMetadataDataSource extends Mock implements MetadataDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   MetadataRepositoryImpl repository;
   MockMetadataDataSource mockMetadataDataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockMetadataDataSource = MockMetadataDataSource();
@@ -27,6 +37,12 @@ void main() {
     repository = MetadataRepositoryImpl(
       dataSource: mockMetadataDataSource,
       networkInfo: mockNetworkInfo,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -47,6 +63,7 @@ void main() {
         repository.getMetadata(
           tautulliId: tTautulliId,
           ratingKey: tRatingKey,
+          settingsBloc: settingsBloc,
         );
         // assert
         verify(mockNetworkInfo.isConnected);
@@ -65,12 +82,14 @@ void main() {
           await repository.getMetadata(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
+            settingsBloc: settingsBloc,
           );
           // assert
           verify(
             mockMetadataDataSource.getMetadata(
               tautulliId: tTautulliId,
               ratingKey: tRatingKey,
+              settingsBloc: settingsBloc,
             ),
           );
         },
@@ -84,12 +103,14 @@ void main() {
             mockMetadataDataSource.getMetadata(
               tautulliId: anyNamed('tautulliId'),
               ratingKey: anyNamed('ratingKey'),
+              settingsBloc: anyNamed('settingsBloc'),
             ),
           ).thenAnswer((_) async => tMetadataItem);
           // act
           final result = await repository.getMetadata(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
+            settingsBloc: settingsBloc,
           );
           // assert
           expect(result, equals(Right(tMetadataItem)));
@@ -107,6 +128,7 @@ void main() {
           final result = await repository.getMetadata(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
+            settingsBloc: settingsBloc,
           );
           // assert
           expect(result, equals(Left(ConnectionFailure())));

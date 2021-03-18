@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/recent.dart';
 import '../../domain/repositories/recently_added_repository.dart';
 import '../datasources/recently_added_data_source.dart';
@@ -26,6 +27,7 @@ class RecentlyAddedRepositoryImpl implements RecentlyAddedRepository {
     int start,
     String mediaType,
     int sectionId,
+    @required SettingsBloc settingsBloc,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -35,6 +37,7 @@ class RecentlyAddedRepositoryImpl implements RecentlyAddedRepository {
           start: start,
           mediaType: mediaType,
           sectionId: sectionId,
+          settingsBloc: settingsBloc,
         );
         return Right(recentlyAddedList);
       } catch (exception) {

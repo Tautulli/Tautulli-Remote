@@ -8,6 +8,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/statistics.dart';
 import '../../domain/usecases/get_statistics.dart';
 
@@ -19,6 +20,7 @@ Map<String, bool> _hasReachedMaxMapCache = {};
 bool _noStatsCache;
 int _timeRangeCache;
 String _tautulliIdCache;
+SettingsBloc _settingsBlocCache;
 
 class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
   final GetStatistics getStatistics;
@@ -40,6 +42,8 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     final currentState = state;
 
     if (event is StatisticsFetch) {
+      _settingsBlocCache = event.settingsBloc;
+
       if (event.statId == null) {
         _timeRangeCache = event.timeRange;
 
@@ -50,12 +54,14 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           statsType: event.statsType,
           timeRange: event.timeRange > 0 ? event.timeRange : 30,
           useCachedList: true,
+          settingsBloc: _settingsBlocCache,
         );
       } else {
         if (!_hasReachedMax(currentState, event.statId)) {
           yield* _fetchMore(
             currentState: currentState,
             statId: event.statId,
+            settingsBloc: _settingsBlocCache,
           );
         }
       }
@@ -72,6 +78,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
         statsCount: event.statsCount,
         statsType: event.statsType,
         timeRange: event.timeRange > 0 ? event.timeRange : 30,
+        settingsBloc: _settingsBlocCache,
       );
 
       _tautulliIdCache = event.tautulliId;
@@ -85,6 +92,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     String statsType,
     int statsCount,
     bool useCachedList = false,
+    @required SettingsBloc settingsBloc,
   }) async* {
     if (useCachedList &&
         _statisticsMapCache != null &&
@@ -102,6 +110,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
         statsCount: statsCount ?? 6,
         statsType: statsType,
         timeRange: timeRange,
+        settingsBloc: settingsBloc,
       );
 
       yield* failureOrStatistics.fold(
@@ -147,6 +156,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
             await _getImages(
               map: map,
               tautulliId: tautulliId,
+              settingsBloc: settingsBloc,
             );
 
             yield StatisticsSuccess(
@@ -164,6 +174,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
   Stream<StatisticsState> _fetchMore({
     @required StatisticsSuccess currentState,
     String statId,
+    @required SettingsBloc settingsBloc,
   }) async* {
     final failureOrStatistics = await getStatistics(
       tautulliId: _tautulliIdCache,
@@ -171,6 +182,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
       timeRange: _timeRangeCache,
       statsStart: currentState.map[statId].length,
       statId: statId,
+      settingsBloc: settingsBloc,
     );
 
     yield* failureOrStatistics.fold(
@@ -196,6 +208,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           await _getImages(
             map: map,
             tautulliId: _tautulliIdCache,
+            settingsBloc: settingsBloc,
           );
 
           _statisticsMapCache[statId] = currentState.map[statId] + map[statId];
@@ -215,6 +228,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
   Future<void> _getImages({
     @required Map<String, List<Statistics>> map,
     @required String tautulliId,
+    @required SettingsBloc settingsBloc,
   }) async {
     for (String key in map.keys.toList()) {
       if (map[key].length > 0 &&
@@ -238,6 +252,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
             img: posterImg,
             ratingKey: posterRatingKey,
             fallback: posterFallback,
+            settingsBloc: settingsBloc,
           );
           failureOrPosterUrl.fold(
             (failure) {

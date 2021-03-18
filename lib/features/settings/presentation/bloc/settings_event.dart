@@ -5,6 +5,10 @@ abstract class SettingsEvent extends Equatable {
 }
 
 class SettingsLoad extends SettingsEvent {
+  final SettingsBloc settingsBloc;
+
+  SettingsLoad({@required this.settingsBloc});
+
   @override
   List<Object> get props => [];
 }
@@ -103,6 +107,19 @@ class SettingsUpdateSecondaryConnection extends SettingsEvent {
 
   @override
   List<Object> get props => [id, secondaryConnectionAddress, plexName];
+}
+
+class SettingsUpdatePrimaryActive extends SettingsEvent {
+  final String tautulliId;
+  final bool primaryActive;
+
+  SettingsUpdatePrimaryActive({
+    @required this.tautulliId,
+    @required this.primaryActive,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, primaryActive];
 }
 
 class SettingsUpdateDeviceToken extends SettingsEvent {

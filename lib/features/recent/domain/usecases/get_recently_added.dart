@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../entities/recent.dart';
 import '../repositories/recently_added_repository.dart';
 
@@ -16,6 +17,7 @@ class GetRecentlyAdded {
     int start,
     String mediaType,
     int sectionId,
+    @required SettingsBloc settingsBloc,
   }) async {
     return await repository.getRecentlyAdded(
       tautulliId: tautulliId,
@@ -23,6 +25,7 @@ class GetRecentlyAdded {
       start: start,
       mediaType: mediaType,
       sectionId: sectionId,
+      settingsBloc: settingsBloc,
     );
   }
 }

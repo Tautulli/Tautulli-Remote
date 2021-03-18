@@ -10,14 +10,16 @@ abstract class SyncedItemsEvent extends Equatable {
 class SyncedItemsFetch extends SyncedItemsEvent {
   final String tautulliId;
   final int userId;
+  final SettingsBloc settingsBloc;
 
   SyncedItemsFetch({
     @required this.tautulliId,
     this.userId,
+    @required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [tautulliId, userId];
+  List<Object> get props => [tautulliId, userId, settingsBloc];
 }
 
 class SyncedItemsFilter extends SyncedItemsEvent {

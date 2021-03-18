@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../repositories/image_url_repository.dart';
 
 class GetImageUrl {
@@ -21,6 +22,7 @@ class GetImageUrl {
     int background,
     int blur,
     String fallback,
+    @required SettingsBloc settingsBloc,
   }) async {
     return await repository.getImage(
       tautulliId: tautulliId,
@@ -32,6 +34,7 @@ class GetImageUrl {
       background: background,
       blur: blur,
       fallback: fallback,
+      settingsBloc: settingsBloc,
     );
   }
 }

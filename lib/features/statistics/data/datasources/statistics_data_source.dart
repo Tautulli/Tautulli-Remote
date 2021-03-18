@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/statistics.dart';
 import '../models/statistics_model.dart';
 
@@ -13,6 +14,7 @@ abstract class StatisticsDataSource {
     int statsStart,
     int statsCount,
     String statId,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -30,6 +32,7 @@ class StatisticsDataSourceImpl implements StatisticsDataSource {
     int statsStart,
     int statsCount,
     String statId,
+    @required SettingsBloc settingsBloc,
   }) async {
     final statisticsJson = await apiGetHomeStats(
       tautulliId: tautulliId,
@@ -39,6 +42,7 @@ class StatisticsDataSourceImpl implements StatisticsDataSource {
       statsStart: statsStart,
       statsCount: statsCount,
       statId: statId,
+      settingsBloc: settingsBloc,
     );
 
     Map<String, List<Statistics>> statisticsMap = {};

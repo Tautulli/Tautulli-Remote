@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 /// Returns a Map of the decoded JSON response from
@@ -15,6 +16,7 @@ abstract class GetUsersTable {
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -32,6 +34,7 @@ class GetUsersTableImpl implements GetUsersTable {
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   }) async {
     Map<String, String> params = {};
 
@@ -58,6 +61,7 @@ class GetUsersTableImpl implements GetUsersTable {
       tautulliId: tautulliId,
       cmd: 'get_users_table',
       params: params,
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

@@ -7,19 +7,35 @@ import 'package:tautulli_remote/features/history/data/models/history_model.dart'
 import 'package:tautulli_remote/features/history/domain/entities/history.dart';
 import 'package:tautulli_remote/features/history/domain/repositories/history_repository.dart';
 import 'package:tautulli_remote/features/history/domain/usecases/get_history.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
 class MockHistoryRepository extends Mock implements HistoryRepository {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   GetHistory usecase;
   MockHistoryRepository mockHistoryRepository;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockHistoryRepository = MockHistoryRepository();
     usecase = GetHistory(
       repository: mockHistoryRepository,
+    );
+    mockSettings = MockSettings();
+    mockLogging = MockLogging();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -56,10 +72,14 @@ void main() {
           start: anyNamed('start'),
           length: anyNamed('length'),
           search: anyNamed('search'),
+          settingsBloc: anyNamed('settingsBloc'),
         ),
       ).thenAnswer((_) async => Right(tHistoryList));
       // act
-      final result = await usecase(tautulliId: tTautulliId);
+      final result = await usecase(
+        tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
+      );
       // assert
       expect(result, equals(Right(tHistoryList)));
     },

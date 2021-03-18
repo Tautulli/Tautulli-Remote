@@ -15,6 +15,7 @@ class UsersFetch extends UsersEvent {
   final int start;
   final int length;
   final String search;
+  final SettingsBloc settingsBloc;
 
   UsersFetch({
     @required this.tautulliId,
@@ -24,6 +25,7 @@ class UsersFetch extends UsersEvent {
     this.start,
     this.length,
     this.search,
+    @required this.settingsBloc,
   });
 
   @override
@@ -35,6 +37,7 @@ class UsersFetch extends UsersEvent {
         start,
         length,
         search,
+        settingsBloc,
       ];
 }
 

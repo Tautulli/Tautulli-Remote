@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 abstract class GetLibraryMediaInfo {
@@ -12,6 +13,7 @@ abstract class GetLibraryMediaInfo {
     int length,
     bool refresh,
     int timeoutOverride,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -30,6 +32,7 @@ class GetLibraryMediaInfoImpl implements GetLibraryMediaInfo {
     int length,
     bool refresh,
     int timeoutOverride,
+    @required SettingsBloc settingsBloc,
   }) async {
     Map<String, String> params = {};
 
@@ -57,6 +60,7 @@ class GetLibraryMediaInfoImpl implements GetLibraryMediaInfo {
       cmd: 'get_library_media_info',
       params: params,
       timeoutOverride: timeoutOverride,
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

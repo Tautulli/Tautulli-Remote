@@ -3,6 +3,7 @@ import 'package:quiver/strings.dart';
 
 import '../../../features/logging/domain/usecases/logging.dart';
 import '../../../features/settings/domain/usecases/settings.dart';
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../../injection_container.dart' as di;
 import '../../database/domain/entities/server.dart';
 import '../../error/exception.dart';
@@ -21,6 +22,7 @@ abstract class ConnectionHandler {
     Map<String, String> params,
     int timeoutOverride,
     bool trustCert,
+    SettingsBloc settingsBloc,
   });
 }
 
@@ -44,6 +46,7 @@ class ConnectionHandlerImpl implements ConnectionHandler {
     Map<String, String> params,
     int timeoutOverride,
     bool trustCert = false,
+    SettingsBloc settingsBloc,
   }) async {
     String secondaryConnectionAddress;
     String secondaryConnectionProtocol;
@@ -131,17 +134,22 @@ class ConnectionHandlerImpl implements ConnectionHandler {
             trustCert: trustCert,
           );
 
-          di.sl<Settings>().updatePrimaryActive(
-                tautulliId: tautulliId,
-                primaryActive: primaryActive,
-              );
+          settingsBloc.add(
+            SettingsUpdatePrimaryActive(
+              tautulliId: tautulliId,
+              primaryActive: primaryActive,
+            ),
+          );
         } catch (error) {
           // If both connections failed set primary active to true and throw error
           logging.warning('ConnectionHandler: Both connections failed');
-          di.sl<Settings>().updatePrimaryActive(
-                tautulliId: tautulliId,
-                primaryActive: true,
-              );
+
+          settingsBloc.add(
+            SettingsUpdatePrimaryActive(
+              tautulliId: tautulliId,
+              primaryActive: primaryActive,
+            ),
+          );
 
           throw error;
         }

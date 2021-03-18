@@ -5,6 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/statistics/data/datasources/statistics_data_source.dart';
 import 'package:tautulli_remote/features/statistics/data/models/statistics_model.dart';
 import 'package:tautulli_remote/features/statistics/data/repositories/statistics_repository_impl.dart';
@@ -16,10 +19,17 @@ class MockStatisticsDataSource extends Mock implements StatisticsDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   StatisticsRepositoryImpl repository;
   MockStatisticsDataSource mockStatisticsDataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockStatisticsDataSource = MockStatisticsDataSource();
@@ -27,6 +37,12 @@ void main() {
     repository = StatisticsRepositoryImpl(
       dataSource: mockStatisticsDataSource,
       networkInfo: mockNetworkInfo,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -64,7 +80,10 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       // act
-      repository.getStatistics(tautulliId: tTautulliId);
+      repository.getStatistics(
+        tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
+      );
       // assert
       verify(mockNetworkInfo.isConnected);
     },
@@ -79,10 +98,16 @@ void main() {
       'should call the data source getStatistics()',
       () async {
         // act
-        await repository.getStatistics(tautulliId: tTautulliId);
+        await repository.getStatistics(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         verify(
-          mockStatisticsDataSource.getStatistics(tautulliId: tTautulliId),
+          mockStatisticsDataSource.getStatistics(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          ),
         );
       },
     );
@@ -98,10 +123,14 @@ void main() {
             statsCount: anyNamed('statsCount'),
             statsType: anyNamed('statsType'),
             timeRange: anyNamed('timeRange'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => tStatisticsMap);
         // act
-        final result = await repository.getStatistics(tautulliId: tTautulliId);
+        final result = await repository.getStatistics(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         expect(result, equals(Right(tStatisticsMap)));
       },
@@ -115,7 +144,10 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
         // act
-        final result = await repository.getStatistics(tautulliId: tTautulliId);
+        final result = await repository.getStatistics(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         expect(result, equals(Left(ConnectionFailure())));
       },

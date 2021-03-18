@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/synced_item.dart';
 import '../../domain/repositories/synced_items_repository.dart';
 import '../datasources/synced_items_data_source.dart';
@@ -21,12 +22,14 @@ class SyncedItemsRepositoryImpl implements SyncedItemsRepository {
   Future<Either<Failure, List<SyncedItem>>> getSyncedItems({
     @required String tautulliId,
     int userId,
+    @required SettingsBloc settingsBloc,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final syncedItemsList = await dataSource.getSyncedItems(
           tautulliId: tautulliId,
           userId: userId,
+          settingsBloc: settingsBloc,
         );
         return Right(syncedItemsList);
       } catch (exception) {

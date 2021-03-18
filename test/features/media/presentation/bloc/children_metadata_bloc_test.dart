@@ -11,6 +11,8 @@ import 'package:tautulli_remote/features/media/data/models/metadata_item_model.d
 import 'package:tautulli_remote/features/media/domain/entities/metadata_item.dart';
 import 'package:tautulli_remote/features/media/domain/usecases/get_children_metadata.dart';
 import 'package:tautulli_remote/features/media/presentation/bloc/children_metadata_bloc.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -18,13 +20,17 @@ class MockGetChildrenMetadata extends Mock implements GetChildrenMetadata {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   ChildrenMetadataBloc bloc;
   MockGetChildrenMetadata mockGetChildrenMetadata;
   MockGetImageUrl mockGetImageUrl;
+  MockSettings mockSettings;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetChildrenMetadata = MockGetChildrenMetadata();
@@ -34,6 +40,11 @@ void main() {
     bloc = ChildrenMetadataBloc(
       getChildrenMetadata: mockGetChildrenMetadata,
       getImageUrl: mockGetImageUrl,
+      logging: mockLogging,
+    );
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
       logging: mockLogging,
     );
   });
@@ -57,12 +68,14 @@ void main() {
         img: anyNamed('img'),
         ratingKey: anyNamed('ratingKey'),
         fallback: anyNamed('fallback'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(imageUrl));
     when(
       mockGetChildrenMetadata(
         tautulliId: tTautulliId,
         ratingKey: anyNamed('ratingKey'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(tChildrenMetadataList));
   }
@@ -87,18 +100,21 @@ void main() {
           ChildrenMetadataFetched(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
+            settingsBloc: settingsBloc,
           ),
         );
         await untilCalled(
           mockGetChildrenMetadata(
             tautulliId: tTautulliId,
             ratingKey: anyNamed('ratingKey'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
         verify(mockGetChildrenMetadata(
           tautulliId: tTautulliId,
           ratingKey: anyNamed('ratingKey'),
+          settingsBloc: anyNamed('settingsBloc'),
         ));
       },
     );
@@ -114,6 +130,7 @@ void main() {
           ChildrenMetadataFetched(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
+            settingsBloc: settingsBloc,
           ),
         );
         await untilCalled(
@@ -122,6 +139,7 @@ void main() {
             img: anyNamed('img'),
             ratingKey: anyNamed('ratingKey'),
             fallback: anyNamed('fallback'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
@@ -131,6 +149,7 @@ void main() {
             img: anyNamed('img'),
             ratingKey: anyNamed('ratingKey'),
             fallback: anyNamed('fallback'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
       },
@@ -145,6 +164,7 @@ void main() {
           mockGetChildrenMetadata(
             tautulliId: tTautulliId,
             ratingKey: anyNamed('ratingKey'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => Left(failure));
         clearCache();
@@ -163,6 +183,7 @@ void main() {
           ChildrenMetadataFetched(
             tautulliId: tTautulliId,
             ratingKey: tRatingKey,
+            settingsBloc: settingsBloc,
           ),
         );
       },

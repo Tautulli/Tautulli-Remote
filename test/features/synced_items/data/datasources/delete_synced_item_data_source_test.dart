@@ -2,19 +2,35 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
     as tautulliApi;
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/synced_items/data/datasources/delete_synced_item_data_source.dart';
 
 class MockDeleteSyncedItem extends Mock
     implements tautulliApi.DeleteSyncedItem {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   DeleteSyncedItemDataSourceImpl dataSource;
   MockDeleteSyncedItem mockApiDeleteSyncedItem;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockApiDeleteSyncedItem = MockDeleteSyncedItem();
     dataSource = DeleteSyncedItemDataSourceImpl(
       apiDeleteSyncedItem: mockApiDeleteSyncedItem,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -43,6 +59,7 @@ void main() {
           tautulliId: anyNamed('tautulliId'),
           clientId: anyNamed('clientId'),
           syncId: anyNamed('syncId'),
+          settingsBloc: anyNamed('settingsBloc'),
         ),
       ).thenAnswer((_) async => successMap);
       // act
@@ -50,6 +67,7 @@ void main() {
         tautulliId: tTautulliId,
         clientId: tClientId,
         syncId: tSyncId,
+        settingsBloc: settingsBloc,
       );
       // assert
       verify(
@@ -57,6 +75,7 @@ void main() {
           tautulliId: tTautulliId,
           clientId: tClientId,
           syncId: tSyncId,
+          settingsBloc: settingsBloc,
         ),
       );
     },
@@ -71,6 +90,7 @@ void main() {
           tautulliId: anyNamed('tautulliId'),
           clientId: anyNamed('clientId'),
           syncId: anyNamed('syncId'),
+          settingsBloc: anyNamed('settingsBloc'),
         ),
       ).thenAnswer((_) async => successMap);
       // act
@@ -78,6 +98,7 @@ void main() {
         tautulliId: tTautulliId,
         clientId: tClientId,
         syncId: tSyncId,
+        settingsBloc: settingsBloc,
       );
       // assert
       expect(result, equals(true));
@@ -93,6 +114,7 @@ void main() {
           tautulliId: anyNamed('tautulliId'),
           clientId: anyNamed('clientId'),
           syncId: anyNamed('syncId'),
+          settingsBloc: anyNamed('settingsBloc'),
         ),
       ).thenAnswer((_) async => failureMap);
       // act
@@ -100,6 +122,7 @@ void main() {
         tautulliId: tTautulliId,
         clientId: tClientId,
         syncId: tSyncId,
+        settingsBloc: settingsBloc,
       );
       // assert
       expect(result, equals(false));

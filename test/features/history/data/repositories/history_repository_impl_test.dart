@@ -9,6 +9,9 @@ import 'package:tautulli_remote/features/history/data/datasources/history_data_s
 import 'package:tautulli_remote/features/history/data/models/history_model.dart';
 import 'package:tautulli_remote/features/history/data/repositories/history_repository_impl.dart';
 import 'package:tautulli_remote/features/history/domain/entities/history.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -16,10 +19,17 @@ class MockHistoryDataSource extends Mock implements HistoryDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   HistoryRepositoryImpl repository;
   MockHistoryDataSource mockHistoryDataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockHistoryDataSource = MockHistoryDataSource();
@@ -27,6 +37,12 @@ void main() {
     repository = HistoryRepositoryImpl(
       dataSource: mockHistoryDataSource,
       networkInfo: mockNetworkInfo,
+    );
+    mockSettings = MockSettings();
+    mockLogging = MockLogging();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -46,7 +62,10 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       // act
-      repository.getHistory(tautulliId: tTautulliId);
+      repository.getHistory(
+        tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
+      );
       // assert
       verify(mockNetworkInfo.isConnected);
     },
@@ -61,10 +80,16 @@ void main() {
       'should call the data source getHistory()',
       () async {
         // act
-        await repository.getHistory(tautulliId: tTautulliId);
+        await repository.getHistory(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         verify(
-          mockHistoryDataSource.getHistory(tautulliId: tTautulliId),
+          mockHistoryDataSource.getHistory(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          ),
         );
       },
     );
@@ -92,10 +117,14 @@ void main() {
             start: anyNamed('start'),
             length: anyNamed('length'),
             search: anyNamed('search'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => tHistoryList);
         // act
-        final result = await repository.getHistory(tautulliId: tTautulliId);
+        final result = await repository.getHistory(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         expect(result, equals(Right(tHistoryList)));
       },
@@ -109,7 +138,10 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
         // act
-        final result = await repository.getHistory(tautulliId: tTautulliId);
+        final result = await repository.getHistory(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         expect(result, equals(Left(ConnectionFailure())));
       },

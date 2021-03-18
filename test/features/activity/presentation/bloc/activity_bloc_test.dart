@@ -11,6 +11,7 @@ import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url
 import 'package:tautulli_remote/features/activity/presentation/bloc/activity_bloc.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -28,6 +29,7 @@ void main() {
   MockGetActivity mockGetActivity;
   MockGetImageUrl mockGetImageUrl;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetActivity = MockGetActivity();
@@ -38,6 +40,10 @@ void main() {
     bloc = ActivityBloc(
       activity: mockGetActivity,
       imageUrl: mockGetImageUrl,
+      settings: mockSettings,
+      logging: mockLogging,
+    );
+    settingsBloc = SettingsBloc(
       settings: mockSettings,
       logging: mockLogging,
     );
@@ -79,14 +85,17 @@ void main() {
     String imageUrl =
         'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
     when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
-    when(mockGetActivity(tautulliId: tTautulliId))
-        .thenAnswer((_) async => Right(tActivityList));
+    when(mockGetActivity(
+      tautulliId: tTautulliId,
+      settingsBloc: settingsBloc,
+    )).thenAnswer((_) async => Right(tActivityList));
     when(
       mockGetImageUrl(
         tautulliId: anyNamed('tautulliId'),
         img: anyNamed('img'),
         ratingKey: anyNamed('ratingKey'),
         fallback: anyNamed('fallback'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(imageUrl));
   }
@@ -106,7 +115,7 @@ void main() {
         //arrange
         setUpSuccess();
         // act
-        bloc.add(ActivityLoadAndRefresh());
+        bloc.add(ActivityLoadAndRefresh(settingsBloc: settingsBloc));
         await untilCalled(mockSettings.getAllServers());
         // assert
         verify(mockSettings.getAllServers());
@@ -119,10 +128,16 @@ void main() {
         // arrange
         setUpSuccess();
         // act
-        bloc.add(ActivityLoadAndRefresh());
-        await untilCalled(mockGetActivity(tautulliId: tTautulliId));
+        bloc.add(ActivityLoadAndRefresh(settingsBloc: settingsBloc));
+        await untilCalled(mockGetActivity(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
         // assert
-        verify(mockGetActivity(tautulliId: tTautulliId));
+        verify(mockGetActivity(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
       },
     );
 
@@ -132,13 +147,14 @@ void main() {
         // arrange
         setUpSuccess();
         // act
-        bloc.add(ActivityLoadAndRefresh());
+        bloc.add(ActivityLoadAndRefresh(settingsBloc: settingsBloc));
         await untilCalled(
           mockGetImageUrl(
             tautulliId: anyNamed('tautulliId'),
             img: anyNamed('img'),
             ratingKey: anyNamed('ratingKey'),
             fallback: anyNamed('fallback'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
@@ -148,6 +164,7 @@ void main() {
             img: anyNamed('img'),
             ratingKey: anyNamed('ratingKey'),
             fallback: anyNamed('fallback'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
       },

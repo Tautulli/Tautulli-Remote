@@ -4,13 +4,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
 import '../../domain/entities/plex_server_info.dart';
 import '../../domain/entities/tautulli_settings_general.dart';
+import '../../presentation/bloc/settings_bloc.dart';
 import '../models/plex_server_info_model.dart';
 import '../models/tautulli_settings_general_model.dart';
 
 abstract class SettingsDataSource {
-  Future<PlexServerInfo> getPlexServerInfo(String tautulliId);
+  Future<PlexServerInfo> getPlexServerInfo({
+    @required String tautulliId,
+    @required SettingsBloc settingsBloc,
+  });
 
-  Future<Map<String, dynamic>> getTautulliSettings(String tautulliId);
+  Future<Map<String, dynamic>> getTautulliSettings({
+    @required String tautulliId,
+    @required SettingsBloc settingsBloc,
+  });
 
   Future<int> getServerTimeout();
 
@@ -71,8 +78,14 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   });
 
   @override
-  Future<PlexServerInfo> getPlexServerInfo(String tautulliId) async {
-    final plexServerInfoJson = await apiGetServerInfo(tautulliId);
+  Future<PlexServerInfo> getPlexServerInfo({
+    @required String tautulliId,
+    @required SettingsBloc settingsBloc,
+  }) async {
+    final plexServerInfoJson = await apiGetServerInfo(
+      tautulliId: tautulliId,
+      settingsBloc: settingsBloc,
+    );
 
     PlexServerInfo plexServerInfo =
         PlexServerInfoModel.fromJson(plexServerInfoJson['response']['data']);
@@ -81,8 +94,14 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   }
 
   @override
-  Future<Map<String, dynamic>> getTautulliSettings(String tautulliId) async {
-    final tautulliSettingsJson = await apiGetSettings(tautulliId);
+  Future<Map<String, dynamic>> getTautulliSettings({
+    @required String tautulliId,
+    @required SettingsBloc settingsBloc,
+  }) async {
+    final tautulliSettingsJson = await apiGetSettings(
+      tautulliId: tautulliId,
+      settingsBloc: settingsBloc,
+    );
 
     TautulliSettingsGeneral tautulliSettingsGeneral =
         TautulliSettingsGeneralModel.fromJson(

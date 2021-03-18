@@ -9,6 +9,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/history.dart';
 import '../../domain/usecases/get_history.dart';
 
@@ -20,6 +21,7 @@ bool _hasReachedMaxCache;
 int _userIdCache;
 String _mediaTypeCache;
 String _tautulliIdCache;
+SettingsBloc _settingsBlocCache;
 
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   final GetHistory getHistory;
@@ -58,11 +60,14 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       _mediaTypeCache = event.mediaType;
 
       if (currentState is HistoryInitial) {
+        _settingsBlocCache = event.settingsBloc;
+
         yield* _fetchInitial(
           tautulliId: event.tautulliId,
           userId: event.userId,
           mediaType: event.mediaType,
           useCachedList: true,
+          settingsBloc: _settingsBlocCache,
         );
       }
       if (currentState is HistorySuccess) {
@@ -71,6 +76,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           tautulliId: event.tautulliId,
           userId: event.userId,
           mediaType: event.mediaType,
+          settingsBloc: _settingsBlocCache,
         );
       }
 
@@ -85,6 +91,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         tautulliId: event.tautulliId,
         userId: event.userId,
         mediaType: event.mediaType,
+        settingsBloc: _settingsBlocCache,
       );
 
       _tautulliIdCache = event.tautulliId;
@@ -110,6 +117,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     int length,
     String search,
     bool useCachedList = false,
+    @required SettingsBloc settingsBloc,
   }) async* {
     if (useCachedList &&
         _historyListCache != null &&
@@ -137,6 +145,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         start: start,
         length: length ?? 25,
         search: search,
+        settingsBloc: settingsBloc,
       );
 
       yield* failureOrHistory.fold(
@@ -152,7 +161,11 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           );
         },
         (list) async* {
-          await _getImages(list: list, tautulliId: tautulliId);
+          await _getImages(
+            list: list,
+            tautulliId: tautulliId,
+            settingsBloc: settingsBloc,
+          );
 
           _historyListCache = list;
           _hasReachedMaxCache = list.length < 25;
@@ -185,6 +198,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   }) async* {
     final failureOrHistory = await getHistory(
       tautulliId: tautulliId,
@@ -204,6 +218,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       start: currentState.list.length,
       length: length ?? 25,
       search: search,
+      settingsBloc: settingsBloc,
     );
 
     yield* failureOrHistory.fold(
@@ -224,7 +239,11 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
 
           yield currentState.copyWith(hasReachedMax: true);
         } else {
-          await _getImages(list: list, tautulliId: tautulliId);
+          await _getImages(
+            list: list,
+            tautulliId: tautulliId,
+            settingsBloc: settingsBloc,
+          );
 
           _historyListCache = currentState.list + list;
           _hasReachedMaxCache = list.length < 25;
@@ -241,6 +260,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   Future<void> _getImages({
     @required List<History> list,
     @required String tautulliId,
+    @required SettingsBloc settingsBloc,
   }) async {
     for (History historyItem in list) {
       //* Fetch and assign image URLs
@@ -276,6 +296,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         img: posterImg,
         ratingKey: posterRatingKey,
         fallback: posterFallback,
+        settingsBloc: settingsBloc,
       );
       failureOrPosterUrl.fold(
         (failure) {

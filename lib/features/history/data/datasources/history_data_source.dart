@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/history.dart';
 import '../models/history_model.dart';
 
@@ -23,6 +24,7 @@ abstract class HistoryDataSource {
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -52,6 +54,7 @@ class HistoryDataSourceImpl implements HistoryDataSource {
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   }) async {
     final historyJson = await apiGetHistory(
       tautulliId: tautulliId,
@@ -71,6 +74,7 @@ class HistoryDataSourceImpl implements HistoryDataSource {
       start: start,
       length: length,
       search: search,
+      settingsBloc: settingsBloc,
     );
 
     final List<History> historyList = [];

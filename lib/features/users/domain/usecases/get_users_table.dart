@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../entities/user_table.dart';
 import '../repositories/users_repository.dart';
 
@@ -18,6 +19,7 @@ class GetUsersTable {
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   }) async {
     return await repository.getUsersTable(
       tautulliId: tautulliId,
@@ -27,6 +29,7 @@ class GetUsersTable {
       start: start,
       length: length,
       search: search,
+      settingsBloc: settingsBloc,
     );
   }
 }

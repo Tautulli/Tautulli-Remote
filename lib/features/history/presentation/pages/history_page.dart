@@ -112,6 +112,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
       _usersListBloc.add(
         UsersListFetch(
           tautulliId: _tautulliId,
+          settingsBloc: _settingsBloc,
         ),
       );
 
@@ -120,6 +121,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
           tautulliId: _tautulliId,
           userId: _userId,
           mediaType: _mediaType,
+          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -173,6 +175,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                             _usersListBloc.add(
                               UsersListFetch(
                                 tautulliId: _tautulliId,
+                                settingsBloc: _settingsBloc,
                               ),
                             );
                           }
@@ -303,6 +306,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
           tautulliId: _tautulliId,
           userId: _userId,
           mediaType: _mediaType,
+          settingsBloc: _settingsBloc,
         ),
       );
     }

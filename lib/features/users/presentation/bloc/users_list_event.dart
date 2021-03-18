@@ -9,9 +9,13 @@ abstract class UsersListEvent extends Equatable {
 
 class UsersListFetch extends UsersListEvent {
   final String tautulliId;
+  final SettingsBloc settingsBloc;
 
-  UsersListFetch({@required this.tautulliId});
+  UsersListFetch({
+    @required this.tautulliId,
+    @required this.settingsBloc,
+  });
 
   @override
-  List<Object> get props => [tautulliId];
+  List<Object> get props => [tautulliId, settingsBloc];
 }

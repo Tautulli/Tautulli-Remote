@@ -12,6 +12,7 @@ class StatisticsFetch extends StatisticsEvent {
   final int statsStart;
   final int statsCount;
   final String statId;
+  final SettingsBloc settingsBloc;
 
   StatisticsFetch({
     @required this.tautulliId,
@@ -21,6 +22,7 @@ class StatisticsFetch extends StatisticsEvent {
     this.statsStart,
     this.statsCount,
     this.statId,
+    @required this.settingsBloc,
   });
 
   @override
@@ -30,6 +32,7 @@ class StatisticsFetch extends StatisticsEvent {
         timeRange,
         statsType,
         statsCount,
+        settingsBloc,
       ];
 }
 

@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/synced_items/data/models/synced_item_model.dart';
 import 'package:tautulli_remote/features/synced_items/domain/entities/synced_item.dart';
 import 'package:tautulli_remote/features/synced_items/domain/repositories/synced_items_repository.dart';
@@ -12,14 +15,27 @@ import '../../../../fixtures/fixture_reader.dart';
 
 class MockSyncedItemsRepository extends Mock implements SyncedItemsRepository {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   GetSyncedItems usecase;
   MockSyncedItemsRepository mockSyncedItemsRepository;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockSyncedItemsRepository = MockSyncedItemsRepository();
     usecase = GetSyncedItems(
       repository: mockSyncedItemsRepository,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -39,11 +55,13 @@ void main() {
       when(
         mockSyncedItemsRepository.getSyncedItems(
           tautulliId: anyNamed('tautulliId'),
+          settingsBloc: anyNamed('settingsBloc'),
         ),
       ).thenAnswer((_) async => Right(tSyncedItemsList));
       // act
       final result = await usecase(
         tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
       );
       // assert
       expect(result, equals(Right(tSyncedItemsList)));

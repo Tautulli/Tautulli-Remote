@@ -11,6 +11,8 @@ import 'package:tautulli_remote/features/recent/data/models/recent_model.dart';
 import 'package:tautulli_remote/features/recent/domain/entities/recent.dart';
 import 'package:tautulli_remote/features/recent/domain/usecases/get_recently_added.dart';
 import 'package:tautulli_remote/features/recent/presentation/bloc/recently_added_bloc.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
@@ -18,21 +20,30 @@ class MockGetRecentlyAdded extends Mock implements GetRecentlyAdded {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   RecentlyAddedBloc bloc;
   MockGetRecentlyAdded mockGetRecentlyAdded;
   MockGetImageUrl mockGetImageUrl;
+  MockSettings mockSettings;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetRecentlyAdded = MockGetRecentlyAdded();
     mockGetImageUrl = MockGetImageUrl();
-    mockLogging = MockLogging();
     bloc = RecentlyAddedBloc(
       recentlyAdded: mockGetRecentlyAdded,
       getImageUrl: mockGetImageUrl,
+      logging: mockLogging,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
       logging: mockLogging,
     );
   });
@@ -68,6 +79,7 @@ void main() {
         start: anyNamed('start'),
         mediaType: anyNamed('mediaType'),
         sectionId: anyNamed('sectionId'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(recentList));
     when(
@@ -76,6 +88,7 @@ void main() {
         img: anyNamed('img'),
         ratingKey: anyNamed('ratingKey'),
         fallback: anyNamed('fallback'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(imageUrl));
   }
@@ -100,6 +113,7 @@ void main() {
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
             mediaType: tMediaType,
+            settingsBloc: settingsBloc,
           ));
           await untilCalled(mockGetRecentlyAdded(
             tautulliId: anyNamed('tautulliId'),
@@ -107,12 +121,14 @@ void main() {
             start: anyNamed('start'),
             mediaType: anyNamed('mediaType'),
             sectionId: anyNamed('sectionId'),
+            settingsBloc: anyNamed('settingsBloc'),
           ));
           // assert
           verify(
             mockGetRecentlyAdded(
               tautulliId: tTautulliId,
               count: 50,
+              settingsBloc: settingsBloc,
             ),
           );
         },
@@ -128,6 +144,7 @@ void main() {
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
             mediaType: tMediaType2,
+            settingsBloc: settingsBloc,
           ));
           await untilCalled(
             mockGetImageUrl(
@@ -135,6 +152,7 @@ void main() {
               img: anyNamed('img'),
               ratingKey: anyNamed('ratingKey'),
               fallback: anyNamed('fallback'),
+              settingsBloc: anyNamed('settingsBloc'),
             ),
           );
           // assert
@@ -144,6 +162,7 @@ void main() {
               img: anyNamed('img'),
               ratingKey: anyNamed('ratingKey'),
               fallback: anyNamed('fallback'),
+              settingsBloc: anyNamed('settingsBloc'),
             ),
           );
         },
@@ -162,6 +181,7 @@ void main() {
               start: anyNamed('start'),
               mediaType: anyNamed('mediaType'),
               sectionId: anyNamed('sectionId'),
+              settingsBloc: anyNamed('settingsBloc'),
             ),
           ).thenAnswer((_) async => Left(failure));
           // assert later
@@ -177,6 +197,7 @@ void main() {
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
             mediaType: tMediaType2,
+            settingsBloc: settingsBloc,
           ));
         },
       );
@@ -193,6 +214,7 @@ void main() {
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
             mediaType: tMediaType2,
+            settingsBloc: settingsBloc,
           ));
           await untilCalled(mockGetRecentlyAdded(
             tautulliId: anyNamed('tautulliId'),
@@ -200,6 +222,7 @@ void main() {
             start: anyNamed('start'),
             mediaType: anyNamed('mediaType'),
             sectionId: anyNamed('sectionId'),
+            settingsBloc: anyNamed('settingsBloc'),
           ));
           // assert
           verify(
@@ -207,6 +230,7 @@ void main() {
               tautulliId: tTautulliId,
               count: tCount,
               mediaType: tMediaType2,
+              settingsBloc: settingsBloc,
             ),
           );
         },
@@ -222,6 +246,7 @@ void main() {
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
             mediaType: tMediaType2,
+            settingsBloc: settingsBloc,
           ));
           await untilCalled(
             mockGetImageUrl(
@@ -229,6 +254,7 @@ void main() {
               img: anyNamed('img'),
               ratingKey: anyNamed('ratingKey'),
               fallback: anyNamed('fallback'),
+              settingsBloc: anyNamed('settingsBloc'),
             ),
           );
           // assert
@@ -238,6 +264,7 @@ void main() {
               img: anyNamed('img'),
               ratingKey: anyNamed('ratingKey'),
               fallback: anyNamed('fallback'),
+              settingsBloc: anyNamed('settingsBloc'),
             ),
           );
         },
@@ -262,6 +289,7 @@ void main() {
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
             mediaType: tMediaType2,
+            settingsBloc: settingsBloc,
           ));
         },
       );
@@ -279,6 +307,7 @@ void main() {
               start: anyNamed('start'),
               mediaType: anyNamed('mediaType'),
               sectionId: anyNamed('sectionId'),
+              settingsBloc: anyNamed('settingsBloc'),
             ),
           ).thenAnswer((_) async => Left(failure));
           // assert later
@@ -294,6 +323,7 @@ void main() {
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
             mediaType: tMediaType2,
+            settingsBloc: settingsBloc,
           ));
         },
       );
@@ -322,6 +352,7 @@ void main() {
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
             mediaType: tMediaType2,
+            settingsBloc: settingsBloc,
           ));
         },
       );
@@ -350,6 +381,7 @@ void main() {
           bloc.add(RecentlyAddedFetched(
             tautulliId: tTautulliId,
             mediaType: tMediaType2,
+            settingsBloc: settingsBloc,
           ));
         },
       );

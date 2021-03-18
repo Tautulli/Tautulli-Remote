@@ -11,6 +11,7 @@ import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/settings.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/usecases/get_activity.dart';
 
@@ -25,6 +26,7 @@ enum ActivityLoadingState {
 }
 
 Map<String, Map<String, dynamic>> _activityMap = {};
+SettingsBloc _settingsBlocCache;
 
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   final GetActivity getActivity;
@@ -81,6 +83,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     _activityMap.removeWhere((key, value) => toRemove.contains(key));
 
     if (event is ActivityLoadAndRefresh) {
+      _settingsBlocCache = event.settingsBloc;
+
       if (serverList.length > 0) {
         // Do not refresh servers that are still in the process of loading
         serverList.removeWhere((server) =>
@@ -97,6 +101,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         _loadServer(
           serverList: serverList,
           activityMap: _activityMap,
+          settingsBloc: _settingsBlocCache,
         );
       } else {
         yield ActivityLoadFailure(
@@ -174,6 +179,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
               img: posterImg,
               ratingKey: posterRatingKey,
               fallback: posterFallback,
+              settingsBloc: _settingsBlocCache,
             );
             failureOrPosterUrl.fold(
               (failure) {
@@ -205,7 +211,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       final refreshRate = await settings.getRefreshRate();
       if (refreshRate != null && refreshRate > 0) {
         _timer = Timer.periodic(Duration(seconds: refreshRate), (timer) {
-          add(ActivityLoadAndRefresh());
+          add(ActivityLoadAndRefresh(settingsBloc: _settingsBlocCache));
         });
       }
     }
@@ -221,9 +227,13 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   void _loadServer({
     @required List<ServerModel> serverList,
     @required Map<String, Map<String, dynamic>> activityMap,
+    @required SettingsBloc settingsBloc,
   }) {
     for (ServerModel server in serverList) {
-      getActivity(tautulliId: server.tautulliId).then(
+      getActivity(
+        tautulliId: server.tautulliId,
+        settingsBloc: settingsBloc,
+      ).then(
         (failureOrActivity) => add(
           ActivityLoadServer(
             tautulliId: server.tautulliId,

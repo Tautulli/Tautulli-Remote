@@ -8,6 +8,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../../domain/usecases/get_metadata.dart';
 
@@ -50,6 +51,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
           tautulliId: event.tautulliId,
           ratingKey: event.ratingKey,
           syncId: event.syncId,
+          settingsBloc: event.settingsBloc,
         );
 
         yield* failureorMetadata.fold(
@@ -68,6 +70,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
             await _getImages(
               item: metadata,
               tautulliId: event.tautulliId,
+              settingsBloc: event.settingsBloc,
             );
 
             if (event.ratingKey != null) {
@@ -88,6 +91,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
   Future<void> _getImages({
     @required MetadataItem item,
     @required String tautulliId,
+    @required SettingsBloc settingsBloc,
   }) async {
     //* Fetch and assign image URLs
     String posterFallback;
@@ -111,6 +115,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
       tautulliId: tautulliId,
       img: item.thumb,
       fallback: posterFallback,
+      settingsBloc: settingsBloc,
     );
     failureOrPosterUrl.fold(
       (failure) {
@@ -126,6 +131,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
       tautulliId: tautulliId,
       img: item.parentThumb,
       fallback: posterFallback,
+      settingsBloc: settingsBloc,
     );
     failureOrParentPosterUrl.fold(
       (failure) {
@@ -141,6 +147,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
       tautulliId: tautulliId,
       img: item.grandparentThumb,
       fallback: posterFallback,
+      settingsBloc: settingsBloc,
     );
     failureOrGrandparentPosterUrl.fold(
       (failure) {

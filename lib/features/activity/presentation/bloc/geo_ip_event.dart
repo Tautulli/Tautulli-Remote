@@ -10,12 +10,14 @@ abstract class GeoIpEvent extends Equatable {
 class GeoIpLoad extends GeoIpEvent {
   final String tautulliId;
   final String ipAddress;
+  final SettingsBloc settingsBloc;
 
   GeoIpLoad({
     @required this.tautulliId,
-    @required this.ipAddress
+    @required this.ipAddress,
+    @required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [tautulliId, ipAddress];
+  List<Object> get props => [tautulliId, ipAddress, settingsBloc];
 }

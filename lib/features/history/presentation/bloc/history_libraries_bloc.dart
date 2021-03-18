@@ -9,6 +9,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/history.dart';
 import '../../domain/usecases/get_history.dart';
 
@@ -57,6 +58,7 @@ class HistoryLibrariesBloc
           tautulliId: event.tautulliId,
           sectionId: event.sectionId,
           useCachedList: true,
+          settingsBloc: event.settingsBloc,
         );
       }
       if (currentState is HistoryLibrariesSuccess) {
@@ -64,6 +66,7 @@ class HistoryLibrariesBloc
           currentState: currentState,
           tautulliId: event.tautulliId,
           sectionId: event.sectionId,
+          settingsBloc: event.settingsBloc,
         );
       }
 
@@ -90,6 +93,7 @@ class HistoryLibrariesBloc
     int length,
     String search,
     bool useCachedList = false,
+    @required SettingsBloc settingsBloc,
   }) async* {
     if (useCachedList &&
         _historyListCacheMap.containsKey(sectionId) &&
@@ -117,6 +121,7 @@ class HistoryLibrariesBloc
         start: start,
         length: length ?? 25,
         search: search,
+        settingsBloc: settingsBloc,
       );
 
       yield* failureOrHistory.fold(
@@ -132,7 +137,11 @@ class HistoryLibrariesBloc
           );
         },
         (list) async* {
-          await _getImages(list: list, tautulliId: tautulliId);
+          await _getImages(
+            list: list,
+            tautulliId: tautulliId,
+            settingsBloc: settingsBloc,
+          );
 
           _historyListCacheMap[sectionId] = list;
           _hasReachedMaxCache = list.length < 25;
@@ -165,6 +174,7 @@ class HistoryLibrariesBloc
     int start,
     int length,
     String search,
+    @required SettingsBloc settingsBloc,
   }) async* {
     final failureOrHistory = await getHistory(
       tautulliId: tautulliId,
@@ -184,6 +194,7 @@ class HistoryLibrariesBloc
       start: currentState.list.length,
       length: length ?? 25,
       search: search,
+      settingsBloc: settingsBloc,
     );
 
     yield* failureOrHistory.fold(
@@ -204,7 +215,11 @@ class HistoryLibrariesBloc
 
           yield currentState.copyWith(hasReachedMax: true);
         } else {
-          await _getImages(list: list, tautulliId: tautulliId);
+          await _getImages(
+            list: list,
+            tautulliId: tautulliId,
+            settingsBloc: settingsBloc,
+          );
 
           _historyListCacheMap[sectionId] = currentState.list + list;
           _hasReachedMaxCache = list.length < 25;
@@ -221,6 +236,7 @@ class HistoryLibrariesBloc
   Future<void> _getImages({
     @required List<History> list,
     @required String tautulliId,
+    @required SettingsBloc settingsBloc,
   }) async {
     for (History historyItem in list) {
       //* Fetch and assign image URLs
@@ -256,6 +272,7 @@ class HistoryLibrariesBloc
         img: posterImg,
         ratingKey: posterRatingKey,
         fallback: posterFallback,
+        settingsBloc: settingsBloc,
       );
       failureOrPosterUrl.fold(
         (failure) {

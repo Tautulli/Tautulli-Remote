@@ -7,19 +7,35 @@ import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
 import 'package:tautulli_remote/features/history/data/datasources/history_data_source.dart';
 import 'package:tautulli_remote/features/history/data/models/history_model.dart';
 import 'package:tautulli_remote/features/history/domain/entities/history.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetHistory extends Mock implements tautulliApi.GetHistory {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   HistoryDataSourceImpl dataSource;
   MockGetHistory mockApiGetHistory;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockApiGetHistory = MockGetHistory();
     dataSource = HistoryDataSourceImpl(
       apiGetHistory: mockApiGetHistory,
+    );
+    mockSettings = MockSettings();
+    mockLogging = MockLogging();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -56,11 +72,18 @@ void main() {
           start: anyNamed('start'),
           length: anyNamed('length'),
           search: anyNamed('search'),
+          settingsBloc: anyNamed('settingsBloc'),
         )).thenAnswer((_) async => historyJson);
         // act
-        await dataSource.getHistory(tautulliId: tTautulliId);
+        await dataSource.getHistory(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
-        verify(mockApiGetHistory(tautulliId: tTautulliId));
+        verify(mockApiGetHistory(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
       },
     );
 
@@ -86,9 +109,13 @@ void main() {
           start: anyNamed('start'),
           length: anyNamed('length'),
           search: anyNamed('search'),
+          settingsBloc: anyNamed('settingsBloc'),
         )).thenAnswer((_) async => historyJson);
         // act
-        final result = await dataSource.getHistory(tautulliId: tTautulliId);
+        final result = await dataSource.getHistory(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         expect(result, equals(tHistoryList));
       },

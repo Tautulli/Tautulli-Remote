@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/geo_ip.dart';
 import '../../domain/repositories/geo_ip_repository.dart';
 import '../datasources/geo_ip_data_source.dart';
@@ -23,12 +24,14 @@ class GeoIpRepositoryImpl implements GeoIpRepository {
   Future<Either<Failure, GeoIpItem>> getGeoIp({
     @required String tautulliId,
     @required String ipAddress,
+    @required SettingsBloc settingsBloc,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final geoIpItem = await dataSource.getGeoIp(
           tautulliId: tautulliId,
           ipAddress: ipAddress,
+          settingsBloc: settingsBloc,
         );
         return Right(geoIpItem);
       } catch (exception) {

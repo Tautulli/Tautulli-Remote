@@ -9,6 +9,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/recent.dart';
 import '../../domain/usecases/get_recently_added.dart';
 
@@ -19,6 +20,7 @@ List<RecentItem> _recentListCache;
 bool _hasReachedMaxCache;
 String _mediaTypeCache;
 String _tautulliIdCache;
+SettingsBloc _settingsBlocCache;
 
 class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
   final GetRecentlyAdded recentlyAdded;
@@ -52,18 +54,21 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
 
     if (event is RecentlyAddedFetched && !_hasReachedMax(currentState)) {
       _mediaTypeCache = event.mediaType;
+      _settingsBlocCache = event.settingsBloc;
 
       if (currentState is RecentlyAddedInitial) {
         if (event.mediaType == 'all') {
           yield* _fetchFixed(
             tautulliId: event.tautulliId,
             useCachedList: true,
+            settingsBloc: _settingsBlocCache,
           );
         } else {
           yield* _fetchInitial(
             tautulliId: event.tautulliId,
             mediaType: _mediaTypeCache,
             useCachedList: true,
+            settingsBloc: _settingsBlocCache,
           );
         }
       }
@@ -72,6 +77,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           tautulliId: event.tautulliId,
           currentState: currentState,
           mediaType: event.mediaType,
+          settingsBloc: _settingsBlocCache,
         );
       }
 
@@ -82,11 +88,15 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
       _mediaTypeCache = event.mediaType;
 
       if (event.mediaType == 'all') {
-        yield* _fetchFixed(tautulliId: event.tautulliId);
+        yield* _fetchFixed(
+          tautulliId: event.tautulliId,
+          settingsBloc: _settingsBlocCache,
+        );
       } else {
         yield* _fetchInitial(
           tautulliId: event.tautulliId,
           mediaType: event.mediaType,
+          settingsBloc: _settingsBlocCache,
         );
       }
 
@@ -97,6 +107,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
   Stream<RecentlyAddedState> _fetchFixed({
     @required String tautulliId,
     bool useCachedList = false,
+    @required SettingsBloc settingsBloc,
   }) async* {
     if (useCachedList &&
         _recentListCache != null &&
@@ -109,6 +120,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
       final failureOrRecentList = await recentlyAdded(
         tautulliId: tautulliId,
         count: 50,
+        settingsBloc: settingsBloc,
       );
 
       yield* failureOrRecentList.fold(
@@ -124,7 +136,11 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           );
         },
         (list) async* {
-          await _getImages(list: list, tautulliId: tautulliId);
+          await _getImages(
+            list: list,
+            tautulliId: tautulliId,
+            settingsBloc: settingsBloc,
+          );
 
           _recentListCache = list;
           _hasReachedMaxCache = true;
@@ -142,6 +158,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
     @required String tautulliId,
     String mediaType,
     bool useCachedList = false,
+    @required SettingsBloc settingsBloc,
   }) async* {
     if (useCachedList &&
         _recentListCache != null &&
@@ -155,6 +172,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         tautulliId: tautulliId,
         count: 25,
         mediaType: mediaType,
+        settingsBloc: settingsBloc,
       );
 
       yield* failureOrRecentList.fold(
@@ -170,7 +188,11 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           );
         },
         (list) async* {
-          await _getImages(list: list, tautulliId: tautulliId);
+          await _getImages(
+            list: list,
+            tautulliId: tautulliId,
+            settingsBloc: settingsBloc,
+          );
 
           _recentListCache = list;
           _hasReachedMaxCache = list.length < 25;
@@ -188,12 +210,14 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
     @required String tautulliId,
     @required RecentlyAddedSuccess currentState,
     String mediaType,
+    @required SettingsBloc settingsBloc,
   }) async* {
     final failureOrRecentList = await recentlyAdded(
       tautulliId: tautulliId,
       count: 25,
       start: currentState.list.length,
       mediaType: mediaType,
+      settingsBloc: settingsBloc,
     );
 
     yield* failureOrRecentList.fold(
@@ -212,7 +236,11 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         if (list.isEmpty) {
           yield currentState.copyWith(hasReachedMax: true);
         } else {
-          await _getImages(list: list, tautulliId: tautulliId);
+          await _getImages(
+            list: list,
+            tautulliId: tautulliId,
+            settingsBloc: settingsBloc,
+          );
 
           _recentListCache = currentState.list + list;
           _hasReachedMaxCache = list.length < 25;
@@ -229,6 +257,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
   Future<void> _getImages({
     @required List<RecentItem> list,
     @required String tautulliId,
+    @required SettingsBloc settingsBloc,
   }) async {
     for (RecentItem recentItem in list) {
       //* Fetch and assign image URLs
@@ -268,6 +297,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         img: posterImg,
         ratingKey: posterRatingKey,
         fallback: posterFallback,
+        settingsBloc: settingsBloc,
       );
       failureOrPosterUrl.fold(
         (failure) {

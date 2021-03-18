@@ -35,7 +35,12 @@ class ActivityPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ActivityBloc>(
-          create: (_) => sl<ActivityBloc>()..add(ActivityLoadAndRefresh()),
+          create: (_) => sl<ActivityBloc>()
+            ..add(
+              ActivityLoadAndRefresh(
+                settingsBloc: context.read<SettingsBloc>(),
+              ),
+            ),
         ),
         BlocProvider<GeoIpBloc>(
           create: (_) => sl<GeoIpBloc>(),
@@ -79,7 +84,11 @@ class _ActivityPageContentState extends State<ActivityPageContent>
       context.read<ActivityBloc>().add(ActivityAutoRefreshStop());
     }
     if (state == AppLifecycleState.resumed) {
-      context.read<ActivityBloc>().add(ActivityLoadAndRefresh());
+      context.read<ActivityBloc>().add(
+            ActivityLoadAndRefresh(
+              settingsBloc: context.read<SettingsBloc>(),
+            ),
+          );
     }
   }
 
@@ -143,9 +152,11 @@ class _ActivityPageContentState extends State<ActivityPageContent>
 
                     return RefreshIndicator(
                       onRefresh: () {
-                        context
-                            .read<ActivityBloc>()
-                            .add(ActivityLoadAndRefresh());
+                        context.read<ActivityBloc>().add(
+                              ActivityLoadAndRefresh(
+                                settingsBloc: context.read<SettingsBloc>(),
+                              ),
+                            );
                         return _refreshCompleter.future;
                       },
                       child: multiserver

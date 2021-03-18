@@ -11,6 +11,8 @@ import 'package:tautulli_remote/features/libraries/domain/entities/library_media
 import 'package:tautulli_remote/features/libraries/domain/usecases/get_library_media_info.dart';
 import 'package:tautulli_remote/features/libraries/presentation/bloc/library_media_bloc.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -18,22 +20,30 @@ class MockGetLibraryMediaInfo extends Mock implements GetLibraryMediaInfo {}
 
 class MockGetImageUrl extends Mock implements GetImageUrl {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   LibraryMediaBloc bloc;
   MockGetLibraryMediaInfo mockGetLibraryMediaInfo;
   MockGetImageUrl mockGetImageUrl;
+  MockSettings mockSettings;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockGetLibraryMediaInfo = MockGetLibraryMediaInfo();
     mockGetImageUrl = MockGetImageUrl();
     mockLogging = MockLogging();
-
+    mockSettings = MockSettings();
     bloc = LibraryMediaBloc(
       getLibraryMediaInfo: mockGetLibraryMediaInfo,
       getImageUrl: mockGetImageUrl,
+      logging: mockLogging,
+    );
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
       logging: mockLogging,
     );
   });
@@ -57,6 +67,7 @@ void main() {
         img: anyNamed('img'),
         ratingKey: anyNamed('ratingKey'),
         fallback: anyNamed('fallback'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(imageUrl));
     when(
@@ -67,6 +78,7 @@ void main() {
         length: anyNamed('length'),
         refresh: anyNamed('refresh'),
         timeoutOverride: anyNamed('timeoutOverride'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(tLibraryMediaList));
   }
@@ -91,6 +103,7 @@ void main() {
           LibraryMediaFetched(
             tautulliId: tTautulliId,
             sectionId: tSectionId,
+            settingsBloc: settingsBloc,
           ),
         );
         await untilCalled(
@@ -102,6 +115,7 @@ void main() {
             length: anyNamed('length'),
             refresh: anyNamed('refresh'),
             timeoutOverride: anyNamed('timeoutOverride'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
@@ -113,6 +127,7 @@ void main() {
           length: anyNamed('length'),
           refresh: anyNamed('refresh'),
           timeoutOverride: anyNamed('timeoutOverride'),
+          settingsBloc: anyNamed('settingsBloc'),
         ));
       },
     );
@@ -128,6 +143,7 @@ void main() {
           LibraryMediaFetched(
             tautulliId: tTautulliId,
             sectionId: tSectionId,
+            settingsBloc: settingsBloc,
           ),
         );
         await untilCalled(
@@ -136,6 +152,7 @@ void main() {
             img: anyNamed('img'),
             ratingKey: anyNamed('ratingKey'),
             fallback: anyNamed('fallback'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
@@ -145,6 +162,7 @@ void main() {
             img: anyNamed('img'),
             ratingKey: anyNamed('ratingKey'),
             fallback: anyNamed('fallback'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
       },
@@ -168,6 +186,7 @@ void main() {
         bloc.add(LibraryMediaFetched(
           tautulliId: tTautulliId,
           sectionId: tSectionId,
+          settingsBloc: settingsBloc,
         ));
       },
     );
@@ -185,6 +204,7 @@ void main() {
           length: anyNamed('length'),
           refresh: anyNamed('refresh'),
           timeoutOverride: anyNamed('timeoutOverride'),
+          settingsBloc: anyNamed('settingsBloc'),
         )).thenAnswer((_) async => Left(failure));
         // assert later
         final expected = [
@@ -200,6 +220,7 @@ void main() {
         bloc.add(LibraryMediaFetched(
           tautulliId: tTautulliId,
           sectionId: tSectionId,
+          settingsBloc: settingsBloc,
         ));
       },
     );

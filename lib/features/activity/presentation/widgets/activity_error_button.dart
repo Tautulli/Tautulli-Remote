@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/activity_bloc.dart';
 
 class ActivityErrorButton extends StatelessWidget {
@@ -38,7 +39,11 @@ class ActivityErrorButton extends StatelessWidget {
             ),
             label: Text('Retry'),
             onPressed: () {
-              context.read<ActivityBloc>().add(ActivityLoadAndRefresh());
+              context.read<ActivityBloc>().add(
+                    ActivityLoadAndRefresh(
+                      settingsBloc: context.read<SettingsBloc>(),
+                    ),
+                  );
               return completer.future;
             },
           );

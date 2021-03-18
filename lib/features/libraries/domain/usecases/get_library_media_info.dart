@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../entities/library_media.dart';
 import '../repositories/library_media_repository.dart';
 
@@ -19,6 +20,7 @@ class GetLibraryMediaInfo {
     int length,
     bool refresh,
     int timeoutOverride,
+    @required SettingsBloc settingsBloc,
   }) async {
     return await repository.getLibraryMediaInfo(
       tautulliId: tautulliId,
@@ -29,6 +31,7 @@ class GetLibraryMediaInfo {
       length: length,
       refresh: refresh,
       timeoutOverride: timeoutOverride,
+      settingsBloc: settingsBloc,
     );
   }
 }

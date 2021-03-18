@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 abstract class GetSyncedItems {
@@ -7,6 +8,7 @@ abstract class GetSyncedItems {
     @required String tautulliId,
     String machineId,
     int userId,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -20,6 +22,7 @@ class GetSyncedItemsImpl implements GetSyncedItems {
     @required String tautulliId,
     String machineId,
     int userId,
+    @required SettingsBloc settingsBloc,
   }) async {
     Map<String, String> params = {};
 
@@ -34,6 +37,7 @@ class GetSyncedItemsImpl implements GetSyncedItems {
       tautulliId: tautulliId,
       cmd: 'get_synced_items',
       params: params,
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

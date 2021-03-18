@@ -5,6 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/network/network_info.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/users/data/datasources/users_data_source.dart';
 import 'package:tautulli_remote/features/users/data/models/user_model.dart';
 import 'package:tautulli_remote/features/users/data/models/user_table_model.dart';
@@ -18,10 +21,17 @@ class MockUsersDataSource extends Mock implements UsersDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   UsersTableRepositoryImpl repository;
   MockUsersDataSource mockUsersDataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockUsersDataSource = MockUsersDataSource();
@@ -29,6 +39,12 @@ void main() {
     repository = UsersTableRepositoryImpl(
       dataSource: mockUsersDataSource,
       networkInfo: mockNetworkInfo,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -54,7 +70,10 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getUserNames(tautulliId: tTautulliId);
+        repository.getUserNames(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         verify(mockNetworkInfo.isConnected);
       },
@@ -71,11 +90,13 @@ void main() {
           // act
           await repository.getUserNames(
             tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
           );
           // assert
           verify(
             mockUsersDataSource.getUserNames(
               tautulliId: tTautulliId,
+              settingsBloc: settingsBloc,
             ),
           );
         },
@@ -88,11 +109,13 @@ void main() {
           when(
             mockUsersDataSource.getUserNames(
               tautulliId: anyNamed('tautulliId'),
+              settingsBloc: anyNamed('settingsBloc'),
             ),
           ).thenAnswer((_) async => tUsersList);
           // act
           final result = await repository.getUserNames(
             tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
           );
           // assert
           expect(result, equals(Right(tUsersList)));
@@ -109,6 +132,7 @@ void main() {
           // act
           final result = await repository.getUserNames(
             tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
           );
           // assert
           expect(result, equals(Left(ConnectionFailure())));
@@ -124,7 +148,10 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getUsersTable(tautulliId: tTautulliId);
+        repository.getUsersTable(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         verify(mockNetworkInfo.isConnected);
       },
@@ -141,11 +168,13 @@ void main() {
           // act
           await repository.getUsersTable(
             tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
           );
           // assert
           verify(
             mockUsersDataSource.getUsersTable(
               tautulliId: tTautulliId,
+              settingsBloc: settingsBloc,
             ),
           );
         },
@@ -164,11 +193,13 @@ void main() {
               start: anyNamed('start'),
               length: anyNamed('length'),
               search: anyNamed('search'),
+              settingsBloc: anyNamed('settingsBloc'),
             ),
           ).thenAnswer((_) async => tUsersTableList);
           // act
           final result = await repository.getUsersTable(
             tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
           );
           // assert
           expect(result, equals(Right(tUsersTableList)));
@@ -185,6 +216,7 @@ void main() {
           // act
           final result = await repository.getUsersTable(
             tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
           );
           // assert
           expect(result, equals(Left(ConnectionFailure())));

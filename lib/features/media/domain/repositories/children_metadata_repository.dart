@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../entities/metadata_item.dart';
 
 abstract class ChildrenMetadataRepository {
@@ -9,5 +10,6 @@ abstract class ChildrenMetadataRepository {
     @required String tautulliId,
     @required int ratingKey,
     String mediaType,
+    @required SettingsBloc settingsBloc,
   });
 }

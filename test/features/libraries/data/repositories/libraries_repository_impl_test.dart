@@ -9,6 +9,9 @@ import 'package:tautulli_remote/features/libraries/data/datasources/libraries_da
 import 'package:tautulli_remote/features/libraries/data/models/library_model.dart';
 import 'package:tautulli_remote/features/libraries/data/repositories/libraries_repository_impl.dart';
 import 'package:tautulli_remote/features/libraries/domain/entities/library.dart';
+import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -16,10 +19,17 @@ class MockLibrariesDataSource extends Mock implements LibrariesDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockSettings extends Mock implements Settings {}
+
+class MockLogging extends Mock implements Logging {}
+
 void main() {
   LibrariesRepositoryImpl repository;
   MockLibrariesDataSource mockLibrariesDataSource;
   MockNetworkInfo mockNetworkInfo;
+  MockSettings mockSettings;
+  MockLogging mockLogging;
+  SettingsBloc settingsBloc;
 
   setUp(() {
     mockLibrariesDataSource = MockLibrariesDataSource();
@@ -27,6 +37,12 @@ void main() {
     repository = LibrariesRepositoryImpl(
       dataSource: mockLibrariesDataSource,
       networkInfo: mockNetworkInfo,
+    );
+    mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
     );
   });
 
@@ -46,7 +62,10 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       // act
-      repository.getLibrariesTable(tautulliId: tTautulliId);
+      repository.getLibrariesTable(
+        tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
+      );
       // assert
       verify(mockNetworkInfo.isConnected);
     },
@@ -61,10 +80,16 @@ void main() {
       'should call the data source getLibrariesTable()',
       () async {
         // act
-        await repository.getLibrariesTable(tautulliId: tTautulliId);
+        await repository.getLibrariesTable(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         verify(
-          mockLibrariesDataSource.getLibrariesTable(tautulliId: tTautulliId),
+          mockLibrariesDataSource.getLibrariesTable(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          ),
         );
       },
     );
@@ -76,10 +101,14 @@ void main() {
         when(
           mockLibrariesDataSource.getLibrariesTable(
             tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
           ),
         ).thenAnswer((_) async => tLibrariesList);
         // act
-        final result = await repository.getLibrariesTable(tautulliId: tTautulliId);
+        final result = await repository.getLibrariesTable(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         expect(result, equals(Right(tLibrariesList)));
       },
@@ -93,7 +122,10 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
         // act
-        final result = await repository.getLibrariesTable(tautulliId: tTautulliId);
+        final result = await repository.getLibrariesTable(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
         // assert
         expect(result, equals(Left(ConnectionFailure())));
       },

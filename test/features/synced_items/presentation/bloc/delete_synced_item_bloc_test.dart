@@ -2,22 +2,33 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
+import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/synced_items/domain/usecases/delete_synced_item.dart';
 import 'package:tautulli_remote/features/synced_items/presentation/bloc/delete_synced_item_bloc.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 
 class MockDeleteSyncedItem extends Mock implements DeleteSyncedItem {}
 
+class MockSettings extends Mock implements Settings {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   MockDeleteSyncedItem mockDeleteSyncedItem;
+  MockSettings mockSettings;
   MockLogging mockLogging;
+  SettingsBloc settingsBloc;
   DeleteSyncedItemBloc bloc;
 
   setUp(() {
     mockDeleteSyncedItem = MockDeleteSyncedItem();
     mockLogging = MockLogging();
+    mockSettings = MockSettings();
+    settingsBloc = SettingsBloc(
+      settings: mockSettings,
+      logging: mockLogging,
+    );
 
     bloc = DeleteSyncedItemBloc(
       deleteSyncedItem: mockDeleteSyncedItem,
@@ -35,6 +46,7 @@ void main() {
         tautulliId: anyNamed('tautulliId'),
         clientId: anyNamed('clientId'),
         syncId: anyNamed('syncId'),
+        settingsBloc: anyNamed('settingsBloc'),
       ),
     ).thenAnswer((_) async => Right(true));
   }
@@ -59,6 +71,7 @@ void main() {
             tautulliId: tTautulliId,
             clientId: tClientId,
             syncId: tSyncId,
+            settingsBloc: settingsBloc,
           ),
         );
         await untilCalled(
@@ -66,6 +79,7 @@ void main() {
             tautulliId: anyNamed('tautulliId'),
             clientId: anyNamed('clientId'),
             syncId: anyNamed('syncId'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         );
         // assert
@@ -74,6 +88,7 @@ void main() {
             tautulliId: tTautulliId,
             clientId: tClientId,
             syncId: tSyncId,
+            settingsBloc: settingsBloc,
           ),
         );
       },
@@ -96,6 +111,7 @@ void main() {
             tautulliId: tTautulliId,
             clientId: tClientId,
             syncId: tSyncId,
+            settingsBloc: settingsBloc,
           ),
         );
       },
@@ -110,6 +126,7 @@ void main() {
             tautulliId: anyNamed('tautulliId'),
             clientId: anyNamed('clientId'),
             syncId: anyNamed('syncId'),
+            settingsBloc: anyNamed('settingsBloc'),
           ),
         ).thenAnswer((_) async => Left(DeleteSyncedFailure()));
         // assert later
@@ -124,6 +141,7 @@ void main() {
             tautulliId: tTautulliId,
             clientId: tClientId,
             syncId: tSyncId,
+            settingsBloc: settingsBloc,
           ),
         );
       },

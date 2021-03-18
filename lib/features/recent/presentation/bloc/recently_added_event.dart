@@ -7,14 +7,16 @@ abstract class RecentlyAddedEvent extends Equatable {
 class RecentlyAddedFetched extends RecentlyAddedEvent {
   final String tautulliId;
   final String mediaType;
+  final SettingsBloc settingsBloc;
 
   RecentlyAddedFetched({
     @required this.tautulliId,
     @required this.mediaType,
+    @required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [tautulliId, mediaType];
+  List<Object> get props => [tautulliId, mediaType, settingsBloc];
 }
 
 class RecentlyAddedFilter extends RecentlyAddedEvent {

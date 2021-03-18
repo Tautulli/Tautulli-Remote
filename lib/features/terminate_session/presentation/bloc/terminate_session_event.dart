@@ -13,12 +13,14 @@ class TerminateSessionStarted extends TerminateSessionEvent {
   final String sessionId;
   final String message;
   final SlidableState slidableState;
+  final SettingsBloc settingsBloc;
 
   TerminateSessionStarted({
     this.slidableState,
     @required this.tautulliId,
     @required this.sessionId,
     this.message,
+    @required this.settingsBloc,
   });
 
   @override
@@ -27,5 +29,6 @@ class TerminateSessionStarted extends TerminateSessionEvent {
         sessionId,
         message,
         slidableState,
+        settingsBloc,
       ];
 }

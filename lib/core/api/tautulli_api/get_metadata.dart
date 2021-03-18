@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import 'connection_handler.dart';
 
 abstract class GetMetadata {
@@ -7,6 +8,7 @@ abstract class GetMetadata {
     @required String tautulliId,
     int ratingKey,
     int syncId,
+    @required SettingsBloc settingsBloc,
   });
 }
 
@@ -20,6 +22,7 @@ class GetMetadataImpl implements GetMetadata {
     @required String tautulliId,
     int ratingKey,
     int syncId,
+    @required SettingsBloc settingsBloc,
   }) async {
     Map<String, String> params = {};
 
@@ -34,6 +37,7 @@ class GetMetadataImpl implements GetMetadata {
       tautulliId: tautulliId,
       cmd: 'get_metadata',
       params: params,
+      settingsBloc: settingsBloc,
     );
 
     return responseJson;

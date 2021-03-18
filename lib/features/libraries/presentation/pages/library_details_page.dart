@@ -101,6 +101,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
           tautulliId: _tautulliId,
           sectionId: widget.library != null ? widget.library.sectionId : null,
           ratingKey: widget.ratingKey,
+          settingsBloc: context.read<SettingsBloc>(),
         ),
       );
     }
@@ -160,6 +161,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
           tautulliId: _tautulliId,
           sectionId: widget.library != null ? widget.library.sectionId : null,
           ratingKey: widget.ratingKey,
+          settingsBloc: context.read<SettingsBloc>(),
         ),
       );
     }
