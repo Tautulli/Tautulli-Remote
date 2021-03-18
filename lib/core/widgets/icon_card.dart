@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 class IconCard extends StatelessWidget {
-  final String assetPath;
+  final String localIconImagePath;
+  final String iconImageUrl;
   final Color backgroundColor;
   final Color iconColor;
   final Image backgroundImage;
@@ -12,7 +13,8 @@ class IconCard extends StatelessWidget {
 
   const IconCard({
     Key key,
-    @required this.assetPath,
+    this.localIconImagePath,
+    this.iconImageUrl,
     this.backgroundColor,
     this.iconColor,
     this.backgroundImage,
@@ -43,12 +45,17 @@ class IconCard extends StatelessWidget {
                       aspectRatio: 2 / 3,
                       child: Padding(
                         padding: const EdgeInsets.all(4),
-                        child: assetPath != null
-                            ? WebsafeSvg.asset(
-                                assetPath,
-                                color: iconColor,
+                        child: iconImageUrl != null
+                            ? Image.network(
+                                iconImageUrl,
+                                fit: BoxFit.contain,
                               )
-                            : null,
+                            : localIconImagePath != null
+                                ? WebsafeSvg.asset(
+                                    localIconImagePath,
+                                    color: iconColor,
+                                  )
+                                : null,
                       ),
                     ),
                     Expanded(
