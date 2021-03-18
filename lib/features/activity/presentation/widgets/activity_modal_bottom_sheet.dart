@@ -275,6 +275,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                         builder: (context) => MediaItemPage(
                                           item: mediaItem,
                                           enableNavOptions: true,
+                                          tautulliIdOverride: widget.tautulliId,
                                         ),
                                       ),
                                     );

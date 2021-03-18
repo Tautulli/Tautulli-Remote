@@ -24,6 +24,7 @@ class MediaItemPage extends StatelessWidget {
   final Object heroTag;
   final bool forceChildrenMetadataFetch;
   final bool enableNavOptions;
+  final String tautulliIdOverride;
 
   const MediaItemPage({
     @required this.item,
@@ -31,6 +32,7 @@ class MediaItemPage extends StatelessWidget {
     this.heroTag,
     this.forceChildrenMetadataFetch = false,
     this.enableNavOptions = false,
+    this.tautulliIdOverride,
     Key key,
   }) : super(key: key);
 
@@ -51,6 +53,7 @@ class MediaItemPage extends StatelessWidget {
         heroTag: heroTag,
         forceChildrenMetadataFetch: forceChildrenMetadataFetch,
         enableNavOptions: enableNavOptions,
+        tautulliIdOverride: tautulliIdOverride,
       ),
     );
   }
@@ -62,6 +65,7 @@ class MediaItemPageContent extends StatefulWidget {
   final Object heroTag;
   final bool forceChildrenMetadataFetch;
   final bool enableNavOptions;
+  final String tautulliIdOverride;
 
   const MediaItemPageContent({
     Key key,
@@ -70,6 +74,7 @@ class MediaItemPageContent extends StatefulWidget {
     @required this.heroTag,
     @required this.forceChildrenMetadataFetch,
     @required this.enableNavOptions,
+    this.tautulliIdOverride,
   }) : super(key: key);
 
   @override
@@ -96,7 +101,15 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
       String lastSelectedServer;
       String plexIdentifier;
 
-      if (settingsState.lastSelectedServer != null) {
+      if (widget.tautulliIdOverride != null) {
+        for (Server server in settingsState.serverList) {
+          if (server.tautulliId == widget.tautulliIdOverride) {
+            lastSelectedServer = widget.tautulliIdOverride;
+            plexIdentifier = server.plexIdentifier;
+            break;
+          }
+        }
+      } else if (settingsState.lastSelectedServer != null) {
         for (Server server in settingsState.serverList) {
           if (server.tautulliId == settingsState.lastSelectedServer) {
             lastSelectedServer = settingsState.lastSelectedServer;
@@ -155,6 +168,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
           item: widget.item,
           plexIdentifier: _plexIdentifier,
           enableNavOptions: widget.enableNavOptions,
+          tautulliIdOverride: widget.tautulliIdOverride,
         ),
       ),
       body: Stack(
@@ -370,6 +384,7 @@ List<Widget> _appBarActions({
   @required MediaItem item,
   @required String plexIdentifier,
   @required bool enableNavOptions,
+  String tautulliIdOverride,
 }) {
   return [
     BlocBuilder<MetadataBloc, MetadataState>(
@@ -425,6 +440,7 @@ List<Widget> _appBarActions({
                         return MediaItemPage(
                           item: mediaItem,
                           enableNavOptions: enableNavOptions,
+                          tautulliIdOverride: tautulliIdOverride,
                         );
                       },
                     ),
