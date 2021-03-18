@@ -1,5 +1,3 @@
-import 'package:quiver/iterables.dart';
-
 import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/metadata_item.dart';
 

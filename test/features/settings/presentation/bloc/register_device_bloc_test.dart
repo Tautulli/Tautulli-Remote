@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tautulli_remote/core/database/data/models/server_model.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
@@ -39,35 +38,8 @@ void main() {
 
   final String tQrCodeResult =
       'http://tautulli.com|abcdefghijklmnopqrstuvwxyzabcdef';
-  final int tId = 1;
   final String tPrimaryConnectionAddress = 'http://tautulli.com';
-  final String tPrimaryConnectionProtocol = 'http';
-  final String tPrimaryConnectionDomain = 'tautulli.com';
-  final String tPrimaryConnectionPath = '/tautulli';
   final String tDeviceToken = 'abc';
-  final String tTautulliId = 'jkl';
-  final String tPlexName = 'Plex';
-  final String tPlexIdentifier = 'xyz';
-
-  final Map<String, String> tPrimaryConnectionMap = {
-    'protocol': tPrimaryConnectionProtocol,
-    'domain': tPrimaryConnectionDomain,
-    'user': tPrimaryConnectionPath,
-  };
-
-  final ServerModel tServerModel = ServerModel(
-    id: tId,
-    primaryConnectionAddress: tPrimaryConnectionAddress,
-    primaryConnectionProtocol: tPrimaryConnectionDomain,
-    primaryConnectionDomain: tPrimaryConnectionDomain,
-    primaryConnectionPath: tPrimaryConnectionPath,
-    deviceToken: tDeviceToken,
-    tautulliId: tTautulliId,
-    plexName: tPlexName,
-    plexIdentifier: tPlexIdentifier,
-    primaryActive: true,
-    plexPass: true,
-  );
 
   Map responseMap = {
     "data": {

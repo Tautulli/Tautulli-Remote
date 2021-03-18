@@ -17,7 +17,6 @@ class HelpPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Help & Support'),
       ),
-      //TODO: Build out help topics
       body: Padding(
         padding: const EdgeInsets.only(top: 8),
         child: ListView(

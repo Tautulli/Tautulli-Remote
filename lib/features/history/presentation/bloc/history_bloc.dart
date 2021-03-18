@@ -17,7 +17,6 @@ part 'history_event.dart';
 part 'history_state.dart';
 
 List<History> _historyListCache;
-bool _hasReachedMaxCache;
 int _userIdCache;
 String _mediaTypeCache;
 String _tautulliIdCache;
@@ -76,6 +75,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           tautulliId: event.tautulliId,
           userId: event.userId,
           mediaType: event.mediaType,
+          start: event.start,
           settingsBloc: _settingsBlocCache,
         );
       }
@@ -168,7 +168,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           );
 
           _historyListCache = list;
-          _hasReachedMaxCache = list.length < 25;
 
           yield HistorySuccess(
             list: list,
@@ -235,8 +234,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       },
       (list) async* {
         if (list.isEmpty) {
-          _hasReachedMaxCache = true;
-
           yield currentState.copyWith(hasReachedMax: true);
         } else {
           await _getImages(
@@ -246,7 +243,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           );
 
           _historyListCache = currentState.list + list;
-          _hasReachedMaxCache = list.length < 25;
 
           yield HistorySuccess(
             list: currentState.list + list,
@@ -317,7 +313,6 @@ bool _hasReachedMax(HistoryState state) =>
 
 void clearCache() {
   _historyListCache = null;
-  _hasReachedMaxCache = null;
   _userIdCache = null;
   _mediaTypeCache = null;
   _tautulliIdCache = null;

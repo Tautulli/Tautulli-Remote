@@ -36,8 +36,6 @@ class _ServerTimeoutDialogState extends State<ServerTimeoutDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final settingsBloc = context.read<SettingsBloc>();
-
     return SimpleDialog(
       title: Text('Server Timeout'),
       children: <Widget>[

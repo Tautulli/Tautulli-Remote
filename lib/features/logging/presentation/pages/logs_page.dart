@@ -103,9 +103,6 @@ class _LogsPageContentState extends State<_LogsPageContent> {
           }
         },
         builder: (context, state) {
-          if (state is LogsInitial) {
-            return Container(height: 0, width: 0);
-          }
           if (state is LogsFailure) {
             return Center(
               child: Text(
@@ -126,6 +123,8 @@ class _LogsPageContentState extends State<_LogsPageContent> {
               refreshCompleter: _refreshCompleter,
             );
           }
+
+          return SizedBox(height: 0, width: 0);
         },
       ),
     );

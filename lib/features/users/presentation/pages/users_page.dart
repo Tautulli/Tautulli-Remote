@@ -412,6 +412,8 @@ class _UsersPageContentState extends State<UsersPageContent> {
         );
       }
     }
+
+    return FaIcon(FontAwesomeIcons.questionCircle);
   }
 
   String _currentSortName() {
@@ -420,6 +422,8 @@ class _UsersPageContentState extends State<UsersPageContent> {
         return 'Name';
       case ('last_seen'):
         return 'Last Streamed';
+      default:
+        return 'unknown';
     }
   }
 }

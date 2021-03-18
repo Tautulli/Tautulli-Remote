@@ -17,7 +17,6 @@ part 'history_libraries_event.dart';
 part 'history_libraries_state.dart';
 
 Map<int, List<History>> _historyListCacheMap = {};
-bool _hasReachedMaxCache;
 String _tautulliIdCache;
 
 class HistoryLibrariesBloc
@@ -66,6 +65,7 @@ class HistoryLibrariesBloc
           currentState: currentState,
           tautulliId: event.tautulliId,
           sectionId: event.sectionId,
+          start: event.start,
           settingsBloc: event.settingsBloc,
         );
       }
@@ -144,7 +144,6 @@ class HistoryLibrariesBloc
           );
 
           _historyListCacheMap[sectionId] = list;
-          _hasReachedMaxCache = list.length < 25;
 
           yield HistoryLibrariesSuccess(
             list: list,
@@ -211,8 +210,6 @@ class HistoryLibrariesBloc
       },
       (list) async* {
         if (list.isEmpty) {
-          _hasReachedMaxCache = true;
-
           yield currentState.copyWith(hasReachedMax: true);
         } else {
           await _getImages(
@@ -222,7 +219,6 @@ class HistoryLibrariesBloc
           );
 
           _historyListCacheMap[sectionId] = currentState.list + list;
-          _hasReachedMaxCache = list.length < 25;
 
           yield HistoryLibrariesSuccess(
             list: currentState.list + list,
@@ -293,6 +289,5 @@ bool _hasReachedMax(HistoryLibrariesState state) =>
 
 void clearCache() {
   _historyListCacheMap = {};
-  _hasReachedMaxCache = null;
   _tautulliIdCache = null;
 }

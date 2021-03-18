@@ -455,6 +455,8 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
         return 'Duration';
       case ('plays'):
         return 'Plays';
+      default:
+        return 'unknown';
     }
   }
 }

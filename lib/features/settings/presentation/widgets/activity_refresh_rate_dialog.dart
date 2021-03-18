@@ -37,8 +37,6 @@ class _ActivityRefreshRateDialogState extends State<ActivityRefreshRateDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final settingsBloc = context.read<SettingsBloc>();
-
     return SimpleDialog(
       title: Text('Activity Refresh Rate'),
       children: <Widget>[

@@ -20,7 +20,6 @@ part 'history_individual_state.dart';
 
 Map<int, List<History>> _historyListCacheMap = {};
 List<UserTable> _userTableListCache = [];
-bool _hasReachedMaxCache;
 String _tautulliIdCache;
 
 class HistoryIndividualBloc
@@ -77,6 +76,7 @@ class HistoryIndividualBloc
           ratingKey: event.ratingKey,
           parentRatingKey: event.parentRatingKey,
           grandparentRatingKey: event.grandparentRatingKey,
+          start: event.start,
           settingsBloc: event.settingsBloc,
         );
       }
@@ -161,7 +161,6 @@ class HistoryIndividualBloc
         (list) async* {
           int key = grandparentRatingKey ?? parentRatingKey ?? ratingKey;
           _historyListCacheMap[key] = list;
-          _hasReachedMaxCache = list.length < 25;
 
           if (_userTableListCache.isEmpty) {
             yield* failureOrUsersTable.fold(
@@ -242,13 +241,10 @@ class HistoryIndividualBloc
       },
       (list) async* {
         if (list.isEmpty) {
-          _hasReachedMaxCache = true;
-
           yield currentState.copyWith(hasReachedMax: true);
         } else {
           int key = grandparentRatingKey ?? parentRatingKey ?? ratingKey;
           _historyListCacheMap[key] = currentState.list + list;
-          _hasReachedMaxCache = list.length < 25;
 
           yield HistoryIndividualSuccess(
             list: currentState.list + list,
@@ -266,7 +262,5 @@ bool _hasReachedMax(HistoryIndividualState state) =>
 
 void clearCache() {
   _historyListCacheMap = {};
-  // _userTableListCache = [];
-  _hasReachedMaxCache = null;
   _tautulliIdCache = null;
 }
