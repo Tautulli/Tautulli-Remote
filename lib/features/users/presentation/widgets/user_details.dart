@@ -21,7 +21,7 @@ class UsersDetails extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          maskSensitiveInfo ? '*Hidden User*' : user.friendlyName,
+          maskSensitiveInfo ? '*Hidden User*' : user.friendlyName ?? '',
           overflow: TextOverflow.ellipsis,
           style: TextStyle(fontSize: 18),
         ),
@@ -48,8 +48,9 @@ class UsersDetails extends StatelessWidget {
   }
 
   RichText _playsAndDuration() {
-    Map<String, int> durationMap =
-        TimeFormatHelper.durationMap(Duration(seconds: user.duration));
+    Map<String, int> durationMap = TimeFormatHelper.durationMap(
+      Duration(seconds: user.duration ?? 0),
+    );
 
     return RichText(
       text: TextSpan(
