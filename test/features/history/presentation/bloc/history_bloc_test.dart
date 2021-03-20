@@ -50,14 +50,22 @@ void main() {
 
   final tTautulliId = 'jkl';
   final tMediaType = 'all';
+  String imageUrl =
+      'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
 
   final List<History> tHistoryList = [];
+  final List<History> tHistoryListWithImages = [];
   final List<History> tHistoryList25 = [];
+  final List<History> tHistoryList25WithImages = [];
 
   final historyJson = json.decode(fixture('history.json'));
   historyJson['response']['data']['data'].forEach((item) {
     tHistoryList.add(HistoryModel.fromJson(item));
   });
+
+  for (History item in tHistoryList) {
+    tHistoryListWithImages.add(item.copyWith(posterUrl: imageUrl));
+  }
 
   for (int i = 0; i < 25; i++) {
     historyJson['response']['data']['data'].forEach((item) {
@@ -65,9 +73,11 @@ void main() {
     });
   }
 
+  for (History item in tHistoryList25) {
+    tHistoryList25WithImages.add(item.copyWith(posterUrl: imageUrl));
+  }
+
   void setUpSuccess(List historyList) {
-    String imageUrl =
-        'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
     when(
       mockGetImageUrl(
         tautulliId: anyNamed('tautulliId'),
@@ -217,7 +227,7 @@ void main() {
         // assert later
         final expected = [
           HistorySuccess(
-            list: tHistoryList25,
+            list: tHistoryList25WithImages,
             hasReachedMax: false,
           ),
         ];
@@ -285,14 +295,14 @@ void main() {
         clearCache();
         bloc.emit(
           HistorySuccess(
-            list: tHistoryList25,
+            list: tHistoryList25WithImages,
             hasReachedMax: false,
           ),
         );
         // assert later
         final expected = [
           HistorySuccess(
-            list: tHistoryList25 + tHistoryList25,
+            list: tHistoryList25WithImages + tHistoryList25WithImages,
             hasReachedMax: false,
           ),
         ];
@@ -314,14 +324,14 @@ void main() {
         clearCache();
         bloc.emit(
           HistorySuccess(
-            list: tHistoryList,
+            list: tHistoryListWithImages,
             hasReachedMax: false,
           ),
         );
         // assert later
         final expected = [
           HistorySuccess(
-            list: tHistoryList + tHistoryList,
+            list: tHistoryListWithImages + tHistoryListWithImages,
             hasReachedMax: true,
           ),
         ];
@@ -347,7 +357,7 @@ void main() {
         final expected = [
           HistoryInitial(),
           HistorySuccess(
-            list: tHistoryList25,
+            list: tHistoryList25WithImages,
             hasReachedMax: false,
           ),
         ];

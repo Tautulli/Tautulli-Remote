@@ -41,9 +41,9 @@ class MetadataItemModel extends MetadataItem {
     final String videoFullResolution,
     final List writers,
     final int year,
-    String posterUrl,
-    String parentPosterUrl,
-    String grandparentPosterUrl,
+    final String posterUrl,
+    final String parentPosterUrl,
+    final String grandparentPosterUrl,
   }) : super(
           actors: actors,
           art: art,

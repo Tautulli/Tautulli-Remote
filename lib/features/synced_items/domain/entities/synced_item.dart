@@ -26,7 +26,7 @@ class SyncedItem extends Equatable {
   final String username;
   // final int videoBitrate;
   final int videoQuality;
-  String posterUrl;
+  final String posterUrl;
 
   SyncedItem({
     // this.audioBitrate,
@@ -56,6 +56,39 @@ class SyncedItem extends Equatable {
     this.videoQuality,
     this.posterUrl,
   });
+
+  SyncedItem copyWith({
+    String posterUrl,
+  }) {
+    return SyncedItem(
+      // audioBitrate: this.audioBitrate,
+      clientId: this.clientId,
+      // contentType: this.contentType,
+      deviceName: this.deviceName,
+      // failure: this.failure,
+      // itemDownloadedCount: this.itemDownloadedCount,
+      // itemDownloadedPercentComplete: this.itemDownloadedPercentComplete,
+      itemCompleteCount: this.itemCompleteCount,
+      // itemCount: this.itemCount,
+      mediaType: this.mediaType,
+      multipleRatingKeys: this.multipleRatingKeys,
+      // photoBitrate: this.photoBitrate,
+      platform: this.platform,
+      ratingKey: this.ratingKey,
+      rootTitle: this.rootTitle,
+      state: this.state,
+      syncId: this.syncId,
+      syncMediaType: this.syncMediaType,
+      syncTitle: this.syncTitle,
+      totalSize: this.totalSize,
+      user: this.user,
+      userId: this.userId,
+      username: this.username,
+      // videoBitrate: this.videoBitrate,
+      videoQuality: this.videoQuality,
+      posterUrl: posterUrl,
+    );
+  }
 
   @override
   List<Object> get props => [

@@ -137,17 +137,17 @@ class HistoryLibrariesBloc
           );
         },
         (list) async* {
-          await _getImages(
+          List<History> updatedList = await _getImages(
             list: list,
             tautulliId: tautulliId,
             settingsBloc: settingsBloc,
           );
 
-          _historyListCacheMap[sectionId] = list;
+          _historyListCacheMap[sectionId] = updatedList;
 
           yield HistoryLibrariesSuccess(
-            list: list,
-            hasReachedMax: list.length < 25,
+            list: updatedList,
+            hasReachedMax: updatedList.length < 25,
           );
         },
       );
@@ -212,28 +212,30 @@ class HistoryLibrariesBloc
         if (list.isEmpty) {
           yield currentState.copyWith(hasReachedMax: true);
         } else {
-          await _getImages(
+          List<History> updatedList = await _getImages(
             list: list,
             tautulliId: tautulliId,
             settingsBloc: settingsBloc,
           );
 
-          _historyListCacheMap[sectionId] = currentState.list + list;
+          _historyListCacheMap[sectionId] = currentState.list + updatedList;
 
           yield HistoryLibrariesSuccess(
-            list: currentState.list + list,
-            hasReachedMax: list.length < 25,
+            list: currentState.list + updatedList,
+            hasReachedMax: updatedList.length < 25,
           );
         }
       },
     );
   }
 
-  Future<void> _getImages({
+  Future<List<History>> _getImages({
     @required List<History> list,
     @required String tautulliId,
     @required SettingsBloc settingsBloc,
   }) async {
+    List<History> newList = [];
+
     for (History historyItem in list) {
       //* Fetch and assign image URLs
       String posterImg;
@@ -277,10 +279,11 @@ class HistoryLibrariesBloc
           );
         },
         (url) {
-          historyItem.posterUrl = url;
+          newList.add(historyItem.copyWith(posterUrl: url));
         },
       );
     }
+    return newList;
   }
 }
 

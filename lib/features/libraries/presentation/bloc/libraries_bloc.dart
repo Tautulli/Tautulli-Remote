@@ -16,7 +16,6 @@ part 'libraries_event.dart';
 part 'libraries_state.dart';
 
 List<Library> _librariesListCache;
-Map<int, String> _imageMapCache;
 String _orderColumnCache;
 String _orderDirCache;
 String _tautulliIdCache;
@@ -83,7 +82,6 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
         _tautulliIdCache == tautulliId) {
       yield LibrariesSuccess(
         librariesList: _librariesListCache,
-        imageMap: _imageMapCache,
       );
     }
     final failureOrLibraries = await getLibrariesTable(
@@ -106,9 +104,12 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
         );
       },
       (librariesList) async* {
-        Map<int, String> imageMap = {};
+        List<Library> updatedList = [];
 
         for (Library library in librariesList) {
+          String backgroundUrl;
+          String iconUrl;
+
           final backgroundImageUrlOrFailure = await getImageUrl(
             tautulliId: tautulliId,
             img: library.libraryArt,
@@ -122,8 +123,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
               );
             },
             (url) {
-              // imageMap[library.sectionId] = url;
-              library.backgroundUrl = url;
+              backgroundUrl = url;
             },
           );
 
@@ -141,19 +141,20 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
                 );
               },
               (url) {
-                // imageMap[library.sectionId] = url;
-                library.iconUrl = url;
+                iconUrl = url;
               },
             );
           }
+          updatedList.add(library.copyWith(
+            backgroundUrl: backgroundUrl,
+            iconUrl: iconUrl,
+          ));
         }
 
-        _librariesListCache = librariesList;
-        _imageMapCache = imageMap;
+        _librariesListCache = updatedList;
 
         yield LibrariesSuccess(
-          librariesList: librariesList,
-          imageMap: imageMap,
+          librariesList: updatedList,
         );
       },
     );
@@ -162,7 +163,6 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
 
 void clearCache() {
   _librariesListCache = null;
-  _imageMapCache = null;
   _orderColumnCache = null;
   _orderDirCache = null;
   _tautulliIdCache = null;

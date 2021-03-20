@@ -129,20 +129,20 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
           libraryMediaList: libraryMediaList,
         );
 
-        await _getImages(
+        List<LibraryMedia> updatedList = await _getImages(
           list: libraryMediaList,
           tautulliId: tautulliId,
           settingsBloc: settingsBloc,
         );
 
         if (ratingKey != null) {
-          _libraryMediaListCache[ratingKey] = libraryMediaList;
+          _libraryMediaListCache[ratingKey] = updatedList;
         } else if (sectionId != null) {
-          _libraryMediaListCache[sectionId] = libraryMediaList;
+          _libraryMediaListCache[sectionId] = updatedList;
         }
 
         yield LibraryMediaSuccess(
-          libraryMediaList: libraryMediaList,
+          libraryMediaList: updatedList,
         );
       },
     );
@@ -161,11 +161,13 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
     }
   }
 
-  Future<void> _getImages({
+  Future<List<LibraryMedia>> _getImages({
     @required List<LibraryMedia> list,
     @required String tautulliId,
     @required SettingsBloc settingsBloc,
   }) async {
+    List<LibraryMedia> updatedList = [];
+
     for (LibraryMedia libraryMediaItem in list) {
       //* Fetch and assign image URLs
       String posterFallback;
@@ -198,10 +200,11 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
           );
         },
         (url) {
-          libraryMediaItem.posterUrl = url;
+          updatedList.add(libraryMediaItem.copyWith(posterUrl: url));
         },
       );
     }
+    return updatedList;
   }
 }
 

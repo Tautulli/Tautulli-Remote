@@ -14,12 +14,12 @@ class RecentItem extends Equatable {
   final int parentRatingKey;
   final String parentThumb;
   final String parentTitle;
-  String posterUrl;
   final int ratingKey;
   final int sectionId;
   final String thumb;
   final String title;
   final int year;
+  final String posterUrl;
 
   RecentItem({
     this.addedAt,
@@ -35,13 +35,39 @@ class RecentItem extends Equatable {
     this.parentRatingKey,
     this.parentThumb,
     this.parentTitle,
-    this.posterUrl,
     this.ratingKey,
     this.sectionId,
     this.thumb,
     this.title,
     this.year,
+    this.posterUrl,
   });
+
+  RecentItem copyWith({
+    String posterUrl,
+  }) {
+    return RecentItem(
+      addedAt: this.addedAt,
+      art: this.art,
+      childCount: this.childCount,
+      grandparentRatingKey: this.grandparentRatingKey,
+      grandparentThumb: this.grandparentThumb,
+      grandparentTitle: this.grandparentTitle,
+      libraryName: this.libraryName,
+      mediaIndex: this.mediaIndex,
+      mediaType: this.mediaType,
+      parentMediaIndex: this.parentMediaIndex,
+      parentRatingKey: this.parentRatingKey,
+      parentThumb: this.parentThumb,
+      parentTitle: this.parentTitle,
+      ratingKey: this.ratingKey,
+      sectionId: this.sectionId,
+      thumb: this.thumb,
+      title: this.title,
+      year: this.year,
+      posterUrl: posterUrl,
+    );
+  }
 
   @override
   List<Object> get props => [
@@ -58,12 +84,12 @@ class RecentItem extends Equatable {
         parentRatingKey,
         parentThumb,
         parentTitle,
-        posterUrl,
         ratingKey,
         sectionId,
         thumb,
         title,
         year,
+        posterUrl,
       ];
 
   @override

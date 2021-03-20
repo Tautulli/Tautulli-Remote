@@ -39,9 +39,9 @@ class MetadataItem extends Equatable {
   final String videoFullResolution;
   final List writers;
   final int year;
-  String posterUrl;
-  String parentPosterUrl;
-  String grandparentPosterUrl;
+  final String posterUrl;
+  final String parentPosterUrl;
+  final String grandparentPosterUrl;
 
   MetadataItem({
     this.actors,
@@ -86,6 +86,56 @@ class MetadataItem extends Equatable {
     this.parentPosterUrl,
     this.grandparentPosterUrl,
   });
+
+  MetadataItem copyWith({
+    String posterUrl,
+    String parentPosterUrl,
+    String grandparentPosterUrl,
+  }) {
+    return MetadataItem(
+      actors: this.actors,
+      art: this.art,
+      audioChannels: this.audioChannels,
+      audioCodec: this.audioCodec,
+      bitrate: this.bitrate,
+      childrenCount: this.childrenCount,
+      container: this.container,
+      contentRating: this.contentRating,
+      directors: this.directors,
+      duration: this.duration,
+      fileSize: this.fileSize,
+      genres: this.genres,
+      grandparentRatingKey: this.grandparentRatingKey,
+      grandparentThumb: this.grandparentThumb,
+      grandparentTitle: this.grandparentTitle,
+      maxYear: this.maxYear,
+      mediaIndex: this.mediaIndex,
+      mediaType: this.mediaType,
+      minYear: this.minYear,
+      originallyAvailableAt: this.originallyAvailableAt,
+      parentMediaIndex: this.parentMediaIndex,
+      parentRatingKey: this.parentRatingKey,
+      parentThumb: this.parentThumb,
+      parentTitle: this.parentTitle,
+      playlistType: this.playlistType,
+      rating: this.rating,
+      ratingImage: this.ratingImage,
+      ratingKey: this.ratingKey,
+      studio: this.studio,
+      subMediaType: this.subMediaType,
+      summary: this.summary,
+      tagline: this.tagline,
+      title: this.title,
+      thumb: this.thumb,
+      videoCodec: this.videoCodec,
+      videoFullResolution: this.videoFullResolution,
+      writers: this.writers,
+      year: this.year,
+      posterUrl: posterUrl,
+      parentPosterUrl: parentPosterUrl,
+      grandparentPosterUrl: grandparentPosterUrl,
+    );
+  }
 
   @override
   List<Object> get props => [

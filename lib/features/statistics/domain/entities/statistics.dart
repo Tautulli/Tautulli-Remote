@@ -37,8 +37,8 @@ class Statistics extends Equatable {
   final int usersWatched;
   final String userThumb;
   final int year;
-  String iconUrl;
-  String posterUrl;
+  final String iconUrl;
+  final String posterUrl;
 
   Statistics({
     this.art,
@@ -80,6 +80,52 @@ class Statistics extends Equatable {
     this.iconUrl,
     this.posterUrl,
   });
+
+  Statistics copyWith({
+    String iconUrl,
+    String posterUrl,
+  }) {
+    return Statistics(
+      art: this.art,
+      // contentRating: this.contentRating,
+      count: this.count,
+      friendlyName: this.friendlyName,
+      grandchildTitle: this.grandchildTitle,
+      grandparentRatingKey: this.grandparentRatingKey,
+      grandparentThumb: this.grandparentThumb,
+      grandparentTitle: this.grandparentTitle,
+      // guid: this.guid,
+      // labels: this.labels,
+      // lastPlay: this.lastPlay,
+      lastWatch: this.lastWatch,
+      // live: this.live,
+      mediaIndex: this.mediaIndex,
+      mediaType: this.mediaType,
+      parentMediaIndex: this.parentMediaIndex,
+      platform: this.platform,
+      platformName: this.platformName,
+      // player: this.player,
+      ratingKey: this.ratingKey,
+      rowId: this.rowId,
+      sectionId: this.sectionId,
+      sectionName: this.sectionName,
+      sectionType: this.sectionType,
+      started: this.started,
+      // stopped: this.stopped,
+      statId: this.statId,
+      thumb: this.thumb,
+      title: this.title,
+      totalDuration: this.totalDuration,
+      totalPlays: this.totalPlays,
+      user: this.user,
+      userId: this.userId,
+      usersWatched: this.usersWatched,
+      userThumb: this.userThumb,
+      year: this.year,
+      iconUrl: iconUrl,
+      posterUrl: posterUrl,
+    );
+  }
 
   @override
   List<Object> get props => [

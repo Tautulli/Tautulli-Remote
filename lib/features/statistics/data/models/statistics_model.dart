@@ -41,8 +41,8 @@ class StatisticsModel extends Statistics {
     final int usersWatched,
     final String userThumb,
     final int year,
-    String iconUrl,
-    String posterUrl,
+    final String iconUrl,
+    final String posterUrl,
   }) : super(
           art: art,
           // contentRating: contentRating,

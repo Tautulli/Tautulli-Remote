@@ -10,7 +10,7 @@ class LibraryMediaModel extends LibraryMedia {
     final String thumb,
     final String title,
     final int year,
-    String posterUrl,
+    final String posterUrl,
   }) : super(
           mediaIndex: mediaIndex,
           mediaType: mediaType,

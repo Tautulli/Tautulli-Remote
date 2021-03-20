@@ -136,17 +136,17 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           );
         },
         (list) async* {
-          await _getImages(
+          List<RecentItem> updatedList = await _getImages(
             list: list,
             tautulliId: tautulliId,
             settingsBloc: settingsBloc,
           );
 
-          _recentListCache = list;
+          _recentListCache = updatedList;
           _hasReachedMaxCache = true;
 
           yield RecentlyAddedSuccess(
-            list: list,
+            list: updatedList,
             hasReachedMax: true,
           );
         },
@@ -188,18 +188,18 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           );
         },
         (list) async* {
-          await _getImages(
+          List<RecentItem> updatedList = await _getImages(
             list: list,
             tautulliId: tautulliId,
             settingsBloc: settingsBloc,
           );
 
-          _recentListCache = list;
-          _hasReachedMaxCache = list.length < 25;
+          _recentListCache = updatedList;
+          _hasReachedMaxCache = updatedList.length < 25;
 
           yield RecentlyAddedSuccess(
-            list: list,
-            hasReachedMax: list.length < 25,
+            list: updatedList,
+            hasReachedMax: updatedList.length < 25,
           );
         },
       );
@@ -236,29 +236,31 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         if (list.isEmpty) {
           yield currentState.copyWith(hasReachedMax: true);
         } else {
-          await _getImages(
+          List<RecentItem> updatedList = await _getImages(
             list: list,
             tautulliId: tautulliId,
             settingsBloc: settingsBloc,
           );
 
-          _recentListCache = currentState.list + list;
-          _hasReachedMaxCache = list.length < 25;
+          _recentListCache = currentState.list + updatedList;
+          _hasReachedMaxCache = updatedList.length < 25;
 
           yield RecentlyAddedSuccess(
-            list: currentState.list + list,
-            hasReachedMax: list.length < 25,
+            list: currentState.list + updatedList,
+            hasReachedMax: updatedList.length < 25,
           );
         }
       },
     );
   }
 
-  Future<void> _getImages({
+  Future<List<RecentItem>> _getImages({
     @required List<RecentItem> list,
     @required String tautulliId,
     @required SettingsBloc settingsBloc,
   }) async {
+    List<RecentItem> updatedList = [];
+
     for (RecentItem recentItem in list) {
       //* Fetch and assign image URLs
       String posterImg;
@@ -306,10 +308,11 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           );
         },
         (url) {
-          recentItem.posterUrl = url;
+          updatedList.add(recentItem.copyWith(posterUrl: url));
         },
       );
     }
+    return updatedList;
   }
 }
 

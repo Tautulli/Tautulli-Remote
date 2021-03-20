@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import 'geo_ip.dart';
-
 class ActivityItem extends Equatable {
   final int sessionKey;
   final String sessionId;
@@ -75,8 +73,7 @@ class ActivityItem extends Equatable {
   final int viewOffset; // Time from begining of file in milliseconds
   final int width;
   final int year; // Release year
-  GeoIpItem geoIpItem;
-  String posterUrl;
+  final String posterUrl;
 
   ActivityItem({
     @required this.sessionKey,
@@ -149,7 +146,6 @@ class ActivityItem extends Equatable {
     this.viewOffset,
     this.width,
     this.year,
-    this.geoIpItem,
     this.posterUrl,
   });
 
@@ -224,9 +220,86 @@ class ActivityItem extends Equatable {
         viewOffset,
         width,
         year,
-        geoIpItem,
         posterUrl,
       ];
+
+  ActivityItem copyWith({
+    String posterUrl,
+  }) {
+    return ActivityItem(
+      sessionKey: this.sessionKey,
+      sessionId: this.sessionId,
+      art: this.art,
+      audioChannelLayout: this.audioChannelLayout,
+      audioCodec: this.audioCodec,
+      bandwidth: this.bandwidth,
+      channelCallSign: this.channelCallSign,
+      channelIdentifier: this.channelIdentifier,
+      container: this.container,
+      duration: this.duration,
+      friendlyName: this.friendlyName,
+      grandparentRatingKey: this.grandparentRatingKey,
+      grandparentThumb: this.grandparentThumb,
+      grandparentTitle: this.grandparentTitle,
+      height: this.height,
+      ipAddress: this.ipAddress,
+      live: this.live,
+      local: this.local,
+      location: this.location,
+      mediaIndex: this.mediaIndex,
+      mediaType: this.mediaType,
+      optimizedVersion: this.optimizedVersion,
+      optimizedVersionProfile: this.optimizedVersionProfile,
+      optimizedVersionTitle: this.optimizedVersionTitle,
+      originallyAvailableAt: this.originallyAvailableAt,
+      parentMediaIndex: this.parentMediaIndex,
+      parentRatingKey: this.parentRatingKey,
+      parentThumb: this.parentThumb,
+      parentTitle: this.parentTitle,
+      platformName: this.platformName,
+      player: this.player,
+      product: this.product,
+      progressPercent: this.progressPercent,
+      qualityProfile: this.qualityProfile,
+      ratingKey: this.ratingKey,
+      relayed: this.relayed,
+      secure: this.secure,
+      state: this.state,
+      streamAudioChannelLayout: this.streamAudioChannelLayout,
+      streamAudioCodec: this.streamAudioCodec,
+      streamAudioDecision: this.streamAudioDecision,
+      streamBitrate: this.streamBitrate,
+      streamContainer: this.streamContainer,
+      streamContainerDecision: this.streamContainerDecision,
+      streamSubtitleCodec: this.streamSubtitleCodec,
+      streamSubtitleDecision: this.streamSubtitleDecision,
+      streamVideoCodec: this.streamVideoCodec,
+      streamVideoDecision: this.streamVideoDecision,
+      streamVideoDynamicRange: this.streamVideoDynamicRange,
+      streamVideoFullResolution: this.streamVideoFullResolution,
+      subtitleCodec: this.subtitleCodec,
+      subtitles: this.subtitles,
+      subType: this.subType,
+      syncedVersion: this.syncedVersion,
+      syncedVersionProfile: this.syncedVersionProfile,
+      thumb: this.thumb,
+      title: this.title,
+      transcodeDecision: this.transcodeDecision,
+      transcodeHwDecoding: this.transcodeHwDecoding,
+      transcodeHwEncoding: this.transcodeHwEncoding,
+      transcodeProgress: this.transcodeProgress,
+      transcodeSpeed: this.transcodeSpeed,
+      transcodeThrottled: this.transcodeThrottled,
+      username: this.username,
+      videoCodec: this.videoCodec,
+      videoDynamicRange: this.videoDynamicRange,
+      videoFullResolution: this.videoFullResolution,
+      viewOffset: this.viewOffset,
+      width: this.width,
+      year: this.year,
+      posterUrl: posterUrl,
+    );
+  }
 
   @override
   bool get stringify => true;

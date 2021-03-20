@@ -22,15 +22,13 @@ class LibrariesInitial extends LibrariesState {
 
 class LibrariesSuccess extends LibrariesState {
   final List<Library> librariesList;
-  final Map<int, String> imageMap;
 
   LibrariesSuccess({
     @required this.librariesList,
-    @required this.imageMap,
   });
 
   @override
-  List<Object> get props => [librariesList, imageMap];
+  List<Object> get props => [librariesList];
 }
 
 class LibrariesFailure extends LibrariesState {

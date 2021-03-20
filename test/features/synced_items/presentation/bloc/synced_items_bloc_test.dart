@@ -58,20 +58,26 @@ void main() {
   });
 
   final tTautulliId = 'jkl';
+  String imageUrl =
+      'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
 
   final List<SyncedItem> tSyncedItemsList = [];
+  final List<SyncedItem> tSyncedItemsListWithImages = [];
+
   final syncedItemsJson = json.decode(fixture('synced_items.json'));
   syncedItemsJson['response']['data'].forEach((item) {
     tSyncedItemsList.add(SyncedItemModel.fromJson(item));
   });
+
+  for (SyncedItem item in tSyncedItemsList) {
+    tSyncedItemsListWithImages.add(item.copyWith(posterUrl: imageUrl));
+  }
 
   final metadataItemJson = json.decode(fixture('metadata_item.json'));
   final MetadataItem tMetadataItem =
       MetadataItemModel.fromJson(metadataItemJson['response']['data']);
 
   void setUpSuccess() {
-    String imageUrl =
-        'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
     when(
       mockGetImageUrl(
         tautulliId: anyNamed('tautulliId'),
@@ -171,7 +177,7 @@ void main() {
         // assert later
         final expected = [
           SyncedItemsSuccess(
-            list: tSyncedItemsList,
+            list: tSyncedItemsListWithImages,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -222,7 +228,7 @@ void main() {
         final expected = [
           SyncedItemsInitial(),
           SyncedItemsSuccess(
-            list: tSyncedItemsList,
+            list: tSyncedItemsListWithImages,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));

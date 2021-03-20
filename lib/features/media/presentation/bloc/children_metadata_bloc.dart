@@ -76,16 +76,16 @@ class ChildrenMetadataBloc
                 childrenMetadataList: childrenMetadataList,
               );
 
-              await _getImages(
+              List<MetadataItem> updatedList = await _getImages(
                 list: childrenMetadataList,
                 tautulliId: event.tautulliId,
                 settingsBloc: event.settingsBloc,
               );
 
-              _metadataCache[event.ratingKey] = childrenMetadataList;
+              _metadataCache[event.ratingKey] = updatedList;
 
               yield ChildrenMetadataSuccess(
-                childrenMetadataList: childrenMetadataList,
+                childrenMetadataList: updatedList,
               );
             }
           },
@@ -112,11 +112,13 @@ class ChildrenMetadataBloc
     }
   }
 
-  Future<void> _getImages({
+  Future<List<MetadataItem>> _getImages({
     @required List<MetadataItem> list,
     @required String tautulliId,
     @required SettingsBloc settingsBloc,
   }) async {
+    List<MetadataItem> updatedList = [];
+
     for (MetadataItem metadataItem in list) {
       //* Fetch and assign image URLs
       String posterFallback;
@@ -149,10 +151,11 @@ class ChildrenMetadataBloc
           );
         },
         (url) {
-          metadataItem.posterUrl = url;
+          updatedList.add(metadataItem.copyWith(posterUrl: url));
         },
       );
     }
+    return updatedList;
   }
 }
 

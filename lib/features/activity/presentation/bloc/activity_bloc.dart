@@ -133,6 +133,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           );
         },
         (list) async* {
+          List<ActivityItem> updatedList = [];
+
           for (ActivityItem activityItem in list) {
             //* Fetch and assign image URLs
             String posterImg;
@@ -188,14 +190,14 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
                 );
               },
               (url) {
-                activityItem.posterUrl = url;
+                updatedList.add(activityItem.copyWith(posterUrl: url));
               },
             );
           }
           _activityMap[event.tautulliId] = {
             'plex_name': event.plexName,
             'loadingState': ActivityLoadingState.success,
-            'activityList': list,
+            'activityList': updatedList,
             'failure': null,
           };
           yield ActivityLoaded(

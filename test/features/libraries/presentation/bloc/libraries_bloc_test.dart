@@ -51,42 +51,30 @@ void main() {
   final tTautulliId = 'jkl';
   final tOrderColumn = 'section_name';
   final tOrderDir = 'asc';
+  String imageUrl =
+      'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
 
   final List<Library> tLibrariesList = [];
+  final List<Library> tLibrariesListWithImages = [];
 
-  final userJson = json.decode(fixture('libraries.json'));
-  userJson['response']['data']['data'].forEach((item) {
+  final librariesJson = json.decode(fixture('libraries.json'));
+  librariesJson['response']['data']['data'].forEach((item) {
     tLibrariesList.add(LibraryModel.fromJson(item));
   });
 
-  tLibrariesList.sort((a, b) {
-    var result = b.count.compareTo(a.count);
-    if (result != 0) {
-      return result;
+  for (Library item in tLibrariesList) {
+    if (item.libraryThumb.contains('http')) {
+      tLibrariesListWithImages.add(
+        item.copyWith(backgroundUrl: imageUrl, iconUrl: imageUrl),
+      );
+    } else {
+      tLibrariesListWithImages.add(
+        item.copyWith(backgroundUrl: imageUrl),
+      );
     }
-    if (b.parentCount != null) {
-      result = b.parentCount.compareTo(a.parentCount);
-      if (result != 0) {
-        return result;
-      }
-    }
-    if (b.childCount != null) {
-      result = b.childCount.compareTo(a.childCount);
-      if (result != 0) {
-        return result;
-      }
-    }
-    return a.sectionName.compareTo(b.sectionName);
-  });
-
-  Map<int, String> tImageMap = {
-    1: 'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true',
-    12: 'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true',
-  };
+  }
 
   void setUpSuccess() {
-    String imageUrl =
-        'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
     when(
       mockGetImageUrl(
         tautulliId: anyNamed('tautulliId'),
@@ -206,8 +194,7 @@ void main() {
         // assert later
         final expected = [
           LibrariesSuccess(
-            librariesList: tLibrariesList,
-            imageMap: tImageMap,
+            librariesList: tLibrariesListWithImages,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -270,8 +257,7 @@ void main() {
         final expected = [
           LibrariesInitial(),
           LibrariesSuccess(
-            librariesList: tLibrariesList,
-            imageMap: tImageMap,
+            librariesList: tLibrariesListWithImages,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));

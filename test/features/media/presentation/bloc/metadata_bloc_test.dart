@@ -8,6 +8,7 @@ import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/media/data/models/metadata_item_model.dart';
+import 'package:tautulli_remote/features/media/domain/entities/metadata_item.dart';
 import 'package:tautulli_remote/features/media/domain/usecases/get_metadata.dart';
 import 'package:tautulli_remote/features/media/presentation/bloc/metadata_bloc.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
@@ -50,14 +51,19 @@ void main() {
 
   final tTautulliId = 'jkl';
   final tRatingKey = 123;
+  String imageUrl =
+      'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
 
   final tMetadataJson = json.decode(fixture('metadata_item.json'));
-  final tMetadataItem =
+  final MetadataItem tMetadataItem =
       MetadataItemModel.fromJson(tMetadataJson['response']['data']);
+  final tMetadataItemWithImage = tMetadataItem.copyWith(
+    posterUrl: imageUrl,
+    parentPosterUrl: imageUrl,
+    grandparentPosterUrl: imageUrl,
+  );
 
   void setUpSuccess() {
-    String imageUrl =
-        'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
     when(
       mockGetImageUrl(
         tautulliId: anyNamed('tautulliId'),
@@ -122,7 +128,7 @@ void main() {
         // assert later
         final expected = [
           MetadataInProgress(),
-          MetadataSuccess(metadata: tMetadataItem),
+          MetadataSuccess(metadata: tMetadataItemWithImage),
         ];
         expectLater(bloc, emitsInOrder(expected));
         // act

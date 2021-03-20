@@ -53,9 +53,13 @@ void main() {
   final tCount = 25;
   final tMediaType = 'all';
   final tMediaType2 = 'movie';
+  String imageUrl =
+      'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
 
   final List<RecentItem> tRecentList = [];
+  final List<RecentItem> tRecentListWithImages = [];
   final List<RecentItem> tRecentList27 = [];
+  final List<RecentItem> tRecentList27WithImages = [];
 
   final recentJson = json.decode(fixture('recent.json'));
 
@@ -63,15 +67,21 @@ void main() {
     tRecentList.add(RecentItemModel.fromJson(item));
   });
 
+  for (RecentItem item in tRecentList) {
+    tRecentListWithImages.add(item.copyWith(posterUrl: imageUrl));
+  }
+
   for (int i = 0; i < 9; i++) {
     recentJson['response']['data']['recently_added'].forEach((item) {
       tRecentList27.add(RecentItemModel.fromJson(item));
     });
   }
 
+  for (RecentItem item in tRecentList27) {
+    tRecentList27WithImages.add(item.copyWith(posterUrl: imageUrl));
+  }
+
   void setUpSuccess(List recentList) {
-    String imageUrl =
-        'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
     when(
       mockGetRecentlyAdded(
         tautulliId: anyNamed('tautulliId'),
@@ -280,7 +290,7 @@ void main() {
           // assert later
           final expected = [
             RecentlyAddedSuccess(
-              list: tRecentList27,
+              list: tRecentList27WithImages,
               hasReachedMax: false,
             ),
           ];
@@ -336,14 +346,14 @@ void main() {
           clearCache();
           bloc.emit(
             RecentlyAddedSuccess(
-              list: tRecentList27,
+              list: tRecentList27WithImages,
               hasReachedMax: false,
             ),
           );
           // assert later
           final expected = [
             RecentlyAddedSuccess(
-              list: tRecentList27 + tRecentList27,
+              list: tRecentList27WithImages + tRecentList27WithImages,
               hasReachedMax: false,
             ),
           ];
@@ -365,14 +375,14 @@ void main() {
           clearCache();
           bloc.emit(
             RecentlyAddedSuccess(
-              list: tRecentList,
+              list: tRecentListWithImages,
               hasReachedMax: false,
             ),
           );
           // assert later
           final expected = [
             RecentlyAddedSuccess(
-              list: tRecentList + tRecentList,
+              list: tRecentListWithImages + tRecentListWithImages,
               hasReachedMax: true,
             ),
           ];
@@ -398,7 +408,7 @@ void main() {
         final expected = [
           RecentlyAddedInitial(),
           RecentlyAddedSuccess(
-            list: tRecentList27,
+            list: tRecentList27WithImages,
             hasReachedMax: false,
           ),
         ];

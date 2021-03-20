@@ -32,8 +32,8 @@ class Library extends Equatable {
   // final String serverId;
   // final String thumb;
   // final int year;
-  String iconUrl;
-  String backgroundUrl;
+  final String iconUrl;
+  final String backgroundUrl;
 
   Library({
     this.childCount,
@@ -70,6 +70,47 @@ class Library extends Equatable {
     this.iconUrl,
     this.backgroundUrl,
   });
+
+  Library copyWith({
+    String iconUrl,
+    String backgroundUrl,
+  }) {
+    return Library(
+      childCount: this.childCount,
+      count: this.count,
+      // contentRating: this.contentRating,
+      // doNotify: this.doNotify,
+      // doNotifiyCreated: this.doNotifiyCreated,
+      duration: this.duration,
+      // guid: this.guid,
+      // historyRowId: this.historyRowId,
+      isActive: this.isActive,
+      // keepHistory: this.keepHistory,
+      // labels: this.labels,
+      // lastAccessed: this.lastAccessed,
+      // lastPlayed: this.lastPlayed,
+      libraryArt: this.libraryArt,
+      libraryThumb: this.libraryThumb,
+      // live: this.live,
+      // mediaIndex: this.mediaIndex,
+      // mediaType: this.mediaType,
+      // originallyAvailableAt: this.originallyAvailableAt,
+      parentCount: this.parentCount,
+      // parentMediaIndex: this.parentMediaIndex,
+      // parentTitle: this.parentTitle,
+      plays: this.plays,
+      // ratingKey: this.ratingKey,
+      // rowId: this.rowId,
+      sectionId: this.sectionId,
+      sectionName: this.sectionName,
+      sectionType: this.sectionType,
+      // serverId: this.serverId,
+      // thumb: this.thumb,
+      // year: this.year,
+      iconUrl: iconUrl,
+      backgroundUrl: backgroundUrl,
+    );
+  }
 
   @override
   List<Object> get props => [

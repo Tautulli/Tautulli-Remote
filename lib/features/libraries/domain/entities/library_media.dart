@@ -8,7 +8,7 @@ class LibraryMedia extends Equatable {
   final String thumb;
   final String title;
   final int year;
-  String posterUrl;
+  final String posterUrl;
 
   LibraryMedia({
     this.mediaIndex,
@@ -20,6 +20,21 @@ class LibraryMedia extends Equatable {
     this.year,
     this.posterUrl,
   });
+
+  LibraryMedia copyWith({
+    String posterUrl,
+  }) {
+    return LibraryMedia(
+      mediaIndex: this.mediaIndex,
+      mediaType: this.mediaType,
+      parentMediaIndex: this.parentMediaIndex,
+      ratingKey: this.ratingKey,
+      thumb: this.thumb,
+      title: this.title,
+      year: this.year,
+      posterUrl: posterUrl,
+    );
+  }
 
   @override
   List<Object> get props => [

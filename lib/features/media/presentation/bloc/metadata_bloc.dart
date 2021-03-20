@@ -67,19 +67,19 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
             );
           },
           (metadata) async* {
-            await _getImages(
+            MetadataItem updatedMetadata = await _getImages(
               item: metadata,
               tautulliId: event.tautulliId,
               settingsBloc: event.settingsBloc,
             );
 
             if (event.ratingKey != null) {
-              _metadataCache[event.ratingKey] = metadata;
+              _metadataCache[event.ratingKey] = updatedMetadata;
             } else if (event.syncId != null) {
-              _metadataCache[event.syncId] = metadata;
+              _metadataCache[event.syncId] = updatedMetadata;
             }
 
-            yield MetadataSuccess(metadata: metadata);
+            yield MetadataSuccess(metadata: updatedMetadata);
           },
         );
       }
@@ -88,13 +88,16 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
     }
   }
 
-  Future<void> _getImages({
+  Future<MetadataItem> _getImages({
     @required MetadataItem item,
     @required String tautulliId,
     @required SettingsBloc settingsBloc,
   }) async {
     //* Fetch and assign image URLs
     String posterFallback;
+    String posterUrl;
+    String parentPosterUrl;
+    String grandparentPosterUrl;
 
     // Assign values for posterFallback
     switch (item.mediaType) {
@@ -124,7 +127,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
         );
       },
       (url) {
-        item.posterUrl = url;
+        posterUrl = url;
       },
     );
     final failureOrParentPosterUrl = await getImageUrl(
@@ -140,7 +143,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
         );
       },
       (url) {
-        item.parentPosterUrl = url;
+        parentPosterUrl = url;
       },
     );
     final failureOrGrandparentPosterUrl = await getImageUrl(
@@ -156,8 +159,14 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
         );
       },
       (url) {
-        item.grandparentPosterUrl = url;
+        grandparentPosterUrl = url;
       },
+    );
+
+    return item.copyWith(
+      posterUrl: posterUrl,
+      parentPosterUrl: parentPosterUrl,
+      grandparentPosterUrl: grandparentPosterUrl,
     );
   }
 }

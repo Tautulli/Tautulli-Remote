@@ -161,17 +161,17 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           );
         },
         (list) async* {
-          await _getImages(
+          List<History> updatedList = await _getImages(
             list: list,
             tautulliId: tautulliId,
             settingsBloc: settingsBloc,
           );
 
-          _historyListCache = list;
+          _historyListCache = updatedList;
 
           yield HistorySuccess(
-            list: list,
-            hasReachedMax: list.length < 25,
+            list: updatedList,
+            hasReachedMax: updatedList.length < 25,
           );
         },
       );
@@ -236,7 +236,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         if (list.isEmpty) {
           yield currentState.copyWith(hasReachedMax: true);
         } else {
-          await _getImages(
+          List<History> updatedList = await _getImages(
             list: list,
             tautulliId: tautulliId,
             settingsBloc: settingsBloc,
@@ -245,19 +245,21 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           _historyListCache = currentState.list + list;
 
           yield HistorySuccess(
-            list: currentState.list + list,
-            hasReachedMax: list.length < 25,
+            list: currentState.list + updatedList,
+            hasReachedMax: updatedList.length < 25,
           );
         }
       },
     );
   }
 
-  Future<void> _getImages({
+  Future<List<History>> _getImages({
     @required List<History> list,
     @required String tautulliId,
     @required SettingsBloc settingsBloc,
   }) async {
+    List<History> newList = [];
+
     for (History historyItem in list) {
       //* Fetch and assign image URLs
       String posterImg;
@@ -301,10 +303,12 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           );
         },
         (url) {
-          historyItem.posterUrl = url;
+          newList.add(historyItem.copyWith(posterUrl: url));
         },
       );
     }
+
+    return newList;
   }
 }
 

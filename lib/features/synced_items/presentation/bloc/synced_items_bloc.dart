@@ -100,27 +100,29 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
           );
         },
         (list) async* {
-          await _getImages(
+          List<SyncedItem> updatedList = await _getImages(
             list: list,
             tautulliId: tautulliId,
             settingsBloc: settingsBloc,
           );
 
-          _syncedItemsListCache = list;
+          _syncedItemsListCache = updatedList;
 
           yield SyncedItemsSuccess(
-            list: list,
+            list: updatedList,
           );
         },
       );
     }
   }
 
-  Future<void> _getImages({
+  Future<List<SyncedItem>> _getImages({
     @required List<SyncedItem> list,
     @required String tautulliId,
     @required SettingsBloc settingsBloc,
   }) async {
+    List<SyncedItem> updatedList = [];
+
     for (SyncedItem syncedItem in list) {
       final String mediaType = syncedItem.syncMediaType ?? syncedItem.mediaType;
       int grandparentRatingKey;
@@ -129,6 +131,8 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
       String parentThumb;
       int ratingKey = syncedItem.ratingKey;
       String thumb;
+
+      String posterUrl;
 
       // If item uses parent or grandparent info for poster then use GetMetadata to fetch correct thumb/rating key
       if (['episode', 'track'].contains(mediaType)) {
@@ -202,10 +206,14 @@ class SyncedItemsBloc extends Bloc<SyncedItemsEvent, SyncedItemsState> {
           );
         },
         (url) {
-          syncedItem.posterUrl = url;
+          posterUrl = url;
         },
       );
+
+      updatedList.add(syncedItem.copyWith(posterUrl: posterUrl));
     }
+
+    return updatedList;
   }
 }
 

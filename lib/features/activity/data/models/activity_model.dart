@@ -2,7 +2,6 @@ import 'package:meta/meta.dart';
 
 import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/activity.dart';
-import '../../domain/entities/geo_ip.dart';
 
 class ActivityItemModel extends ActivityItem {
   ActivityItemModel({
@@ -78,8 +77,7 @@ class ActivityItemModel extends ActivityItem {
     final int viewOffset, // Time from begining of file in milliseconds
     final int width,
     final int year, // Release year
-    GeoIpItem geoIpItem,
-    String posterUrl,
+    final String posterUrl,
   }) : super(
           sessionKey: sessionKey,
           sessionId: sessionId,
@@ -151,7 +149,6 @@ class ActivityItemModel extends ActivityItem {
           viewOffset: viewOffset,
           width: width,
           year: year,
-          geoIpItem: geoIpItem,
           posterUrl: posterUrl,
         );
 

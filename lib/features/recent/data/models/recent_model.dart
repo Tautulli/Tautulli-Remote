@@ -16,12 +16,12 @@ class RecentItemModel extends RecentItem {
     final int parentRatingKey,
     final String parentThumb,
     final String parentTitle,
-    String posterUrl,
     final int ratingKey,
     final int sectionId,
     final String thumb,
     final String title,
     final int year,
+    final String posterUrl,
   }) : super(
           addedAt: addedAt,
           art: art,
@@ -36,12 +36,12 @@ class RecentItemModel extends RecentItem {
           parentRatingKey: parentRatingKey,
           parentThumb: parentThumb,
           parentTitle: parentTitle,
-          posterUrl: posterUrl,
           ratingKey: ratingKey,
           sectionId: sectionId,
           thumb: thumb,
           title: title,
           year: year,
+          posterUrl: posterUrl,
         );
 
   factory RecentItemModel.fromJson(Map<String, dynamic> json) {

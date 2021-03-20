@@ -34,7 +34,7 @@ class History extends Equatable {
   final int userId;
   final num watchedStatus;
   final int year;
-  String posterUrl;
+  final String posterUrl;
 
   History({
     this.date,
@@ -72,6 +72,47 @@ class History extends Equatable {
     this.year,
     this.posterUrl,
   });
+
+  History copyWith({
+    String posterUrl,
+  }) {
+    return History(
+      date: this.date,
+      duration: this.duration,
+      friendlyName: this.friendlyName,
+      fullTitle: this.fullTitle,
+      grandparentRatingKey: this.grandparentRatingKey,
+      grandparentTitle: this.grandparentTitle,
+      groupCount: this.groupCount,
+      groupIds: this.groupIds,
+      id: this.id,
+      ipAddress: this.ipAddress,
+      live: this.live,
+      mediaIndex: this.mediaIndex,
+      mediaType: this.mediaType,
+      parentMediaIndex: this.parentMediaIndex,
+      parentRatingKey: this.parentRatingKey,
+      parentTitle: this.parentTitle,
+      pausedCounter: this.pausedCounter,
+      percentComplete: this.percentComplete,
+      platform: this.platform,
+      player: this.player,
+      product: this.product,
+      ratingKey: this.ratingKey,
+      sessionKey: this.sessionKey,
+      started: this.started,
+      state: this.state,
+      stopped: this.stopped,
+      title: this.title,
+      thumb: this.thumb,
+      transcodeDecision: this.transcodeDecision,
+      user: this.user,
+      userId: this.userId,
+      watchedStatus: this.watchedStatus,
+      year: this.year,
+      posterUrl: posterUrl,
+    );
+  }
 
   @override
   List<Object> get props => [

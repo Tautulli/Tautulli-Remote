@@ -50,17 +50,31 @@ void main() {
 
   final String tTautulliId = 'jkl';
   final int tSectionId = 53052;
+  String imageUrl =
+      'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
 
   final List<LibraryMedia> tLibraryMediaList = [];
+  final List<LibraryMedia> tLibraryMediaListWithImages = [];
 
   final tLibraryMediaInfoJson = json.decode(fixture('library_media_info.json'));
   tLibraryMediaInfoJson['response']['data']['data'].forEach((item) {
     tLibraryMediaList.add(LibraryMediaModel.fromJson(item));
   });
 
+  for (LibraryMedia item in tLibraryMediaList) {
+    tLibraryMediaListWithImages.add(item.copyWith(posterUrl: imageUrl));
+  }
+
+  // Sort tLibraryMediaListWithImages to match how the bloc will sort tLibraryMediaList
+  if (tLibraryMediaListWithImages.first.mediaType == 'album') {
+    tLibraryMediaListWithImages.sort((a, b) => b.year.compareTo(a.year));
+  } else if (!['movie', 'show', 'artist']
+      .contains(tLibraryMediaListWithImages.first.mediaType)) {
+    tLibraryMediaListWithImages
+        .sort((a, b) => a.mediaIndex.compareTo(b.mediaIndex));
+  }
+
   void setUpSuccess() {
-    String imageUrl =
-        'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
     when(
       mockGetImageUrl(
         tautulliId: anyNamed('tautulliId'),
@@ -178,7 +192,7 @@ void main() {
         final expected = [
           LibraryMediaInProgress(),
           LibraryMediaSuccess(
-            libraryMediaList: tLibraryMediaList,
+            libraryMediaList: tLibraryMediaListWithImages,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
@@ -237,7 +251,7 @@ void main() {
         final expected = [
           LibraryMediaInProgress(),
           LibraryMediaSuccess(
-            libraryMediaList: tLibraryMediaList,
+            libraryMediaList: tLibraryMediaListWithImages,
           ),
         ];
         expectLater(bloc, emitsInOrder(expected));
