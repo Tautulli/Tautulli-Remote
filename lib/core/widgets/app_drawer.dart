@@ -250,7 +250,7 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: FaIcon(
-              FontAwesomeIcons.solidBell,
+              FontAwesomeIcons.bullhorn,
               size: 20,
               color: TautulliColorPalette.not_white,
             ),
