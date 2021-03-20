@@ -45,6 +45,11 @@ Map changelog = {
         {
           "type": "fix",
           "detail":
+              "Catch if data is missing on users page to prevent failure to load",
+        },
+        {
+          "type": "fix",
+          "detail":
               "Fix potential for incorrect server to be called when using multiserver and going to a media item page from activity",
         },
         {
