@@ -29,7 +29,8 @@ class _UserCardState extends State<UserCard> {
   @override
   void initState() {
     super.initState();
-    hasNetworkImage = widget.userThumb.startsWith('http');
+    hasNetworkImage =
+        widget.userThumb != null ? widget.userThumb.startsWith('http') : false;
     getColorFuture = _getColor(hasNetworkImage, widget.userThumb);
   }
 
