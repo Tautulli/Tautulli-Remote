@@ -263,7 +263,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
         // Attempt to get poster URL
         final failureOrPosterUrl = await getImageUrl(
           tautulliId: tautulliId,
-          img: posterImg,
+          img: posterRatingKey == null ? posterImg : null,
           ratingKey: posterRatingKey,
           fallback: posterFallback,
           settingsBloc: settingsBloc,
