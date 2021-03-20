@@ -1,6 +1,70 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.5.0",
+      "date": "March 20, 2021",
+      "changes": [
+        {
+          "type": "important",
+          "detail":
+              "This update requires that you consent to the OneSignal Data Privacy again to receive notifications, you do not need to re-register with Tautulli",
+        },
+        {
+          "type": "new",
+          "detail":
+              "Upgraded to Flutter 2, please report any issues through the Settings > Help & Support page",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Library cards will now show a custom icon if one is set in Tautulli",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Connection address active/passive icons now update in UI immediately on failover",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Adjust concurrent icon color from white to Tautulli Not White",
+        },
+        {
+          "type": "improvement",
+          "detail": "Change announcements icon from a bell to a bullhorn",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "If Tautulli Remote is not registered with OneSignal set OneSignal ID to onesignal-disabled when registering with Tautulli",
+        },
+        {
+          "type": "improvement",
+          "detail": "Make classes extending Equatable immutable",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fix potential for incorrect server to be called when using multiserver and going to a media item page from activity",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fix images sometimes being incorrect for TV and music statistics",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fix single statistic page being incorrect if stat type was set to duration",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fix connection failover not triggering custom cert trust prompt",
+        },
+      ]
+    },
+    {
       "version": "v2.4.5",
       "date": "March 15, 2021",
       "changes": [
