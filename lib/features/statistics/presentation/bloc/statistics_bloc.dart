@@ -303,6 +303,8 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           statistic.copyWith(posterUrl: posterUrl, iconUrl: iconUrl),
         );
       }
+    } else {
+      return list;
     }
     // }
     return updatedList;
