@@ -85,6 +85,8 @@ class TimeFormatHelper {
     int timeSinceEpochInSeconds, {
     String dateFormat,
     String timeFormat,
+    bool dateOnly = false,
+    bool timeOnly = false,
   }) {
     DateTime dateTime =
         DateTime.fromMillisecondsSinceEpoch(timeSinceEpochInSeconds * 1000);
@@ -94,7 +96,9 @@ class TimeFormatHelper {
     final String parsedTimeFormat =
         timeFormat != null ? _parseTimeFormat(timeFormat) : 'HH:mm';
 
-    return DateFormat('$parsedDateFormat $parsedTimeFormat').format(dateTime);
+    return DateFormat(
+      '${!timeOnly ? parsedDateFormat : ""} ${!dateOnly ? parsedTimeFormat : ""}',
+    ).format(dateTime);
   }
 
   static Map<String, int> durationMap(Duration duration) {
