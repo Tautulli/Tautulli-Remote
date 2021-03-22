@@ -6,18 +6,20 @@ import '../../domain/entities/activity.dart';
 
 class BackgroundImageChooser extends StatelessWidget {
   final ActivityItem activity;
+  final bool addBlur;
 
   const BackgroundImageChooser({
     Key key,
     @required this.activity,
+    this.addBlur = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ImageFiltered(
       imageFilter: ImageFilter.blur(
-        sigmaX: 25,
-        sigmaY: 25,
+        sigmaX: addBlur ? 25 : 0,
+        sigmaY: addBlur ? 25 : 0,
       ),
       child: activity.live == 1
           ? _BackgroundImageLiveTv()
