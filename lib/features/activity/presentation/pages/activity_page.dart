@@ -24,6 +24,7 @@ import '../bloc/activity_bloc.dart';
 import '../bloc/geo_ip_bloc.dart';
 import '../widgets/activity_card.dart';
 import '../widgets/activity_error_button.dart';
+import '../widgets/bandwidth_header.dart';
 
 class ActivityPage extends StatelessWidget {
   const ActivityPage({Key key}) : super(key: key);
@@ -227,17 +228,45 @@ Widget _buildSingleServerActivity({
   }
 
   final SlidableController _slidableController = SlidableController();
-  return BlocProvider<TerminateSessionBloc>(
-    create: (context) => di.sl<TerminateSessionBloc>(),
-    child: ListView.builder(
-      itemCount: activityList.length,
-      itemBuilder: (context, index) => ActivityCard(
+  List<Widget> serverActivityList = [];
+  Map bandwidthMap = {
+    'lan': 0,
+    'wan': 0,
+  };
+
+  for (ActivityItem activityItem in activityList) {
+    try {
+      String location =
+          ['wan', 'cellular'].contains(activityItem.location) ? 'wan' : 'lan';
+      bandwidthMap[location] =
+          bandwidthMap[location] + int.parse(activityItem.bandwidth);
+    } catch (_) {}
+
+    serverActivityList.add(
+      ActivityCard(
         activityMap: activityMap,
-        index: index,
+        index: activityList.indexOf(activityItem),
         tautulliId: mapKeys[0],
         timeFormat: timeFormat,
         slidableController: _slidableController,
       ),
+    );
+  }
+
+  return BlocProvider<TerminateSessionBloc>(
+    create: (context) => di.sl<TerminateSessionBloc>(),
+    child: ListView(
+      children: [
+        StickyHeader(
+          header: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+            child: BandwidthHeader(bandwidthMap: bandwidthMap),
+          ),
+          content: Column(
+            children: serverActivityList,
+          ),
+        ),
+      ],
     ),
   );
 }
@@ -255,6 +284,10 @@ Widget _buildMultiserverActivity({
     tautulliId = serverId;
     List activityList = serverData['activityList'];
     List<Widget> serverActivityList = [];
+    Map bandwidthMap = {
+      'lan': 0,
+      'wan': 0,
+    };
 
     if (serverData['loadingState'] == ActivityLoadingState.inProgress) {
       if (serverData['failure'] == null) {
@@ -290,6 +323,15 @@ Widget _buildMultiserverActivity({
     if (serverData['loadingState'] == ActivityLoadingState.success) {
       if (activityList.isNotEmpty) {
         for (ActivityItem activityItem in activityList) {
+          try {
+            String location =
+                ['wan', 'cellular'].contains(activityItem.location)
+                    ? 'wan'
+                    : 'lan';
+            bandwidthMap[location] =
+                bandwidthMap[location] + int.parse(activityItem.bandwidth);
+          } catch (_) {}
+
           serverActivityList.add(
             ActivityCard(
               activityMap: activityMap,
@@ -320,10 +362,19 @@ Widget _buildMultiserverActivity({
 
     activityWidgetList.add(
       StickyHeader(
-        header: ServerHeader(
-          color: TautulliColorPalette.midnight,
-          serverName: serverData['plex_name'],
-          state: serverData['loadingState'],
+        header: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ServerHeader(
+              color: TautulliColorPalette.midnight,
+              serverName: serverData['plex_name'],
+              state: serverData['loadingState'],
+              secondWidget: Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: BandwidthHeader(bandwidthMap: bandwidthMap),
+              ),
+            ),
+          ],
         ),
         content: Column(
           children: serverActivityList,
