@@ -101,74 +101,83 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                     Container(
                                       child: BackgroundImageChooser(
                                         activity: activity,
+                                        addBlur: false,
                                       ),
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: Padding(
+                                    BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 25,
+                                        sigmaY: 25,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                top: 4,
+                                                left: 98,
+                                                bottom: 4,
+                                                right: 4,
+                                              ),
+                                              child: ActivityMediaInfo(
+                                                activity: activity,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
                                             padding: const EdgeInsets.only(
-                                              top: 4,
-                                              left: 98,
-                                              bottom: 4,
                                               right: 4,
+                                              left: 98,
+                                              top: 4,
+                                              bottom: 4,
                                             ),
-                                            child: ActivityMediaInfo(
-                                              activity: activity,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                //* User name
+                                                Text(
+                                                  settingsLoadSuccess
+                                                          .maskSensitiveInfo
+                                                      ? '*Hidden User*'
+                                                      : activity.friendlyName,
+                                                ),
+                                                //* Time left or Live tv channel
+                                                activity.live == 0 &&
+                                                        activity.duration !=
+                                                            null
+                                                    ? TimeTotal(
+                                                        viewOffset:
+                                                            activity.viewOffset,
+                                                        duration:
+                                                            activity.duration,
+                                                      )
+                                                    : activity.live == 1
+                                                        ? Text(
+                                                            '${activity.channelCallSign} ${activity.channelIdentifier}',
+                                                          )
+                                                        : SizedBox(),
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            right: 4,
-                                            left: 98,
-                                            top: 4,
-                                            bottom: 4,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              //* User name
-                                              Text(
-                                                settingsLoadSuccess
-                                                        .maskSensitiveInfo
-                                                    ? '*Hidden User*'
-                                                    : activity.friendlyName,
-                                              ),
-                                              //* Time left or Live tv channel
-                                              activity.live == 0 &&
-                                                      activity.duration != null
-                                                  ? TimeTotal(
-                                                      viewOffset:
-                                                          activity.viewOffset,
-                                                      duration:
-                                                          activity.duration,
-                                                    )
-                                                  : activity.live == 1
-                                                      ? Text(
-                                                          '${activity.channelCallSign} ${activity.channelIdentifier}',
-                                                        )
-                                                      : SizedBox(),
-                                            ],
-                                          ),
-                                        ),
-                                        //* Progress bar
-                                        activity.mediaType == 'photo' ||
-                                                activity.live == 1
-                                            ? ProgressBar(
-                                                progress: 100,
-                                                transcodeProgress: 0,
-                                              )
-                                            : ProgressBar(
-                                                progress:
-                                                    activity.progressPercent,
-                                                transcodeProgress:
-                                                    activity.transcodeProgress,
-                                              ),
-                                      ],
+                                          //* Progress bar
+                                          activity.mediaType == 'photo' ||
+                                                  activity.live == 1
+                                              ? ProgressBar(
+                                                  progress: 100,
+                                                  transcodeProgress: 0,
+                                                )
+                                              : ProgressBar(
+                                                  progress:
+                                                      activity.progressPercent,
+                                                  transcodeProgress: activity
+                                                      .transcodeProgress,
+                                                ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

@@ -56,47 +56,47 @@ class HistoryModalBottomSheet extends StatelessWidget {
                       height: 100,
                       child: Stack(
                         children: <Widget>[
-                          ImageFiltered(
-                            imageFilter: ImageFilter.blur(
+                          Stack(
+                            children: <Widget>[
+                              Positioned.fill(
+                                child: Image.network(
+                                  item.posterUrl,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned.fill(
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.4),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          BackdropFilter(
+                            filter: ImageFilter.blur(
                               sigmaX: 25,
                               sigmaY: 25,
                             ),
-                            child: Stack(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Positioned.fill(
-                                  child: Image.network(
-                                    item.posterUrl,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Positioned.fill(
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.4),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 4,
+                                      left: 98,
+                                      bottom: 4,
+                                      right: 4,
+                                    ),
+                                    child: HistoryMediaInfo(
+                                      history: item,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 4,
-                                    left: 98,
-                                    bottom: 4,
-                                    right: 4,
-                                  ),
-                                  child: HistoryMediaInfo(
-                                    history: item,
-                                  ),
-                                ),
-                              ),
-                            ],
                           ),
                         ],
                       ),
