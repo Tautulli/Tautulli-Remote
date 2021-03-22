@@ -8,12 +8,14 @@ class ServerHeader extends StatelessWidget {
   final String serverName;
   final ActivityLoadingState state;
   final Color color;
+  final Widget secondWidget;
 
   const ServerHeader({
     Key key,
     @required this.serverName,
     this.color,
     this.state,
+    this.secondWidget,
   }) : super(key: key);
 
   @override
@@ -25,36 +27,43 @@ class ServerHeader extends StatelessWidget {
         top: 8.2,
         bottom: 12.5,
       ),
-      child: Row(
-        children: <Widget>[
-          Text(
-            serverName,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Theme.of(context).accentColor,
-            ),
-          ),
-          if (state == ActivityLoadingState.inProgress)
-            Padding(
-              padding: const EdgeInsets.only(left: 4),
-              child: SizedBox(
-                height: 15,
-                width: 15,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: <Widget>[
+              Text(
+                serverName,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).accentColor,
                 ),
               ),
-            ),
-          if (state == ActivityLoadingState.failure)
-            Padding(
-              padding: const EdgeInsets.only(left: 4),
-              child: FaIcon(
-                FontAwesomeIcons.exclamationCircle,
-                size: 15,
-                color: TautulliColorPalette.not_white,
-              ),
-            ),
+              if (state == ActivityLoadingState.inProgress)
+                Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: SizedBox(
+                    height: 15,
+                    width: 15,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  ),
+                ),
+              if (state == ActivityLoadingState.failure)
+                Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: FaIcon(
+                    FontAwesomeIcons.exclamationCircle,
+                    size: 15,
+                    color: TautulliColorPalette.not_white,
+                  ),
+                ),
+            ],
+          ),
+          if (secondWidget != null) secondWidget,
         ],
       ),
     );
