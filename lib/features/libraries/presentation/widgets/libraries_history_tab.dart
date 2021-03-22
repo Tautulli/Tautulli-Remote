@@ -8,6 +8,7 @@ import '../../../../core/widgets/poster_card.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../history/presentation/bloc/history_libraries_bloc.dart';
 import '../../../history/presentation/widgets/history_details.dart';
+import '../../../history/presentation/widgets/history_modal_bottom_sheet.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 class LibrariesHistoryTab extends StatelessWidget {
@@ -113,6 +114,11 @@ class __LibrariesHistoryTabContentState
           );
         }
         if (state is HistoryLibrariesSuccess) {
+          final SettingsLoadSuccess settingsState = _settingsBloc.state;
+          final server = settingsState.serverList.firstWhere(
+            (server) => server.tautulliId == _tautulliId,
+          );
+
           return state.list.isEmpty
               ? Center(
                   child: Text('No History'),
@@ -131,14 +137,38 @@ class __LibrariesHistoryTabContentState
 
                       return index >= state.list.length
                           ? BottomLoader()
-                          : PosterCard(
-                              item: state.list[index],
-                              details: HistoryDetails(
-                                historyItem: state.list[index],
-                                server: settingsState.serverList.firstWhere(
-                                  (server) => server.tautulliId == _tautulliId,
+                          : GestureDetector(
+                              onTap: () {
+                                return showModalBottomSheet(
+                                  context: context,
+                                  barrierColor: Colors.black87,
+                                  backgroundColor: Colors.transparent,
+                                  isScrollControlled: true,
+                                  builder: (context) =>
+                                      BlocBuilder<SettingsBloc, SettingsState>(
+                                    builder: (context, settingsState) {
+                                      return HistoryModalBottomSheet(
+                                        item: state.list[index],
+                                        server: server,
+                                        maskSensitiveInfo: settingsState
+                                                is SettingsLoadSuccess
+                                            ? settingsState.maskSensitiveInfo
+                                            : false,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              child: PosterCard(
+                                item: state.list[index],
+                                details: HistoryDetails(
+                                  historyItem: state.list[index],
+                                  server: settingsState.serverList.firstWhere(
+                                    (server) =>
+                                        server.tautulliId == _tautulliId,
+                                  ),
+                                  maskSensitiveInfo: _maskSensitiveInfo,
                                 ),
-                                maskSensitiveInfo: _maskSensitiveInfo,
                               ),
                             );
                     },
