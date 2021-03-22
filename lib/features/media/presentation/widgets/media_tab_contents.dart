@@ -109,6 +109,7 @@ class MediaTabContents extends StatelessWidget {
           MediaHistoryTab(
             ratingKey: item.ratingKey,
             mediaType: mediaType ?? item.mediaType,
+            imageUrl: item.posterUrl,
           ),
       ],
     );

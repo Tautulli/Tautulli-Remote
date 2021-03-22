@@ -9,16 +9,19 @@ import '../../../../core/widgets/error_message.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../history/domain/entities/history.dart';
 import '../../../history/presentation/bloc/history_individual_bloc.dart';
+import '../../../history/presentation/widgets/history_modal_bottom_sheet.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/domain/entities/user_table.dart';
 
 class MediaHistoryTab extends StatelessWidget {
   final int ratingKey;
   final String mediaType;
+  final String imageUrl;
 
   const MediaHistoryTab({
     @required this.ratingKey,
     @required this.mediaType,
+    @required this.imageUrl,
     Key key,
   }) : super(key: key);
 
@@ -29,6 +32,7 @@ class MediaHistoryTab extends StatelessWidget {
       child: MediaHistoryTabContent(
         ratingKey: ratingKey,
         mediaType: mediaType,
+        imageUrl: imageUrl,
       ),
     );
   }
@@ -37,10 +41,12 @@ class MediaHistoryTab extends StatelessWidget {
 class MediaHistoryTabContent extends StatefulWidget {
   final int ratingKey;
   final String mediaType;
+  final String imageUrl;
 
   const MediaHistoryTabContent({
     @required this.ratingKey,
     @required this.mediaType,
+    @required this.imageUrl,
     Key key,
   }) : super(key: key);
 
@@ -148,17 +154,42 @@ class _MediaHistoryTabContentState extends State<MediaHistoryTabContent> {
                           ? BottomRowLoader(
                               index: index,
                             )
-                          : _HistoryRow(
-                              index: index,
-                              server: server,
-                              history: state.list[index],
-                              mediaType: widget.mediaType,
-                              user: state.userTableList.firstWhere(
-                                (user) =>
-                                    user.userId == state.list[index].userId,
-                                orElse: () => null,
+                          : GestureDetector(
+                              onTap: () {
+                                return showModalBottomSheet(
+                                  context: context,
+                                  barrierColor: Colors.black87,
+                                  backgroundColor: Colors.transparent,
+                                  isScrollControlled: true,
+                                  builder: (context) =>
+                                      BlocBuilder<SettingsBloc, SettingsState>(
+                                    builder: (context, settingsState) {
+                                      return HistoryModalBottomSheet(
+                                        item: state.list[index],
+                                        server: server,
+                                        imageUrlOverride: widget.imageUrl,
+                                        maskSensitiveInfo: settingsState
+                                                is SettingsLoadSuccess
+                                            ? settingsState.maskSensitiveInfo
+                                            : false,
+                                        disableMediaButton: true,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              child: _HistoryRow(
+                                index: index,
+                                server: server,
+                                history: state.list[index],
+                                mediaType: widget.mediaType,
+                                user: state.userTableList.firstWhere(
+                                  (user) =>
+                                      user.userId == state.list[index].userId,
+                                  orElse: () => null,
+                                ),
+                                maskSensitiveInfo: _maskSensitiveInfo,
                               ),
-                              maskSensitiveInfo: _maskSensitiveInfo,
                             );
                     },
                   ),
