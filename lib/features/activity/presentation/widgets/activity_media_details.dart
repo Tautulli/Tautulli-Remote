@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/clean_data_helper.dart';
+import '../../../../core/helpers/ip_address_helper.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/entities/geo_ip.dart';
@@ -57,6 +58,11 @@ List<Widget> _buildList({
   @required bool maskSensitiveInfo,
 }) {
   List<Widget> rows = [];
+
+  bool isPublicIp = false;
+  try {
+    isPublicIp = IpAddressHelper.isPublic(activity.ipAddress);
+  } catch (_) {}
 
   _buildRows(
     constraints: constraints,
@@ -170,7 +176,7 @@ List<Widget> _buildList({
   }
 
   // Build the GeoIP data row
-  if (activity.local == 0)
+  if (isPublicIp)
     rows.add(
       BlocBuilder<GeoIpBloc, GeoIpState>(
         builder: (context, state) {

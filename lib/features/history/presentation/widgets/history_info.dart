@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
+import '../../../../core/helpers/ip_address_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../../activity/domain/entities/geo_ip.dart';
 import '../../../activity/presentation/bloc/geo_ip_bloc.dart';
@@ -39,6 +40,11 @@ class _HistoryInfoState extends State<HistoryInfo> {
 
   @override
   Widget build(BuildContext context) {
+    bool isPublicIp = false;
+    try {
+      isPublicIp = IpAddressHelper.isPublic(widget.item.ipAddress);
+    } catch (_) {}
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
@@ -74,52 +80,53 @@ class _HistoryInfoState extends State<HistoryInfo> {
                   : widget.item.ipAddress,
             ),
           ),
-          BlocBuilder<GeoIpBloc, GeoIpState>(
-            builder: (context, state) {
-              if (state is GeoIpSuccess) {
-                if (state.geoIpMap.containsKey(widget.item.ipAddress)) {
-                  GeoIpItem geoIpItem = state.geoIpMap[widget.item.ipAddress];
-                  if (geoIpItem != null && geoIpItem.code != 'ZZ') {
-                    String text;
+          if (isPublicIp)
+            BlocBuilder<GeoIpBloc, GeoIpState>(
+              builder: (context, state) {
+                if (state is GeoIpSuccess) {
+                  if (state.geoIpMap.containsKey(widget.item.ipAddress)) {
+                    GeoIpItem geoIpItem = state.geoIpMap[widget.item.ipAddress];
+                    if (geoIpItem != null && geoIpItem.code != 'ZZ') {
+                      String text;
 
-                    if (widget.item.ipAddress != 'N/A') {
-                      text = widget.maskSensitiveInfo
-                          ? '*Hidden Location*'
-                          : '${geoIpItem.city}, ${geoIpItem.region} ${geoIpItem.code}';
-                    } else {
-                      text = 'N/A';
+                      if (widget.item.ipAddress != 'N/A') {
+                        text = widget.maskSensitiveInfo
+                            ? '*Hidden Location*'
+                            : '${geoIpItem.city}, ${geoIpItem.region} ${geoIpItem.code}';
+                      } else {
+                        text = 'N/A';
+                      }
+
+                      return _ItemRow(
+                        title: '',
+                        item: _FormattedText(text),
+                      );
                     }
-
-                    return _ItemRow(
-                      title: '',
-                      item: _FormattedText(text),
-                    );
+                    return const SizedBox(height: 0, width: 0);
                   }
-                  return const SizedBox(height: 0, width: 0);
+                  return _ItemRow(
+                    title: '',
+                    item: _FormattedText('ERROR: IP Address not in GeoIP map'),
+                  );
                 }
                 return _ItemRow(
                   title: '',
-                  item: _FormattedText('ERROR: IP Address not in GeoIP map'),
+                  item: Row(
+                    children: [
+                      SizedBox(
+                        height: 19,
+                        width: 19,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: _FormattedText('Loading location data'),
+                      ),
+                    ],
+                  ),
                 );
-              }
-              return _ItemRow(
-                title: '',
-                item: Row(
-                  children: [
-                    SizedBox(
-                      height: 19,
-                      width: 19,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: _FormattedText('Loading location data'),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
+              },
+            ),
           Padding(
             padding: const EdgeInsets.only(
               top: 6,
