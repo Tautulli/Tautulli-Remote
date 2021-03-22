@@ -5,11 +5,14 @@ class DataUnitFormatHelper {
     return filesize(bytes, 1);
   }
 
-  static String bitrate(int kiloBitsPerSecond) {
+  static String bitrate(
+    int kiloBitsPerSecond, {
+    int fractionDigits = 2,
+  }) {
     if (kiloBitsPerSecond < 1000) {
-      return '${kiloBitsPerSecond.toStringAsFixed(2)} kbps';
+      return '${kiloBitsPerSecond.toStringAsFixed(fractionDigits)} kbps';
     }
 
-    return '${(kiloBitsPerSecond / 1000).toStringAsFixed(2)} Mbps';
+    return '${(kiloBitsPerSecond / 1000).toStringAsFixed(fractionDigits)} Mbps';
   }
 }
