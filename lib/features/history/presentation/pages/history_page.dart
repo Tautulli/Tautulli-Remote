@@ -19,6 +19,7 @@ import '../../../users/presentation/bloc/users_list_bloc.dart';
 import '../bloc/history_bloc.dart';
 import '../widgets/history_details.dart';
 import '../widgets/history_error_button.dart';
+import '../widgets/history_modal_bottom_sheet.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({Key key}) : super(key: key);
@@ -197,6 +198,9 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
               builder: (context, state) {
                 if (state is HistorySuccess) {
                   final SettingsLoadSuccess settingsState = _settingsBloc.state;
+                  final server = settingsState.serverList.firstWhere(
+                    (server) => server.tautulliId == _tautulliId,
+                  );
 
                   if (state.list.length > 0) {
                     return Expanded(
@@ -216,16 +220,36 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                             itemBuilder: (context, index) {
                               return index >= state.list.length
                                   ? BottomLoader()
-                                  : PosterCard(
-                                      item: state.list[index],
-                                      details: HistoryDetails(
-                                        historyItem: state.list[index],
-                                        server:
-                                            settingsState.serverList.firstWhere(
-                                          (server) =>
-                                              server.tautulliId == _tautulliId,
+                                  : GestureDetector(
+                                      onTap: () {
+                                        return showModalBottomSheet(
+                                          context: context,
+                                          barrierColor: Colors.black87,
+                                          backgroundColor: Colors.transparent,
+                                          isScrollControlled: true,
+                                          builder: (context) => BlocBuilder<
+                                              SettingsBloc, SettingsState>(
+                                            builder: (context, settingsState) {
+                                              return HistoryModalBottomSheet(
+                                                item: state.list[index],
+                                                server: server,
+                                                maskSensitiveInfo: settingsState
+                                                        is SettingsLoadSuccess
+                                                    ? settingsState
+                                                        .maskSensitiveInfo
+                                                    : false,
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      child: PosterCard(
+                                        item: state.list[index],
+                                        details: HistoryDetails(
+                                          historyItem: state.list[index],
+                                          server: server,
+                                          maskSensitiveInfo: _maskSensitiveInfo,
                                         ),
-                                        maskSensitiveInfo: _maskSensitiveInfo,
                                       ),
                                     );
                             },
