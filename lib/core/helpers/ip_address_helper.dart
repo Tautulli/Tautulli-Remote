@@ -16,11 +16,12 @@ class IpAddressHelper {
     }
 
     if (parsedAddress.type == InternetAddressType.IPv4) {
-      RegExp privateV4 = RegExp(
-        r"(^192\.168\.([0-9]|[0-9][0-9]|[0-2][0-5][0-5])\.([0-9]|[0-9][0-9]|[0-2][0-5][0-5])$)|(^172\.([1][6-9]|[2][0-9]|[3][0-1])\.([0-9]|[0-9][0-9]|[0-2][0-5][0-5])\.([0-9]|[0-9][0-9]|[0-2][0-5][0-5])$)|(^10\.([0-9]|[0-9][0-9]|[0-2][0-5][0-5])\.([0-9]|[0-9][0-9]|[0-2][0-5][0-5])\.([0-9]|[0-9][0-9]|[0-2][0-5][0-5])$)",
-      );
+      List<int> octets =
+          parsedAddress.address.split('.').map((e) => int.parse(e)).toList();
 
-      if (privateV4.hasMatch(parsedAddress.address)) {
+      if ((octets[0] == 10) ||
+          (octets[0] == 172 && octets[1] >= 16 && octets[1] <= 31) ||
+          (octets[0] == 192 && octets[1] == 168)) {
         return false;
       }
     }
