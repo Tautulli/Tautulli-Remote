@@ -67,6 +67,10 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           'loadingState': ActivityLoadingState.initial,
           'activityList': <ActivityItem>[],
           'failure': null,
+          'bandwidth': {
+            'lan': 0,
+            'wan': 0,
+          }
         };
       }
     }
@@ -134,6 +138,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         },
         (list) async* {
           List<ActivityItem> updatedList = [];
+          int lanBandwidth = 0;
+          int wanBandwidth = 0;
 
           for (ActivityItem activityItem in list) {
             //* Fetch and assign image URLs
@@ -193,12 +199,26 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
                 updatedList.add(activityItem.copyWith(posterUrl: url));
               },
             );
+
+            // Calculate bandwidth values
+            try {
+              if (['wan', 'cellular'].contains(activityItem.location)) {
+                wanBandwidth = wanBandwidth + int.parse(activityItem.bandwidth);
+              } else {
+                lanBandwidth = lanBandwidth + int.parse(activityItem.bandwidth);
+              }
+            } catch (_) {}
           }
+
           _activityMap[event.tautulliId] = {
             'plex_name': event.plexName,
             'loadingState': ActivityLoadingState.success,
             'activityList': updatedList,
             'failure': null,
+            'bandwidth': {
+              'lan': lanBandwidth,
+              'wan': wanBandwidth,
+            },
           };
           yield ActivityLoaded(
             activityMap: _activityMap,

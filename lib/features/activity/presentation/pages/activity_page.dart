@@ -208,6 +208,7 @@ Widget _buildSingleServerActivity({
   Map<String, Map<String, Object>> map = activityMap;
   List mapKeys = map.keys.toList();
   List<ActivityItem> activityList = map[mapKeys[0]]['activityList'];
+  Map bandwidthMap = map[mapKeys[0]]['bandwidth'];
 
   if (activityList.isEmpty) {
     return LayoutBuilder(
@@ -229,19 +230,8 @@ Widget _buildSingleServerActivity({
 
   final SlidableController _slidableController = SlidableController();
   List<Widget> serverActivityList = [];
-  Map bandwidthMap = {
-    'lan': 0,
-    'wan': 0,
-  };
 
   for (ActivityItem activityItem in activityList) {
-    try {
-      String location =
-          ['wan', 'cellular'].contains(activityItem.location) ? 'wan' : 'lan';
-      bandwidthMap[location] =
-          bandwidthMap[location] + int.parse(activityItem.bandwidth);
-    } catch (_) {}
-
     serverActivityList.add(
       ActivityCard(
         activityMap: activityMap,
@@ -284,10 +274,6 @@ Widget _buildMultiserverActivity({
     tautulliId = serverId;
     List activityList = serverData['activityList'];
     List<Widget> serverActivityList = [];
-    Map bandwidthMap = {
-      'lan': 0,
-      'wan': 0,
-    };
 
     if (serverData['loadingState'] == ActivityLoadingState.inProgress) {
       if (serverData['failure'] == null) {
@@ -323,15 +309,6 @@ Widget _buildMultiserverActivity({
     if (serverData['loadingState'] == ActivityLoadingState.success) {
       if (activityList.isNotEmpty) {
         for (ActivityItem activityItem in activityList) {
-          try {
-            String location =
-                ['wan', 'cellular'].contains(activityItem.location)
-                    ? 'wan'
-                    : 'lan';
-            bandwidthMap[location] =
-                bandwidthMap[location] + int.parse(activityItem.bandwidth);
-          } catch (_) {}
-
           serverActivityList.add(
             ActivityCard(
               activityMap: activityMap,
@@ -371,7 +348,7 @@ Widget _buildMultiserverActivity({
               state: serverData['loadingState'],
               secondWidget: Padding(
                 padding: const EdgeInsets.only(top: 4),
-                child: BandwidthHeader(bandwidthMap: bandwidthMap),
+                child: BandwidthHeader(bandwidthMap: serverData['bandwidth']),
               ),
             ),
           ],
