@@ -8,6 +8,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
+import '../../../image_url/domain/usecases/get_image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/domain/entities/user_table.dart';
@@ -26,11 +27,13 @@ class HistoryIndividualBloc
     extends Bloc<HistoryIndividualEvent, HistoryIndividualState> {
   final GetHistory getHistory;
   final GetUsersTable getUsersTable;
+  final GetImageUrl getImageUrl;
   final Logging logging;
 
   HistoryIndividualBloc({
     @required this.getHistory,
     @required this.getUsersTable,
+    @required this.getImageUrl,
     @required this.logging,
   }) : super(HistoryIndividualInitial());
 
@@ -64,6 +67,7 @@ class HistoryIndividualBloc
           parentRatingKey: event.parentRatingKey,
           grandparentRatingKey: event.grandparentRatingKey,
           useCachedList: true,
+          getImages: event.getImages,
           settingsBloc: event.settingsBloc,
         );
       }
@@ -77,6 +81,7 @@ class HistoryIndividualBloc
           parentRatingKey: event.parentRatingKey,
           grandparentRatingKey: event.grandparentRatingKey,
           start: event.start,
+          getImages: event.getImages,
           settingsBloc: event.settingsBloc,
         );
       }
@@ -104,9 +109,11 @@ class HistoryIndividualBloc
     int length,
     String search,
     bool useCachedList = false,
+    bool getImages = false,
     @required SettingsBloc settingsBloc,
   }) async* {
-    int cacheRatingKey = grandparentRatingKey ?? parentRatingKey ?? ratingKey;
+    int cacheRatingKey =
+        grandparentRatingKey ?? parentRatingKey ?? ratingKey ?? userId;
     if (useCachedList &&
         _historyListCacheMap.containsKey(cacheRatingKey) &&
         _tautulliIdCache == tautulliId) {
@@ -149,7 +156,9 @@ class HistoryIndividualBloc
       yield* failureOrHistory.fold(
         (failure) async* {
           logging.error(
-            'History: Failed to load history for rating key ${grandparentRatingKey ?? parentRatingKey ?? ratingKey}',
+            userId != null
+                ? 'History: Failed to load history for user ID $userId'
+                : 'History: Failed to load history for rating key ${grandparentRatingKey ?? parentRatingKey ?? ratingKey}',
           );
 
           yield HistoryIndividualFailure(
@@ -159,8 +168,21 @@ class HistoryIndividualBloc
           );
         },
         (list) async* {
-          int key = grandparentRatingKey ?? parentRatingKey ?? ratingKey;
-          _historyListCacheMap[key] = list;
+          List<History> updatedList;
+
+          if (getImages) {
+            updatedList = await _getImages(
+              list: list,
+              tautulliId: tautulliId,
+              settingsBloc: settingsBloc,
+            );
+          } else {
+            updatedList = list;
+          }
+
+          int key =
+              grandparentRatingKey ?? parentRatingKey ?? ratingKey ?? userId;
+          _historyListCacheMap[key] = updatedList;
 
           if (_userTableListCache.isEmpty) {
             yield* failureOrUsersTable.fold(
@@ -168,16 +190,16 @@ class HistoryIndividualBloc
               (userTableList) async* {
                 _userTableListCache = userTableList;
                 yield HistoryIndividualSuccess(
-                  list: list,
-                  hasReachedMax: list.length < 25,
+                  list: updatedList,
+                  hasReachedMax: updatedList.length < 25,
                   userTableList: userTableList,
                 );
               },
             );
           }
           yield HistoryIndividualSuccess(
-            list: list,
-            hasReachedMax: list.length < 25,
+            list: updatedList,
+            hasReachedMax: updatedList.length < 25,
             userTableList: _userTableListCache,
           );
         },
@@ -204,6 +226,7 @@ class HistoryIndividualBloc
     int start,
     int length,
     String search,
+    bool getImages = false,
     @required SettingsBloc settingsBloc,
   }) async* {
     final failureOrHistory = await getHistory(
@@ -230,7 +253,9 @@ class HistoryIndividualBloc
     yield* failureOrHistory.fold(
       (failure) async* {
         logging.error(
-          'History: Failed to load additional history for rating key ${grandparentRatingKey ?? parentRatingKey ?? ratingKey}',
+          userId != null
+              ? 'History: Failed to load history for user ID $userId'
+              : 'History: Failed to load history for rating key ${grandparentRatingKey ?? parentRatingKey ?? ratingKey}',
         );
 
         yield HistoryIndividualFailure(
@@ -243,17 +268,88 @@ class HistoryIndividualBloc
         if (list.isEmpty) {
           yield currentState.copyWith(hasReachedMax: true);
         } else {
-          int key = grandparentRatingKey ?? parentRatingKey ?? ratingKey;
-          _historyListCacheMap[key] = currentState.list + list;
+          List<History> updatedList;
+
+          if (getImages) {
+            updatedList = await _getImages(
+              list: list,
+              tautulliId: tautulliId,
+              settingsBloc: settingsBloc,
+            );
+          } else {
+            updatedList = list;
+          }
+
+          int key =
+              grandparentRatingKey ?? parentRatingKey ?? ratingKey ?? userId;
+          _historyListCacheMap[key] = currentState.list + updatedList;
 
           yield HistoryIndividualSuccess(
-            list: currentState.list + list,
-            hasReachedMax: list.length < 25,
+            list: currentState.list + updatedList,
+            hasReachedMax: updatedList.length < 25,
             userTableList: _userTableListCache,
           );
         }
       },
     );
+  }
+
+  Future<List<History>> _getImages({
+    @required List<History> list,
+    @required String tautulliId,
+    @required SettingsBloc settingsBloc,
+  }) async {
+    List<History> newList = [];
+
+    for (History historyItem in list) {
+      //* Fetch and assign image URLs
+      String posterImg;
+      int posterRatingKey;
+      String posterFallback;
+
+      // Assign values for poster URL
+      switch (historyItem.mediaType) {
+        case ('movie'):
+        case ('clip'):
+          posterImg = historyItem.thumb;
+          posterRatingKey = historyItem.ratingKey;
+          posterFallback = 'poster';
+          break;
+        case ('episode'):
+          posterImg = historyItem.thumb;
+          posterRatingKey = historyItem.grandparentRatingKey;
+          posterFallback = 'poster';
+          break;
+        case ('track'):
+          posterImg = historyItem.thumb;
+          posterRatingKey = historyItem.parentRatingKey;
+          posterFallback = 'cover';
+          break;
+        default:
+          posterRatingKey = historyItem.ratingKey;
+      }
+
+      // Attempt to get poster URL
+      final failureOrPosterUrl = await getImageUrl(
+        tautulliId: tautulliId,
+        img: posterImg,
+        ratingKey: posterRatingKey,
+        fallback: posterFallback,
+        settingsBloc: settingsBloc,
+      );
+      failureOrPosterUrl.fold(
+        (failure) {
+          logging.warning(
+            'History: Failed to load poster for rating key $posterRatingKey',
+          );
+        },
+        (url) {
+          newList.add(historyItem.copyWith(posterUrl: url));
+        },
+      );
+    }
+
+    return newList;
   }
 }
 

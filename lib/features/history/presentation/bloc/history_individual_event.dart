@@ -25,6 +25,7 @@ class HistoryIndividualFetch extends HistoryIndividualEvent {
   final int start;
   final int length;
   final String search;
+  final bool getImages;
   final SettingsBloc settingsBloc;
 
   HistoryIndividualFetch({
@@ -45,6 +46,7 @@ class HistoryIndividualFetch extends HistoryIndividualEvent {
     this.start,
     this.length,
     this.search,
+    this.getImages = false,
     @required this.settingsBloc,
   });
 
