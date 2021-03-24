@@ -11,6 +11,7 @@ import '../../../../core/widgets/user_card.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../users/domain/entities/user_table.dart';
 import '../../domain/entities/statistics.dart';
 import '../bloc/statistics_bloc.dart';
 import '../widgets/statistics_details.dart';
@@ -102,8 +103,12 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                       ),
                     );
                   } else if (widget.statId == 'top_users') {
-                    return UserCard(
+                    final user = UserTable(
                       userThumb: stat.userThumb,
+                    );
+
+                    return UserCard(
+                      user: user,
                       details: StatisticsDetails(
                         statistic: stat,
                         maskSensitiveInfo: widget.maskSensitiveInfo,

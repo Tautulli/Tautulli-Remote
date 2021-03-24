@@ -20,6 +20,7 @@ import '../../../../injection_container.dart' as di;
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../users/domain/entities/user_table.dart';
 import '../../domain/entities/statistics.dart';
 import '../bloc/statistics_bloc.dart';
 import '../widgets/statistics_details.dart';
@@ -570,9 +571,13 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                 ),
               );
             } else if (s.statId == 'top_users') {
+              final user = UserTable(
+                userThumb: s.userThumb,
+              );
+
               statList.add(
                 UserCard(
-                  userThumb: s.userThumb,
+                  user: user,
                   details: StatisticsDetails(
                     statistic: s,
                     maskSensitiveInfo: _maskSensitiveInfo,

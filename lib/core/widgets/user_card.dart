@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
+import '../../features/users/domain/entities/user_table.dart';
 import '../helpers/color_palette_helper.dart';
 import 'user_icon.dart';
 
 class UserCard extends StatefulWidget {
-  final String userThumb;
-  final int isActive;
+  final UserTable user;
   final Widget details;
   final bool maskSensitiveInfo;
 
   const UserCard({
     Key key,
-    this.userThumb,
-    this.isActive,
+    this.user,
     this.details,
     this.maskSensitiveInfo,
   }) : super(key: key);
@@ -29,9 +28,10 @@ class _UserCardState extends State<UserCard> {
   @override
   void initState() {
     super.initState();
-    hasNetworkImage =
-        widget.userThumb != null ? widget.userThumb.startsWith('http') : false;
-    getColorFuture = _getColor(hasNetworkImage, widget.userThumb);
+    hasNetworkImage = widget.user.userThumb != null
+        ? widget.user.userThumb.startsWith('http')
+        : false;
+    getColorFuture = _getColor(hasNetworkImage, widget.user.userThumb);
   }
 
   @override
@@ -65,7 +65,7 @@ class _UserCardState extends State<UserCard> {
                     child: Row(
                       children: [
                         UserIcon(
-                          isActive: widget.isActive,
+                          isActive: widget.user.isActive,
                           hasNetworkImage: hasNetworkImage,
                           snapshot: snapshot,
                           maskSensitiveInfo: widget.maskSensitiveInfo,
