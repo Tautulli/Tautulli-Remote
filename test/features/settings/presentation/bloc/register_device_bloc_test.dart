@@ -141,7 +141,7 @@ void main() {
             failure: QRScanFailure(),
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           RegisterDeviceFromQrStarted(
@@ -162,7 +162,7 @@ void main() {
           RegisterDeviceInProgress(),
           RegisterDeviceSuccess(),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           RegisterDeviceFromQrStarted(
@@ -191,7 +191,7 @@ void main() {
           RegisterDeviceInProgress(),
           RegisterDeviceFailure(failure: ServerFailure()),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           RegisterDeviceFromQrStarted(
@@ -275,7 +275,7 @@ void main() {
           RegisterDeviceInProgress(),
           RegisterDeviceSuccess(),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           RegisterDeviceManualStarted(
@@ -305,7 +305,7 @@ void main() {
           RegisterDeviceInProgress(),
           RegisterDeviceFailure(failure: ServerFailure()),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           RegisterDeviceManualStarted(

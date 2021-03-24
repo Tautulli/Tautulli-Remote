@@ -111,7 +111,7 @@ void main() {
           geoIpMap: tGeoIpMap,
         ),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(
         GeoIpLoad(
@@ -143,7 +143,7 @@ void main() {
           geoIpMap: {},
         ),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(
         GeoIpLoad(

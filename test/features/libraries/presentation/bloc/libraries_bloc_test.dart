@@ -197,7 +197,7 @@ void main() {
             librariesList: tLibrariesListWithImages,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibrariesFetch(
           tautulliId: tTautulliId,
@@ -234,7 +234,7 @@ void main() {
             suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibrariesFetch(
           tautulliId: tTautulliId,
@@ -260,7 +260,7 @@ void main() {
             librariesList: tLibrariesListWithImages,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibrariesFilter(
           tautulliId: tTautulliId,

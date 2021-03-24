@@ -35,16 +35,15 @@ void main() {
   setUp(() {
     mockGetStatistics = MockGetStatistics();
     mockGetImageUrl = MockGetImageUrl();
-
-    bloc = StatisticsBloc(
-      getStatistics: mockGetStatistics,
-      getImageUrl: mockGetImageUrl,
-      logging: mockLogging,
-    );
     mockLogging = MockLogging();
     mockSettings = MockSettings();
     settingsBloc = SettingsBloc(
       settings: mockSettings,
+      logging: mockLogging,
+    );
+    bloc = StatisticsBloc(
+      getStatistics: mockGetStatistics,
+      getImageUrl: mockGetImageUrl,
       logging: mockLogging,
     );
   });
@@ -288,7 +287,7 @@ void main() {
           suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
         ),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(
         StatisticsFetch(

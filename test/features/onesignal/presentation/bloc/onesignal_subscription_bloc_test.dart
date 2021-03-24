@@ -38,7 +38,7 @@ void main() {
       final expected = [
         OneSignalSubscriptionSuccess(),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalSubscriptionCheck());
     },
@@ -58,7 +58,7 @@ void main() {
           consented: false,
         ),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalSubscriptionCheck());
     },
@@ -81,7 +81,7 @@ void main() {
           consented: true,
         ),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalSubscriptionCheck());
     },
@@ -104,7 +104,7 @@ void main() {
           consented: true,
         ),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalSubscriptionCheck());
     },
@@ -127,7 +127,7 @@ void main() {
           consented: true,
         ),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalSubscriptionCheck());
     },

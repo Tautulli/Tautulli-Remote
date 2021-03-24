@@ -177,7 +177,7 @@ void main() {
             suggestion: METADATA_EMPTY_FAILURE_SUGGESTION,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           ChildrenMetadataFetched(

@@ -142,7 +142,7 @@ void main() {
             statsType: tStatsType,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(SettingsLoad(settingsBloc: bloc));
       },
@@ -207,7 +207,7 @@ void main() {
             statsType: tStatsType,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           SettingsAddServer(
@@ -293,7 +293,7 @@ void main() {
             statsType: tStatsType,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           SettingsUpdateServer(
@@ -345,7 +345,7 @@ void main() {
             statsType: tStatsType,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(SettingsDeleteServer(
           id: tId,
@@ -400,7 +400,7 @@ void main() {
             statsType: tStatsType,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           SettingsUpdatePrimaryConnection(
@@ -458,7 +458,7 @@ void main() {
             statsType: tStatsType,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           SettingsUpdateSecondaryConnection(
@@ -516,7 +516,7 @@ void main() {
             statsType: tStatsType,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           SettingsUpdateDeviceToken(

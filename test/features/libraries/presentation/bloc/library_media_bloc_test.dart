@@ -195,7 +195,7 @@ void main() {
             libraryMediaList: tLibraryMediaListWithImages,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibraryMediaFetched(
           tautulliId: tTautulliId,
@@ -229,7 +229,7 @@ void main() {
             suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibraryMediaFetched(
           tautulliId: tTautulliId,
@@ -254,7 +254,7 @@ void main() {
             libraryMediaList: tLibraryMediaListWithImages,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibraryMediaFullRefresh(
           tautulliId: tTautulliId,

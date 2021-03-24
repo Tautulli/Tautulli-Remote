@@ -231,7 +231,7 @@ void main() {
             hasReachedMax: false,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(HistoryFetch(
           tautulliId: tTautulliId,
@@ -277,7 +277,7 @@ void main() {
             suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(HistoryFetch(
           tautulliId: tTautulliId,
@@ -306,7 +306,7 @@ void main() {
             hasReachedMax: false,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(HistoryFetch(
           tautulliId: tTautulliId,
@@ -335,7 +335,7 @@ void main() {
             hasReachedMax: true,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(HistoryFetch(
           tautulliId: tTautulliId,
@@ -361,7 +361,7 @@ void main() {
             hasReachedMax: false,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(HistoryFilter(
           tautulliId: tTautulliId,

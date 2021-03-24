@@ -71,7 +71,7 @@ void main() {
       final expected = [
         OneSignalPrivacyConsentSuccess(),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalPrivacyCheckConsent());
     },
@@ -87,7 +87,7 @@ void main() {
       final expected = [
         OneSignalPrivacyConsentFailure(),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalPrivacyCheckConsent());
     },
@@ -112,7 +112,7 @@ void main() {
         final expected = [
           OneSignalPrivacyConsentSuccess(),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(OneSignalPrivacyGrantConsent());
       },
@@ -201,7 +201,7 @@ void main() {
         final expected = [
           OneSignalPrivacyConsentFailure(),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(OneSignalPrivacyRevokeConsent());
       },

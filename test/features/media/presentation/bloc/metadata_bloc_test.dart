@@ -130,7 +130,7 @@ void main() {
           MetadataInProgress(),
           MetadataSuccess(metadata: tMetadataItemWithImage),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           MetadataFetched(
@@ -164,7 +164,7 @@ void main() {
             suggestion: METADATA_EMPTY_FAILURE_SUGGESTION,
           ),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           MetadataFetched(

@@ -99,7 +99,7 @@ void main() {
           usersList: tUserList,
         ),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(
         UsersListFetch(
@@ -127,7 +127,7 @@ void main() {
         UsersListInProgress(),
         UsersListFailure(),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(
         UsersListFetch(

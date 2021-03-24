@@ -102,7 +102,7 @@ void main() {
           TerminateSessionInProgress(sessionId: tSessionId),
           TerminateSessionSuccess(),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           TerminateSessionStarted(
@@ -131,7 +131,7 @@ void main() {
           TerminateSessionInProgress(sessionId: tSessionId),
           TerminateSessionFailure(failure: TerminateFailure()),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
           TerminateSessionStarted(

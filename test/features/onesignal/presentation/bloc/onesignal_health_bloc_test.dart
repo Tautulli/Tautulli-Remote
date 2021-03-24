@@ -42,7 +42,7 @@ void main() {
         OneSignalHealthInProgress(),
         OneSignalHealthSuccess(),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalHealthCheck());
     },
@@ -59,7 +59,7 @@ void main() {
         OneSignalHealthInProgress(),
         OneSignalHealthFailure(),
       ];
-      expectLater(bloc, emitsInOrder(expected));
+      expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalHealthCheck());
     },
