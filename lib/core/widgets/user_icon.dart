@@ -6,11 +6,13 @@ import '../helpers/color_palette_helper.dart';
 
 class UserIcon extends StatelessWidget {
   final UserTable user;
+  final double size;
   final bool maskSensitiveInfo;
 
   const UserIcon({
     Key key,
     @required this.user,
+    this.size,
     @required this.maskSensitiveInfo,
   }) : super(key: key);
 
@@ -21,28 +23,42 @@ class UserIcon extends StatelessWidget {
 
     return Stack(
       children: [
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: (hasNetworkImage &&
-                      user.userThumb != null &&
-                      !maskSensitiveInfo)
-                  ? NetworkImage(user.userThumb)
-                  : AssetImage('assets/images/default_profile.png'),
-              fit: BoxFit.cover,
-            ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(50.0),
-            ),
-            border: Border.all(
-              color: (hasNetworkImage &&
-                      user.userThumb != null &&
-                      !maskSensitiveInfo)
-                  ? Colors.transparent
-                  : Color.fromRGBO(69, 69, 69, 1),
-              width: 1,
+        ClipRRect(
+          borderRadius: BorderRadius.all(
+            Radius.circular(50.0),
+          ),
+          child: Container(
+            width: size ?? 60,
+            height: size ?? 60,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Container(
+                    color: !hasNetworkImage
+                        ? PlexColorPalette.shark
+                        : Colors.transparent,
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: (hasNetworkImage && !maskSensitiveInfo)
+                          ? NetworkImage(user.userThumb)
+                          : AssetImage('assets/images/default_profile.png'),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50.0),
+                    ),
+                    border: Border.all(
+                      color: (hasNetworkImage && !maskSensitiveInfo)
+                          ? Colors.transparent
+                          : Color.fromRGBO(69, 69, 69, 1),
+                      width: 1,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -53,6 +69,7 @@ class UserIcon extends StatelessWidget {
             child: FaIcon(
               FontAwesomeIcons.exclamationTriangle,
               color: TautulliColorPalette.amber,
+              size: size != null ? size / 60 * 24 : 24,
             ),
           ),
       ],
