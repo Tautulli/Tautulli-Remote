@@ -214,6 +214,7 @@ Future<void> init() async {
     () => HistoryIndividualBloc(
       getHistory: sl(),
       getUsersTable: sl(),
+      getImageUrl: sl(),
       logging: sl(),
     ),
   );
