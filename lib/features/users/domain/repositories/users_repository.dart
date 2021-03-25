@@ -8,11 +8,11 @@ import '../entities/user_table.dart';
 
 abstract class UsersRepository {
   Future<Either<Failure, List<User>>> getUserNames({
-    @required tautulliId,
+    @required String tautulliId,
     @required SettingsBloc settingsBloc,
   });
   Future<Either<Failure, List<UserTable>>> getUsersTable({
-    @required tautulliId,
+    @required String tautulliId,
     int grouping,
     String orderColumn,
     String orderDir,

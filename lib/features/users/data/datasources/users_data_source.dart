@@ -9,11 +9,11 @@ import '../models/user_table_model.dart';
 
 abstract class UsersDataSource {
   Future<List> getUserNames({
-    @required tautulliId,
+    @required String tautulliId,
     @required SettingsBloc settingsBloc,
   });
   Future<List> getUsersTable({
-    @required tautulliId,
+    @required String tautulliId,
     int grouping,
     String orderColumn,
     String orderDir,
@@ -35,7 +35,7 @@ class UsersDataSourceImpl implements UsersDataSource {
 
   @override
   Future<List> getUserNames({
-    @required tautulliId,
+    @required String tautulliId,
     @required SettingsBloc settingsBloc,
   }) async {
     final usersJson = await apiGetUserNames(
@@ -53,7 +53,7 @@ class UsersDataSourceImpl implements UsersDataSource {
 
   @override
   Future<List> getUsersTable({
-    @required tautulliId,
+    @required String tautulliId,
     int grouping,
     String orderColumn,
     String orderDir,
