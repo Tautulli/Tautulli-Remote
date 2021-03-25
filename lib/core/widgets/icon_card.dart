@@ -6,6 +6,7 @@ import 'package:websafe_svg/websafe_svg.dart';
 class IconCard extends StatelessWidget {
   final String localIconImagePath;
   final String iconImageUrl;
+  final Widget icon;
   final Color backgroundColor;
   final Color iconColor;
   final Image backgroundImage;
@@ -15,6 +16,7 @@ class IconCard extends StatelessWidget {
     Key key,
     this.localIconImagePath,
     this.iconImageUrl,
+    this.icon,
     this.backgroundColor,
     this.iconColor,
     this.backgroundImage,
@@ -55,7 +57,9 @@ class IconCard extends StatelessWidget {
                                     localIconImagePath,
                                     color: iconColor,
                                   )
-                                : null,
+                                : icon != null
+                                    ? Center(child: icon)
+                                    : null,
                       ),
                     ),
                     Expanded(
