@@ -64,10 +64,11 @@ class _HistoryInfoState extends State<HistoryInfo> {
               widget.item.platform,
             ),
           ),
-          _ItemRow(
-            title: 'PRODUCT',
-            item: _FormattedText(widget.item.product),
-          ),
+          if (widget.item.product != null)
+            _ItemRow(
+              title: 'PRODUCT',
+              item: _FormattedText(widget.item.product),
+            ),
           _ItemRow(
             title: 'PLAYER',
             item: _FormattedText(widget.item.player),
@@ -198,7 +199,7 @@ class _FormattedText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      text.trim(),
       style: TextStyle(
         fontSize: 16,
         height: 1.4,
