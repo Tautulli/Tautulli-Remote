@@ -130,7 +130,8 @@ class _UsersPageContentState extends State<UsersPageContent> {
                             child: DropdownButton(
                               value: _tautulliId,
                               style: TextStyle(
-                                  color: Theme.of(context).accentColor),
+                                color: Theme.of(context).accentColor,
+                              ),
                               items: state.serverList.map((server) {
                                 return DropdownMenuItem(
                                   child:
@@ -195,10 +196,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
                                     return index >= state.list.length
                                         ? BottomLoader()
                                         : UserCard(
-                                            userThumb:
-                                                state.list[index].userThumb,
-                                            isActive:
-                                                state.list[index].isActive,
+                                            user: state.list[index],
                                             details: UsersDetails(
                                               user: state.list[index],
                                               maskSensitiveInfo:

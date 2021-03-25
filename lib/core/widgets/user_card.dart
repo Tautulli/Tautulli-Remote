@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
+import '../../features/users/presentation/pages/user_details_page.dart';
 
 import '../../features/users/domain/entities/user_table.dart';
 import '../helpers/color_palette_helper.dart';
@@ -42,45 +43,59 @@ class _UserCardState extends State<UserCard> {
         bool hasCustomColor =
             snapshot.connectionState == ConnectionState.done &&
                 snapshot.data['color'] != null;
-        return Card(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Stack(
-              children: [
-                // Card color
-                Container(
-                  height: 100,
-                  color: hasCustomColor ? snapshot.data['color'] : null,
-                ),
-                // Darken card if it has a custom color
-                if (hasNetworkImage && hasCustomColor)
+        return GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return UserDetailsPage(
+                    user: widget.user,
+                    backgroundColor:
+                        hasCustomColor ? snapshot.data['color'] : null,
+                    maskSensitiveInfo: widget.maskSensitiveInfo,
+                  );
+                },
+              ),
+            );
+          },
+          child: Card(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: Stack(
+                children: [
+                  // Card color
+                  Container(
+                    height: 100,
+                    color: hasCustomColor ? snapshot.data['color'] : null,
+                  ),
+                  // Darken card if it has a custom color
+                  if (hasNetworkImage && hasCustomColor)
+                    Positioned.fill(
+                      child: Container(
+                        color: Colors.black.withOpacity(0.6),
+                      ),
+                    ),
                   Positioned.fill(
-                    child: Container(
-                      color: Colors.black.withOpacity(0.6),
-                    ),
-                  ),
-                Positioned.fill(
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Row(
-                      children: [
-                        UserIcon(
-                          isActive: widget.user.isActive,
-                          hasNetworkImage: hasNetworkImage,
-                          snapshot: snapshot,
-                          maskSensitiveInfo: widget.maskSensitiveInfo,
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: widget.details,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Row(
+                        children: [
+                          UserIcon(
+                            user: widget.user,
+                            maskSensitiveInfo: widget.maskSensitiveInfo,
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: widget.details,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
