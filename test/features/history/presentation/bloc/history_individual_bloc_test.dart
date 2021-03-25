@@ -9,6 +9,7 @@ import 'package:tautulli_remote/features/history/data/models/history_model.dart'
 import 'package:tautulli_remote/features/history/domain/entities/history.dart';
 import 'package:tautulli_remote/features/history/domain/usecases/get_history.dart';
 import 'package:tautulli_remote/features/history/presentation/bloc/history_individual_bloc.dart';
+import 'package:tautulli_remote/features/image_url/domain/usecases/get_image_url.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
@@ -22,6 +23,8 @@ class MockGetHistory extends Mock implements GetHistory {}
 
 class MockGetUsersTable extends Mock implements GetUsersTable {}
 
+class MockGetImageUrl extends Mock implements GetImageUrl {}
+
 class MockSettings extends Mock implements Settings {}
 
 class MockLogging extends Mock implements Logging {}
@@ -30,6 +33,7 @@ void main() {
   HistoryIndividualBloc bloc;
   MockGetHistory mockGetHistory;
   MockGetUsersTable mockGetUsersTable;
+  MockGetImageUrl mockGetImageUrl;
   MockSettings mockSettings;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
@@ -37,12 +41,14 @@ void main() {
   setUp(() {
     mockGetHistory = MockGetHistory();
     mockGetUsersTable = MockGetUsersTable();
+    mockGetImageUrl = MockGetImageUrl();
     mockLogging = MockLogging();
     mockSettings = MockSettings();
 
     bloc = HistoryIndividualBloc(
       getHistory: mockGetHistory,
       getUsersTable: mockGetUsersTable,
+      getImageUrl: mockGetImageUrl,
       logging: mockLogging,
     );
     settingsBloc = SettingsBloc(
@@ -53,6 +59,8 @@ void main() {
 
   final tTautulliId = 'jkl';
   final tRatingKey = 1;
+  String imageUrl =
+      'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
 
   final List<History> tHistoryList = [];
   final List<History> tHistoryList25 = [];
@@ -76,6 +84,15 @@ void main() {
   });
 
   void setUpSuccess(List historyList) {
+    when(
+      mockGetImageUrl(
+        tautulliId: anyNamed('tautulliId'),
+        img: anyNamed('img'),
+        ratingKey: anyNamed('ratingKey'),
+        fallback: anyNamed('fallback'),
+        settingsBloc: anyNamed('settingsBloc'),
+      ),
+    ).thenAnswer((_) async => Right(imageUrl));
     when(mockGetUsersTable(
       tautulliId: anyNamed('tautulliId'),
       grouping: anyNamed('grouping'),
