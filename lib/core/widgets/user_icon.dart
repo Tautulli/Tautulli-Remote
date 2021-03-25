@@ -34,7 +34,7 @@ class UserIcon extends StatelessWidget {
               children: [
                 Positioned.fill(
                   child: Container(
-                    color: !hasNetworkImage
+                    color: !hasNetworkImage || maskSensitiveInfo
                         ? PlexColorPalette.shark
                         : Colors.transparent,
                   ),
