@@ -1,0 +1,232 @@
+{
+    "response": {
+        "result": "success",
+        "message": null,
+        "data": [
+            {
+                "player_name": "BRAVIA 4K 2015",
+                "platform": "Android",
+                "platform_name": "android",
+                "total_plays": 1270,
+                "result_id": 0
+            },
+            {
+                "player_name": "Plex Web (Chrome)",
+                "platform": "Chrome",
+                "platform_name": "chrome",
+                "total_plays": 1186,
+                "result_id": 1
+            },
+            {
+                "player_name": "TIE-Silencer",
+                "platform": "Plex Media Player",
+                "platform_name": "plex",
+                "total_plays": 411,
+                "result_id": 2
+            },
+            {
+                "player_name": "SyncLounge",
+                "platform": "SyncLounge",
+                "platform_name": "synclounge",
+                "total_plays": 353,
+                "result_id": 3
+            },
+            {
+                "player_name": "Finalizer",
+                "platform": "Plex Media Player",
+                "platform_name": "plex",
+                "total_plays": 230,
+                "result_id": 4
+            },
+            {
+                "player_name": "Nexus 9 LTE",
+                "platform": "Android",
+                "platform_name": "android",
+                "total_plays": 223,
+                "result_id": 5
+            },
+            {
+                "player_name": "LG OLED65C9PUA",
+                "platform": "webOS",
+                "platform_name": "lg",
+                "total_plays": 167,
+                "result_id": 6
+            },
+            {
+                "player_name": "Chrome",
+                "platform": "Chrome",
+                "platform_name": "chrome",
+                "total_plays": 148,
+                "result_id": 7
+            },
+            {
+                "player_name": "My Nexus 9",
+                "platform": "Android",
+                "platform_name": "android",
+                "total_plays": 103,
+                "result_id": 8
+            },
+            {
+                "player_name": "T470p",
+                "platform": "Plex Media Player",
+                "platform_name": "plex",
+                "total_plays": 31,
+                "result_id": 9
+            },
+            {
+                "player_name": "Living Room",
+                "platform": "Roku",
+                "platform_name": "roku",
+                "total_plays": 17,
+                "result_id": 10
+            },
+            {
+                "player_name": "Chromecast",
+                "platform": "Chromecast",
+                "platform_name": "chromecast",
+                "total_plays": 15,
+                "result_id": 11
+            },
+            {
+                "player_name": "PlexTogether Player",
+                "platform": "PlexTogether",
+                "platform_name": "synclounge",
+                "total_plays": 15,
+                "result_id": 12
+            },
+            {
+                "player_name": "Galaxy S8+",
+                "platform": "Android",
+                "platform_name": "android",
+                "total_plays": 11,
+                "result_id": 13
+            },
+            {
+                "player_name": "My BRAVIA 2015",
+                "platform": "Android",
+                "platform_name": "android",
+                "total_plays": 11,
+                "result_id": 14
+            },
+            {
+                "player_name": "Pixel Slate",
+                "platform": "Android",
+                "platform_name": "android",
+                "total_plays": 8,
+                "result_id": 15
+            },
+            {
+                "player_name": "T470",
+                "platform": "Plex Media Player",
+                "platform_name": "plex",
+                "total_plays": 6,
+                "result_id": 16
+            },
+            {
+                "player_name": "Roku Ultra",
+                "platform": "Roku",
+                "platform_name": "roku",
+                "total_plays": 6,
+                "result_id": 17
+            },
+            {
+                "player_name": "T470P",
+                "platform": "Plex Media Player",
+                "platform_name": "plex",
+                "total_plays": 5,
+                "result_id": 18
+            },
+            {
+                "player_name": "Work Laptop",
+                "platform": "Windows",
+                "platform_name": "windows",
+                "total_plays": 5,
+                "result_id": 19
+            },
+            {
+                "player_name": "HD1905",
+                "platform": "Android",
+                "platform_name": "android",
+                "total_plays": 4,
+                "result_id": 20
+            },
+            {
+                "player_name": "My ONE A2005",
+                "platform": "Android",
+                "platform_name": "android",
+                "total_plays": 3,
+                "result_id": 21
+            },
+            {
+                "player_name": "HomeTheater-PC",
+                "platform": "Plex Media Player",
+                "platform_name": "plex",
+                "total_plays": 2,
+                "result_id": 22
+            },
+            {
+                "player_name": "ONE A2005",
+                "platform": "Android",
+                "platform_name": "android",
+                "total_plays": 2,
+                "result_id": 23
+            },
+            {
+                "player_name": "Spare Room",
+                "platform": "Roku",
+                "platform_name": "roku",
+                "total_plays": 2,
+                "result_id": 24
+            },
+            {
+                "player_name": "The Executor",
+                "platform": "Windows",
+                "platform_name": "windows",
+                "total_plays": 2,
+                "result_id": 25
+            },
+            {
+                "player_name": "X1",
+                "platform": "Windows",
+                "platform_name": "windows",
+                "total_plays": 1,
+                "result_id": 26
+            },
+            {
+                "player_name": "OnePlus 2",
+                "platform": "Android",
+                "platform_name": "android",
+                "total_plays": 1,
+                "result_id": 27
+            },
+            {
+                "player_name": "OnePlus 7T",
+                "platform": "Android",
+                "platform_name": "android",
+                "total_plays": 1,
+                "result_id": 28
+            },
+            {
+                "player_name": "Plex Web (Firefox)",
+                "platform": "Firefox",
+                "platform_name": "firefox",
+                "total_plays": 1,
+                "result_id": 29
+            },
+            {
+                "player_name": "Plex Web (Microsoft Edge)",
+                "platform": "Microsoft Edge",
+                "platform_name": "msedge",
+                "total_plays": 1,
+                "result_id": 30
+            },
+            {
+                "player_name": "Plex Web (Safari)",
+                "platform": "Safari",
+                "platform_name": "safari",
+                "total_plays": 1,
+                "result_id": 31
+            }
+        ]
+    }
+}
