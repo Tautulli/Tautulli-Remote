@@ -97,11 +97,17 @@ import 'features/terminate_session/data/repositories/terminate_session_repositor
 import 'features/terminate_session/domain/repositories/terminate_session_repository.dart';
 import 'features/terminate_session/domain/usecases/terminate_session.dart';
 import 'features/terminate_session/presentation/bloc/terminate_session_bloc.dart';
+import 'features/users/data/datasources/user_statistics_data_source.dart';
 import 'features/users/data/datasources/users_data_source.dart';
+import 'features/users/data/repositories/user_statistics_repository_impl.dart';
 import 'features/users/data/repositories/users_repository_impl.dart';
+import 'features/users/domain/repositories/user_statistics_repository.dart';
 import 'features/users/domain/repositories/users_repository.dart';
 import 'features/users/domain/usecases/get_user_names.dart';
+import 'features/users/domain/usecases/get_user_player_stats.dart';
+import 'features/users/domain/usecases/get_user_watch_time_stats.dart';
 import 'features/users/domain/usecases/get_users_table.dart';
+import 'features/users/presentation/bloc/user_statistics_bloc.dart';
 import 'features/users/presentation/bloc/users_bloc.dart';
 import 'features/users/presentation/bloc/users_list_bloc.dart';
 
@@ -677,6 +683,14 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory(
+    () => UserStatisticsBloc(
+      getUserPlayerStats: sl(),
+      getUserWatchTimeStats: sl(),
+      logging: sl(),
+    ),
+  );
+
   // Use case
   sl.registerLazySingleton(
     () => GetUserNames(
@@ -689,9 +703,28 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerLazySingleton(
+    () => GetUserWatchTimeStats(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetUserPlayerStats(
+      repository: sl(),
+    ),
+  );
+
   // Repository
   sl.registerLazySingleton<UsersRepository>(
     () => UsersTableRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<UserStatisticsRepository>(
+    () => UserStatisticsRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
     ),
@@ -702,6 +735,13 @@ Future<void> init() async {
     () => UsersDataSourceImpl(
       apiGetUserNames: sl(),
       apiGetUsersTable: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<UserStatisticsDataSource>(
+    () => UserStatisticsDataSourceImpl(
+      apiGetUserPlayerStats: sl(),
+      apiGetUserWatchTimeStats: sl(),
     ),
   );
 
@@ -802,6 +842,16 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulliApi.GetUserNames>(
     () => tautulliApi.GetUserNamesImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetUserPlayerStats>(
+    () => tautulliApi.GetUserPlayerStatsImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetUserWatchTimeStats>(
+    () => tautulliApi.GetUserWatchTimeStatsImpl(
       connectionHandler: sl(),
     ),
   );
