@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tautulli_remote/features/libraries/domain/entities/library.dart';
+import 'package:tautulli_remote/features/libraries/presentation/pages/library_details_page.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
@@ -600,15 +602,41 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
               );
             } else if (s.statId == 'top_libraries') {
               statList.add(
-                IconCard(
-                  localIconImagePath:
-                      AssetMapperHelper.mapLibraryToPath(s.sectionType),
-                  iconImageUrl: s.iconUrl,
-                  backgroundImage: Image.network(s.posterUrl),
-                  iconColor: TautulliColorPalette.not_white,
-                  details: StatisticsDetails(
-                    statistic: s,
-                    maskSensitiveInfo: _maskSensitiveInfo,
+                GestureDetector(
+                  onTap: () {
+                    Library library = Library(
+                      iconUrl: s.iconUrl,
+                      backgroundUrl: s.posterUrl,
+                      sectionId: s.sectionId,
+                      sectionName: s.sectionName,
+                      sectionType: s.sectionType,
+                      plays: s.totalPlays,
+                      duration: s.totalDuration,
+                      libraryArt: s.art,
+                      libraryThumb: s.thumb,
+                    );
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => LibraryDetailsPage(
+                          library: library,
+                          sectionType: library.sectionType,
+                          ratingKey: s.ratingKey,
+                          title: s.sectionName,
+                        ),
+                      ),
+                    );
+                  },
+                  child: IconCard(
+                    localIconImagePath:
+                        AssetMapperHelper.mapLibraryToPath(s.sectionType),
+                    iconImageUrl: s.iconUrl,
+                    backgroundImage: Image.network(s.posterUrl),
+                    iconColor: TautulliColorPalette.not_white,
+                    details: StatisticsDetails(
+                      statistic: s,
+                      maskSensitiveInfo: _maskSensitiveInfo,
+                    ),
                   ),
                 ),
               );
