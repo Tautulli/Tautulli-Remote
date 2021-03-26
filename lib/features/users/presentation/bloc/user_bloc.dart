@@ -29,7 +29,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     UserEvent event,
   ) async* {
     if (event is UserFetch) {
-      if (userCache.containsKey(event.userId)) {
+      if (userCache.containsKey('${event.tautulliId}-${event.userId}')) {
         yield UserSuccess(
             user: userCache['${event.tautulliId}-${event.userId}']);
       } else {
