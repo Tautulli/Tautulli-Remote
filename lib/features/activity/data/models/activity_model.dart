@@ -70,7 +70,9 @@ class ActivityItemModel extends ActivityItem {
     final int transcodeThrottled, // 1 if throttling
     final int transcodeProgress, // Percent transcoded
     final double transcodeSpeed, // Value is x factor
+    final int userId,
     final String username, // Plex username
+    final String userThumb,
     final String videoCodec, // h264, etc
     final String videoDynamicRange, // SDR, HDR
     final String videoFullResolution, // 1080p, etc
@@ -142,7 +144,9 @@ class ActivityItemModel extends ActivityItem {
           transcodeProgress: transcodeProgress,
           transcodeSpeed: transcodeSpeed,
           transcodeThrottled: transcodeThrottled,
+          userId: userId,
           username: username,
+          userThumb: userThumb,
           videoCodec: videoCodec,
           videoDynamicRange: videoDynamicRange,
           videoFullResolution: videoFullResolution,
@@ -420,8 +424,16 @@ class ActivityItemModel extends ActivityItem {
         value: json['transcode_throttled'],
         type: CastType.int,
       ),
+      userId: ValueHelper.cast(
+        value: json['user_id'],
+        type: CastType.int,
+      ),
       username: ValueHelper.cast(
         value: json['username'],
+        type: CastType.string,
+      ),
+      userThumb: ValueHelper.cast(
+        value: json['user_thumb'],
         type: CastType.string,
       ),
       videoCodec: ValueHelper.cast(

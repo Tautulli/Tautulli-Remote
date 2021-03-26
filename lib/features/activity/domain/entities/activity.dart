@@ -66,7 +66,9 @@ class ActivityItem extends Equatable {
   final int transcodeProgress; // Percent transcoded
   final double transcodeSpeed; // Value is x factor
   final int transcodeThrottled; // 1 if throttling
+  final int userId;
   final String username; // Plex username
+  final String userThumb;
   final String videoCodec; // h264, etc
   final String videoDynamicRange; // SDR, HDR
   final String videoFullResolution; // 1080p, etc
@@ -139,7 +141,9 @@ class ActivityItem extends Equatable {
     this.transcodeThrottled,
     this.transcodeProgress,
     this.transcodeSpeed,
+    this.userId,
     this.username,
+    this.userThumb,
     this.videoCodec,
     this.videoDynamicRange,
     this.videoFullResolution,
@@ -213,7 +217,9 @@ class ActivityItem extends Equatable {
         transcodeProgress,
         transcodeSpeed,
         transcodeThrottled,
+        userId,
         username,
+        userThumb,
         videoCodec,
         videoDynamicRange,
         videoFullResolution,
@@ -290,7 +296,9 @@ class ActivityItem extends Equatable {
       transcodeProgress: this.transcodeProgress,
       transcodeSpeed: this.transcodeSpeed,
       transcodeThrottled: this.transcodeThrottled,
+      userId: userId,
       username: this.username,
+      userThumb: this.userThumb,
       videoCodec: this.videoCodec,
       videoDynamicRange: this.videoDynamicRange,
       videoFullResolution: this.videoFullResolution,
