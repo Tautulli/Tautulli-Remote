@@ -18,11 +18,13 @@ import '../widgets/user_details_stats_tab.dart';
 class UserDetailsPage extends StatelessWidget {
   final UserTable user;
   final Color backgroundColor;
+  final Key heroTag;
 
   const UserDetailsPage({
     Key key,
     @required this.user,
     this.backgroundColor,
+    this.heroTag,
   }) : super(key: key);
 
   @override
@@ -32,6 +34,7 @@ class UserDetailsPage extends StatelessWidget {
       child: UserDetailsPageContent(
         user: user,
         backgroundColor: backgroundColor,
+        heroTag: heroTag,
       ),
     );
   }
@@ -40,11 +43,13 @@ class UserDetailsPage extends StatelessWidget {
 class UserDetailsPageContent extends StatefulWidget {
   final UserTable user;
   final Color backgroundColor;
+  final Key heroTag;
 
   const UserDetailsPageContent({
     Key key,
     @required this.user,
-    this.backgroundColor,
+    @required this.backgroundColor,
+    @required this.heroTag,
   }) : super(key: key);
 
   @override
@@ -342,17 +347,20 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
               ),
             ],
           ),
-          //* Poster
+          //* UserIcon
           Positioned(
             top: 155 +
                 MediaQuery.of(context).padding.top -
                 AppBar().preferredSize.height,
             left: 8,
             child: !_fetchUser
-                ? UserIcon(
-                    user: widget.user,
-                    size: 100,
-                    maskSensitiveInfo: _maskSensitiveInfo,
+                ? Hero(
+                    tag: widget.heroTag ?? UniqueKey(),
+                    child: UserIcon(
+                      user: widget.user,
+                      size: 100,
+                      maskSensitiveInfo: _maskSensitiveInfo,
+                    ),
                   )
                 : BlocBuilder<UserBloc, UserState>(
                     builder: (context, state) {

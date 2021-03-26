@@ -52,6 +52,7 @@ class _UserCardState extends State<UserCard> {
                     user: widget.user,
                     backgroundColor:
                         hasCustomColor ? snapshot.data['color'] : null,
+                    heroTag: ValueKey(widget.user.userId),
                   );
                 },
               ),
@@ -79,9 +80,12 @@ class _UserCardState extends State<UserCard> {
                       padding: const EdgeInsets.all(4),
                       child: Row(
                         children: [
-                          UserIcon(
-                            user: widget.user,
-                            maskSensitiveInfo: widget.maskSensitiveInfo,
+                          Hero(
+                            tag: ValueKey(widget.user.userId),
+                            child: UserIcon(
+                              user: widget.user,
+                              maskSensitiveInfo: widget.maskSensitiveInfo,
+                            ),
                           ),
                           Expanded(
                             child: Padding(
