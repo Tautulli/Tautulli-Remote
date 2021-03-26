@@ -196,7 +196,10 @@ class HistoryModalBottomSheet extends StatelessWidget {
 
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => UserDetailsPage(user: user),
+                              builder: (context) => UserDetailsPage(
+                                user: user,
+                                forceGetUser: true,
+                              ),
                             ),
                           );
                         },

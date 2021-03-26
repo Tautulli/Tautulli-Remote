@@ -19,12 +19,14 @@ class UserDetailsPage extends StatelessWidget {
   final UserTable user;
   final Color backgroundColor;
   final Key heroTag;
+  final bool forceGetUser;
 
   const UserDetailsPage({
     Key key,
     @required this.user,
     this.backgroundColor,
     this.heroTag,
+    this.forceGetUser = false,
   }) : super(key: key);
 
   @override
@@ -35,6 +37,7 @@ class UserDetailsPage extends StatelessWidget {
         user: user,
         backgroundColor: backgroundColor,
         heroTag: heroTag,
+        forceGetUser: forceGetUser,
       ),
     );
   }
@@ -44,12 +47,14 @@ class UserDetailsPageContent extends StatefulWidget {
   final UserTable user;
   final Color backgroundColor;
   final Key heroTag;
+  final bool forceGetUser;
 
   const UserDetailsPageContent({
     Key key,
     @required this.user,
     @required this.backgroundColor,
     @required this.heroTag,
+    @required this.forceGetUser,
   }) : super(key: key);
 
   @override
@@ -60,7 +65,6 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
   SettingsBloc _settingsBloc;
   UserBloc _userBloc;
   String _tautulliId;
-  bool _fetchUser;
   bool _maskSensitiveInfo;
 
   @override
@@ -68,7 +72,6 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
     super.initState();
     _settingsBloc = context.read<SettingsBloc>();
     _userBloc = context.read<UserBloc>();
-    _fetchUser = widget.user.lastSeen == null || widget.user.userThumb == null;
 
     final settingsState = _settingsBloc.state;
 
@@ -98,7 +101,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
         _tautulliId = null;
       }
 
-      if (_fetchUser) {
+      if (widget.forceGetUser) {
         _userBloc.add(
           UserFetch(
             tautulliId: _tautulliId,
@@ -248,7 +251,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 4),
-                                      child: !_fetchUser
+                                      child: !widget.forceGetUser
                                           ? RichText(
                                               text: TextSpan(
                                                 children: [
@@ -353,7 +356,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                 MediaQuery.of(context).padding.top -
                 AppBar().preferredSize.height,
             left: 8,
-            child: !_fetchUser
+            child: !widget.forceGetUser
                 ? Hero(
                     tag: widget.heroTag ?? UniqueKey(),
                     child: UserIcon(
