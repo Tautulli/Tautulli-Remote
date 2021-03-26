@@ -46,12 +46,11 @@ class UserDetailsPage extends StatelessWidget {
                   Container(
                     color: backgroundColor,
                   ),
-                  if (backgroundColor != null)
-                    Positioned.fill(
-                      child: Container(
-                        color: Colors.black.withOpacity(0.6),
-                      ),
+                  Positioned.fill(
+                    child: Container(
+                      color: Colors.black.withOpacity(0.6),
                     ),
+                  ),
                 ],
               ),
             ),
