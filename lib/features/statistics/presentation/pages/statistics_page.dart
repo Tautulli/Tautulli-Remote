@@ -572,6 +572,9 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
               );
             } else if (s.statId == 'top_users') {
               final user = UserTable(
+                userId: s.userId,
+                lastSeen: s.lastWatch,
+                friendlyName: s.friendlyName,
                 userThumb: s.userThumb,
               );
 

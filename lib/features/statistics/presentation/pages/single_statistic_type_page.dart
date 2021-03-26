@@ -104,6 +104,9 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                     );
                   } else if (widget.statId == 'top_users') {
                     final user = UserTable(
+                      userId: stat.userId,
+                      lastSeen: stat.lastWatch,
+                      friendlyName: stat.friendlyName,
                       userThumb: stat.userThumb,
                     );
 
