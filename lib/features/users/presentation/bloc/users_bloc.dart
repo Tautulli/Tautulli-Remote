@@ -158,7 +158,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           );
 
           list.forEach((user) {
-            userBloc.userCache[user.userId] = user;
+            userBloc.userCache['$tautulliId-${user.userId}'] = user;
           });
         },
       );
@@ -214,7 +214,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           );
 
           list.forEach((user) {
-            userBloc.userCache[user.userId] = user;
+            userBloc.userCache['$tautulliId-${user.userId}'] = user;
           });
         }
       },

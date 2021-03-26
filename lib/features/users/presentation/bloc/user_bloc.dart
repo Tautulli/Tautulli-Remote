@@ -13,7 +13,7 @@ import '../../domain/usecases/get_user.dart';
 part 'user_event.dart';
 part 'user_state.dart';
 
-Map<int, UserTable> userCache = {};
+Map<String, UserTable> userCache = {};
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final GetUser getUser;
@@ -30,7 +30,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async* {
     if (event is UserFetch) {
       if (userCache.containsKey(event.userId)) {
-        yield UserSuccess(user: userCache[event.userId]);
+        yield UserSuccess(
+            user: userCache['${event.tautulliId}-${event.userId}']);
       } else {
         yield UserInProgress();
 
@@ -45,7 +46,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             logging.error('User: Failed to load user data for ${event.userId}');
           },
           (user) async* {
-            userCache[event.userId] = user;
+            userCache['${event.tautulliId}-${event.userId}'] = user;
 
             yield UserSuccess(user: user);
           },
