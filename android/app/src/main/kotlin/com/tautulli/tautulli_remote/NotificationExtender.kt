@@ -37,7 +37,7 @@ class NotificationExtender : NotificationExtenderService() {
                 JSONObject(data.getString("plain_text"))
             }
 
-            val imageType: Int = jsonMessage.optInt("notification_type", 0)
+            val notificationType: Int = jsonMessage.optInt("notification_type", 0)
             val body: String = jsonMessage.getString("body")
             val subject: String = jsonMessage.getString("subject")
             val priority: Int = jsonMessage.getInt("priority")
@@ -60,7 +60,7 @@ class NotificationExtender : NotificationExtenderService() {
                 .setAutoCancel(true)
 
             // Fetch and add image if notification type is 1 or 2
-            if (imageType != 0) {
+            if (notificationType != 0) {
                 var connectionAddress: String?
                 if (serverInfoMap["primaryActive"] == "1") {
                     connectionAddress = serverInfoMap["primaryConnectionAddress"]
@@ -68,12 +68,16 @@ class NotificationExtender : NotificationExtenderService() {
                     connectionAddress = serverInfoMap["secondaryConnectionAddress"]
                 } 
 
-                val urlString = "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=${jsonMessage.getString("poster_thumb")}&height=200"
+                val urlString = if (notificationType == 1) {
+                    "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=${jsonMessage.getString("poster_thumb")}&height=200"
+                } else {
+                    "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=${jsonMessage.getString("poster_thumb")}&width=1080"
+                }
                 val bitmap: Bitmap? = getBitmapFromURL(urlString)
 
                 builder.setLargeIcon(bitmap)
 
-                if (imageType == 2) {
+                if (notificationType == 2) {
                     builder.setStyle(NotificationCompat.BigPictureStyle()
                             .bigPicture(bitmap)
                             .bigLargeIcon(null))
