@@ -16,41 +16,28 @@ import org.json.JSONObject
 import java.net.URL
 import java.net.URLConnection
 import java.io.File
-// import java.io.IOException
+import java.io.IOException
 
 import android.database.sqlite.SQLiteDatabase
 import android.app.*
 
 
-/**
- * Created by wcomartin on 2017-04-18.
- * Updated by wcomartin on 2020-07-19 (converted to kotlin)
- */
 class NotificationExtender : NotificationExtenderService() {
     override fun onNotificationProcessing(notification: OSNotificationReceivedResult): Boolean {
         val data: JSONObject = notification.payload.additionalData
         try {
-            // val serverId = data.getString("server_id")
+            val serverId = data.getString("server_id")
+            val serverInfoMap = getServerInfo(serverId)
+            val deviceToken = serverInfoMap["deviceToken"]!!
+
             //* If encrypted decrypt the payload data
             val jsonMessage: JSONObject = if (data.getBoolean("encrypted")) {
-                JSONObject(getUnencryptedMessage(data))
+                JSONObject(getUnencryptedMessage(data, deviceToken))
             } else {
                 JSONObject(data.getString("plain_text"))
             }
 
-            // val serverInfoMap = getServerInfo(serverId)
-
-            // var connectionAddress: String?
-            // val deviceToken = serverInfoMap["deviceToken"]
-            // if (serverInfoMap["primaryActive"] == "1") {
-            //     connectionAddress = serverInfoMap["primaryConnectionAddress"]
-            // } else {
-            //     connectionAddress = serverInfoMap["secondaryConnectionAddress"]
-            // } 
-
-            // val urlString = "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=${jsonMessage.getString("poster_thumb")}&height=200"
-            // val bitmap: Bitmap? = getBitmapFromURL(urlString)
-
+            val imageType: Int = jsonMessage.optInt("notification_type", 0)
             val body: String = jsonMessage.getString("body")
             val subject: String = jsonMessage.getString("subject")
             val priority: Int = jsonMessage.getInt("priority")
@@ -71,7 +58,27 @@ class NotificationExtender : NotificationExtenderService() {
                 //* Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
-                // .setLargeIcon(bitmap)
+
+            // Fetch and add image if notification type is 1 or 2
+            if (imageType != 0) {
+                var connectionAddress: String?
+                if (serverInfoMap["primaryActive"] == "1") {
+                    connectionAddress = serverInfoMap["primaryConnectionAddress"]
+                } else {
+                    connectionAddress = serverInfoMap["secondaryConnectionAddress"]
+                } 
+
+                val urlString = "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=${jsonMessage.getString("poster_thumb")}&height=200"
+                val bitmap: Bitmap? = getBitmapFromURL(urlString)
+
+                builder.setLargeIcon(bitmap)
+
+                if (imageType == 2) {
+                    builder.setStyle(NotificationCompat.BigPictureStyle()
+                            .bigPicture(bitmap)
+                            .bigLargeIcon(null))
+                }
+            }
 
             createNotificationChannel()
 
@@ -111,12 +118,8 @@ class NotificationExtender : NotificationExtenderService() {
         }
     }
 
-    private fun getUnencryptedMessage(data: JSONObject?): String {
+    private fun getUnencryptedMessage(data: JSONObject?, deviceToken: String): String {
         if (data != null) {
-
-            val serverId = data.getString("server_id")
-            val deviceToken = getServerDeviceToken(serverId)
-
             val salt: String = data.optString("salt", "")
             val cipherText: String = data.optString("cipher_text", "")
             val nonce: String = data.optString("nonce", "")
@@ -128,67 +131,49 @@ class NotificationExtender : NotificationExtenderService() {
         return ""
     }
 
-    private fun getServerDeviceToken(serverId: String): String {
+    private fun getServerInfo(serverId: String): Map<String, String> {
         val documentDir = application.applicationContext.dataDir
         val path = File(documentDir, "app_flutter/tautulli_remote.db")
         val db: SQLiteDatabase = SQLiteDatabase.openDatabase(path.absolutePath, null, 0)
-        val query = "SELECT device_token FROM servers WHERE tautulli_id = \"$serverId\""
+        val query = "SELECT primary_connection_address, secondary_connection_address, primary_active, device_token FROM servers WHERE tautulli_id = \"$serverId\""
 
+        var primaryConnectionAddress = ""
+        var secondaryConnectionAddress = ""
+        var primaryActive = ""
         var deviceToken = ""
 
         val cursor = db.rawQuery(query, null)
         if (cursor.moveToFirst()) {
             cursor.moveToFirst()
-            deviceToken = cursor.getString(0)
+            primaryConnectionAddress = cursor.getString(0)
+            if (!cursor.isNull(1)) {
+                secondaryConnectionAddress = cursor.getString(1)
+            }
+            primaryActive = cursor.getInt(2).toString()
+            deviceToken = cursor.getString(3)
             cursor.close()
         }
         db.close()
-        return deviceToken
+
+        val serverInfoMap = mapOf("primaryConnectionAddress" to primaryConnectionAddress, "secondaryConnectionAddress" to secondaryConnectionAddress, "primaryActive" to primaryActive, "deviceToken" to deviceToken)
+        
+        return serverInfoMap
     }
 
-    // private fun getServerInfo(serverId: String): Map<String, String> {
-    //     val documentDir = application.applicationContext.dataDir
-    //     val path = File(documentDir, "app_flutter/tautulli_remote.db")
-    //     val db: SQLiteDatabase = SQLiteDatabase.openDatabase(path.absolutePath, null, 0)
-    //     val query = "SELECT primary_connection_address, secondary_connection_address, primary_active, device_token FROM servers WHERE tautulli_id = \"$serverId\""
-
-    //     var primaryConnectionAddress = ""
-    //     var secondaryConnectionAddress = ""
-    //     var primaryActive = ""
-    //     var deviceToken = ""
-
-    //     val cursor = db.rawQuery(query, null)
-    //     if (cursor.moveToFirst()) {
-    //         cursor.moveToFirst()
-    //         primaryConnectionAddress = cursor.getString(0)
-    //         if (!cursor.isNull(1)) {
-    //             secondaryConnectionAddress = cursor.getString(1)
-    //         }
-    //         primaryActive = cursor.getInt(2).toString()
-    //         deviceToken = cursor.getString(3)
-    //         cursor.close()
-    //     }
-    //     db.close()
-
-    //     val serverInfoMap = mapOf("primaryConnectionAddress" to primaryConnectionAddress, "secondaryConnectionAddress" to secondaryConnectionAddress, "primaryActive" to primaryActive, "deviceToken" to deviceToken)
-        
-    //     return serverInfoMap
-    // }
-
-    // fun getBitmapFromURL(urlString:String):Bitmap? {
-    //     try {
-    //         val url = URL(urlString)
-    //         val connection = url.openConnection()
-    //         connection.setDoInput(true)
-    //         connection.connect()
-    //         val input = connection.getInputStream()
-    //         val myBitmap = BitmapFactory.decodeStream(input)
-    //         return myBitmap
-    //     } catch (e: IOException) {
-    //         e.printStackTrace()
-    //         return null
-    //     }
-    // }
+    fun getBitmapFromURL(urlString:String):Bitmap? {
+        try {
+            val url = URL(urlString)
+            val connection = url.openConnection()
+            connection.setDoInput(true)
+            connection.connect()
+            val input = connection.getInputStream()
+            val myBitmap = BitmapFactory.decodeStream(input)
+            return myBitmap
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return null
+        }
+    }
 
     companion object {
         private const val CHANNEL_ID = "tautulli_remote"
