@@ -1,6 +1,40 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.6.0",
+      "date": "March 25, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "History details are now available, tap on any history item to view the full history details",
+        },
+        {
+          "type": "new",
+          "detail":
+              "User details have been added, view stats and history for individual users",
+        },
+        {
+          "type": "new",
+          "detail": "Bandwidth information has been added to the activity page",
+        },
+        {
+          "type": "new",
+          "detail":
+              "Add support for an upcoming Tautulli setting to set the type of notification displayed by Tautulli Remote",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjust method for detecting public IP addresses",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fix image flickering with activity and history detail bottom sheets",
+        },
+      ],
+    },
+    {
       "version": "v2.5.0",
       "date": "March 20, 2021",
       "changes": [
