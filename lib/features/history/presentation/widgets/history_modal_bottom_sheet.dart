@@ -11,6 +11,8 @@ import '../../../../injection_container.dart' as di;
 import '../../../activity/presentation/bloc/geo_ip_bloc.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
+import '../../../users/domain/entities/user_table.dart';
+import '../../../users/presentation/pages/user_details_page.dart';
 import '../../domain/entities/history.dart';
 import 'history_info.dart';
 import 'history_media_info.dart';
@@ -178,27 +180,38 @@ class HistoryModalBottomSheet extends StatelessWidget {
                 //       ),
                 //     ),
                 //   ),
-                // if (!disableUserButton)
-                //   Expanded(
-                //     child: Padding(
-                //       padding: const EdgeInsets.only(
-                //         left: 8,
-                //         right: 4,
-                //       ),
-                //       child: ElevatedButton(
-                //         onPressed: () {},
-                //         style: ElevatedButton.styleFrom(
-                //           primary: PlexColorPalette.gamboge,
-                //         ),
-                //         child: Text(
-                //           'View User',
-                //           style: TextStyle(
-                //             color: TautulliColorPalette.not_white,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
+                if (!disableUserButton)
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 8,
+                        right: 4,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          UserTable user = UserTable(
+                            userId: item.userId,
+                            friendlyName: item.friendlyName,
+                          );
+
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => UserDetailsPage(user: user),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: PlexColorPalette.gamboge,
+                        ),
+                        child: Text(
+                          'View User',
+                          style: TextStyle(
+                            color: TautulliColorPalette.not_white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 if (!disableMediaButton)
                   Expanded(
                     child: Padding(
