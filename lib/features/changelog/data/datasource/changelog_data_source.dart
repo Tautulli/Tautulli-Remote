@@ -16,6 +16,10 @@ Map changelog = {
         },
         {
           "type": "new",
+          "detail": "Jump to user details from activity and history details",
+        },
+        {
+          "type": "new",
           "detail": "Bandwidth information has been added to the activity page",
         },
         {
