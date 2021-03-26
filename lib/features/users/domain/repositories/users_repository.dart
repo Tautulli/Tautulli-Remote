@@ -7,6 +7,11 @@ import '../entities/user.dart';
 import '../entities/user_table.dart';
 
 abstract class UsersRepository {
+  Future<Either<Failure, UserTable>> getUser({
+    @required String tautulliId,
+    @required int userId,
+    @required SettingsBloc settingsBloc,
+  });
   Future<Either<Failure, List<User>>> getUserNames({
     @required String tautulliId,
     @required SettingsBloc settingsBloc,

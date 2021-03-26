@@ -49,18 +49,106 @@ void main() {
   });
 
   final tTautulliId = 'jkl';
+  final tUserId = 123;
 
+  UserTable tUser;
   final List<User> tUsersList = [];
   final List<UserTable> tUsersTableList = [];
 
+  final userJson = json.decode(fixture('user.json'));
   final usersJson = json.decode(fixture('users.json'));
   final usersTableJson = json.decode(fixture('users_table.json'));
 
+  tUser = UserTableModel.fromJson(userJson['response']['data']);
   usersJson['response']['data'].forEach((item) {
     tUsersList.add(UserModel.fromJson(item));
   });
   usersTableJson['response']['data']['data'].forEach((item) {
     tUsersTableList.add(UserTableModel.fromJson(item));
+  });
+
+  group('getUser', () {
+    test(
+      'should check if device is online',
+      () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        // act
+        repository.getUser(
+          tautulliId: tTautulliId,
+          userId: tUserId,
+          settingsBloc: settingsBloc,
+        );
+        // assert
+        verify(mockNetworkInfo.isConnected);
+      },
+    );
+
+    group('device is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+
+      test(
+        'should call the data source getUser()',
+        () async {
+          // act
+          await repository.getUser(
+            tautulliId: tTautulliId,
+            userId: tUserId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          verify(
+            mockUsersDataSource.getUser(
+              tautulliId: tTautulliId,
+              userId: tUserId,
+              settingsBloc: settingsBloc,
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return UserTable item when call to API is successful',
+        () async {
+          // arrange
+          when(
+            mockUsersDataSource.getUser(
+              tautulliId: anyNamed('tautulliId'),
+              userId: anyNamed('userId'),
+              settingsBloc: anyNamed('settingsBloc'),
+            ),
+          ).thenAnswer((_) async => tUser);
+          // act
+          final result = await repository.getUser(
+            tautulliId: tTautulliId,
+            userId: tUserId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Right(tUser)));
+        },
+      );
+    });
+
+    group('device is offline', () {
+      test(
+        'should return a ConnectionFailure when there is no network connection',
+        () async {
+          // arrange
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+          // act
+          final result = await repository.getUser(
+            tautulliId: tTautulliId,
+            userId: tUserId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Left(ConnectionFailure())));
+        },
+      );
+    });
   });
 
   group('getUserNames', () {

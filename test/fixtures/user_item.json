@@ -1,0 +1,31 @@
+{
+    "row_id": 2,
+    "user_id": 1526265,
+    "username": "friendly_name",
+    "friendly_name": "Friendly Name",
+    "user_thumb": "https://plex.tv/users/e673bb244c8c5334/avatar?c=1469129822",
+    "email": "email@gmail.com",
+    "is_active": 1,
+    "is_admin": 1,
+    "is_home_user": 1,
+    "is_allow_sync": 1,
+    "is_restricted": 0,
+    "do_notify": 1,
+    "keep_history": 1,
+    "deleted_user": 0,
+    "allow_guest": 0,
+    "shared_libraries": [
+        "13",
+        "4",
+        "12",
+        "7",
+        "6",
+        "1",
+        "19",
+        "22",
+        "24",
+        "25",
+        "26",
+        "27"
+    ]
+}

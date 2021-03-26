@@ -20,8 +20,32 @@ class UsersTableRepositoryImpl implements UsersRepository {
   });
 
   @override
+  Future<Either<Failure, UserTable>> getUser({
+    @required String tautulliId,
+    @required int userId,
+    @required SettingsBloc settingsBloc,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final user = await dataSource.getUser(
+          tautulliId: tautulliId,
+          userId: userId,
+          settingsBloc: settingsBloc,
+        );
+        return Right(user);
+      } catch (exception) {
+        final Failure failure =
+            FailureMapperHelper.mapExceptionToFailure(exception);
+        return (Left(failure));
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, List<User>>> getUserNames({
-    @required tautulliId,
+    @required String tautulliId,
     @required SettingsBloc settingsBloc,
   }) async {
     if (await networkInfo.isConnected) {

@@ -22,7 +22,8 @@ void main() {
       'should return a valid model',
       () async {
         // arrange
-        final Map<String, dynamic> jsonMap = json.decode(fixture('user.json'));
+        final Map<String, dynamic> jsonMap =
+            json.decode(fixture('user_name.json'));
         // act
         final result = UserModel.fromJson(jsonMap);
         // assert
@@ -34,7 +35,8 @@ void main() {
       'should return an item with properly mapped data',
       () async {
         // arrange
-        final Map<String, dynamic> jsonMap = json.decode(fixture('user.json'));
+        final Map<String, dynamic> jsonMap =
+            json.decode(fixture('user_name.json'));
         // act
         final result = UserModel.fromJson(jsonMap);
         // assert

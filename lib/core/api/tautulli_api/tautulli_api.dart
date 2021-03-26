@@ -14,6 +14,7 @@ export 'get_recently_added.dart';
 export 'get_server_info.dart';
 export 'get_settings.dart';
 export 'get_synced_items.dart';
+export 'get_user.dart';
 export 'get_user_names.dart';
 export 'get_user_player_stats.dart';
 export 'get_user_watch_time_stats.dart';
