@@ -11,6 +11,7 @@ import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/user_table.dart';
 import '../../domain/usecases/get_users_table.dart';
+import 'user_bloc.dart' as userBloc;
 
 part 'users_event.dart';
 part 'users_state.dart';
@@ -155,6 +156,10 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
             list: list,
             hasReachedMax: list.length < 25,
           );
+
+          list.forEach((user) {
+            userBloc.userCache[user.userId] = user;
+          });
         },
       );
     }
@@ -207,6 +212,10 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
             list: currentState.list + list,
             hasReachedMax: list.length < 25,
           );
+
+          list.forEach((user) {
+            userBloc.userCache[user.userId] = user;
+          });
         }
       },
     );
