@@ -20,6 +20,7 @@ class UserDetailsPage extends StatelessWidget {
   final Color backgroundColor;
   final Key heroTag;
   final bool forceGetUser;
+  final String tautulliIdOverride;
 
   const UserDetailsPage({
     Key key,
@@ -27,6 +28,7 @@ class UserDetailsPage extends StatelessWidget {
     this.backgroundColor,
     this.heroTag,
     this.forceGetUser = false,
+    this.tautulliIdOverride,
   }) : super(key: key);
 
   @override
@@ -38,6 +40,7 @@ class UserDetailsPage extends StatelessWidget {
         backgroundColor: backgroundColor,
         heroTag: heroTag,
         forceGetUser: forceGetUser,
+        tautulliIdOverride: tautulliIdOverride,
       ),
     );
   }
@@ -48,6 +51,7 @@ class UserDetailsPageContent extends StatefulWidget {
   final Color backgroundColor;
   final Key heroTag;
   final bool forceGetUser;
+  final String tautulliIdOverride;
 
   const UserDetailsPageContent({
     Key key,
@@ -55,6 +59,7 @@ class UserDetailsPageContent extends StatefulWidget {
     @required this.backgroundColor,
     @required this.heroTag,
     @required this.forceGetUser,
+    @required this.tautulliIdOverride,
   }) : super(key: key);
 
   @override
@@ -104,7 +109,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
       if (widget.forceGetUser) {
         _userBloc.add(
           UserFetch(
-            tautulliId: _tautulliId,
+            tautulliId: widget.tautulliIdOverride ?? _tautulliId,
             userId: widget.user.userId,
             settingsBloc: _settingsBloc,
           ),
