@@ -157,6 +157,7 @@ class _UserDetailsHistoryTabContentState
                                                   is SettingsLoadSuccess
                                               ? settingsState.maskSensitiveInfo
                                               : false,
+                                          disableUserButton: true,
                                         );
                                       },
                                     ),
