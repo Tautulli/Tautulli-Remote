@@ -103,10 +103,12 @@ import 'features/users/data/repositories/user_statistics_repository_impl.dart';
 import 'features/users/data/repositories/users_repository_impl.dart';
 import 'features/users/domain/repositories/user_statistics_repository.dart';
 import 'features/users/domain/repositories/users_repository.dart';
+import 'features/users/domain/usecases/get_user.dart';
 import 'features/users/domain/usecases/get_user_names.dart';
 import 'features/users/domain/usecases/get_user_player_stats.dart';
 import 'features/users/domain/usecases/get_user_watch_time_stats.dart';
 import 'features/users/domain/usecases/get_users_table.dart';
+import 'features/users/presentation/bloc/user_bloc.dart';
 import 'features/users/presentation/bloc/user_statistics_bloc.dart';
 import 'features/users/presentation/bloc/users_bloc.dart';
 import 'features/users/presentation/bloc/users_list_bloc.dart';
@@ -670,6 +672,13 @@ Future<void> init() async {
   //! Features - Users
   // Bloc
   sl.registerFactory(
+    () => UserBloc(
+      getUser: sl(),
+      logging: sl(),
+    ),
+  );
+
+  sl.registerFactory(
     () => UsersBloc(
       getUsersTable: sl(),
       logging: sl(),
@@ -693,10 +702,16 @@ Future<void> init() async {
 
   // Use case
   sl.registerLazySingleton(
+    () => GetUser(
+      repository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
     () => GetUserNames(
       repository: sl(),
     ),
   );
+
   sl.registerLazySingleton(
     () => GetUsersTable(
       repository: sl(),
@@ -733,6 +748,7 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<UsersDataSource>(
     () => UsersDataSourceImpl(
+      apiGetUser: sl(),
       apiGetUserNames: sl(),
       apiGetUsersTable: sl(),
     ),
@@ -837,6 +853,11 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulliApi.GetSyncedItems>(
     () => tautulliApi.GetSyncedItemsImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetUser>(
+    () => tautulliApi.GetUserImpl(
       connectionHandler: sl(),
     ),
   );
