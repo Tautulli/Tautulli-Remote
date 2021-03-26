@@ -13,6 +13,10 @@ Map changelog = {
           "type": "improvement",
           "detail": "Adjust user cache behavior to prevent extra API calls",
         },
+        {
+          "type": "improvement",
+          "detail": "Make sure user cache items are unique per server",
+        },
       ],
     },
     {
