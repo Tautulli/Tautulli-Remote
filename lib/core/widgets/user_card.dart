@@ -52,7 +52,6 @@ class _UserCardState extends State<UserCard> {
                     user: widget.user,
                     backgroundColor:
                         hasCustomColor ? snapshot.data['color'] : null,
-                    maskSensitiveInfo: widget.maskSensitiveInfo,
                   );
                 },
               ),
