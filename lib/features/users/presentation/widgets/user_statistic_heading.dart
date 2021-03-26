@@ -13,7 +13,7 @@ class UserStatisticHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).backgroundColor,
+      color: PlexColorPalette.shark,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,

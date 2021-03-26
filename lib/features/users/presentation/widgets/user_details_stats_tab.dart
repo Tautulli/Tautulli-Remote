@@ -105,18 +105,15 @@ class _UserDetailsStatsTabContentState
         if (state is UserStatisticsSuccess) {
           if (state.playerStatsList.isNotEmpty ||
               state.watchTimeStatsList.isNotEmpty) {
-            return Container(
-              color: Theme.of(context).backgroundColor,
-              child: MediaQuery.removePadding(
-                context: context,
-                removeTop: true,
-                child: Scrollbar(
-                  child: ListView(
-                    children: _buildUserStatList(
-                      playerStatList: state.playerStatsList,
-                      watchTimeStatList: state.watchTimeStatsList,
-                      maskSensitiveInfo: _maskSensitiveInfo,
-                    ),
+            return MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child: Scrollbar(
+                child: ListView(
+                  children: _buildUserStatList(
+                    playerStatList: state.playerStatsList,
+                    watchTimeStatList: state.watchTimeStatsList,
+                    maskSensitiveInfo: _maskSensitiveInfo,
                   ),
                 ),
               ),
@@ -163,6 +160,7 @@ List<Widget> _buildUserStatList({
             FontAwesomeIcons.chartLine,
             size: 50,
           ),
+          backgroundColor: PlexColorPalette.raven,
           details: UserStatsDetails(
             statistic: stat,
             maskSensitiveInfo: maskSensitiveInfo,
