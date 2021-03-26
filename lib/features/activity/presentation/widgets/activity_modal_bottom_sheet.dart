@@ -256,6 +256,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                     MaterialPageRoute(
                                       builder: (context) => UserDetailsPage(
                                         user: user,
+                                        tautulliIdOverride: widget.tautulliId,
                                       ),
                                     ),
                                   );
