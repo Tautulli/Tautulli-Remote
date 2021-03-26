@@ -1,6 +1,21 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.6.1",
+      "date": "March 26, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail":
+              "Adjust how user details page decides to fetch missing user information",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjust user cache behavior to prevent extra API calls",
+        },
+      ],
+    },
+    {
       "version": "v2.6.0",
       "date": "March 25, 2021",
       "changes": [
