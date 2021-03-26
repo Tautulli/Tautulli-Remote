@@ -8,6 +8,8 @@ import '../../../../core/widgets/poster_chooser.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../users/domain/entities/user_table.dart';
+import '../../../users/presentation/pages/user_details_page.dart';
 import '../../domain/entities/activity.dart';
 import '../bloc/activity_bloc.dart';
 import 'activity_media_details.dart';
@@ -236,26 +238,40 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                       color: Theme.of(context).backgroundColor,
                       child: Row(
                         children: [
-                          // Expanded(
-                          //   child: Padding(
-                          //     padding: const EdgeInsets.only(
-                          //       left: 8,
-                          //       right: 4,
-                          //     ),
-                          //     child: ElevatedButton(
-                          //       onPressed: () {},
-                          //       style: ElevatedButton.styleFrom(
-                          //         primary: PlexColorPalette.gamboge,
-                          //       ),
-                          //       child: Text(
-                          //         'View User',
-                          //         style: TextStyle(
-                          //           color: TautulliColorPalette.not_white,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8,
+                                right: 4,
+                              ),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  UserTable user = UserTable(
+                                    userId: activity.userId,
+                                    friendlyName: activity.friendlyName,
+                                    userThumb: activity.userThumb,
+                                  );
+
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => UserDetailsPage(
+                                        user: user,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: PlexColorPalette.gamboge,
+                                ),
+                                child: Text(
+                                  'View User',
+                                  style: TextStyle(
+                                    color: TautulliColorPalette.not_white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                           if (activity.mediaType != 'photo')
                             Expanded(
                               child: Padding(
