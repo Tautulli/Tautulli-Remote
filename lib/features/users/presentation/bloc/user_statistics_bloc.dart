@@ -37,7 +37,9 @@ class UserStatisticsBloc
     if (event is UserStatisticsFetch) {
       yield UserStatisticsInProgress();
 
-      if (_watchTimeStatsListCacheMap.containsKey(event.userId)) {
+      if (_watchTimeStatsListCacheMap.containsKey(event.userId) &&
+          _playerStatsListCacheMap.containsKey(event.userId) &&
+          _watchTimeStatsListCacheMap[event.userId].isNotEmpty) {
         yield UserStatisticsSuccess(
           watchTimeStatsList: _watchTimeStatsListCacheMap[event.userId],
           playerStatsList: _playerStatsListCacheMap[event.userId],
