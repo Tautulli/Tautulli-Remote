@@ -130,52 +130,56 @@ class _UserDetailsHistoryTabContentState
                   child: MediaQuery.removePadding(
                     context: context,
                     removeTop: true,
-                    child: ListView.builder(
-                      itemCount: state.hasReachedMax
-                          ? state.list.length
-                          : state.list.length + 1,
-                      controller: _scrollController,
-                      itemBuilder: (context, index) {
-                        final SettingsLoadSuccess settingsState =
-                            _settingsBloc.state;
+                    child: Scrollbar(
+                      child: ListView.builder(
+                        itemCount: state.hasReachedMax
+                            ? state.list.length
+                            : state.list.length + 1,
+                        controller: _scrollController,
+                        itemBuilder: (context, index) {
+                          final SettingsLoadSuccess settingsState =
+                              _settingsBloc.state;
 
-                        return index >= state.list.length
-                            ? BottomLoader()
-                            : GestureDetector(
-                                onTap: () {
-                                  return showModalBottomSheet(
-                                    context: context,
-                                    barrierColor: Colors.black87,
-                                    backgroundColor: Colors.transparent,
-                                    isScrollControlled: true,
-                                    builder: (context) => BlocBuilder<
-                                        SettingsBloc, SettingsState>(
-                                      builder: (context, settingsState) {
-                                        return HistoryModalBottomSheet(
-                                          item: state.list[index],
-                                          server: server,
-                                          maskSensitiveInfo: settingsState
-                                                  is SettingsLoadSuccess
-                                              ? settingsState.maskSensitiveInfo
-                                              : false,
-                                        );
-                                      },
+                          return index >= state.list.length
+                              ? BottomLoader()
+                              : GestureDetector(
+                                  onTap: () {
+                                    return showModalBottomSheet(
+                                      context: context,
+                                      barrierColor: Colors.black87,
+                                      backgroundColor: Colors.transparent,
+                                      isScrollControlled: true,
+                                      builder: (context) => BlocBuilder<
+                                          SettingsBloc, SettingsState>(
+                                        builder: (context, settingsState) {
+                                          return HistoryModalBottomSheet(
+                                            item: state.list[index],
+                                            server: server,
+                                            maskSensitiveInfo: settingsState
+                                                    is SettingsLoadSuccess
+                                                ? settingsState
+                                                    .maskSensitiveInfo
+                                                : false,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: PosterCard(
+                                    item: state.list[index],
+                                    details: HistoryDetails(
+                                      historyItem: state.list[index],
+                                      server:
+                                          settingsState.serverList.firstWhere(
+                                        (server) =>
+                                            server.tautulliId == _tautulliId,
+                                      ),
+                                      maskSensitiveInfo: _maskSensitiveInfo,
                                     ),
-                                  );
-                                },
-                                child: PosterCard(
-                                  item: state.list[index],
-                                  details: HistoryDetails(
-                                    historyItem: state.list[index],
-                                    server: settingsState.serverList.firstWhere(
-                                      (server) =>
-                                          server.tautulliId == _tautulliId,
-                                    ),
-                                    maskSensitiveInfo: _maskSensitiveInfo,
                                   ),
-                                ),
-                              );
-                      },
+                                );
+                        },
+                      ),
                     ),
                   ),
                 );

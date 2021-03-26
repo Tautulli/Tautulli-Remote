@@ -110,11 +110,13 @@ class _UserDetailsStatsTabContentState
               child: MediaQuery.removePadding(
                 context: context,
                 removeTop: true,
-                child: ListView(
-                  children: _buildUserStatList(
-                    playerStatList: state.playerStatsList,
-                    watchTimeStatList: state.watchTimeStatsList,
-                    maskSensitiveInfo: _maskSensitiveInfo,
+                child: Scrollbar(
+                  child: ListView(
+                    children: _buildUserStatList(
+                      playerStatList: state.playerStatsList,
+                      watchTimeStatList: state.watchTimeStatsList,
+                      maskSensitiveInfo: _maskSensitiveInfo,
+                    ),
                   ),
                 ),
               ),
