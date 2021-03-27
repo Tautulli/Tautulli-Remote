@@ -34,6 +34,7 @@ void main() {
   });
 
   final int tId = 1;
+  final tSortIndex = 1;
   final String tPrimaryConnectionAddress = 'http://tautulli.com';
   final String tPrimaryConnectionProtocol = 'http';
   final String tPrimaryConnectionDomain = 'tautulli.com';
@@ -59,6 +60,23 @@ void main() {
     plexPass: true,
     dateFormat: tDateFormat,
     timeFormat: tTimeFormat,
+    sortIndex: 0,
+  );
+
+  final Server tServerModel2 = ServerModel(
+    primaryConnectionAddress: tPrimaryConnectionAddress,
+    primaryConnectionProtocol: tPrimaryConnectionProtocol,
+    primaryConnectionDomain: tPrimaryConnectionDomain,
+    primaryConnectionPath: tPrimaryConnectionPath,
+    deviceToken: tDeviceToken,
+    tautulliId: tTautulliId,
+    plexName: tPlexName,
+    plexIdentifier: tPlexIdentifier,
+    primaryActive: true,
+    plexPass: true,
+    dateFormat: tDateFormat,
+    timeFormat: tTimeFormat,
+    sortIndex: 1,
   );
 
   final Map<String, dynamic> tTautulliSettings = {
@@ -69,6 +87,7 @@ void main() {
   };
 
   final List<ServerModel> tServerList = [tServerModel];
+  final List<ServerModel> tUpdatedServerList = [tServerModel, tServerModel2];
 
   final int tServerTimeout = 5;
   final int tRefreshRate = 10;
@@ -80,8 +99,9 @@ void main() {
   final PlexServerInfo tPlexServerInfo =
       PlexServerInfoModel.fromJson(plexServerInfoJson['response']['data']);
 
-  void setUpSuccess() {
-    when(mockSettings.getAllServers()).thenAnswer((_) async => tServerList);
+  void setUpSuccess({bool updatedServerList = false}) {
+    when(mockSettings.getAllServers()).thenAnswer(
+        (_) async => updatedServerList ? tUpdatedServerList : tServerList);
     when(mockSettings.getServerTimeout())
         .thenAnswer((_) async => tServerTimeout);
     when(mockSettings.getRefreshRate()).thenAnswer((_) async => tRefreshRate);
@@ -153,6 +173,18 @@ void main() {
     test(
       'should call Settings.addServer() use case',
       () async {
+        // arrange
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
         // act
         bloc.add(
           SettingsAddServer(
@@ -173,6 +205,7 @@ void main() {
             plexIdentifier: tPlexIdentifier,
             primaryActive: true,
             plexPass: true,
+            sortIndex: tSortIndex,
           ),
         );
         // assert
@@ -185,6 +218,7 @@ void main() {
             plexIdentifier: tPlexIdentifier,
             primaryActive: true,
             plexPass: true,
+            sortIndex: tSortIndex,
           ),
         );
       },
@@ -194,11 +228,22 @@ void main() {
       'should emit [SettingsLoadSuccess] after adding a server',
       () async {
         // arrange
-        setUpSuccess();
+        setUpSuccess(updatedServerList: true);
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
         // assert later
         final expected = [
           SettingsLoadSuccess(
-            serverList: tServerList,
+            serverList: tUpdatedServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             doubleTapToExit: tDoubleTapToExit,
@@ -227,6 +272,18 @@ void main() {
     test(
       'should call the Settings.updateServerById use case',
       () async {
+        // arrange
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
         // act
         bloc.add(
           SettingsUpdateServer(
@@ -240,6 +297,7 @@ void main() {
             plexPass: true,
             dateFormat: tDateFormat,
             timeFormat: tTimeFormat,
+            sortIndex: tSortIndex,
           ),
         );
         await untilCalled(
@@ -255,6 +313,7 @@ void main() {
             plexPass: true,
             dateFormat: tDateFormat,
             timeFormat: tTimeFormat,
+            sortIndex: tSortIndex,
           ),
         );
         // assert
@@ -271,6 +330,7 @@ void main() {
             plexPass: true,
             dateFormat: tDateFormat,
             timeFormat: tTimeFormat,
+            sortIndex: tSortIndex,
           ),
         );
       },
@@ -280,11 +340,22 @@ void main() {
       'should emit [SettingsLoadSuccess] after updating a server',
       () async {
         // arrange
-        setUpSuccess();
+        setUpSuccess(updatedServerList: true);
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
         // assert later
         final expected = [
           SettingsLoadSuccess(
-            serverList: tServerList,
+            serverList: tUpdatedServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             doubleTapToExit: tDoubleTapToExit,
@@ -307,6 +378,7 @@ void main() {
             plexPass: true,
             dateFormat: tDateFormat,
             timeFormat: tTimeFormat,
+            sortIndex: tSortIndex,
           ),
         );
       },
@@ -317,6 +389,18 @@ void main() {
     test(
       'should call the Settings.deleteServer use case',
       () async {
+        // arrange
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
         // act
         bloc.add(SettingsDeleteServer(
           id: tId,
@@ -333,6 +417,17 @@ void main() {
       () async {
         // arrange
         setUpSuccess();
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tUpdatedServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
         // assert later
         final expected = [
           SettingsLoadSuccess(
@@ -348,7 +443,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(SettingsDeleteServer(
-          id: tId,
+          id: 2,
           plexName: tPlexName,
         ));
       },
@@ -359,6 +454,18 @@ void main() {
     test(
       'should call the Settings.updatePrimaryConnection use case',
       () async {
+        //arrange
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
         // act
         bloc.add(
           SettingsUpdatePrimaryConnection(
@@ -387,11 +494,22 @@ void main() {
       'should emit [SettingsLoadSuccess] after updating a primary connection',
       () async {
         // arrange
-        setUpSuccess();
+        setUpSuccess(updatedServerList: true);
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
         // assert later
         final expected = [
           SettingsLoadSuccess(
-            serverList: tServerList,
+            serverList: tUpdatedServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             doubleTapToExit: tDoubleTapToExit,
@@ -417,6 +535,18 @@ void main() {
     test(
       'should call the Settings.updateSecondaryConnection use case',
       () async {
+        // arrange
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
         // act
         bloc.add(
           SettingsUpdateSecondaryConnection(
@@ -445,11 +575,22 @@ void main() {
       'should emit [SettingsLoadSuccess] after updating a secondary connection',
       () async {
         // arrange
-        setUpSuccess();
+        setUpSuccess(updatedServerList: true);
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
         // assert later
         final expected = [
           SettingsLoadSuccess(
-            serverList: tServerList,
+            serverList: tUpdatedServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             doubleTapToExit: tDoubleTapToExit,
@@ -475,6 +616,18 @@ void main() {
     test(
       'should call the Settings.updateDeviceToken use case',
       () async {
+        // arrange
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
         // act
         bloc.add(
           SettingsUpdateDeviceToken(
@@ -503,11 +656,22 @@ void main() {
       'should emit [SettingsLoadSuccess] after updating a secondary connection',
       () async {
         // arrange
-        setUpSuccess();
+        setUpSuccess(updatedServerList: true);
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
         // assert later
         final expected = [
           SettingsLoadSuccess(
-            serverList: tServerList,
+            serverList: tUpdatedServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             doubleTapToExit: tDoubleTapToExit,

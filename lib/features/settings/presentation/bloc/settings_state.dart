@@ -22,6 +22,7 @@ class SettingsLoadSuccess extends SettingsState {
   final bool maskSensitiveInfo;
   final String lastSelectedServer;
   final String statsType;
+  final String sortChanged;
 
   SettingsLoadSuccess({
     @required this.serverList,
@@ -31,7 +32,30 @@ class SettingsLoadSuccess extends SettingsState {
     @required this.maskSensitiveInfo,
     @required this.lastSelectedServer,
     @required this.statsType,
+    this.sortChanged,
   });
+
+  SettingsLoadSuccess copyWith({
+    List<ServerModel> serverList,
+    int serverTimeout,
+    int refreshRate,
+    bool doubleTapToExit,
+    bool maskSensitiveInfo,
+    String lastSelectedServer,
+    String statsType,
+    String sortChanged,
+  }) {
+    return SettingsLoadSuccess(
+      serverList: serverList ?? this.serverList,
+      serverTimeout: serverTimeout ?? this.serverTimeout,
+      refreshRate: refreshRate ?? this.refreshRate,
+      doubleTapToExit: doubleTapToExit ?? this.doubleTapToExit,
+      maskSensitiveInfo: maskSensitiveInfo ?? this.maskSensitiveInfo,
+      lastSelectedServer: lastSelectedServer ?? this.lastSelectedServer,
+      statsType: statsType ?? this.statsType,
+      sortChanged: sortChanged ?? this.sortChanged,
+    );
+  }
 
   @override
   List<Object> get props => [
@@ -42,5 +66,6 @@ class SettingsLoadSuccess extends SettingsState {
         maskSensitiveInfo,
         lastSelectedServer,
         statsType,
+        sortChanged,
       ];
 }

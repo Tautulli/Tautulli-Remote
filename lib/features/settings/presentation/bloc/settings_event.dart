@@ -42,6 +42,7 @@ class SettingsAddServer extends SettingsEvent {
 
 class SettingsUpdateServer extends SettingsEvent {
   final int id;
+  final int sortIndex;
   final String primaryConnectionAddress;
   final String secondaryConnectionAddress;
   final String deviceToken;
@@ -54,6 +55,7 @@ class SettingsUpdateServer extends SettingsEvent {
 
   SettingsUpdateServer({
     @required this.id,
+    @required this.sortIndex,
     @required this.primaryConnectionAddress,
     @required this.secondaryConnectionAddress,
     @required this.deviceToken,
@@ -68,6 +70,7 @@ class SettingsUpdateServer extends SettingsEvent {
   @override
   List<Object> get props => [
         id,
+        sortIndex,
         primaryConnectionAddress,
         secondaryConnectionAddress,
         deviceToken,
@@ -135,6 +138,21 @@ class SettingsUpdateDeviceToken extends SettingsEvent {
 
   @override
   List<Object> get props => [id, deviceToken, plexName];
+}
+
+class SettingsUpdateSortIndex extends SettingsEvent {
+  final int serverId;
+  final int oldIndex;
+  final int newIndex;
+
+  SettingsUpdateSortIndex({
+    @required this.serverId,
+    @required this.oldIndex,
+    @required this.newIndex,
+  });
+
+  @override
+  List<Object> get props => [serverId, oldIndex, newIndex];
 }
 
 class SettingsUpdateServerTimeout extends SettingsEvent {
