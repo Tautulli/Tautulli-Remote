@@ -129,6 +129,10 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             'loadingState': ActivityLoadingState.failure,
             'activityList': <ActivityItem>[],
             'failure': failure,
+            'bandwidth': {
+              'lan': 0,
+              'wan': 0,
+            }
           };
 
           yield ActivityLoaded(
