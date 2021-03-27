@@ -6,6 +6,7 @@ import '../../domain/entities/server.dart';
 class ServerModel extends Server {
   ServerModel({
     int id,
+    int sortIndex,
     @required String plexName,
     @required String plexIdentifier,
     @required String tautulliId,
@@ -24,6 +25,7 @@ class ServerModel extends Server {
     String timeFormat,
   }) : super(
           id: id,
+          sortIndex: sortIndex,
           plexName: plexName,
           plexIdentifier: plexIdentifier,
           tautulliId: tautulliId,
@@ -49,6 +51,7 @@ class ServerModel extends Server {
 
     return ServerModel(
       id: json['id'],
+      sortIndex: json['sort_index'],
       plexName: json['plex_name'],
       plexIdentifier: json['plex_identifier'],
       tautulliId: json['tautulli_id'],
@@ -93,6 +96,7 @@ class ServerModel extends Server {
 
     return {
       'id': id,
+      'sort_index': sortIndex,
       'plex_name': plexName,
       'plex_identifier': plexIdentifier,
       'tautulli_id': tautulliId,

@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 
 class Server extends Equatable {
   final int id;
+  final int sortIndex;
   final String plexName;
   final String plexIdentifier;
   final String tautulliId;
@@ -22,6 +23,7 @@ class Server extends Equatable {
 
   Server({
     this.id,
+    this.sortIndex,
     @required this.plexName,
     @required this.plexIdentifier,
     @required this.tautulliId,
@@ -43,6 +45,7 @@ class Server extends Equatable {
   @override
   List<Object> get props => [
         id,
+        sortIndex,
         plexName,
         plexIdentifier,
         tautulliId,
