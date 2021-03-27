@@ -55,8 +55,16 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     final currentState = state;
     final serverList = await settings.getAllServers();
 
+    serverList.sort((a, b) => a.sortIndex.compareTo(b.sortIndex));
+
     if (currentState is ActivityLoaded) {
-      _activityMap = currentState.activityMap;
+      Map<String, Map<String, dynamic>> updatedMap = {};
+      for (ServerModel server in serverList) {
+        updatedMap[server.tautulliId] =
+            currentState.activityMap[server.tautulliId];
+      }
+
+      _activityMap = updatedMap;
     }
 
     // If configured server is not in _activityMap then add it
