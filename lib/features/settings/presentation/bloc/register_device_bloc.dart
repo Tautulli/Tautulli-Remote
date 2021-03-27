@@ -166,6 +166,7 @@ class RegisterDeviceBloc
           settingsBloc.add(
             SettingsUpdateServer(
               id: existingServer.id,
+              sortIndex: existingServer.sortIndex,
               primaryConnectionAddress: connectionAddress,
               secondaryConnectionAddress:
                   existingServer.secondaryConnectionAddress,
