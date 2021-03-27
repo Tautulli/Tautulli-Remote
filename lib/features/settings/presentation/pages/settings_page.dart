@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:quiver/strings.dart';
+import 'package:reorderables/reorderables.dart';
 import 'package:unicorndial/unicorndial.dart';
 
 import '../../../../core/error/failure.dart';
@@ -109,10 +110,22 @@ class SettingsPageContent extends StatelessWidget {
                             ),
                             child: ServerSetupInstructions(),
                           )
-                        : Column(
+                        : ReorderableColumn(
+                            onReorder: (oldIndex, newIndex) {
+                              final int movedServerId =
+                                  state.serverList[oldIndex].id;
+                              context.read<SettingsBloc>().add(
+                                    SettingsUpdateSortIndex(
+                                      serverId: movedServerId,
+                                      oldIndex: oldIndex,
+                                      newIndex: newIndex,
+                                    ),
+                                  );
+                            },
                             children: state.serverList
                                 .map(
                                   (server) => ListTile(
+                                    key: ValueKey(server.id),
                                     title: Text('${server.plexName}'),
                                     subtitle: (isEmpty(
                                             server.primaryConnectionAddress))

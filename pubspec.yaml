@@ -48,6 +48,7 @@ dependencies:
   path_provider: ^1.6.27
   permission_handler: ^5.0.1+2
   quiver: ^2.0.0
+  reorderables: ^0.4.0
   rxdart: ^0.26.0
   shared_preferences: ^0.5.12+4
   simple_moment: ^1.0.7
