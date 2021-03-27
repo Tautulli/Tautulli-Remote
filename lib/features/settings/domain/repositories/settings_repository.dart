@@ -8,6 +8,7 @@ import '../entities/plex_server_info.dart';
 
 abstract class SettingsRepository {
   Future addServer({
+    @required int sortIndex,
     @required String primaryConnectionAddress,
     @required String deviceToken,
     @required String tautulliId,
@@ -23,6 +24,7 @@ abstract class SettingsRepository {
 
   Future updateServerById({
     @required int id,
+    @required int sortIndex,
     @required String primaryConnectionAddress,
     @required String secondaryConnectionAddress,
     @required String deviceToken,
@@ -33,6 +35,12 @@ abstract class SettingsRepository {
     @required bool plexPass,
     @required String dateFormat,
     @required String timeFormat,
+  });
+
+  Future updateServerSort({
+    @required int serverId,
+    @required int oldIndex,
+    @required int newIndex,
   });
 
   Future<List<ServerModel>> getAllServers();

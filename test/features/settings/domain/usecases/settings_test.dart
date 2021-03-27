@@ -41,6 +41,7 @@ void main() {
   });
 
   final int tId = 1;
+  final int tSortIndex = 0;
   final String tPrimaryConnectionAddress = 'http://tautuli.domain.com';
   final String tPrimaryConnectionProtocol = 'http';
   final String tPrimaryConnectionDomain = 'tautuli.domain.com';
@@ -97,6 +98,7 @@ void main() {
         plexIdentifier: tPlexIdentifier,
         primaryActive: true,
         plexPass: true,
+        sortIndex: tSortIndex,
       );
       // assert
       verify(
@@ -108,6 +110,7 @@ void main() {
           plexIdentifier: tPlexIdentifier,
           primaryActive: true,
           plexPass: true,
+          sortIndex: tSortIndex,
         ),
       );
     },
@@ -149,6 +152,7 @@ void main() {
         plexPass: true,
         dateFormat: tDateFormat,
         timeFormat: tTimeFormat,
+        sortIndex: tSortIndex,
       );
       // assert
       verify(
@@ -164,6 +168,7 @@ void main() {
           plexPass: true,
           dateFormat: tDateFormat,
           timeFormat: tTimeFormat,
+          sortIndex: tSortIndex,
         ),
       );
     },
@@ -257,6 +262,26 @@ void main() {
         mockSettingsRepository.updateDeviceToken(
           id: tId,
           deviceToken: tDeviceToken,
+        ),
+      );
+    },
+  );
+
+  test(
+    'updateServerSort should forward the request to the repository',
+    () async {
+      // act
+      settings.updateServerSort(
+        serverId: tId,
+        oldIndex: 0,
+        newIndex: 1,
+      );
+      // assert
+      verify(
+        mockSettingsRepository.updateServerSort(
+          serverId: tId,
+          oldIndex: 0,
+          newIndex: 1,
         ),
       );
     },

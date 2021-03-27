@@ -13,6 +13,7 @@ class Settings {
   Settings({@required this.repository});
 
   Future addServer({
+    @required int sortIndex,
     @required String primaryConnectionAddress,
     @required String deviceToken,
     @required String tautulliId,
@@ -22,6 +23,7 @@ class Settings {
     @required bool plexPass,
   }) {
     return repository.addServer(
+      sortIndex: sortIndex,
       primaryConnectionAddress: primaryConnectionAddress,
       deviceToken: deviceToken,
       tautulliId: tautulliId,
@@ -42,6 +44,7 @@ class Settings {
 
   Future updateServerById({
     @required int id,
+    @required int sortIndex,
     @required String primaryConnectionAddress,
     @required String secondaryConnectionAddress,
     @required String deviceToken,
@@ -55,6 +58,7 @@ class Settings {
   }) {
     return repository.updateServerById(
       id: id,
+      sortIndex: sortIndex,
       primaryConnectionAddress: primaryConnectionAddress,
       secondaryConnectionAddress: secondaryConnectionAddress,
       deviceToken: deviceToken,
@@ -107,6 +111,18 @@ class Settings {
     return repository.updateDeviceToken(
       id: id,
       deviceToken: deviceToken,
+    );
+  }
+
+  Future updateServerSort({
+    @required int serverId,
+    @required int oldIndex,
+    @required int newIndex,
+  }) async {
+    return await repository.updateServerSort(
+      serverId: serverId,
+      oldIndex: oldIndex,
+      newIndex: newIndex,
     );
   }
 

@@ -24,6 +24,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   @override
   Future addServer({
+    @required int sortIndex,
     @required String primaryConnectionAddress,
     @required String deviceToken,
     @required String tautulliId,
@@ -35,6 +36,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     final connectionMap =
         ConnectionAddressHelper.parse(primaryConnectionAddress);
     ServerModel server = ServerModel(
+      sortIndex: sortIndex,
       primaryConnectionAddress: primaryConnectionAddress,
       primaryConnectionProtocol: connectionMap['protocol'],
       primaryConnectionDomain: connectionMap['domain'],
@@ -62,6 +64,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future updateServerById({
     @required int id,
+    @required int sortIndex,
     @required String primaryConnectionAddress,
     @required String secondaryConnectionAddress,
     @required String deviceToken,
@@ -79,6 +82,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
         ConnectionAddressHelper.parse(secondaryConnectionAddress);
     ServerModel server = ServerModel(
       id: id,
+      sortIndex: sortIndex,
       primaryConnectionAddress: primaryConnectionAddress,
       primaryConnectionProtocol: primaryConnectionMap['protocol'],
       primaryConnectionDomain: primaryConnectionMap['domain'],
@@ -98,6 +102,19 @@ class SettingsRepositoryImpl implements SettingsRepository {
     );
 
     return await DBProvider.db.updateServerById(server);
+  }
+
+  @override
+  Future updateServerSort({
+    @required int serverId,
+    @required int oldIndex,
+    @required int newIndex,
+  }) async {
+    return await DBProvider.db.updateServerSort(
+      serverId,
+      oldIndex,
+      newIndex,
+    );
   }
 
   @override
