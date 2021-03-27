@@ -250,6 +250,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                     userId: activity.userId,
                                     friendlyName: activity.friendlyName,
                                     userThumb: activity.userThumb,
+                                    lastSeen: activity.lastSeen,
                                   );
 
                                   Navigator.of(context).push(
