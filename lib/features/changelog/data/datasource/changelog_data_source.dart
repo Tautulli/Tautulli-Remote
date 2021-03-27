@@ -1,6 +1,16 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.6.2",
+      "date": "March 26, 2021",
+      "changes": [
+        {
+          "type": "fix",
+          "detail": "Fix activity not passing last seen to user details page",
+        },
+      ],
+    },
+    {
       "version": "v2.6.1",
       "date": "March 26, 2021",
       "changes": [
