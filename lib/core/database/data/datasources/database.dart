@@ -30,32 +30,40 @@ class DBProvider {
 
     return await openDatabase(
       path,
-      version: 4,
+      version: 5,
       onOpen: (db) async {},
       onCreate: (Database db, int version) async {
         var batch = db.batch();
-        _createTableServerV4(batch);
+        _createTableServerV5(batch);
         await batch.commit();
       },
       onUpgrade: (Database db, int oldVersion, int newVersion) async {
         var batch = db.batch();
         if (oldVersion == 1) {
-          _updateTableServerV1toV4(batch);
+          _updateTableServerV1toV5(batch);
+          await _addInitialIndexValue(db, batch);
         }
         if (oldVersion == 2) {
-          _updateTableServerV2toV4(batch);
+          _updateTableServerV2toV5(batch);
+          await _addInitialIndexValue(db, batch);
         }
         if (oldVersion == 3) {
-          _updateTableServerV3toV4(batch);
+          _updateTableServerV3toV5(batch);
+          await _addInitialIndexValue(db, batch);
+        }
+        if (oldVersion == 4) {
+          _updateTableServerV4toV5(batch);
+          await _addInitialIndexValue(db, batch);
         }
         await batch.commit();
       },
     );
   }
 
-  void _createTableServerV4(Batch batch) {
+  void _createTableServerV5(Batch batch) {
     batch.execute('''CREATE TABLE servers(
                     id INTEGER PRIMARY KEY,
+                    sort_index INTEGER,
                     plex_name TEXT,
                     plex_identifier TEXT,
                     tautulli_id TEXT,
@@ -75,21 +83,40 @@ class DBProvider {
                 )''');
   }
 
-  void _updateTableServerV1toV4(Batch batch) {
+  void _updateTableServerV1toV5(Batch batch) {
     batch.execute('ALTER TABLE servers ADD plex_pass INTEGER');
     batch.execute('ALTER TABLE servers ADD date_format TEXT');
     batch.execute('ALTER TABLE servers ADD time_format TEXT');
     batch.execute('ALTER TABLE servers ADD plex_identifier TEXT');
+    batch.execute('ALTER TABLE servers ADD sort_index INTEGER');
   }
 
-  void _updateTableServerV2toV4(Batch batch) {
+  void _updateTableServerV2toV5(Batch batch) {
     batch.execute('ALTER TABLE servers ADD date_format TEXT');
     batch.execute('ALTER TABLE servers ADD time_format TEXT');
     batch.execute('ALTER TABLE servers ADD plex_identifier TEXT');
+    batch.execute('ALTER TABLE servers ADD sort_index INTEGER');
   }
 
-  void _updateTableServerV3toV4(Batch batch) {
+  void _updateTableServerV3toV5(Batch batch) {
     batch.execute('ALTER TABLE servers ADD plex_identifier TEXT');
+    batch.execute('ALTER TABLE servers ADD sort_index INTEGER');
+  }
+
+  void _updateTableServerV4toV5(Batch batch) {
+    batch.execute('ALTER TABLE servers ADD sort_index INTEGER');
+  }
+
+  Future<void> _addInitialIndexValue(Database db, Batch batch) async {
+    var servers = await db.query('servers');
+    for (var i = 0; i <= servers.length - 1; i++) {
+      batch.update(
+        'servers',
+        {'sort_index': i},
+        where: 'id = ?',
+        whereArgs: [servers[i]['id']],
+      );
+    }
   }
 
   addServer(ServerModel server) async {
@@ -101,8 +128,33 @@ class DBProvider {
 
   deleteServer(int id) async {
     final db = await database;
+    var batch = db.batch();
 
-    db.delete('servers', where: 'id = ?', whereArgs: [id]);
+    int count = Sqflite.firstIntValue(
+        await db.rawQuery('SELECT COUNT(*) FROM servers'));
+
+    batch.delete('servers', where: 'id = ?', whereArgs: [id]);
+
+    if (count > 1) {
+      int sortIndex = await db
+          .query(
+            'servers',
+            columns: ['sort_index'],
+            where: 'id = ?',
+            whereArgs: [id],
+          )
+          .then((value) => value.first['sort_index']);
+
+      for (var i = count - 1; i > sortIndex; i--) {
+        batch.update(
+          'servers',
+          {'sort_index': i - 1},
+          where: 'sort_index = ?',
+          whereArgs: [i],
+        );
+      }
+    }
+    batch.commit();
   }
 
   updateServer(ServerModel server) async {
@@ -117,6 +169,51 @@ class DBProvider {
     final db = await database;
     var result = await db.update('servers', server.toJson(),
         where: 'id = ?', whereArgs: [server.id]);
+
+    return result;
+  }
+
+  updateServerSort(int serverId, int oldIndex, int newIndex) async {
+    final db = await database;
+    var batch = db.batch();
+    // Change moved item sort index to -1 to avoid 'where' conflicts
+    batch.update(
+      'servers',
+      {'sort_index': -1},
+      where: 'id = ?',
+      whereArgs: [serverId],
+    );
+    // If item moved higher in list
+    if (oldIndex < newIndex) {
+      for (var i = oldIndex; i < newIndex; i++) {
+        batch.update(
+          'servers',
+          {'sort_index': i},
+          where: 'sort_index = ?',
+          whereArgs: [oldIndex + 1],
+        );
+      }
+    }
+    // If item moved lower in list
+    if (newIndex < oldIndex) {
+      for (var i = newIndex; i < oldIndex; i++) {
+        batch.update(
+          'servers',
+          {'sort_index': i + 1},
+          where: 'sort_index = ?',
+          whereArgs: [newIndex],
+        );
+      }
+    }
+    // Change sort index of moved item to new index
+    batch.update(
+      'servers',
+      {'sort_index': newIndex},
+      where: 'id = ?',
+      whereArgs: [serverId],
+    );
+
+    var result = batch.commit();
 
     return result;
   }
