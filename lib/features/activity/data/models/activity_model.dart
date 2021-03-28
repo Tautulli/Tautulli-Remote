@@ -21,7 +21,6 @@ class ActivityItemModel extends ActivityItem {
     final String grandparentTitle, // Show name
     final int height,
     final String ipAddress,
-    final int lastSeen,
     final int live, // 1 if live tv
     final int local, // Public or Private IP
     final String location, // lan, wan
@@ -98,7 +97,6 @@ class ActivityItemModel extends ActivityItem {
           grandparentTitle: grandparentTitle,
           height: height,
           ipAddress: ipAddress,
-          lastSeen: lastSeen,
           live: live,
           local: local,
           location: location,
@@ -225,10 +223,6 @@ class ActivityItemModel extends ActivityItem {
       ipAddress: ValueHelper.cast(
         value: json['ip_address'],
         type: CastType.string,
-      ),
-      lastSeen: ValueHelper.cast(
-        value: json['last_seen'],
-        type: CastType.int,
       ),
       live: ValueHelper.cast(
         value: json['live'],

@@ -18,7 +18,6 @@ class ActivityItem extends Equatable {
   final String grandparentTitle; // Show name or music artist name
   final int height;
   final String ipAddress;
-  final int lastSeen;
   final int live; // 1 if live tv
   final int local; // Private or Public IP
   final String location; // lan, wan
@@ -95,7 +94,6 @@ class ActivityItem extends Equatable {
     this.grandparentTitle,
     this.height,
     this.ipAddress,
-    this.lastSeen,
     this.live,
     this.local,
     this.location,
@@ -173,7 +171,6 @@ class ActivityItem extends Equatable {
         grandparentTitle,
         height,
         ipAddress,
-        lastSeen,
         live,
         local,
         location,
@@ -252,7 +249,6 @@ class ActivityItem extends Equatable {
       grandparentTitle: this.grandparentTitle,
       height: this.height,
       ipAddress: this.ipAddress,
-      lastSeen: this.lastSeen,
       live: this.live,
       local: this.local,
       location: this.location,
