@@ -44,6 +44,56 @@ class ServerModel extends Server {
           timeFormat: timeFormat,
         );
 
+  ServerModel copyWith({
+    int id,
+    int sortIndex,
+    String plexName,
+    String plexIdentifier,
+    String tautulliId,
+    String primaryConnectionAddress,
+    String primaryConnectionProtocol,
+    String primaryConnectionDomain,
+    String primaryConnectionPath,
+    String secondaryConnectionAddress,
+    String secondaryConnectionProtocol,
+    String secondaryConnectionDomain,
+    String secondaryConnectionPath,
+    String deviceToken,
+    bool primaryActive,
+    bool plexPass,
+    String dateFormat,
+    String timeFormat,
+  }) {
+    return ServerModel(
+      id: id ?? this.id,
+      sortIndex: sortIndex ?? this.sortIndex,
+      plexName: plexName ?? this.plexName,
+      plexIdentifier: plexIdentifier ?? this.plexIdentifier,
+      tautulliId: tautulliId ?? this.tautulliId,
+      primaryConnectionAddress:
+          primaryConnectionAddress ?? this.primaryConnectionAddress,
+      primaryConnectionProtocol:
+          primaryConnectionProtocol ?? this.primaryConnectionProtocol,
+      primaryConnectionDomain:
+          primaryConnectionDomain ?? this.primaryConnectionDomain,
+      primaryConnectionPath:
+          primaryConnectionPath ?? this.primaryConnectionPath,
+      secondaryConnectionAddress:
+          secondaryConnectionAddress ?? this.secondaryConnectionAddress,
+      secondaryConnectionProtocol:
+          secondaryConnectionProtocol ?? this.secondaryConnectionProtocol,
+      secondaryConnectionDomain:
+          secondaryConnectionDomain ?? this.secondaryConnectionDomain,
+      secondaryConnectionPath:
+          secondaryConnectionPath ?? this.secondaryConnectionPath,
+      deviceToken: deviceToken ?? this.deviceToken,
+      primaryActive: primaryActive ?? this.primaryActive,
+      plexPass: plexPass ?? this.plexPass,
+      dateFormat: dateFormat ?? this.dateFormat,
+      timeFormat: timeFormat ?? this.timeFormat,
+    );
+  }
+
   // Create Settings from JSON data
   factory ServerModel.fromJson(Map<String, dynamic> json) {
     bool primaryActiveBool = toBoolean(json['primary_active'].toString());

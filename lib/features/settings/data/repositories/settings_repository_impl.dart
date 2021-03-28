@@ -24,30 +24,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   @override
   Future addServer({
-    @required int sortIndex,
-    @required String primaryConnectionAddress,
-    @required String deviceToken,
-    @required String tautulliId,
-    @required String plexName,
-    @required String plexIdentifier,
-    @required bool primaryActive,
-    @required bool plexPass,
+    @required ServerModel server,
   }) async {
-    final connectionMap =
-        ConnectionAddressHelper.parse(primaryConnectionAddress);
-    ServerModel server = ServerModel(
-      sortIndex: sortIndex,
-      primaryConnectionAddress: primaryConnectionAddress,
-      primaryConnectionProtocol: connectionMap['protocol'],
-      primaryConnectionDomain: connectionMap['domain'],
-      primaryConnectionPath: connectionMap['path'],
-      deviceToken: deviceToken,
-      tautulliId: tautulliId,
-      plexName: plexName,
-      plexIdentifier: plexIdentifier,
-      primaryActive: primaryActive,
-      plexPass: plexPass,
-    );
     return await DBProvider.db.addServer(server);
   }
 
@@ -63,44 +41,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   @override
   Future updateServerById({
-    @required int id,
-    @required int sortIndex,
-    @required String primaryConnectionAddress,
-    @required String secondaryConnectionAddress,
-    @required String deviceToken,
-    @required String tautulliId,
-    @required String plexName,
-    @required String plexIdentifier,
-    @required bool primaryActive,
-    @required bool plexPass,
-    @required String dateFormat,
-    @required String timeFormat,
+    @required ServerModel server,
   }) async {
-    final primaryConnectionMap =
-        ConnectionAddressHelper.parse(primaryConnectionAddress);
-    final secondaryConnectionMap =
-        ConnectionAddressHelper.parse(secondaryConnectionAddress);
-    ServerModel server = ServerModel(
-      id: id,
-      sortIndex: sortIndex,
-      primaryConnectionAddress: primaryConnectionAddress,
-      primaryConnectionProtocol: primaryConnectionMap['protocol'],
-      primaryConnectionDomain: primaryConnectionMap['domain'],
-      primaryConnectionPath: primaryConnectionMap['path'],
-      secondaryConnectionAddress: secondaryConnectionAddress,
-      secondaryConnectionProtocol: secondaryConnectionMap['protocol'],
-      secondaryConnectionDomain: secondaryConnectionMap['domain'],
-      secondaryConnectionPath: secondaryConnectionMap['path'],
-      deviceToken: deviceToken,
-      tautulliId: tautulliId,
-      plexName: plexName,
-      plexIdentifier: plexIdentifier,
-      primaryActive: primaryActive,
-      plexPass: plexPass,
-      dateFormat: dateFormat,
-      timeFormat: timeFormat,
-    );
-
     return await DBProvider.db.updateServerById(server);
   }
 
@@ -139,57 +81,23 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future updatePrimaryConnection({
     @required int id,
-    @required String primaryConnectionAddress,
+    @required Map<String, String> primaryConnectionInfo,
   }) async {
-    final connectionMap =
-        ConnectionAddressHelper.parse(primaryConnectionAddress);
-    final Map<String, dynamic> dbConnectionAddressMap = {
-      'primary_connection_address': primaryConnectionAddress,
-      'primary_connection_protocol': connectionMap['protocol'],
-      'primary_connection_domain': connectionMap['domain'],
-      'primary_connection_path': connectionMap['path'],
-    };
     return await DBProvider.db.updateConnection(
       id: id,
-      dbConnectionAddressMap: dbConnectionAddressMap,
+      dbConnectionAddressMap: primaryConnectionInfo,
     );
   }
 
   @override
   Future updateSecondaryConnection({
     @required int id,
-    @required String secondaryConnectionAddress,
+    @required Map<String, String> secondaryConnectionInfo,
   }) async {
-    final connectionMap =
-        ConnectionAddressHelper.parse(secondaryConnectionAddress);
-    final Map<String, dynamic> dbConnectionAddressMap = {
-      'secondary_connection_address': secondaryConnectionAddress,
-      'secondary_connection_protocol': connectionMap['protocol'],
-      'secondary_connection_domain': connectionMap['domain'],
-      'secondary_connection_path': connectionMap['path'],
-    };
     return await DBProvider.db.updateConnection(
       id: id,
-      dbConnectionAddressMap: dbConnectionAddressMap,
+      dbConnectionAddressMap: secondaryConnectionInfo,
     );
-  }
-
-  @override
-  Future updateDeviceToken({
-    @required int id,
-    @required String deviceToken,
-  }) async {
-    return await DBProvider.db.updateDeviceToken(
-      id: id,
-      deviceToken: deviceToken,
-    );
-  }
-
-  @override
-  Future getPrimaryActive(String tautulliId) async {
-    final int result = await DBProvider.db.getPrimaryActive(tautulliId);
-
-    return toBoolean(result.toString());
   }
 
   @override

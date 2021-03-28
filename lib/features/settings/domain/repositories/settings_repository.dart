@@ -8,14 +8,7 @@ import '../entities/plex_server_info.dart';
 
 abstract class SettingsRepository {
   Future addServer({
-    @required int sortIndex,
-    @required String primaryConnectionAddress,
-    @required String deviceToken,
-    @required String tautulliId,
-    @required String plexName,
-    @required String plexIdentifier,
-    @required bool primaryActive,
-    @required bool plexPass,
+    @required ServerModel server,
   });
 
   Future deleteServer(int id);
@@ -23,18 +16,7 @@ abstract class SettingsRepository {
   Future updateServer(ServerModel server);
 
   Future updateServerById({
-    @required int id,
-    @required int sortIndex,
-    @required String primaryConnectionAddress,
-    @required String secondaryConnectionAddress,
-    @required String deviceToken,
-    @required String tautulliId,
-    @required String plexName,
-    @required String plexIdentifier,
-    @required bool primaryActive,
-    @required bool plexPass,
-    @required String dateFormat,
-    @required String timeFormat,
+    @required ServerModel server,
   });
 
   Future updateServerSort({
@@ -51,20 +33,13 @@ abstract class SettingsRepository {
 
   Future updatePrimaryConnection({
     @required int id,
-    @required String primaryConnectionAddress,
+    @required Map<String, String> primaryConnectionInfo,
   });
 
   Future updateSecondaryConnection({
     @required int id,
-    @required String secondaryConnectionAddress,
+    @required Map<String, String> secondaryConnectionInfo,
   });
-
-  Future updateDeviceToken({
-    @required int id,
-    @required String deviceToken,
-  });
-
-  Future getPrimaryActive(String tautulliId);
 
   Future updatePrimaryActive({
     @required String tautulliId,

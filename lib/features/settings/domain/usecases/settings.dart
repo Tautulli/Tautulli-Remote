@@ -13,24 +13,10 @@ class Settings {
   Settings({@required this.repository});
 
   Future addServer({
-    @required int sortIndex,
-    @required String primaryConnectionAddress,
-    @required String deviceToken,
-    @required String tautulliId,
-    @required String plexName,
-    @required String plexIdentifier,
-    @required bool primaryActive,
-    @required bool plexPass,
+    @required ServerModel server,
   }) {
     return repository.addServer(
-      sortIndex: sortIndex,
-      primaryConnectionAddress: primaryConnectionAddress,
-      deviceToken: deviceToken,
-      tautulliId: tautulliId,
-      plexName: plexName,
-      plexIdentifier: plexIdentifier,
-      primaryActive: primaryActive,
-      plexPass: plexPass,
+      server: server,
     );
   }
 
@@ -43,32 +29,10 @@ class Settings {
   }
 
   Future updateServerById({
-    @required int id,
-    @required int sortIndex,
-    @required String primaryConnectionAddress,
-    @required String secondaryConnectionAddress,
-    @required String deviceToken,
-    @required String tautulliId,
-    @required String plexName,
-    @required String plexIdentifier,
-    @required bool primaryActive,
-    @required bool plexPass,
-    @required String dateFormat,
-    @required String timeFormat,
+    @required ServerModel server,
   }) {
     return repository.updateServerById(
-      id: id,
-      sortIndex: sortIndex,
-      primaryConnectionAddress: primaryConnectionAddress,
-      secondaryConnectionAddress: secondaryConnectionAddress,
-      deviceToken: deviceToken,
-      tautulliId: tautulliId,
-      plexName: plexName,
-      plexIdentifier: plexIdentifier,
-      primaryActive: primaryActive,
-      plexPass: plexPass,
-      dateFormat: dateFormat,
-      timeFormat: timeFormat,
+      server: server,
     );
   }
 
@@ -86,31 +50,21 @@ class Settings {
 
   Future updatePrimaryConnection({
     @required int id,
-    @required String primaryConnectionAddress,
+    @required Map<String, String> primaryConnectionInfo,
   }) {
     return repository.updatePrimaryConnection(
       id: id,
-      primaryConnectionAddress: primaryConnectionAddress,
+      primaryConnectionInfo: primaryConnectionInfo,
     );
   }
 
   Future updateSecondaryConnection({
     @required int id,
-    @required String secondaryConnectionAddress,
+    @required Map<String, String> secondaryConnectionInfo,
   }) {
     return repository.updateSecondaryConnection(
       id: id,
-      secondaryConnectionAddress: secondaryConnectionAddress,
-    );
-  }
-
-  Future updateDeviceToken({
-    @required int id,
-    @required String deviceToken,
-  }) {
-    return repository.updateDeviceToken(
-      id: id,
-      deviceToken: deviceToken,
+      secondaryConnectionInfo: secondaryConnectionInfo,
     );
   }
 
@@ -124,10 +78,6 @@ class Settings {
       oldIndex: oldIndex,
       newIndex: newIndex,
     );
-  }
-
-  Future getPrimaryActive(String tautulliId) async {
-    return await repository.getPrimaryActive(tautulliId);
   }
 
   Future updatePrimaryActive({

@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/database/data/models/server_model.dart';
-import 'package:tautulli_remote/core/database/domain/entities/server.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
 import 'package:tautulli_remote/features/settings/data/models/tautulli_settings_general_model.dart';
@@ -33,21 +32,26 @@ void main() {
     );
   });
 
-  final int tId = 1;
-  final tSortIndex = 1;
-  final String tPrimaryConnectionAddress = 'http://tautulli.com';
+  final String tPrimaryConnectionAddress = 'http://tautulli.com/tautulli';
   final String tPrimaryConnectionProtocol = 'http';
   final String tPrimaryConnectionDomain = 'tautulli.com';
   final String tPrimaryConnectionPath = '/tautulli';
-  final String tSecondaryConnectionAddress = 'http://tautulli.com';
+  final String tSecondaryConnectionAddress = 'http://plexpy.com/plexpy';
+  final String tSecondaryConnectionProtocol = 'http';
+  final String tSecondaryConnectionDomain = 'plexpy.com';
+  final String tSecondaryConnectionPath = '/plexpy';
   final String tDeviceToken = 'abc';
+  final String tDeviceToken2 = 'adef';
   final String tTautulliId = 'jkl';
+  final String tTautulliId2 = 'mno';
   final String tPlexName = 'Plex';
+  final String tPlexName2 = 'Plex2';
   final String tPlexIdentifier = 'uvw';
+  final String tPlexIdentifier2 = 'xyz';
   final String tDateFormat = 'YYYY-MM-DD';
   final String tTimeFormat = 'HH:mm';
 
-  final Server tServerModel = ServerModel(
+  final ServerModel tServerModel = ServerModel(
     primaryConnectionAddress: tPrimaryConnectionAddress,
     primaryConnectionProtocol: tPrimaryConnectionProtocol,
     primaryConnectionDomain: tPrimaryConnectionDomain,
@@ -58,24 +62,20 @@ void main() {
     plexIdentifier: tPlexIdentifier,
     primaryActive: true,
     plexPass: true,
-    dateFormat: tDateFormat,
-    timeFormat: tTimeFormat,
     sortIndex: 0,
   );
 
-  final Server tServerModel2 = ServerModel(
-    primaryConnectionAddress: tPrimaryConnectionAddress,
-    primaryConnectionProtocol: tPrimaryConnectionProtocol,
-    primaryConnectionDomain: tPrimaryConnectionDomain,
-    primaryConnectionPath: tPrimaryConnectionPath,
-    deviceToken: tDeviceToken,
-    tautulliId: tTautulliId,
-    plexName: tPlexName,
-    plexIdentifier: tPlexIdentifier,
+  final ServerModel tServerModel2 = ServerModel(
+    primaryConnectionAddress: tSecondaryConnectionAddress,
+    primaryConnectionProtocol: tSecondaryConnectionProtocol,
+    primaryConnectionDomain: tSecondaryConnectionDomain,
+    primaryConnectionPath: tSecondaryConnectionPath,
+    deviceToken: tDeviceToken2,
+    tautulliId: tTautulliId2,
+    plexName: tPlexName2,
+    plexIdentifier: tPlexIdentifier2,
     primaryActive: true,
     plexPass: true,
-    dateFormat: tDateFormat,
-    timeFormat: tTimeFormat,
     sortIndex: 1,
   );
 
@@ -169,11 +169,9 @@ void main() {
     );
   });
 
-  group('SettingsAddServer', () {
-    test(
-      'should call Settings.addServer() use case',
-      () async {
-        // arrange
+  group('state is SettingsLoadSuccess', () {
+    group('SettingsAddServer', () {
+      setUp(() {
         bloc.emit(
           SettingsLoadSuccess(
             serverList: tServerList,
@@ -185,97 +183,80 @@ void main() {
             statsType: tStatsType,
           ),
         );
-        // act
-        bloc.add(
-          SettingsAddServer(
-            primaryConnectionAddress: tPrimaryConnectionAddress,
-            deviceToken: tDeviceToken,
-            tautulliId: tTautulliId,
-            plexName: tPlexName,
-            plexIdentifier: tPlexIdentifier,
-            plexPass: true,
-          ),
-        );
-        await untilCalled(
-          mockSettings.addServer(
-            primaryConnectionAddress: tPrimaryConnectionAddress,
-            deviceToken: tDeviceToken,
-            tautulliId: tTautulliId,
-            plexName: tPlexName,
-            plexIdentifier: tPlexIdentifier,
-            primaryActive: true,
-            plexPass: true,
-            sortIndex: tSortIndex,
-          ),
-        );
-        // assert
-        verify(
-          mockSettings.addServer(
-            primaryConnectionAddress: tPrimaryConnectionAddress,
-            deviceToken: tDeviceToken,
-            tautulliId: tTautulliId,
-            plexName: tPlexName,
-            plexIdentifier: tPlexIdentifier,
-            primaryActive: true,
-            plexPass: true,
-            sortIndex: tSortIndex,
-          ),
-        );
-      },
-    );
+        when(
+          mockSettings.getServerByTautulliId(tTautulliId2),
+        ).thenAnswer((_) async => tServerModel2);
+      });
+      test(
+        'should call Settings.addServer() use case',
+        () async {
+          // arrange
+          setUpSuccess();
+          // act
+          bloc.add(
+            SettingsAddServer(
+              primaryConnectionAddress: tSecondaryConnectionAddress,
+              deviceToken: tDeviceToken2,
+              tautulliId: tTautulliId2,
+              plexName: tPlexName2,
+              plexIdentifier: tPlexIdentifier2,
+              plexPass: true,
+            ),
+          );
+          await untilCalled(
+            mockSettings.addServer(
+              server: tServerModel2,
+            ),
+          );
+          // assert
+          verify(
+            mockSettings.addServer(
+              server: tServerModel2,
+            ),
+          );
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after adding a server',
+        () async {
+          // arrange
+          setUpSuccess(updatedServerList: true);
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: tUpdatedServerList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(
+            SettingsAddServer(
+              primaryConnectionAddress: tSecondaryConnectionAddress,
+              deviceToken: tDeviceToken2,
+              tautulliId: tTautulliId2,
+              plexName: tPlexName2,
+              plexIdentifier: tPlexIdentifier2,
+              plexPass: true,
+            ),
+          );
+        },
+      );
+    });
 
-    test(
-      'should emit [SettingsLoadSuccess] after adding a server',
-      () async {
-        // arrange
-        setUpSuccess(updatedServerList: true);
-        bloc.emit(
-          SettingsLoadSuccess(
-            serverList: tServerList,
-            serverTimeout: tServerTimeout,
-            refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
-            maskSensitiveInfo: tMaskSensitiveInfo,
-            lastSelectedServer: tTautulliId,
-            statsType: tStatsType,
-          ),
-        );
-        // assert later
-        final expected = [
-          SettingsLoadSuccess(
-            serverList: tUpdatedServerList,
-            serverTimeout: tServerTimeout,
-            refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
-            maskSensitiveInfo: tMaskSensitiveInfo,
-            lastSelectedServer: tTautulliId,
-            statsType: tStatsType,
-          ),
+    group('SettingsUpdateServer', () {
+      setUp(() {
+        List<ServerModel> newList = [
+          tServerModel.copyWith(id: 0),
         ];
-        expectLater(bloc.stream, emitsInOrder(expected));
-        // act
-        bloc.add(
-          SettingsAddServer(
-            primaryConnectionAddress: tPrimaryConnectionAddress,
-            deviceToken: tDeviceToken,
-            tautulliId: tTautulliId,
-            plexName: tPlexName,
-            plexIdentifier: tPlexIdentifier,
-            plexPass: true,
-          ),
-        );
-      },
-    );
-  });
-
-  group('SettingsUpdateServer', () {
-    test(
-      'should call the Settings.updateServerById use case',
-      () async {
-        // arrange
         bloc.emit(
           SettingsLoadSuccess(
-            serverList: tServerList,
+            serverList: newList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             doubleTapToExit: tDoubleTapToExit,
@@ -284,115 +265,111 @@ void main() {
             statsType: tStatsType,
           ),
         );
-        // act
-        bloc.add(
-          SettingsUpdateServer(
-            id: tId,
-            primaryConnectionAddress: tPrimaryConnectionAddress,
-            secondaryConnectionAddress: tSecondaryConnectionAddress,
-            deviceToken: tDeviceToken,
-            tautulliId: tTautulliId,
-            plexName: tPlexName,
-            plexIdentifier: tPlexIdentifier,
-            plexPass: true,
-            dateFormat: tDateFormat,
-            timeFormat: tTimeFormat,
-            sortIndex: tSortIndex,
-          ),
-        );
-        await untilCalled(
-          mockSettings.updateServerById(
-            id: tId,
-            primaryConnectionAddress: tPrimaryConnectionAddress,
-            secondaryConnectionAddress: tSecondaryConnectionAddress,
-            deviceToken: tDeviceToken,
-            tautulliId: tTautulliId,
-            plexName: tPlexName,
-            plexIdentifier: tPlexIdentifier,
-            primaryActive: true,
-            plexPass: true,
-            dateFormat: tDateFormat,
-            timeFormat: tTimeFormat,
-            sortIndex: tSortIndex,
-          ),
-        );
-        // assert
-        verify(
-          mockSettings.updateServerById(
-            id: tId,
-            primaryConnectionAddress: tPrimaryConnectionAddress,
-            secondaryConnectionAddress: tSecondaryConnectionAddress,
-            deviceToken: tDeviceToken,
-            tautulliId: tTautulliId,
-            plexName: tPlexName,
-            plexIdentifier: tPlexIdentifier,
-            primaryActive: true,
-            plexPass: true,
-            dateFormat: tDateFormat,
-            timeFormat: tTimeFormat,
-            sortIndex: tSortIndex,
-          ),
-        );
-      },
-    );
-
-    test(
-      'should emit [SettingsLoadSuccess] after updating a server',
-      () async {
-        // arrange
-        setUpSuccess(updatedServerList: true);
-        bloc.emit(
-          SettingsLoadSuccess(
-            serverList: tServerList,
-            serverTimeout: tServerTimeout,
-            refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
-            maskSensitiveInfo: tMaskSensitiveInfo,
-            lastSelectedServer: tTautulliId,
-            statsType: tStatsType,
-          ),
-        );
-        // assert later
-        final expected = [
-          SettingsLoadSuccess(
-            serverList: tUpdatedServerList,
-            serverTimeout: tServerTimeout,
-            refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
-            maskSensitiveInfo: tMaskSensitiveInfo,
-            lastSelectedServer: tTautulliId,
-            statsType: tStatsType,
-          ),
+      });
+      test(
+        'should call the Settings.updateServerById() use case',
+        () async {
+          // act
+          bloc.add(
+            SettingsUpdateServer(
+              id: 0,
+              sortIndex: 0,
+              primaryConnectionAddress: tPrimaryConnectionAddress,
+              secondaryConnectionAddress: tSecondaryConnectionAddress,
+              deviceToken: tDeviceToken,
+              tautulliId: tTautulliId,
+              plexName: tPlexName,
+              plexIdentifier: tPlexIdentifier,
+              plexPass: true,
+              timeFormat: tTimeFormat,
+              dateFormat: tDateFormat,
+            ),
+          );
+          await untilCalled(
+            mockSettings.updateServerById(
+              server: tServerModel.copyWith(
+                id: 0,
+                timeFormat: tTimeFormat,
+                dateFormat: tDateFormat,
+                secondaryConnectionAddress: tSecondaryConnectionAddress,
+                secondaryConnectionPath: tSecondaryConnectionPath,
+                secondaryConnectionProtocol: tSecondaryConnectionProtocol,
+                secondaryConnectionDomain: tSecondaryConnectionDomain,
+              ),
+            ),
+          );
+          // assert
+          verify(
+            mockSettings.updateServerById(
+              server: tServerModel.copyWith(
+                id: 0,
+                timeFormat: tTimeFormat,
+                dateFormat: tDateFormat,
+                secondaryConnectionAddress: tSecondaryConnectionAddress,
+                secondaryConnectionPath: tSecondaryConnectionPath,
+                secondaryConnectionProtocol: tSecondaryConnectionProtocol,
+                secondaryConnectionDomain: tSecondaryConnectionDomain,
+              ),
+            ),
+          );
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after updating a server',
+        () async {
+          // arrange
+          List<ServerModel> newList = [
+            tServerModel.copyWith(
+              id: 0,
+              timeFormat: tTimeFormat,
+              dateFormat: tDateFormat,
+              secondaryConnectionAddress: tSecondaryConnectionAddress,
+              secondaryConnectionPath: tSecondaryConnectionPath,
+              secondaryConnectionProtocol: tSecondaryConnectionProtocol,
+              secondaryConnectionDomain: tSecondaryConnectionDomain,
+            ),
+          ];
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: newList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(
+            SettingsUpdateServer(
+              id: 0,
+              sortIndex: 0,
+              primaryConnectionAddress: tPrimaryConnectionAddress,
+              secondaryConnectionAddress: tSecondaryConnectionAddress,
+              deviceToken: tDeviceToken,
+              tautulliId: tTautulliId,
+              plexName: tPlexName,
+              plexIdentifier: tPlexIdentifier,
+              plexPass: true,
+              timeFormat: tTimeFormat,
+              dateFormat: tDateFormat,
+            ),
+          );
+        },
+      );
+    });
+    group('SettingsDeleteServer', () {
+      setUp(() {
+        List<ServerModel> newList = [
+          tServerModel.copyWith(id: 0),
+          tServerModel2.copyWith(id: 1),
         ];
-        expectLater(bloc.stream, emitsInOrder(expected));
-        // act
-        bloc.add(
-          SettingsUpdateServer(
-            id: tId,
-            primaryConnectionAddress: tPrimaryConnectionAddress,
-            secondaryConnectionAddress: tSecondaryConnectionAddress,
-            deviceToken: tDeviceToken,
-            tautulliId: tTautulliId,
-            plexName: tPlexName,
-            plexIdentifier: tPlexIdentifier,
-            plexPass: true,
-            dateFormat: tDateFormat,
-            timeFormat: tTimeFormat,
-            sortIndex: tSortIndex,
-          ),
-        );
-      },
-    );
-  });
-
-  group('SettingsDeleteServer', () {
-    test(
-      'should call the Settings.deleteServer use case',
-      () async {
-        // arrange
         bloc.emit(
           SettingsLoadSuccess(
-            serverList: tServerList,
+            serverList: newList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             doubleTapToExit: tDoubleTapToExit,
@@ -401,63 +378,58 @@ void main() {
             statsType: tStatsType,
           ),
         );
-        // act
-        bloc.add(SettingsDeleteServer(
-          id: tId,
-          plexName: tPlexName,
-        ));
-        await untilCalled(mockSettings.deleteServer(tId));
-        // assert
-        verify(mockSettings.deleteServer(tId));
-      },
-    );
-
-    test(
-      'should emit [SettingsLoadSuccess] after deleting a server',
-      () async {
-        // arrange
-        setUpSuccess();
-        bloc.emit(
-          SettingsLoadSuccess(
-            serverList: tUpdatedServerList,
-            serverTimeout: tServerTimeout,
-            refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
-            maskSensitiveInfo: tMaskSensitiveInfo,
-            lastSelectedServer: tTautulliId,
-            statsType: tStatsType,
-          ),
-        );
-        // assert later
-        final expected = [
-          SettingsLoadSuccess(
-            serverList: tServerList,
-            serverTimeout: tServerTimeout,
-            refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
-            maskSensitiveInfo: tMaskSensitiveInfo,
-            lastSelectedServer: tTautulliId,
-            statsType: tStatsType,
-          ),
+      });
+      test(
+        'should call the Settings.deleteServer() use case',
+        () async {
+          // act
+          bloc.add(
+            SettingsDeleteServer(
+              id: 1,
+              plexName: tPlexName2,
+            ),
+          );
+          await untilCalled(mockSettings.deleteServer(1));
+          // assert
+          verify(mockSettings.deleteServer(1));
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after deleting a server',
+        () async {
+          // arrange
+          List<ServerModel> newList = [tServerModel.copyWith(id: 0)];
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: newList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(
+            SettingsDeleteServer(
+              id: 1,
+              plexName: tPlexName2,
+            ),
+          );
+        },
+      );
+    });
+    group('SettingsUpdatePrimaryConnection', () {
+      setUp(() {
+        List<ServerModel> newList = [
+          tServerModel.copyWith(id: 0),
         ];
-        expectLater(bloc.stream, emitsInOrder(expected));
-        // act
-        bloc.add(SettingsDeleteServer(
-          id: 2,
-          plexName: tPlexName,
-        ));
-      },
-    );
-  });
-
-  group('SettingsUpdatePrimaryConnection', () {
-    test(
-      'should call the Settings.updatePrimaryConnection use case',
-      () async {
-        //arrange
         bloc.emit(
           SettingsLoadSuccess(
-            serverList: tServerList,
+            serverList: newList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             doubleTapToExit: tDoubleTapToExit,
@@ -466,79 +438,88 @@ void main() {
             statsType: tStatsType,
           ),
         );
-        // act
-        bloc.add(
-          SettingsUpdatePrimaryConnection(
-            id: tId,
-            plexName: tPlexName,
-            primaryConnectionAddress: tPrimaryConnectionAddress,
-          ),
-        );
-        await untilCalled(
-          mockSettings.updatePrimaryConnection(
-            id: tId,
-            primaryConnectionAddress: tPrimaryConnectionAddress,
-          ),
-        );
-        // assert
-        verify(
-          mockSettings.updatePrimaryConnection(
-            id: tId,
-            primaryConnectionAddress: tPrimaryConnectionAddress,
-          ),
-        );
-      },
-    );
-
-    test(
-      'should emit [SettingsLoadSuccess] after updating a primary connection',
-      () async {
-        // arrange
-        setUpSuccess(updatedServerList: true);
-        bloc.emit(
-          SettingsLoadSuccess(
-            serverList: tServerList,
-            serverTimeout: tServerTimeout,
-            refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
-            maskSensitiveInfo: tMaskSensitiveInfo,
-            lastSelectedServer: tTautulliId,
-            statsType: tStatsType,
-          ),
-        );
-        // assert later
-        final expected = [
-          SettingsLoadSuccess(
-            serverList: tUpdatedServerList,
-            serverTimeout: tServerTimeout,
-            refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
-            maskSensitiveInfo: tMaskSensitiveInfo,
-            lastSelectedServer: tTautulliId,
-            statsType: tStatsType,
-          ),
+      });
+      test(
+        'should call the Settings.updatePrimaryConnection() use case',
+        () async {
+          // act
+          bloc.add(
+            SettingsUpdatePrimaryConnection(
+              id: 0,
+              primaryConnectionAddress: tSecondaryConnectionAddress,
+              plexName: tPlexName,
+            ),
+          );
+          await untilCalled(
+            mockSettings.updatePrimaryConnection(
+              id: 0,
+              primaryConnectionInfo: {
+                'primary_connection_address': tSecondaryConnectionAddress,
+                'primary_connection_protocol': tSecondaryConnectionProtocol,
+                'primary_connection_domain': tSecondaryConnectionDomain,
+                'primary_connection_path': tSecondaryConnectionPath,
+              },
+            ),
+          );
+          // assert
+          verify(
+            mockSettings.updatePrimaryConnection(
+              id: 0,
+              primaryConnectionInfo: {
+                'primary_connection_address': tSecondaryConnectionAddress,
+                'primary_connection_protocol': tSecondaryConnectionProtocol,
+                'primary_connection_domain': tSecondaryConnectionDomain,
+                'primary_connection_path': tSecondaryConnectionPath,
+              },
+            ),
+          );
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after updating a primary connection',
+        () async {
+          // arrange
+          List<ServerModel> newList = [
+            tServerModel.copyWith(
+              id: 0,
+              primaryConnectionAddress: tSecondaryConnectionAddress,
+              primaryConnectionProtocol: tSecondaryConnectionProtocol,
+              primaryConnectionDomain: tSecondaryConnectionDomain,
+              primaryConnectionPath: tSecondaryConnectionPath,
+            ),
+          ];
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: newList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(
+            SettingsUpdatePrimaryConnection(
+              id: 0,
+              primaryConnectionAddress: tSecondaryConnectionAddress,
+              plexName: tPlexName,
+            ),
+          );
+        },
+      );
+    });
+    group('SettingsUpdateSecondaryAddress', () {
+      setUp(() {
+        List<ServerModel> newList = [
+          tServerModel.copyWith(id: 0),
         ];
-        expectLater(bloc.stream, emitsInOrder(expected));
-        // act
-        bloc.add(
-          SettingsUpdatePrimaryConnection(
-            id: tId,
-            plexName: tPlexName,
-            primaryConnectionAddress: tPrimaryConnectionAddress,
-          ),
-        );
-      },
-    );
-  });
-
-  group('SettingsUpdateSecondaryConnection', () {
-    test(
-      'should call the Settings.updateSecondaryConnection use case',
-      () async {
-        // arrange
         bloc.emit(
           SettingsLoadSuccess(
-            serverList: tServerList,
+            serverList: newList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             doubleTapToExit: tDoubleTapToExit,
@@ -547,79 +528,88 @@ void main() {
             statsType: tStatsType,
           ),
         );
-        // act
-        bloc.add(
-          SettingsUpdateSecondaryConnection(
-            id: tId,
-            plexName: tPlexName,
-            secondaryConnectionAddress: tPrimaryConnectionAddress,
-          ),
-        );
-        await untilCalled(
-          mockSettings.updateSecondaryConnection(
-            id: tId,
-            secondaryConnectionAddress: tPrimaryConnectionAddress,
-          ),
-        );
-        // assert
-        verify(
-          mockSettings.updateSecondaryConnection(
-            id: tId,
-            secondaryConnectionAddress: tPrimaryConnectionAddress,
-          ),
-        );
-      },
-    );
-
-    test(
-      'should emit [SettingsLoadSuccess] after updating a secondary connection',
-      () async {
-        // arrange
-        setUpSuccess(updatedServerList: true);
-        bloc.emit(
-          SettingsLoadSuccess(
-            serverList: tServerList,
-            serverTimeout: tServerTimeout,
-            refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
-            maskSensitiveInfo: tMaskSensitiveInfo,
-            lastSelectedServer: tTautulliId,
-            statsType: tStatsType,
-          ),
-        );
-        // assert later
-        final expected = [
-          SettingsLoadSuccess(
-            serverList: tUpdatedServerList,
-            serverTimeout: tServerTimeout,
-            refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
-            maskSensitiveInfo: tMaskSensitiveInfo,
-            lastSelectedServer: tTautulliId,
-            statsType: tStatsType,
-          ),
+      });
+      test(
+        'should call the Settings.updateSecondaryConnection() use case',
+        () async {
+          // act
+          bloc.add(
+            SettingsUpdateSecondaryConnection(
+              id: 0,
+              secondaryConnectionAddress: tSecondaryConnectionAddress,
+              plexName: tPlexName,
+            ),
+          );
+          await untilCalled(
+            mockSettings.updateSecondaryConnection(
+              id: 0,
+              secondaryConnectionInfo: {
+                'secondary_connection_address': tSecondaryConnectionAddress,
+                'secondary_connection_protocol': tSecondaryConnectionProtocol,
+                'secondary_connection_domain': tSecondaryConnectionDomain,
+                'secondary_connection_path': tSecondaryConnectionPath,
+              },
+            ),
+          );
+          // assert
+          verify(
+            mockSettings.updateSecondaryConnection(
+              id: 0,
+              secondaryConnectionInfo: {
+                'secondary_connection_address': tSecondaryConnectionAddress,
+                'secondary_connection_protocol': tSecondaryConnectionProtocol,
+                'secondary_connection_domain': tSecondaryConnectionDomain,
+                'secondary_connection_path': tSecondaryConnectionPath,
+              },
+            ),
+          );
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after updating a secondary connection',
+        () async {
+          // arrange
+          List<ServerModel> newList = [
+            tServerModel.copyWith(
+              id: 0,
+              secondaryConnectionAddress: tSecondaryConnectionAddress,
+              secondaryConnectionProtocol: tSecondaryConnectionProtocol,
+              secondaryConnectionDomain: tSecondaryConnectionDomain,
+              secondaryConnectionPath: tSecondaryConnectionPath,
+            ),
+          ];
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: newList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(
+            SettingsUpdateSecondaryConnection(
+              id: 0,
+              secondaryConnectionAddress: tSecondaryConnectionAddress,
+              plexName: tPlexName,
+            ),
+          );
+        },
+      );
+    });
+    group('SettingsUpdatePrimaryActive', () {
+      setUp(() {
+        List<ServerModel> newList = [
+          tServerModel.copyWith(id: 0),
         ];
-        expectLater(bloc.stream, emitsInOrder(expected));
-        // act
-        bloc.add(
-          SettingsUpdateSecondaryConnection(
-            id: tId,
-            plexName: tPlexName,
-            secondaryConnectionAddress: tPrimaryConnectionAddress,
-          ),
-        );
-      },
-    );
-  });
-
-  group('SettingsUpdateDeviceToken', () {
-    test(
-      'should call the Settings.updateDeviceToken use case',
-      () async {
-        // arrange
         bloc.emit(
           SettingsLoadSuccess(
-            serverList: tServerList,
+            serverList: newList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
             doubleTapToExit: tDoubleTapToExit,
@@ -628,68 +618,455 @@ void main() {
             statsType: tStatsType,
           ),
         );
-        // act
-        bloc.add(
-          SettingsUpdateDeviceToken(
-            id: tId,
-            plexName: tPlexName,
-            deviceToken: tDeviceToken,
-          ),
-        );
-        await untilCalled(
-          mockSettings.updateDeviceToken(
-            id: tId,
-            deviceToken: tDeviceToken,
-          ),
-        );
-        // assert
-        verify(
-          mockSettings.updateDeviceToken(
-            id: tId,
-            deviceToken: tDeviceToken,
-          ),
-        );
-      },
-    );
-
-    test(
-      'should emit [SettingsLoadSuccess] after updating a secondary connection',
-      () async {
-        // arrange
-        setUpSuccess(updatedServerList: true);
-        bloc.emit(
-          SettingsLoadSuccess(
-            serverList: tServerList,
-            serverTimeout: tServerTimeout,
-            refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
-            maskSensitiveInfo: tMaskSensitiveInfo,
-            lastSelectedServer: tTautulliId,
-            statsType: tStatsType,
-          ),
-        );
-        // assert later
-        final expected = [
-          SettingsLoadSuccess(
-            serverList: tUpdatedServerList,
-            serverTimeout: tServerTimeout,
-            refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
-            maskSensitiveInfo: tMaskSensitiveInfo,
-            lastSelectedServer: tTautulliId,
-            statsType: tStatsType,
-          ),
+      });
+      test(
+        'should call the Settings.updatePrimaryActive() use case',
+        () async {
+          // act
+          bloc.add(
+            SettingsUpdatePrimaryActive(
+              tautulliId: tTautulliId,
+              primaryActive: false,
+            ),
+          );
+          await untilCalled(
+            mockSettings.updatePrimaryActive(
+              tautulliId: tTautulliId,
+              primaryActive: false,
+            ),
+          );
+          // assert
+          verify(
+            mockSettings.updatePrimaryActive(
+              tautulliId: tTautulliId,
+              primaryActive: false,
+            ),
+          );
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after updating primary active',
+        () async {
+          // arrange
+          List<ServerModel> newList = [
+            tServerModel.copyWith(
+              id: 0,
+              primaryActive: false,
+            ),
+          ];
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: newList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(
+            SettingsUpdatePrimaryActive(
+              tautulliId: tTautulliId,
+              primaryActive: false,
+            ),
+          );
+        },
+      );
+    });
+    group('SettingsUpdateSortIndex', () {
+      setUp(() {
+        List<ServerModel> newList = [
+          tServerModel.copyWith(id: 0),
+          tServerModel2.copyWith(id: 1),
         ];
-        expectLater(bloc.stream, emitsInOrder(expected));
-        // act
-        bloc.add(
-          SettingsUpdateDeviceToken(
-            id: tId,
-            plexName: tPlexName,
-            deviceToken: tDeviceToken,
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: newList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
           ),
         );
-      },
-    );
+      });
+      test(
+        'should call the Settings.updateServerSort() use case',
+        () async {
+          // act
+          bloc.add(
+            SettingsUpdateSortIndex(
+              serverId: 0,
+              oldIndex: 0,
+              newIndex: 1,
+            ),
+          );
+          await untilCalled(
+            mockSettings.updateServerSort(
+              serverId: 0,
+              oldIndex: 0,
+              newIndex: 1,
+            ),
+          );
+          // assert
+          verify(
+            mockSettings.updateServerSort(
+              serverId: 0,
+              oldIndex: 0,
+              newIndex: 1,
+            ),
+          );
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after updating the server sort',
+        () async {
+          // arrange
+          List<ServerModel> newList = [
+            tServerModel2.copyWith(id: 1),
+            tServerModel.copyWith(id: 0),
+          ];
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: newList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+              sortChanged: '0:0:1',
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(
+            SettingsUpdateSortIndex(
+              serverId: 0,
+              oldIndex: 0,
+              newIndex: 1,
+            ),
+          );
+        },
+      );
+    });
+    group('SettingsUpdateServerTimeOut', () {
+      setUp(() {
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
+      });
+      test(
+        'should call the Settings.setServerTimeout() use case',
+        () async {
+          // act
+          bloc.add(
+            SettingsUpdateServerTimeout(
+              timeout: 3,
+            ),
+          );
+          await untilCalled(
+            mockSettings.setServerTimeout(3),
+          );
+          // assert
+          verify(
+            mockSettings.setServerTimeout(3),
+          );
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after setting the server timeout',
+        () async {
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: tServerList,
+              serverTimeout: 3,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(
+            SettingsUpdateServerTimeout(
+              timeout: 3,
+            ),
+          );
+        },
+      );
+    });
+    group('SettingsUpdateRefreshRate', () {
+      setUp(() {
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
+      });
+      test(
+        'should call the Settings.setRefreshRate() use case',
+        () async {
+          // act
+          bloc.add(
+            SettingsUpdateRefreshRate(refreshRate: 10),
+          );
+          await untilCalled(mockSettings.setRefreshRate(10));
+          // assert
+          verify(mockSettings.setRefreshRate(10));
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after setting the refresh rate',
+        () async {
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: tServerList,
+              serverTimeout: tServerTimeout,
+              refreshRate: 5,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(
+            SettingsUpdateRefreshRate(refreshRate: 5),
+          );
+        },
+      );
+    });
+    group('SettingsUpdateDoubleTapToExit', () {
+      setUp(() {
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
+      });
+      test(
+        'should call the Settings.setDoubleTapToExit() use case',
+        () async {
+          // act
+          bloc.add(SettingsUpdateDoubleTapToExit(value: false));
+          await untilCalled(mockSettings.setDoubleTapToExit(false));
+          // assert
+          verify(mockSettings.setDoubleTapToExit(false));
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after updating double tap to exit',
+        () async {
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: tServerList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: false,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(SettingsUpdateDoubleTapToExit(value: false));
+        },
+      );
+    });
+    group('SettingsMaskSensitiveInfo', () {
+      setUp(() {
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
+      });
+      test(
+        'should call the Settings.setMaskSensitiveInfo() use case',
+        () async {
+          // act
+          bloc.add(SettingsUpdateMaskSensitiveInfo(value: false));
+          await untilCalled(mockSettings.setMaskSensitiveInfo(false));
+          // assert
+          verify(mockSettings.setMaskSensitiveInfo(false));
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after updating mask sensitive info',
+        () async {
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: tServerList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: false,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(SettingsUpdateMaskSensitiveInfo(value: false));
+        },
+      );
+    });
+    group('SettingsUpdateLastSelectedServer', () {
+      setUp(() {
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
+      });
+      test(
+        'should call the Settings.setLastSelectedServer() use case',
+        () async {
+          // act
+          bloc.add(SettingsUpdateLastSelectedServer(tautulliId: tTautulliId2));
+          await untilCalled(mockSettings.setLastSelectedServer(tTautulliId2));
+          // assert
+          verify(mockSettings.setLastSelectedServer(tTautulliId2));
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after updating the last selected server',
+        () async {
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: tServerList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId2,
+              statsType: tStatsType,
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(SettingsUpdateLastSelectedServer(tautulliId: tTautulliId2));
+        },
+      );
+    });
+    group('SettingsUpdateStatsType', () {
+      setUp(() {
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+          ),
+        );
+      });
+      test(
+        'should call the Settings.setStatsType() use case',
+        () async {
+          // act
+          bloc.add(SettingsUpdateStatsType(statsType: 'plays'));
+          await untilCalled(mockSettings.setStatsType('plays'));
+          // assert
+          verify(mockSettings.setStatsType('plays'));
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after updating the stats type',
+        () async {
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: tServerList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: 'plays',
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(SettingsUpdateStatsType(statsType: 'plays'));
+        },
+      );
+    });
+    //TODO: Issues with test since it replies on PackageInfo
+    // group('SettingsUpdateLastAppVersion', () {
+    //   setUp(() {
+    //     bloc.emit(
+    //       SettingsLoadSuccess(
+    //         serverList: tServerList,
+    //         serverTimeout: tServerTimeout,
+    //         refreshRate: tRefreshRate,
+    //         doubleTapToExit: tDoubleTapToExit,
+    //         maskSensitiveInfo: tMaskSensitiveInfo,
+    //         lastSelectedServer: tTautulliId,
+    //         statsType: tStatsType,
+    //       ),
+    //     );
+    //   });
+    //   test(
+    //     'should call the Settings.setLastAppVersion() use case',
+    //     () async {
+    //       // act
+    //       bloc.add(SettingsUpdateLastAppVersion());
+    //       await untilCalled(mockSettings.setLastAppVersion('2.0.0'));
+    //       // assert
+    //       verify(mockSettings.setLastAppVersion('2.0.0'));
+    //     },
+    //   );
+    // });
   });
 }

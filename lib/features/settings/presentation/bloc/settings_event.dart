@@ -125,21 +125,6 @@ class SettingsUpdatePrimaryActive extends SettingsEvent {
   List<Object> get props => [tautulliId, primaryActive];
 }
 
-class SettingsUpdateDeviceToken extends SettingsEvent {
-  final int id;
-  final String deviceToken;
-  final String plexName;
-
-  SettingsUpdateDeviceToken({
-    @required this.id,
-    @required this.deviceToken,
-    @required this.plexName,
-  });
-
-  @override
-  List<Object> get props => [id, deviceToken, plexName];
-}
-
 class SettingsUpdateSortIndex extends SettingsEvent {
   final int serverId;
   final int oldIndex;

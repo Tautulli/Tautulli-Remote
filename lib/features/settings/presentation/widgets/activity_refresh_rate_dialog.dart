@@ -29,7 +29,7 @@ class _ActivityRefreshRateDialogState extends State<ActivityRefreshRateDialog> {
     setState(() {
       _refresh = value;
       context.read<SettingsBloc>().add(
-            SettingsUpdateRefreshRate(refreshRate: value == 0 ? null : value),
+            SettingsUpdateRefreshRate(refreshRate: value),
           );
       Navigator.of(context).pop();
     });

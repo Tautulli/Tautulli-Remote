@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:package_info/package_info.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/helpers/connection_address_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../domain/entities/tautulli_settings_general.dart';
 import '../../domain/usecases/settings.dart';
@@ -44,9 +45,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           'Settings: Saving server details for ${event.plexName}',
         );
 
-        await settings.addServer(
+        final connectionMap = ConnectionAddressHelper.parse(
+          event.primaryConnectionAddress,
+        );
+        ServerModel server = ServerModel(
           sortIndex: currentState.serverList.length,
           primaryConnectionAddress: event.primaryConnectionAddress,
+          primaryConnectionProtocol: connectionMap['protocol'],
+          primaryConnectionDomain: connectionMap['domain'],
+          primaryConnectionPath: connectionMap['path'],
           deviceToken: event.deviceToken,
           tautulliId: event.tautulliId,
           plexName: event.plexName,
@@ -55,7 +62,20 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           plexPass: event.plexPass,
         );
 
-        yield* _fetchAndYieldSettings();
+        await settings.addServer(server: server);
+
+        // Fetch just added server in order to get DB ID
+        server = await settings.getServerByTautulliId(server.tautulliId);
+
+        // Use spreading to create an entirely new list so the bloc updates
+        List<ServerModel> updatedList = [...currentState.serverList];
+
+        updatedList.add(server);
+        if (updatedList.length > 1) {
+          updatedList.sort((a, b) => a.sortIndex.compareTo(b.sortIndex));
+        }
+
+        yield currentState.copyWith(serverList: updatedList);
         yield* _checkForServerChanges(settingsBloc: _settingsBlocCache);
       }
       if (event is SettingsUpdateServer) {
@@ -63,11 +83,30 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           'Settings: Updating server details for ${event.plexName}',
         );
 
-        await settings.updateServerById(
+        final primaryConnectionMap = ConnectionAddressHelper.parse(
+          event.primaryConnectionAddress,
+        );
+        final secondaryConnectionMap = ConnectionAddressHelper.parse(
+          event.secondaryConnectionAddress,
+        );
+
+        List<ServerModel> updatedList = [...currentState.serverList];
+
+        final int index = currentState.serverList.indexWhere(
+          (server) => server.id == event.id,
+        );
+
+        updatedList[index] = currentState.serverList[index].copyWith(
           id: event.id,
           sortIndex: event.sortIndex,
           primaryConnectionAddress: event.primaryConnectionAddress,
+          primaryConnectionProtocol: primaryConnectionMap['protocol'],
+          primaryConnectionDomain: primaryConnectionMap['domain'],
+          primaryConnectionPath: primaryConnectionMap['path'],
           secondaryConnectionAddress: event.secondaryConnectionAddress,
+          secondaryConnectionProtocol: secondaryConnectionMap['protocol'],
+          secondaryConnectionDomain: secondaryConnectionMap['domain'],
+          secondaryConnectionPath: secondaryConnectionMap['path'],
           deviceToken: event.deviceToken,
           tautulliId: event.tautulliId,
           plexName: event.plexName,
@@ -77,7 +116,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           dateFormat: event.dateFormat,
           timeFormat: event.timeFormat,
         );
-        yield* _fetchAndYieldSettings();
+
+        await settings.updateServerById(
+          server: updatedList[index],
+        );
+
+        yield currentState.copyWith(serverList: updatedList);
       }
       if (event is SettingsDeleteServer) {
         logging.info(
@@ -85,47 +129,101 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         );
 
         await settings.deleteServer(event.id);
-        yield* _fetchAndYieldSettings();
+
+        // Use spreading to create an entirely new list so the bloc updates
+        List<ServerModel> updatedList = [...currentState.serverList];
+
+        final int index = updatedList.indexWhere(
+          (server) => server.id == event.id,
+        );
+        updatedList.removeAt(index);
+
+        yield currentState.copyWith(serverList: updatedList);
       }
       if (event is SettingsUpdatePrimaryConnection) {
         logging.info(
           'Settings: Updating primary connection address for ${event.plexName}',
         );
 
+        final connectionMap = ConnectionAddressHelper.parse(
+          event.primaryConnectionAddress,
+        );
+
         await settings.updatePrimaryConnection(
           id: event.id,
-          primaryConnectionAddress: event.primaryConnectionAddress.trim(),
+          primaryConnectionInfo: {
+            'primary_connection_address': event.primaryConnectionAddress,
+            'primary_connection_protocol': connectionMap['protocol'],
+            'primary_connection_domain': connectionMap['domain'],
+            'primary_connection_path': connectionMap['path'],
+          },
         );
-        yield* _fetchAndYieldSettings();
+
+        final int index = currentState.serverList.indexWhere(
+          (server) => server.id == event.id,
+        );
+
+        List<ServerModel> updatedList = [...currentState.serverList];
+
+        updatedList[index] = currentState.serverList[index].copyWith(
+          primaryConnectionAddress: event.primaryConnectionAddress,
+          primaryConnectionProtocol: connectionMap['protocol'],
+          primaryConnectionDomain: connectionMap['domain'],
+          primaryConnectionPath: connectionMap['path'],
+        );
+
+        yield currentState.copyWith(serverList: updatedList);
       }
       if (event is SettingsUpdateSecondaryConnection) {
         logging.info(
           'Settings: Updating secondary connection address for ${event.plexName}',
         );
 
+        final connectionMap = ConnectionAddressHelper.parse(
+          event.secondaryConnectionAddress,
+        );
+
         await settings.updateSecondaryConnection(
           id: event.id,
-          secondaryConnectionAddress: event.secondaryConnectionAddress.trim(),
+          secondaryConnectionInfo: {
+            'secondary_connection_address': event.secondaryConnectionAddress,
+            'secondary_connection_protocol': connectionMap['protocol'],
+            'secondary_connection_domain': connectionMap['domain'],
+            'secondary_connection_path': connectionMap['path'],
+          },
         );
-        yield* _fetchAndYieldSettings();
+
+        final int index = currentState.serverList.indexWhere(
+          (server) => server.id == event.id,
+        );
+
+        List<ServerModel> updatedList = [...currentState.serverList];
+
+        updatedList[index] = currentState.serverList[index].copyWith(
+          secondaryConnectionAddress: event.secondaryConnectionAddress,
+          secondaryConnectionProtocol: connectionMap['protocol'],
+          secondaryConnectionDomain: connectionMap['domain'],
+          secondaryConnectionPath: connectionMap['path'],
+        );
+
+        yield currentState.copyWith(serverList: updatedList);
       }
       if (event is SettingsUpdatePrimaryActive) {
         await settings.updatePrimaryActive(
           tautulliId: event.tautulliId,
           primaryActive: event.primaryActive,
         );
-        yield* _fetchAndYieldSettings();
-      }
-      if (event is SettingsUpdateDeviceToken) {
-        logging.info(
-          'Settings: Updating device token for ${event.plexName}',
+
+        final int index = currentState.serverList.indexWhere(
+          (server) => server.tautulliId == event.tautulliId,
         );
 
-        await settings.updateDeviceToken(
-          id: event.id,
-          deviceToken: event.deviceToken.trim(),
+        List<ServerModel> updatedList = [...currentState.serverList];
+
+        updatedList[index] = currentState.serverList[index].copyWith(
+          primaryActive: event.primaryActive,
         );
-        yield* _fetchAndYieldSettings();
+        yield currentState.copyWith(serverList: updatedList);
       }
       if (event is SettingsUpdateSortIndex) {
         List<ServerModel> updatedServerList = currentState.serverList;
@@ -134,7 +232,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
         yield currentState.copyWith(
           serverList: updatedServerList,
-          sortChanged: UniqueKey().toString(),
+          sortChanged: '${movedServer.id}:${event.oldIndex}:${event.newIndex}',
         );
 
         await settings.updateServerSort(
@@ -149,18 +247,18 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         );
 
         await settings.setServerTimeout(event.timeout);
-        yield* _fetchAndYieldSettings();
+        yield currentState.copyWith(serverTimeout: event.timeout);
       }
       if (event is SettingsUpdateRefreshRate) {
         final String refreshRateString =
-            event.refreshRate != null ? '${event.refreshRate}s' : 'disabled';
+            event.refreshRate != 0 ? '${event.refreshRate}s' : 'disabled';
 
         logging.info(
           'Settings: Updating refresh rate to $refreshRateString',
         );
 
         await settings.setRefreshRate(event.refreshRate);
-        yield* _fetchAndYieldSettings();
+        yield currentState.copyWith(refreshRate: event.refreshRate);
       }
       if (event is SettingsUpdateDoubleTapToExit) {
         logging.info(
@@ -170,7 +268,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         );
 
         await settings.setDoubleTapToExit(event.value);
-        yield* _fetchAndYieldSettings();
+        yield currentState.copyWith(doubleTapToExit: event.value);
       }
       if (event is SettingsUpdateMaskSensitiveInfo) {
         logging.info(
@@ -180,20 +278,19 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         );
 
         await settings.setMaskSensitiveInfo(event.value);
-        yield* _fetchAndYieldSettings();
+        yield currentState.copyWith(maskSensitiveInfo: event.value);
       }
       if (event is SettingsUpdateLastSelectedServer) {
         await settings.setLastSelectedServer(event.tautulliId);
-        yield* _fetchAndYieldSettings();
+        yield currentState.copyWith(lastSelectedServer: event.tautulliId);
       }
       if (event is SettingsUpdateStatsType) {
         await settings.setStatsType(event.statsType);
-        yield* _fetchAndYieldSettings();
+        yield currentState.copyWith(statsType: event.statsType);
       }
       if (event is SettingsUpdateLastAppVersion) {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         await settings.setLastAppVersion(packageInfo.version);
-        yield* _fetchAndYieldSettings();
       }
     }
   }
@@ -214,7 +311,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     yield SettingsLoadSuccess(
       serverList: serverList,
       serverTimeout: serverTimeout,
-      refreshRate: refreshRate,
+      refreshRate: refreshRate ?? 0,
       doubleTapToExit: doubleTapToExit ?? false,
       maskSensitiveInfo: maskSensitiveInfo ?? false,
       lastSelectedServer: lastSelectedServer,
@@ -233,19 +330,21 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         settingsBloc: settingsBloc,
       ).then((settingsMap) {
         if (settingsMap['needsUpdate']) {
-          add(SettingsUpdateServer(
-            id: server.id,
-            sortIndex: server.sortIndex,
-            primaryConnectionAddress: server.primaryConnectionAddress,
-            secondaryConnectionAddress: server.secondaryConnectionAddress,
-            deviceToken: server.deviceToken,
-            tautulliId: server.tautulliId,
-            plexName: settingsMap['pmsName'],
-            plexIdentifier: settingsMap['pmsIdentifier'],
-            plexPass: settingsMap['plexPass'],
-            dateFormat: settingsMap['dateFormat'],
-            timeFormat: settingsMap['timeFormat'],
-          ));
+          add(
+            SettingsUpdateServer(
+              id: server.id,
+              sortIndex: server.sortIndex,
+              primaryConnectionAddress: server.primaryConnectionAddress,
+              secondaryConnectionAddress: server.secondaryConnectionAddress,
+              deviceToken: server.deviceToken,
+              tautulliId: server.tautulliId,
+              plexName: settingsMap['pmsName'],
+              plexIdentifier: settingsMap['pmsIdentifier'],
+              plexPass: settingsMap['plexPass'],
+              dateFormat: settingsMap['dateFormat'],
+              timeFormat: settingsMap['timeFormat'],
+            ),
+          );
         }
       });
     }

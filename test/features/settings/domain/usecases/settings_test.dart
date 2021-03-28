@@ -42,11 +42,14 @@ void main() {
 
   final int tId = 1;
   final int tSortIndex = 0;
-  final String tPrimaryConnectionAddress = 'http://tautuli.domain.com';
+  final String tPrimaryConnectionAddress = 'http://tautuli.domain.com/tautulli';
   final String tPrimaryConnectionProtocol = 'http';
   final String tPrimaryConnectionDomain = 'tautuli.domain.com';
   final String tPrimaryConnectionPath = '/tautulli';
-  final String tSecondaryConnectionAddress = 'http://tautuli.domain.com';
+  final String tSecondaryConnectionAddress = 'http://plexpy.com/plexpy';
+  final String tSecondaryConnectionProtocol = 'http';
+  final String tSecondaryConnectionDomain = 'plexpy.com';
+  final String tSecondaryConnectionPath = '/plexpy';
   final String tDeviceToken = 'abc';
   final String tTautulliId = 'jkl';
   final String tPlexName = 'Plex';
@@ -91,26 +94,12 @@ void main() {
     () async {
       // act
       settings.addServer(
-        primaryConnectionAddress: tPrimaryConnectionAddress,
-        deviceToken: tDeviceToken,
-        tautulliId: tTautulliId,
-        plexName: tPlexName,
-        plexIdentifier: tPlexIdentifier,
-        primaryActive: true,
-        plexPass: true,
-        sortIndex: tSortIndex,
+        server: tServerModel,
       );
       // assert
       verify(
         mockSettingsRepository.addServer(
-          primaryConnectionAddress: tPrimaryConnectionAddress,
-          deviceToken: tDeviceToken,
-          tautulliId: tTautulliId,
-          plexName: tPlexName,
-          plexIdentifier: tPlexIdentifier,
-          primaryActive: true,
-          plexPass: true,
-          sortIndex: tSortIndex,
+          server: tServerModel,
         ),
       );
     },
@@ -141,34 +130,12 @@ void main() {
     () async {
       // act
       settings.updateServerById(
-        id: tId,
-        primaryConnectionAddress: tPrimaryConnectionAddress,
-        secondaryConnectionAddress: tSecondaryConnectionAddress,
-        deviceToken: tDeviceToken,
-        tautulliId: tTautulliId,
-        plexName: tPlexName,
-        plexIdentifier: tPlexIdentifier,
-        primaryActive: true,
-        plexPass: true,
-        dateFormat: tDateFormat,
-        timeFormat: tTimeFormat,
-        sortIndex: tSortIndex,
+        server: tServerModel,
       );
       // assert
       verify(
         mockSettingsRepository.updateServerById(
-          id: tId,
-          primaryConnectionAddress: tPrimaryConnectionAddress,
-          secondaryConnectionAddress: tSecondaryConnectionAddress,
-          deviceToken: tDeviceToken,
-          tautulliId: tTautulliId,
-          plexName: tPlexName,
-          plexIdentifier: tPlexIdentifier,
-          primaryActive: true,
-          plexPass: true,
-          dateFormat: tDateFormat,
-          timeFormat: tTimeFormat,
-          sortIndex: tSortIndex,
+          server: tServerModel,
         ),
       );
     },
@@ -219,13 +186,23 @@ void main() {
       // act
       settings.updatePrimaryConnection(
         id: tId,
-        primaryConnectionAddress: tPrimaryConnectionAddress,
+        primaryConnectionInfo: {
+          'primary_connection_address': tPrimaryConnectionAddress,
+          'primary_connection_protocol': tPrimaryConnectionProtocol,
+          'primary_connection_domain': tPrimaryConnectionDomain,
+          'primary_connection_path': tPrimaryConnectionPath,
+        },
       );
       // assert
       verify(
         mockSettingsRepository.updatePrimaryConnection(
           id: tId,
-          primaryConnectionAddress: tPrimaryConnectionAddress,
+          primaryConnectionInfo: {
+            'primary_connection_address': tPrimaryConnectionAddress,
+            'primary_connection_protocol': tPrimaryConnectionProtocol,
+            'primary_connection_domain': tPrimaryConnectionDomain,
+            'primary_connection_path': tPrimaryConnectionPath,
+          },
         ),
       );
     },
@@ -237,31 +214,23 @@ void main() {
       // act
       settings.updateSecondaryConnection(
         id: tId,
-        secondaryConnectionAddress: tPrimaryConnectionAddress,
+        secondaryConnectionInfo: {
+          'secondary_connection_address': tSecondaryConnectionAddress,
+          'secondary_connection_protocol': tSecondaryConnectionProtocol,
+          'secondary_connection_domain': tSecondaryConnectionDomain,
+          'secondary_connection_path': tSecondaryConnectionPath,
+        },
       );
       // assert
       verify(
         mockSettingsRepository.updateSecondaryConnection(
           id: tId,
-          secondaryConnectionAddress: tPrimaryConnectionAddress,
-        ),
-      );
-    },
-  );
-
-  test(
-    'updateDeviceToken should forward the request to the repository',
-    () async {
-      // act
-      settings.updateDeviceToken(
-        id: tId,
-        deviceToken: tDeviceToken,
-      );
-      // assert
-      verify(
-        mockSettingsRepository.updateDeviceToken(
-          id: tId,
-          deviceToken: tDeviceToken,
+          secondaryConnectionInfo: {
+            'secondary_connection_address': tSecondaryConnectionAddress,
+            'secondary_connection_protocol': tSecondaryConnectionProtocol,
+            'secondary_connection_domain': tSecondaryConnectionDomain,
+            'secondary_connection_path': tSecondaryConnectionPath,
+          },
         ),
       );
     },

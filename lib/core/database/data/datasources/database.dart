@@ -265,33 +265,6 @@ class DBProvider {
     return result;
   }
 
-  updateDeviceToken({
-    @required int id,
-    @required String deviceToken,
-  }) async {
-    final db = await database;
-    var result = await db.update(
-      'servers',
-      {'device_token': deviceToken},
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-
-    return result;
-  }
-
-  getPrimaryActive(String tautulliId) async {
-    final db = await database;
-    var result = await db.query(
-      'servers',
-      columns: ['primary_active'],
-      where: 'tautulli_id = ?',
-      whereArgs: [tautulliId],
-    );
-
-    return result;
-  }
-
   updatePrimaryActive({
     @required String tautulliId,
     @required int primaryActive,
