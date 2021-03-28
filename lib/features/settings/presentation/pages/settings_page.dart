@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:quiver/strings.dart';
 import 'package:reorderables/reorderables.dart';
-import 'package:unicorndial/unicorndial.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
@@ -43,8 +44,33 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
-class SettingsPageContent extends StatelessWidget {
+class SettingsPageContent extends StatefulWidget {
   const SettingsPageContent({Key key}) : super(key: key);
+
+  @override
+  _SettingsPageContentState createState() => _SettingsPageContentState();
+}
+
+class _SettingsPageContentState extends State<SettingsPageContent> {
+  // ScrollController scrollController;
+  // bool dialVisible = true;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   scrollController = ScrollController()
+  //     ..addListener(() {
+  //       setDialVisible(scrollController.position.userScrollDirection ==
+  //           ScrollDirection.forward);
+  //     });
+  // }
+
+  // void setDialVisible(bool value) {
+  //   setState(() {
+  //     dialVisible = value;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +88,10 @@ class SettingsPageContent extends StatelessWidget {
         title: Text('Settings'),
       ),
       drawer: AppDrawer(),
-      floatingActionButton: _buildFloatingActionButton(context),
+      floatingActionButton: _buildSpeedDial(
+        context,
+        // dialVisible: dialVisible,
+      ),
       body: DoubleTapExit(
         child: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
           listener: (context, state) {
@@ -93,6 +122,7 @@ class SettingsPageContent extends StatelessWidget {
             builder: (context, state) {
               if (state is SettingsLoadSuccess) {
                 return ListView(
+                  // controller: scrollController,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
@@ -371,114 +401,110 @@ Widget _serverRefreshRateDisplay(int refreshRate) {
   }
 }
 
-Widget _buildFloatingActionButton(
-  BuildContext context,
-) {
+Widget _buildSpeedDial(BuildContext context, {bool dialVisible = true}) {
   final registerDeviceBloc = context.read<RegisterDeviceBloc>();
-  // ThemeData is required to correct bug in Speed Dial package where Icon color was fixed
-  return Builder(
-    builder: (context) {
-      return BlocBuilder<SettingsBloc, SettingsState>(
-        builder: (context, state) {
-          if (state is SettingsLoadSuccess) {
-            return Theme(
-              data: ThemeData(
-                floatingActionButtonTheme: FloatingActionButtonThemeData(
-                  foregroundColor: TautulliColorPalette.not_white,
-                  backgroundColor: Theme.of(context).accentColor,
-                ),
-              ),
-              child: UnicornDialer(
-                orientation: UnicornOrientation.VERTICAL,
-                hasBackground: false,
-                parentButton: Icon(
-                  Icons.add,
-                  color: TautulliColorPalette.not_white,
-                ),
-                childButtons: [
-                  UnicornButton(
-                    hasLabel: true,
-                    labelHasShadow: false,
-                    labelText: 'Enter manually',
-                    labelBackgroundColor: Colors.transparent,
-                    labelColor: TautulliColorPalette.not_white,
-                    currentButton: FloatingActionButton(
-                      heroTag: 'manual',
-                      mini: true,
-                      child: FaIcon(
-                        FontAwesomeIcons.pencilAlt,
-                        color: TautulliColorPalette.not_white,
-                      ),
-                      onPressed: () async {
-                        // Push manual registration page as a full screen dialog
-                        bool result = await Navigator.of(context).push(
-                          MaterialPageRoute(
-                            fullscreenDialog: true,
-                            builder: (context) {
-                              return BlocProvider(
-                                create: (context) =>
-                                    di.sl<RegisterDeviceBloc>(),
-                                child: ManualRegistrationForm(),
-                              );
-                            },
-                          ),
-                        );
 
-                        // If manual registration page pops with true show success snackbar
-                        if (result == true) {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: Colors.green,
-                              content: Text('Tautulli Registration Successful'),
-                            ),
-                          );
-                        }
-                      },
-                    ),
+  return BlocBuilder<SettingsBloc, SettingsState>(
+    builder: (context, state) {
+      if (state is SettingsLoadSuccess) {
+        return SpeedDial(
+          visible: dialVisible,
+          curve: Curves.easeIn,
+          icon: Icons.add,
+          activeIcon: Icons.close,
+          iconTheme: IconThemeData(
+            color: TautulliColorPalette.not_white,
+          ),
+          backgroundColor: Theme.of(context).accentColor,
+          overlayColor: Colors.black,
+          overlayOpacity: 0.4,
+          children: [
+            SpeedDialChild(
+              backgroundColor: Theme.of(context).accentColor,
+              labelWidget: Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Text(
+                  'Scan QR Code',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
-                  UnicornButton(
-                    hasLabel: true,
-                    labelHasShadow: false,
-                    labelText: 'Scan QR code',
-                    labelBackgroundColor: Colors.transparent,
-                    labelColor: TautulliColorPalette.not_white,
-                    currentButton: FloatingActionButton(
-                      heroTag: 'scan',
-                      mini: true,
-                      child: FaIcon(
-                        FontAwesomeIcons.qrcode,
-                        color: TautulliColorPalette.not_white,
-                      ),
-                      onPressed: () async {
-                        final qrCodeScan =
-                            await FlutterBarcodeScanner.scanBarcode(
-                          '#e5a00d',
-                          'Cancel',
-                          false,
-                          ScanMode.QR,
-                        );
-                        // Scanner seems to return '-1' when scanner is exited
-                        // do not attempt to register when this happens
-                        if (qrCodeScan != '-1') {
-                          registerDeviceBloc.add(
-                            RegisterDeviceFromQrStarted(
-                              result: qrCodeScan,
-                              // Passes in the SettingsBloc to maintain context so items update correctly
-                              settingsBloc: context.read<SettingsBloc>(),
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
+                ),
               ),
-            );
-          }
-          return const SizedBox(height: 0, width: 0);
-        },
-      );
+              child: Center(
+                child: FaIcon(
+                  FontAwesomeIcons.qrcode,
+                  color: TautulliColorPalette.not_white,
+                  size: 20,
+                ),
+              ),
+              onTap: () async {
+                final qrCodeScan = await FlutterBarcodeScanner.scanBarcode(
+                  '#e5a00d',
+                  'Cancel',
+                  false,
+                  ScanMode.QR,
+                );
+                // Scanner seems to return '-1' when scanner is exited
+                // do not attempt to register when this happens
+                if (qrCodeScan != '-1') {
+                  registerDeviceBloc.add(
+                    RegisterDeviceFromQrStarted(
+                      result: qrCodeScan,
+                      // Passes in the SettingsBloc to maintain context so items update correctly
+                      settingsBloc: context.read<SettingsBloc>(),
+                    ),
+                  );
+                }
+              },
+            ),
+            SpeedDialChild(
+              backgroundColor: Theme.of(context).accentColor,
+              labelWidget: Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Text(
+                  'Enter Manually',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              child: Center(
+                child: FaIcon(
+                  FontAwesomeIcons.pencilAlt,
+                  color: TautulliColorPalette.not_white,
+                  size: 19,
+                ),
+              ),
+              onTap: () async {
+                // Push manual registration page as a full screen dialog
+                bool result = await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    fullscreenDialog: true,
+                    builder: (context) {
+                      return BlocProvider(
+                        create: (context) => di.sl<RegisterDeviceBloc>(),
+                        child: ManualRegistrationForm(),
+                      );
+                    },
+                  ),
+                );
+
+                // If manual registration page pops with true show success snackbar
+                if (result == true) {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Colors.green,
+                      content: Text('Tautulli Registration Successful'),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      }
+      return const SizedBox(height: 0, width: 0);
     },
   );
 }
