@@ -27,6 +27,7 @@ class GetUserImpl implements GetUser {
       cmd: 'get_user',
       params: {
         'user_id': userId.toString(),
+        'include_last_seen': 'true',
       },
       settingsBloc: settingsBloc,
     );
