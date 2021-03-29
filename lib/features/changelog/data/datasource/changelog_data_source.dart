@@ -1,6 +1,33 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.7.0",
+      "date": "March 29, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Servers can now be reordered when using Multiserver, long press a server on the settings page to move it",
+        },
+        {
+          "type": "improvement",
+          "detail": "The OneSignal banner in settings can now be dismissed",
+        },
+        {
+          "type": "improvement",
+          "detail": "Updated the settings page floating action button",
+        },
+        {
+          "type": "improvement",
+          "detail": "Settings behavior has been revamped behind the scenes",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix activity errors from missing bandwidth information",
+        },
+      ],
+    },
+    {
       "version": "v2.6.2",
       "date": "March 26, 2021",
       "changes": [
