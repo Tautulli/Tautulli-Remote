@@ -194,6 +194,15 @@ class SettingsUpdateStatsType extends SettingsEvent {
   List<Object> get props => [statsType];
 }
 
+class SettingsUpdateOneSignalBannerDismiss extends SettingsEvent {
+  final bool dismiss;
+
+  SettingsUpdateOneSignalBannerDismiss(this.dismiss);
+
+  @override
+  List<Object> get props => [dismiss];
+}
+
 class SettingsUpdateLastAppVersion extends SettingsEvent {
   @override
   List<Object> get props => [];

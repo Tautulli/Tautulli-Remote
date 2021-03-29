@@ -22,6 +22,7 @@ class SettingsLoadSuccess extends SettingsState {
   final bool maskSensitiveInfo;
   final String lastSelectedServer;
   final String statsType;
+  final bool oneSignalBannerDismissed;
   final String sortChanged;
 
   SettingsLoadSuccess({
@@ -32,6 +33,7 @@ class SettingsLoadSuccess extends SettingsState {
     @required this.maskSensitiveInfo,
     @required this.lastSelectedServer,
     @required this.statsType,
+    @required this.oneSignalBannerDismissed,
     this.sortChanged,
   });
 
@@ -43,6 +45,7 @@ class SettingsLoadSuccess extends SettingsState {
     bool maskSensitiveInfo,
     String lastSelectedServer,
     String statsType,
+    bool oneSignalBannerDismissed,
     String sortChanged,
   }) {
     return SettingsLoadSuccess(
@@ -53,6 +56,8 @@ class SettingsLoadSuccess extends SettingsState {
       maskSensitiveInfo: maskSensitiveInfo ?? this.maskSensitiveInfo,
       lastSelectedServer: lastSelectedServer ?? this.lastSelectedServer,
       statsType: statsType ?? this.statsType,
+      oneSignalBannerDismissed:
+          oneSignalBannerDismissed ?? this.oneSignalBannerDismissed,
       sortChanged: sortChanged ?? this.sortChanged,
     );
   }
@@ -66,6 +71,7 @@ class SettingsLoadSuccess extends SettingsState {
         maskSensitiveInfo,
         lastSelectedServer,
         statsType,
+        oneSignalBannerDismissed,
         sortChanged,
       ];
 }

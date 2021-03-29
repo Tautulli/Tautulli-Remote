@@ -94,6 +94,7 @@ void main() {
   final bool tDoubleTapToExit = true;
   final bool tMaskSensitiveInfo = true;
   final String tStatsType = 'duration';
+  final bool tOneSignalBannerDismissed = false;
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =
@@ -160,6 +161,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         ];
         expectLater(bloc.stream, emitsInOrder(expected));
@@ -181,6 +183,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
         when(
@@ -231,6 +234,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
           expectLater(bloc.stream, emitsInOrder(expected));
@@ -263,6 +267,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
       });
@@ -339,6 +344,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
           expectLater(bloc.stream, emitsInOrder(expected));
@@ -376,6 +382,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
       });
@@ -409,6 +416,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
           expectLater(bloc.stream, emitsInOrder(expected));
@@ -436,6 +444,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
       });
@@ -498,6 +507,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
           expectLater(bloc.stream, emitsInOrder(expected));
@@ -526,6 +536,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
       });
@@ -588,6 +599,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
           expectLater(bloc.stream, emitsInOrder(expected));
@@ -616,6 +628,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
       });
@@ -664,6 +677,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
           expectLater(bloc.stream, emitsInOrder(expected));
@@ -692,6 +706,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
       });
@@ -741,6 +756,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
               sortChanged: '0:0:1',
             ),
           ];
@@ -767,6 +783,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
       });
@@ -801,6 +818,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
           expectLater(bloc.stream, emitsInOrder(expected));
@@ -824,6 +842,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
       });
@@ -852,6 +871,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
           expectLater(bloc.stream, emitsInOrder(expected));
@@ -873,6 +893,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
       });
@@ -899,6 +920,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
           expectLater(bloc.stream, emitsInOrder(expected));
@@ -918,6 +940,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
       });
@@ -944,6 +967,7 @@ void main() {
               maskSensitiveInfo: false,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
           expectLater(bloc.stream, emitsInOrder(expected));
@@ -963,6 +987,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
       });
@@ -989,6 +1014,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId2,
               statsType: tStatsType,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
           expectLater(bloc.stream, emitsInOrder(expected));
@@ -1008,6 +1034,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
       });
@@ -1034,11 +1061,59 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: 'plays',
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(SettingsUpdateStatsType(statsType: 'plays'));
+        },
+      );
+    });
+    group('SettingsUpdateOneSignalBannerDismiss', () {
+      setUp(() {
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
+          ),
+        );
+      });
+      test(
+        'should call the Settings.setOneSignalBannerDismissed() use case',
+        () async {
+          // act
+          bloc.add(SettingsUpdateOneSignalBannerDismiss(true));
+          await untilCalled(mockSettings.setOneSignalBannerDismissed(true));
+          // assert
+          verify(mockSettings.setOneSignalBannerDismissed(true));
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after updating the stats type',
+        () async {
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: tServerList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+              oneSignalBannerDismissed: true,
+            ),
+          ];
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(SettingsUpdateOneSignalBannerDismiss(true));
         },
       );
     });

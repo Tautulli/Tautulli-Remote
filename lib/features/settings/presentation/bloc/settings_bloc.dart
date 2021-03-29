@@ -288,6 +288,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         await settings.setStatsType(event.statsType);
         yield currentState.copyWith(statsType: event.statsType);
       }
+      if (event is SettingsUpdateOneSignalBannerDismiss) {
+        if (event.dismiss) {
+          logging.info('Settings: OneSignal banner dismissed');
+        }
+
+        await settings.setOneSignalBannerDismissed(event.dismiss);
+        yield currentState.copyWith(oneSignalBannerDismissed: event.dismiss);
+      }
       if (event is SettingsUpdateLastAppVersion) {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         await settings.setLastAppVersion(packageInfo.version);
@@ -303,6 +311,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final maskSensitiveInfo = await settings.getMaskSensitiveInfo();
     final lastSelectedServer = await settings.getLastSelectedServer();
     final statsType = await settings.getStatsType();
+    final oneSignalBannerDismissed =
+        await settings.getOneSignalBannerDismissed();
 
     if (serverList.length > 1) {
       serverList.sort((a, b) => a.sortIndex.compareTo(b.sortIndex));
@@ -316,6 +326,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       maskSensitiveInfo: maskSensitiveInfo ?? false,
       lastSelectedServer: lastSelectedServer,
       statsType: statsType,
+      oneSignalBannerDismissed: oneSignalBannerDismissed ?? false,
     );
   }
 
