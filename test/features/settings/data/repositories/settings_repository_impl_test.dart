@@ -53,6 +53,7 @@ void main() {
   final bool tMaskSensitiveInfo = true;
   final String tTautulliId = 'jkl';
   final String tStatsType = 'duration';
+  final bool tOneSignalBannerDismissed = false;
   final String tLastAppVersion = '2.1.5';
   final int tLastReadAnnouncementId = 1;
   final List<int> tCustomCertHashList = [1, 2];
@@ -370,6 +371,32 @@ void main() {
         await repository.setStatsType(tLastAppVersion);
         // assert
         verify(mockSettingsDataSource.setStatsType(tLastAppVersion));
+      },
+    );
+  });
+
+  group('OneSignal Banner Dismissed', () {
+    test(
+      'should return the banner dismiss value from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getOneSignalBannerDismissed())
+            .thenAnswer((_) async => tOneSignalBannerDismissed);
+        // act
+        final result = await repository.getOneSignalBannerDismissed();
+        // assert
+        expect(result, equals(tOneSignalBannerDismissed));
+      },
+    );
+
+    test(
+      'should forward the call to the data source to set banner dismiss',
+      () async {
+        // act
+        await repository.setOneSignalBannerDismissed(tOneSignalBannerDismissed);
+        // assert
+        verify(mockSettingsDataSource
+            .setOneSignalBannerDismissed(tOneSignalBannerDismissed));
       },
     );
   });

@@ -233,6 +233,18 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<bool> getOneSignalBannerDismissed() async {
+    final oneSignalBannerDismissed =
+        await dataSource.getOneSignalBannerDismissed();
+    return oneSignalBannerDismissed;
+  }
+
+  @override
+  Future<bool> setOneSignalBannerDismissed(bool value) async {
+    return dataSource.setOneSignalBannerDismissed(value);
+  }
+
+  @override
   Future<String> getLastAppVersion() async {
     final lastAppVersion = await dataSource.getLastAppVersion();
     return lastAppVersion;

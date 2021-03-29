@@ -398,6 +398,51 @@ void main() {
     );
   });
 
+  group('OneSignal Banner Dismissed', () {
+    test(
+      'should return bool from settings',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(ONE_SIGNAL_BANNER_DISMISSED),
+        ).thenReturn(true);
+        // act
+        final oneSignalBannerDismissed =
+            await dataSource.getOneSignalBannerDismissed();
+        // assert
+        verify(mockSharedPreferences.getBool(ONE_SIGNAL_BANNER_DISMISSED));
+        expect(oneSignalBannerDismissed, equals(true));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(ONE_SIGNAL_BANNER_DISMISSED),
+        ).thenReturn(null);
+        // act
+        final oneSignalBannerDismissed =
+            await dataSource.getOneSignalBannerDismissed();
+        // assert
+        expect(oneSignalBannerDismissed, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the banner dismissed value',
+      () async {
+        // act
+        await dataSource.setOneSignalBannerDismissed(true);
+        // assert
+        verify(
+          mockSharedPreferences.setBool(ONE_SIGNAL_BANNER_DISMISSED, true),
+        );
+      },
+    );
+  });
+
   group('Last app version', () {
     test(
       'should return String from settings',

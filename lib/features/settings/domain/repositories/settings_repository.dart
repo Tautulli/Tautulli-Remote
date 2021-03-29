@@ -80,6 +80,10 @@ abstract class SettingsRepository {
 
   Future<bool> setStatsType(String statsType);
 
+  Future<bool> getOneSignalBannerDismissed();
+
+  Future<bool> setOneSignalBannerDismissed(bool value);
+
   Future<String> getLastAppVersion();
 
   Future<bool> setLastAppVersion(String lastAppVersion);

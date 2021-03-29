@@ -43,6 +43,10 @@ abstract class SettingsDataSource {
 
   Future<bool> setStatsType(String statsType);
 
+  Future<bool> getOneSignalBannerDismissed();
+
+  Future<bool> setOneSignalBannerDismissed(bool value);
+
   Future<String> getLastAppVersion();
 
   Future<bool> setLastAppVersion(String lastAppVersion);
@@ -62,6 +66,7 @@ const SETTINGS_DOUBLE_TAP_TO_EXIT = 'SETTINGS_DOUBLE_TAP_TO_EXIT';
 const SETTINGS_MASK_SENSITIVE_INFO = 'SETTINGS_MASK_SENSITIVE_INFO';
 const LAST_SELECTED_SERVER = 'LAST_SELECTED_SERVER';
 const STATS_TYPE = 'STATS_TYPE';
+const ONE_SIGNAL_BANNER_DISMISSED = 'ONE_SIGNAL_BANNER_DISMISSED';
 const LAST_APP_VERSION = 'LAST_APP_VERSION';
 const LAST_READ_ANNOUNCEMENT_ID = 'LAST_READ_ANNOUNCEMENT_ID';
 const CUSTOM_CERT_HASH_LIST = 'CUSTOM_CERT_HASH_LIST';
@@ -176,6 +181,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setStatsType(String statsType) {
     return sharedPreferences.setString(STATS_TYPE, statsType);
+  }
+
+  @override
+  Future<bool> getOneSignalBannerDismissed() {
+    final value = sharedPreferences.getBool(ONE_SIGNAL_BANNER_DISMISSED);
+    return Future.value(value);
+  }
+
+  @override
+  Future<bool> setOneSignalBannerDismissed(bool value) {
+    return sharedPreferences.setBool(ONE_SIGNAL_BANNER_DISMISSED, value);
   }
 
   @override

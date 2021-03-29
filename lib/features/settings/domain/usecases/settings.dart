@@ -158,6 +158,14 @@ class Settings {
     return repository.setStatsType(statsType);
   }
 
+  Future<bool> getOneSignalBannerDismissed() async {
+    return await repository.getOneSignalBannerDismissed();
+  }
+
+  Future<bool> setOneSignalBannerDismissed(bool value) async {
+    return repository.setOneSignalBannerDismissed(value);
+  }
+
   Future<String> getLastAppVersion() async {
     return await repository.getLastAppVersion();
   }

@@ -58,6 +58,7 @@ void main() {
   final String tTimeFormat = 'HH:mm';
 
   final String tStatsType = 'duration';
+  final bool tOneSignalBannerDismissed = false;
   final String tLastAppVersion = '2.1.5';
 
   final ServerModel tServerModel = ServerModel(
@@ -449,6 +450,33 @@ void main() {
       await settings.setStatsType(tStatsType);
       // assert
       verify(mockSettingsRepository.setStatsType(tStatsType));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'getOneSignalBannerDismissed should get mask sensitive info value from settings',
+    () async {
+      // arrange
+      when(
+        mockSettingsRepository.getOneSignalBannerDismissed(),
+      ).thenAnswer((_) async => true);
+      // act
+      final result = await settings.getOneSignalBannerDismissed();
+      // assert
+      expect(result, equals(true));
+      verify(mockSettingsRepository.getOneSignalBannerDismissed());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setOneSignalBannerDismissed should forward request to the repository',
+    () async {
+      // act
+      await settings.setOneSignalBannerDismissed(true);
+      // assert
+      verify(mockSettingsRepository.setOneSignalBannerDismissed(true));
       verifyNoMoreInteractions(mockSettingsRepository);
     },
   );
