@@ -93,10 +93,9 @@ class PrivacyPage extends StatelessWidget {
                       value: state is OneSignalPrivacyConsentSuccess
                           ? true
                           : false,
-                      onChanged: (_) {
+                      onChanged: (_) async {
                         if (state is OneSignalPrivacyConsentFailure) {
-                          oneSignalPrivacyBloc
-                              .add(OneSignalPrivacyGrantConsent());
+                          await _grantConsentFuture(oneSignalPrivacyBloc);
                           oneSignalSubscriptionBloc
                               .add(OneSignalSubscriptionCheck());
                           oneSignalHealthBloc.add(OneSignalHealthCheck());
@@ -119,6 +118,10 @@ class PrivacyPage extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _grantConsentFuture(OneSignalPrivacyBloc oneSignalPrivacyBloc) {
+  oneSignalPrivacyBloc.add(OneSignalPrivacyGrantConsent());
 }
 
 class _OneSignalDataPrivacyText extends StatelessWidget {
