@@ -6,6 +6,8 @@ class AssetMapperHelper {
   /// Returns an asset path for a given platform.
   static String mapPlatformToPath(String platform) {
     switch (platform) {
+      case 'alexa':
+        return '${_platformsAssetPath}alexa.svg';
       case 'android':
         return '${_platformsAssetPath}android.svg';
       case 'atv':
