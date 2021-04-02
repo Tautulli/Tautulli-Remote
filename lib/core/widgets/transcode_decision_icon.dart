@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../helpers/color_palette_helper.dart';
+import '../helpers/icon_mapper_helper.dart';
 
 class TranscodeDecisionIcon extends StatelessWidget {
   final String transcodeDecision;
@@ -13,35 +14,10 @@ class TranscodeDecisionIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _mapTranscodeDecisionToIcon(transcodeDecision);
-  }
-}
-
-FaIcon _mapTranscodeDecisionToIcon(String transcodeDecision) {
-  switch (transcodeDecision) {
-    case ('transcode'):
-      return FaIcon(
-        FontAwesomeIcons.server,
-        size: 15,
-        color: TautulliColorPalette.not_white,
-      );
-    case ('copy'):
-      return FaIcon(
-        FontAwesomeIcons.stream,
-        size: 18,
-        color: TautulliColorPalette.not_white,
-      );
-    case ('direct play'):
-      return FaIcon(
-        FontAwesomeIcons.playCircle,
-        size: 17,
-        color: TautulliColorPalette.not_white,
-      );
-    default:
-      return FaIcon(
-        FontAwesomeIcons.questionCircle,
-        size: 17,
-        color: TautulliColorPalette.not_white,
-      );
+    return FaIcon(
+      IconMapperHelper.mapTranscodeDecisionToIcon(transcodeDecision),
+      size: 15,
+      color: TautulliColorPalette.not_white,
+    );
   }
 }

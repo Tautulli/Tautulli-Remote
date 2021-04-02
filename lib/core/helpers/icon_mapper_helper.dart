@@ -19,6 +19,19 @@ class IconMapperHelper {
     }
   }
 
+  static IconData mapTranscodeDecisionToIcon(String transcodeDecision) {
+    switch (transcodeDecision) {
+      case ('transcode'):
+        return FontAwesomeIcons.server;
+      case ('copy'):
+        return FontAwesomeIcons.stream;
+      case ('play'):
+        return FontAwesomeIcons.playCircle;
+      default:
+        return FontAwesomeIcons.questionCircle;
+    }
+  }
+
   static Widget mapWatchedStatusToIcon(num watchedStatus) {
     const double size = 16;
     const Color color = Colors.grey;
