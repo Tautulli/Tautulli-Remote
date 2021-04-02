@@ -11,6 +11,11 @@ Map changelog = {
         },
         {
           "type": "improvement",
+          "detail":
+              "Navigating back from other main pages will go to the activity page instead of trying to leave the app",
+        },
+        {
+          "type": "improvement",
           "detail": "Added transcode decision filter to history page",
         },
         {
