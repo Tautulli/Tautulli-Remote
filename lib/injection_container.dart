@@ -35,14 +35,20 @@ import 'features/image_url/domain/repositories/image_url_repository.dart';
 import 'features/image_url/domain/usecases/get_image_url.dart';
 import 'features/libraries/data/datasources/libraries_data_source.dart';
 import 'features/libraries/data/datasources/library_media_data_source.dart';
+import 'features/libraries/data/datasources/library_statistics_data_source.dart';
 import 'features/libraries/data/repositories/libraries_repository_impl.dart';
 import 'features/libraries/data/repositories/library_media_repository_impl.dart';
+import 'features/libraries/data/repositories/library_statistics_repository_impl.dart';
 import 'features/libraries/domain/repositories/libraries_repository.dart';
 import 'features/libraries/domain/repositories/library_media_repository.dart';
+import 'features/libraries/domain/repositories/library_statistics_repository.dart';
 import 'features/libraries/domain/usecases/get_libraries_table.dart';
 import 'features/libraries/domain/usecases/get_library_media_info.dart';
+import 'features/libraries/domain/usecases/get_library_user_stats.dart';
+import 'features/libraries/domain/usecases/get_library_watch_time_stats.dart';
 import 'features/libraries/presentation/bloc/libraries_bloc.dart';
 import 'features/libraries/presentation/bloc/library_media_bloc.dart';
+import 'features/libraries/presentation/bloc/library_statistics_bloc.dart';
 import 'features/logging/data/datasources/logging_data_source.dart';
 import 'features/logging/data/repositories/logging_repository_impl.dart';
 import 'features/logging/domain/repositories/logging_repository.dart';
@@ -66,6 +72,7 @@ import 'features/recent/data/datasources/recently_added_data_source.dart';
 import 'features/recent/data/repositories/recently_added_repository_impl.dart';
 import 'features/recent/domain/repositories/recently_added_repository.dart';
 import 'features/recent/domain/usecases/get_recently_added.dart';
+import 'features/recent/presentation/bloc/libraries_recently_added_bloc.dart';
 import 'features/recent/presentation/bloc/recently_added_bloc.dart';
 import 'features/settings/data/datasources/register_device_data_source.dart';
 import 'features/settings/data/datasources/settings_data_source.dart';
@@ -298,6 +305,14 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory(
+    () => LibraryStatisticsBloc(
+      getLibraryUserStats: sl(),
+      getLibraryWatchTimeStats: sl(),
+      logging: sl(),
+    ),
+  );
+
   // Use case
   sl.registerLazySingleton(
     () => GetLibrariesTable(
@@ -311,9 +326,28 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerLazySingleton(
+    () => GetLibraryWatchTimeStats(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetLibraryUserStats(
+      repository: sl(),
+    ),
+  );
+
   // Repository
   sl.registerLazySingleton<LibrariesRepository>(
     () => LibrariesRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<LibraryStatisticsRepository>(
+    () => LibraryStatisticsRepositoryImpl(
       dataSource: sl(),
       networkInfo: sl(),
     ),
@@ -329,6 +363,13 @@ Future<void> init() async {
   sl.registerLazySingleton<LibraryMediaDataSource>(
     () => LibraryMediaDataSourceImpl(
       apiGetLibraryMediaInfo: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<LibraryStatisticsDataSource>(
+    () => LibraryStatisticsDataSourceImpl(
+      apiGetLibraryUserStats: sl(),
+      apiGetLibraryWatchTimeStats: sl(),
     ),
   );
 
@@ -461,6 +502,14 @@ Future<void> init() async {
   // Bloc
   sl.registerFactory(
     () => RecentlyAddedBloc(
+      recentlyAdded: sl(),
+      getImageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => LibrariesRecentlyAddedBloc(
       recentlyAdded: sl(),
       getImageUrl: sl(),
       logging: sl(),
@@ -828,6 +877,16 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulliApi.GetLibraryMediaInfo>(
     () => tautulliApi.GetLibraryMediaInfoImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetLibraryUserStats>(
+    () => tautulliApi.GetLibraryUserStatsImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulliApi.GetLibraryWatchTimeStats>(
+    () => tautulliApi.GetLibraryWatchTimeStatsImpl(
       connectionHandler: sl(),
     ),
   );
