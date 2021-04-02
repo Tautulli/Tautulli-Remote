@@ -1,25 +1,39 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:palette_generator/palette_generator.dart';
+import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
+import '../../../../core/helpers/asset_mapper_helper.dart';
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library.dart';
 import '../bloc/library_media_bloc.dart';
-import '../widgets/libraries_history_tab.dart';
-import '../widgets/libraries_media_tab.dart';
+import '../widgets/library_history_tab.dart';
+import '../widgets/library_media_tab.dart';
+import '../widgets/library_recent_tab.dart';
+import '../widgets/library_stats_tab.dart';
 
 class LibraryDetailsPage extends StatelessWidget {
   final Library library;
   final int ratingKey;
   final String sectionType;
   final String title;
+  final int heroTag;
+  final String backgroundUrlOverride;
+  final bool disableStatsTab;
 
   const LibraryDetailsPage({
     this.library,
     this.ratingKey,
     this.sectionType,
     this.title,
+    this.heroTag,
+    this.backgroundUrlOverride,
+    this.disableStatsTab = false,
     Key key,
   }) : super(key: key);
 
@@ -32,6 +46,9 @@ class LibraryDetailsPage extends StatelessWidget {
         ratingKey: ratingKey,
         title: title,
         sectionType: sectionType,
+        heroTag: heroTag,
+        backgroundUrlOverride: backgroundUrlOverride,
+        disableStatsTab: disableStatsTab,
       ),
     );
   }
@@ -42,12 +59,18 @@ class LibraryDetailsPageContent extends StatefulWidget {
   final int ratingKey;
   final String sectionType;
   final String title;
+  final int heroTag;
+  final String backgroundUrlOverride;
+  final bool disableStatsTab;
 
   const LibraryDetailsPageContent({
-    this.library,
-    this.ratingKey,
-    this.sectionType,
-    this.title,
+    @required this.library,
+    @required this.ratingKey,
+    @required this.sectionType,
+    @required this.title,
+    @required this.heroTag,
+    @required this.backgroundUrlOverride,
+    @required this.disableStatsTab,
     Key key,
   }) : super(key: key);
 
@@ -109,39 +132,258 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: widget.sectionType == 'photo' ? 1 : 2,
-      child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          title: Text(widget.title ?? widget.library.sectionName),
-          bottom: TabBar(
-            indicatorSize: TabBarIndicatorSize.label,
-            tabs: [
-              Tab(
-                child: Text('Media'),
-              ),
-              if (widget.sectionType != 'photo')
-                Tab(
-                  child: Text('History'),
+    final String sectionType = widget.sectionType ?? widget.library.sectionType;
+    final String backgroundUrl =
+        widget.backgroundUrlOverride ?? widget.library.backgroundUrl;
+    bool hasNetworkImage =
+        backgroundUrl != null ? backgroundUrl.startsWith('http') : false;
+    Future getColorFuture = _getColor(hasNetworkImage, backgroundUrl);
+
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: Stack(
+        children: [
+          //* Background image
+          ClipRect(
+            child: Container(
+              // Height is 185 to provide 10 pixels background to show
+              // behind the rounded corners
+              height: 195 +
+                  10 +
+                  MediaQuery.of(context).padding.top -
+                  AppBar().preferredSize.height,
+              width: MediaQuery.of(context).size.width,
+              child: ImageFiltered(
+                imageFilter: ImageFilter.blur(
+                  sigmaX: 25,
+                  sigmaY: 25,
                 ),
+                child: sectionType != 'live'
+                    ? Image.network(
+                        widget.backgroundUrlOverride != null
+                            ? widget.backgroundUrlOverride
+                            : widget.library.backgroundUrl,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        'assets/images/livetv_fallback.png',
+                        fit: BoxFit.cover,
+                      ),
+              ),
+            ),
+          ),
+          //* Main body
+          Column(
+            children: [
+              // Empty space for background to show
+              SizedBox(
+                height: 195 +
+                    MediaQuery.of(context).padding.top -
+                    AppBar().preferredSize.height,
+              ),
+              //* Content area
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: PlexColorPalette.shark,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            //* Title section
+                            Expanded(
+                              child: Container(
+                                height: 60,
+                                // Make room for the poster
+                                padding: const EdgeInsets.only(
+                                  left: 107.0 + 8.0,
+                                  top: 4,
+                                  right: 4,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.title ??
+                                          widget.library.sectionName,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: DefaultTabController(
+                            length: widget.disableStatsTab
+                                ? 1
+                                : sectionType == 'photo'
+                                    ? 2
+                                    : 4,
+                            child: Column(
+                              children: [
+                                TabBar(
+                                  indicatorSize: TabBarIndicatorSize.label,
+                                  tabs: [
+                                    if (!widget.disableStatsTab)
+                                      Tab(
+                                        child: Text('Stats'),
+                                      ),
+                                    if (sectionType != 'photo')
+                                      Tab(
+                                        child: Text('Recent'),
+                                      ),
+                                    if (sectionType != 'photo')
+                                      Tab(
+                                        child: Text('History'),
+                                      ),
+                                    Tab(
+                                      child: Text('Media'),
+                                    ),
+                                  ],
+                                ),
+                                Expanded(
+                                  child: TabBarView(
+                                    children: [
+                                      if (!widget.disableStatsTab)
+                                        LibraryStatsTab(
+                                          sectionId: widget.library.sectionId,
+                                        ),
+                                      if (sectionType != 'photo')
+                                        LibraryRecentTab(
+                                          sectionId: widget.library.sectionId,
+                                        ),
+                                      if (sectionType != 'photo')
+                                        LibraryHistoryTab(
+                                          sectionId: widget.library.sectionId,
+                                        ),
+                                      LibraryMediaTab(
+                                        tautulliId: _tautulliId,
+                                        library: widget.library,
+                                        sectionType: sectionType,
+                                        title: widget.title,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
-        ),
-        body: TabBarView(
-          children: [
-            LibrariesMediaTab(
-              tautulliId: _tautulliId,
-              library: widget.library,
-              sectionType: widget.sectionType,
-              title: widget.title,
+          //* Library Icon
+          Positioned(
+            top: 155 +
+                MediaQuery.of(context).padding.top -
+                AppBar().preferredSize.height,
+            left: 8,
+            child: SizedBox(
+              height: 100,
+              width: 100,
+              child: widget.backgroundUrlOverride == null
+                  ? Stack(
+                      children: [
+                        // Positioned.fill(
+                        //   child: ClipRRect(
+                        //     borderRadius: BorderRadius.all(
+                        //       Radius.circular(50.0),
+                        //     ),
+                        //     child: DecoratedBox(
+                        //       decoration: BoxDecoration(
+                        //         color: TautulliColorPalette.midnight,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        Positioned.fill(
+                          child: FutureBuilder(
+                            future: getColorFuture,
+                            builder: (context, snapshot) {
+                              bool hasCustomColor = snapshot.connectionState ==
+                                      ConnectionState.done &&
+                                  snapshot.data['color'] != null;
+
+                              return ClipRRect(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(50.0),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      color: hasCustomColor
+                                          ? snapshot.data['color']
+                                          : TautulliColorPalette.midnight,
+                                    ),
+                                    Positioned.fill(
+                                      child: DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.1),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        Center(
+                          child: Hero(
+                            tag: widget.heroTag ?? UniqueKey(),
+                            child: SizedBox(
+                              height: 65,
+                              width: 65,
+                              child: widget.library.iconUrl != null
+                                  ? Image.network(
+                                      widget.library.iconUrl,
+                                      fit: BoxFit.contain,
+                                    )
+                                  : WebsafeSvg.asset(
+                                      AssetMapperHelper.mapLibraryToPath(
+                                        sectionType,
+                                      ),
+                                      color: TautulliColorPalette.not_white,
+                                    ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Hero(
+                      tag: widget.heroTag ?? UniqueKey(),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Image.network(
+                          widget.backgroundUrlOverride,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
             ),
-            if (widget.sectionType != 'photo')
-              LibrariesHistoryTab(
-                sectionId: widget.library.sectionId,
-              ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -166,4 +408,24 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
       );
     }
   }
+}
+
+Future<Map<String, dynamic>> _getColor(bool hasUrl, String url) async {
+  if (hasUrl) {
+    NetworkImage backgroundImage = NetworkImage(url);
+    final palette = await PaletteGenerator.fromImageProvider(
+      NetworkImage(url),
+      maximumColorCount: 12,
+    );
+    return {
+      'image': backgroundImage,
+      'color': palette.mutedColor.color != null
+          ? palette.mutedColor.color
+          : palette.dominantColor.color,
+    };
+  }
+  return {
+    'image': null,
+    'color': TautulliColorPalette.midnight,
+  };
 }
