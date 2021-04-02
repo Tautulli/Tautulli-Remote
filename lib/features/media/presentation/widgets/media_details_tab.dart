@@ -1,9 +1,11 @@
+import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../core/helpers/clean_data_helper.dart';
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/data_unit_format_helper.dart';
 import '../../../../core/helpers/string_format_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
@@ -84,10 +86,16 @@ class _TabContent extends StatelessWidget {
                 ),
               ),
             if (isNotEmpty(metadata.summary))
-              Text(
+              ExpandText(
                 metadata.summary,
+                collapsedHint: 'Read more',
+                expandedHint: 'Read less',
+                expandArrowStyle: ExpandArrowStyle.both,
+                // arrowPadding: const EdgeInsets.all(0),
+                textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 15,
+                  color: TautulliColorPalette.not_white,
                 ),
               ),
             if (isNotEmpty(metadata.summary))

@@ -211,6 +211,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  expand_widget:
+    dependency: "direct main"
+    description:
+      name: expand_widget
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   f_logs:
     dependency: "direct main"
     description:

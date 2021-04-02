@@ -30,6 +30,7 @@ dependencies:
   device_info: ^2.0.0
   duration: ^3.0.6
   equatable: ^2.0.0
+  expand_widget: ^2.0.0
   f_logs: ^1.2.2
   filesize: ^1.0.4
   firebase_core: ^0.7.0
