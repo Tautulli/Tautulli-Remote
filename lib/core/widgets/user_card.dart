@@ -53,6 +53,7 @@ class _UserCardState extends State<UserCard> {
                     backgroundColor:
                         hasCustomColor ? snapshot.data['color'] : null,
                     heroTag: ValueKey(widget.user.userId),
+                    forceGetUser: widget.user.lastSeen == null,
                   );
                 },
               ),
