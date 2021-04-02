@@ -11,6 +11,7 @@ class IconCard extends StatelessWidget {
   final Color iconColor;
   final Image backgroundImage;
   final Widget details;
+  final int heroTag;
 
   const IconCard({
     Key key,
@@ -21,6 +22,7 @@ class IconCard extends StatelessWidget {
     this.iconColor,
     this.backgroundImage,
     this.details,
+    this.heroTag,
   }) : super(key: key);
 
   @override
@@ -43,23 +45,26 @@ class IconCard extends StatelessWidget {
                 padding: const EdgeInsets.all(4),
                 child: Row(
                   children: [
-                    AspectRatio(
-                      aspectRatio: 2 / 3,
-                      child: Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: iconImageUrl != null
-                            ? Image.network(
-                                iconImageUrl,
-                                fit: BoxFit.contain,
-                              )
-                            : localIconImagePath != null
-                                ? WebsafeSvg.asset(
-                                    localIconImagePath,
-                                    color: iconColor,
-                                  )
-                                : icon != null
-                                    ? Center(child: icon)
-                                    : null,
+                    Hero(
+                      tag: heroTag ?? UniqueKey(),
+                      child: AspectRatio(
+                        aspectRatio: 2 / 3,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: iconImageUrl != null
+                              ? Image.network(
+                                  iconImageUrl,
+                                  fit: BoxFit.contain,
+                                )
+                              : localIconImagePath != null
+                                  ? WebsafeSvg.asset(
+                                      localIconImagePath,
+                                      color: iconColor,
+                                    )
+                                  : icon != null
+                                      ? Center(child: icon)
+                                      : null,
+                        ),
                       ),
                     ),
                     Expanded(
