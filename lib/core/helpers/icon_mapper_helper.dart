@@ -19,6 +19,30 @@ class IconMapperHelper {
     }
   }
 
+  static IconData mapMediaTypeToIcon(String mediaType) {
+    switch (mediaType) {
+      case ('movie'):
+        return FontAwesomeIcons.film;
+      case ('episode'):
+      case ('season'):
+      case ('show'):
+        return FontAwesomeIcons.tv;
+      case ('track'):
+      case ('album'):
+        return FontAwesomeIcons.music;
+      case ('photo'):
+        return FontAwesomeIcons.image;
+      case ('clip'):
+        return FontAwesomeIcons.video;
+      case ('collection'):
+        return FontAwesomeIcons.layerGroup;
+      case ('playlist'):
+        return FontAwesomeIcons.list;
+      default:
+        return FontAwesomeIcons.questionCircle;
+    }
+  }
+
   static IconData mapTranscodeDecisionToIcon(String transcodeDecision) {
     switch (transcodeDecision) {
       case ('transcode'):

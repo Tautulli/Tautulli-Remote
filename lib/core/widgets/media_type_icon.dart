@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../helpers/color_palette_helper.dart';
+import '../helpers/icon_mapper_helper.dart';
 
 class MediaTypeIcon extends StatelessWidget {
   final String mediaType;
@@ -12,18 +13,20 @@ class MediaTypeIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _mapMediaTypeToIcon(mediaType, iconColor);
+    return _mapMediaTypeToIconWidget(mediaType, iconColor);
   }
 }
 
-FaIcon _mapMediaTypeToIcon(
+FaIcon _mapMediaTypeToIconWidget(
   String mediaType,
   Color iconColor,
 ) {
+  final icon = IconMapperHelper.mapMediaTypeToIcon(mediaType);
+
   switch (mediaType) {
     case ('movie'):
       return FaIcon(
-        FontAwesomeIcons.film,
+        icon,
         size: 18,
         color: iconColor ?? TautulliColorPalette.not_white,
       );
@@ -31,44 +34,44 @@ FaIcon _mapMediaTypeToIcon(
     case ('season'):
     case ('show'):
       return FaIcon(
-        FontAwesomeIcons.tv,
+        icon,
         size: 14,
         color: iconColor ?? TautulliColorPalette.not_white,
       );
     case ('track'):
     case ('album'):
       return FaIcon(
-        FontAwesomeIcons.music,
+        icon,
         size: 16,
         color: iconColor ?? TautulliColorPalette.not_white,
       );
     case ('photo'):
       return FaIcon(
-        FontAwesomeIcons.image,
+        icon,
         size: 18,
         color: iconColor ?? TautulliColorPalette.not_white,
       );
     case ('clip'):
       return FaIcon(
-        FontAwesomeIcons.video,
+        icon,
         size: 17,
         color: iconColor ?? TautulliColorPalette.not_white,
       );
     case ('collection'):
       return FaIcon(
-        FontAwesomeIcons.layerGroup,
+        icon,
         size: 17,
         color: iconColor ?? TautulliColorPalette.not_white,
       );
     case ('playlist'):
       return FaIcon(
-        FontAwesomeIcons.list,
+        icon,
         size: 17,
         color: iconColor ?? TautulliColorPalette.not_white,
       );
     default:
       return FaIcon(
-        FontAwesomeIcons.questionCircle,
+        icon,
         size: 17,
         color: iconColor ?? TautulliColorPalette.not_white,
       );
