@@ -1,6 +1,29 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.8.0",
+      "date": "April 1, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Library details page now has tabs for stats and recently added, the page style has been updated to match user and media details",
+        },
+        {
+          "type": "improvement",
+          "detail": "Updated the Microsoft Edge platform icon",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added Alexa platform icon and color",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjust how images are fetched for track items",
+        },
+      ],
+    },
+    {
       "version": "v2.7.0",
       "date": "March 29, 2021",
       "changes": [
