@@ -12,7 +12,6 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/app_drawer_icon.dart';
-import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/list_header.dart';
 import '../../../../injection_container.dart' as di;
@@ -92,277 +91,273 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
         context,
         // dialVisible: dialVisible,
       ),
-      body: DoubleTapExit(
-        child: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
-          listener: (context, state) {
-            if (state is RegisterDeviceFailure) {
-              if (state.failure == CertificateVerificationFailure()) {
-                showCertificateFailureAlertDialog(
-                    context: context,
-                    registerDeviceBloc: context.read<RegisterDeviceBloc>(),
-                    settingsBloc: context.read<SettingsBloc>());
-              } else {
-                showFailureAlertDialog(
+      body: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
+        listener: (context, state) {
+          if (state is RegisterDeviceFailure) {
+            if (state.failure == CertificateVerificationFailure()) {
+              showCertificateFailureAlertDialog(
                   context: context,
-                  failure: state.failure,
-                );
-              }
+                  registerDeviceBloc: context.read<RegisterDeviceBloc>(),
+                  settingsBloc: context.read<SettingsBloc>());
+            } else {
+              showFailureAlertDialog(
+                context: context,
+                failure: state.failure,
+              );
             }
-            if (state is RegisterDeviceSuccess) {
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: Colors.green,
-                  content: Text('Tautulli Registration Successful'),
+          }
+          if (state is RegisterDeviceSuccess) {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.green,
+                content: Text('Tautulli Registration Successful'),
+              ),
+            );
+          }
+        },
+        child: BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            if (state is SettingsLoadSuccess) {
+              return ListView(
+                // controller: scrollController,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: SettingsAlertBanner(),
+                  ),
+                  ListHeader(
+                    headingText: 'Tautulli Servers',
+                  ),
+                  state.serverList.isEmpty
+                      ? Padding(
+                          padding: EdgeInsets.only(
+                            left: 16,
+                            right: 16,
+                            top: 10,
+                          ),
+                          child: ServerSetupInstructions(),
+                        )
+                      : ReorderableColumn(
+                          onReorder: (oldIndex, newIndex) {
+                            final int movedServerId =
+                                state.serverList[oldIndex].id;
+                            context.read<SettingsBloc>().add(
+                                  SettingsUpdateSortIndex(
+                                    serverId: movedServerId,
+                                    oldIndex: oldIndex,
+                                    newIndex: newIndex,
+                                  ),
+                                );
+                          },
+                          children: state.serverList
+                              .map(
+                                (server) => ListTile(
+                                  key: ValueKey(server.id),
+                                  title: Text('${server.plexName}'),
+                                  subtitle: (isEmpty(
+                                          server.primaryConnectionAddress))
+                                      ? Text(
+                                          'Primary Connection Address Missing')
+                                      : isNotEmpty(server
+                                                  .primaryConnectionAddress) &&
+                                              server.primaryActive &&
+                                              !state.maskSensitiveInfo
+                                          ? Text(
+                                              server.primaryConnectionAddress)
+                                          : isNotEmpty(server
+                                                      .primaryConnectionAddress) &&
+                                                  !server.primaryActive &&
+                                                  !state.maskSensitiveInfo
+                                              ? Text(server
+                                                  .secondaryConnectionAddress)
+                                              : Text(
+                                                  '*Hidden Connection Address*'),
+                                  trailing: FaIcon(
+                                    FontAwesomeIcons.cog,
+                                    color: TautulliColorPalette.not_white,
+                                  ),
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return ServerSettingsPage(
+                                            id: server.id,
+                                            plexName: server.plexName,
+                                            maskSensitiveInfo:
+                                                state.maskSensitiveInfo,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )
+                              .toList(),
+                        ),
+                  // Display loading indicator when device is attemting to register
+                  BlocBuilder<RegisterDeviceBloc, RegisterDeviceState>(
+                    builder: (context, state) {
+                      if (state is RegisterDeviceInProgress) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 6, bottom: 8),
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
+                      return SizedBox(height: 0, width: 0);
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  //* App settings
+                  ListHeader(
+                    headingText: 'App Settings',
+                  ),
+                  ListTile(
+                    title: Text('Server Timeout'),
+                    subtitle: _serverTimeoutDisplay(state.serverTimeout),
+                    onTap: () {
+                      return showDialog(
+                        context: context,
+                        builder: (context) => ServerTimeoutDialog(
+                          initialValue: state.serverTimeout == null
+                              ? 5
+                              : state.serverTimeout,
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: Text('Activity Refresh Rate'),
+                    subtitle: _serverRefreshRateDisplay(state.refreshRate),
+                    onTap: () {
+                      return showDialog(
+                        context: context,
+                        builder: (context) => ActivityRefreshRateDialog(
+                          initialValue:
+                              state.refreshRate == null ? 0 : state.refreshRate,
+                        ),
+                      );
+                    },
+                  ),
+                  CheckboxListTile(
+                    title: Text('Double Tap To Exit'),
+                    subtitle: Text(
+                      'Tap back twice to exit',
+                    ),
+                    onChanged: (value) {
+                      context.read<SettingsBloc>().add(
+                            SettingsUpdateDoubleTapToExit(
+                              value: value,
+                            ),
+                          );
+                    },
+                    value: state.doubleTapToExit ?? false,
+                  ),
+                  CheckboxListTile(
+                    title: Text('Mask Sensitive Info'),
+                    subtitle: Text('Hides sensitive info in the UI'),
+                    onChanged: (value) {
+                      context.read<SettingsBloc>().add(
+                            SettingsUpdateMaskSensitiveInfo(
+                              value: value,
+                            ),
+                          );
+                    },
+                    value: state.maskSensitiveInfo ?? false,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                      bottom: 10,
+                    ),
+                    child: Divider(
+                      color: Theme.of(context).accentColor,
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      'OneSignal Data Privacy',
+                      style: TextStyle(
+                        color: TautulliColorPalette.smoke,
+                      ),
+                    ),
+                    trailing: FaIcon(
+                      FontAwesomeIcons.angleRight,
+                      color: TautulliColorPalette.smoke,
+                    ),
+                    onTap: () => Navigator.of(context).pushNamed('/privacy'),
+                  ),
+                  ListTile(
+                    title: Text(
+                      'Help & Support',
+                      style: TextStyle(
+                        color: TautulliColorPalette.smoke,
+                      ),
+                    ),
+                    trailing: FaIcon(
+                      FontAwesomeIcons.angleRight,
+                      color: TautulliColorPalette.smoke,
+                    ),
+                    onTap: () => Navigator.of(context).pushNamed('/help'),
+                  ),
+                  ListTile(
+                    title: Text(
+                      'Changelog',
+                      style: TextStyle(
+                        color: TautulliColorPalette.smoke,
+                      ),
+                    ),
+                    trailing: FaIcon(
+                      FontAwesomeIcons.angleRight,
+                      color: TautulliColorPalette.smoke,
+                    ),
+                    onTap: () => Navigator.of(context).pushNamed('/changelog'),
+                  ),
+                  ListTile(
+                    title: Text(
+                      'About',
+                      style: TextStyle(
+                        color: TautulliColorPalette.smoke,
+                      ),
+                    ),
+                    trailing: FaIcon(
+                      FontAwesomeIcons.angleRight,
+                      color: TautulliColorPalette.smoke,
+                    ),
+                    onTap: () async {
+                      PackageInfo packageInfo =
+                          await PackageInfo.fromPlatform();
+                      showAboutDialog(
+                        context: context,
+                        applicationIcon: SizedBox(
+                          height: 50,
+                          child: Image.asset('assets/logo/logo.png'),
+                        ),
+                        applicationName: 'Tautulli Remote',
+                        applicationVersion: packageInfo.version,
+                        applicationLegalese:
+                            'Licensed under the GNU General Public License v3.0',
+                      );
+                    },
+                  ),
+                ],
+              );
+            }
+            if (state is SettingsLoadInProgress) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return Center(
+                child: Text(
+                  'There was an error loading settings. Please use the help page to get assistance.',
                 ),
               );
             }
           },
-          child: BlocBuilder<SettingsBloc, SettingsState>(
-            builder: (context, state) {
-              if (state is SettingsLoadSuccess) {
-                return ListView(
-                  // controller: scrollController,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: SettingsAlertBanner(),
-                    ),
-                    ListHeader(
-                      headingText: 'Tautulli Servers',
-                    ),
-                    state.serverList.isEmpty
-                        ? Padding(
-                            padding: EdgeInsets.only(
-                              left: 16,
-                              right: 16,
-                              top: 10,
-                            ),
-                            child: ServerSetupInstructions(),
-                          )
-                        : ReorderableColumn(
-                            onReorder: (oldIndex, newIndex) {
-                              final int movedServerId =
-                                  state.serverList[oldIndex].id;
-                              context.read<SettingsBloc>().add(
-                                    SettingsUpdateSortIndex(
-                                      serverId: movedServerId,
-                                      oldIndex: oldIndex,
-                                      newIndex: newIndex,
-                                    ),
-                                  );
-                            },
-                            children: state.serverList
-                                .map(
-                                  (server) => ListTile(
-                                    key: ValueKey(server.id),
-                                    title: Text('${server.plexName}'),
-                                    subtitle: (isEmpty(
-                                            server.primaryConnectionAddress))
-                                        ? Text(
-                                            'Primary Connection Address Missing')
-                                        : isNotEmpty(server
-                                                    .primaryConnectionAddress) &&
-                                                server.primaryActive &&
-                                                !state.maskSensitiveInfo
-                                            ? Text(
-                                                server.primaryConnectionAddress)
-                                            : isNotEmpty(server
-                                                        .primaryConnectionAddress) &&
-                                                    !server.primaryActive &&
-                                                    !state.maskSensitiveInfo
-                                                ? Text(server
-                                                    .secondaryConnectionAddress)
-                                                : Text(
-                                                    '*Hidden Connection Address*'),
-                                    trailing: FaIcon(
-                                      FontAwesomeIcons.cog,
-                                      color: TautulliColorPalette.not_white,
-                                    ),
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return ServerSettingsPage(
-                                              id: server.id,
-                                              plexName: server.plexName,
-                                              maskSensitiveInfo:
-                                                  state.maskSensitiveInfo,
-                                            );
-                                          },
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                    // Display loading indicator when device is attemting to register
-                    BlocBuilder<RegisterDeviceBloc, RegisterDeviceState>(
-                      builder: (context, state) {
-                        if (state is RegisterDeviceInProgress) {
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 6, bottom: 8),
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-                        return SizedBox(height: 0, width: 0);
-                      },
-                    ),
-                    SizedBox(height: 20),
-                    //* App settings
-                    ListHeader(
-                      headingText: 'App Settings',
-                    ),
-                    ListTile(
-                      title: Text('Server Timeout'),
-                      subtitle: _serverTimeoutDisplay(state.serverTimeout),
-                      onTap: () {
-                        return showDialog(
-                          context: context,
-                          builder: (context) => ServerTimeoutDialog(
-                            initialValue: state.serverTimeout == null
-                                ? 5
-                                : state.serverTimeout,
-                          ),
-                        );
-                      },
-                    ),
-                    ListTile(
-                      title: Text('Activity Refresh Rate'),
-                      subtitle: _serverRefreshRateDisplay(state.refreshRate),
-                      onTap: () {
-                        return showDialog(
-                          context: context,
-                          builder: (context) => ActivityRefreshRateDialog(
-                            initialValue: state.refreshRate == null
-                                ? 0
-                                : state.refreshRate,
-                          ),
-                        );
-                      },
-                    ),
-                    CheckboxListTile(
-                      title: Text('Double Tap To Exit'),
-                      subtitle: Text(
-                        'Tap back twice to exit',
-                      ),
-                      onChanged: (value) {
-                        context.read<SettingsBloc>().add(
-                              SettingsUpdateDoubleTapToExit(
-                                value: value,
-                              ),
-                            );
-                      },
-                      value: state.doubleTapToExit ?? false,
-                    ),
-                    CheckboxListTile(
-                      title: Text('Mask Sensitive Info'),
-                      subtitle: Text('Hides sensitive info in the UI'),
-                      onChanged: (value) {
-                        context.read<SettingsBloc>().add(
-                              SettingsUpdateMaskSensitiveInfo(
-                                value: value,
-                              ),
-                            );
-                      },
-                      value: state.maskSensitiveInfo ?? false,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 10,
-                        right: 10,
-                        bottom: 10,
-                      ),
-                      child: Divider(
-                        color: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(
-                        'OneSignal Data Privacy',
-                        style: TextStyle(
-                          color: TautulliColorPalette.smoke,
-                        ),
-                      ),
-                      trailing: FaIcon(
-                        FontAwesomeIcons.angleRight,
-                        color: TautulliColorPalette.smoke,
-                      ),
-                      onTap: () => Navigator.of(context).pushNamed('/privacy'),
-                    ),
-                    ListTile(
-                      title: Text(
-                        'Help & Support',
-                        style: TextStyle(
-                          color: TautulliColorPalette.smoke,
-                        ),
-                      ),
-                      trailing: FaIcon(
-                        FontAwesomeIcons.angleRight,
-                        color: TautulliColorPalette.smoke,
-                      ),
-                      onTap: () => Navigator.of(context).pushNamed('/help'),
-                    ),
-                    ListTile(
-                      title: Text(
-                        'Changelog',
-                        style: TextStyle(
-                          color: TautulliColorPalette.smoke,
-                        ),
-                      ),
-                      trailing: FaIcon(
-                        FontAwesomeIcons.angleRight,
-                        color: TautulliColorPalette.smoke,
-                      ),
-                      onTap: () =>
-                          Navigator.of(context).pushNamed('/changelog'),
-                    ),
-                    ListTile(
-                      title: Text(
-                        'About',
-                        style: TextStyle(
-                          color: TautulliColorPalette.smoke,
-                        ),
-                      ),
-                      trailing: FaIcon(
-                        FontAwesomeIcons.angleRight,
-                        color: TautulliColorPalette.smoke,
-                      ),
-                      onTap: () async {
-                        PackageInfo packageInfo =
-                            await PackageInfo.fromPlatform();
-                        showAboutDialog(
-                          context: context,
-                          applicationIcon: SizedBox(
-                            height: 50,
-                            child: Image.asset('assets/logo/logo.png'),
-                          ),
-                          applicationName: 'Tautulli Remote',
-                          applicationVersion: packageInfo.version,
-                          applicationLegalese:
-                              'Licensed under the GNU General Public License v3.0',
-                        );
-                      },
-                    ),
-                  ],
-                );
-              }
-              if (state is SettingsLoadInProgress) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else {
-                return Center(
-                  child: Text(
-                    'There was an error loading settings. Please use the help page to get assistance.',
-                  ),
-                );
-              }
-            },
-          ),
         ),
       ),
     );
