@@ -9,6 +9,8 @@ export 'get_history.dart';
 export 'get_home_stats.dart';
 export 'get_libraries_table.dart';
 export 'get_library_media_info.dart';
+export 'get_library_user_stats.dart';
+export 'get_library_watch_time_stats.dart';
 export 'get_metadata.dart';
 export 'get_recently_added.dart';
 export 'get_server_info.dart';
