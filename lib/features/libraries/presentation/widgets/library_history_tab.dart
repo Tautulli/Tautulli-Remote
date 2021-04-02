@@ -11,10 +11,10 @@ import '../../../history/presentation/widgets/history_details.dart';
 import '../../../history/presentation/widgets/history_modal_bottom_sheet.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 
-class LibrariesHistoryTab extends StatelessWidget {
+class LibraryHistoryTab extends StatelessWidget {
   final int sectionId;
 
-  const LibrariesHistoryTab({
+  const LibraryHistoryTab({
     @required this.sectionId,
     Key key,
   }) : super(key: key);
@@ -23,28 +23,27 @@ class LibrariesHistoryTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<HistoryLibrariesBloc>(),
-      child: _LibrariesHistoryTabContent(
+      child: _LibraryHistoryTabContent(
         sectionId: sectionId,
       ),
     );
   }
 }
 
-class _LibrariesHistoryTabContent extends StatefulWidget {
+class _LibraryHistoryTabContent extends StatefulWidget {
   final int sectionId;
 
-  _LibrariesHistoryTabContent({
+  _LibraryHistoryTabContent({
     @required this.sectionId,
     Key key,
   }) : super(key: key);
 
   @override
-  __LibrariesHistoryTabContentState createState() =>
-      __LibrariesHistoryTabContentState();
+  __LibraryHistoryTabContentState createState() =>
+      __LibraryHistoryTabContentState();
 }
 
-class __LibrariesHistoryTabContentState
-    extends State<_LibrariesHistoryTabContent> {
+class __LibraryHistoryTabContentState extends State<_LibraryHistoryTabContent> {
   final _scrollController = ScrollController();
   final _scrollThreshold = 200.0;
   SettingsBloc _settingsBloc;
@@ -126,52 +125,54 @@ class __LibrariesHistoryTabContentState
               : MediaQuery.removePadding(
                   context: context,
                   removeTop: true,
-                  child: ListView.builder(
-                    itemCount: state.hasReachedMax
-                        ? state.list.length
-                        : state.list.length + 1,
-                    controller: _scrollController,
-                    itemBuilder: (context, index) {
-                      final SettingsLoadSuccess settingsState =
-                          _settingsBloc.state;
+                  child: Scrollbar(
+                    child: ListView.builder(
+                      itemCount: state.hasReachedMax
+                          ? state.list.length
+                          : state.list.length + 1,
+                      controller: _scrollController,
+                      itemBuilder: (context, index) {
+                        final SettingsLoadSuccess settingsState =
+                            _settingsBloc.state;
 
-                      return index >= state.list.length
-                          ? BottomLoader()
-                          : GestureDetector(
-                              onTap: () {
-                                return showModalBottomSheet(
-                                  context: context,
-                                  barrierColor: Colors.black87,
-                                  backgroundColor: Colors.transparent,
-                                  isScrollControlled: true,
-                                  builder: (context) =>
-                                      BlocBuilder<SettingsBloc, SettingsState>(
-                                    builder: (context, settingsState) {
-                                      return HistoryModalBottomSheet(
-                                        item: state.list[index],
-                                        server: server,
-                                        maskSensitiveInfo: settingsState
-                                                is SettingsLoadSuccess
-                                            ? settingsState.maskSensitiveInfo
-                                            : false,
-                                      );
-                                    },
+                        return index >= state.list.length
+                            ? BottomLoader()
+                            : GestureDetector(
+                                onTap: () {
+                                  return showModalBottomSheet(
+                                    context: context,
+                                    barrierColor: Colors.black87,
+                                    backgroundColor: Colors.transparent,
+                                    isScrollControlled: true,
+                                    builder: (context) => BlocBuilder<
+                                        SettingsBloc, SettingsState>(
+                                      builder: (context, settingsState) {
+                                        return HistoryModalBottomSheet(
+                                          item: state.list[index],
+                                          server: server,
+                                          maskSensitiveInfo: settingsState
+                                                  is SettingsLoadSuccess
+                                              ? settingsState.maskSensitiveInfo
+                                              : false,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: PosterCard(
+                                  item: state.list[index],
+                                  details: HistoryDetails(
+                                    historyItem: state.list[index],
+                                    server: settingsState.serverList.firstWhere(
+                                      (server) =>
+                                          server.tautulliId == _tautulliId,
+                                    ),
+                                    maskSensitiveInfo: _maskSensitiveInfo,
                                   ),
-                                );
-                              },
-                              child: PosterCard(
-                                item: state.list[index],
-                                details: HistoryDetails(
-                                  historyItem: state.list[index],
-                                  server: settingsState.serverList.firstWhere(
-                                    (server) =>
-                                        server.tautulliId == _tautulliId,
-                                  ),
-                                  maskSensitiveInfo: _maskSensitiveInfo,
                                 ),
-                              ),
-                            );
-                    },
+                              );
+                      },
+                    ),
                   ),
                 );
         }

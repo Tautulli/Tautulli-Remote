@@ -15,13 +15,13 @@ import '../bloc/library_media_bloc.dart';
 import '../pages/library_details_page.dart';
 import 'library_media_error_button.dart';
 
-class LibrariesMediaTab extends StatefulWidget {
+class LibraryMediaTab extends StatefulWidget {
   final String tautulliId;
   final Library library;
   final String sectionType;
   final String title;
 
-  const LibrariesMediaTab({
+  const LibraryMediaTab({
     @required this.tautulliId,
     @required this.library,
     @required this.sectionType,
@@ -30,10 +30,10 @@ class LibrariesMediaTab extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _LibrariesMediaTabState createState() => _LibrariesMediaTabState();
+  _LibraryMediaTabState createState() => _LibraryMediaTabState();
 }
 
-class _LibrariesMediaTabState extends State<LibrariesMediaTab> {
+class _LibraryMediaTabState extends State<LibraryMediaTab> {
   Completer<void> _refreshCompleter;
 
   @override
@@ -116,55 +116,70 @@ class _LibrariesMediaTabState extends State<LibrariesMediaTab> {
                 return _refreshCompleter.future;
               },
               child: Scrollbar(
-                child: GridView.count(
-                  crossAxisCount: 3,
-                  childAspectRatio: [
-                    'artist',
-                    'photo',
-                  ].contains(widget.library != null
-                          ? widget.library.sectionType
-                          : widget.sectionType)
-                      ? 1
-                      : 2 / 3,
-                  children: state.libraryMediaList.map((libraryItem) {
-                    return PosterGridItem(
-                      item: libraryItem,
-                      onTap: () {
-                        if (libraryItem.mediaType == 'photo_album') {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => LibraryDetailsPage(
-                                title: libraryItem.title,
-                                ratingKey: libraryItem.ratingKey,
-                                sectionType: 'photo',
-                              ),
-                            ),
-                          );
-                        } else {
-                          MediaItem mediaItem = MediaItem(
-                            parentMediaIndex: libraryItem.parentMediaIndex,
-                            parentTitle:
-                                widget.title ?? widget.library.sectionName,
-                            mediaIndex: libraryItem.mediaIndex,
-                            mediaType: libraryItem.mediaType,
-                            posterUrl: libraryItem.posterUrl,
-                            ratingKey: libraryItem.ratingKey,
-                            title: libraryItem.title,
-                            year: libraryItem.year,
-                          );
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: Scrollbar(
+                    child: GridView.count(
+                      crossAxisCount: 3,
+                      childAspectRatio: [
+                        'artist',
+                        'photo',
+                      ].contains(widget.library != null
+                              ? widget.library.sectionType
+                              : widget.sectionType)
+                          ? 1
+                          : 2 / 3,
+                      children: state.libraryMediaList.map((libraryItem) {
+                        final int heroTag = libraryItem.ratingKey;
 
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => MediaItemPage(
-                                item: mediaItem,
-                                heroTag: libraryItem.ratingKey,
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                    );
-                  }).toList(),
+                        return PosterGridItem(
+                          heroTag: libraryItem.mediaType == 'photo_album'
+                              ? heroTag
+                              : null,
+                          item: libraryItem,
+                          onTap: () {
+                            if (libraryItem.mediaType == 'photo_album') {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => LibraryDetailsPage(
+                                    title: libraryItem.title,
+                                    ratingKey: libraryItem.ratingKey,
+                                    sectionType: 'photo',
+                                    backgroundUrlOverride:
+                                        libraryItem.posterUrl,
+                                    disableStatsTab: true,
+                                    heroTag: heroTag,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              MediaItem mediaItem = MediaItem(
+                                parentMediaIndex: libraryItem.parentMediaIndex,
+                                parentTitle:
+                                    widget.title ?? widget.library.sectionName,
+                                mediaIndex: libraryItem.mediaIndex,
+                                mediaType: libraryItem.mediaType,
+                                posterUrl: libraryItem.posterUrl,
+                                ratingKey: libraryItem.ratingKey,
+                                title: libraryItem.title,
+                                year: libraryItem.year,
+                              );
+
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => MediaItemPage(
+                                    item: mediaItem,
+                                    heroTag: libraryItem.ratingKey,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ),
               ),
             );
