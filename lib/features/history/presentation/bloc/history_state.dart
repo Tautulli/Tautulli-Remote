@@ -10,16 +10,18 @@ abstract class HistoryState extends Equatable {
 class HistoryInitial extends HistoryState {
   final int userId;
   final String mediaType;
+  final String transcodeDecision;
   final String tautulliId;
 
   HistoryInitial({
     this.userId,
     this.mediaType,
+    this.transcodeDecision,
     this.tautulliId,
   });
 
   @override
-  List<Object> get props => [userId, mediaType];
+  List<Object> get props => [userId, mediaType, transcodeDecision, tautulliId];
 }
 
 class HistorySuccess extends HistoryState {

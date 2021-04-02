@@ -19,6 +19,7 @@ part 'history_state.dart';
 List<History> _historyListCache;
 int _userIdCache;
 String _mediaTypeCache;
+String _transcodeDecisionCache;
 String _tautulliIdCache;
 SettingsBloc _settingsBlocCache;
 
@@ -34,6 +35,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   }) : super(HistoryInitial(
           userId: _userIdCache,
           mediaType: _mediaTypeCache,
+          transcodeDecision: _transcodeDecisionCache,
           tautulliId: _tautulliIdCache,
         ));
 
@@ -57,6 +59,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     if (event is HistoryFetch && !_hasReachedMax(currentState)) {
       _userIdCache = event.userId;
       _mediaTypeCache = event.mediaType;
+      _transcodeDecisionCache = event.transcodeDecision;
 
       if (currentState is HistoryInitial) {
         _settingsBlocCache = event.settingsBloc;
@@ -65,6 +68,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           tautulliId: event.tautulliId,
           userId: event.userId,
           mediaType: event.mediaType,
+          transcodeDecision: event.transcodeDecision,
           useCachedList: true,
           settingsBloc: _settingsBlocCache,
         );
@@ -75,6 +79,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           tautulliId: event.tautulliId,
           userId: event.userId,
           mediaType: event.mediaType,
+          transcodeDecision: event.transcodeDecision,
           start: event.start,
           settingsBloc: _settingsBlocCache,
         );
@@ -86,11 +91,13 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       yield HistoryInitial();
       _userIdCache = event.userId;
       _mediaTypeCache = event.mediaType;
+      _transcodeDecisionCache = event.transcodeDecision;
 
       yield* _fetchInitial(
         tautulliId: event.tautulliId,
         userId: event.userId,
         mediaType: event.mediaType,
+        transcodeDecision: event.transcodeDecision,
         settingsBloc: _settingsBlocCache,
       );
 

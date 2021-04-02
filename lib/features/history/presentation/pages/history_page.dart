@@ -59,6 +59,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
   String _tautulliId;
   int _userId;
   String _mediaType;
+  String _transcodeDecision;
   bool _maskSensitiveInfo;
 
   @override
@@ -108,6 +109,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
           _userId = null;
         }
         _mediaType = historyState.mediaType ?? 'all';
+        _transcodeDecision = historyState.transcodeDecision ?? 'all';
       }
 
       _usersListBloc.add(
@@ -122,6 +124,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
           tautulliId: _tautulliId,
           userId: _userId,
           mediaType: _mediaType,
+          transcodeDecision: _transcodeDecision,
           settingsBloc: _settingsBloc,
         ),
       );
@@ -171,6 +174,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                               HistoryFilter(
                                 tautulliId: value,
                                 mediaType: _mediaType,
+                                transcodeDecision: _transcodeDecision,
                               ),
                             );
                             _usersListBloc.add(
@@ -211,6 +215,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                               tautulliId: _tautulliId,
                               userId: _userId,
                               mediaType: _mediaType,
+                              transcodeDecision: _transcodeDecision,
                             ),
                           );
                           return _refreshCompleter.future;
@@ -265,7 +270,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                     return Expanded(
                       child: Center(
                         child: Text(
-                          'No history ${_mediaTypeToTitle(_mediaType)}found.',
+                          'No history ${_mediaType != null || _transcodeDecision != null ? 'for the selected filters ' : ''}found.',
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
@@ -295,6 +300,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                               tautulliId: _tautulliId,
                               userId: _userId,
                               mediaType: _mediaType,
+                              transcodeDecision: _transcodeDecision,
                             ),
                           ),
                         ],
@@ -330,6 +336,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
           tautulliId: _tautulliId,
           userId: _userId,
           mediaType: _mediaType,
+          transcodeDecision: _transcodeDecision,
           settingsBloc: _settingsBloc,
         ),
       );
@@ -337,6 +344,10 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
   }
 
   List<Widget> _appBarActions() {
+    ValueNotifier<String> _selectedMediaType = ValueNotifier(_mediaType);
+    ValueNotifier<String> _selectedTranscodeType =
+        ValueNotifier(_transcodeDecision);
+
     return [
       //* Users dropdown
       BlocBuilder<UsersListBloc, UsersListState>(
@@ -363,6 +374,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                       tautulliId: _tautulliId,
                       userId: _userId,
                       mediaType: _mediaType,
+                      transcodeDecision: _transcodeDecision,
                     ),
                   );
                 });
@@ -443,83 +455,98 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
         icon: FaIcon(
           FontAwesomeIcons.filter,
           size: 20,
-          color: _mediaType != 'all'
+          color: _mediaType != 'all' || _transcodeDecision != 'all'
               ? Theme.of(context).accentColor
               : TautulliColorPalette.not_white,
         ),
-        tooltip: 'Filter media type',
-        onSelected: (value) {
-          if (_mediaType != value) {
-            setState(() {
-              _mediaType = value;
-            });
-            _historyBloc.add(
-              HistoryFilter(
-                tautulliId: _tautulliId,
-                userId: _userId,
-                mediaType: _mediaType,
-              ),
-            );
-          }
-        },
+        tooltip: 'Filter history',
         itemBuilder: (context) {
-          return [
-            PopupMenuItem(
-              child: Text(
-                'All',
-                style: TextStyle(
-                  color: _mediaType == 'all'
-                      ? Theme.of(context).accentColor
-                      : TautulliColorPalette.not_white,
-                ),
-              ),
-              value: 'all',
-            ),
-            PopupMenuItem(
-              child: Text(
-                'Movies',
-                style: TextStyle(
-                  color: _mediaType == 'movie'
-                      ? Theme.of(context).accentColor
-                      : TautulliColorPalette.not_white,
-                ),
-              ),
-              value: 'movie',
-            ),
-            PopupMenuItem(
-              child: Text(
-                'TV Shows',
-                style: TextStyle(
-                  color: _mediaType == 'episode'
-                      ? Theme.of(context).accentColor
-                      : TautulliColorPalette.not_white,
-                ),
-              ),
-              value: 'episode',
-            ),
-            PopupMenuItem(
-              child: Text(
-                'Music',
-                style: TextStyle(
-                  color: _mediaType == 'track'
-                      ? Theme.of(context).accentColor
-                      : TautulliColorPalette.not_white,
-                ),
-              ),
-              value: 'track',
-            ),
-            PopupMenuItem(
-              child: Text(
-                'Live TV',
-                style: TextStyle(
-                  color: _mediaType == 'live'
-                      ? Theme.of(context).accentColor
-                      : TautulliColorPalette.not_white,
-                ),
-              ),
-              value: 'live',
-            ),
+          List mediaTypes = [
+            'all',
+            'movie',
+            'episode',
+            'track',
+            'live',
           ];
+          List transcodeTypes = [
+            'all',
+            'direct play',
+            'copy',
+            'transcode',
+          ];
+          return List.generate(
+            10,
+            (index) {
+              if (index < 5 || index > 5) {
+                return PopupMenuItem(
+                  value:
+                      index < 5 ? mediaTypes[index] : transcodeTypes[index - 6],
+                  child: AnimatedBuilder(
+                    child: Text(index < 5
+                        ? mediaTypes[index]
+                        : transcodeTypes[index - 6]),
+                    animation:
+                        index < 5 ? _selectedMediaType : _selectedTranscodeType,
+                    builder: (context, child) {
+                      if (index < 5) {
+                        return RadioListTile<String>(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 0),
+                          value: mediaTypes[index],
+                          groupValue: _selectedMediaType.value,
+                          title: Text(
+                            _mediaTypeToTitle(mediaTypes[index]),
+                          ),
+                          onChanged: (value) {
+                            if (_mediaType != value) {
+                              _selectedMediaType.value = value;
+                              setState(() {
+                                _mediaType = value;
+                              });
+                              _historyBloc.add(
+                                HistoryFilter(
+                                  tautulliId: _tautulliId,
+                                  userId: _userId,
+                                  mediaType: _mediaType,
+                                  transcodeDecision: _transcodeDecision,
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      }
+                      return RadioListTile<String>(
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 0),
+                        value: transcodeTypes[index - 6],
+                        groupValue: _selectedTranscodeType.value,
+                        title: Text(
+                          _transcodeDecisionToTitle(transcodeTypes[index - 6]),
+                        ),
+                        onChanged: (value) {
+                          if (_transcodeDecision != value) {
+                            _selectedTranscodeType.value = value;
+                            setState(() {
+                              _transcodeDecision = value;
+                            });
+                            _historyBloc.add(
+                              HistoryFilter(
+                                tautulliId: _tautulliId,
+                                userId: _userId,
+                                mediaType: _mediaType,
+                                transcodeDecision: _transcodeDecision,
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    },
+                  ),
+                );
+              }
+              return PopupMenuDivider();
+            },
+          );
         },
       ),
     ];
@@ -528,16 +555,33 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
 
 String _mediaTypeToTitle(String mediaType) {
   switch (mediaType) {
+    case ('all'):
+      return 'All';
     case ('movie'):
-      return 'for Movies ';
+      return 'Movies';
     case ('episode'):
-      return 'for TV Shows ';
+      return 'TV Shows';
     case ('track'):
-      return 'for Music ';
+      return 'Music';
     case ('other_video'):
-      return 'for Videos ';
+      return 'Videos';
     case ('live'):
-      return 'for Live TV ';
+      return 'Live TV';
+    default:
+      return '';
+  }
+}
+
+String _transcodeDecisionToTitle(String decision) {
+  switch (decision) {
+    case ('all'):
+      return 'All';
+    case ('direct play'):
+      return 'Direct Play';
+    case ('copy'):
+      return 'Direct Stream';
+    case ('transcode'):
+      return 'Transcode';
     default:
       return '';
   }
