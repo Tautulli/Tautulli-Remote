@@ -20,34 +20,36 @@ class MediaEpisodesTab extends StatelessWidget {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
-      child: GridView.count(
-        crossAxisCount: 2,
-        childAspectRatio: 3 / 2,
-        children: episodes
-            .map(
-              (episode) => PosterGridItem(
-                item: episode,
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        MediaItem mediaItem = MediaItem(
-                          mediaIndex: episode.mediaIndex,
-                          mediaType: episode.mediaType,
-                          parentMediaIndex: episode.parentMediaIndex,
-                          grandparentTitle: item.parentTitle,
-                          posterUrl: item.posterUrl,
-                          ratingKey: episode.ratingKey,
-                          title: episode.title,
-                        );
-                        return MediaItemPage(item: mediaItem);
-                      },
-                    ),
-                  );
-                },
-              ),
-            )
-            .toList(),
+      child: Scrollbar(
+        child: GridView.count(
+          crossAxisCount: 2,
+          childAspectRatio: 3 / 2,
+          children: episodes
+              .map(
+                (episode) => PosterGridItem(
+                  item: episode,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          MediaItem mediaItem = MediaItem(
+                            mediaIndex: episode.mediaIndex,
+                            mediaType: episode.mediaType,
+                            parentMediaIndex: episode.parentMediaIndex,
+                            grandparentTitle: item.parentTitle,
+                            posterUrl: item.posterUrl,
+                            ratingKey: episode.ratingKey,
+                            title: episode.title,
+                          );
+                          return MediaItemPage(item: mediaItem);
+                        },
+                      ),
+                    );
+                  },
+                ),
+              )
+              .toList(),
+        ),
       ),
     );
   }

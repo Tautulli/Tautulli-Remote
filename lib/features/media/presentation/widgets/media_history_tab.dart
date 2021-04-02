@@ -139,59 +139,61 @@ class _MediaHistoryTabContentState extends State<MediaHistoryTabContent> {
               : MediaQuery.removePadding(
                   context: context,
                   removeTop: true,
-                  child: ListView.builder(
-                    itemCount: state.hasReachedMax
-                        ? state.list.length
-                        : state.list.length + 1,
-                    controller: _scrollController,
-                    itemBuilder: (context, index) {
-                      final SettingsLoadSuccess settingsState =
-                          _settingsBloc.state;
-                      final server = settingsState.serverList.firstWhere(
-                          (server) => server.tautulliId == _tautulliId);
+                  child: Scrollbar(
+                    child: ListView.builder(
+                      itemCount: state.hasReachedMax
+                          ? state.list.length
+                          : state.list.length + 1,
+                      controller: _scrollController,
+                      itemBuilder: (context, index) {
+                        final SettingsLoadSuccess settingsState =
+                            _settingsBloc.state;
+                        final server = settingsState.serverList.firstWhere(
+                            (server) => server.tautulliId == _tautulliId);
 
-                      return index >= state.list.length
-                          ? BottomRowLoader(
-                              index: index,
-                            )
-                          : GestureDetector(
-                              onTap: () {
-                                return showModalBottomSheet(
-                                  context: context,
-                                  barrierColor: Colors.black87,
-                                  backgroundColor: Colors.transparent,
-                                  isScrollControlled: true,
-                                  builder: (context) =>
-                                      BlocBuilder<SettingsBloc, SettingsState>(
-                                    builder: (context, settingsState) {
-                                      return HistoryModalBottomSheet(
-                                        item: state.list[index],
-                                        server: server,
-                                        imageUrlOverride: widget.imageUrl,
-                                        maskSensitiveInfo: settingsState
-                                                is SettingsLoadSuccess
-                                            ? settingsState.maskSensitiveInfo
-                                            : false,
-                                        disableMediaButton: true,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                              child: _HistoryRow(
+                        return index >= state.list.length
+                            ? BottomRowLoader(
                                 index: index,
-                                server: server,
-                                history: state.list[index],
-                                mediaType: widget.mediaType,
-                                user: state.userTableList.firstWhere(
-                                  (user) =>
-                                      user.userId == state.list[index].userId,
-                                  orElse: () => null,
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  return showModalBottomSheet(
+                                    context: context,
+                                    barrierColor: Colors.black87,
+                                    backgroundColor: Colors.transparent,
+                                    isScrollControlled: true,
+                                    builder: (context) => BlocBuilder<
+                                        SettingsBloc, SettingsState>(
+                                      builder: (context, settingsState) {
+                                        return HistoryModalBottomSheet(
+                                          item: state.list[index],
+                                          server: server,
+                                          imageUrlOverride: widget.imageUrl,
+                                          maskSensitiveInfo: settingsState
+                                                  is SettingsLoadSuccess
+                                              ? settingsState.maskSensitiveInfo
+                                              : false,
+                                          disableMediaButton: true,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: _HistoryRow(
+                                  index: index,
+                                  server: server,
+                                  history: state.list[index],
+                                  mediaType: widget.mediaType,
+                                  user: state.userTableList.firstWhere(
+                                    (user) =>
+                                        user.userId == state.list[index].userId,
+                                    orElse: () => null,
+                                  ),
+                                  maskSensitiveInfo: _maskSensitiveInfo,
                                 ),
-                                maskSensitiveInfo: _maskSensitiveInfo,
-                              ),
-                            );
-                    },
+                              );
+                      },
+                    ),
                   ),
                 );
         }

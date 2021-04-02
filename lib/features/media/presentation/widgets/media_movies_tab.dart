@@ -20,37 +20,39 @@ class MediaMoviesTab extends StatelessWidget {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
-      child: GridView.count(
-        crossAxisCount: 3,
-        childAspectRatio: 2 / 3,
-        children: movies
-            .map(
-              (movie) => PosterGridItem(
-                item: movie,
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        MediaItem mediaItem = MediaItem(
-                            mediaIndex: movie.mediaIndex,
-                            mediaType: movie.mediaType,
-                            parentMediaIndex: movie.parentMediaIndex,
-                            parentTitle: item.title,
-                            posterUrl: movie.posterUrl,
-                            ratingKey: movie.ratingKey,
-                            title: movie.title,
-                            year: movie.year);
-                        return MediaItemPage(
-                          item: mediaItem,
-                          heroTag: movie.ratingKey,
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-            )
-            .toList(),
+      child: Scrollbar(
+        child: GridView.count(
+          crossAxisCount: 3,
+          childAspectRatio: 2 / 3,
+          children: movies
+              .map(
+                (movie) => PosterGridItem(
+                  item: movie,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          MediaItem mediaItem = MediaItem(
+                              mediaIndex: movie.mediaIndex,
+                              mediaType: movie.mediaType,
+                              parentMediaIndex: movie.parentMediaIndex,
+                              parentTitle: item.title,
+                              posterUrl: movie.posterUrl,
+                              ratingKey: movie.ratingKey,
+                              title: movie.title,
+                              year: movie.year);
+                          return MediaItemPage(
+                            item: mediaItem,
+                            heroTag: movie.ratingKey,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              )
+              .toList(),
+        ),
       ),
     );
   }

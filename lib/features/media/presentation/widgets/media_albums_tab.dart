@@ -20,38 +20,40 @@ class MediaAlbumsTab extends StatelessWidget {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
-      child: GridView.count(
-        crossAxisCount: 3,
-        childAspectRatio: 1,
-        children: albums
-            .map(
-              (album) => PosterGridItem(
-                item: album,
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        MediaItem mediaItem = MediaItem(
-                          mediaIndex: album.mediaIndex,
-                          mediaType: album.mediaType,
-                          parentTitle: item.title,
-                          grandparentTitle: item.parentTitle,
-                          posterUrl: album.posterUrl,
-                          ratingKey: album.ratingKey,
-                          title: album.title,
-                          year: album.year,
-                        );
-                        return MediaItemPage(
-                          item: mediaItem,
-                          heroTag: album.ratingKey,
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-            )
-            .toList(),
+      child: Scrollbar(
+        child: GridView.count(
+          crossAxisCount: 3,
+          childAspectRatio: 1,
+          children: albums
+              .map(
+                (album) => PosterGridItem(
+                  item: album,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          MediaItem mediaItem = MediaItem(
+                            mediaIndex: album.mediaIndex,
+                            mediaType: album.mediaType,
+                            parentTitle: item.title,
+                            grandparentTitle: item.parentTitle,
+                            posterUrl: album.posterUrl,
+                            ratingKey: album.ratingKey,
+                            title: album.title,
+                            year: album.year,
+                          );
+                          return MediaItemPage(
+                            item: mediaItem,
+                            heroTag: album.ratingKey,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              )
+              .toList(),
+        ),
       ),
     );
   }

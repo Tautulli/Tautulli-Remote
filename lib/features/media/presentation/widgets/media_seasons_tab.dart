@@ -20,37 +20,39 @@ class MediaSeasonsTab extends StatelessWidget {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
-      child: GridView.count(
-        crossAxisCount: 3,
-        childAspectRatio: 2 / 3,
-        children: seasons
-            .map(
-              (season) => PosterGridItem(
-                item: season,
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        MediaItem mediaItem = MediaItem(
-                          mediaIndex: season.mediaIndex,
-                          mediaType: season.mediaType,
-                          parentMediaIndex: season.parentMediaIndex,
-                          parentTitle: item.title,
-                          posterUrl: season.posterUrl,
-                          ratingKey: season.ratingKey,
-                          title: season.title,
-                        );
-                        return MediaItemPage(
-                          item: mediaItem,
-                          heroTag: season.ratingKey,
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-            )
-            .toList(),
+      child: Scrollbar(
+        child: GridView.count(
+          crossAxisCount: 3,
+          childAspectRatio: 2 / 3,
+          children: seasons
+              .map(
+                (season) => PosterGridItem(
+                  item: season,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          MediaItem mediaItem = MediaItem(
+                            mediaIndex: season.mediaIndex,
+                            mediaType: season.mediaType,
+                            parentMediaIndex: season.parentMediaIndex,
+                            parentTitle: item.title,
+                            posterUrl: season.posterUrl,
+                            ratingKey: season.ratingKey,
+                            title: season.title,
+                          );
+                          return MediaItemPage(
+                            item: mediaItem,
+                            heroTag: season.ratingKey,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              )
+              .toList(),
+        ),
       ),
     );
   }

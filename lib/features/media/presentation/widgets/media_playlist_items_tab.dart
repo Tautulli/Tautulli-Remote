@@ -21,49 +21,51 @@ class MediaPlaylistItemsTab extends StatelessWidget {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
-      child: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) {
-                    MediaItem mediaItem = MediaItem(
-                      grandparentTitle: items[index].grandparentTitle,
-                      mediaIndex: items[index].mediaIndex,
-                      mediaType: items[index].mediaType,
-                      parentMediaIndex: items[index].parentMediaIndex,
-                      parentTitle: items[index].parentTitle,
-                      ratingKey: items[index].ratingKey,
-                      title: items[index].title,
-                      year: items[index].year,
-                    );
-                    return MediaItemPage(item: mediaItem);
-                  },
-                ),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: index % 2 == 0 ? Colors.black26 : null,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                    vertical: 16,
+      child: Scrollbar(
+        child: ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            return Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      MediaItem mediaItem = MediaItem(
+                        grandparentTitle: items[index].grandparentTitle,
+                        mediaIndex: items[index].mediaIndex,
+                        mediaType: items[index].mediaType,
+                        parentMediaIndex: items[index].parentMediaIndex,
+                        parentTitle: items[index].parentTitle,
+                        ratingKey: items[index].ratingKey,
+                        title: items[index].title,
+                        year: items[index].year,
+                      );
+                      return MediaItemPage(item: mediaItem);
+                    },
                   ),
-                  child: Row(
-                    children: _playlistItemRowBuilder(
-                      index: index,
-                      item: items[index],
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: index % 2 == 0 ? Colors.black26 : null,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0,
+                      vertical: 16,
+                    ),
+                    child: Row(
+                      children: _playlistItemRowBuilder(
+                        index: index,
+                        item: items[index],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
