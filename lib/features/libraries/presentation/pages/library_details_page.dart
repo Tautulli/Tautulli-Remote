@@ -247,7 +247,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                       ),
                                     if (sectionType != 'photo')
                                       Tab(
-                                        child: Text('Recent'),
+                                        child: Text('New'),
                                       ),
                                     if (sectionType != 'photo')
                                       Tab(
@@ -305,18 +305,6 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
               child: widget.backgroundUrlOverride == null
                   ? Stack(
                       children: [
-                        // Positioned.fill(
-                        //   child: ClipRRect(
-                        //     borderRadius: BorderRadius.all(
-                        //       Radius.circular(50.0),
-                        //     ),
-                        //     child: DecoratedBox(
-                        //       decoration: BoxDecoration(
-                        //         color: TautulliColorPalette.midnight,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
                         Positioned.fill(
                           child: FutureBuilder(
                             future: getColorFuture,
