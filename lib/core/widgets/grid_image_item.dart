@@ -6,10 +6,12 @@ import 'poster_chooser.dart';
 class PosterGridItem extends StatelessWidget {
   final dynamic item;
   final Function onTap;
+  final dynamic heroTag;
 
   const PosterGridItem({
     @required this.item,
     this.onTap,
+    this.heroTag,
     Key key,
   }) : super(key: key);
 
@@ -21,7 +23,7 @@ class PosterGridItem extends StatelessWidget {
         children: [
           Positioned.fill(
             child: Hero(
-              tag: item.ratingKey,
+              tag: heroTag ?? item.ratingKey,
               child: PosterChooser(item: item),
             ),
           ),
