@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tautulli_remote/features/announcements/presentation/bloc/announcements_bloc.dart';
 
 import '../../features/activity/presentation/pages/activity_page.dart';
-import '../../features/announcements/presentation/bloc/announcements_bloc.dart';
 import '../../features/announcements/presentation/pages/announcements_page.dart';
 import '../../features/donate/presentation/pages/donate_page.dart';
 import '../../features/history/presentation/pages/history_page.dart';
@@ -20,7 +20,7 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentRoute = ModalRoute.of(context).settings.name;
+    final route = ModalRoute.of(context);
 
     return Drawer(
       child: Column(
@@ -86,13 +86,17 @@ class AppDrawer extends StatelessWidget {
                   ),
                   title: Text('Activity'),
                   onTap: () {
-                    if (currentRoute != ActivityPage.routeName &&
-                        currentRoute != '/') {
+                    if (route.settings.name != ActivityPage.routeName &&
+                        route.settings.name != '/') {
                       Navigator.of(context)
                           .pushReplacementNamed(ActivityPage.routeName);
                     } else {
                       Navigator.pop(context);
                     }
+                  },
+                  onLongPress: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(ActivityPage.routeName);
                   },
                 ),
                 ListTile(
@@ -103,11 +107,16 @@ class AppDrawer extends StatelessWidget {
                   ),
                   title: Text('History'),
                   onTap: () {
-                    _pushRoute(
-                      context: context,
-                      currentRoute: currentRoute,
-                      namedRoute: HistoryPage.routeName,
-                    );
+                    if (route.settings.name != HistoryPage.routeName) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(HistoryPage.routeName);
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  onLongPress: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(HistoryPage.routeName);
                   },
                 ),
                 ListTile(
@@ -118,11 +127,16 @@ class AppDrawer extends StatelessWidget {
                   ),
                   title: Text('Recently Added'),
                   onTap: () {
-                    _pushRoute(
-                      context: context,
-                      currentRoute: currentRoute,
-                      namedRoute: RecentlyAddedPage.routeName,
-                    );
+                    if (route.settings.name != RecentlyAddedPage.routeName) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(RecentlyAddedPage.routeName);
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  onLongPress: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(RecentlyAddedPage.routeName);
                   },
                 ),
                 ListTile(
@@ -133,11 +147,16 @@ class AppDrawer extends StatelessWidget {
                   ),
                   title: Text('Libraries'),
                   onTap: () {
-                    _pushRoute(
-                      context: context,
-                      currentRoute: currentRoute,
-                      namedRoute: LibrariesPage.routeName,
-                    );
+                    if (route.settings.name != LibrariesPage.routeName) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(LibrariesPage.routeName);
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  onLongPress: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(LibrariesPage.routeName);
                   },
                 ),
                 ListTile(
@@ -148,11 +167,16 @@ class AppDrawer extends StatelessWidget {
                   ),
                   title: Text('Users'),
                   onTap: () {
-                    _pushRoute(
-                      context: context,
-                      currentRoute: currentRoute,
-                      namedRoute: UsersPage.routeName,
-                    );
+                    if (route.settings.name != UsersPage.routeName) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(UsersPage.routeName);
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  onLongPress: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(UsersPage.routeName);
                   },
                 ),
                 ListTile(
@@ -163,11 +187,16 @@ class AppDrawer extends StatelessWidget {
                   ),
                   title: Text('Statistics'),
                   onTap: () {
-                    _pushRoute(
-                      context: context,
-                      currentRoute: currentRoute,
-                      namedRoute: StatisticsPage.routeName,
-                    );
+                    if (route.settings.name != StatisticsPage.routeName) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(StatisticsPage.routeName);
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  onLongPress: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(StatisticsPage.routeName);
                   },
                 ),
                 // ListTile(
@@ -178,7 +207,7 @@ class AppDrawer extends StatelessWidget {
                 //   ),
                 //   title: Text('Graphs'),
                 //   onTap: () {
-                //     // if (currentRoute != StatisticsPage.routeName) {
+                //     // if (route.settings.name != StatisticsPage.routeName) {
                 //     //   Navigator.of(context)
                 //     //       .pushReplacementNamed(StatisticsPage.routeName);
                 //     // } else {
@@ -198,11 +227,16 @@ class AppDrawer extends StatelessWidget {
                   ),
                   title: Text('Synced Items'),
                   onTap: () {
-                    _pushRoute(
-                      context: context,
-                      currentRoute: currentRoute,
-                      namedRoute: SyncedItemsPage.routeName,
-                    );
+                    if (route.settings.name != SyncedItemsPage.routeName) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(SyncedItemsPage.routeName);
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  onLongPress: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(SyncedItemsPage.routeName);
                   },
                 ),
               ],
@@ -222,12 +256,16 @@ class AppDrawer extends StatelessWidget {
             ),
             title: Text('Announcements'),
             onTap: () {
-              if (currentRoute != AnnouncementsPage.routeName) {
+              if (route.settings.name != AnnouncementsPage.routeName) {
                 Navigator.pop(context);
                 Navigator.of(context).pushNamed(AnnouncementsPage.routeName);
               } else {
                 Navigator.pop(context);
               }
+            },
+            onLongPress: () {
+              Navigator.pop(context);
+              Navigator.of(context).pushNamed(AnnouncementsPage.routeName);
             },
             trailing: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
               builder: (context, state) {
@@ -253,12 +291,16 @@ class AppDrawer extends StatelessWidget {
             ),
             title: Text('Donate'),
             onTap: () {
-              if (currentRoute != DonatePage.routeName) {
+              if (route.settings.name != DonatePage.routeName) {
                 Navigator.pop(context);
                 Navigator.of(context).pushNamed(DonatePage.routeName);
               } else {
                 Navigator.pop(context);
               }
+            },
+            onLongPress: () {
+              Navigator.pop(context);
+              Navigator.of(context).pushNamed(DonatePage.routeName);
             },
           ),
           ListTile(
@@ -269,30 +311,20 @@ class AppDrawer extends StatelessWidget {
             ),
             title: Text('Settings'),
             onTap: () {
-              _pushRoute(
-                context: context,
-                currentRoute: currentRoute,
-                namedRoute: SettingsPage.routeName,
-              );
+              if (route.settings.name != SettingsPage.routeName) {
+                Navigator.of(context)
+                    .pushReplacementNamed(SettingsPage.routeName);
+              } else {
+                Navigator.pop(context);
+              }
+            },
+            onLongPress: () {
+              Navigator.of(context)
+                  .pushReplacementNamed(SettingsPage.routeName);
             },
           ),
         ],
       ),
     );
-  }
-}
-
-void _pushRoute({
-  @required BuildContext context,
-  @required String currentRoute,
-  @required String namedRoute,
-}) {
-  if (currentRoute == ActivityPage.routeName || currentRoute == '/') {
-    Navigator.pop(context);
-    Navigator.of(context).pushNamed(namedRoute);
-  } else if (currentRoute != namedRoute) {
-    Navigator.of(context).pushReplacementNamed(namedRoute);
-  } else {
-    Navigator.pop(context);
   }
 }

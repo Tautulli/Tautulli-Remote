@@ -10,6 +10,7 @@ import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/app_drawer_icon.dart';
+import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/poster_card.dart';
@@ -142,237 +143,242 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
         actions: _appBarActions(),
       ),
       drawer: AppDrawer(),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return Container(
-            height: constraints.maxHeight,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BlocBuilder<SettingsBloc, SettingsState>(
-                  builder: (context, state) {
-                    if (state is SettingsLoadSuccess) {
-                      if (state.serverList.length > 1) {
-                        return DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            value: _tautulliId,
-                            style:
-                                TextStyle(color: Theme.of(context).accentColor),
-                            items: state.serverList.map((server) {
-                              return DropdownMenuItem(
-                                child:
-                                    ServerHeader(serverName: server.plexName),
-                                value: server.tautulliId,
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              if (value != _tautulliId) {
-                                setState(() {
-                                  _tautulliId = value;
-                                  _userId = null;
-                                });
-                                _settingsBloc.add(
-                                  SettingsUpdateLastSelectedServer(
-                                    tautulliId: _tautulliId,
-                                  ),
+      body: DoubleTapExit(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Container(
+              height: constraints.maxHeight,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BlocBuilder<SettingsBloc, SettingsState>(
+                    builder: (context, state) {
+                      if (state is SettingsLoadSuccess) {
+                        if (state.serverList.length > 1) {
+                          return DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              value: _tautulliId,
+                              style: TextStyle(
+                                  color: Theme.of(context).accentColor),
+                              items: state.serverList.map((server) {
+                                return DropdownMenuItem(
+                                  child:
+                                      ServerHeader(serverName: server.plexName),
+                                  value: server.tautulliId,
                                 );
+                              }).toList(),
+                              onChanged: (value) {
+                                if (value != _tautulliId) {
+                                  setState(() {
+                                    _tautulliId = value;
+                                    _userId = null;
+                                  });
+                                  _settingsBloc.add(
+                                    SettingsUpdateLastSelectedServer(
+                                      tautulliId: _tautulliId,
+                                    ),
+                                  );
+                                  _syncedItemsBloc.add(
+                                    SyncedItemsFilter(
+                                      tautulliId: _tautulliId,
+                                    ),
+                                  );
+                                  _usersListBloc.add(
+                                    UsersListFetch(
+                                      tautulliId: _tautulliId,
+                                      settingsBloc: _settingsBloc,
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          );
+                        }
+                      }
+                      return Container(height: 0, width: 0);
+                    },
+                  ),
+                  BlocConsumer<SyncedItemsBloc, SyncedItemsState>(
+                    listener: (context, state) {
+                      if (state is SyncedItemsSuccess) {
+                        _refreshCompleter?.complete();
+                        _refreshCompleter = Completer();
+                      }
+                    },
+                    builder: (context, state) {
+                      final SlidableController _slidableController =
+                          SlidableController();
+
+                      if (state is SyncedItemsSuccess) {
+                        if (state.list.length > 0) {
+                          return Expanded(
+                            child: RefreshIndicator(
+                              onRefresh: () {
                                 _syncedItemsBloc.add(
                                   SyncedItemsFilter(
                                     tautulliId: _tautulliId,
                                   ),
                                 );
-                                _usersListBloc.add(
-                                  UsersListFetch(
-                                    tautulliId: _tautulliId,
-                                    settingsBloc: _settingsBloc,
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        );
-                      }
-                    }
-                    return Container(height: 0, width: 0);
-                  },
-                ),
-                BlocConsumer<SyncedItemsBloc, SyncedItemsState>(
-                  listener: (context, state) {
-                    if (state is SyncedItemsSuccess) {
-                      _refreshCompleter?.complete();
-                      _refreshCompleter = Completer();
-                    }
-                  },
-                  builder: (context, state) {
-                    final SlidableController _slidableController =
-                        SlidableController();
+                                return _refreshCompleter.future;
+                              },
+                              child: Scrollbar(
+                                child: ListView.builder(
+                                  itemCount: state.list.length,
+                                  itemBuilder: (context, index) {
+                                    final syncedItem = state.list[index];
+                                    final heroTag = UniqueKey();
 
-                    if (state is SyncedItemsSuccess) {
-                      if (state.list.length > 0) {
-                        return Expanded(
-                          child: RefreshIndicator(
-                            onRefresh: () {
-                              _syncedItemsBloc.add(
-                                SyncedItemsFilter(
-                                  tautulliId: _tautulliId,
-                                ),
-                              );
-                              return _refreshCompleter.future;
-                            },
-                            child: Scrollbar(
-                              child: ListView.builder(
-                                itemCount: state.list.length,
-                                itemBuilder: (context, index) {
-                                  final syncedItem = state.list[index];
-                                  final heroTag = UniqueKey();
-
-                                  return GestureDetector(
-                                    onTap: () {
-                                      if (syncedItem.multipleRatingKeys) {
-                                        ScaffoldMessenger.of(context)
-                                            .hideCurrentSnackBar();
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            backgroundColor:
-                                                PlexColorPalette.shark,
-                                            content: Text(
-                                              'Media details for this type of synced item is not supported.',
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (syncedItem.multipleRatingKeys) {
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentSnackBar();
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor:
+                                                  PlexColorPalette.shark,
+                                              content: Text(
+                                                'Media details for this type of synced item is not supported.',
+                                              ),
+                                              action: SnackBarAction(
+                                                label: 'LEARN MORE',
+                                                onPressed: () async {
+                                                  launch(
+                                                    'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#synced_items_caveats',
+                                                  );
+                                                },
+                                                textColor: TautulliColorPalette
+                                                    .not_white,
+                                              ),
                                             ),
-                                            action: SnackBarAction(
-                                              label: 'LEARN MORE',
-                                              onPressed: () async {
-                                                launch(
-                                                  'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#synced_items_caveats',
+                                          );
+                                        } else {
+                                          MediaItem mediaItem = MediaItem(
+                                            posterUrl: syncedItem.posterUrl,
+                                            ratingKey: syncedItem.ratingKey,
+                                          );
+
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MediaItemPage(
+                                                item: mediaItem,
+                                                syncedMediaType:
+                                                    syncedItem.syncMediaType ??
+                                                        syncedItem.mediaType,
+                                                heroTag: heroTag,
+                                                forceChildrenMetadataFetch:
+                                                    true,
+                                                enableNavOptions: true,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.all(4),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          child: Slidable.builder(
+                                            key: ValueKey(
+                                              '$_tautulliId:${syncedItem.syncId}',
+                                            ),
+                                            controller: _slidableController,
+                                            actionPane:
+                                                SlidableBehindActionPane(),
+                                            secondaryActionDelegate:
+                                                SlideActionBuilderDelegate(
+                                              actionCount: 1,
+                                              builder: (context, index,
+                                                  animation, step) {
+                                                return _SlidableAction(
+                                                  tautulliId: _tautulliId,
+                                                  slidableState:
+                                                      Slidable.of(context),
+                                                  syncedItem: syncedItem,
+                                                  maskSensitiveInfo:
+                                                      settingsLoadSuccess
+                                                          .maskSensitiveInfo,
+                                                  settingsBloc: _settingsBloc,
                                                 );
                                               },
-                                              textColor: TautulliColorPalette
-                                                  .not_white,
                                             ),
-                                          ),
-                                        );
-                                      } else {
-                                        MediaItem mediaItem = MediaItem(
-                                          posterUrl: syncedItem.posterUrl,
-                                          ratingKey: syncedItem.ratingKey,
-                                        );
-
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) => MediaItemPage(
-                                              item: mediaItem,
-                                              syncedMediaType:
-                                                  syncedItem.syncMediaType ??
-                                                      syncedItem.mediaType,
-                                              heroTag: heroTag,
-                                              forceChildrenMetadataFetch: true,
-                                              enableNavOptions: true,
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: Container(
-                                      margin: EdgeInsets.all(4),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(4),
-                                        child: Slidable.builder(
-                                          key: ValueKey(
-                                            '$_tautulliId:${syncedItem.syncId}',
-                                          ),
-                                          controller: _slidableController,
-                                          actionPane:
-                                              SlidableBehindActionPane(),
-                                          secondaryActionDelegate:
-                                              SlideActionBuilderDelegate(
-                                            actionCount: 1,
-                                            builder: (context, index, animation,
-                                                step) {
-                                              return _SlidableAction(
-                                                tautulliId: _tautulliId,
-                                                slidableState:
-                                                    Slidable.of(context),
-                                                syncedItem: syncedItem,
-                                                maskSensitiveInfo:
-                                                    settingsLoadSuccess
-                                                        .maskSensitiveInfo,
-                                                settingsBloc: _settingsBloc,
-                                              );
-                                            },
-                                          ),
-                                          child: ClipRRect(
-                                            child: PosterCard(
-                                              cardMargin: EdgeInsets.all(0),
-                                              borderRadius:
-                                                  BorderRadius.circular(0),
-                                              item: syncedItem,
-                                              details: SyncedItemsDetails(
-                                                syncedItem: syncedItem,
-                                                maskSensitiveInfo:
-                                                    _maskSensitiveInfo,
+                                            child: ClipRRect(
+                                              child: PosterCard(
+                                                cardMargin: EdgeInsets.all(0),
+                                                borderRadius:
+                                                    BorderRadius.circular(0),
+                                                item: syncedItem,
+                                                details: SyncedItemsDetails(
+                                                  syncedItem: syncedItem,
+                                                  maskSensitiveInfo:
+                                                      _maskSensitiveInfo,
+                                                ),
+                                                heroTag: heroTag,
                                               ),
-                                              heroTag: heroTag,
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      } else {
+                          );
+                        } else {
+                          return Expanded(
+                            child: Center(
+                              child: Text(
+                                'No synced items found.',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                      }
+                      if (state is SyncedItemsFailure) {
                         return Expanded(
                           child: Center(
-                            child: Text(
-                              'No synced items found.',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                              ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Center(
+                                  child: ErrorMessage(
+                                    failure: state.failure,
+                                    message: state.message,
+                                    suggestion: state.suggestion,
+                                  ),
+                                ),
+                                SyncedItemsErrorButton(
+                                  completer: _refreshCompleter,
+                                  failure: state.failure,
+                                  syncedItemsEvent: SyncedItemsFilter(
+                                    tautulliId: _tautulliId,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         );
                       }
-                    }
-                    if (state is SyncedItemsFailure) {
                       return Expanded(
                         child: Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Center(
-                                child: ErrorMessage(
-                                  failure: state.failure,
-                                  message: state.message,
-                                  suggestion: state.suggestion,
-                                ),
-                              ),
-                              SyncedItemsErrorButton(
-                                completer: _refreshCompleter,
-                                failure: state.failure,
-                                syncedItemsEvent: SyncedItemsFilter(
-                                  tautulliId: _tautulliId,
-                                ),
-                              ),
-                            ],
-                          ),
+                          child: CircularProgressIndicator(),
                         ),
                       );
-                    }
-                    return Expanded(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  },
-                )
-              ],
-            ),
-          );
-        },
+                    },
+                  )
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
