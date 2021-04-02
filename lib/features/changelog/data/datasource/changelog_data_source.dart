@@ -7,7 +7,15 @@ Map changelog = {
         {
           "type": "new",
           "detail":
-              "Library details page now has tabs for stats and recently added, the page style has been updated to match user and media details",
+              "Library details page now has tabs for Stats and New (recently added), the page style has been updated to match user and media details",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added transcode decision filter to history page",
+        },
+        {
+          "type": "improvement",
+          "detail": "The summary on media info pages is now expandable",
         },
         {
           "type": "improvement",
