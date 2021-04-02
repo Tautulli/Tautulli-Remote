@@ -115,70 +115,67 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
 
                 return _refreshCompleter.future;
               },
-              child: Scrollbar(
-                child: MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: Scrollbar(
-                    child: GridView.count(
-                      crossAxisCount: 3,
-                      childAspectRatio: [
-                        'artist',
-                        'photo',
-                      ].contains(widget.library != null
-                              ? widget.library.sectionType
-                              : widget.sectionType)
-                          ? 1
-                          : 2 / 3,
-                      children: state.libraryMediaList.map((libraryItem) {
-                        final int heroTag = libraryItem.ratingKey;
+              child: MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
+                child: Scrollbar(
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    childAspectRatio: [
+                      'artist',
+                      'photo',
+                    ].contains(widget.library != null
+                            ? widget.library.sectionType
+                            : widget.sectionType)
+                        ? 1
+                        : 2 / 3,
+                    children: state.libraryMediaList.map((libraryItem) {
+                      final int heroTag = libraryItem.ratingKey;
 
-                        return PosterGridItem(
-                          heroTag: libraryItem.mediaType == 'photo_album'
-                              ? heroTag
-                              : null,
-                          item: libraryItem,
-                          onTap: () {
-                            if (libraryItem.mediaType == 'photo_album') {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => LibraryDetailsPage(
-                                    title: libraryItem.title,
-                                    ratingKey: libraryItem.ratingKey,
-                                    sectionType: 'photo',
-                                    backgroundUrlOverride:
-                                        libraryItem.posterUrl,
-                                    disableStatsTab: true,
-                                    heroTag: heroTag,
-                                  ),
+                      return PosterGridItem(
+                        heroTag: libraryItem.mediaType == 'photo_album'
+                            ? heroTag
+                            : null,
+                        item: libraryItem,
+                        onTap: () {
+                          if (libraryItem.mediaType == 'photo_album') {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => LibraryDetailsPage(
+                                  title: libraryItem.title,
+                                  ratingKey: libraryItem.ratingKey,
+                                  sectionType: 'photo',
+                                  backgroundUrlOverride: libraryItem.posterUrl,
+                                  disableStatsTab: true,
+                                  heroTag: heroTag,
                                 ),
-                              );
-                            } else {
-                              MediaItem mediaItem = MediaItem(
-                                parentMediaIndex: libraryItem.parentMediaIndex,
-                                parentTitle:
-                                    widget.title ?? widget.library.sectionName,
-                                mediaIndex: libraryItem.mediaIndex,
-                                mediaType: libraryItem.mediaType,
-                                posterUrl: libraryItem.posterUrl,
-                                ratingKey: libraryItem.ratingKey,
-                                title: libraryItem.title,
-                                year: libraryItem.year,
-                              );
+                              ),
+                            );
+                          } else {
+                            MediaItem mediaItem = MediaItem(
+                              parentMediaIndex: libraryItem.parentMediaIndex,
+                              parentTitle:
+                                  widget.title ?? widget.library.sectionName,
+                              mediaIndex: libraryItem.mediaIndex,
+                              mediaType: libraryItem.mediaType,
+                              posterUrl: libraryItem.posterUrl,
+                              ratingKey: libraryItem.ratingKey,
+                              title: libraryItem.title,
+                              year: libraryItem.year,
+                            );
 
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => MediaItemPage(
-                                    item: mediaItem,
-                                    heroTag: libraryItem.ratingKey,
-                                  ),
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => MediaItemPage(
+                                  item: mediaItem,
+                                  heroTag: libraryItem.ratingKey,
                                 ),
-                              );
-                            }
-                          },
-                        );
-                      }).toList(),
-                    ),
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    }).toList(),
                   ),
                 ),
               ),
