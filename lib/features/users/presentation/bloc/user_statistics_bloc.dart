@@ -15,8 +15,8 @@ import '../../domain/usecases/get_user_watch_time_stats.dart';
 part 'user_statistics_event.dart';
 part 'user_statistics_state.dart';
 
-Map<int, List<UserStatistic>> _watchTimeStatsListCacheMap = {};
-Map<int, List<UserStatistic>> _playerStatsListCacheMap = {};
+Map<String, List<UserStatistic>> _watchTimeStatsListCacheMap = {};
+Map<String, List<UserStatistic>> _playerStatsListCacheMap = {};
 
 class UserStatisticsBloc
     extends Bloc<UserStatisticsEvent, UserStatisticsState> {
@@ -37,12 +37,17 @@ class UserStatisticsBloc
     if (event is UserStatisticsFetch) {
       yield UserStatisticsInProgress();
 
-      if (_watchTimeStatsListCacheMap.containsKey(event.userId) &&
-          _playerStatsListCacheMap.containsKey(event.userId) &&
-          _watchTimeStatsListCacheMap[event.userId].isNotEmpty) {
+      if (_watchTimeStatsListCacheMap
+              .containsKey('${event.tautulliId}:${event.userId}') &&
+          _playerStatsListCacheMap
+              .containsKey('${event.tautulliId}:${event.userId}') &&
+          _watchTimeStatsListCacheMap['${event.tautulliId}:${event.userId}']
+              .isNotEmpty) {
         yield UserStatisticsSuccess(
-          watchTimeStatsList: _watchTimeStatsListCacheMap[event.userId],
-          playerStatsList: _playerStatsListCacheMap[event.userId],
+          watchTimeStatsList: _watchTimeStatsListCacheMap[
+              '${event.tautulliId}:${event.userId}'],
+          playerStatsList:
+              _playerStatsListCacheMap['${event.tautulliId}:${event.userId}'],
         );
       } else {
         // Build out stat lists
@@ -63,7 +68,7 @@ class UserStatisticsBloc
             watchTimeStatsFailed = true;
             statFailure = failure;
             logging.error(
-                'History: Failed to load user watch time stats for user ID ${event.userId}');
+                'User Statistics: Failed to load watch time stats for user ID ${event.userId}');
           },
           (list) {
             watchTimeStatsList = list;
@@ -81,7 +86,7 @@ class UserStatisticsBloc
             statFailure = failure;
             playerStatsFailed = true;
             logging.error(
-                'History: Failed to load user player stats for user ID ${event.userId}');
+                'User Statistics: Failed to load player stats for user ID ${event.userId}');
           },
           (list) {
             playerStatsList = list;
@@ -96,8 +101,10 @@ class UserStatisticsBloc
             suggestion: FailureMapperHelper.mapFailureToSuggestion(statFailure),
           );
         } else {
-          _watchTimeStatsListCacheMap[event.userId] = watchTimeStatsList;
-          _playerStatsListCacheMap[event.userId] = playerStatsList;
+          _watchTimeStatsListCacheMap['${event.tautulliId}:${event.userId}'] =
+              watchTimeStatsList;
+          _playerStatsListCacheMap['${event.tautulliId}:${event.userId}'] =
+              playerStatsList;
 
           yield UserStatisticsSuccess(
             watchTimeStatsList: watchTimeStatsList,
