@@ -192,6 +192,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                                             LibraryDetailsPage(
                                           library: library,
                                           sectionType: library.sectionType,
+                                          heroTag: library.sectionId,
                                         ),
                                       ),
                                     );
@@ -213,6 +214,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                                           fit: BoxFit.cover,
                                         ),
                                   details: LibraryDetails(library: library),
+                                  heroTag: library.sectionId,
                                 ),
                               );
                             },
