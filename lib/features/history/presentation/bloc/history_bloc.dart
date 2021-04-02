@@ -281,7 +281,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           break;
         case ('track'):
           posterImg = historyItem.thumb;
-          posterRatingKey = historyItem.parentRatingKey;
+          posterRatingKey = historyItem.ratingKey;
           posterFallback = 'cover';
           break;
         default:
