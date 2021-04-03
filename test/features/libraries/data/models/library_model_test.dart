@@ -12,6 +12,7 @@ void main() {
     count: 427,
     duration: 38085486,
     isActive: 1,
+    lastAccessed: 1600751837,
     libraryArt: '/:/resources/show-fanart.jpg',
     libraryThumb: '/:/resources/show.png',
     parentCount: 1561,

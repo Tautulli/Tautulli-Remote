@@ -49,7 +49,8 @@ void main() {
   });
 
   final tTautulliId = 'jkl';
-  final tMediaType = 'all';
+  final tMediaType = 'movie';
+  final tTranscodeDecision = 'transcode';
   String imageUrl =
       'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
 
@@ -132,6 +133,7 @@ void main() {
             tautulliId: tTautulliId,
             userId: null,
             mediaType: tMediaType,
+            transcodeDecision: tTranscodeDecision,
             settingsBloc: settingsBloc,
           ),
         );
@@ -193,6 +195,7 @@ void main() {
             tautulliId: tTautulliId,
             userId: null,
             mediaType: tMediaType,
+            transcodeDecision: tTranscodeDecision,
             settingsBloc: settingsBloc,
           ),
         );
@@ -236,6 +239,7 @@ void main() {
         bloc.add(HistoryFetch(
           tautulliId: tTautulliId,
           mediaType: tMediaType,
+          transcodeDecision: tTranscodeDecision,
           settingsBloc: settingsBloc,
         ));
       },
@@ -282,6 +286,7 @@ void main() {
         bloc.add(HistoryFetch(
           tautulliId: tTautulliId,
           mediaType: tMediaType,
+          transcodeDecision: tTranscodeDecision,
           settingsBloc: settingsBloc,
         ));
       },
@@ -311,6 +316,7 @@ void main() {
         bloc.add(HistoryFetch(
           tautulliId: tTautulliId,
           mediaType: tMediaType,
+          transcodeDecision: tTranscodeDecision,
           settingsBloc: settingsBloc,
         ));
       },
@@ -340,6 +346,7 @@ void main() {
         bloc.add(HistoryFetch(
           tautulliId: tTautulliId,
           mediaType: tMediaType,
+          transcodeDecision: tTranscodeDecision,
           settingsBloc: settingsBloc,
         ));
       },
