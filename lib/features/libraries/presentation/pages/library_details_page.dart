@@ -8,6 +8,7 @@ import 'package:websafe_svg/websafe_svg.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/asset_mapper_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library.dart';
@@ -223,6 +224,32 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
+                                    widget.library.lastAccessed != null
+                                        ? Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 4),
+                                            child: RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'STREAMED ',
+                                                  ),
+                                                  TextSpan(
+                                                    text: widget.library
+                                                                .lastAccessed >=
+                                                            0
+                                                        ? '${TimeFormatHelper.timeAgo(widget.library.lastAccessed)}'
+                                                        : 'never',
+                                                    style: TextStyle(
+                                                      color: PlexColorPalette
+                                                          .gamboge,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox(height: 0, width: 0),
                                   ],
                                 ),
                               ),
