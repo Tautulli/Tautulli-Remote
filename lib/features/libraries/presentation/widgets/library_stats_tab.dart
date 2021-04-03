@@ -187,6 +187,7 @@ List<Widget> _buildUserStatList({
             maskSensitiveInfo: maskSensitiveInfo,
           ),
           maskSensitiveInfo: maskSensitiveInfo,
+          heroTag: UniqueKey(),
         ),
       );
     }
