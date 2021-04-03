@@ -49,7 +49,7 @@ class IconMapperHelper {
         return FontAwesomeIcons.server;
       case ('copy'):
         return FontAwesomeIcons.stream;
-      case ('play'):
+      case ('direct play'):
         return FontAwesomeIcons.playCircle;
       default:
         return FontAwesomeIcons.questionCircle;
