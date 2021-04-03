@@ -10,12 +10,14 @@ class UserCard extends StatefulWidget {
   final UserTable user;
   final Widget details;
   final bool maskSensitiveInfo;
+  final Key heroTag;
 
   const UserCard({
     Key key,
     this.user,
     this.details,
     this.maskSensitiveInfo,
+    this.heroTag,
   }) : super(key: key);
 
   @override
@@ -52,7 +54,9 @@ class _UserCardState extends State<UserCard> {
                     user: widget.user,
                     backgroundColor:
                         hasCustomColor ? snapshot.data['color'] : null,
-                    heroTag: ValueKey(widget.user.userId),
+                    heroTag: widget.heroTag != null
+                        ? widget.heroTag
+                        : ValueKey(widget.user.userId),
                     forceGetUser: widget.user.lastSeen == null,
                   );
                 },
@@ -82,7 +86,9 @@ class _UserCardState extends State<UserCard> {
                       child: Row(
                         children: [
                           Hero(
-                            tag: ValueKey(widget.user.userId),
+                            tag: widget.heroTag != null
+                                ? widget.heroTag
+                                : ValueKey(widget.user.userId),
                             child: UserIcon(
                               user: widget.user,
                               maskSensitiveInfo: widget.maskSensitiveInfo,
