@@ -361,7 +361,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                 MediaQuery.of(context).padding.top -
                 AppBar().preferredSize.height,
             left: 8,
-            child: !widget.forceGetUser
+            child: !widget.forceGetUser || widget.user.userThumb != null
                 ? Hero(
                     tag: widget.heroTag ?? UniqueKey(),
                     child: UserIcon(
@@ -373,10 +373,13 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                 : BlocBuilder<UserBloc, UserState>(
                     builder: (context, state) {
                       if (state is UserSuccess) {
-                        return UserIcon(
-                          user: state.user,
-                          size: 100,
-                          maskSensitiveInfo: _maskSensitiveInfo,
+                        return Hero(
+                          tag: widget.heroTag ?? UniqueKey(),
+                          child: UserIcon(
+                            user: state.user,
+                            size: 100,
+                            maskSensitiveInfo: _maskSensitiveInfo,
+                          ),
                         );
                       }
                       return SizedBox(height: 0, width: 0);
