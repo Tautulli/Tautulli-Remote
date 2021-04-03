@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tautulli_remote/features/libraries/domain/entities/library.dart';
-import 'package:tautulli_remote/features/libraries/presentation/pages/library_details_page.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
@@ -19,6 +17,8 @@ import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../core/widgets/user_card.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../libraries/domain/entities/library.dart';
+import '../../../libraries/presentation/pages/library_details_page.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -614,11 +614,13 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                       duration: s.totalDuration,
                       libraryArt: s.art,
                       libraryThumb: s.thumb,
+                      lastAccessed: s.lastWatch ?? -1,
                     );
 
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => LibraryDetailsPage(
+                          heroTag: s.sectionId,
                           library: library,
                           sectionType: library.sectionType,
                           ratingKey: s.ratingKey,
@@ -628,6 +630,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                     );
                   },
                   child: IconCard(
+                    heroTag: s.sectionId,
                     localIconImagePath:
                         AssetMapperHelper.mapLibraryToPath(s.sectionType),
                     iconImageUrl: s.iconUrl,

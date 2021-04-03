@@ -8,6 +8,8 @@ import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/icon_card.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/user_card.dart';
+import '../../../libraries/domain/entities/library.dart';
+import '../../../libraries/presentation/pages/library_details_page.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -127,14 +129,41 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
                       ),
                     );
                   } else if (widget.statId == 'top_libraries') {
-                    return IconCard(
-                      localIconImagePath:
-                          AssetMapperHelper.mapLibraryToPath(stat.sectionType),
-                      backgroundImage: Image.network(stat.posterUrl),
-                      iconColor: TautulliColorPalette.not_white,
-                      details: StatisticsDetails(
-                        statistic: stat,
-                        maskSensitiveInfo: widget.maskSensitiveInfo,
+                    return GestureDetector(
+                      onTap: () {
+                        Library library = Library(
+                          iconUrl: stat.iconUrl,
+                          backgroundUrl: stat.posterUrl,
+                          sectionId: stat.sectionId,
+                          sectionName: stat.sectionName,
+                          sectionType: stat.sectionType,
+                          plays: stat.totalPlays,
+                          duration: stat.totalDuration,
+                          libraryArt: stat.art,
+                          libraryThumb: stat.thumb,
+                          lastAccessed: stat.lastWatch ?? -1,
+                        );
+
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => LibraryDetailsPage(
+                              library: library,
+                              sectionType: library.sectionType,
+                              ratingKey: stat.ratingKey,
+                              title: stat.sectionName,
+                            ),
+                          ),
+                        );
+                      },
+                      child: IconCard(
+                        localIconImagePath: AssetMapperHelper.mapLibraryToPath(
+                            stat.sectionType),
+                        backgroundImage: Image.network(stat.posterUrl),
+                        iconColor: TautulliColorPalette.not_white,
+                        details: StatisticsDetails(
+                          statistic: stat,
+                          maskSensitiveInfo: widget.maskSensitiveInfo,
+                        ),
                       ),
                     );
                   } else {
