@@ -67,8 +67,9 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         yield* _fetchInitial(
           tautulliId: event.tautulliId,
           userId: event.userId,
-          mediaType: event.mediaType,
-          transcodeDecision: event.transcodeDecision,
+          mediaType: event.mediaType != 'all' ? event.mediaType : null,
+          transcodeDecision:
+              event.transcodeDecision != 'all' ? event.transcodeDecision : null,
           useCachedList: true,
           settingsBloc: _settingsBlocCache,
         );
@@ -78,8 +79,9 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           currentState: currentState,
           tautulliId: event.tautulliId,
           userId: event.userId,
-          mediaType: event.mediaType,
-          transcodeDecision: event.transcodeDecision,
+          mediaType: event.mediaType != 'all' ? event.mediaType : null,
+          transcodeDecision:
+              event.transcodeDecision != 'all' ? event.transcodeDecision : null,
           start: event.start,
           settingsBloc: _settingsBlocCache,
         );
@@ -96,8 +98,9 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       yield* _fetchInitial(
         tautulliId: event.tautulliId,
         userId: event.userId,
-        mediaType: event.mediaType,
-        transcodeDecision: event.transcodeDecision,
+        mediaType: event.mediaType != 'all' ? event.mediaType : null,
+        transcodeDecision:
+            event.transcodeDecision != 'all' ? event.transcodeDecision : null,
         settingsBloc: _settingsBlocCache,
       );
 
