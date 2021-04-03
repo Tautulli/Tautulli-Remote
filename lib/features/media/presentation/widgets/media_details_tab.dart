@@ -90,9 +90,12 @@ class _TabContent extends StatelessWidget {
                 metadata.summary,
                 collapsedHint: 'Read more',
                 expandedHint: 'Read less',
-                expandArrowStyle: ExpandArrowStyle.both,
-                // arrowPadding: const EdgeInsets.all(0),
+                expandArrowStyle: ExpandArrowStyle.text,
                 textAlign: TextAlign.left,
+                maxLines: 5,
+                hintTextStyle: TextStyle(
+                  fontSize: 13,
+                ),
                 style: TextStyle(
                   fontSize: 15,
                   color: TautulliColorPalette.not_white,
