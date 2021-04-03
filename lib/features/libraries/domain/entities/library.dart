@@ -12,7 +12,7 @@ class Library extends Equatable {
   final int isActive;
   // final String keepHistory;
   // final List labels;
-  // final int lastAccessed;
+  final int lastAccessed;
   // final String lastPlayed;
   final String libraryArt;
   final String libraryThumb;
@@ -47,7 +47,7 @@ class Library extends Equatable {
     this.isActive,
     // this.keepHistory,
     // this.labels,
-    // this.lastAccessed,
+    this.lastAccessed,
     // this.lastPlayed,
     this.libraryArt,
     this.libraryThumb,
@@ -87,7 +87,7 @@ class Library extends Equatable {
       isActive: this.isActive,
       // keepHistory: this.keepHistory,
       // labels: this.labels,
-      // lastAccessed: this.lastAccessed,
+      lastAccessed: this.lastAccessed,
       // lastPlayed: this.lastPlayed,
       libraryArt: this.libraryArt,
       libraryThumb: this.libraryThumb,
@@ -125,7 +125,7 @@ class Library extends Equatable {
         isActive,
         // keepHistory,
         // labels,
-        // lastAccessed,
+        lastAccessed,
         // lastPlayed,
         libraryArt,
         libraryThumb,

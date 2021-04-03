@@ -14,7 +14,7 @@ class LibraryModel extends Library {
     final int isActive,
     // final String keepHistory,
     // final List labels,
-    // final int lastAccessed,
+    final int lastAccessed,
     // final String lastPlayed,
     final String libraryArt,
     final String libraryThumb,
@@ -48,7 +48,7 @@ class LibraryModel extends Library {
           isActive: isActive,
           // keepHistory: keepHistory,
           // labels: labels,
-          // lastAccessed: lastAccessed,
+          lastAccessed: lastAccessed,
           // lastPlayed: lastPlayed,
           libraryArt: libraryArt,
           libraryThumb: libraryThumb,
@@ -90,6 +90,12 @@ class LibraryModel extends Library {
         value: json['is_active'],
         type: CastType.int,
       ),
+      lastAccessed: json['last_accessed'] != null
+          ? ValueHelper.cast(
+              value: json['last_accessed'],
+              type: CastType.int,
+            )
+          : -1,
       libraryArt: ValueHelper.cast(
         value: json['library_art'],
         type: CastType.string,
