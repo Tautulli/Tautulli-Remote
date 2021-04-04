@@ -98,7 +98,7 @@ class TimeFormatHelper {
 
     return DateFormat(
       '${!timeOnly ? parsedDateFormat : ""} ${!dateOnly ? parsedTimeFormat : ""}',
-    ).format(dateTime);
+    ).format(dateTime).trim();
   }
 
   static Map<String, int> durationMap(Duration duration) {
