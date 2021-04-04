@@ -176,7 +176,7 @@ List<Widget> _buildList({
   }
 
   // Build the GeoIP data row
-  if (isPublicIp)
+  if (isPublicIp) {
     rows.add(
       BlocBuilder<GeoIpBloc, GeoIpState>(
         builder: (context, state) {
@@ -233,6 +233,7 @@ List<Widget> _buildList({
         },
       ),
     );
+  }
 
   _buildRows(
     constraints: constraints,
