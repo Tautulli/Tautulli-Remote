@@ -199,7 +199,7 @@ class _FormattedText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      text.trim(),
+      text,
       style: TextStyle(
         fontSize: 16,
         height: 1.4,

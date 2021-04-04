@@ -49,7 +49,7 @@ class ValueHelper {
           return '';
         }
       } else {
-        return value.toString();
+        return value.toString().trim();
       }
     }
   }
