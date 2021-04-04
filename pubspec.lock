@@ -211,13 +211,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  expand_widget:
+  expandable:
     dependency: "direct main"
     description:
-      name: expand_widget
+      name: expandable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "5.0.1"
   f_logs:
     dependency: "direct main"
     description:
@@ -905,4 +905,4 @@ packages:
     version: "2.2.1"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=1.24.0-10.1.pre"
+  flutter: ">=2.0.0"

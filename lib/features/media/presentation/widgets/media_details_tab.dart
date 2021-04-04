@@ -1,11 +1,12 @@
-import 'package:expand_widget/expand_widget.dart';
+import 'dart:ui' as ui;
+
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../core/helpers/clean_data_helper.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/data_unit_format_helper.dart';
 import '../../../../core/helpers/string_format_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
@@ -86,19 +87,81 @@ class _TabContent extends StatelessWidget {
                 ),
               ),
             if (isNotEmpty(metadata.summary))
-              ExpandText(
-                metadata.summary,
-                collapsedHint: 'Read more',
-                expandedHint: 'Read less',
-                expandArrowStyle: ExpandArrowStyle.text,
-                textAlign: TextAlign.left,
-                maxLines: 5,
-                hintTextStyle: TextStyle(
-                  fontSize: 13,
+              ExpandableTheme(
+                data: ExpandableThemeData(
+                  crossFadePoint: 0,
                 ),
-                style: TextStyle(
-                  fontSize: 15,
-                  color: TautulliColorPalette.not_white,
+                child: ExpandableNotifier(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expandable(
+                        collapsed: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              metadata.summary,
+                              maxLines: 5,
+                              overflow: TextOverflow.clip,
+                            ),
+                          ],
+                        ),
+                        expanded: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              metadata.summary,
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Computes if the summary will overflow and displays
+                      // the [ExpandableButton] if it does
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          final span = TextSpan(text: metadata.summary);
+                          final tp = TextPainter(
+                            text: span,
+                            maxLines: 5,
+                            textDirection: ui.TextDirection.ltr,
+                          );
+                          tp.layout(maxWidth: constraints.maxWidth);
+                          if (tp.didExceedMaxLines) {
+                            return Builder(
+                              builder: (context) {
+                                var controller = ExpandableController.of(
+                                    context,
+                                    required: true);
+                                return GestureDetector(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      top: 8,
+                                    ),
+                                    child: Text(
+                                      controller.expanded
+                                          ? "READ LESS"
+                                          : "READ MORE",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    controller.toggle();
+                                  },
+                                );
+                              },
+                            );
+                          } else {
+                            return SizedBox(
+                              height: 0,
+                              width: 0,
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             if (isNotEmpty(metadata.summary))
