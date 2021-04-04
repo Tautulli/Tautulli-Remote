@@ -19,6 +19,10 @@ Map changelog = {
         },
         {
           "type": "improvement",
+          "detail": "Users page sort is now saved",
+        },
+        {
+          "type": "improvement",
           "detail": "Updated the Microsoft Edge platform icon",
         },
         {
@@ -27,11 +31,11 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "Various performance improvements",
+          "detail": "Adjust how images are fetched for track items",
         },
         {
           "type": "improvement",
-          "detail": "Adjust how images are fetched for track items",
+          "detail": "Various small performance improvements",
         },
       ],
     },
