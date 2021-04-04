@@ -1,11 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
-import 'package:validators/sanitizers.dart';
 
 import '../../../../core/database/data/datasources/database.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/connection_address_helper.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/plex_server_info.dart';
