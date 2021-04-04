@@ -122,6 +122,7 @@ class PrivacyPage extends StatelessWidget {
 
 Future<void> _grantConsentFuture(OneSignalPrivacyBloc oneSignalPrivacyBloc) {
   oneSignalPrivacyBloc.add(OneSignalPrivacyGrantConsent());
+  return Future.value(null);
 }
 
 class _OneSignalDataPrivacyText extends StatelessWidget {
