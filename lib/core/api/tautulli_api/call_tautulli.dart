@@ -118,7 +118,7 @@ class CallTautulliImpl implements CallTautulli {
           exception.toString().contains('CERTIFICATE_VERIFY_FAILED')) {
         throw CertificateVerificationException;
       }
-      throw exception;
+      rethrow;
     }
 
     // Make sure to store cert list if new certs were added

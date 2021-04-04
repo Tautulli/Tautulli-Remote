@@ -151,11 +151,11 @@ class ConnectionHandlerImpl implements ConnectionHandler {
             ),
           );
 
-          throw error;
+          rethrow;
         }
       } else {
         // Re-throw caught error if no secondary connection
-        throw error;
+        rethrow;
       }
     }
     return response;
