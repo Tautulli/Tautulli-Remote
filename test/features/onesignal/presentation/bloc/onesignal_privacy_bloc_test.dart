@@ -71,6 +71,7 @@ void main() {
       final expected = [
         OneSignalPrivacyConsentSuccess(),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalPrivacyCheckConsent());
@@ -87,6 +88,7 @@ void main() {
       final expected = [
         OneSignalPrivacyConsentFailure(),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalPrivacyCheckConsent());
@@ -112,6 +114,7 @@ void main() {
         final expected = [
           OneSignalPrivacyConsentSuccess(),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(OneSignalPrivacyGrantConsent());
@@ -201,6 +204,7 @@ void main() {
         final expected = [
           OneSignalPrivacyConsentFailure(),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(OneSignalPrivacyRevokeConsent());

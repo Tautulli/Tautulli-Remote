@@ -99,6 +99,7 @@ void main() {
           usersList: tUserList,
         ),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(
@@ -127,6 +128,7 @@ void main() {
         UsersListInProgress(),
         UsersListFailure(),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(

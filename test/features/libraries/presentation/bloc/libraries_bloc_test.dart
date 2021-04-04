@@ -197,6 +197,7 @@ void main() {
             librariesList: tLibrariesListWithImages,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibrariesFetch(
@@ -234,6 +235,7 @@ void main() {
             suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibrariesFetch(
@@ -260,6 +262,7 @@ void main() {
             librariesList: tLibrariesListWithImages,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibrariesFilter(

@@ -164,6 +164,7 @@ void main() {
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(SettingsLoad(settingsBloc: bloc));
@@ -237,6 +238,7 @@ void main() {
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(
@@ -347,6 +349,7 @@ void main() {
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(
@@ -419,6 +422,7 @@ void main() {
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(
@@ -510,6 +514,7 @@ void main() {
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(
@@ -602,6 +607,7 @@ void main() {
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(
@@ -680,6 +686,7 @@ void main() {
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(
@@ -760,6 +767,7 @@ void main() {
               sortChanged: '0:0:1',
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(
@@ -821,6 +829,7 @@ void main() {
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(
@@ -874,6 +883,7 @@ void main() {
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(
@@ -923,6 +933,7 @@ void main() {
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(SettingsUpdateDoubleTapToExit(value: false));
@@ -970,6 +981,7 @@ void main() {
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(SettingsUpdateMaskSensitiveInfo(value: false));
@@ -1017,6 +1029,7 @@ void main() {
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(SettingsUpdateLastSelectedServer(tautulliId: tTautulliId2));
@@ -1064,6 +1077,7 @@ void main() {
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(SettingsUpdateStatsType(statsType: 'plays'));
@@ -1111,6 +1125,7 @@ void main() {
               oneSignalBannerDismissed: true,
             ),
           ];
+          // ignore: unawaited_futures
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(SettingsUpdateOneSignalBannerDismiss(true));

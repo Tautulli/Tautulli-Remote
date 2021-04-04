@@ -38,6 +38,7 @@ void main() {
       final expected = [
         OneSignalSubscriptionSuccess(),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalSubscriptionCheck());
@@ -58,6 +59,7 @@ void main() {
           consented: false,
         ),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalSubscriptionCheck());
@@ -81,6 +83,7 @@ void main() {
           consented: true,
         ),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalSubscriptionCheck());
@@ -104,6 +107,7 @@ void main() {
           consented: true,
         ),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalSubscriptionCheck());
@@ -127,6 +131,7 @@ void main() {
           consented: true,
         ),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalSubscriptionCheck());

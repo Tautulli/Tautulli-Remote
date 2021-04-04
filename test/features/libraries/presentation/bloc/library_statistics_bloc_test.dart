@@ -164,6 +164,7 @@ void main() {
             watchTimeStatsList: tLibraryWatchTimeStatsList,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibraryStatisticsFetch(
@@ -197,6 +198,7 @@ void main() {
             userStatsList: [],
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibraryStatisticsFetch(
@@ -230,6 +232,7 @@ void main() {
             userStatsList: tLibraryUserStatsList,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibraryStatisticsFetch(
@@ -264,6 +267,7 @@ void main() {
             suggestion: PLEX_CONNECTION_SUGGESTION,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibraryStatisticsFetch(

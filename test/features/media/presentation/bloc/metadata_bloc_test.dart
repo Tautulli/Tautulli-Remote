@@ -130,6 +130,7 @@ void main() {
           MetadataInProgress(),
           MetadataSuccess(metadata: tMetadataItemWithImage),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
@@ -164,6 +165,7 @@ void main() {
             suggestion: METADATA_EMPTY_FAILURE_SUGGESTION,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(

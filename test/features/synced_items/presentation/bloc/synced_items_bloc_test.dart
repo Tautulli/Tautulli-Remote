@@ -180,6 +180,7 @@ void main() {
             list: tSyncedItemsListWithImages,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(SyncedItemsFetch(
@@ -207,6 +208,7 @@ void main() {
             suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(SyncedItemsFetch(
@@ -231,6 +233,7 @@ void main() {
             list: tSyncedItemsListWithImages,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(SyncedItemsFilter(tautulliId: tTautulliId));

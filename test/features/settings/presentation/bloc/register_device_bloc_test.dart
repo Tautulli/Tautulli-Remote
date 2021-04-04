@@ -141,6 +141,7 @@ void main() {
             failure: QRScanFailure(),
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
@@ -162,6 +163,7 @@ void main() {
           RegisterDeviceInProgress(),
           RegisterDeviceSuccess(),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
@@ -191,6 +193,7 @@ void main() {
           RegisterDeviceInProgress(),
           RegisterDeviceFailure(failure: ServerFailure()),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
@@ -275,6 +278,7 @@ void main() {
           RegisterDeviceInProgress(),
           RegisterDeviceSuccess(),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
@@ -305,6 +309,7 @@ void main() {
           RegisterDeviceInProgress(),
           RegisterDeviceFailure(failure: ServerFailure()),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(

@@ -195,6 +195,7 @@ void main() {
             libraryMediaList: tLibraryMediaListWithImages,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibraryMediaFetched(
@@ -229,6 +230,7 @@ void main() {
             suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibraryMediaFetched(
@@ -254,6 +256,7 @@ void main() {
             libraryMediaList: tLibraryMediaListWithImages,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(LibraryMediaFullRefresh(

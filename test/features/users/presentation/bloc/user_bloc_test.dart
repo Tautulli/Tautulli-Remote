@@ -107,6 +107,7 @@ void main() {
             user: tUser,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(UserFetch(

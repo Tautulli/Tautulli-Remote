@@ -196,6 +196,7 @@ void main() {
             hasReachedMax: false,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(HistoryLibrariesFetch(
@@ -243,6 +244,7 @@ void main() {
             suggestion: CHECK_SERVER_SETTINGS_SUGGESTION,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(HistoryLibrariesFetch(
@@ -272,6 +274,7 @@ void main() {
             hasReachedMax: false,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(HistoryLibrariesFetch(
@@ -301,6 +304,7 @@ void main() {
             hasReachedMax: true,
           ),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(HistoryLibrariesFetch(

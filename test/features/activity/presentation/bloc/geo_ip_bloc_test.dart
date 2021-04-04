@@ -111,6 +111,7 @@ void main() {
           geoIpMap: tGeoIpMap,
         ),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(
@@ -143,6 +144,7 @@ void main() {
           geoIpMap: {},
         ),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(

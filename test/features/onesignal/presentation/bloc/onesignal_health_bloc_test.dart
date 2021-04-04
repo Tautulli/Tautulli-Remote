@@ -42,6 +42,7 @@ void main() {
         OneSignalHealthInProgress(),
         OneSignalHealthSuccess(),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalHealthCheck());
@@ -59,6 +60,7 @@ void main() {
         OneSignalHealthInProgress(),
         OneSignalHealthFailure(),
       ];
+      // ignore: unawaited_futures
       expectLater(bloc.stream, emitsInOrder(expected));
       // act
       bloc.add(OneSignalHealthCheck());

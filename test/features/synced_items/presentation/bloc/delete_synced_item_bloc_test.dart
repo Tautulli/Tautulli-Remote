@@ -104,6 +104,7 @@ void main() {
           DeleteSyncedItemInProgress(syncId: tSyncId),
           DeleteSyncedItemSuccess(),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
@@ -134,6 +135,7 @@ void main() {
           DeleteSyncedItemInProgress(syncId: tSyncId),
           DeleteSyncedItemFailure(failure: DeleteSyncedFailure()),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(

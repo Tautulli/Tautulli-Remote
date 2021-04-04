@@ -102,6 +102,7 @@ void main() {
           TerminateSessionInProgress(sessionId: tSessionId),
           TerminateSessionSuccess(),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
@@ -131,6 +132,7 @@ void main() {
           TerminateSessionInProgress(sessionId: tSessionId),
           TerminateSessionFailure(failure: TerminateFailure()),
         ];
+        // ignore: unawaited_futures
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
