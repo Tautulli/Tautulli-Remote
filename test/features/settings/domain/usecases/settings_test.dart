@@ -58,6 +58,7 @@ void main() {
   const String tTimeFormat = 'HH:mm';
 
   const String tStatsType = 'duration';
+  const String tUsersSort = 'friendly_name|asc';
   // const bool tOneSignalBannerDismissed = false;
   const String tLastAppVersion = '2.1.5';
 
@@ -450,6 +451,32 @@ void main() {
       await settings.setStatsType(tStatsType);
       // assert
       verify(mockSettingsRepository.setStatsType(tStatsType));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'getUsersSort should get users sort from settings',
+    () async {
+      // arrange
+      when(mockSettingsRepository.getUsersSort())
+          .thenAnswer((_) async => tUsersSort);
+      // act
+      final result = await settings.getUsersSort();
+      // assert
+      expect(result, equals(tUsersSort));
+      verify(mockSettingsRepository.getUsersSort());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setUsersSort should forward request to the repository',
+    () async {
+      // act
+      await settings.setUsersSort(tUsersSort);
+      // assert
+      verify(mockSettingsRepository.setUsersSort(tUsersSort));
       verifyNoMoreInteractions(mockSettingsRepository);
     },
   );

@@ -231,6 +231,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<String> getUsersSort() async {
+    final usersSort = await dataSource.getUsersSort();
+    return usersSort;
+  }
+
+  @override
+  Future<bool> setUsersSort(String usersSort) async {
+    return dataSource.setUsersSort(usersSort);
+  }
+
+  @override
   Future<bool> getOneSignalBannerDismissed() async {
     final oneSignalBannerDismissed =
         await dataSource.getOneSignalBannerDismissed();

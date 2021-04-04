@@ -80,6 +80,10 @@ abstract class SettingsRepository {
 
   Future<bool> setStatsType(String statsType);
 
+  Future<String> getUsersSort();
+
+  Future<bool> setUsersSort(String usersSort);
+
   Future<bool> getOneSignalBannerDismissed();
 
   Future<bool> setOneSignalBannerDismissed(bool value);

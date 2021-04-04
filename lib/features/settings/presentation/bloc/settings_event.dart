@@ -194,6 +194,15 @@ class SettingsUpdateStatsType extends SettingsEvent {
   List<Object> get props => [statsType];
 }
 
+class SettingsUpdateUsersSort extends SettingsEvent {
+  final String usersSort;
+
+  SettingsUpdateUsersSort({@required this.usersSort});
+
+  @override
+  List<Object> get props => [usersSort];
+}
+
 class SettingsUpdateOneSignalBannerDismiss extends SettingsEvent {
   final bool dismiss;
 

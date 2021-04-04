@@ -94,6 +94,7 @@ void main() {
   const bool tDoubleTapToExit = true;
   const bool tMaskSensitiveInfo = true;
   const String tStatsType = 'duration';
+  const String tUsersSort = 'friendly_name|asc';
   const bool tOneSignalBannerDismissed = false;
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
@@ -161,6 +162,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         ];
@@ -184,6 +186,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -235,6 +238,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
@@ -269,6 +273,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -346,6 +351,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
@@ -385,6 +391,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -419,6 +426,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
@@ -448,6 +456,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -511,6 +520,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
@@ -541,6 +551,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -604,6 +615,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
@@ -634,6 +646,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -683,6 +696,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
@@ -713,6 +727,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -763,6 +778,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               sortChanged: '0:0:1',
             ),
@@ -791,6 +807,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -826,6 +843,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
@@ -851,6 +869,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -880,6 +899,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
@@ -903,6 +923,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -930,6 +951,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
@@ -951,6 +973,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -978,6 +1001,7 @@ void main() {
               maskSensitiveInfo: false,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
@@ -999,6 +1023,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -1026,6 +1051,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId2,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
@@ -1047,6 +1073,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -1074,6 +1101,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: 'plays',
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
           ];
@@ -1081,6 +1109,56 @@ void main() {
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(SettingsUpdateStatsType(statsType: 'plays'));
+        },
+      );
+    });
+    group('SettingsUpdateUsersSort', () {
+      setUp(() {
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+            usersSort: tUsersSort,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
+          ),
+        );
+      });
+      test(
+        'should call the Settings.setUsersSort() use case',
+        () async {
+          // act
+          bloc.add(SettingsUpdateUsersSort(usersSort: 'friendly_name|asc'));
+          await untilCalled(mockSettings.setUsersSort('friendly_name|asc'));
+          // assert
+          verify(mockSettings.setUsersSort('friendly_name|asc'));
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after updating the stats type',
+        () async {
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: tServerList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+              usersSort: 'friendly_name|desc',
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
+            ),
+          ];
+          // ignore: unawaited_futures
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(SettingsUpdateUsersSort(usersSort: 'friendly_name|desc'));
         },
       );
     });
@@ -1095,6 +1173,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
         );
@@ -1122,6 +1201,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              usersSort: tUsersSort,
               oneSignalBannerDismissed: true,
             ),
           ];

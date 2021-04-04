@@ -89,8 +89,9 @@ class _UsersPageContentState extends State<UsersPageContent> {
       }
 
       if (usersState is UsersInitial) {
-        _orderColumn = usersState.orderColumn ?? 'friendly_name';
-        _orderDir = usersState.orderDir ?? 'asc';
+        final usersSort = settingState.usersSort.split('|');
+        _orderColumn = usersSort[0];
+        _orderDir = usersSort[1];
       }
 
       _usersBloc.add(
@@ -300,6 +301,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
             _orderColumn = values[0];
             _orderDir = values[1];
           });
+          _settingsBloc.add(SettingsUpdateUsersSort(usersSort: value));
           _usersBloc.add(
             UsersFilter(
               tautulliId: _tautulliId,

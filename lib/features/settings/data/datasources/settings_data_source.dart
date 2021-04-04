@@ -43,6 +43,10 @@ abstract class SettingsDataSource {
 
   Future<bool> setStatsType(String statsType);
 
+  Future<String> getUsersSort();
+
+  Future<bool> setUsersSort(String usersSort);
+
   Future<bool> getOneSignalBannerDismissed();
 
   Future<bool> setOneSignalBannerDismissed(bool value);
@@ -66,6 +70,7 @@ const SETTINGS_DOUBLE_TAP_TO_EXIT = 'SETTINGS_DOUBLE_TAP_TO_EXIT';
 const SETTINGS_MASK_SENSITIVE_INFO = 'SETTINGS_MASK_SENSITIVE_INFO';
 const LAST_SELECTED_SERVER = 'LAST_SELECTED_SERVER';
 const STATS_TYPE = 'STATS_TYPE';
+const USERS_SORT = 'USERS_SORT';
 const ONE_SIGNAL_BANNER_DISMISSED = 'ONE_SIGNAL_BANNER_DISMISSED';
 const LAST_APP_VERSION = 'LAST_APP_VERSION';
 const LAST_READ_ANNOUNCEMENT_ID = 'LAST_READ_ANNOUNCEMENT_ID';
@@ -181,6 +186,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setStatsType(String statsType) {
     return sharedPreferences.setString(STATS_TYPE, statsType);
+  }
+
+  @override
+  Future<String> getUsersSort() {
+    final value = sharedPreferences.getString(USERS_SORT);
+    return Future.value(value);
+  }
+
+  @override
+  Future<bool> setUsersSort(String usersSort) {
+    return sharedPreferences.setString(USERS_SORT, usersSort);
   }
 
   @override

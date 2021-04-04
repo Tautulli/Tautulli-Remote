@@ -398,6 +398,46 @@ void main() {
     );
   });
 
+  group('Users Sort', () {
+    test(
+      'should return String from settings',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getString(USERS_SORT))
+            .thenReturn('friendly_name|asc');
+        // act
+        final usersSort = await dataSource.getUsersSort();
+        // assert
+        verify(mockSharedPreferences.getString(USERS_SORT));
+        expect(usersSort, equals('friendly_name|asc'));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getString(USERS_SORT)).thenReturn(null);
+        // act
+        final usersSort = await dataSource.getUsersSort();
+        // assert
+        expect(usersSort, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the users sort',
+      () async {
+        // act
+        await dataSource.setUsersSort('friendly_name|asc');
+        // assert
+        verify(
+          mockSharedPreferences.setString(USERS_SORT, 'friendly_name|asc'),
+        );
+      },
+    );
+  });
+
   group('OneSignal Banner Dismissed', () {
     test(
       'should return bool from settings',

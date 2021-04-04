@@ -53,6 +53,7 @@ void main() {
   const bool tMaskSensitiveInfo = true;
   const String tTautulliId = 'jkl';
   const String tStatsType = 'duration';
+  const String tUsersSort = 'friendly_name|asc';
   const bool tOneSignalBannerDismissed = false;
   const String tLastAppVersion = '2.1.5';
   const int tLastReadAnnouncementId = 1;
@@ -368,9 +369,34 @@ void main() {
       'should forward the call to the data source to set stats type',
       () async {
         // act
-        await repository.setStatsType(tLastAppVersion);
+        await repository.setStatsType(tStatsType);
         // assert
-        verify(mockSettingsDataSource.setStatsType(tLastAppVersion));
+        verify(mockSettingsDataSource.setStatsType(tStatsType));
+      },
+    );
+  });
+
+  group('Users Sort', () {
+    test(
+      'should return the users sort from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getUsersSort())
+            .thenAnswer((_) async => tUsersSort);
+        // act
+        final result = await repository.getUsersSort();
+        // assert
+        expect(result, equals(tUsersSort));
+      },
+    );
+
+    test(
+      'should forward the call to the data source to set stats type',
+      () async {
+        // act
+        await repository.setUsersSort(tUsersSort);
+        // assert
+        verify(mockSettingsDataSource.setUsersSort(tUsersSort));
       },
     );
   });

@@ -158,6 +158,14 @@ class Settings {
     return repository.setStatsType(statsType);
   }
 
+  Future<String> getUsersSort() async {
+    return await repository.getUsersSort();
+  }
+
+  Future<bool> setUsersSort(String usersSort) async {
+    return repository.setUsersSort(usersSort);
+  }
+
   Future<bool> getOneSignalBannerDismissed() async {
     return await repository.getOneSignalBannerDismissed();
   }
