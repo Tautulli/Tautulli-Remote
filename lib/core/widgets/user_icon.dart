@@ -24,7 +24,7 @@ class UserIcon extends StatelessWidget {
     return Stack(
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(50.0),
           ),
           child: Container(
@@ -45,16 +45,17 @@ class UserIcon extends StatelessWidget {
                     image: DecorationImage(
                       image: (hasNetworkImage && !maskSensitiveInfo)
                           ? NetworkImage(user.userThumb)
-                          : AssetImage('assets/images/default_profile.png'),
+                          : const AssetImage(
+                              'assets/images/default_profile.png'),
                       fit: BoxFit.cover,
                     ),
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(50.0),
                     ),
                     border: Border.all(
                       color: (hasNetworkImage && !maskSensitiveInfo)
                           ? Colors.transparent
-                          : Color.fromRGBO(69, 69, 69, 1),
+                          : const Color.fromRGBO(69, 69, 69, 1),
                       width: 1,
                     ),
                   ),

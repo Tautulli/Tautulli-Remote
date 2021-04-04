@@ -36,10 +36,10 @@ void main() {
     );
   });
 
-  final String tQrCodeResult =
+  const String tQrCodeResult =
       'http://tautulli.com|abcdefghijklmnopqrstuvwxyzabcdef';
-  final String tPrimaryConnectionAddress = 'http://tautulli.com';
-  final String tDeviceToken = 'abc';
+  const String tPrimaryConnectionAddress = 'http://tautulli.com';
+  const String tDeviceToken = 'abc';
 
   Map responseMap = {
     "data": {

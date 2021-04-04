@@ -40,26 +40,26 @@ void main() {
     );
   });
 
-  final int tId = 1;
-  final int tSortIndex = 0;
-  final String tPrimaryConnectionAddress = 'http://tautuli.domain.com/tautulli';
-  final String tPrimaryConnectionProtocol = 'http';
-  final String tPrimaryConnectionDomain = 'tautuli.domain.com';
-  final String tPrimaryConnectionPath = '/tautulli';
-  final String tSecondaryConnectionAddress = 'http://plexpy.com/plexpy';
-  final String tSecondaryConnectionProtocol = 'http';
-  final String tSecondaryConnectionDomain = 'plexpy.com';
-  final String tSecondaryConnectionPath = '/plexpy';
-  final String tDeviceToken = 'abc';
-  final String tTautulliId = 'jkl';
-  final String tPlexName = 'Plex';
-  final String tPlexIdentifier = 'xyz';
-  final String tDateFormat = 'YYYY-MM-DD';
-  final String tTimeFormat = 'HH:mm';
+  const int tId = 1;
+  const int tSortIndex = 0;
+  const String tPrimaryConnectionAddress = 'http://tautuli.domain.com/tautulli';
+  const String tPrimaryConnectionProtocol = 'http';
+  const String tPrimaryConnectionDomain = 'tautuli.domain.com';
+  const String tPrimaryConnectionPath = '/tautulli';
+  const String tSecondaryConnectionAddress = 'http://plexpy.com/plexpy';
+  const String tSecondaryConnectionProtocol = 'http';
+  const String tSecondaryConnectionDomain = 'plexpy.com';
+  const String tSecondaryConnectionPath = '/plexpy';
+  const String tDeviceToken = 'abc';
+  const String tTautulliId = 'jkl';
+  const String tPlexName = 'Plex';
+  const String tPlexIdentifier = 'xyz';
+  const String tDateFormat = 'YYYY-MM-DD';
+  const String tTimeFormat = 'HH:mm';
 
-  final String tStatsType = 'duration';
-  final bool tOneSignalBannerDismissed = false;
-  final String tLastAppVersion = '2.1.5';
+  const String tStatsType = 'duration';
+  const bool tOneSignalBannerDismissed = false;
+  const String tLastAppVersion = '2.1.5';
 
   final ServerModel tServerModel = ServerModel(
     id: tId,

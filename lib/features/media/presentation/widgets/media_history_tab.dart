@@ -133,7 +133,7 @@ class _MediaHistoryTabContentState extends State<MediaHistoryTabContent> {
         }
         if (state is HistoryIndividualSuccess) {
           return state.list.isEmpty
-              ? Center(
+              ? const Center(
                   child: Text('No History'),
                 )
               : MediaQuery.removePadding(
@@ -197,7 +197,7 @@ class _MediaHistoryTabContentState extends State<MediaHistoryTabContent> {
                   ),
                 );
         }
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },
@@ -275,15 +275,15 @@ class _HistoryRow extends StatelessWidget {
                 image: DecorationImage(
                   image: hasNetworkImage && !maskSensitiveInfo
                       ? NetworkImage(user.userThumb)
-                      : AssetImage('assets/images/default_profile.png'),
+                      : const AssetImage('assets/images/default_profile.png'),
                 ),
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(50.0),
                 ),
                 border: Border.all(
                   color: hasNetworkImage && !maskSensitiveInfo
                       ? Colors.transparent
-                      : Color.fromRGBO(69, 69, 69, 1),
+                      : const Color.fromRGBO(69, 69, 69, 1),
                   width: 1,
                 ),
               ),

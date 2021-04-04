@@ -20,7 +20,7 @@ class LibraryDetails extends StatelessWidget {
       children: [
         Text(
           library.sectionName,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
           ),
         ),
@@ -75,27 +75,27 @@ class LibraryDetails extends StatelessWidget {
           ),
           TextSpan(
             text: count,
-            style: TextStyle(
+            style: const TextStyle(
               color: PlexColorPalette.gamboge,
             ),
           ),
-          TextSpan(text: '   '),
+          const TextSpan(text: '   '),
           TextSpan(
             text: parentTitle,
           ),
           TextSpan(
             text: parentCount,
-            style: TextStyle(
+            style: const TextStyle(
               color: PlexColorPalette.gamboge,
             ),
           ),
-          TextSpan(text: '   '),
+          const TextSpan(text: '   '),
           TextSpan(
             text: childTitle,
           ),
           TextSpan(
             text: childCount,
-            style: TextStyle(
+            style: const TextStyle(
               color: PlexColorPalette.gamboge,
             ),
           ),
@@ -111,21 +111,21 @@ class LibraryDetails extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: [
-          TextSpan(
+          const TextSpan(
             text: 'PLAYS ',
           ),
           TextSpan(
             text: library.plays.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               color: PlexColorPalette.gamboge,
             ),
           ),
-          TextSpan(text: '   '),
+          const TextSpan(text: '   '),
           if (durationMap['day'] > 1 ||
               durationMap['hour'] > 1 ||
               durationMap['min'] > 1 ||
               durationMap['sec'] > 1)
-            TextSpan(
+            const TextSpan(
               text: 'DURATION ',
             ),
           if (durationMap['day'] > 0)
@@ -133,11 +133,11 @@ class LibraryDetails extends StatelessWidget {
               children: [
                 TextSpan(
                   text: durationMap['day'].toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' days ',
                 ),
               ],
@@ -147,11 +147,11 @@ class LibraryDetails extends StatelessWidget {
               children: [
                 TextSpan(
                   text: durationMap['hour'].toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' hrs ',
                 ),
               ],
@@ -161,11 +161,11 @@ class LibraryDetails extends StatelessWidget {
               children: [
                 TextSpan(
                   text: durationMap['min'].toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' mins',
                 ),
               ],
@@ -178,11 +178,11 @@ class LibraryDetails extends StatelessWidget {
               children: [
                 TextSpan(
                   text: durationMap['sec'].toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' secs',
                 ),
               ],

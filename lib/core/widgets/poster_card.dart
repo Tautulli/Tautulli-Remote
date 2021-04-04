@@ -23,7 +23,7 @@ class PosterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: cardMargin ?? EdgeInsets.all(4.0),
+      margin: cardMargin ?? const EdgeInsets.all(4.0),
       child: ClipRRect(
         borderRadius: borderRadius ?? BorderRadius.circular(4),
         child: Container(

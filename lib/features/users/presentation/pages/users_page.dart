@@ -28,7 +28,7 @@ class UsersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<UsersBloc>(
       create: (context) => di.sl<UsersBloc>(),
-      child: UsersPageContent(),
+      child: const UsersPageContent(),
     );
   }
 }
@@ -109,11 +109,11 @@ class _UsersPageContentState extends State<UsersPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        leading: AppDrawerIcon(),
-        title: Text('Users'),
+        leading: const AppDrawerIcon(),
+        title: const Text('Users'),
         actions: _appBarActions(),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: DoubleTapExit(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -211,7 +211,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
                             ),
                           );
                         } else {
-                          return Expanded(
+                          return const Expanded(
                             child: Center(
                               child: Text(
                                 'No users found.',
@@ -251,7 +251,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
                           ),
                         );
                       }
-                      return Expanded(
+                      return const Expanded(
                         child: Center(
                           child: CircularProgressIndicator(),
                         ),
@@ -318,29 +318,29 @@ class _UsersPageContentState extends State<UsersPageContent> {
                     padding: const EdgeInsets.only(left: 5),
                     child: Text(
                       _currentSortName(),
-                      style: TextStyle(color: PlexColorPalette.gamboge),
+                      style: const TextStyle(color: PlexColorPalette.gamboge),
                     ),
                   ),
                 ],
               ),
             ),
-            PopupMenuDivider(),
+            const PopupMenuDivider(),
             PopupMenuItem(
               child: Row(
                 children: [
                   _orderColumn == 'friendly_name' && _orderDir == 'asc'
-                      ? FaIcon(
+                      ? const FaIcon(
                           FontAwesomeIcons.sortAlphaDownAlt,
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         )
-                      : FaIcon(
+                      : const FaIcon(
                           FontAwesomeIcons.sortAlphaDown,
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5),
                     child: Text('Name'),
                   ),
                 ],
@@ -353,18 +353,18 @@ class _UsersPageContentState extends State<UsersPageContent> {
               child: Row(
                 children: [
                   _orderColumn == 'last_seen' && _orderDir == 'desc'
-                      ? FaIcon(
+                      ? const FaIcon(
                           FontAwesomeIcons.sortNumericDownAlt,
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         )
-                      : FaIcon(
+                      : const FaIcon(
                           FontAwesomeIcons.sortNumericDown,
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5),
                     child: Text('Last Streamed'),
                   ),
                 ],
@@ -411,7 +411,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
       }
     }
 
-    return FaIcon(FontAwesomeIcons.questionCircle);
+    return const FaIcon(FontAwesomeIcons.questionCircle);
   }
 
   String _currentSortName() {

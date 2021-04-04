@@ -27,7 +27,7 @@ class LibraryStatisticHeading extends StatelessWidget {
             ),
             child: Text(
               heading,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),

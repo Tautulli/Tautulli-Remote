@@ -36,13 +36,13 @@ class SettingsAlertBanner extends StatelessWidget {
                           subscriptionState.message,
                         ),
                         buttonOne: TextButton(
-                          child: Text('DISMISS'),
+                          child: const Text('DISMISS'),
                           onPressed: () => settingsBloc.add(
                             SettingsUpdateOneSignalBannerDismiss(true),
                           ),
                         ),
                         buttonTwo: TextButton(
-                          child: Text('VIEW PRIVACY PAGE'),
+                          child: const Text('VIEW PRIVACY PAGE'),
                           onPressed: () =>
                               Navigator.of(context).pushNamed('/privacy'),
                         ),
@@ -59,12 +59,13 @@ class SettingsAlertBanner extends StatelessWidget {
                       message: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('• Notifications will not work.'),
-                          Text('• Registration with OneSignal will fail.'),
+                          const Text('• Notifications will not work.'),
+                          const Text(
+                              '• Registration with OneSignal will fail.'),
                         ],
                       ),
                       buttonOne: TextButton(
-                        child: Text('CHECK AGAIN'),
+                        child: const Text('CHECK AGAIN'),
                         onPressed: () => context
                             .read<OneSignalHealthBloc>()
                             .add(OneSignalHealthCheck()),
@@ -81,7 +82,7 @@ class SettingsAlertBanner extends StatelessWidget {
                           subscriptionState.message,
                         ),
                         buttonOne: TextButton(
-                          child: Text('LEARN MORE'),
+                          child: const Text('LEARN MORE'),
                           onPressed: () async {
                             await launch(
                               'https://github.com/Tautulli/Tautulli-Remote/wiki/OneSignal#registering',
@@ -99,7 +100,7 @@ class SettingsAlertBanner extends StatelessWidget {
             },
           );
         }
-        return SizedBox(height: 0, width: 0);
+        return const SizedBox(height: 0, width: 0);
       },
     );
   }
@@ -126,13 +127,13 @@ class _AlertBanner extends StatelessWidget {
     return MaterialBanner(
       backgroundColor:
           backgroundColor != null ? backgroundColor : Colors.red[900],
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: 16,
         right: 16,
         top: 16,
       ),
       forceActionsBelow: true,
-      leading: FaIcon(
+      leading: const FaIcon(
         FontAwesomeIcons.exclamationCircle,
         color: TautulliColorPalette.not_white,
         size: 30,
@@ -143,7 +144,7 @@ class _AlertBanner extends StatelessWidget {
           if (title != null)
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),

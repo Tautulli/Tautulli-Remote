@@ -30,11 +30,11 @@ class MediaTabContents extends StatelessWidget {
     return TabBarView(
       children: [
         // Details Tab
-        MediaDetailsTab(),
+        const MediaDetailsTab(),
         // Loading tab for when no mediaType is provided and we need to get
         // it from the fetched metadata
         if (mediaType == null && item.mediaType == null && !metadataFailed)
-          Center(
+          const Center(
             child: CircularProgressIndicator(),
           ),
         // Seasons/Episodes/Albums/Tracks tab
@@ -94,7 +94,7 @@ class MediaTabContents extends StatelessWidget {
                 return Text(
                     'UNKNOWN MEDIA TYPE ${mediaType ?? item.mediaType}');
               }
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             },

@@ -22,7 +22,7 @@ class BackgroundImageChooser extends StatelessWidget {
         sigmaY: addBlur ? 25 : 0,
       ),
       child: activity.live == 1
-          ? _BackgroundImageLiveTv()
+          ? const _BackgroundImageLiveTv()
           : _BackgroundImageGeneral(url: activity.posterUrl),
     );
   }

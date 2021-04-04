@@ -34,9 +34,9 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final String tClientId = 'abc';
-  final int tSyncId = 123;
+  const String tTautulliId = 'jkl';
+  const String tClientId = 'abc';
+  const int tSyncId = 123;
 
   final Map<String, dynamic> successMap = {
     'response': {

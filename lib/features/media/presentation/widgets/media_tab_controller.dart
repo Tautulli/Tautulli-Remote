@@ -51,11 +51,11 @@ List<Widget> _tabBuilder({
   bool metadataFailed = false,
 }) {
   return [
-    Tab(
+    const Tab(
       text: 'Details',
     ),
     if (mediaType == null && !metadataFailed)
-      Tab(
+      const Tab(
         child: SizedBox(
           height: 15,
           width: 15,
@@ -87,7 +87,7 @@ List<Widget> _tabBuilder({
                             : 'Media',
       ),
     if (!['photo', 'clip', 'collection', 'playlist'].contains(mediaType))
-      Tab(
+      const Tab(
         text: 'History',
       ),
   ];

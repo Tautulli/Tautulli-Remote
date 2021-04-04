@@ -33,7 +33,7 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
-          title: Text('Manual Device Registration'),
+          title: const Text('Manual Device Registration'),
         ),
         body: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
           listener: (context, state) {
@@ -60,7 +60,7 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
               BlocBuilder<RegisterDeviceBloc, RegisterDeviceState>(
                 builder: (context, state) {
                   if (state is RegisterDeviceInProgress) {
-                    return SizedBox(
+                    return const SizedBox(
                       height: 2,
                       child: LinearProgressIndicator(),
                     );
@@ -76,8 +76,8 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
                     children: <Widget>[
                       TextFormField(
                         controller: _primaryConnectionAddressController,
-                        decoration:
-                            InputDecoration(labelText: 'Tautulli Address'),
+                        decoration: const InputDecoration(
+                            labelText: 'Tautulli Address'),
                         validator: (value) {
                           bool validUrl = isURL(
                             value,
@@ -92,7 +92,8 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
                       ),
                       TextFormField(
                         controller: _deviceTokenController,
-                        decoration: InputDecoration(labelText: 'Device Token'),
+                        decoration:
+                            const InputDecoration(labelText: 'Device Token'),
                         validator: (value) {
                           if (value.length != 32) {
                             return 'Must be 32 characters long (current: ${value.length})';
@@ -112,7 +113,7 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
                                   Navigator.of(context).pop();
                                 }
                               },
-                              child: Text('CANCEL'),
+                              child: const Text('CANCEL'),
                             ),
                             TextButton(
                               onPressed: () {
@@ -129,7 +130,7 @@ class _ManualRegistrationFormState extends State<ManualRegistrationForm> {
                                   );
                                 }
                               },
-                              child: Text('REGISTER'),
+                              child: const Text('REGISTER'),
                             ),
                           ],
                         ),
@@ -152,17 +153,18 @@ Future<bool> _showExitDialog(BuildContext context) {
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: Text('Are you sure you want to exit?'),
-        content: Text('Your current entered information will be discarded.'),
+        title: const Text('Are you sure you want to exit?'),
+        content:
+            const Text('Your current entered information will be discarded.'),
         actions: <Widget>[
           TextButton(
-            child: Text('CANCEL'),
+            child: const Text('CANCEL'),
             onPressed: () {
               Navigator.of(context).pop(false);
             },
           ),
           TextButton(
-            child: Text('DISCARD'),
+            child: const Text('DISCARD'),
             style: TextButton.styleFrom(
               backgroundColor: Colors.red,
             ),

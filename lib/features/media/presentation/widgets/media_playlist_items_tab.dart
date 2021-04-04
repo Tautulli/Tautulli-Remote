@@ -77,7 +77,7 @@ class MediaPlaylistItemsTab extends StatelessWidget {
     return [
       Text(
         '${index < 9 ? "  " : ""}${index > 9 && index < 99 ? " " : ""}${index + 1}',
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.grey,
         ),
       ),
@@ -95,7 +95,7 @@ class MediaPlaylistItemsTab extends StatelessWidget {
               Text('${item.grandparentTitle} - ${item.title} '),
               Text(
                 '(S${item.parentMediaIndex} · E${item.mediaIndex})',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.grey,
                 ),
               ),
@@ -108,7 +108,7 @@ class MediaPlaylistItemsTab extends StatelessWidget {
             Text('${item.title} '),
             Text(
               '(${item.year})',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.grey,
               ),
             ),
@@ -120,7 +120,7 @@ class MediaPlaylistItemsTab extends StatelessWidget {
             Text('${item.title} '),
             Text(
               '(${item.parentTitle})',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.grey,
               ),
             ),
@@ -132,7 +132,7 @@ class MediaPlaylistItemsTab extends StatelessWidget {
             Text('${item.title} '),
             Text(
               '(${item.parentTitle})',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.grey,
               ),
             ),

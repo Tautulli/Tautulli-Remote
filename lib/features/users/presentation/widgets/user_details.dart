@@ -23,19 +23,19 @@ class UsersDetails extends StatelessWidget {
         Text(
           maskSensitiveInfo ? '*Hidden User*' : user.friendlyName ?? '',
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         ),
         RichText(
           text: TextSpan(
             children: [
-              TextSpan(
+              const TextSpan(
                 text: 'STREAMED ',
               ),
               TextSpan(
                 text: user.lastSeen != null
                     ? '${TimeFormatHelper.timeAgo(user.lastSeen)}'
                     : 'never',
-                style: TextStyle(
+                style: const TextStyle(
                   color: PlexColorPalette.gamboge,
                 ),
               ),
@@ -55,21 +55,21 @@ class UsersDetails extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: [
-          TextSpan(
+          const TextSpan(
             text: 'PLAYS ',
           ),
           TextSpan(
             text: user.plays.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               color: PlexColorPalette.gamboge,
             ),
           ),
-          TextSpan(text: '   '),
+          const TextSpan(text: '   '),
           if (durationMap['day'] > 1 ||
               durationMap['hour'] > 1 ||
               durationMap['min'] > 1 ||
               durationMap['sec'] > 1)
-            TextSpan(
+            const TextSpan(
               text: 'DURATION ',
             ),
           if (durationMap['day'] > 0)
@@ -77,11 +77,11 @@ class UsersDetails extends StatelessWidget {
               children: [
                 TextSpan(
                   text: durationMap['day'].toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' days ',
                 ),
               ],
@@ -91,11 +91,11 @@ class UsersDetails extends StatelessWidget {
               children: [
                 TextSpan(
                   text: durationMap['hour'].toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' hrs ',
                 ),
               ],
@@ -105,11 +105,11 @@ class UsersDetails extends StatelessWidget {
               children: [
                 TextSpan(
                   text: durationMap['min'].toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' mins',
                 ),
               ],
@@ -122,11 +122,11 @@ class UsersDetails extends StatelessWidget {
               children: [
                 TextSpan(
                   text: durationMap['sec'].toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' secs',
                 ),
               ],

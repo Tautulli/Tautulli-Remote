@@ -119,7 +119,7 @@ class _UserDetailsStatsTabContentState
               ),
             );
           }
-          return Center(
+          return const Center(
             child: Text('No stats found'),
           );
         }
@@ -135,7 +135,7 @@ class _UserDetailsStatsTabContentState
             ],
           );
         }
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },
@@ -151,12 +151,12 @@ List<Widget> _buildUserStatList({
   List<Widget> finalList = [];
 
   if (watchTimeStatList.isNotEmpty) {
-    finalList.add(UserStatisticHeading(heading: 'Global Stats'));
+    finalList.add(const UserStatisticHeading(heading: 'Global Stats'));
 
     for (UserStatistic stat in watchTimeStatList) {
       finalList.add(
         IconCard(
-          icon: FaIcon(
+          icon: const FaIcon(
             FontAwesomeIcons.chartLine,
             size: 50,
           ),
@@ -171,7 +171,7 @@ List<Widget> _buildUserStatList({
   }
 
   if (playerStatList.isNotEmpty) {
-    finalList.add(UserStatisticHeading(heading: 'Player Stats'));
+    finalList.add(const UserStatisticHeading(heading: 'Player Stats'));
 
     for (UserStatistic stat in playerStatList) {
       finalList.add(

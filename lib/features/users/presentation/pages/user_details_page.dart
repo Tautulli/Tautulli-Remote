@@ -194,7 +194,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                                     );
                                   }
                                 }
-                                return SizedBox(height: 0, width: 0);
+                                return const SizedBox(height: 0, width: 0);
                               },
                             ),
                   Positioned.fill(
@@ -218,12 +218,12 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
               //* Content area
               Expanded(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
                   ),
                   child: DecoratedBox(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: PlexColorPalette.shark,
                     ),
                     child: Column(
@@ -248,7 +248,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                                       _maskSensitiveInfo
                                           ? '*Hidden User*'
                                           : widget.user.friendlyName,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 20,
                                       ),
                                       maxLines: 1,
@@ -260,7 +260,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                                           ? RichText(
                                               text: TextSpan(
                                                 children: [
-                                                  TextSpan(
+                                                  const TextSpan(
                                                     text: 'STREAMED ',
                                                   ),
                                                   TextSpan(
@@ -269,7 +269,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                                                             null
                                                         ? '${TimeFormatHelper.timeAgo(widget.user.lastSeen)}'
                                                         : 'never',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       color: PlexColorPalette
                                                           .gamboge,
                                                     ),
@@ -285,7 +285,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                                                     return RichText(
                                                       text: TextSpan(
                                                         children: [
-                                                          TextSpan(
+                                                          const TextSpan(
                                                             text: 'STREAMED ',
                                                           ),
                                                           TextSpan(
@@ -294,7 +294,8 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                                                                     null
                                                                 ? '${TimeFormatHelper.timeAgo(state.user.lastSeen)}'
                                                                 : 'never',
-                                                            style: TextStyle(
+                                                            style:
+                                                                const TextStyle(
                                                               color:
                                                                   PlexColorPalette
                                                                       .gamboge,
@@ -305,7 +306,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                                                     );
                                                   }
                                                 }
-                                                return SizedBox(
+                                                return const SizedBox(
                                                     height: 0, width: 0);
                                               },
                                             ),
@@ -321,7 +322,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                             length: 2,
                             child: Column(
                               children: [
-                                TabBar(
+                                const TabBar(
                                   indicatorSize: TabBarIndicatorSize.label,
                                   tabs: [
                                     Tab(
@@ -382,7 +383,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                           ),
                         );
                       }
-                      return SizedBox(height: 0, width: 0);
+                      return const SizedBox(height: 0, width: 0);
                     },
                   ),
           ),

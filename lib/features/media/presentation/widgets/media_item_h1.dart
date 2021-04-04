@@ -28,7 +28,7 @@ class MediaItemH1 extends StatelessWidget {
         : BlocBuilder<MetadataBloc, MetadataState>(
             builder: (context, state) {
               if (state is MetadataFailure) {
-                return Text('');
+                return const Text('');
               }
               if (state is MetadataSuccess) {
                 return _HeadingText(
@@ -36,7 +36,7 @@ class MediaItemH1 extends StatelessWidget {
                   metadata: state.metadata,
                 );
               }
-              return SizedBox(
+              return const SizedBox(
                 height: 20,
                 width: 20,
                 child: CircularProgressIndicator(
@@ -96,7 +96,7 @@ class _HeadingText extends StatelessWidget {
     return Container(
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 20,
         ),
         overflow: TextOverflow.ellipsis,

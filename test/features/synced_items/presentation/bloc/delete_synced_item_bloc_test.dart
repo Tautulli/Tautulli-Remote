@@ -36,9 +36,9 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final String tClientId = 'abc';
-  final int tSyncId = 123;
+  const String tTautulliId = 'jkl';
+  const String tClientId = 'abc';
+  const int tSyncId = 123;
 
   void setUpSuccess() {
     when(
@@ -48,7 +48,7 @@ void main() {
         syncId: anyNamed('syncId'),
         settingsBloc: anyNamed('settingsBloc'),
       ),
-    ).thenAnswer((_) async => Right(true));
+    ).thenAnswer((_) async => const Right(true));
   }
 
   test(

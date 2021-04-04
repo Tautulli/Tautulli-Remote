@@ -6,7 +6,7 @@ void main() {
     'should return a Map with keys [protocol, domain, path]',
     () async {
       // arrange
-      final connectionAddress =
+      const connectionAddress =
           'https://user:password@www.domain.com:80/example';
       // act
       final result = ConnectionAddressHelper.parse(connectionAddress);
@@ -21,7 +21,7 @@ void main() {
     'should return a map with the correct value for the protocol key',
     () async {
       // arrange
-      final connectionAddress =
+      const connectionAddress =
           'https://user:password@www.domain.com:80/example';
       // act
       final result = ConnectionAddressHelper.parse(connectionAddress);
@@ -34,7 +34,7 @@ void main() {
     'should return a map with the correct value for the domain key',
     () async {
       // arrange
-      final connectionAddress =
+      const connectionAddress =
           'https://user:password@www.domain.com:80/example';
       // act
       final result = ConnectionAddressHelper.parse(connectionAddress);
@@ -47,7 +47,7 @@ void main() {
     'should return a map with the correct value for the path key',
     () async {
       // arrange
-      final connectionAddress =
+      const connectionAddress =
           'https://user:password@www.domain.com:80/example';
       // act
       final result = ConnectionAddressHelper.parse(connectionAddress);

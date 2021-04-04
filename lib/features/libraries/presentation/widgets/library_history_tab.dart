@@ -119,7 +119,7 @@ class __LibraryHistoryTabContentState extends State<_LibraryHistoryTabContent> {
           );
 
           return state.list.isEmpty
-              ? Center(
+              ? const Center(
                   child: Text('No History'),
                 )
               : MediaQuery.removePadding(
@@ -176,7 +176,7 @@ class __LibraryHistoryTabContentState extends State<_LibraryHistoryTabContent> {
                   ),
                 );
         }
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },

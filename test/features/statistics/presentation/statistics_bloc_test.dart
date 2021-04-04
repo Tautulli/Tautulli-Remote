@@ -48,11 +48,11 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final int tGrouping = 1;
-  final int tTimeRange = 30;
-  final String tStatsType = 'plays';
-  final int tStatsCount = 5;
+  const String tTautulliId = 'jkl';
+  const int tGrouping = 1;
+  const int tTimeRange = 30;
+  const String tStatsType = 'plays';
+  const int tStatsCount = 5;
 
   final statisticsJson = json.decode(fixture('statistics.json'));
   Map<String, List<Statistics>> tStatisticsMap = {

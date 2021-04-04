@@ -38,13 +38,13 @@ class LogTableRow extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "${logMap['timestamp']['year']}-${logMap['timestamp']['month']}-${logMap['timestamp']['day']}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: textSize,
                     ),
                   ),
                   Text(
                     "${logMap['timestamp']['hour']}:${logMap['timestamp']['minute']}:${logMap['timestamp']['second']}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: textSize,
                     ),
                   ),
@@ -60,7 +60,7 @@ class LogTableRow extends StatelessWidget {
             ),
             child: Text(
               logMap['level'],
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: textSize,
               ),
             ),
@@ -75,7 +75,7 @@ class LogTableRow extends StatelessWidget {
               ),
               child: Text(
                 logMap['message'],
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: textSize,
                 ),
               ),

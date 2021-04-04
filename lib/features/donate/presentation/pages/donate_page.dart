@@ -18,9 +18,9 @@ class DonatePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text('Donate'),
+        title: const Text('Donate'),
       ),
-      body: DonatePageContent(),
+      body: const DonatePageContent(),
     );
   }
 }
@@ -67,7 +67,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
                       color: Colors.red[400],
                     ),
                   ),
-                  Text('Thank you for your donation!'),
+                  const Text('Thank you for your donation!'),
                 ],
               ),
             ),
@@ -98,7 +98,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
 
     return Column(
       children: [
-        Divider(
+        const Divider(
           indent: 50,
           endIndent: 50,
           height: 50,
@@ -108,7 +108,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Column(
             children: [
-              Text(
+              const Text(
                 'Tautulli Remote is free and open source.',
                 style: TextStyle(
                   fontSize: 17,
@@ -117,7 +117,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
-              Text(
+              const Text(
                 'However, any contributions you can make towards the app are appreciated!',
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
@@ -125,7 +125,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
             ],
           ),
         ),
-        Divider(
+        const Divider(
           indent: 50,
           endIndent: 50,
           height: 50,
@@ -137,9 +137,9 @@ class _DonatePageContentState extends State<DonatePageContent> {
                   children: [
                     Card(
                       child: ListTile(
-                        title: Text('Buy Me A Cone'),
-                        subtitle: Text('\$2.00'),
-                        trailing: FaIcon(
+                        title: const Text('Buy Me A Cone'),
+                        subtitle: const Text('\$2.00'),
+                        trailing: const FaIcon(
                           FontAwesomeIcons.iceCream,
                           color: TautulliColorPalette.not_white,
                         ),
@@ -151,9 +151,9 @@ class _DonatePageContentState extends State<DonatePageContent> {
                     ),
                     Card(
                       child: ListTile(
-                        title: Text('Buy Me A Slice'),
-                        subtitle: Text('\$3.50'),
-                        trailing: FaIcon(
+                        title: const Text('Buy Me A Slice'),
+                        subtitle: const Text('\$3.50'),
+                        trailing: const FaIcon(
                           FontAwesomeIcons.pizzaSlice,
                           color: TautulliColorPalette.not_white,
                         ),
@@ -165,9 +165,9 @@ class _DonatePageContentState extends State<DonatePageContent> {
                     ),
                     Card(
                       child: ListTile(
-                        title: Text('Buy Me A Burger'),
-                        subtitle: Text('\$5.00'),
-                        trailing: FaIcon(
+                        title: const Text('Buy Me A Burger'),
+                        subtitle: const Text('\$5.00'),
+                        trailing: const FaIcon(
                           FontAwesomeIcons.hamburger,
                           color: TautulliColorPalette.not_white,
                         ),
@@ -179,9 +179,9 @@ class _DonatePageContentState extends State<DonatePageContent> {
                     ),
                     Card(
                       child: ListTile(
-                        title: Text('Buy Me A Meal'),
-                        subtitle: Text('\$10.00'),
-                        trailing: Icon(
+                        title: const Text('Buy Me A Meal'),
+                        subtitle: const Text('\$10.00'),
+                        trailing: const Icon(
                           Icons.fastfood,
                           color: TautulliColorPalette.not_white,
                           size: 26,
@@ -194,7 +194,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
                     ),
                   ],
                 )
-              : Text(
+              : const Text(
                   'Donation items could not be loaded from the Google Play Store.',
                   style: TextStyle(
                     fontSize: 18,

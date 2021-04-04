@@ -49,7 +49,7 @@ void main() {
     );
   });
 
-  final tTautulliId = 'jkl';
+  const tTautulliId = 'jkl';
 
   final tActivityJson = json.decode(fixture('activity.json'));
 

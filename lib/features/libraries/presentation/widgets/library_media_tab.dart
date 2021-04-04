@@ -53,7 +53,7 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
       },
       builder: (context, state) {
         if (state is LibraryMediaInProgress) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -99,8 +99,8 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: PlexColorPalette.shark,
-                    content:
-                        Text('Performing a full refresh of library media.'),
+                    content: const Text(
+                        'Performing a full refresh of library media.'),
                     action: SnackBarAction(
                       label: 'LEARN MORE',
                       onPressed: () async {
@@ -181,7 +181,7 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
               ),
             );
           } else {
-            return Expanded(
+            return const Expanded(
               child: Center(
                 child: Text(
                   'No items found.',
@@ -194,7 +194,7 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
             );
           }
         }
-        return SizedBox(height: 0, width: 0);
+        return const SizedBox(height: 0, width: 0);
       },
     );
   }

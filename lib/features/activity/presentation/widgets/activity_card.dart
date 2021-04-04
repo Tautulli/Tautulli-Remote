@@ -78,7 +78,7 @@ class _ActivityCardState extends State<ActivityCard> {
               _debouncer.run(
                 () {
                   return ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       backgroundColor: PlexColorPalette.shark,
                       content: Text('Photo streams cannot be terminated.'),
                     ),
@@ -89,7 +89,7 @@ class _ActivityCardState extends State<ActivityCard> {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               _debouncer.run(
                 () => ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     backgroundColor: PlexColorPalette.shark,
                     content: Text('Synced content cannot be terminated.'),
                   ),
@@ -116,7 +116,7 @@ class _ActivityCardState extends State<ActivityCard> {
           child: Slidable.builder(
             key: ValueKey('${widget.tautulliId}:${activity.sessionId}'),
             controller: widget.slidableController,
-            actionPane: SlidableBehindActionPane(),
+            actionPane: const SlidableBehindActionPane(),
             // Do not allow for slidable terminate menu if server doesn't have plex pass or sessionId is empty
             secondaryActionDelegate: (isNotEmpty(activity.sessionId) &&
                     hasPlexPass)
@@ -132,8 +132,8 @@ class _ActivityCardState extends State<ActivityCard> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: Colors.green,
-                                content:
-                                    Text('Termination request sent to Plex.'),
+                                content: const Text(
+                                    'Termination request sent to Plex.'),
                                 action: SnackBarAction(
                                   label: 'LEARN MORE',
                                   onPressed: () async {
@@ -186,7 +186,7 @@ class _ActivityCardState extends State<ActivityCard> {
                             builder: (context, state) {
                               if (state is TerminateSessionInProgress &&
                                   state.sessionId == activity.sessionId) {
-                                return Center(
+                                return const Center(
                                   child: CircularProgressIndicator(
                                     valueColor: AlwaysStoppedAnimation<Color>(
                                       TautulliColorPalette.not_white,
@@ -194,7 +194,7 @@ class _ActivityCardState extends State<ActivityCard> {
                                   ),
                                 );
                               }
-                              return TerminateSessionButton();
+                              return const TerminateSessionButton();
                             },
                           ),
                         ),
@@ -284,7 +284,8 @@ class _ActivityCardState extends State<ActivityCard> {
                                                         'photo')
                                                       Padding(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                .only(
                                                           bottom: 3,
                                                         ),
                                                         child:
@@ -413,7 +414,7 @@ Future<int> _showTerminateSessionDialog({
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: Text('Are you sure you want to terminate this stream?'),
+        title: const Text('Are you sure you want to terminate this stream?'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -424,7 +425,7 @@ Future<int> _showTerminateSessionDialog({
             TextFormField(
               controller: controller,
               maxLines: 2,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   helperText: 'Terminate Message',
                   hintText: 'The server owner has ended the stream.'),
             ),
@@ -432,7 +433,7 @@ Future<int> _showTerminateSessionDialog({
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('CANCEL'),
+            child: const Text('CANCEL'),
             onPressed: () {
               Navigator.of(context).pop(0);
             },
@@ -440,7 +441,7 @@ Future<int> _showTerminateSessionDialog({
           Padding(
             padding: const EdgeInsets.only(right: 4),
             child: TextButton(
-              child: Text('TERMINATE'),
+              child: const Text('TERMINATE'),
               style: TextButton.styleFrom(
                 backgroundColor: Colors.red,
               ),

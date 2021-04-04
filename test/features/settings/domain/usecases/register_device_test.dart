@@ -18,10 +18,10 @@ void main() {
     );
   });
 
-  final String tConnectionProtocol = 'http';
-  final String tConnectionDomain = 'tautulli.com';
-  final String tConnectionPath = '/tautulli';
-  final String deviceToken = 'abc';
+  const String tConnectionProtocol = 'http';
+  const String tConnectionDomain = 'tautulli.com';
+  const String tConnectionPath = '/tautulli';
+  const String deviceToken = 'abc';
 
   group('RegisterDevice', () {
     test(

@@ -40,8 +40,8 @@ void main() {
     );
   });
 
-  final tTautulliId = 'jkl';
-  final tUserId = 123;
+  const tTautulliId = 'jkl';
+  const tUserId = 123;
 
   final List<UserStatistic> tUserWatchTimeStatsList = [];
 

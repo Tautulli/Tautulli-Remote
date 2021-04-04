@@ -189,12 +189,12 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
               //* Content area
               Expanded(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
                   ),
                   child: DecoratedBox(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: PlexColorPalette.shark,
                     ),
                     child: Column(
@@ -218,7 +218,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                     Text(
                                       widget.title ??
                                           widget.library.sectionName,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 20,
                                       ),
                                       maxLines: 1,
@@ -232,7 +232,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                             child: RichText(
                                               text: TextSpan(
                                                 children: [
-                                                  TextSpan(
+                                                  const TextSpan(
                                                     text: 'STREAMED ',
                                                   ),
                                                   TextSpan(
@@ -241,7 +241,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                                             0
                                                         ? '${TimeFormatHelper.timeAgo(widget.library.lastAccessed)}'
                                                         : 'never',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       color: PlexColorPalette
                                                           .gamboge,
                                                     ),
@@ -250,7 +250,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                               ),
                                             ),
                                           )
-                                        : SizedBox(height: 0, width: 0),
+                                        : const SizedBox(height: 0, width: 0),
                                   ],
                                 ),
                               ),
@@ -270,18 +270,18 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                   indicatorSize: TabBarIndicatorSize.label,
                                   tabs: [
                                     if (!widget.disableStatsTab)
-                                      Tab(
+                                      const Tab(
                                         child: Text('Stats'),
                                       ),
                                     if (sectionType != 'photo')
-                                      Tab(
+                                      const Tab(
                                         child: Text('New'),
                                       ),
                                     if (sectionType != 'photo')
-                                      Tab(
+                                      const Tab(
                                         child: Text('History'),
                                       ),
-                                    Tab(
+                                    const Tab(
                                       child: Text('Media'),
                                     ),
                                   ],
@@ -342,7 +342,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                   snapshot.data['color'] != null;
 
                               return ClipRRect(
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(50.0),
                                 ),
                                 child: Stack(

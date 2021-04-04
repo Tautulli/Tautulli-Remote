@@ -41,9 +41,9 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final String tClientId = 'abc';
-  final int tSyncId = 123;
+  const String tTautulliId = 'jkl';
+  const String tClientId = 'abc';
+  const int tSyncId = 123;
 
   test(
     'should check if the device is online',
@@ -126,7 +126,7 @@ void main() {
           settingsBloc: settingsBloc,
         );
         // assert
-        expect(result, equals(Right(true)));
+        expect(result, equals(const Right(true)));
       },
     );
 

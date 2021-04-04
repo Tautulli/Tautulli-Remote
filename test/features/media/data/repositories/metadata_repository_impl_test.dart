@@ -46,8 +46,8 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final int tRatingKey = 53052;
+  const String tTautulliId = 'jkl';
+  const int tRatingKey = 53052;
 
   final metadataItemJson = json.decode(fixture('metadata_item.json'));
   final MetadataItem tMetadataItem =

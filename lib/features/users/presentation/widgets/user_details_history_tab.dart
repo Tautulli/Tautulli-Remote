@@ -122,7 +122,7 @@ class _UserDetailsHistoryTabContentState
           );
 
           return state.list.isEmpty
-              ? Center(
+              ? const Center(
                   child: Text('No History'),
                 )
               : MediaQuery.removePadding(
@@ -180,7 +180,7 @@ class _UserDetailsHistoryTabContentState
                   ),
                 );
         }
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },

@@ -32,10 +32,10 @@ class LogTable extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Container(
                 height: constraints.maxHeight,
-                child: Center(
+                child: const Center(
                   child: Text(
                     'No logs found',
                     style: TextStyle(fontSize: 18),

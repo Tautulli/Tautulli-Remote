@@ -204,7 +204,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                         fit: BoxFit.cover,
                       );
                     }
-                    return SizedBox(height: 0, width: 0);
+                    return const SizedBox(height: 0, width: 0);
                   },
                 ),
               ),
@@ -222,12 +222,12 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
               //* Content area
               Expanded(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
                   ),
                   child: DecoratedBox(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: PlexColorPalette.shark,
                     ),
                     child: Column(
@@ -325,7 +325,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                                   );
                                 }
                               }
-                              return SizedBox(height: 0, width: 0);
+                              return const SizedBox(height: 0, width: 0);
                             },
                           ),
                         ),
@@ -352,7 +352,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                   item: widget.item,
                   syncedMediaType: widget.syncedMediaType,
                   heroTag: widget.heroTag,
-                  child: Center(
+                  child: const Center(
                     child: CircularProgressIndicator(),
                   ),
                 );
@@ -371,7 +371,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                   child: PosterChooser(item: item),
                 );
               }
-              return SizedBox(height: 0, width: 0);
+              return const SizedBox(height: 0, width: 0);
             },
           ),
         ],
@@ -453,21 +453,21 @@ List<Widget> _appBarActions({
                       ['season', 'episode'].contains(state.metadata.mediaType))
                     PopupMenuItem(
                       value: 'show|${state.metadata.mediaType}',
-                      child: Text('Go to show'),
+                      child: const Text('Go to show'),
                     ),
                   if (enableNavOptions &&
                       ['episode'].contains(state.metadata.mediaType))
                     PopupMenuItem(
                       value: 'season|${state.metadata.mediaType}',
-                      child: Text('Go to season'),
+                      child: const Text('Go to season'),
                     ),
                   if (enableNavOptions &&
                       ['album', 'track'].contains(state.metadata.mediaType))
                     PopupMenuItem(
                       value: 'artist|${state.metadata.mediaType}',
-                      child: Text('Go to artist'),
+                      child: const Text('Go to artist'),
                     ),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'plex',
                     child: Text('View on Plex'),
                   ),
@@ -480,12 +480,12 @@ List<Widget> _appBarActions({
               },
             );
           }
-          return IconButton(
+          return const IconButton(
             icon: Icon(Icons.more_vert),
             onPressed: null,
           );
         }
-        return IconButton(
+        return const IconButton(
           icon: Icon(Icons.more_vert),
           onPressed: null,
         );

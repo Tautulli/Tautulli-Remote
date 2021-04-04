@@ -13,13 +13,13 @@ Future<void> showCertificateFailureAlertDialog({
     barrierDismissible: true,
     builder: (context) {
       return AlertDialog(
-        title: Text('Certificate Verification Failed'),
-        content: Text(
+        title: const Text('Certificate Verification Failed'),
+        content: const Text(
           'This servers certificate could not be authenticated and may be self-signed. Do you want to trust this certificate?',
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('NO'),
+            child: const Text('NO'),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -28,7 +28,7 @@ Future<void> showCertificateFailureAlertDialog({
             style: TextButton.styleFrom(
               backgroundColor: Theme.of(context).accentColor,
             ),
-            child: Text('TRUST'),
+            child: const Text('TRUST'),
             onPressed: () {
               Navigator.of(context).pop();
               registerDeviceBloc.add(

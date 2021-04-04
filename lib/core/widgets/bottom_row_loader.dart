@@ -15,8 +15,8 @@ class BottomRowLoader extends StatelessWidget {
       decoration: BoxDecoration(
         color: index % 2 == 0 ? Colors.black26 : null,
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
+      child: const Padding(
+        padding: EdgeInsets.symmetric(
           horizontal: 8.0,
           vertical: 16,
         ),

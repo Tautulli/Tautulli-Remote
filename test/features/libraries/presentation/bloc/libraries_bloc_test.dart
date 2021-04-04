@@ -48,9 +48,9 @@ void main() {
     );
   });
 
-  final tTautulliId = 'jkl';
-  final tOrderColumn = 'section_name';
-  final tOrderDir = 'asc';
+  const tTautulliId = 'jkl';
+  const tOrderColumn = 'section_name';
+  const tOrderDir = 'asc';
   String imageUrl =
       'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
 

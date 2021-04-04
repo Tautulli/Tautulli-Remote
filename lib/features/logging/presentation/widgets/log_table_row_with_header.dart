@@ -20,7 +20,7 @@ class LogTableRowWithHeader extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          decoration: BoxDecoration(color: TautulliColorPalette.midnight),
+          decoration: const BoxDecoration(color: TautulliColorPalette.midnight),
           child: Row(
             children: <Widget>[
               Container(
@@ -30,7 +30,7 @@ class LogTableRowWithHeader extends StatelessWidget {
                   bottom: 14,
                   left: 12,
                 ),
-                child: Text(
+                child: const Text(
                   'Timestamp',
                   style: TextStyle(
                     fontSize: textSize,
@@ -43,16 +43,16 @@ class LogTableRowWithHeader extends StatelessWidget {
                   vertical: 8,
                   horizontal: 6,
                 ),
-                child: Text(
+                child: const Text(
                   'Level',
                   style: TextStyle(
                     fontSize: textSize,
                   ),
                 ),
               ),
-              Expanded(
+              const Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(
+                  padding: EdgeInsets.only(
                     top: 8,
                     bottom: 8,
                     left: 6,

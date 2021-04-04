@@ -25,21 +25,21 @@ class RecentlyAddedDetails extends StatelessWidget {
               Text(
                 _rowOne(recentItem),
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                 ),
               ),
               Text(
                 _rowTwo(recentItem),
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15,
                 ),
               ),
               Text(
                 _rowThree(recentItem),
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15,
                 ),
               ),
@@ -49,7 +49,7 @@ class RecentlyAddedDetails extends StatelessWidget {
                   Text(
                     'Added ${TimeFormatHelper.timeAgo(recentItem.addedAt)}',
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 15,
                     ),
                   ),

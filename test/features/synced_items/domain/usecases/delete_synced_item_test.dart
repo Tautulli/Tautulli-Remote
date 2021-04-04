@@ -34,9 +34,9 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final String tClientId = 'abc';
-  final int tSyncId = 123;
+  const String tTautulliId = 'jkl';
+  const String tClientId = 'abc';
+  const int tSyncId = 123;
 
   test(
     'should return true when synced item is deleted successfully',
@@ -49,7 +49,7 @@ void main() {
           syncId: anyNamed('syncId'),
           settingsBloc: anyNamed('settingsBloc'),
         ),
-      ).thenAnswer((_) async => Right(true));
+      ).thenAnswer((_) async => const Right(true));
       // act
       final result = await usecase(
         tautulliId: tTautulliId,
@@ -58,7 +58,7 @@ void main() {
         settingsBloc: settingsBloc,
       );
       // assert
-      expect(result, equals(Right(true)));
+      expect(result, equals(const Right(true)));
     },
   );
 }

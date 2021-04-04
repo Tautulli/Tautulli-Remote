@@ -49,8 +49,8 @@ void main() {
     );
   });
 
-  final tTautulliId = 'jkl';
-  final tSectionId = 1;
+  const tTautulliId = 'jkl';
+  const tSectionId = 1;
   String imageUrl =
       'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
 

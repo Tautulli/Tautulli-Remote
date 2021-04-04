@@ -47,7 +47,7 @@ class ActivityPage extends StatelessWidget {
           create: (_) => sl<GeoIpBloc>(),
         ),
       ],
-      child: ActivityPageContent(),
+      child: const ActivityPageContent(),
     );
   }
 }
@@ -98,10 +98,10 @@ class _ActivityPageContentState extends State<ActivityPageContent>
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        leading: AppDrawerIcon(),
-        title: Text('Activity'),
+        leading: const AppDrawerIcon(),
+        title: const Text('Activity'),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: DoubleTapExit(
         child: BlocConsumer<ActivityBloc, ActivityState>(
           listener: (context, state) {
@@ -145,7 +145,7 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                         );
                       } else if (result == ActivityLoadingState.inProgress &&
                           serverMap['activityList'].isEmpty) {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
@@ -172,7 +172,7 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                             ),
                     );
                   } else {
-                    return Text('ERROR: Settings not loaded');
+                    return const Text('ERROR: Settings not loaded');
                   }
                 },
               );
@@ -214,10 +214,10 @@ Widget _buildSingleServerActivity({
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) =>
           SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Container(
           height: constraints.maxHeight,
-          child: Center(
+          child: const Center(
             child: Text(
               'Nothing is currently being played.',
               style: TextStyle(fontSize: 18),
@@ -279,7 +279,8 @@ Widget _buildMultiserverActivity({
       if (serverData['failure'] == null) {
         if (activityList.isEmpty) {
           serverActivityList.add(
-            _StatusCard(customMessage: 'Nothing is currently being played.'),
+            const _StatusCard(
+                customMessage: 'Nothing is currently being played.'),
           );
         } else {
           for (ActivityItem activityItem in activityList) {
@@ -323,7 +324,8 @@ Widget _buildMultiserverActivity({
         }
       } else {
         serverActivityList.add(
-          _StatusCard(customMessage: 'Nothing is currently being played.'),
+          const _StatusCard(
+              customMessage: 'Nothing is currently being played.'),
         );
       }
     }
@@ -406,7 +408,7 @@ class _StatusCard extends StatelessWidget {
               Center(
                 child: Text(
                   customMessage,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 16,
                   ),
@@ -420,7 +422,7 @@ class _StatusCard extends StatelessWidget {
                 ),
                 child: Text(
                   isNotEmpty(failureMessage) ? failureMessage : 'Unknown Error',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 16,
                   ),
@@ -435,7 +437,7 @@ class _StatusCard extends StatelessWidget {
                 child: Text(
                   failureSuggestion,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 16,
                   ),

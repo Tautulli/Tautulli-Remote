@@ -59,7 +59,7 @@ class HistoryModalBottomSheet extends StatelessWidget {
                   ),
                   //* History art section
                   ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
                     ),
@@ -122,7 +122,7 @@ class HistoryModalBottomSheet extends StatelessWidget {
                 bottom: 4,
                 child: Container(
                   height: 130,
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     left: 4,
                   ),
                   child: ClipRRect(
@@ -143,7 +143,7 @@ class HistoryModalBottomSheet extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 15),
+              padding: const EdgeInsets.symmetric(vertical: 15),
               color: Theme.of(context).backgroundColor,
               child: BlocProvider<GeoIpBloc>(
                 create: (_) => di.sl<GeoIpBloc>(),
@@ -206,7 +206,7 @@ class HistoryModalBottomSheet extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           primary: PlexColorPalette.gamboge,
                         ),
-                        child: Text(
+                        child: const Text(
                           'View User',
                           style: TextStyle(
                             color: TautulliColorPalette.not_white,
@@ -248,7 +248,7 @@ class HistoryModalBottomSheet extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           primary: PlexColorPalette.curious_blue,
                         ),
-                        child: Text(
+                        child: const Text(
                           'View Media',
                           style: TextStyle(
                             color: TautulliColorPalette.not_white,

@@ -42,7 +42,7 @@ void main() {
     );
   });
 
-  final tTautulliId = 'jkl';
+  const tTautulliId = 'jkl';
 
   final List<UserTable> tUsersList = [];
   final List<UserTable> tUsersList25 = [];

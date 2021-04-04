@@ -13,7 +13,7 @@ class ChangelogPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text('Changelog'),
+        title: const Text('Changelog'),
       ),
       body: SingleChildScrollView(
         child: Padding(

@@ -117,11 +117,11 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        leading: AppDrawerIcon(),
-        title: Text('Statistics'),
+        leading: const AppDrawerIcon(),
+        title: const Text('Statistics'),
         actions: _appBarActions(),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: DoubleTapExit(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,7 +200,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                       ),
                     );
                   } else {
-                    return Expanded(
+                    return const Expanded(
                       child: Center(
                         child: Text(
                           'No stats to show for the selected period.',
@@ -239,7 +239,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                     ),
                   );
                 }
-                return Expanded(
+                return const Expanded(
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -338,7 +338,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
           Center(
             child: PopupMenuButton(
               key: _timeRangeKey,
-              icon: FaIcon(
+              icon: const FaIcon(
                 FontAwesomeIcons.calendarAlt,
                 size: 20,
                 color: TautulliColorPalette.not_white,
@@ -425,7 +425,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
               child: Container(
                 height: 18,
                 width: 18,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: PlexColorPalette.gamboge,
                 ),
@@ -453,13 +453,13 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
         final _customTimeRangeFormKey = GlobalKey<FormState>();
 
         return AlertDialog(
-          title: Text('Custom Time Range'),
+          title: const Text('Custom Time Range'),
           content: Form(
             key: _customTimeRangeFormKey,
             child: TextFormField(
               keyboardType: TextInputType.number,
               decoration:
-                  InputDecoration(hintText: 'Enter a time range in days'),
+                  const InputDecoration(hintText: 'Enter a time range in days'),
               validator: (value) {
                 if (!isNumeric(value)) {
                   return 'Please enter an integer';
@@ -477,13 +477,13 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
           ),
           actions: [
             TextButton(
-              child: Text("CLOSE"),
+              child: const Text("CLOSE"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text("SAVE"),
+              child: const Text("SAVE"),
               onPressed: () {
                 if (_customTimeRangeFormKey.currentState.validate()) {
                   _statisticsBloc.add(

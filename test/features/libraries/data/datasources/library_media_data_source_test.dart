@@ -40,8 +40,8 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final int tRatingKey = 53052;
+  const String tTautulliId = 'jkl';
+  const int tRatingKey = 53052;
 
   final tLibraryMediaInfoJson = json.decode(fixture('library_media_info.json'));
 

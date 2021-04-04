@@ -104,7 +104,7 @@ List<Widget> _buildList({
   }
 
   rows.add(
-    SizedBox(
+    const SizedBox(
       height: 15,
     ),
   );
@@ -151,7 +151,7 @@ List<Widget> _buildList({
   }
 
   rows.add(
-    SizedBox(
+    const SizedBox(
       height: 15,
     ),
   );
@@ -208,7 +208,7 @@ List<Widget> _buildList({
               left: '',
               right: Row(
                 children: [
-                  Text('ERROR: IP Address not in GeoIP map'),
+                  const Text('ERROR: IP Address not in GeoIP map'),
                 ],
               ),
             );
@@ -218,13 +218,13 @@ List<Widget> _buildList({
             left: '',
             right: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 19,
                   width: 19,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
+                const Padding(
+                  padding: EdgeInsets.only(left: 5),
                   child: Text('Loading location data'),
                 ),
               ],
@@ -306,7 +306,7 @@ class _ActivityMediaDetailsRow extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Flexible(

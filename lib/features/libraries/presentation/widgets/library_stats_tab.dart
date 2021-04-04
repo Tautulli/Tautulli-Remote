@@ -117,7 +117,7 @@ class _LibraryStatsTabContentState extends State<LibraryStatsTabContent> {
               ),
             );
           }
-          return Center(
+          return const Center(
             child: Text('No stats found'),
           );
         }
@@ -133,7 +133,7 @@ class _LibraryStatsTabContentState extends State<LibraryStatsTabContent> {
             ],
           );
         }
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },
@@ -149,12 +149,12 @@ List<Widget> _buildUserStatList({
   List<Widget> finalList = [];
 
   if (watchTimeStatList.isNotEmpty) {
-    finalList.add(LibraryStatisticHeading(heading: 'Global Stats'));
+    finalList.add(const LibraryStatisticHeading(heading: 'Global Stats'));
 
     for (LibraryStatistic stat in watchTimeStatList) {
       finalList.add(
         IconCard(
-          icon: FaIcon(
+          icon: const FaIcon(
             FontAwesomeIcons.chartLine,
             size: 50,
           ),
@@ -169,7 +169,7 @@ List<Widget> _buildUserStatList({
   }
 
   if (userStatList.isNotEmpty) {
-    finalList.add(LibraryStatisticHeading(heading: 'User Stats'));
+    finalList.add(const LibraryStatisticHeading(heading: 'User Stats'));
 
     for (LibraryStatistic stat in userStatList) {
       final UserTable user = UserTable(

@@ -42,8 +42,8 @@ class ServerHeader extends StatelessWidget {
                 ),
               ),
               if (state == ActivityLoadingState.inProgress)
-                Padding(
-                  padding: const EdgeInsets.only(left: 4),
+                const Padding(
+                  padding: EdgeInsets.only(left: 4),
                   child: SizedBox(
                     height: 15,
                     width: 15,
@@ -53,8 +53,8 @@ class ServerHeader extends StatelessWidget {
                   ),
                 ),
               if (state == ActivityLoadingState.failure)
-                Padding(
-                  padding: const EdgeInsets.only(left: 4),
+                const Padding(
+                  padding: EdgeInsets.only(left: 4),
                   child: FaIcon(
                     FontAwesomeIcons.exclamationCircle,
                     size: 15,

@@ -11,11 +11,11 @@ class TerminateSessionButton extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        FaIcon(
+        const FaIcon(
           FontAwesomeIcons.times,
           color: TautulliColorPalette.not_white,
         ),
-        Text(
+        const Text(
           'Terminate Stream',
           textAlign: TextAlign.center,
           style: TextStyle(

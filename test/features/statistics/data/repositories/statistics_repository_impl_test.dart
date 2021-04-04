@@ -46,7 +46,7 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
+  const String tTautulliId = 'jkl';
 
   final statisticsJson = json.decode(fixture('statistics.json'));
   Map<String, List<Statistics>> tStatisticsMap = {

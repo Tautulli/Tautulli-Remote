@@ -46,7 +46,7 @@ class StatisticsHeading extends StatelessWidget {
           : () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   backgroundColor: PlexColorPalette.shark,
                   content: Text('No additional items for this statistic'),
                 ),
@@ -63,15 +63,15 @@ class StatisticsHeading extends StatelessWidget {
             Expanded(
               child: Text(
                 StringMapperHelper.mapStatIdToTitle(statId),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ),
             if (statisticCount > 5)
-              Padding(
-                padding: const EdgeInsets.only(right: 15),
+              const Padding(
+                padding: EdgeInsets.only(right: 15),
                 child: FaIcon(
                   FontAwesomeIcons.angleRight,
                   color: TautulliColorPalette.not_white,

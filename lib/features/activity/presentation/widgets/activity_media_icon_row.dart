@@ -21,7 +21,7 @@ class ActivityMediaIconRow extends StatelessWidget {
         MediaTypeIcon(
           mediaType: activity.mediaType,
         ),
-        SizedBox(width: 5),
+        const SizedBox(width: 5),
         TranscodeDecisionIcon(transcodeDecision: activity.transcodeDecision),
       ],
     );

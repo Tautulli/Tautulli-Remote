@@ -9,7 +9,7 @@ import 'string_format_helper.dart';
 /// Various helper functions to return [RichText] data for activity data.
 class ActivityMediaDetailsCleaner {
   static List<List> audio(ActivityItem activity) {
-    final String title = 'AUDIO';
+    const String title = 'AUDIO';
     List<List> list = [];
 
     if (activity.streamAudioDecision != '') {
@@ -17,7 +17,7 @@ class ActivityMediaDetailsCleaner {
         list.add([
           title,
           RichText(
-            text: TextSpan(
+            text: const TextSpan(
               text: 'Transcode',
               style: TextStyle(
                 fontSize: 16,
@@ -77,7 +77,7 @@ class ActivityMediaDetailsCleaner {
     final formattedBandwidth = RichText(
       text: TextSpan(
         text: finalText,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -96,7 +96,7 @@ class ActivityMediaDetailsCleaner {
       list.add([
         title,
         RichText(
-          text: TextSpan(
+          text: const TextSpan(
             text: 'Converting',
             style: TextStyle(
               fontSize: 16,
@@ -142,7 +142,7 @@ class ActivityMediaDetailsCleaner {
           if (icon != null)
             WidgetSpan(
               child: Container(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   right: 5,
                 ),
                 child: FaIcon(
@@ -154,7 +154,7 @@ class ActivityMediaDetailsCleaner {
             ),
           TextSpan(
             text: text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
             ),
           ),
@@ -191,7 +191,7 @@ class ActivityMediaDetailsCleaner {
         children: [
           WidgetSpan(
             child: Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 right: 5,
               ),
               child: FaIcon(
@@ -209,7 +209,7 @@ class ActivityMediaDetailsCleaner {
                 : maskSensitiveInfo
                     ? '*Hidden Location*'
                     : '$city$region $code',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
             ),
           ),
@@ -227,7 +227,7 @@ class ActivityMediaDetailsCleaner {
       text: TextSpan(
         text:
             '${activity.optimizedVersionProfile} ${activity.optimizedVersionTitle}',
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -242,7 +242,7 @@ class ActivityMediaDetailsCleaner {
     final formattedPlayer = RichText(
       text: TextSpan(
         text: activity.player,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -257,7 +257,7 @@ class ActivityMediaDetailsCleaner {
     final formattedProduct = RichText(
       text: TextSpan(
         text: activity.product,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -289,7 +289,7 @@ class ActivityMediaDetailsCleaner {
     final formattedQuality = RichText(
       text: TextSpan(
         text: finalText,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -317,7 +317,7 @@ class ActivityMediaDetailsCleaner {
     final formattedStream = RichText(
       text: TextSpan(
         text: finalText,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -329,7 +329,7 @@ class ActivityMediaDetailsCleaner {
   }
 
   static List<List> subtitles(ActivityItem activity) {
-    final String title = 'SUBTITLE';
+    const String title = 'SUBTITLE';
     List<List> list = [];
 
     if (activity.subtitles == 1) {
@@ -337,7 +337,7 @@ class ActivityMediaDetailsCleaner {
         list.add([
           title,
           RichText(
-            text: TextSpan(
+            text: const TextSpan(
               text: 'Transcode',
               style: TextStyle(
                 fontSize: 16,
@@ -402,7 +402,7 @@ class ActivityMediaDetailsCleaner {
     final formattedSynced = RichText(
       text: TextSpan(
         text: activity.syncedVersionProfile,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
         ),
       ),
@@ -414,7 +414,7 @@ class ActivityMediaDetailsCleaner {
   }
 
   static List<List> video(ActivityItem activity) {
-    final String title = 'VIDEO';
+    const String title = 'VIDEO';
     List<List> list = [];
 
     String _videoDynamicRange = '';
@@ -438,7 +438,7 @@ class ActivityMediaDetailsCleaner {
         list.add([
           title,
           RichText(
-            text: TextSpan(
+            text: const TextSpan(
               text: 'Transcode',
               style: TextStyle(
                 fontSize: 16,
@@ -521,17 +521,17 @@ RichText _formatValue({
       children: [
         TextSpan(
           text: left,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
           ),
         ),
         if (isNotBlank(right))
           WidgetSpan(
             child: Container(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 5,
               ),
-              child: FaIcon(
+              child: const FaIcon(
                 FontAwesomeIcons.longArrowAltRight,
                 color: TautulliColorPalette.not_white,
                 size: 16.5,
@@ -541,7 +541,7 @@ RichText _formatValue({
         if (isNotBlank(right))
           TextSpan(
             text: right,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
             ),
           ),

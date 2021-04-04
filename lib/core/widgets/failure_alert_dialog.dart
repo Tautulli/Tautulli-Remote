@@ -16,7 +16,7 @@ Future<void> showFailureAlertDialog({
         content: Text(FailureMapperHelper.mapFailureToSuggestion(failure)),
         actions: <Widget>[
           TextButton(
-            child: Text('CLOSE'),
+            child: const Text('CLOSE'),
             onPressed: () {
               Navigator.of(context).pop();
             },

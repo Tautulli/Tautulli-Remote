@@ -51,7 +51,7 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
+  const String tTautulliId = 'jkl';
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =

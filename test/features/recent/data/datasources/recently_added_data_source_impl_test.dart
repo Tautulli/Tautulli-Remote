@@ -40,8 +40,8 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final int tCount = 10;
+  const String tTautulliId = 'jkl';
+  const int tCount = 10;
 
   final List<RecentItem> tRecentList = [];
 

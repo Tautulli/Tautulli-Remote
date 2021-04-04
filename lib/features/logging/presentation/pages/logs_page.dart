@@ -19,7 +19,7 @@ class LogsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<LogsBloc>(
       create: (context) => di.sl<LogsBloc>()..add(LogsLoad()),
-      child: _LogsPageContent(),
+      child: const _LogsPageContent(),
     );
   }
 }
@@ -45,7 +45,7 @@ class _LogsPageContentState extends State<_LogsPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text('Tautulli Remote Logs'),
+        title: const Text('Tautulli Remote Logs'),
         actions: <Widget>[
           PopupMenuButton(
             onSelected: (value) async {
@@ -64,11 +64,11 @@ class _LogsPageContentState extends State<_LogsPageContent> {
               return null;
             },
             itemBuilder: (context) => [
-              PopupMenuItem(
+              const PopupMenuItem(
                 child: Text('Export logs'),
                 value: 'export',
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
                 child: Text('Clear logs'),
                 value: 'clear',
               ),
@@ -88,7 +88,7 @@ class _LogsPageContentState extends State<_LogsPageContent> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 backgroundColor: PlexColorPalette.shark,
-                content: Text('Logs exported'),
+                content: const Text('Logs exported'),
                 action: SnackBarAction(
                   label: 'HOW TO ACCESS LOGS',
                   onPressed: () async {
@@ -104,7 +104,7 @@ class _LogsPageContentState extends State<_LogsPageContent> {
         },
         builder: (context, state) {
           if (state is LogsFailure) {
-            return Center(
+            return const Center(
               child: Text(
                 'Failed to load logs',
                 style: TextStyle(fontSize: 18),
@@ -124,7 +124,7 @@ class _LogsPageContentState extends State<_LogsPageContent> {
             );
           }
 
-          return SizedBox(height: 0, width: 0);
+          return const SizedBox(height: 0, width: 0);
         },
       ),
     );
@@ -139,16 +139,17 @@ Future _showClearLogsDialog({
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Text('Are you sure you want to clear the Tautulli Remote logs?'),
+        title: const Text(
+            'Are you sure you want to clear the Tautulli Remote logs?'),
         actions: <Widget>[
           TextButton(
-            child: Text('CANCEL'),
+            child: const Text('CANCEL'),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: Text('CONFIRM'),
+            child: const Text('CONFIRM'),
             style: TextButton.styleFrom(
               backgroundColor: Colors.red,
             ),

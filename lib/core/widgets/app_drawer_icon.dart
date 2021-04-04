@@ -15,7 +15,7 @@ class AppDrawerIcon extends StatelessWidget {
           children: [
             Positioned.fill(
               child: IconButton(
-                icon: Icon(Icons.menu),
+                icon: const Icon(Icons.menu),
                 onPressed: () {
                   Scaffold.of(context).openDrawer();
                 },
@@ -37,7 +37,7 @@ class AppDrawerIcon extends StatelessWidget {
                     ),
                   );
                 }
-                return SizedBox(height: 0, width: 0);
+                return const SizedBox(height: 0, width: 0);
               },
             ),
           ],

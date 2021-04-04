@@ -36,8 +36,8 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final String tSessionId = 'm8bbpxpywe6i91zib3hnfltz';
+  const String tTautulliId = 'jkl';
+  const String tSessionId = 'm8bbpxpywe6i91zib3hnfltz';
 
   void setUpSuccess() {
     when(
@@ -47,7 +47,7 @@ void main() {
         message: anyNamed('message'),
         settingsBloc: anyNamed('settingsBloc'),
       ),
-    ).thenAnswer((_) async => Right(true));
+    ).thenAnswer((_) async => const Right(true));
   }
 
   test(

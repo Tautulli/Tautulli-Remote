@@ -34,7 +34,7 @@ class MediaPosterLoader extends StatelessWidget {
               58,
       child: Container(
         width: 137,
-        padding: EdgeInsets.only(left: 4),
+        padding: const EdgeInsets.only(left: 4),
         child: Hero(
           tag: heroTag ?? UniqueKey(),
           child: AspectRatio(

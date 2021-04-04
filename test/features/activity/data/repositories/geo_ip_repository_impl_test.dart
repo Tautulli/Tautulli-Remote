@@ -41,9 +41,9 @@ void main() {
     );
   });
 
-  final tTautulliId = 'jkl';
+  const tTautulliId = 'jkl';
 
-  final tIpAddress = '10.0.0.1';
+  const tIpAddress = '10.0.0.1';
 
   final tGeoIpItemModel = GeoIpItemModel(
     accuracy: null,

@@ -152,9 +152,9 @@ class __LibraryRecentTabContentState extends State<_LibraryRecentTabContent> {
           );
         }
         if (state is LibrariesRecentlyAddedFailure) {
-          return Text('FAILURE');
+          return const Text('FAILURE');
         }
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },

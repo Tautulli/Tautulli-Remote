@@ -33,21 +33,21 @@ class HistoryDetails extends StatelessWidget {
               Text(
                 historyItem.fullTitle,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                 ),
               ),
               Text(
                 _rowTwo(historyItem),
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15,
                 ),
               ),
               Text(
                 maskSensitiveInfo ? '*Hidden User*' : historyItem.friendlyName,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15,
                 ),
               ),
@@ -109,7 +109,7 @@ Widget _state({
         dateFormat: dateFormat,
         timeFormat: timeFormat,
       ),
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 15,
       ),
     );
@@ -128,7 +128,7 @@ Widget _state({
         padding: const EdgeInsets.only(left: 5),
         child: Text(
           StringFormatHelper.capitalize(item.state),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
             color: Colors.grey,
           ),

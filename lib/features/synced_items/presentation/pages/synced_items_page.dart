@@ -138,11 +138,11 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        leading: AppDrawerIcon(),
-        title: Text('Synced Items'),
+        leading: const AppDrawerIcon(),
+        title: const Text('Synced Items'),
         actions: _appBarActions(),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: DoubleTapExit(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -238,7 +238,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                             SnackBar(
                                               backgroundColor:
                                                   PlexColorPalette.shark,
-                                              content: Text(
+                                              content: const Text(
                                                 'Media details for this type of synced item is not supported.',
                                               ),
                                               action: SnackBarAction(
@@ -277,7 +277,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                         }
                                       },
                                       child: Container(
-                                        margin: EdgeInsets.all(4),
+                                        margin: const EdgeInsets.all(4),
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(4),
@@ -287,7 +287,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                             ),
                                             controller: _slidableController,
                                             actionPane:
-                                                SlidableBehindActionPane(),
+                                                const SlidableBehindActionPane(),
                                             secondaryActionDelegate:
                                                 SlideActionBuilderDelegate(
                                               actionCount: 1,
@@ -307,7 +307,8 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                             ),
                                             child: ClipRRect(
                                               child: PosterCard(
-                                                cardMargin: EdgeInsets.all(0),
+                                                cardMargin:
+                                                    const EdgeInsets.all(0),
                                                 borderRadius:
                                                     BorderRadius.circular(0),
                                                 item: syncedItem,
@@ -329,7 +330,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                             ),
                           );
                         } else {
-                          return Expanded(
+                          return const Expanded(
                             child: Center(
                               child: Text(
                                 'No synced items found.',
@@ -367,7 +368,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                           ),
                         );
                       }
-                      return Expanded(
+                      return const Expanded(
                         child: Center(
                           child: CircularProgressIndicator(),
                         ),
@@ -439,7 +440,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
               child: Stack(
                 children: [
                   IconButton(
-                    icon: FaIcon(
+                    icon: const FaIcon(
                       FontAwesomeIcons.userAlt,
                       size: 20,
                     ),
@@ -447,14 +448,14 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                     onPressed: () {
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           backgroundColor: PlexColorPalette.shark,
                           content: Text('Loading users'),
                         ),
                       );
                     },
                   ),
-                  Positioned(
+                  const Positioned(
                     right: 5,
                     top: 25,
                     child: SizedBox(
@@ -470,12 +471,12 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
             );
           }
           return IconButton(
-            icon: FaIcon(FontAwesomeIcons.userAlt),
+            icon: const FaIcon(FontAwesomeIcons.userAlt),
             color: Theme.of(context).disabledColor,
             onPressed: () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   backgroundColor: PlexColorPalette.shark,
                   content: Text('Users failed to load'),
                 ),
@@ -514,7 +515,7 @@ class _SlidableAction extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: Colors.green,
-              content: Text('Delete synced item request sent to Plex.'),
+              content: const Text('Delete synced item request sent to Plex.'),
               action: SnackBarAction(
                 label: 'LEARN MORE',
                 onPressed: () async {
@@ -561,7 +562,7 @@ class _SlidableAction extends StatelessWidget {
           builder: (context, state) {
             if (state is DeleteSyncedItemInProgress &&
                 state.syncId == syncedItem.syncId) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
                     TautulliColorPalette.not_white,
@@ -569,7 +570,7 @@ class _SlidableAction extends StatelessWidget {
                 ),
               );
             }
-            return DeleteSyncedItemButton();
+            return const DeleteSyncedItemButton();
           },
         ),
       ),
@@ -587,28 +588,28 @@ Future<int> _showDeleteSyncedItemDialog({
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: Text('Are you sure you want to delete this synced item?'),
+        title: const Text('Are you sure you want to delete this synced item?'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               syncedItem.syncTitle,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: PlexColorPalette.gamboge,
               ),
             ),
             Text(
               maskSensitiveInfo ? '*Hidden User*' : syncedItem.user,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: PlexColorPalette.gamboge,
               ),
             ),
             Text(
               syncedItem.deviceName,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: PlexColorPalette.gamboge,
               ),
             ),
@@ -616,7 +617,7 @@ Future<int> _showDeleteSyncedItemDialog({
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('CANCEL'),
+            child: const Text('CANCEL'),
             onPressed: () {
               Navigator.of(context).pop(0);
             },
@@ -624,7 +625,7 @@ Future<int> _showDeleteSyncedItemDialog({
           Padding(
             padding: const EdgeInsets.only(right: 4),
             child: TextButton(
-              child: Text('DELETE'),
+              child: const Text('DELETE'),
               style: TextButton.styleFrom(
                 backgroundColor: Colors.red,
               ),

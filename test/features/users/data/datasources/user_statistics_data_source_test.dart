@@ -46,8 +46,8 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final int tUserId = 123;
+  const String tTautulliId = 'jkl';
+  const int tUserId = 123;
 
   final List<UserStatistic> tUserWatchTimeStatsList = [];
   final List<UserStatistic> tUserPlayerStatsList = [];

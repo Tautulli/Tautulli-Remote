@@ -24,22 +24,22 @@ class UserErrorButton extends StatelessWidget {
   Widget build(BuildContext context) {
     if (failure == SettingsFailure() || failure == MissingServerFailure()) {
       return ElevatedButton.icon(
-        icon: FaIcon(
+        icon: const FaIcon(
           FontAwesomeIcons.cogs,
           color: TautulliColorPalette.not_white,
         ),
-        label: Text('Go to settings'),
+        label: const Text('Go to settings'),
         onPressed: () {
           Navigator.of(context).pushReplacementNamed('/settings');
         },
       );
     } else {
       return ElevatedButton.icon(
-        icon: FaIcon(
+        icon: const FaIcon(
           FontAwesomeIcons.redoAlt,
           color: TautulliColorPalette.not_white,
         ),
-        label: Text('Retry'),
+        label: const Text('Retry'),
         onPressed: () {
           context.read<UsersBloc>().add(usersEvent);
           return completer.future;

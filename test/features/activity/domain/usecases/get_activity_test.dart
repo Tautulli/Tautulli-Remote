@@ -37,7 +37,7 @@ void main() {
     );
   });
 
-  final tTautulliId = 'abc';
+  const tTautulliId = 'abc';
 
   final tActivityJson = json.decode(fixture('activity.json'));
 

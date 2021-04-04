@@ -53,7 +53,7 @@ void main() {
     plexPass: true,
   );
 
-  final tIpAddress = '10.0.0.1';
+  const tIpAddress = '10.0.0.1';
 
   final tGeoIpItem = GeoIpItemModel(
     accuracy: null,

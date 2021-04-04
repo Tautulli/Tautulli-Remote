@@ -41,8 +41,8 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final String tSessionId = 'm8bbpxpywe6i91zib3hnfltz';
+  const String tTautulliId = 'jkl';
+  const String tSessionId = 'm8bbpxpywe6i91zib3hnfltz';
 
   test(
     'should check if the device is online',
@@ -121,7 +121,7 @@ void main() {
           settingsBloc: settingsBloc,
         );
         // assert
-        expect(result, equals(Right(true)));
+        expect(result, equals(const Right(true)));
       },
     );
 

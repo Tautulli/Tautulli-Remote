@@ -105,7 +105,7 @@ class _HistoryInfoState extends State<HistoryInfo> {
                     }
                     return const SizedBox(height: 0, width: 0);
                   }
-                  return _ItemRow(
+                  return const _ItemRow(
                     title: '',
                     item: _FormattedText('ERROR: IP Address not in GeoIP map'),
                   );
@@ -114,13 +114,13 @@ class _HistoryInfoState extends State<HistoryInfo> {
                   title: '',
                   item: Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 19,
                         width: 19,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 5),
                         child: _FormattedText('Loading location data'),
                       ),
                     ],
@@ -200,7 +200,7 @@ class _FormattedText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 16,
         height: 1.4,
       ),
@@ -245,7 +245,7 @@ class _ItemRow extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Expanded(

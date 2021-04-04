@@ -28,12 +28,14 @@ class AppDrawer extends StatelessWidget {
           // Add colored bar behind status bar
           Container(
             height: MediaQuery.of(context).padding.top,
-            decoration: BoxDecoration(color: TautulliColorPalette.midnight),
+            decoration:
+                const BoxDecoration(color: TautulliColorPalette.midnight),
           ),
           // Logo section
           Container(
             height: 100,
-            decoration: BoxDecoration(color: TautulliColorPalette.midnight),
+            decoration:
+                const BoxDecoration(color: TautulliColorPalette.midnight),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -48,7 +50,7 @@ class AppDrawer extends StatelessWidget {
                         child: Image.asset('assets/logo/logo_transparent.png'),
                       ),
                       RichText(
-                        text: TextSpan(
+                        text: const TextSpan(
                           children: [
                             TextSpan(
                               text: 'Tautulli',
@@ -75,16 +77,16 @@ class AppDrawer extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.only(top: 0),
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.only(top: 0),
               children: <Widget>[
                 ListTile(
-                  leading: FaIcon(
+                  leading: const FaIcon(
                     FontAwesomeIcons.tv,
                     size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
-                  title: Text('Activity'),
+                  title: const Text('Activity'),
                   onTap: () {
                     if (route.settings.name != ActivityPage.routeName &&
                         route.settings.name != '/') {
@@ -100,12 +102,12 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: FaIcon(
+                  leading: const FaIcon(
                     FontAwesomeIcons.history,
                     size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
-                  title: Text('History'),
+                  title: const Text('History'),
                   onTap: () {
                     if (route.settings.name != HistoryPage.routeName) {
                       Navigator.of(context)
@@ -120,12 +122,12 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: FaIcon(
+                  leading: const FaIcon(
                     FontAwesomeIcons.clock,
                     size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
-                  title: Text('Recently Added'),
+                  title: const Text('Recently Added'),
                   onTap: () {
                     if (route.settings.name != RecentlyAddedPage.routeName) {
                       Navigator.of(context)
@@ -140,12 +142,12 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: FaIcon(
+                  leading: const FaIcon(
                     FontAwesomeIcons.photoVideo,
                     size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
-                  title: Text('Libraries'),
+                  title: const Text('Libraries'),
                   onTap: () {
                     if (route.settings.name != LibrariesPage.routeName) {
                       Navigator.of(context)
@@ -160,12 +162,12 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: FaIcon(
+                  leading: const FaIcon(
                     FontAwesomeIcons.users,
                     size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
-                  title: Text('Users'),
+                  title: const Text('Users'),
                   onTap: () {
                     if (route.settings.name != UsersPage.routeName) {
                       Navigator.of(context)
@@ -180,12 +182,12 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: FaIcon(
+                  leading: const FaIcon(
                     FontAwesomeIcons.listOl,
                     size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
-                  title: Text('Statistics'),
+                  title: const Text('Statistics'),
                   onTap: () {
                     if (route.settings.name != StatisticsPage.routeName) {
                       Navigator.of(context)
@@ -220,12 +222,12 @@ class AppDrawer extends StatelessWidget {
                 //   },
                 // ),
                 ListTile(
-                  leading: FaIcon(
+                  leading: const FaIcon(
                     FontAwesomeIcons.cloudDownloadAlt,
                     size: 20,
                     color: TautulliColorPalette.not_white,
                   ),
-                  title: Text('Synced Items'),
+                  title: const Text('Synced Items'),
                   onTap: () {
                     if (route.settings.name != SyncedItemsPage.routeName) {
                       Navigator.of(context)
@@ -242,19 +244,19 @@ class AppDrawer extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             child: Divider(
               color: PlexColorPalette.raven,
             ),
           ),
           ListTile(
-            leading: FaIcon(
+            leading: const FaIcon(
               FontAwesomeIcons.bullhorn,
               size: 20,
               color: TautulliColorPalette.not_white,
             ),
-            title: Text('Announcements'),
+            title: const Text('Announcements'),
             onTap: () {
               if (route.settings.name != AnnouncementsPage.routeName) {
                 Navigator.pop(context);
@@ -273,13 +275,13 @@ class AppDrawer extends StatelessWidget {
                   return Container(
                     height: 13,
                     width: 13,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: PlexColorPalette.gamboge,
                     ),
                   );
                 }
-                return SizedBox(height: 0, width: 0);
+                return const SizedBox(height: 0, width: 0);
               },
             ),
           ),
@@ -289,7 +291,7 @@ class AppDrawer extends StatelessWidget {
               size: 20,
               color: Colors.red[400],
             ),
-            title: Text('Donate'),
+            title: const Text('Donate'),
             onTap: () {
               if (route.settings.name != DonatePage.routeName) {
                 Navigator.pop(context);
@@ -304,12 +306,12 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: FaIcon(
+            leading: const FaIcon(
               FontAwesomeIcons.cogs,
               size: 20,
               color: TautulliColorPalette.not_white,
             ),
-            title: Text('Settings'),
+            title: const Text('Settings'),
             onTap: () {
               if (route.settings.name != SettingsPage.routeName) {
                 Navigator.of(context)

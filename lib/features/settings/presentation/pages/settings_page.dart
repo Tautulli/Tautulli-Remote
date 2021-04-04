@@ -39,7 +39,7 @@ class SettingsPage extends StatelessWidget {
     // Makes sure RegisterDeviceBloc is available for the FAB
     return BlocProvider(
       create: (context) => di.sl<RegisterDeviceBloc>(),
-      child: SettingsPageContent(),
+      child: const SettingsPageContent(),
     );
   }
 }
@@ -84,10 +84,10 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        leading: AppDrawerIcon(),
-        title: Text('Settings'),
+        leading: const AppDrawerIcon(),
+        title: const Text('Settings'),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       floatingActionButton: _buildSpeedDial(
         context,
         // dialVisible: dialVisible,
@@ -111,7 +111,7 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
             if (state is RegisterDeviceSuccess) {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   backgroundColor: Colors.green,
                   content: Text('Tautulli Registration Successful'),
                 ),
@@ -124,15 +124,15 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                 return ListView(
                   // controller: scrollController,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 10),
                       child: SettingsAlertBanner(),
                     ),
-                    ListHeader(
+                    const ListHeader(
                       headingText: 'Tautulli Servers',
                     ),
                     state.serverList.isEmpty
-                        ? Padding(
+                        ? const Padding(
                             padding: EdgeInsets.only(
                               left: 16,
                               right: 16,
@@ -159,7 +159,7 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                                     title: Text('${server.plexName}'),
                                     subtitle: (isEmpty(
                                             server.primaryConnectionAddress))
-                                        ? Text(
+                                        ? const Text(
                                             'Primary Connection Address Missing')
                                         : isNotEmpty(server
                                                     .primaryConnectionAddress) &&
@@ -173,9 +173,9 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                                                     !state.maskSensitiveInfo
                                                 ? Text(server
                                                     .secondaryConnectionAddress)
-                                                : Text(
+                                                : const Text(
                                                     '*Hidden Connection Address*'),
-                                    trailing: FaIcon(
+                                    trailing: const FaIcon(
                                       FontAwesomeIcons.cog,
                                       color: TautulliColorPalette.not_white,
                                     ),
@@ -201,23 +201,23 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                     BlocBuilder<RegisterDeviceBloc, RegisterDeviceState>(
                       builder: (context, state) {
                         if (state is RegisterDeviceInProgress) {
-                          return Center(
+                          return const Center(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 6, bottom: 8),
+                              padding: EdgeInsets.only(top: 6, bottom: 8),
                               child: CircularProgressIndicator(),
                             ),
                           );
                         }
-                        return SizedBox(height: 0, width: 0);
+                        return const SizedBox(height: 0, width: 0);
                       },
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     //* App settings
-                    ListHeader(
+                    const ListHeader(
                       headingText: 'App Settings',
                     ),
                     ListTile(
-                      title: Text('Server Timeout'),
+                      title: const Text('Server Timeout'),
                       subtitle: _serverTimeoutDisplay(state.serverTimeout),
                       onTap: () {
                         return showDialog(
@@ -231,7 +231,7 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                       },
                     ),
                     ListTile(
-                      title: Text('Activity Refresh Rate'),
+                      title: const Text('Activity Refresh Rate'),
                       subtitle: _serverRefreshRateDisplay(state.refreshRate),
                       onTap: () {
                         return showDialog(
@@ -245,8 +245,8 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                       },
                     ),
                     CheckboxListTile(
-                      title: Text('Double Tap To Exit'),
-                      subtitle: Text(
+                      title: const Text('Double Tap To Exit'),
+                      subtitle: const Text(
                         'Tap back twice to exit',
                       ),
                       onChanged: (value) {
@@ -259,8 +259,8 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                       value: state.doubleTapToExit ?? false,
                     ),
                     CheckboxListTile(
-                      title: Text('Mask Sensitive Info'),
-                      subtitle: Text('Hides sensitive info in the UI'),
+                      title: const Text('Mask Sensitive Info'),
+                      subtitle: const Text('Hides sensitive info in the UI'),
                       onChanged: (value) {
                         context.read<SettingsBloc>().add(
                               SettingsUpdateMaskSensitiveInfo(
@@ -281,39 +281,39 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                       ),
                     ),
                     ListTile(
-                      title: Text(
+                      title: const Text(
                         'OneSignal Data Privacy',
                         style: TextStyle(
                           color: TautulliColorPalette.smoke,
                         ),
                       ),
-                      trailing: FaIcon(
+                      trailing: const FaIcon(
                         FontAwesomeIcons.angleRight,
                         color: TautulliColorPalette.smoke,
                       ),
                       onTap: () => Navigator.of(context).pushNamed('/privacy'),
                     ),
                     ListTile(
-                      title: Text(
+                      title: const Text(
                         'Help & Support',
                         style: TextStyle(
                           color: TautulliColorPalette.smoke,
                         ),
                       ),
-                      trailing: FaIcon(
+                      trailing: const FaIcon(
                         FontAwesomeIcons.angleRight,
                         color: TautulliColorPalette.smoke,
                       ),
                       onTap: () => Navigator.of(context).pushNamed('/help'),
                     ),
                     ListTile(
-                      title: Text(
+                      title: const Text(
                         'Changelog',
                         style: TextStyle(
                           color: TautulliColorPalette.smoke,
                         ),
                       ),
-                      trailing: FaIcon(
+                      trailing: const FaIcon(
                         FontAwesomeIcons.angleRight,
                         color: TautulliColorPalette.smoke,
                       ),
@@ -321,13 +321,13 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                           Navigator.of(context).pushNamed('/changelog'),
                     ),
                     ListTile(
-                      title: Text(
+                      title: const Text(
                         'About',
                         style: TextStyle(
                           color: TautulliColorPalette.smoke,
                         ),
                       ),
-                      trailing: FaIcon(
+                      trailing: const FaIcon(
                         FontAwesomeIcons.angleRight,
                         color: TautulliColorPalette.smoke,
                       ),
@@ -351,11 +351,11 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                 );
               }
               if (state is SettingsLoadInProgress) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               } else {
-                return Center(
+                return const Center(
                   child: Text(
                     'There was an error loading settings. Please use the help page to get assistance.',
                   ),
@@ -372,32 +372,32 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
 Widget _serverTimeoutDisplay(int timeout) {
   switch (timeout) {
     case (3):
-      return Text('3 sec - Fast');
+      return const Text('3 sec - Fast');
     case (8):
-      return Text('8 sec - Slow');
+      return const Text('8 sec - Slow');
     case (15):
-      return Text('15 sec - Very Slow');
+      return const Text('15 sec - Very Slow');
     case (30):
-      return Text('30 sec - Extremely Slow');
+      return const Text('30 sec - Extremely Slow');
     default:
-      return Text('5 sec - Default');
+      return const Text('5 sec - Default');
   }
 }
 
 Widget _serverRefreshRateDisplay(int refreshRate) {
   switch (refreshRate) {
     case (5):
-      return Text('5 sec - Faster');
+      return const Text('5 sec - Faster');
     case (7):
-      return Text('7 sec - Fast');
+      return const Text('7 sec - Fast');
     case (10):
-      return Text('10 sec - Normal');
+      return const Text('10 sec - Normal');
     case (15):
-      return Text('15 sec - Slow');
+      return const Text('15 sec - Slow');
     case (20):
-      return Text('20 sec - Slower');
+      return const Text('20 sec - Slower');
     default:
-      return Text('Disabled');
+      return const Text('Disabled');
   }
 }
 
@@ -412,7 +412,7 @@ Widget _buildSpeedDial(BuildContext context, {bool dialVisible = true}) {
           curve: Curves.easeIn,
           icon: Icons.add,
           activeIcon: Icons.close,
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: TautulliColorPalette.not_white,
           ),
           backgroundColor: Theme.of(context).accentColor,
@@ -421,8 +421,8 @@ Widget _buildSpeedDial(BuildContext context, {bool dialVisible = true}) {
           children: [
             SpeedDialChild(
               backgroundColor: Theme.of(context).accentColor,
-              labelWidget: Padding(
-                padding: const EdgeInsets.only(right: 8),
+              labelWidget: const Padding(
+                padding: EdgeInsets.only(right: 8),
                 child: Text(
                   'Scan QR Code',
                   style: TextStyle(
@@ -430,7 +430,7 @@ Widget _buildSpeedDial(BuildContext context, {bool dialVisible = true}) {
                   ),
                 ),
               ),
-              child: Center(
+              child: const Center(
                 child: FaIcon(
                   FontAwesomeIcons.qrcode,
                   color: TautulliColorPalette.not_white,
@@ -459,8 +459,8 @@ Widget _buildSpeedDial(BuildContext context, {bool dialVisible = true}) {
             ),
             SpeedDialChild(
               backgroundColor: Theme.of(context).accentColor,
-              labelWidget: Padding(
-                padding: const EdgeInsets.only(right: 8),
+              labelWidget: const Padding(
+                padding: EdgeInsets.only(right: 8),
                 child: Text(
                   'Enter Manually',
                   style: TextStyle(
@@ -468,7 +468,7 @@ Widget _buildSpeedDial(BuildContext context, {bool dialVisible = true}) {
                   ),
                 ),
               ),
-              child: Center(
+              child: const Center(
                 child: FaIcon(
                   FontAwesomeIcons.pencilAlt,
                   color: TautulliColorPalette.not_white,
@@ -493,7 +493,7 @@ Widget _buildSpeedDial(BuildContext context, {bool dialVisible = true}) {
                 if (result == true) {
                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       backgroundColor: Colors.green,
                       content: Text('Tautulli Registration Successful'),
                     ),

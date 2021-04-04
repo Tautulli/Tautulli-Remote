@@ -26,12 +26,12 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text('Announcements'),
+        title: const Text('Announcements'),
       ),
       body: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
         builder: (context, state) {
           if (state is AnnouncementsInProgress) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -62,7 +62,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                 },
               );
             } else {
-              return Center(
+              return const Center(
                 child: Text(
                   'No announcements found.',
                   style: TextStyle(
@@ -73,7 +73,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
               );
             }
           }
-          return SizedBox(height: 0, width: 0);
+          return const SizedBox(height: 0, width: 0);
         },
       ),
     );

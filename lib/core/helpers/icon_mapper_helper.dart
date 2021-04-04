@@ -61,7 +61,7 @@ class IconMapperHelper {
     const Color color = Colors.grey;
 
     if (watchedStatus == 1) {
-      return FaIcon(
+      return const FaIcon(
         FontAwesomeIcons.solidCircle,
         color: color,
         size: size,
@@ -69,14 +69,14 @@ class IconMapperHelper {
     } else if (watchedStatus == 0.5) {
       return Transform.rotate(
         angle: 180 * pi / 180,
-        child: FaIcon(
+        child: const FaIcon(
           FontAwesomeIcons.adjust,
           color: color,
           size: size,
         ),
       );
     } else {
-      return FaIcon(
+      return const FaIcon(
         FontAwesomeIcons.circle,
         color: color,
         size: size,

@@ -36,7 +36,7 @@ class MediaDetailsTab extends StatelessWidget {
         if (state is MetadataSuccess) {
           return _TabContent(metadata: state.metadata);
         }
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },
@@ -80,7 +80,7 @@ class _TabContent extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 4),
                 child: Text(
                   metadata.tagline,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
@@ -88,7 +88,7 @@ class _TabContent extends StatelessWidget {
               ),
             if (isNotEmpty(metadata.summary))
               ExpandableTheme(
-                data: ExpandableThemeData(
+                data: const ExpandableThemeData(
                   crossFadePoint: 0,
                 ),
                 child: ExpandableNotifier(
@@ -134,14 +134,14 @@ class _TabContent extends StatelessWidget {
                                     required: true);
                                 return GestureDetector(
                                   child: Padding(
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                       top: 8,
                                     ),
                                     child: Text(
                                       controller.expanded
                                           ? "READ LESS"
                                           : "READ MORE",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 13,
                                       ),
                                     ),
@@ -153,7 +153,7 @@ class _TabContent extends StatelessWidget {
                               },
                             );
                           } else {
-                            return SizedBox(
+                            return const SizedBox(
                               height: 0,
                               width: 0,
                             );
@@ -341,7 +341,7 @@ class _ItemRow extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Expanded(
@@ -351,7 +351,7 @@ class _ItemRow extends StatelessWidget {
                 if (item.isNotEmpty && isNotBlank(item[0]))
                   Text(
                     item.take(5).join(', '),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       height: 1.4,
                     ),

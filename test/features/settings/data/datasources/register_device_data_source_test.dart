@@ -30,13 +30,13 @@ void main() {
     );
   });
 
-  final String tConnectionProtocol = 'http';
-  final String tConnectionDomain = 'tautulli.com';
-  final String tConnectionPath = '/tautulli';
-  final String tDeviceToken = 'abc';
-  final String tDeviceName = 'test';
-  final String tDeviceId = 'lmn';
-  final String tOnesignalId = 'xyz';
+  const String tConnectionProtocol = 'http';
+  const String tConnectionDomain = 'tautulli.com';
+  const String tConnectionPath = '/tautulli';
+  const String tDeviceToken = 'abc';
+  const String tDeviceName = 'test';
+  const String tDeviceId = 'lmn';
+  const String tOnesignalId = 'xyz';
 
   void setUpMockRegisterDeviceSuccess() {
     Map<String, dynamic> registerJson = {
@@ -155,7 +155,7 @@ void main() {
           deviceToken: tDeviceToken,
         );
         // assert
-        expect(result, TypeMatcher<Map>());
+        expect(result, const TypeMatcher<Map>());
       },
     );
   });

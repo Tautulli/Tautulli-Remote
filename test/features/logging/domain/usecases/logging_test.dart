@@ -16,7 +16,7 @@ void main() {
     );
   });
 
-  final String text = 'test log message';
+  const String text = 'test log message';
 
   group('debug', () {
     test(

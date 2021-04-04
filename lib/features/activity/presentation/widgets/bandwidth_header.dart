@@ -25,15 +25,15 @@ class BandwidthHeader extends StatelessWidget {
         (bandwidthMap['lan'] > 0 || bandwidthMap['wan'] > 0)) {
       return Row(
         children: [
-          FaIcon(
+          const FaIcon(
             FontAwesomeIcons.networkWired,
             color: Colors.grey,
             size: 12,
           ),
-          SizedBox(width: 4),
+          const SizedBox(width: 4),
           Text(
             '$totalBandwidth (${bandwidthMap["lan"] > 0 ? "LAN: $lanBandwidth" : ""}${bandwidthMap["lan"] > 0 && bandwidthMap["wan"] > 0 ? ', ' : ''}${bandwidthMap["wan"] > 0 ? "WAN: $wanBandwidth" : ""})',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.grey,
             ),
           ),
@@ -41,6 +41,6 @@ class BandwidthHeader extends StatelessWidget {
       );
     }
 
-    return SizedBox(width: 0, height: 0);
+    return const SizedBox(width: 0, height: 0);
   }
 }

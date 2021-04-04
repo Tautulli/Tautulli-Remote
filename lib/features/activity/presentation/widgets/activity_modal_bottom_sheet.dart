@@ -92,7 +92,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                             ),
                             //* Activity art section
                             ClipRRect(
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 topRight: Radius.circular(10),
                               ),
@@ -161,7 +161,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                                         ? Text(
                                                             '${activity.channelCallSign} ${activity.channelIdentifier}',
                                                           )
-                                                        : SizedBox(),
+                                                        : const SizedBox(),
                                               ],
                                             ),
                                           ),
@@ -192,7 +192,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                           bottom: 10,
                           child: Container(
                             height: 130,
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               left: 4,
                             ),
                             child: ClipRRect(
@@ -225,7 +225,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                     //* Activity details section
                     Expanded(
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 15),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
                         color: Theme.of(context).backgroundColor,
                         child: ActivityMediaDetails(
                           constraints: constraints,
@@ -265,7 +265,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                 style: ElevatedButton.styleFrom(
                                   primary: PlexColorPalette.gamboge,
                                 ),
-                                child: Text(
+                                child: const Text(
                                   'View User',
                                   style: TextStyle(
                                     color: TautulliColorPalette.not_white,
@@ -310,7 +310,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                   style: ElevatedButton.styleFrom(
                                     primary: PlexColorPalette.curious_blue,
                                   ),
-                                  child: Text(
+                                  child: const Text(
                                     'View Media',
                                     style: TextStyle(
                                       color: TautulliColorPalette.not_white,

@@ -47,8 +47,8 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final int tSectionId = 123;
+  const String tTautulliId = 'jkl';
+  const int tSectionId = 123;
 
   final List<LibraryStatistic> tLibraryWatchTimeStatsList = [];
   final List<LibraryStatistic> tLibraryUserStatsList = [];

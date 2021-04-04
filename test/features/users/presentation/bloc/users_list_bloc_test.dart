@@ -41,7 +41,7 @@ void main() {
     );
   });
 
-  final tTautulliId = 'jkl';
+  const tTautulliId = 'jkl';
 
   final List<User> tUserList = [];
 

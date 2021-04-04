@@ -34,7 +34,7 @@ class ServerSettingsPage extends StatelessWidget {
         title: Text('$plexName Settings'),
         actions: <Widget>[
           IconButton(
-            icon: FaIcon(
+            icon: const FaIcon(
               FontAwesomeIcons.trashAlt,
               color: TautulliColorPalette.not_white,
             ),
@@ -65,15 +65,15 @@ class ServerSettingsPage extends StatelessWidget {
               return ListView(
                 children: <Widget>[
                   ListTile(
-                    title: Text('Primary Connection Address'),
+                    title: const Text('Primary Connection Address'),
                     subtitle: isEmpty(server.primaryConnectionAddress)
-                        ? Text('Required')
+                        ? const Text('Required')
                         : isNotEmpty(server.primaryConnectionAddress) &&
                                 !maskSensitiveInfo
                             ? Text(server.primaryConnectionAddress)
-                            : Text('*Hidden Connection Address*'),
+                            : const Text('*Hidden Connection Address*'),
                     trailing: Container(
-                      padding: EdgeInsets.all(4),
+                      padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         border: Border.all(
                           width: 0.5,
@@ -81,7 +81,8 @@ class ServerSettingsPage extends StatelessWidget {
                               ? Theme.of(context).accentColor
                               : Colors.grey[700],
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(4)),
                       ),
                       child: Text(
                         isNotEmpty(server.primaryConnectionAddress) &&
@@ -116,7 +117,7 @@ class ServerSettingsPage extends StatelessWidget {
                         );
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             backgroundColor: PlexColorPalette.shark,
                             content: Text('Copied to clipboard'),
                           ),
@@ -125,15 +126,15 @@ class ServerSettingsPage extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    title: Text('Secondary Connection Address'),
+                    title: const Text('Secondary Connection Address'),
                     subtitle: isEmpty(server.secondaryConnectionAddress)
-                        ? Text('Not configured')
+                        ? const Text('Not configured')
                         : isNotEmpty(server.secondaryConnectionAddress) &&
                                 !maskSensitiveInfo
                             ? Text(server.secondaryConnectionAddress)
-                            : Text('*Hidden Connection Address*'),
+                            : const Text('*Hidden Connection Address*'),
                     trailing: Container(
-                      padding: EdgeInsets.all(4),
+                      padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         border: Border.all(
                           width: 0.5,
@@ -141,7 +142,8 @@ class ServerSettingsPage extends StatelessWidget {
                               ? Theme.of(context).accentColor
                               : Colors.grey[700],
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(4)),
                       ),
                       child: Text(
                         isEmpty(server.secondaryConnectionAddress)
@@ -176,7 +178,7 @@ class ServerSettingsPage extends StatelessWidget {
                         );
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             backgroundColor: PlexColorPalette.shark,
                             content: Text('Copied to clipboard'),
                           ),
@@ -185,7 +187,7 @@ class ServerSettingsPage extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    title: Text(
+                    title: const Text(
                       'Device Token',
                       style: TextStyle(
                         color: Colors.grey,
@@ -195,7 +197,7 @@ class ServerSettingsPage extends StatelessWidget {
                       maskSensitiveInfo
                           ? '*Hidden Device Token*'
                           : server.deviceToken,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.grey,
                       ),
                     ),
@@ -204,7 +206,7 @@ class ServerSettingsPage extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: PlexColorPalette.shark,
-                          content: Text('Device tokens cannot be edited'),
+                          content: const Text('Device tokens cannot be edited'),
                           action: SnackBarAction(
                             label: 'LEARN MORE',
                             onPressed: () async {
@@ -224,7 +226,7 @@ class ServerSettingsPage extends StatelessWidget {
                         );
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             backgroundColor: PlexColorPalette.shark,
                             content: Text('Copied to clipboard'),
                           ),
@@ -232,15 +234,15 @@ class ServerSettingsPage extends StatelessWidget {
                       }
                     },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Divider(
                       color: Colors.grey,
                     ),
                   ),
                   ListTile(
                     title: Text('Open ${server.plexName} in browser'),
-                    trailing: FaIcon(
+                    trailing: const FaIcon(
                       FontAwesomeIcons.externalLinkAlt,
                       color: TautulliColorPalette.not_white,
                       size: 20,
@@ -259,7 +261,7 @@ class ServerSettingsPage extends StatelessWidget {
               return Text('Server not found in settings [$error]');
             }
           }
-          return Text('Bloc error');
+          return const Text('Bloc error');
         },
       ),
     );
@@ -283,12 +285,12 @@ Future _buildPrimaryConnectionAddressSettingsDialog({
         controller.text = primaryConnectionAddress;
       }
       return AlertDialog(
-        title: Text('Tautulli Primary Connection Address'),
+        title: const Text('Tautulli Primary Connection Address'),
         content: Form(
           key: _primaryConnectionFormKey,
           child: TextFormField(
             controller: controller,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 hintText: 'Input your primary connection address'),
             validator: (value) {
               bool validUrl = isURL(
@@ -305,13 +307,13 @@ Future _buildPrimaryConnectionAddressSettingsDialog({
         ),
         actions: <Widget>[
           TextButton(
-            child: Text("CLOSE"),
+            child: const Text("CLOSE"),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: Text("SAVE"),
+            child: const Text("SAVE"),
             onPressed: () {
               if (_primaryConnectionFormKey.currentState.validate()) {
                 settingsBloc.add(
@@ -348,12 +350,12 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
         controller.text = secondaryConnectionAddress;
       }
       return AlertDialog(
-        title: Text('Tautulli Secondary Connection Address'),
+        title: const Text('Tautulli Secondary Connection Address'),
         content: Form(
           key: _secondaryConnectionFormKey,
           child: TextFormField(
             controller: controller,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 hintText: 'Input your secondary connection address'),
             validator: (value) {
               bool validUrl = isURL(
@@ -370,13 +372,13 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
         ),
         actions: <Widget>[
           TextButton(
-            child: Text("CLOSE"),
+            child: const Text("CLOSE"),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: Text("SAVE"),
+            child: const Text("SAVE"),
             onPressed: () {
               if (_secondaryConnectionFormKey.currentState.validate()) {
                 settingsBloc.add(
@@ -408,13 +410,13 @@ Future<bool> _showDeleteServerDialog({
         title: Text('Are you sure you want to remove $plexName?'),
         actions: <Widget>[
           TextButton(
-            child: Text('CANCEL'),
+            child: const Text('CANCEL'),
             onPressed: () {
               Navigator.of(context).pop(false);
             },
           ),
           TextButton(
-            child: Text('CONFIRM'),
+            child: const Text('CONFIRM'),
             style: TextButton.styleFrom(
               backgroundColor: Colors.red,
             ),

@@ -24,21 +24,21 @@ class SyncedItemsErrorButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return failure == SettingsFailure() || failure == MissingServerFailure()
         ? ElevatedButton.icon(
-            icon: FaIcon(
+            icon: const FaIcon(
               FontAwesomeIcons.cogs,
               color: TautulliColorPalette.not_white,
             ),
-            label: Text('Go to settings'),
+            label: const Text('Go to settings'),
             onPressed: () {
               Navigator.of(context).pushReplacementNamed('/settings');
             },
           )
         : ElevatedButton.icon(
-            icon: FaIcon(
+            icon: const FaIcon(
               FontAwesomeIcons.redoAlt,
               color: TautulliColorPalette.not_white,
             ),
-            label: Text('Retry'),
+            label: const Text('Retry'),
             onPressed: () {
               context.read<SyncedItemsBloc>().add(syncedItemsEvent);
               return completer.future;

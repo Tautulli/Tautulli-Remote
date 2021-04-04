@@ -36,8 +36,8 @@ void main() {
     );
   });
 
-  final tTautulliId = 'abc';
-  final tIpAddress = '10.0.0.1';
+  const tTautulliId = 'abc';
+  const tIpAddress = '10.0.0.1';
 
   final tGeoIpItemModel = GeoIpItemModel(
     accuracy: null,

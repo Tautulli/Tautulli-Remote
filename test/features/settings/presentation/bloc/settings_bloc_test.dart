@@ -32,24 +32,24 @@ void main() {
     );
   });
 
-  final String tPrimaryConnectionAddress = 'http://tautulli.com/tautulli';
-  final String tPrimaryConnectionProtocol = 'http';
-  final String tPrimaryConnectionDomain = 'tautulli.com';
-  final String tPrimaryConnectionPath = '/tautulli';
-  final String tSecondaryConnectionAddress = 'http://plexpy.com/plexpy';
-  final String tSecondaryConnectionProtocol = 'http';
-  final String tSecondaryConnectionDomain = 'plexpy.com';
-  final String tSecondaryConnectionPath = '/plexpy';
-  final String tDeviceToken = 'abc';
-  final String tDeviceToken2 = 'adef';
-  final String tTautulliId = 'jkl';
-  final String tTautulliId2 = 'mno';
-  final String tPlexName = 'Plex';
-  final String tPlexName2 = 'Plex2';
-  final String tPlexIdentifier = 'uvw';
-  final String tPlexIdentifier2 = 'xyz';
-  final String tDateFormat = 'YYYY-MM-DD';
-  final String tTimeFormat = 'HH:mm';
+  const String tPrimaryConnectionAddress = 'http://tautulli.com/tautulli';
+  const String tPrimaryConnectionProtocol = 'http';
+  const String tPrimaryConnectionDomain = 'tautulli.com';
+  const String tPrimaryConnectionPath = '/tautulli';
+  const String tSecondaryConnectionAddress = 'http://plexpy.com/plexpy';
+  const String tSecondaryConnectionProtocol = 'http';
+  const String tSecondaryConnectionDomain = 'plexpy.com';
+  const String tSecondaryConnectionPath = '/plexpy';
+  const String tDeviceToken = 'abc';
+  const String tDeviceToken2 = 'adef';
+  const String tTautulliId = 'jkl';
+  const String tTautulliId2 = 'mno';
+  const String tPlexName = 'Plex';
+  const String tPlexName2 = 'Plex2';
+  const String tPlexIdentifier = 'uvw';
+  const String tPlexIdentifier2 = 'xyz';
+  const String tDateFormat = 'YYYY-MM-DD';
+  const String tTimeFormat = 'HH:mm';
 
   final ServerModel tServerModel = ServerModel(
     primaryConnectionAddress: tPrimaryConnectionAddress,
@@ -89,12 +89,12 @@ void main() {
   final List<ServerModel> tServerList = [tServerModel];
   final List<ServerModel> tUpdatedServerList = [tServerModel, tServerModel2];
 
-  final int tServerTimeout = 5;
-  final int tRefreshRate = 10;
-  final bool tDoubleTapToExit = true;
-  final bool tMaskSensitiveInfo = true;
-  final String tStatsType = 'duration';
-  final bool tOneSignalBannerDismissed = false;
+  const int tServerTimeout = 5;
+  const int tRefreshRate = 10;
+  const bool tDoubleTapToExit = true;
+  const bool tMaskSensitiveInfo = true;
+  const String tStatsType = 'duration';
+  const bool tOneSignalBannerDismissed = false;
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =

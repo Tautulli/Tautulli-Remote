@@ -27,7 +27,7 @@ class MediaItemH2 extends StatelessWidget {
         : BlocBuilder<MetadataBloc, MetadataState>(
             builder: (context, state) {
               if (state is MetadataFailure) {
-                return Text('');
+                return const Text('');
               }
               if (state is MetadataSuccess) {
                 return _HeadingText(
@@ -35,8 +35,8 @@ class MediaItemH2 extends StatelessWidget {
                   metadata: state.metadata,
                 );
               }
-              return Padding(
-                padding: const EdgeInsets.only(top: 5),
+              return const Padding(
+                padding: EdgeInsets.only(top: 5),
                 child: SizedBox(
                   height: 17,
                   width: 17,
@@ -105,7 +105,7 @@ class _HeadingText extends StatelessWidget {
       padding: const EdgeInsets.only(top: 5),
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 17,
         ),
         overflow: TextOverflow.ellipsis,

@@ -130,31 +130,31 @@ class _TautulliRemoteState extends State<TautulliRemote> {
               bodyColor: TautulliColorPalette.not_white,
             ),
         dialogBackgroundColor: PlexColorPalette.river_bed,
-        textSelectionTheme: TextSelectionThemeData(
+        textSelectionTheme: const TextSelectionThemeData(
           selectionColor: PlexColorPalette.gamboge,
           selectionHandleColor: PlexColorPalette.gamboge,
           cursorColor: PlexColorPalette.gamboge,
         ),
         canvasColor: PlexColorPalette.shark,
-        snackBarTheme: SnackBarThemeData(
+        snackBarTheme: const SnackBarThemeData(
           contentTextStyle: TextStyle(
             color: TautulliColorPalette.not_white,
           ),
         ),
         inputDecorationTheme: ThemeData.dark().inputDecorationTheme.copyWith(
-              enabledBorder: UnderlineInputBorder(
+              enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: TautulliColorPalette.not_white),
               ),
-              focusedBorder: UnderlineInputBorder(
+              focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: PlexColorPalette.gamboge),
               ),
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 color: Colors.grey,
               ),
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 color: TautulliColorPalette.not_white,
               ),
-              helperStyle: TextStyle(
+              helperStyle: const TextStyle(
                 color: TautulliColorPalette.not_white,
               ),
             ),
@@ -174,23 +174,23 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         cardColor: PlexColorPalette.shark,
       ),
       routes: {
-        ActivityPage.routeName: (ctx) => ActivityPage(),
-        AnnouncementsPage.routeName: (ctx) => AnnouncementsPage(),
-        HistoryPage.routeName: (ctx) => HistoryPage(),
-        RecentlyAddedPage.routeName: (ctx) => RecentlyAddedPage(),
-        LibrariesPage.routeName: (ctx) => LibrariesPage(),
-        UsersPage.routeName: (ctx) => UsersPage(),
-        StatisticsPage.routeName: (ctx) => StatisticsPage(),
-        SyncedItemsPage.routeName: (ctx) => SyncedItemsPage(),
-        HelpPage.routeName: (ctx) => HelpPage(),
-        DonatePage.routeName: (ctx) => DonatePage(),
-        SettingsPage.routeName: (ctx) => SettingsPage(),
-        PrivacyPage.routeName: (ctx) => PrivacyPage(),
-        LogsPage.routeName: (ctx) => LogsPage(),
-        ChangelogPage.routeName: (ctx) => ChangelogPage(),
+        ActivityPage.routeName: (ctx) => const ActivityPage(),
+        AnnouncementsPage.routeName: (ctx) => const AnnouncementsPage(),
+        HistoryPage.routeName: (ctx) => const HistoryPage(),
+        RecentlyAddedPage.routeName: (ctx) => const RecentlyAddedPage(),
+        LibrariesPage.routeName: (ctx) => const LibrariesPage(),
+        UsersPage.routeName: (ctx) => const UsersPage(),
+        StatisticsPage.routeName: (ctx) => const StatisticsPage(),
+        SyncedItemsPage.routeName: (ctx) => const SyncedItemsPage(),
+        HelpPage.routeName: (ctx) => const HelpPage(),
+        DonatePage.routeName: (ctx) => const DonatePage(),
+        SettingsPage.routeName: (ctx) => const SettingsPage(),
+        PrivacyPage.routeName: (ctx) => const PrivacyPage(),
+        LogsPage.routeName: (ctx) => const LogsPage(),
+        ChangelogPage.routeName: (ctx) => const ChangelogPage(),
       },
       initialRoute: widget.showChangelog ? '/changelog' : null,
-      home: ActivityPage(),
+      home: const ActivityPage(),
     );
   }
 }

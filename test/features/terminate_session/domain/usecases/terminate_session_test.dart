@@ -34,8 +34,8 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final String tSessionId = 'm8bbpxpywe6i91zib3hnfltz';
+  const String tTautulliId = 'jkl';
+  const String tSessionId = 'm8bbpxpywe6i91zib3hnfltz';
 
   test(
     'should return true when session is terminated successfully',
@@ -48,7 +48,7 @@ void main() {
           message: anyNamed('message'),
           settingsBloc: anyNamed('settingsBloc'),
         ),
-      ).thenAnswer((_) async => Right(true));
+      ).thenAnswer((_) async => const Right(true));
       // act
       final result = await usecase(
         tautulliId: tTautulliId,
@@ -56,7 +56,7 @@ void main() {
         settingsBloc: settingsBloc,
       );
       // assert
-      expect(result, equals(Right(true)));
+      expect(result, equals(const Right(true)));
     },
   );
 }

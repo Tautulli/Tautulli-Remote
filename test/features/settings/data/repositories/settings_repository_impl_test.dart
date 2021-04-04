@@ -47,15 +47,15 @@ void main() {
     );
   });
 
-  final int tServerTimeout = 3;
-  final int tRefreshRate = 5;
-  final bool tDoubleTapToExit = true;
-  final bool tMaskSensitiveInfo = true;
-  final String tTautulliId = 'jkl';
-  final String tStatsType = 'duration';
-  final bool tOneSignalBannerDismissed = false;
-  final String tLastAppVersion = '2.1.5';
-  final int tLastReadAnnouncementId = 1;
+  const int tServerTimeout = 3;
+  const int tRefreshRate = 5;
+  const bool tDoubleTapToExit = true;
+  const bool tMaskSensitiveInfo = true;
+  const String tTautulliId = 'jkl';
+  const String tStatsType = 'duration';
+  const bool tOneSignalBannerDismissed = false;
+  const String tLastAppVersion = '2.1.5';
+  const int tLastReadAnnouncementId = 1;
   final List<int> tCustomCertHashList = [1, 2];
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));

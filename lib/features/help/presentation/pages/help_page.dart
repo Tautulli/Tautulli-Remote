@@ -15,16 +15,16 @@ class HelpPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text('Help & Support'),
+        title: const Text('Help & Support'),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 8),
         child: ListView(
           children: [
-            ListHeader(headingText: 'Help Topics'),
+            const ListHeader(headingText: 'Help Topics'),
             ListTile(
-              title: Text('Secondary Connection Address'),
-              trailing: FaIcon(
+              title: const Text('Secondary Connection Address'),
+              trailing: const FaIcon(
                 FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
                 size: 20,
@@ -36,8 +36,8 @@ class HelpPage extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Using Basic Authentication'),
-              trailing: FaIcon(
+              title: const Text('Using Basic Authentication'),
+              trailing: const FaIcon(
                 FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
                 size: 20,
@@ -49,8 +49,8 @@ class HelpPage extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Terminating a Stream'),
-              trailing: FaIcon(
+              title: const Text('Terminating a Stream'),
+              trailing: const FaIcon(
                 FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
                 size: 20,
@@ -62,10 +62,10 @@ class HelpPage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 15),
-            ListHeader(headingText: 'Support'),
+            const ListHeader(headingText: 'Support'),
             ListTile(
-              title: Text('Wiki'),
-              trailing: FaIcon(
+              title: const Text('Wiki'),
+              trailing: const FaIcon(
                 FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
                 size: 20,
@@ -77,8 +77,8 @@ class HelpPage extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Discord'),
-              trailing: FaIcon(
+              title: const Text('Discord'),
+              trailing: const FaIcon(
                 FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
                 size: 20,
@@ -88,8 +88,8 @@ class HelpPage extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Reddit'),
-              trailing: FaIcon(
+              title: const Text('Reddit'),
+              trailing: const FaIcon(
                 FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
                 size: 20,
@@ -99,10 +99,10 @@ class HelpPage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 15),
-            ListHeader(headingText: 'Bugs/Feature Requests'),
+            const ListHeader(headingText: 'Bugs/Feature Requests'),
             ListTile(
-              title: Text('GitHub'),
-              trailing: FaIcon(
+              title: const Text('GitHub'),
+              trailing: const FaIcon(
                 FontAwesomeIcons.externalLinkAlt,
                 color: TautulliColorPalette.smoke,
                 size: 20,
@@ -113,10 +113,10 @@ class HelpPage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 15),
-            ListHeader(headingText: 'Logs'),
+            const ListHeader(headingText: 'Logs'),
             ListTile(
-              title: Text('View Tautulli Remote logs'),
-              trailing: FaIcon(
+              title: const Text('View Tautulli Remote logs'),
+              trailing: const FaIcon(
                 FontAwesomeIcons.angleRight,
                 color: TautulliColorPalette.smoke,
                 size: 20,

@@ -34,8 +34,8 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
-  final String tSessionId = 'm8bbpxpywe6i91zib3hnfltz';
+  const String tTautulliId = 'jkl';
+  const String tSessionId = 'm8bbpxpywe6i91zib3hnfltz';
 
   final Map<String, dynamic> successMap = {
     'response': {

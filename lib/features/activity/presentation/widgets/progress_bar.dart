@@ -23,7 +23,7 @@ class ProgressBar extends StatelessWidget {
         ),
         LinearProgressIndicator(
           backgroundColor: Colors.transparent,
-          valueColor: AlwaysStoppedAnimation(PlexColorPalette.gamboge),
+          valueColor: const AlwaysStoppedAnimation(PlexColorPalette.gamboge),
           value: (progress / 100).toDouble(),
         ),
       ],

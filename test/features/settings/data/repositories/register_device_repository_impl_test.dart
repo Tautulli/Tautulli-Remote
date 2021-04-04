@@ -25,10 +25,10 @@ void main() {
     );
   });
 
-  final String tConnectionProtocol = 'http';
-  final String tConnectionDomain = 'tautulli.com';
-  final String tConnectionPath = '/tautulli';
-  final String tDeviceToken = 'abc';
+  const String tConnectionProtocol = 'http';
+  const String tConnectionDomain = 'tautulli.com';
+  const String tConnectionPath = '/tautulli';
+  const String tDeviceToken = 'abc';
 
   test(
     'should check if the device is online',

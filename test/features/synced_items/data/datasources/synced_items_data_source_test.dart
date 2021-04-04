@@ -39,7 +39,7 @@ void main() {
     );
   });
 
-  final String tTautulliId = 'jkl';
+  const String tTautulliId = 'jkl';
 
   final List<SyncedItem> tSyncedItemList = [];
   final syncedItemsJson = json.decode(fixture('synced_items.json'));

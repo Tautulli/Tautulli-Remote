@@ -14,7 +14,7 @@ class PlatformIcon extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 1 / 1,
       child: ClipRRect(
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(4),
         ),
         child: Container(

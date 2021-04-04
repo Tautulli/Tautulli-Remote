@@ -21,7 +21,7 @@ class PrivacyPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text('Privacy'),
+        title: const Text('Privacy'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,8 +30,8 @@ class PrivacyPage extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(16.0),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
                 child: Text(
                   'OneSignal Data Privacy',
                   style: TextStyle(
@@ -40,8 +40,8 @@ class PrivacyPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
+              const Padding(
+                padding: EdgeInsets.symmetric(
                   horizontal: 16,
                 ),
                 child: _OneSignalDataPrivacyText(),
@@ -51,7 +51,7 @@ class PrivacyPage extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: SwitchListTile(
-                      title: Text(
+                      title: const Text(
                         'Consent to OneSignal data privacy',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -63,14 +63,14 @@ class PrivacyPage extends StatelessWidget {
                           return RichText(
                             text: TextSpan(
                               children: [
-                                TextSpan(
+                                const TextSpan(
                                   text: 'Status: ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w300,
                                   ),
                                 ),
                                 if (state is OneSignalPrivacyConsentFailure)
-                                  TextSpan(
+                                  const TextSpan(
                                     text: 'Not Accepted X',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w300,
@@ -78,7 +78,7 @@ class PrivacyPage extends StatelessWidget {
                                     ),
                                   ),
                                 if (state is OneSignalPrivacyConsentSuccess)
-                                  TextSpan(
+                                  const TextSpan(
                                     text: 'Accepted ✓',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w300,
@@ -133,9 +133,9 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: 16),
         children: [
-          TextSpan(
+          const TextSpan(
             text: 'Tautulli Remote uses ',
           ),
           TextSpan(
@@ -148,10 +148,10 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
                 launch('https://onesignal.com/');
               },
           ),
-          TextSpan(
+          const TextSpan(
             text: ' to handle delivery of notifications.',
           ),
-          TextSpan(
+          const TextSpan(
             text: '\n\nWith ',
           ),
           TextSpan(
@@ -165,7 +165,7 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
                     'https://github.com/Tautulli/Tautulli-Wiki/wiki/Frequently-Asked-Questions#notifications-pycryptodome');
               },
           ),
-          TextSpan(
+          const TextSpan(
             text:
                 ' in Tautulli there is no Personally Identifiable Information (PII) collected. Some non-PII user information is collected and cannot be encrypted. Read the ',
           ),
@@ -179,11 +179,11 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
                 launch('https://onesignal.com/privacy');
               },
           ),
-          TextSpan(
+          const TextSpan(
             text:
                 ' for more details. Without encryption the contents of the notifications are sent to OneSignal in plain text.',
           ),
-          TextSpan(
+          const TextSpan(
             text:
                 '\n\nNotification data sent through OneSignal\'s API will be ',
           ),
@@ -198,10 +198,10 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
                     'https://documentation.onesignal.com/docs/handling-personal-data#deleting-notification-data');
               },
           ),
-          TextSpan(
+          const TextSpan(
             text: '.',
           ),
-          TextSpan(
+          const TextSpan(
             text:
                 '\n\nOnce you accept, this device will register with OneSignal. Consent can later be revoked to prevent further communication sent to OneSignal.',
           ),

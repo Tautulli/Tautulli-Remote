@@ -48,11 +48,11 @@ void main() {
     );
   });
 
-  final tTautulliId = 'jkl';
-  final tTautulliId2 = 'mno';
-  final tCount = 25;
-  final tMediaType = 'all';
-  final tMediaType2 = 'movie';
+  const tTautulliId = 'jkl';
+  const tTautulliId2 = 'mno';
+  const tCount = 25;
+  const tMediaType = 'all';
+  const tMediaType2 = 'movie';
   String imageUrl =
       'https://tautulli.domain.com/api/v2?img=/library/metadata/98329/thumb/1591948561&rating_key=98329&width=null&height=300&opacity=null&background=null&blur=null&fallback=poster&cmd=pms_image_proxy&apikey=3c9&app=true';
 

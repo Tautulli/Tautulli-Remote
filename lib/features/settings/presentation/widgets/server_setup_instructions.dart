@@ -8,18 +8,18 @@ class ServerSetupInstructions extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 10),
           child: Text(
             'This app is not registered to a Tautulli server.',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        Text('To register with a Tautulli server:'),
-        BulletItem('Open the Tautulli web interface on another device'),
-        BulletItem('Navigate to Settings > Tautulli Remote App'),
-        BulletItem('Select \'Register a new device\''),
-        BulletItem('Use the button below to add a new server'),
+        const Text('To register with a Tautulli server:'),
+        const BulletItem('Open the Tautulli web interface on another device'),
+        const BulletItem('Navigate to Settings > Tautulli Remote App'),
+        const BulletItem('Select \'Register a new device\''),
+        const BulletItem('Use the button below to add a new server'),
       ],
     );
   }

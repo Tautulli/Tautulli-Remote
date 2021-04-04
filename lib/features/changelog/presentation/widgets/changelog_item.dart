@@ -29,7 +29,7 @@ class ChangelogItem extends StatelessWidget {
             children: [
               Text(
                 release['version'],
-                style: TextStyle(
+                style: const TextStyle(
                   color: TautulliColorPalette.not_white,
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
@@ -37,14 +37,14 @@ class ChangelogItem extends StatelessWidget {
               ),
               Text(
                 release['date'],
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.grey,
                 ),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 4),
+          const Padding(
+            padding: EdgeInsets.only(top: 4),
             child: Divider(
               height: 0,
               color: PlexColorPalette.gamboge,

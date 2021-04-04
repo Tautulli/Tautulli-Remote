@@ -60,8 +60,8 @@ class ActivityMediaInfo extends StatelessWidget {
                             ? _ActivityMediaInfoH3(text: activity.parentTitle)
                             : activity.mediaType == 'clip'
                                 ? _ActivityMediaInfoH3(
-                                    text: '(${StringFormatHelper.capitalize(
-                                        activity.subType)})',
+                                    text:
+                                        '(${StringFormatHelper.capitalize(activity.subType)})',
                                   )
                                 : Container(),
           ],
@@ -87,7 +87,7 @@ class _ActivityMediaInfoH1 extends StatelessWidget {
       text,
       overflow: TextOverflow.ellipsis,
       maxLines: maxLines != null ? maxLines : 1,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 19,
         height: 1,
       ),
@@ -105,14 +105,14 @@ class _ActivityMediaInfoH2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         top: 5,
       ),
       child: Text(
         text,
         overflow: TextOverflow.ellipsis,
         maxLines: maxLines != null ? maxLines : 2,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
           height: 1,
         ),
@@ -132,7 +132,7 @@ class _ActivityMediaInfoH3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         top: 5,
       ),
       child: Text(

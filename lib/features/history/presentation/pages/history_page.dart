@@ -37,7 +37,7 @@ class HistoryPage extends StatelessWidget {
           create: (_) => di.sl<UsersListBloc>(),
         ),
       ],
-      child: HistoryPageContent(),
+      child: const HistoryPageContent(),
     );
   }
 }
@@ -136,11 +136,11 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        leading: AppDrawerIcon(),
-        title: Text('History'),
+        leading: const AppDrawerIcon(),
+        title: const Text('History'),
         actions: _appBarActions(),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: DoubleTapExit(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -271,7 +271,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                       child: Center(
                         child: Text(
                           'No history ${_mediaType != null || _transcodeDecision != null ? 'for the selected filters ' : ''}found.',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                           ),
@@ -308,7 +308,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                     ),
                   );
                 }
-                return Expanded(
+                return const Expanded(
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -405,7 +405,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
               child: Stack(
                 children: [
                   IconButton(
-                    icon: FaIcon(
+                    icon: const FaIcon(
                       FontAwesomeIcons.userAlt,
                       size: 20,
                     ),
@@ -413,14 +413,14 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                     onPressed: () {
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           backgroundColor: PlexColorPalette.shark,
                           content: Text('Loading users'),
                         ),
                       );
                     },
                   ),
-                  Positioned(
+                  const Positioned(
                     right: 5,
                     top: 25,
                     child: SizedBox(
@@ -436,12 +436,12 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
             );
           }
           return IconButton(
-            icon: FaIcon(FontAwesomeIcons.userAlt),
+            icon: const FaIcon(FontAwesomeIcons.userAlt),
             color: Theme.of(context).disabledColor,
             onPressed: () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   backgroundColor: PlexColorPalette.shark,
                   content: Text('Users failed to load'),
                 ),
@@ -544,7 +544,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                   ),
                 );
               }
-              return PopupMenuDivider();
+              return const PopupMenuDivider();
             },
           );
         },

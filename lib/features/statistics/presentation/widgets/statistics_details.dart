@@ -23,21 +23,21 @@ class StatisticsDetails extends StatelessWidget {
           _rowOne(),
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
           ),
         ),
         Text(
           _rowTwo(),
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
           ),
         ),
         Text(
           _rowThree(),
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
           ),
         ),

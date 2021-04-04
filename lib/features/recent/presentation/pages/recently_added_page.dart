@@ -30,7 +30,7 @@ class RecentlyAddedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<RecentlyAddedBloc>(),
-      child: RecentlyAddedPageContent(),
+      child: const RecentlyAddedPageContent(),
     );
   }
 }
@@ -104,11 +104,11 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        leading: AppDrawerIcon(),
-        title: Text('Recently Added'),
+        leading: const AppDrawerIcon(),
+        title: const Text('Recently Added'),
         actions: _appBarActions(),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: DoubleTapExit(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,7 +228,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                     return Expanded(
                       child: Center(
                         child: _mediaType == 'all'
-                            ? Text(
+                            ? const Text(
                                 'No recently added items.',
                                 style: TextStyle(
                                   color: Colors.grey,
@@ -237,7 +237,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                               )
                             : Text(
                                 'No recently added items for ${_mediaTypeToTitle(_mediaType)}.',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16,
                                 ),
@@ -272,7 +272,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                     ),
                   );
                 }
-                return Expanded(
+                return const Expanded(
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),

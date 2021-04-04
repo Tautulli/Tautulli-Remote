@@ -46,7 +46,7 @@ class AnnouncementCard extends StatelessWidget {
                       children: [
                         Text(
                           title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -55,14 +55,14 @@ class AnnouncementCard extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 4),
                           child: Text(
                             date,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontStyle: FontStyle.italic,
                             ),
                           ),
                         ),
                         Text(
                           body,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                           ),
                         ),
@@ -70,8 +70,8 @@ class AnnouncementCard extends StatelessWidget {
                     ),
                   ),
                   if (isNotEmpty(actionUrl))
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 4),
                       child: FaIcon(
                         FontAwesomeIcons.externalLinkAlt,
                         size: 20,

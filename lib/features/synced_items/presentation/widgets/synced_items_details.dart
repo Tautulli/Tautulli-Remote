@@ -28,21 +28,21 @@ class SyncedItemsDetails extends StatelessWidget {
               Text(
                 syncedItem.syncTitle,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                 ),
               ),
               Text(
                 maskSensitiveInfo ? '*Hidden User*' : syncedItem.user,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15,
                 ),
               ),
               Text(
                 syncedItem.deviceName,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15,
                 ),
               ),
@@ -52,7 +52,7 @@ class SyncedItemsDetails extends StatelessWidget {
                   Text(
                     '${StringFormatHelper.capitalize(syncedItem.state)}${syncedItem.itemCompleteCount > 0 ? " · " : ""}${syncedItem.itemCompleteCount > 0 ? syncedItem.itemCompleteCount : ""} ${syncedItem.itemCompleteCount <= 0 ? "" : syncedItem.itemCompleteCount == 1 ? "item" : "items"}${syncedItem.totalSize > 0 ? " · " : ""}${syncedItem.totalSize > 0 ? DataUnitFormatHelper.prettyFilesize(syncedItem.totalSize) : ""}',
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 15,
                     ),
                   ),
