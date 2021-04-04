@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../domain/entities/plex_server_info.dart';
 import '../../domain/entities/tautulli_settings_general.dart';
 import '../../presentation/bloc/settings_bloc.dart';
@@ -73,8 +73,8 @@ const CUSTOM_CERT_HASH_LIST = 'CUSTOM_CERT_HASH_LIST';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
   final SharedPreferences sharedPreferences;
-  final tautulliApi.GetServerInfo apiGetServerInfo;
-  final tautulliApi.GetSettings apiGetSettings;
+  final tautulli_api.GetServerInfo apiGetServerInfo;
+  final tautulli_api.GetSettings apiGetSettings;
 
   SettingsDataSourceImpl({
     @required this.sharedPreferences,

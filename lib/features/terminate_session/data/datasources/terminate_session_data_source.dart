@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 abstract class TerminateSessionDataSource {
@@ -16,7 +16,7 @@ abstract class TerminateSessionDataSource {
 }
 
 class TerminateSessionDataSourceImpl implements TerminateSessionDataSource {
-  final tautulliApi.TerminateSession apiTerminateSession;
+  final tautulli_api.TerminateSession apiTerminateSession;
 
   TerminateSessionDataSourceImpl({
     @required this.apiTerminateSession,

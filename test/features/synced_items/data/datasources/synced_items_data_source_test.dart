@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
-    as tautulliApi;
+    as tautulli_api;
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
@@ -13,7 +13,7 @@ import 'package:tautulli_remote/features/synced_items/domain/entities/synced_ite
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockGetSyncedItems extends Mock implements tautulliApi.GetSyncedItems {}
+class MockGetSyncedItems extends Mock implements tautulli_api.GetSyncedItems {}
 
 class MockSettings extends Mock implements Settings {}
 

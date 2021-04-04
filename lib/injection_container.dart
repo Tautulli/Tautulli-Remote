@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import 'core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import 'core/device_info/device_info.dart';
 import 'core/network/network_info.dart';
 import 'features/activity/data/datasources/activity_data_source.dart';
@@ -824,134 +824,134 @@ Future<void> init() async {
   );
 
   // API
-  sl.registerLazySingleton<tautulliApi.ConnectionHandler>(
-    () => tautulliApi.ConnectionHandlerImpl(
+  sl.registerLazySingleton<tautulli_api.ConnectionHandler>(
+    () => tautulli_api.ConnectionHandlerImpl(
       callTautulli: sl(),
       logging: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.CallTautulli>(
-    () => tautulliApi.CallTautulliImpl(
+  sl.registerLazySingleton<tautulli_api.CallTautulli>(
+    () => tautulli_api.CallTautulliImpl(
       logging: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.DeleteMobileDevice>(
-    () => tautulliApi.DeleteMobileDeviceImpl(
+  sl.registerLazySingleton<tautulli_api.DeleteMobileDevice>(
+    () => tautulli_api.DeleteMobileDeviceImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.DeleteSyncedItem>(
-    () => tautulliApi.DeleteSyncedItemImpl(
+  sl.registerLazySingleton<tautulli_api.DeleteSyncedItem>(
+    () => tautulli_api.DeleteSyncedItemImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetActivity>(
-    () => tautulliApi.GetActivityImpl(
+  sl.registerLazySingleton<tautulli_api.GetActivity>(
+    () => tautulli_api.GetActivityImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetChildrenMetadata>(
-    () => tautulliApi.GetChildrenMetadataImpl(
+  sl.registerLazySingleton<tautulli_api.GetChildrenMetadata>(
+    () => tautulli_api.GetChildrenMetadataImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetGeoipLookup>(
-    () => tautulliApi.GetGeoipLookupImpl(
+  sl.registerLazySingleton<tautulli_api.GetGeoipLookup>(
+    () => tautulli_api.GetGeoipLookupImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetHistory>(
-    () => tautulliApi.GetHistoryImpl(
+  sl.registerLazySingleton<tautulli_api.GetHistory>(
+    () => tautulli_api.GetHistoryImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetHomeStats>(
-    () => tautulliApi.GetHomeStatsImpl(
+  sl.registerLazySingleton<tautulli_api.GetHomeStats>(
+    () => tautulli_api.GetHomeStatsImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetLibrariesTable>(
-    () => tautulliApi.GetLibrariesTableImpl(
+  sl.registerLazySingleton<tautulli_api.GetLibrariesTable>(
+    () => tautulli_api.GetLibrariesTableImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetLibraryMediaInfo>(
-    () => tautulliApi.GetLibraryMediaInfoImpl(
+  sl.registerLazySingleton<tautulli_api.GetLibraryMediaInfo>(
+    () => tautulli_api.GetLibraryMediaInfoImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetLibraryUserStats>(
-    () => tautulliApi.GetLibraryUserStatsImpl(
+  sl.registerLazySingleton<tautulli_api.GetLibraryUserStats>(
+    () => tautulli_api.GetLibraryUserStatsImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetLibraryWatchTimeStats>(
-    () => tautulliApi.GetLibraryWatchTimeStatsImpl(
+  sl.registerLazySingleton<tautulli_api.GetLibraryWatchTimeStats>(
+    () => tautulli_api.GetLibraryWatchTimeStatsImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetMetadata>(
-    () => tautulliApi.GetMetadataImpl(
+  sl.registerLazySingleton<tautulli_api.GetMetadata>(
+    () => tautulli_api.GetMetadataImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetRecentlyAdded>(
-    () => tautulliApi.GetRecentlyAddedImpl(
+  sl.registerLazySingleton<tautulli_api.GetRecentlyAdded>(
+    () => tautulli_api.GetRecentlyAddedImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetServerInfo>(
-    () => tautulliApi.GetServerInfoImpl(
+  sl.registerLazySingleton<tautulli_api.GetServerInfo>(
+    () => tautulli_api.GetServerInfoImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetSettings>(
-    () => tautulliApi.GetSettingsImpl(
+  sl.registerLazySingleton<tautulli_api.GetSettings>(
+    () => tautulli_api.GetSettingsImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetSyncedItems>(
-    () => tautulliApi.GetSyncedItemsImpl(
+  sl.registerLazySingleton<tautulli_api.GetSyncedItems>(
+    () => tautulli_api.GetSyncedItemsImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetUser>(
-    () => tautulliApi.GetUserImpl(
+  sl.registerLazySingleton<tautulli_api.GetUser>(
+    () => tautulli_api.GetUserImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetUserNames>(
-    () => tautulliApi.GetUserNamesImpl(
+  sl.registerLazySingleton<tautulli_api.GetUserNames>(
+    () => tautulli_api.GetUserNamesImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetUserPlayerStats>(
-    () => tautulliApi.GetUserPlayerStatsImpl(
+  sl.registerLazySingleton<tautulli_api.GetUserPlayerStats>(
+    () => tautulli_api.GetUserPlayerStatsImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetUserWatchTimeStats>(
-    () => tautulliApi.GetUserWatchTimeStatsImpl(
+  sl.registerLazySingleton<tautulli_api.GetUserWatchTimeStats>(
+    () => tautulli_api.GetUserWatchTimeStatsImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.GetUsersTable>(
-    () => tautulliApi.GetUsersTableImpl(
+  sl.registerLazySingleton<tautulli_api.GetUsersTable>(
+    () => tautulli_api.GetUsersTableImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.PmsImageProxy>(
-    () => tautulliApi.PmsImageProxyImpl(
+  sl.registerLazySingleton<tautulli_api.PmsImageProxy>(
+    () => tautulli_api.PmsImageProxyImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.RegisterDevice>(
-    () => tautulliApi.RegisterDeviceImpl(
+  sl.registerLazySingleton<tautulli_api.RegisterDevice>(
+    () => tautulli_api.RegisterDeviceImpl(
       connectionHandler: sl(),
     ),
   );
-  sl.registerLazySingleton<tautulliApi.TerminateSession>(
-    () => tautulliApi.TerminateSessionImpl(
+  sl.registerLazySingleton<tautulli_api.TerminateSession>(
+    () => tautulli_api.TerminateSessionImpl(
       connectionHandler: sl(),
     ),
   );

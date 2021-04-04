@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 abstract class ImageUrlDataSource {
@@ -19,7 +19,7 @@ abstract class ImageUrlDataSource {
 }
 
 class ImageUrlDataSourceImpl implements ImageUrlDataSource {
-  final tautulliApi.PmsImageProxy apiPmsImageProxy;
+  final tautulli_api.PmsImageProxy apiPmsImageProxy;
 
   ImageUrlDataSourceImpl({
     @required this.apiPmsImageProxy,

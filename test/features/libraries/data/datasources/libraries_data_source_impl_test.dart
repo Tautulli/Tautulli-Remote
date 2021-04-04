@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
-    as tautulliApi;
+    as tautulli_api;
 import 'package:tautulli_remote/features/libraries/data/datasources/libraries_data_source.dart';
 import 'package:tautulli_remote/features/libraries/data/models/library_model.dart';
 import 'package:tautulli_remote/features/libraries/domain/entities/library.dart';
@@ -14,7 +14,7 @@ import 'package:tautulli_remote/features/settings/presentation/bloc/settings_blo
 import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetLibrariesTable extends Mock
-    implements tautulliApi.GetLibrariesTable {}
+    implements tautulli_api.GetLibrariesTable {}
 
 class MockSettings extends Mock implements Settings {}
 

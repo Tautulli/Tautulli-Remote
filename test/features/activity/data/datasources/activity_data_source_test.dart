@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
-    as tautulliApi;
+    as tautulli_api;
 import 'package:tautulli_remote/features/activity/data/datasources/activity_data_source.dart';
 import 'package:tautulli_remote/features/activity/domain/entities/activity.dart';
 import 'package:tautulli_remote/features/activity/data/models/activity_model.dart';
@@ -18,7 +18,7 @@ class MockSettings extends Mock implements Settings {}
 
 class MockLogging extends Mock implements Logging {}
 
-class MockGetActivity extends Mock implements tautulliApi.GetActivity {}
+class MockGetActivity extends Mock implements tautulli_api.GetActivity {}
 
 void main() {
   ActivityDataSourceImpl dataSource;

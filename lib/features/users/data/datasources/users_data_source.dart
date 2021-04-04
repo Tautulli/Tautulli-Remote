@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/entities/user_table.dart';
@@ -30,9 +30,9 @@ abstract class UsersDataSource {
 }
 
 class UsersDataSourceImpl implements UsersDataSource {
-  final tautulliApi.GetUser apiGetUser;
-  final tautulliApi.GetUserNames apiGetUserNames;
-  final tautulliApi.GetUsersTable apiGetUsersTable;
+  final tautulli_api.GetUser apiGetUser;
+  final tautulli_api.GetUserNames apiGetUserNames;
+  final tautulli_api.GetUsersTable apiGetUsersTable;
 
   UsersDataSourceImpl({
     @required this.apiGetUser,

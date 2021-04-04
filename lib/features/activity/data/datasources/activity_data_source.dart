@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/domain/usecases/settings.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/activity.dart';
@@ -17,7 +17,7 @@ abstract class ActivityDataSource {
 
 class ActivityDataSourceImpl implements ActivityDataSource {
   final Settings settings;
-  final tautulliApi.GetActivity apiGetActivity;
+  final tautulli_api.GetActivity apiGetActivity;
 
   ActivityDataSourceImpl({
     @required this.settings,

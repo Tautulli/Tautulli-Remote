@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../models/metadata_item_model.dart';
@@ -16,7 +16,7 @@ abstract class ChildrenMetadataDataSource {
 }
 
 class ChildrenMetadataDataSourceImpl implements ChildrenMetadataDataSource {
-  final tautulliApi.GetChildrenMetadata apiGetChildrenMetadata;
+  final tautulli_api.GetChildrenMetadata apiGetChildrenMetadata;
 
   ChildrenMetadataDataSourceImpl({@required this.apiGetChildrenMetadata});
 

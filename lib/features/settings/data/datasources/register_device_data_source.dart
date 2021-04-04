@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
@@ -22,7 +22,7 @@ abstract class RegisterDeviceDataSource {
 class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
   final DeviceInfo deviceInfo;
   final OneSignalDataSource oneSignal;
-  final tautulliApi.RegisterDevice apiRegisterDevice;
+  final tautulli_api.RegisterDevice apiRegisterDevice;
 
   RegisterDeviceDataSourceImpl({
     @required this.deviceInfo,

@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 abstract class DeleteSyncedItemDataSource {
@@ -13,7 +13,7 @@ abstract class DeleteSyncedItemDataSource {
 }
 
 class DeleteSyncedItemDataSourceImpl implements DeleteSyncedItemDataSource {
-  final tautulliApi.DeleteSyncedItem apiDeleteSyncedItem;
+  final tautulli_api.DeleteSyncedItem apiDeleteSyncedItem;
 
   DeleteSyncedItemDataSourceImpl({@required this.apiDeleteSyncedItem});
 

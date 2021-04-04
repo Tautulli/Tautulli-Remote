@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../../core/error/exception.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/geo_ip.dart';
@@ -22,7 +22,7 @@ abstract class GeoIpDataSource {
 }
 
 class GeoIpDataSourceImpl implements GeoIpDataSource {
-  final tautulliApi.GetGeoipLookup apiGetGeoipLookup;
+  final tautulli_api.GetGeoipLookup apiGetGeoipLookup;
 
   GeoIpDataSourceImpl({
     @required this.apiGetGeoipLookup,

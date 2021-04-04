@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library.dart';
 import '../models/library_model.dart';
@@ -19,7 +19,7 @@ abstract class LibrariesDataSource {
 }
 
 class LibrariesDataSourceImpl implements LibrariesDataSource {
-  final tautulliApi.GetLibrariesTable apiGetLibrariesTable;
+  final tautulli_api.GetLibrariesTable apiGetLibrariesTable;
 
   LibrariesDataSourceImpl({@required this.apiGetLibrariesTable});
 

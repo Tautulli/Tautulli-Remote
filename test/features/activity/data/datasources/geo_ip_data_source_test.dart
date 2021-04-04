@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
-    as tautulliApi;
+    as tautulli_api;
 import 'package:tautulli_remote/core/database/data/models/server_model.dart';
 import 'package:tautulli_remote/features/activity/data/datasources/geo_ip_data_source.dart';
 import 'package:tautulli_remote/features/activity/data/models/geo_ip_model.dart';
@@ -14,7 +14,7 @@ import 'package:tautulli_remote/features/settings/presentation/bloc/settings_blo
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockGetGeoipLookup extends Mock implements tautulliApi.GetGeoipLookup {}
+class MockGetGeoipLookup extends Mock implements tautulli_api.GetGeoipLookup {}
 
 class MockSettings extends Mock implements Settings {}
 

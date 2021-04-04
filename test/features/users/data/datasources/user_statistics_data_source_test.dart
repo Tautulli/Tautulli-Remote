@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
-    as tautulliApi;
+    as tautulli_api;
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
@@ -14,10 +14,10 @@ import 'package:tautulli_remote/features/users/domain/entities/user_statistic.da
 import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetUserWatchTimeStats extends Mock
-    implements tautulliApi.GetUserWatchTimeStats {}
+    implements tautulli_api.GetUserWatchTimeStats {}
 
 class MockGetUserPlayerStats extends Mock
-    implements tautulliApi.GetUserPlayerStats {}
+    implements tautulli_api.GetUserPlayerStats {}
 
 class MockSettings extends Mock implements Settings {}
 

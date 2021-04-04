@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library_media.dart';
 import '../models/library_media_model.dart';
@@ -20,7 +20,7 @@ abstract class LibraryMediaDataSource {
 }
 
 class LibraryMediaDataSourceImpl implements LibraryMediaDataSource {
-  final tautulliApi.GetLibraryMediaInfo apiGetLibraryMediaInfo;
+  final tautulli_api.GetLibraryMediaInfo apiGetLibraryMediaInfo;
 
   LibraryMediaDataSourceImpl({@required this.apiGetLibraryMediaInfo});
 

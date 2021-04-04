@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
-    as tautulliApi;
+    as tautulli_api;
 import 'package:tautulli_remote/features/history/data/datasources/history_data_source.dart';
 import 'package:tautulli_remote/features/history/data/models/history_model.dart';
 import 'package:tautulli_remote/features/history/domain/entities/history.dart';
@@ -13,7 +13,7 @@ import 'package:tautulli_remote/features/settings/presentation/bloc/settings_blo
 
 import '../../../../fixtures/fixture_reader.dart';
 
-class MockGetHistory extends Mock implements tautulliApi.GetHistory {}
+class MockGetHistory extends Mock implements tautulli_api.GetHistory {}
 
 class MockSettings extends Mock implements Settings {}
 

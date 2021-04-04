@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
-    as tautulliApi;
+    as tautulli_api;
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/data/datasources/settings_data_source.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
@@ -17,9 +17,9 @@ import '../../../../fixtures/fixture_reader.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
-class MockGetServerInfo extends Mock implements tautulliApi.GetServerInfo {}
+class MockGetServerInfo extends Mock implements tautulli_api.GetServerInfo {}
 
-class MockGetSettings extends Mock implements tautulliApi.GetSettings {}
+class MockGetSettings extends Mock implements tautulli_api.GetSettings {}
 
 class MockSettings extends Mock implements Settings {}
 

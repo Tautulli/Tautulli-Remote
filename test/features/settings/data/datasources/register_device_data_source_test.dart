@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
-    as tautulliApi;
+    as tautulli_api;
 import 'package:tautulli_remote/core/device_info/device_info.dart';
 import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote/features/settings/data/datasources/register_device_data_source.dart';
 import 'package:matcher/matcher.dart';
 
-class MockRegisterDevice extends Mock implements tautulliApi.RegisterDevice {}
+class MockRegisterDevice extends Mock implements tautulli_api.RegisterDevice {}
 
 class MockDeviceInfo extends Mock implements DeviceInfo {}
 

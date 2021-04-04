@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../../core/error/exception.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/metadata_item.dart';
@@ -16,7 +16,7 @@ abstract class MetadataDataSource {
 }
 
 class MetadataDataSourceImpl implements MetadataDataSource {
-  final tautulliApi.GetMetadata apiGetMetadata;
+  final tautulli_api.GetMetadata apiGetMetadata;
 
   MetadataDataSourceImpl({@required this.apiGetMetadata});
 

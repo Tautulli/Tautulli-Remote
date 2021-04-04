@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/history.dart';
 import '../models/history_model.dart';
@@ -29,7 +29,7 @@ abstract class HistoryDataSource {
 }
 
 class HistoryDataSourceImpl implements HistoryDataSource {
-  final tautulliApi.GetHistory apiGetHistory;
+  final tautulli_api.GetHistory apiGetHistory;
 
   HistoryDataSourceImpl({
     @required this.apiGetHistory,

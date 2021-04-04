@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/synced_item.dart';
 import '../models/synced_item_model.dart';
@@ -14,7 +14,7 @@ abstract class SyncedItemsDataSource {
 }
 
 class SyncedItemsDataSourceImpl implements SyncedItemsDataSource {
-  final tautulliApi.GetSyncedItems apiGetSyncedItems;
+  final tautulli_api.GetSyncedItems apiGetSyncedItems;
 
   SyncedItemsDataSourceImpl({@required this.apiGetSyncedItems});
 

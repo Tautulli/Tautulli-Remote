@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/statistics.dart';
 import '../models/statistics_model.dart';
@@ -19,7 +19,7 @@ abstract class StatisticsDataSource {
 }
 
 class StatisticsDataSourceImpl implements StatisticsDataSource {
-  final tautulliApi.GetHomeStats apiGetHomeStats;
+  final tautulli_api.GetHomeStats apiGetHomeStats;
 
   StatisticsDataSourceImpl({@required this.apiGetHomeStats});
 

@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library_statistic.dart';
 import '../models/library_statistic_model.dart';
@@ -19,8 +19,8 @@ abstract class LibraryStatisticsDataSource {
 }
 
 class LibraryStatisticsDataSourceImpl implements LibraryStatisticsDataSource {
-  final tautulliApi.GetLibraryWatchTimeStats apiGetLibraryWatchTimeStats;
-  final tautulliApi.GetLibraryUserStats apiGetLibraryUserStats;
+  final tautulli_api.GetLibraryWatchTimeStats apiGetLibraryWatchTimeStats;
+  final tautulli_api.GetLibraryUserStats apiGetLibraryUserStats;
 
   LibraryStatisticsDataSourceImpl({
     @required this.apiGetLibraryWatchTimeStats,

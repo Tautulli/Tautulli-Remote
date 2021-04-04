@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulliApi;
+import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/user_statistic.dart';
 import '../models/user_statistic_model.dart';
@@ -19,8 +19,8 @@ abstract class UserStatisticsDataSource {
 }
 
 class UserStatisticsDataSourceImpl implements UserStatisticsDataSource {
-  final tautulliApi.GetUserWatchTimeStats apiGetUserWatchTimeStats;
-  final tautulliApi.GetUserPlayerStats apiGetUserPlayerStats;
+  final tautulli_api.GetUserWatchTimeStats apiGetUserWatchTimeStats;
+  final tautulli_api.GetUserPlayerStats apiGetUserPlayerStats;
 
   UserStatisticsDataSourceImpl({
     @required this.apiGetUserWatchTimeStats,

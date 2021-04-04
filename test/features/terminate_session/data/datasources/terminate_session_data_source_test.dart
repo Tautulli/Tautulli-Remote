@@ -1,14 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
-    as tautulliApi;
+    as tautulli_api;
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/terminate_session/data/datasources/terminate_session_data_source.dart';
 
 class MockTerminateSession extends Mock
-    implements tautulliApi.TerminateSession {}
+    implements tautulli_api.TerminateSession {}
 
 class MockSettings extends Mock implements Settings {}
 
