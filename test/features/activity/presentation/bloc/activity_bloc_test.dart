@@ -104,7 +104,7 @@ void main() {
     'initialState should be ActivityEmpty',
     () async {
       // assert
-      expect(bloc.state, ActivityInitial(activityMap: {}));
+      expect(bloc.state, ActivityInitial(activityMap: const {}));
     },
   );
 

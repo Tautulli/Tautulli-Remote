@@ -141,7 +141,7 @@ void main() {
       final expected = [
         GeoIpInProgress(),
         GeoIpFailure(
-          geoIpMap: {},
+          geoIpMap: const {},
         ),
       ];
       // ignore: unawaited_futures

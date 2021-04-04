@@ -195,7 +195,7 @@ void main() {
           LibraryStatisticsInProgress(),
           LibraryStatisticsSuccess(
             watchTimeStatsList: tLibraryWatchTimeStatsList,
-            userStatsList: [],
+            userStatsList: const [],
           ),
         ];
         // ignore: unawaited_futures
@@ -228,7 +228,7 @@ void main() {
         final expected = [
           LibraryStatisticsInProgress(),
           LibraryStatisticsSuccess(
-            watchTimeStatsList: [],
+            watchTimeStatsList: const [],
             userStatsList: tLibraryUserStatsList,
           ),
         ];

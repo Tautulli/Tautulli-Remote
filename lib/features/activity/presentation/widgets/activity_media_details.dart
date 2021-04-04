@@ -207,8 +207,8 @@ List<Widget> _buildList({
               constraints: constraints,
               left: '',
               right: Row(
-                children: [
-                  const Text('ERROR: IP Address not in GeoIP map'),
+                children: const [
+                  Text('ERROR: IP Address not in GeoIP map'),
                 ],
               ),
             );
@@ -217,13 +217,13 @@ List<Widget> _buildList({
             constraints: constraints,
             left: '',
             right: Row(
-              children: [
-                const SizedBox(
+              children: const [
+                SizedBox(
                   height: 19,
                   width: 19,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 5),
                   child: Text('Loading location data'),
                 ),

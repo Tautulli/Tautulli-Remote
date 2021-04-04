@@ -107,8 +107,8 @@ class _DonatePageContentState extends State<DonatePageContent> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Column(
-            children: [
-              const Text(
+            children: const [
+              Text(
                 'Tautulli Remote is free and open source.',
                 style: TextStyle(
                   fontSize: 17,
@@ -116,8 +116,8 @@ class _DonatePageContentState extends State<DonatePageContent> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 8),
-              const Text(
+              SizedBox(height: 8),
+              Text(
                 'However, any contributions you can make towards the app are appreciated!',
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,

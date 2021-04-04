@@ -12,14 +12,14 @@ class DeleteSyncedItemButton extends StatelessWidget {
       padding: const EdgeInsets.all(2),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const FaIcon(
+        children: const <Widget>[
+          FaIcon(
             FontAwesomeIcons.trashAlt,
             size: 20,
             color: TautulliColorPalette.not_white,
           ),
-          const SizedBox(height: 4),
-          const Text(
+          SizedBox(height: 4),
+          Text(
             'Delete',
             textAlign: TextAlign.center,
             style: TextStyle(

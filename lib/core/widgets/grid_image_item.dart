@@ -35,7 +35,7 @@ class PosterGridItem extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: FractionalOffset.topCenter,
                   end: FractionalOffset.bottomCenter,
-                  colors: [
+                  colors: const [
                     Colors.transparent,
                     Colors.black,
                   ],

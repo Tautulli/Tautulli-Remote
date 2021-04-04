@@ -10,7 +10,7 @@ void main() {
   final tMetadataItemModel = MetadataItemModel(
     art: '/library/metadata/53052/art/1599764717',
     audioChannels: 6,
-    actors: [
+    actors: const [
       'Mark Hamill',
       'Harrison Ford',
       'Carrie Fisher',
@@ -91,9 +91,9 @@ void main() {
     audioCodec: 'ac3',
     childrenCount: 0,
     contentRating: 'PG',
-    directors: ['Irvin Kershner'],
+    directors: const ['Irvin Kershner'],
     duration: 7641536,
-    genres: ['Sci-Fi', 'Adventure', 'Action', 'Fantasy'],
+    genres: const ['Sci-Fi', 'Adventure', 'Action', 'Fantasy'],
     grandparentRatingKey: null,
     grandparentTitle: '',
     grandparentThumb: null,
@@ -117,7 +117,7 @@ void main() {
     thumb: '/library/metadata/53052/thumb/1599764717',
     videoCodec: 'h264',
     videoFullResolution: '1080p',
-    writers: ['Leigh Brackett', 'Lawrence Kasdan'],
+    writers: const ['Leigh Brackett', 'Lawrence Kasdan'],
     year: 1980,
   );
 

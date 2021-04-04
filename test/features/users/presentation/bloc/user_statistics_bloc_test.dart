@@ -193,7 +193,7 @@ void main() {
         final expected = [
           UserStatisticsInProgress(),
           UserStatisticsSuccess(
-            playerStatsList: [],
+            playerStatsList: const [],
             watchTimeStatsList: tUserWatchTimeStatsList,
           ),
         ];
@@ -228,7 +228,7 @@ void main() {
           UserStatisticsInProgress(),
           UserStatisticsSuccess(
             playerStatsList: tUserPlayerStatsList,
-            watchTimeStatsList: [],
+            watchTimeStatsList: const [],
           ),
         ];
         // ignore: unawaited_futures

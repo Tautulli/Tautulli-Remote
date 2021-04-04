@@ -58,10 +58,9 @@ class SettingsAlertBanner extends StatelessWidget {
                       title: 'Unable to reach OneSignal',
                       message: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          const Text('• Notifications will not work.'),
-                          const Text(
-                              '• Registration with OneSignal will fail.'),
+                        children: const <Widget>[
+                          Text('• Notifications will not work.'),
+                          Text('• Registration with OneSignal will fail.'),
                         ],
                       ),
                       buttonOne: TextButton(

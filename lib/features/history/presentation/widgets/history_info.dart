@@ -113,13 +113,13 @@ class _HistoryInfoState extends State<HistoryInfo> {
                 return _ItemRow(
                   title: '',
                   item: Row(
-                    children: [
-                      const SizedBox(
+                    children: const [
+                      SizedBox(
                         height: 19,
                         width: 19,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       ),
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(left: 5),
                         child: _FormattedText('Loading location data'),
                       ),

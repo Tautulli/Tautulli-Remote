@@ -38,7 +38,7 @@ void main() {
     percentComplete: 96,
     watchedStatus: 1,
     groupCount: 3,
-    groupIds: [30352, 30353, 30354],
+    groupIds: const [30352, 30353, 30354],
     state: null,
     sessionKey: 1,
   );
