@@ -64,7 +64,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getLibraryMediaInfo(
+        await repository.getLibraryMediaInfo(
           tautulliId: tTautulliId,
           ratingKey: tRatingKey,
           refresh: true,

@@ -336,7 +336,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final serverList = await settings.getAllServers();
 
     for (ServerModel server in serverList) {
-      _serverInformation(
+      await _serverInformation(
         server: server,
         settingsBloc: settingsBloc,
       ).then((settingsMap) {

@@ -64,7 +64,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getChildrenMetadata(
+        await repository.getChildrenMetadata(
           tautulliId: tTautulliId,
           ratingKey: tRatingKey,
           settingsBloc: settingsBloc,

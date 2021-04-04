@@ -52,8 +52,8 @@ class OneSignalPrivacyBloc
 
   Stream<OneSignalPrivacyState>
       _mapOneSignalPrivacyGrantConsentToState() async* {
-    oneSignal.grantConsent(true);
-    oneSignal.setSubscription(true);
+    await oneSignal.grantConsent(true);
+    await oneSignal.setSubscription(true);
 
     logging.info(
       'OneSignal: Privacy consent accepted',
@@ -62,8 +62,8 @@ class OneSignalPrivacyBloc
   }
 
   Stream<OneSignalPrivacyState> _mapOneSignalPrivacyRevokeConsent() async* {
-    oneSignal.setSubscription(false);
-    oneSignal.grantConsent(false);
+    await oneSignal.setSubscription(false);
+    await oneSignal.grantConsent(false);
 
     logging.info(
       'OneSignal: Privacy consent revoked',

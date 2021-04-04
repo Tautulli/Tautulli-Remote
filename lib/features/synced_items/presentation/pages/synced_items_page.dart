@@ -244,7 +244,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                               action: SnackBarAction(
                                                 label: 'LEARN MORE',
                                                 onPressed: () async {
-                                                  launch(
+                                                  await launch(
                                                     'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#synced_items_caveats',
                                                   );
                                                 },
@@ -518,7 +518,7 @@ class _SlidableAction extends StatelessWidget {
               action: SnackBarAction(
                 label: 'LEARN MORE',
                 onPressed: () async {
-                  launch(
+                  await launch(
                     'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#synced_items_caveats',
                   );
                 },

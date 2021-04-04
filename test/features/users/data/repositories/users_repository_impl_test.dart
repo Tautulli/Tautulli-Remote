@@ -74,7 +74,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getUser(
+        await repository.getUser(
           tautulliId: tTautulliId,
           userId: tUserId,
           settingsBloc: settingsBloc,
@@ -158,7 +158,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getUserNames(
+        await repository.getUserNames(
           tautulliId: tTautulliId,
           settingsBloc: settingsBloc,
         );
@@ -236,7 +236,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getUsersTable(
+        await repository.getUsersTable(
           tautulliId: tTautulliId,
           settingsBloc: settingsBloc,
         );

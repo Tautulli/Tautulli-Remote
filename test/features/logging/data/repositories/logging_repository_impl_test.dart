@@ -71,7 +71,7 @@ void main() {
       'should call the data source',
       () async {
         // act
-        repository.getAllLogs();
+        await repository.getAllLogs();
         // assert
         verify(mockLoggingDataSource.getAllLogs());
       },

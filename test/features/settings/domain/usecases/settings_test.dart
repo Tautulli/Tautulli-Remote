@@ -94,7 +94,7 @@ void main() {
     'addServer should forward the request to the repository',
     () async {
       // act
-      settings.addServer(
+      await settings.addServer(
         server: tServerModel,
       );
       // assert
@@ -110,7 +110,7 @@ void main() {
     'deleteServer should forward the request to the repository',
     () async {
       // act
-      settings.deleteServer(tId);
+      await settings.deleteServer(tId);
       // assert
       verify(mockSettingsRepository.deleteServer(tId));
     },
@@ -120,7 +120,7 @@ void main() {
     'updateServer should forward the request to the repository',
     () async {
       // act
-      settings.updateServer(tServerModel);
+      await settings.updateServer(tServerModel);
       // assert
       verify(mockSettingsRepository.updateServer(tServerModel));
     },
@@ -130,7 +130,7 @@ void main() {
     'updateServerById should forward the request to the repository',
     () async {
       // act
-      settings.updateServerById(
+      await settings.updateServerById(
         server: tServerModel,
       );
       // assert
@@ -185,7 +185,7 @@ void main() {
     'updatePrimaryConnection should forward the request to the repository',
     () async {
       // act
-      settings.updatePrimaryConnection(
+      await settings.updatePrimaryConnection(
         id: tId,
         primaryConnectionInfo: {
           'primary_connection_address': tPrimaryConnectionAddress,
@@ -213,7 +213,7 @@ void main() {
     'updateSecondaryConnection should forward the request to the repository',
     () async {
       // act
-      settings.updateSecondaryConnection(
+      await settings.updateSecondaryConnection(
         id: tId,
         secondaryConnectionInfo: {
           'secondary_connection_address': tSecondaryConnectionAddress,
@@ -241,7 +241,7 @@ void main() {
     'updateServerSort should forward the request to the repository',
     () async {
       // act
-      settings.updateServerSort(
+      await settings.updateServerSort(
         serverId: tId,
         oldIndex: 0,
         newIndex: 1,

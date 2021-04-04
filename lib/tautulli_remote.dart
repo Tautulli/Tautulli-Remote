@@ -55,7 +55,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     if (!mounted) return;
 
     //TODO: remove onesignal logging
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
     await OneSignal.shared.setLocationShared(false);
 
@@ -66,7 +66,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
           OSiOSSettings.autoPrompt: false,
           OSiOSSettings.inAppLaunchUrl: false
         });
-    OneSignal.shared
+    await OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
     OneSignal.shared

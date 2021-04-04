@@ -154,7 +154,7 @@ class DBProvider {
         );
       }
     }
-    batch.commit();
+    await batch.commit();
   }
 
   updateServer(ServerModel server) async {

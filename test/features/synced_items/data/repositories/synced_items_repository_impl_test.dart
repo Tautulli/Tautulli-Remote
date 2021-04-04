@@ -62,7 +62,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getSyncedItems(
+        await repository.getSyncedItems(
           tautulliId: tTautulliId,
           settingsBloc: settingsBloc,
         );

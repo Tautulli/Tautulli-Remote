@@ -64,7 +64,7 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       //act
-      repository.getGeoIp(
+      await repository.getGeoIp(
         tautulliId: tTautulliId,
         ipAddress: tIpAddress,
         settingsBloc: settingsBloc,

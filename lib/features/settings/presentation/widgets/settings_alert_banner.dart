@@ -83,7 +83,7 @@ class SettingsAlertBanner extends StatelessWidget {
                         buttonOne: TextButton(
                           child: Text('LEARN MORE'),
                           onPressed: () async {
-                            launch(
+                            await launch(
                               'https://github.com/Tautulli/Tautulli-Remote/wiki/OneSignal#registering',
                             );
                           },

@@ -62,7 +62,7 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       // act
-      repository.getHistory(
+      await repository.getHistory(
         tautulliId: tTautulliId,
         settingsBloc: settingsBloc,
       );

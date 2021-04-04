@@ -71,7 +71,7 @@ void main() {
       'should forward to the repository',
       () async {
         // act
-        usecase.getAllLogs();
+        await usecase.getAllLogs();
         // assert
         verify(mockLoggingRepository.getAllLogs());
       },

@@ -76,7 +76,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getPlexServerInfo(
+        await repository.getPlexServerInfo(
           tautulliId: tTautulliId,
           settingsBloc: settingsBloc,
         );
@@ -154,7 +154,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getPlexServerInfo(
+        await repository.getPlexServerInfo(
           tautulliId: tTautulliId,
           settingsBloc: settingsBloc,
         );

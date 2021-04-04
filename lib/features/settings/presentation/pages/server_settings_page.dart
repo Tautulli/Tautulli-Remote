@@ -208,7 +208,7 @@ class ServerSettingsPage extends StatelessWidget {
                           action: SnackBarAction(
                             label: 'LEARN MORE',
                             onPressed: () async {
-                              launch(
+                              await launch(
                                 'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#device_tokens',
                               );
                             },
@@ -247,9 +247,9 @@ class ServerSettingsPage extends StatelessWidget {
                     ),
                     onTap: () async {
                       if (server.primaryActive) {
-                        launch(server.primaryConnectionAddress);
+                        await launch(server.primaryConnectionAddress);
                       } else {
-                        launch(server.secondaryConnectionAddress);
+                        await launch(server.secondaryConnectionAddress);
                       }
                     },
                   ),

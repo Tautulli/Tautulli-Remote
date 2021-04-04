@@ -68,9 +68,8 @@ class AnnouncementsBloc extends Bloc<AnnouncementsEvent, AnnouncementsState> {
             currentState.announcementList.map<int>((a) => a.id).reduce(max);
 
         if (maxId > readAnnouncementId) {
-          di.sl<Settings>().setLastReadAnnouncementId(maxId);
+          await di.sl<Settings>().setLastReadAnnouncementId(maxId);
           yield currentState.copyWith(
-            // lastReadAnnouncementId: maxId,
             unread: false,
           );
         }

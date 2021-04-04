@@ -104,7 +104,7 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
                     action: SnackBarAction(
                       label: 'LEARN MORE',
                       onPressed: () async {
-                        launch(
+                        await launch(
                           'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#library_refresh',
                         );
                       },

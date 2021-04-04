@@ -137,7 +137,7 @@ class _ActivityCardState extends State<ActivityCard> {
                                 action: SnackBarAction(
                                   label: 'LEARN MORE',
                                   onPressed: () async {
-                                    launch(
+                                    await launch(
                                       'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#termination_caveats',
                                     );
                                   },

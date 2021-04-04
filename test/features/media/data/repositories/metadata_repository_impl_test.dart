@@ -60,7 +60,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getMetadata(
+        await repository.getMetadata(
           tautulliId: tTautulliId,
           ratingKey: tRatingKey,
           settingsBloc: settingsBloc,

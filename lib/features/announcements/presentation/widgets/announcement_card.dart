@@ -31,7 +31,7 @@ class AnnouncementCard extends StatelessWidget {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         onTap: isNotEmpty(actionUrl)
             ? () async {
-                launch(actionUrl);
+                await launch(actionUrl);
               }
             : null,
         child: Padding(

@@ -36,7 +36,7 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       //act
-      repository(
+      await repository(
         connectionProtocol: tConnectionProtocol,
         connectionDomain: tConnectionDomain,
         connectionPath: tConnectionPath,

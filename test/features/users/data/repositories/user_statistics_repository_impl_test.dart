@@ -77,7 +77,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getUserWatchTimeStats(
+        await repository.getUserWatchTimeStats(
           tautulliId: tTautulliId,
           userId: tUserId,
           settingsBloc: settingsBloc,
@@ -161,7 +161,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getUserPlayerStats(
+        await repository.getUserPlayerStats(
           tautulliId: tTautulliId,
           userId: tUserId,
           settingsBloc: settingsBloc,

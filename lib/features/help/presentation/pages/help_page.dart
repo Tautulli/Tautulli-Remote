@@ -30,7 +30,7 @@ class HelpPage extends StatelessWidget {
                 size: 20,
               ),
               onTap: () async {
-                launch(
+                await launch(
                   'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#secondary_connection',
                 );
               },
@@ -43,7 +43,7 @@ class HelpPage extends StatelessWidget {
                 size: 20,
               ),
               onTap: () async {
-                launch(
+                await launch(
                   'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#basic_authentication',
                 );
               },
@@ -55,8 +55,8 @@ class HelpPage extends StatelessWidget {
                 color: TautulliColorPalette.smoke,
                 size: 20,
               ),
-              onTap: () {
-                launch(
+              onTap: () async {
+                await launch(
                   'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#terminating_stream',
                 );
               },
@@ -71,7 +71,7 @@ class HelpPage extends StatelessWidget {
                 size: 20,
               ),
               onTap: () async {
-                launch(
+                await launch(
                   'https://github.com/Tautulli/Tautulli-Remote/wiki',
                 );
               },
@@ -84,7 +84,7 @@ class HelpPage extends StatelessWidget {
                 size: 20,
               ),
               onTap: () async {
-                launch('https://tautulli.com/discord.html');
+                await launch('https://tautulli.com/discord.html');
               },
             ),
             ListTile(
@@ -95,7 +95,7 @@ class HelpPage extends StatelessWidget {
                 size: 20,
               ),
               onTap: () async {
-                launch('https://www.reddit.com/r/Tautulli/');
+                await launch('https://www.reddit.com/r/Tautulli/');
               },
             ),
             const SizedBox(height: 15),
@@ -108,7 +108,8 @@ class HelpPage extends StatelessWidget {
                 size: 20,
               ),
               onTap: () async {
-                launch('https://github.com/Tautulli/Tautulli-Remote/issues');
+                await launch(
+                    'https://github.com/Tautulli/Tautulli-Remote/issues');
               },
             ),
             const SizedBox(height: 15),

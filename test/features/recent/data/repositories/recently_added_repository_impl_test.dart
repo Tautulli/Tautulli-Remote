@@ -64,7 +64,7 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       // act
-      repository.getRecentlyAdded(
+      await repository.getRecentlyAdded(
         tautulliId: tTautulliId,
         count: tCount,
         settingsBloc: settingsBloc,

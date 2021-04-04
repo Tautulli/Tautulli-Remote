@@ -62,7 +62,7 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       // act
-      repository.getLibrariesTable(
+      await repository.getLibrariesTable(
         tautulliId: tTautulliId,
         settingsBloc: settingsBloc,
       );

@@ -92,7 +92,7 @@ class _LogsPageContentState extends State<_LogsPageContent> {
                 action: SnackBarAction(
                   label: 'HOW TO ACCESS LOGS',
                   onPressed: () async {
-                    launch(
+                    await launch(
                       'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#logs',
                     );
                   },

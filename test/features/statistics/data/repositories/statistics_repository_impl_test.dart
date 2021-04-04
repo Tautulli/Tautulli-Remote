@@ -80,7 +80,7 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       // act
-      repository.getStatistics(
+      await repository.getStatistics(
         tautulliId: tTautulliId,
         settingsBloc: settingsBloc,
       );
