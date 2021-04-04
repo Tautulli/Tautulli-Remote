@@ -2,7 +2,7 @@ Map changelog = {
   "data": [
     {
       "version": "v2.8.0",
-      "date": "April 1, 2021",
+      "date": "April 4, 2021",
       "changes": [
         {
           "type": "new",
@@ -24,6 +24,10 @@ Map changelog = {
         {
           "type": "improvement",
           "detail": "Added Alexa platform icon and color",
+        },
+        {
+          "type": "improvement",
+          "detail": "Various performance improvements",
         },
         {
           "type": "improvement",
