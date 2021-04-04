@@ -41,7 +41,7 @@ void main() {
   });
 
   const int tId = 1;
-  const int tSortIndex = 0;
+  // const int tSortIndex = 0;
   const String tPrimaryConnectionAddress = 'http://tautuli.domain.com/tautulli';
   const String tPrimaryConnectionProtocol = 'http';
   const String tPrimaryConnectionDomain = 'tautuli.domain.com';
@@ -58,7 +58,7 @@ void main() {
   const String tTimeFormat = 'HH:mm';
 
   const String tStatsType = 'duration';
-  const bool tOneSignalBannerDismissed = false;
+  // const bool tOneSignalBannerDismissed = false;
   const String tLastAppVersion = '2.1.5';
 
   final ServerModel tServerModel = ServerModel(
