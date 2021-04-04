@@ -97,7 +97,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     if (event is ActivityLoadAndRefresh) {
       _settingsBlocCache = event.settingsBloc;
 
-      if (serverList.length > 0) {
+      if (serverList.isNotEmpty) {
         // Do not refresh servers that are still in the process of loading
         serverList.removeWhere((server) =>
             _activityMap[server.tautulliId]['loadingState'] ==

@@ -50,7 +50,7 @@ class AnnouncementsBloc extends Bloc<AnnouncementsEvent, AnnouncementsState> {
         },
         (announcementList) async* {
           int maxId = 0;
-          if (announcementList.length > 0) {
+          if (announcementList.isNotEmpty) {
             maxId = announcementList.map<int>((a) => a.id).reduce(max);
           }
 

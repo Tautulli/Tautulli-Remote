@@ -92,7 +92,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else if (settingsState.serverList.length > 0) {
+      } else if (settingsState.serverList.isNotEmpty) {
         setState(() {
           _tautulliId = settingsState.serverList[0].tautulliId;
         });
@@ -206,7 +206,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                     (server) => server.tautulliId == _tautulliId,
                   );
 
-                  if (state.list.length > 0) {
+                  if (state.list.isNotEmpty) {
                     return Expanded(
                       child: RefreshIndicator(
                         onRefresh: () {

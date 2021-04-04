@@ -94,7 +94,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
 
   @override
   Widget build(BuildContext context) {
-    final bool _hasProducts = _products.length > 0;
+    final bool _hasProducts = _products.isNotEmpty;
 
     return Column(
       children: [

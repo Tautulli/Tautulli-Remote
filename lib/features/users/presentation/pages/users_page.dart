@@ -80,7 +80,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else if (settingState.serverList.length > 0) {
+      } else if (settingState.serverList.isNotEmpty) {
         setState(() {
           _tautulliId = settingState.serverList[0].tautulliId;
         });
@@ -173,7 +173,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
                     },
                     builder: (context, state) {
                       if (state is UsersSuccess) {
-                        if (state.list.length > 0) {
+                        if (state.list.isNotEmpty) {
                           return Expanded(
                             child: RefreshIndicator(
                               onRefresh: () {

@@ -85,7 +85,7 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
           );
         }
         if (state is LibraryMediaSuccess) {
-          if (state.libraryMediaList.length > 0) {
+          if (state.libraryMediaList.isNotEmpty) {
             return RefreshIndicator(
               onRefresh: () {
                 context.read<LibraryMediaBloc>().add(

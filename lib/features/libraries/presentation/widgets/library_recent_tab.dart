@@ -75,7 +75,7 @@ class __LibraryRecentTabContentState extends State<_LibraryRecentTabContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else if (settingsState.serverList.length > 0) {
+      } else if (settingsState.serverList.isNotEmpty) {
         setState(() {
           _tautulliId = settingsState.serverList[0].tautulliId;
         });

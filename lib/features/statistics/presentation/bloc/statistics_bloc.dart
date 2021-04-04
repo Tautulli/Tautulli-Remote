@@ -132,7 +132,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           final List keys = map.keys.toList();
           bool noStats = true;
           for (String key in keys) {
-            if (map[key].length > 0) {
+            if (map[key].isNotEmpty) {
               noStats = false;
               // break;
             }
@@ -244,7 +244,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
   }) async {
     List<Statistics> updatedList = [];
     // for (String key in map.keys.toList()) {
-    if (list.length > 0 &&
+    if (list.isNotEmpty &&
         !['top_platforms', 'top_users', 'most_concurrent'].contains(statId)) {
       for (Statistics statistic in list) {
         //* Fetch and assign image URLs

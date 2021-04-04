@@ -77,7 +77,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else if (settingsState.serverList.length > 0) {
+      } else if (settingsState.serverList.isNotEmpty) {
         setState(() {
           _tautulliId = settingsState.serverList[0].tautulliId;
         });
@@ -165,7 +165,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
               },
               builder: (context, state) {
                 if (state is LibrariesSuccess) {
-                  if (state.librariesList.length > 0) {
+                  if (state.librariesList.isNotEmpty) {
                     return Expanded(
                       child: RefreshIndicator(
                         onRefresh: () {

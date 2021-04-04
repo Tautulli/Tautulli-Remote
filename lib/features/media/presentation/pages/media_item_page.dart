@@ -124,7 +124,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
           _tautulliId = lastSelectedServer;
           _plexIdentifier = plexIdentifier;
         });
-      } else if (settingsState.serverList.length > 0) {
+      } else if (settingsState.serverList.isNotEmpty) {
         setState(() {
           _tautulliId = settingsState.serverList[0].tautulliId;
           _plexIdentifier = settingsState.serverList[0].plexIdentifier;

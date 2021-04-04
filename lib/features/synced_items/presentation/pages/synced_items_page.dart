@@ -96,7 +96,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
         setState(() {
           _tautulliId = lastSelectedServer;
         });
-      } else if (settingState.serverList.length > 0) {
+      } else if (settingState.serverList.isNotEmpty) {
         setState(() {
           _tautulliId = settingState.serverList[0].tautulliId;
         });
@@ -210,7 +210,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                           SlidableController();
 
                       if (state is SyncedItemsSuccess) {
-                        if (state.list.length > 0) {
+                        if (state.list.isNotEmpty) {
                           return Expanded(
                             child: RefreshIndicator(
                               onRefresh: () {

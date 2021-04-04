@@ -45,7 +45,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
             );
           }
           if (state is AnnouncementsSuccess) {
-            if (state.announcementList.length > 0) {
+            if (state.announcementList.isNotEmpty) {
               return ListView.builder(
                 itemCount: state.announcementList.length,
                 itemBuilder: (context, index) {
