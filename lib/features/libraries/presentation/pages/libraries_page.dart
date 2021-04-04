@@ -182,6 +182,8 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           child: ListView.builder(
                             itemCount: state.librariesList.length,
                             itemBuilder: (context, index) {
+                              final heroTag = UniqueKey();
+
                               Library library = state.librariesList[index];
                               return GestureDetector(
                                 onTap: () {
@@ -192,7 +194,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                                             LibraryDetailsPage(
                                           library: library,
                                           sectionType: library.sectionType,
-                                          heroTag: library.sectionId,
+                                          heroTag: heroTag,
                                         ),
                                       ),
                                     );
@@ -214,7 +216,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                                           fit: BoxFit.cover,
                                         ),
                                   details: LibraryDetails(library: library),
-                                  heroTag: library.sectionId,
+                                  heroTag: heroTag,
                                 ),
                               );
                             },

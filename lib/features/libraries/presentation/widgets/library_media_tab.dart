@@ -130,7 +130,7 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
                         ? 1
                         : 2 / 3,
                     children: state.libraryMediaList.map((libraryItem) {
-                      final int heroTag = libraryItem.ratingKey;
+                      final Key heroTag = UniqueKey();
 
                       return PosterGridItem(
                         heroTag: libraryItem.mediaType == 'photo_album'

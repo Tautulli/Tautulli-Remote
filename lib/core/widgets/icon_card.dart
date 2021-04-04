@@ -11,7 +11,7 @@ class IconCard extends StatelessWidget {
   final Color iconColor;
   final Image backgroundImage;
   final Widget details;
-  final int heroTag;
+  final Key heroTag;
 
   const IconCard({
     Key key,

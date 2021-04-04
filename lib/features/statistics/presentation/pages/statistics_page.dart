@@ -601,6 +601,8 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                 ),
               );
             } else if (s.statId == 'top_libraries') {
+              final heroTag = UniqueKey();
+
               statList.add(
                 GestureDetector(
                   onTap: () {
@@ -620,7 +622,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => LibraryDetailsPage(
-                          heroTag: s.sectionId,
+                          heroTag: heroTag,
                           library: library,
                           sectionType: library.sectionType,
                           ratingKey: s.ratingKey,
@@ -630,7 +632,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                     );
                   },
                   child: IconCard(
-                    heroTag: s.sectionId,
+                    heroTag: heroTag,
                     localIconImagePath:
                         AssetMapperHelper.mapLibraryToPath(s.sectionType),
                     iconImageUrl: s.iconUrl,

@@ -23,7 +23,7 @@ class LibraryDetailsPage extends StatelessWidget {
   final int ratingKey;
   final String sectionType;
   final String title;
-  final int heroTag;
+  final Key heroTag;
   final String backgroundUrlOverride;
   final bool disableStatsTab;
 
@@ -60,7 +60,7 @@ class LibraryDetailsPageContent extends StatefulWidget {
   final int ratingKey;
   final String sectionType;
   final String title;
-  final int heroTag;
+  final Key heroTag;
   final String backgroundUrlOverride;
   final bool disableStatsTab;
 
@@ -224,7 +224,8 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    widget.library.lastAccessed != null
+                                    widget.library is Library &&
+                                            widget.library.lastAccessed != null
                                         ? Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 4),
