@@ -9,6 +9,7 @@ import 'features/activity/presentation/pages/activity_page.dart';
 import 'features/announcements/presentation/pages/announcements_page.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
 import 'features/donate/presentation/pages/donate_page.dart';
+import 'features/graphs/presentation/pages/graphs_page.dart';
 import 'features/help/presentation/pages/help_page.dart';
 import 'features/history/presentation/pages/history_page.dart';
 import 'features/libraries/presentation/pages/libraries_page.dart';
@@ -181,6 +182,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         LibrariesPage.routeName: (ctx) => const LibrariesPage(),
         UsersPage.routeName: (ctx) => const UsersPage(),
         StatisticsPage.routeName: (ctx) => const StatisticsPage(),
+        GraphsPage.routeName: (ctx) => const GraphsPage(),
         SyncedItemsPage.routeName: (ctx) => const SyncedItemsPage(),
         HelpPage.routeName: (ctx) => const HelpPage(),
         DonatePage.routeName: (ctx) => const DonatePage(),
