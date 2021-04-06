@@ -22,6 +22,11 @@ import 'features/announcements/data/repositories/announcements_repository_impl.d
 import 'features/announcements/domain/repositories/announcements_repository.dart';
 import 'features/announcements/domain/usecases/get_announcements.dart';
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
+import 'features/graphs/data/datasources/graphs_data_source.dart';
+import 'features/graphs/data/repositories/graphs_repository_impl.dart';
+import 'features/graphs/domain/repositories/graphs_repository.dart';
+import 'features/graphs/domain/usecases/get_plays_by_date.dart';
+import 'features/graphs/presentation/bloc/graphs_bloc.dart';
 import 'features/history/data/datasources/history_data_source.dart';
 import 'features/history/data/repositories/history_repository_impl.dart';
 import 'features/history/domain/repositories/history_repository.dart';
@@ -212,6 +217,37 @@ Future<void> init() async {
   sl.registerLazySingleton<AnnouncementsDataSource>(
     () => AnnouncementsDataSourceImpl(
       client: sl(),
+    ),
+  );
+
+  //! Features = Graphs
+  //Bloc
+  sl.registerFactory(
+    () => GraphsBloc(
+      getPlaysByDate: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => GetPlaysByDate(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<GraphsRepository>(
+    () => GraphsRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<GraphsDataSource>(
+    () => GraphsDataSourceImpl(
+      apiGetPlaysByDate: sl(),
     ),
   );
 
@@ -892,6 +928,11 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.GetMetadata>(
     () => tautulli_api.GetMetadataImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByDate>(
+    () => tautulli_api.GetPlaysByDateImpl(
       connectionHandler: sl(),
     ),
   );
