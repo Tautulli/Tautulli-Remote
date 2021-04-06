@@ -54,7 +54,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     return GraphDataModel(
       graphType: GraphType.playsByDate,
       categories: categories,
-      graphData: seriesDataList,
+      seriesDataList: seriesDataList,
     );
   }
 }

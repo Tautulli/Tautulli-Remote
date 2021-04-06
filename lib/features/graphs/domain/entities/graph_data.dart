@@ -10,14 +10,14 @@ enum GraphType {
 class GraphData extends Equatable {
   final GraphType graphType;
   final List<String> categories;
-  final List<SeriesData> graphData;
+  final List<SeriesData> seriesDataList;
 
   GraphData({
     @required this.graphType,
     @required this.categories,
-    @required this.graphData,
+    @required this.seriesDataList,
   });
 
   @override
-  List<Object> get props => [graphType, categories, graphData];
+  List<Object> get props => [graphType, categories, seriesDataList];
 }

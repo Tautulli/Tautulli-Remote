@@ -43,7 +43,7 @@ void main() {
       '2021-04-04',
       '2021-04-05',
     ],
-    graphData: [
+    seriesDataList: [
       SeriesDataModel(
         seriesType: SeriesType.tv,
         seriesData: const [

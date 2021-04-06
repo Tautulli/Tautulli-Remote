@@ -57,7 +57,7 @@ void main() {
   final tPlaysByDateGraphData = GraphDataModel(
     graphType: GraphType.playsByDate,
     categories: tCategories,
-    graphData: tSeriesDataList,
+    seriesDataList: tSeriesDataList,
   );
 
   test(
