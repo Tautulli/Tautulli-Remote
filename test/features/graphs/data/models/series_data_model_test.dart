@@ -198,7 +198,7 @@ void main() {
       () async {
         // arrange
         final Map<String, dynamic> jsonMap =
-            json.decode(fixture('graph_series_item.json'));
+            json.decode(fixture('graphs_play_by_date_series_item.json'));
         // act
         final result = SeriesDataModel.fromJson(jsonMap);
         // assert
@@ -211,7 +211,7 @@ void main() {
       () async {
         // arrange
         final Map<String, dynamic> jsonMap =
-            json.decode(fixture('graph_series_item.json'));
+            json.decode(fixture('graphs_play_by_date_series_item.json'));
         // act
         final result = SeriesDataModel.fromJson(jsonMap);
         // assert
