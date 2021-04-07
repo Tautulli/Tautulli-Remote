@@ -11,15 +11,13 @@ class GraphsInitial extends GraphsState {
 
 class GraphsSuccess extends GraphsState {
   final GraphData playsByDate;
-  final List<charts.Series<DataTest, dynamic>> chartData;
 
   GraphsSuccess({
     @required this.playsByDate,
-    @required this.chartData,
   });
 
   @override
-  List<Object> get props => [playsByDate, chartData];
+  List<Object> get props => [playsByDate];
 }
 
 class GraphsFailure extends GraphsState {
