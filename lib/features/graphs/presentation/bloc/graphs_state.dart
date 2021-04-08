@@ -9,6 +9,11 @@ class GraphsInitial extends GraphsState {
   List<Object> get props => [];
 }
 
+class GraphsInProgress extends GraphsState {
+  @override
+  List<Object> get props => [];
+}
+
 class GraphsSuccess extends GraphsState {
   final GraphData playsByDate;
 
