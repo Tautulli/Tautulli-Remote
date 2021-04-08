@@ -217,8 +217,7 @@ class AppDrawer extends StatelessWidget {
                           ),
                           title: const Text('Graphs'),
                           onTap: () {
-                            if (route.settings.name !=
-                                StatisticsPage.routeName) {
+                            if (route.settings.name != GraphsPage.routeName) {
                               Navigator.of(context)
                                   .pushReplacementNamed(GraphsPage.routeName);
                             } else {
