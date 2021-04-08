@@ -109,6 +109,16 @@ class TimeFormatHelper {
       'sec': duration.inSeconds.remainder(60),
     };
   }
+
+  static String graphDate(
+    String dateString, {
+    bool includeWeekDay = false,
+  }) {
+    final dateFormat = includeWeekDay ? 'E MMM d' : 'MMM d';
+    final parsedDateTime = DateTime.parse(dateString);
+    final formatedDateString = DateFormat(dateFormat).format(parsedDateTime);
+    return formatedDateString;
+  }
 }
 
 String _parseDateFormat(String dateFormat) {
