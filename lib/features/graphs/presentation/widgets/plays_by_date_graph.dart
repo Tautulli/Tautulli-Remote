@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/helpers/time_format_helper.dart';
 import '../../domain/entities/graph_data.dart';
 
 class PlaysByDateGraph extends StatelessWidget {
@@ -82,7 +83,7 @@ class PlaysByDateGraph extends StatelessWidget {
                       titlesData: FlTitlesData(
                         leftTitles: SideTitles(
                           showTitles: true,
-                          interval: 5,
+                          interval: horizontalLineStep,
                           getTextStyles: (value) {
                             return const TextStyle(
                               color: Colors.grey,
@@ -93,9 +94,10 @@ class PlaysByDateGraph extends StatelessWidget {
                         bottomTitles: SideTitles(
                           showTitles: true,
                           interval: verticalLineStep,
-                          getTitles: (value) => 'Mar\n12',
-                          // rotateAngle: -45,
-                          // margin: 20,
+                          getTitles: (value) {
+                            return TimeFormatHelper.graphDate(
+                                playsByDate.categories[value.toInt()]);
+                          },
                           reservedSize: 30,
                           getTextStyles: (value) {
                             return const TextStyle(
@@ -133,10 +135,24 @@ class PlaysByDateGraph extends StatelessWidget {
                           getTooltipItems: (touchedSpots) {
                             return [
                               LineTooltipItem(
-                                'TV: ${touchedSpots[0].y.toStringAsFixed(0)}',
-                                const TextStyle(
-                                  color: TautulliColorPalette.amber,
-                                ),
+                                '',
+                                const TextStyle(),
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        '${TimeFormatHelper.graphDate(playsByDate.categories[touchedSpots[0].x.toInt()], includeWeekDay: true)}\n\n',
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        'TV: ${touchedSpots[0].y.toStringAsFixed(0)}',
+                                    style: const TextStyle(
+                                      color: TautulliColorPalette.amber,
+                                    ),
+                                  ),
+                                ],
                               ),
                               LineTooltipItem(
                                 'Movies: ${touchedSpots[1].y.toStringAsFixed(0)}',
