@@ -31,3 +31,28 @@ class GraphsFetch extends GraphsEvent {
         settingsBloc,
       ];
 }
+
+class GraphsFilter extends GraphsEvent {
+  final String tautulliId;
+  final int timeRange;
+  final String yAxis;
+  final int userId;
+  final int grouping;
+
+  GraphsFilter({
+    @required this.tautulliId,
+    this.timeRange,
+    this.yAxis,
+    this.userId,
+    this.grouping,
+  });
+
+  @override
+  List<Object> get props => [
+        tautulliId,
+        timeRange,
+        yAxis,
+        userId,
+        grouping,
+      ];
+}

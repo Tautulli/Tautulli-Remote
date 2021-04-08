@@ -14,6 +14,8 @@ import '../../domain/usecases/get_plays_by_date.dart';
 part 'graphs_event.dart';
 part 'graphs_state.dart';
 
+SettingsBloc _settingsBlocCache;
+
 class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
   final GetPlaysByDate getPlaysByDate;
   final Logging logging;
@@ -27,6 +29,10 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
     GraphsEvent event,
   ) async* {
     if (event is GraphsFetch) {
+      yield GraphsInProgress();
+
+      _settingsBlocCache = event.settingsBloc;
+
       final failureOrPlayByDate = await getPlaysByDate(
         tautulliId: event.tautulliId,
         timeRange: event.timeRange,
@@ -34,6 +40,37 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
         userId: event.userId,
         grouping: event.grouping,
         settingsBloc: event.settingsBloc,
+      );
+
+      yield* failureOrPlayByDate.fold(
+        (failure) async* {
+          logging.error(
+            'Graphs: Failed to load plays by date graph data',
+          );
+
+          yield GraphsFailure(
+            failure: failure,
+            message: FailureMapperHelper.mapFailureToMessage(failure),
+            suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
+          );
+        },
+        (graphData) async* {
+          yield GraphsSuccess(
+            playsByDate: graphData,
+          );
+        },
+      );
+    }
+    if (event is GraphsFilter) {
+      yield GraphsInProgress();
+
+      final failureOrPlayByDate = await getPlaysByDate(
+        tautulliId: event.tautulliId,
+        timeRange: event.timeRange,
+        yAxis: event.yAxis,
+        userId: event.userId,
+        grouping: event.grouping,
+        settingsBloc: _settingsBlocCache,
       );
 
       yield* failureOrPlayByDate.fold(
