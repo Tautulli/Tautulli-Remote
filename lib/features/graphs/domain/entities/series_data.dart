@@ -5,6 +5,7 @@ enum SeriesType {
   tv,
   movies,
   music,
+  live,
 }
 
 class SeriesData extends Equatable {

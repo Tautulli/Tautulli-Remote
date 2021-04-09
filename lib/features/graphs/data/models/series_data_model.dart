@@ -23,6 +23,9 @@ class SeriesDataModel extends SeriesData {
       case ('music'):
         type = SeriesType.music;
         break;
+      case ('live tv'):
+        type = SeriesType.live;
+        break;
     }
 
     return SeriesDataModel(
