@@ -26,7 +26,7 @@ import 'features/graphs/data/datasources/graphs_data_source.dart';
 import 'features/graphs/data/repositories/graphs_repository_impl.dart';
 import 'features/graphs/domain/repositories/graphs_repository.dart';
 import 'features/graphs/domain/usecases/get_plays_by_date.dart';
-import 'features/graphs/presentation/bloc/graphs_bloc.dart';
+import 'features/graphs/presentation/bloc/play_graphs_bloc.dart';
 import 'features/history/data/datasources/history_data_source.dart';
 import 'features/history/data/repositories/history_repository_impl.dart';
 import 'features/history/domain/repositories/history_repository.dart';
@@ -223,7 +223,7 @@ Future<void> init() async {
   //! Features = Graphs
   //Bloc
   sl.registerFactory(
-    () => GraphsBloc(
+    () => PlayGraphsBloc(
       getPlaysByDate: sl(),
       logging: sl(),
     ),

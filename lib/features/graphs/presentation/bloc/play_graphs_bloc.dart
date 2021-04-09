@@ -11,25 +11,25 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/graph_data.dart';
 import '../../domain/usecases/get_plays_by_date.dart';
 
-part 'graphs_event.dart';
-part 'graphs_state.dart';
+part 'play_graphs_event.dart';
+part 'play_graphs_state.dart';
 
 SettingsBloc _settingsBlocCache;
 
-class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
+class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
   final GetPlaysByDate getPlaysByDate;
   final Logging logging;
 
-  GraphsBloc({
+  PlayGraphsBloc({
     @required this.getPlaysByDate,
     @required this.logging,
-  }) : super(GraphsInitial());
+  }) : super(PlayGraphsInitial());
   @override
-  Stream<GraphsState> mapEventToState(
-    GraphsEvent event,
+  Stream<PlayGraphsState> mapEventToState(
+    PlayGraphsEvent event,
   ) async* {
-    if (event is GraphsFetch) {
-      yield GraphsInProgress();
+    if (event is PlayGraphsFetch) {
+      yield PlayGraphsInProgress();
 
       _settingsBlocCache = event.settingsBloc;
 
@@ -48,21 +48,21 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             'Graphs: Failed to load plays by date graph data',
           );
 
-          yield GraphsFailure(
+          yield PlayGraphsFailure(
             failure: failure,
             message: FailureMapperHelper.mapFailureToMessage(failure),
             suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
           );
         },
         (graphData) async* {
-          yield GraphsSuccess(
+          yield PlayGraphsSuccess(
             playsByDate: graphData,
           );
         },
       );
     }
-    if (event is GraphsFilter) {
-      yield GraphsInProgress();
+    if (event is PlayGraphsFilter) {
+      yield PlayGraphsInProgress();
 
       final failureOrPlayByDate = await getPlaysByDate(
         tautulliId: event.tautulliId,
@@ -79,14 +79,14 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
             'Graphs: Failed to load plays by date graph data',
           );
 
-          yield GraphsFailure(
+          yield PlayGraphsFailure(
             failure: failure,
             message: FailureMapperHelper.mapFailureToMessage(failure),
             suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
           );
         },
         (graphData) async* {
-          yield GraphsSuccess(
+          yield PlayGraphsSuccess(
             playsByDate: graphData,
           );
         },

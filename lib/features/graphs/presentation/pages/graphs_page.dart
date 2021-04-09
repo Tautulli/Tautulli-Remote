@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,9 +10,8 @@ import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../bloc/graphs_bloc.dart';
-import '../widgets/graph_heading.dart';
-import '../widgets/plays_by_date_graph.dart';
+import '../bloc/play_graphs_bloc.dart';
+import '../widgets/plays_by_period_tab.dart';
 
 class GraphsPage extends StatelessWidget {
   const GraphsPage({Key key}) : super(key: key);
@@ -20,7 +21,7 @@ class GraphsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<GraphsBloc>(),
+      create: (context) => di.sl<PlayGraphsBloc>(),
       child: _GraphsPageContent(),
     );
   }
@@ -34,15 +35,17 @@ class _GraphsPageContent extends StatefulWidget {
 }
 
 class __GraphsPageContentState extends State<_GraphsPageContent> {
+  Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
-  GraphsBloc _graphsBloc;
+  PlayGraphsBloc _playGraphsBloc;
   String _tautulliId;
 
   @override
   void initState() {
     super.initState();
+    _refreshCompleter = Completer<void>();
     _settingsBloc = context.read<SettingsBloc>();
-    _graphsBloc = context.read<GraphsBloc>();
+    _playGraphsBloc = context.read<PlayGraphsBloc>();
 
     final settingsState = _settingsBloc.state;
 
@@ -72,8 +75,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
         });
       }
 
-      _graphsBloc.add(
-        GraphsFetch(
+      _playGraphsBloc.add(
+        PlayGraphsFetch(
           tautulliId: _tautulliId,
           settingsBloc: _settingsBloc,
         ),
@@ -117,8 +120,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                               SettingsUpdateLastSelectedServer(
                                   tautulliId: _tautulliId),
                             );
-                            _graphsBloc.add(
-                              GraphsFilter(
+                            _playGraphsBloc.add(
+                              PlayGraphsFilter(
                                 tautulliId: value,
                               ),
                             );
@@ -131,29 +134,37 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                 return Container(height: 0, width: 0);
               },
             ),
-            BlocBuilder<GraphsBloc, GraphsState>(
-              builder: (context, state) {
-                if (state is GraphsSuccess) {
-                  return Expanded(
-                    child: Scrollbar(
-                      child: ListView(
+            DefaultTabController(
+              length: 2,
+              child: Expanded(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
                         children: [
-                          const GraphHeading(graphHeading: 'Daily Play Count'),
-                          PlaysByDateGraph(playsByDate: state.playsByDate),
+                          BlocProvider.value(
+                            value: _playGraphsBloc,
+                            child: PlaysByPeriodTab(),
+                          ),
+                          const Placeholder(),
                         ],
                       ),
                     ),
-                  );
-                }
-                if (state is GraphsFailure) {
-                  return const Text('FAILURE');
-                }
-                return const Expanded(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              },
+                    const TabBar(
+                      indicatorSize: TabBarIndicatorSize.label,
+                      tabs: [
+                        Tab(
+                          child: Text('Plays by Period'),
+                        ),
+                        Tab(
+                          child: Text('Stream Info'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),

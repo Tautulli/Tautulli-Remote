@@ -1,10 +1,10 @@
-part of 'graphs_bloc.dart';
+part of 'play_graphs_bloc.dart';
 
-abstract class GraphsEvent extends Equatable {
-  const GraphsEvent();
+abstract class PlayGraphsEvent extends Equatable {
+  const PlayGraphsEvent();
 }
 
-class GraphsFetch extends GraphsEvent {
+class PlayGraphsFetch extends PlayGraphsEvent {
   final String tautulliId;
   final int timeRange;
   final String yAxis;
@@ -12,7 +12,7 @@ class GraphsFetch extends GraphsEvent {
   final int grouping;
   final SettingsBloc settingsBloc;
 
-  GraphsFetch({
+  PlayGraphsFetch({
     @required this.tautulliId,
     this.timeRange,
     this.yAxis,
@@ -32,14 +32,14 @@ class GraphsFetch extends GraphsEvent {
       ];
 }
 
-class GraphsFilter extends GraphsEvent {
+class PlayGraphsFilter extends PlayGraphsEvent {
   final String tautulliId;
   final int timeRange;
   final String yAxis;
   final int userId;
   final int grouping;
 
-  GraphsFilter({
+  PlayGraphsFilter({
     @required this.tautulliId,
     this.timeRange,
     this.yAxis,

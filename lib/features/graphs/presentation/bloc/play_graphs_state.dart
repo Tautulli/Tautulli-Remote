@@ -1,23 +1,23 @@
-part of 'graphs_bloc.dart';
+part of 'play_graphs_bloc.dart';
 
-abstract class GraphsState extends Equatable {
-  const GraphsState();
+abstract class PlayGraphsState extends Equatable {
+  const PlayGraphsState();
 }
 
-class GraphsInitial extends GraphsState {
+class PlayGraphsInitial extends PlayGraphsState {
   @override
   List<Object> get props => [];
 }
 
-class GraphsInProgress extends GraphsState {
+class PlayGraphsInProgress extends PlayGraphsState {
   @override
   List<Object> get props => [];
 }
 
-class GraphsSuccess extends GraphsState {
+class PlayGraphsSuccess extends PlayGraphsState {
   final GraphData playsByDate;
 
-  GraphsSuccess({
+  PlayGraphsSuccess({
     @required this.playsByDate,
   });
 
@@ -25,12 +25,12 @@ class GraphsSuccess extends GraphsState {
   List<Object> get props => [playsByDate];
 }
 
-class GraphsFailure extends GraphsState {
+class PlayGraphsFailure extends PlayGraphsState {
   final Failure failure;
   final String message;
   final String suggestion;
 
-  GraphsFailure({
+  PlayGraphsFailure({
     @required this.failure,
     @required this.message,
     @required this.suggestion,
