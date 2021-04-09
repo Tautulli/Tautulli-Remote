@@ -1,3 +1,5 @@
+import '../../features/graphs/domain/entities/series_data.dart';
+
 class StringMapperHelper {
   static String mapStatIdToTitle(String statId) {
     switch (statId) {
@@ -23,6 +25,21 @@ class StringMapperHelper {
         return 'Most Concurrent Streams';
       case ('top_libraries'):
         return 'Most Active Libraries';
+      default:
+        return 'UNKNOWN';
+    }
+  }
+
+  static String mapSeriesTypeToTitle(SeriesType seriesType) {
+    switch (seriesType) {
+      case (SeriesType.tv):
+        return 'TV';
+      case (SeriesType.movies):
+        return 'Movies';
+      case (SeriesType.music):
+        return 'Music';
+      case (SeriesType.live):
+        return 'Live TV';
       default:
         return 'UNKNOWN';
     }
