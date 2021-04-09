@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -13,7 +12,14 @@ import 'graphs_error_button.dart';
 import 'plays_by_date_graph.dart';
 
 class PlaysByPeriodTab extends StatefulWidget {
-  PlaysByPeriodTab({Key key}) : super(key: key);
+  final String tautulliId;
+  final int timeRange;
+
+  PlaysByPeriodTab({
+    Key key,
+    @required this.tautulliId,
+    @required this.timeRange,
+  }) : super(key: key);
 
   @override
   _PlaysByPeriodTabState createState() => _PlaysByPeriodTabState();
@@ -23,7 +29,6 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
   Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
   PlayGraphsBloc _playGraphsBloc;
-  String _tautulliId;
 
   @override
   void initState() {
@@ -35,34 +40,10 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
     final settingsState = _settingsBloc.state;
 
     if (settingsState is SettingsLoadSuccess) {
-      String lastSelectedServer;
-
-      if (settingsState.lastSelectedServer != null) {
-        for (Server server in settingsState.serverList) {
-          if (server.tautulliId == settingsState.lastSelectedServer) {
-            lastSelectedServer = settingsState.lastSelectedServer;
-            break;
-          }
-        }
-      }
-
-      if (lastSelectedServer != null) {
-        setState(() {
-          _tautulliId = lastSelectedServer;
-        });
-      } else if (settingsState.serverList.isNotEmpty) {
-        setState(() {
-          _tautulliId = settingsState.serverList[0].tautulliId;
-        });
-      } else {
-        setState(() {
-          _tautulliId = null;
-        });
-      }
-
       _playGraphsBloc.add(
         PlayGraphsFetch(
-          tautulliId: _tautulliId,
+          tautulliId: widget.tautulliId,
+          timeRange: widget.timeRange,
           settingsBloc: _settingsBloc,
         ),
       );
@@ -96,7 +77,8 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                     completer: _refreshCompleter,
                     failure: state.failure,
                     graphsAddedEvent: PlayGraphsFilter(
-                      tautulliId: _tautulliId,
+                      tautulliId: widget.tautulliId,
+                      timeRange: widget.timeRange,
                     ),
                   ),
                 ],
@@ -108,7 +90,8 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
           onRefresh: () {
             _playGraphsBloc.add(
               PlayGraphsFilter(
-                tautulliId: _tautulliId,
+                tautulliId: widget.tautulliId,
+                timeRange: widget.timeRange,
               ),
             );
             return _refreshCompleter.future;

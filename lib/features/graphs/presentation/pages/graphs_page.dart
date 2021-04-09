@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:validators/validators.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/app_drawer_icon.dart';
 import '../../../../core/widgets/double_tap_exit.dart';
@@ -35,15 +38,15 @@ class _GraphsPageContent extends StatefulWidget {
 }
 
 class __GraphsPageContentState extends State<_GraphsPageContent> {
-  Completer<void> _refreshCompleter;
+  final GlobalKey _timeRangeKey = GlobalKey();
   SettingsBloc _settingsBloc;
   PlayGraphsBloc _playGraphsBloc;
   String _tautulliId;
+  int _timeRange;
 
   @override
   void initState() {
     super.initState();
-    _refreshCompleter = Completer<void>();
     _settingsBloc = context.read<SettingsBloc>();
     _playGraphsBloc = context.read<PlayGraphsBloc>();
 
@@ -75,12 +78,13 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
         });
       }
 
-      _playGraphsBloc.add(
-        PlayGraphsFetch(
-          tautulliId: _tautulliId,
-          settingsBloc: _settingsBloc,
-        ),
-      );
+      if (_timeRange == null) {
+        _timeRange = 30;
+      }
+      // if (statisticsState is StatisticsInitial) {
+      //   _statsType = settingsState.statsType ?? 'plays';
+      //   _timeRange = statisticsState.timeRange ?? 30;
+      // }
     }
   }
 
@@ -91,6 +95,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
       appBar: AppBar(
         title: const Text('Graphs'),
         leading: const AppDrawerIcon(),
+        actions: _appBarActions(),
       ),
       drawer: const AppDrawer(),
       body: DoubleTapExit(
@@ -118,11 +123,13 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                             });
                             _settingsBloc.add(
                               SettingsUpdateLastSelectedServer(
-                                  tautulliId: _tautulliId),
+                                tautulliId: _tautulliId,
+                              ),
                             );
                             _playGraphsBloc.add(
                               PlayGraphsFilter(
                                 tautulliId: value,
+                                timeRange: _timeRange,
                               ),
                             );
                           }
@@ -145,7 +152,10 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                         children: [
                           BlocProvider.value(
                             value: _playGraphsBloc,
-                            child: PlaysByPeriodTab(),
+                            child: PlaysByPeriodTab(
+                              tautulliId: _tautulliId,
+                              timeRange: _timeRange,
+                            ),
                           ),
                           const Placeholder(),
                         ],
@@ -169,6 +179,189 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
           ],
         ),
       ),
+    );
+  }
+
+  List<Widget> _appBarActions() {
+    return [
+      Stack(
+        children: [
+          Center(
+            child: PopupMenuButton(
+              key: _timeRangeKey,
+              icon: const FaIcon(
+                FontAwesomeIcons.calendarAlt,
+                size: 20,
+                color: TautulliColorPalette.not_white,
+              ),
+              tooltip: 'Time range',
+              onSelected: (value) {
+                if (_timeRange != value) {
+                  if (value > 0) {
+                    setState(() {
+                      _timeRange = value;
+                    });
+                    _playGraphsBloc.add(
+                      PlayGraphsFilter(
+                        tautulliId: _tautulliId,
+                        timeRange: _timeRange,
+                      ),
+                    );
+                  } else {
+                    _buildCustomTimeRangeDialog();
+                  }
+                }
+              },
+              itemBuilder: (context) {
+                return [
+                  PopupMenuItem(
+                    child: Text(
+                      '7 Days',
+                      style: TextStyle(
+                        color: _timeRange == 7
+                            ? Theme.of(context).accentColor
+                            : TautulliColorPalette.not_white,
+                      ),
+                    ),
+                    value: 7,
+                  ),
+                  PopupMenuItem(
+                    child: Text(
+                      '14 Days',
+                      style: TextStyle(
+                        color: _timeRange == 14
+                            ? Theme.of(context).accentColor
+                            : TautulliColorPalette.not_white,
+                      ),
+                    ),
+                    value: 14,
+                  ),
+                  PopupMenuItem(
+                    child: Text(
+                      '30 Days',
+                      style: TextStyle(
+                        color: _timeRange == 30
+                            ? Theme.of(context).accentColor
+                            : TautulliColorPalette.not_white,
+                      ),
+                    ),
+                    value: 30,
+                  ),
+                  PopupMenuItem(
+                    child: Text(
+                      [7, 14, 30].contains(_timeRange)
+                          ? 'Custom'
+                          : 'Custom ($_timeRange Days)',
+                      style: TextStyle(
+                        color: ![7, 14, 30].contains(_timeRange)
+                            ? Theme.of(context).accentColor
+                            : TautulliColorPalette.not_white,
+                      ),
+                    ),
+                    value: 0,
+                  ),
+                ];
+              },
+            ),
+          ),
+          Positioned(
+            right: 5,
+            top: 28,
+            child: GestureDetector(
+              onTap: () {
+                dynamic state = _timeRangeKey.currentState;
+                state.showButtonMenu();
+              },
+              child: Container(
+                height: 18,
+                width: 18,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: PlexColorPalette.gamboge,
+                ),
+                child: Center(
+                  child: Text(
+                    _timeRange > 99 ? '99+' : _timeRange.toString(),
+                    style: TextStyle(
+                      fontSize: _timeRange > 99 ? 9 : 10,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ];
+  }
+
+  Future _buildCustomTimeRangeDialog() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        final _customTimeRangeFormKey = GlobalKey<FormState>();
+
+        return AlertDialog(
+          title: const Text('Custom Time Range'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Form(
+                key: _customTimeRangeFormKey,
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                      hintText: 'Enter a time range in days'),
+                  validator: (value) {
+                    if (!isNumeric(value)) {
+                      return 'Please enter an integer';
+                    } else if (int.tryParse(value) < 1) {
+                      return 'Please enter an integer larger than 0';
+                    }
+
+                    setState(() {
+                      _timeRange = int.parse(value);
+                    });
+
+                    return null;
+                  },
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'It is recommended you do not exceed 90 days for most screen sizes.',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: const Text("CLOSE"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text("SAVE"),
+              onPressed: () {
+                if (_customTimeRangeFormKey.currentState.validate()) {
+                  _playGraphsBloc.add(
+                    PlayGraphsFilter(
+                      tautulliId: _tautulliId,
+                      timeRange: _timeRange,
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
