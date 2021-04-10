@@ -16,13 +16,25 @@ class PlayGraphsInProgress extends PlayGraphsState {
 
 class PlayGraphsSuccess extends PlayGraphsState {
   final GraphData playsByDate;
+  final DateTime lastLoaded;
 
   PlayGraphsSuccess({
     @required this.playsByDate,
+    @required this.lastLoaded,
   });
 
+  PlayGraphsSuccess copyWith({
+    GraphData playsByDate,
+    @required DateTime lastLoaded,
+  }) {
+    return PlayGraphsSuccess(
+      playsByDate: playsByDate ?? this.playsByDate,
+      lastLoaded: lastLoaded,
+    );
+  }
+
   @override
-  List<Object> get props => [playsByDate];
+  List<Object> get props => [playsByDate, lastLoaded];
 }
 
 class PlayGraphsFailure extends PlayGraphsState {

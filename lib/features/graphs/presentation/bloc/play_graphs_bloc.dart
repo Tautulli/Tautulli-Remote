@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -28,21 +29,31 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
   Stream<PlayGraphsState> mapEventToState(
     PlayGraphsEvent event,
   ) async* {
+    final currentState = state;
+
     if (event is PlayGraphsFetch) {
       yield PlayGraphsInProgress();
 
       _settingsBlocCache = event.settingsBloc;
 
-      final failureOrPlayByDate = await getPlaysByDate(
+      await getPlaysByDate(
         tautulliId: event.tautulliId,
         timeRange: event.timeRange,
         yAxis: event.yAxis,
         userId: event.userId,
         grouping: event.grouping,
         settingsBloc: event.settingsBloc,
+      ).then(
+        (failureOrPlayByDate) => add(
+          PlayGraphsLoadPlaysByDateGraph(
+            tautulliId: event.tautulliId,
+            failureOrPlayByDate: failureOrPlayByDate,
+          ),
+        ),
       );
-
-      yield* failureOrPlayByDate.fold(
+    }
+    if (event is PlayGraphsLoadPlaysByDateGraph) {
+      yield* event.failureOrPlayByDate.fold(
         (failure) async* {
           logging.error(
             'Graphs: Failed to load plays by date graph data',
@@ -55,9 +66,13 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
           );
         },
         (graphData) async* {
-          yield PlayGraphsSuccess(
-            playsByDate: graphData,
-          );
+          if (currentState is PlayGraphsSuccess) {
+            currentState.copyWith(playsByDate: graphData);
+          } else {
+            yield PlayGraphsSuccess(
+              playsByDate: graphData,
+            );
+          }
         },
       );
     }
