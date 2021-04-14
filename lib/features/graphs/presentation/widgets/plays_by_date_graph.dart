@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/string_mapper_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../domain/entities/graph_state.dart';
 import '../../domain/entities/series_data.dart';
+import 'graph_card.dart';
 
 class PlaysByDateGraph extends StatelessWidget {
   final GraphState playsByDate;
@@ -96,279 +96,165 @@ class PlaysByDateGraph extends StatelessWidget {
       }
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 8,
-        left: 8,
-        right: 8,
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(4),
-        child: Container(
-          height: 275,
-          color: TautulliColorPalette.gunmetal,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: 12,
-                    left: 4,
-                    bottom: playsByDate.graphCurrentState !=
-                            GraphCurrentState.inProgress
-                        ? 8
-                        : 0,
-                    right: 12,
-                  ),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: LineChart(
-                          LineChartData(
-                            titlesData: FlTitlesData(
-                              leftTitles: SideTitles(
-                                showTitles: true,
-                                interval: horizontalLineStep,
-                                getTextStyles: (value) {
-                                  return const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 12,
-                                  );
-                                },
-                              ),
-                              bottomTitles: SideTitles(
-                                showTitles: true,
-                                rotateAngle: 320,
-                                margin: 8,
-                                interval: verticalLineStep,
-                                getTitles: (value) {
-                                  if (value >=
-                                      playsByDate.graphData.categories.length) {
-                                    return '';
-                                  }
-                                  return TimeFormatHelper.graphDate(
-                                    playsByDate
-                                        .graphData.categories[value.toInt()],
-                                  );
-                                },
-                                reservedSize: 30,
-                                getTextStyles: (value) {
-                                  return const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 12,
-                                  );
-                                },
-                              ),
-                            ),
-                            maxY: maxYLines,
-                            gridData: FlGridData(
-                              horizontalInterval: horizontalLineStep,
-                              verticalInterval: verticalLineStep,
-                              checkToShowHorizontalLine: (value) =>
-                                  value % horizontalLineStep == 0,
-                              checkToShowVerticalLine: (value) =>
-                                  value % verticalLineStep == 0,
-                              drawVerticalLine: true,
-                              getDrawingVerticalLine: (value) => FlLine(
-                                color: Colors.white.withOpacity(0.03),
-                              ),
-                            ),
-                            borderData: FlBorderData(
-                              border: const Border(
-                                top: BorderSide(
-                                  width: 1,
-                                  color: Colors.white24,
-                                ),
-                              ),
-                            ),
-                            lineTouchData: LineTouchData(
-                              touchTooltipData: LineTouchTooltipData(
-                                fitInsideHorizontally: true,
-                                fitInsideVertically: true,
-                                tooltipBgColor: TautulliColorPalette.midnight
-                                    .withOpacity(0.95),
-                                getTooltipItems: (touchedSpots) {
-                                  touchedSpots.sort(
-                                    (a, b) => a.barIndex.compareTo(b.barIndex),
-                                  );
+    return GraphCard(
+      graphCurrentState: playsByDate.graphCurrentState,
+      showTvLegend: tvSeriesData != null,
+      showMoviesLegend: moviesSeriesData != null,
+      showMusicLegend: musicSeriesData != null,
+      showLiveTvLegend: liveSeriesData != null,
+      chart: LineChart(
+        LineChartData(
+          titlesData: FlTitlesData(
+            leftTitles: SideTitles(
+              showTitles: true,
+              interval: horizontalLineStep,
+              getTextStyles: (value) {
+                return const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                );
+              },
+            ),
+            bottomTitles: SideTitles(
+              showTitles: true,
+              rotateAngle: 320,
+              margin: 8,
+              interval: verticalLineStep,
+              getTitles: (value) {
+                if (value >= playsByDate.graphData.categories.length) {
+                  return '';
+                }
+                return TimeFormatHelper.graphDate(
+                  playsByDate.graphData.categories[value.toInt()],
+                );
+              },
+              reservedSize: 30,
+              getTextStyles: (value) {
+                return const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                );
+              },
+            ),
+          ),
+          maxY: maxYLines,
+          gridData: FlGridData(
+            horizontalInterval: horizontalLineStep,
+            verticalInterval: verticalLineStep,
+            checkToShowHorizontalLine: (value) =>
+                value % horizontalLineStep == 0,
+            checkToShowVerticalLine: (value) => value % verticalLineStep == 0,
+            drawVerticalLine: true,
+            getDrawingVerticalLine: (value) => FlLine(
+              color: Colors.white.withOpacity(0.03),
+            ),
+          ),
+          borderData: FlBorderData(
+            border: const Border(
+              top: BorderSide(
+                width: 1,
+                color: Colors.white24,
+              ),
+            ),
+          ),
+          lineTouchData: LineTouchData(
+            touchTooltipData: LineTouchTooltipData(
+              fitInsideHorizontally: true,
+              fitInsideVertically: true,
+              tooltipBgColor: TautulliColorPalette.midnight.withOpacity(0.95),
+              getTooltipItems: (touchedSpots) {
+                touchedSpots.sort(
+                  (a, b) => a.barIndex.compareTo(b.barIndex),
+                );
 
-                                  return List.generate(
-                                    notNullSeriesDataLists.length,
-                                    (index) {
-                                      return LineTooltipItem(
-                                        '',
-                                        const TextStyle(),
-                                        children: [
-                                          if (index == 0)
-                                            TextSpan(
-                                              text:
-                                                  '${TimeFormatHelper.graphDate(playsByDate.graphData.categories[touchedSpots[0].x.toInt()], includeWeekDay: true)}\n\n',
-                                              style: const TextStyle(
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          TextSpan(
-                                            text:
-                                                '${StringMapperHelper.mapSeriesTypeToTitle(notNullSeriesDataLists[index].seriesType)}: ${touchedSpots[index].y.toStringAsFixed(0)}',
-                                            style: TextStyle(
-                                              color: touchedSpots[index]
-                                                  .bar
-                                                  .colors[0],
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                              getTouchedSpotIndicator: (barData, spotIndexes) {
-                                return [
-                                  TouchedSpotIndicatorData(
-                                    FlLine(
-                                      color: Colors.transparent,
-                                    ),
-                                    FlDotData(
-                                      getDotPainter:
-                                          (flSpot, _double, data, _int) =>
-                                              FlDotCirclePainter(
-                                        color: barData.colors.first,
-                                        strokeColor: barData.colors.first,
-                                        radius: 5,
-                                      ),
-                                    ),
-                                  ),
-                                ];
-                              },
+                return List.generate(
+                  notNullSeriesDataLists.length,
+                  (index) {
+                    return LineTooltipItem(
+                      '',
+                      const TextStyle(),
+                      children: [
+                        if (index == 0)
+                          TextSpan(
+                            text:
+                                '${TimeFormatHelper.graphDate(playsByDate.graphData.categories[touchedSpots[0].x.toInt()], includeWeekDay: true)}\n\n',
+                            style: const TextStyle(
+                              color: Colors.grey,
                             ),
-                            lineBarsData: [
-                              if (tvSeriesData != null)
-                                LineChartBarData(
-                                  isCurved: true,
-                                  preventCurveOverShooting: true,
-                                  spots: tvData,
-                                  colors: [TautulliColorPalette.amber],
-                                  dotData: FlDotData(
-                                    show: false,
-                                  ),
-                                ),
-                              if (moviesSeriesData != null)
-                                LineChartBarData(
-                                  isCurved: true,
-                                  preventCurveOverShooting: true,
-                                  spots: moviesData,
-                                  colors: [TautulliColorPalette.not_white],
-                                  dotData: FlDotData(
-                                    show: false,
-                                  ),
-                                ),
-                              if (musicSeriesData != null)
-                                LineChartBarData(
-                                  isCurved: true,
-                                  preventCurveOverShooting: true,
-                                  spots: musicData,
-                                  colors: [PlexColorPalette.cinnabar],
-                                  dotData: FlDotData(
-                                    show: false,
-                                  ),
-                                ),
-                              if (liveSeriesData != null)
-                                LineChartBarData(
-                                  isCurved: true,
-                                  preventCurveOverShooting: true,
-                                  spots: liveData,
-                                  colors: [PlexColorPalette.curious_blue],
-                                  dotData: FlDotData(
-                                    show: false,
-                                  ),
-                                ),
-                            ],
+                          ),
+                        TextSpan(
+                          text:
+                              '${StringMapperHelper.mapSeriesTypeToTitle(notNullSeriesDataLists[index].seriesType)}: ${touchedSpots[index].y.toStringAsFixed(0)}',
+                          style: TextStyle(
+                            color: touchedSpots[index].bar.colors[0],
                           ),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (tvSeriesData != null)
-                            Row(
-                              children: [
-                                const FaIcon(
-                                  FontAwesomeIcons.solidCircle,
-                                  color: TautulliColorPalette.amber,
-                                  size: 12,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 4),
-                                  child: Text('TV'),
-                                ),
-                                if (moviesSeriesData != null ||
-                                    musicSeriesData != null ||
-                                    liveSeriesData != null)
-                                  const SizedBox(width: 8),
-                              ],
-                            ),
-                          if (moviesSeriesData != null)
-                            Row(
-                              children: [
-                                const FaIcon(
-                                  FontAwesomeIcons.solidCircle,
-                                  color: TautulliColorPalette.not_white,
-                                  size: 12,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 4),
-                                  child: Text('Movies'),
-                                ),
-                                if (musicSeriesData != null ||
-                                    liveSeriesData != null)
-                                  const SizedBox(width: 8),
-                              ],
-                            ),
-                          if (musicSeriesData != null)
-                            Row(
-                              children: [
-                                const FaIcon(
-                                  FontAwesomeIcons.solidCircle,
-                                  color: PlexColorPalette.cinnabar,
-                                  size: 12,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 4),
-                                  child: Text('Music'),
-                                ),
-                                if (liveSeriesData != null)
-                                  const SizedBox(width: 8),
-                              ],
-                            ),
-                          if (liveSeriesData != null)
-                            Row(
-                              children: const [
-                                FaIcon(
-                                  FontAwesomeIcons.solidCircle,
-                                  color: PlexColorPalette.curious_blue,
-                                  size: 12,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 4),
-                                  child: Text('Live TV'),
-                                ),
-                              ],
-                            ),
-                        ],
-                      ),
-                    ],
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+            getTouchedSpotIndicator: (barData, spotIndexes) {
+              return [
+                TouchedSpotIndicatorData(
+                  FlLine(
+                    color: Colors.transparent,
+                  ),
+                  FlDotData(
+                    getDotPainter: (flSpot, _double, data, _int) =>
+                        FlDotCirclePainter(
+                      color: barData.colors.first,
+                      strokeColor: barData.colors.first,
+                      radius: 5,
+                    ),
                   ),
                 ),
-              ),
-              playsByDate.graphCurrentState == GraphCurrentState.inProgress
-                  ? const Padding(
-                      padding: EdgeInsets.only(top: 4),
-                      child: LinearProgressIndicator(),
-                    )
-                  : const SizedBox(height: 0, width: 0),
-            ],
+              ];
+            },
           ),
+          lineBarsData: [
+            if (tvSeriesData != null)
+              LineChartBarData(
+                isCurved: true,
+                preventCurveOverShooting: true,
+                spots: tvData,
+                colors: [TautulliColorPalette.amber],
+                dotData: FlDotData(
+                  show: false,
+                ),
+              ),
+            if (moviesSeriesData != null)
+              LineChartBarData(
+                isCurved: true,
+                preventCurveOverShooting: true,
+                spots: moviesData,
+                colors: [TautulliColorPalette.not_white],
+                dotData: FlDotData(
+                  show: false,
+                ),
+              ),
+            if (musicSeriesData != null)
+              LineChartBarData(
+                isCurved: true,
+                preventCurveOverShooting: true,
+                spots: musicData,
+                colors: [PlexColorPalette.cinnabar],
+                dotData: FlDotData(
+                  show: false,
+                ),
+              ),
+            if (liveSeriesData != null)
+              LineChartBarData(
+                isCurved: true,
+                preventCurveOverShooting: true,
+                spots: liveData,
+                colors: [PlexColorPalette.curious_blue],
+                dotData: FlDotData(
+                  show: false,
+                ),
+              ),
+          ],
         ),
       ),
     );
