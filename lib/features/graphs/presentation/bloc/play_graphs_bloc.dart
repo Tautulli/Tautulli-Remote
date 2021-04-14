@@ -10,12 +10,13 @@ import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/graph_data.dart';
+import '../../domain/entities/graph_state.dart';
 import '../../domain/usecases/get_plays_by_date.dart';
 
 part 'play_graphs_event.dart';
 part 'play_graphs_state.dart';
 
-SettingsBloc _settingsBlocCache;
+GraphData _playsByDateCache;
 
 class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
   final GetPlaysByDate getPlaysByDate;
@@ -29,12 +30,13 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
   Stream<PlayGraphsState> mapEventToState(
     PlayGraphsEvent event,
   ) async* {
-    final currentState = state;
-
     if (event is PlayGraphsFetch) {
-      yield PlayGraphsInProgress();
+      GraphState playsByDateData = GraphState(
+        graphData: _playsByDateCache,
+        graphCurrentState: GraphCurrentState.inProgress,
+      );
 
-      _settingsBlocCache = event.settingsBloc;
+      yield PlayGraphsLoaded(playsByDate: playsByDateData);
 
       await getPlaysByDate(
         tautulliId: event.tautulliId,
@@ -45,64 +47,41 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         settingsBloc: event.settingsBloc,
       ).then(
         (failureOrPlayByDate) => add(
-          PlayGraphsLoadPlaysByDateGraph(
+          PlayGraphsLoadPlaysByDate(
             tautulliId: event.tautulliId,
             failureOrPlayByDate: failureOrPlayByDate,
           ),
         ),
       );
     }
-    if (event is PlayGraphsLoadPlaysByDateGraph) {
+    if (event is PlayGraphsLoadPlaysByDate) {
       yield* event.failureOrPlayByDate.fold(
         (failure) async* {
           logging.error(
             'Graphs: Failed to load plays by date graph data',
           );
 
-          yield PlayGraphsFailure(
-            failure: failure,
-            message: FailureMapperHelper.mapFailureToMessage(failure),
-            suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
+          _playsByDateCache = null;
+
+          yield PlayGraphsLoaded(
+            playsByDate: GraphState(
+              graphData: _playsByDateCache,
+              graphCurrentState: GraphCurrentState.failure,
+              failureMessage: FailureMapperHelper.mapFailureToMessage(failure),
+              failureSuggestion:
+                  FailureMapperHelper.mapFailureToSuggestion(failure),
+              failure: failure,
+            ),
           );
         },
         (graphData) async* {
-          if (currentState is PlayGraphsSuccess) {
-            currentState.copyWith(playsByDate: graphData);
-          } else {
-            yield PlayGraphsSuccess(
-              playsByDate: graphData,
-            );
-          }
-        },
-      );
-    }
-    if (event is PlayGraphsFilter) {
-      yield PlayGraphsInProgress();
+          _playsByDateCache = graphData;
 
-      final failureOrPlayByDate = await getPlaysByDate(
-        tautulliId: event.tautulliId,
-        timeRange: event.timeRange,
-        yAxis: event.yAxis,
-        userId: event.userId,
-        grouping: event.grouping,
-        settingsBloc: _settingsBlocCache,
-      );
-
-      yield* failureOrPlayByDate.fold(
-        (failure) async* {
-          logging.error(
-            'Graphs: Failed to load plays by date graph data',
-          );
-
-          yield PlayGraphsFailure(
-            failure: failure,
-            message: FailureMapperHelper.mapFailureToMessage(failure),
-            suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
-          );
-        },
-        (graphData) async* {
-          yield PlayGraphsSuccess(
-            playsByDate: graphData,
+          yield PlayGraphsLoaded(
+            playsByDate: GraphState(
+              graphData: graphData,
+              graphCurrentState: GraphCurrentState.success,
+            ),
           );
         },
       );

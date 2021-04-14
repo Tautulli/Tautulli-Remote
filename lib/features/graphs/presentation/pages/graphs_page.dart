@@ -127,9 +127,10 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                               ),
                             );
                             _playGraphsBloc.add(
-                              PlayGraphsFilter(
+                              PlayGraphsFetch(
                                 tautulliId: value,
                                 timeRange: _timeRange,
+                                settingsBloc: _settingsBloc,
                               ),
                             );
                           }
@@ -202,9 +203,10 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                       _timeRange = value;
                     });
                     _playGraphsBloc.add(
-                      PlayGraphsFilter(
+                      PlayGraphsFetch(
                         tautulliId: _tautulliId,
                         timeRange: _timeRange,
+                        settingsBloc: _settingsBloc,
                       ),
                     );
                   } else {
@@ -350,9 +352,10 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
               onPressed: () {
                 if (_customTimeRangeFormKey.currentState.validate()) {
                   _playGraphsBloc.add(
-                    PlayGraphsFilter(
+                    PlayGraphsFetch(
                       tautulliId: _tautulliId,
                       timeRange: _timeRange,
+                      settingsBloc: _settingsBloc,
                     ),
                   );
                   Navigator.of(context).pop();

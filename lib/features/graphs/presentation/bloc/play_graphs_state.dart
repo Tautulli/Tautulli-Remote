@@ -9,45 +9,21 @@ class PlayGraphsInitial extends PlayGraphsState {
   List<Object> get props => [];
 }
 
-class PlayGraphsInProgress extends PlayGraphsState {
-  @override
-  List<Object> get props => [];
-}
+class PlayGraphsLoaded extends PlayGraphsState {
+  final GraphState playsByDate;
 
-class PlayGraphsSuccess extends PlayGraphsState {
-  final GraphData playsByDate;
-  final DateTime lastLoaded;
-
-  PlayGraphsSuccess({
+  PlayGraphsLoaded({
     @required this.playsByDate,
-    @required this.lastLoaded,
   });
 
-  PlayGraphsSuccess copyWith({
-    GraphData playsByDate,
-    @required DateTime lastLoaded,
+  PlayGraphsLoaded copyWith({
+    GraphState playsByDate,
   }) {
-    return PlayGraphsSuccess(
+    return PlayGraphsLoaded(
       playsByDate: playsByDate ?? this.playsByDate,
-      lastLoaded: lastLoaded,
     );
   }
 
   @override
-  List<Object> get props => [playsByDate, lastLoaded];
-}
-
-class PlayGraphsFailure extends PlayGraphsState {
-  final Failure failure;
-  final String message;
-  final String suggestion;
-
-  PlayGraphsFailure({
-    @required this.failure,
-    @required this.message,
-    @required this.suggestion,
-  });
-
-  @override
-  List<Object> get props => [failure, message, suggestion];
+  List<Object> get props => [playsByDate];
 }

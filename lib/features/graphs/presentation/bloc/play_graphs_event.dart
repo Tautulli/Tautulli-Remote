@@ -32,40 +32,15 @@ class PlayGraphsFetch extends PlayGraphsEvent {
       ];
 }
 
-class PlayGraphsLoadPlaysByDateGraph extends PlayGraphsEvent {
+class PlayGraphsLoadPlaysByDate extends PlayGraphsEvent {
   final String tautulliId;
   final Either<Failure, GraphData> failureOrPlayByDate;
 
-  PlayGraphsLoadPlaysByDateGraph({
+  PlayGraphsLoadPlaysByDate({
     @required this.tautulliId,
     @required this.failureOrPlayByDate,
   });
 
   @override
   List<Object> get props => [tautulliId, failureOrPlayByDate];
-}
-
-class PlayGraphsFilter extends PlayGraphsEvent {
-  final String tautulliId;
-  final int timeRange;
-  final String yAxis;
-  final int userId;
-  final int grouping;
-
-  PlayGraphsFilter({
-    @required this.tautulliId,
-    this.timeRange,
-    this.yAxis,
-    this.userId,
-    this.grouping,
-  });
-
-  @override
-  List<Object> get props => [
-        tautulliId,
-        timeRange,
-        yAxis,
-        userId,
-        grouping,
-      ];
 }
