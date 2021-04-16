@@ -401,8 +401,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                   validator: (value) {
                     if (!isNumeric(value)) {
                       return 'Please enter an integer';
-                    } else if (int.tryParse(value) < 1) {
-                      return 'Please enter an integer larger than 0';
+                    } else if (int.tryParse(value) < 2) {
+                      return 'Please enter an integer larger than 1';
                     }
 
                     setState(() {
