@@ -13,6 +13,7 @@ export 'get_library_user_stats.dart';
 export 'get_library_watch_time_stats.dart';
 export 'get_metadata.dart';
 export 'get_plays_by_date.dart';
+export 'get_plays_by_dayofweek.dart';
 export 'get_recently_added.dart';
 export 'get_server_info.dart';
 export 'get_settings.dart';
