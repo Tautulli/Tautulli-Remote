@@ -18,6 +18,7 @@ part 'play_graphs_state.dart';
 
 GraphData _playsByDateCache;
 String _yAxisCache;
+int _timeRangeCache;
 
 class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
   final GetPlaysByDate getPlaysByDate;
@@ -26,12 +27,16 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
   PlayGraphsBloc({
     @required this.getPlaysByDate,
     @required this.logging,
-  }) : super(PlayGraphsInitial());
+  }) : super(PlayGraphsInitial(
+          timeRange: _timeRangeCache,
+        ));
   @override
   Stream<PlayGraphsState> mapEventToState(
     PlayGraphsEvent event,
   ) async* {
     if (event is PlayGraphsFetch) {
+      _timeRangeCache = event.timeRange;
+
       GraphState playsByDateData = GraphState(
         graphData: _playsByDateCache,
         yAxis: _yAxisCache,

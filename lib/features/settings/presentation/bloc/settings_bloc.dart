@@ -288,6 +288,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         await settings.setStatsType(event.statsType);
         yield currentState.copyWith(statsType: event.statsType);
       }
+      if (event is SettingsUpdateYAxis) {
+        await settings.setYAxis(event.yAxis);
+        yield currentState.copyWith(yAxis: event.yAxis);
+      }
       if (event is SettingsUpdateUsersSort) {
         await settings.setUsersSort(event.usersSort);
         yield currentState.copyWith(usersSort: event.usersSort);
@@ -315,6 +319,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final maskSensitiveInfo = await settings.getMaskSensitiveInfo();
     final lastSelectedServer = await settings.getLastSelectedServer();
     final statsType = await settings.getStatsType();
+    final yAxis = await settings.getYAxis();
     final usersSort = await settings.getUsersSort();
     final oneSignalBannerDismissed =
         await settings.getOneSignalBannerDismissed();
@@ -330,7 +335,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       doubleTapToExit: doubleTapToExit ?? false,
       maskSensitiveInfo: maskSensitiveInfo ?? false,
       lastSelectedServer: lastSelectedServer,
-      statsType: statsType,
+      statsType: statsType ?? 'plays',
+      yAxis: yAxis ?? 'plays',
       usersSort: usersSort ?? 'friendly_name|asc',
       oneSignalBannerDismissed: oneSignalBannerDismissed ?? false,
     );

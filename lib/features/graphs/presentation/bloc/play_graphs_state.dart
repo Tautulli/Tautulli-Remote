@@ -5,8 +5,12 @@ abstract class PlayGraphsState extends Equatable {
 }
 
 class PlayGraphsInitial extends PlayGraphsState {
+  final int timeRange;
+
+  PlayGraphsInitial({this.timeRange});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [timeRange];
 }
 
 class PlayGraphsLoaded extends PlayGraphsState {

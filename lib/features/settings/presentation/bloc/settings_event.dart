@@ -194,6 +194,15 @@ class SettingsUpdateStatsType extends SettingsEvent {
   List<Object> get props => [statsType];
 }
 
+class SettingsUpdateYAxis extends SettingsEvent {
+  final String yAxis;
+
+  SettingsUpdateYAxis({@required this.yAxis});
+
+  @override
+  List<Object> get props => [yAxis];
+}
+
 class SettingsUpdateUsersSort extends SettingsEvent {
   final String usersSort;
 

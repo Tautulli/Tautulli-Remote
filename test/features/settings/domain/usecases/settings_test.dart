@@ -58,6 +58,7 @@ void main() {
   const String tTimeFormat = 'HH:mm';
 
   const String tStatsType = 'duration';
+  const String tYAxis = 'duration';
   const String tUsersSort = 'friendly_name|asc';
   // const bool tOneSignalBannerDismissed = false;
   const String tLastAppVersion = '2.1.5';
@@ -451,6 +452,31 @@ void main() {
       await settings.setStatsType(tStatsType);
       // assert
       verify(mockSettingsRepository.setStatsType(tStatsType));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'getYAxis should get y axis from settings',
+    () async {
+      // arrange
+      when(mockSettingsRepository.getYAxis()).thenAnswer((_) async => tYAxis);
+      // act
+      final result = await settings.getYAxis();
+      // assert
+      expect(result, equals(tYAxis));
+      verify(mockSettingsRepository.getYAxis());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setYAxis should forward request to the repository',
+    () async {
+      // act
+      await settings.setYAxis(tYAxis);
+      // assert
+      verify(mockSettingsRepository.setYAxis(tYAxis));
       verifyNoMoreInteractions(mockSettingsRepository);
     },
   );

@@ -51,6 +51,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
     _settingsBloc = context.read<SettingsBloc>();
     _playGraphsBloc = context.read<PlayGraphsBloc>();
 
+    final playGraphsState = _playGraphsBloc.state;
     final settingsState = _settingsBloc.state;
 
     if (settingsState is SettingsLoadSuccess) {
@@ -79,16 +80,10 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
         });
       }
 
-      if (_timeRange == null) {
-        _timeRange = 30;
+      if (playGraphsState is PlayGraphsInitial) {
+        _yAxis = settingsState.yAxis;
+        _timeRange = playGraphsState.timeRange ?? 30;
       }
-      if (_yAxis == null) {
-        _yAxis = 'plays';
-      }
-      // if (statisticsState is StatisticsInitial) {
-      //   _statsType = settingsState.statsType ?? 'plays';
-      //   _timeRange = statisticsState.timeRange ?? 30;
-      // }
     }
   }
 
@@ -205,7 +200,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
             setState(() {
               _yAxis = value;
             });
-            // _settingsBloc.add(SettingsUpdateStatsType(statsType: _yAxis));
+            _settingsBloc.add(SettingsUpdateYAxis(yAxis: _yAxis));
             _playGraphsBloc.add(
               PlayGraphsFetch(
                 tautulliId: _tautulliId,

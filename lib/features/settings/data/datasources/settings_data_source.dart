@@ -43,6 +43,10 @@ abstract class SettingsDataSource {
 
   Future<bool> setStatsType(String statsType);
 
+  Future<String> getYAxis();
+
+  Future<bool> setYAxis(String yAxis);
+
   Future<String> getUsersSort();
 
   Future<bool> setUsersSort(String usersSort);
@@ -70,6 +74,7 @@ const SETTINGS_DOUBLE_TAP_TO_EXIT = 'SETTINGS_DOUBLE_TAP_TO_EXIT';
 const SETTINGS_MASK_SENSITIVE_INFO = 'SETTINGS_MASK_SENSITIVE_INFO';
 const LAST_SELECTED_SERVER = 'LAST_SELECTED_SERVER';
 const STATS_TYPE = 'STATS_TYPE';
+const Y_AXIS = 'Y_AXIS';
 const USERS_SORT = 'USERS_SORT';
 const ONE_SIGNAL_BANNER_DISMISSED = 'ONE_SIGNAL_BANNER_DISMISSED';
 const LAST_APP_VERSION = 'LAST_APP_VERSION';
@@ -186,6 +191,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setStatsType(String statsType) {
     return sharedPreferences.setString(STATS_TYPE, statsType);
+  }
+
+  @override
+  Future<String> getYAxis() {
+    final value = sharedPreferences.getString(Y_AXIS);
+    return Future.value(value);
+  }
+
+  @override
+  Future<bool> setYAxis(String yAxis) {
+    return sharedPreferences.setString(Y_AXIS, yAxis);
   }
 
   @override

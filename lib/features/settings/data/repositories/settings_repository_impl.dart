@@ -231,6 +231,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<String> getYAxis() async {
+    final yAxis = await dataSource.getYAxis();
+    return yAxis;
+  }
+
+  @override
+  Future<bool> setYAxis(String yAxis) async {
+    return dataSource.setYAxis(yAxis);
+  }
+
+  @override
   Future<String> getUsersSort() async {
     final usersSort = await dataSource.getUsersSort();
     return usersSort;
