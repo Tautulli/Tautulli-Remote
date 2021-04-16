@@ -12,6 +12,7 @@ enum GraphCurrentState {
 class GraphState {
   final GraphData graphData;
   final GraphCurrentState graphCurrentState;
+  final String yAxis;
   final Failure failure;
   final String failureMessage;
   final String failureSuggestion;
@@ -19,6 +20,7 @@ class GraphState {
   GraphState({
     @required this.graphData,
     @required this.graphCurrentState,
+    @required this.yAxis,
     this.failure,
     this.failureMessage,
     this.failureSuggestion,
@@ -27,6 +29,7 @@ class GraphState {
   GraphState copyWith({
     GraphData graphData,
     GraphCurrentState graphCurrentState,
+    String yAxis,
     Failure failure,
     String failureMessage,
     String failureSuggestion,
@@ -34,6 +37,7 @@ class GraphState {
     return GraphState(
       graphData: graphData ?? this.graphData,
       graphCurrentState: graphCurrentState ?? this.graphCurrentState,
+      yAxis: yAxis ?? this.yAxis,
       failure: failure ?? this.failure,
       failureMessage: failureMessage ?? this.failureMessage,
       failureSuggestion: failureSuggestion ?? this.failureSuggestion,

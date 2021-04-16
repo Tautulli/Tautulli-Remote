@@ -14,11 +14,13 @@ import 'plays_by_date_graph.dart';
 class PlaysByPeriodTab extends StatefulWidget {
   final String tautulliId;
   final int timeRange;
+  final String yAxis;
 
   PlaysByPeriodTab({
     Key key,
     @required this.tautulliId,
     @required this.timeRange,
+    @required this.yAxis,
   }) : super(key: key);
 
   @override
@@ -44,6 +46,7 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
         PlayGraphsFetch(
           tautulliId: widget.tautulliId,
           timeRange: widget.timeRange,
+          yAxis: widget.yAxis,
           settingsBloc: _settingsBloc,
         ),
       );
@@ -60,38 +63,13 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
         }
       },
       builder: (context, state) {
-        // if (state is PlayGraphsFailure) {
-        //   return Expanded(
-        //     child: Center(
-        //       child: Column(
-        //         mainAxisSize: MainAxisSize.min,
-        //         children: [
-        //           Center(
-        //             child: ErrorMessage(
-        //               failure: state.failure,
-        //               message: state.message,
-        //               suggestion: state.suggestion,
-        //             ),
-        //           ),
-        //           GraphsErrorButton(
-        //             completer: _refreshCompleter,
-        //             failure: state.failure,
-        //             graphsAddedEvent: PlayGraphsFilter(
-        //               tautulliId: widget.tautulliId,
-        //               timeRange: widget.timeRange,
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   );
-        // }
         return RefreshIndicator(
           onRefresh: () {
             _playGraphsBloc.add(
               PlayGraphsFetch(
                 tautulliId: widget.tautulliId,
                 timeRange: widget.timeRange,
+                yAxis: widget.yAxis,
                 settingsBloc: _settingsBloc,
               ),
             );
@@ -105,10 +83,16 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                 ),
                 BlocBuilder<PlayGraphsBloc, PlayGraphsState>(
                   builder: (context, state) {
+                    // Do not display the graph:
+                    // - if the graphCurrentState is failure
+                    // - if the graph data is null
+                    // - if the y axis has been changed (avoid visual glitch
+                    // - when y axis title calculation is adjusted)
                     if (state is PlayGraphsLoaded &&
                         state.playsByDate.graphCurrentState !=
                             GraphCurrentState.failure &&
-                        state.playsByDate.graphData != null) {
+                        state.playsByDate.graphData != null &&
+                        widget.yAxis == state.playsByDate.yAxis) {
                       return PlaysByDateGraph(
                         playsByDate: state.playsByDate,
                       );

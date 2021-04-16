@@ -17,6 +17,7 @@ part 'play_graphs_event.dart';
 part 'play_graphs_state.dart';
 
 GraphData _playsByDateCache;
+String _yAxisCache;
 
 class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
   final GetPlaysByDate getPlaysByDate;
@@ -33,6 +34,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
     if (event is PlayGraphsFetch) {
       GraphState playsByDateData = GraphState(
         graphData: _playsByDateCache,
+        yAxis: _yAxisCache,
         graphCurrentState: GraphCurrentState.inProgress,
       );
 
@@ -50,6 +52,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
           PlayGraphsLoadPlaysByDate(
             tautulliId: event.tautulliId,
             failureOrPlayByDate: failureOrPlayByDate,
+            yAxis: event.yAxis,
           ),
         ),
       );
@@ -62,11 +65,13 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
           );
 
           _playsByDateCache = null;
+          _yAxisCache = event.yAxis;
 
           yield PlayGraphsLoaded(
             playsByDate: GraphState(
               graphData: _playsByDateCache,
               graphCurrentState: GraphCurrentState.failure,
+              yAxis: event.yAxis,
               failureMessage: FailureMapperHelper.mapFailureToMessage(failure),
               failureSuggestion:
                   FailureMapperHelper.mapFailureToSuggestion(failure),
@@ -76,11 +81,13 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         },
         (graphData) async* {
           _playsByDateCache = graphData;
+          _yAxisCache = event.yAxis;
 
           yield PlayGraphsLoaded(
             playsByDate: GraphState(
               graphData: graphData,
               graphCurrentState: GraphCurrentState.success,
+              yAxis: event.yAxis,
             ),
           );
         },

@@ -43,6 +43,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
   PlayGraphsBloc _playGraphsBloc;
   String _tautulliId;
   int _timeRange;
+  String _yAxis;
 
   @override
   void initState() {
@@ -80,6 +81,9 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
 
       if (_timeRange == null) {
         _timeRange = 30;
+      }
+      if (_yAxis == null) {
+        _yAxis = 'plays';
       }
       // if (statisticsState is StatisticsInitial) {
       //   _statsType = settingsState.statsType ?? 'plays';
@@ -130,6 +134,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                               PlayGraphsFetch(
                                 tautulliId: value,
                                 timeRange: _timeRange,
+                                yAxis: _yAxis,
                                 settingsBloc: _settingsBloc,
                               ),
                             );
@@ -156,6 +161,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                             child: PlaysByPeriodTab(
                               tautulliId: _tautulliId,
                               timeRange: _timeRange,
+                              yAxis: _yAxis,
                             ),
                           ),
                           const Placeholder(),
@@ -185,6 +191,86 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
 
   List<Widget> _appBarActions() {
     return [
+      PopupMenuButton(
+        icon: FaIcon(
+          _yAxis == 'plays'
+              ? FontAwesomeIcons.playCircle
+              : FontAwesomeIcons.clock,
+          size: 20,
+          color: TautulliColorPalette.not_white,
+        ),
+        tooltip: 'Y Axis',
+        onSelected: (value) {
+          if (value != _yAxis) {
+            setState(() {
+              _yAxis = value;
+            });
+            // _settingsBloc.add(SettingsUpdateStatsType(statsType: _yAxis));
+            _playGraphsBloc.add(
+              PlayGraphsFetch(
+                tautulliId: _tautulliId,
+                timeRange: _timeRange,
+                yAxis: _yAxis,
+                settingsBloc: _settingsBloc,
+              ),
+            );
+          }
+        },
+        itemBuilder: (context) {
+          return [
+            PopupMenuItem(
+              child: Row(
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.playCircle,
+                    size: 20,
+                    color: _yAxis == 'plays'
+                        ? PlexColorPalette.gamboge
+                        : TautulliColorPalette.not_white,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: Text(
+                      'Plays',
+                      style: TextStyle(
+                        color: _yAxis == 'plays'
+                            ? Theme.of(context).accentColor
+                            : TautulliColorPalette.not_white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              value: 'plays',
+            ),
+            PopupMenuItem(
+              child: Row(
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.clock,
+                    size: 20,
+                    color: _yAxis == 'duration'
+                        ? PlexColorPalette.gamboge
+                        : TautulliColorPalette.not_white,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: Text(
+                      'Duration',
+                      style: TextStyle(
+                        color: _yAxis == 'duration'
+                            ? Theme.of(context).accentColor
+                            : TautulliColorPalette.not_white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              value: 'duration',
+            ),
+          ];
+        },
+      ),
       Stack(
         children: [
           Center(
@@ -206,6 +292,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                       PlayGraphsFetch(
                         tautulliId: _tautulliId,
                         timeRange: _timeRange,
+                        yAxis: _yAxis,
                         settingsBloc: _settingsBloc,
                       ),
                     );
@@ -355,6 +442,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                     PlayGraphsFetch(
                       tautulliId: _tautulliId,
                       timeRange: _timeRange,
+                      yAxis: _yAxis,
                       settingsBloc: _settingsBloc,
                     ),
                   );

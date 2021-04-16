@@ -35,12 +35,14 @@ class PlayGraphsFetch extends PlayGraphsEvent {
 class PlayGraphsLoadPlaysByDate extends PlayGraphsEvent {
   final String tautulliId;
   final Either<Failure, GraphData> failureOrPlayByDate;
+  final String yAxis;
 
   PlayGraphsLoadPlaysByDate({
     @required this.tautulliId,
     @required this.failureOrPlayByDate,
+    @required this.yAxis,
   });
 
   @override
-  List<Object> get props => [tautulliId, failureOrPlayByDate];
+  List<Object> get props => [tautulliId, failureOrPlayByDate, yAxis];
 }
