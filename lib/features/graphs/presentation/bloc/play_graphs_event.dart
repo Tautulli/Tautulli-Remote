@@ -46,3 +46,18 @@ class PlayGraphsLoadPlaysByDate extends PlayGraphsEvent {
   @override
   List<Object> get props => [tautulliId, failureOrPlayByDate, yAxis];
 }
+
+class PlayGraphsLoadPlaysByDayOfWeek extends PlayGraphsEvent {
+  final String tautulliId;
+  final Either<Failure, GraphData> failureOrPlayByDayOfWeek;
+  final String yAxis;
+
+  PlayGraphsLoadPlaysByDayOfWeek({
+    @required this.tautulliId,
+    @required this.failureOrPlayByDayOfWeek,
+    @required this.yAxis,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, failureOrPlayByDayOfWeek, yAxis];
+}

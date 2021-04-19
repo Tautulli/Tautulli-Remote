@@ -15,19 +15,23 @@ class PlayGraphsInitial extends PlayGraphsState {
 
 class PlayGraphsLoaded extends PlayGraphsState {
   final GraphState playsByDate;
+  final GraphState playsByDayOfWeek;
 
   PlayGraphsLoaded({
     @required this.playsByDate,
+    @required this.playsByDayOfWeek,
   });
 
   PlayGraphsLoaded copyWith({
     GraphState playsByDate,
+    GraphState playsByDayOfWeek,
   }) {
     return PlayGraphsLoaded(
       playsByDate: playsByDate ?? this.playsByDate,
+      playsByDayOfWeek: playsByDayOfWeek ?? this.playsByDayOfWeek,
     );
   }
 
   @override
-  List<Object> get props => [playsByDate];
+  List<Object> get props => [playsByDate, playsByDayOfWeek];
 }
