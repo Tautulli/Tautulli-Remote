@@ -20,25 +20,6 @@ class PlaysByDateGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Calculate values for chart scale
-    double maxYValue = (List<int>.from(
-            playsByDate.graphData.seriesDataList[0].seriesData +
-                playsByDate.graphData.seriesDataList[1].seriesData +
-                playsByDate.graphData.seriesDataList[2].seriesData))
-        .reduce(max)
-        .toDouble();
-
-    double horizontalLineStep = GraphDataHelper.horizontalStep(
-      maxYValue,
-      playsByDate.yAxis,
-    );
-
-    double verticalLineStep =
-        (playsByDate.graphData.categories.length / 7).ceilToDouble();
-
-    double maxYLines =
-        (maxYValue / horizontalLineStep).ceilToDouble() * horizontalLineStep;
-
     // Extract SeriesData items from graph data and place into a list for easier
     // indexing and access
     final tvSeriesData = playsByDate.graphData.seriesDataList.firstWhere(
@@ -77,6 +58,27 @@ class PlaysByDateGraph extends StatelessWidget {
     List<SeriesData> notNullSeriesDataLists = List.from(
       seriesDataLists.where((list) => list != null),
     );
+
+    // Calculate values for chart scale
+    double maxYValue =
+        List<int>.generate(playsByDate.graphData.categories.length, (index) {
+      int value = 0;
+      notNullSeriesDataLists.forEach((list) {
+        value = value + list.seriesData[index];
+      });
+      return value;
+    }).reduce(max).toDouble();
+
+    double horizontalLineStep = GraphDataHelper.horizontalStep(
+      maxYValue,
+      playsByDate.yAxis,
+    );
+
+    double verticalLineStep =
+        (playsByDate.graphData.categories.length / 7).ceilToDouble();
+
+    double maxYLines =
+        (maxYValue / horizontalLineStep).ceilToDouble() * horizontalLineStep;
 
     // Create spot data lists for mapping out the graph
     List<FlSpot> tvData = [];
