@@ -26,6 +26,7 @@ import 'features/graphs/data/datasources/graphs_data_source.dart';
 import 'features/graphs/data/repositories/graphs_repository_impl.dart';
 import 'features/graphs/domain/repositories/graphs_repository.dart';
 import 'features/graphs/domain/usecases/get_plays_by_date.dart';
+import 'features/graphs/domain/usecases/get_plays_by_day_of_week.dart';
 import 'features/graphs/presentation/bloc/play_graphs_bloc.dart';
 import 'features/history/data/datasources/history_data_source.dart';
 import 'features/history/data/repositories/history_repository_impl.dart';
@@ -225,6 +226,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => PlayGraphsBloc(
       getPlaysByDate: sl(),
+      getPlaysByDayOfWeek: sl(),
       logging: sl(),
     ),
   );
@@ -232,6 +234,12 @@ Future<void> init() async {
   // Use case
   sl.registerLazySingleton(
     () => GetPlaysByDate(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetPlaysByDayOfWeek(
       repository: sl(),
     ),
   );
@@ -248,6 +256,7 @@ Future<void> init() async {
   sl.registerLazySingleton<GraphsDataSource>(
     () => GraphsDataSourceImpl(
       apiGetPlaysByDate: sl(),
+      apiGetPlaysByDayOfWeek: sl(),
     ),
   );
 
@@ -933,6 +942,11 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.GetPlaysByDate>(
     () => tautulli_api.GetPlaysByDateImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByDayOfWeek>(
+    () => tautulli_api.GetPlaysByDayOfWeekImpl(
       connectionHandler: sl(),
     ),
   );
