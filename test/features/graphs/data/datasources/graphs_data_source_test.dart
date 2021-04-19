@@ -17,6 +17,9 @@ import '../../../../fixtures/fixture_reader.dart';
 
 class MockGetPlaysByDate extends Mock implements tautulli_api.GetPlaysByDate {}
 
+class MockGetPlaysByDayOfWeek extends Mock
+    implements tautulli_api.GetPlaysByDayOfWeek {}
+
 class MockSettings extends Mock implements Settings {}
 
 class MockLogging extends Mock implements Logging {}
@@ -24,14 +27,17 @@ class MockLogging extends Mock implements Logging {}
 void main() {
   GraphsDataSourceImpl dataSource;
   MockGetPlaysByDate mockApiGetPlaysByDate;
+  MockGetPlaysByDayOfWeek mockApiGetPlaysByDayOfWeek;
   MockSettings mockSettings;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
 
   setUp(() {
     mockApiGetPlaysByDate = MockGetPlaysByDate();
+    mockApiGetPlaysByDayOfWeek = MockGetPlaysByDayOfWeek();
     dataSource = GraphsDataSourceImpl(
       apiGetPlaysByDate: mockApiGetPlaysByDate,
+      apiGetPlaysByDayOfWeek: mockApiGetPlaysByDayOfWeek,
     );
     mockSettings = MockSettings();
     mockLogging = MockLogging();
@@ -44,20 +50,32 @@ void main() {
   const String tTautulliId = 'jkl';
 
   final playsByDateJson = json.decode(fixture('graphs_play_by_date.json'));
-
-  final List<String> tCategories = List<String>.from(
+  final List<String> tPlaysByDateCategories = List<String>.from(
     playsByDateJson['response']['data']['categories'],
   );
-  final List<SeriesData> tSeriesDataList = [];
-
+  final List<SeriesData> tPlaysByDateSeriesDataList = [];
   playsByDateJson['response']['data']['series'].forEach((item) {
-    tSeriesDataList.add(SeriesDataModel.fromJson(item));
+    tPlaysByDateSeriesDataList.add(SeriesDataModel.fromJson(item));
   });
-
   final tPlaysByDateGraphData = GraphDataModel(
     graphType: GraphType.playsByDate,
-    categories: tCategories,
-    seriesDataList: tSeriesDataList,
+    categories: tPlaysByDateCategories,
+    seriesDataList: tPlaysByDateSeriesDataList,
+  );
+
+  final playsByDayOfWeekJson =
+      json.decode(fixture('graphs_play_by_dayofweek.json'));
+  final List<String> tPlaysByDayOfWeekCategories = List<String>.from(
+    playsByDayOfWeekJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tPlaysByDayOfWeekSeriesDataList = [];
+  playsByDayOfWeekJson['response']['data']['series'].forEach((item) {
+    tPlaysByDayOfWeekSeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tPlaysByDayOfWeekGraphData = GraphDataModel(
+    graphType: GraphType.playsByDayOfWeek,
+    categories: tPlaysByDayOfWeekCategories,
+    seriesDataList: tPlaysByDayOfWeekSeriesDataList,
   );
 
   group('getPlayByDate', () {
@@ -106,6 +124,55 @@ void main() {
       );
       // assert
       expect(result, equals(tPlaysByDateGraphData));
+    },
+  );
+
+  group('getPlayByDayOfWeek', () {
+    test(
+      'should call [getPlaysByDayOfWeek] from Tautulli API',
+      () async {
+        // arrange
+        when(mockApiGetPlaysByDayOfWeek(
+          tautulliId: anyNamed('tautulliId'),
+          timeRange: anyNamed('timeRange'),
+          yAxis: anyNamed('yAxis'),
+          userId: anyNamed('userId'),
+          grouping: anyNamed('grouping'),
+          settingsBloc: anyNamed('settingsBloc'),
+        )).thenAnswer((_) async => playsByDayOfWeekJson);
+        // act
+        await dataSource.getPlaysByDayOfWeek(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
+        // assert
+        verify(mockApiGetPlaysByDayOfWeek(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
+      },
+    );
+  });
+
+  test(
+    'should return a GraphsDataModel',
+    () async {
+      // arrange
+      when(mockApiGetPlaysByDayOfWeek(
+        tautulliId: anyNamed('tautulliId'),
+        timeRange: anyNamed('timeRange'),
+        yAxis: anyNamed('yAxis'),
+        userId: anyNamed('userId'),
+        grouping: anyNamed('grouping'),
+        settingsBloc: anyNamed('settingsBloc'),
+      )).thenAnswer((_) async => playsByDayOfWeekJson);
+      // act
+      final result = await dataSource.getPlaysByDayOfWeek(
+        tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
+      );
+      // assert
+      expect(result, equals(tPlaysByDayOfWeekGraphData));
     },
   );
 }

@@ -5,6 +5,7 @@ import 'series_data.dart';
 
 enum GraphType {
   playsByDate,
+  playsByDayOfWeek,
 }
 
 class GraphData extends Equatable {

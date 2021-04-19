@@ -51,99 +51,195 @@ void main() {
   const String tTautulliId = 'jkl';
 
   final playsByDateJson = json.decode(fixture('graphs_play_by_date.json'));
-
-  final List<String> tCategories = List<String>.from(
+  final List<String> tPlaysByDateCategories = List<String>.from(
     playsByDateJson['response']['data']['categories'],
   );
-  final List<SeriesData> tSeriesDataList = [];
-
+  final List<SeriesData> tPlaysByDateSeriesDataList = [];
   playsByDateJson['response']['data']['series'].forEach((item) {
-    tSeriesDataList.add(SeriesDataModel.fromJson(item));
+    tPlaysByDateSeriesDataList.add(SeriesDataModel.fromJson(item));
   });
-
   final tPlaysByDateGraphData = GraphDataModel(
     graphType: GraphType.playsByDate,
-    categories: tCategories,
-    seriesDataList: tSeriesDataList,
+    categories: tPlaysByDateCategories,
+    seriesDataList: tPlaysByDateSeriesDataList,
   );
 
-  test(
-    'should check if device is online',
-    () async {
-      // arrange
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      // act
-      await repository.getPlaysByDate(
-        tautulliId: tTautulliId,
-        settingsBloc: settingsBloc,
-      );
-      // assert
-      verify(mockNetworkInfo.isConnected);
-    },
+  final playsByDayOfWeekJson =
+      json.decode(fixture('graphs_play_by_dayofweek.json'));
+  final List<String> tPlaysByDayOfWeekCategories = List<String>.from(
+    playsByDayOfWeekJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tPlaysByDayOfWeekSeriesDataList = [];
+  playsByDayOfWeekJson['response']['data']['series'].forEach((item) {
+    tPlaysByDayOfWeekSeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tPlaysByDayOfWeekGraphData = GraphDataModel(
+    graphType: GraphType.playsByDayOfWeek,
+    categories: tPlaysByDayOfWeekCategories,
+    seriesDataList: tPlaysByDayOfWeekSeriesDataList,
   );
 
-  group('is online', () {
-    setUp(() {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-    });
-
+  group('Get Plays By Date', () {
     test(
-      'should call the data source getPlaysByDate()',
+      'should check if device is online',
       () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
         await repository.getPlaysByDate(
           tautulliId: tTautulliId,
           settingsBloc: settingsBloc,
         );
         // assert
-        verify(
-          mockGraphsDataSource.getPlaysByDate(
+        verify(mockNetworkInfo.isConnected);
+      },
+    );
+
+    group('is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+
+      test(
+        'should call the data source getPlaysByDate()',
+        () async {
+          // act
+          await repository.getPlaysByDate(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
-          ),
-        );
-      },
-    );
+          );
+          // assert
+          verify(
+            mockGraphsDataSource.getPlaysByDate(
+              tautulliId: tTautulliId,
+              settingsBloc: settingsBloc,
+            ),
+          );
+        },
+      );
 
-    test(
-      'should return GraphData when call to API is successful',
-      () async {
-        // arrange
-        when(
-          mockGraphsDataSource.getPlaysByDate(
-            tautulliId: anyNamed('tautulliId'),
-            timeRange: anyNamed('timeRange'),
-            yAxis: anyNamed('yAxis'),
-            userId: anyNamed('userId'),
-            grouping: anyNamed('grouping'),
-            settingsBloc: anyNamed('settingsBloc'),
-          ),
-        ).thenAnswer((_) async => tPlaysByDateGraphData);
-        // act
-        final result = await repository.getPlaysByDate(
-          tautulliId: tTautulliId,
-          settingsBloc: settingsBloc,
-        );
-        // assert
-        expect(result, equals(Right(tPlaysByDateGraphData)));
-      },
-    );
+      test(
+        'should return GraphData when call to API is successful',
+        () async {
+          // arrange
+          when(
+            mockGraphsDataSource.getPlaysByDate(
+              tautulliId: anyNamed('tautulliId'),
+              timeRange: anyNamed('timeRange'),
+              yAxis: anyNamed('yAxis'),
+              userId: anyNamed('userId'),
+              grouping: anyNamed('grouping'),
+              settingsBloc: anyNamed('settingsBloc'),
+            ),
+          ).thenAnswer((_) async => tPlaysByDateGraphData);
+          // act
+          final result = await repository.getPlaysByDate(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Right(tPlaysByDateGraphData)));
+        },
+      );
+    });
+
+    group('device is offline', () {
+      test(
+        'should return a ConnectionFailure when there is no network connection',
+        () async {
+          // arrange
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+          // act
+          final result = await repository.getPlaysByDate(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Left(ConnectionFailure())));
+        },
+      );
+    });
   });
 
-  group('device is offline', () {
+  group('Get Plays By Day of Week', () {
     test(
-      'should return a ConnectionFailure when there is no network connection',
+      'should check if device is online',
       () async {
         // arrange
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        final result = await repository.getPlaysByDate(
+        await repository.getPlaysByDayOfWeek(
           tautulliId: tTautulliId,
           settingsBloc: settingsBloc,
         );
         // assert
-        expect(result, equals(Left(ConnectionFailure())));
+        verify(mockNetworkInfo.isConnected);
       },
     );
+
+    group('is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+
+      test(
+        'should call the data source getPlaysByDayOfWeek()',
+        () async {
+          // act
+          await repository.getPlaysByDayOfWeek(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          verify(
+            mockGraphsDataSource.getPlaysByDayOfWeek(
+              tautulliId: tTautulliId,
+              settingsBloc: settingsBloc,
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return GraphData when call to API is successful',
+        () async {
+          // arrange
+          when(
+            mockGraphsDataSource.getPlaysByDayOfWeek(
+              tautulliId: anyNamed('tautulliId'),
+              timeRange: anyNamed('timeRange'),
+              yAxis: anyNamed('yAxis'),
+              userId: anyNamed('userId'),
+              grouping: anyNamed('grouping'),
+              settingsBloc: anyNamed('settingsBloc'),
+            ),
+          ).thenAnswer((_) async => tPlaysByDayOfWeekGraphData);
+          // act
+          final result = await repository.getPlaysByDayOfWeek(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Right(tPlaysByDayOfWeekGraphData)));
+        },
+      );
+    });
+
+    group('device is offline', () {
+      test(
+        'should return a ConnectionFailure when there is no network connection',
+        () async {
+          // arrange
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+          // act
+          final result = await repository.getPlaysByDayOfWeek(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Left(ConnectionFailure())));
+        },
+      );
+    });
   });
 }

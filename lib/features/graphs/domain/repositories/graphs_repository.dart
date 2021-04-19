@@ -14,4 +14,13 @@ abstract class GraphsRepository {
     int grouping,
     @required SettingsBloc settingsBloc,
   });
+
+  Future<Either<Failure, GraphData>> getPlaysByDayOfWeek({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  });
 }
