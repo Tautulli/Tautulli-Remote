@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'plays_by_day_of_week_graph.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -78,52 +79,81 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
           child: Scrollbar(
             child: ListView(
               children: [
-                const GraphHeading(
-                  graphHeading: 'Daily Play Count',
+                GraphHeading(
+                  graphHeading:
+                      'Daily Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'}',
                 ),
-                BlocBuilder<PlayGraphsBloc, PlayGraphsState>(
-                  builder: (context, state) {
-                    // Do not display the graph:
-                    // - if the graphCurrentState is failure
-                    // - if the graph data is null
-                    // - if the y axis has been changed (avoid visual glitch
-                    // - when y axis title calculation is adjusted)
-                    if (state is PlayGraphsLoaded &&
+                (state is PlayGraphsLoaded &&
                         state.playsByDate.graphCurrentState !=
                             GraphCurrentState.failure &&
                         state.playsByDate.graphData != null &&
-                        widget.yAxis == state.playsByDate.yAxis) {
-                      return PlaysByDateGraph(
+                        widget.yAxis == state.playsByDate.yAxis)
+                    ? PlaysByDateGraph(
                         playsByDate: state.playsByDate,
-                      );
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                        left: 8,
-                        right: 8,
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Container(
-                          height: 275,
-                          color: TautulliColorPalette.gunmetal,
-                          child: Center(
-                            child: state is PlayGraphsLoaded &&
-                                    state.playsByDate.graphCurrentState ==
-                                        GraphCurrentState.failure
-                                ? GraphErrorMessage(
-                                    message: state.playsByDate.failureMessage,
-                                    suggestion:
-                                        state.playsByDate.failureSuggestion,
-                                  )
-                                : const CircularProgressIndicator(),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(
+                          top: 8,
+                          left: 8,
+                          right: 8,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: Container(
+                            height: 275,
+                            color: TautulliColorPalette.gunmetal,
+                            child: Center(
+                              child: state is PlayGraphsLoaded &&
+                                      state.playsByDate.graphCurrentState ==
+                                          GraphCurrentState.failure
+                                  ? GraphErrorMessage(
+                                      message: state.playsByDate.failureMessage,
+                                      suggestion:
+                                          state.playsByDate.failureSuggestion,
+                                    )
+                                  : const CircularProgressIndicator(),
+                            ),
                           ),
                         ),
                       ),
-                    );
-                  },
-                )
+                const SizedBox(height: 8),
+                GraphHeading(
+                  graphHeading:
+                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} By Day Of The Week',
+                ),
+                (state is PlayGraphsLoaded &&
+                        state.playsByDate.graphCurrentState !=
+                            GraphCurrentState.failure &&
+                        state.playsByDate.graphData != null &&
+                        widget.yAxis == state.playsByDate.yAxis)
+                    ? PlaysByDayOfWeekGraph(
+                        playsByDayOfWeek: state.playsByDayOfWeek,
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(
+                          top: 8,
+                          left: 8,
+                          right: 8,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: Container(
+                            height: 275,
+                            color: TautulliColorPalette.gunmetal,
+                            child: Center(
+                              child: state is PlayGraphsLoaded &&
+                                      state.playsByDate.graphCurrentState ==
+                                          GraphCurrentState.failure
+                                  ? GraphErrorMessage(
+                                      message: state.playsByDate.failureMessage,
+                                      suggestion:
+                                          state.playsByDate.failureSuggestion,
+                                    )
+                                  : const CircularProgressIndicator(),
+                            ),
+                          ),
+                        ),
+                      ),
               ],
             ),
           ),
