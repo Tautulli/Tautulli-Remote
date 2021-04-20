@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
@@ -9,7 +10,7 @@ enum GraphCurrentState {
   success,
 }
 
-class GraphState {
+class GraphState extends Equatable {
   final GraphData graphData;
   final GraphCurrentState graphCurrentState;
   final String yAxis;
@@ -43,4 +44,14 @@ class GraphState {
       failureSuggestion: failureSuggestion ?? this.failureSuggestion,
     );
   }
+
+  @override
+  List<Object> get props => [
+        graphData,
+        graphCurrentState,
+        yAxis,
+        failure,
+        failureMessage,
+        failureSuggestion,
+      ];
 }
