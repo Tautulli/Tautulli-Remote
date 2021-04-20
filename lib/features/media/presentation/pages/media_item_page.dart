@@ -390,15 +390,19 @@ List<Widget> _appBarActions({
     BlocBuilder<MetadataBloc, MetadataState>(
       builder: (context, state) {
         if (state is MetadataSuccess) {
-          if (!['photo', 'clip', 'playlist']
-              .contains(state.metadata.mediaType)) {
+          if (!['playlist'].contains(state.metadata.mediaType)) {
             return PopupMenuButton(
               tooltip: 'More options',
               onSelected: (value) {
                 if (value == 'plex') {
                   _openPlexUrl(
                     plexIdentifier: plexIdentifier,
-                    ratingKey: state.metadata.ratingKey,
+                    ratingKey:
+                        !['track', 'photo'].contains(state.metadata.mediaType)
+                            ? state.metadata.ratingKey
+                            : state.metadata.parentRatingKey,
+                    useLegacy:
+                        ['photo', 'clip'].contains(state.metadata.mediaType),
                   );
                 } else {
                   final keys = value.split('|');
@@ -497,11 +501,12 @@ List<Widget> _appBarActions({
 Future<void> _openPlexUrl({
   @required int ratingKey,
   @required String plexIdentifier,
+  bool useLegacy = false,
 }) async {
   String plexAppUrl =
-      'plex://server://$plexIdentifier/com.plexapp.plugins.library/library/metadata/$ratingKey';
+      'plex://server://$plexIdentifier/com.plexapp.plugins.library/library/metadata/$ratingKey${useLegacy ? '&legacy=1' : ''}';
   String plexWebUrl =
-      'https://app.plex.tv/desktop#!/server/$plexIdentifier/details?key=%2Flibrary%2Fmetadata%2F$ratingKey';
+      'https://app.plex.tv/desktop#!/server/$plexIdentifier/details?key=%2Flibrary%2Fmetadata%2F$ratingKey${useLegacy ? '&legacy=1' : ''}';
 
   if (await canLaunch(plexAppUrl)) {
     await launch(plexAppUrl);
