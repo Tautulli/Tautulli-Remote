@@ -7,6 +7,7 @@ import '../../domain/entities/graph_state.dart';
 class GraphCard extends StatelessWidget {
   final Widget chart;
   final GraphCurrentState graphCurrentState;
+  final double maxYLines;
   final bool showTvLegend;
   final bool showMoviesLegend;
   final bool showMusicLegend;
@@ -16,6 +17,7 @@ class GraphCard extends StatelessWidget {
     Key key,
     @required this.chart,
     @required this.graphCurrentState,
+    @required this.maxYLines,
     this.showTvLegend = true,
     this.showMoviesLegend = true,
     this.showMusicLegend = true,
@@ -51,7 +53,14 @@ class GraphCard extends StatelessWidget {
                   child: Column(
                     children: [
                       Expanded(
-                        child: chart,
+                        child: maxYLines < 1 || maxYLines.isNaN
+                            ? const Center(
+                                child: Text(
+                                  'No plays for the selected time range',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              )
+                            : chart,
                       ),
                       _GraphLegend(
                         showTvLegend: showTvLegend,

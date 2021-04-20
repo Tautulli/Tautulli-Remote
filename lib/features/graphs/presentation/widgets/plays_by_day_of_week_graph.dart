@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:tautulli_remote/core/helpers/string_mapper_helper.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/graph_data_helper.dart';
+import '../../../../core/helpers/string_mapper_helper.dart';
 import '../../domain/entities/graph_state.dart';
 import '../../domain/entities/series_data.dart';
 import 'graph_card.dart';
@@ -22,39 +22,9 @@ class PlaysByDayOfWeekGraph extends StatelessWidget {
   Widget build(BuildContext context) {
     // Extract SeriesData items from graph data and place into a list for easier
     // indexing and access
-    final tvSeriesData = playsByDayOfWeek.graphData.seriesDataList.firstWhere(
-      (seriesData) => seriesData.seriesType == SeriesType.tv,
-      orElse: () {
-        return null;
-      },
+    List<SeriesData> seriesDataLists = GraphDataHelper.parsedSeriesDataList(
+      playsByDayOfWeek.graphData.seriesDataList,
     );
-    final moviesSeriesData =
-        playsByDayOfWeek.graphData.seriesDataList.firstWhere(
-      (seriesData) => seriesData.seriesType == SeriesType.movies,
-      orElse: () {
-        return null;
-      },
-    );
-    final musicSeriesData =
-        playsByDayOfWeek.graphData.seriesDataList.firstWhere(
-      (seriesData) => seriesData.seriesType == SeriesType.music,
-      orElse: () {
-        return null;
-      },
-    );
-    final liveSeriesData = playsByDayOfWeek.graphData.seriesDataList.firstWhere(
-      (seriesData) => seriesData.seriesType == SeriesType.live,
-      orElse: () {
-        return null;
-      },
-    );
-
-    List<SeriesData> seriesDataLists = [
-      tvSeriesData,
-      moviesSeriesData,
-      musicSeriesData,
-      liveSeriesData,
-    ];
 
     // Create list of non null series data for use in the tooltip loop
     List<SeriesData> notNullSeriesDataLists = List.from(
@@ -86,16 +56,17 @@ class PlaysByDayOfWeekGraph extends StatelessWidget {
     List<BarChartGroupData> barGroups = [];
     // For each day
     for (var i = 0; i < playsByDayOfWeek.graphData.categories.length; i++) {
-      double tvValue =
-          tvSeriesData != null ? tvSeriesData.seriesData[i].toDouble() : 0.0;
-      double moviesValue = moviesSeriesData != null
-          ? moviesSeriesData.seriesData[i].toDouble()
+      double tvValue = seriesDataLists[0] != null
+          ? seriesDataLists[0].seriesData[i].toDouble()
           : 0.0;
-      double musicValue = musicSeriesData != null
-          ? musicSeriesData.seriesData[i].toDouble()
+      double moviesValue = seriesDataLists[1] != null
+          ? seriesDataLists[1].seriesData[i].toDouble()
           : 0.0;
-      double liveValue = liveSeriesData != null
-          ? liveSeriesData.seriesData[i].toDouble()
+      double musicValue = seriesDataLists[2] != null
+          ? seriesDataLists[2].seriesData[i].toDouble()
+          : 0.0;
+      double liveValue = seriesDataLists[3] != null
+          ? seriesDataLists[3].seriesData[i].toDouble()
           : 0.0;
 
       double maxBarY = tvValue + moviesValue + musicValue + liveValue;
@@ -165,60 +136,28 @@ class PlaysByDayOfWeekGraph extends StatelessWidget {
 
     return GraphCard(
       graphCurrentState: playsByDayOfWeek.graphCurrentState,
-      showTvLegend: tvSeriesData != null,
-      showMoviesLegend: moviesSeriesData != null,
-      showMusicLegend: musicSeriesData != null,
-      showLiveTvLegend: liveSeriesData != null,
+      maxYLines: maxYLines,
+      showTvLegend: seriesDataLists[0] != null,
+      showMoviesLegend: seriesDataLists[1] != null,
+      showMusicLegend: seriesDataLists[2] != null,
+      showLiveTvLegend: seriesDataLists[3] != null,
       chart: BarChart(
         BarChartData(
           alignment: BarChartAlignment.spaceAround,
-          titlesData: FlTitlesData(
-            leftTitles: SideTitles(
-              showTitles: true,
-              reservedSize: playsByDayOfWeek.yAxis == 'duration' ? 50 : 22,
-              interval: horizontalLineStep,
-              getTitles: (value) {
-                if (playsByDayOfWeek.yAxis == 'duration') {
-                  return GraphDataHelper.graphDuration(value.toInt());
-                }
-                return value.toStringAsFixed(0);
-              },
-              getTextStyles: (value) {
-                return const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12,
-                );
-              },
-            ),
-            bottomTitles: SideTitles(
-              showTitles: true,
-              rotateAngle: 320,
-              margin: 8,
-              interval: verticalLineStep,
-              getTitles: (value) {
-                return playsByDayOfWeek.graphData.categories[value.toInt()]
-                    .substring(0, 3);
-              },
-              reservedSize: 30,
-              getTextStyles: (value) {
-                return const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12,
-                );
-              },
-            ),
+          titlesData: GraphDataHelper.buildFlTitlesData(
+            yAxis: playsByDayOfWeek.yAxis,
+            categories: playsByDayOfWeek.graphData.categories,
+            leftTitlesInterval: horizontalLineStep,
+            bottomTitlesInterval: verticalLineStep,
+            getBottomTitles: (value) {
+              return playsByDayOfWeek.graphData.categories[value.toInt()]
+                  .substring(0, 3);
+            },
           ),
           maxY: maxYLines,
-          gridData: FlGridData(
+          gridData: GraphDataHelper.buildFlGridData(
             horizontalInterval: horizontalLineStep,
             verticalInterval: verticalLineStep,
-            checkToShowHorizontalLine: (value) =>
-                value % horizontalLineStep == 0,
-            checkToShowVerticalLine: (value) => value % verticalLineStep == 0,
-            drawVerticalLine: true,
-            getDrawingVerticalLine: (value) => FlLine(
-              color: Colors.white.withOpacity(0.03),
-            ),
           ),
           borderData: FlBorderData(
             border: const Border(
@@ -239,8 +178,9 @@ class PlaysByDayOfWeekGraph extends StatelessWidget {
               tooltipBgColor: TautulliColorPalette.midnight.withOpacity(0.95),
               getTooltipItem: (group, groupIndex, rod, rodIndex) {
                 List<SeriesData> validItems = List.from(
-                  notNullSeriesDataLists
-                      .where((element) => element.seriesData[groupIndex] > 0),
+                  notNullSeriesDataLists.where(
+                    (element) => element.seriesData[groupIndex] > 0,
+                  ),
                 );
 
                 rod.rodStackItems.sort((a, b) => b.fromY.compareTo(a.fromY));

@@ -1,4 +1,9 @@
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:meta/meta.dart';
+
+import '../../features/graphs/domain/entities/series_data.dart';
 
 class GraphDataHelper {
   static String graphDate(
@@ -43,5 +48,97 @@ class GraphDataHelper {
       return durationBin / 6;
     }
     return (maxYValue / 5).ceilToDouble();
+  }
+
+  static List<SeriesData> parsedSeriesDataList(List<SeriesData> list) {
+    final tvSeriesData = list.firstWhere(
+      (seriesData) => seriesData.seriesType == SeriesType.tv,
+      orElse: () {
+        return null;
+      },
+    );
+    final moviesSeriesData = list.firstWhere(
+      (seriesData) => seriesData.seriesType == SeriesType.movies,
+      orElse: () {
+        return null;
+      },
+    );
+    final musicSeriesData = list.firstWhere(
+      (seriesData) => seriesData.seriesType == SeriesType.music,
+      orElse: () {
+        return null;
+      },
+    );
+    final liveSeriesData = list.firstWhere(
+      (seriesData) => seriesData.seriesType == SeriesType.live,
+      orElse: () {
+        return null;
+      },
+    );
+
+    return <SeriesData>[
+      tvSeriesData,
+      moviesSeriesData,
+      musicSeriesData,
+      liveSeriesData,
+    ];
+  }
+
+  static FlTitlesData buildFlTitlesData({
+    @required String yAxis,
+    @required List<String> categories,
+    @required double leftTitlesInterval,
+    @required double bottomTitlesInterval,
+    @required String Function(double) getBottomTitles,
+  }) {
+    return FlTitlesData(
+      leftTitles: SideTitles(
+        showTitles: true,
+        reservedSize: yAxis == 'duration' ? 50 : 22,
+        interval: leftTitlesInterval,
+        getTitles: (value) {
+          if (yAxis == 'duration') {
+            return GraphDataHelper.graphDuration(value.toInt());
+          }
+          return value.toStringAsFixed(0);
+        },
+        getTextStyles: (value) {
+          return const TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+          );
+        },
+      ),
+      bottomTitles: SideTitles(
+        showTitles: true,
+        rotateAngle: 320,
+        margin: 8,
+        interval: bottomTitlesInterval,
+        getTitles: getBottomTitles,
+        reservedSize: 30,
+        getTextStyles: (value) {
+          return const TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+          );
+        },
+      ),
+    );
+  }
+
+  static FlGridData buildFlGridData({
+    @required double horizontalInterval,
+    @required double verticalInterval,
+  }) {
+    return FlGridData(
+      horizontalInterval: horizontalInterval,
+      verticalInterval: verticalInterval,
+      checkToShowHorizontalLine: (value) => value % horizontalInterval == 0,
+      checkToShowVerticalLine: (value) => value % verticalInterval == 0,
+      drawVerticalLine: true,
+      getDrawingVerticalLine: (value) => FlLine(
+        color: Colors.white.withOpacity(0.03),
+      ),
+    );
   }
 }
