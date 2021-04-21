@@ -77,6 +77,20 @@ void main() {
     seriesDataList: tPlaysByDayOfWeekSeriesDataList,
   );
 
+  final playsByHourOfDayJson =
+      json.decode(fixture('graphs_play_by_hourofday.json'));
+  final List<String> tPlaysByHourOfDayCategories = List<String>.from(
+    playsByHourOfDayJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tPlaysByHourOfDaySeriesDataList = [];
+  playsByHourOfDayJson['response']['data']['series'].forEach((item) {
+    tPlaysByHourOfDaySeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tPlaysByHourOfDayGraphData = GraphDataModel(
+    categories: tPlaysByHourOfDayCategories,
+    seriesDataList: tPlaysByHourOfDaySeriesDataList,
+  );
+
   group('Get Plays By Date', () {
     test(
       'should check if device is online',
@@ -231,6 +245,88 @@ void main() {
           when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
           final result = await repository.getPlaysByDayOfWeek(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Left(ConnectionFailure())));
+        },
+      );
+    });
+  });
+
+  group('Get Plays By Hour of Day', () {
+    test(
+      'should check if device is online',
+      () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        // act
+        await repository.getPlaysByHourOfDay(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
+        // assert
+        verify(mockNetworkInfo.isConnected);
+      },
+    );
+
+    group('is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+
+      test(
+        'should call the data source getPlaysByHourOfDay()',
+        () async {
+          // act
+          await repository.getPlaysByHourOfDay(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          verify(
+            mockGraphsDataSource.getPlaysByHourOfDay(
+              tautulliId: tTautulliId,
+              settingsBloc: settingsBloc,
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return GraphData when call to API is successful',
+        () async {
+          // arrange
+          when(
+            mockGraphsDataSource.getPlaysByHourOfDay(
+              tautulliId: anyNamed('tautulliId'),
+              timeRange: anyNamed('timeRange'),
+              yAxis: anyNamed('yAxis'),
+              userId: anyNamed('userId'),
+              grouping: anyNamed('grouping'),
+              settingsBloc: anyNamed('settingsBloc'),
+            ),
+          ).thenAnswer((_) async => tPlaysByHourOfDayGraphData);
+          // act
+          final result = await repository.getPlaysByHourOfDay(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Right(tPlaysByHourOfDayGraphData)));
+        },
+      );
+    });
+
+    group('device is offline', () {
+      test(
+        'should return a ConnectionFailure when there is no network connection',
+        () async {
+          // arrange
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+          // act
+          final result = await repository.getPlaysByHourOfDay(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           );

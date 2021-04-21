@@ -25,15 +25,26 @@ abstract class GraphsDataSource {
     int grouping,
     @required SettingsBloc settingsBloc,
   });
+
+  Future<GraphData> getPlaysByHourOfDay({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  });
 }
 
 class GraphsDataSourceImpl implements GraphsDataSource {
   final tautulli_api.GetPlaysByDate apiGetPlaysByDate;
   final tautulli_api.GetPlaysByDayOfWeek apiGetPlaysByDayOfWeek;
+  final tautulli_api.GetPlaysByHourOfDay apiGetPlaysByHourOfDay;
 
   GraphsDataSourceImpl({
     @required this.apiGetPlaysByDate,
     @required this.apiGetPlaysByDayOfWeek,
+    @required this.apiGetPlaysByHourOfDay,
   });
 
   @override
@@ -91,6 +102,38 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     );
     List<SeriesData> seriesDataList = [];
     playsByDayOfWeekJson['response']['data']['series'].forEach((item) {
+      seriesDataList.add(SeriesDataModel.fromJson(item));
+    });
+
+    return GraphDataModel(
+      categories: categories,
+      seriesDataList: seriesDataList,
+    );
+  }
+
+  @override
+  Future<GraphData> getPlaysByHourOfDay({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  }) async {
+    final playsByHourOfDayJson = await apiGetPlaysByHourOfDay(
+      tautulliId: tautulliId,
+      timeRange: timeRange,
+      yAxis: yAxis,
+      userId: userId,
+      grouping: grouping,
+      settingsBloc: settingsBloc,
+    );
+
+    List<String> categories = List<String>.from(
+      playsByHourOfDayJson['response']['data']['categories'],
+    );
+    List<SeriesData> seriesDataList = [];
+    playsByHourOfDayJson['response']['data']['series'].forEach((item) {
       seriesDataList.add(SeriesDataModel.fromJson(item));
     });
 

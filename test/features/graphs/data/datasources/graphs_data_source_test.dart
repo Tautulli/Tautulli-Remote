@@ -7,7 +7,6 @@ import 'package:tautulli_remote/core/api/tautulli_api/tautulli_api.dart'
 import 'package:tautulli_remote/features/graphs/data/datasources/graphs_data_source.dart';
 import 'package:tautulli_remote/features/graphs/data/models/graph_data_model.dart';
 import 'package:tautulli_remote/features/graphs/data/models/series_data_model.dart';
-import 'package:tautulli_remote/features/graphs/domain/entities/graph_data.dart';
 import 'package:tautulli_remote/features/graphs/domain/entities/series_data.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
@@ -20,6 +19,9 @@ class MockGetPlaysByDate extends Mock implements tautulli_api.GetPlaysByDate {}
 class MockGetPlaysByDayOfWeek extends Mock
     implements tautulli_api.GetPlaysByDayOfWeek {}
 
+class MockGetPlaysByHourOfDay extends Mock
+    implements tautulli_api.GetPlaysByHourOfDay {}
+
 class MockSettings extends Mock implements Settings {}
 
 class MockLogging extends Mock implements Logging {}
@@ -28,6 +30,7 @@ void main() {
   GraphsDataSourceImpl dataSource;
   MockGetPlaysByDate mockApiGetPlaysByDate;
   MockGetPlaysByDayOfWeek mockApiGetPlaysByDayOfWeek;
+  MockGetPlaysByHourOfDay mockApiGetPlaysByHourOfDay;
   MockSettings mockSettings;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
@@ -35,9 +38,11 @@ void main() {
   setUp(() {
     mockApiGetPlaysByDate = MockGetPlaysByDate();
     mockApiGetPlaysByDayOfWeek = MockGetPlaysByDayOfWeek();
+    mockApiGetPlaysByHourOfDay = MockGetPlaysByHourOfDay();
     dataSource = GraphsDataSourceImpl(
       apiGetPlaysByDate: mockApiGetPlaysByDate,
       apiGetPlaysByDayOfWeek: mockApiGetPlaysByDayOfWeek,
+      apiGetPlaysByHourOfDay: mockApiGetPlaysByHourOfDay,
     );
     mockSettings = MockSettings();
     mockLogging = MockLogging();
@@ -74,6 +79,20 @@ void main() {
   final tPlaysByDayOfWeekGraphData = GraphDataModel(
     categories: tPlaysByDayOfWeekCategories,
     seriesDataList: tPlaysByDayOfWeekSeriesDataList,
+  );
+
+  final playsByHourOfDayJson =
+      json.decode(fixture('graphs_play_by_hourofday.json'));
+  final List<String> tPlaysByHourOfDayCategories = List<String>.from(
+    playsByHourOfDayJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tPlaysByHourOfDaySeriesDataList = [];
+  playsByHourOfDayJson['response']['data']['series'].forEach((item) {
+    tPlaysByHourOfDaySeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tPlaysByHourOfDayGraphData = GraphDataModel(
+    categories: tPlaysByHourOfDayCategories,
+    seriesDataList: tPlaysByHourOfDaySeriesDataList,
   );
 
   group('getPlayByDate', () {
@@ -171,6 +190,55 @@ void main() {
       );
       // assert
       expect(result, equals(tPlaysByDayOfWeekGraphData));
+    },
+  );
+
+  group('getPlayByHourOfDay', () {
+    test(
+      'should call [getPlaysByHourOfDay] from Tautulli API',
+      () async {
+        // arrange
+        when(mockApiGetPlaysByHourOfDay(
+          tautulliId: anyNamed('tautulliId'),
+          timeRange: anyNamed('timeRange'),
+          yAxis: anyNamed('yAxis'),
+          userId: anyNamed('userId'),
+          grouping: anyNamed('grouping'),
+          settingsBloc: anyNamed('settingsBloc'),
+        )).thenAnswer((_) async => playsByHourOfDayJson);
+        // act
+        await dataSource.getPlaysByHourOfDay(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
+        // assert
+        verify(mockApiGetPlaysByHourOfDay(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
+      },
+    );
+  });
+
+  test(
+    'should return a GraphsDataModel',
+    () async {
+      // arrange
+      when(mockApiGetPlaysByHourOfDay(
+        tautulliId: anyNamed('tautulliId'),
+        timeRange: anyNamed('timeRange'),
+        yAxis: anyNamed('yAxis'),
+        userId: anyNamed('userId'),
+        grouping: anyNamed('grouping'),
+        settingsBloc: anyNamed('settingsBloc'),
+      )).thenAnswer((_) async => playsByHourOfDayJson);
+      // act
+      final result = await dataSource.getPlaysByHourOfDay(
+        tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
+      );
+      // assert
+      expect(result, equals(tPlaysByHourOfDayGraphData));
     },
   );
 }
