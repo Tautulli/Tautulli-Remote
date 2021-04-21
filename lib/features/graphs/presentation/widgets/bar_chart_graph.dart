@@ -165,7 +165,8 @@ class BarChartGraph extends StatelessWidget {
                   return graphState.graphData.categories[value.toInt()]
                       .substring(0, 3);
                 } else if (graphState.graphType ==
-                    GraphType.playsByTop10Platforms) {
+                        GraphType.playsByTop10Platforms ||
+                    graphState.graphType == GraphType.playsByTop10Users) {
                   if (graphState.graphData.categories[value.toInt()].length <=
                       6) {
                     return graphState.graphData.categories[value.toInt()];

@@ -180,6 +180,32 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                               )
                             : const CircularProgressIndicator(),
                       ),
+                const SizedBox(height: 8),
+                GraphHeading(
+                  graphHeading:
+                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Top 10 Users',
+                ),
+                (state is PlayGraphsLoaded &&
+                        state.playsByTop10Users.graphCurrentState !=
+                            GraphCurrentState.failure &&
+                        state.playsByTop10Users.graphData != null &&
+                        widget.yAxis == state.playsByTop10Users.yAxis)
+                    ? BarChartGraph(
+                        graphState: state.playsByTop10Users,
+                        bottomTitlesRotateAngle: 320,
+                        bottomTitlesMargin: 8,
+                      )
+                    : _GraphLoadingOrFailed(
+                        child: state is PlayGraphsLoaded &&
+                                state.playsByTop10Users.graphCurrentState ==
+                                    GraphCurrentState.failure
+                            ? GraphErrorMessage(
+                                message: state.playsByTop10Users.failureMessage,
+                                suggestion:
+                                    state.playsByTop10Users.failureSuggestion,
+                              )
+                            : const CircularProgressIndicator(),
+                      ),
               ],
             ),
           ),
