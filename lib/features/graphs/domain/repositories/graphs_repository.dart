@@ -41,4 +41,13 @@ abstract class GraphsRepository {
     int grouping,
     @required SettingsBloc settingsBloc,
   });
+
+  Future<Either<Failure, GraphData>> getPlaysByTop10Users({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  });
 }

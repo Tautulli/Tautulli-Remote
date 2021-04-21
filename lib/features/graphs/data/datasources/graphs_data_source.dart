@@ -43,6 +43,15 @@ abstract class GraphsDataSource {
     int grouping,
     @required SettingsBloc settingsBloc,
   });
+
+  Future<GraphData> getPlaysByTop10Users({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  });
 }
 
 class GraphsDataSourceImpl implements GraphsDataSource {
@@ -50,12 +59,14 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   final tautulli_api.GetPlaysByDayOfWeek apiGetPlaysByDayOfWeek;
   final tautulli_api.GetPlaysByHourOfDay apiGetPlaysByHourOfDay;
   final tautulli_api.GetPlaysByTop10Platforms apiGetPlaysByTop10Platforms;
+  final tautulli_api.GetPlaysByTop10Users apiGetPlaysByTop10Users;
 
   GraphsDataSourceImpl({
     @required this.apiGetPlaysByDate,
     @required this.apiGetPlaysByDayOfWeek,
     @required this.apiGetPlaysByHourOfDay,
     @required this.apiGetPlaysByTop10Platforms,
+    @required this.apiGetPlaysByTop10Users,
   });
 
   @override
@@ -177,6 +188,38 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     );
     List<SeriesData> seriesDataList = [];
     playsByTop10PlatformsJson['response']['data']['series'].forEach((item) {
+      seriesDataList.add(SeriesDataModel.fromJson(item));
+    });
+
+    return GraphDataModel(
+      categories: categories,
+      seriesDataList: seriesDataList,
+    );
+  }
+
+  @override
+  Future<GraphData> getPlaysByTop10Users({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  }) async {
+    final playsByTop10UsersJson = await apiGetPlaysByTop10Users(
+      tautulliId: tautulliId,
+      timeRange: timeRange,
+      yAxis: yAxis,
+      userId: userId,
+      grouping: grouping,
+      settingsBloc: settingsBloc,
+    );
+
+    List<String> categories = List<String>.from(
+      playsByTop10UsersJson['response']['data']['categories'],
+    );
+    List<SeriesData> seriesDataList = [];
+    playsByTop10UsersJson['response']['data']['series'].forEach((item) {
       seriesDataList.add(SeriesDataModel.fromJson(item));
     });
 
