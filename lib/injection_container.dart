@@ -868,7 +868,7 @@ Future<void> init() async {
     ),
   );
 
-  // API
+  //! API
   sl.registerLazySingleton<tautulli_api.ConnectionHandler>(
     () => tautulli_api.ConnectionHandlerImpl(
       callTautulli: sl(),
@@ -947,6 +947,11 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.GetPlaysByDayOfWeek>(
     () => tautulli_api.GetPlaysByDayOfWeekImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByHourOfDay>(
+    () => tautulli_api.GetPlaysByHourOfDayImpl(
       connectionHandler: sl(),
     ),
   );
