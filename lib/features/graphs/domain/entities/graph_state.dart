@@ -10,9 +10,16 @@ enum GraphCurrentState {
   success,
 }
 
+enum GraphType {
+  playsByDate,
+  playsByDayOfWeek,
+  playsByHourOfDay,
+}
+
 class GraphState extends Equatable {
   final GraphData graphData;
   final GraphCurrentState graphCurrentState;
+  final GraphType graphType;
   final String yAxis;
   final Failure failure;
   final String failureMessage;
@@ -21,6 +28,7 @@ class GraphState extends Equatable {
   GraphState({
     @required this.graphData,
     @required this.graphCurrentState,
+    @required this.graphType,
     @required this.yAxis,
     this.failure,
     this.failureMessage,
@@ -30,6 +38,7 @@ class GraphState extends Equatable {
   GraphState copyWith({
     GraphData graphData,
     GraphCurrentState graphCurrentState,
+    GraphType graphType,
     String yAxis,
     Failure failure,
     String failureMessage,
@@ -38,6 +47,7 @@ class GraphState extends Equatable {
     return GraphState(
       graphData: graphData ?? this.graphData,
       graphCurrentState: graphCurrentState ?? this.graphCurrentState,
+      graphType: graphType ?? this.graphType,
       yAxis: yAxis ?? this.yAxis,
       failure: failure ?? this.failure,
       failureMessage: failureMessage ?? this.failureMessage,
@@ -49,6 +59,7 @@ class GraphState extends Equatable {
   List<Object> get props => [
         graphData,
         graphCurrentState,
+        graphType,
         yAxis,
         failure,
         failureMessage,
