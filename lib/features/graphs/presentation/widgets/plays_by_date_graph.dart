@@ -88,6 +88,7 @@ class PlaysByDateGraph extends StatelessWidget {
             categories: playsByDate.graphData.categories,
             leftTitlesInterval: horizontalLineStep,
             bottomTitlesInterval: verticalLineStep,
+            bottomTitlesMargin: 8,
             getBottomTitles: (value) {
               if (value >= playsByDate.graphData.categories.length) {
                 return '';
