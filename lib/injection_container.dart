@@ -228,6 +228,7 @@ Future<void> init() async {
     () => PlayGraphsBloc(
       getPlaysByDate: sl(),
       getPlaysByDayOfWeek: sl(),
+      getPlaysByHourOfDay: sl(),
       logging: sl(),
     ),
   );

@@ -11,6 +11,7 @@ import 'package:tautulli_remote/features/graphs/domain/entities/graph_state.dart
 import 'package:tautulli_remote/features/graphs/domain/entities/series_data.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_date.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_day_of_week.dart';
+import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_hour_of_day.dart';
 import 'package:tautulli_remote/features/graphs/presentation/bloc/play_graphs_bloc.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
@@ -22,6 +23,8 @@ class MockGetPlaysByDate extends Mock implements GetPlaysByDate {}
 
 class MockGetPlaysByDayOfWeek extends Mock implements GetPlaysByDayOfWeek {}
 
+class MockGetPlaysByHourOfDay extends Mock implements GetPlaysByHourOfDay {}
+
 class MockSettings extends Mock implements Settings {}
 
 class MockLogging extends Mock implements Logging {}
@@ -30,6 +33,7 @@ void main() {
   PlayGraphsBloc bloc;
   MockGetPlaysByDate mockGetPlaysByDate;
   MockGetPlaysByDayOfWeek mockGetPlaysByDayOfWeek;
+  MockGetPlaysByHourOfDay mockGetPlaysByHourOfDay;
   MockSettings mockSettings;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
@@ -37,10 +41,12 @@ void main() {
   setUp(() {
     mockGetPlaysByDate = MockGetPlaysByDate();
     mockGetPlaysByDayOfWeek = MockGetPlaysByDayOfWeek();
+    mockGetPlaysByHourOfDay = MockGetPlaysByHourOfDay();
     mockLogging = MockLogging();
     bloc = PlayGraphsBloc(
       getPlaysByDate: mockGetPlaysByDate,
       getPlaysByDayOfWeek: mockGetPlaysByDayOfWeek,
+      getPlaysByHourOfDay: mockGetPlaysByHourOfDay,
       logging: mockLogging,
     );
     mockSettings = MockSettings();
@@ -80,6 +86,20 @@ void main() {
     seriesDataList: tPlaysByDayOfWeekSeriesDataList,
   );
 
+  final playsByHourOfDayJson =
+      json.decode(fixture('graphs_play_by_hourofday.json'));
+  final List<String> tPlaysByHourOfDayCategories = List<String>.from(
+    playsByHourOfDayJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tPlaysByHourOfDaySeriesDataList = [];
+  playsByHourOfDayJson['response']['data']['series'].forEach((item) {
+    tPlaysByHourOfDaySeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tPlaysByHourOfDayGraphData = GraphDataModel(
+    categories: tPlaysByHourOfDayCategories,
+    seriesDataList: tPlaysByHourOfDaySeriesDataList,
+  );
+
   void setUpSuccess() {
     when(mockGetPlaysByDate(
       tautulliId: anyNamed('tautulliId'),
@@ -97,6 +117,14 @@ void main() {
       grouping: anyNamed('grouping'),
       settingsBloc: anyNamed('settingsBloc'),
     )).thenAnswer((_) async => Right(tPlaysByDayOfWeekGraphData));
+    when(mockGetPlaysByHourOfDay(
+      tautulliId: anyNamed('tautulliId'),
+      timeRange: anyNamed('timeRange'),
+      yAxis: anyNamed('yAxis'),
+      userId: anyNamed('userId'),
+      grouping: anyNamed('grouping'),
+      settingsBloc: anyNamed('settingsBloc'),
+    )).thenAnswer((_) async => Right(tPlaysByHourOfDayGraphData));
   }
 
   PlayGraphsLoaded loadingState() {
@@ -110,9 +138,15 @@ void main() {
       yAxis: tYAxis,
       graphCurrentState: GraphCurrentState.inProgress,
     );
+    final playsByHourOfDayGraphState = GraphState(
+      graphData: null,
+      yAxis: tYAxis,
+      graphCurrentState: GraphCurrentState.inProgress,
+    );
     final currentState = PlayGraphsLoaded(
       playsByDate: playsByDateGraphState,
       playsByDayOfWeek: playsByDayOfWeekGraphState,
+      playsByHourOfDay: playsByHourOfDayGraphState,
     );
 
     return currentState;
@@ -188,6 +222,42 @@ void main() {
         // assert
         verify(
           mockGetPlaysByDayOfWeek(
+            tautulliId: anyNamed('tautulliId'),
+            timeRange: anyNamed('timeRange'),
+            yAxis: anyNamed('yAxis'),
+            userId: anyNamed('userId'),
+            grouping: anyNamed('grouping'),
+            settingsBloc: anyNamed('settingsBloc'),
+          ),
+        );
+      },
+    );
+
+    test(
+      'should get data from GetPlaysByHourOfDay use case',
+      () async {
+        // arrange
+        setUpSuccess();
+        // act
+        bloc.add(
+          PlayGraphsFetch(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          ),
+        );
+        await untilCalled(
+          mockGetPlaysByHourOfDay(
+            tautulliId: anyNamed('tautulliId'),
+            timeRange: anyNamed('timeRange'),
+            yAxis: anyNamed('yAxis'),
+            userId: anyNamed('userId'),
+            grouping: anyNamed('grouping'),
+            settingsBloc: anyNamed('settingsBloc'),
+          ),
+        );
+        // assert
+        verify(
+          mockGetPlaysByHourOfDay(
             tautulliId: anyNamed('tautulliId'),
             timeRange: anyNamed('timeRange'),
             yAxis: anyNamed('yAxis'),
@@ -323,6 +393,71 @@ void main() {
           PlayGraphsLoadPlaysByDayOfWeek(
             tautulliId: tTautulliId,
             failureOrPlayByDayOfWeek: Left(failure),
+            yAxis: tYAxis,
+          ),
+        );
+      },
+    );
+  });
+
+  group('PlayGraphsLoadPlaysByHourOfDay', () {
+    test(
+      'should emit [PlaysGraphLoaded] with playsByHourOfDay graphCurrentState as success when graph data is fetched successfully',
+      () async {
+        // arrange
+        final currentState = loadingState();
+        bloc.emit(currentState);
+        // assert later
+        final expected = [
+          currentState.copyWith(
+            playsByHourOfDay: GraphState(
+              graphData: tPlaysByHourOfDayGraphData,
+              yAxis: tYAxis,
+              graphCurrentState: GraphCurrentState.success,
+            ),
+          )
+        ];
+        // ignore: unawaited_futures
+        expectLater(bloc.stream, emitsInOrder(expected));
+        // act
+        bloc.add(
+          PlayGraphsLoadPlaysByHourOfDay(
+            tautulliId: tTautulliId,
+            failureOrPlayByHourOfDay: Right(tPlaysByHourOfDayGraphData),
+            yAxis: tYAxis,
+          ),
+        );
+      },
+    );
+
+    test(
+      'should emit [PlaysGraphLoaded] with playsByHourOfDay graphCurrentState as failure when fetching graph data fails',
+      () async {
+        // arrange
+        final currentState = loadingState();
+        final failure = ServerFailure();
+        bloc.emit(currentState);
+        // assert later
+        final expected = [
+          currentState.copyWith(
+            playsByHourOfDay: GraphState(
+              graphData: null,
+              yAxis: tYAxis,
+              graphCurrentState: GraphCurrentState.failure,
+              failureMessage: FailureMapperHelper.mapFailureToMessage(failure),
+              failureSuggestion:
+                  FailureMapperHelper.mapFailureToSuggestion(failure),
+              failure: failure,
+            ),
+          )
+        ];
+        // ignore: unawaited_futures
+        expectLater(bloc.stream, emitsInOrder(expected));
+        // act
+        bloc.add(
+          PlayGraphsLoadPlaysByHourOfDay(
+            tautulliId: tTautulliId,
+            failureOrPlayByHourOfDay: Left(failure),
             yAxis: tYAxis,
           ),
         );

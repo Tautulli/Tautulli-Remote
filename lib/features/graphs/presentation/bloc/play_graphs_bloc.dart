@@ -13,23 +13,27 @@ import '../../domain/entities/graph_data.dart';
 import '../../domain/entities/graph_state.dart';
 import '../../domain/usecases/get_plays_by_date.dart';
 import '../../domain/usecases/get_plays_by_day_of_week.dart';
+import '../../domain/usecases/get_plays_by_hour_of_day.dart';
 
 part 'play_graphs_event.dart';
 part 'play_graphs_state.dart';
 
 GraphData _playsByDateCache;
 GraphData _playsByDayOfWeekCache;
+GraphData _playsByHourOfDayCache;
 String _yAxisCache;
 int _timeRangeCache;
 
 class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
   final GetPlaysByDate getPlaysByDate;
   final GetPlaysByDayOfWeek getPlaysByDayOfWeek;
+  final GetPlaysByHourOfDay getPlaysByHourOfDay;
   final Logging logging;
 
   PlayGraphsBloc({
     @required this.getPlaysByDate,
     @required this.getPlaysByDayOfWeek,
+    @required this.getPlaysByHourOfDay,
     @required this.logging,
   }) : super(PlayGraphsInitial(
           timeRange: _timeRangeCache,
@@ -47,17 +51,27 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         graphData: _playsByDateCache,
         yAxis: _yAxisCache,
         graphCurrentState: GraphCurrentState.inProgress,
+        graphType: GraphType.playsByDate,
       );
 
       GraphState playsByDayOfWeekData = GraphState(
         graphData: _playsByDayOfWeekCache,
         yAxis: _yAxisCache,
         graphCurrentState: GraphCurrentState.inProgress,
+        graphType: GraphType.playsByDayOfWeek,
+      );
+
+      GraphState playsByHourOfDayData = GraphState(
+        graphData: _playsByHourOfDayCache,
+        yAxis: _yAxisCache,
+        graphCurrentState: GraphCurrentState.inProgress,
+        graphType: GraphType.playsByHourOfDay,
       );
 
       yield PlayGraphsLoaded(
         playsByDate: playsByDateData,
         playsByDayOfWeek: playsByDayOfWeekData,
+        playsByHourOfDay: playsByHourOfDayData,
       );
 
       await getPlaysByDate(
@@ -93,6 +107,23 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
           ),
         ),
       );
+
+      await getPlaysByHourOfDay(
+        tautulliId: event.tautulliId,
+        timeRange: event.timeRange,
+        yAxis: event.yAxis,
+        userId: event.userId,
+        grouping: event.grouping,
+        settingsBloc: event.settingsBloc,
+      ).then(
+        (failureOrPlayByHourOfDay) => add(
+          PlayGraphsLoadPlaysByHourOfDay(
+            tautulliId: event.tautulliId,
+            failureOrPlayByHourOfDay: failureOrPlayByHourOfDay,
+            yAxis: event.yAxis,
+          ),
+        ),
+      );
     }
     if (event is PlayGraphsLoadPlaysByDate) {
       if (currentState is PlayGraphsLoaded) {
@@ -109,6 +140,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
               playsByDate: GraphState(
                 graphData: _playsByDateCache,
                 graphCurrentState: GraphCurrentState.failure,
+                graphType: GraphType.playsByDate,
                 yAxis: event.yAxis,
                 failureMessage:
                     FailureMapperHelper.mapFailureToMessage(failure),
@@ -126,6 +158,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
               playsByDate: GraphState(
                 graphData: graphData,
                 graphCurrentState: GraphCurrentState.success,
+                graphType: GraphType.playsByDate,
                 yAxis: event.yAxis,
               ),
             );
@@ -148,6 +181,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
               playsByDayOfWeek: GraphState(
                 graphData: _playsByDayOfWeekCache,
                 graphCurrentState: GraphCurrentState.failure,
+                graphType: GraphType.playsByDayOfWeek,
                 yAxis: event.yAxis,
                 failureMessage:
                     FailureMapperHelper.mapFailureToMessage(failure),
@@ -165,6 +199,48 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
               playsByDayOfWeek: GraphState(
                 graphData: graphData,
                 graphCurrentState: GraphCurrentState.success,
+                graphType: GraphType.playsByDayOfWeek,
+                yAxis: event.yAxis,
+              ),
+            );
+          },
+        );
+      }
+    }
+    if (event is PlayGraphsLoadPlaysByHourOfDay) {
+      if (currentState is PlayGraphsLoaded) {
+        yield* event.failureOrPlayByHourOfDay.fold(
+          (failure) async* {
+            logging.error(
+              'Graphs: Failed to load plays by day of the week graph data',
+            );
+
+            _playsByHourOfDayCache = null;
+            _yAxisCache = event.yAxis;
+
+            yield currentState.copyWith(
+              playsByHourOfDay: GraphState(
+                graphData: _playsByHourOfDayCache,
+                graphCurrentState: GraphCurrentState.failure,
+                graphType: GraphType.playsByHourOfDay,
+                yAxis: event.yAxis,
+                failureMessage:
+                    FailureMapperHelper.mapFailureToMessage(failure),
+                failureSuggestion:
+                    FailureMapperHelper.mapFailureToSuggestion(failure),
+                failure: failure,
+              ),
+            );
+          },
+          (graphData) async* {
+            _playsByHourOfDayCache = graphData;
+            _yAxisCache = event.yAxis;
+
+            yield currentState.copyWith(
+              playsByHourOfDay: GraphState(
+                graphData: graphData,
+                graphCurrentState: GraphCurrentState.success,
+                graphType: GraphType.playsByHourOfDay,
                 yAxis: event.yAxis,
               ),
             );
