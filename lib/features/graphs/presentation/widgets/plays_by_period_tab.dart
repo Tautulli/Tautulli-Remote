@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'plays_by_day_of_week_graph.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/graph_state.dart';
 import '../bloc/play_graphs_bloc.dart';
+import 'bar_chart_graph.dart';
 import 'graph_error_message.dart';
 import 'graph_heading.dart';
 import 'plays_by_date_graph.dart';
@@ -91,74 +91,103 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                     ? PlaysByDateGraph(
                         playsByDate: state.playsByDate,
                       )
-                    : Padding(
-                        padding: const EdgeInsets.only(
-                          top: 8,
-                          left: 8,
-                          right: 8,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: Container(
-                            height: 275,
-                            color: TautulliColorPalette.gunmetal,
-                            child: Center(
-                              child: state is PlayGraphsLoaded &&
-                                      state.playsByDate.graphCurrentState ==
-                                          GraphCurrentState.failure
-                                  ? GraphErrorMessage(
-                                      message: state.playsByDate.failureMessage,
-                                      suggestion:
-                                          state.playsByDate.failureSuggestion,
-                                    )
-                                  : const CircularProgressIndicator(),
-                            ),
-                          ),
-                        ),
+                    : _GraphLoadingOrFailed(
+                        child: state is PlayGraphsLoaded &&
+                                state.playsByDate.graphCurrentState ==
+                                    GraphCurrentState.failure
+                            ? GraphErrorMessage(
+                                message: state.playsByDate.failureMessage,
+                                suggestion: state.playsByDate.failureSuggestion,
+                              )
+                            : const CircularProgressIndicator(),
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
                   graphHeading:
-                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} By Day Of The Week',
+                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Day of the Week',
                 ),
                 (state is PlayGraphsLoaded &&
-                        state.playsByDate.graphCurrentState !=
+                        state.playsByDayOfWeek.graphCurrentState !=
                             GraphCurrentState.failure &&
-                        state.playsByDate.graphData != null &&
-                        widget.yAxis == state.playsByDate.yAxis)
-                    ? PlaysByDayOfWeekGraph(
-                        playsByDayOfWeek: state.playsByDayOfWeek,
+                        state.playsByDayOfWeek.graphData != null &&
+                        widget.yAxis == state.playsByDayOfWeek.yAxis)
+                    ? BarChartGraph(
+                        graphState: state.playsByDayOfWeek,
+                        bottomTitlesRotateAngle: 320,
                       )
-                    : Padding(
-                        padding: const EdgeInsets.only(
-                          top: 8,
-                          left: 8,
-                          right: 8,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: Container(
-                            height: 275,
-                            color: TautulliColorPalette.gunmetal,
-                            child: Center(
-                              child: state is PlayGraphsLoaded &&
-                                      state.playsByDate.graphCurrentState ==
-                                          GraphCurrentState.failure
-                                  ? GraphErrorMessage(
-                                      message: state.playsByDate.failureMessage,
-                                      suggestion:
-                                          state.playsByDate.failureSuggestion,
-                                    )
-                                  : const CircularProgressIndicator(),
-                            ),
-                          ),
-                        ),
+                    : _GraphLoadingOrFailed(
+                        child: state is PlayGraphsLoaded &&
+                                state.playsByDayOfWeek.graphCurrentState ==
+                                    GraphCurrentState.failure
+                            ? GraphErrorMessage(
+                                message: state.playsByDayOfWeek.failureMessage,
+                                suggestion:
+                                    state.playsByDayOfWeek.failureSuggestion,
+                              )
+                            : const CircularProgressIndicator(),
+                      ),
+                const SizedBox(height: 8),
+                GraphHeading(
+                  graphHeading:
+                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Hour of the Day',
+                ),
+                (state is PlayGraphsLoaded &&
+                        state.playsByHourOfDay.graphCurrentState !=
+                            GraphCurrentState.failure &&
+                        state.playsByHourOfDay.graphData != null &&
+                        widget.yAxis == state.playsByHourOfDay.yAxis)
+                    ? BarChartGraph(
+                        graphState: state.playsByHourOfDay,
+                        bottomTitlesRotateAngle: 270,
+                        barWidth: 10,
+                        barBorderRadius: 2,
+                      )
+                    : _GraphLoadingOrFailed(
+                        child: state is PlayGraphsLoaded &&
+                                state.playsByHourOfDay.graphCurrentState ==
+                                    GraphCurrentState.failure
+                            ? GraphErrorMessage(
+                                message: state.playsByHourOfDay.failureMessage,
+                                suggestion:
+                                    state.playsByHourOfDay.failureSuggestion,
+                              )
+                            : const CircularProgressIndicator(),
                       ),
               ],
             ),
           ),
         );
       },
+    );
+  }
+}
+
+class _GraphLoadingOrFailed extends StatelessWidget {
+  final Widget child;
+
+  const _GraphLoadingOrFailed({
+    Key key,
+    @required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 8,
+        left: 8,
+        right: 8,
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: Container(
+          height: 275,
+          color: TautulliColorPalette.gunmetal,
+          child: Center(
+            child: child,
+          ),
+        ),
+      ),
     );
   }
 }
