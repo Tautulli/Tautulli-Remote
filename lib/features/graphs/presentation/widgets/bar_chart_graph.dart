@@ -23,7 +23,7 @@ class BarChartGraph extends StatelessWidget {
     this.barWidth = 20,
     this.barBorderRadius = 4,
     this.bottomTitlesRotateAngle,
-    this.bottomTitlesMargin,
+    this.bottomTitlesMargin = 4,
   }) : super(key: key);
 
   @override
@@ -158,13 +158,26 @@ class BarChartGraph extends StatelessWidget {
             leftTitlesInterval: horizontalLineStep,
             bottomTitlesInterval: verticalLineStep,
             bottomTitlesRotateAngle: bottomTitlesRotateAngle,
-            bottomTitlesMargin: 4,
+            bottomTitlesMargin: bottomTitlesMargin,
             getBottomTitles: (value) {
-              if (graphState.graphType == GraphType.playsByDayOfWeek) {
-                return graphState.graphData.categories[value.toInt()]
-                    .substring(0, 3);
+              if (value < graphState.graphData.categories.length) {
+                if (graphState.graphType == GraphType.playsByDayOfWeek) {
+                  return graphState.graphData.categories[value.toInt()]
+                      .substring(0, 3);
+                } else if (graphState.graphType ==
+                    GraphType.playsByTop10Platforms) {
+                  if (graphState.graphData.categories[value.toInt()].length <=
+                      6) {
+                    return graphState.graphData.categories[value.toInt()];
+                  } else {
+                    return graphState.graphData.categories[value.toInt()]
+                            .substring(0, 5) +
+                        '...';
+                  }
+                }
+                return graphState.graphData.categories[value.toInt()];
               }
-              return graphState.graphData.categories[value.toInt()];
+              return '';
             },
           ),
           maxY: maxYLines,
