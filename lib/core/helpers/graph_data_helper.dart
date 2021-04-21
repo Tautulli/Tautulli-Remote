@@ -90,6 +90,8 @@ class GraphDataHelper {
     @required double leftTitlesInterval,
     @required double bottomTitlesInterval,
     @required String Function(double) getBottomTitles,
+    double bottomTitlesRotateAngle = 320,
+    double bottomTitlesMargin = 6,
   }) {
     return FlTitlesData(
       leftTitles: SideTitles(
@@ -111,8 +113,8 @@ class GraphDataHelper {
       ),
       bottomTitles: SideTitles(
         showTitles: true,
-        rotateAngle: 320,
-        margin: 8,
+        rotateAngle: bottomTitlesRotateAngle,
+        margin: bottomTitlesMargin,
         interval: bottomTitlesInterval,
         getTitles: getBottomTitles,
         reservedSize: 30,
