@@ -55,7 +55,6 @@ void main() {
   });
 
   final tPlaysByDateGraphData = GraphDataModel(
-    graphType: GraphType.playsByDate,
     categories: tCategories,
     seriesDataList: tSeriesDataList,
   );

@@ -63,7 +63,6 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     });
 
     return GraphDataModel(
-      graphType: GraphType.playsByDate,
       categories: categories,
       seriesDataList: seriesDataList,
     );
@@ -96,7 +95,6 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     });
 
     return GraphDataModel(
-      graphType: GraphType.playsByDayOfWeek,
       categories: categories,
       seriesDataList: seriesDataList,
     );

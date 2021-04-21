@@ -7,7 +7,6 @@ import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';
 import 'package:tautulli_remote/features/graphs/data/models/graph_data_model.dart';
 import 'package:tautulli_remote/features/graphs/data/models/series_data_model.dart';
-import 'package:tautulli_remote/features/graphs/domain/entities/graph_data.dart';
 import 'package:tautulli_remote/features/graphs/domain/entities/graph_state.dart';
 import 'package:tautulli_remote/features/graphs/domain/entities/series_data.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_date.dart';
@@ -63,7 +62,6 @@ void main() {
     tSeriesDataList.add(SeriesDataModel.fromJson(item));
   });
   final tPlaysByDateGraphData = GraphDataModel(
-    graphType: GraphType.playsByDate,
     categories: tCategories,
     seriesDataList: tSeriesDataList,
   );
@@ -78,7 +76,6 @@ void main() {
     tPlaysByDayOfWeekSeriesDataList.add(SeriesDataModel.fromJson(item));
   });
   final tPlaysByDayOfWeekGraphData = GraphDataModel(
-    graphType: GraphType.playsByDayOfWeek,
     categories: tPlaysByDayOfWeekCategories,
     seriesDataList: tPlaysByDayOfWeekSeriesDataList,
   );

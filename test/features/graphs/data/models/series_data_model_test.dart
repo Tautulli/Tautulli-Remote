@@ -10,7 +10,6 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   final tGraphDataModel = GraphDataModel(
-    graphType: GraphType.playsByDate,
     categories: const [
       '2021-03-07',
       '2021-03-08',

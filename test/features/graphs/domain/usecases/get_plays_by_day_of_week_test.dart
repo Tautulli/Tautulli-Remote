@@ -53,7 +53,6 @@ void main() {
     tPlaysByDayOfWeekSeriesDataList.add(SeriesDataModel.fromJson(item));
   });
   final tPlaysByDayOfWeekGraphData = GraphDataModel(
-    graphType: GraphType.playsByDayOfWeek,
     categories: tPlaysByDayOfWeekCategories,
     seriesDataList: tPlaysByDayOfWeekSeriesDataList,
   );
