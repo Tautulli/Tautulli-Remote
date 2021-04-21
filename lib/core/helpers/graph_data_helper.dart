@@ -16,8 +16,12 @@ class GraphDataHelper {
     return formatedDateString;
   }
 
-  static String graphDuration(int durationInSeconds) {
+  static String graphDuration(int durationInSeconds, {bool useDays = true}) {
     Duration time = Duration(seconds: durationInSeconds);
+
+    if (useDays && time.inDays > 0) {
+      return '${time.inDays}d ${time.inHours.remainder(24)}h ${time.inMinutes.remainder(60)}m';
+    }
 
     if (time.inHours > 0) {
       return '${time.inHours}h ${time.inMinutes.remainder(60)}m';
@@ -100,7 +104,7 @@ class GraphDataHelper {
         interval: leftTitlesInterval,
         getTitles: (value) {
           if (yAxis == 'duration') {
-            return GraphDataHelper.graphDuration(value.toInt());
+            return graphDuration(value.toInt(), useDays: false);
           }
           return value.toStringAsFixed(0);
         },
