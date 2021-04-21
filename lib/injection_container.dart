@@ -232,6 +232,7 @@ Future<void> init() async {
       getPlaysByDayOfWeek: sl(),
       getPlaysByHourOfDay: sl(),
       getPlaysByTop10Platforms: sl(),
+      getPlaysByTop10Users: sl(),
       logging: sl(),
     ),
   );

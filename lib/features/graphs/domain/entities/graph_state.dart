@@ -15,6 +15,7 @@ enum GraphType {
   playsByDayOfWeek,
   playsByHourOfDay,
   playsByTop10Platforms,
+  playsByTop10Users,
 }
 
 class GraphState extends Equatable {

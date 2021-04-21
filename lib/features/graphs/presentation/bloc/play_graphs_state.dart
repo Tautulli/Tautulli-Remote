@@ -18,12 +18,14 @@ class PlayGraphsLoaded extends PlayGraphsState {
   final GraphState playsByDayOfWeek;
   final GraphState playsByHourOfDay;
   final GraphState playsByTop10Platforms;
+  final GraphState playsByTop10Users;
 
   PlayGraphsLoaded({
     @required this.playsByDate,
     @required this.playsByDayOfWeek,
     @required this.playsByHourOfDay,
     @required this.playsByTop10Platforms,
+    @required this.playsByTop10Users,
   });
 
   PlayGraphsLoaded copyWith({
@@ -31,6 +33,7 @@ class PlayGraphsLoaded extends PlayGraphsState {
     GraphState playsByDayOfWeek,
     GraphState playsByHourOfDay,
     GraphState playsByTop10Platforms,
+    GraphState playsByTop10Users,
   }) {
     return PlayGraphsLoaded(
       playsByDate: playsByDate ?? this.playsByDate,
@@ -38,6 +41,7 @@ class PlayGraphsLoaded extends PlayGraphsState {
       playsByHourOfDay: playsByHourOfDay ?? this.playsByHourOfDay,
       playsByTop10Platforms:
           playsByTop10Platforms ?? this.playsByTop10Platforms,
+      playsByTop10Users: playsByTop10Users ?? this.playsByTop10Users,
     );
   }
 
@@ -47,5 +51,6 @@ class PlayGraphsLoaded extends PlayGraphsState {
         playsByDayOfWeek,
         playsByHourOfDay,
         playsByTop10Platforms,
+        playsByTop10Users,
       ];
 }

@@ -91,3 +91,18 @@ class PlayGraphsLoadPlaysByTop10Platforms extends PlayGraphsEvent {
   @override
   List<Object> get props => [tautulliId, failureOrPlaysByTop10Platforms, yAxis];
 }
+
+class PlayGraphsLoadPlaysByTop10Users extends PlayGraphsEvent {
+  final String tautulliId;
+  final Either<Failure, GraphData> failureOrPlaysByTop10Users;
+  final String yAxis;
+
+  PlayGraphsLoadPlaysByTop10Users({
+    @required this.tautulliId,
+    @required this.failureOrPlaysByTop10Users,
+    @required this.yAxis,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, failureOrPlaysByTop10Users, yAxis];
+}
