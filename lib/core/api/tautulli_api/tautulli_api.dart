@@ -15,6 +15,7 @@ export 'get_metadata.dart';
 export 'get_plays_by_date.dart';
 export 'get_plays_by_dayofweek.dart';
 export 'get_plays_by_hourofday.dart';
+export 'get_plays_by_top_10_platforms.dart';
 export 'get_recently_added.dart';
 export 'get_server_info.dart';
 export 'get_settings.dart';
