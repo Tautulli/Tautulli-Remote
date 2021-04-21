@@ -978,6 +978,11 @@ Future<void> init() async {
       connectionHandler: sl(),
     ),
   );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByTop10Users>(
+    () => tautulli_api.GetPlaysByTop10UsersImpl(
+      connectionHandler: sl(),
+    ),
+  );
   sl.registerLazySingleton<tautulli_api.GetRecentlyAdded>(
     () => tautulli_api.GetRecentlyAddedImpl(
       connectionHandler: sl(),
