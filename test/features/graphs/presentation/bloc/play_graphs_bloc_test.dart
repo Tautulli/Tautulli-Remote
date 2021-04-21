@@ -12,6 +12,7 @@ import 'package:tautulli_remote/features/graphs/domain/entities/series_data.dart
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_date.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_day_of_week.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_hour_of_day.dart';
+import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_top_10_platforms.dart';
 import 'package:tautulli_remote/features/graphs/presentation/bloc/play_graphs_bloc.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
@@ -25,6 +26,9 @@ class MockGetPlaysByDayOfWeek extends Mock implements GetPlaysByDayOfWeek {}
 
 class MockGetPlaysByHourOfDay extends Mock implements GetPlaysByHourOfDay {}
 
+class MockGetPlaysByTop10Platforms extends Mock
+    implements GetPlaysByTop10Platforms {}
+
 class MockSettings extends Mock implements Settings {}
 
 class MockLogging extends Mock implements Logging {}
@@ -34,6 +38,7 @@ void main() {
   MockGetPlaysByDate mockGetPlaysByDate;
   MockGetPlaysByDayOfWeek mockGetPlaysByDayOfWeek;
   MockGetPlaysByHourOfDay mockGetPlaysByHourOfDay;
+  MockGetPlaysByTop10Platforms mockGetPlaysByTop10Platforms;
   MockSettings mockSettings;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
@@ -42,11 +47,13 @@ void main() {
     mockGetPlaysByDate = MockGetPlaysByDate();
     mockGetPlaysByDayOfWeek = MockGetPlaysByDayOfWeek();
     mockGetPlaysByHourOfDay = MockGetPlaysByHourOfDay();
+    mockGetPlaysByTop10Platforms = MockGetPlaysByTop10Platforms();
     mockLogging = MockLogging();
     bloc = PlayGraphsBloc(
       getPlaysByDate: mockGetPlaysByDate,
       getPlaysByDayOfWeek: mockGetPlaysByDayOfWeek,
       getPlaysByHourOfDay: mockGetPlaysByHourOfDay,
+      getPlaysByTop10Platforms: mockGetPlaysByTop10Platforms,
       logging: mockLogging,
     );
     mockSettings = MockSettings();
@@ -100,6 +107,20 @@ void main() {
     seriesDataList: tPlaysByHourOfDaySeriesDataList,
   );
 
+  final playsByTop10PlatformsJson =
+      json.decode(fixture('graphs_play_by_top_10_platforms.json'));
+  final List<String> tPlaysByTop10PlatformsCategories = List<String>.from(
+    playsByTop10PlatformsJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tPlaysByTop10PlatformsSeriesDataList = [];
+  playsByTop10PlatformsJson['response']['data']['series'].forEach((item) {
+    tPlaysByTop10PlatformsSeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tPlaysByTop10PlatformsGraphData = GraphDataModel(
+    categories: tPlaysByTop10PlatformsCategories,
+    seriesDataList: tPlaysByTop10PlatformsSeriesDataList,
+  );
+
   void setUpSuccess() {
     when(mockGetPlaysByDate(
       tautulliId: anyNamed('tautulliId'),
@@ -125,6 +146,14 @@ void main() {
       grouping: anyNamed('grouping'),
       settingsBloc: anyNamed('settingsBloc'),
     )).thenAnswer((_) async => Right(tPlaysByHourOfDayGraphData));
+    when(mockGetPlaysByTop10Platforms(
+      tautulliId: anyNamed('tautulliId'),
+      timeRange: anyNamed('timeRange'),
+      yAxis: anyNamed('yAxis'),
+      userId: anyNamed('userId'),
+      grouping: anyNamed('grouping'),
+      settingsBloc: anyNamed('settingsBloc'),
+    )).thenAnswer((_) async => Right(tPlaysByTop10PlatformsGraphData));
   }
 
   PlayGraphsLoaded loadingState() {
@@ -132,21 +161,31 @@ void main() {
       graphData: null,
       yAxis: tYAxis,
       graphCurrentState: GraphCurrentState.inProgress,
+      graphType: GraphType.playsByDate,
     );
     final playsByDayOfWeekGraphState = GraphState(
       graphData: null,
       yAxis: tYAxis,
       graphCurrentState: GraphCurrentState.inProgress,
+      graphType: GraphType.playsByDayOfWeek,
     );
     final playsByHourOfDayGraphState = GraphState(
       graphData: null,
       yAxis: tYAxis,
       graphCurrentState: GraphCurrentState.inProgress,
+      graphType: GraphType.playsByHourOfDay,
+    );
+    final playsByTop10PlatformsGraphState = GraphState(
+      graphData: null,
+      yAxis: tYAxis,
+      graphCurrentState: GraphCurrentState.inProgress,
+      graphType: GraphType.playsByTop10Platforms,
     );
     final currentState = PlayGraphsLoaded(
       playsByDate: playsByDateGraphState,
       playsByDayOfWeek: playsByDayOfWeekGraphState,
       playsByHourOfDay: playsByHourOfDayGraphState,
+      playsByTop10Platforms: playsByTop10PlatformsGraphState,
     );
 
     return currentState;
@@ -268,6 +307,42 @@ void main() {
         );
       },
     );
+
+    test(
+      'should get data from GetPlaysByTop10Platforms use case',
+      () async {
+        // arrange
+        setUpSuccess();
+        // act
+        bloc.add(
+          PlayGraphsFetch(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          ),
+        );
+        await untilCalled(
+          mockGetPlaysByTop10Platforms(
+            tautulliId: anyNamed('tautulliId'),
+            timeRange: anyNamed('timeRange'),
+            yAxis: anyNamed('yAxis'),
+            userId: anyNamed('userId'),
+            grouping: anyNamed('grouping'),
+            settingsBloc: anyNamed('settingsBloc'),
+          ),
+        );
+        // assert
+        verify(
+          mockGetPlaysByTop10Platforms(
+            tautulliId: anyNamed('tautulliId'),
+            timeRange: anyNamed('timeRange'),
+            yAxis: anyNamed('yAxis'),
+            userId: anyNamed('userId'),
+            grouping: anyNamed('grouping'),
+            settingsBloc: anyNamed('settingsBloc'),
+          ),
+        );
+      },
+    );
   });
 
   group('PlayGraphsLoadPlaysByDate', () {
@@ -284,6 +359,7 @@ void main() {
               graphData: tPlaysByDateGraphData,
               yAxis: tYAxis,
               graphCurrentState: GraphCurrentState.success,
+              graphType: GraphType.playsByDate,
             ),
           )
         ];
@@ -293,7 +369,7 @@ void main() {
         bloc.add(
           PlayGraphsLoadPlaysByDate(
             tautulliId: tTautulliId,
-            failureOrPlayByDate: Right(tPlaysByDateGraphData),
+            failureOrPlaysByDate: Right(tPlaysByDateGraphData),
             yAxis: tYAxis,
           ),
         );
@@ -314,6 +390,7 @@ void main() {
               graphData: null,
               yAxis: tYAxis,
               graphCurrentState: GraphCurrentState.failure,
+              graphType: GraphType.playsByDate,
               failureMessage: FailureMapperHelper.mapFailureToMessage(failure),
               failureSuggestion:
                   FailureMapperHelper.mapFailureToSuggestion(failure),
@@ -327,7 +404,7 @@ void main() {
         bloc.add(
           PlayGraphsLoadPlaysByDate(
             tautulliId: tTautulliId,
-            failureOrPlayByDate: Left(failure),
+            failureOrPlaysByDate: Left(failure),
             yAxis: tYAxis,
           ),
         );
@@ -349,6 +426,7 @@ void main() {
               graphData: tPlaysByDayOfWeekGraphData,
               yAxis: tYAxis,
               graphCurrentState: GraphCurrentState.success,
+              graphType: GraphType.playsByDayOfWeek,
             ),
           )
         ];
@@ -358,7 +436,7 @@ void main() {
         bloc.add(
           PlayGraphsLoadPlaysByDayOfWeek(
             tautulliId: tTautulliId,
-            failureOrPlayByDayOfWeek: Right(tPlaysByDayOfWeekGraphData),
+            failureOrPlaysByDayOfWeek: Right(tPlaysByDayOfWeekGraphData),
             yAxis: tYAxis,
           ),
         );
@@ -379,6 +457,7 @@ void main() {
               graphData: null,
               yAxis: tYAxis,
               graphCurrentState: GraphCurrentState.failure,
+              graphType: GraphType.playsByDayOfWeek,
               failureMessage: FailureMapperHelper.mapFailureToMessage(failure),
               failureSuggestion:
                   FailureMapperHelper.mapFailureToSuggestion(failure),
@@ -392,7 +471,7 @@ void main() {
         bloc.add(
           PlayGraphsLoadPlaysByDayOfWeek(
             tautulliId: tTautulliId,
-            failureOrPlayByDayOfWeek: Left(failure),
+            failureOrPlaysByDayOfWeek: Left(failure),
             yAxis: tYAxis,
           ),
         );
@@ -414,6 +493,7 @@ void main() {
               graphData: tPlaysByHourOfDayGraphData,
               yAxis: tYAxis,
               graphCurrentState: GraphCurrentState.success,
+              graphType: GraphType.playsByHourOfDay,
             ),
           )
         ];
@@ -423,7 +503,7 @@ void main() {
         bloc.add(
           PlayGraphsLoadPlaysByHourOfDay(
             tautulliId: tTautulliId,
-            failureOrPlayByHourOfDay: Right(tPlaysByHourOfDayGraphData),
+            failureOrPlaysByHourOfDay: Right(tPlaysByHourOfDayGraphData),
             yAxis: tYAxis,
           ),
         );
@@ -444,6 +524,7 @@ void main() {
               graphData: null,
               yAxis: tYAxis,
               graphCurrentState: GraphCurrentState.failure,
+              graphType: GraphType.playsByHourOfDay,
               failureMessage: FailureMapperHelper.mapFailureToMessage(failure),
               failureSuggestion:
                   FailureMapperHelper.mapFailureToSuggestion(failure),
@@ -457,7 +538,75 @@ void main() {
         bloc.add(
           PlayGraphsLoadPlaysByHourOfDay(
             tautulliId: tTautulliId,
-            failureOrPlayByHourOfDay: Left(failure),
+            failureOrPlaysByHourOfDay: Left(failure),
+            yAxis: tYAxis,
+          ),
+        );
+      },
+    );
+  });
+
+  group('PlayGraphsLoadPlaysByTop10Platforms', () {
+    test(
+      'should emit [PlaysGraphLoaded] with playsByTop10Platforms graphCurrentState as success when graph data is fetched successfully',
+      () async {
+        // arrange
+        final currentState = loadingState();
+        bloc.emit(currentState);
+        // assert later
+        final expected = [
+          currentState.copyWith(
+            playsByTop10Platforms: GraphState(
+              graphData: tPlaysByTop10PlatformsGraphData,
+              yAxis: tYAxis,
+              graphCurrentState: GraphCurrentState.success,
+              graphType: GraphType.playsByTop10Platforms,
+            ),
+          )
+        ];
+        // ignore: unawaited_futures
+        expectLater(bloc.stream, emitsInOrder(expected));
+        // act
+        bloc.add(
+          PlayGraphsLoadPlaysByTop10Platforms(
+            tautulliId: tTautulliId,
+            failureOrPlaysByTop10Platforms:
+                Right(tPlaysByTop10PlatformsGraphData),
+            yAxis: tYAxis,
+          ),
+        );
+      },
+    );
+
+    test(
+      'should emit [PlaysGraphLoaded] with playsByTop10Platforms graphCurrentState as failure when fetching graph data fails',
+      () async {
+        // arrange
+        final currentState = loadingState();
+        final failure = ServerFailure();
+        bloc.emit(currentState);
+        // assert later
+        final expected = [
+          currentState.copyWith(
+            playsByTop10Platforms: GraphState(
+              graphData: null,
+              yAxis: tYAxis,
+              graphCurrentState: GraphCurrentState.failure,
+              graphType: GraphType.playsByTop10Platforms,
+              failureMessage: FailureMapperHelper.mapFailureToMessage(failure),
+              failureSuggestion:
+                  FailureMapperHelper.mapFailureToSuggestion(failure),
+              failure: failure,
+            ),
+          )
+        ];
+        // ignore: unawaited_futures
+        expectLater(bloc.stream, emitsInOrder(expected));
+        // act
+        bloc.add(
+          PlayGraphsLoadPlaysByTop10Platforms(
+            tautulliId: tTautulliId,
+            failureOrPlaysByTop10Platforms: Left(failure),
             yAxis: tYAxis,
           ),
         );

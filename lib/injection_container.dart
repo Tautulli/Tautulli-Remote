@@ -28,6 +28,7 @@ import 'features/graphs/domain/repositories/graphs_repository.dart';
 import 'features/graphs/domain/usecases/get_plays_by_date.dart';
 import 'features/graphs/domain/usecases/get_plays_by_day_of_week.dart';
 import 'features/graphs/domain/usecases/get_plays_by_hour_of_day.dart';
+import 'features/graphs/domain/usecases/get_plays_by_top_10_platforms.dart';
 import 'features/graphs/presentation/bloc/play_graphs_bloc.dart';
 import 'features/history/data/datasources/history_data_source.dart';
 import 'features/history/data/repositories/history_repository_impl.dart';
@@ -229,6 +230,7 @@ Future<void> init() async {
       getPlaysByDate: sl(),
       getPlaysByDayOfWeek: sl(),
       getPlaysByHourOfDay: sl(),
+      getPlaysByTop10Platforms: sl(),
       logging: sl(),
     ),
   );
@@ -252,6 +254,12 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerLazySingleton(
+    () => GetPlaysByTop10Platforms(
+      repository: sl(),
+    ),
+  );
+
   // Repository
   sl.registerLazySingleton<GraphsRepository>(
     () => GraphsRepositoryImpl(
@@ -266,6 +274,7 @@ Future<void> init() async {
       apiGetPlaysByDate: sl(),
       apiGetPlaysByDayOfWeek: sl(),
       apiGetPlaysByHourOfDay: sl(),
+      apiGetPlaysByTop10Platforms: sl(),
     ),
   );
 

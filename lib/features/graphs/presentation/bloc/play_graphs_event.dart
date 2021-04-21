@@ -34,45 +34,60 @@ class PlayGraphsFetch extends PlayGraphsEvent {
 
 class PlayGraphsLoadPlaysByDate extends PlayGraphsEvent {
   final String tautulliId;
-  final Either<Failure, GraphData> failureOrPlayByDate;
+  final Either<Failure, GraphData> failureOrPlaysByDate;
   final String yAxis;
 
   PlayGraphsLoadPlaysByDate({
     @required this.tautulliId,
-    @required this.failureOrPlayByDate,
+    @required this.failureOrPlaysByDate,
     @required this.yAxis,
   });
 
   @override
-  List<Object> get props => [tautulliId, failureOrPlayByDate, yAxis];
+  List<Object> get props => [tautulliId, failureOrPlaysByDate, yAxis];
 }
 
 class PlayGraphsLoadPlaysByDayOfWeek extends PlayGraphsEvent {
   final String tautulliId;
-  final Either<Failure, GraphData> failureOrPlayByDayOfWeek;
+  final Either<Failure, GraphData> failureOrPlaysByDayOfWeek;
   final String yAxis;
 
   PlayGraphsLoadPlaysByDayOfWeek({
     @required this.tautulliId,
-    @required this.failureOrPlayByDayOfWeek,
+    @required this.failureOrPlaysByDayOfWeek,
     @required this.yAxis,
   });
 
   @override
-  List<Object> get props => [tautulliId, failureOrPlayByDayOfWeek, yAxis];
+  List<Object> get props => [tautulliId, failureOrPlaysByDayOfWeek, yAxis];
 }
 
 class PlayGraphsLoadPlaysByHourOfDay extends PlayGraphsEvent {
   final String tautulliId;
-  final Either<Failure, GraphData> failureOrPlayByHourOfDay;
+  final Either<Failure, GraphData> failureOrPlaysByHourOfDay;
   final String yAxis;
 
   PlayGraphsLoadPlaysByHourOfDay({
     @required this.tautulliId,
-    @required this.failureOrPlayByHourOfDay,
+    @required this.failureOrPlaysByHourOfDay,
     @required this.yAxis,
   });
 
   @override
-  List<Object> get props => [tautulliId, failureOrPlayByHourOfDay, yAxis];
+  List<Object> get props => [tautulliId, failureOrPlaysByHourOfDay, yAxis];
+}
+
+class PlayGraphsLoadPlaysByTop10Platforms extends PlayGraphsEvent {
+  final String tautulliId;
+  final Either<Failure, GraphData> failureOrPlaysByTop10Platforms;
+  final String yAxis;
+
+  PlayGraphsLoadPlaysByTop10Platforms({
+    @required this.tautulliId,
+    @required this.failureOrPlaysByTop10Platforms,
+    @required this.yAxis,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, failureOrPlaysByTop10Platforms, yAxis];
 }

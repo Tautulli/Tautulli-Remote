@@ -14,6 +14,7 @@ import '../../domain/entities/graph_state.dart';
 import '../../domain/usecases/get_plays_by_date.dart';
 import '../../domain/usecases/get_plays_by_day_of_week.dart';
 import '../../domain/usecases/get_plays_by_hour_of_day.dart';
+import '../../domain/usecases/get_plays_by_top_10_platforms.dart';
 
 part 'play_graphs_event.dart';
 part 'play_graphs_state.dart';
@@ -21,6 +22,7 @@ part 'play_graphs_state.dart';
 GraphData _playsByDateCache;
 GraphData _playsByDayOfWeekCache;
 GraphData _playsByHourOfDayCache;
+GraphData _playsByTop10PlatformsCache;
 String _yAxisCache;
 int _timeRangeCache;
 
@@ -28,12 +30,14 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
   final GetPlaysByDate getPlaysByDate;
   final GetPlaysByDayOfWeek getPlaysByDayOfWeek;
   final GetPlaysByHourOfDay getPlaysByHourOfDay;
+  final GetPlaysByTop10Platforms getPlaysByTop10Platforms;
   final Logging logging;
 
   PlayGraphsBloc({
     @required this.getPlaysByDate,
     @required this.getPlaysByDayOfWeek,
     @required this.getPlaysByHourOfDay,
+    @required this.getPlaysByTop10Platforms,
     @required this.logging,
   }) : super(PlayGraphsInitial(
           timeRange: _timeRangeCache,
@@ -68,10 +72,18 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         graphType: GraphType.playsByHourOfDay,
       );
 
+      GraphState playsByTop10PlatformsData = GraphState(
+        graphData: _playsByTop10PlatformsCache,
+        yAxis: _yAxisCache,
+        graphCurrentState: GraphCurrentState.inProgress,
+        graphType: GraphType.playsByTop10Platforms,
+      );
+
       yield PlayGraphsLoaded(
         playsByDate: playsByDateData,
         playsByDayOfWeek: playsByDayOfWeekData,
         playsByHourOfDay: playsByHourOfDayData,
+        playsByTop10Platforms: playsByTop10PlatformsData,
       );
 
       await getPlaysByDate(
@@ -82,10 +94,10 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         grouping: event.grouping,
         settingsBloc: event.settingsBloc,
       ).then(
-        (failureOrPlayByDate) => add(
+        (failureOrPlaysByDate) => add(
           PlayGraphsLoadPlaysByDate(
             tautulliId: event.tautulliId,
-            failureOrPlayByDate: failureOrPlayByDate,
+            failureOrPlaysByDate: failureOrPlaysByDate,
             yAxis: event.yAxis,
           ),
         ),
@@ -99,10 +111,10 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         grouping: event.grouping,
         settingsBloc: event.settingsBloc,
       ).then(
-        (failureOrPlayByDayOfWeek) => add(
+        (failureOrPlaysByDayOfWeek) => add(
           PlayGraphsLoadPlaysByDayOfWeek(
             tautulliId: event.tautulliId,
-            failureOrPlayByDayOfWeek: failureOrPlayByDayOfWeek,
+            failureOrPlaysByDayOfWeek: failureOrPlaysByDayOfWeek,
             yAxis: event.yAxis,
           ),
         ),
@@ -116,10 +128,27 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         grouping: event.grouping,
         settingsBloc: event.settingsBloc,
       ).then(
-        (failureOrPlayByHourOfDay) => add(
+        (failureOrPlaysByHourOfDay) => add(
           PlayGraphsLoadPlaysByHourOfDay(
             tautulliId: event.tautulliId,
-            failureOrPlayByHourOfDay: failureOrPlayByHourOfDay,
+            failureOrPlaysByHourOfDay: failureOrPlaysByHourOfDay,
+            yAxis: event.yAxis,
+          ),
+        ),
+      );
+
+      await getPlaysByTop10Platforms(
+        tautulliId: event.tautulliId,
+        timeRange: event.timeRange,
+        yAxis: event.yAxis,
+        userId: event.userId,
+        grouping: event.grouping,
+        settingsBloc: event.settingsBloc,
+      ).then(
+        (failureOrPlaysByTop10Platforms) => add(
+          PlayGraphsLoadPlaysByTop10Platforms(
+            tautulliId: event.tautulliId,
+            failureOrPlaysByTop10Platforms: failureOrPlaysByTop10Platforms,
             yAxis: event.yAxis,
           ),
         ),
@@ -127,7 +156,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
     }
     if (event is PlayGraphsLoadPlaysByDate) {
       if (currentState is PlayGraphsLoaded) {
-        yield* event.failureOrPlayByDate.fold(
+        yield* event.failureOrPlaysByDate.fold(
           (failure) async* {
             logging.error(
               'Graphs: Failed to load plays by date graph data',
@@ -168,7 +197,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
     }
     if (event is PlayGraphsLoadPlaysByDayOfWeek) {
       if (currentState is PlayGraphsLoaded) {
-        yield* event.failureOrPlayByDayOfWeek.fold(
+        yield* event.failureOrPlaysByDayOfWeek.fold(
           (failure) async* {
             logging.error(
               'Graphs: Failed to load plays by day of the week graph data',
@@ -209,7 +238,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
     }
     if (event is PlayGraphsLoadPlaysByHourOfDay) {
       if (currentState is PlayGraphsLoaded) {
-        yield* event.failureOrPlayByHourOfDay.fold(
+        yield* event.failureOrPlaysByHourOfDay.fold(
           (failure) async* {
             logging.error(
               'Graphs: Failed to load plays by day of the week graph data',
@@ -241,6 +270,47 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
                 graphData: graphData,
                 graphCurrentState: GraphCurrentState.success,
                 graphType: GraphType.playsByHourOfDay,
+                yAxis: event.yAxis,
+              ),
+            );
+          },
+        );
+      }
+    }
+    if (event is PlayGraphsLoadPlaysByTop10Platforms) {
+      if (currentState is PlayGraphsLoaded) {
+        yield* event.failureOrPlaysByTop10Platforms.fold(
+          (failure) async* {
+            logging.error(
+              'Graphs: Failed to load plays by day of the week graph data',
+            );
+
+            _playsByTop10PlatformsCache = null;
+            _yAxisCache = event.yAxis;
+
+            yield currentState.copyWith(
+              playsByTop10Platforms: GraphState(
+                graphData: _playsByTop10PlatformsCache,
+                graphCurrentState: GraphCurrentState.failure,
+                graphType: GraphType.playsByTop10Platforms,
+                yAxis: event.yAxis,
+                failureMessage:
+                    FailureMapperHelper.mapFailureToMessage(failure),
+                failureSuggestion:
+                    FailureMapperHelper.mapFailureToSuggestion(failure),
+                failure: failure,
+              ),
+            );
+          },
+          (graphData) async* {
+            _playsByTop10PlatformsCache = graphData;
+            _yAxisCache = event.yAxis;
+
+            yield currentState.copyWith(
+              playsByTop10Platforms: GraphState(
+                graphData: graphData,
+                graphCurrentState: GraphCurrentState.success,
+                graphType: GraphType.playsByTop10Platforms,
                 yAxis: event.yAxis,
               ),
             );
