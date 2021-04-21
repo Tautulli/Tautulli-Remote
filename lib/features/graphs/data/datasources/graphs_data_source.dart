@@ -34,17 +34,28 @@ abstract class GraphsDataSource {
     int grouping,
     @required SettingsBloc settingsBloc,
   });
+
+  Future<GraphData> getPlaysByTop10Platforms({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  });
 }
 
 class GraphsDataSourceImpl implements GraphsDataSource {
   final tautulli_api.GetPlaysByDate apiGetPlaysByDate;
   final tautulli_api.GetPlaysByDayOfWeek apiGetPlaysByDayOfWeek;
   final tautulli_api.GetPlaysByHourOfDay apiGetPlaysByHourOfDay;
+  final tautulli_api.GetPlaysByTop10Platforms apiGetPlaysByTop10Platforms;
 
   GraphsDataSourceImpl({
     @required this.apiGetPlaysByDate,
     @required this.apiGetPlaysByDayOfWeek,
     @required this.apiGetPlaysByHourOfDay,
+    @required this.apiGetPlaysByTop10Platforms,
   });
 
   @override
@@ -134,6 +145,38 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     );
     List<SeriesData> seriesDataList = [];
     playsByHourOfDayJson['response']['data']['series'].forEach((item) {
+      seriesDataList.add(SeriesDataModel.fromJson(item));
+    });
+
+    return GraphDataModel(
+      categories: categories,
+      seriesDataList: seriesDataList,
+    );
+  }
+
+  @override
+  Future<GraphData> getPlaysByTop10Platforms({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  }) async {
+    final playsByTop10PlatformsJson = await apiGetPlaysByTop10Platforms(
+      tautulliId: tautulliId,
+      timeRange: timeRange,
+      yAxis: yAxis,
+      userId: userId,
+      grouping: grouping,
+      settingsBloc: settingsBloc,
+    );
+
+    List<String> categories = List<String>.from(
+      playsByTop10PlatformsJson['response']['data']['categories'],
+    );
+    List<SeriesData> seriesDataList = [];
+    playsByTop10PlatformsJson['response']['data']['series'].forEach((item) {
       seriesDataList.add(SeriesDataModel.fromJson(item));
     });
 

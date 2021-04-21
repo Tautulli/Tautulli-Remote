@@ -22,6 +22,9 @@ class MockGetPlaysByDayOfWeek extends Mock
 class MockGetPlaysByHourOfDay extends Mock
     implements tautulli_api.GetPlaysByHourOfDay {}
 
+class MockGetPlaysByTop10Platforms extends Mock
+    implements tautulli_api.GetPlaysByTop10Platforms {}
+
 class MockSettings extends Mock implements Settings {}
 
 class MockLogging extends Mock implements Logging {}
@@ -31,6 +34,7 @@ void main() {
   MockGetPlaysByDate mockApiGetPlaysByDate;
   MockGetPlaysByDayOfWeek mockApiGetPlaysByDayOfWeek;
   MockGetPlaysByHourOfDay mockApiGetPlaysByHourOfDay;
+  MockGetPlaysByTop10Platforms mockApiGetPlaysByTop10Platforms;
   MockSettings mockSettings;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
@@ -39,10 +43,12 @@ void main() {
     mockApiGetPlaysByDate = MockGetPlaysByDate();
     mockApiGetPlaysByDayOfWeek = MockGetPlaysByDayOfWeek();
     mockApiGetPlaysByHourOfDay = MockGetPlaysByHourOfDay();
+    mockApiGetPlaysByTop10Platforms = MockGetPlaysByTop10Platforms();
     dataSource = GraphsDataSourceImpl(
       apiGetPlaysByDate: mockApiGetPlaysByDate,
       apiGetPlaysByDayOfWeek: mockApiGetPlaysByDayOfWeek,
       apiGetPlaysByHourOfDay: mockApiGetPlaysByHourOfDay,
+      apiGetPlaysByTop10Platforms: mockApiGetPlaysByTop10Platforms,
     );
     mockSettings = MockSettings();
     mockLogging = MockLogging();
@@ -93,6 +99,20 @@ void main() {
   final tPlaysByHourOfDayGraphData = GraphDataModel(
     categories: tPlaysByHourOfDayCategories,
     seriesDataList: tPlaysByHourOfDaySeriesDataList,
+  );
+
+  final playsByTop10PlatformsJson =
+      json.decode(fixture('graphs_play_by_top_10_platforms.json'));
+  final List<String> tPlaysByTop10PlatformsCategories = List<String>.from(
+    playsByTop10PlatformsJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tPlaysByTop10PlatformsSeriesDataList = [];
+  playsByTop10PlatformsJson['response']['data']['series'].forEach((item) {
+    tPlaysByTop10PlatformsSeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tPlaysByTop10PlatformsGraphData = GraphDataModel(
+    categories: tPlaysByTop10PlatformsCategories,
+    seriesDataList: tPlaysByTop10PlatformsSeriesDataList,
   );
 
   group('getPlayByDate', () {
@@ -239,6 +259,55 @@ void main() {
       );
       // assert
       expect(result, equals(tPlaysByHourOfDayGraphData));
+    },
+  );
+
+  group('getPlayByTop10Platforms', () {
+    test(
+      'should call [getPlayByTop10Platforms] from Tautulli API',
+      () async {
+        // arrange
+        when(mockApiGetPlaysByTop10Platforms(
+          tautulliId: anyNamed('tautulliId'),
+          timeRange: anyNamed('timeRange'),
+          yAxis: anyNamed('yAxis'),
+          userId: anyNamed('userId'),
+          grouping: anyNamed('grouping'),
+          settingsBloc: anyNamed('settingsBloc'),
+        )).thenAnswer((_) async => playsByTop10PlatformsJson);
+        // act
+        await dataSource.getPlaysByTop10Platforms(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
+        // assert
+        verify(mockApiGetPlaysByTop10Platforms(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
+      },
+    );
+  });
+
+  test(
+    'should return a GraphsDataModel',
+    () async {
+      // arrange
+      when(mockApiGetPlaysByTop10Platforms(
+        tautulliId: anyNamed('tautulliId'),
+        timeRange: anyNamed('timeRange'),
+        yAxis: anyNamed('yAxis'),
+        userId: anyNamed('userId'),
+        grouping: anyNamed('grouping'),
+        settingsBloc: anyNamed('settingsBloc'),
+      )).thenAnswer((_) async => playsByTop10PlatformsJson);
+      // act
+      final result = await dataSource.getPlaysByTop10Platforms(
+        tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
+      );
+      // assert
+      expect(result, equals(tPlaysByTop10PlatformsGraphData));
     },
   );
 }
