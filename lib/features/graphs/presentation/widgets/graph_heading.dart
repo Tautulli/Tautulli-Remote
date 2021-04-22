@@ -19,7 +19,7 @@ class GraphHeading extends StatelessWidget {
           padding: const EdgeInsets.only(
             left: 8,
             top: 6,
-            bottom: 6,
+            bottom: 7,
           ),
           child: Text(
             graphHeading,
@@ -36,7 +36,7 @@ class GraphHeading extends StatelessWidget {
           thickness: 1,
           color: PlexColorPalette.gamboge,
         ),
-        const SizedBox(height: 7),
+        const SizedBox(height: 3.5),
       ],
     );
   }
