@@ -28,6 +28,7 @@ class GraphErrorMessage extends StatelessWidget {
           if (isNotEmpty(message))
             Text(
               message,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.grey,
               ),
@@ -35,6 +36,7 @@ class GraphErrorMessage extends StatelessWidget {
           if (isNotEmpty(suggestion))
             Text(
               suggestion,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.grey,
               ),
