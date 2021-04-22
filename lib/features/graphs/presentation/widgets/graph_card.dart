@@ -75,9 +75,10 @@ class GraphCard extends StatelessWidget {
               ),
               graphCurrentState == GraphCurrentState.inProgress
                   ? const Padding(
-                      padding: EdgeInsets.only(top: 4),
+                      padding: EdgeInsets.only(top: 6),
                       child: LinearProgressIndicator(
-                        backgroundColor: TautulliColorPalette.gunmetal,
+                        minHeight: 2,
+                        backgroundColor: Colors.transparent,
                       ),
                     )
                   : const SizedBox(height: 0, width: 0),
