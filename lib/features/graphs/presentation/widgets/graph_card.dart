@@ -62,7 +62,7 @@ class GraphCard extends StatelessWidget {
                               )
                             : chart,
                       ),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: 4),
                       _GraphLegend(
                         showTvLegend: showTvLegend,
                         showMoviesLegend: showMoviesLegend,
