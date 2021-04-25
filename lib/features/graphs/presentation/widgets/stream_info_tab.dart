@@ -84,7 +84,7 @@ class _StreamInfoTabState extends State<StreamInfoTab> {
               children: [
                 GraphHeading(
                   graphHeading:
-                      'Daily Stream ${widget.yAxis == 'plays' ? 'Count' : 'Duration'}',
+                      'Daily Stream Type ${widget.yAxis == 'plays' ? 'Count' : 'Duration'}',
                 ),
                 (state is StreamInfoGraphsLoaded &&
                         state.playsByStreamType.graphCurrentState !=
