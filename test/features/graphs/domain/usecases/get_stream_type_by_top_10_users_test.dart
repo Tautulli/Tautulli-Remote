@@ -7,7 +7,7 @@ import 'package:tautulli_remote/features/graphs/data/models/graph_data_model.dar
 import 'package:tautulli_remote/features/graphs/data/models/series_data_model.dart';
 import 'package:tautulli_remote/features/graphs/domain/entities/series_data.dart';
 import 'package:tautulli_remote/features/graphs/domain/repositories/graphs_repository.dart';
-import 'package:tautulli_remote/features/graphs/domain/usecases/get_stream_type_by_top_10_platforms.dart';
+import 'package:tautulli_remote/features/graphs/domain/usecases/get_stream_type_by_top_10_users.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
@@ -21,7 +21,7 @@ class MockSettings extends Mock implements Settings {}
 class MockLogging extends Mock implements Logging {}
 
 void main() {
-  GetStreamTypeByTop10Platforms usecase;
+  GetStreamTypeByTop10Users usecase;
   MockGraphsRepository mockGraphsRepository;
   MockSettings mockSettings;
   MockLogging mockLogging;
@@ -29,7 +29,7 @@ void main() {
 
   setUp(() {
     mockGraphsRepository = MockGraphsRepository();
-    usecase = GetStreamTypeByTop10Platforms(
+    usecase = GetStreamTypeByTop10Users(
       repository: mockGraphsRepository,
     );
     mockSettings = MockSettings();
@@ -42,19 +42,18 @@ void main() {
 
   const String tTautulliId = 'jkl';
 
-  final streamTypeByTop10PlatformsJson =
-      json.decode(fixture('graphs_stream_type_by_top_10_platforms.json'));
-  final List<String> tStreamTypeByTop10PlatformsCategories = List<String>.from(
-    streamTypeByTop10PlatformsJson['response']['data']['categories'],
+  final streamTypeByTop10UsersJson =
+      json.decode(fixture('graphs_stream_type_by_top_10_users.json'));
+  final List<String> tStreamTypeByTop10UsersCategories = List<String>.from(
+    streamTypeByTop10UsersJson['response']['data']['categories'],
   );
-  final List<SeriesData> tStreamTypeByTop10PlatformsSeriesDataList = [];
-  streamTypeByTop10PlatformsJson['response']['data']['series'].forEach((item) {
-    tStreamTypeByTop10PlatformsSeriesDataList
-        .add(SeriesDataModel.fromJson(item));
+  final List<SeriesData> tStreamTypeByTop10UsersSeriesDataList = [];
+  streamTypeByTop10UsersJson['response']['data']['series'].forEach((item) {
+    tStreamTypeByTop10UsersSeriesDataList.add(SeriesDataModel.fromJson(item));
   });
-  final tStreamTypeByTop10PlatformsGraphData = GraphDataModel(
-    categories: tStreamTypeByTop10PlatformsCategories,
-    seriesDataList: tStreamTypeByTop10PlatformsSeriesDataList,
+  final tStreamTypeByTop10UsersGraphData = GraphDataModel(
+    categories: tStreamTypeByTop10UsersCategories,
+    seriesDataList: tStreamTypeByTop10UsersSeriesDataList,
   );
 
   test(
@@ -62,7 +61,7 @@ void main() {
     () async {
       // arrange
       when(
-        mockGraphsRepository.getStreamTypeByTop10Platforms(
+        mockGraphsRepository.getStreamTypeByTop10Users(
           tautulliId: anyNamed('tautulliId'),
           timeRange: anyNamed('timeRange'),
           yAxis: anyNamed('yAxis'),
@@ -70,14 +69,14 @@ void main() {
           grouping: anyNamed('grouping'),
           settingsBloc: anyNamed('settingsBloc'),
         ),
-      ).thenAnswer((_) async => Right(tStreamTypeByTop10PlatformsGraphData));
+      ).thenAnswer((_) async => Right(tStreamTypeByTop10UsersGraphData));
       // act
       final result = await usecase(
         tautulliId: tTautulliId,
         settingsBloc: settingsBloc,
       );
       // assert
-      expect(result, equals(Right(tStreamTypeByTop10PlatformsGraphData)));
+      expect(result, equals(Right(tStreamTypeByTop10UsersGraphData)));
     },
   );
 }

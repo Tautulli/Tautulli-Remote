@@ -34,6 +34,7 @@ import 'features/graphs/domain/usecases/get_plays_by_stream_type.dart';
 import 'features/graphs/domain/usecases/get_plays_by_top_10_platforms.dart';
 import 'features/graphs/domain/usecases/get_plays_by_top_10_users.dart';
 import 'features/graphs/domain/usecases/get_stream_type_by_top_10_platforms.dart';
+import 'features/graphs/domain/usecases/get_stream_type_by_top_10_users.dart';
 import 'features/graphs/presentation/bloc/media_type_graphs_bloc.dart';
 import 'features/graphs/presentation/bloc/stream_info_graphs_bloc.dart';
 import 'features/history/data/datasources/history_data_source.dart';
@@ -307,6 +308,12 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerLazySingleton(
+    () => GetStreamTypeByTop10Users(
+      repository: sl(),
+    ),
+  );
+
   // Repository
   sl.registerLazySingleton<GraphsRepository>(
     () => GraphsRepositoryImpl(
@@ -327,6 +334,7 @@ Future<void> init() async {
       apiGetPlaysByTop10Platforms: sl(),
       apiGetPlaysByTop10Users: sl(),
       apiGetStreamTypeByTop10Platforms: sl(),
+      apiGetStreamTypeByTop10Users: sl(),
     ),
   );
 

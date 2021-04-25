@@ -40,6 +40,9 @@ class MockGetPlaysByTop10Users extends Mock
 class MockGetStreamTypeByTop10Platforms extends Mock
     implements tautulli_api.GetStreamTypeByTop10Platforms {}
 
+class MockGetStreamTypeByTop10Users extends Mock
+    implements tautulli_api.GetStreamTypeByTop10Users {}
+
 class MockSettings extends Mock implements Settings {}
 
 class MockLogging extends Mock implements Logging {}
@@ -55,6 +58,7 @@ void main() {
   MockGetPlaysByTop10Platforms mockApiGetPlaysByTop10Platforms;
   MockGetPlaysByTop10Users mockApiGetPlaysByTop10Users;
   MockGetStreamTypeByTop10Platforms mockApiGetStreamTypeByTop10Platforms;
+  MockGetStreamTypeByTop10Users mockApiGetStreamTypeByTop10Users;
   MockSettings mockSettings;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
@@ -69,6 +73,7 @@ void main() {
     mockApiGetPlaysByTop10Platforms = MockGetPlaysByTop10Platforms();
     mockApiGetPlaysByTop10Users = MockGetPlaysByTop10Users();
     mockApiGetStreamTypeByTop10Platforms = MockGetStreamTypeByTop10Platforms();
+    mockApiGetStreamTypeByTop10Users = MockGetStreamTypeByTop10Users();
     dataSource = GraphsDataSourceImpl(
       apiGetPlaysByDate: mockApiGetPlaysByDate,
       apiGetPlaysByDayOfWeek: mockApiGetPlaysByDayOfWeek,
@@ -79,6 +84,7 @@ void main() {
       apiGetPlaysByTop10Platforms: mockApiGetPlaysByTop10Platforms,
       apiGetPlaysByTop10Users: mockApiGetPlaysByTop10Users,
       apiGetStreamTypeByTop10Platforms: mockApiGetStreamTypeByTop10Platforms,
+      apiGetStreamTypeByTop10Users: mockApiGetStreamTypeByTop10Users,
     );
     mockSettings = MockSettings();
     mockLogging = MockLogging();
@@ -202,7 +208,7 @@ void main() {
   );
 
   final streamTypeByTop10PlatformsJson =
-      json.decode(fixture('graphs_play_by_top_10_platforms.json'));
+      json.decode(fixture('graphs_stream_type_by_top_10_platforms.json'));
   final List<String> tStreamTypeByTop10PlatformsCategories = List<String>.from(
     streamTypeByTop10PlatformsJson['response']['data']['categories'],
   );
@@ -214,6 +220,20 @@ void main() {
   final tStreamTypeByTop10PlatformsGraphData = GraphDataModel(
     categories: tStreamTypeByTop10PlatformsCategories,
     seriesDataList: tStreamTypeByTop10PlatformsSeriesDataList,
+  );
+
+  final streamTypeByTop10UsersJson =
+      json.decode(fixture('graphs_stream_type_by_top_10_users.json'));
+  final List<String> tStreamTypeByTop10UsersCategories = List<String>.from(
+    streamTypeByTop10UsersJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tStreamTypeByTop10UsersSeriesDataList = [];
+  streamTypeByTop10UsersJson['response']['data']['series'].forEach((item) {
+    tStreamTypeByTop10UsersSeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tStreamTypeByTop10UsersGraphData = GraphDataModel(
+    categories: tStreamTypeByTop10UsersCategories,
+    seriesDataList: tStreamTypeByTop10UsersSeriesDataList,
   );
 
   group('getPlayByDate', () {
@@ -654,6 +674,55 @@ void main() {
       );
       // assert
       expect(result, equals(tStreamTypeByTop10PlatformsGraphData));
+    },
+  );
+
+  group('getStreamTypeByTop10Users', () {
+    test(
+      'should call [getStreamTypeByTop10Users] from Tautulli API',
+      () async {
+        // arrange
+        when(mockApiGetStreamTypeByTop10Users(
+          tautulliId: anyNamed('tautulliId'),
+          timeRange: anyNamed('timeRange'),
+          yAxis: anyNamed('yAxis'),
+          userId: anyNamed('userId'),
+          grouping: anyNamed('grouping'),
+          settingsBloc: anyNamed('settingsBloc'),
+        )).thenAnswer((_) async => streamTypeByTop10UsersJson);
+        // act
+        await dataSource.getStreamTypeByTop10Users(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
+        // assert
+        verify(mockApiGetStreamTypeByTop10Users(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
+      },
+    );
+  });
+
+  test(
+    'should return a GraphsDataModel',
+    () async {
+      // arrange
+      when(mockApiGetStreamTypeByTop10Users(
+        tautulliId: anyNamed('tautulliId'),
+        timeRange: anyNamed('timeRange'),
+        yAxis: anyNamed('yAxis'),
+        userId: anyNamed('userId'),
+        grouping: anyNamed('grouping'),
+        settingsBloc: anyNamed('settingsBloc'),
+      )).thenAnswer((_) async => streamTypeByTop10UsersJson);
+      // act
+      final result = await dataSource.getStreamTypeByTop10Users(
+        tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
+      );
+      // assert
+      expect(result, equals(tStreamTypeByTop10UsersGraphData));
     },
   );
 }

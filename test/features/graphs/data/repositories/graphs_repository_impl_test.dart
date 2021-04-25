@@ -9,7 +9,6 @@ import 'package:tautulli_remote/features/graphs/data/datasources/graphs_data_sou
 import 'package:tautulli_remote/features/graphs/data/models/graph_data_model.dart';
 import 'package:tautulli_remote/features/graphs/data/models/series_data_model.dart';
 import 'package:tautulli_remote/features/graphs/data/repositories/graphs_repository_impl.dart';
-import 'package:tautulli_remote/features/graphs/domain/entities/graph_data.dart';
 import 'package:tautulli_remote/features/graphs/domain/entities/series_data.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
@@ -162,7 +161,7 @@ void main() {
   );
 
   final streamTypeByTop10PlatformsJson =
-      json.decode(fixture('graphs_play_by_top_10_platforms.json'));
+      json.decode(fixture('graphs_stream_type_by_top_10_platforms.json'));
   final List<String> tStreamTypeByTop10PlatformsCategories = List<String>.from(
     streamTypeByTop10PlatformsJson['response']['data']['categories'],
   );
@@ -174,6 +173,20 @@ void main() {
   final tStreamTypeByTop10PlatformsGraphData = GraphDataModel(
     categories: tStreamTypeByTop10PlatformsCategories,
     seriesDataList: tStreamTypeByTop10PlatformsSeriesDataList,
+  );
+
+  final streamTypeByTop10UsersJson =
+      json.decode(fixture('graphs_stream_type_by_top_10_users.json'));
+  final List<String> tStreamTypeByTop10UsersCategories = List<String>.from(
+    streamTypeByTop10UsersJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tStreamTypeByTop10UsersSeriesDataList = [];
+  streamTypeByTop10UsersJson['response']['data']['series'].forEach((item) {
+    tStreamTypeByTop10UsersSeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tStreamTypeByTop10UsersGraphData = GraphDataModel(
+    categories: tStreamTypeByTop10UsersCategories,
+    seriesDataList: tStreamTypeByTop10UsersSeriesDataList,
   );
 
   group('Get Plays By Date', () {
@@ -904,6 +917,88 @@ void main() {
           when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
           final result = await repository.getStreamTypeByTop10Platforms(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Left(ConnectionFailure())));
+        },
+      );
+    });
+  });
+
+  group('Get Stream Type By Top 10 Users', () {
+    test(
+      'should check if device is online',
+      () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        // act
+        await repository.getStreamTypeByTop10Users(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
+        // assert
+        verify(mockNetworkInfo.isConnected);
+      },
+    );
+
+    group('is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+
+      test(
+        'should call the data source getStreamTypeByTop10Users()',
+        () async {
+          // act
+          await repository.getStreamTypeByTop10Users(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          verify(
+            mockGraphsDataSource.getStreamTypeByTop10Users(
+              tautulliId: tTautulliId,
+              settingsBloc: settingsBloc,
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return GraphData when call to API is successful',
+        () async {
+          // arrange
+          when(
+            mockGraphsDataSource.getStreamTypeByTop10Users(
+              tautulliId: anyNamed('tautulliId'),
+              timeRange: anyNamed('timeRange'),
+              yAxis: anyNamed('yAxis'),
+              userId: anyNamed('userId'),
+              grouping: anyNamed('grouping'),
+              settingsBloc: anyNamed('settingsBloc'),
+            ),
+          ).thenAnswer((_) async => tStreamTypeByTop10UsersGraphData);
+          // act
+          final result = await repository.getStreamTypeByTop10Users(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Right(tStreamTypeByTop10UsersGraphData)));
+        },
+      );
+    });
+
+    group('device is offline', () {
+      test(
+        'should return a ConnectionFailure when there is no network connection',
+        () async {
+          // arrange
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+          // act
+          final result = await repository.getStreamTypeByTop10Users(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           );
