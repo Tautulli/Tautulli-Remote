@@ -28,9 +28,11 @@ import 'features/graphs/domain/repositories/graphs_repository.dart';
 import 'features/graphs/domain/usecases/get_plays_by_date.dart';
 import 'features/graphs/domain/usecases/get_plays_by_day_of_week.dart';
 import 'features/graphs/domain/usecases/get_plays_by_hour_of_day.dart';
+import 'features/graphs/domain/usecases/get_plays_by_stream_type.dart';
 import 'features/graphs/domain/usecases/get_plays_by_top_10_platforms.dart';
 import 'features/graphs/domain/usecases/get_plays_by_top_10_users.dart';
 import 'features/graphs/presentation/bloc/media_type_graphs_bloc.dart';
+import 'features/graphs/presentation/bloc/stream_info_graphs_bloc.dart';
 import 'features/history/data/datasources/history_data_source.dart';
 import 'features/history/data/repositories/history_repository_impl.dart';
 import 'features/history/domain/repositories/history_repository.dart';
@@ -237,6 +239,13 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory(
+    () => StreamInfoGraphsBloc(
+      getPlaysByStreamType: sl(),
+      logging: sl(),
+    ),
+  );
+
   // Use case
   sl.registerLazySingleton(
     () => GetPlaysByDate(
@@ -252,6 +261,12 @@ Future<void> init() async {
 
   sl.registerLazySingleton(
     () => GetPlaysByHourOfDay(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetPlaysByStreamType(
       repository: sl(),
     ),
   );
@@ -282,6 +297,7 @@ Future<void> init() async {
       apiGetPlaysByDate: sl(),
       apiGetPlaysByDayOfWeek: sl(),
       apiGetPlaysByHourOfDay: sl(),
+      apiGetPlaysByStreamType: sl(),
       apiGetPlaysByTop10Platforms: sl(),
       apiGetPlaysByTop10Users: sl(),
     ),
