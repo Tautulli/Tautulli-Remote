@@ -35,14 +35,11 @@ class LineChartGraph extends StatelessWidget {
     );
 
     // Calculate values for chart scale
-    double maxYValue =
-        List<int>.generate(graphState.graphData.categories.length, (index) {
-      int value = 0;
-      notNullSeriesDataLists.forEach((list) {
-        value = value + list.seriesData[index];
-      });
-      return value;
-    }).reduce(max).toDouble();
+    List<int> allYValues = [];
+    for (var i = 0; i < notNullSeriesDataLists.length; i++) {
+      allYValues.addAll(List.from(notNullSeriesDataLists[i].seriesData));
+    }
+    double maxYValue = allYValues.reduce(max).toDouble();
 
     double horizontalLineStep = GraphDataHelper.horizontalStep(
       maxYValue,
