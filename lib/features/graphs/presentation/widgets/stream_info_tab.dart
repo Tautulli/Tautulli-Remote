@@ -131,6 +131,32 @@ class _StreamInfoTabState extends State<StreamInfoTab> {
                             : const CircularProgressIndicator(),
                       ),
                 const SizedBox(height: 8),
+                GraphHeading(
+                  graphHeading:
+                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Stream Resolution',
+                ),
+                (state is StreamInfoGraphsLoaded &&
+                        state.playsByStreamResolution.graphCurrentState !=
+                            GraphCurrentState.failure &&
+                        state.playsByStreamResolution.graphData != null &&
+                        widget.yAxis == state.playsByStreamResolution.yAxis)
+                    ? BarChartGraph(
+                        graphState: state.playsByStreamResolution,
+                        dataIsMediaType: false,
+                      )
+                    : _GraphLoadingOrFailed(
+                        child: state is StreamInfoGraphsLoaded &&
+                                state.playsByStreamResolution
+                                        .graphCurrentState ==
+                                    GraphCurrentState.failure
+                            ? GraphErrorMessage(
+                                message: state
+                                    .playsByStreamResolution.failureMessage,
+                                suggestion: state
+                                    .playsByStreamResolution.failureSuggestion,
+                              )
+                            : const CircularProgressIndicator(),
+                      ),
               ],
             ),
           ),
