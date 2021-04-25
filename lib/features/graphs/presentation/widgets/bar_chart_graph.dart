@@ -17,6 +17,7 @@ class BarChartGraph extends StatelessWidget {
   final double barBorderRadius;
   final double bottomTitlesRotateAngle;
   final double bottomTitlesMargin;
+  final bool maskSensitiveInfo;
 
   const BarChartGraph({
     Key key,
@@ -26,6 +27,7 @@ class BarChartGraph extends StatelessWidget {
     this.barBorderRadius = 4,
     this.bottomTitlesRotateAngle,
     this.bottomTitlesMargin = 4,
+    this.maskSensitiveInfo = false,
   }) : super(key: key);
 
   @override
@@ -170,12 +172,21 @@ class BarChartGraph extends StatelessWidget {
             bottomTitlesMargin: bottomTitlesMargin,
             getBottomTitles: (value) {
               if (value < graphState.graphData.categories.length) {
+                if (maskSensitiveInfo &&
+                    [
+                      GraphType.playsByTop10Users,
+                    ].contains(graphState.graphType)) {
+                  return '*Hidden*';
+                }
+
                 if (graphState.graphType == GraphType.playsByDayOfWeek) {
                   return graphState.graphData.categories[value.toInt()]
                       .substring(0, 3);
-                } else if (graphState.graphType ==
-                        GraphType.playsByTop10Platforms ||
-                    graphState.graphType == GraphType.playsByTop10Users) {
+                } else if ([
+                  GraphType.playsByTop10Platforms,
+                  GraphType.playsByTop10Users,
+                  GraphType.streamTypeByTop10Platforms,
+                ].contains(graphState.graphType)) {
                   if (graphState.graphData.categories[value.toInt()].length <=
                       6) {
                     return graphState.graphData.categories[value.toInt()];

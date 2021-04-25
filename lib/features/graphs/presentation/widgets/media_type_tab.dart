@@ -32,6 +32,7 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
   Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
   MediaTypeGraphsBloc _mediaTypeGraphsBloc;
+  bool _maskSensitiveInfo;
 
   @override
   void initState() {
@@ -43,6 +44,8 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
     final settingsState = _settingsBloc.state;
 
     if (settingsState is SettingsLoadSuccess) {
+      _maskSensitiveInfo = settingsState.maskSensitiveInfo;
+
       _mediaTypeGraphsBloc.add(
         MediaTypeGraphsFetch(
           tautulliId: widget.tautulliId,
@@ -194,6 +197,7 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
                         graphState: state.playsByTop10Users,
                         bottomTitlesRotateAngle: 320,
                         bottomTitlesMargin: 8,
+                        maskSensitiveInfo: _maskSensitiveInfo,
                       )
                     : _GraphLoadingOrFailed(
                         child: state is MediaTypeGraphsLoaded &&
