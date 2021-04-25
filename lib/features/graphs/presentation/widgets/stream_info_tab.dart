@@ -157,6 +157,35 @@ class _StreamInfoTabState extends State<StreamInfoTab> {
                               )
                             : const CircularProgressIndicator(),
                       ),
+                const SizedBox(height: 8),
+                GraphHeading(
+                  graphHeading:
+                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Platform Stream Type',
+                ),
+                (state is StreamInfoGraphsLoaded &&
+                        state.streamTypeByTop10Platforms.graphCurrentState !=
+                            GraphCurrentState.failure &&
+                        state.streamTypeByTop10Platforms.graphData != null &&
+                        widget.yAxis == state.streamTypeByTop10Platforms.yAxis)
+                    ? BarChartGraph(
+                        graphState: state.streamTypeByTop10Platforms,
+                        dataIsMediaType: false,
+                        bottomTitlesRotateAngle: 320,
+                        bottomTitlesMargin: 8,
+                      )
+                    : _GraphLoadingOrFailed(
+                        child: state is StreamInfoGraphsLoaded &&
+                                state.streamTypeByTop10Platforms
+                                        .graphCurrentState ==
+                                    GraphCurrentState.failure
+                            ? GraphErrorMessage(
+                                message: state
+                                    .streamTypeByTop10Platforms.failureMessage,
+                                suggestion: state.streamTypeByTop10Platforms
+                                    .failureSuggestion,
+                              )
+                            : const CircularProgressIndicator(),
+                      ),
               ],
             ),
           ),
