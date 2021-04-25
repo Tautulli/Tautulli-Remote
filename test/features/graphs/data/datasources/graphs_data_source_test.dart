@@ -22,6 +22,9 @@ class MockGetPlaysByDayOfWeek extends Mock
 class MockGetPlaysByHourOfDay extends Mock
     implements tautulli_api.GetPlaysByHourOfDay {}
 
+class MockGetPlaysBySourceResolution extends Mock
+    implements tautulli_api.GetPlaysBySourceResolution {}
+
 class MockGetPlaysByStreamType extends Mock
     implements tautulli_api.GetPlaysByStreamType {}
 
@@ -40,6 +43,7 @@ void main() {
   MockGetPlaysByDate mockApiGetPlaysByDate;
   MockGetPlaysByDayOfWeek mockApiGetPlaysByDayOfWeek;
   MockGetPlaysByHourOfDay mockApiGetPlaysByHourOfDay;
+  MockGetPlaysBySourceResolution mockApiGetPlaysBySourceResolution;
   MockGetPlaysByStreamType mockApiGetPlaysByStreamType;
   MockGetPlaysByTop10Platforms mockApiGetPlaysByTop10Platforms;
   MockGetPlaysByTop10Users mockApiGetPlaysByTop10Users;
@@ -51,6 +55,7 @@ void main() {
     mockApiGetPlaysByDate = MockGetPlaysByDate();
     mockApiGetPlaysByDayOfWeek = MockGetPlaysByDayOfWeek();
     mockApiGetPlaysByHourOfDay = MockGetPlaysByHourOfDay();
+    mockApiGetPlaysBySourceResolution = MockGetPlaysBySourceResolution();
     mockApiGetPlaysByStreamType = MockGetPlaysByStreamType();
     mockApiGetPlaysByTop10Platforms = MockGetPlaysByTop10Platforms();
     mockApiGetPlaysByTop10Users = MockGetPlaysByTop10Users();
@@ -58,6 +63,7 @@ void main() {
       apiGetPlaysByDate: mockApiGetPlaysByDate,
       apiGetPlaysByDayOfWeek: mockApiGetPlaysByDayOfWeek,
       apiGetPlaysByHourOfDay: mockApiGetPlaysByHourOfDay,
+      apiGetPlaysBySourceResolution: mockApiGetPlaysBySourceResolution,
       apiGetPlaysByStreamType: mockApiGetPlaysByStreamType,
       apiGetPlaysByTop10Platforms: mockApiGetPlaysByTop10Platforms,
       apiGetPlaysByTop10Users: mockApiGetPlaysByTop10Users,
@@ -111,6 +117,20 @@ void main() {
   final tPlaysByHourOfDayGraphData = GraphDataModel(
     categories: tPlaysByHourOfDayCategories,
     seriesDataList: tPlaysByHourOfDaySeriesDataList,
+  );
+
+  final playsBySourceResolutionJson =
+      json.decode(fixture('graphs_play_by_source_resolution.json'));
+  final List<String> tPlaysBySourceResolutionCategories = List<String>.from(
+    playsBySourceResolutionJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tPlaysBySourceResolutionSeriesDataList = [];
+  playsBySourceResolutionJson['response']['data']['series'].forEach((item) {
+    tPlaysBySourceResolutionSeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tPlaysBySourceResolutionGraphData = GraphDataModel(
+    categories: tPlaysBySourceResolutionCategories,
+    seriesDataList: tPlaysBySourceResolutionSeriesDataList,
   );
 
   final playsByStreamTypeJson =
@@ -299,6 +319,55 @@ void main() {
       );
       // assert
       expect(result, equals(tPlaysByHourOfDayGraphData));
+    },
+  );
+
+  group('getPlayBySourceResolution', () {
+    test(
+      'should call [getPlaysBySourceResolution] from Tautulli API',
+      () async {
+        // arrange
+        when(mockApiGetPlaysBySourceResolution(
+          tautulliId: anyNamed('tautulliId'),
+          timeRange: anyNamed('timeRange'),
+          yAxis: anyNamed('yAxis'),
+          userId: anyNamed('userId'),
+          grouping: anyNamed('grouping'),
+          settingsBloc: anyNamed('settingsBloc'),
+        )).thenAnswer((_) async => playsBySourceResolutionJson);
+        // act
+        await dataSource.getPlaysBySourceResolution(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
+        // assert
+        verify(mockApiGetPlaysBySourceResolution(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
+      },
+    );
+  });
+
+  test(
+    'should return a GraphsDataModel',
+    () async {
+      // arrange
+      when(mockApiGetPlaysBySourceResolution(
+        tautulliId: anyNamed('tautulliId'),
+        timeRange: anyNamed('timeRange'),
+        yAxis: anyNamed('yAxis'),
+        userId: anyNamed('userId'),
+        grouping: anyNamed('grouping'),
+        settingsBloc: anyNamed('settingsBloc'),
+      )).thenAnswer((_) async => playsBySourceResolutionJson);
+      // act
+      final result = await dataSource.getPlaysBySourceResolution(
+        tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
+      );
+      // assert
+      expect(result, equals(tPlaysBySourceResolutionGraphData));
     },
   );
 
