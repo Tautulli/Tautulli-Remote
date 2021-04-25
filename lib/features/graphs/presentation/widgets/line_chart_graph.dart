@@ -10,12 +10,14 @@ import '../../domain/entities/graph_state.dart';
 import '../../domain/entities/series_data.dart';
 import 'graph_card.dart';
 
-class PlaysByDateGraph extends StatelessWidget {
-  final GraphState playsByDate;
+class LineChartGraph extends StatelessWidget {
+  final GraphState graphState;
+  final bool dataIsMediaType;
 
-  const PlaysByDateGraph({
+  const LineChartGraph({
     Key key,
-    @required this.playsByDate,
+    @required this.graphState,
+    this.dataIsMediaType = true,
   }) : super(key: key);
 
   @override
@@ -23,7 +25,8 @@ class PlaysByDateGraph extends StatelessWidget {
     // Extract SeriesData items from graph data and place into a list for easier
     // indexing and access
     List<SeriesData> seriesDataLists = GraphDataHelper.parsedSeriesDataList(
-      playsByDate.graphData.seriesDataList,
+      graphState.graphData.seriesDataList,
+      dataIsMediaType: dataIsMediaType,
     );
 
     // Create list of non null series data for use in the tooltip loop
@@ -33,7 +36,7 @@ class PlaysByDateGraph extends StatelessWidget {
 
     // Calculate values for chart scale
     double maxYValue =
-        List<int>.generate(playsByDate.graphData.categories.length, (index) {
+        List<int>.generate(graphState.graphData.categories.length, (index) {
       int value = 0;
       notNullSeriesDataLists.forEach((list) {
         value = value + list.seriesData[index];
@@ -43,11 +46,11 @@ class PlaysByDateGraph extends StatelessWidget {
 
     double horizontalLineStep = GraphDataHelper.horizontalStep(
       maxYValue,
-      playsByDate.yAxis,
+      graphState.yAxis,
     );
 
     double verticalLineStep =
-        (playsByDate.graphData.categories.length / 7).ceilToDouble();
+        (graphState.graphData.categories.length / 7).ceilToDouble();
 
     double maxYLines =
         (maxYValue / horizontalLineStep).ceilToDouble() * horizontalLineStep;
@@ -57,11 +60,16 @@ class PlaysByDateGraph extends StatelessWidget {
     List<FlSpot> moviesData = [];
     List<FlSpot> musicData = [];
     List<FlSpot> liveData = [];
+    List<FlSpot> directPlayData = [];
+    List<FlSpot> directStreamData = [];
+    List<FlSpot> transcodeData = [];
 
     // Put spot data lists in a list for easier indexing in a loop
-    List spotList = [tvData, moviesData, musicData, liveData];
+    List spotList = dataIsMediaType
+        ? [tvData, moviesData, musicData, liveData]
+        : [directPlayData, directStreamData, transcodeData];
 
-    for (var i = 0; i < playsByDate.graphData.categories.length; i++) {
+    for (var i = 0; i < graphState.graphData.categories.length; i++) {
       for (var j = 0; j < seriesDataLists.length; j++) {
         if (seriesDataLists[j] != null) {
           spotList[j].add(
@@ -75,26 +83,29 @@ class PlaysByDateGraph extends StatelessWidget {
     }
 
     return GraphCard(
-      graphCurrentState: playsByDate.graphCurrentState,
+      graphCurrentState: graphState.graphCurrentState,
       maxYLines: maxYLines,
-      showTvLegend: seriesDataLists[0] != null,
-      showMoviesLegend: seriesDataLists[1] != null,
-      showMusicLegend: seriesDataLists[2] != null,
-      showLiveTvLegend: seriesDataLists[3] != null,
+      showTvLegend: dataIsMediaType && seriesDataLists[0] != null,
+      showMoviesLegend: dataIsMediaType && seriesDataLists[1] != null,
+      showMusicLegend: dataIsMediaType && seriesDataLists[2] != null,
+      showLiveTvLegend: dataIsMediaType && seriesDataLists[3] != null,
+      showDirectPlayLegend: !dataIsMediaType && seriesDataLists[0] != null,
+      showDirectStreamLegend: !dataIsMediaType && seriesDataLists[1] != null,
+      showTranscodeLegend: !dataIsMediaType && seriesDataLists[2] != null,
       chart: LineChart(
         LineChartData(
           titlesData: GraphDataHelper.buildFlTitlesData(
-            yAxis: playsByDate.yAxis,
-            categories: playsByDate.graphData.categories,
+            yAxis: graphState.yAxis,
+            categories: graphState.graphData.categories,
             leftTitlesInterval: horizontalLineStep,
             bottomTitlesInterval: verticalLineStep,
             bottomTitlesMargin: 8,
             getBottomTitles: (value) {
-              if (value >= playsByDate.graphData.categories.length) {
+              if (value >= graphState.graphData.categories.length) {
                 return '';
               }
               return GraphDataHelper.graphDate(
-                playsByDate.graphData.categories[value.toInt()],
+                graphState.graphData.categories[value.toInt()],
               );
             },
           ),
@@ -106,6 +117,10 @@ class PlaysByDateGraph extends StatelessWidget {
           borderData: FlBorderData(
             border: const Border(
               top: BorderSide(
+                width: 1,
+                color: Colors.white24,
+              ),
+              bottom: BorderSide(
                 width: 1,
                 color: Colors.white24,
               ),
@@ -131,12 +146,12 @@ class PlaysByDateGraph extends StatelessWidget {
                         if (index == 0)
                           TextSpan(
                             text:
-                                '${GraphDataHelper.graphDate(playsByDate.graphData.categories[touchedSpots[0].x.toInt()], includeWeekDay: true)}\n\n',
+                                '${GraphDataHelper.graphDate(graphState.graphData.categories[touchedSpots[0].x.toInt()], includeWeekDay: true)}\n\n',
                             style: const TextStyle(
                               color: Colors.grey,
                             ),
                           ),
-                        if (playsByDate.yAxis == 'plays')
+                        if (graphState.yAxis == 'plays')
                           TextSpan(
                             text:
                                 '${StringMapperHelper.mapSeriesTypeToTitle(notNullSeriesDataLists[index].seriesType)}: ${touchedSpots[index].y.toStringAsFixed(0)}',
@@ -144,7 +159,7 @@ class PlaysByDateGraph extends StatelessWidget {
                               color: touchedSpots[index].bar.colors[0],
                             ),
                           ),
-                        if (playsByDate.yAxis == 'duration')
+                        if (graphState.yAxis == 'duration')
                           TextSpan(
                             text:
                                 '${StringMapperHelper.mapSeriesTypeToTitle(notNullSeriesDataLists[index].seriesType)}: ${GraphDataHelper.graphDuration(touchedSpots[index].y.toInt())}',
@@ -181,7 +196,7 @@ class PlaysByDateGraph extends StatelessWidget {
               LineChartBarData(
                 isCurved: true,
                 preventCurveOverShooting: true,
-                spots: tvData,
+                spots: dataIsMediaType ? tvData : directPlayData,
                 colors: [TautulliColorPalette.amber],
                 dotData: FlDotData(
                   show: false,
@@ -191,7 +206,7 @@ class PlaysByDateGraph extends StatelessWidget {
               LineChartBarData(
                 isCurved: true,
                 preventCurveOverShooting: true,
-                spots: moviesData,
+                spots: dataIsMediaType ? moviesData : directStreamData,
                 colors: [TautulliColorPalette.not_white],
                 dotData: FlDotData(
                   show: false,
@@ -201,13 +216,13 @@ class PlaysByDateGraph extends StatelessWidget {
               LineChartBarData(
                 isCurved: true,
                 preventCurveOverShooting: true,
-                spots: musicData,
+                spots: dataIsMediaType ? musicData : transcodeData,
                 colors: [PlexColorPalette.cinnabar],
                 dotData: FlDotData(
                   show: false,
                 ),
               ),
-            if (seriesDataLists[3] != null)
+            if (dataIsMediaType && seriesDataLists[3] != null)
               LineChartBarData(
                 isCurved: true,
                 preventCurveOverShooting: true,

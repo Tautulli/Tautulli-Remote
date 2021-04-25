@@ -10,7 +10,7 @@ import '../bloc/media_type_graphs_bloc.dart';
 import 'bar_chart_graph.dart';
 import 'graph_error_message.dart';
 import 'graph_heading.dart';
-import 'plays_by_date_graph.dart';
+import 'line_chart_graph.dart';
 
 class MediaTypeTab extends StatefulWidget {
   final String tautulliId;
@@ -88,8 +88,8 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
                             GraphCurrentState.failure &&
                         state.playsByDate.graphData != null &&
                         widget.yAxis == state.playsByDate.yAxis)
-                    ? PlaysByDateGraph(
-                        playsByDate: state.playsByDate,
+                    ? LineChartGraph(
+                        graphState: state.playsByDate,
                       )
                     : _GraphLoadingOrFailed(
                         child: state is MediaTypeGraphsLoaded &&

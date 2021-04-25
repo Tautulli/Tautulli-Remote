@@ -12,6 +12,9 @@ class GraphCard extends StatelessWidget {
   final bool showMoviesLegend;
   final bool showMusicLegend;
   final bool showLiveTvLegend;
+  final bool showDirectPlayLegend;
+  final bool showDirectStreamLegend;
+  final bool showTranscodeLegend;
 
   const GraphCard({
     Key key,
@@ -22,6 +25,9 @@ class GraphCard extends StatelessWidget {
     this.showMoviesLegend = true,
     this.showMusicLegend = true,
     this.showLiveTvLegend = true,
+    this.showDirectPlayLegend = false,
+    this.showDirectStreamLegend = false,
+    this.showTranscodeLegend = false,
   }) : super(key: key);
 
   @override
@@ -68,6 +74,9 @@ class GraphCard extends StatelessWidget {
                         showMoviesLegend: showMoviesLegend,
                         showMusicLegend: showMusicLegend,
                         showLiveTvLegend: showLiveTvLegend,
+                        showDirectPlayLegend: showDirectPlayLegend,
+                        showDirectStreamLegend: showDirectStreamLegend,
+                        showTranscodeLegend: showTranscodeLegend,
                       ),
                     ],
                   ),
@@ -95,6 +104,9 @@ class _GraphLegend extends StatelessWidget {
   final bool showMoviesLegend;
   final bool showMusicLegend;
   final bool showLiveTvLegend;
+  final bool showDirectPlayLegend;
+  final bool showDirectStreamLegend;
+  final bool showTranscodeLegend;
 
   const _GraphLegend({
     Key key,
@@ -102,6 +114,9 @@ class _GraphLegend extends StatelessWidget {
     @required this.showMoviesLegend,
     @required this.showMusicLegend,
     @required this.showLiveTvLegend,
+    @required this.showDirectPlayLegend,
+    @required this.showDirectStreamLegend,
+    @required this.showTranscodeLegend,
   }) : super(key: key);
 
   @override
@@ -109,7 +124,7 @@ class _GraphLegend extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (showTvLegend)
+        if (showTvLegend || showDirectPlayLegend)
           Row(
             children: [
               const FaIcon(
@@ -117,15 +132,19 @@ class _GraphLegend extends StatelessWidget {
                 color: TautulliColorPalette.amber,
                 size: 12,
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 4),
-                child: Text('TV'),
+              Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: Text(showTvLegend ? 'TV' : 'Direct Play'),
               ),
-              if (showMoviesLegend || showMusicLegend || showLiveTvLegend)
+              if (showMoviesLegend ||
+                  showMusicLegend ||
+                  showLiveTvLegend ||
+                  showDirectStreamLegend ||
+                  showTranscodeLegend)
                 const SizedBox(width: 8),
             ],
           ),
-        if (showMoviesLegend)
+        if (showMoviesLegend || showDirectStreamLegend)
           Row(
             children: [
               const FaIcon(
@@ -133,14 +152,15 @@ class _GraphLegend extends StatelessWidget {
                 color: TautulliColorPalette.not_white,
                 size: 12,
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 4),
-                child: Text('Movies'),
+              Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: Text(showMoviesLegend ? 'Movies' : 'Direct Stream'),
               ),
-              if (showMusicLegend || showLiveTvLegend) const SizedBox(width: 8),
+              if (showMusicLegend || showLiveTvLegend || showTranscodeLegend)
+                const SizedBox(width: 8),
             ],
           ),
-        if (showMusicLegend)
+        if (showMusicLegend || showTranscodeLegend)
           Row(
             children: [
               const FaIcon(
@@ -148,9 +168,9 @@ class _GraphLegend extends StatelessWidget {
                 color: PlexColorPalette.cinnabar,
                 size: 12,
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 4),
-                child: Text('Music'),
+              Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: Text(showMusicLegend ? 'Music' : 'Transcode'),
               ),
               if (showLiveTvLegend) const SizedBox(width: 8),
             ],
