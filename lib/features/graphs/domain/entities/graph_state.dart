@@ -19,6 +19,7 @@ enum GraphType {
   playsByStreamType,
   playsByTop10Platforms,
   playsByTop10Users,
+  streamTypeByTop10Platforms,
 }
 
 class GraphState extends Equatable {

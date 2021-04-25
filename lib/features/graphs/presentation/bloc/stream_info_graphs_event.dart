@@ -63,8 +63,11 @@ class StreamInfoGraphsLoadPlaysBySourceResolution
   });
 
   @override
-  List<Object> get props =>
-      [tautulliId, failureOrPlaysBySourceResolution, yAxis];
+  List<Object> get props => [
+        tautulliId,
+        failureOrPlaysBySourceResolution,
+        yAxis,
+      ];
 }
 
 class StreamInfoGraphsLoadPlaysByStreamResolution
@@ -80,6 +83,29 @@ class StreamInfoGraphsLoadPlaysByStreamResolution
   });
 
   @override
-  List<Object> get props =>
-      [tautulliId, failureOrPlaysByStreamResolution, yAxis];
+  List<Object> get props => [
+        tautulliId,
+        failureOrPlaysByStreamResolution,
+        yAxis,
+      ];
+}
+
+class StreamInfoGraphsLoadStreamTypeByTop10Platforms
+    extends StreamInfoGraphsEvent {
+  final String tautulliId;
+  final Either<Failure, GraphData> failureOrStreamTypeByTop10Platforms;
+  final String yAxis;
+
+  StreamInfoGraphsLoadStreamTypeByTop10Platforms({
+    @required this.tautulliId,
+    @required this.failureOrStreamTypeByTop10Platforms,
+    @required this.yAxis,
+  });
+
+  @override
+  List<Object> get props => [
+        tautulliId,
+        failureOrStreamTypeByTop10Platforms,
+        yAxis,
+      ];
 }

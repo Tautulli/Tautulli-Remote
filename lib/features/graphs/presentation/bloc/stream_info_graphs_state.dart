@@ -20,17 +20,20 @@ class StreamInfoGraphsLoaded extends StreamInfoGraphsState {
   final GraphState playsByStreamType;
   final GraphState playsBySourceResolution;
   final GraphState playsByStreamResolution;
+  final GraphState streamTypeByTop10Platforms;
 
   StreamInfoGraphsLoaded({
     @required this.playsByStreamType,
     @required this.playsBySourceResolution,
     @required this.playsByStreamResolution,
+    @required this.streamTypeByTop10Platforms,
   });
 
   StreamInfoGraphsLoaded copyWith({
     GraphState playsByStreamType,
     GraphState playsBySourceResolution,
     GraphState playsByStreamResolution,
+    GraphState streamTypeByTop10Platforms,
   }) {
     return StreamInfoGraphsLoaded(
       playsByStreamType: playsByStreamType ?? this.playsByStreamType,
@@ -38,6 +41,8 @@ class StreamInfoGraphsLoaded extends StreamInfoGraphsState {
           playsBySourceResolution ?? this.playsBySourceResolution,
       playsByStreamResolution:
           playsByStreamResolution ?? this.playsByStreamResolution,
+      streamTypeByTop10Platforms:
+          streamTypeByTop10Platforms ?? this.streamTypeByTop10Platforms,
     );
   }
 
@@ -46,5 +51,6 @@ class StreamInfoGraphsLoaded extends StreamInfoGraphsState {
         playsByStreamType,
         playsBySourceResolution,
         playsByStreamResolution,
+        streamTypeByTop10Platforms,
       ];
 }

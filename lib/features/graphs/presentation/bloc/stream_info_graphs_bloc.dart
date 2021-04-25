@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import '../../domain/usecases/get_stream_type_by_top_10_platforms.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
@@ -21,6 +22,7 @@ part 'stream_info_graphs_state.dart';
 GraphData _playsByStreamTypeCache;
 GraphData _playsBySourceResolutionCache;
 GraphData _playsByStreamResolutionCache;
+GraphData _streamTypeByTop10PlatformsCache;
 String _yAxisCache;
 int _timeRangeCache;
 
@@ -29,12 +31,14 @@ class StreamInfoGraphsBloc
   final GetPlaysByStreamType getPlaysByStreamType;
   final GetPlaysBySourceResolution getPlaysBySourceResolution;
   final GetPlaysByStreamResolution getPlaysByStreamResolution;
+  final GetStreamTypeByTop10Platforms getStreamTypeByTop10Platforms;
   final Logging logging;
 
   StreamInfoGraphsBloc({
     @required this.getPlaysByStreamType,
     @required this.getPlaysBySourceResolution,
     @required this.getPlaysByStreamResolution,
+    @required this.getStreamTypeByTop10Platforms,
     @required this.logging,
   }) : super(StreamInfoGraphsInitial(
           timeRange: _timeRangeCache,
@@ -70,10 +74,18 @@ class StreamInfoGraphsBloc
         graphType: GraphType.playsByStreamResolution,
       );
 
+      GraphState streamTypeByTop10PlatformsData = GraphState(
+        graphData: _streamTypeByTop10PlatformsCache,
+        yAxis: _yAxisCache,
+        graphCurrentState: GraphCurrentState.inProgress,
+        graphType: GraphType.streamTypeByTop10Platforms,
+      );
+
       yield StreamInfoGraphsLoaded(
         playsByStreamType: playsByStreamTypeData,
         playsBySourceResolution: playsBySourceResolutionData,
         playsByStreamResolution: playsByStreamResolutionData,
+        streamTypeByTop10Platforms: streamTypeByTop10PlatformsData,
       );
 
       await getPlaysByStreamType(
@@ -122,6 +134,24 @@ class StreamInfoGraphsBloc
           StreamInfoGraphsLoadPlaysByStreamResolution(
             tautulliId: event.tautulliId,
             failureOrPlaysByStreamResolution: failureOrPlaysByStreamResolution,
+            yAxis: event.yAxis,
+          ),
+        ),
+      );
+
+      await getStreamTypeByTop10Platforms(
+        tautulliId: event.tautulliId,
+        timeRange: event.timeRange,
+        yAxis: event.yAxis,
+        userId: event.userId,
+        grouping: event.grouping,
+        settingsBloc: event.settingsBloc,
+      ).then(
+        (failureOrStreamTypeByTop10Platforms) => add(
+          StreamInfoGraphsLoadStreamTypeByTop10Platforms(
+            tautulliId: event.tautulliId,
+            failureOrStreamTypeByTop10Platforms:
+                failureOrStreamTypeByTop10Platforms,
             yAxis: event.yAxis,
           ),
         ),
@@ -243,6 +273,47 @@ class StreamInfoGraphsBloc
                 graphData: graphData,
                 graphCurrentState: GraphCurrentState.success,
                 graphType: GraphType.playsByStreamResolution,
+                yAxis: event.yAxis,
+              ),
+            );
+          },
+        );
+      }
+    }
+    if (event is StreamInfoGraphsLoadStreamTypeByTop10Platforms) {
+      if (currentState is StreamInfoGraphsLoaded) {
+        yield* event.failureOrStreamTypeByTop10Platforms.fold(
+          (failure) async* {
+            logging.error(
+              'Graphs: Failed to load plays by stream type graph data',
+            );
+
+            _streamTypeByTop10PlatformsCache = null;
+            _yAxisCache = event.yAxis;
+
+            yield currentState.copyWith(
+              streamTypeByTop10Platforms: GraphState(
+                graphData: _streamTypeByTop10PlatformsCache,
+                graphCurrentState: GraphCurrentState.failure,
+                graphType: GraphType.streamTypeByTop10Platforms,
+                yAxis: event.yAxis,
+                failureMessage:
+                    FailureMapperHelper.mapFailureToMessage(failure),
+                failureSuggestion:
+                    FailureMapperHelper.mapFailureToSuggestion(failure),
+                failure: failure,
+              ),
+            );
+          },
+          (graphData) async* {
+            _streamTypeByTop10PlatformsCache = graphData;
+            _yAxisCache = event.yAxis;
+
+            yield currentState.copyWith(
+              streamTypeByTop10Platforms: GraphState(
+                graphData: graphData,
+                graphCurrentState: GraphCurrentState.success,
+                graphType: GraphType.streamTypeByTop10Platforms,
                 yAxis: event.yAxis,
               ),
             );
