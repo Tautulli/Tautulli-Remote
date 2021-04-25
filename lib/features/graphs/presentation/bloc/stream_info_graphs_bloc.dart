@@ -12,6 +12,7 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/graph_data.dart';
 import '../../domain/entities/graph_state.dart';
 import '../../domain/usecases/get_plays_by_source_resolution.dart';
+import '../../domain/usecases/get_plays_by_stream_resolution.dart';
 import '../../domain/usecases/get_plays_by_stream_type.dart';
 
 part 'stream_info_graphs_event.dart';
@@ -19,6 +20,7 @@ part 'stream_info_graphs_state.dart';
 
 GraphData _playsByStreamTypeCache;
 GraphData _playsBySourceResolutionCache;
+GraphData _playsByStreamResolutionCache;
 String _yAxisCache;
 int _timeRangeCache;
 
@@ -26,11 +28,13 @@ class StreamInfoGraphsBloc
     extends Bloc<StreamInfoGraphsEvent, StreamInfoGraphsState> {
   final GetPlaysByStreamType getPlaysByStreamType;
   final GetPlaysBySourceResolution getPlaysBySourceResolution;
+  final GetPlaysByStreamResolution getPlaysByStreamResolution;
   final Logging logging;
 
   StreamInfoGraphsBloc({
     @required this.getPlaysByStreamType,
     @required this.getPlaysBySourceResolution,
+    @required this.getPlaysByStreamResolution,
     @required this.logging,
   }) : super(StreamInfoGraphsInitial(
           timeRange: _timeRangeCache,
@@ -59,9 +63,17 @@ class StreamInfoGraphsBloc
         graphType: GraphType.playsBySourceResolution,
       );
 
+      GraphState playsByStreamResolutionData = GraphState(
+        graphData: _playsByStreamResolutionCache,
+        yAxis: _yAxisCache,
+        graphCurrentState: GraphCurrentState.inProgress,
+        graphType: GraphType.playsByStreamResolution,
+      );
+
       yield StreamInfoGraphsLoaded(
         playsByStreamType: playsByStreamTypeData,
         playsBySourceResolution: playsBySourceResolutionData,
+        playsByStreamResolution: playsByStreamResolutionData,
       );
 
       await getPlaysByStreamType(
@@ -93,6 +105,23 @@ class StreamInfoGraphsBloc
           StreamInfoGraphsLoadPlaysBySourceResolution(
             tautulliId: event.tautulliId,
             failureOrPlaysBySourceResolution: failureOrPlaysBySourceResolution,
+            yAxis: event.yAxis,
+          ),
+        ),
+      );
+
+      await getPlaysByStreamResolution(
+        tautulliId: event.tautulliId,
+        timeRange: event.timeRange,
+        yAxis: event.yAxis,
+        userId: event.userId,
+        grouping: event.grouping,
+        settingsBloc: event.settingsBloc,
+      ).then(
+        (failureOrPlaysByStreamResolution) => add(
+          StreamInfoGraphsLoadPlaysByStreamResolution(
+            tautulliId: event.tautulliId,
+            failureOrPlaysByStreamResolution: failureOrPlaysByStreamResolution,
             yAxis: event.yAxis,
           ),
         ),
@@ -173,6 +202,47 @@ class StreamInfoGraphsBloc
                 graphData: graphData,
                 graphCurrentState: GraphCurrentState.success,
                 graphType: GraphType.playsBySourceResolution,
+                yAxis: event.yAxis,
+              ),
+            );
+          },
+        );
+      }
+    }
+    if (event is StreamInfoGraphsLoadPlaysByStreamResolution) {
+      if (currentState is StreamInfoGraphsLoaded) {
+        yield* event.failureOrPlaysByStreamResolution.fold(
+          (failure) async* {
+            logging.error(
+              'Graphs: Failed to load plays by stream type graph data',
+            );
+
+            _playsByStreamResolutionCache = null;
+            _yAxisCache = event.yAxis;
+
+            yield currentState.copyWith(
+              playsByStreamResolution: GraphState(
+                graphData: _playsByStreamResolutionCache,
+                graphCurrentState: GraphCurrentState.failure,
+                graphType: GraphType.playsByStreamResolution,
+                yAxis: event.yAxis,
+                failureMessage:
+                    FailureMapperHelper.mapFailureToMessage(failure),
+                failureSuggestion:
+                    FailureMapperHelper.mapFailureToSuggestion(failure),
+                failure: failure,
+              ),
+            );
+          },
+          (graphData) async* {
+            _playsByStreamResolutionCache = graphData;
+            _yAxisCache = event.yAxis;
+
+            yield currentState.copyWith(
+              playsByStreamResolution: GraphState(
+                graphData: graphData,
+                graphCurrentState: GraphCurrentState.success,
+                graphType: GraphType.playsByStreamResolution,
                 yAxis: event.yAxis,
               ),
             );

@@ -245,6 +245,7 @@ Future<void> init() async {
     () => StreamInfoGraphsBloc(
       getPlaysByStreamType: sl(),
       getPlaysBySourceResolution: sl(),
+      getPlaysByStreamResolution: sl(),
       logging: sl(),
     ),
   );

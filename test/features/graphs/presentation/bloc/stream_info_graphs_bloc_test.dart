@@ -10,6 +10,7 @@ import 'package:tautulli_remote/features/graphs/data/models/series_data_model.da
 import 'package:tautulli_remote/features/graphs/domain/entities/graph_state.dart';
 import 'package:tautulli_remote/features/graphs/domain/entities/series_data.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_source_resolution.dart';
+import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_stream_resolution.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_stream_type.dart';
 import 'package:tautulli_remote/features/graphs/presentation/bloc/stream_info_graphs_bloc.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
@@ -23,6 +24,9 @@ class MockGetPlaysByStreamType extends Mock implements GetPlaysByStreamType {}
 class MockGetPlaysBySourceResolution extends Mock
     implements GetPlaysBySourceResolution {}
 
+class MockGetPlaysByStreamResolution extends Mock
+    implements GetPlaysByStreamResolution {}
+
 class MockSettings extends Mock implements Settings {}
 
 class MockLogging extends Mock implements Logging {}
@@ -31,6 +35,7 @@ void main() {
   StreamInfoGraphsBloc bloc;
   MockGetPlaysByStreamType mockGetPlaysByStreamType;
   MockGetPlaysBySourceResolution mockGetPlaysBySourceResolution;
+  MockGetPlaysByStreamResolution mockGetPlaysByStreamResolution;
   MockSettings mockSettings;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
@@ -38,10 +43,12 @@ void main() {
   setUp(() {
     mockGetPlaysByStreamType = MockGetPlaysByStreamType();
     mockGetPlaysBySourceResolution = MockGetPlaysBySourceResolution();
+    mockGetPlaysByStreamResolution = MockGetPlaysByStreamResolution();
     mockLogging = MockLogging();
     bloc = StreamInfoGraphsBloc(
       getPlaysByStreamType: mockGetPlaysByStreamType,
       getPlaysBySourceResolution: mockGetPlaysBySourceResolution,
+      getPlaysByStreamResolution: mockGetPlaysByStreamResolution,
       logging: mockLogging,
     );
     mockSettings = MockSettings();
@@ -82,6 +89,20 @@ void main() {
     seriesDataList: tPlaysBySourceResolutionSeriesDataList,
   );
 
+  final playsByStreamResolutionJson =
+      json.decode(fixture('graphs_play_by_stream_resolution.json'));
+  final List<String> tPlaysByStreamResolutionCategories = List<String>.from(
+    playsByStreamResolutionJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tPlaysByStreamResolutionSeriesDataList = [];
+  playsByStreamResolutionJson['response']['data']['series'].forEach((item) {
+    tPlaysByStreamResolutionSeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tPlaysByStreamResolutionGraphData = GraphDataModel(
+    categories: tPlaysByStreamResolutionCategories,
+    seriesDataList: tPlaysByStreamResolutionSeriesDataList,
+  );
+
   void setUpSuccess() {
     when(mockGetPlaysByStreamType(
       tautulliId: anyNamed('tautulliId'),
@@ -99,6 +120,14 @@ void main() {
       grouping: anyNamed('grouping'),
       settingsBloc: anyNamed('settingsBloc'),
     )).thenAnswer((_) async => Right(tPlaysBySourceResolutionGraphData));
+    when(mockGetPlaysByStreamResolution(
+      tautulliId: anyNamed('tautulliId'),
+      timeRange: anyNamed('timeRange'),
+      yAxis: anyNamed('yAxis'),
+      userId: anyNamed('userId'),
+      grouping: anyNamed('grouping'),
+      settingsBloc: anyNamed('settingsBloc'),
+    )).thenAnswer((_) async => Right(tPlaysByStreamResolutionGraphData));
   }
 
   StreamInfoGraphsLoaded loadingState() {
@@ -114,9 +143,16 @@ void main() {
       graphCurrentState: GraphCurrentState.inProgress,
       graphType: GraphType.playsBySourceResolution,
     );
+    final playsByStreamResolutionGraphState = GraphState(
+      graphData: null,
+      yAxis: tYAxis,
+      graphCurrentState: GraphCurrentState.inProgress,
+      graphType: GraphType.playsByStreamResolution,
+    );
     final currentState = StreamInfoGraphsLoaded(
       playsByStreamType: playsByStreamTypeGraphState,
       playsBySourceResolution: playsBySourceResolutionGraphState,
+      playsByStreamResolution: playsByStreamResolutionGraphState,
     );
 
     return currentState;
@@ -192,6 +228,42 @@ void main() {
         // assert
         verify(
           mockGetPlaysBySourceResolution(
+            tautulliId: anyNamed('tautulliId'),
+            timeRange: anyNamed('timeRange'),
+            yAxis: anyNamed('yAxis'),
+            userId: anyNamed('userId'),
+            grouping: anyNamed('grouping'),
+            settingsBloc: anyNamed('settingsBloc'),
+          ),
+        );
+      },
+    );
+
+    test(
+      'should get data from GetPlaysByStreamResolution use case',
+      () async {
+        // arrange
+        setUpSuccess();
+        // act
+        bloc.add(
+          StreamInfoGraphsFetch(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          ),
+        );
+        await untilCalled(
+          mockGetPlaysByStreamResolution(
+            tautulliId: anyNamed('tautulliId'),
+            timeRange: anyNamed('timeRange'),
+            yAxis: anyNamed('yAxis'),
+            userId: anyNamed('userId'),
+            grouping: anyNamed('grouping'),
+            settingsBloc: anyNamed('settingsBloc'),
+          ),
+        );
+        // assert
+        verify(
+          mockGetPlaysByStreamResolution(
             tautulliId: anyNamed('tautulliId'),
             timeRange: anyNamed('timeRange'),
             yAxis: anyNamed('yAxis'),
@@ -332,6 +404,74 @@ void main() {
           StreamInfoGraphsLoadPlaysBySourceResolution(
             tautulliId: tTautulliId,
             failureOrPlaysBySourceResolution: Left(failure),
+            yAxis: tYAxis,
+          ),
+        );
+      },
+    );
+  });
+
+  group('StreamInfoGraphsLoadPlaysByStreamResolution', () {
+    test(
+      'should emit [StreamInfoGraphLoaded] with playsByStreamResolution graphCurrentState as success when graph data is fetched successfully',
+      () async {
+        // arrange
+        final currentState = loadingState();
+        bloc.emit(currentState);
+        // assert later
+        final expected = [
+          currentState.copyWith(
+            playsByStreamResolution: GraphState(
+              graphData: tPlaysByStreamResolutionGraphData,
+              yAxis: tYAxis,
+              graphCurrentState: GraphCurrentState.success,
+              graphType: GraphType.playsByStreamResolution,
+            ),
+          )
+        ];
+        // ignore: unawaited_futures
+        expectLater(bloc.stream, emitsInOrder(expected));
+        // act
+        bloc.add(
+          StreamInfoGraphsLoadPlaysByStreamResolution(
+            tautulliId: tTautulliId,
+            failureOrPlaysByStreamResolution:
+                Right(tPlaysByStreamResolutionGraphData),
+            yAxis: tYAxis,
+          ),
+        );
+      },
+    );
+
+    test(
+      'should emit [StreamInfoGraphLoaded] with playsByStreamResolution graphCurrentState as failure when fetching graph data fails',
+      () async {
+        // arrange
+        final currentState = loadingState();
+        final failure = ServerFailure();
+        bloc.emit(currentState);
+        // assert later
+        final expected = [
+          currentState.copyWith(
+            playsByStreamResolution: GraphState(
+              graphData: null,
+              yAxis: tYAxis,
+              graphCurrentState: GraphCurrentState.failure,
+              graphType: GraphType.playsByStreamResolution,
+              failureMessage: FailureMapperHelper.mapFailureToMessage(failure),
+              failureSuggestion:
+                  FailureMapperHelper.mapFailureToSuggestion(failure),
+              failure: failure,
+            ),
+          )
+        ];
+        // ignore: unawaited_futures
+        expectLater(bloc.stream, emitsInOrder(expected));
+        // act
+        bloc.add(
+          StreamInfoGraphsLoadPlaysByStreamResolution(
+            tautulliId: tTautulliId,
+            failureOrPlaysByStreamResolution: Left(failure),
             yAxis: tYAxis,
           ),
         );

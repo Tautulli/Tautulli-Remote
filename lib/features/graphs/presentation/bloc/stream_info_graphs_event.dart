@@ -66,3 +66,20 @@ class StreamInfoGraphsLoadPlaysBySourceResolution
   List<Object> get props =>
       [tautulliId, failureOrPlaysBySourceResolution, yAxis];
 }
+
+class StreamInfoGraphsLoadPlaysByStreamResolution
+    extends StreamInfoGraphsEvent {
+  final String tautulliId;
+  final Either<Failure, GraphData> failureOrPlaysByStreamResolution;
+  final String yAxis;
+
+  StreamInfoGraphsLoadPlaysByStreamResolution({
+    @required this.tautulliId,
+    @required this.failureOrPlaysByStreamResolution,
+    @required this.yAxis,
+  });
+
+  @override
+  List<Object> get props =>
+      [tautulliId, failureOrPlaysByStreamResolution, yAxis];
+}
