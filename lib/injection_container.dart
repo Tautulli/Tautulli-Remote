@@ -30,7 +30,7 @@ import 'features/graphs/domain/usecases/get_plays_by_day_of_week.dart';
 import 'features/graphs/domain/usecases/get_plays_by_hour_of_day.dart';
 import 'features/graphs/domain/usecases/get_plays_by_top_10_platforms.dart';
 import 'features/graphs/domain/usecases/get_plays_by_top_10_users.dart';
-import 'features/graphs/presentation/bloc/play_graphs_bloc.dart';
+import 'features/graphs/presentation/bloc/media_type_graphs_bloc.dart';
 import 'features/history/data/datasources/history_data_source.dart';
 import 'features/history/data/repositories/history_repository_impl.dart';
 import 'features/history/domain/repositories/history_repository.dart';
@@ -227,7 +227,7 @@ Future<void> init() async {
   //! Features = Graphs
   //Bloc
   sl.registerFactory(
-    () => PlayGraphsBloc(
+    () => MediaTypeGraphsBloc(
       getPlaysByDate: sl(),
       getPlaysByDayOfWeek: sl(),
       getPlaysByHourOfDay: sl(),

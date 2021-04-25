@@ -1,26 +1,26 @@
-part of 'play_graphs_bloc.dart';
+part of 'media_type_graphs_bloc.dart';
 
-abstract class PlayGraphsState extends Equatable {
-  const PlayGraphsState();
+abstract class MediaTypeGraphsState extends Equatable {
+  const MediaTypeGraphsState();
 }
 
-class PlayGraphsInitial extends PlayGraphsState {
+class MediaTypeGraphsInitial extends MediaTypeGraphsState {
   final int timeRange;
 
-  PlayGraphsInitial({this.timeRange});
+  MediaTypeGraphsInitial({this.timeRange});
 
   @override
   List<Object> get props => [timeRange];
 }
 
-class PlayGraphsLoaded extends PlayGraphsState {
+class MediaTypeGraphsLoaded extends MediaTypeGraphsState {
   final GraphState playsByDate;
   final GraphState playsByDayOfWeek;
   final GraphState playsByHourOfDay;
   final GraphState playsByTop10Platforms;
   final GraphState playsByTop10Users;
 
-  PlayGraphsLoaded({
+  MediaTypeGraphsLoaded({
     @required this.playsByDate,
     @required this.playsByDayOfWeek,
     @required this.playsByHourOfDay,
@@ -28,14 +28,14 @@ class PlayGraphsLoaded extends PlayGraphsState {
     @required this.playsByTop10Users,
   });
 
-  PlayGraphsLoaded copyWith({
+  MediaTypeGraphsLoaded copyWith({
     GraphState playsByDate,
     GraphState playsByDayOfWeek,
     GraphState playsByHourOfDay,
     GraphState playsByTop10Platforms,
     GraphState playsByTop10Users,
   }) {
-    return PlayGraphsLoaded(
+    return MediaTypeGraphsLoaded(
       playsByDate: playsByDate ?? this.playsByDate,
       playsByDayOfWeek: playsByDayOfWeek ?? this.playsByDayOfWeek,
       playsByHourOfDay: playsByHourOfDay ?? this.playsByHourOfDay,

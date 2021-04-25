@@ -17,8 +17,8 @@ import '../../domain/usecases/get_plays_by_hour_of_day.dart';
 import '../../domain/usecases/get_plays_by_top_10_platforms.dart';
 import '../../domain/usecases/get_plays_by_top_10_users.dart';
 
-part 'play_graphs_event.dart';
-part 'play_graphs_state.dart';
+part 'media_type_graphs_event.dart';
+part 'media_type_graphs_state.dart';
 
 GraphData _playsByDateCache;
 GraphData _playsByDayOfWeekCache;
@@ -28,7 +28,8 @@ GraphData _playsByTop10UsersCache;
 String _yAxisCache;
 int _timeRangeCache;
 
-class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
+class MediaTypeGraphsBloc
+    extends Bloc<MediaTypeGraphsEvent, MediaTypeGraphsState> {
   final GetPlaysByDate getPlaysByDate;
   final GetPlaysByDayOfWeek getPlaysByDayOfWeek;
   final GetPlaysByHourOfDay getPlaysByHourOfDay;
@@ -36,23 +37,23 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
   final GetPlaysByTop10Users getPlaysByTop10Users;
   final Logging logging;
 
-  PlayGraphsBloc({
+  MediaTypeGraphsBloc({
     @required this.getPlaysByDate,
     @required this.getPlaysByDayOfWeek,
     @required this.getPlaysByHourOfDay,
     @required this.getPlaysByTop10Platforms,
     @required this.getPlaysByTop10Users,
     @required this.logging,
-  }) : super(PlayGraphsInitial(
+  }) : super(MediaTypeGraphsInitial(
           timeRange: _timeRangeCache,
         ));
   @override
-  Stream<PlayGraphsState> mapEventToState(
-    PlayGraphsEvent event,
+  Stream<MediaTypeGraphsState> mapEventToState(
+    MediaTypeGraphsEvent event,
   ) async* {
     final currentState = state;
 
-    if (event is PlayGraphsFetch) {
+    if (event is MediaTypeGraphsFetch) {
       _timeRangeCache = event.timeRange;
 
       GraphState playsByDateData = GraphState(
@@ -90,7 +91,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         graphType: GraphType.playsByTop10Users,
       );
 
-      yield PlayGraphsLoaded(
+      yield MediaTypeGraphsLoaded(
         playsByDate: playsByDateData,
         playsByDayOfWeek: playsByDayOfWeekData,
         playsByHourOfDay: playsByHourOfDayData,
@@ -107,7 +108,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         settingsBloc: event.settingsBloc,
       ).then(
         (failureOrPlaysByDate) => add(
-          PlayGraphsLoadPlaysByDate(
+          MediaTypeGraphsLoadPlaysByDate(
             tautulliId: event.tautulliId,
             failureOrPlaysByDate: failureOrPlaysByDate,
             yAxis: event.yAxis,
@@ -124,7 +125,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         settingsBloc: event.settingsBloc,
       ).then(
         (failureOrPlaysByDayOfWeek) => add(
-          PlayGraphsLoadPlaysByDayOfWeek(
+          MediaTypeGraphsLoadPlaysByDayOfWeek(
             tautulliId: event.tautulliId,
             failureOrPlaysByDayOfWeek: failureOrPlaysByDayOfWeek,
             yAxis: event.yAxis,
@@ -141,7 +142,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         settingsBloc: event.settingsBloc,
       ).then(
         (failureOrPlaysByHourOfDay) => add(
-          PlayGraphsLoadPlaysByHourOfDay(
+          MediaTypeGraphsLoadPlaysByHourOfDay(
             tautulliId: event.tautulliId,
             failureOrPlaysByHourOfDay: failureOrPlaysByHourOfDay,
             yAxis: event.yAxis,
@@ -158,7 +159,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         settingsBloc: event.settingsBloc,
       ).then(
         (failureOrPlaysByTop10Platforms) => add(
-          PlayGraphsLoadPlaysByTop10Platforms(
+          MediaTypeGraphsLoadPlaysByTop10Platforms(
             tautulliId: event.tautulliId,
             failureOrPlaysByTop10Platforms: failureOrPlaysByTop10Platforms,
             yAxis: event.yAxis,
@@ -175,7 +176,7 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         settingsBloc: event.settingsBloc,
       ).then(
         (failureOrPlaysByTop10Users) => add(
-          PlayGraphsLoadPlaysByTop10Users(
+          MediaTypeGraphsLoadPlaysByTop10Users(
             tautulliId: event.tautulliId,
             failureOrPlaysByTop10Users: failureOrPlaysByTop10Users,
             yAxis: event.yAxis,
@@ -183,8 +184,8 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         ),
       );
     }
-    if (event is PlayGraphsLoadPlaysByDate) {
-      if (currentState is PlayGraphsLoaded) {
+    if (event is MediaTypeGraphsLoadPlaysByDate) {
+      if (currentState is MediaTypeGraphsLoaded) {
         yield* event.failureOrPlaysByDate.fold(
           (failure) async* {
             logging.error(
@@ -224,8 +225,8 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         );
       }
     }
-    if (event is PlayGraphsLoadPlaysByDayOfWeek) {
-      if (currentState is PlayGraphsLoaded) {
+    if (event is MediaTypeGraphsLoadPlaysByDayOfWeek) {
+      if (currentState is MediaTypeGraphsLoaded) {
         yield* event.failureOrPlaysByDayOfWeek.fold(
           (failure) async* {
             logging.error(
@@ -265,8 +266,8 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         );
       }
     }
-    if (event is PlayGraphsLoadPlaysByHourOfDay) {
-      if (currentState is PlayGraphsLoaded) {
+    if (event is MediaTypeGraphsLoadPlaysByHourOfDay) {
+      if (currentState is MediaTypeGraphsLoaded) {
         yield* event.failureOrPlaysByHourOfDay.fold(
           (failure) async* {
             logging.error(
@@ -306,8 +307,8 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         );
       }
     }
-    if (event is PlayGraphsLoadPlaysByTop10Platforms) {
-      if (currentState is PlayGraphsLoaded) {
+    if (event is MediaTypeGraphsLoadPlaysByTop10Platforms) {
+      if (currentState is MediaTypeGraphsLoaded) {
         yield* event.failureOrPlaysByTop10Platforms.fold(
           (failure) async* {
             logging.error(
@@ -347,8 +348,8 @@ class PlayGraphsBloc extends Bloc<PlayGraphsEvent, PlayGraphsState> {
         );
       }
     }
-    if (event is PlayGraphsLoadPlaysByTop10Users) {
-      if (currentState is PlayGraphsLoaded) {
+    if (event is MediaTypeGraphsLoadPlaysByTop10Users) {
+      if (currentState is MediaTypeGraphsLoaded) {
         yield* event.failureOrPlaysByTop10Users.fold(
           (failure) async* {
             logging.error(

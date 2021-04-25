@@ -1,10 +1,10 @@
-part of 'play_graphs_bloc.dart';
+part of 'media_type_graphs_bloc.dart';
 
-abstract class PlayGraphsEvent extends Equatable {
-  const PlayGraphsEvent();
+abstract class MediaTypeGraphsEvent extends Equatable {
+  const MediaTypeGraphsEvent();
 }
 
-class PlayGraphsFetch extends PlayGraphsEvent {
+class MediaTypeGraphsFetch extends MediaTypeGraphsEvent {
   final String tautulliId;
   final int timeRange;
   final String yAxis;
@@ -12,7 +12,7 @@ class PlayGraphsFetch extends PlayGraphsEvent {
   final int grouping;
   final SettingsBloc settingsBloc;
 
-  PlayGraphsFetch({
+  MediaTypeGraphsFetch({
     @required this.tautulliId,
     this.timeRange,
     this.yAxis,
@@ -32,12 +32,12 @@ class PlayGraphsFetch extends PlayGraphsEvent {
       ];
 }
 
-class PlayGraphsLoadPlaysByDate extends PlayGraphsEvent {
+class MediaTypeGraphsLoadPlaysByDate extends MediaTypeGraphsEvent {
   final String tautulliId;
   final Either<Failure, GraphData> failureOrPlaysByDate;
   final String yAxis;
 
-  PlayGraphsLoadPlaysByDate({
+  MediaTypeGraphsLoadPlaysByDate({
     @required this.tautulliId,
     @required this.failureOrPlaysByDate,
     @required this.yAxis,
@@ -47,12 +47,12 @@ class PlayGraphsLoadPlaysByDate extends PlayGraphsEvent {
   List<Object> get props => [tautulliId, failureOrPlaysByDate, yAxis];
 }
 
-class PlayGraphsLoadPlaysByDayOfWeek extends PlayGraphsEvent {
+class MediaTypeGraphsLoadPlaysByDayOfWeek extends MediaTypeGraphsEvent {
   final String tautulliId;
   final Either<Failure, GraphData> failureOrPlaysByDayOfWeek;
   final String yAxis;
 
-  PlayGraphsLoadPlaysByDayOfWeek({
+  MediaTypeGraphsLoadPlaysByDayOfWeek({
     @required this.tautulliId,
     @required this.failureOrPlaysByDayOfWeek,
     @required this.yAxis,
@@ -62,12 +62,12 @@ class PlayGraphsLoadPlaysByDayOfWeek extends PlayGraphsEvent {
   List<Object> get props => [tautulliId, failureOrPlaysByDayOfWeek, yAxis];
 }
 
-class PlayGraphsLoadPlaysByHourOfDay extends PlayGraphsEvent {
+class MediaTypeGraphsLoadPlaysByHourOfDay extends MediaTypeGraphsEvent {
   final String tautulliId;
   final Either<Failure, GraphData> failureOrPlaysByHourOfDay;
   final String yAxis;
 
-  PlayGraphsLoadPlaysByHourOfDay({
+  MediaTypeGraphsLoadPlaysByHourOfDay({
     @required this.tautulliId,
     @required this.failureOrPlaysByHourOfDay,
     @required this.yAxis,
@@ -77,12 +77,12 @@ class PlayGraphsLoadPlaysByHourOfDay extends PlayGraphsEvent {
   List<Object> get props => [tautulliId, failureOrPlaysByHourOfDay, yAxis];
 }
 
-class PlayGraphsLoadPlaysByTop10Platforms extends PlayGraphsEvent {
+class MediaTypeGraphsLoadPlaysByTop10Platforms extends MediaTypeGraphsEvent {
   final String tautulliId;
   final Either<Failure, GraphData> failureOrPlaysByTop10Platforms;
   final String yAxis;
 
-  PlayGraphsLoadPlaysByTop10Platforms({
+  MediaTypeGraphsLoadPlaysByTop10Platforms({
     @required this.tautulliId,
     @required this.failureOrPlaysByTop10Platforms,
     @required this.yAxis,
@@ -92,12 +92,12 @@ class PlayGraphsLoadPlaysByTop10Platforms extends PlayGraphsEvent {
   List<Object> get props => [tautulliId, failureOrPlaysByTop10Platforms, yAxis];
 }
 
-class PlayGraphsLoadPlaysByTop10Users extends PlayGraphsEvent {
+class MediaTypeGraphsLoadPlaysByTop10Users extends MediaTypeGraphsEvent {
   final String tautulliId;
   final Either<Failure, GraphData> failureOrPlaysByTop10Users;
   final String yAxis;
 
-  PlayGraphsLoadPlaysByTop10Users({
+  MediaTypeGraphsLoadPlaysByTop10Users({
     @required this.tautulliId,
     @required this.failureOrPlaysByTop10Users,
     @required this.yAxis,

@@ -6,12 +6,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../bloc/play_graphs_bloc.dart';
+import '../bloc/media_type_graphs_bloc.dart';
 
 class GraphsErrorButton extends StatelessWidget {
   final Failure failure;
   final Completer completer;
-  final PlayGraphsEvent graphsAddedEvent;
+  final MediaTypeGraphsEvent graphsAddedEvent;
 
   const GraphsErrorButton({
     Key key,
@@ -40,7 +40,7 @@ class GraphsErrorButton extends StatelessWidget {
             ),
             label: const Text('Retry'),
             onPressed: () {
-              context.read<PlayGraphsBloc>().add(graphsAddedEvent);
+              context.read<MediaTypeGraphsBloc>().add(graphsAddedEvent);
               return completer.future;
             },
           );

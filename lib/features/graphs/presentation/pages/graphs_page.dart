@@ -13,8 +13,8 @@ import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../bloc/play_graphs_bloc.dart';
-import '../widgets/plays_by_period_tab.dart';
+import '../bloc/media_type_graphs_bloc.dart';
+import '../widgets/media_type_tab.dart';
 
 class GraphsPage extends StatelessWidget {
   const GraphsPage({Key key}) : super(key: key);
@@ -24,7 +24,7 @@ class GraphsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<PlayGraphsBloc>(),
+      create: (context) => di.sl<MediaTypeGraphsBloc>(),
       child: _GraphsPageContent(),
     );
   }
@@ -40,7 +40,7 @@ class _GraphsPageContent extends StatefulWidget {
 class __GraphsPageContentState extends State<_GraphsPageContent> {
   final GlobalKey _timeRangeKey = GlobalKey();
   SettingsBloc _settingsBloc;
-  PlayGraphsBloc _playGraphsBloc;
+  MediaTypeGraphsBloc _mediaTypeGraphsBloc;
   String _tautulliId;
   int _timeRange;
   String _yAxis;
@@ -49,9 +49,9 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
   void initState() {
     super.initState();
     _settingsBloc = context.read<SettingsBloc>();
-    _playGraphsBloc = context.read<PlayGraphsBloc>();
+    _mediaTypeGraphsBloc = context.read<MediaTypeGraphsBloc>();
 
-    final playGraphsState = _playGraphsBloc.state;
+    final mediaTypeGraphsState = _mediaTypeGraphsBloc.state;
     final settingsState = _settingsBloc.state;
 
     if (settingsState is SettingsLoadSuccess) {
@@ -80,9 +80,9 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
         });
       }
 
-      if (playGraphsState is PlayGraphsInitial) {
+      if (mediaTypeGraphsState is MediaTypeGraphsInitial) {
         _yAxis = settingsState.yAxis;
-        _timeRange = playGraphsState.timeRange ?? 30;
+        _timeRange = mediaTypeGraphsState.timeRange ?? 30;
       }
     }
   }
@@ -125,8 +125,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                                 tautulliId: _tautulliId,
                               ),
                             );
-                            _playGraphsBloc.add(
-                              PlayGraphsFetch(
+                            _mediaTypeGraphsBloc.add(
+                              MediaTypeGraphsFetch(
                                 tautulliId: value,
                                 timeRange: _timeRange,
                                 yAxis: _yAxis,
@@ -152,8 +152,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
                           BlocProvider.value(
-                            value: _playGraphsBloc,
-                            child: PlaysByPeriodTab(
+                            value: _mediaTypeGraphsBloc,
+                            child: MediaTypeTab(
                               tautulliId: _tautulliId,
                               timeRange: _timeRange,
                               yAxis: _yAxis,
@@ -167,7 +167,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                       indicatorSize: TabBarIndicatorSize.label,
                       tabs: [
                         Tab(
-                          child: Text('Plays by Period'),
+                          child: Text('Media Type'),
                         ),
                         Tab(
                           child: Text('Stream Info'),
@@ -201,8 +201,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
               _yAxis = value;
             });
             _settingsBloc.add(SettingsUpdateYAxis(yAxis: _yAxis));
-            _playGraphsBloc.add(
-              PlayGraphsFetch(
+            _mediaTypeGraphsBloc.add(
+              MediaTypeGraphsFetch(
                 tautulliId: _tautulliId,
                 timeRange: _timeRange,
                 yAxis: _yAxis,
@@ -283,8 +283,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                     setState(() {
                       _timeRange = value;
                     });
-                    _playGraphsBloc.add(
-                      PlayGraphsFetch(
+                    _mediaTypeGraphsBloc.add(
+                      MediaTypeGraphsFetch(
                         tautulliId: _tautulliId,
                         timeRange: _timeRange,
                         yAxis: _yAxis,
@@ -433,8 +433,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
               child: const Text("SAVE"),
               onPressed: () {
                 if (_customTimeRangeFormKey.currentState.validate()) {
-                  _playGraphsBloc.add(
-                    PlayGraphsFetch(
+                  _mediaTypeGraphsBloc.add(
+                    MediaTypeGraphsFetch(
                       tautulliId: _tautulliId,
                       timeRange: _timeRange,
                       yAxis: _yAxis,

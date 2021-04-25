@@ -6,18 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/graph_state.dart';
-import '../bloc/play_graphs_bloc.dart';
+import '../bloc/media_type_graphs_bloc.dart';
 import 'bar_chart_graph.dart';
 import 'graph_error_message.dart';
 import 'graph_heading.dart';
 import 'plays_by_date_graph.dart';
 
-class PlaysByPeriodTab extends StatefulWidget {
+class MediaTypeTab extends StatefulWidget {
   final String tautulliId;
   final int timeRange;
   final String yAxis;
 
-  PlaysByPeriodTab({
+  MediaTypeTab({
     Key key,
     @required this.tautulliId,
     @required this.timeRange,
@@ -25,26 +25,26 @@ class PlaysByPeriodTab extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PlaysByPeriodTabState createState() => _PlaysByPeriodTabState();
+  _MediaTypeTabState createState() => _MediaTypeTabState();
 }
 
-class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
+class _MediaTypeTabState extends State<MediaTypeTab> {
   Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
-  PlayGraphsBloc _playGraphsBloc;
+  MediaTypeGraphsBloc _mediaTypeGraphsBloc;
 
   @override
   void initState() {
     super.initState();
     _refreshCompleter = Completer<void>();
     _settingsBloc = context.read<SettingsBloc>();
-    _playGraphsBloc = context.read<PlayGraphsBloc>();
+    _mediaTypeGraphsBloc = context.read<MediaTypeGraphsBloc>();
 
     final settingsState = _settingsBloc.state;
 
     if (settingsState is SettingsLoadSuccess) {
-      _playGraphsBloc.add(
-        PlayGraphsFetch(
+      _mediaTypeGraphsBloc.add(
+        MediaTypeGraphsFetch(
           tautulliId: widget.tautulliId,
           timeRange: widget.timeRange,
           yAxis: widget.yAxis,
@@ -56,9 +56,9 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PlayGraphsBloc, PlayGraphsState>(
+    return BlocConsumer<MediaTypeGraphsBloc, MediaTypeGraphsState>(
       listener: (context, state) {
-        if (state is PlayGraphsLoaded) {
+        if (state is MediaTypeGraphsLoaded) {
           _refreshCompleter?.complete();
           _refreshCompleter = Completer();
         }
@@ -66,8 +66,8 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
       builder: (context, state) {
         return RefreshIndicator(
           onRefresh: () {
-            _playGraphsBloc.add(
-              PlayGraphsFetch(
+            _mediaTypeGraphsBloc.add(
+              MediaTypeGraphsFetch(
                 tautulliId: widget.tautulliId,
                 timeRange: widget.timeRange,
                 yAxis: widget.yAxis,
@@ -83,7 +83,7 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                   graphHeading:
                       'Daily Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'}',
                 ),
-                (state is PlayGraphsLoaded &&
+                (state is MediaTypeGraphsLoaded &&
                         state.playsByDate.graphCurrentState !=
                             GraphCurrentState.failure &&
                         state.playsByDate.graphData != null &&
@@ -92,7 +92,7 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                         playsByDate: state.playsByDate,
                       )
                     : _GraphLoadingOrFailed(
-                        child: state is PlayGraphsLoaded &&
+                        child: state is MediaTypeGraphsLoaded &&
                                 state.playsByDate.graphCurrentState ==
                                     GraphCurrentState.failure
                             ? GraphErrorMessage(
@@ -106,7 +106,7 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                   graphHeading:
                       'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Day of the Week',
                 ),
-                (state is PlayGraphsLoaded &&
+                (state is MediaTypeGraphsLoaded &&
                         state.playsByDayOfWeek.graphCurrentState !=
                             GraphCurrentState.failure &&
                         state.playsByDayOfWeek.graphData != null &&
@@ -116,7 +116,7 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                         bottomTitlesRotateAngle: 320,
                       )
                     : _GraphLoadingOrFailed(
-                        child: state is PlayGraphsLoaded &&
+                        child: state is MediaTypeGraphsLoaded &&
                                 state.playsByDayOfWeek.graphCurrentState ==
                                     GraphCurrentState.failure
                             ? GraphErrorMessage(
@@ -131,7 +131,7 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                   graphHeading:
                       'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Hour of the Day',
                 ),
-                (state is PlayGraphsLoaded &&
+                (state is MediaTypeGraphsLoaded &&
                         state.playsByHourOfDay.graphCurrentState !=
                             GraphCurrentState.failure &&
                         state.playsByHourOfDay.graphData != null &&
@@ -143,7 +143,7 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                         barBorderRadius: 2,
                       )
                     : _GraphLoadingOrFailed(
-                        child: state is PlayGraphsLoaded &&
+                        child: state is MediaTypeGraphsLoaded &&
                                 state.playsByHourOfDay.graphCurrentState ==
                                     GraphCurrentState.failure
                             ? GraphErrorMessage(
@@ -158,7 +158,7 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                   graphHeading:
                       'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Top 10 Platforms',
                 ),
-                (state is PlayGraphsLoaded &&
+                (state is MediaTypeGraphsLoaded &&
                         state.playsByTop10Platforms.graphCurrentState !=
                             GraphCurrentState.failure &&
                         state.playsByTop10Platforms.graphData != null &&
@@ -169,7 +169,7 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                         bottomTitlesMargin: 8,
                       )
                     : _GraphLoadingOrFailed(
-                        child: state is PlayGraphsLoaded &&
+                        child: state is MediaTypeGraphsLoaded &&
                                 state.playsByTop10Platforms.graphCurrentState ==
                                     GraphCurrentState.failure
                             ? GraphErrorMessage(
@@ -185,7 +185,7 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                   graphHeading:
                       'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Top 10 Users',
                 ),
-                (state is PlayGraphsLoaded &&
+                (state is MediaTypeGraphsLoaded &&
                         state.playsByTop10Users.graphCurrentState !=
                             GraphCurrentState.failure &&
                         state.playsByTop10Users.graphData != null &&
@@ -196,7 +196,7 @@ class _PlaysByPeriodTabState extends State<PlaysByPeriodTab> {
                         bottomTitlesMargin: 8,
                       )
                     : _GraphLoadingOrFailed(
-                        child: state is PlayGraphsLoaded &&
+                        child: state is MediaTypeGraphsLoaded &&
                                 state.playsByTop10Users.graphCurrentState ==
                                     GraphCurrentState.failure
                             ? GraphErrorMessage(

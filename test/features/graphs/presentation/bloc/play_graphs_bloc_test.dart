@@ -14,7 +14,7 @@ import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_day
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_hour_of_day.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_top_10_platforms.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_top_10_users.dart';
-import 'package:tautulli_remote/features/graphs/presentation/bloc/play_graphs_bloc.dart';
+import 'package:tautulli_remote/features/graphs/presentation/bloc/media_type_graphs_bloc.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
@@ -37,7 +37,7 @@ class MockSettings extends Mock implements Settings {}
 class MockLogging extends Mock implements Logging {}
 
 void main() {
-  PlayGraphsBloc bloc;
+  MediaTypeGraphsBloc bloc;
   MockGetPlaysByDate mockGetPlaysByDate;
   MockGetPlaysByDayOfWeek mockGetPlaysByDayOfWeek;
   MockGetPlaysByHourOfDay mockGetPlaysByHourOfDay;
@@ -54,7 +54,7 @@ void main() {
     mockGetPlaysByTop10Platforms = MockGetPlaysByTop10Platforms();
     mockGetPlaysByTop10Users = MockGetPlaysByTop10Users();
     mockLogging = MockLogging();
-    bloc = PlayGraphsBloc(
+    bloc = MediaTypeGraphsBloc(
       getPlaysByDate: mockGetPlaysByDate,
       getPlaysByDayOfWeek: mockGetPlaysByDayOfWeek,
       getPlaysByHourOfDay: mockGetPlaysByHourOfDay,
@@ -184,7 +184,7 @@ void main() {
     )).thenAnswer((_) async => Right(tPlaysByTop10UsersGraphData));
   }
 
-  PlayGraphsLoaded loadingState() {
+  MediaTypeGraphsLoaded loadingState() {
     final playsByDateGraphState = GraphState(
       graphData: null,
       yAxis: tYAxis,
@@ -215,7 +215,7 @@ void main() {
       graphCurrentState: GraphCurrentState.inProgress,
       graphType: GraphType.playsByTop10Users,
     );
-    final currentState = PlayGraphsLoaded(
+    final currentState = MediaTypeGraphsLoaded(
       playsByDate: playsByDateGraphState,
       playsByDayOfWeek: playsByDayOfWeekGraphState,
       playsByHourOfDay: playsByHourOfDayGraphState,
@@ -227,14 +227,14 @@ void main() {
   }
 
   test(
-    'initialState should be PlayGraphsInitial',
+    'initialState should be MediaTypeGraphsInitial',
     () async {
       // assert
-      expect(bloc.state, PlayGraphsInitial());
+      expect(bloc.state, MediaTypeGraphsInitial());
     },
   );
 
-  group('PlayGraphsFetch', () {
+  group('MediaTypeGraphsFetch', () {
     test(
       'should get data from GetPlaysByDate use case',
       () async {
@@ -242,7 +242,7 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(
-          PlayGraphsFetch(
+          MediaTypeGraphsFetch(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           ),
@@ -278,7 +278,7 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(
-          PlayGraphsFetch(
+          MediaTypeGraphsFetch(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           ),
@@ -314,7 +314,7 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(
-          PlayGraphsFetch(
+          MediaTypeGraphsFetch(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           ),
@@ -350,7 +350,7 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(
-          PlayGraphsFetch(
+          MediaTypeGraphsFetch(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           ),
@@ -386,7 +386,7 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(
-          PlayGraphsFetch(
+          MediaTypeGraphsFetch(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           ),
@@ -416,7 +416,7 @@ void main() {
     );
   });
 
-  group('PlayGraphsLoadPlaysByDate', () {
+  group('MediaTypeGraphsLoadPlaysByDate', () {
     test(
       'should emit [PlaysGraphLoaded] with playsByDate graphCurrentState as success when graph data is fetched successfully',
       () async {
@@ -438,7 +438,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          PlayGraphsLoadPlaysByDate(
+          MediaTypeGraphsLoadPlaysByDate(
             tautulliId: tTautulliId,
             failureOrPlaysByDate: Right(tPlaysByDateGraphData),
             yAxis: tYAxis,
@@ -473,7 +473,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          PlayGraphsLoadPlaysByDate(
+          MediaTypeGraphsLoadPlaysByDate(
             tautulliId: tTautulliId,
             failureOrPlaysByDate: Left(failure),
             yAxis: tYAxis,
@@ -483,7 +483,7 @@ void main() {
     );
   });
 
-  group('PlayGraphsLoadPlaysByDayOfWeek', () {
+  group('MediaTypeGraphsLoadPlaysByDayOfWeek', () {
     test(
       'should emit [PlaysGraphLoaded] with playsByDayOfWeek graphCurrentState as success when graph data is fetched successfully',
       () async {
@@ -505,7 +505,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          PlayGraphsLoadPlaysByDayOfWeek(
+          MediaTypeGraphsLoadPlaysByDayOfWeek(
             tautulliId: tTautulliId,
             failureOrPlaysByDayOfWeek: Right(tPlaysByDayOfWeekGraphData),
             yAxis: tYAxis,
@@ -540,7 +540,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          PlayGraphsLoadPlaysByDayOfWeek(
+          MediaTypeGraphsLoadPlaysByDayOfWeek(
             tautulliId: tTautulliId,
             failureOrPlaysByDayOfWeek: Left(failure),
             yAxis: tYAxis,
@@ -550,7 +550,7 @@ void main() {
     );
   });
 
-  group('PlayGraphsLoadPlaysByHourOfDay', () {
+  group('MediaTypeGraphsLoadPlaysByHourOfDay', () {
     test(
       'should emit [PlaysGraphLoaded] with playsByHourOfDay graphCurrentState as success when graph data is fetched successfully',
       () async {
@@ -572,7 +572,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          PlayGraphsLoadPlaysByHourOfDay(
+          MediaTypeGraphsLoadPlaysByHourOfDay(
             tautulliId: tTautulliId,
             failureOrPlaysByHourOfDay: Right(tPlaysByHourOfDayGraphData),
             yAxis: tYAxis,
@@ -607,7 +607,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          PlayGraphsLoadPlaysByHourOfDay(
+          MediaTypeGraphsLoadPlaysByHourOfDay(
             tautulliId: tTautulliId,
             failureOrPlaysByHourOfDay: Left(failure),
             yAxis: tYAxis,
@@ -617,7 +617,7 @@ void main() {
     );
   });
 
-  group('PlayGraphsLoadPlaysByTop10Platforms', () {
+  group('MediaTypeGraphsLoadPlaysByTop10Platforms', () {
     test(
       'should emit [PlaysGraphLoaded] with playsByTop10Platforms graphCurrentState as success when graph data is fetched successfully',
       () async {
@@ -639,7 +639,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          PlayGraphsLoadPlaysByTop10Platforms(
+          MediaTypeGraphsLoadPlaysByTop10Platforms(
             tautulliId: tTautulliId,
             failureOrPlaysByTop10Platforms:
                 Right(tPlaysByTop10PlatformsGraphData),
@@ -675,7 +675,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          PlayGraphsLoadPlaysByTop10Platforms(
+          MediaTypeGraphsLoadPlaysByTop10Platforms(
             tautulliId: tTautulliId,
             failureOrPlaysByTop10Platforms: Left(failure),
             yAxis: tYAxis,
@@ -685,7 +685,7 @@ void main() {
     );
   });
 
-  group('PlayGraphsLoadPlaysByTop10Users', () {
+  group('MediaTypeGraphsLoadPlaysByTop10Users', () {
     test(
       'should emit [PlaysGraphLoaded] with playsByTop10Users graphCurrentState as success when graph data is fetched successfully',
       () async {
@@ -707,7 +707,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          PlayGraphsLoadPlaysByTop10Users(
+          MediaTypeGraphsLoadPlaysByTop10Users(
             tautulliId: tTautulliId,
             failureOrPlaysByTop10Users: Right(tPlaysByTop10UsersGraphData),
             yAxis: tYAxis,
@@ -742,7 +742,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          PlayGraphsLoadPlaysByTop10Users(
+          MediaTypeGraphsLoadPlaysByTop10Users(
             tautulliId: tTautulliId,
             failureOrPlaysByTop10Users: Left(failure),
             yAxis: tYAxis,
