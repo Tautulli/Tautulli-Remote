@@ -40,6 +40,12 @@ class StringMapperHelper {
         return 'Music';
       case (SeriesType.live):
         return 'Live TV';
+      case (SeriesType.direct_play):
+        return 'Direct Play';
+      case (SeriesType.direct_stream):
+        return 'Direct Stream';
+      case (SeriesType.transcode):
+        return 'Transcode';
       default:
         return 'UNKNOWN';
     }

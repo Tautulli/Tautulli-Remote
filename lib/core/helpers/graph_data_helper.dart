@@ -54,38 +54,68 @@ class GraphDataHelper {
     return (maxYValue / 5).ceilToDouble();
   }
 
-  static List<SeriesData> parsedSeriesDataList(List<SeriesData> list) {
-    final tvSeriesData = list.firstWhere(
-      (seriesData) => seriesData.seriesType == SeriesType.tv,
-      orElse: () {
-        return null;
-      },
-    );
-    final moviesSeriesData = list.firstWhere(
-      (seriesData) => seriesData.seriesType == SeriesType.movies,
-      orElse: () {
-        return null;
-      },
-    );
-    final musicSeriesData = list.firstWhere(
-      (seriesData) => seriesData.seriesType == SeriesType.music,
-      orElse: () {
-        return null;
-      },
-    );
-    final liveSeriesData = list.firstWhere(
-      (seriesData) => seriesData.seriesType == SeriesType.live,
-      orElse: () {
-        return null;
-      },
-    );
+  static List<SeriesData> parsedSeriesDataList(
+    List<SeriesData> list, {
+    bool dataIsMediaType = true,
+  }) {
+    if (dataIsMediaType) {
+      final tvSeriesData = list.firstWhere(
+        (seriesData) => seriesData.seriesType == SeriesType.tv,
+        orElse: () {
+          return null;
+        },
+      );
+      final moviesSeriesData = list.firstWhere(
+        (seriesData) => seriesData.seriesType == SeriesType.movies,
+        orElse: () {
+          return null;
+        },
+      );
+      final musicSeriesData = list.firstWhere(
+        (seriesData) => seriesData.seriesType == SeriesType.music,
+        orElse: () {
+          return null;
+        },
+      );
+      final liveSeriesData = list.firstWhere(
+        (seriesData) => seriesData.seriesType == SeriesType.live,
+        orElse: () {
+          return null;
+        },
+      );
 
-    return <SeriesData>[
-      tvSeriesData,
-      moviesSeriesData,
-      musicSeriesData,
-      liveSeriesData,
-    ];
+      return <SeriesData>[
+        tvSeriesData,
+        moviesSeriesData,
+        musicSeriesData,
+        liveSeriesData,
+      ];
+    } else {
+      final directPlaySeriesData = list.firstWhere(
+        (seriesData) => seriesData.seriesType == SeriesType.direct_play,
+        orElse: () {
+          return null;
+        },
+      );
+      final directStreamSeriesData = list.firstWhere(
+        (seriesData) => seriesData.seriesType == SeriesType.direct_stream,
+        orElse: () {
+          return null;
+        },
+      );
+      final transcodeSeriesData = list.firstWhere(
+        (seriesData) => seriesData.seriesType == SeriesType.transcode,
+        orElse: () {
+          return null;
+        },
+      );
+
+      return <SeriesData>[
+        directPlaySeriesData,
+        directStreamSeriesData,
+        transcodeSeriesData,
+      ];
+    }
   }
 
   static FlTitlesData buildFlTitlesData({
