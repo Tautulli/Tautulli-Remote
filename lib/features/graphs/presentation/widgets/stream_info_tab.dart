@@ -7,6 +7,7 @@ import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/graph_state.dart';
 import '../bloc/stream_info_graphs_bloc.dart';
+import 'bar_chart_graph.dart';
 import 'graph_error_message.dart';
 import 'graph_heading.dart';
 import 'line_chart_graph.dart';
@@ -99,6 +100,33 @@ class _StreamInfoTabState extends State<StreamInfoTab> {
                                 message: state.playsByStreamType.failureMessage,
                                 suggestion:
                                     state.playsByStreamType.failureSuggestion,
+                              )
+                            : const CircularProgressIndicator(),
+                      ),
+                const SizedBox(height: 8),
+                GraphHeading(
+                  graphHeading:
+                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Source Resolution',
+                ),
+                (state is StreamInfoGraphsLoaded &&
+                        state.playsBySourceResolution.graphCurrentState !=
+                            GraphCurrentState.failure &&
+                        state.playsBySourceResolution.graphData != null &&
+                        widget.yAxis == state.playsBySourceResolution.yAxis)
+                    ? BarChartGraph(
+                        graphState: state.playsBySourceResolution,
+                        dataIsMediaType: false,
+                      )
+                    : _GraphLoadingOrFailed(
+                        child: state is StreamInfoGraphsLoaded &&
+                                state.playsBySourceResolution
+                                        .graphCurrentState ==
+                                    GraphCurrentState.failure
+                            ? GraphErrorMessage(
+                                message: state
+                                    .playsBySourceResolution.failureMessage,
+                                suggestion: state
+                                    .playsBySourceResolution.failureSuggestion,
                               )
                             : const CircularProgressIndicator(),
                       ),
