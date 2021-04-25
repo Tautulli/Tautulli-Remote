@@ -12,6 +12,7 @@ import 'graph_card.dart';
 
 class BarChartGraph extends StatelessWidget {
   final GraphState graphState;
+  final bool dataIsMediaType;
   final double barWidth;
   final double barBorderRadius;
   final double bottomTitlesRotateAngle;
@@ -20,6 +21,7 @@ class BarChartGraph extends StatelessWidget {
   const BarChartGraph({
     Key key,
     @required this.graphState,
+    this.dataIsMediaType = true,
     this.barWidth = 20,
     this.barBorderRadius = 4,
     this.bottomTitlesRotateAngle,
@@ -32,6 +34,7 @@ class BarChartGraph extends StatelessWidget {
     // indexing and access
     List<SeriesData> seriesDataLists = GraphDataHelper.parsedSeriesDataList(
       graphState.graphData.seriesDataList,
+      dataIsMediaType: dataIsMediaType,
     );
 
     // Create list of non null series data for use in the tooltip loop
@@ -64,20 +67,23 @@ class BarChartGraph extends StatelessWidget {
     List<BarChartGroupData> barGroups = [];
     // For each day
     for (var i = 0; i < graphState.graphData.categories.length; i++) {
-      double tvValue = seriesDataLists[0] != null
+      double tvOrDirectPlayValue = seriesDataLists[0] != null
           ? seriesDataLists[0].seriesData[i].toDouble()
           : 0.0;
-      double moviesValue = seriesDataLists[1] != null
+      double moviesOrDirectStreamValue = seriesDataLists[1] != null
           ? seriesDataLists[1].seriesData[i].toDouble()
           : 0.0;
-      double musicValue = seriesDataLists[2] != null
+      double musicOrTranscodeValue = seriesDataLists[2] != null
           ? seriesDataLists[2].seriesData[i].toDouble()
           : 0.0;
-      double liveValue = seriesDataLists[3] != null
+      double liveValue = dataIsMediaType && seriesDataLists[3] != null
           ? seriesDataLists[3].seriesData[i].toDouble()
           : 0.0;
 
-      double maxBarY = tvValue + moviesValue + musicValue + liveValue;
+      double maxBarY = tvOrDirectPlayValue +
+          moviesOrDirectStreamValue +
+          musicOrTranscodeValue +
+          liveValue;
 
       double barStart = 0;
       List<BarChartRodStackItem> rodStackItems = [];
@@ -92,35 +98,35 @@ class BarChartGraph extends StatelessWidget {
         );
         barStart = barStart + liveValue;
       }
-      if (musicValue > 0) {
+      if (musicOrTranscodeValue > 0) {
         rodStackItems.add(
           BarChartRodStackItem(
             barStart,
-            musicValue + barStart,
+            musicOrTranscodeValue + barStart,
             PlexColorPalette.cinnabar,
           ),
         );
-        barStart = barStart + musicValue;
+        barStart = barStart + musicOrTranscodeValue;
       }
-      if (moviesValue > 0) {
+      if (moviesOrDirectStreamValue > 0) {
         rodStackItems.add(
           BarChartRodStackItem(
             barStart,
-            moviesValue + barStart,
+            moviesOrDirectStreamValue + barStart,
             TautulliColorPalette.not_white,
           ),
         );
-        barStart = barStart + moviesValue;
+        barStart = barStart + moviesOrDirectStreamValue;
       }
-      if (tvValue > 0) {
+      if (tvOrDirectPlayValue > 0) {
         rodStackItems.add(
           BarChartRodStackItem(
             barStart,
-            tvValue + barStart,
+            tvOrDirectPlayValue + barStart,
             PlexColorPalette.gamboge,
           ),
         );
-        barStart = barStart + tvValue;
+        barStart = barStart + tvOrDirectPlayValue;
       }
 
       barGroups.add(
@@ -145,10 +151,13 @@ class BarChartGraph extends StatelessWidget {
     return GraphCard(
       graphCurrentState: graphState.graphCurrentState,
       maxYLines: maxYLines,
-      showTvLegend: seriesDataLists[0] != null,
-      showMoviesLegend: seriesDataLists[1] != null,
-      showMusicLegend: seriesDataLists[2] != null,
-      showLiveTvLegend: seriesDataLists[3] != null,
+      showTvLegend: dataIsMediaType && seriesDataLists[0] != null,
+      showMoviesLegend: dataIsMediaType && seriesDataLists[1] != null,
+      showMusicLegend: dataIsMediaType && seriesDataLists[2] != null,
+      showLiveTvLegend: dataIsMediaType && seriesDataLists[3] != null,
+      showDirectPlayLegend: !dataIsMediaType && seriesDataLists[0] != null,
+      showDirectStreamLegend: !dataIsMediaType && seriesDataLists[1] != null,
+      showTranscodeLegend: !dataIsMediaType && seriesDataLists[2] != null,
       chart: BarChart(
         BarChartData(
           alignment: BarChartAlignment.spaceAround,
