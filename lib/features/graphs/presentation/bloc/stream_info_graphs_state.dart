@@ -18,21 +18,27 @@ class StreamInfoGraphsInitial extends StreamInfoGraphsState {
 
 class StreamInfoGraphsLoaded extends StreamInfoGraphsState {
   final GraphState playsByStreamType;
+  final GraphState playsBySourceResolution;
 
   StreamInfoGraphsLoaded({
     @required this.playsByStreamType,
+    @required this.playsBySourceResolution,
   });
 
   StreamInfoGraphsLoaded copyWith({
     GraphState playsByStreamType,
+    GraphState playsBySourceResolution,
   }) {
     return StreamInfoGraphsLoaded(
       playsByStreamType: playsByStreamType ?? this.playsByStreamType,
+      playsBySourceResolution:
+          playsBySourceResolution ?? this.playsBySourceResolution,
     );
   }
 
   @override
   List<Object> get props => [
         playsByStreamType,
+        playsBySourceResolution,
       ];
 }

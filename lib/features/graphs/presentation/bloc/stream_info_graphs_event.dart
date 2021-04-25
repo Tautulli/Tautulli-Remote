@@ -49,3 +49,20 @@ class StreamInfoGraphsLoadPlaysByStreamType extends StreamInfoGraphsEvent {
   @override
   List<Object> get props => [tautulliId, failureOrPlaysByStreamType, yAxis];
 }
+
+class StreamInfoGraphsLoadPlaysBySourceResolution
+    extends StreamInfoGraphsEvent {
+  final String tautulliId;
+  final Either<Failure, GraphData> failureOrPlaysBySourceResolution;
+  final String yAxis;
+
+  StreamInfoGraphsLoadPlaysBySourceResolution({
+    @required this.tautulliId,
+    @required this.failureOrPlaysBySourceResolution,
+    @required this.yAxis,
+  });
+
+  @override
+  List<Object> get props =>
+      [tautulliId, failureOrPlaysBySourceResolution, yAxis];
+}

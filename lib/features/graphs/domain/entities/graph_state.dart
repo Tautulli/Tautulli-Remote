@@ -14,6 +14,7 @@ enum GraphType {
   playsByDate,
   playsByDayOfWeek,
   playsByHourOfDay,
+  playsBySourceResolution,
   playsByStreamType,
   playsByTop10Platforms,
   playsByTop10Users,

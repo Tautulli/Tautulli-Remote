@@ -243,6 +243,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => StreamInfoGraphsBloc(
       getPlaysByStreamType: sl(),
+      getPlaysBySourceResolution: sl(),
       logging: sl(),
     ),
   );
