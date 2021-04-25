@@ -175,6 +175,7 @@ class BarChartGraph extends StatelessWidget {
                 if (maskSensitiveInfo &&
                     [
                       GraphType.playsByTop10Users,
+                      GraphType.streamTypeByTop10Users,
                     ].contains(graphState.graphType)) {
                   return '*Hidden*';
                 }
@@ -186,6 +187,7 @@ class BarChartGraph extends StatelessWidget {
                   GraphType.playsByTop10Platforms,
                   GraphType.playsByTop10Users,
                   GraphType.streamTypeByTop10Platforms,
+                  GraphType.streamTypeByTop10Users,
                 ].contains(graphState.graphType)) {
                   if (graphState.graphData.categories[value.toInt()].length <=
                       6) {
