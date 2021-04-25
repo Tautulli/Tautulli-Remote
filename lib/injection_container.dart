@@ -1056,6 +1056,11 @@ Future<void> init() async {
       connectionHandler: sl(),
     ),
   );
+  sl.registerLazySingleton<tautulli_api.GetStreamTypeByTop10Platforms>(
+    () => tautulli_api.GetStreamTypeByTop10PlatformsImpl(
+      connectionHandler: sl(),
+    ),
+  );
   sl.registerLazySingleton<tautulli_api.GetSyncedItems>(
     () => tautulli_api.GetSyncedItemsImpl(
       connectionHandler: sl(),
