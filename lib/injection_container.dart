@@ -1070,6 +1070,11 @@ Future<void> init() async {
       connectionHandler: sl(),
     ),
   );
+  sl.registerLazySingleton<tautulli_api.GetStreamTypeByTop10Users>(
+    () => tautulli_api.GetStreamTypeByTop10UsersImpl(
+      connectionHandler: sl(),
+    ),
+  );
   sl.registerLazySingleton<tautulli_api.GetSyncedItems>(
     () => tautulli_api.GetSyncedItemsImpl(
       connectionHandler: sl(),
