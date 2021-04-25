@@ -32,6 +32,7 @@ class _StreamInfoTabState extends State<StreamInfoTab> {
   Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
   StreamInfoGraphsBloc _streamInfoGraphsBloc;
+  bool _maskSensitiveInfo;
 
   @override
   void initState() {
@@ -43,6 +44,8 @@ class _StreamInfoTabState extends State<StreamInfoTab> {
     final settingsState = _settingsBloc.state;
 
     if (settingsState is SettingsLoadSuccess) {
+      _maskSensitiveInfo = settingsState.maskSensitiveInfo;
+
       _streamInfoGraphsBloc.add(
         StreamInfoGraphsFetch(
           tautulliId: widget.tautulliId,
@@ -183,6 +186,36 @@ class _StreamInfoTabState extends State<StreamInfoTab> {
                                     .streamTypeByTop10Platforms.failureMessage,
                                 suggestion: state.streamTypeByTop10Platforms
                                     .failureSuggestion,
+                              )
+                            : const CircularProgressIndicator(),
+                      ),
+                const SizedBox(height: 8),
+                GraphHeading(
+                  graphHeading:
+                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by User Stream Type',
+                ),
+                (state is StreamInfoGraphsLoaded &&
+                        state.streamTypeByTop10Users.graphCurrentState !=
+                            GraphCurrentState.failure &&
+                        state.streamTypeByTop10Users.graphData != null &&
+                        widget.yAxis == state.streamTypeByTop10Users.yAxis)
+                    ? BarChartGraph(
+                        graphState: state.streamTypeByTop10Users,
+                        dataIsMediaType: false,
+                        bottomTitlesRotateAngle: 320,
+                        bottomTitlesMargin: 8,
+                        maskSensitiveInfo: _maskSensitiveInfo,
+                      )
+                    : _GraphLoadingOrFailed(
+                        child: state is StreamInfoGraphsLoaded &&
+                                state.streamTypeByTop10Users
+                                        .graphCurrentState ==
+                                    GraphCurrentState.failure
+                            ? GraphErrorMessage(
+                                message:
+                                    state.streamTypeByTop10Users.failureMessage,
+                                suggestion: state
+                                    .streamTypeByTop10Users.failureSuggestion,
                               )
                             : const CircularProgressIndicator(),
                       ),
