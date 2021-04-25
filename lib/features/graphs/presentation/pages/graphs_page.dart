@@ -144,6 +144,14 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                                 settingsBloc: _settingsBloc,
                               ),
                             );
+                            _streamInfoGraphsBloc.add(
+                              StreamInfoGraphsFetch(
+                                tautulliId: value,
+                                timeRange: _timeRange,
+                                yAxis: _yAxis,
+                                settingsBloc: _settingsBloc,
+                              ),
+                            );
                           }
                         },
                       ),
