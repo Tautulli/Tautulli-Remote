@@ -6,6 +6,9 @@ enum SeriesType {
   movies,
   music,
   live,
+  direct_play,
+  direct_stream,
+  transcode,
 }
 
 class SeriesData extends Equatable {

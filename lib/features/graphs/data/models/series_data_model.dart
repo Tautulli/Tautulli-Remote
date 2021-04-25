@@ -26,6 +26,15 @@ class SeriesDataModel extends SeriesData {
       case ('live tv'):
         type = SeriesType.live;
         break;
+      case ('direct play'):
+        type = SeriesType.direct_play;
+        break;
+      case ('direct stream'):
+        type = SeriesType.direct_stream;
+        break;
+      case ('transcode'):
+        type = SeriesType.transcode;
+        break;
     }
 
     return SeriesDataModel(
