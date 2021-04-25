@@ -105,6 +105,20 @@ void main() {
     seriesDataList: tPlaysBySourceResolutionSeriesDataList,
   );
 
+  final playsByStreamResolutionJson =
+      json.decode(fixture('graphs_play_by_stream_resolution.json'));
+  final List<String> tPlaysByStreamResolutionCategories = List<String>.from(
+    playsByStreamResolutionJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tPlaysByStreamResolutionSeriesDataList = [];
+  playsByStreamResolutionJson['response']['data']['series'].forEach((item) {
+    tPlaysByStreamResolutionSeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tPlaysByStreamResolutionGraphData = GraphDataModel(
+    categories: tPlaysByStreamResolutionCategories,
+    seriesDataList: tPlaysByStreamResolutionSeriesDataList,
+  );
+
   final playsByStreamTypeJson =
       json.decode(fixture('graphs_play_by_stream_type.json'));
   final List<String> tPlaysByStreamTypeCategories = List<String>.from(
@@ -465,6 +479,88 @@ void main() {
           when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
           final result = await repository.getPlaysBySourceResolution(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Left(ConnectionFailure())));
+        },
+      );
+    });
+  });
+
+  group('Get Plays By Stream Resolution', () {
+    test(
+      'should check if device is online',
+      () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        // act
+        await repository.getPlaysByStreamResolution(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
+        // assert
+        verify(mockNetworkInfo.isConnected);
+      },
+    );
+
+    group('is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+
+      test(
+        'should call the data source getPlaysByStreamResolution()',
+        () async {
+          // act
+          await repository.getPlaysByStreamResolution(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          verify(
+            mockGraphsDataSource.getPlaysByStreamResolution(
+              tautulliId: tTautulliId,
+              settingsBloc: settingsBloc,
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return GraphData when call to API is successful',
+        () async {
+          // arrange
+          when(
+            mockGraphsDataSource.getPlaysByStreamResolution(
+              tautulliId: anyNamed('tautulliId'),
+              timeRange: anyNamed('timeRange'),
+              yAxis: anyNamed('yAxis'),
+              userId: anyNamed('userId'),
+              grouping: anyNamed('grouping'),
+              settingsBloc: anyNamed('settingsBloc'),
+            ),
+          ).thenAnswer((_) async => tPlaysByStreamResolutionGraphData);
+          // act
+          final result = await repository.getPlaysByStreamResolution(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Right(tPlaysByStreamResolutionGraphData)));
+        },
+      );
+    });
+
+    group('device is offline', () {
+      test(
+        'should return a ConnectionFailure when there is no network connection',
+        () async {
+          // arrange
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+          // act
+          final result = await repository.getPlaysByStreamResolution(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           );

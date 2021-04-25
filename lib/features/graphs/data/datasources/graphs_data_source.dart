@@ -44,6 +44,15 @@ abstract class GraphsDataSource {
     @required SettingsBloc settingsBloc,
   });
 
+  Future<GraphData> getPlaysByStreamResolution({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  });
+
   Future<GraphData> getPlaysByStreamType({
     @required String tautulliId,
     int timeRange,
@@ -77,6 +86,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   final tautulli_api.GetPlaysByDayOfWeek apiGetPlaysByDayOfWeek;
   final tautulli_api.GetPlaysByHourOfDay apiGetPlaysByHourOfDay;
   final tautulli_api.GetPlaysBySourceResolution apiGetPlaysBySourceResolution;
+  final tautulli_api.GetPlaysByStreamResolution apiGetPlaysByStreamResolution;
   final tautulli_api.GetPlaysByStreamType apiGetPlaysByStreamType;
   final tautulli_api.GetPlaysByTop10Platforms apiGetPlaysByTop10Platforms;
   final tautulli_api.GetPlaysByTop10Users apiGetPlaysByTop10Users;
@@ -86,6 +96,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     @required this.apiGetPlaysByDayOfWeek,
     @required this.apiGetPlaysByHourOfDay,
     @required this.apiGetPlaysBySourceResolution,
+    @required this.apiGetPlaysByStreamResolution,
     @required this.apiGetPlaysByStreamType,
     @required this.apiGetPlaysByTop10Platforms,
     @required this.apiGetPlaysByTop10Users,
@@ -210,6 +221,38 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     );
     List<SeriesData> seriesDataList = [];
     playsBySourceResolutionJson['response']['data']['series'].forEach((item) {
+      seriesDataList.add(SeriesDataModel.fromJson(item));
+    });
+
+    return GraphDataModel(
+      categories: categories,
+      seriesDataList: seriesDataList,
+    );
+  }
+
+  @override
+  Future<GraphData> getPlaysByStreamResolution({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  }) async {
+    final playsByStreamResolutionJson = await apiGetPlaysByStreamResolution(
+      tautulliId: tautulliId,
+      timeRange: timeRange,
+      yAxis: yAxis,
+      userId: userId,
+      grouping: grouping,
+      settingsBloc: settingsBloc,
+    );
+
+    List<String> categories = List<String>.from(
+      playsByStreamResolutionJson['response']['data']['categories'],
+    );
+    List<SeriesData> seriesDataList = [];
+    playsByStreamResolutionJson['response']['data']['series'].forEach((item) {
       seriesDataList.add(SeriesDataModel.fromJson(item));
     });
 

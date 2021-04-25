@@ -42,6 +42,15 @@ abstract class GraphsRepository {
     @required SettingsBloc settingsBloc,
   });
 
+  Future<Either<Failure, GraphData>> getPlaysByStreamResolution({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  });
+
   Future<Either<Failure, GraphData>> getPlaysByStreamType({
     @required String tautulliId,
     int timeRange,

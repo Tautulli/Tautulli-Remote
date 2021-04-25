@@ -29,6 +29,7 @@ import 'features/graphs/domain/usecases/get_plays_by_date.dart';
 import 'features/graphs/domain/usecases/get_plays_by_day_of_week.dart';
 import 'features/graphs/domain/usecases/get_plays_by_hour_of_day.dart';
 import 'features/graphs/domain/usecases/get_plays_by_source_resolution.dart';
+import 'features/graphs/domain/usecases/get_plays_by_stream_resolution.dart';
 import 'features/graphs/domain/usecases/get_plays_by_stream_type.dart';
 import 'features/graphs/domain/usecases/get_plays_by_top_10_platforms.dart';
 import 'features/graphs/domain/usecases/get_plays_by_top_10_users.dart';
@@ -274,6 +275,12 @@ Future<void> init() async {
   );
 
   sl.registerLazySingleton(
+    () => GetPlaysByStreamResolution(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
     () => GetPlaysByStreamType(
       repository: sl(),
     ),
@@ -306,6 +313,7 @@ Future<void> init() async {
       apiGetPlaysByDayOfWeek: sl(),
       apiGetPlaysByHourOfDay: sl(),
       apiGetPlaysBySourceResolution: sl(),
+      apiGetPlaysByStreamResolution: sl(),
       apiGetPlaysByStreamType: sl(),
       apiGetPlaysByTop10Platforms: sl(),
       apiGetPlaysByTop10Users: sl(),

@@ -25,6 +25,9 @@ class MockGetPlaysByHourOfDay extends Mock
 class MockGetPlaysBySourceResolution extends Mock
     implements tautulli_api.GetPlaysBySourceResolution {}
 
+class MockGetPlaysByStreamResolution extends Mock
+    implements tautulli_api.GetPlaysByStreamResolution {}
+
 class MockGetPlaysByStreamType extends Mock
     implements tautulli_api.GetPlaysByStreamType {}
 
@@ -44,6 +47,7 @@ void main() {
   MockGetPlaysByDayOfWeek mockApiGetPlaysByDayOfWeek;
   MockGetPlaysByHourOfDay mockApiGetPlaysByHourOfDay;
   MockGetPlaysBySourceResolution mockApiGetPlaysBySourceResolution;
+  MockGetPlaysByStreamResolution mockApiGetPlaysByStreamResolution;
   MockGetPlaysByStreamType mockApiGetPlaysByStreamType;
   MockGetPlaysByTop10Platforms mockApiGetPlaysByTop10Platforms;
   MockGetPlaysByTop10Users mockApiGetPlaysByTop10Users;
@@ -56,6 +60,7 @@ void main() {
     mockApiGetPlaysByDayOfWeek = MockGetPlaysByDayOfWeek();
     mockApiGetPlaysByHourOfDay = MockGetPlaysByHourOfDay();
     mockApiGetPlaysBySourceResolution = MockGetPlaysBySourceResolution();
+    mockApiGetPlaysByStreamResolution = MockGetPlaysByStreamResolution();
     mockApiGetPlaysByStreamType = MockGetPlaysByStreamType();
     mockApiGetPlaysByTop10Platforms = MockGetPlaysByTop10Platforms();
     mockApiGetPlaysByTop10Users = MockGetPlaysByTop10Users();
@@ -64,6 +69,7 @@ void main() {
       apiGetPlaysByDayOfWeek: mockApiGetPlaysByDayOfWeek,
       apiGetPlaysByHourOfDay: mockApiGetPlaysByHourOfDay,
       apiGetPlaysBySourceResolution: mockApiGetPlaysBySourceResolution,
+      apiGetPlaysByStreamResolution: mockApiGetPlaysByStreamResolution,
       apiGetPlaysByStreamType: mockApiGetPlaysByStreamType,
       apiGetPlaysByTop10Platforms: mockApiGetPlaysByTop10Platforms,
       apiGetPlaysByTop10Users: mockApiGetPlaysByTop10Users,
@@ -131,6 +137,20 @@ void main() {
   final tPlaysBySourceResolutionGraphData = GraphDataModel(
     categories: tPlaysBySourceResolutionCategories,
     seriesDataList: tPlaysBySourceResolutionSeriesDataList,
+  );
+
+  final playsByStreamResolutionJson =
+      json.decode(fixture('graphs_play_by_stream_resolution.json'));
+  final List<String> tPlaysByStreamResolutionCategories = List<String>.from(
+    playsByStreamResolutionJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tPlaysByStreamResolutionSeriesDataList = [];
+  playsByStreamResolutionJson['response']['data']['series'].forEach((item) {
+    tPlaysByStreamResolutionSeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tPlaysByStreamResolutionGraphData = GraphDataModel(
+    categories: tPlaysByStreamResolutionCategories,
+    seriesDataList: tPlaysByStreamResolutionSeriesDataList,
   );
 
   final playsByStreamTypeJson =
@@ -319,6 +339,55 @@ void main() {
       );
       // assert
       expect(result, equals(tPlaysByHourOfDayGraphData));
+    },
+  );
+
+  group('getPlayByStreamResolution', () {
+    test(
+      'should call [getPlaysByStreamResolution] from Tautulli API',
+      () async {
+        // arrange
+        when(mockApiGetPlaysByStreamResolution(
+          tautulliId: anyNamed('tautulliId'),
+          timeRange: anyNamed('timeRange'),
+          yAxis: anyNamed('yAxis'),
+          userId: anyNamed('userId'),
+          grouping: anyNamed('grouping'),
+          settingsBloc: anyNamed('settingsBloc'),
+        )).thenAnswer((_) async => playsByStreamResolutionJson);
+        // act
+        await dataSource.getPlaysByStreamResolution(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
+        // assert
+        verify(mockApiGetPlaysByStreamResolution(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        ));
+      },
+    );
+  });
+
+  test(
+    'should return a GraphsDataModel',
+    () async {
+      // arrange
+      when(mockApiGetPlaysByStreamResolution(
+        tautulliId: anyNamed('tautulliId'),
+        timeRange: anyNamed('timeRange'),
+        yAxis: anyNamed('yAxis'),
+        userId: anyNamed('userId'),
+        grouping: anyNamed('grouping'),
+        settingsBloc: anyNamed('settingsBloc'),
+      )).thenAnswer((_) async => playsByStreamResolutionJson);
+      // act
+      final result = await dataSource.getPlaysByStreamResolution(
+        tautulliId: tTautulliId,
+        settingsBloc: settingsBloc,
+      );
+      // assert
+      expect(result, equals(tPlaysByStreamResolutionGraphData));
     },
   );
 

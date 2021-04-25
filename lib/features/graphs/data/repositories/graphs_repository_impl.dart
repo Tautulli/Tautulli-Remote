@@ -139,6 +139,36 @@ class GraphsRepositoryImpl implements GraphsRepository {
   }
 
   @override
+  Future<Either<Failure, GraphData>> getPlaysByStreamResolution({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final graphData = await dataSource.getPlaysByStreamResolution(
+          tautulliId: tautulliId,
+          timeRange: timeRange,
+          yAxis: yAxis,
+          userId: userId,
+          grouping: grouping,
+          settingsBloc: settingsBloc,
+        );
+        return Right(graphData);
+      } catch (exception) {
+        final Failure failure =
+            FailureMapperHelper.mapExceptionToFailure(exception);
+        return (Left(failure));
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, GraphData>> getPlaysByStreamType({
     @required String tautulliId,
     int timeRange,
