@@ -1012,6 +1012,11 @@ Future<void> init() async {
       connectionHandler: sl(),
     ),
   );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByStreamResolution>(
+    () => tautulli_api.GetPlaysByStreamResolutionImpl(
+      connectionHandler: sl(),
+    ),
+  );
   sl.registerLazySingleton<tautulli_api.GetPlaysByStreamType>(
     () => tautulli_api.GetPlaysByStreamTypeImpl(
       connectionHandler: sl(),
