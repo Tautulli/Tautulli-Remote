@@ -13,6 +13,7 @@ import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_sou
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_stream_resolution.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_stream_type.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_stream_type_by_top_10_platforms.dart';
+import 'package:tautulli_remote/features/graphs/domain/usecases/get_stream_type_by_top_10_users.dart';
 import 'package:tautulli_remote/features/graphs/presentation/bloc/stream_info_graphs_bloc.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
@@ -31,6 +32,9 @@ class MockGetPlaysByStreamResolution extends Mock
 class MockGetStreamTypeByTop10Platforms extends Mock
     implements GetStreamTypeByTop10Platforms {}
 
+class MockGetStreamTypeByTop10Users extends Mock
+    implements GetStreamTypeByTop10Users {}
+
 class MockSettings extends Mock implements Settings {}
 
 class MockLogging extends Mock implements Logging {}
@@ -41,6 +45,7 @@ void main() {
   MockGetPlaysBySourceResolution mockGetPlaysBySourceResolution;
   MockGetPlaysByStreamResolution mockGetPlaysByStreamResolution;
   MockGetStreamTypeByTop10Platforms mockGetStreamTypeByTop10Platforms;
+  MockGetStreamTypeByTop10Users mockGetStreamTypeByTop10Users;
   MockSettings mockSettings;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
@@ -50,12 +55,14 @@ void main() {
     mockGetPlaysBySourceResolution = MockGetPlaysBySourceResolution();
     mockGetPlaysByStreamResolution = MockGetPlaysByStreamResolution();
     mockGetStreamTypeByTop10Platforms = MockGetStreamTypeByTop10Platforms();
+    mockGetStreamTypeByTop10Users = MockGetStreamTypeByTop10Users();
     mockLogging = MockLogging();
     bloc = StreamInfoGraphsBloc(
       getPlaysByStreamType: mockGetPlaysByStreamType,
       getPlaysBySourceResolution: mockGetPlaysBySourceResolution,
       getPlaysByStreamResolution: mockGetPlaysByStreamResolution,
       getStreamTypeByTop10Platforms: mockGetStreamTypeByTop10Platforms,
+      getStreamTypeByTop10Users: mockGetStreamTypeByTop10Users,
       logging: mockLogging,
     );
     mockSettings = MockSettings();
@@ -125,6 +132,20 @@ void main() {
     seriesDataList: tStreamTypeByTop10PlatformsSeriesDataList,
   );
 
+  final streamTypeByTop10UsersJson =
+      json.decode(fixture('graphs_stream_type_by_top_10_users.json'));
+  final List<String> tStreamTypeByTop10UsersCategories = List<String>.from(
+    streamTypeByTop10UsersJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tStreamTypeByTop10UsersSeriesDataList = [];
+  streamTypeByTop10UsersJson['response']['data']['series'].forEach((item) {
+    tStreamTypeByTop10UsersSeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tStreamTypeByTop10UsersGraphData = GraphDataModel(
+    categories: tStreamTypeByTop10UsersCategories,
+    seriesDataList: tStreamTypeByTop10UsersSeriesDataList,
+  );
+
   void setUpSuccess() {
     when(mockGetPlaysByStreamType(
       tautulliId: anyNamed('tautulliId'),
@@ -158,6 +179,14 @@ void main() {
       grouping: anyNamed('grouping'),
       settingsBloc: anyNamed('settingsBloc'),
     )).thenAnswer((_) async => Right(tStreamTypeByTop10PlatformsGraphData));
+    when(mockGetStreamTypeByTop10Users(
+      tautulliId: anyNamed('tautulliId'),
+      timeRange: anyNamed('timeRange'),
+      yAxis: anyNamed('yAxis'),
+      userId: anyNamed('userId'),
+      grouping: anyNamed('grouping'),
+      settingsBloc: anyNamed('settingsBloc'),
+    )).thenAnswer((_) async => Right(tStreamTypeByTop10UsersGraphData));
   }
 
   StreamInfoGraphsLoaded loadingState() {
@@ -185,11 +214,18 @@ void main() {
       graphCurrentState: GraphCurrentState.inProgress,
       graphType: GraphType.streamTypeByTop10Platforms,
     );
+    final streamTypeByTop10UsersGraphState = GraphState(
+      graphData: null,
+      yAxis: tYAxis,
+      graphCurrentState: GraphCurrentState.inProgress,
+      graphType: GraphType.streamTypeByTop10Users,
+    );
     final currentState = StreamInfoGraphsLoaded(
       playsByStreamType: playsByStreamTypeGraphState,
       playsBySourceResolution: playsBySourceResolutionGraphState,
       playsByStreamResolution: playsByStreamResolutionGraphState,
       streamTypeByTop10Platforms: streamTypeByTop10PlatformsGraphState,
+      streamTypeByTop10Users: streamTypeByTop10UsersGraphState,
     );
 
     return currentState;
@@ -337,6 +373,42 @@ void main() {
         // assert
         verify(
           mockGetStreamTypeByTop10Platforms(
+            tautulliId: anyNamed('tautulliId'),
+            timeRange: anyNamed('timeRange'),
+            yAxis: anyNamed('yAxis'),
+            userId: anyNamed('userId'),
+            grouping: anyNamed('grouping'),
+            settingsBloc: anyNamed('settingsBloc'),
+          ),
+        );
+      },
+    );
+
+    test(
+      'should get data from GetStreamTypeByTop10Users use case',
+      () async {
+        // arrange
+        setUpSuccess();
+        // act
+        bloc.add(
+          StreamInfoGraphsFetch(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          ),
+        );
+        await untilCalled(
+          mockGetStreamTypeByTop10Users(
+            tautulliId: anyNamed('tautulliId'),
+            timeRange: anyNamed('timeRange'),
+            yAxis: anyNamed('yAxis'),
+            userId: anyNamed('userId'),
+            grouping: anyNamed('grouping'),
+            settingsBloc: anyNamed('settingsBloc'),
+          ),
+        );
+        // assert
+        verify(
+          mockGetStreamTypeByTop10Users(
             tautulliId: anyNamed('tautulliId'),
             timeRange: anyNamed('timeRange'),
             yAxis: anyNamed('yAxis'),
@@ -613,6 +685,74 @@ void main() {
           StreamInfoGraphsLoadStreamTypeByTop10Platforms(
             tautulliId: tTautulliId,
             failureOrStreamTypeByTop10Platforms: Left(failure),
+            yAxis: tYAxis,
+          ),
+        );
+      },
+    );
+  });
+
+  group('StreamInfoGraphsLoadStreamTypeByTop10Users', () {
+    test(
+      'should emit [StreamInfoGraphLoaded] with streamTypeByTop10Users graphCurrentState as success when graph data is fetched successfully',
+      () async {
+        // arrange
+        final currentState = loadingState();
+        bloc.emit(currentState);
+        // assert later
+        final expected = [
+          currentState.copyWith(
+            streamTypeByTop10Users: GraphState(
+              graphData: tStreamTypeByTop10UsersGraphData,
+              yAxis: tYAxis,
+              graphCurrentState: GraphCurrentState.success,
+              graphType: GraphType.streamTypeByTop10Users,
+            ),
+          )
+        ];
+        // ignore: unawaited_futures
+        expectLater(bloc.stream, emitsInOrder(expected));
+        // act
+        bloc.add(
+          StreamInfoGraphsLoadStreamTypeByTop10Users(
+            tautulliId: tTautulliId,
+            failureOrStreamTypeByTop10Users:
+                Right(tStreamTypeByTop10UsersGraphData),
+            yAxis: tYAxis,
+          ),
+        );
+      },
+    );
+
+    test(
+      'should emit [StreamInfoGraphLoaded] with playsByStreamResolution graphCurrentState as failure when fetching graph data fails',
+      () async {
+        // arrange
+        final currentState = loadingState();
+        final failure = ServerFailure();
+        bloc.emit(currentState);
+        // assert later
+        final expected = [
+          currentState.copyWith(
+            streamTypeByTop10Users: GraphState(
+              graphData: null,
+              yAxis: tYAxis,
+              graphCurrentState: GraphCurrentState.failure,
+              graphType: GraphType.streamTypeByTop10Users,
+              failureMessage: FailureMapperHelper.mapFailureToMessage(failure),
+              failureSuggestion:
+                  FailureMapperHelper.mapFailureToSuggestion(failure),
+              failure: failure,
+            ),
+          )
+        ];
+        // ignore: unawaited_futures
+        expectLater(bloc.stream, emitsInOrder(expected));
+        // act
+        bloc.add(
+          StreamInfoGraphsLoadStreamTypeByTop10Users(
+            tautulliId: tTautulliId,
+            failureOrStreamTypeByTop10Users: Left(failure),
             yAxis: tYAxis,
           ),
         );

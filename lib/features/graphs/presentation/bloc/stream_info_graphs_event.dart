@@ -109,3 +109,22 @@ class StreamInfoGraphsLoadStreamTypeByTop10Platforms
         yAxis,
       ];
 }
+
+class StreamInfoGraphsLoadStreamTypeByTop10Users extends StreamInfoGraphsEvent {
+  final String tautulliId;
+  final Either<Failure, GraphData> failureOrStreamTypeByTop10Users;
+  final String yAxis;
+
+  StreamInfoGraphsLoadStreamTypeByTop10Users({
+    @required this.tautulliId,
+    @required this.failureOrStreamTypeByTop10Users,
+    @required this.yAxis,
+  });
+
+  @override
+  List<Object> get props => [
+        tautulliId,
+        failureOrStreamTypeByTop10Users,
+        yAxis,
+      ];
+}

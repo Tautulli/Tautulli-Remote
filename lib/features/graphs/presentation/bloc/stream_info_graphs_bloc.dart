@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:tautulli_remote/features/graphs/domain/usecases/get_stream_type_by_top_10_users.dart';
 import '../../domain/usecases/get_stream_type_by_top_10_platforms.dart';
 
 import '../../../../core/error/failure.dart';
@@ -23,6 +24,7 @@ GraphData _playsByStreamTypeCache;
 GraphData _playsBySourceResolutionCache;
 GraphData _playsByStreamResolutionCache;
 GraphData _streamTypeByTop10PlatformsCache;
+GraphData _streamTypeByTop10UsersCache;
 String _yAxisCache;
 int _timeRangeCache;
 
@@ -32,6 +34,7 @@ class StreamInfoGraphsBloc
   final GetPlaysBySourceResolution getPlaysBySourceResolution;
   final GetPlaysByStreamResolution getPlaysByStreamResolution;
   final GetStreamTypeByTop10Platforms getStreamTypeByTop10Platforms;
+  final GetStreamTypeByTop10Users getStreamTypeByTop10Users;
   final Logging logging;
 
   StreamInfoGraphsBloc({
@@ -39,6 +42,7 @@ class StreamInfoGraphsBloc
     @required this.getPlaysBySourceResolution,
     @required this.getPlaysByStreamResolution,
     @required this.getStreamTypeByTop10Platforms,
+    @required this.getStreamTypeByTop10Users,
     @required this.logging,
   }) : super(StreamInfoGraphsInitial(
           timeRange: _timeRangeCache,
@@ -81,11 +85,19 @@ class StreamInfoGraphsBloc
         graphType: GraphType.streamTypeByTop10Platforms,
       );
 
+      GraphState streamTypeByTop10UsersData = GraphState(
+        graphData: _streamTypeByTop10UsersCache,
+        yAxis: _yAxisCache,
+        graphCurrentState: GraphCurrentState.inProgress,
+        graphType: GraphType.streamTypeByTop10Users,
+      );
+
       yield StreamInfoGraphsLoaded(
         playsByStreamType: playsByStreamTypeData,
         playsBySourceResolution: playsBySourceResolutionData,
         playsByStreamResolution: playsByStreamResolutionData,
         streamTypeByTop10Platforms: streamTypeByTop10PlatformsData,
+        streamTypeByTop10Users: streamTypeByTop10UsersData,
       );
 
       await getPlaysByStreamType(
@@ -156,6 +168,23 @@ class StreamInfoGraphsBloc
           ),
         ),
       );
+
+      await getStreamTypeByTop10Users(
+        tautulliId: event.tautulliId,
+        timeRange: event.timeRange,
+        yAxis: event.yAxis,
+        userId: event.userId,
+        grouping: event.grouping,
+        settingsBloc: event.settingsBloc,
+      ).then(
+        (failureOrStreamTypeByTop10Users) => add(
+          StreamInfoGraphsLoadStreamTypeByTop10Users(
+            tautulliId: event.tautulliId,
+            failureOrStreamTypeByTop10Users: failureOrStreamTypeByTop10Users,
+            yAxis: event.yAxis,
+          ),
+        ),
+      );
     }
     if (event is StreamInfoGraphsLoadPlaysByStreamType) {
       if (currentState is StreamInfoGraphsLoaded) {
@@ -203,7 +232,7 @@ class StreamInfoGraphsBloc
         yield* event.failureOrPlaysBySourceResolution.fold(
           (failure) async* {
             logging.error(
-              'Graphs: Failed to load plays by stream type graph data',
+              'Graphs: Failed to load plays by source resolution graph data',
             );
 
             _playsBySourceResolutionCache = null;
@@ -244,7 +273,7 @@ class StreamInfoGraphsBloc
         yield* event.failureOrPlaysByStreamResolution.fold(
           (failure) async* {
             logging.error(
-              'Graphs: Failed to load plays by stream type graph data',
+              'Graphs: Failed to load plays by stream resolution graph data',
             );
 
             _playsByStreamResolutionCache = null;
@@ -285,7 +314,7 @@ class StreamInfoGraphsBloc
         yield* event.failureOrStreamTypeByTop10Platforms.fold(
           (failure) async* {
             logging.error(
-              'Graphs: Failed to load plays by stream type graph data',
+              'Graphs: Failed to load plays by platform stream type graph data',
             );
 
             _streamTypeByTop10PlatformsCache = null;
@@ -314,6 +343,47 @@ class StreamInfoGraphsBloc
                 graphData: graphData,
                 graphCurrentState: GraphCurrentState.success,
                 graphType: GraphType.streamTypeByTop10Platforms,
+                yAxis: event.yAxis,
+              ),
+            );
+          },
+        );
+      }
+    }
+    if (event is StreamInfoGraphsLoadStreamTypeByTop10Users) {
+      if (currentState is StreamInfoGraphsLoaded) {
+        yield* event.failureOrStreamTypeByTop10Users.fold(
+          (failure) async* {
+            logging.error(
+              'Graphs: Failed to load plays by user stream type graph data',
+            );
+
+            _streamTypeByTop10UsersCache = null;
+            _yAxisCache = event.yAxis;
+
+            yield currentState.copyWith(
+              streamTypeByTop10Users: GraphState(
+                graphData: _streamTypeByTop10UsersCache,
+                graphCurrentState: GraphCurrentState.failure,
+                graphType: GraphType.streamTypeByTop10Users,
+                yAxis: event.yAxis,
+                failureMessage:
+                    FailureMapperHelper.mapFailureToMessage(failure),
+                failureSuggestion:
+                    FailureMapperHelper.mapFailureToSuggestion(failure),
+                failure: failure,
+              ),
+            );
+          },
+          (graphData) async* {
+            _streamTypeByTop10UsersCache = graphData;
+            _yAxisCache = event.yAxis;
+
+            yield currentState.copyWith(
+              streamTypeByTop10Users: GraphState(
+                graphData: graphData,
+                graphCurrentState: GraphCurrentState.success,
+                graphType: GraphType.streamTypeByTop10Users,
                 yAxis: event.yAxis,
               ),
             );

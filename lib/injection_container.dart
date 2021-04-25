@@ -249,6 +249,7 @@ Future<void> init() async {
       getPlaysBySourceResolution: sl(),
       getPlaysByStreamResolution: sl(),
       getStreamTypeByTop10Platforms: sl(),
+      getStreamTypeByTop10Users: sl(),
       logging: sl(),
     ),
   );
