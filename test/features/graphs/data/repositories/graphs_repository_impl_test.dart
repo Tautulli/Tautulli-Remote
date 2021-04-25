@@ -161,6 +161,21 @@ void main() {
     seriesDataList: tPlaysByTop10UsersSeriesDataList,
   );
 
+  final streamTypeByTop10PlatformsJson =
+      json.decode(fixture('graphs_play_by_top_10_platforms.json'));
+  final List<String> tStreamTypeByTop10PlatformsCategories = List<String>.from(
+    streamTypeByTop10PlatformsJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tStreamTypeByTop10PlatformsSeriesDataList = [];
+  streamTypeByTop10PlatformsJson['response']['data']['series'].forEach((item) {
+    tStreamTypeByTop10PlatformsSeriesDataList
+        .add(SeriesDataModel.fromJson(item));
+  });
+  final tStreamTypeByTop10PlatformsGraphData = GraphDataModel(
+    categories: tStreamTypeByTop10PlatformsCategories,
+    seriesDataList: tStreamTypeByTop10PlatformsSeriesDataList,
+  );
+
   group('Get Plays By Date', () {
     test(
       'should check if device is online',
@@ -807,6 +822,88 @@ void main() {
           when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
           final result = await repository.getPlaysByTop10Users(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Left(ConnectionFailure())));
+        },
+      );
+    });
+  });
+
+  group('Get Stream Type By Top 10 Platforms', () {
+    test(
+      'should check if device is online',
+      () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        // act
+        await repository.getStreamTypeByTop10Platforms(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
+        // assert
+        verify(mockNetworkInfo.isConnected);
+      },
+    );
+
+    group('is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+
+      test(
+        'should call the data source getStreamTypeByTop10Platforms()',
+        () async {
+          // act
+          await repository.getStreamTypeByTop10Platforms(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          verify(
+            mockGraphsDataSource.getStreamTypeByTop10Platforms(
+              tautulliId: tTautulliId,
+              settingsBloc: settingsBloc,
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return GraphData when call to API is successful',
+        () async {
+          // arrange
+          when(
+            mockGraphsDataSource.getStreamTypeByTop10Platforms(
+              tautulliId: anyNamed('tautulliId'),
+              timeRange: anyNamed('timeRange'),
+              yAxis: anyNamed('yAxis'),
+              userId: anyNamed('userId'),
+              grouping: anyNamed('grouping'),
+              settingsBloc: anyNamed('settingsBloc'),
+            ),
+          ).thenAnswer((_) async => tStreamTypeByTop10PlatformsGraphData);
+          // act
+          final result = await repository.getStreamTypeByTop10Platforms(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Right(tStreamTypeByTop10PlatformsGraphData)));
+        },
+      );
+    });
+
+    group('device is offline', () {
+      test(
+        'should return a ConnectionFailure when there is no network connection',
+        () async {
+          // arrange
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+          // act
+          final result = await repository.getStreamTypeByTop10Platforms(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           );
