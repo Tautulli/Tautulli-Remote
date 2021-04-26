@@ -20,6 +20,7 @@ export 'get_plays_by_stream_resolution.dart';
 export 'get_plays_by_stream_type.dart';
 export 'get_plays_by_top_10_platforms.dart';
 export 'get_plays_by_top_10_users.dart';
+export 'get_plays_per_month.dart';
 export 'get_recently_added.dart';
 export 'get_server_info.dart';
 export 'get_settings.dart';
