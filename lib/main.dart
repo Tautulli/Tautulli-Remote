@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:package_info/package_info.dart';
 
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
@@ -37,7 +36,6 @@ class MyHttpOverrides extends HttpOverrides {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  InAppPurchaseConnection.enablePendingPurchases();
   await di.init();
 
   // Override global HttpClient to check for trusted cert hashes on certificate failure.
