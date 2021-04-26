@@ -441,7 +441,7 @@ class _StatusCard extends StatelessWidget {
                     color: Colors.grey,
                     fontSize: 16,
                   ),
-                  maxLines: 2,
+                  maxLines: 3,
                   overflow: TextOverflow.fade,
                 ),
               ),
