@@ -1,12 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../widgets/donate_header.dart';
 
-final List<String> productIds = ['ice_cream', 'pizza', 'hamburger', 'meal'];
+PurchaserInfo _purchaserInfo;
 
 class DonatePage extends StatelessWidget {
   const DonatePage({Key key}) : super(key: key);
@@ -33,9 +33,7 @@ class DonatePageContent extends StatefulWidget {
 }
 
 class _DonatePageContentState extends State<DonatePageContent> {
-  final InAppPurchaseConnection _connection = InAppPurchaseConnection.instance;
-  List<ProductDetails> _products = [];
-  StreamSubscription _subscription;
+  Offerings _offerings;
 
   @override
   void initState() {
@@ -44,58 +42,84 @@ class _DonatePageContentState extends State<DonatePageContent> {
   }
 
   void _initialize() async {
-    final _isAvailable = await _connection.isAvailable();
+    await Purchases.setDebugLogsEnabled(false);
+    await Purchases.setup('WsDdfMkeAPioBSKeFnrlusHzuWOeAOLv');
 
-    if (_isAvailable) {
-      await _getProducts();
+    PurchaserInfo purchaserInfo;
+    try {
+      purchaserInfo = await Purchases.getPurchaserInfo();
+    } on PlatformException catch (e) {
+      print(e);
     }
 
-    _subscription =
-        _connection.purchaseUpdatedStream.listen((purchaseDetailsList) {
-      purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) {
-        if (purchaseDetails.status == PurchaseStatus.purchased) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: PlexColorPalette.shark,
-              content: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: FaIcon(
-                      FontAwesomeIcons.solidHeart,
-                      color: Colors.red[400],
-                    ),
-                  ),
-                  const Text('Thank you for your donation!'),
-                ],
-              ),
-            ),
-          );
-        }
-      });
-    });
-  }
-
-  Future<void> _getProducts() async {
-    Set<String> ids = Set.from(productIds);
-    ProductDetailsResponse response =
-        await _connection.queryProductDetails(ids);
+    Offerings offerings;
+    try {
+      offerings = await Purchases.getOfferings();
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
 
     setState(() {
-      _products = response.productDetails;
+      _purchaserInfo = purchaserInfo;
+      _offerings = offerings;
     });
   }
 
-  void _buyProduct(ProductDetails prod) {
-    final PurchaseParam purchaseParam = PurchaseParam(productDetails: prod);
-    _connection.buyConsumable(purchaseParam: purchaseParam);
+  void _buyProduct(Package package) async {
+    try {
+      if (_purchaserInfo.activeSubscriptions.isNotEmpty) {
+        String activeSku = _purchaserInfo.activeSubscriptions[0];
+        _purchaserInfo = await Purchases.purchasePackage(
+          package,
+          upgradeInfo: UpgradeInfo(activeSku),
+        );
+        setState(() {
+          _purchaserInfo.activeSubscriptions.remove(activeSku);
+        });
+      } else {
+        _purchaserInfo = await Purchases.purchasePackage(package);
+      }
+      setState(() {
+        _purchaserInfo.activeSubscriptions.add(package.identifier);
+      });
+
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: PlexColorPalette.shark,
+          content: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: FaIcon(
+                  FontAwesomeIcons.solidHeart,
+                  color: Colors.red[400],
+                ),
+              ),
+              const Text('Thank you for your donation!'),
+            ],
+          ),
+        ),
+      );
+    } on PlatformException catch (e) {
+      var errorCode = PurchasesErrorHelper.getErrorCode(e);
+      if (errorCode == PurchasesErrorCode.purchaseCancelledError) {
+        // User cancelled
+      } else {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Theme.of(context).errorColor,
+            content: const Text('Something went wrong.'),
+          ),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final bool _hasProducts = _products.isNotEmpty;
-
     return Column(
       children: [
         const Divider(
@@ -132,83 +156,167 @@ class _DonatePageContentState extends State<DonatePageContent> {
           color: PlexColorPalette.gamboge,
         ),
         Expanded(
-          child: _hasProducts
-              ? ListView(
-                  children: [
-                    Card(
-                      child: ListTile(
-                        title: const Text('Buy Me A Cone'),
-                        subtitle: const Text('\$2.00'),
-                        trailing: const FaIcon(
-                          FontAwesomeIcons.iceCream,
-                          color: TautulliColorPalette.not_white,
+          child: _offerings == null
+              ? const Center(child: CircularProgressIndicator())
+              : _offerings.all.isNotEmpty
+                  ? ListView(
+                      children: [
+                        const DonateHeader(text: 'One-Time Donations'),
+                        Card(
+                          child: ListTile(
+                            title: const Text('Buy Me A Cone'),
+                            subtitle: const Text('\$1.99'),
+                            trailing: const FaIcon(
+                              FontAwesomeIcons.iceCream,
+                              color: TautulliColorPalette.not_white,
+                            ),
+                            onTap: () => _buyProduct(
+                              _offerings
+                                  .getOffering('default')
+                                  .getPackage('ice_cream'),
+                            ),
+                          ),
                         ),
-                        onTap: () => _buyProduct(
-                          _products.firstWhere((productDetails) =>
-                              productDetails.id == 'ice_cream'),
+                        Card(
+                          child: ListTile(
+                            title: const Text('Buy Me A Slice'),
+                            subtitle: const Text('\$3.49'),
+                            trailing: const FaIcon(
+                              FontAwesomeIcons.pizzaSlice,
+                              color: TautulliColorPalette.not_white,
+                            ),
+                            onTap: () => _buyProduct(
+                              _offerings
+                                  .getOffering('default')
+                                  .getPackage('pizza'),
+                            ),
+                          ),
                         ),
+                        Card(
+                          child: ListTile(
+                            title: const Text('Buy Me A Burger'),
+                            subtitle: const Text('\$4.99'),
+                            trailing: const FaIcon(
+                              FontAwesomeIcons.hamburger,
+                              color: TautulliColorPalette.not_white,
+                            ),
+                            onTap: () => _buyProduct(
+                              _offerings
+                                  .getOffering('default')
+                                  .getPackage('hamburger'),
+                            ),
+                          ),
+                        ),
+                        Card(
+                          child: ListTile(
+                            title: const Text('Buy Me A Meal'),
+                            subtitle: const Text('\$9.99'),
+                            trailing: const Icon(
+                              Icons.fastfood,
+                              color: TautulliColorPalette.not_white,
+                              size: 26,
+                            ),
+                            onTap: () => _buyProduct(
+                              _offerings
+                                  .getOffering('default')
+                                  .getPackage('meal'),
+                            ),
+                          ),
+                        ),
+                        const Divider(
+                          indent: 50,
+                          endIndent: 50,
+                          height: 50,
+                          color: PlexColorPalette.gamboge,
+                        ),
+                        const DonateHeader(text: 'Recurring Donations'),
+                        Card(
+                          child: ListTile(
+                            title: const Text('Tip Jar'),
+                            subtitle: const Text('\$0.99/month'),
+                            trailing: FaIcon(
+                              FontAwesomeIcons.donate,
+                              color: _purchaserInfo.activeSubscriptions
+                                      .contains('subscription_tier_1')
+                                  ? PlexColorPalette.atlantis
+                                  : TautulliColorPalette.not_white,
+                              size: 26,
+                            ),
+                            onTap: () => _buyProduct(
+                              _offerings
+                                  .getOffering('default')
+                                  .getPackage('subscription_tier_1'),
+                            ),
+                          ),
+                        ),
+                        Card(
+                          child: ListTile(
+                            title: const Text('Big Tip'),
+                            subtitle: const Text('\$1.99/month'),
+                            trailing: FaIcon(
+                              FontAwesomeIcons.donate,
+                              color: _purchaserInfo.activeSubscriptions
+                                      .contains('subscription_tier_2')
+                                  ? PlexColorPalette.atlantis
+                                  : TautulliColorPalette.not_white,
+                              size: 26,
+                            ),
+                            onTap: () => _buyProduct(
+                              _offerings
+                                  .getOffering('default')
+                                  .getPackage('subscription_tier_2'),
+                            ),
+                          ),
+                        ),
+                        Card(
+                          child: ListTile(
+                            title: const Text('Supporter'),
+                            subtitle: const Text('\$4.99/month'),
+                            trailing: FaIcon(
+                              FontAwesomeIcons.donate,
+                              color: _purchaserInfo.activeSubscriptions
+                                      .contains('subscription_tier_3')
+                                  ? PlexColorPalette.atlantis
+                                  : TautulliColorPalette.not_white,
+                              size: 26,
+                            ),
+                            onTap: () => _buyProduct(
+                              _offerings
+                                  .getOffering('default')
+                                  .getPackage('subscription_tier_3'),
+                            ),
+                          ),
+                        ),
+                        Card(
+                          child: ListTile(
+                            title: const Text('Patron'),
+                            subtitle: const Text('\$9.99/month'),
+                            trailing: FaIcon(
+                              FontAwesomeIcons.donate,
+                              color: _purchaserInfo.activeSubscriptions
+                                      .contains('subscription_tier_4')
+                                  ? PlexColorPalette.atlantis
+                                  : TautulliColorPalette.not_white,
+                              size: 26,
+                            ),
+                            onTap: () => _buyProduct(
+                              _offerings
+                                  .getOffering('default')
+                                  .getPackage('subscription_tier_4'),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : const Text(
+                      'Failed to load donation items.',
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    Card(
-                      child: ListTile(
-                        title: const Text('Buy Me A Slice'),
-                        subtitle: const Text('\$3.50'),
-                        trailing: const FaIcon(
-                          FontAwesomeIcons.pizzaSlice,
-                          color: TautulliColorPalette.not_white,
-                        ),
-                        onTap: () => _buyProduct(
-                          _products.firstWhere(
-                              (productDetails) => productDetails.id == 'pizza'),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      child: ListTile(
-                        title: const Text('Buy Me A Burger'),
-                        subtitle: const Text('\$5.00'),
-                        trailing: const FaIcon(
-                          FontAwesomeIcons.hamburger,
-                          color: TautulliColorPalette.not_white,
-                        ),
-                        onTap: () => _buyProduct(
-                          _products.firstWhere((productDetails) =>
-                              productDetails.id == 'hamburger'),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      child: ListTile(
-                        title: const Text('Buy Me A Meal'),
-                        subtitle: const Text('\$10.00'),
-                        trailing: const Icon(
-                          Icons.fastfood,
-                          color: TautulliColorPalette.not_white,
-                          size: 26,
-                        ),
-                        onTap: () => _buyProduct(
-                          _products.firstWhere(
-                              (productDetails) => productDetails.id == 'meal'),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              : const Text(
-                  'Donation items could not be loaded from the Google Play Store.',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
         ),
       ],
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _subscription.cancel();
   }
 }
