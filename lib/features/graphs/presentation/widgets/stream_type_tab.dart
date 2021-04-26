@@ -84,7 +84,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
               children: [
                 GraphHeading(
                   graphHeading:
-                      'Daily Stream Type ${widget.yAxis == 'plays' ? 'Count' : 'Duration'}',
+                      'Daily Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Stream Type',
                 ),
                 (state is StreamInfoGraphsLoaded &&
                         state.playsByStreamType.graphCurrentState !=
@@ -163,7 +163,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                 const SizedBox(height: 8),
                 GraphHeading(
                   graphHeading:
-                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Platform Stream Type',
+                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Platform and Stream Type',
                 ),
                 (state is StreamInfoGraphsLoaded &&
                         state.streamTypeByTop10Platforms.graphCurrentState !=
@@ -192,7 +192,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                 const SizedBox(height: 8),
                 GraphHeading(
                   graphHeading:
-                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by User Stream Type',
+                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by User and Stream Type',
                 ),
                 (state is StreamInfoGraphsLoaded &&
                         state.streamTypeByTop10Users.graphCurrentState !=

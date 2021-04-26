@@ -84,7 +84,7 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
               children: [
                 GraphHeading(
                   graphHeading:
-                      'Daily Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'}',
+                      'Daily Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Media Type',
                 ),
                 (state is MediaTypeGraphsLoaded &&
                         state.playsByDate.graphCurrentState !=
