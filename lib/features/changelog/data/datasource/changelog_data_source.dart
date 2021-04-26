@@ -1,6 +1,26 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.9.0",
+      "date": "April 26, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Graphs are here! View media type and stream type graphs on the new graphs page",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Updated donation backend and added recurring donation options, special thanks to those who have donated",
+        },
+        {
+          "type": "fix",
+          "detail": "Fixed 'View on Plex' action for photos, clips, and tracks",
+        },
+      ],
+    },
+    {
       "version": "v2.8.0",
       "date": "April 4, 2021",
       "changes": [
