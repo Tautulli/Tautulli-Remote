@@ -14,7 +14,7 @@ import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_str
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_plays_by_stream_type.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_stream_type_by_top_10_platforms.dart';
 import 'package:tautulli_remote/features/graphs/domain/usecases/get_stream_type_by_top_10_users.dart';
-import 'package:tautulli_remote/features/graphs/presentation/bloc/stream_info_graphs_bloc.dart';
+import 'package:tautulli_remote/features/graphs/presentation/bloc/stream_type_graphs_bloc.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
@@ -40,7 +40,7 @@ class MockSettings extends Mock implements Settings {}
 class MockLogging extends Mock implements Logging {}
 
 void main() {
-  StreamInfoGraphsBloc bloc;
+  StreamTypeGraphsBloc bloc;
   MockGetPlaysByStreamType mockGetPlaysByStreamType;
   MockGetPlaysBySourceResolution mockGetPlaysBySourceResolution;
   MockGetPlaysByStreamResolution mockGetPlaysByStreamResolution;
@@ -57,7 +57,7 @@ void main() {
     mockGetStreamTypeByTop10Platforms = MockGetStreamTypeByTop10Platforms();
     mockGetStreamTypeByTop10Users = MockGetStreamTypeByTop10Users();
     mockLogging = MockLogging();
-    bloc = StreamInfoGraphsBloc(
+    bloc = StreamTypeGraphsBloc(
       getPlaysByStreamType: mockGetPlaysByStreamType,
       getPlaysBySourceResolution: mockGetPlaysBySourceResolution,
       getPlaysByStreamResolution: mockGetPlaysByStreamResolution,
@@ -189,7 +189,7 @@ void main() {
     )).thenAnswer((_) async => Right(tStreamTypeByTop10UsersGraphData));
   }
 
-  StreamInfoGraphsLoaded loadingState() {
+  StreamTypeGraphsLoaded loadingState() {
     final playsByStreamTypeGraphState = GraphState(
       graphData: null,
       yAxis: tYAxis,
@@ -220,7 +220,7 @@ void main() {
       graphCurrentState: GraphCurrentState.inProgress,
       graphType: GraphType.streamTypeByTop10Users,
     );
-    final currentState = StreamInfoGraphsLoaded(
+    final currentState = StreamTypeGraphsLoaded(
       playsByStreamType: playsByStreamTypeGraphState,
       playsBySourceResolution: playsBySourceResolutionGraphState,
       playsByStreamResolution: playsByStreamResolutionGraphState,
@@ -232,14 +232,14 @@ void main() {
   }
 
   test(
-    'initialState should be StreamInfoGraphsInitial',
+    'initialState should be StreamTypeGraphsInitial',
     () async {
       // assert
-      expect(bloc.state, StreamInfoGraphsInitial());
+      expect(bloc.state, StreamTypeGraphsInitial());
     },
   );
 
-  group('StreamInfoGraphsFetch', () {
+  group('StreamTypeGraphsFetch', () {
     test(
       'should get data from GetPlaysByStreamType use case',
       () async {
@@ -247,7 +247,7 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(
-          StreamInfoGraphsFetch(
+          StreamTypeGraphsFetch(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           ),
@@ -283,7 +283,7 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(
-          StreamInfoGraphsFetch(
+          StreamTypeGraphsFetch(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           ),
@@ -319,7 +319,7 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(
-          StreamInfoGraphsFetch(
+          StreamTypeGraphsFetch(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           ),
@@ -355,7 +355,7 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(
-          StreamInfoGraphsFetch(
+          StreamTypeGraphsFetch(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           ),
@@ -391,7 +391,7 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(
-          StreamInfoGraphsFetch(
+          StreamTypeGraphsFetch(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           ),
@@ -421,9 +421,9 @@ void main() {
     );
   });
 
-  group('StreamInfoGraphsLoadPlaysByStreamType', () {
+  group('StreamTypeGraphsLoadPlaysByStreamType', () {
     test(
-      'should emit [StreamInfoGraphLoaded] with playsByStreamType graphCurrentState as success when graph data is fetched successfully',
+      'should emit [StreamTypeGraphLoaded] with playsByStreamType graphCurrentState as success when graph data is fetched successfully',
       () async {
         // arrange
         final currentState = loadingState();
@@ -443,7 +443,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          StreamInfoGraphsLoadPlaysByStreamType(
+          StreamTypeGraphsLoadPlaysByStreamType(
             tautulliId: tTautulliId,
             failureOrPlaysByStreamType: Right(tPlaysByStreamTypeGraphData),
             yAxis: tYAxis,
@@ -453,7 +453,7 @@ void main() {
     );
 
     test(
-      'should emit [StreamInfoGraphLoaded] with playsByStreamType graphCurrentState as failure when fetching graph data fails',
+      'should emit [StreamTypeGraphLoaded] with playsByStreamType graphCurrentState as failure when fetching graph data fails',
       () async {
         // arrange
         final currentState = loadingState();
@@ -478,7 +478,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          StreamInfoGraphsLoadPlaysByStreamType(
+          StreamTypeGraphsLoadPlaysByStreamType(
             tautulliId: tTautulliId,
             failureOrPlaysByStreamType: Left(failure),
             yAxis: tYAxis,
@@ -488,9 +488,9 @@ void main() {
     );
   });
 
-  group('StreamInfoGraphsLoadPlaysBySourceResolution', () {
+  group('StreamTypeGraphsLoadPlaysBySourceResolution', () {
     test(
-      'should emit [StreamInfoGraphLoaded] with playsBySourceResolution graphCurrentState as success when graph data is fetched successfully',
+      'should emit [StreamTypeGraphLoaded] with playsBySourceResolution graphCurrentState as success when graph data is fetched successfully',
       () async {
         // arrange
         final currentState = loadingState();
@@ -510,7 +510,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          StreamInfoGraphsLoadPlaysBySourceResolution(
+          StreamTypeGraphsLoadPlaysBySourceResolution(
             tautulliId: tTautulliId,
             failureOrPlaysBySourceResolution:
                 Right(tPlaysBySourceResolutionGraphData),
@@ -521,7 +521,7 @@ void main() {
     );
 
     test(
-      'should emit [StreamInfoGraphLoaded] with playsBySourceResolution graphCurrentState as failure when fetching graph data fails',
+      'should emit [StreamTypeGraphLoaded] with playsBySourceResolution graphCurrentState as failure when fetching graph data fails',
       () async {
         // arrange
         final currentState = loadingState();
@@ -546,7 +546,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          StreamInfoGraphsLoadPlaysBySourceResolution(
+          StreamTypeGraphsLoadPlaysBySourceResolution(
             tautulliId: tTautulliId,
             failureOrPlaysBySourceResolution: Left(failure),
             yAxis: tYAxis,
@@ -556,9 +556,9 @@ void main() {
     );
   });
 
-  group('StreamInfoGraphsLoadPlaysByStreamResolution', () {
+  group('StreamTypeGraphsLoadPlaysByStreamResolution', () {
     test(
-      'should emit [StreamInfoGraphLoaded] with playsByStreamResolution graphCurrentState as success when graph data is fetched successfully',
+      'should emit [StreamTypeGraphLoaded] with playsByStreamResolution graphCurrentState as success when graph data is fetched successfully',
       () async {
         // arrange
         final currentState = loadingState();
@@ -578,7 +578,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          StreamInfoGraphsLoadPlaysByStreamResolution(
+          StreamTypeGraphsLoadPlaysByStreamResolution(
             tautulliId: tTautulliId,
             failureOrPlaysByStreamResolution:
                 Right(tPlaysByStreamResolutionGraphData),
@@ -589,7 +589,7 @@ void main() {
     );
 
     test(
-      'should emit [StreamInfoGraphLoaded] with playsByStreamResolution graphCurrentState as failure when fetching graph data fails',
+      'should emit [StreamTypeGraphLoaded] with playsByStreamResolution graphCurrentState as failure when fetching graph data fails',
       () async {
         // arrange
         final currentState = loadingState();
@@ -614,7 +614,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          StreamInfoGraphsLoadPlaysByStreamResolution(
+          StreamTypeGraphsLoadPlaysByStreamResolution(
             tautulliId: tTautulliId,
             failureOrPlaysByStreamResolution: Left(failure),
             yAxis: tYAxis,
@@ -624,9 +624,9 @@ void main() {
     );
   });
 
-  group('StreamInfoGraphsLoadStreamTypeByTop10Platforms', () {
+  group('StreamTypeGraphsLoadStreamTypeByTop10Platforms', () {
     test(
-      'should emit [StreamInfoGraphLoaded] with streamTypeByTop10Platforms graphCurrentState as success when graph data is fetched successfully',
+      'should emit [StreamTypeGraphLoaded] with streamTypeByTop10Platforms graphCurrentState as success when graph data is fetched successfully',
       () async {
         // arrange
         final currentState = loadingState();
@@ -646,7 +646,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          StreamInfoGraphsLoadStreamTypeByTop10Platforms(
+          StreamTypeGraphsLoadStreamTypeByTop10Platforms(
             tautulliId: tTautulliId,
             failureOrStreamTypeByTop10Platforms:
                 Right(tStreamTypeByTop10PlatformsGraphData),
@@ -657,7 +657,7 @@ void main() {
     );
 
     test(
-      'should emit [StreamInfoGraphLoaded] with playsByStreamResolution graphCurrentState as failure when fetching graph data fails',
+      'should emit [StreamTypeGraphLoaded] with playsByStreamResolution graphCurrentState as failure when fetching graph data fails',
       () async {
         // arrange
         final currentState = loadingState();
@@ -682,7 +682,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          StreamInfoGraphsLoadStreamTypeByTop10Platforms(
+          StreamTypeGraphsLoadStreamTypeByTop10Platforms(
             tautulliId: tTautulliId,
             failureOrStreamTypeByTop10Platforms: Left(failure),
             yAxis: tYAxis,
@@ -692,9 +692,9 @@ void main() {
     );
   });
 
-  group('StreamInfoGraphsLoadStreamTypeByTop10Users', () {
+  group('StreamTypeGraphsLoadStreamTypeByTop10Users', () {
     test(
-      'should emit [StreamInfoGraphLoaded] with streamTypeByTop10Users graphCurrentState as success when graph data is fetched successfully',
+      'should emit [StreamTypeGraphLoaded] with streamTypeByTop10Users graphCurrentState as success when graph data is fetched successfully',
       () async {
         // arrange
         final currentState = loadingState();
@@ -714,7 +714,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          StreamInfoGraphsLoadStreamTypeByTop10Users(
+          StreamTypeGraphsLoadStreamTypeByTop10Users(
             tautulliId: tTautulliId,
             failureOrStreamTypeByTop10Users:
                 Right(tStreamTypeByTop10UsersGraphData),
@@ -725,7 +725,7 @@ void main() {
     );
 
     test(
-      'should emit [StreamInfoGraphLoaded] with playsByStreamResolution graphCurrentState as failure when fetching graph data fails',
+      'should emit [StreamTypeGraphLoaded] with playsByStreamResolution graphCurrentState as failure when fetching graph data fails',
       () async {
         // arrange
         final currentState = loadingState();
@@ -750,7 +750,7 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          StreamInfoGraphsLoadStreamTypeByTop10Users(
+          StreamTypeGraphsLoadStreamTypeByTop10Users(
             tautulliId: tTautulliId,
             failureOrStreamTypeByTop10Users: Left(failure),
             yAxis: tYAxis,

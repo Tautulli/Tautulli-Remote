@@ -17,8 +17,8 @@ import '../../domain/usecases/get_plays_by_source_resolution.dart';
 import '../../domain/usecases/get_plays_by_stream_resolution.dart';
 import '../../domain/usecases/get_plays_by_stream_type.dart';
 
-part 'stream_info_graphs_event.dart';
-part 'stream_info_graphs_state.dart';
+part 'stream_type_graphs_event.dart';
+part 'stream_type_graphs_state.dart';
 
 GraphData _playsByStreamTypeCache;
 GraphData _playsBySourceResolutionCache;
@@ -28,8 +28,8 @@ GraphData _streamTypeByTop10UsersCache;
 String _yAxisCache;
 int _timeRangeCache;
 
-class StreamInfoGraphsBloc
-    extends Bloc<StreamInfoGraphsEvent, StreamInfoGraphsState> {
+class StreamTypeGraphsBloc
+    extends Bloc<StreamTypeGraphsEvent, StreamTypeGraphsState> {
   final GetPlaysByStreamType getPlaysByStreamType;
   final GetPlaysBySourceResolution getPlaysBySourceResolution;
   final GetPlaysByStreamResolution getPlaysByStreamResolution;
@@ -37,24 +37,24 @@ class StreamInfoGraphsBloc
   final GetStreamTypeByTop10Users getStreamTypeByTop10Users;
   final Logging logging;
 
-  StreamInfoGraphsBloc({
+  StreamTypeGraphsBloc({
     @required this.getPlaysByStreamType,
     @required this.getPlaysBySourceResolution,
     @required this.getPlaysByStreamResolution,
     @required this.getStreamTypeByTop10Platforms,
     @required this.getStreamTypeByTop10Users,
     @required this.logging,
-  }) : super(StreamInfoGraphsInitial(
+  }) : super(StreamTypeGraphsInitial(
           timeRange: _timeRangeCache,
         ));
 
   @override
-  Stream<StreamInfoGraphsState> mapEventToState(
-    StreamInfoGraphsEvent event,
+  Stream<StreamTypeGraphsState> mapEventToState(
+    StreamTypeGraphsEvent event,
   ) async* {
     final currentState = state;
 
-    if (event is StreamInfoGraphsFetch) {
+    if (event is StreamTypeGraphsFetch) {
       _timeRangeCache = event.timeRange;
 
       GraphState playsByStreamTypeData = GraphState(
@@ -92,7 +92,7 @@ class StreamInfoGraphsBloc
         graphType: GraphType.streamTypeByTop10Users,
       );
 
-      yield StreamInfoGraphsLoaded(
+      yield StreamTypeGraphsLoaded(
         playsByStreamType: playsByStreamTypeData,
         playsBySourceResolution: playsBySourceResolutionData,
         playsByStreamResolution: playsByStreamResolutionData,
@@ -109,7 +109,7 @@ class StreamInfoGraphsBloc
         settingsBloc: event.settingsBloc,
       ).then(
         (failureOrPlaysByStreamType) => add(
-          StreamInfoGraphsLoadPlaysByStreamType(
+          StreamTypeGraphsLoadPlaysByStreamType(
             tautulliId: event.tautulliId,
             failureOrPlaysByStreamType: failureOrPlaysByStreamType,
             yAxis: event.yAxis,
@@ -126,7 +126,7 @@ class StreamInfoGraphsBloc
         settingsBloc: event.settingsBloc,
       ).then(
         (failureOrPlaysBySourceResolution) => add(
-          StreamInfoGraphsLoadPlaysBySourceResolution(
+          StreamTypeGraphsLoadPlaysBySourceResolution(
             tautulliId: event.tautulliId,
             failureOrPlaysBySourceResolution: failureOrPlaysBySourceResolution,
             yAxis: event.yAxis,
@@ -143,7 +143,7 @@ class StreamInfoGraphsBloc
         settingsBloc: event.settingsBloc,
       ).then(
         (failureOrPlaysByStreamResolution) => add(
-          StreamInfoGraphsLoadPlaysByStreamResolution(
+          StreamTypeGraphsLoadPlaysByStreamResolution(
             tautulliId: event.tautulliId,
             failureOrPlaysByStreamResolution: failureOrPlaysByStreamResolution,
             yAxis: event.yAxis,
@@ -160,7 +160,7 @@ class StreamInfoGraphsBloc
         settingsBloc: event.settingsBloc,
       ).then(
         (failureOrStreamTypeByTop10Platforms) => add(
-          StreamInfoGraphsLoadStreamTypeByTop10Platforms(
+          StreamTypeGraphsLoadStreamTypeByTop10Platforms(
             tautulliId: event.tautulliId,
             failureOrStreamTypeByTop10Platforms:
                 failureOrStreamTypeByTop10Platforms,
@@ -178,7 +178,7 @@ class StreamInfoGraphsBloc
         settingsBloc: event.settingsBloc,
       ).then(
         (failureOrStreamTypeByTop10Users) => add(
-          StreamInfoGraphsLoadStreamTypeByTop10Users(
+          StreamTypeGraphsLoadStreamTypeByTop10Users(
             tautulliId: event.tautulliId,
             failureOrStreamTypeByTop10Users: failureOrStreamTypeByTop10Users,
             yAxis: event.yAxis,
@@ -186,8 +186,8 @@ class StreamInfoGraphsBloc
         ),
       );
     }
-    if (event is StreamInfoGraphsLoadPlaysByStreamType) {
-      if (currentState is StreamInfoGraphsLoaded) {
+    if (event is StreamTypeGraphsLoadPlaysByStreamType) {
+      if (currentState is StreamTypeGraphsLoaded) {
         yield* event.failureOrPlaysByStreamType.fold(
           (failure) async* {
             logging.error(
@@ -227,8 +227,8 @@ class StreamInfoGraphsBloc
         );
       }
     }
-    if (event is StreamInfoGraphsLoadPlaysBySourceResolution) {
-      if (currentState is StreamInfoGraphsLoaded) {
+    if (event is StreamTypeGraphsLoadPlaysBySourceResolution) {
+      if (currentState is StreamTypeGraphsLoaded) {
         yield* event.failureOrPlaysBySourceResolution.fold(
           (failure) async* {
             logging.error(
@@ -268,8 +268,8 @@ class StreamInfoGraphsBloc
         );
       }
     }
-    if (event is StreamInfoGraphsLoadPlaysByStreamResolution) {
-      if (currentState is StreamInfoGraphsLoaded) {
+    if (event is StreamTypeGraphsLoadPlaysByStreamResolution) {
+      if (currentState is StreamTypeGraphsLoaded) {
         yield* event.failureOrPlaysByStreamResolution.fold(
           (failure) async* {
             logging.error(
@@ -309,8 +309,8 @@ class StreamInfoGraphsBloc
         );
       }
     }
-    if (event is StreamInfoGraphsLoadStreamTypeByTop10Platforms) {
-      if (currentState is StreamInfoGraphsLoaded) {
+    if (event is StreamTypeGraphsLoadStreamTypeByTop10Platforms) {
+      if (currentState is StreamTypeGraphsLoaded) {
         yield* event.failureOrStreamTypeByTop10Platforms.fold(
           (failure) async* {
             logging.error(
@@ -350,8 +350,8 @@ class StreamInfoGraphsBloc
         );
       }
     }
-    if (event is StreamInfoGraphsLoadStreamTypeByTop10Users) {
-      if (currentState is StreamInfoGraphsLoaded) {
+    if (event is StreamTypeGraphsLoadStreamTypeByTop10Users) {
+      if (currentState is StreamTypeGraphsLoaded) {
         yield* event.failureOrStreamTypeByTop10Users.fold(
           (failure) async* {
             logging.error(

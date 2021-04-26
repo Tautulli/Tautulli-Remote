@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/graph_state.dart';
-import '../bloc/stream_info_graphs_bloc.dart';
+import '../bloc/stream_type_graphs_bloc.dart';
 import 'bar_chart_graph.dart';
 import 'graph_error_message.dart';
 import 'graph_heading.dart';
@@ -31,7 +31,7 @@ class StreamTypeTab extends StatefulWidget {
 class _StreamTypeTabState extends State<StreamTypeTab> {
   Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
-  StreamInfoGraphsBloc _streamInfoGraphsBloc;
+  StreamTypeGraphsBloc _streamTypeGraphsBloc;
   bool _maskSensitiveInfo;
 
   @override
@@ -39,15 +39,15 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
     super.initState();
     _refreshCompleter = Completer<void>();
     _settingsBloc = context.read<SettingsBloc>();
-    _streamInfoGraphsBloc = context.read<StreamInfoGraphsBloc>();
+    _streamTypeGraphsBloc = context.read<StreamTypeGraphsBloc>();
 
     final settingsState = _settingsBloc.state;
 
     if (settingsState is SettingsLoadSuccess) {
       _maskSensitiveInfo = settingsState.maskSensitiveInfo;
 
-      _streamInfoGraphsBloc.add(
-        StreamInfoGraphsFetch(
+      _streamTypeGraphsBloc.add(
+        StreamTypeGraphsFetch(
           tautulliId: widget.tautulliId,
           timeRange: widget.timeRange,
           yAxis: widget.yAxis,
@@ -59,9 +59,9 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<StreamInfoGraphsBloc, StreamInfoGraphsState>(
+    return BlocConsumer<StreamTypeGraphsBloc, StreamTypeGraphsState>(
       listener: (context, state) {
-        if (state is StreamInfoGraphsLoaded) {
+        if (state is StreamTypeGraphsLoaded) {
           _refreshCompleter?.complete();
           _refreshCompleter = Completer();
         }
@@ -69,8 +69,8 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
       builder: (context, state) {
         return RefreshIndicator(
           onRefresh: () {
-            _streamInfoGraphsBloc.add(
-              StreamInfoGraphsFetch(
+            _streamTypeGraphsBloc.add(
+              StreamTypeGraphsFetch(
                 tautulliId: widget.tautulliId,
                 timeRange: widget.timeRange,
                 yAxis: widget.yAxis,
@@ -86,7 +86,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                   graphHeading:
                       'Daily Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Stream Type',
                 ),
-                (state is StreamInfoGraphsLoaded &&
+                (state is StreamTypeGraphsLoaded &&
                         state.playsByStreamType.graphCurrentState !=
                             GraphCurrentState.failure &&
                         state.playsByStreamType.graphData != null &&
@@ -96,7 +96,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                         dataIsMediaType: false,
                       )
                     : _GraphLoadingOrFailed(
-                        child: state is StreamInfoGraphsLoaded &&
+                        child: state is StreamTypeGraphsLoaded &&
                                 state.playsByStreamType.graphCurrentState ==
                                     GraphCurrentState.failure
                             ? GraphErrorMessage(
@@ -111,7 +111,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                   graphHeading:
                       'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Source Resolution',
                 ),
-                (state is StreamInfoGraphsLoaded &&
+                (state is StreamTypeGraphsLoaded &&
                         state.playsBySourceResolution.graphCurrentState !=
                             GraphCurrentState.failure &&
                         state.playsBySourceResolution.graphData != null &&
@@ -121,7 +121,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                         dataIsMediaType: false,
                       )
                     : _GraphLoadingOrFailed(
-                        child: state is StreamInfoGraphsLoaded &&
+                        child: state is StreamTypeGraphsLoaded &&
                                 state.playsBySourceResolution
                                         .graphCurrentState ==
                                     GraphCurrentState.failure
@@ -138,7 +138,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                   graphHeading:
                       'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Stream Resolution',
                 ),
-                (state is StreamInfoGraphsLoaded &&
+                (state is StreamTypeGraphsLoaded &&
                         state.playsByStreamResolution.graphCurrentState !=
                             GraphCurrentState.failure &&
                         state.playsByStreamResolution.graphData != null &&
@@ -148,7 +148,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                         dataIsMediaType: false,
                       )
                     : _GraphLoadingOrFailed(
-                        child: state is StreamInfoGraphsLoaded &&
+                        child: state is StreamTypeGraphsLoaded &&
                                 state.playsByStreamResolution
                                         .graphCurrentState ==
                                     GraphCurrentState.failure
@@ -165,7 +165,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                   graphHeading:
                       'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Platform and Stream Type',
                 ),
-                (state is StreamInfoGraphsLoaded &&
+                (state is StreamTypeGraphsLoaded &&
                         state.streamTypeByTop10Platforms.graphCurrentState !=
                             GraphCurrentState.failure &&
                         state.streamTypeByTop10Platforms.graphData != null &&
@@ -177,7 +177,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                         bottomTitlesMargin: 8,
                       )
                     : _GraphLoadingOrFailed(
-                        child: state is StreamInfoGraphsLoaded &&
+                        child: state is StreamTypeGraphsLoaded &&
                                 state.streamTypeByTop10Platforms
                                         .graphCurrentState ==
                                     GraphCurrentState.failure
@@ -194,7 +194,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                   graphHeading:
                       'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by User and Stream Type',
                 ),
-                (state is StreamInfoGraphsLoaded &&
+                (state is StreamTypeGraphsLoaded &&
                         state.streamTypeByTop10Users.graphCurrentState !=
                             GraphCurrentState.failure &&
                         state.streamTypeByTop10Users.graphData != null &&
@@ -207,7 +207,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                         maskSensitiveInfo: _maskSensitiveInfo,
                       )
                     : _GraphLoadingOrFailed(
-                        child: state is StreamInfoGraphsLoaded &&
+                        child: state is StreamTypeGraphsLoaded &&
                                 state.streamTypeByTop10Users
                                         .graphCurrentState ==
                                     GraphCurrentState.failure

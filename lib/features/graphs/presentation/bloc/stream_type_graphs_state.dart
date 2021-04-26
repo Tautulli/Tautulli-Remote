@@ -1,29 +1,29 @@
-part of 'stream_info_graphs_bloc.dart';
+part of 'stream_type_graphs_bloc.dart';
 
-abstract class StreamInfoGraphsState extends Equatable {
-  const StreamInfoGraphsState();
+abstract class StreamTypeGraphsState extends Equatable {
+  const StreamTypeGraphsState();
 
   @override
   List<Object> get props => [];
 }
 
-class StreamInfoGraphsInitial extends StreamInfoGraphsState {
+class StreamTypeGraphsInitial extends StreamTypeGraphsState {
   final int timeRange;
 
-  StreamInfoGraphsInitial({this.timeRange});
+  StreamTypeGraphsInitial({this.timeRange});
 
   @override
   List<Object> get props => [timeRange];
 }
 
-class StreamInfoGraphsLoaded extends StreamInfoGraphsState {
+class StreamTypeGraphsLoaded extends StreamTypeGraphsState {
   final GraphState playsByStreamType;
   final GraphState playsBySourceResolution;
   final GraphState playsByStreamResolution;
   final GraphState streamTypeByTop10Platforms;
   final GraphState streamTypeByTop10Users;
 
-  StreamInfoGraphsLoaded({
+  StreamTypeGraphsLoaded({
     @required this.playsByStreamType,
     @required this.playsBySourceResolution,
     @required this.playsByStreamResolution,
@@ -31,14 +31,14 @@ class StreamInfoGraphsLoaded extends StreamInfoGraphsState {
     @required this.streamTypeByTop10Users,
   });
 
-  StreamInfoGraphsLoaded copyWith({
+  StreamTypeGraphsLoaded copyWith({
     GraphState playsByStreamType,
     GraphState playsBySourceResolution,
     GraphState playsByStreamResolution,
     GraphState streamTypeByTop10Platforms,
     GraphState streamTypeByTop10Users,
   }) {
-    return StreamInfoGraphsLoaded(
+    return StreamTypeGraphsLoaded(
       playsByStreamType: playsByStreamType ?? this.playsByStreamType,
       playsBySourceResolution:
           playsBySourceResolution ?? this.playsBySourceResolution,

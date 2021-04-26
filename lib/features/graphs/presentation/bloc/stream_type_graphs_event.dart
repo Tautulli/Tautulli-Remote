@@ -1,13 +1,13 @@
-part of 'stream_info_graphs_bloc.dart';
+part of 'stream_type_graphs_bloc.dart';
 
-abstract class StreamInfoGraphsEvent extends Equatable {
-  const StreamInfoGraphsEvent();
+abstract class StreamTypeGraphsEvent extends Equatable {
+  const StreamTypeGraphsEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class StreamInfoGraphsFetch extends StreamInfoGraphsEvent {
+class StreamTypeGraphsFetch extends StreamTypeGraphsEvent {
   final String tautulliId;
   final int timeRange;
   final String yAxis;
@@ -15,7 +15,7 @@ class StreamInfoGraphsFetch extends StreamInfoGraphsEvent {
   final int grouping;
   final SettingsBloc settingsBloc;
 
-  StreamInfoGraphsFetch({
+  StreamTypeGraphsFetch({
     @required this.tautulliId,
     this.timeRange,
     this.yAxis,
@@ -35,12 +35,12 @@ class StreamInfoGraphsFetch extends StreamInfoGraphsEvent {
       ];
 }
 
-class StreamInfoGraphsLoadPlaysByStreamType extends StreamInfoGraphsEvent {
+class StreamTypeGraphsLoadPlaysByStreamType extends StreamTypeGraphsEvent {
   final String tautulliId;
   final Either<Failure, GraphData> failureOrPlaysByStreamType;
   final String yAxis;
 
-  StreamInfoGraphsLoadPlaysByStreamType({
+  StreamTypeGraphsLoadPlaysByStreamType({
     @required this.tautulliId,
     @required this.failureOrPlaysByStreamType,
     @required this.yAxis,
@@ -50,13 +50,13 @@ class StreamInfoGraphsLoadPlaysByStreamType extends StreamInfoGraphsEvent {
   List<Object> get props => [tautulliId, failureOrPlaysByStreamType, yAxis];
 }
 
-class StreamInfoGraphsLoadPlaysBySourceResolution
-    extends StreamInfoGraphsEvent {
+class StreamTypeGraphsLoadPlaysBySourceResolution
+    extends StreamTypeGraphsEvent {
   final String tautulliId;
   final Either<Failure, GraphData> failureOrPlaysBySourceResolution;
   final String yAxis;
 
-  StreamInfoGraphsLoadPlaysBySourceResolution({
+  StreamTypeGraphsLoadPlaysBySourceResolution({
     @required this.tautulliId,
     @required this.failureOrPlaysBySourceResolution,
     @required this.yAxis,
@@ -70,13 +70,13 @@ class StreamInfoGraphsLoadPlaysBySourceResolution
       ];
 }
 
-class StreamInfoGraphsLoadPlaysByStreamResolution
-    extends StreamInfoGraphsEvent {
+class StreamTypeGraphsLoadPlaysByStreamResolution
+    extends StreamTypeGraphsEvent {
   final String tautulliId;
   final Either<Failure, GraphData> failureOrPlaysByStreamResolution;
   final String yAxis;
 
-  StreamInfoGraphsLoadPlaysByStreamResolution({
+  StreamTypeGraphsLoadPlaysByStreamResolution({
     @required this.tautulliId,
     @required this.failureOrPlaysByStreamResolution,
     @required this.yAxis,
@@ -90,13 +90,13 @@ class StreamInfoGraphsLoadPlaysByStreamResolution
       ];
 }
 
-class StreamInfoGraphsLoadStreamTypeByTop10Platforms
-    extends StreamInfoGraphsEvent {
+class StreamTypeGraphsLoadStreamTypeByTop10Platforms
+    extends StreamTypeGraphsEvent {
   final String tautulliId;
   final Either<Failure, GraphData> failureOrStreamTypeByTop10Platforms;
   final String yAxis;
 
-  StreamInfoGraphsLoadStreamTypeByTop10Platforms({
+  StreamTypeGraphsLoadStreamTypeByTop10Platforms({
     @required this.tautulliId,
     @required this.failureOrStreamTypeByTop10Platforms,
     @required this.yAxis,
@@ -110,12 +110,12 @@ class StreamInfoGraphsLoadStreamTypeByTop10Platforms
       ];
 }
 
-class StreamInfoGraphsLoadStreamTypeByTop10Users extends StreamInfoGraphsEvent {
+class StreamTypeGraphsLoadStreamTypeByTop10Users extends StreamTypeGraphsEvent {
   final String tautulliId;
   final Either<Failure, GraphData> failureOrStreamTypeByTop10Users;
   final String yAxis;
 
-  StreamInfoGraphsLoadStreamTypeByTop10Users({
+  StreamTypeGraphsLoadStreamTypeByTop10Users({
     @required this.tautulliId,
     @required this.failureOrStreamTypeByTop10Users,
     @required this.yAxis,

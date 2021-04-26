@@ -14,7 +14,7 @@ import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/media_type_graphs_bloc.dart';
-import '../bloc/stream_info_graphs_bloc.dart';
+import '../bloc/stream_type_graphs_bloc.dart';
 import '../widgets/media_type_tab.dart';
 import '../widgets/stream_type_tab.dart';
 
@@ -30,8 +30,8 @@ class GraphsPage extends StatelessWidget {
         BlocProvider<MediaTypeGraphsBloc>(
           create: (context) => di.sl<MediaTypeGraphsBloc>(),
         ),
-        BlocProvider<StreamInfoGraphsBloc>(
-          create: (context) => di.sl<StreamInfoGraphsBloc>(),
+        BlocProvider<StreamTypeGraphsBloc>(
+          create: (context) => di.sl<StreamTypeGraphsBloc>(),
         ),
       ],
       child: _GraphsPageContent(),
@@ -50,7 +50,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
   final GlobalKey _timeRangeKey = GlobalKey();
   SettingsBloc _settingsBloc;
   MediaTypeGraphsBloc _mediaTypeGraphsBloc;
-  StreamInfoGraphsBloc _streamInfoGraphsBloc;
+  StreamTypeGraphsBloc _streamTypeGraphsBloc;
   String _tautulliId;
   int _timeRange;
   String _yAxis;
@@ -60,7 +60,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
     super.initState();
     _settingsBloc = context.read<SettingsBloc>();
     _mediaTypeGraphsBloc = context.read<MediaTypeGraphsBloc>();
-    _streamInfoGraphsBloc = context.read<StreamInfoGraphsBloc>();
+    _streamTypeGraphsBloc = context.read<StreamTypeGraphsBloc>();
 
     final mediaTypeGraphsState = _mediaTypeGraphsBloc.state;
     final settingsState = _settingsBloc.state;
@@ -144,8 +144,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                                 settingsBloc: _settingsBloc,
                               ),
                             );
-                            _streamInfoGraphsBloc.add(
-                              StreamInfoGraphsFetch(
+                            _streamTypeGraphsBloc.add(
+                              StreamTypeGraphsFetch(
                                 tautulliId: value,
                                 timeRange: _timeRange,
                                 yAxis: _yAxis,
@@ -179,13 +179,14 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                             ),
                           ),
                           BlocProvider.value(
-                            value: _streamInfoGraphsBloc,
+                            value: _streamTypeGraphsBloc,
                             child: StreamTypeTab(
                               tautulliId: _tautulliId,
                               timeRange: _timeRange,
                               yAxis: _yAxis,
                             ),
                           ),
+                          const Placeholder(),
                         ],
                       ),
                     ),
@@ -197,6 +198,9 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                         ),
                         Tab(
                           child: Text('Stream Type'),
+                        ),
+                        Tab(
+                          child: Text('Play Totals'),
                         ),
                       ],
                     ),
@@ -235,8 +239,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                 settingsBloc: _settingsBloc,
               ),
             );
-            _streamInfoGraphsBloc.add(
-              StreamInfoGraphsFetch(
+            _streamTypeGraphsBloc.add(
+              StreamTypeGraphsFetch(
                 tautulliId: _tautulliId,
                 timeRange: _timeRange,
                 yAxis: _yAxis,
@@ -325,8 +329,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                         settingsBloc: _settingsBloc,
                       ),
                     );
-                    _streamInfoGraphsBloc.add(
-                      StreamInfoGraphsFetch(
+                    _streamTypeGraphsBloc.add(
+                      StreamTypeGraphsFetch(
                         tautulliId: _tautulliId,
                         timeRange: _timeRange,
                         yAxis: _yAxis,
@@ -483,8 +487,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                       settingsBloc: _settingsBloc,
                     ),
                   );
-                  _streamInfoGraphsBloc.add(
-                    StreamInfoGraphsFetch(
+                  _streamTypeGraphsBloc.add(
+                    StreamTypeGraphsFetch(
                       tautulliId: _tautulliId,
                       timeRange: _timeRange,
                       yAxis: _yAxis,
