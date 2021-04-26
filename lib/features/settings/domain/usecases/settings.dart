@@ -158,6 +158,14 @@ class Settings {
     return repository.setStatsType(statsType);
   }
 
+  Future<String> getYAxis() async {
+    return await repository.getYAxis();
+  }
+
+  Future<bool> setYAxis(String yAxis) async {
+    return repository.setYAxis(yAxis);
+  }
+
   Future<String> getUsersSort() async {
     return await repository.getUsersSort();
   }

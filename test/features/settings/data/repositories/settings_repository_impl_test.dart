@@ -53,6 +53,7 @@ void main() {
   const bool tMaskSensitiveInfo = true;
   const String tTautulliId = 'jkl';
   const String tStatsType = 'duration';
+  const String tYAxis = 'duration';
   const String tUsersSort = 'friendly_name|asc';
   const bool tOneSignalBannerDismissed = false;
   const String tLastAppVersion = '2.1.5';
@@ -372,6 +373,30 @@ void main() {
         await repository.setStatsType(tStatsType);
         // assert
         verify(mockSettingsDataSource.setStatsType(tStatsType));
+      },
+    );
+  });
+
+  group('Y Axis', () {
+    test(
+      'should return the y axis from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getYAxis()).thenAnswer((_) async => tYAxis);
+        // act
+        final result = await repository.getYAxis();
+        // assert
+        expect(result, equals(tYAxis));
+      },
+    );
+
+    test(
+      'should forward the call to the data source to set stats type',
+      () async {
+        // act
+        await repository.setYAxis(tYAxis);
+        // assert
+        verify(mockSettingsDataSource.setYAxis(tYAxis));
       },
     );
   });

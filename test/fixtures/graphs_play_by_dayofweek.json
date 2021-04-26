@@ -1,0 +1,55 @@
+{
+    "response": {
+        "result": "success",
+        "message": null,
+        "data": {
+            "categories": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+            ],
+            "series": [
+                {
+                    "name": "TV",
+                    "data": [
+                        63,
+                        31,
+                        34,
+                        28,
+                        15,
+                        45,
+                        54
+                    ]
+                },
+                {
+                    "name": "Movies",
+                    "data": [
+                        7,
+                        5,
+                        4,
+                        4,
+                        2,
+                        1,
+                        8
+                    ]
+                },
+                {
+                    "name": "Music",
+                    "data": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        }
+    }
+}

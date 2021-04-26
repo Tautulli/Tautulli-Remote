@@ -80,6 +80,10 @@ abstract class SettingsRepository {
 
   Future<bool> setStatsType(String statsType);
 
+  Future<String> getYAxis();
+
+  Future<bool> setYAxis(String yAxis);
+
   Future<String> getUsersSort();
 
   Future<bool> setUsersSort(String usersSort);

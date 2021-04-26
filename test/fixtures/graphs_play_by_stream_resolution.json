@@ -1,0 +1,43 @@
+{
+    "response": {
+        "result": "success",
+        "message": null,
+        "data": {
+            "categories": [
+                "1080p",
+                "720p",
+                "SD",
+                "480p"
+            ],
+            "series": [
+                {
+                    "name": "Direct Play",
+                    "data": [
+                        40,
+                        6,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "name": "Direct Stream",
+                    "data": [
+                        18,
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "name": "Transcode",
+                    "data": [
+                        38,
+                        24,
+                        5,
+                        1
+                    ]
+                }
+            ]
+        }
+    }
+}

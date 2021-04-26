@@ -94,6 +94,7 @@ void main() {
   const bool tDoubleTapToExit = true;
   const bool tMaskSensitiveInfo = true;
   const String tStatsType = 'duration';
+  const String tYAxis = 'duration';
   const String tUsersSort = 'friendly_name|asc';
   const bool tOneSignalBannerDismissed = false;
 
@@ -114,6 +115,7 @@ void main() {
     when(mockSettings.getLastSelectedServer())
         .thenAnswer((_) async => tTautulliId);
     when(mockSettings.getStatsType()).thenAnswer((_) async => tStatsType);
+    when(mockSettings.getYAxis()).thenAnswer((_) async => tYAxis);
     when(mockSettings.getPlexServerInfo(
       tautulliId: anyNamed('tautulliId'),
       settingsBloc: anyNamed('settingsBloc'),
@@ -162,6 +164,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -186,6 +189,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -238,6 +242,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -273,6 +278,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -351,6 +357,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -391,6 +398,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -426,6 +434,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -456,6 +465,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -520,6 +530,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -551,6 +562,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -615,6 +627,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -646,6 +659,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -696,6 +710,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -727,6 +742,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -778,6 +794,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               sortChanged: '0:0:1',
@@ -807,6 +824,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -843,6 +861,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -869,6 +888,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -899,6 +919,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -923,6 +944,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -951,6 +973,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -973,6 +996,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -1001,6 +1025,7 @@ void main() {
               maskSensitiveInfo: false,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -1023,6 +1048,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -1051,6 +1077,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId2,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -1073,6 +1100,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -1101,6 +1129,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: 'plays',
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -1109,6 +1138,58 @@ void main() {
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(SettingsUpdateStatsType(statsType: 'plays'));
+        },
+      );
+    });
+    group('SettingsUpdateYAxis', () {
+      setUp(() {
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+            yAxis: tYAxis,
+            usersSort: tUsersSort,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
+          ),
+        );
+      });
+      test(
+        'should call the Settings.setYAxis() use case',
+        () async {
+          // act
+          bloc.add(SettingsUpdateYAxis(yAxis: 'plays'));
+          await untilCalled(mockSettings.setYAxis('plays'));
+          // assert
+          verify(mockSettings.setYAxis('plays'));
+        },
+      );
+      test(
+        'should emit [SettingsLoadSuccess] after updating the y axis',
+        () async {
+          // assert later
+          final expected = [
+            SettingsLoadSuccess(
+              serverList: tServerList,
+              serverTimeout: tServerTimeout,
+              refreshRate: tRefreshRate,
+              doubleTapToExit: tDoubleTapToExit,
+              maskSensitiveInfo: tMaskSensitiveInfo,
+              lastSelectedServer: tTautulliId,
+              statsType: tStatsType,
+              yAxis: 'plays',
+              usersSort: tUsersSort,
+              oneSignalBannerDismissed: tOneSignalBannerDismissed,
+            ),
+          ];
+          // ignore: unawaited_futures
+          expectLater(bloc.stream, emitsInOrder(expected));
+          // act
+          bloc.add(SettingsUpdateYAxis(yAxis: 'plays'));
         },
       );
     });
@@ -1123,6 +1204,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -1151,6 +1233,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: 'friendly_name|desc',
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
             ),
@@ -1173,6 +1256,7 @@ void main() {
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
+            yAxis: tYAxis,
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
           ),
@@ -1201,6 +1285,7 @@ void main() {
               maskSensitiveInfo: tMaskSensitiveInfo,
               lastSelectedServer: tTautulliId,
               statsType: tStatsType,
+              yAxis: tYAxis,
               usersSort: tUsersSort,
               oneSignalBannerDismissed: true,
             ),

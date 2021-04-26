@@ -398,6 +398,43 @@ void main() {
     );
   });
 
+  group('Y Axis', () {
+    test(
+      'should return String from settings',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getString(Y_AXIS)).thenReturn('duration');
+        // act
+        final yAxis = await dataSource.getYAxis();
+        // assert
+        verify(mockSharedPreferences.getString(Y_AXIS));
+        expect(yAxis, equals('duration'));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(mockSharedPreferences.getString(Y_AXIS)).thenReturn(null);
+        // act
+        final yAxis = await dataSource.getYAxis();
+        // assert
+        expect(yAxis, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the stats type',
+      () async {
+        // act
+        await dataSource.setYAxis('duration');
+        // assert
+        verify(mockSharedPreferences.setString(Y_AXIS, 'duration'));
+      },
+    );
+  });
+
   group('Users Sort', () {
     test(
       'should return String from settings',

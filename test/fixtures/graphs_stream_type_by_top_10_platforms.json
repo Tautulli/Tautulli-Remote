@@ -1,0 +1,63 @@
+{
+    "response": {
+        "result": "success",
+        "message": null,
+        "data": {
+            "categories": [
+                "Chrome",
+                "Roku",
+                "Chromecast",
+                "tvOS",
+                "Android",
+                "Xbox",
+                "PlayStation",
+                "Firefox",
+                "macOS"
+            ],
+            "series": [
+                {
+                    "name": "Direct Play",
+                    "data": [
+                        3,
+                        42,
+                        3,
+                        3,
+                        11,
+                        11,
+                        0,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "name": "Direct Stream",
+                    "data": [
+                        9,
+                        0,
+                        0,
+                        7,
+                        8,
+                        0,
+                        0,
+                        1,
+                        0
+                    ]
+                },
+                {
+                    "name": "Transcode",
+                    "data": [
+                        149,
+                        29,
+                        22,
+                        11,
+                        0,
+                        0,
+                        4,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        }
+    }
+}

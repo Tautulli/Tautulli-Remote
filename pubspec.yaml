@@ -34,6 +34,7 @@ dependencies:
   f_logs: ^1.2.2
   filesize: ^1.0.4
   firebase_core: ^0.7.0
+  fl_chart: ^0.35.0
   flutter_barcode_scanner: ^1.0.2
   flutter_bloc: ^7.0.0
   flutter_slidable: ^0.5.7

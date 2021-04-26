@@ -22,6 +22,21 @@ import 'features/announcements/data/repositories/announcements_repository_impl.d
 import 'features/announcements/domain/repositories/announcements_repository.dart';
 import 'features/announcements/domain/usecases/get_announcements.dart';
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
+import 'features/graphs/data/datasources/graphs_data_source.dart';
+import 'features/graphs/data/repositories/graphs_repository_impl.dart';
+import 'features/graphs/domain/repositories/graphs_repository.dart';
+import 'features/graphs/domain/usecases/get_plays_by_date.dart';
+import 'features/graphs/domain/usecases/get_plays_by_day_of_week.dart';
+import 'features/graphs/domain/usecases/get_plays_by_hour_of_day.dart';
+import 'features/graphs/domain/usecases/get_plays_by_source_resolution.dart';
+import 'features/graphs/domain/usecases/get_plays_by_stream_resolution.dart';
+import 'features/graphs/domain/usecases/get_plays_by_stream_type.dart';
+import 'features/graphs/domain/usecases/get_plays_by_top_10_platforms.dart';
+import 'features/graphs/domain/usecases/get_plays_by_top_10_users.dart';
+import 'features/graphs/domain/usecases/get_stream_type_by_top_10_platforms.dart';
+import 'features/graphs/domain/usecases/get_stream_type_by_top_10_users.dart';
+import 'features/graphs/presentation/bloc/media_type_graphs_bloc.dart';
+import 'features/graphs/presentation/bloc/stream_info_graphs_bloc.dart';
 import 'features/history/data/datasources/history_data_source.dart';
 import 'features/history/data/repositories/history_repository_impl.dart';
 import 'features/history/domain/repositories/history_repository.dart';
@@ -212,6 +227,115 @@ Future<void> init() async {
   sl.registerLazySingleton<AnnouncementsDataSource>(
     () => AnnouncementsDataSourceImpl(
       client: sl(),
+    ),
+  );
+
+  //! Features = Graphs
+  //Bloc
+  sl.registerFactory(
+    () => MediaTypeGraphsBloc(
+      getPlaysByDate: sl(),
+      getPlaysByDayOfWeek: sl(),
+      getPlaysByHourOfDay: sl(),
+      getPlaysByTop10Platforms: sl(),
+      getPlaysByTop10Users: sl(),
+      logging: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => StreamInfoGraphsBloc(
+      getPlaysByStreamType: sl(),
+      getPlaysBySourceResolution: sl(),
+      getPlaysByStreamResolution: sl(),
+      getStreamTypeByTop10Platforms: sl(),
+      getStreamTypeByTop10Users: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => GetPlaysByDate(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetPlaysByDayOfWeek(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetPlaysByHourOfDay(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetPlaysBySourceResolution(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetPlaysByStreamResolution(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetPlaysByStreamType(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetPlaysByTop10Platforms(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetPlaysByTop10Users(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetStreamTypeByTop10Platforms(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton(
+    () => GetStreamTypeByTop10Users(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<GraphsRepository>(
+    () => GraphsRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data source
+  sl.registerLazySingleton<GraphsDataSource>(
+    () => GraphsDataSourceImpl(
+      apiGetPlaysByDate: sl(),
+      apiGetPlaysByDayOfWeek: sl(),
+      apiGetPlaysByHourOfDay: sl(),
+      apiGetPlaysBySourceResolution: sl(),
+      apiGetPlaysByStreamResolution: sl(),
+      apiGetPlaysByStreamType: sl(),
+      apiGetPlaysByTop10Platforms: sl(),
+      apiGetPlaysByTop10Users: sl(),
+      apiGetStreamTypeByTop10Platforms: sl(),
+      apiGetStreamTypeByTop10Users: sl(),
     ),
   );
 
@@ -823,7 +947,7 @@ Future<void> init() async {
     ),
   );
 
-  // API
+  //! API
   sl.registerLazySingleton<tautulli_api.ConnectionHandler>(
     () => tautulli_api.ConnectionHandlerImpl(
       callTautulli: sl(),
@@ -895,6 +1019,46 @@ Future<void> init() async {
       connectionHandler: sl(),
     ),
   );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByDate>(
+    () => tautulli_api.GetPlaysByDateImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByDayOfWeek>(
+    () => tautulli_api.GetPlaysByDayOfWeekImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByHourOfDay>(
+    () => tautulli_api.GetPlaysByHourOfDayImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysBySourceResolution>(
+    () => tautulli_api.GetPlaysBySourceResolutionImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByStreamResolution>(
+    () => tautulli_api.GetPlaysByStreamResolutionImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByStreamType>(
+    () => tautulli_api.GetPlaysByStreamTypeImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByTop10Platforms>(
+    () => tautulli_api.GetPlaysByTop10PlatformsImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByTop10Users>(
+    () => tautulli_api.GetPlaysByTop10UsersImpl(
+      connectionHandler: sl(),
+    ),
+  );
   sl.registerLazySingleton<tautulli_api.GetRecentlyAdded>(
     () => tautulli_api.GetRecentlyAddedImpl(
       connectionHandler: sl(),
@@ -907,6 +1071,16 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.GetSettings>(
     () => tautulli_api.GetSettingsImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulli_api.GetStreamTypeByTop10Platforms>(
+    () => tautulli_api.GetStreamTypeByTop10PlatformsImpl(
+      connectionHandler: sl(),
+    ),
+  );
+  sl.registerLazySingleton<tautulli_api.GetStreamTypeByTop10Users>(
+    () => tautulli_api.GetStreamTypeByTop10UsersImpl(
       connectionHandler: sl(),
     ),
   );
