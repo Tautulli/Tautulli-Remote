@@ -97,6 +97,15 @@ abstract class GraphsDataSource {
     int grouping,
     @required SettingsBloc settingsBloc,
   });
+
+  Future<GraphData> getPlaysPerMonth({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  });
 }
 
 class GraphsDataSourceImpl implements GraphsDataSource {
@@ -111,6 +120,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   final tautulli_api.GetStreamTypeByTop10Platforms
       apiGetStreamTypeByTop10Platforms;
   final tautulli_api.GetStreamTypeByTop10Users apiGetStreamTypeByTop10Users;
+  final tautulli_api.GetPlaysPerMonth apiGetPlaysPerMonth;
 
   GraphsDataSourceImpl({
     @required this.apiGetPlaysByDate,
@@ -123,6 +133,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     @required this.apiGetPlaysByTop10Users,
     @required this.apiGetStreamTypeByTop10Platforms,
     @required this.apiGetStreamTypeByTop10Users,
+    @required this.apiGetPlaysPerMonth,
   });
 
   @override
@@ -438,6 +449,38 @@ class GraphsDataSourceImpl implements GraphsDataSource {
     );
     List<SeriesData> seriesDataList = [];
     streamTypeByTop10UsersJson['response']['data']['series'].forEach((item) {
+      seriesDataList.add(SeriesDataModel.fromJson(item));
+    });
+
+    return GraphDataModel(
+      categories: categories,
+      seriesDataList: seriesDataList,
+    );
+  }
+
+  @override
+  Future<GraphData> getPlaysPerMonth({
+    @required String tautulliId,
+    int timeRange,
+    String yAxis,
+    int userId,
+    int grouping,
+    @required SettingsBloc settingsBloc,
+  }) async {
+    final playsPerMonthJson = await apiGetPlaysPerMonth(
+      tautulliId: tautulliId,
+      timeRange: timeRange,
+      yAxis: yAxis,
+      userId: userId,
+      grouping: grouping,
+      settingsBloc: settingsBloc,
+    );
+
+    List<String> categories = List<String>.from(
+      playsPerMonthJson['response']['data']['categories'],
+    );
+    List<SeriesData> seriesDataList = [];
+    playsPerMonthJson['response']['data']['series'].forEach((item) {
       seriesDataList.add(SeriesDataModel.fromJson(item));
     });
 

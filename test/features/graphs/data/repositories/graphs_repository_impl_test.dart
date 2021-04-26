@@ -189,6 +189,20 @@ void main() {
     seriesDataList: tStreamTypeByTop10UsersSeriesDataList,
   );
 
+  final playsPerMonthJson =
+      json.decode(fixture('graphs_stream_type_by_top_10_users.json'));
+  final List<String> tPlaysPerMonthCategories = List<String>.from(
+    playsPerMonthJson['response']['data']['categories'],
+  );
+  final List<SeriesData> tPlaysPerMonthSeriesDataList = [];
+  playsPerMonthJson['response']['data']['series'].forEach((item) {
+    tPlaysPerMonthSeriesDataList.add(SeriesDataModel.fromJson(item));
+  });
+  final tPlaysPerMonthGraphData = GraphDataModel(
+    categories: tPlaysPerMonthCategories,
+    seriesDataList: tPlaysPerMonthSeriesDataList,
+  );
+
   group('Get Plays By Date', () {
     test(
       'should check if device is online',
@@ -999,6 +1013,88 @@ void main() {
           when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
           // act
           final result = await repository.getStreamTypeByTop10Users(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Left(ConnectionFailure())));
+        },
+      );
+    });
+  });
+
+  group('Get Plays Per Month', () {
+    test(
+      'should check if device is online',
+      () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        // act
+        await repository.getPlaysPerMonth(
+          tautulliId: tTautulliId,
+          settingsBloc: settingsBloc,
+        );
+        // assert
+        verify(mockNetworkInfo.isConnected);
+      },
+    );
+
+    group('is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+
+      test(
+        'should call the data source getPlaysPerMonth()',
+        () async {
+          // act
+          await repository.getPlaysPerMonth(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          verify(
+            mockGraphsDataSource.getPlaysPerMonth(
+              tautulliId: tTautulliId,
+              settingsBloc: settingsBloc,
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return GraphData when call to API is successful',
+        () async {
+          // arrange
+          when(
+            mockGraphsDataSource.getPlaysPerMonth(
+              tautulliId: anyNamed('tautulliId'),
+              timeRange: anyNamed('timeRange'),
+              yAxis: anyNamed('yAxis'),
+              userId: anyNamed('userId'),
+              grouping: anyNamed('grouping'),
+              settingsBloc: anyNamed('settingsBloc'),
+            ),
+          ).thenAnswer((_) async => tPlaysPerMonthGraphData);
+          // act
+          final result = await repository.getPlaysPerMonth(
+            tautulliId: tTautulliId,
+            settingsBloc: settingsBloc,
+          );
+          // assert
+          expect(result, equals(Right(tPlaysPerMonthGraphData)));
+        },
+      );
+    });
+
+    group('device is offline', () {
+      test(
+        'should return a ConnectionFailure when there is no network connection',
+        () async {
+          // arrange
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+          // act
+          final result = await repository.getPlaysPerMonth(
             tautulliId: tTautulliId,
             settingsBloc: settingsBloc,
           );
