@@ -12,12 +12,12 @@ import 'graph_error_message.dart';
 import 'graph_heading.dart';
 import 'line_chart_graph.dart';
 
-class StreamInfoTab extends StatefulWidget {
+class StreamTypeTab extends StatefulWidget {
   final String tautulliId;
   final int timeRange;
   final String yAxis;
 
-  StreamInfoTab({
+  StreamTypeTab({
     Key key,
     @required this.tautulliId,
     @required this.timeRange,
@@ -25,10 +25,10 @@ class StreamInfoTab extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _StreamInfoTabState createState() => _StreamInfoTabState();
+  _StreamTypeTabState createState() => _StreamTypeTabState();
 }
 
-class _StreamInfoTabState extends State<StreamInfoTab> {
+class _StreamTypeTabState extends State<StreamTypeTab> {
   Completer<void> _refreshCompleter;
   SettingsBloc _settingsBloc;
   StreamInfoGraphsBloc _streamInfoGraphsBloc;

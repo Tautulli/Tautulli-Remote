@@ -16,7 +16,7 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/media_type_graphs_bloc.dart';
 import '../bloc/stream_info_graphs_bloc.dart';
 import '../widgets/media_type_tab.dart';
-import '../widgets/stream_info_tab.dart';
+import '../widgets/stream_type_tab.dart';
 
 class GraphsPage extends StatelessWidget {
   const GraphsPage({Key key}) : super(key: key);
@@ -180,7 +180,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                           ),
                           BlocProvider.value(
                             value: _streamInfoGraphsBloc,
-                            child: StreamInfoTab(
+                            child: StreamTypeTab(
                               tautulliId: _tautulliId,
                               timeRange: _timeRange,
                               yAxis: _yAxis,
@@ -196,7 +196,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                           child: Text('Media Type'),
                         ),
                         Tab(
-                          child: Text('Stream Info'),
+                          child: Text('Stream Type'),
                         ),
                       ],
                     ),
