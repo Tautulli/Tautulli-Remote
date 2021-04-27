@@ -33,10 +33,12 @@ import 'features/graphs/domain/usecases/get_plays_by_stream_resolution.dart';
 import 'features/graphs/domain/usecases/get_plays_by_stream_type.dart';
 import 'features/graphs/domain/usecases/get_plays_by_top_10_platforms.dart';
 import 'features/graphs/domain/usecases/get_plays_by_top_10_users.dart';
+import 'features/graphs/domain/usecases/get_plays_per_month.dart';
 import 'features/graphs/domain/usecases/get_stream_type_by_top_10_platforms.dart';
 import 'features/graphs/domain/usecases/get_stream_type_by_top_10_users.dart';
 import 'features/graphs/presentation/bloc/media_type_graphs_bloc.dart';
-import 'features/graphs/presentation/bloc/stream_info_graphs_bloc.dart';
+import 'features/graphs/presentation/bloc/play_totals_graphs_bloc.dart';
+import 'features/graphs/presentation/bloc/stream_type_graphs_bloc.dart';
 import 'features/history/data/datasources/history_data_source.dart';
 import 'features/history/data/repositories/history_repository_impl.dart';
 import 'features/history/domain/repositories/history_repository.dart';
@@ -244,12 +246,19 @@ Future<void> init() async {
   );
 
   sl.registerFactory(
-    () => StreamInfoGraphsBloc(
+    () => StreamTypeGraphsBloc(
       getPlaysByStreamType: sl(),
       getPlaysBySourceResolution: sl(),
       getPlaysByStreamResolution: sl(),
       getStreamTypeByTop10Platforms: sl(),
       getStreamTypeByTop10Users: sl(),
+      logging: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => PlayTotalsGraphsBloc(
+      getPlaysPerMonth: sl(),
       logging: sl(),
     ),
   );
@@ -315,6 +324,12 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerLazySingleton(
+    () => GetPlaysPerMonth(
+      repository: sl(),
+    ),
+  );
+
   // Repository
   sl.registerLazySingleton<GraphsRepository>(
     () => GraphsRepositoryImpl(
@@ -326,17 +341,17 @@ Future<void> init() async {
   // Data source
   sl.registerLazySingleton<GraphsDataSource>(
     () => GraphsDataSourceImpl(
-      apiGetPlaysByDate: sl(),
-      apiGetPlaysByDayOfWeek: sl(),
-      apiGetPlaysByHourOfDay: sl(),
-      apiGetPlaysBySourceResolution: sl(),
-      apiGetPlaysByStreamResolution: sl(),
-      apiGetPlaysByStreamType: sl(),
-      apiGetPlaysByTop10Platforms: sl(),
-      apiGetPlaysByTop10Users: sl(),
-      apiGetStreamTypeByTop10Platforms: sl(),
-      apiGetStreamTypeByTop10Users: sl(),
-    ),
+        apiGetPlaysByDate: sl(),
+        apiGetPlaysByDayOfWeek: sl(),
+        apiGetPlaysByHourOfDay: sl(),
+        apiGetPlaysBySourceResolution: sl(),
+        apiGetPlaysByStreamResolution: sl(),
+        apiGetPlaysByStreamType: sl(),
+        apiGetPlaysByTop10Platforms: sl(),
+        apiGetPlaysByTop10Users: sl(),
+        apiGetStreamTypeByTop10Platforms: sl(),
+        apiGetStreamTypeByTop10Users: sl(),
+        apiGetPlaysPerMonth: sl()),
   );
 
   //! Features - History
