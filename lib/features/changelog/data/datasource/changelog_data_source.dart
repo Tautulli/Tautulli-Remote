@@ -17,6 +17,11 @@ Map changelog = {
           "type": "fix",
           "detail": "Fixed 'View on Plex' action for photos, clips, and tracks",
         },
+        {
+          "type": "fix",
+          "detail":
+              "Fixed 'View on Plex' action not opening Plex app on Android 11+",
+        },
       ],
     },
     {
