@@ -6,8 +6,7 @@ Map changelog = {
       "changes": [
         {
           "type": "new",
-          "detail":
-              "Graphs are here! View media type and stream type graphs on the new graphs page",
+          "detail": "Graphs are here! Check them out on the new graphs page",
         },
         {
           "type": "improvement",
