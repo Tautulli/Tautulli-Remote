@@ -80,7 +80,7 @@ class _PlayTotalsTabState extends State<PlayTotalsTab> {
               children: [
                 GraphHeading(
                   graphHeading:
-                      'Total Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} for the Last 12 Months',
+                      'Total Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} for Last 12 Months',
                 ),
                 (state is PlayTotalsGraphsLoaded &&
                         state.playsPerMonth.graphCurrentState !=
@@ -92,6 +92,7 @@ class _PlayTotalsTabState extends State<PlayTotalsTab> {
                         barWidth: 16,
                         bottomTitlesRotateAngle: 320,
                         bottomTitlesMargin: 12,
+                        spaceAboveLegend: 8,
                       )
                     : _GraphLoadingOrFailed(
                         child: state is PlayTotalsGraphsLoaded &&

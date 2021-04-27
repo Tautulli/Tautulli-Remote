@@ -18,6 +18,7 @@ class BarChartGraph extends StatelessWidget {
   final double bottomTitlesRotateAngle;
   final double bottomTitlesMargin;
   final bool maskSensitiveInfo;
+  final double spaceAboveLegend;
 
   const BarChartGraph({
     Key key,
@@ -28,6 +29,7 @@ class BarChartGraph extends StatelessWidget {
     this.bottomTitlesRotateAngle,
     this.bottomTitlesMargin = 4,
     this.maskSensitiveInfo = false,
+    this.spaceAboveLegend = 4,
   }) : super(key: key);
 
   @override
@@ -153,6 +155,7 @@ class BarChartGraph extends StatelessWidget {
     return GraphCard(
       graphCurrentState: graphState.graphCurrentState,
       maxYLines: maxYLines,
+      spaceAboveLegend: spaceAboveLegend,
       showTvLegend: dataIsMediaType && seriesDataLists[0] != null,
       showMoviesLegend: dataIsMediaType && seriesDataLists[1] != null,
       showMusicLegend: dataIsMediaType && seriesDataLists[2] != null,

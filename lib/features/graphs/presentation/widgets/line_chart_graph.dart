@@ -13,10 +13,12 @@ import 'graph_card.dart';
 class LineChartGraph extends StatelessWidget {
   final GraphState graphState;
   final bool dataIsMediaType;
+  final double spaceAboveLegend;
 
   const LineChartGraph({
     Key key,
     @required this.graphState,
+    this.spaceAboveLegend = 4,
     this.dataIsMediaType = true,
   }) : super(key: key);
 
@@ -82,6 +84,7 @@ class LineChartGraph extends StatelessWidget {
     return GraphCard(
       graphCurrentState: graphState.graphCurrentState,
       maxYLines: maxYLines,
+      spaceAboveLegend: spaceAboveLegend,
       showTvLegend: dataIsMediaType && seriesDataLists[0] != null,
       showMoviesLegend: dataIsMediaType && seriesDataLists[1] != null,
       showMusicLegend: dataIsMediaType && seriesDataLists[2] != null,

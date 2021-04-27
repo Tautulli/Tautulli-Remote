@@ -15,12 +15,14 @@ class GraphCard extends StatelessWidget {
   final bool showDirectPlayLegend;
   final bool showDirectStreamLegend;
   final bool showTranscodeLegend;
+  final double spaceAboveLegend;
 
   const GraphCard({
     Key key,
     @required this.chart,
     @required this.graphCurrentState,
     @required this.maxYLines,
+    @required this.spaceAboveLegend,
     this.showTvLegend = true,
     this.showMoviesLegend = true,
     this.showMusicLegend = true,
@@ -68,7 +70,7 @@ class GraphCard extends StatelessWidget {
                               )
                             : chart,
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: spaceAboveLegend),
                       _GraphLegend(
                         showTvLegend: showTvLegend,
                         showMoviesLegend: showMoviesLegend,
