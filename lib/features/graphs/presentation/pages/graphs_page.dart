@@ -14,8 +14,10 @@ import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/media_type_graphs_bloc.dart';
+import '../bloc/play_totals_graphs_bloc.dart';
 import '../bloc/stream_type_graphs_bloc.dart';
 import '../widgets/media_type_tab.dart';
+import '../widgets/play_totals_tab.dart';
 import '../widgets/stream_type_tab.dart';
 
 class GraphsPage extends StatelessWidget {
@@ -32,6 +34,9 @@ class GraphsPage extends StatelessWidget {
         ),
         BlocProvider<StreamTypeGraphsBloc>(
           create: (context) => di.sl<StreamTypeGraphsBloc>(),
+        ),
+        BlocProvider<PlayTotalsGraphsBloc>(
+          create: (context) => di.sl<PlayTotalsGraphsBloc>(),
         ),
       ],
       child: _GraphsPageContent(),
@@ -51,6 +56,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
   SettingsBloc _settingsBloc;
   MediaTypeGraphsBloc _mediaTypeGraphsBloc;
   StreamTypeGraphsBloc _streamTypeGraphsBloc;
+  PlayTotalsGraphsBloc _playTotalsGraphsBloc;
   String _tautulliId;
   int _timeRange;
   String _yAxis;
@@ -61,6 +67,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
     _settingsBloc = context.read<SettingsBloc>();
     _mediaTypeGraphsBloc = context.read<MediaTypeGraphsBloc>();
     _streamTypeGraphsBloc = context.read<StreamTypeGraphsBloc>();
+    _playTotalsGraphsBloc = context.read<PlayTotalsGraphsBloc>();
 
     final mediaTypeGraphsState = _mediaTypeGraphsBloc.state;
     final settingsState = _settingsBloc.state;
@@ -152,6 +159,14 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                                 settingsBloc: _settingsBloc,
                               ),
                             );
+                            _playTotalsGraphsBloc.add(
+                              PlayTotalsGraphsFetch(
+                                tautulliId: value,
+                                // timeRange: _timeRange,
+                                yAxis: _yAxis,
+                                settingsBloc: _settingsBloc,
+                              ),
+                            );
                           }
                         },
                       ),
@@ -162,7 +177,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
               },
             ),
             DefaultTabController(
-              length: 2,
+              length: 3,
               child: Expanded(
                 child: Column(
                   children: [
@@ -186,7 +201,14 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                               yAxis: _yAxis,
                             ),
                           ),
-                          const Placeholder(),
+                          BlocProvider.value(
+                            value: _playTotalsGraphsBloc,
+                            child: PlayTotalsTab(
+                              tautulliId: _tautulliId,
+                              // timeRange: _timeRange,
+                              yAxis: _yAxis,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -243,6 +265,14 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
               StreamTypeGraphsFetch(
                 tautulliId: _tautulliId,
                 timeRange: _timeRange,
+                yAxis: _yAxis,
+                settingsBloc: _settingsBloc,
+              ),
+            );
+            _playTotalsGraphsBloc.add(
+              PlayTotalsGraphsFetch(
+                tautulliId: _tautulliId,
+                // timeRange: _timeRange,
                 yAxis: _yAxis,
                 settingsBloc: _settingsBloc,
               ),
