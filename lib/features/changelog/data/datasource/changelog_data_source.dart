@@ -2,7 +2,7 @@ Map changelog = {
   "data": [
     {
       "version": "v2.9.0",
-      "date": "April 26, 2021",
+      "date": "May 3, 2021",
       "changes": [
         {
           "type": "new",
