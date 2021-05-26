@@ -198,6 +198,14 @@ class Settings {
     return repository.setLastReadAnnouncementId(value);
   }
 
+  Future<bool> getWizardCompleteStatus() async {
+    return await repository.getWizardCompleteStatus();
+  }
+
+  Future<bool> setWizardCompleteStatus(bool value) async {
+    return repository.setWizardCompleteStatus(value);
+  }
+
   Future<List<int>> getCustomCertHashList() async {
     return await repository.getCustomCertHashList();
   }

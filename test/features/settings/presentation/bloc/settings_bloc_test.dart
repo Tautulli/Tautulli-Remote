@@ -1297,6 +1297,34 @@ void main() {
         },
       );
     });
+    group('SettingsUpdateWizardCompleteStatus', () {
+      setUp(() {
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+            yAxis: tYAxis,
+            usersSort: tUsersSort,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
+          ),
+        );
+      });
+      test(
+        'should call the Settings.setWizardCompleteStatus() use case',
+        () async {
+          // act
+          bloc.add(SettingsUpdateWizardCompleteStatus(true));
+          await untilCalled(mockSettings.setWizardCompleteStatus(true));
+          // assert
+          verify(mockSettings.setWizardCompleteStatus(true));
+        },
+      );
+    });
     //TODO: Issues with test since it replies on PackageInfo
     // group('SettingsUpdateLastAppVersion', () {
     //   setUp(() {

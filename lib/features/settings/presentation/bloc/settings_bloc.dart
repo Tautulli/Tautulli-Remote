@@ -45,15 +45,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           'Settings: Saving server details for ${event.plexName}',
         );
 
-        final connectionMap = ConnectionAddressHelper.parse(
+        final primaryConnectionMap = ConnectionAddressHelper.parse(
           event.primaryConnectionAddress,
+        );
+        final secondaryConnectionMap = ConnectionAddressHelper.parse(
+          event.secondaryConnectionAddress,
         );
         ServerModel server = ServerModel(
           sortIndex: currentState.serverList.length,
           primaryConnectionAddress: event.primaryConnectionAddress,
-          primaryConnectionProtocol: connectionMap['protocol'],
-          primaryConnectionDomain: connectionMap['domain'],
-          primaryConnectionPath: connectionMap['path'],
+          primaryConnectionProtocol: primaryConnectionMap['protocol'],
+          primaryConnectionDomain: primaryConnectionMap['domain'],
+          primaryConnectionPath: primaryConnectionMap['path'],
+          secondaryConnectionAddress: event.secondaryConnectionAddress,
+          secondaryConnectionProtocol: secondaryConnectionMap['protocol'],
+          secondaryConnectionDomain: secondaryConnectionMap['domain'],
+          secondaryConnectionPath: secondaryConnectionMap['path'],
           deviceToken: event.deviceToken,
           tautulliId: event.tautulliId,
           plexName: event.plexName,
@@ -307,6 +314,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       if (event is SettingsUpdateLastAppVersion) {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         await settings.setLastAppVersion(packageInfo.version);
+      }
+      if (event is SettingsUpdateWizardCompleteStatus) {
+        await settings.setWizardCompleteStatus(event.complete);
       }
     }
   }

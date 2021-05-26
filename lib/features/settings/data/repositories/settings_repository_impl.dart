@@ -287,6 +287,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<bool> getWizardCompleteStatus() async {
+    final wizardCompleteStatus = await dataSource.getWizardCompleteStatus();
+    return wizardCompleteStatus;
+  }
+
+  @override
+  Future<bool> setWizardCompleteStatus(bool value) async {
+    return dataSource.setWizardCompleteStatus(value);
+  }
+
+  @override
   Future<List<int>> getCustomCertHashList() async {
     final certHashList = await dataSource.getCustomCertHashList();
     return certHashList;

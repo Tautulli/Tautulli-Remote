@@ -15,6 +15,7 @@ class SettingsLoad extends SettingsEvent {
 
 class SettingsAddServer extends SettingsEvent {
   final String primaryConnectionAddress;
+  final String secondaryConnectionAddress;
   final String deviceToken;
   final String tautulliId;
   final String plexName;
@@ -23,6 +24,7 @@ class SettingsAddServer extends SettingsEvent {
 
   SettingsAddServer({
     @required this.primaryConnectionAddress,
+    this.secondaryConnectionAddress,
     @required this.deviceToken,
     @required this.tautulliId,
     @required this.plexName,
@@ -33,6 +35,7 @@ class SettingsAddServer extends SettingsEvent {
   @override
   List<Object> get props => [
         primaryConnectionAddress,
+        secondaryConnectionAddress,
         deviceToken,
         tautulliId,
         plexName,
@@ -224,6 +227,15 @@ class SettingsUpdateOneSignalBannerDismiss extends SettingsEvent {
 class SettingsUpdateLastAppVersion extends SettingsEvent {
   @override
   List<Object> get props => [];
+}
+
+class SettingsUpdateWizardCompleteStatus extends SettingsEvent {
+  final bool complete;
+
+  SettingsUpdateWizardCompleteStatus(this.complete);
+
+  @override
+  List<Object> get props => [complete];
 }
 
 class SettingsDeleteServer extends SettingsEvent {
