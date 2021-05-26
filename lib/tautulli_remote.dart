@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'features/wizard/presentation/pages/wizard_page.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/activity/presentation/pages/activity_page.dart';
@@ -25,9 +26,11 @@ import 'features/synced_items/presentation/pages/synced_items_page.dart';
 import 'features/users/presentation/pages/users_page.dart';
 
 class TautulliRemote extends StatefulWidget {
+  final bool showWizard;
   final bool showChangelog;
 
   const TautulliRemote({
+    @required this.showWizard,
     @required this.showChangelog,
     Key key,
   }) : super(key: key);
@@ -190,8 +193,13 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         PrivacyPage.routeName: (ctx) => const PrivacyPage(),
         LogsPage.routeName: (ctx) => const LogsPage(),
         ChangelogPage.routeName: (ctx) => const ChangelogPage(),
+        WizardPage.routeName: (ctx) => const WizardPage(),
       },
-      initialRoute: widget.showChangelog ? '/changelog' : null,
+      initialRoute: widget.showWizard
+          ? '/wizard'
+          : widget.showChangelog
+              ? '/changelog'
+              : null,
       home: const ActivityPage(),
     );
   }

@@ -47,6 +47,9 @@ void main() async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   final runningVersion = packageInfo.version;
   final lastAppVersion = await di.sl<Settings>().getLastAppVersion();
+  final wizardCompleteStatus =
+      await di.sl<Settings>().getWizardCompleteStatus();
+  final serverList = await di.sl<Settings>().getAllServers();
 
   runApp(
     MultiBlocProvider(
@@ -71,6 +74,8 @@ void main() async {
         ),
       ],
       child: TautulliRemote(
+        showWizard: (wizardCompleteStatus != null && !wizardCompleteStatus) ||
+            (wizardCompleteStatus == null && serverList.isEmpty),
         showChangelog: runningVersion != lastAppVersion,
       ),
     ),
