@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:validators/validators.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/error/failure.dart';
@@ -17,7 +16,8 @@ import 'settings_bloc.dart';
 part 'register_device_event.dart';
 part 'register_device_state.dart';
 
-String connectionAddressCache;
+String primaryConnectionAddressCache;
+String secondaryConnectionAddressCache;
 String deviceTokenCache;
 
 class RegisterDeviceBloc
@@ -36,15 +36,10 @@ class RegisterDeviceBloc
   Stream<RegisterDeviceState> mapEventToState(
     RegisterDeviceEvent event,
   ) async* {
-    if (event is RegisterDeviceFromQrStarted) {
-      yield* _mapRegisterDeviceFromQrStartedToState(
-        event.result,
-        event.settingsBloc,
-      );
-    }
-    if (event is RegisterDeviceManualStarted) {
-      yield* _mapRegisterDeviceManualStartedToState(
-        connectionAddress: event.connectionAddress,
+    if (event is RegisterDeviceStarted) {
+      yield* _mapRegisterDeviceStartedToState(
+        primaryConnectionAddress: event.primaryConnectionAddress,
+        secondaryConnectionAddress: event.secondaryConnectionAddress,
         deviceToken: event.deviceToken,
         settingsBloc: event.settingsBloc,
       );
@@ -53,7 +48,8 @@ class RegisterDeviceBloc
       yield RegisterDeviceInProgress();
 
       yield* _failureOrRegisterDevice(
-        connectionAddressCache,
+        primaryConnectionAddressCache,
+        secondaryConnectionAddressCache,
         deviceTokenCache,
         event.settingsBloc,
         trustCert: true,
@@ -61,64 +57,45 @@ class RegisterDeviceBloc
     }
   }
 
-  Stream<RegisterDeviceState> _mapRegisterDeviceFromQrStartedToState(
-    String result,
-    SettingsBloc settingsBloc,
-  ) async* {
-    yield RegisterDeviceInProgress();
-
-    try {
-      final List resultParts = result.split('|');
-
-      connectionAddressCache = resultParts[0].trim();
-      deviceTokenCache = resultParts[1].trim();
-
-      if (!isURL(connectionAddressCache) || deviceTokenCache.length != 32) {
-        yield RegisterDeviceFailure(failure: QRScanFailure());
-      } else {
-        yield* _failureOrRegisterDevice(
-          connectionAddressCache,
-          deviceTokenCache,
-          settingsBloc,
-        );
-      }
-    } catch (_) {
-      yield RegisterDeviceFailure(failure: QRScanFailure());
-    }
-  }
-
-  Stream<RegisterDeviceState> _mapRegisterDeviceManualStartedToState({
-    @required String connectionAddress,
+  Stream<RegisterDeviceState> _mapRegisterDeviceStartedToState({
+    @required String primaryConnectionAddress,
+    String secondaryConnectionAddress,
     @required String deviceToken,
     @required SettingsBloc settingsBloc,
   }) async* {
     yield RegisterDeviceInProgress();
 
-    connectionAddressCache = connectionAddress.trim();
+    primaryConnectionAddressCache = primaryConnectionAddress.trim();
+    secondaryConnectionAddressCache = secondaryConnectionAddress != null
+        ? secondaryConnectionAddress.trim()
+        : '';
     deviceTokenCache = deviceToken.trim();
 
     yield* _failureOrRegisterDevice(
-      connectionAddressCache,
+      primaryConnectionAddressCache,
+      secondaryConnectionAddressCache,
       deviceTokenCache,
       settingsBloc,
     );
   }
 
   Stream<RegisterDeviceState> _failureOrRegisterDevice(
-    String connectionAddress,
+    String primaryConnectionAddress,
+    String secondaryConnectionAddress,
     String deviceToken,
     SettingsBloc settingsBloc, {
     bool trustCert = false,
   }) async* {
-    final connectionMap = ConnectionAddressHelper.parse(connectionAddress);
-    final connectionProtocol = connectionMap['protocol'];
-    final connectionDomain = connectionMap['domain'];
-    final connectionPath = connectionMap['path'];
+    final primaryConnectionMap =
+        ConnectionAddressHelper.parse(primaryConnectionAddress);
+    final primaryConnectionProtocol = primaryConnectionMap['protocol'];
+    final primaryConnectionDomain = primaryConnectionMap['domain'];
+    final primaryConnectionPath = primaryConnectionMap['path'];
 
     final failureOrRegistered = await registerDevice(
-      connectionProtocol: connectionProtocol,
-      connectionDomain: connectionDomain,
-      connectionPath: connectionPath,
+      connectionProtocol: primaryConnectionProtocol,
+      connectionDomain: primaryConnectionDomain,
+      connectionPath: primaryConnectionPath,
       deviceToken: deviceToken,
       trustCert: trustCert,
     );
@@ -146,9 +123,12 @@ class RegisterDeviceBloc
         }
 
         if (existingServer == null) {
+          print('ADDING SERVER');
+          print(secondaryConnectionAddress);
           settingsBloc.add(
             SettingsAddServer(
-              primaryConnectionAddress: connectionAddress,
+              primaryConnectionAddress: primaryConnectionAddress,
+              secondaryConnectionAddress: secondaryConnectionAddress,
               deviceToken: deviceToken,
               tautulliId: registeredData['server_id'],
               plexName: registeredData['pms_name'],
@@ -167,7 +147,7 @@ class RegisterDeviceBloc
             SettingsUpdateServer(
               id: existingServer.id,
               sortIndex: existingServer.sortIndex,
-              primaryConnectionAddress: connectionAddress,
+              primaryConnectionAddress: primaryConnectionAddress,
               secondaryConnectionAddress:
                   existingServer.secondaryConnectionAddress,
               deviceToken: deviceToken,
