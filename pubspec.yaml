@@ -39,12 +39,13 @@ dependencies:
   flutter_bloc: ^7.0.0
   flutter_slidable: ^0.5.7
   flutter_speed_dial: ^3.0.5
+  flutter_swiper: ^1.1.6
   fluttertoast: ^7.1.8
   font_awesome_flutter: ^8.12.0
   get_it: ^6.0.0
   http: ^0.12.2
   intl: ^0.16.1
-  onesignal_flutter: ^2.6.2
+  onesignal_flutter: ^2.6.3
   package_info: ^2.0.0
   palette_generator: ^0.3.0
   path_provider: ^1.6.27
