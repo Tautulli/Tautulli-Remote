@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 
 class BulletItem extends StatelessWidget {
   final String text;
+  final double fontSize;
 
-  const BulletItem(this.text, {Key key}) : super(key: key);
+  const BulletItem(
+    this.text, {
+    Key key,
+    this.fontSize = 14,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +19,16 @@ class BulletItem extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('•'),
+            Text(
+              '•',
+              style: TextStyle(fontSize: fontSize),
+            ),
             const SizedBox(width: 4),
             Expanded(
-              child: Text(text),
+              child: Text(
+                text,
+                style: TextStyle(fontSize: fontSize),
+              ),
             ),
           ],
         ));
