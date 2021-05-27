@@ -44,9 +44,9 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
           gettingStartedAccepted: event.accept,
         );
       }
-      if (event is WizardOneSignalSubscribed) {
+      if (event is WizardAcceptOneSignal) {
         yield currentState.copyWith(
-          oneSignalSubscribed: event.oneSignalSubscribed,
+          onesignalAccepted: event.accept,
         );
       }
     }
@@ -56,10 +56,10 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
 WizardStage _UpdateStage(WizardStage currentStage) {
   switch (currentStage) {
     case (WizardStage.gettingStarted):
-      return WizardStage.oneSignal;
-    case (WizardStage.oneSignal):
       return WizardStage.servers;
     case (WizardStage.servers):
+      return WizardStage.oneSignal;
+    case (WizardStage.oneSignal):
       return WizardStage.closing;
     case (WizardStage.closing):
       return WizardStage.gettingStarted;

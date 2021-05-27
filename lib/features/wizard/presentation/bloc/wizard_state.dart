@@ -12,24 +12,24 @@ class WizardInitial extends WizardState {}
 class WizardLoaded extends WizardState {
   final WizardStage wizardStage;
   final bool gettingStartedAccepted;
-  final bool oneSignalSubscribed;
+  final bool onesignalAccepted;
 
   WizardLoaded({
     @required this.wizardStage,
     this.gettingStartedAccepted = false,
-    this.oneSignalSubscribed = false,
+    this.onesignalAccepted = false,
   });
 
   WizardLoaded copyWith({
     WizardStage wizardStage,
     bool gettingStartedAccepted,
-    bool oneSignalSubscribed,
+    bool onesignalAccepted,
   }) {
     return WizardLoaded(
       wizardStage: wizardStage ?? this.wizardStage,
       gettingStartedAccepted:
           gettingStartedAccepted ?? this.gettingStartedAccepted,
-      oneSignalSubscribed: oneSignalSubscribed ?? this.oneSignalSubscribed,
+      onesignalAccepted: onesignalAccepted ?? this.onesignalAccepted,
     );
   }
 
@@ -37,6 +37,6 @@ class WizardLoaded extends WizardState {
   List<Object> get props => [
         wizardStage,
         gettingStartedAccepted,
-        oneSignalSubscribed,
+        onesignalAccepted,
       ];
 }

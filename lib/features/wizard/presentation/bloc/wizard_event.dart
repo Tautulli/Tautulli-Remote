@@ -29,13 +29,11 @@ class WizardAcceptGettingStarted extends WizardEvent {
   List<Object> get props => [accept];
 }
 
-class WizardOneSignalSubscribed extends WizardEvent {
-  final bool oneSignalSubscribed;
+class WizardAcceptOneSignal extends WizardEvent {
+  final bool accept;
 
-  WizardOneSignalSubscribed(
-    this.oneSignalSubscribed,
-  );
+  WizardAcceptOneSignal(this.accept);
 
   @override
-  List<Object> get props => [oneSignalSubscribed];
+  List<Object> get props => [accept];
 }
