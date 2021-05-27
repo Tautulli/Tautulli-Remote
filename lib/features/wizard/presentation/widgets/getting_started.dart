@@ -14,7 +14,7 @@ class GettingStarted extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: 100,
+            height: 75,
             decoration:
                 const BoxDecoration(color: TautulliColorPalette.midnight),
             child: Column(
@@ -29,24 +29,30 @@ class GettingStarted extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 3),
                       child: Image.asset('assets/logo/logo_transparent.png'),
                     ),
-                    RichText(
-                      text: const TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'Tautulli',
-                            style: TextStyle(
-                              fontSize: 34,
-                              fontWeight: FontWeight.w400,
-                            ),
+                    SizedBox(
+                      height: 75,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: RichText(
+                          text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Tautulli',
+                                style: TextStyle(
+                                  fontSize: 34,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'Remote',
+                                style: TextStyle(
+                                  fontSize: 34,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: 'Remote',
-                            style: TextStyle(
-                              fontSize: 34,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ],
@@ -54,36 +60,38 @@ class GettingStarted extends StatelessWidget {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-                'Welcome to Tautulli Remote. This app connects to your existing Tautulli instances to view activity, history, stats, and more. In order to set up Tautulli Remote please make sure Tautulli is currently running and you can access it from this device.'),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 16,
+              left: 16,
+              right: 16,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Text(
+                  'Welcome to Tautulli Remote. This app connects to your existing Tautulli instances to view activity, history, stats, and more.',
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'In order to set up Tautulli Remote please make sure Tautulli is currently running and you can access it from this device.',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
           ),
           BlocBuilder<WizardBloc, WizardState>(
             builder: (context, state) {
               if (state is WizardLoaded) {
-                return Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Checkbox(
-                      value: state.gettingStartedAccepted,
-                      onChanged: (value) {
-                        context.read<WizardBloc>().add(
-                              WizardAcceptGettingStarted(value),
-                            );
-                      },
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        context.read<WizardBloc>().add(
-                              WizardAcceptGettingStarted(
-                                !state.gettingStartedAccepted,
-                              ),
-                            );
-                      },
-                      child: const Text('I can access my Tautulli instance(s)'),
-                    ),
-                  ],
+                return CheckboxListTile(
+                  value: state.gettingStartedAccepted,
+                  onChanged: (value) {
+                    context.read<WizardBloc>().add(
+                          WizardAcceptGettingStarted(value),
+                        );
+                  },
+                  title: const Text('I can access my Tautulli instance(s)'),
                 );
               }
               return const SizedBox(height: 0, width: 0);

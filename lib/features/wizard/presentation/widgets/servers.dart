@@ -29,13 +29,13 @@ class ServersContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 34),
+      padding: const EdgeInsets.only(top: 42),
       child: Column(
         children: [
           const Text(
-            'Tautulli Servers',
+            'Register Tautulli Servers',
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -54,7 +54,9 @@ class ServersContent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
                     Text(
-                        'Tautulli Remote allows you to register with multiple Tautulli servers.'),
+                      'Tautulli Remote allows you to register with multiple Tautulli servers.',
+                      style: TextStyle(fontSize: 16),
+                    ),
                     SizedBox(height: 8),
                     ServerSetupInstructions(
                       showWarning: false,
