@@ -683,6 +683,8 @@ Future<void> init() async {
   sl.registerFactory(
     () => SettingsBloc(
       settings: sl(),
+      registerDevice: sl(),
+      onesignal: sl(),
       logging: sl(),
     ),
   );
@@ -690,6 +692,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => RegisterDeviceBloc(
       registerDevice: sl(),
+      onesignal: sl(),
       settings: sl(),
       logging: sl(),
     ),
