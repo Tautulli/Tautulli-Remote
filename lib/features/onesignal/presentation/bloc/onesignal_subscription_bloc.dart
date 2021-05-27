@@ -12,10 +12,10 @@ part 'onesignal_subscription_state.dart';
 
 const String CONSENT_ERROR_TITLE = 'OneSignal Data Privacy Not Accepted';
 const String CONSENT_ERROR_MESSAGE =
-    'To receive notifications accept the OneSignal data privacy before registering with Tautulli.';
+    'To receive notifications from Tautulli consent to OneSignal data privacy.';
 const String REGISTER_ERROR_TITLE = 'Device Has Not Registered With OneSignal';
 const String REGISTER_ERROR_MESSAGE =
-    'This device has not yet registed with OneSignal. Please wait to register with a Tautulli server (this process may take up to 2 min).';
+    'This device is attempting to register with OneSignal. This process may take up to 2 min.';
 const String UNEXPECTED_ERROR_TITLE =
     'Unexpected Error Communicating With OneSignal';
 const String UNEXPECTED_ERROR_MESSAGE =
