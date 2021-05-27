@@ -40,6 +40,10 @@ class Settings {
     return await repository.getAllServers();
   }
 
+  Future<List<ServerModel>> getAllServersWithoutOnesignalRegistered() async {
+    return await repository.getAllServersWithoutOnesignalRegistered();
+  }
+
   Future getServer(int id) async {
     return await repository.getServer(id);
   }

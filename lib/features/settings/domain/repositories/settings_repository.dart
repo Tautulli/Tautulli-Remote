@@ -27,6 +27,8 @@ abstract class SettingsRepository {
 
   Future<List<ServerModel>> getAllServers();
 
+  Future<List<ServerModel>> getAllServersWithoutOnesignalRegistered();
+
   Future<ServerModel> getServer(int id);
 
   Future getServerByTautulliId(String tautulliId);

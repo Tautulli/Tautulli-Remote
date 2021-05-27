@@ -65,6 +65,14 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<List<ServerModel>> getAllServersWithoutOnesignalRegistered() async {
+    List<ServerModel> settingsList =
+        await DBProvider.db.getAllServersWithoutOnesignalRegistered();
+
+    return settingsList;
+  }
+
+  @override
   Future<ServerModel> getServer(int id) async {
     final settings = await DBProvider.db.getServer(id);
 

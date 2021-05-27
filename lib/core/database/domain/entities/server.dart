@@ -17,6 +17,7 @@ class Server extends Equatable {
   final String secondaryConnectionPath;
   final String deviceToken;
   final bool primaryActive;
+  final bool onesignalRegistered;
   final bool plexPass;
   final String dateFormat;
   final String timeFormat;
@@ -37,6 +38,7 @@ class Server extends Equatable {
     this.secondaryConnectionPath,
     @required this.deviceToken,
     @required this.primaryActive,
+    @required this.onesignalRegistered,
     @required this.plexPass,
     this.dateFormat,
     this.timeFormat,
@@ -59,6 +61,7 @@ class Server extends Equatable {
         secondaryConnectionPath,
         deviceToken,
         primaryActive,
+        onesignalRegistered,
         plexPass,
         dateFormat,
         timeFormat,
