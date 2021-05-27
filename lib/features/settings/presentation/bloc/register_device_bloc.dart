@@ -4,11 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:quiver/strings.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/connection_address_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../onesignal/data/datasources/onesignal_data_source.dart';
 import '../../domain/usecases/register_device.dart';
 import '../../domain/usecases/settings.dart';
 import 'settings_bloc.dart';
@@ -24,11 +26,13 @@ class RegisterDeviceBloc
     extends Bloc<RegisterDeviceEvent, RegisterDeviceState> {
   final RegisterDevice registerDevice;
   final Settings settings;
+  final OneSignalDataSource onesignal;
   final Logging logging;
 
   RegisterDeviceBloc({
     @required this.registerDevice,
     @required this.settings,
+    @required this.onesignal,
     @required this.logging,
   }) : super(RegisterDeviceInitial());
 
@@ -92,6 +96,8 @@ class RegisterDeviceBloc
     final primaryConnectionDomain = primaryConnectionMap['domain'];
     final primaryConnectionPath = primaryConnectionMap['path'];
 
+    final onesignalRegistered = isNotEmpty(await onesignal.userId);
+
     final failureOrRegistered = await registerDevice(
       connectionProtocol: primaryConnectionProtocol,
       connectionDomain: primaryConnectionDomain,
@@ -123,8 +129,6 @@ class RegisterDeviceBloc
         }
 
         if (existingServer == null) {
-          print('ADDING SERVER');
-          print(secondaryConnectionAddress);
           settingsBloc.add(
             SettingsAddServer(
               primaryConnectionAddress: primaryConnectionAddress,
@@ -134,6 +138,7 @@ class RegisterDeviceBloc
               plexName: registeredData['pms_name'],
               plexIdentifier: registeredData['pms_identifier'],
               plexPass: plexPass,
+              onesignalRegistered: onesignalRegistered,
             ),
           );
 
@@ -157,6 +162,7 @@ class RegisterDeviceBloc
               plexPass: plexPass,
               dateFormat: existingServer.dateFormat,
               timeFormat: existingServer.timeFormat,
+              onesignalRegistered: onesignalRegistered,
             ),
           );
 
