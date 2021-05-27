@@ -21,6 +21,7 @@ class SettingsAddServer extends SettingsEvent {
   final String plexName;
   final String plexIdentifier;
   final bool plexPass;
+  final bool onesignalRegistered;
 
   SettingsAddServer({
     @required this.primaryConnectionAddress,
@@ -30,6 +31,7 @@ class SettingsAddServer extends SettingsEvent {
     @required this.plexName,
     @required this.plexIdentifier,
     @required this.plexPass,
+    this.onesignalRegistered,
   });
 
   @override
@@ -40,6 +42,7 @@ class SettingsAddServer extends SettingsEvent {
         tautulliId,
         plexName,
         plexPass,
+        onesignalRegistered,
       ];
 }
 
@@ -55,6 +58,7 @@ class SettingsUpdateServer extends SettingsEvent {
   final bool plexPass;
   final String dateFormat;
   final String timeFormat;
+  final bool onesignalRegistered;
 
   SettingsUpdateServer({
     @required this.id,
@@ -68,6 +72,7 @@ class SettingsUpdateServer extends SettingsEvent {
     @required this.plexPass,
     @required this.dateFormat,
     @required this.timeFormat,
+    this.onesignalRegistered,
   });
 
   @override
@@ -82,6 +87,7 @@ class SettingsUpdateServer extends SettingsEvent {
         plexPass,
         dateFormat,
         timeFormat,
+        onesignalRegistered,
       ];
 }
 
