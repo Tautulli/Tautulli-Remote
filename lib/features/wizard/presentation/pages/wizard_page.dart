@@ -6,6 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
+import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/wizard_bloc.dart';
 import '../widgets/closing.dart';
@@ -57,13 +59,14 @@ class WizardPageContent extends StatelessWidget {
                       currentWizardStage: currentWizardStage,
                       gettingStartedAccepted:
                           wizardState.gettingStartedAccepted,
-                      oneSignalSubscribed: wizardState.oneSignalSubscribed,
+                      onesignalAccepted: wizardState.onesignalAccepted,
                       settingsState: settingsState,
                     );
 
                     return FabButton(
                       fabState: fabState,
                       currentWizardStage: wizardState.wizardStage,
+                      onesignalAccepted: wizardState.onesignalAccepted,
                     );
                   }
                 }
@@ -99,9 +102,9 @@ class WizardPageContent extends StatelessWidget {
               if (index == 0) {
                 return const GettingStarted();
               } else if (index == 1) {
-                return const OneSignal();
-              } else if (index == 2) {
                 return const Servers();
+              } else if (index == 2) {
+                return const OneSignal();
               } else if (index == 3) {
                 return const Closing();
               } else {
@@ -124,11 +127,13 @@ class WizardPageContent extends StatelessWidget {
 class FabButton extends StatelessWidget {
   final FabState fabState;
   final WizardStage currentWizardStage;
+  final bool onesignalAccepted;
 
   const FabButton({
     Key key,
     @required this.fabState,
     @required this.currentWizardStage,
+    @required this.onesignalAccepted,
   }) : super(key: key);
 
   @override
@@ -140,13 +145,19 @@ class FabButton extends StatelessWidget {
               ? null
               : () async {
                   if (fabState == FabState.finish) {
+                    if (onesignalAccepted) {
+                      await _grantConsentFuture(
+                        context.read<OneSignalPrivacyBloc>(),
+                      );
+                    }
+
                     context
                         .read<SettingsBloc>()
                         .add(SettingsUpdateWizardCompleteStatus(true));
 
-                    context.read<WizardBloc>().add(
-                          WizardUpdateStage(currentWizardStage),
-                        );
+                    context
+                        .read<OneSignalSubscriptionBloc>()
+                        .add(OneSignalSubscriptionCheck());
 
                     await Navigator.of(context).pushNamedAndRemoveUntil(
                       '/activity',
@@ -156,7 +167,7 @@ class FabButton extends StatelessWidget {
                     final result = await _showSkipDialog(
                       context,
                       currentWizardStage == WizardStage.oneSignal
-                          ? 'Continuing now means you will not be able to use Tautulli Remote as a notification agent for Tautulli without re-registering later.'
+                          ? 'You will need to consent to the OneSignal data privacy later if you wish to use Tautulli Remote to receive notifications.'
                           : currentWizardStage == WizardStage.servers
                               ? 'You have not yet registered with any Tautulli servers.'
                               : 'UNKNOWN',
@@ -200,7 +211,7 @@ class FabButton extends StatelessWidget {
 FabState _determineFabState({
   @required WizardStage currentWizardStage,
   @required bool gettingStartedAccepted,
-  @required bool oneSignalSubscribed,
+  @required bool onesignalAccepted,
   @required SettingsState settingsState,
 }) {
   if (currentWizardStage == WizardStage.gettingStarted) {
@@ -210,7 +221,7 @@ FabState _determineFabState({
     return FabState.disabled;
   }
   if (currentWizardStage == WizardStage.oneSignal) {
-    if (oneSignalSubscribed) {
+    if (onesignalAccepted) {
       return FabState.enabled;
     }
     return FabState.skip;
@@ -291,4 +302,9 @@ Future<bool> _showSkipDialog(BuildContext context, String message) {
       );
     },
   );
+}
+
+Future<void> _grantConsentFuture(OneSignalPrivacyBloc oneSignalPrivacyBloc) {
+  oneSignalPrivacyBloc.add(OneSignalPrivacyGrantConsent());
+  return Future.value(null);
 }
