@@ -36,11 +36,6 @@ class Closing extends StatelessWidget {
                       ),
                       SizedBox(height: 8),
                       BulletItem(
-                        'Servers can be reordered on the Settings page',
-                        fontSize: 16,
-                      ),
-                      SizedBox(height: 8),
-                      BulletItem(
                         'Keep an eye out on the Announcements page, this is the primary method for communicating critical information outside of the changelog',
                         fontSize: 16,
                       ),

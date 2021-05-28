@@ -26,16 +26,26 @@ class OneSignal extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(
+              Padding(
+                padding: const EdgeInsets.only(
                   top: 17,
                   bottom: 8,
                   left: 16.0,
                   right: 16.0,
                 ),
-                child: Text(
-                  'Tautulli uses OneSignal to send notifications to Tautulli Remote. If you\'d like to receive notifications in Tautulli Remote review and accept the OneSignal data privacy below.',
-                  style: TextStyle(fontSize: 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Text(
+                      'Tautulli uses OneSignal to send notifications to Tautulli Remote. The content of these notifications can be encrypted.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'If you\'d like to receive notifications in Tautulli Remote review and accept the OneSignal data privacy below.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
                 ),
               ),
               Padding(
@@ -141,7 +151,7 @@ class OneSignal extends StatelessWidget {
                                     );
                               },
                               title: const Text(
-                                'Consent to OneSignal data privacy',
+                                'Allow OneSignal to send push notifications',
                               ),
                             ),
                           );
