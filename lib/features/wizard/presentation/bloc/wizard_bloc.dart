@@ -10,19 +10,18 @@ part 'wizard_event.dart';
 part 'wizard_state.dart';
 
 enum WizardStage {
-  gettingStarted,
-  oneSignal,
   servers,
+  oneSignal,
   closing,
 }
 
-WizardStage currentWizardStage = WizardStage.gettingStarted;
+WizardStage currentWizardStage = WizardStage.servers;
 
 class WizardBloc extends Bloc<WizardEvent, WizardState> {
   WizardBloc()
       : super(
           WizardLoaded(
-            wizardStage: WizardStage.gettingStarted,
+            wizardStage: WizardStage.servers,
           ),
         );
 
@@ -55,14 +54,12 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
 
 WizardStage _UpdateStage(WizardStage currentStage) {
   switch (currentStage) {
-    case (WizardStage.gettingStarted):
-      return WizardStage.servers;
     case (WizardStage.servers):
       return WizardStage.oneSignal;
     case (WizardStage.oneSignal):
       return WizardStage.closing;
     case (WizardStage.closing):
-      return WizardStage.gettingStarted;
+      return WizardStage.servers;
     default:
       return WizardStage.closing;
   }

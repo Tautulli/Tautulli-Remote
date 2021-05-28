@@ -28,157 +28,221 @@ class ServersContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 42),
-      child: Column(
-        children: [
-          const Text(
-            'Register Tautulli Servers',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 17,
-                  bottom: 8,
-                  left: 16.0,
-                  right: 16.0,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Tautulli Remote allows you to register with multiple Tautulli servers.',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(height: 8),
-                    ServerSetupInstructions(
-                      showWarning: false,
-                    ),
-                  ],
-                ),
-              ),
-              const Divider(
-                indent: 8,
-                endIndent: 8,
-              ),
-              BlocBuilder<SettingsBloc, SettingsState>(
-                builder: (context, state) {
-                  if (state is SettingsLoadSuccess) {
-                    return Column(
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: state.serverList
-                              .map(
-                                (server) => ListTile(
-                                  key: ValueKey(server.id),
-                                  title: Text('${server.plexName}'),
-                                  subtitle: (isEmpty(
-                                          server.primaryConnectionAddress))
-                                      ? const Text(
-                                          'Primary Connection Address Missing')
-                                      : isNotEmpty(server
-                                                  .primaryConnectionAddress) &&
-                                              server.primaryActive &&
-                                              !state.maskSensitiveInfo
-                                          ? Text(
-                                              server.primaryConnectionAddress)
-                                          : isNotEmpty(server
-                                                      .primaryConnectionAddress) &&
-                                                  !server.primaryActive &&
-                                                  !state.maskSensitiveInfo
-                                              ? Text(server
-                                                  .secondaryConnectionAddress)
-                                              : const Text(
-                                                  '*Hidden Connection Address*'),
-                                  trailing: const FaIcon(
-                                    FontAwesomeIcons.cog,
-                                    color: TautulliColorPalette.not_white,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 34),
+        child: Column(
+          children: [
+            Container(
+              height: 75,
+              decoration:
+                  const BoxDecoration(color: TautulliColorPalette.midnight),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 75,
+                        padding: const EdgeInsets.only(right: 3),
+                        child: Image.asset('assets/logo/logo_transparent.png'),
+                      ),
+                      SizedBox(
+                        height: 75,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: RichText(
+                            text: const TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Tautulli',
+                                  style: TextStyle(
+                                    fontSize: 34,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return ServerSettingsPage(
-                                            id: server.id,
-                                            plexName: server.plexName,
-                                            maskSensitiveInfo:
-                                                state.maskSensitiveInfo,
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  },
                                 ),
-                              )
-                              .toList(),
-                        ),
-                        //TODO: may not need if we move to nesting all registering in a single page
-                        BlocBuilder<RegisterDeviceBloc, RegisterDeviceState>(
-                          builder: (context, state) {
-                            if (state is RegisterDeviceInProgress) {
-                              return const Center(
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 6, bottom: 8),
-                                  child: CircularProgressIndicator(),
+                                TextSpan(
+                                  text: 'Remote',
+                                  style: TextStyle(
+                                    fontSize: 34,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                                 ),
-                              );
-                            }
-                            return const SizedBox(height: 0, width: 0);
-                          },
+                              ],
+                            ),
+                          ),
                         ),
-                        ListTile(
-                          title: const Text(
-                            'Register with a Tautulli Server',
-                          ),
-                          trailing: const FaIcon(
-                            FontAwesomeIcons.plusCircle,
-                            color: TautulliColorPalette.not_white,
-                          ),
-                          onTap: () async {
-                            bool result = await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                fullscreenDialog: true,
-                                builder: (context) {
-                                  return BlocProvider(
-                                    create: (context) =>
-                                        di.sl<RegisterDeviceBloc>(),
-                                    child: ServerRegistrationPage(),
-                                  );
-                                },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 16,
+                left: 16,
+                right: 16,
+                bottom: 8,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Text(
+                    'Welcome to Tautulli Remote. This app connects to one or more of your existing Tautulli instances to view activity, history, stats, and more.',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'In order to set up Tautulli Remote please make sure Tautulli is currently running and you can access it from this device.',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(
+              indent: 8,
+              endIndent: 8,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BlocBuilder<SettingsBloc, SettingsState>(
+                  builder: (context, state) {
+                    if (state is SettingsLoadSuccess) {
+                      return Column(
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: state.serverList.isEmpty
+                                    ? [
+                                        const Padding(
+                                          padding: EdgeInsets.only(
+                                            top: 8,
+                                            left: 16,
+                                            right: 16,
+                                          ),
+                                          child: ServerSetupInstructions(
+                                            showWarning: false,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ]
+                                    : state.serverList
+                                        .map(
+                                          (server) => ListTile(
+                                            key: ValueKey(server.id),
+                                            title: Text('${server.plexName}'),
+                                            subtitle: (isEmpty(server
+                                                    .primaryConnectionAddress))
+                                                ? const Text(
+                                                    'Primary Connection Address Missing')
+                                                : isNotEmpty(server
+                                                            .primaryConnectionAddress) &&
+                                                        server.primaryActive &&
+                                                        !state.maskSensitiveInfo
+                                                    ? Text(server
+                                                        .primaryConnectionAddress)
+                                                    : isNotEmpty(server
+                                                                .primaryConnectionAddress) &&
+                                                            !server
+                                                                .primaryActive &&
+                                                            !state
+                                                                .maskSensitiveInfo
+                                                        ? Text(server
+                                                            .secondaryConnectionAddress)
+                                                        : const Text(
+                                                            '*Hidden Connection Address*'),
+                                            trailing: const FaIcon(
+                                              FontAwesomeIcons.cog,
+                                              color: TautulliColorPalette
+                                                  .not_white,
+                                            ),
+                                            onTap: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return ServerSettingsPage(
+                                                      id: server.id,
+                                                      plexName: server.plexName,
+                                                      maskSensitiveInfo: state
+                                                          .maskSensitiveInfo,
+                                                    );
+                                                  },
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        )
+                                        .toList(),
                               ),
-                            );
-
-                            // If manual registration page pops with true show success snackbar
-                            if (result == true) {
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  backgroundColor: Colors.green,
-                                  content:
-                                      Text('Tautulli Registration Successful'),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 8,
+                                  left: 16,
+                                  right: 16,
                                 ),
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    );
-                  }
-                  return const SizedBox(height: 0, width: 0);
-                },
-              )
-            ],
-          ),
-        ],
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          primary:
+                                              Theme.of(context).accentColor,
+                                        ),
+                                        onPressed: () async {
+                                          bool result =
+                                              await Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              fullscreenDialog: true,
+                                              builder: (context) {
+                                                return BlocProvider(
+                                                  create: (context) => di
+                                                      .sl<RegisterDeviceBloc>(),
+                                                  child:
+                                                      ServerRegistrationPage(),
+                                                );
+                                              },
+                                            ),
+                                          );
+
+                                          if (result == true) {
+                                            ScaffoldMessenger.of(context)
+                                                .hideCurrentSnackBar();
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                backgroundColor: Colors.green,
+                                                content: Text(
+                                                    'Tautulli Registration Successful'),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        child: const Text(
+                                            'Register a Tautulli Server'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    }
+                    return const SizedBox(height: 0, width: 0);
+                  },
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -11,7 +11,6 @@ import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/wizard_bloc.dart';
 import '../widgets/closing.dart';
-import '../widgets/getting_started.dart';
 import '../widgets/onesignal.dart';
 import '../widgets/servers.dart';
 
@@ -78,8 +77,7 @@ class WizardPageContent extends StatelessWidget {
         body: SafeArea(
           child: Swiper(
             controller: _swiperController,
-            itemCount: 4,
-            // loop: false,
+            itemCount: 3,
             physics: const NeverScrollableScrollPhysics(),
             pagination: SwiperCustomPagination(
               builder: (context, config) {
@@ -90,8 +88,6 @@ class WizardPageContent extends StatelessWidget {
                     child: const DotSwiperPaginationBuilder(
                       color: TautulliColorPalette.smoke,
                       activeColor: PlexColorPalette.gamboge,
-                      // size: 10.0,
-                      // activeSize: 10.0,
                     ).build(context, config),
                   ),
                 );
@@ -100,12 +96,10 @@ class WizardPageContent extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               if (index == 0) {
-                return const GettingStarted();
-              } else if (index == 1) {
                 return const Servers();
-              } else if (index == 2) {
+              } else if (index == 1) {
                 return const OneSignal();
-              } else if (index == 3) {
+              } else if (index == 2) {
                 return const Closing();
               } else {
                 return const Padding(
@@ -155,6 +149,9 @@ class FabButton extends StatelessWidget {
                         .read<SettingsBloc>()
                         .add(SettingsUpdateWizardCompleteStatus(true));
 
+                    context
+                        .read<OneSignalPrivacyBloc>()
+                        .add(OneSignalPrivacyCheckConsent());
                     context
                         .read<OneSignalSubscriptionBloc>()
                         .add(OneSignalSubscriptionCheck());
@@ -214,21 +211,15 @@ FabState _determineFabState({
   @required bool onesignalAccepted,
   @required SettingsState settingsState,
 }) {
-  if (currentWizardStage == WizardStage.gettingStarted) {
-    if (gettingStartedAccepted) {
-      return FabState.enabled;
-    }
-    return FabState.disabled;
-  }
-  if (currentWizardStage == WizardStage.oneSignal) {
-    if (onesignalAccepted) {
+  if (currentWizardStage == WizardStage.servers) {
+    if (settingsState is SettingsLoadSuccess &&
+        settingsState.serverList.isNotEmpty) {
       return FabState.enabled;
     }
     return FabState.skip;
   }
-  if (currentWizardStage == WizardStage.servers) {
-    if (settingsState is SettingsLoadSuccess &&
-        settingsState.serverList.isNotEmpty) {
+  if (currentWizardStage == WizardStage.oneSignal) {
+    if (onesignalAccepted) {
       return FabState.enabled;
     }
     return FabState.skip;
