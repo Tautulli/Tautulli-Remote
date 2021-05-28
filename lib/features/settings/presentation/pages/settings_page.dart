@@ -175,53 +175,50 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                               ),
                       ],
                     ),
-                    // Display loading indicator when device is attemting to register
-                    BlocBuilder<RegisterDeviceBloc, RegisterDeviceState>(
-                      builder: (context, state) {
-                        if (state is RegisterDeviceInProgress) {
-                          return const Center(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 6, bottom: 8),
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-                        return const SizedBox(height: 0, width: 0);
-                      },
-                    ),
-                    ListTile(
-                      title: const Text(
-                        'Register with a Tautulli Server',
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: state.serverList.isEmpty ? 8 : 0,
+                        left: 16,
+                        right: 16,
                       ),
-                      trailing: const FaIcon(
-                        FontAwesomeIcons.plusCircle,
-                        color: TautulliColorPalette.not_white,
-                      ),
-                      onTap: () async {
-                        bool result = await Navigator.of(context).push(
-                          MaterialPageRoute(
-                            fullscreenDialog: true,
-                            builder: (context) {
-                              return BlocProvider(
-                                create: (context) =>
-                                    di.sl<RegisterDeviceBloc>(),
-                                child: ServerRegistrationPage(),
-                              );
-                            },
-                          ),
-                        );
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Theme.of(context).accentColor,
+                              ),
+                              onPressed: () async {
+                                bool result = await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    fullscreenDialog: true,
+                                    builder: (context) {
+                                      return BlocProvider(
+                                        create: (context) =>
+                                            di.sl<RegisterDeviceBloc>(),
+                                        child: ServerRegistrationPage(),
+                                      );
+                                    },
+                                  ),
+                                );
 
-                        // If registration page pops with true show success snackbar
-                        if (result == true) {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              backgroundColor: Colors.green,
-                              content: Text('Tautulli Registration Successful'),
+                                if (result == true) {
+                                  ScaffoldMessenger.of(context)
+                                      .hideCurrentSnackBar();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: Text(
+                                          'Tautulli Registration Successful'),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: const Text('Register a Tautulli Server'),
                             ),
-                          );
-                        }
-                      },
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 20),
                     //* App settings
