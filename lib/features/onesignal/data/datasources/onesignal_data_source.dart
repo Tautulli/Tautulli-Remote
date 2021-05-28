@@ -3,22 +3,28 @@ import 'package:meta/meta.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../../../core/network/network_info.dart';
+
 /// Containers getters and functions for various OneSignal data points.
 abstract class OneSignalDataSource {
   /// Checks if `https://onesignal.com` is reachable.
   Future<bool> get isReachable;
+
   /// Indicates if the user is subscribed to OneSignal.
   Future<bool> get isSubscribed;
+
   /// Provides the OneSignal User ID (AKA playerID).
-  /// 
+  ///
   /// Returns an empty string if an error is thrown.
   Future<String> get userId;
+
   /// Returns `true` if the user has granted consent to the OneSignal SDK.
   Future<bool> get hasConsented;
+
   /// Grants or revokes consent based on the provided boolean.
   Future<void> grantConsent(bool value);
+
   /// Enables or disables the subscription to OneSignal based on the provided boolean.
-  /// 
+  ///
   /// This does not appear to prevent the device from receiving communication _from_ OneSignal
   /// if they already have a User ID and a message is uniquely intended for that ID.
   Future<void> setSubscription(bool value);
@@ -36,7 +42,7 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
   @override
   Future<bool> get isReachable async {
     if (await networkInfo.isConnected) {
-      final response = await client.get('https://onesignal.com');
+      final response = await client.get(Uri.parse('https://onesignal.com'));
       if (response.statusCode == 200) {
         return true;
       }

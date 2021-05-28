@@ -36,7 +36,9 @@ void main() {
   void setUpSuccess() {
     when(
       mockClient.get(
-        'https://tautulli.com/news/tautulli-remote-announcements.json',
+        Uri.parse(
+          'https://tautulli.com/news/tautulli-remote-announcements.json',
+        ),
         headers: {'Content-Type': 'application/json'},
       ),
     ).thenAnswer(
@@ -56,10 +58,14 @@ void main() {
         //act
         await dataSource.getAnnouncements();
         //assert
-        verify(mockClient.get(
-          'https://tautulli.com/news/tautulli-remote-announcements.json',
-          headers: {'Content-Type': 'application/json'},
-        ));
+        verify(
+          mockClient.get(
+            Uri.parse(
+              'https://tautulli.com/news/tautulli-remote-announcements.json',
+            ),
+            headers: {'Content-Type': 'application/json'},
+          ),
+        );
       },
     );
 

@@ -245,6 +245,7 @@ void main() {
               plexName: tPlexName2,
               plexIdentifier: tPlexIdentifier2,
               plexPass: true,
+              onesignalRegistered: true,
             ),
           );
           await untilCalled(
