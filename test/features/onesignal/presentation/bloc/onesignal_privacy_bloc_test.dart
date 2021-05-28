@@ -48,6 +48,7 @@ void main() {
     plexName: 'Plex',
     plexIdentifier: 'xyz',
     primaryActive: true,
+    onesignalRegistered: false,
     plexPass: true,
   );
 
@@ -65,7 +66,7 @@ void main() {
     'should emit [OneSignalPrivacyConsentSuccess] when consent has been granted',
     () async {
       // arrange
-      when(mockOneSignalDataSourceImpl.isSubscribed)
+      when(mockOneSignalDataSourceImpl.hasConsented)
           .thenAnswer((_) async => true);
       // assert later
       final expected = [
@@ -82,8 +83,8 @@ void main() {
     'should emit [OneSignalPrivacyConsentFailure] when consent has not been granted',
     () async {
       // arrange
-      when(mockOneSignalDataSourceImpl.isSubscribed)
-          .thenAnswer((_) async => null);
+      when(mockOneSignalDataSourceImpl.hasConsented)
+          .thenAnswer((_) async => false);
       // assert later
       final expected = [
         OneSignalPrivacyConsentFailure(),
