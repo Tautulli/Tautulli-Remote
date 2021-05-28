@@ -199,7 +199,7 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
           ),
           const TextSpan(
             text:
-                '\n\nOnce you accept, this device will register with OneSignal. Consent can later be revoked to prevent further communication sent to OneSignal.',
+                '\n\nOnce you accept, this device will register with OneSignal. Consent can be revoked to prevent further communication with OneSignal.',
           ),
         ],
       ),

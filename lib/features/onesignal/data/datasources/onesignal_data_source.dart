@@ -23,11 +23,8 @@ abstract class OneSignalDataSource {
   /// Grants or revokes consent based on the provided boolean.
   Future<void> grantConsent(bool value);
 
-  /// Enables or disables the subscription to OneSignal based on the provided boolean.
-  ///
-  /// This does not appear to prevent the device from receiving communication _from_ OneSignal
-  /// if they already have a User ID and a message is uniquely intended for that ID.
-  Future<void> setSubscription(bool value);
+  /// Disables or enables push notifications
+  Future<void> disablePush(bool value);
 }
 
 class OneSignalDataSourceImpl implements OneSignalDataSource {
@@ -53,8 +50,8 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
   @override
   Future<bool> get isSubscribed async {
     try {
-      final status = await OneSignal.shared.getPermissionSubscriptionState();
-      final subscribed = status.subscriptionStatus.subscribed;
+      final status = await OneSignal.shared.getDeviceState();
+      final subscribed = status.subscribed;
       return subscribed;
     } catch (_) {
       return null;
@@ -64,8 +61,8 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
   @override
   Future<String> get userId async {
     try {
-      final status = await OneSignal.shared.getPermissionSubscriptionState();
-      final userId = status.subscriptionStatus.userId;
+      final status = await OneSignal.shared.getDeviceState();
+      final userId = status.userId;
       return userId;
     } catch (_) {
       return '';
@@ -74,12 +71,7 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
 
   @override
   Future<bool> get hasConsented async {
-    final waitingForConsent =
-        await OneSignal.shared.requiresUserPrivacyConsent();
-    if (waitingForConsent == false) {
-      return true;
-    }
-    return false;
+    return await OneSignal.shared.userProvidedPrivacyConsent();
   }
 
   @override
@@ -88,7 +80,7 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
   }
 
   @override
-  Future<void> setSubscription(bool value) async {
-    await OneSignal.shared.setSubscription(value);
+  Future<void> disablePush(bool value) async {
+    await OneSignal.shared.disablePush(value);
   }
 }

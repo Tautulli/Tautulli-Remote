@@ -69,16 +69,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
 
     await OneSignal.shared.setRequiresUserPrivacyConsent(true);
 
-    await OneSignal.shared.init("3b4b666a-d557-4b92-acdf-e2c8c4b95357",
-        iOSSettings: {
-          OSiOSSettings.autoPrompt: false,
-          OSiOSSettings.inAppLaunchUrl: false
-        });
-    await OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+    await OneSignal.shared.setAppId("3b4b666a-d557-4b92-acdf-e2c8c4b95357");
 
-    OneSignal.shared
-        .setNotificationReceivedHandler((OSNotification notification) async {
+    OneSignal.shared.setNotificationWillShowInForegroundHandler((event) {
       // will be called whenever a notification is received
     });
 

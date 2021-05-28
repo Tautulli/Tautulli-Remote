@@ -9,8 +9,10 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import com.onesignal.NotificationExtenderService
-import com.onesignal.OSNotificationReceivedResult
+import com.onesignal.OSMutableNotification
+import com.onesignal.OSNotification
+import com.onesignal.OSNotificationReceivedEvent
+import com.onesignal.OneSignal.OSRemoteNotificationReceivedHandler
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.URL
@@ -22,12 +24,13 @@ import android.database.sqlite.SQLiteDatabase
 import android.app.*
 
 
-class NotificationExtender : NotificationExtenderService() {
-    override fun onNotificationProcessing(notification: OSNotificationReceivedResult): Boolean {
-        val data: JSONObject = notification.payload.additionalData
+class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
+    override fun remoteNotificationReceived(context: Context, notificationReceivedEvent: OSNotificationReceivedEvent) {
+        val notification: OSNotification = notificationReceivedEvent.getNotification()
+        val data: JSONObject = notification.getAdditionalData()
         try {
             val serverId = data.getString("server_id")
-            val serverInfoMap = getServerInfo(serverId)
+            val serverInfoMap = getServerInfo(context, serverId)
             val deviceToken = serverInfoMap["deviceToken"]!!
 
             //* If encrypted decrypt the payload data
@@ -43,17 +46,17 @@ class NotificationExtender : NotificationExtenderService() {
             val priority: Int = jsonMessage.getInt("priority")
 
             //* Create an explicit intent
-            val intent = Intent(this, MainActivity::class.java).apply {
+            val intent = Intent(context, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
-            val builder: NotificationCompat.Builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_logo_flat)
                 .setContentTitle(subject)
                 .setContentText(body)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(body))
-                .setColor(ContextCompat.getColor(applicationContext, R.color.amber))
+                .setColor(context.resources.getColor(R.color.amber))
                 .setPriority(priority)
                 //* Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
@@ -84,9 +87,9 @@ class NotificationExtender : NotificationExtenderService() {
                 }
             }
 
-            createNotificationChannel()
+            createNotificationChannel(context)
 
-            with(NotificationManagerCompat.from(this)) {
+            with(NotificationManagerCompat.from(context)) {
                 //* Create notification id
                 val tsLong: Long = System.currentTimeMillis()
                 val ts = tsLong.toString()
@@ -98,26 +101,25 @@ class NotificationExtender : NotificationExtenderService() {
             }
 
             //* Do not return original OneSignal notification
-            return true
+            notificationReceivedEvent.complete(null)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
-        return false
     }
 
-    private fun createNotificationChannel() {
+    private fun createNotificationChannel(context: Context) {
         //* Create the NotificationChannel, but only on API 26+ because
         //* the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.channel_name)
-            val descriptionText = getString(R.string.channel_description)
+            val name = context.resources.getString(R.string.channel_name)
+            val descriptionText = context.resources.getString(R.string.channel_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
             //* Register the channel with the system
             val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }
@@ -135,8 +137,8 @@ class NotificationExtender : NotificationExtenderService() {
         return ""
     }
 
-    private fun getServerInfo(serverId: String): Map<String, String> {
-        val documentDir = application.applicationContext.dataDir
+    private fun getServerInfo(context: Context, serverId: String): Map<String, String> {
+        val documentDir = context.dataDir
         val path = File(documentDir, "app_flutter/tautulli_remote.db")
         val db: SQLiteDatabase = SQLiteDatabase.openDatabase(path.absolutePath, null, 0)
         val query = "SELECT primary_connection_address, secondary_connection_address, primary_active, device_token FROM servers WHERE tautulli_id = \"$serverId\""

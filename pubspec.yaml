@@ -45,7 +45,7 @@ dependencies:
   get_it: ^6.0.0
   http: ^0.13.3
   intl: ^0.17.0
-  onesignal_flutter: ^2.6.3
+  onesignal_flutter: ^3.0.0-beta3
   package_info: ^2.0.0
   palette_generator: ^0.3.0
   path_provider: ^2.0.2
