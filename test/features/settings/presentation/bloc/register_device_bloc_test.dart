@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/register_device_bloc.dart';
@@ -11,6 +12,8 @@ import 'package:tautulli_remote/features/settings/presentation/bloc/settings_blo
 class MockRegisterDevice extends Mock implements RegisterDevice {}
 
 class MockSettingsBloc extends Mock implements SettingsBloc {}
+
+class MockOneSignal extends Mock implements OneSignalDataSource {}
 
 class MockSettings extends Mock implements Settings {}
 
@@ -21,6 +24,7 @@ void main() {
   MockSettingsBloc mockSettingsBloc;
   MockLogging mockLogging;
   MockSettings mockSettings;
+  MockOneSignal mockOneSignal;
   RegisterDeviceBloc bloc;
 
   setUp(() {
@@ -28,16 +32,16 @@ void main() {
     mockSettingsBloc = MockSettingsBloc();
     mockLogging = MockLogging();
     mockSettings = MockSettings();
+    mockOneSignal = MockOneSignal();
 
     bloc = RegisterDeviceBloc(
       registerDevice: mockRegisterDevice,
       logging: mockLogging,
       settings: mockSettings,
+      onesignal: mockOneSignal,
     );
   });
 
-  const String tQrCodeResult =
-      'http://tautulli.com|abcdefghijklmnopqrstuvwxyzabcdef';
   const String tPrimaryConnectionAddress = 'http://tautulli.com';
   const String tDeviceToken = 'abc';
 
