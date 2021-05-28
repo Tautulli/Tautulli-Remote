@@ -232,9 +232,7 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                         return showDialog(
                           context: context,
                           builder: (context) => ServerTimeoutDialog(
-                            initialValue: state.serverTimeout == null
-                                ? 5
-                                : state.serverTimeout,
+                            initialValue: state.serverTimeout,
                           ),
                         );
                       },
@@ -381,15 +379,15 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
 Widget _serverTimeoutDisplay(int timeout) {
   switch (timeout) {
     case (3):
-      return const Text('3 sec - Fast');
+      return const Text('3 sec');
+    case (5):
+      return const Text('5 sec');
     case (8):
-      return const Text('8 sec - Slow');
-    case (15):
-      return const Text('15 sec - Very Slow');
+      return const Text('8 sec');
     case (30):
-      return const Text('30 sec - Extremely Slow');
+      return const Text('30 sec');
     default:
-      return const Text('5 sec - Default');
+      return const Text('15 sec (Default)');
   }
 }
 

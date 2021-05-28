@@ -349,7 +349,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     yield SettingsLoadSuccess(
       serverList: serverList,
-      serverTimeout: serverTimeout,
+      serverTimeout: serverTimeout ?? 15,
       refreshRate: refreshRate ?? 0,
       doubleTapToExit: doubleTapToExit ?? false,
       maskSensitiveInfo: maskSensitiveInfo ?? false,

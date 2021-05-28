@@ -40,31 +40,31 @@ class _ServerTimeoutDialogState extends State<ServerTimeoutDialog> {
       title: const Text('Server Timeout'),
       children: <Widget>[
         RadioListTile(
-          title: const Text('3 sec - Fast'),
+          title: const Text('3 sec'),
           value: 3,
           groupValue: _timeout,
           onChanged: (value) => _timeoutRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('5 sec - Default'),
+          title: const Text('5 sec'),
           value: 5,
           groupValue: _timeout,
           onChanged: (value) => _timeoutRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('8 sec - Slow'),
+          title: const Text('8 sec'),
           value: 8,
           groupValue: _timeout,
           onChanged: (value) => _timeoutRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('15 sec - Very Slow'),
+          title: const Text('15 sec (Default)'),
           value: 15,
           groupValue: _timeout,
           onChanged: (value) => _timeoutRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('30 sec - Extremely Slow'),
+          title: const Text('30 sec'),
           value: 30,
           groupValue: _timeout,
           onChanged: (value) => _timeoutRadioValueChanged(value),
