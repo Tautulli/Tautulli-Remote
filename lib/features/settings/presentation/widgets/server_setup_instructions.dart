@@ -9,7 +9,7 @@ class ServerSetupInstructions extends StatelessWidget {
   const ServerSetupInstructions({
     Key key,
     this.showWarning = true,
-    this.fontSize = 14,
+    this.fontSize = 16,
   }) : super(key: key);
 
   @override

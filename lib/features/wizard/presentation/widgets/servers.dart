@@ -135,7 +135,6 @@ class ServersContent extends StatelessWidget {
                                           ),
                                           child: ServerSetupInstructions(
                                             showWarning: false,
-                                            fontSize: 16,
                                           ),
                                         ),
                                       ]
@@ -209,9 +208,8 @@ class ServersContent extends StatelessWidget {
                                                 return BlocProvider(
                                                   create: (context) => di
                                                       .sl<RegisterDeviceBloc>(),
-                                                  child: ServerRegistrationPage(
-                                                    fontSize: 16,
-                                                  ),
+                                                  child:
+                                                      ServerRegistrationPage(),
                                                 );
                                               },
                                             ),

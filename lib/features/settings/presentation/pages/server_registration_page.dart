@@ -15,7 +15,7 @@ class ServerRegistrationPage extends StatefulWidget {
 
   ServerRegistrationPage({
     Key key,
-    this.fontSize = 14,
+    this.fontSize = 16,
   }) : super(key: key);
 
   @override
