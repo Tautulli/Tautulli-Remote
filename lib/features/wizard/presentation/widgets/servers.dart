@@ -30,7 +30,7 @@ class ServersContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(top: 34),
+        padding: const EdgeInsets.only(top: 42),
         child: Column(
           children: [
             Container(
@@ -82,10 +82,10 @@ class ServersContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                top: 16,
+                top: 20,
                 left: 16,
                 right: 16,
-                bottom: 8,
+                bottom: 12,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -94,7 +94,7 @@ class ServersContent extends StatelessWidget {
                     'Welcome to Tautulli Remote. This app connects to one or more of your existing Tautulli instances to view activity, history, stats, and more.',
                     style: TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 12),
                   Text(
                     'In order to set up Tautulli Remote please make sure Tautulli is currently running and you can access it from this device.',
                     style: TextStyle(fontSize: 16),
@@ -204,8 +204,9 @@ class ServersContent extends StatelessWidget {
                                                 return BlocProvider(
                                                   create: (context) => di
                                                       .sl<RegisterDeviceBloc>(),
-                                                  child:
-                                                      ServerRegistrationPage(),
+                                                  child: ServerRegistrationPage(
+                                                    fontSize: 16,
+                                                  ),
                                                 );
                                               },
                                             ),

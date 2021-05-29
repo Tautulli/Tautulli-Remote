@@ -40,7 +40,7 @@ class OneSignal extends StatelessWidget {
                       'Tautulli uses OneSignal to send notifications to Tautulli Remote. The content of these notifications can be encrypted.',
                       style: TextStyle(fontSize: 16),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 12),
                     Text(
                       'If you\'d like to receive notifications in Tautulli Remote review and accept the OneSignal data privacy below.',
                       style: TextStyle(fontSize: 16),
@@ -48,10 +48,13 @@ class OneSignal extends StatelessWidget {
                   ],
                 ),
               ),
+              const Divider(
+                indent: 8,
+                endIndent: 8,
+              ),
               Padding(
                 padding: const EdgeInsets.only(
-                  // top: 17,
-                  bottom: 8,
+                  top: 4,
                   left: 16.0,
                   right: 16.0,
                 ),
@@ -74,10 +77,6 @@ class OneSignal extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              const Divider(
-                indent: 8,
-                endIndent: 8,
               ),
               BlocBuilder<OneSignalHealthBloc, OneSignalHealthState>(
                 builder: (context, healthState) {
@@ -141,18 +140,15 @@ class OneSignal extends StatelessWidget {
                     return BlocBuilder<WizardBloc, WizardState>(
                       builder: (context, wizardState) {
                         if (wizardState is WizardLoaded) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: CheckboxListTile(
-                              value: wizardState.onesignalAccepted,
-                              onChanged: (value) {
-                                context.read<WizardBloc>().add(
-                                      WizardAcceptOneSignal(value),
-                                    );
-                              },
-                              title: const Text(
-                                'Allow OneSignal to send push notifications',
-                              ),
+                          return CheckboxListTile(
+                            value: wizardState.onesignalAccepted,
+                            onChanged: (value) {
+                              context.read<WizardBloc>().add(
+                                    WizardAcceptOneSignal(value),
+                                  );
+                            },
+                            title: const Text(
+                              'Allow OneSignal to send push notifications',
                             ),
                           );
                         }
