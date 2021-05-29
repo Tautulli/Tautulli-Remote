@@ -1,6 +1,39 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.10.0",
+      "date": "May 29, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "There is now a Startup Wizard to improve the setup experiance for new users",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Servers added before OneSignal registration is complete will automatically send Tautulli the OneSignal Device ID once registered",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Adding Tautulli servers has had a visual overhaul and exposes the Secondary Connection Address setting",
+        },
+        {
+          "type": "improvement",
+          "detail": "Flutter upgraded to 2.2.1",
+        },
+        {
+          "type": "improvement",
+          "detail": "Various UI styling adjustments",
+        },
+        {
+          "type": "fix",
+          "detail": "TLS v1.3 is now supported",
+        },
+      ],
+    },
+    {
       "version": "v2.9.0",
       "date": "May 3, 2021",
       "changes": [
