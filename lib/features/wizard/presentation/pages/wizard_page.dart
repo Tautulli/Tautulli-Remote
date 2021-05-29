@@ -37,8 +37,21 @@ class WizardPage extends StatelessWidget {
   }
 }
 
-class WizardPageContent extends StatelessWidget {
+class WizardPageContent extends StatefulWidget {
   const WizardPageContent({Key key}) : super(key: key);
+
+  @override
+  _WizardPageContentState createState() => _WizardPageContentState();
+}
+
+class _WizardPageContentState extends State<WizardPageContent> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<SettingsBloc>().add(
+          SettingsUpdateWizardCompleteStatus(false),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +179,7 @@ class FabButton extends StatelessWidget {
                     final result = await _showSkipDialog(
                       context,
                       currentWizardStage == WizardStage.oneSignal
-                          ? 'You will need to consent to the OneSignal data privacy later if you wish to use Tautulli Remote to receive notifications.'
+                          ? 'You will need to consent to the OneSignal data privacy later if you wish to use Tautulli Remote to receive push notifications.'
                           : currentWizardStage == WizardStage.servers
                               ? 'You have not yet registered with any Tautulli servers.'
                               : 'UNKNOWN',
@@ -184,12 +197,9 @@ class FabButton extends StatelessWidget {
                     return _swiperController.next();
                   }
                 },
-          backgroundColor:
-              [FabState.enabled, FabState.finish].contains(fabState)
-                  ? Theme.of(context).accentColor
-                  : fabState == FabState.skip
-                      ? Theme.of(context).errorColor
-                      : Colors.grey[700],
+          backgroundColor: fabState == FabState.disabled
+              ? Colors.grey[700]
+              : Theme.of(context).accentColor,
           child: FaIcon(
             fabState == FabState.skip
                 ? FontAwesomeIcons.forward
@@ -217,7 +227,7 @@ FabState _determineFabState({
         settingsState.serverList.isNotEmpty) {
       return FabState.enabled;
     }
-    return FabState.skip;
+    return FabState.disabled;
   }
   if (currentWizardStage == WizardStage.oneSignal) {
     if (onesignalAccepted) {
@@ -248,7 +258,7 @@ Future<bool> _showQuitDialog(BuildContext context) {
           TextButton(
             child: const Text('QUIT'),
             style: TextButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: Theme.of(context).errorColor,
             ),
             onPressed: () {
               context
@@ -283,9 +293,6 @@ Future<bool> _showSkipDialog(BuildContext context, String message) {
           ),
           TextButton(
             child: const Text('SKIP'),
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.red,
-            ),
             onPressed: () {
               Navigator.of(context).pop(true);
             },

@@ -82,21 +82,27 @@ class ServersContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                top: 20,
+                top: 30,
                 left: 16,
                 right: 16,
                 bottom: 12,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    'Welcome to Tautulli Remote. This app connects to one or more of your existing Tautulli instances to view activity, history, stats, and more.',
+                    'Welcome!',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(height: 12),
+                  Text(
+                    'Tautulli Remote allows you to view your Plex server activity, history, statistics, and more by connecting to your existing Tautulli server.',
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 12),
                   Text(
-                    'In order to set up Tautulli Remote please make sure Tautulli is currently running and you can access it from this device.',
+                    'Ensure that Tautulli is currently running and accessible from this device before continuing with the setup wizard.',
                     style: TextStyle(fontSize: 16),
                   ),
                 ],
@@ -199,7 +205,6 @@ class ServersContent extends StatelessWidget {
                                           bool result =
                                               await Navigator.of(context).push(
                                             MaterialPageRoute(
-                                              fullscreenDialog: true,
                                               builder: (context) {
                                                 return BlocProvider(
                                                   create: (context) => di

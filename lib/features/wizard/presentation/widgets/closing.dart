@@ -54,7 +54,7 @@ class Closing extends StatelessWidget {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      'Keep an eye out on the Announcements page, this is the primary method for communicating critical information outside of the changelog',
+                                      'Keep an eye on the Announcements page to receive important messages regarding the app.',
                                       style: TextStyle(fontSize: 16),
                                     ),
                                   ),
@@ -82,7 +82,7 @@ class Closing extends StatelessWidget {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      'For help with issues or to provide feedback check out \'Help & Support\' under the Settings page',
+                                      'For assistance with issues or to provide feedback, visit the Help & Support links on the Settings page.',
                                       style: TextStyle(fontSize: 16),
                                     ),
                                   ),
@@ -113,7 +113,7 @@ class Closing extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        'Don\'t forget to configure Tautulli Remote as a notification agent in Tautulli under Settings > Notification Agents.',
+                                        'Remember to configure Tautulli Remote as a notification agent in Tautulli under Settings > Notification Agents.',
                                         style: TextStyle(fontSize: 16),
                                       ),
                                     ),
