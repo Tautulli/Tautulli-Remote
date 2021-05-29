@@ -63,7 +63,7 @@ void main() {
         // act
         final currentState = WizardLoaded(
           wizardStage: WizardStage.oneSignal,
-          onesignalAccepted: false,
+          onesignalAccepted: true,
         );
         bloc.emit(currentState);
         // assert later
