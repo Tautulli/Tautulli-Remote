@@ -38,11 +38,6 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
           wizardStage: currentWizardStage,
         );
       }
-      if (event is WizardAcceptGettingStarted) {
-        yield currentState.copyWith(
-          gettingStartedAccepted: event.accept,
-        );
-      }
       if (event is WizardAcceptOneSignal) {
         yield currentState.copyWith(
           onesignalAccepted: event.accept,

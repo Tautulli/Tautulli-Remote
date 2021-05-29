@@ -56,8 +56,6 @@ class WizardPageContent extends StatelessWidget {
                   if (settingsState is SettingsLoadSuccess) {
                     FabState fabState = _determineFabState(
                       currentWizardStage: currentWizardStage,
-                      gettingStartedAccepted:
-                          wizardState.gettingStartedAccepted,
                       onesignalAccepted: wizardState.onesignalAccepted,
                       settingsState: settingsState,
                     );
@@ -207,7 +205,6 @@ class FabButton extends StatelessWidget {
 
 FabState _determineFabState({
   @required WizardStage currentWizardStage,
-  @required bool gettingStartedAccepted,
   @required bool onesignalAccepted,
   @required SettingsState settingsState,
 }) {

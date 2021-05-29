@@ -20,15 +20,6 @@ class WizardUpdateStage extends WizardEvent {
   List<Object> get props => [currentStage, oneSignalSubscriptionState];
 }
 
-class WizardAcceptGettingStarted extends WizardEvent {
-  final bool accept;
-
-  WizardAcceptGettingStarted(this.accept);
-
-  @override
-  List<Object> get props => [accept];
-}
-
 class WizardAcceptOneSignal extends WizardEvent {
   final bool accept;
 
