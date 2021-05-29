@@ -177,6 +177,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
                         if (state.list.isNotEmpty) {
                           return Expanded(
                             child: RefreshIndicator(
+                              color: Theme.of(context).accentColor,
                               onRefresh: () {
                                 _usersBloc.add(
                                   UsersFilter(

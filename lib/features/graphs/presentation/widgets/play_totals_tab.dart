@@ -64,6 +64,7 @@ class _PlayTotalsTabState extends State<PlayTotalsTab> {
       },
       builder: (context, state) {
         return RefreshIndicator(
+          color: Theme.of(context).accentColor,
           onRefresh: () {
             _playTotalsGraphsBloc.add(
               PlayTotalsGraphsFetch(

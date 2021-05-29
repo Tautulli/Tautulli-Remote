@@ -168,6 +168,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                   if (state.librariesList.isNotEmpty) {
                     return Expanded(
                       child: RefreshIndicator(
+                        color: Theme.of(context).accentColor,
                         onRefresh: () {
                           _librariesBloc.add(
                             LibrariesFilter(

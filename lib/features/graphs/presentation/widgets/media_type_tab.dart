@@ -68,6 +68,7 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
       },
       builder: (context, state) {
         return RefreshIndicator(
+          color: Theme.of(context).accentColor,
           onRefresh: () {
             _mediaTypeGraphsBloc.add(
               MediaTypeGraphsFetch(

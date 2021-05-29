@@ -213,6 +213,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                         if (state.list.isNotEmpty) {
                           return Expanded(
                             child: RefreshIndicator(
+                              color: Theme.of(context).accentColor,
                               onRefresh: () {
                                 _syncedItemsBloc.add(
                                   SyncedItemsFilter(

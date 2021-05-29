@@ -182,6 +182,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                   if (!state.noStats) {
                     return Expanded(
                       child: RefreshIndicator(
+                        color: Theme.of(context).accentColor,
                         onRefresh: () {
                           _statisticsBloc.add(
                             StatisticsFilter(

@@ -68,6 +68,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
       },
       builder: (context, state) {
         return RefreshIndicator(
+          color: Theme.of(context).accentColor,
           onRefresh: () {
             _streamTypeGraphsBloc.add(
               StreamTypeGraphsFetch(

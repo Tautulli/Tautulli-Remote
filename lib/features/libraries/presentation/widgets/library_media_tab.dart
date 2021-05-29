@@ -89,6 +89,7 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
         if (state is LibraryMediaSuccess) {
           if (state.libraryMediaList.isNotEmpty) {
             return RefreshIndicator(
+              color: Theme.of(context).accentColor,
               onRefresh: () {
                 context.read<LibraryMediaBloc>().add(
                       LibraryMediaFullRefresh(

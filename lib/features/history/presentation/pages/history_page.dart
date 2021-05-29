@@ -209,6 +209,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                   if (state.list.isNotEmpty) {
                     return Expanded(
                       child: RefreshIndicator(
+                        color: Theme.of(context).accentColor,
                         onRefresh: () {
                           _historyBloc.add(
                             HistoryFilter(

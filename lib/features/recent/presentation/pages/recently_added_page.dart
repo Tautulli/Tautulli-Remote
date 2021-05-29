@@ -164,6 +164,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                   if (state.list.isNotEmpty) {
                     return Expanded(
                       child: RefreshIndicator(
+                        color: Theme.of(context).accentColor,
                         onRefresh: () {
                           _recentlyAddedBloc.add(
                             RecentlyAddedFilter(

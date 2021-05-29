@@ -154,6 +154,7 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                     }
 
                     return RefreshIndicator(
+                      color: Theme.of(context).accentColor,
                       onRefresh: () {
                         context.read<ActivityBloc>().add(
                               ActivityLoadAndRefresh(
