@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../bloc/register_device_bloc.dart';
 import '../bloc/settings_bloc.dart';
@@ -81,7 +82,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -89,18 +90,26 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                         padding: const EdgeInsets.only(
                           top: 8,
                           bottom: 8,
+                          left: 8,
+                          right: 8,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Use the button below to scan your QR code and autofill your server information or manually enter it instead.',
-                              style: TextStyle(fontSize: widget.fontSize),
+                              'Use the button below to scan your QR code and auto-fill your server information or enter it manually instead.',
+                              style: TextStyle(
+                                fontSize: widget.fontSize,
+                                color: TautulliColorPalette.not_white,
+                              ),
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Additionally, you can add a Secondary Connection Address. If the primary fails Tautulli Remote will fail over to the secondary automatically.',
-                              style: TextStyle(fontSize: widget.fontSize),
+                              'Optionally, you can add a Secondary Connection Address. If the Primary Connection Address is unreachable, the app will automatically use the secondary address.',
+                              style: TextStyle(
+                                fontSize: widget.fontSize,
+                                color: TautulliColorPalette.not_white,
+                              ),
                             ),
                           ],
                         ),
@@ -112,6 +121,8 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                       Padding(
                         padding: const EdgeInsets.only(
                           top: 8,
+                          left: 8,
+                          bottom: 8,
                         ),
                         child: Row(
                           children: [
@@ -144,13 +155,14 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                                           backgroundColor:
                                               Theme.of(context).errorColor,
                                           content: const Text(
-                                              'Error scanning QR code'),
+                                            'Error scanning QR code',
+                                          ),
                                         ),
                                       );
                                     }
                                   }
                                 },
-                                child: const Text('Scan QR code'),
+                                child: const Text('Scan QR Code'),
                                 style: ElevatedButton.styleFrom(
                                   primary: Theme.of(context).accentColor,
                                 ),
@@ -159,97 +171,122 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                           ],
                         ),
                       ),
-                      Form(
-                        key: _formKey,
-                        child: Column(
-                          children: <Widget>[
-                            TextFormField(
-                              controller: _primaryConnectionAddressController,
-                              decoration: const InputDecoration(
-                                labelText: 'Primary Connection Address',
-                              ),
-                              validator: (value) {
-                                bool validUrl = isURL(
-                                  value,
-                                  protocols: ['http', 'https'],
-                                  requireProtocol: true,
-                                );
-                                if (validUrl == false) {
-                                  return 'Please enter a valid URL format';
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              controller: _secondaryConnectionAddressController,
-                              decoration: const InputDecoration(
-                                labelText: 'Secondary Connection Address',
-                              ),
-                              validator: (value) {
-                                bool validUrl = value == '' ||
-                                    isURL(
-                                      value,
-                                      protocols: ['http', 'https'],
-                                      requireProtocol: true,
-                                    );
-                                if (validUrl == false) {
-                                  return 'Please enter a valid URL format';
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              controller: _deviceTokenController,
-                              decoration: const InputDecoration(
-                                labelText: 'Device Token',
-                              ),
-                              validator: (value) {
-                                if (value.length != 32) {
-                                  return 'Must be 32 characters long (current: ${value.length})';
-                                }
-                                return null;
-                              },
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  TextButton(
-                                    onPressed: () async {
-                                      bool value =
-                                          await _showExitDialog(context);
-                                      if (value) {
-                                        Navigator.of(context).pop();
-                                      }
-                                    },
-                                    child: const Text('CANCEL'),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 8,
+                          right: 8,
+                        ),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              TextFormField(
+                                controller: _primaryConnectionAddressController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Primary Connection Address',
+                                  labelStyle: TextStyle(
+                                    color: TautulliColorPalette.not_white,
                                   ),
-                                  TextButton(
-                                    onPressed: () {
-                                      if (_formKey.currentState.validate()) {
-                                        registerDeviceBloc.add(
-                                          RegisterDeviceStarted(
-                                            primaryConnectionAddress:
-                                                _primaryConnectionAddressController
-                                                    .text,
-                                            secondaryConnectionAddress:
-                                                _secondaryConnectionAddressController
-                                                    .text,
-                                            deviceToken:
-                                                _deviceTokenController.text,
-                                            settingsBloc:
-                                                context.read<SettingsBloc>(),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: const Text('REGISTER'),
-                                  ),
-                                ],
+                                ),
+                                style: const TextStyle(
+                                  color: TautulliColorPalette.not_white,
+                                ),
+                                validator: (value) {
+                                  bool validUrl = isURL(
+                                    value,
+                                    protocols: ['http', 'https'],
+                                    requireProtocol: true,
+                                  );
+                                  if (validUrl == false) {
+                                    return 'Please enter a valid URL format';
+                                  }
+                                  return null;
+                                },
                               ),
-                            ),
-                          ],
+                              TextFormField(
+                                controller:
+                                    _secondaryConnectionAddressController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Secondary Connection Address',
+                                  labelStyle: TextStyle(
+                                    color: TautulliColorPalette.not_white,
+                                  ),
+                                ),
+                                style: const TextStyle(
+                                  color: TautulliColorPalette.not_white,
+                                ),
+                                validator: (value) {
+                                  bool validUrl = value == '' ||
+                                      isURL(
+                                        value,
+                                        protocols: ['http', 'https'],
+                                        requireProtocol: true,
+                                      );
+                                  if (validUrl == false) {
+                                    return 'Please enter a valid URL format';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                controller: _deviceTokenController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Device Token',
+                                  labelStyle: TextStyle(
+                                    color: TautulliColorPalette.not_white,
+                                  ),
+                                ),
+                                style: const TextStyle(
+                                  color: TautulliColorPalette.not_white,
+                                ),
+                                validator: (value) {
+                                  if (value.length != 32) {
+                                    return 'Must be 32 characters long (current: ${value.length})';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    TextButton(
+                                      onPressed: () async {
+                                        bool value =
+                                            await _showExitDialog(context);
+                                        if (value) {
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
+                                      child: const Text('CANCEL'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        if (_formKey.currentState.validate()) {
+                                          registerDeviceBloc.add(
+                                            RegisterDeviceStarted(
+                                              primaryConnectionAddress:
+                                                  _primaryConnectionAddressController
+                                                      .text,
+                                              secondaryConnectionAddress:
+                                                  _secondaryConnectionAddressController
+                                                      .text,
+                                              deviceToken:
+                                                  _deviceTokenController.text,
+                                              settingsBloc:
+                                                  context.read<SettingsBloc>(),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: const Text('REGISTER'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
