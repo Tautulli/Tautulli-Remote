@@ -57,7 +57,15 @@ class _WizardPageContentState extends State<WizardPageContent> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        return _showQuitDialog(context);
+        final result = await _showQuitDialog(context);
+        if (result) {
+          await Navigator.of(context).pushNamedAndRemoveUntil(
+            '/activity',
+            (Route<dynamic> route) => false,
+          );
+        }
+
+        return false;
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
