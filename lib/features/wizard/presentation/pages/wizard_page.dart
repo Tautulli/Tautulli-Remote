@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../injection_container.dart' as di;
@@ -48,6 +48,12 @@ class WizardPageContent extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
+        // Without the appbar the SystemUiOverlayStyle is not setting the
+        // notification bar icons to white
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(0),
+          child: AppBar(),
+        ),
         floatingActionButton: BlocBuilder<WizardBloc, WizardState>(
           builder: (context, wizardState) {
             return BlocBuilder<SettingsBloc, SettingsState>(
@@ -72,44 +78,42 @@ class WizardPageContent extends StatelessWidget {
             );
           },
         ),
-        body: SafeArea(
-          child: Swiper(
-            controller: _swiperController,
-            itemCount: 3,
-            physics: const NeverScrollableScrollPhysics(),
-            pagination: SwiperCustomPagination(
-              builder: (context, config) {
-                return Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: const DotSwiperPaginationBuilder(
-                      color: TautulliColorPalette.smoke,
-                      activeColor: PlexColorPalette.gamboge,
-                    ).build(context, config),
-                  ),
-                );
-              },
-            ),
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return const Servers();
-              } else if (index == 1) {
-                return const OneSignal();
-              } else if (index == 2) {
-                return const Closing();
-              } else {
-                return const Padding(
-                  padding: EdgeInsets.only(top: 48),
-                  child: Text(
-                    'No Content',
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
+        body: Swiper(
+          controller: _swiperController,
+          itemCount: 3,
+          physics: const NeverScrollableScrollPhysics(),
+          pagination: SwiperCustomPagination(
+            builder: (context, config) {
+              return Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: const DotSwiperPaginationBuilder(
+                    color: TautulliColorPalette.smoke,
+                    activeColor: PlexColorPalette.gamboge,
+                  ).build(context, config),
+                ),
+              );
             },
           ),
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return const Servers();
+            } else if (index == 1) {
+              return const OneSignal();
+            } else if (index == 2) {
+              return const Closing();
+            } else {
+              return const Padding(
+                padding: EdgeInsets.only(top: 48),
+                child: Text(
+                  'No Content',
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
+          },
         ),
       ),
     );
