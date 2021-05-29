@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/widgets/bullet_item.dart';
+import '../../../../core/widgets/text_list.dart';
 
 class ServerSetupInstructions extends StatelessWidget {
   final bool showWarning;
@@ -30,24 +30,15 @@ class ServerSetupInstructions extends StatelessWidget {
           style: TextStyle(fontSize: fontSize),
         ),
         const SizedBox(height: 4),
-        BulletItem(
-          'Open the Tautulli web interface on another device',
-          fontSize: fontSize,
-        ),
-        const SizedBox(height: 4),
-        BulletItem(
-          'Navigate to Settings > Tautulli Remote App',
-          fontSize: fontSize,
-        ),
-        const SizedBox(height: 4),
-        BulletItem(
-          'Select \'Register a new device\'',
-          fontSize: fontSize,
-        ),
-        const SizedBox(height: 4),
-        BulletItem(
-          'Use the button below to register with the server',
-          fontSize: fontSize,
+        const TextList(
+          numberedList: true,
+          textItems: [
+            'Open the Tautulli web interface on another device.',
+            'Navigate to Settings > Tautulli Remote App.',
+            'Select "Register a new device".',
+            'Use the button below to register with the server.'
+          ],
+          fontSize: 16,
         ),
       ],
     );
