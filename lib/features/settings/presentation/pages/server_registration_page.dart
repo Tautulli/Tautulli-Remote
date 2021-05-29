@@ -10,7 +10,12 @@ import '../bloc/settings_bloc.dart';
 import '../widgets/certificate_failure_alert_dialog.dart';
 
 class ServerRegistrationPage extends StatefulWidget {
-  ServerRegistrationPage({Key key}) : super(key: key);
+  final double fontSize;
+
+  ServerRegistrationPage({
+    Key key,
+    this.fontSize = 14,
+  }) : super(key: key);
 
   @override
   _ServerRegistrationPageState createState() => _ServerRegistrationPageState();
@@ -87,13 +92,15 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               'Use the button below to scan your QR code and autofill your server information or manually enter it instead.',
+                              style: TextStyle(fontSize: widget.fontSize),
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
                               'Additionally, you can add a Secondary Connection Address. If the primary fails Tautulli Remote will fail over to the secondary automatically.',
+                              style: TextStyle(fontSize: widget.fontSize),
                             ),
                           ],
                         ),
