@@ -133,8 +133,10 @@ class _LibraryStatsTabContentState extends State<LibraryStatsTabContent> {
             ],
           );
         }
-        return const Center(
-          child: CircularProgressIndicator(),
+        return Center(
+          child: CircularProgressIndicator(
+            color: Theme.of(context).accentColor,
+          ),
         );
       },
     );

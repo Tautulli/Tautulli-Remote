@@ -8,8 +8,10 @@ class BottomLoader extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         height: 115,
-        child: const Center(
-          child: CircularProgressIndicator(),
+        child: Center(
+          child: CircularProgressIndicator(
+            color: Theme.of(context).accentColor,
+          ),
         ),
       ),
     );

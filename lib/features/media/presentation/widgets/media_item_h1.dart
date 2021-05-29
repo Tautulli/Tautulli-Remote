@@ -36,11 +36,12 @@ class MediaItemH1 extends StatelessWidget {
                   metadata: state.metadata,
                 );
               }
-              return const SizedBox(
+              return SizedBox(
                 height: 20,
                 width: 20,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
+                  color: Theme.of(context).accentColor,
                 ),
               );
             },

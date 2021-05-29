@@ -368,9 +368,11 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                           ),
                         );
                       }
-                      return const Expanded(
+                      return Expanded(
                         child: Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).accentColor,
+                          ),
                         ),
                       );
                     },
@@ -455,7 +457,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                       );
                     },
                   ),
-                  const Positioned(
+                  Positioned(
                     right: 5,
                     top: 25,
                     child: SizedBox(
@@ -463,6 +465,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                       width: 13,
                       child: CircularProgressIndicator(
                         strokeWidth: 1,
+                        color: Theme.of(context).accentColor,
                       ),
                     ),
                   ),

@@ -28,6 +28,7 @@ class MediaTabController extends StatelessWidget {
             child: TabBar(
               indicatorSize: TabBarIndicatorSize.label,
               tabs: _tabBuilder(
+                context,
                 mediaType: mediaType,
                 metadataFailed: metadataFailed,
               ),
@@ -46,7 +47,8 @@ class MediaTabController extends StatelessWidget {
   }
 }
 
-List<Widget> _tabBuilder({
+List<Widget> _tabBuilder(
+  BuildContext context, {
   String mediaType,
   bool metadataFailed = false,
 }) {
@@ -55,12 +57,13 @@ List<Widget> _tabBuilder({
       text: 'Details',
     ),
     if (mediaType == null && !metadataFailed)
-      const Tab(
+      Tab(
         child: SizedBox(
           height: 15,
           width: 15,
           child: CircularProgressIndicator(
             strokeWidth: 2,
+            color: Theme.of(context).accentColor,
           ),
         ),
       ),

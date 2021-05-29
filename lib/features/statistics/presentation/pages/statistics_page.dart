@@ -239,9 +239,11 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                     ),
                   );
                 }
-                return const Expanded(
+                return Expanded(
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).accentColor,
+                    ),
                   ),
                 );
               },

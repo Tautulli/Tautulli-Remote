@@ -65,9 +65,11 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                 BlocBuilder<RegisterDeviceBloc, RegisterDeviceState>(
                   builder: (context, state) {
                     if (state is RegisterDeviceInProgress) {
-                      return const SizedBox(
+                      return SizedBox(
                         height: 2,
-                        child: LinearProgressIndicator(),
+                        child: LinearProgressIndicator(
+                          color: Theme.of(context).accentColor,
+                        ),
                       );
                     }
                     return Container(height: 2, width: 0);

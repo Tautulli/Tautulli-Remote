@@ -352,8 +352,10 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                   item: widget.item,
                   syncedMediaType: widget.syncedMediaType,
                   heroTag: widget.heroTag,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).accentColor,
+                    ),
                   ),
                 );
               }

@@ -217,13 +217,16 @@ List<Widget> _buildList({
             constraints: constraints,
             left: '',
             right: Row(
-              children: const [
+              children: [
                 SizedBox(
                   height: 19,
                   width: 19,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Theme.of(context).accentColor,
+                  ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(left: 5),
                   child: Text('Loading location data'),
                 ),

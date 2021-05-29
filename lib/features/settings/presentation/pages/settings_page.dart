@@ -358,8 +358,10 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                 );
               }
               if (state is SettingsLoadInProgress) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).accentColor,
+                  ),
                 );
               } else {
                 return const Center(

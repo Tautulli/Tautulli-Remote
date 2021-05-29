@@ -15,13 +15,15 @@ class BottomRowLoader extends StatelessWidget {
       decoration: BoxDecoration(
         color: index % 2 == 0 ? Colors.black26 : null,
       ),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
           horizontal: 8.0,
           vertical: 16,
         ),
         child: Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator(
+            color: Theme.of(context).accentColor,
+          ),
         ),
       ),
     );

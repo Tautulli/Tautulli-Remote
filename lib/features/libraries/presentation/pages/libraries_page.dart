@@ -265,9 +265,11 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                     ),
                   );
                 }
-                return const Expanded(
+                return Expanded(
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).accentColor,
+                    ),
                   ),
                 );
               },

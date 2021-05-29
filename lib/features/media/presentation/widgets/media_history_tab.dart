@@ -197,8 +197,10 @@ class _MediaHistoryTabContentState extends State<MediaHistoryTabContent> {
                   ),
                 );
         }
-        return const Center(
-          child: CircularProgressIndicator(),
+        return Center(
+          child: CircularProgressIndicator(
+            color: Theme.of(context).accentColor,
+          ),
         );
       },
     );

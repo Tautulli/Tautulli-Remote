@@ -34,8 +34,10 @@ class MediaTabContents extends StatelessWidget {
         // Loading tab for when no mediaType is provided and we need to get
         // it from the fetched metadata
         if (mediaType == null && item.mediaType == null && !metadataFailed)
-          const Center(
-            child: CircularProgressIndicator(),
+          Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).accentColor,
+            ),
           ),
         // Seasons/Episodes/Albums/Tracks tab
         if (['show', 'season', 'artist', 'album', 'collection', 'playlist']
@@ -94,8 +96,10 @@ class MediaTabContents extends StatelessWidget {
                 return Text(
                     'UNKNOWN MEDIA TYPE ${mediaType ?? item.mediaType}');
               }
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).accentColor,
+                ),
               );
             },
           ),

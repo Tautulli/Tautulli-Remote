@@ -103,7 +103,9 @@ class _PlayTotalsTabState extends State<PlayTotalsTab> {
                                 suggestion:
                                     state.playsPerMonth.failureSuggestion,
                               )
-                            : const CircularProgressIndicator(),
+                            : CircularProgressIndicator(
+                                color: Theme.of(context).accentColor,
+                              ),
                       ),
               ],
             ),
