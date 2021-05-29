@@ -214,8 +214,10 @@ class _SingleStatisticTypePageState extends State<SingleStatisticTypePage> {
               ),
             );
           }
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).accentColor,
+            ),
           );
         },
       ),

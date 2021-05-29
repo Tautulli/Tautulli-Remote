@@ -157,7 +157,11 @@ class _DonatePageContentState extends State<DonatePageContent> {
         ),
         Expanded(
           child: _offerings == null
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).accentColor,
+                  ),
+                )
               : _offerings.all.isNotEmpty
                   ? ListView(
                       children: [

@@ -20,6 +20,7 @@ class ServerModel extends Server {
     String secondaryConnectionPath,
     @required String deviceToken,
     @required bool primaryActive,
+    @required bool onesignalRegistered,
     @required bool plexPass,
     String dateFormat,
     String timeFormat,
@@ -39,6 +40,7 @@ class ServerModel extends Server {
           secondaryConnectionPath: secondaryConnectionPath,
           deviceToken: deviceToken,
           primaryActive: primaryActive,
+          onesignalRegistered: onesignalRegistered,
           plexPass: plexPass,
           dateFormat: dateFormat,
           timeFormat: timeFormat,
@@ -60,6 +62,7 @@ class ServerModel extends Server {
     String secondaryConnectionPath,
     String deviceToken,
     bool primaryActive,
+    bool onesignalRegistered,
     bool plexPass,
     String dateFormat,
     String timeFormat,
@@ -88,6 +91,7 @@ class ServerModel extends Server {
           secondaryConnectionPath ?? this.secondaryConnectionPath,
       deviceToken: deviceToken ?? this.deviceToken,
       primaryActive: primaryActive ?? this.primaryActive,
+      onesignalRegistered: onesignalRegistered ?? this.onesignalRegistered,
       plexPass: plexPass ?? this.plexPass,
       dateFormat: dateFormat ?? this.dateFormat,
       timeFormat: timeFormat ?? this.timeFormat,
@@ -97,6 +101,8 @@ class ServerModel extends Server {
   // Create Settings from JSON data
   factory ServerModel.fromJson(Map<String, dynamic> json) {
     bool primaryActiveBool = toBoolean(json['primary_active'].toString());
+    bool onesignalRegisteredBool =
+        toBoolean(json['onesignal_registered'].toString());
     bool plexPass = toBoolean(json['plex_plexpass'].toString());
 
     return ServerModel(
@@ -115,6 +121,7 @@ class ServerModel extends Server {
       secondaryConnectionPath: json['secondary_connection_path'],
       deviceToken: json['device_token'],
       primaryActive: primaryActiveBool,
+      onesignalRegistered: onesignalRegisteredBool,
       plexPass: plexPass,
       dateFormat: json['date_format'],
       timeFormat: json['time_format'],
@@ -124,6 +131,7 @@ class ServerModel extends Server {
   // Convert Settings to JSON to make it easier when we store it in the database
   Map<String, dynamic> toJson() {
     int primaryActiveInt;
+    int onesignalRegisteredInt;
     int plexPassInt;
 
     switch (primaryActive) {
@@ -132,6 +140,15 @@ class ServerModel extends Server {
         break;
       case (true):
         primaryActiveInt = 1;
+        break;
+    }
+
+    switch (onesignalRegistered) {
+      case (false):
+        onesignalRegisteredInt = 0;
+        break;
+      case (true):
+        onesignalRegisteredInt = 1;
         break;
     }
 
@@ -160,6 +177,7 @@ class ServerModel extends Server {
       'secondary_connection_path': secondaryConnectionPath,
       'device_token': deviceToken,
       'primary_active': primaryActiveInt,
+      'onesignal_registered': onesignalRegisteredInt,
       'plex_pass': plexPassInt,
       'date_format': dateFormat,
       'time_format': timeFormat,

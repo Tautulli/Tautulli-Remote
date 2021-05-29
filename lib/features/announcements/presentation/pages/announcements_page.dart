@@ -31,8 +31,10 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
       body: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
         builder: (context, state) {
           if (state is AnnouncementsInProgress) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).accentColor,
+              ),
             );
           }
           if (state is AnnouncementsFailure) {

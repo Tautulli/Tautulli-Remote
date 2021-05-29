@@ -5,11 +5,14 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:package_info/package_info.dart';
+import 'package:quiver/strings.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/connection_address_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../onesignal/data/datasources/onesignal_data_source.dart';
 import '../../domain/entities/tautulli_settings_general.dart';
+import '../../domain/usecases/register_device.dart';
 import '../../domain/usecases/settings.dart';
 
 part 'settings_event.dart';
@@ -19,10 +22,14 @@ SettingsBloc _settingsBlocCache;
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final Settings settings;
+  final RegisterDevice registerDevice;
+  final OneSignalDataSource onesignal;
   final Logging logging;
 
   SettingsBloc({
     @required this.settings,
+    @required this.registerDevice,
+    @required this.onesignal,
     @required this.logging,
   }) : super(SettingsInitial());
 
@@ -45,20 +52,28 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           'Settings: Saving server details for ${event.plexName}',
         );
 
-        final connectionMap = ConnectionAddressHelper.parse(
+        final primaryConnectionMap = ConnectionAddressHelper.parse(
           event.primaryConnectionAddress,
+        );
+        final secondaryConnectionMap = ConnectionAddressHelper.parse(
+          event.secondaryConnectionAddress,
         );
         ServerModel server = ServerModel(
           sortIndex: currentState.serverList.length,
           primaryConnectionAddress: event.primaryConnectionAddress,
-          primaryConnectionProtocol: connectionMap['protocol'],
-          primaryConnectionDomain: connectionMap['domain'],
-          primaryConnectionPath: connectionMap['path'],
+          primaryConnectionProtocol: primaryConnectionMap['protocol'],
+          primaryConnectionDomain: primaryConnectionMap['domain'],
+          primaryConnectionPath: primaryConnectionMap['path'],
+          secondaryConnectionAddress: event.secondaryConnectionAddress,
+          secondaryConnectionProtocol: secondaryConnectionMap['protocol'],
+          secondaryConnectionDomain: secondaryConnectionMap['domain'],
+          secondaryConnectionPath: secondaryConnectionMap['path'],
           deviceToken: event.deviceToken,
           tautulliId: event.tautulliId,
           plexName: event.plexName,
           plexIdentifier: event.plexIdentifier,
           primaryActive: true,
+          onesignalRegistered: event.onesignalRegistered,
           plexPass: event.plexPass,
         );
 
@@ -112,6 +127,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           plexName: event.plexName,
           plexIdentifier: event.plexIdentifier,
           primaryActive: true,
+          onesignalRegistered: event.onesignalRegistered,
           plexPass: event.plexPass,
           dateFormat: event.dateFormat,
           timeFormat: event.timeFormat,
@@ -308,6 +324,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         await settings.setLastAppVersion(packageInfo.version);
       }
+      if (event is SettingsUpdateWizardCompleteStatus) {
+        await settings.setWizardCompleteStatus(event.complete);
+      }
     }
   }
 
@@ -330,7 +349,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     yield SettingsLoadSuccess(
       serverList: serverList,
-      serverTimeout: serverTimeout,
+      serverTimeout: serverTimeout ?? 15,
       refreshRate: refreshRate ?? 0,
       doubleTapToExit: doubleTapToExit ?? false,
       maskSensitiveInfo: maskSensitiveInfo ?? false,
@@ -366,6 +385,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
               plexPass: settingsMap['plexPass'],
               dateFormat: settingsMap['dateFormat'],
               timeFormat: settingsMap['timeFormat'],
+              onesignalRegistered: settingsMap['onesignalRegistered'],
             ),
           );
         }
@@ -384,6 +404,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       'pmsIdentifier': null,
       'dateFormat': null,
       'timeFormat': null,
+      'onesignalRegistered': server.onesignalRegistered,
     };
 
     // Check for changes to plexPass or pmsName
@@ -440,6 +461,39 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         }
       },
     );
+
+    // If OneSignal User ID exists but server flag is false trigger a device
+    // register and signal to update server flag
+    if (isNotEmpty(await onesignal.userId) && !server.onesignalRegistered) {
+      final failureOrRegisterDevice = await registerDevice(
+        connectionProtocol: server.primaryActive
+            ? server.primaryConnectionProtocol
+            : server.secondaryConnectionProtocol,
+        connectionDomain: server.primaryActive
+            ? server.primaryConnectionDomain
+            : server.secondaryConnectionDomain,
+        connectionPath: server.primaryActive
+            ? server.primaryConnectionPath
+            : server.secondaryConnectionPath,
+        deviceToken: server.deviceToken,
+        trustCert: false,
+      );
+      failureOrRegisterDevice.fold(
+        (failure) {
+          logging.error(
+            'Settings: Failed to update registration with OneSignal User ID for ${server.plexName}',
+          );
+        },
+        (registeredData) {
+          logging.info(
+            'Settings: Updating registration with OneSignal User ID for ${server.plexName}',
+          );
+
+          settingsMap['onesignalRegistered'] = true;
+          settingsMap['needsUpdate'] = true;
+        },
+      );
+    }
 
     return settingsMap;
   }

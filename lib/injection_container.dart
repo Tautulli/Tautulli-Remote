@@ -136,6 +136,7 @@ import 'features/users/presentation/bloc/user_bloc.dart';
 import 'features/users/presentation/bloc/user_statistics_bloc.dart';
 import 'features/users/presentation/bloc/users_bloc.dart';
 import 'features/users/presentation/bloc/users_list_bloc.dart';
+import 'features/wizard/presentation/bloc/wizard_bloc.dart';
 
 // Service locator alias
 final sl = GetIt.instance;
@@ -682,6 +683,8 @@ Future<void> init() async {
   sl.registerFactory(
     () => SettingsBloc(
       settings: sl(),
+      registerDevice: sl(),
+      onesignal: sl(),
       logging: sl(),
     ),
   );
@@ -689,6 +692,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => RegisterDeviceBloc(
       registerDevice: sl(),
+      onesignal: sl(),
       settings: sl(),
       logging: sl(),
     ),
@@ -947,6 +951,12 @@ Future<void> init() async {
       apiGetUserPlayerStats: sl(),
       apiGetUserWatchTimeStats: sl(),
     ),
+  );
+
+  //! Features - Wizard
+  // Bloc
+  sl.registerFactory(
+    () => WizardBloc(),
   );
 
   //! Core

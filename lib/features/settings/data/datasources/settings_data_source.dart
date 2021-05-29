@@ -63,6 +63,10 @@ abstract class SettingsDataSource {
 
   Future<bool> setLastReadAnnouncementId(int value);
 
+  Future<bool> getWizardCompleteStatus();
+
+  Future<bool> setWizardCompleteStatus(bool value);
+
   Future<List<int>> getCustomCertHashList();
 
   Future<bool> setCustomCertHashList(List<int> certHashList);
@@ -79,6 +83,7 @@ const USERS_SORT = 'USERS_SORT';
 const ONE_SIGNAL_BANNER_DISMISSED = 'ONE_SIGNAL_BANNER_DISMISSED';
 const LAST_APP_VERSION = 'LAST_APP_VERSION';
 const LAST_READ_ANNOUNCEMENT_ID = 'LAST_READ_ANNOUNCEMENT_ID';
+const WIZARD_COMPLETE_STATUS = 'WIZARD_COMPLETE_STATUS';
 const CUSTOM_CERT_HASH_LIST = 'CUSTOM_CERT_HASH_LIST';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
@@ -246,6 +251,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setLastReadAnnouncementId(int value) {
     return sharedPreferences.setInt(LAST_READ_ANNOUNCEMENT_ID, value);
+  }
+
+  @override
+  Future<bool> getWizardCompleteStatus() {
+    final value = sharedPreferences.getBool(WIZARD_COMPLETE_STATUS);
+    return Future.value(value);
+  }
+
+  @override
+  Future<bool> setWizardCompleteStatus(bool value) {
+    return sharedPreferences.setBool(WIZARD_COMPLETE_STATUS, value);
   }
 
   @override

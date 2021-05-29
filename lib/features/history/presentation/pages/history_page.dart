@@ -209,6 +209,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                   if (state.list.isNotEmpty) {
                     return Expanded(
                       child: RefreshIndicator(
+                        color: Theme.of(context).accentColor,
                         onRefresh: () {
                           _historyBloc.add(
                             HistoryFilter(
@@ -308,9 +309,11 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                     ),
                   );
                 }
-                return const Expanded(
+                return Expanded(
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).accentColor,
+                    ),
                   ),
                 );
               },
@@ -420,7 +423,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                       );
                     },
                   ),
-                  const Positioned(
+                  Positioned(
                     right: 5,
                     top: 25,
                     child: SizedBox(
@@ -428,6 +431,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                       width: 13,
                       child: CircularProgressIndicator(
                         strokeWidth: 1,
+                        color: Theme.of(context).accentColor,
                       ),
                     ),
                   ),

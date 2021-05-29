@@ -4,32 +4,25 @@ abstract class RegisterDeviceEvent extends Equatable {
   const RegisterDeviceEvent();
 }
 
-class RegisterDeviceFromQrStarted extends RegisterDeviceEvent {
-  final String result;
-  final SettingsBloc settingsBloc;
-
-  RegisterDeviceFromQrStarted({
-    @required this.result,
-    @required this.settingsBloc,
-  });
-
-  @override
-  List<Object> get props => [result];
-}
-
-class RegisterDeviceManualStarted extends RegisterDeviceEvent {
-  final String connectionAddress;
+class RegisterDeviceStarted extends RegisterDeviceEvent {
+  final String primaryConnectionAddress;
+  final String secondaryConnectionAddress;
   final String deviceToken;
   final SettingsBloc settingsBloc;
 
-  RegisterDeviceManualStarted({
-    @required this.connectionAddress,
+  RegisterDeviceStarted({
+    @required this.primaryConnectionAddress,
+    this.secondaryConnectionAddress,
     @required this.deviceToken,
     @required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [connectionAddress, deviceToken];
+  List<Object> get props => [
+        primaryConnectionAddress,
+        secondaryConnectionAddress,
+        deviceToken,
+      ];
 }
 
 class RegisterDeviceUnverifiedCert extends RegisterDeviceEvent {

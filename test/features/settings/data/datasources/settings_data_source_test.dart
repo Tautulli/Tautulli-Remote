@@ -600,6 +600,49 @@ void main() {
     );
   });
 
+  group('Wizard Complete Status', () {
+    test(
+      'should return bool from settings',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(WIZARD_COMPLETE_STATUS),
+        ).thenReturn(true);
+        // act
+        final wizardCompleteStauts = await dataSource.getWizardCompleteStatus();
+        // assert
+        verify(mockSharedPreferences.getBool(WIZARD_COMPLETE_STATUS));
+        expect(wizardCompleteStauts, equals(true));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(WIZARD_COMPLETE_STATUS),
+        ).thenReturn(null);
+        // act
+        final wizardCompleteStauts = await dataSource.getWizardCompleteStatus();
+        // assert
+        expect(wizardCompleteStauts, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the wizard complete status value',
+      () async {
+        // act
+        await dataSource.setWizardCompleteStatus(true);
+        // assert
+        verify(
+          mockSharedPreferences.setBool(WIZARD_COMPLETE_STATUS, true),
+        );
+      },
+    );
+  });
+
   group('Custom Cert Hash List', () {
     test(
       'should return list of custom cert hashes from settings',

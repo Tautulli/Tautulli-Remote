@@ -68,6 +68,7 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
       },
       builder: (context, state) {
         return RefreshIndicator(
+          color: Theme.of(context).accentColor,
           onRefresh: () {
             _streamTypeGraphsBloc.add(
               StreamTypeGraphsFetch(
@@ -104,7 +105,9 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                                 suggestion:
                                     state.playsByStreamType.failureSuggestion,
                               )
-                            : const CircularProgressIndicator(),
+                            : CircularProgressIndicator(
+                                color: Theme.of(context).accentColor,
+                              ),
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
@@ -131,7 +134,9 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                                 suggestion: state
                                     .playsBySourceResolution.failureSuggestion,
                               )
-                            : const CircularProgressIndicator(),
+                            : CircularProgressIndicator(
+                                color: Theme.of(context).accentColor,
+                              ),
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
@@ -158,7 +163,9 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                                 suggestion: state
                                     .playsByStreamResolution.failureSuggestion,
                               )
-                            : const CircularProgressIndicator(),
+                            : CircularProgressIndicator(
+                                color: Theme.of(context).accentColor,
+                              ),
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
@@ -187,7 +194,9 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                                 suggestion: state.streamTypeByTop10Platforms
                                     .failureSuggestion,
                               )
-                            : const CircularProgressIndicator(),
+                            : CircularProgressIndicator(
+                                color: Theme.of(context).accentColor,
+                              ),
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
@@ -217,7 +226,9 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                                 suggestion: state
                                     .streamTypeByTop10Users.failureSuggestion,
                               )
-                            : const CircularProgressIndicator(),
+                            : CircularProgressIndicator(
+                                color: Theme.of(context).accentColor,
+                              ),
                       ),
               ],
             ),

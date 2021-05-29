@@ -53,8 +53,10 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
       },
       builder: (context, state) {
         if (state is LibraryMediaInProgress) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).accentColor,
+            ),
           );
         }
         if (state is LibraryMediaFailure) {
@@ -87,6 +89,7 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
         if (state is LibraryMediaSuccess) {
           if (state.libraryMediaList.isNotEmpty) {
             return RefreshIndicator(
+              color: Theme.of(context).accentColor,
               onRefresh: () {
                 context.read<LibraryMediaBloc>().add(
                       LibraryMediaFullRefresh(

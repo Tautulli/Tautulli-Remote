@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../core/widgets/media_type_icon.dart';
 import '../../domain/entities/recent.dart';
@@ -55,7 +56,7 @@ class RecentlyAddedDetails extends StatelessWidget {
                   ),
                   MediaTypeIcon(
                     mediaType: recentItem.mediaType,
-                    iconColor: Colors.grey,
+                    iconColor: TautulliColorPalette.not_white,
                   ),
                 ],
               ),

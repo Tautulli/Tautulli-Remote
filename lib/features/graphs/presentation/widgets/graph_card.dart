@@ -85,10 +85,11 @@ class GraphCard extends StatelessWidget {
                 ),
               ),
               graphCurrentState == GraphCurrentState.inProgress
-                  ? const Padding(
-                      padding: EdgeInsets.only(top: 6),
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 6),
                       child: LinearProgressIndicator(
                         minHeight: 2,
+                        color: Theme.of(context).accentColor,
                         backgroundColor: Colors.transparent,
                       ),
                     )

@@ -36,8 +36,10 @@ class MediaDetailsTab extends StatelessWidget {
         if (state is MetadataSuccess) {
           return _TabContent(metadata: state.metadata);
         }
-        return const Center(
-          child: CircularProgressIndicator(),
+        return Center(
+          child: CircularProgressIndicator(
+            color: Theme.of(context).accentColor,
+          ),
         );
       },
     );

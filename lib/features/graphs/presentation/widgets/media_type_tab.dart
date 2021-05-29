@@ -68,6 +68,7 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
       },
       builder: (context, state) {
         return RefreshIndicator(
+          color: Theme.of(context).accentColor,
           onRefresh: () {
             _mediaTypeGraphsBloc.add(
               MediaTypeGraphsFetch(
@@ -102,7 +103,9 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
                                 message: state.playsByDate.failureMessage,
                                 suggestion: state.playsByDate.failureSuggestion,
                               )
-                            : const CircularProgressIndicator(),
+                            : CircularProgressIndicator(
+                                color: Theme.of(context).accentColor,
+                              ),
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
@@ -127,7 +130,9 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
                                 suggestion:
                                     state.playsByDayOfWeek.failureSuggestion,
                               )
-                            : const CircularProgressIndicator(),
+                            : CircularProgressIndicator(
+                                color: Theme.of(context).accentColor,
+                              ),
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
@@ -154,7 +159,9 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
                                 suggestion:
                                     state.playsByHourOfDay.failureSuggestion,
                               )
-                            : const CircularProgressIndicator(),
+                            : CircularProgressIndicator(
+                                color: Theme.of(context).accentColor,
+                              ),
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
@@ -181,7 +188,9 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
                                 suggestion: state
                                     .playsByTop10Platforms.failureSuggestion,
                               )
-                            : const CircularProgressIndicator(),
+                            : CircularProgressIndicator(
+                                color: Theme.of(context).accentColor,
+                              ),
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
@@ -208,7 +217,9 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
                                 suggestion:
                                     state.playsByTop10Users.failureSuggestion,
                               )
-                            : const CircularProgressIndicator(),
+                            : CircularProgressIndicator(
+                                color: Theme.of(context).accentColor,
+                              ),
                       ),
               ],
             ),

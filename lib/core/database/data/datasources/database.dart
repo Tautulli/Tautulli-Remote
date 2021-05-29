@@ -30,29 +30,33 @@ class DBProvider {
 
     return await openDatabase(
       path,
-      version: 5,
+      version: 6,
       onOpen: (db) async {},
       onCreate: (Database db, int version) async {
         var batch = db.batch();
-        _createTableServerV5(batch);
+        _createTableServerV6(batch);
         await batch.commit();
       },
       onUpgrade: (Database db, int oldVersion, int newVersion) async {
         var batch = db.batch();
         if (oldVersion == 1) {
-          _updateTableServerV1toV5(batch);
+          _updateTableServerV1toV6(batch);
           await _addInitialIndexValue(db, batch);
         }
         if (oldVersion == 2) {
-          _updateTableServerV2toV5(batch);
+          _updateTableServerV2toV6(batch);
           await _addInitialIndexValue(db, batch);
         }
         if (oldVersion == 3) {
-          _updateTableServerV3toV5(batch);
+          _updateTableServerV3toV6(batch);
           await _addInitialIndexValue(db, batch);
         }
         if (oldVersion == 4) {
-          _updateTableServerV4toV5(batch);
+          _updateTableServerV4toV6(batch);
+          await _addInitialIndexValue(db, batch);
+        }
+        if (oldVersion == 5) {
+          _updateTableServerV5toV6(batch);
           await _addInitialIndexValue(db, batch);
         }
         await batch.commit();
@@ -60,7 +64,7 @@ class DBProvider {
     );
   }
 
-  void _createTableServerV5(Batch batch) {
+  void _createTableServerV6(Batch batch) {
     batch.execute('''CREATE TABLE servers(
                     id INTEGER PRIMARY KEY,
                     sort_index INTEGER,
@@ -77,34 +81,43 @@ class DBProvider {
                     secondary_connection_path TEXT,
                     device_token TEXT,
                     primary_active INTEGER,
+                    onesignal_registered INTEGER,
                     plex_pass INTEGER,
                     date_format TEXT,
                     time_format TEXT
                 )''');
   }
 
-  void _updateTableServerV1toV5(Batch batch) {
+  void _updateTableServerV1toV6(Batch batch) {
     batch.execute('ALTER TABLE servers ADD plex_pass INTEGER');
     batch.execute('ALTER TABLE servers ADD date_format TEXT');
     batch.execute('ALTER TABLE servers ADD time_format TEXT');
     batch.execute('ALTER TABLE servers ADD plex_identifier TEXT');
     batch.execute('ALTER TABLE servers ADD sort_index INTEGER');
+    batch.execute('ALTER TABLE servers ADD onesignal_registered INTEGER');
   }
 
-  void _updateTableServerV2toV5(Batch batch) {
+  void _updateTableServerV2toV6(Batch batch) {
     batch.execute('ALTER TABLE servers ADD date_format TEXT');
     batch.execute('ALTER TABLE servers ADD time_format TEXT');
     batch.execute('ALTER TABLE servers ADD plex_identifier TEXT');
     batch.execute('ALTER TABLE servers ADD sort_index INTEGER');
+    batch.execute('ALTER TABLE servers ADD onesignal_registered INTEGER');
   }
 
-  void _updateTableServerV3toV5(Batch batch) {
+  void _updateTableServerV3toV6(Batch batch) {
     batch.execute('ALTER TABLE servers ADD plex_identifier TEXT');
     batch.execute('ALTER TABLE servers ADD sort_index INTEGER');
+    batch.execute('ALTER TABLE servers ADD onesignal_registered INTEGER');
   }
 
-  void _updateTableServerV4toV5(Batch batch) {
+  void _updateTableServerV4toV6(Batch batch) {
     batch.execute('ALTER TABLE servers ADD sort_index INTEGER');
+    batch.execute('ALTER TABLE servers ADD onesignal_registered INTEGER');
+  }
+
+  void _updateTableServerV5toV6(Batch batch) {
+    batch.execute('ALTER TABLE servers ADD onesignal_registered INTEGER');
   }
 
   Future<void> _addInitialIndexValue(Database db, Batch batch) async {
@@ -221,6 +234,20 @@ class DBProvider {
   getAllServers() async {
     final db = await database;
     var result = await db.query('servers');
+    List<ServerModel> serverList = result.isNotEmpty
+        ? result.map((settings) => ServerModel.fromJson(settings)).toList()
+        : [];
+
+    return serverList;
+  }
+
+  getAllServersWithoutOnesignalRegistered() async {
+    final db = await database;
+    var result = await db.query(
+      'servers',
+      where: 'onesignal_registered != ?',
+      whereArgs: [1],
+    );
     List<ServerModel> serverList = result.isNotEmpty
         ? result.map((settings) => ServerModel.fromJson(settings)).toList()
         : [];

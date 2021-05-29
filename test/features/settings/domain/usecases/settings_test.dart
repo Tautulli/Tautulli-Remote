@@ -508,7 +508,7 @@ void main() {
   );
 
   test(
-    'getOneSignalBannerDismissed should get mask sensitive info value from settings',
+    'getOneSignalBannerDismissed should get banner dismissed value from settings',
     () async {
       // arrange
       when(
@@ -582,6 +582,33 @@ void main() {
       await settings.setLastReadAnnouncementId(1);
       // assert
       verify(mockSettingsRepository.setLastReadAnnouncementId(1));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'getWizardCompleteStatus should get wizard complete status value from settings',
+    () async {
+      // arrange
+      when(
+        mockSettingsRepository.getWizardCompleteStatus(),
+      ).thenAnswer((_) async => true);
+      // act
+      final result = await settings.getWizardCompleteStatus();
+      // assert
+      expect(result, equals(true));
+      verify(mockSettingsRepository.getWizardCompleteStatus());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setWizardCompleteStatus should forward request to the repository',
+    () async {
+      // act
+      await settings.setWizardCompleteStatus(true);
+      // assert
+      verify(mockSettingsRepository.setWizardCompleteStatus(true));
       verifyNoMoreInteractions(mockSettingsRepository);
     },
   );

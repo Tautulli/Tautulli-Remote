@@ -145,13 +145,16 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                         );
                       } else if (result == ActivityLoadingState.inProgress &&
                           serverMap['activityList'].isEmpty) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).accentColor,
+                          ),
                         );
                       }
                     }
 
                     return RefreshIndicator(
+                      color: Theme.of(context).accentColor,
                       onRefresh: () {
                         context.read<ActivityBloc>().add(
                               ActivityLoadAndRefresh(

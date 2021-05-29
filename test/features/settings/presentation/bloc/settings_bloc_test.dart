@@ -5,9 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/database/data/models/server_model.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
 import 'package:tautulli_remote/features/settings/data/models/tautulli_settings_general_model.dart';
 import 'package:tautulli_remote/features/settings/domain/entities/plex_server_info.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
@@ -15,19 +17,29 @@ import '../../../../fixtures/fixture_reader.dart';
 
 class MockSettings extends Mock implements Settings {}
 
+class MockRegisterDevice extends Mock implements RegisterDevice {}
+
+class MockOneSignal extends Mock implements OneSignalDataSource {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   SettingsBloc bloc;
   MockSettings mockSettings;
+  MockRegisterDevice mockRegisterDevice;
+  MockOneSignal mockOneSignal;
   MockLogging mockLogging;
 
   setUp(() {
     mockSettings = MockSettings();
+    mockRegisterDevice = MockRegisterDevice();
+    mockOneSignal = MockOneSignal();
     mockLogging = MockLogging();
 
     bloc = SettingsBloc(
       settings: mockSettings,
+      registerDevice: mockRegisterDevice,
+      onesignal: mockOneSignal,
       logging: mockLogging,
     );
   });
@@ -61,6 +73,7 @@ void main() {
     plexName: tPlexName,
     plexIdentifier: tPlexIdentifier,
     primaryActive: true,
+    onesignalRegistered: false,
     plexPass: true,
     sortIndex: 0,
   );
@@ -75,6 +88,7 @@ void main() {
     plexName: tPlexName2,
     plexIdentifier: tPlexIdentifier2,
     primaryActive: true,
+    onesignalRegistered: true,
     plexPass: true,
     sortIndex: 1,
   );
@@ -97,10 +111,19 @@ void main() {
   const String tYAxis = 'duration';
   const String tUsersSort = 'friendly_name|asc';
   const bool tOneSignalBannerDismissed = false;
+  const String oneSignalUserId = 'abd';
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =
       PlexServerInfoModel.fromJson(plexServerInfoJson['response']['data']);
+
+  Map registerDeviceResponseMap = {
+    "data": {
+      "pms_name": "Starlight",
+      "server_id": "jkl",
+      "pms_plexpass": 1,
+    }
+  };
 
   void setUpSuccess({bool updatedServerList = false}) {
     when(mockSettings.getAllServers()).thenAnswer(
@@ -124,6 +147,16 @@ void main() {
       tautulliId: anyNamed('tautulliId'),
       settingsBloc: anyNamed('settingsBloc'),
     )).thenAnswer((_) async => Right(tTautulliSettings));
+    when(mockOneSignal.userId).thenAnswer((_) async => oneSignalUserId);
+    when(
+      mockRegisterDevice(
+        connectionProtocol: anyNamed('connectionProtocol'),
+        connectionDomain: anyNamed('connectionDomain'),
+        connectionPath: anyNamed('connectionPath'),
+        deviceToken: anyNamed('deviceToken'),
+        trustCert: anyNamed('trustCert'),
+      ),
+    ).thenAnswer((_) async => Right(registerDeviceResponseMap));
   }
 
   test(
@@ -212,6 +245,7 @@ void main() {
               plexName: tPlexName2,
               plexIdentifier: tPlexIdentifier2,
               plexPass: true,
+              onesignalRegistered: true,
             ),
           );
           await untilCalled(
@@ -1294,6 +1328,34 @@ void main() {
           expectLater(bloc.stream, emitsInOrder(expected));
           // act
           bloc.add(SettingsUpdateOneSignalBannerDismiss(true));
+        },
+      );
+    });
+    group('SettingsUpdateWizardCompleteStatus', () {
+      setUp(() {
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+            yAxis: tYAxis,
+            usersSort: tUsersSort,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
+          ),
+        );
+      });
+      test(
+        'should call the Settings.setWizardCompleteStatus() use case',
+        () async {
+          // act
+          bloc.add(SettingsUpdateWizardCompleteStatus(true));
+          await untilCalled(mockSettings.setWizardCompleteStatus(true));
+          // assert
+          verify(mockSettings.setWizardCompleteStatus(true));
         },
       );
     });

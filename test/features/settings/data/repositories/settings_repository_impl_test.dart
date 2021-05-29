@@ -58,6 +58,7 @@ void main() {
   const bool tOneSignalBannerDismissed = false;
   const String tLastAppVersion = '2.1.5';
   const int tLastReadAnnouncementId = 1;
+  const bool tWizardCompleteStatus = false;
   final List<int> tCustomCertHashList = [1, 2];
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
@@ -499,6 +500,32 @@ void main() {
         // assert
         verify(mockSettingsDataSource
             .setLastReadAnnouncementId(tLastReadAnnouncementId));
+      },
+    );
+  });
+
+  group('Wizard Complete Status', () {
+    test(
+      'should return the wizard complete status value from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getWizardCompleteStatus())
+            .thenAnswer((_) async => tWizardCompleteStatus);
+        // act
+        final result = await repository.getWizardCompleteStatus();
+        // assert
+        expect(result, equals(tWizardCompleteStatus));
+      },
+    );
+
+    test(
+      'should forward the call to the data source to set banner dismiss',
+      () async {
+        // act
+        await repository.setWizardCompleteStatus(tWizardCompleteStatus);
+        // assert
+        verify(mockSettingsDataSource
+            .setWizardCompleteStatus(tWizardCompleteStatus));
       },
     );
   });

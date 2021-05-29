@@ -8,7 +8,12 @@ import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 
 class PrivacyPage extends StatelessWidget {
-  const PrivacyPage({Key key}) : super(key: key);
+  final bool showConsentSwitch;
+
+  const PrivacyPage({
+    Key key,
+    this.showConsentSwitch = true,
+  }) : super(key: key);
 
   static const routeName = '/privacy';
 
@@ -21,7 +26,7 @@ class PrivacyPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: const Text('Privacy'),
+        title: const Text('OneSignal Data Privacy'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,87 +36,79 @@ class PrivacyPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  'OneSignal Data Privacy',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 16,
+                  vertical: 16,
                 ),
                 child: _OneSignalDataPrivacyText(),
               ),
-              BlocBuilder<OneSignalPrivacyBloc, OneSignalPrivacyState>(
-                builder: (context, state) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: SwitchListTile(
-                      title: const Text(
-                        'Consent to OneSignal data privacy',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+              if (showConsentSwitch)
+                BlocBuilder<OneSignalPrivacyBloc, OneSignalPrivacyState>(
+                  builder: (context, state) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: SwitchListTile(
+                        title: const Text(
+                          'Consent to OneSignal data privacy',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      subtitle: BlocBuilder<OneSignalPrivacyBloc,
-                          OneSignalPrivacyState>(
-                        builder: (context, state) {
-                          return RichText(
-                            text: TextSpan(
-                              children: [
-                                const TextSpan(
-                                  text: 'Status: ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                ),
-                                if (state is OneSignalPrivacyConsentFailure)
+                        subtitle: BlocBuilder<OneSignalPrivacyBloc,
+                            OneSignalPrivacyState>(
+                          builder: (context, state) {
+                            return RichText(
+                              text: TextSpan(
+                                children: [
                                   const TextSpan(
-                                    text: 'Not Accepted X',
+                                    text: 'Status: ',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w300,
-                                      color: Colors.red,
                                     ),
                                   ),
-                                if (state is OneSignalPrivacyConsentSuccess)
-                                  const TextSpan(
-                                    text: 'Accepted ✓',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.green,
+                                  if (state is OneSignalPrivacyConsentFailure)
+                                    const TextSpan(
+                                      text: 'Not Accepted X',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.red,
+                                      ),
                                     ),
-                                  ),
-                              ],
-                            ),
-                          );
+                                  if (state is OneSignalPrivacyConsentSuccess)
+                                    const TextSpan(
+                                      text: 'Accepted ✓',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        value: state is OneSignalPrivacyConsentSuccess
+                            ? true
+                            : false,
+                        onChanged: (_) async {
+                          if (state is OneSignalPrivacyConsentFailure) {
+                            await _grantConsentFuture(oneSignalPrivacyBloc);
+                            oneSignalSubscriptionBloc
+                                .add(OneSignalSubscriptionCheck());
+                            oneSignalHealthBloc.add(OneSignalHealthCheck());
+                          }
+                          if (state is OneSignalPrivacyConsentSuccess) {
+                            oneSignalPrivacyBloc
+                                .add(OneSignalPrivacyRevokeConsent());
+                            oneSignalSubscriptionBloc
+                                .add(OneSignalSubscriptionCheck());
+                            oneSignalHealthBloc.add(OneSignalHealthCheck());
+                          }
                         },
                       ),
-                      value: state is OneSignalPrivacyConsentSuccess
-                          ? true
-                          : false,
-                      onChanged: (_) async {
-                        if (state is OneSignalPrivacyConsentFailure) {
-                          await _grantConsentFuture(oneSignalPrivacyBloc);
-                          oneSignalSubscriptionBloc
-                              .add(OneSignalSubscriptionCheck());
-                          oneSignalHealthBloc.add(OneSignalHealthCheck());
-                        }
-                        if (state is OneSignalPrivacyConsentSuccess) {
-                          oneSignalPrivacyBloc
-                              .add(OneSignalPrivacyRevokeConsent());
-                          oneSignalSubscriptionBloc
-                              .add(OneSignalSubscriptionCheck());
-                          oneSignalHealthBloc.add(OneSignalHealthCheck());
-                        }
-                      },
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                ),
             ],
           ),
         ],
@@ -126,9 +123,7 @@ Future<void> _grantConsentFuture(OneSignalPrivacyBloc oneSignalPrivacyBloc) {
 }
 
 class _OneSignalDataPrivacyText extends StatelessWidget {
-  const _OneSignalDataPrivacyText({
-    Key key,
-  }) : super(key: key);
+  const _OneSignalDataPrivacyText({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +199,7 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
           ),
           const TextSpan(
             text:
-                '\n\nOnce you accept, this device will register with OneSignal. Consent can later be revoked to prevent further communication sent to OneSignal.',
+                '\n\nOnce you accept, this device will register with OneSignal. Consent can be revoked to prevent further communication with OneSignal.',
           ),
         ],
       ),

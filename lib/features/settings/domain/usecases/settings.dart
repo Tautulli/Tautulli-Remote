@@ -40,6 +40,10 @@ class Settings {
     return await repository.getAllServers();
   }
 
+  Future<List<ServerModel>> getAllServersWithoutOnesignalRegistered() async {
+    return await repository.getAllServersWithoutOnesignalRegistered();
+  }
+
   Future getServer(int id) async {
     return await repository.getServer(id);
   }
@@ -196,6 +200,14 @@ class Settings {
 
   Future<bool> setLastReadAnnouncementId(int value) async {
     return repository.setLastReadAnnouncementId(value);
+  }
+
+  Future<bool> getWizardCompleteStatus() async {
+    return await repository.getWizardCompleteStatus();
+  }
+
+  Future<bool> setWizardCompleteStatus(bool value) async {
+    return repository.setWizardCompleteStatus(value);
   }
 
   Future<List<int>> getCustomCertHashList() async {

@@ -177,6 +177,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
                         if (state.list.isNotEmpty) {
                           return Expanded(
                             child: RefreshIndicator(
+                              color: Theme.of(context).accentColor,
                               onRefresh: () {
                                 _usersBloc.add(
                                   UsersFilter(
@@ -252,9 +253,11 @@ class _UsersPageContentState extends State<UsersPageContent> {
                           ),
                         );
                       }
-                      return const Expanded(
+                      return Expanded(
                         child: Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).accentColor,
+                          ),
                         ),
                       );
                     },

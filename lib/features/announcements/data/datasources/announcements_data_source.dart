@@ -19,7 +19,7 @@ class AnnouncementsDataSourceImpl implements AnnouncementsDataSource {
   @override
   Future<List<Announcement>> getAnnouncements() async {
     final response = await client.get(
-      'https://tautulli.com/news/tautulli-remote-announcements.json',
+      Uri.parse('https://tautulli.com/news/tautulli-remote-announcements.json'),
       headers: {'Content-Type': 'application/json'},
     );
 

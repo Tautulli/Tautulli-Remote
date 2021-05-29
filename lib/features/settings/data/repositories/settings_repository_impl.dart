@@ -65,6 +65,14 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<List<ServerModel>> getAllServersWithoutOnesignalRegistered() async {
+    List<ServerModel> settingsList =
+        await DBProvider.db.getAllServersWithoutOnesignalRegistered();
+
+    return settingsList;
+  }
+
+  @override
   Future<ServerModel> getServer(int id) async {
     final settings = await DBProvider.db.getServer(id);
 
@@ -284,6 +292,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<bool> setLastReadAnnouncementId(int value) async {
     return dataSource.setLastReadAnnouncementId(value);
+  }
+
+  @override
+  Future<bool> getWizardCompleteStatus() async {
+    final wizardCompleteStatus = await dataSource.getWizardCompleteStatus();
+    return wizardCompleteStatus;
+  }
+
+  @override
+  Future<bool> setWizardCompleteStatus(bool value) async {
+    return dataSource.setWizardCompleteStatus(value);
   }
 
   @override

@@ -15,28 +15,34 @@ class SettingsLoad extends SettingsEvent {
 
 class SettingsAddServer extends SettingsEvent {
   final String primaryConnectionAddress;
+  final String secondaryConnectionAddress;
   final String deviceToken;
   final String tautulliId;
   final String plexName;
   final String plexIdentifier;
   final bool plexPass;
+  final bool onesignalRegistered;
 
   SettingsAddServer({
     @required this.primaryConnectionAddress,
+    this.secondaryConnectionAddress,
     @required this.deviceToken,
     @required this.tautulliId,
     @required this.plexName,
     @required this.plexIdentifier,
     @required this.plexPass,
+    this.onesignalRegistered,
   });
 
   @override
   List<Object> get props => [
         primaryConnectionAddress,
+        secondaryConnectionAddress,
         deviceToken,
         tautulliId,
         plexName,
         plexPass,
+        onesignalRegistered,
       ];
 }
 
@@ -52,6 +58,7 @@ class SettingsUpdateServer extends SettingsEvent {
   final bool plexPass;
   final String dateFormat;
   final String timeFormat;
+  final bool onesignalRegistered;
 
   SettingsUpdateServer({
     @required this.id,
@@ -65,6 +72,7 @@ class SettingsUpdateServer extends SettingsEvent {
     @required this.plexPass,
     @required this.dateFormat,
     @required this.timeFormat,
+    this.onesignalRegistered,
   });
 
   @override
@@ -79,6 +87,7 @@ class SettingsUpdateServer extends SettingsEvent {
         plexPass,
         dateFormat,
         timeFormat,
+        onesignalRegistered,
       ];
 }
 
@@ -224,6 +233,15 @@ class SettingsUpdateOneSignalBannerDismiss extends SettingsEvent {
 class SettingsUpdateLastAppVersion extends SettingsEvent {
   @override
   List<Object> get props => [];
+}
+
+class SettingsUpdateWizardCompleteStatus extends SettingsEvent {
+  final bool complete;
+
+  SettingsUpdateWizardCompleteStatus(this.complete);
+
+  @override
+  List<Object> get props => [complete];
 }
 
 class SettingsDeleteServer extends SettingsEvent {

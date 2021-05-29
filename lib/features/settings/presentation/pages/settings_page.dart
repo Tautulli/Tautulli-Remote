@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:quiver/strings.dart';
@@ -25,7 +23,7 @@ import '../widgets/certificate_failure_alert_dialog.dart';
 import '../widgets/server_setup_instructions.dart';
 import '../widgets/server_timeout_dialog.dart';
 import '../widgets/settings_alert_banner.dart';
-import 'manual_registration_form_page.dart';
+import 'server_registration_page.dart';
 import 'server_settings_page.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -36,7 +34,6 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<SettingsBloc>();
-    // Makes sure RegisterDeviceBloc is available for the FAB
     return BlocProvider(
       create: (context) => di.sl<RegisterDeviceBloc>(),
       child: const SettingsPageContent(),
@@ -52,26 +49,6 @@ class SettingsPageContent extends StatefulWidget {
 }
 
 class _SettingsPageContentState extends State<SettingsPageContent> {
-  // ScrollController scrollController;
-  // bool dialVisible = true;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   scrollController = ScrollController()
-  //     ..addListener(() {
-  //       setDialVisible(scrollController.position.userScrollDirection ==
-  //           ScrollDirection.forward);
-  //     });
-  // }
-
-  // void setDialVisible(bool value) {
-  //   setState(() {
-  //     dialVisible = value;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     final oneSignalPrivacyBloc = context.read<OneSignalPrivacyBloc>();
@@ -88,10 +65,6 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
         title: const Text('Settings'),
       ),
       drawer: const AppDrawer(),
-      floatingActionButton: _buildSpeedDial(
-        context,
-        // dialVisible: dialVisible,
-      ),
       body: DoubleTapExit(
         child: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
           listener: (context, state) {
@@ -122,7 +95,6 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
             builder: (context, state) {
               if (state is SettingsLoadSuccess) {
                 return ListView(
-                  // controller: scrollController,
                   children: <Widget>[
                     const Padding(
                       padding: EdgeInsets.only(bottom: 10),
@@ -131,85 +103,122 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                     const ListHeader(
                       headingText: 'Tautulli Servers',
                     ),
-                    state.serverList.isEmpty
-                        ? const Padding(
-                            padding: EdgeInsets.only(
-                              left: 16,
-                              right: 16,
-                              top: 10,
-                            ),
-                            child: ServerSetupInstructions(),
-                          )
-                        : ReorderableColumn(
-                            onReorder: (oldIndex, newIndex) {
-                              final int movedServerId =
-                                  state.serverList[oldIndex].id;
-                              context.read<SettingsBloc>().add(
-                                    SettingsUpdateSortIndex(
-                                      serverId: movedServerId,
-                                      oldIndex: oldIndex,
-                                      newIndex: newIndex,
-                                    ),
-                                  );
-                            },
-                            children: state.serverList
-                                .map(
-                                  (server) => ListTile(
-                                    key: ValueKey(server.id),
-                                    title: Text('${server.plexName}'),
-                                    subtitle: (isEmpty(
-                                            server.primaryConnectionAddress))
-                                        ? const Text(
-                                            'Primary Connection Address Missing')
-                                        : isNotEmpty(server
-                                                    .primaryConnectionAddress) &&
-                                                server.primaryActive &&
-                                                !state.maskSensitiveInfo
-                                            ? Text(
-                                                server.primaryConnectionAddress)
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        state.serverList.isEmpty
+                            ? const Padding(
+                                padding: EdgeInsets.only(
+                                  left: 16,
+                                  right: 16,
+                                  top: 10,
+                                ),
+                                child: ServerSetupInstructions(),
+                              )
+                            : ReorderableColumn(
+                                onReorder: (oldIndex, newIndex) {
+                                  final int movedServerId =
+                                      state.serverList[oldIndex].id;
+                                  context.read<SettingsBloc>().add(
+                                        SettingsUpdateSortIndex(
+                                          serverId: movedServerId,
+                                          oldIndex: oldIndex,
+                                          newIndex: newIndex,
+                                        ),
+                                      );
+                                },
+                                children: state.serverList
+                                    .map(
+                                      (server) => ListTile(
+                                        key: ValueKey(server.id),
+                                        title: Text('${server.plexName}'),
+                                        subtitle: (isEmpty(server
+                                                .primaryConnectionAddress))
+                                            ? const Text(
+                                                'Primary Connection Address Missing')
                                             : isNotEmpty(server
                                                         .primaryConnectionAddress) &&
-                                                    !server.primaryActive &&
+                                                    server.primaryActive &&
                                                     !state.maskSensitiveInfo
                                                 ? Text(server
-                                                    .secondaryConnectionAddress)
-                                                : const Text(
-                                                    '*Hidden Connection Address*'),
-                                    trailing: const FaIcon(
-                                      FontAwesomeIcons.cog,
-                                      color: TautulliColorPalette.not_white,
-                                    ),
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return ServerSettingsPage(
-                                              id: server.id,
-                                              plexName: server.plexName,
-                                              maskSensitiveInfo:
-                                                  state.maskSensitiveInfo,
-                                            );
-                                          },
+                                                    .primaryConnectionAddress)
+                                                : isNotEmpty(server
+                                                            .primaryConnectionAddress) &&
+                                                        !server.primaryActive &&
+                                                        !state.maskSensitiveInfo
+                                                    ? Text(server
+                                                        .secondaryConnectionAddress)
+                                                    : const Text(
+                                                        '*Hidden Connection Address*'),
+                                        trailing: const FaIcon(
+                                          FontAwesomeIcons.cog,
+                                          color: TautulliColorPalette.not_white,
                                         ),
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return ServerSettingsPage(
+                                                  id: server.id,
+                                                  plexName: server.plexName,
+                                                  maskSensitiveInfo:
+                                                      state.maskSensitiveInfo,
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: state.serverList.isEmpty ? 8 : 0,
+                        left: 16,
+                        right: 16,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Theme.of(context).accentColor,
+                              ),
+                              onPressed: () async {
+                                bool result = await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    fullscreenDialog: true,
+                                    builder: (context) {
+                                      return BlocProvider(
+                                        create: (context) =>
+                                            di.sl<RegisterDeviceBloc>(),
+                                        child: ServerRegistrationPage(),
                                       );
                                     },
                                   ),
-                                )
-                                .toList(),
-                          ),
-                    // Display loading indicator when device is attemting to register
-                    BlocBuilder<RegisterDeviceBloc, RegisterDeviceState>(
-                      builder: (context, state) {
-                        if (state is RegisterDeviceInProgress) {
-                          return const Center(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 6, bottom: 8),
-                              child: CircularProgressIndicator(),
+                                );
+
+                                if (result == true) {
+                                  ScaffoldMessenger.of(context)
+                                      .hideCurrentSnackBar();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: Text(
+                                          'Tautulli Registration Successful'),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: const Text('Register a Tautulli Server'),
                             ),
-                          );
-                        }
-                        return const SizedBox(height: 0, width: 0);
-                      },
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 20),
                     //* App settings
@@ -223,9 +232,7 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                         return showDialog(
                           context: context,
                           builder: (context) => ServerTimeoutDialog(
-                            initialValue: state.serverTimeout == null
-                                ? 5
-                                : state.serverTimeout,
+                            initialValue: state.serverTimeout,
                           ),
                         );
                       },
@@ -351,8 +358,10 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                 );
               }
               if (state is SettingsLoadInProgress) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).accentColor,
+                  ),
                 );
               } else {
                 return const Center(
@@ -372,15 +381,15 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
 Widget _serverTimeoutDisplay(int timeout) {
   switch (timeout) {
     case (3):
-      return const Text('3 sec - Fast');
+      return const Text('3 sec');
+    case (5):
+      return const Text('5 sec');
     case (8):
-      return const Text('8 sec - Slow');
-    case (15):
-      return const Text('15 sec - Very Slow');
+      return const Text('8 sec');
     case (30):
-      return const Text('30 sec - Extremely Slow');
+      return const Text('30 sec');
     default:
-      return const Text('5 sec - Default');
+      return const Text('15 sec (Default)');
   }
 }
 
@@ -399,112 +408,4 @@ Widget _serverRefreshRateDisplay(int refreshRate) {
     default:
       return const Text('Disabled');
   }
-}
-
-Widget _buildSpeedDial(BuildContext context, {bool dialVisible = true}) {
-  final registerDeviceBloc = context.read<RegisterDeviceBloc>();
-
-  return BlocBuilder<SettingsBloc, SettingsState>(
-    builder: (context, state) {
-      if (state is SettingsLoadSuccess) {
-        return SpeedDial(
-          visible: dialVisible,
-          curve: Curves.easeIn,
-          icon: Icons.add,
-          activeIcon: Icons.close,
-          iconTheme: const IconThemeData(
-            color: TautulliColorPalette.not_white,
-          ),
-          backgroundColor: Theme.of(context).accentColor,
-          overlayColor: Colors.black,
-          overlayOpacity: 0.4,
-          children: [
-            SpeedDialChild(
-              backgroundColor: Theme.of(context).accentColor,
-              labelWidget: const Padding(
-                padding: EdgeInsets.only(right: 8),
-                child: Text(
-                  'Scan QR Code',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              child: const Center(
-                child: FaIcon(
-                  FontAwesomeIcons.qrcode,
-                  color: TautulliColorPalette.not_white,
-                  size: 20,
-                ),
-              ),
-              onTap: () async {
-                final qrCodeScan = await FlutterBarcodeScanner.scanBarcode(
-                  '#e5a00d',
-                  'Cancel',
-                  false,
-                  ScanMode.QR,
-                );
-                // Scanner seems to return '-1' when scanner is exited
-                // do not attempt to register when this happens
-                if (qrCodeScan != '-1') {
-                  registerDeviceBloc.add(
-                    RegisterDeviceFromQrStarted(
-                      result: qrCodeScan,
-                      // Passes in the SettingsBloc to maintain context so items update correctly
-                      settingsBloc: context.read<SettingsBloc>(),
-                    ),
-                  );
-                }
-              },
-            ),
-            SpeedDialChild(
-              backgroundColor: Theme.of(context).accentColor,
-              labelWidget: const Padding(
-                padding: EdgeInsets.only(right: 8),
-                child: Text(
-                  'Enter Manually',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              child: const Center(
-                child: FaIcon(
-                  FontAwesomeIcons.pencilAlt,
-                  color: TautulliColorPalette.not_white,
-                  size: 19,
-                ),
-              ),
-              onTap: () async {
-                // Push manual registration page as a full screen dialog
-                bool result = await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    fullscreenDialog: true,
-                    builder: (context) {
-                      return BlocProvider(
-                        create: (context) => di.sl<RegisterDeviceBloc>(),
-                        child: ManualRegistrationForm(),
-                      );
-                    },
-                  ),
-                );
-
-                // If manual registration page pops with true show success snackbar
-                if (result == true) {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      backgroundColor: Colors.green,
-                      content: Text('Tautulli Registration Successful'),
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
-        );
-      }
-      return const SizedBox(height: 0, width: 0);
-    },
-  );
 }

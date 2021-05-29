@@ -27,6 +27,8 @@ abstract class SettingsRepository {
 
   Future<List<ServerModel>> getAllServers();
 
+  Future<List<ServerModel>> getAllServersWithoutOnesignalRegistered();
+
   Future<ServerModel> getServer(int id);
 
   Future getServerByTautulliId(String tautulliId);
@@ -99,6 +101,10 @@ abstract class SettingsRepository {
   Future<int> getLastReadAnnouncementId();
 
   Future<bool> setLastReadAnnouncementId(int value);
+
+  Future<bool> getWizardCompleteStatus();
+
+  Future<bool> setWizardCompleteStatus(bool value);
 
   Future<List<int>> getCustomCertHashList();
 

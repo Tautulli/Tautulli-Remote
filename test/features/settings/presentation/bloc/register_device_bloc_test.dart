@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/register_device_bloc.dart';
@@ -11,6 +12,8 @@ import 'package:tautulli_remote/features/settings/presentation/bloc/settings_blo
 class MockRegisterDevice extends Mock implements RegisterDevice {}
 
 class MockSettingsBloc extends Mock implements SettingsBloc {}
+
+class MockOneSignal extends Mock implements OneSignalDataSource {}
 
 class MockSettings extends Mock implements Settings {}
 
@@ -21,6 +24,7 @@ void main() {
   MockSettingsBloc mockSettingsBloc;
   MockLogging mockLogging;
   MockSettings mockSettings;
+  MockOneSignal mockOneSignal;
   RegisterDeviceBloc bloc;
 
   setUp(() {
@@ -28,16 +32,16 @@ void main() {
     mockSettingsBloc = MockSettingsBloc();
     mockLogging = MockLogging();
     mockSettings = MockSettings();
+    mockOneSignal = MockOneSignal();
 
     bloc = RegisterDeviceBloc(
       registerDevice: mockRegisterDevice,
       logging: mockLogging,
       settings: mockSettings,
+      onesignal: mockOneSignal,
     );
   });
 
-  const String tQrCodeResult =
-      'http://tautulli.com|abcdefghijklmnopqrstuvwxyzabcdef';
   const String tPrimaryConnectionAddress = 'http://tautulli.com';
   const String tDeviceToken = 'abc';
 
@@ -69,7 +73,11 @@ void main() {
     },
   );
 
-  group('QR code scanner', () {
+  //TODO: Need to test for if the server is not in the db and we add a new one
+
+  //TODO: Need to test for if the server is in the db and we do an update
+
+  group('Register Device', () {
     test(
       'should call RegisterDevice usecase',
       () async {
@@ -77,145 +85,8 @@ void main() {
         setUpSuccess();
         // act
         bloc.add(
-          RegisterDeviceFromQrStarted(
-            result: tQrCodeResult,
-            settingsBloc: mockSettingsBloc,
-          ),
-        );
-        await untilCalled(
-          mockRegisterDevice(
-            connectionProtocol: anyNamed('connectionProtocol'),
-            connectionDomain: anyNamed('connectionDomain'),
-            connectionPath: anyNamed('connectionPath'),
-            deviceToken: anyNamed('deviceToken'),
-            trustCert: anyNamed('trustCert'),
-          ),
-        );
-        // assert
-        verify(
-          mockRegisterDevice(
-            connectionProtocol: anyNamed('connectionProtocol'),
-            connectionDomain: anyNamed('connectionDomain'),
-            connectionPath: anyNamed('connectionPath'),
-            deviceToken: anyNamed('deviceToken'),
-            trustCert: anyNamed('trustCert'),
-          ),
-        );
-      },
-    );
-
-    //TODO: Testing is timing out on settingsBloc.add(), possible because it is not a dependency
-    // test(
-    //   'should verify if the server is already stored in the database',
-    //   () async {
-    //     // arrange
-    //     setUpSuccess();
-    //     when(mockSettings.getServerByTautulliId(any))
-    //         .thenAnswer((_) async => tServerModel);
-    //     // act
-    //     bloc.add(
-    //       RegisterDeviceFromQrStarted(
-    //         result: tQrCodeResult,
-    //         settingsBloc: mockSettingsBloc,
-    //       ),
-    //     );
-    //     await untilCalled(mockSettings.getServerByTautulliId(tTautulliId));
-    //     // assert
-    //     verify(mockSettings.getServerByTautulliId(tTautulliId));
-    //   },
-    // );
-
-    //TODO: Need to test for if the server is not in the db and we add a new one
-
-    //TODO: Need to test for if the server is in the db and we do an update
-
-    test(
-      'should emit [RegisterDeviceInProgress, RegisterDeviceFailure] when QR code data is incorrect',
-      () async {
-        // arrange
-        setUpSuccess();
-        // assert later
-        final expected = [
-          RegisterDeviceInProgress(),
-          RegisterDeviceFailure(
-            failure: QRScanFailure(),
-          ),
-        ];
-        // ignore: unawaited_futures
-        expectLater(bloc.stream, emitsInOrder(expected));
-        // act
-        bloc.add(
-          RegisterDeviceFromQrStarted(
-            result: 'http://tautulli.con|abc',
-            settingsBloc: mockSettingsBloc,
-          ),
-        );
-      },
-    );
-
-    test(
-      'should emit [RegisterDeviceInProgress, RegisterDeviceSuccess] when device is successfully registered',
-      () async {
-        // arrange
-        setUpSuccess();
-        // assert later
-        final expected = [
-          RegisterDeviceInProgress(),
-          RegisterDeviceSuccess(),
-        ];
-        // ignore: unawaited_futures
-        expectLater(bloc.stream, emitsInOrder(expected));
-        // act
-        bloc.add(
-          RegisterDeviceFromQrStarted(
-            result: tQrCodeResult,
-            settingsBloc: mockSettingsBloc,
-          ),
-        );
-      },
-    );
-
-    test(
-      'should emit [RegisterDeviceInProgress, RegisterDeviceFailure] when device fails to register',
-      () async {
-        // arrange
-        when(
-          mockRegisterDevice(
-            connectionProtocol: anyNamed('connectionProtocol'),
-            connectionDomain: anyNamed('connectionDomain'),
-            connectionPath: anyNamed('connectionPath'),
-            deviceToken: anyNamed('deviceToken'),
-            trustCert: anyNamed('trustCert'),
-          ),
-        ).thenAnswer((_) async => Left(ServerFailure()));
-        // assert later
-        final expected = [
-          RegisterDeviceInProgress(),
-          RegisterDeviceFailure(failure: ServerFailure()),
-        ];
-        // ignore: unawaited_futures
-        expectLater(bloc.stream, emitsInOrder(expected));
-        // act
-        bloc.add(
-          RegisterDeviceFromQrStarted(
-            result: tQrCodeResult,
-            settingsBloc: mockSettingsBloc,
-          ),
-        );
-      },
-    );
-  });
-
-  group('manually', () {
-    test(
-      'should call RegisterDevice usecase',
-      () async {
-        // arrange
-        setUpSuccess();
-        // act
-        bloc.add(
-          RegisterDeviceManualStarted(
-            connectionAddress: tPrimaryConnectionAddress,
+          RegisterDeviceStarted(
+            primaryConnectionAddress: tPrimaryConnectionAddress,
             deviceToken: tDeviceToken,
             settingsBloc: mockSettingsBloc,
           ),
@@ -252,7 +123,7 @@ void main() {
     //         .thenAnswer((_) async => tServerModel);
     //     // act
     //     bloc.add(
-    //       RegisterDeviceManualStarted(
+    //       RegisterDeviceStarted(
     //         connectionAddress: tPrimaryConnectionAddress,
     //         deviceToken: tDeviceToken,
     //         settingsBloc: mockSettingsBloc,
@@ -282,8 +153,8 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          RegisterDeviceManualStarted(
-            connectionAddress: tPrimaryConnectionAddress,
+          RegisterDeviceStarted(
+            primaryConnectionAddress: tPrimaryConnectionAddress,
             deviceToken: tDeviceToken,
             settingsBloc: mockSettingsBloc,
           ),
@@ -313,8 +184,8 @@ void main() {
         expectLater(bloc.stream, emitsInOrder(expected));
         // act
         bloc.add(
-          RegisterDeviceManualStarted(
-            connectionAddress: tPrimaryConnectionAddress,
+          RegisterDeviceStarted(
+            primaryConnectionAddress: tPrimaryConnectionAddress,
             deviceToken: tDeviceToken,
             settingsBloc: mockSettingsBloc,
           ),

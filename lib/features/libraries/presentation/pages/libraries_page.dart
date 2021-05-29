@@ -168,6 +168,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                   if (state.librariesList.isNotEmpty) {
                     return Expanded(
                       child: RefreshIndicator(
+                        color: Theme.of(context).accentColor,
                         onRefresh: () {
                           _librariesBloc.add(
                             LibrariesFilter(
@@ -265,9 +266,11 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                     ),
                   );
                 }
-                return const Expanded(
+                return Expanded(
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).accentColor,
+                    ),
                   ),
                 );
               },

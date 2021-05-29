@@ -34,13 +34,14 @@ class MediaItemH3 extends StatelessWidget {
                   metadata: state.metadata,
                 );
               }
-              return const Padding(
-                padding: EdgeInsets.only(top: 5),
+              return Padding(
+                padding: const EdgeInsets.only(top: 5),
                 child: SizedBox(
                   height: 15,
                   width: 15,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
+                    color: Theme.of(context).accentColor,
                   ),
                 ),
               );

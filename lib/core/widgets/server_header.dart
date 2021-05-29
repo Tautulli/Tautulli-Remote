@@ -42,13 +42,14 @@ class ServerHeader extends StatelessWidget {
                 ),
               ),
               if (state == ActivityLoadingState.inProgress)
-                const Padding(
-                  padding: EdgeInsets.only(left: 4),
+                Padding(
+                  padding: const EdgeInsets.only(left: 4),
                   child: SizedBox(
                     height: 15,
                     width: 15,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
+                      color: Theme.of(context).accentColor,
                     ),
                   ),
                 ),

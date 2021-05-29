@@ -164,6 +164,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                   if (state.list.isNotEmpty) {
                     return Expanded(
                       child: RefreshIndicator(
+                        color: Theme.of(context).accentColor,
                         onRefresh: () {
                           _recentlyAddedBloc.add(
                             RecentlyAddedFilter(
@@ -272,9 +273,11 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                     ),
                   );
                 }
-                return const Expanded(
+                return Expanded(
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).accentColor,
+                    ),
                   ),
                 );
               },

@@ -25,6 +25,7 @@ class LogTable extends StatelessWidget {
 
     if (logs.isEmpty) {
       return RefreshIndicator(
+        color: Theme.of(context).accentColor,
         onRefresh: () {
           context.read<LogsBloc>().add(LogsLoad());
           return refreshCompleter.future;
@@ -48,6 +49,7 @@ class LogTable extends StatelessWidget {
       );
     }
     return RefreshIndicator(
+      color: Theme.of(context).accentColor,
       onRefresh: () {
         context.read<LogsBloc>().add(LogsLoad());
         return refreshCompleter.future;
