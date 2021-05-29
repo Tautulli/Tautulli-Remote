@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tautulli_remote/core/helpers/color_palette_helper.dart';
 
 import '../../../../core/helpers/data_unit_format_helper.dart';
 import '../../../../core/helpers/string_format_helper.dart';
@@ -58,7 +59,7 @@ class SyncedItemsDetails extends StatelessWidget {
                   ),
                   MediaTypeIcon(
                     mediaType: syncedItem.syncMediaType ?? syncedItem.mediaType,
-                    iconColor: Colors.grey,
+                    iconColor: TautulliColorPalette.not_white,
                   ),
                 ],
               ),

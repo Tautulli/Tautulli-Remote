@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/icon_mapper_helper.dart';
 import '../../../../core/helpers/string_format_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
@@ -63,7 +64,7 @@ class HistoryDetails extends StatelessWidget {
                     children: [
                       MediaTypeIcon(
                         mediaType: historyItem.mediaType,
-                        iconColor: Colors.grey,
+                        iconColor: TautulliColorPalette.not_white,
                       ),
                       const SizedBox(width: 5),
                       IconMapperHelper.mapWatchedStatusToIcon(
@@ -120,7 +121,7 @@ Widget _state({
         width: 12,
         child: FaIcon(
           IconMapperHelper.mapStateToIcon(item.state),
-          color: Colors.grey,
+          color: TautulliColorPalette.not_white,
           size: 14,
         ),
       ),
@@ -130,7 +131,7 @@ Widget _state({
           StringFormatHelper.capitalize(item.state),
           style: const TextStyle(
             fontSize: 15,
-            color: Colors.grey,
+            color: TautulliColorPalette.not_white,
           ),
         ),
       )
