@@ -2,12 +2,16 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/poster_chooser.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../terminate_session/presentation/bloc/terminate_session_bloc.dart';
+import '../../../terminate_session/presentation/widgets/terminate_session_dialog.dart';
 import '../../../users/domain/entities/user_table.dart';
 import '../../../users/presentation/pages/user_details_page.dart';
 import '../../domain/entities/activity.dart';
@@ -24,12 +28,16 @@ class ActivityModalBottomSheet extends StatefulWidget {
   final ActivityItem activity;
   final String tautulliId;
   final String timeFormat;
+  final bool showTerminateButton;
+  final TextEditingController terminateMessageController;
 
   const ActivityModalBottomSheet({
     Key key,
     @required this.activity,
     @required this.tautulliId,
     @required this.timeFormat,
+    @required this.showTerminateButton,
+    @required this.terminateMessageController,
   }) : super(key: key);
 
   @override
@@ -50,25 +58,59 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
   Widget build(BuildContext context) {
     final settingsBloc = context.read<SettingsBloc>();
     final SettingsLoadSuccess settingsLoadSuccess = settingsBloc.state;
+    final terminateSessionBloc = context.read<TerminateSessionBloc>();
 
-    return BlocListener<ActivityBloc, ActivityState>(
-      listener: (context, state) {
-        // Update the activityItem to the lastest data when a new ActivityLoaded is pushed
-        if (state is ActivityLoaded) {
-          setState(() {
-            // If sessionId no longer exists for a given server close the modal
-            try {
-              List activityList =
-                  state.activityMap[widget.tautulliId]['activityList'];
-              ActivityItem item = activityList.firstWhere(
-                  (element) => element.sessionId == activity.sessionId);
-              activity = item;
-            } catch (_) {
-              Navigator.of(context).pop();
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ActivityBloc, ActivityState>(
+          listener: (context, state) {
+            // Update the activityItem to the lastest data when a new ActivityLoaded is pushed
+            if (state is ActivityLoaded) {
+              setState(() {
+                // If sessionId no longer exists for a given server close the modal
+                try {
+                  List activityList =
+                      state.activityMap[widget.tautulliId]['activityList'];
+                  ActivityItem item = activityList.firstWhere(
+                      (element) => element.sessionId == activity.sessionId);
+                  activity = item;
+                } catch (_) {
+                  Navigator.of(context).pop();
+                }
+              });
             }
-          });
-        }
-      },
+          },
+        ),
+        BlocListener<TerminateSessionBloc, TerminateSessionState>(
+          listener: (context, state) {
+            if (state is TerminateSessionSuccess) {
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.green,
+                  content: const Text('Termination request sent to Plex.'),
+                  action: SnackBarAction(
+                    label: 'LEARN MORE',
+                    onPressed: () async {
+                      await launch(
+                        'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#termination_caveats',
+                      );
+                    },
+                    textColor: TautulliColorPalette.not_white,
+                  ),
+                ),
+              );
+            }
+            if (state is TerminateSessionFailure) {
+              showFailureAlertDialog(
+                context: context,
+                failure: state.failure,
+              );
+            }
+          },
+        ),
+      ],
       child: Stack(
         children: <Widget>[
           // Use LayoutBulilder to pass constraints to ActivityMediaDetails
@@ -322,6 +364,77 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                         ],
                       ),
                     ),
+                    if (widget.showTerminateButton)
+                      Container(
+                        color: Theme.of(context).backgroundColor,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 4,
+                            left: 8,
+                            right: 8,
+                            bottom: 8,
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Theme.of(context).errorColor,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  onPressed: () async {
+                                    final confirm =
+                                        await showTerminateSessionDialog(
+                                      context: context,
+                                      controller:
+                                          widget.terminateMessageController,
+                                      activity: activity,
+                                      maskSensitiveInfo:
+                                          settingsLoadSuccess.maskSensitiveInfo,
+                                    );
+
+                                    if (confirm == 1) {
+                                      terminateSessionBloc.add(
+                                        TerminateSessionStarted(
+                                          tautulliId: widget.tautulliId,
+                                          sessionId: activity.sessionId,
+                                          message: widget
+                                                      .terminateMessageController
+                                                      .text !=
+                                                  null
+                                              ? widget
+                                                  .terminateMessageController
+                                                  .text
+                                              : 'The server owner has ended the stream.',
+                                          settingsBloc: settingsBloc,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: BlocBuilder<TerminateSessionBloc,
+                                      TerminateSessionState>(
+                                    builder: (context, state) {
+                                      if (state is TerminateSessionInProgress) {
+                                        return const SizedBox(
+                                          height: 20,
+                                          width: 20,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 3,
+                                            color:
+                                                TautulliColorPalette.not_white,
+                                          ),
+                                        );
+                                      }
+                                      return const Text('Terminate Session');
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               );
