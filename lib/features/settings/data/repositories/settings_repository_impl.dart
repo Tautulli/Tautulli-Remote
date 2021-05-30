@@ -273,6 +273,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<bool> getOneSignalConsented() async {
+    final oneSignalConsented = await dataSource.getOneSignalConsented();
+    return oneSignalConsented;
+  }
+
+  @override
+  Future<bool> setOneSignalConsented(bool value) async {
+    return dataSource.setOneSignalConsented(value);
+  }
+
+  @override
   Future<String> getLastAppVersion() async {
     final lastAppVersion = await dataSource.getLastAppVersion();
     return lastAppVersion;

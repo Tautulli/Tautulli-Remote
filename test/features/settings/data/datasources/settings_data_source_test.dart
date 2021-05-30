@@ -520,6 +520,49 @@ void main() {
     );
   });
 
+  group('OneSignal Consent', () {
+    test(
+      'should return bool from settings',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(ONE_SIGNAL_CONSENTED),
+        ).thenReturn(true);
+        // act
+        final oneSignalConsented = await dataSource.getOneSignalConsented();
+        // assert
+        verify(mockSharedPreferences.getBool(ONE_SIGNAL_CONSENTED));
+        expect(oneSignalConsented, equals(true));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(ONE_SIGNAL_CONSENTED),
+        ).thenReturn(null);
+        // act
+        final oneSignalConsented = await dataSource.getOneSignalConsented();
+        // assert
+        expect(oneSignalConsented, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the banner dismissed value',
+      () async {
+        // act
+        await dataSource.setOneSignalConsented(true);
+        // assert
+        verify(
+          mockSharedPreferences.setBool(ONE_SIGNAL_CONSENTED, true),
+        );
+      },
+    );
+  });
+
   group('Last app version', () {
     test(
       'should return String from settings',

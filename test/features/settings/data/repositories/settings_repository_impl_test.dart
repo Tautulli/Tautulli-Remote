@@ -6,11 +6,13 @@ import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
 import 'package:tautulli_remote/core/network/network_info.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote/features/settings/data/datasources/settings_data_source.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
 import 'package:tautulli_remote/features/settings/data/models/tautulli_settings_general_model.dart';
 import 'package:tautulli_remote/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:tautulli_remote/features/settings/domain/entities/plex_server_info.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
@@ -22,6 +24,10 @@ class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 class MockSettings extends Mock implements Settings {}
 
+class MockOneSignal extends Mock implements OneSignalDataSource {}
+
+class MockRegisterDevice extends Mock implements RegisterDevice {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
@@ -29,11 +35,15 @@ void main() {
   MockSettingsDataSource mockSettingsDataSource;
   MockNetworkInfo mockNetworkInfo;
   MockSettings mockSettings;
+  MockOneSignal mockOneSignal;
+  MockRegisterDevice mockRegisterDevice;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
 
   setUp(() {
     mockSettingsDataSource = MockSettingsDataSource();
+    mockOneSignal = MockOneSignal();
+    mockRegisterDevice = MockRegisterDevice();
     mockNetworkInfo = MockNetworkInfo();
     repository = SettingsRepositoryImpl(
       dataSource: mockSettingsDataSource,
@@ -43,6 +53,8 @@ void main() {
     mockSettings = MockSettings();
     settingsBloc = SettingsBloc(
       settings: mockSettings,
+      onesignal: mockOneSignal,
+      registerDevice: mockRegisterDevice,
       logging: mockLogging,
     );
   });
@@ -56,6 +68,7 @@ void main() {
   const String tYAxis = 'duration';
   const String tUsersSort = 'friendly_name|asc';
   const bool tOneSignalBannerDismissed = false;
+  const bool tOneSignalConsented = false;
   const String tLastAppVersion = '2.1.5';
   const int tLastReadAnnouncementId = 1;
   const bool tWizardCompleteStatus = false;
@@ -449,6 +462,32 @@ void main() {
         // assert
         verify(mockSettingsDataSource
             .setOneSignalBannerDismissed(tOneSignalBannerDismissed));
+      },
+    );
+  });
+
+  group('OneSignal Consent', () {
+    test(
+      'should return the OneSignal consent value from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getOneSignalConsented())
+            .thenAnswer((_) async => tOneSignalConsented);
+        // act
+        final result = await repository.getOneSignalConsented();
+        // assert
+        expect(result, equals(tOneSignalConsented));
+      },
+    );
+
+    test(
+      'should forward the call to the data source to set banner dismiss',
+      () async {
+        // act
+        await repository.setOneSignalConsented(tOneSignalConsented);
+        // assert
+        verify(
+            mockSettingsDataSource.setOneSignalConsented(tOneSignalConsented));
       },
     );
   });

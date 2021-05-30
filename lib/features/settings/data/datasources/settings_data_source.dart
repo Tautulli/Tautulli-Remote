@@ -55,6 +55,10 @@ abstract class SettingsDataSource {
 
   Future<bool> setOneSignalBannerDismissed(bool value);
 
+  Future<bool> getOneSignalConsented();
+
+  Future<bool> setOneSignalConsented(bool value);
+
   Future<String> getLastAppVersion();
 
   Future<bool> setLastAppVersion(String lastAppVersion);
@@ -81,6 +85,7 @@ const STATS_TYPE = 'STATS_TYPE';
 const Y_AXIS = 'Y_AXIS';
 const USERS_SORT = 'USERS_SORT';
 const ONE_SIGNAL_BANNER_DISMISSED = 'ONE_SIGNAL_BANNER_DISMISSED';
+const ONE_SIGNAL_CONSENTED = 'ONE_SIGNAL_CONSENTED';
 const LAST_APP_VERSION = 'LAST_APP_VERSION';
 const LAST_READ_ANNOUNCEMENT_ID = 'LAST_READ_ANNOUNCEMENT_ID';
 const WIZARD_COMPLETE_STATUS = 'WIZARD_COMPLETE_STATUS';
@@ -229,6 +234,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setOneSignalBannerDismissed(bool value) {
     return sharedPreferences.setBool(ONE_SIGNAL_BANNER_DISMISSED, value);
+  }
+
+  @override
+  Future<bool> getOneSignalConsented() {
+    final value = sharedPreferences.getBool(ONE_SIGNAL_CONSENTED);
+    return Future.value(value);
+  }
+
+  @override
+  Future<bool> setOneSignalConsented(bool value) {
+    return sharedPreferences.setBool(ONE_SIGNAL_CONSENTED, value);
   }
 
   @override

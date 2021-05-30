@@ -5,10 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tautulli_remote/core/database/data/models/server_model.dart';
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'package:tautulli_remote/features/settings/data/models/plex_server_info_model.dart';
 import 'package:tautulli_remote/features/settings/data/models/tautulli_settings_general_model.dart';
 import 'package:tautulli_remote/features/settings/domain/entities/plex_server_info.dart';
 import 'package:tautulli_remote/features/settings/domain/repositories/settings_repository.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 
@@ -18,12 +20,18 @@ class MockSettingsRepository extends Mock implements SettingsRepository {}
 
 class MockSettings extends Mock implements Settings {}
 
+class MockOneSignal extends Mock implements OneSignalDataSource {}
+
+class MockRegisterDevice extends Mock implements RegisterDevice {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   Settings settings;
   MockSettingsRepository mockSettingsRepository;
   MockSettings mockSettings;
+  MockOneSignal mockOneSignal;
+  MockRegisterDevice mockRegisterDevice;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
 
@@ -34,8 +42,12 @@ void main() {
     );
     mockLogging = MockLogging();
     mockSettings = MockSettings();
+    mockOneSignal = MockOneSignal();
+    mockRegisterDevice = MockRegisterDevice();
     settingsBloc = SettingsBloc(
       settings: mockSettings,
+      onesignal: mockOneSignal,
+      registerDevice: mockRegisterDevice,
       logging: mockLogging,
     );
   });
@@ -74,6 +86,7 @@ void main() {
     plexName: tPlexName,
     plexIdentifier: tPlexIdentifier,
     primaryActive: true,
+    onesignalRegistered: false,
     plexPass: true,
     dateFormat: tDateFormat,
     timeFormat: tTimeFormat,
@@ -530,6 +543,33 @@ void main() {
       await settings.setOneSignalBannerDismissed(true);
       // assert
       verify(mockSettingsRepository.setOneSignalBannerDismissed(true));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'getOneSignalConsented should get OneSignal Consented value from settings',
+    () async {
+      // arrange
+      when(
+        mockSettingsRepository.getOneSignalConsented(),
+      ).thenAnswer((_) async => true);
+      // act
+      final result = await settings.getOneSignalConsented();
+      // assert
+      expect(result, equals(true));
+      verify(mockSettingsRepository.getOneSignalConsented());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setOneSignalConsented should forward request to the repository',
+    () async {
+      // act
+      await settings.setOneSignalConsented(true);
+      // assert
+      verify(mockSettingsRepository.setOneSignalConsented(true));
       verifyNoMoreInteractions(mockSettingsRepository);
     },
   );

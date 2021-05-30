@@ -54,6 +54,7 @@ class OneSignalPrivacyBloc
       _mapOneSignalPrivacyGrantConsentToState() async* {
     await oneSignal.grantConsent(true);
     await oneSignal.disablePush(false);
+    await settings.setOneSignalConsented(true);
 
     logging.info(
       'OneSignal: Privacy consent accepted',
@@ -64,6 +65,7 @@ class OneSignalPrivacyBloc
   Stream<OneSignalPrivacyState> _mapOneSignalPrivacyRevokeConsent() async* {
     await oneSignal.disablePush(true);
     await oneSignal.grantConsent(false);
+    await settings.setOneSignalConsented(false);
 
     logging.info(
       'OneSignal: Privacy consent revoked',

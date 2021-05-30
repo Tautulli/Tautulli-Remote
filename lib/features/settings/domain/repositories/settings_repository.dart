@@ -94,6 +94,10 @@ abstract class SettingsRepository {
 
   Future<bool> setOneSignalBannerDismissed(bool value);
 
+  Future<bool> getOneSignalConsented();
+
+  Future<bool> setOneSignalConsented(bool value);
+
   Future<String> getLastAppVersion();
 
   Future<bool> setLastAppVersion(String lastAppVersion);

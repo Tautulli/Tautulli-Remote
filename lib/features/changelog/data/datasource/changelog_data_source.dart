@@ -5,9 +5,14 @@ Map changelog = {
       "date": "May 29, 2021",
       "changes": [
         {
+          "type": "note",
+          "detail":
+              "Due to a OneSignal SDK change please re-accept the OneSignal Data Privacy, no other action is required",
+        },
+        {
           "type": "new",
           "detail":
-              "There is now a Startup Wizard to improve the setup experiance for new users",
+              "There is now a Startup Wizard to improve the setup experience for new users",
         },
         {
           "type": "improvement",
@@ -17,7 +22,7 @@ Map changelog = {
         {
           "type": "improvement",
           "detail":
-              "Adding Tautulli servers has had a visual overhaul and exposes the Secondary Connection Address setting",
+              "Adding Tautulli servers has been visually adjustment and exposes the Secondary Connection Address setting",
         },
         {
           "type": "improvement",

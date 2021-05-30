@@ -186,6 +186,14 @@ class Settings {
     return repository.setOneSignalBannerDismissed(value);
   }
 
+  Future<bool> getOneSignalConsented() async {
+    return await repository.getOneSignalConsented();
+  }
+
+  Future<bool> setOneSignalConsented(bool value) async {
+    return repository.setOneSignalConsented(value);
+  }
+
   Future<String> getLastAppVersion() async {
     return await repository.getLastAppVersion();
   }
