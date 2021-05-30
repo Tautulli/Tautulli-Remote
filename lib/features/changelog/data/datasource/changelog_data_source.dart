@@ -5,7 +5,7 @@ Map changelog = {
       "date": "May 29, 2021",
       "changes": [
         {
-          "type": "note",
+          "type": "important",
           "detail":
               "Due to a OneSignal SDK change please re-accept the OneSignal Data Privacy, no other action is required",
         },
@@ -23,6 +23,16 @@ Map changelog = {
           "type": "improvement",
           "detail":
               "Adding Tautulli servers has been visually adjustment and exposes the Secondary Connection Address setting",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Added a terminate stream button to the activity details bottom sheet",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Store the OneSignal consent state locally to prevent future issues with OneSignal SDK changes",
         },
         {
           "type": "improvement",
