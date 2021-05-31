@@ -170,7 +170,7 @@ class BarChartGraph extends StatelessWidget {
             yAxis: graphState.yAxis,
             categories: graphState.graphData.categories,
             leftTitlesInterval: horizontalLineStep,
-            bottomTitlesInterval: verticalLineStep,
+            bottomTitlesInterval: 1,
             bottomTitlesRotateAngle: bottomTitlesRotateAngle,
             bottomTitlesMargin: bottomTitlesMargin,
             getBottomTitles: (value) {
