@@ -116,121 +116,124 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
       ),
       drawer: const AppDrawer(),
       body: DoubleTapExit(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (context, state) {
-                if (state is SettingsLoadSuccess) {
-                  if (state.serverList.length > 1) {
-                    return DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        value: _tautulliId,
-                        style: TextStyle(color: Theme.of(context).accentColor),
-                        items: state.serverList.map((server) {
-                          return DropdownMenuItem(
-                            child: ServerHeader(serverName: server.plexName),
-                            value: server.tautulliId,
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          if (value != _tautulliId) {
-                            setState(() {
-                              _tautulliId = value;
-                            });
-                            _settingsBloc.add(
-                              SettingsUpdateLastSelectedServer(
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, state) {
+                  if (state is SettingsLoadSuccess) {
+                    if (state.serverList.length > 1) {
+                      return DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          value: _tautulliId,
+                          style:
+                              TextStyle(color: Theme.of(context).accentColor),
+                          items: state.serverList.map((server) {
+                            return DropdownMenuItem(
+                              child: ServerHeader(serverName: server.plexName),
+                              value: server.tautulliId,
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            if (value != _tautulliId) {
+                              setState(() {
+                                _tautulliId = value;
+                              });
+                              _settingsBloc.add(
+                                SettingsUpdateLastSelectedServer(
+                                  tautulliId: _tautulliId,
+                                ),
+                              );
+                              _mediaTypeGraphsBloc.add(
+                                MediaTypeGraphsFetch(
+                                  tautulliId: value,
+                                  timeRange: _timeRange,
+                                  yAxis: _yAxis,
+                                  settingsBloc: _settingsBloc,
+                                ),
+                              );
+                              _streamTypeGraphsBloc.add(
+                                StreamTypeGraphsFetch(
+                                  tautulliId: value,
+                                  timeRange: _timeRange,
+                                  yAxis: _yAxis,
+                                  settingsBloc: _settingsBloc,
+                                ),
+                              );
+                              _playTotalsGraphsBloc.add(
+                                PlayTotalsGraphsFetch(
+                                  tautulliId: value,
+                                  // timeRange: _timeRange,
+                                  yAxis: _yAxis,
+                                  settingsBloc: _settingsBloc,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      );
+                    }
+                  }
+                  return Container(height: 0, width: 0);
+                },
+              ),
+              DefaultTabController(
+                length: 3,
+                child: Expanded(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            BlocProvider.value(
+                              value: _mediaTypeGraphsBloc,
+                              child: MediaTypeTab(
                                 tautulliId: _tautulliId,
-                              ),
-                            );
-                            _mediaTypeGraphsBloc.add(
-                              MediaTypeGraphsFetch(
-                                tautulliId: value,
                                 timeRange: _timeRange,
                                 yAxis: _yAxis,
-                                settingsBloc: _settingsBloc,
                               ),
-                            );
-                            _streamTypeGraphsBloc.add(
-                              StreamTypeGraphsFetch(
-                                tautulliId: value,
+                            ),
+                            BlocProvider.value(
+                              value: _streamTypeGraphsBloc,
+                              child: StreamTypeTab(
+                                tautulliId: _tautulliId,
                                 timeRange: _timeRange,
                                 yAxis: _yAxis,
-                                settingsBloc: _settingsBloc,
                               ),
-                            );
-                            _playTotalsGraphsBloc.add(
-                              PlayTotalsGraphsFetch(
-                                tautulliId: value,
+                            ),
+                            BlocProvider.value(
+                              value: _playTotalsGraphsBloc,
+                              child: PlayTotalsTab(
+                                tautulliId: _tautulliId,
                                 // timeRange: _timeRange,
                                 yAxis: _yAxis,
-                                settingsBloc: _settingsBloc,
                               ),
-                            );
-                          }
-                        },
+                            ),
+                          ],
+                        ),
                       ),
-                    );
-                  }
-                }
-                return Container(height: 0, width: 0);
-              },
-            ),
-            DefaultTabController(
-              length: 3,
-              child: Expanded(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TabBarView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: [
-                          BlocProvider.value(
-                            value: _mediaTypeGraphsBloc,
-                            child: MediaTypeTab(
-                              tautulliId: _tautulliId,
-                              timeRange: _timeRange,
-                              yAxis: _yAxis,
-                            ),
+                      const TabBar(
+                        indicatorSize: TabBarIndicatorSize.label,
+                        tabs: [
+                          Tab(
+                            child: Text('Media Type'),
                           ),
-                          BlocProvider.value(
-                            value: _streamTypeGraphsBloc,
-                            child: StreamTypeTab(
-                              tautulliId: _tautulliId,
-                              timeRange: _timeRange,
-                              yAxis: _yAxis,
-                            ),
+                          Tab(
+                            child: Text('Stream Type'),
                           ),
-                          BlocProvider.value(
-                            value: _playTotalsGraphsBloc,
-                            child: PlayTotalsTab(
-                              tautulliId: _tautulliId,
-                              // timeRange: _timeRange,
-                              yAxis: _yAxis,
-                            ),
+                          Tab(
+                            child: Text('Play Totals'),
                           ),
                         ],
                       ),
-                    ),
-                    const TabBar(
-                      indicatorSize: TabBarIndicatorSize.label,
-                      tabs: [
-                        Tab(
-                          child: Text('Media Type'),
-                        ),
-                        Tab(
-                          child: Text('Stream Type'),
-                        ),
-                        Tab(
-                          child: Text('Play Totals'),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
