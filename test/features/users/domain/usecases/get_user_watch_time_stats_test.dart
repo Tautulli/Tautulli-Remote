@@ -10,6 +10,8 @@ import 'package:tautulli_remote/features/users/data/models/user_statistic_model.
 import 'package:tautulli_remote/features/users/domain/entities/user_statistic.dart';
 import 'package:tautulli_remote/features/users/domain/repositories/user_statistics_repository.dart';
 import 'package:tautulli_remote/features/users/domain/usecases/get_user_watch_time_stats.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -18,12 +20,18 @@ class MockUserStatisticsRepository extends Mock
 
 class MockSettings extends Mock implements Settings {}
 
+class MockOnesignal extends Mock implements OneSignalDataSource {}
+
+class MockRegisterDevice extends Mock implements RegisterDevice {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   GetUserWatchTimeStats usecase;
   MockUserStatisticsRepository mockUserStatisticsRepository;
   MockSettings mockSettings;
+  MockOnesignal mockOnesignal;
+  MockRegisterDevice mockRegisterDevice;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
 
@@ -34,8 +42,12 @@ void main() {
     );
     mockLogging = MockLogging();
     mockSettings = MockSettings();
+    mockOnesignal = MockOnesignal();
+    mockRegisterDevice = MockRegisterDevice();
     settingsBloc = SettingsBloc(
       settings: mockSettings,
+      onesignal: mockOnesignal,
+      registerDevice: mockRegisterDevice,
       logging: mockLogging,
     );
   });

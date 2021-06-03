@@ -18,6 +18,8 @@ import 'package:tautulli_remote/features/graphs/presentation/bloc/media_type_gra
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -34,6 +36,10 @@ class MockGetPlaysByTop10Users extends Mock implements GetPlaysByTop10Users {}
 
 class MockSettings extends Mock implements Settings {}
 
+class MockOnesignal extends Mock implements OneSignalDataSource {}
+
+class MockRegisterDevice extends Mock implements RegisterDevice {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
@@ -44,6 +50,8 @@ void main() {
   MockGetPlaysByTop10Platforms mockGetPlaysByTop10Platforms;
   MockGetPlaysByTop10Users mockGetPlaysByTop10Users;
   MockSettings mockSettings;
+  MockOnesignal mockOnesignal;
+  MockRegisterDevice mockRegisterDevice;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
 
@@ -63,8 +71,12 @@ void main() {
       logging: mockLogging,
     );
     mockSettings = MockSettings();
+    mockOnesignal = MockOnesignal();
+    mockRegisterDevice = MockRegisterDevice();
     settingsBloc = SettingsBloc(
       settings: mockSettings,
+      onesignal: mockOnesignal,
+      registerDevice: mockRegisterDevice,
       logging: mockLogging,
     );
   });

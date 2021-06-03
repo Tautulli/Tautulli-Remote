@@ -16,6 +16,8 @@ import 'package:tautulli_remote/features/synced_items/data/models/synced_item_mo
 import 'package:tautulli_remote/features/synced_items/domain/entities/synced_item.dart';
 import 'package:tautulli_remote/features/synced_items/domain/usecases/get_synced_items.dart';
 import 'package:tautulli_remote/features/synced_items/presentation/bloc/synced_items_bloc.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -27,6 +29,10 @@ class MockGetImageUrl extends Mock implements GetImageUrl {}
 
 class MockSettings extends Mock implements Settings {}
 
+class MockOnesignal extends Mock implements OneSignalDataSource {}
+
+class MockRegisterDevice extends Mock implements RegisterDevice {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
@@ -35,6 +41,8 @@ void main() {
   MockGetMetadata mockGetMetadata;
   MockGetImageUrl mockGetImageUrl;
   MockSettings mockSettings;
+  MockOnesignal mockOnesignal;
+  MockRegisterDevice mockRegisterDevice;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
 
@@ -44,8 +52,12 @@ void main() {
     mockGetImageUrl = MockGetImageUrl();
     mockLogging = MockLogging();
     mockSettings = MockSettings();
+    mockOnesignal = MockOnesignal();
+    mockRegisterDevice = MockRegisterDevice();
     settingsBloc = SettingsBloc(
       settings: mockSettings,
+      onesignal: mockOnesignal,
+      registerDevice: mockRegisterDevice,
       logging: mockLogging,
     );
 

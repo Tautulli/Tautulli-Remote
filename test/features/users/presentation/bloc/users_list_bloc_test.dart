@@ -11,6 +11,8 @@ import 'package:tautulli_remote/features/users/data/models/user_model.dart';
 import 'package:tautulli_remote/features/users/domain/entities/user.dart';
 import 'package:tautulli_remote/features/users/domain/usecases/get_user_names.dart';
 import 'package:tautulli_remote/features/users/presentation/bloc/users_list_bloc.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -18,12 +20,18 @@ class MockGetUserNames extends Mock implements GetUserNames {}
 
 class MockSettings extends Mock implements Settings {}
 
+class MockOnesignal extends Mock implements OneSignalDataSource {}
+
+class MockRegisterDevice extends Mock implements RegisterDevice {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   UsersListBloc bloc;
   MockGetUserNames mockGetUserNames;
   MockSettings mockSettings;
+  MockOnesignal mockOnesignal;
+  MockRegisterDevice mockRegisterDevice;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
 
@@ -31,8 +39,12 @@ void main() {
     mockGetUserNames = MockGetUserNames();
     mockLogging = MockLogging();
     mockSettings = MockSettings();
+    mockOnesignal = MockOnesignal();
+    mockRegisterDevice = MockRegisterDevice();
     settingsBloc = SettingsBloc(
       settings: mockSettings,
+      onesignal: mockOnesignal,
+      registerDevice: mockRegisterDevice,
       logging: mockLogging,
     );
     bloc = UsersListBloc(

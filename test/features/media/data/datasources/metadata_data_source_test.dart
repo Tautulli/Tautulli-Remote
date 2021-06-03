@@ -10,6 +10,8 @@ import 'package:tautulli_remote/features/media/data/models/metadata_item_model.d
 import 'package:tautulli_remote/features/media/domain/entities/metadata_item.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -17,12 +19,18 @@ class MockGetMetadata extends Mock implements tautulli_api.GetMetadata {}
 
 class MockSettings extends Mock implements Settings {}
 
+class MockOnesignal extends Mock implements OneSignalDataSource {}
+
+class MockRegisterDevice extends Mock implements RegisterDevice {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   MetadataDataSourceImpl dataSource;
   MockGetMetadata mockApiGetMetadata;
   MockSettings mockSettings;
+  MockOnesignal mockOnesignal;
+  MockRegisterDevice mockRegisterDevice;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
 
@@ -33,8 +41,12 @@ void main() {
     );
     mockLogging = MockLogging();
     mockSettings = MockSettings();
+    mockOnesignal = MockOnesignal();
+    mockRegisterDevice = MockRegisterDevice();
     settingsBloc = SettingsBloc(
       settings: mockSettings,
+      onesignal: mockOnesignal,
+      registerDevice: mockRegisterDevice,
       logging: mockLogging,
     );
   });

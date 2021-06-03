@@ -7,16 +7,24 @@ import 'package:tautulli_remote/features/settings/presentation/bloc/settings_blo
 import 'package:tautulli_remote/features/terminate_session/domain/usecases/terminate_session.dart';
 import 'package:tautulli_remote/features/terminate_session/presentation/bloc/terminate_session_bloc.dart';
 import 'package:tautulli_remote/core/error/failure.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 
 class MockTerminateSession extends Mock implements TerminateSession {}
 
 class MockSettings extends Mock implements Settings {}
+
+class MockOnesignal extends Mock implements OneSignalDataSource {}
+
+class MockRegisterDevice extends Mock implements RegisterDevice {}
 
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   MockTerminateSession mockTerminateSession;
   MockSettings mockSettings;
+  MockOnesignal mockOnesignal;
+  MockRegisterDevice mockRegisterDevice;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
   TerminateSessionBloc bloc;
@@ -25,8 +33,12 @@ void main() {
     mockTerminateSession = MockTerminateSession();
     mockLogging = MockLogging();
     mockSettings = MockSettings();
+    mockOnesignal = MockOnesignal();
+    mockRegisterDevice = MockRegisterDevice();
     settingsBloc = SettingsBloc(
       settings: mockSettings,
+      onesignal: mockOnesignal,
+      registerDevice: mockRegisterDevice,
       logging: mockLogging,
     );
 

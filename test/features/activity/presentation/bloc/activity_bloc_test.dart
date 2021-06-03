@@ -12,6 +12,8 @@ import 'package:tautulli_remote/features/activity/presentation/bloc/activity_blo
 import 'package:tautulli_remote/features/logging/domain/usecases/logging.dart';
 import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart';
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -21,11 +23,17 @@ class MockGetImageUrl extends Mock implements GetImageUrl {}
 
 class MockSettings extends Mock implements Settings {}
 
+class MockOnesignal extends Mock implements OneSignalDataSource {}
+
+class MockRegisterDevice extends Mock implements RegisterDevice {}
+
 class MockLogging extends Mock implements Logging {}
 
 void main() {
   ActivityBloc bloc;
   MockSettings mockSettings;
+  MockOnesignal mockOnesignal;
+  MockRegisterDevice mockRegisterDevice;
   MockGetActivity mockGetActivity;
   MockGetImageUrl mockGetImageUrl;
   MockLogging mockLogging;
@@ -34,6 +42,8 @@ void main() {
   setUp(() {
     mockGetActivity = MockGetActivity();
     mockSettings = MockSettings();
+    mockOnesignal = MockOnesignal();
+    mockRegisterDevice = MockRegisterDevice();
     mockGetImageUrl = MockGetImageUrl();
     mockLogging = MockLogging();
 
@@ -45,6 +55,8 @@ void main() {
     );
     settingsBloc = SettingsBloc(
       settings: mockSettings,
+      onesignal: mockOnesignal,
+      registerDevice: mockRegisterDevice,
       logging: mockLogging,
     );
   });
@@ -76,6 +88,7 @@ void main() {
     plexName: 'Plex',
     plexIdentifier: 'xyz',
     primaryActive: true,
+    onesignalRegistered: true,
     plexPass: true,
   );
 

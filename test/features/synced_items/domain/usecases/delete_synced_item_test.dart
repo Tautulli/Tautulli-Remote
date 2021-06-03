@@ -6,11 +6,17 @@ import 'package:tautulli_remote/features/settings/domain/usecases/settings.dart'
 import 'package:tautulli_remote/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:tautulli_remote/features/synced_items/domain/repositories/delete_synced_item_repository.dart';
 import 'package:tautulli_remote/features/synced_items/domain/usecases/delete_synced_item.dart';
+import 'package:tautulli_remote/features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'package:tautulli_remote/features/settings/domain/usecases/register_device.dart';
 
 class MockDeleteSyncedItemRepository extends Mock
     implements DeleteSyncedItemRepository {}
 
 class MockSettings extends Mock implements Settings {}
+
+class MockOnesignal extends Mock implements OneSignalDataSource {}
+
+class MockRegisterDevice extends Mock implements RegisterDevice {}
 
 class MockLogging extends Mock implements Logging {}
 
@@ -18,6 +24,8 @@ void main() {
   DeleteSyncedItem usecase;
   MockDeleteSyncedItemRepository mockDeleteSyncedItemRepository;
   MockSettings mockSettings;
+  MockOnesignal mockOnesignal;
+  MockRegisterDevice mockRegisterDevice;
   MockLogging mockLogging;
   SettingsBloc settingsBloc;
 
@@ -28,8 +36,12 @@ void main() {
     );
     mockLogging = MockLogging();
     mockSettings = MockSettings();
+    mockOnesignal = MockOnesignal();
+    mockRegisterDevice = MockRegisterDevice();
     settingsBloc = SettingsBloc(
       settings: mockSettings,
+      onesignal: mockOnesignal,
+      registerDevice: mockRegisterDevice,
       logging: mockLogging,
     );
   });
