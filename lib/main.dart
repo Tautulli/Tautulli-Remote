@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';

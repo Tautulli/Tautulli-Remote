@@ -24,10 +24,10 @@ dependencies:
   flutter:
     sdk: flutter
   color: ^3.0.0
-  connectivity: ^3.0.6
+  connectivity_plus: ^1.0.1
   cupertino_icons: ^1.0.3
   dartz: ^0.9.2
-  device_info: ^2.0.2
+  device_info_plus: ^1.0.1
   duration: ^3.0.6
   equatable: ^2.0.0
   expandable: ^5.0.1
@@ -45,7 +45,7 @@ dependencies:
   http: ^0.13.3
   intl: ^0.17.0
   onesignal_flutter: ^3.0.0-beta4
-  package_info: ^2.0.2
+  package_info_plus: ^1.0.1
   palette_generator: ^0.3.0
   path_provider: ^2.0.2
   permission_handler: ^8.0.0+2

@@ -1,5 +1,5 @@
-import 'package:connectivity/connectivity.dart';
-import 'package:device_info/device_info.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';

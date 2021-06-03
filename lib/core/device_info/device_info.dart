@@ -1,8 +1,9 @@
-import 'package:device_info/device_info.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 abstract class DeviceInfo {
   /// The end-user-visible name for the device.
   Future<String> get model;
+
   /// A unique identifier for the device.
   Future<String> get uniqueId;
 }
