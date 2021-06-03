@@ -183,6 +183,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                             children: <Widget>[
                               TextFormField(
                                 controller: _primaryConnectionAddressController,
+                                autocorrect: false,
                                 decoration: const InputDecoration(
                                   labelText: 'Primary Connection Address',
                                   labelStyle: TextStyle(
@@ -207,6 +208,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                               TextFormField(
                                 controller:
                                     _secondaryConnectionAddressController,
+                                autocorrect: false,
                                 decoration: const InputDecoration(
                                   labelText: 'Secondary Connection Address',
                                   labelStyle: TextStyle(
@@ -231,6 +233,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                               ),
                               TextFormField(
                                 controller: _deviceTokenController,
+                                autocorrect: false,
                                 decoration: const InputDecoration(
                                   labelText: 'Device Token',
                                   labelStyle: TextStyle(
