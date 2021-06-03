@@ -22,7 +22,7 @@ Map changelog = {
         {
           "type": "improvement",
           "detail":
-              "Adding Tautulli servers has been visually adjustment and exposes the Secondary Connection Address setting",
+              "Adding Tautulli servers has been visually adjusted and exposes the Secondary Connection Address setting",
         },
         {
           "type": "improvement",
