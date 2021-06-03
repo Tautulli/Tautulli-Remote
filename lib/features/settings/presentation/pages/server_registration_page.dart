@@ -57,6 +57,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                 showFailureAlertDialog(
                   context: context,
                   failure: state.failure,
+                  showHelp: true,
                 );
               }
             }
