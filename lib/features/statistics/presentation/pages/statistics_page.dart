@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,6 +18,7 @@ import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../core/widgets/user_card.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../libraries/domain/entities/library.dart';
 import '../../../libraries/presentation/pages/library_details_page.dart';
 import '../../../media/domain/entities/media_item.dart';
@@ -118,7 +120,9 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: const AppDrawerIcon(),
-        title: const Text('Statistics'),
+        title: Text(
+          LocaleKeys.statistics_page_title.tr(),
+        ),
         actions: _appBarActions(),
       ),
       drawer: const AppDrawer(),

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,6 +13,7 @@ import '../../../../core/widgets/app_drawer_icon.dart';
 import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/media_type_graphs_bloc.dart';
 import '../bloc/play_totals_graphs_bloc.dart';
@@ -110,7 +112,9 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: const Text('Graphs'),
+        title: Text(
+          LocaleKeys.graphs_page_title.tr(),
+        ),
         leading: const AppDrawerIcon(),
         actions: _appBarActions(),
       ),

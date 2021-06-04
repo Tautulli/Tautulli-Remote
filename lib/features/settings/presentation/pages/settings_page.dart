@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/list_header.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../bloc/register_device_bloc.dart';
@@ -62,7 +64,9 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: const AppDrawerIcon(),
-        title: const Text('Settings'),
+        title: Text(
+          LocaleKeys.settings_page_title.tr(),
+        ),
       ),
       drawer: const AppDrawer(),
       body: DoubleTapExit(

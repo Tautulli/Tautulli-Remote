@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../widgets/donate_header.dart';
 
 PurchaserInfo _purchaserInfo;
@@ -18,7 +20,9 @@ class DonatePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: const Text('Donate'),
+        title: Text(
+          LocaleKeys.donate_page_title.tr(),
+        ),
       ),
       body: const DonatePageContent(),
     );

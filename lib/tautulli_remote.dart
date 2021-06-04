@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -160,6 +161,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     }
 
     return MaterialApp(
+      supportedLocales: context.supportedLocales,
+      localizationsDelegates: context.localizationDelegates,
+      locale: context.locale,
       title: 'Tautulli Remote',
       theme: ThemeData(
         brightness: Brightness.dark,

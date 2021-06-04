@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -17,6 +18,7 @@ import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../terminate_session/presentation/bloc/terminate_session_bloc.dart';
 import '../../domain/entities/activity.dart';
@@ -99,7 +101,9 @@ class _ActivityPageContentState extends State<ActivityPageContent>
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: const AppDrawerIcon(),
-        title: const Text('Activity'),
+        title: Text(
+          LocaleKeys.activity_page_title.tr(),
+        ),
       ),
       drawer: const AppDrawer(),
       body: DoubleTapExit(
@@ -220,10 +224,10 @@ Widget _buildSingleServerActivity({
         physics: const AlwaysScrollableScrollPhysics(),
         child: Container(
           height: constraints.maxHeight,
-          child: const Center(
+          child: Center(
             child: Text(
-              'Nothing is currently being played.',
-              style: TextStyle(fontSize: 18),
+              LocaleKeys.activity_empty.tr(),
+              style: const TextStyle(fontSize: 18),
             ),
           ),
         ),

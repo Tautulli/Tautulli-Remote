@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/widgets/error_message.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../bloc/announcements_bloc.dart';
 import '../widgets/announcement_card.dart';
 
@@ -26,7 +28,9 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: const Text('Announcements'),
+        title: Text(
+          LocaleKeys.announcements_page_title.tr(),
+        ),
       ),
       body: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
         builder: (context, state) {
