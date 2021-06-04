@@ -25,6 +25,7 @@ class AppDrawer extends StatelessWidget {
 
     return Drawer(
       child: SafeArea(
+        top: false,
         child: Column(
           children: [
             // Add colored bar behind status bar
