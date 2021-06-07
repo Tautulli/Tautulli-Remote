@@ -269,10 +269,12 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         color: Theme.of(context).backgroundColor,
-                        child: ActivityMediaDetails(
-                          constraints: constraints,
-                          activity: activity,
-                          tautulliId: widget.tautulliId,
+                        child: SingleChildScrollView(
+                          child: ActivityMediaDetails(
+                            constraints: constraints,
+                            activity: activity,
+                            tautulliId: widget.tautulliId,
+                          ),
                         ),
                       ),
                     ),
