@@ -179,7 +179,8 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                             ),
                     );
                   } else {
-                    return const Text('ERROR: Settings not loaded');
+                    return const Text(LocaleKeys.settings_not_loaded_error)
+                        .tr();
                   }
                 },
               );
@@ -226,7 +227,7 @@ Widget _buildSingleServerActivity({
           height: constraints.maxHeight,
           child: Center(
             child: Text(
-              LocaleKeys.activity_empty.tr(),
+              '${LocaleKeys.activity_empty.tr()}.',
               style: const TextStyle(fontSize: 18),
             ),
           ),
@@ -331,8 +332,9 @@ Widget _buildMultiserverActivity({
         }
       } else {
         serverActivityList.add(
-          const _StatusCard(
-              customMessage: 'Nothing is currently being played.'),
+          _StatusCard(
+            customMessage: '${LocaleKeys.activity_empty.tr()}.',
+          ),
         );
       }
     }
@@ -428,7 +430,9 @@ class _StatusCard extends StatelessWidget {
                   bottom: 4,
                 ),
                 child: Text(
-                  isNotEmpty(failureMessage) ? failureMessage : 'Unknown Error',
+                  isNotEmpty(failureMessage)
+                      ? failureMessage
+                      : LocaleKeys.general_unknown_error.tr(),
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 16,

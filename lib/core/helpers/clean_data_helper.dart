@@ -1,15 +1,17 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quiver/strings.dart';
 
 import '../../features/activity/domain/entities/activity.dart';
+import '../../translations/locale_keys.g.dart';
 import 'color_palette_helper.dart';
 import 'string_format_helper.dart';
 
 /// Various helper functions to return [RichText] data for activity data.
 class ActivityMediaDetailsCleaner {
   static List<List> audio(ActivityItem activity) {
-    const String title = 'AUDIO';
+    String title = LocaleKeys.media_details_audio.tr();
     List<List> list = [];
 
     if (activity.streamAudioDecision != '') {
@@ -17,9 +19,9 @@ class ActivityMediaDetailsCleaner {
         list.add([
           title,
           RichText(
-            text: const TextSpan(
-              text: 'Transcode',
-              style: TextStyle(
+            text: TextSpan(
+              text: LocaleKeys.media_details_transcode.tr(),
+              style: const TextStyle(
                 fontSize: 16,
               ),
             ),
@@ -37,7 +39,7 @@ class ActivityMediaDetailsCleaner {
         ]);
       } else if (activity.streamAudioDecision == 'copy') {
         String textLeft =
-            'Direct Stream (${activity.streamAudioCodec.toUpperCase()} ${StringFormatHelper.capitalize(activity.streamAudioChannelLayout.split("(")[0])})';
+            '${LocaleKeys.media_details_direct_stream.tr()} (${activity.streamAudioCodec.toUpperCase()} ${StringFormatHelper.capitalize(activity.streamAudioChannelLayout.split("(")[0])})';
 
         list.add([
           title,
@@ -45,7 +47,7 @@ class ActivityMediaDetailsCleaner {
         ]);
       } else {
         String textLeft =
-            'Direct Play (${activity.streamAudioCodec.toUpperCase()} ${StringFormatHelper.capitalize(activity.streamAudioChannelLayout.split("(")[0])})';
+            '${LocaleKeys.media_details_direct_play.tr()} (${activity.streamAudioCodec.toUpperCase()} ${StringFormatHelper.capitalize(activity.streamAudioChannelLayout.split("(")[0])})';
 
         list.add([
           title,
@@ -70,9 +72,9 @@ class ActivityMediaDetailsCleaner {
         finalText = '$_bw kbps';
       }
     } else if (activity.syncedVersion == 1) {
-      finalText = 'None';
+      finalText = LocaleKeys.media_details_none.tr();
     } else {
-      finalText = 'Unknown';
+      finalText = LocaleKeys.media_details_unknown.tr();
     }
     final formattedBandwidth = RichText(
       text: TextSpan(
@@ -84,21 +86,21 @@ class ActivityMediaDetailsCleaner {
     );
 
     return [
-      ['BANDWIDTH', formattedBandwidth]
+      [LocaleKeys.media_details_bandwidth.tr(), formattedBandwidth]
     ];
   }
 
   static List<List> container(ActivityItem activity) {
-    String title = 'CONTAINER';
+    String title = LocaleKeys.media_details_container.tr();
     List<List> list = [];
 
     if (activity.streamContainerDecision == 'transcode') {
       list.add([
         title,
         RichText(
-          text: const TextSpan(
-            text: 'Converting',
-            style: TextStyle(
+          text: TextSpan(
+            text: LocaleKeys.media_details_converting.tr(),
+            style: const TextStyle(
               fontSize: 16,
             ),
           ),
@@ -110,7 +112,8 @@ class ActivityMediaDetailsCleaner {
 
       list.add(['', _formatValue(left: leftText, right: rightText)]);
     } else {
-      String value = 'Direct Play (${activity.streamContainer.toUpperCase()})';
+      String value =
+          '${LocaleKeys.media_details_direct_play.tr()} (${activity.streamContainer.toUpperCase()})';
       list.add([title, _formatValue(left: value)]);
     }
 
@@ -124,16 +127,16 @@ class ActivityMediaDetailsCleaner {
     String text;
     IconData icon;
 
-    if (activity.ipAddress != 'N/A') {
+    if (activity.ipAddress != LocaleKeys.media_details_na.tr()) {
       if (activity.secure == 1) {
         icon = FontAwesomeIcons.lock;
       } else {
         icon = FontAwesomeIcons.unlock;
       }
       text =
-          '${activity.location.toUpperCase()}: ${maskSensitiveInfo ? '*Hidden IP Address*' : activity.ipAddress}';
+          '${activity.location.toUpperCase()}: ${maskSensitiveInfo ? '*${LocaleKeys.masked_info_ip_address}*' : activity.ipAddress}';
     } else {
-      text = 'N/A';
+      text = LocaleKeys.media_details_na.tr();
     }
 
     final formattedLocation = RichText(
@@ -163,7 +166,7 @@ class ActivityMediaDetailsCleaner {
     );
 
     return [
-      ['LOCATION', formattedLocation]
+      [LocaleKeys.media_details_location.tr(), formattedLocation]
     ];
   }
 
@@ -174,7 +177,7 @@ class ActivityMediaDetailsCleaner {
     String code,
     bool maskSensitiveInfo,
   }) {
-    if (city != null && city != 'Unknown') {
+    if (city != null && city != LocaleKeys.media_details_unknown.tr()) {
       city = '$city, ';
     } else {
       city = '';
@@ -205,9 +208,9 @@ class ActivityMediaDetailsCleaner {
           ),
           TextSpan(
             text: type == 'relay'
-                ? 'This stream is using Plex Relay'
+                ? LocaleKeys.media_details_relay_message.tr()
                 : maskSensitiveInfo
-                    ? '*Hidden Location*'
+                    ? '*${LocaleKeys.masked_info_location.tr()}*'
                     : '$city$region $code',
             style: const TextStyle(
               fontSize: 16,
@@ -234,7 +237,7 @@ class ActivityMediaDetailsCleaner {
     );
 
     return [
-      ['OPTIMIZED', formattedOptimized]
+      [LocaleKeys.media_details_optimized.tr(), formattedOptimized]
     ];
   }
 
@@ -249,7 +252,7 @@ class ActivityMediaDetailsCleaner {
     );
 
     return [
-      ['PLAYER', formattedPlayer]
+      [LocaleKeys.media_details_player.tr(), formattedPlayer]
     ];
   }
 
@@ -263,7 +266,7 @@ class ActivityMediaDetailsCleaner {
       ),
     );
     return [
-      ['PRODUCT', formattedProduct]
+      [LocaleKeys.media_details_product.tr(), formattedProduct]
     ];
   }
 
@@ -296,7 +299,7 @@ class ActivityMediaDetailsCleaner {
     );
 
     return [
-      ['QUALITY', formattedQuality]
+      [LocaleKeys.media_details_quality.tr(), formattedQuality]
     ];
   }
 
@@ -305,14 +308,16 @@ class ActivityMediaDetailsCleaner {
 
     if (activity.transcodeDecision == 'transcode') {
       if (activity.transcodeThrottled == 1) {
-        finalText = 'Transcode (Throttled)';
+        finalText =
+            '${LocaleKeys.media_details_transcode.tr()} (${LocaleKeys.media_details_throttled.tr()})';
       } else {
-        finalText = 'Transcode (Speed: ${activity.transcodeSpeed})';
+        finalText =
+            '${LocaleKeys.media_details_transcode.tr()} (${LocaleKeys.media_details_speed.tr()}: ${activity.transcodeSpeed})';
       }
     } else if (activity.transcodeDecision == 'copy') {
-      finalText = 'Direct Stream';
+      finalText = LocaleKeys.media_details_direct_stream.tr();
     } else {
-      finalText = 'Direct Play';
+      finalText = LocaleKeys.media_details_direct_play.tr();
     }
     final formattedStream = RichText(
       text: TextSpan(
@@ -324,12 +329,12 @@ class ActivityMediaDetailsCleaner {
     );
 
     return [
-      ['STREAM', formattedStream]
+      [LocaleKeys.media_details_stream.tr(), formattedStream]
     ];
   }
 
   static List<List> subtitles(ActivityItem activity) {
-    const String title = 'SUBTITLE';
+    String title = LocaleKeys.media_details_subtitle.tr();
     List<List> list = [];
 
     if (activity.subtitles == 1) {
@@ -337,9 +342,9 @@ class ActivityMediaDetailsCleaner {
         list.add([
           title,
           RichText(
-            text: const TextSpan(
-              text: 'Transcode',
-              style: TextStyle(
+            text: TextSpan(
+              text: LocaleKeys.media_details_transcode.tr(),
+              style: const TextStyle(
                 fontSize: 16,
               ),
             ),
@@ -355,14 +360,15 @@ class ActivityMediaDetailsCleaner {
         ]);
       } else if (activity.streamSubtitleDecision == 'copy') {
         String textLeft =
-            'Direct Stream (${activity.subtitleCodec.toUpperCase()})';
+            '${LocaleKeys.media_details_direct_stream.tr()} (${activity.subtitleCodec.toUpperCase()})';
 
         list.add([
           title,
           _formatValue(left: textLeft),
         ]);
       } else if (activity.streamSubtitleDecision == 'burn') {
-        String textLeft = 'Burn (${activity.subtitleCodec.toUpperCase()})';
+        String textLeft =
+            '${LocaleKeys.media_details_burn.tr()} (${activity.subtitleCodec.toUpperCase()})';
 
         list.add([
           title,
@@ -371,7 +377,7 @@ class ActivityMediaDetailsCleaner {
       } else {
         if (activity.syncedVersion == 1) {
           String textLeft =
-              'Direct Play (${activity.subtitleCodec.toUpperCase()})';
+              '${LocaleKeys.media_details_direct_play.tr()} (${activity.subtitleCodec.toUpperCase()})';
 
           list.add([
             title,
@@ -379,7 +385,7 @@ class ActivityMediaDetailsCleaner {
           ]);
         } else {
           String textLeft =
-              'Direct Play (${activity.streamSubtitleCodec.toUpperCase()})';
+              '${LocaleKeys.media_details_direct_play.tr()} (${activity.streamSubtitleCodec.toUpperCase()})';
 
           list.add([
             title,
@@ -388,7 +394,7 @@ class ActivityMediaDetailsCleaner {
         }
       }
     } else {
-      String textLeft = 'None';
+      String textLeft = LocaleKeys.media_details_none.tr();
 
       list.add([
         title,
@@ -409,7 +415,7 @@ class ActivityMediaDetailsCleaner {
     );
 
     return [
-      ['SYNCED', formattedSynced]
+      [LocaleKeys.media_details_synced.tr(), formattedSynced]
     ];
   }
 
@@ -438,9 +444,9 @@ class ActivityMediaDetailsCleaner {
         list.add([
           title,
           RichText(
-            text: const TextSpan(
-              text: 'Transcode',
-              style: TextStyle(
+            text: TextSpan(
+              text: LocaleKeys.media_details_transcode.tr(),
+              style: const TextStyle(
                 fontSize: 16,
               ),
             ),
@@ -461,7 +467,7 @@ class ActivityMediaDetailsCleaner {
         ]);
       } else if (activity.streamVideoDecision == 'copy') {
         String textLeft =
-            'Direct Stream (${activity.streamVideoCodec.toUpperCase()} ${activity.streamVideoFullResolution}$_streamVideoDynamicRange)';
+            '${LocaleKeys.media_details_direct_stream.tr()} (${activity.streamVideoCodec.toUpperCase()} ${activity.streamVideoFullResolution}$_streamVideoDynamicRange)';
 
         list.add([
           title,
@@ -469,7 +475,7 @@ class ActivityMediaDetailsCleaner {
         ]);
       } else {
         String textLeft =
-            'Direct Play (${activity.streamVideoCodec.toUpperCase()} ${activity.streamVideoFullResolution}$_streamVideoDynamicRange)';
+            '${LocaleKeys.media_details_direct_play.tr()} (${activity.streamVideoCodec.toUpperCase()} ${activity.streamVideoFullResolution}$_streamVideoDynamicRange)';
 
         list.add([
           title,
@@ -477,7 +483,8 @@ class ActivityMediaDetailsCleaner {
         ]);
       }
     } else if (activity.mediaType == 'photo') {
-      String textLeft = 'Direct Play (${activity.width}x${activity.height})';
+      String textLeft =
+          '${LocaleKeys.media_details_direct_play.tr()} (${activity.width}x${activity.height})';
 
       list.add([
         title,

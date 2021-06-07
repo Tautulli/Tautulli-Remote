@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -7,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/poster_chooser.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -89,9 +91,10 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: Colors.green,
-                  content: const Text('Termination request sent to Plex.'),
+                  content: Text(
+                      '${LocaleKeys.termination_request_sent_alert.tr()}.'),
                   action: SnackBarAction(
-                    label: 'LEARN MORE',
+                    label: LocaleKeys.button_learn_more.tr(),
                     onPressed: () async {
                       await launch(
                         'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#termination_caveats',
@@ -186,7 +189,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                                 Text(
                                                   settingsLoadSuccess
                                                           .maskSensitiveInfo
-                                                      ? '*Hidden User*'
+                                                      ? '*${LocaleKeys.masked_info_user.tr()}*'
                                                       : activity.friendlyName,
                                                 ),
                                                 //* Time left or Live tv channel
@@ -307,9 +310,9 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                 style: ElevatedButton.styleFrom(
                                   primary: PlexColorPalette.gamboge,
                                 ),
-                                child: const Text(
-                                  'View User',
-                                  style: TextStyle(
+                                child: Text(
+                                  LocaleKeys.button_view_user.tr(),
+                                  style: const TextStyle(
                                     color: TautulliColorPalette.not_white,
                                   ),
                                 ),
@@ -352,9 +355,9 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                   style: ElevatedButton.styleFrom(
                                     primary: PlexColorPalette.curious_blue,
                                   ),
-                                  child: const Text(
-                                    'View Media',
-                                    style: TextStyle(
+                                  child: Text(
+                                    LocaleKeys.button_view_media.tr(),
+                                    style: const TextStyle(
                                       color: TautulliColorPalette.not_white,
                                     ),
                                   ),
@@ -406,7 +409,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                               ? widget
                                                   .terminateMessageController
                                                   .text
-                                              : 'The server owner has ended the stream.',
+                                              : '${LocaleKeys.termination_default_message}.',
                                           settingsBloc: settingsBloc,
                                         ),
                                       );
@@ -426,7 +429,9 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                           ),
                                         );
                                       }
-                                      return const Text('Terminate Session');
+                                      return const Text(LocaleKeys
+                                              .button_terminate_stream)
+                                          .tr();
                                     },
                                   ),
                                 ),
