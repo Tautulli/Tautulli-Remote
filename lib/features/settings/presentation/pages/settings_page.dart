@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -256,20 +258,21 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                           );
                         },
                       ),
-                      CheckboxListTile(
-                        title: const Text('Double Tap To Exit'),
-                        subtitle: const Text(
-                          'Tap back twice to exit',
+                      if (Platform.isAndroid)
+                        CheckboxListTile(
+                          title: const Text('Double Tap To Exit'),
+                          subtitle: const Text(
+                            'Tap back twice to exit',
+                          ),
+                          onChanged: (value) {
+                            context.read<SettingsBloc>().add(
+                                  SettingsUpdateDoubleTapToExit(
+                                    value: value,
+                                  ),
+                                );
+                          },
+                          value: state.doubleTapToExit ?? false,
                         ),
-                        onChanged: (value) {
-                          context.read<SettingsBloc>().add(
-                                SettingsUpdateDoubleTapToExit(
-                                  value: value,
-                                ),
-                              );
-                        },
-                        value: state.doubleTapToExit ?? false,
-                      ),
                       CheckboxListTile(
                         title: const Text('Mask Sensitive Info'),
                         subtitle: const Text('Hides sensitive info in the UI'),

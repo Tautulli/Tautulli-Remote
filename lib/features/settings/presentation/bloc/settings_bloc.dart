@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -334,7 +335,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final serverList = await settings.getAllServers();
     final serverTimeout = await settings.getServerTimeout();
     final refreshRate = await settings.getRefreshRate();
-    final doubleTapToExit = await settings.getDoubleTapToExit();
+    final doubleTapToExit =
+        Platform.isAndroid ? await settings.getDoubleTapToExit() : false;
     final maskSensitiveInfo = await settings.getMaskSensitiveInfo();
     final lastSelectedServer = await settings.getLastSelectedServer();
     final statsType = await settings.getStatsType();
