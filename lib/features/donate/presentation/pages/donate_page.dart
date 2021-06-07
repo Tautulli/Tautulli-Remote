@@ -101,7 +101,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
                   color: Colors.red[400],
                 ),
               ),
-              const Text('Thank you for your donation!'),
+              const Text(LocaleKeys.donate_thank_you_alert).tr(),
             ],
           ),
         ),
@@ -115,7 +115,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Theme.of(context).errorColor,
-            content: const Text('Something went wrong.'),
+            content: const Text(LocaleKeys.donate_error_alert).tr(),
           ),
         );
       }
@@ -135,21 +135,21 @@ class _DonatePageContentState extends State<DonatePageContent> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Column(
-            children: const [
-              Text(
-                'Tautulli Remote is free and open source.',
+            children: [
+              const Text(
+                LocaleKeys.donate_message_title,
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 8),
-              Text(
-                'However, any contributions you can make towards the app are appreciated!',
+              ).tr(),
+              const SizedBox(height: 8),
+              const Text(
+                LocaleKeys.donate_message_body,
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
-              ),
+              ).tr(),
             ],
           ),
         ),
@@ -169,10 +169,12 @@ class _DonatePageContentState extends State<DonatePageContent> {
               : _offerings.all.isNotEmpty
                   ? ListView(
                       children: [
-                        const DonateHeader(text: 'One-Time Donations'),
+                        DonateHeader(
+                          text: LocaleKeys.donate_one_time_heading.tr(),
+                        ),
                         Card(
                           child: ListTile(
-                            title: const Text('Buy Me A Cone'),
+                            title: const Text(LocaleKeys.donate_cone).tr(),
                             subtitle: const Text('\$1.99'),
                             trailing: const FaIcon(
                               FontAwesomeIcons.iceCream,
@@ -187,7 +189,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
                         ),
                         Card(
                           child: ListTile(
-                            title: const Text('Buy Me A Slice'),
+                            title: const Text(LocaleKeys.donate_slice).tr(),
                             subtitle: const Text('\$3.49'),
                             trailing: const FaIcon(
                               FontAwesomeIcons.pizzaSlice,
@@ -202,7 +204,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
                         ),
                         Card(
                           child: ListTile(
-                            title: const Text('Buy Me A Burger'),
+                            title: const Text(LocaleKeys.donate_burger).tr(),
                             subtitle: const Text('\$4.99'),
                             trailing: const FaIcon(
                               FontAwesomeIcons.hamburger,
@@ -217,7 +219,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
                         ),
                         Card(
                           child: ListTile(
-                            title: const Text('Buy Me A Meal'),
+                            title: const Text(LocaleKeys.donate_meal).tr(),
                             subtitle: const Text('\$9.99'),
                             trailing: const Icon(
                               Icons.fastfood,
@@ -237,11 +239,15 @@ class _DonatePageContentState extends State<DonatePageContent> {
                           height: 50,
                           color: PlexColorPalette.gamboge,
                         ),
-                        const DonateHeader(text: 'Recurring Donations'),
+                        DonateHeader(
+                          text: LocaleKeys.donate_recurring_heading.tr(),
+                        ),
                         Card(
                           child: ListTile(
-                            title: const Text('Tip Jar'),
-                            subtitle: const Text('\$0.99/month'),
+                            title: const Text(LocaleKeys.donate_tip_jar).tr(),
+                            subtitle: Text(
+                              '\$0.99/${LocaleKeys.donate_month.tr()}',
+                            ),
                             trailing: FaIcon(
                               FontAwesomeIcons.donate,
                               color: _purchaserInfo.activeSubscriptions
@@ -259,8 +265,10 @@ class _DonatePageContentState extends State<DonatePageContent> {
                         ),
                         Card(
                           child: ListTile(
-                            title: const Text('Big Tip'),
-                            subtitle: const Text('\$1.99/month'),
+                            title: const Text(LocaleKeys.donate_big_tip).tr(),
+                            subtitle: Text(
+                              '\$1.99/${LocaleKeys.donate_month.tr()}',
+                            ),
                             trailing: FaIcon(
                               FontAwesomeIcons.donate,
                               color: _purchaserInfo.activeSubscriptions
@@ -278,8 +286,10 @@ class _DonatePageContentState extends State<DonatePageContent> {
                         ),
                         Card(
                           child: ListTile(
-                            title: const Text('Supporter'),
-                            subtitle: const Text('\$4.99/month'),
+                            title: const Text(LocaleKeys.donate_supporter).tr(),
+                            subtitle: Text(
+                              '\$4.99/${LocaleKeys.donate_month.tr()}',
+                            ),
                             trailing: FaIcon(
                               FontAwesomeIcons.donate,
                               color: _purchaserInfo.activeSubscriptions
@@ -297,8 +307,10 @@ class _DonatePageContentState extends State<DonatePageContent> {
                         ),
                         Card(
                           child: ListTile(
-                            title: const Text('Patron'),
-                            subtitle: const Text('\$9.99/month'),
+                            title: const Text(LocaleKeys.donate_patron).tr(),
+                            subtitle: Text(
+                              '\$9.99/${LocaleKeys.donate_month.tr()}',
+                            ),
                             trailing: FaIcon(
                               FontAwesomeIcons.donate,
                               color: _purchaserInfo.activeSubscriptions
@@ -317,12 +329,12 @@ class _DonatePageContentState extends State<DonatePageContent> {
                       ],
                     )
                   : const Text(
-                      'Failed to load donation items.',
+                      LocaleKeys.donate_load_failed,
                       style: TextStyle(
                         fontSize: 18,
                       ),
                       textAlign: TextAlign.center,
-                    ),
+                    ).tr(),
         ),
       ],
     );

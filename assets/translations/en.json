@@ -55,5 +55,21 @@
   "media_details_location_loading": "Loading location data",
   "activity_time_left": "left",
   "settings_not_loaded_error": "ERROR: Settings not loaded",
-  "general_unknown_error": "Unknown Error"
+  "general_unknown_error": "Unknown Error",
+  "donate_thank_you_alert": "Thank you for your donation",
+  "donate_error_alert": "Something went wrong.",
+  "donate_message_title": "Tautulli Remote is free and open source.",
+  "donate_message_body": "However, any contributions you can make towards the app are appreciated!",
+  "donate_one_time_heading": "One-Time Donations",
+  "donate_cone": "Buy Me A Cone",
+  "donate_slice": "Buy Me A Slice",
+  "donate_burger": "Buy Me A Burger",
+  "donate_meal": "Buy Me A Meal",
+  "donate_recurring_heading": "Recurring Donations",
+  "donate_tip_jar": "Tip Jar",
+  "donate_big_tip": "Big Tip",
+  "donate_supporter": "Supporter",
+  "donate_patron": "Patron",
+  "donate_load_failed": "Failed to load donation items.",
+  "donate_month": "month"
 }
