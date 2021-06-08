@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/graph_state.dart';
 import '../bloc/media_type_graphs_bloc.dart';
@@ -84,8 +86,13 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
             child: ListView(
               children: [
                 GraphHeading(
-                  graphHeading:
-                      'Daily Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Media Type',
+                  graphHeading: LocaleKeys.graphs_media_type_daily_play.tr(
+                    args: [
+                      widget.yAxis == 'plays'
+                          ? LocaleKeys.general_filter_count.tr()
+                          : LocaleKeys.general_filter_duration.tr(),
+                    ],
+                  ),
                 ),
                 (state is MediaTypeGraphsLoaded &&
                         state.playsByDate.graphCurrentState !=
@@ -109,8 +116,13 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
-                  graphHeading:
-                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Day of the Week',
+                  graphHeading: LocaleKeys.graphs_media_type_day_of_week.tr(
+                    args: [
+                      widget.yAxis == 'plays'
+                          ? LocaleKeys.general_filter_count.tr()
+                          : LocaleKeys.general_filter_duration.tr(),
+                    ],
+                  ),
                 ),
                 (state is MediaTypeGraphsLoaded &&
                         state.playsByDayOfWeek.graphCurrentState !=
@@ -136,8 +148,13 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
-                  graphHeading:
-                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Hour of the Day',
+                  graphHeading: LocaleKeys.graphs_media_type_hour_of_day.tr(
+                    args: [
+                      widget.yAxis == 'plays'
+                          ? LocaleKeys.general_filter_count.tr()
+                          : LocaleKeys.general_filter_duration.tr(),
+                    ],
+                  ),
                 ),
                 (state is MediaTypeGraphsLoaded &&
                         state.playsByHourOfDay.graphCurrentState !=
@@ -165,8 +182,13 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
-                  graphHeading:
-                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Top 10 Platforms',
+                  graphHeading: LocaleKeys.graphs_media_type_top_platforms.tr(
+                    args: [
+                      widget.yAxis == 'plays'
+                          ? LocaleKeys.general_filter_count.tr()
+                          : LocaleKeys.general_filter_duration.tr(),
+                    ],
+                  ),
                 ),
                 (state is MediaTypeGraphsLoaded &&
                         state.playsByTop10Platforms.graphCurrentState !=
@@ -194,8 +216,13 @@ class _MediaTypeTabState extends State<MediaTypeTab> {
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
-                  graphHeading:
-                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Top 10 Users',
+                  graphHeading: LocaleKeys.graphs_media_type_top_users.tr(
+                    args: [
+                      widget.yAxis == 'plays'
+                          ? LocaleKeys.general_filter_count.tr()
+                          : LocaleKeys.general_filter_duration.tr(),
+                    ],
+                  ),
                 ),
                 (state is MediaTypeGraphsLoaded &&
                         state.playsByTop10Users.graphCurrentState !=

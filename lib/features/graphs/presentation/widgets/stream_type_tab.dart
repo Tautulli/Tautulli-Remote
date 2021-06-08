@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/graph_state.dart';
 import '../bloc/stream_type_graphs_bloc.dart';
@@ -84,8 +86,13 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
             child: ListView(
               children: [
                 GraphHeading(
-                  graphHeading:
-                      'Daily Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Stream Type',
+                  graphHeading: LocaleKeys.graphs_stream_type_daily_play.tr(
+                    args: [
+                      widget.yAxis == 'plays'
+                          ? LocaleKeys.general_filter_count.tr()
+                          : LocaleKeys.general_filter_duration.tr(),
+                    ],
+                  ),
                 ),
                 (state is StreamTypeGraphsLoaded &&
                         state.playsByStreamType.graphCurrentState !=
@@ -112,7 +119,13 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                 const SizedBox(height: 8),
                 GraphHeading(
                   graphHeading:
-                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Source Resolution',
+                      LocaleKeys.graphs_stream_type_source_resolution.tr(
+                    args: [
+                      widget.yAxis == 'plays'
+                          ? LocaleKeys.general_filter_count.tr()
+                          : LocaleKeys.general_filter_duration.tr(),
+                    ],
+                  ),
                 ),
                 (state is StreamTypeGraphsLoaded &&
                         state.playsBySourceResolution.graphCurrentState !=
@@ -141,7 +154,13 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                 const SizedBox(height: 8),
                 GraphHeading(
                   graphHeading:
-                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Stream Resolution',
+                      LocaleKeys.graphs_stream_type_stream_resolution.tr(
+                    args: [
+                      widget.yAxis == 'plays'
+                          ? LocaleKeys.general_filter_count.tr()
+                          : LocaleKeys.general_filter_duration.tr(),
+                    ],
+                  ),
                 ),
                 (state is StreamTypeGraphsLoaded &&
                         state.playsByStreamResolution.graphCurrentState !=
@@ -169,8 +188,13 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
-                  graphHeading:
-                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by Platform Stream Type',
+                  graphHeading: LocaleKeys.graphs_stream_type_platform.tr(
+                    args: [
+                      widget.yAxis == 'plays'
+                          ? LocaleKeys.general_filter_count.tr()
+                          : LocaleKeys.general_filter_duration.tr(),
+                    ],
+                  ),
                 ),
                 (state is StreamTypeGraphsLoaded &&
                         state.streamTypeByTop10Platforms.graphCurrentState !=
@@ -200,8 +224,13 @@ class _StreamTypeTabState extends State<StreamTypeTab> {
                       ),
                 const SizedBox(height: 8),
                 GraphHeading(
-                  graphHeading:
-                      'Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} by User Stream Type',
+                  graphHeading: LocaleKeys.graphs_stream_type_user.tr(
+                    args: [
+                      widget.yAxis == 'plays'
+                          ? LocaleKeys.general_filter_count.tr()
+                          : LocaleKeys.general_filter_duration.tr(),
+                    ],
+                  ),
                 ),
                 (state is StreamTypeGraphsLoaded &&
                         state.streamTypeByTop10Users.graphCurrentState !=

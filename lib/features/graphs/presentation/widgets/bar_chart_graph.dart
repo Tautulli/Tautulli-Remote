@@ -1,11 +1,13 @@
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/graph_data_helper.dart';
 import '../../../../core/helpers/string_mapper_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../domain/entities/graph_state.dart';
 import '../../domain/entities/series_data.dart';
 import 'graph_card.dart';
@@ -180,7 +182,7 @@ class BarChartGraph extends StatelessWidget {
                       GraphType.playsByTop10Users,
                       GraphType.streamTypeByTop10Users,
                     ].contains(graphState.graphType)) {
-                  return '*Hidden*';
+                  return '*${LocaleKeys.masked_info_hidden.tr()}*';
                 }
 
                 if (graphState.graphType == GraphType.playsByDayOfWeek) {

@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../domain/entities/graph_state.dart';
 
 class GraphCard extends StatelessWidget {
@@ -62,11 +64,11 @@ class GraphCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: maxYLines < 1 || maxYLines.isNaN
-                            ? const Center(
-                                child: Text(
-                                  'No plays for the selected time range',
+                            ? Center(
+                                child: const Text(
+                                  LocaleKeys.graphs_no_plays,
                                   style: TextStyle(color: Colors.grey),
-                                ),
+                                ).tr(),
                               )
                             : chart,
                       ),
@@ -137,7 +139,11 @@ class _GraphLegend extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 4),
-                child: Text(showTvLegend ? 'TV' : 'Direct Play'),
+                child: Text(
+                  showTvLegend
+                      ? LocaleKeys.graphs_tv
+                      : LocaleKeys.media_details_direct_play,
+                ).tr(),
               ),
               if (showMoviesLegend ||
                   showMusicLegend ||
@@ -157,7 +163,11 @@ class _GraphLegend extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 4),
-                child: Text(showMoviesLegend ? 'Movies' : 'Direct Stream'),
+                child: Text(
+                  showMoviesLegend
+                      ? LocaleKeys.graphs_movies
+                      : LocaleKeys.media_details_direct_stream,
+                ).tr(),
               ),
               if (showMusicLegend || showLiveTvLegend || showTranscodeLegend)
                 const SizedBox(width: 8),
@@ -173,22 +183,26 @@ class _GraphLegend extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 4),
-                child: Text(showMusicLegend ? 'Music' : 'Transcode'),
+                child: Text(
+                  showMusicLegend
+                      ? LocaleKeys.graphs_music
+                      : LocaleKeys.media_details_transcode,
+                ).tr(),
               ),
               if (showLiveTvLegend) const SizedBox(width: 8),
             ],
           ),
         if (showLiveTvLegend)
           Row(
-            children: const [
-              FaIcon(
+            children: [
+              const FaIcon(
                 FontAwesomeIcons.solidCircle,
                 color: PlexColorPalette.curious_blue,
                 size: 12,
               ),
               Padding(
-                padding: EdgeInsets.only(left: 4),
-                child: Text('Live TV'),
+                padding: const EdgeInsets.only(left: 4),
+                child: const Text(LocaleKeys.graphs_live_tv).tr(),
               ),
             ],
           ),
