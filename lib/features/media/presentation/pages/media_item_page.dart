@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -505,8 +506,9 @@ Future<void> _openPlexUrl({
   @required String plexIdentifier,
   bool useLegacy = false,
 }) async {
-  String plexAppUrl =
-      'plex://server://$plexIdentifier/com.plexapp.plugins.library/library/metadata/$ratingKey';
+  String plexAppUrl = Platform.isAndroid
+      ? 'plex://server://$plexIdentifier/com.plexapp.plugins.library/library/metadata/$ratingKey'
+      : 'plex://preplay/?server=$plexIdentifier&metadataKey=/library/metadata/$ratingKey';
   String plexWebUrl =
       'https://app.plex.tv/desktop#!/server/$plexIdentifier/details?key=%2Flibrary%2Fmetadata%2F$ratingKey${useLegacy ? '&legacy=1' : ''}';
 
