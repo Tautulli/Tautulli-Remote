@@ -1,5 +1,6 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io' show Platform;
+
+import 'package:device_info_plus/device_info_plus.dart';
 
 abstract class DeviceInfo {
   /// The end-user-visible name for the device.
