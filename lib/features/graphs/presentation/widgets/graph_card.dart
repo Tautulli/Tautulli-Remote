@@ -141,7 +141,7 @@ class _GraphLegend extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 4),
                 child: Text(
                   showTvLegend
-                      ? LocaleKeys.graphs_tv
+                      ? LocaleKeys.general_tv
                       : LocaleKeys.media_details_direct_play,
                 ).tr(),
               ),
@@ -165,7 +165,7 @@ class _GraphLegend extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 4),
                 child: Text(
                   showMoviesLegend
-                      ? LocaleKeys.graphs_movies
+                      ? LocaleKeys.general_movies
                       : LocaleKeys.media_details_direct_stream,
                 ).tr(),
               ),
@@ -185,7 +185,7 @@ class _GraphLegend extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 4),
                 child: Text(
                   showMusicLegend
-                      ? LocaleKeys.graphs_music
+                      ? LocaleKeys.general_music
                       : LocaleKeys.media_details_transcode,
                 ).tr(),
               ),
@@ -202,7 +202,7 @@ class _GraphLegend extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 4),
-                child: const Text(LocaleKeys.graphs_live_tv).tr(),
+                child: const Text(LocaleKeys.general_live_tv).tr(),
               ),
             ],
           ),

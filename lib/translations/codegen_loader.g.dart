@@ -106,10 +106,6 @@ class CodegenLoader extends AssetLoader{
   "button_close": "CLOSE",
   "masked_info_hidden": "Hidden",
   "graphs_no_plays": "No plays for the selected time range",
-  "graphs_tv": "TV",
-  "graphs_movies": "Movies",
-  "graphs_music": "Music",
-  "graphs_live_tv": "Live TV",
   "graphs_load_fail": "Failed to load graph",
   "graphs_media_type_daily_play": "Daily Play {} by Media Type",
   "graphs_media_type_day_of_week": "Play {} by Day of the Week",
@@ -128,7 +124,20 @@ class CodegenLoader extends AssetLoader{
   "help_bugs_features_heading": "Bugs/Feature Requests",
   "help_logs_heading": "Logs",
   "help_tautulli_remote_logs": "View Tautulli Remote logs",
-  "help_page_title": "Help & Support"
+  "help_page_title": "Help & Support",
+  "history_empty": "No history found.",
+  "history_filter_empty": "No history for the selected filters found.",
+  "general_filter_users": "Users",
+  "general_filter_users_loading": "Loading users",
+  "general_filter_users_failed": "Users failed to load",
+  "general_filter_history": "Filter history",
+  "general_movies": "Movies",
+  "general_tv": "TV",
+  "general_live_tv": "Live TV",
+  "general_tv_shows": "TV Shows",
+  "general_music": "Music",
+  "general_videos": "Videos",
+  "general_all": "All"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en};
 }

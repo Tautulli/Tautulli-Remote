@@ -92,10 +92,6 @@ abstract class  LocaleKeys {
   static const button_close = 'button_close';
   static const masked_info_hidden = 'masked_info_hidden';
   static const graphs_no_plays = 'graphs_no_plays';
-  static const graphs_tv = 'graphs_tv';
-  static const graphs_movies = 'graphs_movies';
-  static const graphs_music = 'graphs_music';
-  static const graphs_live_tv = 'graphs_live_tv';
   static const graphs_load_fail = 'graphs_load_fail';
   static const graphs_media_type_daily_play = 'graphs_media_type_daily_play';
   static const graphs_media_type_day_of_week = 'graphs_media_type_day_of_week';
@@ -115,5 +111,18 @@ abstract class  LocaleKeys {
   static const help_logs_heading = 'help_logs_heading';
   static const help_tautulli_remote_logs = 'help_tautulli_remote_logs';
   static const help_page_title = 'help_page_title';
+  static const history_empty = 'history_empty';
+  static const history_filter_empty = 'history_filter_empty';
+  static const general_filter_users = 'general_filter_users';
+  static const general_filter_users_loading = 'general_filter_users_loading';
+  static const general_filter_users_failed = 'general_filter_users_failed';
+  static const general_filter_history = 'general_filter_history';
+  static const general_movies = 'general_movies';
+  static const general_tv = 'general_tv';
+  static const general_live_tv = 'general_live_tv';
+  static const general_tv_shows = 'general_tv_shows';
+  static const general_music = 'general_music';
+  static const general_videos = 'general_videos';
+  static const general_all = 'general_all';
 
 }
