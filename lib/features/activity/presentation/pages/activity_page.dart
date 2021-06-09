@@ -4,8 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:quiver/strings.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
@@ -253,15 +253,25 @@ Widget _buildSingleServerActivity({
 
   return BlocProvider<TerminateSessionBloc>(
     create: (context) => di.sl<TerminateSessionBloc>(),
-    child: ListView(
-      children: [
-        StickyHeader(
-          header: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-            child: BandwidthHeader(bandwidthMap: bandwidthMap),
+    child: CustomScrollView(
+      slivers: [
+        SliverStickyHeader(
+          header: DecoratedBox(
+            decoration: const BoxDecoration(
+              color: TautulliColorPalette.midnight,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+              child: BandwidthHeader(bandwidthMap: bandwidthMap),
+            ),
           ),
-          content: Column(
-            children: serverActivityList,
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return serverActivityList[index];
+              },
+              childCount: serverActivityList.length,
+            ),
           ),
         ),
       ],
@@ -349,23 +359,23 @@ Widget _buildMultiserverActivity({
     }
 
     activityWidgetList.add(
-      StickyHeader(
-        header: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ServerHeader(
-              color: TautulliColorPalette.midnight,
-              serverName: serverData['plex_name'],
-              state: serverData['loadingState'],
-              secondWidget: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: BandwidthHeader(bandwidthMap: serverData['bandwidth']),
-              ),
-            ),
-          ],
+      SliverStickyHeader(
+        header: ServerHeader(
+          color: TautulliColorPalette.midnight,
+          serverName: serverData['plex_name'],
+          state: serverData['loadingState'],
+          secondWidget: Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: BandwidthHeader(bandwidthMap: serverData['bandwidth']),
+          ),
         ),
-        content: Column(
-          children: serverActivityList,
+        sliver: SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return serverActivityList[index];
+            },
+            childCount: serverActivityList.length,
+          ),
         ),
       ),
     );
@@ -375,8 +385,8 @@ Widget _buildMultiserverActivity({
     create: (context) => di.sl<TerminateSessionBloc>(),
     child: Padding(
       padding: const EdgeInsets.only(top: 4),
-      child: ListView(
-        children: activityWidgetList,
+      child: CustomScrollView(
+        slivers: activityWidgetList,
       ),
     ),
   );

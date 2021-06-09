@@ -40,6 +40,7 @@ dependencies:
   flutter_bloc: ^7.0.0
   flutter_card_swipper: ^0.4.0
   flutter_slidable: ^0.6.0
+  flutter_sticky_header: ^0.6.0
   fluttertoast: ^8.0.7
   font_awesome_flutter: ^9.0.0
   get_it: ^7.1.3
@@ -57,7 +58,6 @@ dependencies:
   shared_preferences: ^2.0.6
   simple_moment: ^1.1.1
   sqflite: ^2.0.0+3
-  sticky_headers: ^0.2.0
   url_launcher: ^6.0.4
   validators: ^3.0.0
   version: ^2.0.0
