@@ -122,7 +122,13 @@ class CodegenLoader extends AssetLoader{
   "graphs_stream_type_source_resolution": "Play {} by Source Resolution",
   "graphs_stream_type_stream_resolution": "Play {} by Stream Resolution",
   "graphs_stream_type_platform": "Play {} by Platform Stream Type",
-  "graphs_stream_type_user": "Play {} by User Stream Type"
+  "graphs_stream_type_user": "Play {} by User Stream Type",
+  "help_help_topics_heading": "Help Topics",
+  "help_support_heading": "Support",
+  "help_bugs_features_heading": "Bugs/Feature Requests",
+  "help_logs_heading": "Logs",
+  "help_tautulli_remote_logs": "View Tautulli Remote logs",
+  "help_page_title": "Help & Support"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en};
 }

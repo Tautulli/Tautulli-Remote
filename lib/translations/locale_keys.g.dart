@@ -109,5 +109,11 @@ abstract class  LocaleKeys {
   static const graphs_stream_type_stream_resolution = 'graphs_stream_type_stream_resolution';
   static const graphs_stream_type_platform = 'graphs_stream_type_platform';
   static const graphs_stream_type_user = 'graphs_stream_type_user';
+  static const help_help_topics_heading = 'help_help_topics_heading';
+  static const help_support_heading = 'help_support_heading';
+  static const help_bugs_features_heading = 'help_bugs_features_heading';
+  static const help_logs_heading = 'help_logs_heading';
+  static const help_tautulli_remote_logs = 'help_tautulli_remote_logs';
+  static const help_page_title = 'help_page_title';
 
 }
