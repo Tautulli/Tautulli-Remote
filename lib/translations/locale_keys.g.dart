@@ -124,5 +124,16 @@ abstract class  LocaleKeys {
   static const general_music = 'general_music';
   static const general_videos = 'general_videos';
   static const general_all = 'general_all';
+  static const history_details_user = 'history_details_user';
+  static const history_details_platform = 'history_details_platform';
+  static const history_details_product = 'history_details_product';
+  static const history_details_player = 'history_details_player';
+  static const history_details_ip_address = 'history_details_ip_address';
+  static const history_details_date = 'history_details_date';
+  static const history_details_started = 'history_details_started';
+  static const history_details_stopped = 'history_details_stopped';
+  static const history_details_paused = 'history_details_paused';
+  static const history_details_duration = 'history_details_duration';
+  static const history_details_watched = 'history_details_watched';
 
 }

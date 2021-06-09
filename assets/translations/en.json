@@ -121,5 +121,16 @@
   "general_tv_shows": "TV Shows",
   "general_music": "Music",
   "general_videos": "Videos",
-  "general_all": "All"
+  "general_all": "All",
+  "history_details_user": "USER",
+  "history_details_platform": "PLATFORM",
+  "history_details_product": "PRODUCT",
+  "history_details_player": "PLAYER",
+  "history_details_ip_address": "IP ADDRESS",
+  "history_details_date": "DATE",
+  "history_details_started": "STARTED",
+  "history_details_stopped": "STOPPED",
+  "history_details_paused": "PAUSED",
+  "history_details_duration": "DURATION",
+  "history_details_watched": "WATCHED"
 }

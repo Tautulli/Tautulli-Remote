@@ -275,12 +275,14 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                     return Expanded(
                       child: Center(
                         child: Text(
-                          'No history ${_mediaType != null || _transcodeDecision != null ? 'for the selected filters ' : ''}found.',
+                          _mediaType != null || _transcodeDecision != null
+                              ? LocaleKeys.history_filter_empty
+                              : LocaleKeys.history_empty,
                           style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                           ),
-                        ),
+                        ).tr(),
                       ),
                     );
                   }
@@ -361,7 +363,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
         builder: (context, state) {
           if (state is UsersListSuccess) {
             return PopupMenuButton(
-              tooltip: 'Users',
+              tooltip: LocaleKeys.general_filter_users.tr(),
               icon: FaIcon(
                 FontAwesomeIcons.userAlt,
                 size: 20,
@@ -392,7 +394,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                       (user) => PopupMenuItem(
                         child: Text(
                           _maskSensitiveInfo
-                              ? '*Hidden User*'
+                              ? '*${LocaleKeys.masked_info_user.tr()}*'
                               : user.friendlyName,
                           style: TextStyle(
                             color: _userId == user.userId
@@ -420,9 +422,11 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                     onPressed: () {
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           backgroundColor: PlexColorPalette.shark,
-                          content: Text('Loading users'),
+                          content: const Text(
+                            LocaleKeys.general_filter_users_loading,
+                          ).tr(),
                         ),
                       );
                     },
@@ -449,9 +453,11 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
             onPressed: () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
+                SnackBar(
                   backgroundColor: PlexColorPalette.shark,
-                  content: Text('Users failed to load'),
+                  content: const Text(
+                    LocaleKeys.general_filter_users_failed,
+                  ).tr(),
                 ),
               );
             },
@@ -467,7 +473,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
               ? Theme.of(context).accentColor
               : TautulliColorPalette.not_white,
         ),
-        tooltip: 'Filter history',
+        tooltip: LocaleKeys.general_filter_history.tr(),
         itemBuilder: (context) {
           List mediaTypes = [
             'all',
@@ -564,17 +570,17 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
 String _mediaTypeToTitle(String mediaType) {
   switch (mediaType) {
     case ('all'):
-      return 'All';
+      return LocaleKeys.general_all.tr();
     case ('movie'):
-      return 'Movies';
+      return LocaleKeys.general_movies.tr();
     case ('episode'):
-      return 'TV Shows';
+      return LocaleKeys.general_tv_shows.tr();
     case ('track'):
-      return 'Music';
+      return LocaleKeys.general_music.tr();
     case ('other_video'):
-      return 'Videos';
+      return LocaleKeys.general_videos.tr();
     case ('live'):
-      return 'Live TV';
+      return LocaleKeys.general_live_tv.tr();
     default:
       return '';
   }
@@ -583,13 +589,13 @@ String _mediaTypeToTitle(String mediaType) {
 String _transcodeDecisionToTitle(String decision) {
   switch (decision) {
     case ('all'):
-      return 'All';
+      return LocaleKeys.general_all.tr();
     case ('direct play'):
-      return 'Direct Play';
+      return LocaleKeys.media_details_direct_play.tr();
     case ('copy'):
-      return 'Direct Stream';
+      return LocaleKeys.media_details_direct_stream.tr();
     case ('transcode'):
-      return 'Transcode';
+      return LocaleKeys.media_details_transcode.tr();
     default:
       return '';
   }
