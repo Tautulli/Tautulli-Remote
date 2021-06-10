@@ -40,6 +40,7 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
+  - OneSignal (3.4.4)
   - onesignal_flutter (3.0.0-beta4):
     - Flutter
     - OneSignalXCFramework (= 3.4.4)
@@ -76,6 +77,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_barcode_scanner (from `.symlinks/plugins/flutter_barcode_scanner/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - OneSignal (< 4.0, >= 3.4.3)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
@@ -94,6 +96,7 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - nanopb
+    - OneSignal
     - OneSignalXCFramework
     - PromisesObjC
     - Purchases
@@ -146,6 +149,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 11e3a5f2c190327df1a4a5d7e7ae3d4d5b9c9e4c
   GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  OneSignal: d20ee5601f44496573c7abe95923a04d1b49977f
   onesignal_flutter: a925200b2828f100748326b5dd3c4a8e26f3459f
   OneSignalXCFramework: eaf286b7438aa1f030f03e5fa9f1c79ede5d8f04
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
@@ -162,6 +166,6 @@ SPEC CHECKSUMS:
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
-PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
+PODFILE CHECKSUM: 0fb0012571f723defa9e99aeb5cde8e415a8a15d
 
 COCOAPODS: 1.10.1
