@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../domain/entities/library_statistic.dart';
 
 class LibraryStatsDetails extends StatelessWidget {
@@ -28,13 +30,13 @@ class LibraryStatsDetails extends StatelessWidget {
         RichText(
           text: TextSpan(
             children: [
-              const TextSpan(
-                text: 'PLAYS ',
+              TextSpan(
+                text: '${LocaleKeys.libraries_details_plays.tr()} ',
               ),
               TextSpan(
                 text: statistic.totalPlays != null
                     ? statistic.totalPlays.toString()
-                    : 'never',
+                    : LocaleKeys.general_never.tr(),
                 style: const TextStyle(
                   color: PlexColorPalette.gamboge,
                 ),
@@ -51,16 +53,16 @@ class LibraryStatsDetails extends StatelessWidget {
   String _determineTitle(LibraryStatistic statistic) {
     if (statistic.libraryStatisticType == LibraryStatisticType.watchTime) {
       if (statistic.queryDays == 0) {
-        return 'All Time';
+        return LocaleKeys.libraries_details_all_time.tr();
       } else if (statistic.queryDays == 1) {
-        return '24 Hours';
+        return '24 ${LocaleKeys.libraries_details_hours.tr()}';
       } else {
-        return '${statistic.queryDays} Days';
+        return '${statistic.queryDays} ${LocaleKeys.general_filter_days.tr()}';
       }
     }
 
     return maskSensitiveInfo
-        ? '*Hidden User Name*'
+        ? '*${LocaleKeys.masked_info_user.tr()}*'
         : statistic.friendlyName.toString();
   }
 
@@ -72,8 +74,8 @@ class LibraryStatsDetails extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: [
-          const TextSpan(
-            text: 'DURATION ',
+          TextSpan(
+            text: '${LocaleKeys.general_details_duration.tr()} ',
           ),
           if (durationMap['day'] > 0)
             TextSpan(
@@ -84,8 +86,8 @@ class LibraryStatsDetails extends StatelessWidget {
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                const TextSpan(
-                  text: ' days ',
+                TextSpan(
+                  text: ' ${LocaleKeys.general_details_days.tr()} ',
                 ),
               ],
             ),
@@ -98,8 +100,8 @@ class LibraryStatsDetails extends StatelessWidget {
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                const TextSpan(
-                  text: ' hrs ',
+                TextSpan(
+                  text: ' ${LocaleKeys.general_details_hrs.tr()} ',
                 ),
               ],
             ),
@@ -112,8 +114,8 @@ class LibraryStatsDetails extends StatelessWidget {
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                const TextSpan(
-                  text: ' mins',
+                TextSpan(
+                  text: ' ${LocaleKeys.general_details_mins.tr()}',
                 ),
               ],
             ),
@@ -129,8 +131,8 @@ class LibraryStatsDetails extends StatelessWidget {
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                const TextSpan(
-                  text: ' secs',
+                TextSpan(
+                  text: ' ${LocaleKeys.general_details_secs.tr()}',
                 ),
               ],
             ),
@@ -138,16 +140,16 @@ class LibraryStatsDetails extends StatelessWidget {
               durationMap['hour'] < 1 &&
               durationMap['min'] < 1 &&
               durationMap['sec'] < 1)
-            const TextSpan(
+            TextSpan(
               children: [
-                TextSpan(
+                const TextSpan(
                   text: '0',
                   style: TextStyle(
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
                 TextSpan(
-                  text: ' min',
+                  text: ' ${LocaleKeys.general_details_min.tr()}',
                 ),
               ],
             ),

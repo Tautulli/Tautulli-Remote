@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -7,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/grid_image_item.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -103,9 +105,10 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
                   SnackBar(
                     backgroundColor: PlexColorPalette.shark,
                     content: const Text(
-                        'Performing a full refresh of library media.'),
+                      LocaleKeys.libraries_full_refresh,
+                    ).tr(),
                     action: SnackBarAction(
-                      label: 'LEARN MORE',
+                      label: LocaleKeys.button_learn_more.tr(),
                       onPressed: () async {
                         await launch(
                           'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#library_refresh',
@@ -184,15 +187,15 @@ class _LibraryMediaTabState extends State<LibraryMediaTab> {
               ),
             );
           } else {
-            return const Expanded(
+            return Expanded(
               child: Center(
-                child: Text(
-                  'No items found.',
+                child: const Text(
+                  LocaleKeys.libraries_media_tab_empty,
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 16,
                   ),
-                ),
+                ).tr(),
               ),
             );
           }

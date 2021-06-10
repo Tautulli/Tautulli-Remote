@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../domain/entities/library.dart';
 
 class LibraryDetails extends StatelessWidget {
@@ -40,31 +42,31 @@ class LibraryDetails extends StatelessWidget {
 
     switch (library.sectionType) {
       case ('movie'):
-        title = 'MOVIES ';
+        title = '${LocaleKeys.libraries_details_movies.tr()} ';
         count = library.count.toString();
         break;
       case ('show'):
-        title = 'SHOWS ';
+        title = '${LocaleKeys.libraries_details_shows.tr()} ';
         count = library.count.toString();
-        parentTitle = 'SEASONS ';
+        parentTitle = '${LocaleKeys.libraries_details_seasons.tr()} ';
         parentCount = library.parentCount.toString();
-        childTitle = 'EPISODES ';
+        childTitle = '${LocaleKeys.libraries_details_episodes.tr()} ';
         childCount = library.childCount.toString();
         break;
       case ('artist'):
-        title = 'ARTISTS ';
+        title = '${LocaleKeys.libraries_details_artists.tr()} ';
         count = library.count.toString();
-        parentTitle = 'ALBUMS ';
+        parentTitle = '${LocaleKeys.libraries_details_albums.tr()} ';
         parentCount = library.parentCount.toString();
-        childTitle = 'TRACKS ';
+        childTitle = '${LocaleKeys.libraries_details_tracks.tr()} ';
         childCount = library.childCount.toString();
         break;
       case ('photo'):
-        title = 'ALBUMS ';
+        title = '${LocaleKeys.libraries_details_albums.tr()} ';
         count = library.count.toString();
-        parentTitle = 'PHOTOS ';
+        parentTitle = '${LocaleKeys.libraries_details_photos.tr()} ';
         parentCount = library.parentCount.toString();
-        childTitle = 'VIDEOS ';
+        childTitle = '${LocaleKeys.libraries_details_videos.tr()} ';
         childCount = library.childCount.toString();
     }
     return RichText(
@@ -111,8 +113,8 @@ class LibraryDetails extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: [
-          const TextSpan(
-            text: 'PLAYS ',
+          TextSpan(
+            text: '${LocaleKeys.libraries_details_plays.tr()} ',
           ),
           TextSpan(
             text: library.plays.toString(),
@@ -125,8 +127,8 @@ class LibraryDetails extends StatelessWidget {
               durationMap['hour'] > 1 ||
               durationMap['min'] > 1 ||
               durationMap['sec'] > 1)
-            const TextSpan(
-              text: 'DURATION ',
+            TextSpan(
+              text: '${LocaleKeys.general_details_duration.tr()} ',
             ),
           if (durationMap['day'] > 0)
             TextSpan(
@@ -137,8 +139,8 @@ class LibraryDetails extends StatelessWidget {
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                const TextSpan(
-                  text: ' days ',
+                TextSpan(
+                  text: ' ${LocaleKeys.general_details_days.tr()} ',
                 ),
               ],
             ),
@@ -151,8 +153,8 @@ class LibraryDetails extends StatelessWidget {
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                const TextSpan(
-                  text: ' hrs ',
+                TextSpan(
+                  text: ' ${LocaleKeys.general_details_hrs.tr()} ',
                 ),
               ],
             ),
@@ -165,8 +167,8 @@ class LibraryDetails extends StatelessWidget {
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                const TextSpan(
-                  text: ' mins',
+                TextSpan(
+                  text: ' ${LocaleKeys.general_details_mins.tr()}',
                 ),
               ],
             ),
@@ -182,8 +184,8 @@ class LibraryDetails extends StatelessWidget {
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                const TextSpan(
-                  text: ' secs',
+                TextSpan(
+                  text: ' ${LocaleKeys.general_details_secs.tr()}',
                 ),
               ],
             ),

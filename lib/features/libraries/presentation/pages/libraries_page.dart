@@ -230,15 +230,15 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                       ),
                     );
                   } else {
-                    return const Expanded(
+                    return Expanded(
                       child: Center(
-                        child: Text(
-                          'No libraries found.',
+                        child: const Text(
+                          LocaleKeys.libraries_empty,
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                           ),
-                        ),
+                        ).tr(),
                       ),
                     );
                   }
@@ -289,7 +289,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
     return [
       PopupMenuButton(
         icon: _currentSortIcon(),
-        tooltip: 'Sort libraries',
+        tooltip: LocaleKeys.general_tooltip_sort_libraries.tr(),
         onSelected: (value) {
           List<String> values = value.split('|');
 
@@ -336,9 +336,9 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text('Name'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.general_filter_name).tr(),
                   ),
                 ],
               ),
@@ -361,9 +361,9 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text('Count'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.general_filter_count).tr(),
                   ),
                 ],
               ),
@@ -386,9 +386,9 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text('Duration'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.general_filter_duration).tr(),
                   ),
                 ],
               ),
@@ -410,9 +410,9 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text('Plays'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.general_filter_plays).tr(),
                   ),
                 ],
               ),
@@ -461,15 +461,15 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
   String _currentSortName() {
     switch (_orderColumn) {
       case ('section_name'):
-        return 'Name';
+        return LocaleKeys.general_filter_name.tr();
       case ('count,parent_count,child_count'):
-        return 'Count';
+        return LocaleKeys.general_filter_count.tr();
       case ('duration'):
-        return 'Duration';
+        return LocaleKeys.general_filter_duration.tr();
       case ('plays'):
-        return 'Plays';
+        return LocaleKeys.general_filter_name.tr();
       default:
-        return 'unknown';
+        return LocaleKeys.media_details_unknown.tr();
     }
   }
 }

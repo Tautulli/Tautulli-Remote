@@ -185,7 +185,7 @@ class _HistoryInfoState extends State<HistoryInfo> {
             ),
           ),
           _ItemRow(
-            title: LocaleKeys.history_details_duration.tr(),
+            title: LocaleKeys.general_details_duration.tr(),
             item: _FormattedText(
               TimeFormatHelper.pretty(widget.item.duration),
             ),
