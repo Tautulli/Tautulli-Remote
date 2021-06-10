@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,6 +9,7 @@ import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/poster_chooser.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/media_item.dart';
 import '../bloc/children_metadata_bloc.dart';
@@ -394,7 +396,7 @@ List<Widget> _appBarActions({
         if (state is MetadataSuccess) {
           if (!['playlist'].contains(state.metadata.mediaType)) {
             return PopupMenuButton(
-              tooltip: 'More options',
+              tooltip: LocaleKeys.general_tooltip_more.tr(),
               onSelected: (value) {
                 if (value == 'plex') {
                   _openPlexUrl(
@@ -459,23 +461,23 @@ List<Widget> _appBarActions({
                       ['season', 'episode'].contains(state.metadata.mediaType))
                     PopupMenuItem(
                       value: 'show|${state.metadata.mediaType}',
-                      child: const Text('Go to show'),
+                      child: const Text(LocaleKeys.media_go_to_show).tr(),
                     ),
                   if (enableNavOptions &&
                       ['episode'].contains(state.metadata.mediaType))
                     PopupMenuItem(
                       value: 'season|${state.metadata.mediaType}',
-                      child: const Text('Go to season'),
+                      child: const Text(LocaleKeys.media_go_to_season).tr(),
                     ),
                   if (enableNavOptions &&
                       ['album', 'track'].contains(state.metadata.mediaType))
                     PopupMenuItem(
                       value: 'artist|${state.metadata.mediaType}',
-                      child: const Text('Go to artist'),
+                      child: const Text(LocaleKeys.media_go_to_artist).tr(),
                     ),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'plex',
-                    child: Text('View on Plex'),
+                    child: const Text(LocaleKeys.media_view_on_plex).tr(),
                   ),
                   // if (['track'].contains(state.metadata.mediaType))
                   //   PopupMenuItem(

@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../translations/locale_keys.g.dart';
 import '../../domain/entities/media_item.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../bloc/metadata_bloc.dart';
@@ -61,7 +63,7 @@ class _HeadingText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String text = 'UNKNOWN MEDIA TYPE';
+    String text = LocaleKeys.media_details_unknown.tr();
 
     String grandparentTitle = item.grandparentTitle;
     String parentTitle = item.parentTitle;

@@ -175,9 +175,35 @@ abstract class  LocaleKeys {
   static const logs_clear_dialog_title = 'logs_clear_dialog_title';
   static const button_confirm = 'button_confirm';
   static const logs_timestamp = 'logs_timestamp';
-  static const Level = 'Level';
   static const logs_level = 'logs_level';
   static const logs_message = 'logs_message';
   static const logs_empty = 'logs_empty';
+  static const general_tooltip_more = 'general_tooltip_more';
+  static const media_go_to_season = 'media_go_to_season';
+  static const media_go_to_show = 'media_go_to_show';
+  static const media_go_to_artist = 'media_go_to_artist';
+  static const media_view_on_plex = 'media_view_on_plex';
+  static const general_read_more = 'general_read_more';
+  static const general_read_less = 'general_read_less';
+  static const media_details_items = 'media_details_items';
+  static const media_details_year = 'media_details_year';
+  static const media_details_studio = 'media_details_studio';
+  static const media_details_aired = 'media_details_aired';
+  static const media_details_runtime = 'media_details_runtime';
+  static const media_details_rated = 'media_details_rated';
+  static const media_details_genres = 'media_details_genres';
+  static const media_details_directed_by = 'media_details_directed_by';
+  static const media_details_written_by = 'media_details_written_by';
+  static const media_details_starring = 'media_details_starring';
+  static const media_details_bitrate = 'media_details_bitrate';
+  static const media_details_file_size = 'media_details_file_size';
+  static const media_details_taken = 'media_details_taken';
+  static const media_tab_details = 'media_tab_details';
+  static const media_tab_seasons = 'media_tab_seasons';
+  static const media_tab_episodes = 'media_tab_episodes';
+  static const media_tab_albums = 'media_tab_albums';
+  static const media_tab_tracks = 'media_tab_tracks';
+  static const media_tab_movies = 'media_tab_movies';
+  static const media_tab_media = 'media_tab_media';
 
 }
