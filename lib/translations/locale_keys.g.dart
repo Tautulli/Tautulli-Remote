@@ -166,5 +166,18 @@ abstract class  LocaleKeys {
   static const statistics_empty = 'statistics_empty';
   static const libraries_details_user_stats_heading = 'libraries_details_user_stats_heading';
   static const libraries_details_global_stats_heading = 'libraries_details_global_stats_heading';
+  static const logs_page_title = 'logs_page_title';
+  static const logs_export = 'logs_export';
+  static const logs_clear = 'logs_clear';
+  static const logs_exported = 'logs_exported';
+  static const button_access_logs = 'button_access_logs';
+  static const logs_failed = 'logs_failed';
+  static const logs_clear_dialog_title = 'logs_clear_dialog_title';
+  static const button_confirm = 'button_confirm';
+  static const logs_timestamp = 'logs_timestamp';
+  static const Level = 'Level';
+  static const logs_level = 'logs_level';
+  static const logs_message = 'logs_message';
+  static const logs_empty = 'logs_empty';
 
 }

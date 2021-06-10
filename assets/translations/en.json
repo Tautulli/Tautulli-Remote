@@ -163,5 +163,18 @@
   "libraries_details_hours": "Hours",
   "statistics_empty": "No statistics found.",
   "libraries_details_user_stats_heading": "User Stats",
-  "libraries_details_global_stats_heading": "Global Stats"
+  "libraries_details_global_stats_heading": "Global Stats",
+  "logs_page_title": "Tautulli Remote Logs",
+  "logs_export": "Export logs",
+  "logs_clear": "Clear logs",
+  "logs_exported": "Logs exported",
+  "button_access_logs": "HOW TO ACCESS LOGS",
+  "logs_failed": "Failed to load logs.",
+  "logs_clear_dialog_title": "Are you sure you want to clear the Tautulli Remote logs?",
+  "button_confirm": "CONFIRM",
+  "logs_timestamp": "Timestamp",
+  "Level": "Timestamp",
+  "logs_level": "Level",
+  "logs_message": "Message",
+  "logs_empty": "No logs found."
 }
