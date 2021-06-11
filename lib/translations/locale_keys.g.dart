@@ -205,5 +205,14 @@ abstract class  LocaleKeys {
   static const media_tab_tracks = 'media_tab_tracks';
   static const media_tab_movies = 'media_tab_movies';
   static const media_tab_media = 'media_tab_media';
+  static const privacy_page_title = 'privacy_page_title';
+  static const privacy_consent_switch = 'privacy_consent_switch';
+  static const privacy_status = 'privacy_status';
+  static const privacy_not_accepted = 'privacy_not_accepted';
+  static const privacy_accepted = 'privacy_accepted';
+  static const privacy_text_block_1 = 'privacy_text_block_1';
+  static const privacy_text_block_2 = 'privacy_text_block_2';
+  static const privacy_text_block_3 = 'privacy_text_block_3';
+  static const privacy_text_block_4 = 'privacy_text_block_4';
 
 }
