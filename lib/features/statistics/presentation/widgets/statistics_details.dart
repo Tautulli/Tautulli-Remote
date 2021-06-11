@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/time_format_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../domain/entities/statistics.dart';
 
 class StatisticsDetails extends StatelessWidget {
@@ -55,15 +57,19 @@ class StatisticsDetails extends StatelessWidget {
       case ('popular_music'):
       case ('last_watched'):
       case ('most_concurrent'):
-        return statistic.title != null ? statistic.title : 'NO TITLE';
+        return statistic.title != null
+            ? statistic.title
+            : LocaleKeys.statistics_no_title.tr();
       case ('top_libraries'):
         return statistic.sectionName;
       case ('top_platforms'):
         return statistic.platform;
       case ('top_users'):
-        return maskSensitiveInfo ? '*Hidden User*' : statistic.friendlyName;
+        return maskSensitiveInfo
+            ? '*${LocaleKeys.masked_info_user.tr()}*'
+            : statistic.friendlyName;
       default:
-        return 'UNKNOWN';
+        return LocaleKeys.media_details_unknown.tr();
     }
   }
 
@@ -75,15 +81,17 @@ class StatisticsDetails extends StatelessWidget {
       case ('top_platforms'):
       case ('top_users'):
       case ('top_libraries'):
-        return '${statistic.totalPlays} play${statistic.totalPlays > 1 ? "s" : ""}';
+        return '${statistic.totalPlays} ${statistic.totalPlays > 1 ? LocaleKeys.general_plays.tr() : LocaleKeys.general_play.tr()}';
       case ('popular_tv'):
       case ('popular_movies'):
       case ('popular_music'):
-        return '${statistic.usersWatched} users';
+        return '${statistic.usersWatched} ${LocaleKeys.general_users.tr()}';
       case ('last_watched'):
-        return maskSensitiveInfo ? '*Hidden User*' : statistic.friendlyName;
+        return maskSensitiveInfo
+            ? '*${LocaleKeys.masked_info_user.tr()}*'
+            : statistic.friendlyName;
       case ('most_concurrent'):
-        return '${statistic.count.toString()} streams';
+        return '${statistic.count.toString()} ${LocaleKeys.general_streams.tr()}';
       default:
         return statistic.statId;
     }

@@ -86,7 +86,6 @@ abstract class  LocaleKeys {
   static const general_time_range_dialog_title = 'general_time_range_dialog_title';
   static const general_time_range_dialog_hint_text = 'general_time_range_dialog_hint_text';
   static const general_time_range_dialog_validator_integer = 'general_time_range_dialog_validator_integer';
-  static const general_time_range_dialog_validator_larger = 'general_time_range_dialog_validator_larger';
   static const general_time_range_dialog_notice = 'general_time_range_dialog_notice';
   static const button_save = 'button_save';
   static const button_close = 'button_close';
@@ -291,5 +290,18 @@ abstract class  LocaleKeys {
   static const onesignal_register_error_message = 'onesignal_register_error_message';
   static const onesignal_unexpected_error_title = 'onesignal_unexpected_error_title';
   static const onesignal_unexpected_error_message = 'onesignal_unexpected_error_message';
+  static const statistics_filter_empty = 'statistics_filter_empty';
+  static const general_tooltip_stats_type = 'general_tooltip_stats_type';
+  static const general_time_range_dialog_validator_larger_1 = 'general_time_range_dialog_validator_larger_1';
+  static const general_time_range_dialog_validator_larger_0 = 'general_time_range_dialog_validator_larger_0';
+  static const statistics_no_title = 'statistics_no_title';
+  static const general_play = 'general_play';
+  static const general_plays = 'general_plays';
+  static const general_users = 'general_users';
+  static const general_streams = 'general_streams';
+  static const general_hours = 'general_hours';
+  static const general_minutes = 'general_minutes';
+  static const general_seconds = 'general_seconds';
+  static const statistics_no_additional_items = 'statistics_no_additional_items';
 
 }

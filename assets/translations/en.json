@@ -84,7 +84,6 @@
   "general_time_range_dialog_title": "Custom Time Range",
   "general_time_range_dialog_hint_text": "Enter a time range in days",
   "general_time_range_dialog_validator_integer": "Please enter an integer",
-  "general_time_range_dialog_validator_larger": "Please enter an integer larger than 1",
   "general_time_range_dialog_notice": "It is recommended you do not exceed 90 days for most screen sizes.",
   "button_save": "SAVE",
   "button_close": "CLOSE",
@@ -288,5 +287,18 @@
   "onesignal_register_error_title": "Device Has Not Registered With OneSignal",
   "onesignal_register_error_message": "This device is attempting to register with OneSignal. This process may take up to 2 min.",
   "onesignal_unexpected_error_title": "Unexpected Error Communicating With OneSignal",
-  "onesignal_unexpected_error_message": "Please contact Tautulli support for assistance."
+  "onesignal_unexpected_error_message": "Please contact Tautulli support for assistance.",
+  "statistics_filter_empty": "No statistics to show for the selected period.",
+  "general_tooltip_stats_type": "Stats Type",
+  "general_time_range_dialog_validator_larger_1": "Please enter an integer larger than 1",
+  "general_time_range_dialog_validator_larger_0": "Please enter an integer larger than 0",
+  "statistics_no_title": "NO TITLE",
+  "general_play": "play",
+  "general_plays": "plays",
+  "general_users": "users",
+  "general_streams": "streams",
+  "general_hours": "hours",
+  "general_minutes": "minutes",
+  "general_seconds": "seconds",
+  "statistics_no_additional_items": "No additional items for this statistic"
 }

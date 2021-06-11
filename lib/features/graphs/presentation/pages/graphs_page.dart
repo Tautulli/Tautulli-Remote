@@ -489,7 +489,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                           .general_time_range_dialog_validator_integer;
                     } else if (int.tryParse(value) < 2) {
                       return LocaleKeys
-                          .general_time_range_dialog_validator_larger;
+                          .general_time_range_dialog_validator_larger_1;
                     }
 
                     setState(() {
