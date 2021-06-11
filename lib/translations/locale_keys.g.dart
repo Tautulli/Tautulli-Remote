@@ -285,5 +285,11 @@ abstract class  LocaleKeys {
   static const settings_alert_onesignal_connection_title = 'settings_alert_onesignal_connection_title';
   static const settings_alert_onesignal_connection_item_1 = 'settings_alert_onesignal_connection_item_1';
   static const settings_alert_onesignal_connection_item_2 = 'settings_alert_onesignal_connection_item_2';
+  static const onesignal_consent_error_title = 'onesignal_consent_error_title';
+  static const onesignal_consent_error_message = 'onesignal_consent_error_message';
+  static const onesignal_register_error_title = 'onesignal_register_error_title';
+  static const onesignal_register_error_message = 'onesignal_register_error_message';
+  static const onesignal_unexpected_error_title = 'onesignal_unexpected_error_title';
+  static const onesignal_unexpected_error_message = 'onesignal_unexpected_error_message';
 
 }

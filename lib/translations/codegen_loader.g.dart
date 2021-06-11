@@ -298,7 +298,13 @@ class CodegenLoader extends AssetLoader{
   "button_check_again": "CHECK AGAIN",
   "settings_alert_onesignal_connection_title": "Unable to reach OneSignal",
   "settings_alert_onesignal_connection_item_1": "Notifications will not work.",
-  "settings_alert_onesignal_connection_item_2": "Registration with OneSignal will fail."
+  "settings_alert_onesignal_connection_item_2": "Registration with OneSignal will fail.",
+  "onesignal_consent_error_title": "OneSignal Data Privacy Not Accepted",
+  "onesignal_consent_error_message": "To receive notifications from Tautulli consent to OneSignal data privacy.",
+  "onesignal_register_error_title": "Device Has Not Registered With OneSignal",
+  "onesignal_register_error_message": "This device is attempting to register with OneSignal. This process may take up to 2 min.",
+  "onesignal_unexpected_error_title": "Unexpected Error Communicating With OneSignal",
+  "onesignal_unexpected_error_message": "Please contact Tautulli support for assistance."
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en};
 }
