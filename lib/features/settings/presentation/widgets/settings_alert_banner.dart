@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
@@ -36,13 +38,14 @@ class SettingsAlertBanner extends StatelessWidget {
                           subscriptionState.message,
                         ),
                         buttonOne: TextButton(
-                          child: const Text('DISMISS'),
+                          child: const Text(LocaleKeys.button_dismiss).tr(),
                           onPressed: () => settingsBloc.add(
                             SettingsUpdateOneSignalBannerDismiss(true),
                           ),
                         ),
                         buttonTwo: TextButton(
-                          child: const Text('VIEW PRIVACY PAGE'),
+                          child: const Text(LocaleKeys.button_view_privacy_page)
+                              .tr(),
                           onPressed: () =>
                               Navigator.of(context).pushNamed('/privacy'),
                         ),
@@ -55,16 +58,22 @@ class SettingsAlertBanner extends StatelessWidget {
                           is OneSignalPrivacyConsentSuccess &&
                       healthState is OneSignalHealthFailure) {
                     return _AlertBanner(
-                      title: 'Unable to reach OneSignal',
+                      title: LocaleKeys
+                          .settings_alert_onesignal_connection_title
+                          .tr(),
                       message: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const <Widget>[
-                          Text('• Notifications will not work.'),
-                          Text('• Registration with OneSignal will fail.'),
+                        children: <Widget>[
+                          Text(
+                            '• ${LocaleKeys.settings_alert_onesignal_connection_item_1.tr()}',
+                          ),
+                          Text(
+                            '• ${LocaleKeys.settings_alert_onesignal_connection_item_2.tr()}',
+                          ),
                         ],
                       ),
                       buttonOne: TextButton(
-                        child: const Text('CHECK AGAIN'),
+                        child: const Text(LocaleKeys.button_check_again).tr(),
                         onPressed: () => context
                             .read<OneSignalHealthBloc>()
                             .add(OneSignalHealthCheck()),
@@ -81,7 +90,7 @@ class SettingsAlertBanner extends StatelessWidget {
                           subscriptionState.message,
                         ),
                         buttonOne: TextButton(
-                          child: const Text('LEARN MORE'),
+                          child: const Text(LocaleKeys.button_learn_more).tr(),
                           onPressed: () async {
                             await launch(
                               'https://github.com/Tautulli/Tautulli-Remote/wiki/OneSignal#registering',
