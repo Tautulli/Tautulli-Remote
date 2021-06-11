@@ -214,5 +214,9 @@ abstract class  LocaleKeys {
   static const privacy_text_block_2 = 'privacy_text_block_2';
   static const privacy_text_block_3 = 'privacy_text_block_3';
   static const privacy_text_block_4 = 'privacy_text_block_4';
+  static const recently_added_empty = 'recently_added_empty';
+  static const recently_added_empty_filter = 'recently_added_empty_filter';
+  static const general_tooltip_filter_media_type = 'general_tooltip_filter_media_type';
+  static const general_added = 'general_added';
 
 }

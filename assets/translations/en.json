@@ -211,5 +211,9 @@
   "privacy_text_block_1": "Tautulli Remote uses %OneSignal% to handle delivery of notifications.",
   "privacy_text_block_2": "With %encryption enabled% in Tautulli there is no Personally Identifiable Information (PII) collected. Some non-PII user information is collected and cannot be encrypted. Read the %OneSignal Privacy Policy% for more details. Without encryption the contents of the notifications are sent to OneSignal in plain text.",
   "privacy_text_block_3": "Notification data sent through OneSignal's API will be %deleted after ~30 days%.",
-  "privacy_text_block_4": "Once you accept, this device will register with OneSignal. Consent can be revoked to prevent further communication with OneSignal."
+  "privacy_text_block_4": "Once you accept, this device will register with OneSignal. Consent can be revoked to prevent further communication with OneSignal.",
+  "recently_added_empty": "No recently added items.",
+  "recently_added_empty_filter": "No recently added items for {}.",
+  "general_tooltip_filter_media_type": "Filter media type",
+  "general_added": "Added"
 }

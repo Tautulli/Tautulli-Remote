@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../core/widgets/media_type_icon.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../domain/entities/recent.dart';
 
 class RecentlyAddedDetails extends StatelessWidget {
@@ -48,7 +50,7 @@ class RecentlyAddedDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Added ${TimeFormatHelper.timeAgo(recentItem.addedAt)}',
+                    '${LocaleKeys.general_added.tr()} ${TimeFormatHelper.timeAgo(recentItem.addedAt)}',
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 15,
@@ -83,7 +85,7 @@ String _rowOne(RecentItem item) {
     case ('album'):
       return item.parentTitle;
     default:
-      return 'UNKNOWN MEDIA TYPE';
+      return LocaleKeys.media_details_unknown.tr();
   }
 }
 
@@ -101,7 +103,7 @@ String _rowTwo(RecentItem item) {
     case ('album'):
       return item.title;
     default:
-      return 'UNKNOWN MEDIA TYPE';
+      return LocaleKeys.media_details_unknown.tr();
   }
 }
 
@@ -120,6 +122,6 @@ String _rowThree(RecentItem item) {
     case ('album'):
       return item.year.toString();
     default:
-      return 'UNKNOWN MEDIA TYPE';
+      return LocaleKeys.media_details_unknown.tr();
   }
 }
