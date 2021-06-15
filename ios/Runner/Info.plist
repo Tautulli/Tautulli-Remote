@@ -54,5 +54,10 @@
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Tautulli Remote does not use this but included in a package</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>plex</string>
+		<string>https</string>
+	</array>
 </dict>
 </plist>
