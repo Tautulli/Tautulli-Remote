@@ -349,6 +349,20 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                     ),
                     ListTile(
                       title: const Text(
+                        LocaleKeys.translate_page_title,
+                        style: TextStyle(
+                          color: TautulliColorPalette.smoke,
+                        ),
+                      ).tr(),
+                      trailing: const FaIcon(
+                        FontAwesomeIcons.angleRight,
+                        color: TautulliColorPalette.smoke,
+                      ),
+                      onTap: () =>
+                          Navigator.of(context).pushNamed('/translate'),
+                    ),
+                    ListTile(
+                      title: const Text(
                         LocaleKeys.settings_about,
                         style: TextStyle(
                           color: TautulliColorPalette.smoke,
