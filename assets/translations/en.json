@@ -329,5 +329,11 @@
   "wizard_onesignal_allow_message": "Allow OneSignal to send push notifications",
   "wizard_servers_text_1": "Welcome!",
   "wizard_servers_text_2": "Tautulli Remote allows you to view your Plex server activity, history, statistics, and more by connecting to your existing Tautulli server.",
-  "wizard_servers_text_3": "Ensure that Tautulli is currently running and accessible from this device before continuing with the setup wizard."
+  "wizard_servers_text_3": "Ensure that Tautulli is currently running and accessible from this device before continuing with the setup wizard.",
+  "translate_page_title": "Help Translate",
+  "translate_text_1": "Thank you for helping to translate Tautulli Remote!",
+  "translate_text_2": "If you would like to add a new language please submit a feature request on GitHub.",
+  "translate_help_translate": "Translate Tautulli Remote",
+  "translate_request_language": "Request a new language",
+  "wizard_closing_translate": "Tautulli Remote supports multiple languages, help translate under Settings > Help Translate."
 }

@@ -332,5 +332,11 @@ abstract class  LocaleKeys {
   static const wizard_servers_text_1 = 'wizard_servers_text_1';
   static const wizard_servers_text_2 = 'wizard_servers_text_2';
   static const wizard_servers_text_3 = 'wizard_servers_text_3';
+  static const translate_page_title = 'translate_page_title';
+  static const translate_text_1 = 'translate_text_1';
+  static const translate_text_2 = 'translate_text_2';
+  static const translate_help_translate = 'translate_help_translate';
+  static const translate_request_language = 'translate_request_language';
+  static const wizard_closing_translate = 'wizard_closing_translate';
 
 }
