@@ -122,6 +122,35 @@ class Closing extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                            const SizedBox(height: 16),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(
+                                      top: 4,
+                                      right: 17,
+                                      left: 7,
+                                    ),
+                                    child: SizedBox(
+                                      width: 25,
+                                      child: FaIcon(
+                                        FontAwesomeIcons.language,
+                                        size: 25,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: const Text(
+                                      LocaleKeys.wizard_closing_translate,
+                                      style: TextStyle(fontSize: 16),
+                                    ).tr(),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
