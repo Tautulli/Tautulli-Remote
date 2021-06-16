@@ -217,15 +217,15 @@ class _UsersPageContentState extends State<UsersPageContent> {
                             ),
                           );
                         } else {
-                          return const Expanded(
+                          return Expanded(
                             child: Center(
-                              child: Text(
-                                'No users found.',
+                              child: const Text(
+                                LocaleKeys.users_empty,
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16,
                                 ),
-                              ),
+                              ).tr(),
                             ),
                           );
                         }
@@ -300,7 +300,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
     return [
       PopupMenuButton(
         icon: _currentSortIcon(),
-        tooltip: 'Sort users',
+        tooltip: LocaleKeys.general_tooltip_sort_users.tr(),
         onSelected: (value) {
           List<String> values = value.split('|');
 
@@ -348,9 +348,9 @@ class _UsersPageContentState extends State<UsersPageContent> {
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text('Name'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.general_filter_name).tr(),
                   ),
                 ],
               ),
@@ -372,9 +372,11 @@ class _UsersPageContentState extends State<UsersPageContent> {
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text('Last Streamed'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(
+                      LocaleKeys.general_filter_last_streamed,
+                    ).tr(),
                   ),
                 ],
               ),
@@ -426,11 +428,11 @@ class _UsersPageContentState extends State<UsersPageContent> {
   String _currentSortName() {
     switch (_orderColumn) {
       case ('friendly_name'):
-        return 'Name';
+        return LocaleKeys.general_filter_name.tr();
       case ('last_seen'):
-        return 'Last Streamed';
+        return LocaleKeys.general_filter_last_streamed.tr();
       default:
-        return 'unknown';
+        return LocaleKeys.media_details_unknown.tr();
     }
   }
 }

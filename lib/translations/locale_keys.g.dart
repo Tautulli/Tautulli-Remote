@@ -137,8 +137,6 @@ abstract class  LocaleKeys {
   static const general_tooltip_sort_libraries = 'general_tooltip_sort_libraries';
   static const general_filter_name = 'general_filter_name';
   static const general_never = 'general_never';
-  static const libraries_details_streamed = 'libraries_details_streamed';
-  static const libraries_details_tab_stats = 'libraries_details_tab_stats';
   static const libraries_details_tab_new = 'libraries_details_tab_new';
   static const libraries_details_tab_media = 'libraries_details_tab_media';
   static const libraries_details_movies = 'libraries_details_movies';
@@ -150,7 +148,6 @@ abstract class  LocaleKeys {
   static const libraries_details_tracks = 'libraries_details_tracks';
   static const libraries_details_photos = 'libraries_details_photos';
   static const libraries_details_videos = 'libraries_details_videos';
-  static const libraries_details_plays = 'libraries_details_plays';
   static const general_details_duration = 'general_details_duration';
   static const general_details_days = 'general_details_days';
   static const general_details_hrs = 'general_details_hrs';
@@ -159,12 +156,8 @@ abstract class  LocaleKeys {
   static const libraries_media_tab_empty = 'libraries_media_tab_empty';
   static const libraries_full_refresh = 'libraries_full_refresh';
   static const libraries_details_recent_tab_failure = 'libraries_details_recent_tab_failure';
-  static const libraries_details_all_time = 'libraries_details_all_time';
   static const general_details_min = 'general_details_min';
-  static const libraries_details_hours = 'libraries_details_hours';
   static const statistics_empty = 'statistics_empty';
-  static const libraries_details_user_stats_heading = 'libraries_details_user_stats_heading';
-  static const libraries_details_global_stats_heading = 'libraries_details_global_stats_heading';
   static const logs_page_title = 'logs_page_title';
   static const logs_export = 'logs_export';
   static const logs_clear = 'logs_clear';
@@ -309,5 +302,17 @@ abstract class  LocaleKeys {
   static const synced_items_delete_dialog_title = 'synced_items_delete_dialog_title';
   static const button_delete = 'button_delete';
   static const synced_items_delete = 'synced_items_delete';
+  static const general_details_streamed = 'general_details_streamed';
+  static const general_details_tab_stats = 'general_details_tab_stats';
+  static const users_empty = 'users_empty';
+  static const general_tooltip_sort_users = 'general_tooltip_sort_users';
+  static const general_filter_last_streamed = 'general_filter_last_streamed';
+  static const general_details_global_stats_heading = 'general_details_global_stats_heading';
+  static const general_details_user_stats_heading = 'general_details_user_stats_heading';
+  static const general_details_player_stats_heading = 'general_details_player_stats_heading';
+  static const general_details_plays = 'general_details_plays';
+  static const general_details_all_time = 'general_details_all_time';
+  static const general_details_hours = 'general_details_hours';
+  static const masked_info_player_name = 'masked_info_player_name';
 
 }

@@ -114,7 +114,7 @@ class LibraryDetails extends StatelessWidget {
       text: TextSpan(
         children: [
           TextSpan(
-            text: '${LocaleKeys.libraries_details_plays.tr()} ',
+            text: '${LocaleKeys.general_details_plays.tr()} ',
           ),
           TextSpan(
             text: library.plays.toString(),

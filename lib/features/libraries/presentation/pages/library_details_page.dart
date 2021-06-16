@@ -236,7 +236,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                                 children: [
                                                   TextSpan(
                                                     text:
-                                                        '${LocaleKeys.libraries_details_streamed.tr()} ',
+                                                        '${LocaleKeys.general_details_streamed.tr()} ',
                                                   ),
                                                   TextSpan(
                                                     text: widget.library
@@ -277,8 +277,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                     if (!widget.disableStatsTab)
                                       Tab(
                                         child: const Text(
-                                          LocaleKeys
-                                              .libraries_details_tab_stats,
+                                          LocaleKeys.general_details_tab_stats,
                                         ).tr(),
                                       ),
                                     if (sectionType != 'photo')

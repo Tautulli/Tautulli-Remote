@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,6 +7,7 @@ import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../history/presentation/bloc/history_individual_bloc.dart';
 import '../../../history/presentation/widgets/history_details.dart';
 import '../../../history/presentation/widgets/history_modal_bottom_sheet.dart';
@@ -122,8 +124,8 @@ class _UserDetailsHistoryTabContentState
           );
 
           return state.list.isEmpty
-              ? const Center(
-                  child: Text('No History'),
+              ? Center(
+                  child: const Text(LocaleKeys.history_empty).tr(),
                 )
               : MediaQuery.removePadding(
                   context: context,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,6 +9,7 @@ import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/icon_card.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/user_statistic.dart';
 import '../../domain/entities/user_table.dart';
@@ -119,8 +121,8 @@ class _UserDetailsStatsTabContentState
               ),
             );
           }
-          return const Center(
-            child: Text('No stats found'),
+          return Center(
+            child: const Text(LocaleKeys.statistics_empty).tr(),
           );
         }
         if (state is UserStatisticsFailure) {
@@ -153,7 +155,10 @@ List<Widget> _buildUserStatList({
   List<Widget> finalList = [];
 
   if (watchTimeStatList.isNotEmpty) {
-    finalList.add(const UserStatisticHeading(heading: 'Global Stats'));
+    finalList.add(
+      UserStatisticHeading(
+          heading: LocaleKeys.general_details_global_stats_heading.tr()),
+    );
 
     for (UserStatistic stat in watchTimeStatList) {
       finalList.add(
@@ -173,7 +178,10 @@ List<Widget> _buildUserStatList({
   }
 
   if (playerStatList.isNotEmpty) {
-    finalList.add(const UserStatisticHeading(heading: 'Player Stats'));
+    finalList.add(
+      UserStatisticHeading(
+          heading: LocaleKeys.general_details_player_stats_heading.tr()),
+    );
 
     for (UserStatistic stat in playerStatList) {
       finalList.add(

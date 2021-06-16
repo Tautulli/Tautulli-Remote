@@ -31,7 +31,7 @@ class LibraryStatsDetails extends StatelessWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                text: '${LocaleKeys.libraries_details_plays.tr()} ',
+                text: '${LocaleKeys.general_details_plays.tr()} ',
               ),
               TextSpan(
                 text: statistic.totalPlays != null
@@ -53,9 +53,9 @@ class LibraryStatsDetails extends StatelessWidget {
   String _determineTitle(LibraryStatistic statistic) {
     if (statistic.libraryStatisticType == LibraryStatisticType.watchTime) {
       if (statistic.queryDays == 0) {
-        return LocaleKeys.libraries_details_all_time.tr();
+        return LocaleKeys.general_details_all_time.tr();
       } else if (statistic.queryDays == 1) {
-        return '24 ${LocaleKeys.libraries_details_hours.tr()}';
+        return '24 ${LocaleKeys.general_details_hours.tr()}';
       } else {
         return '${statistic.queryDays} ${LocaleKeys.general_filter_days.tr()}';
       }

@@ -155,7 +155,7 @@ List<Widget> _buildUserStatList({
   if (watchTimeStatList.isNotEmpty) {
     finalList.add(
       LibraryStatisticHeading(
-        heading: LocaleKeys.libraries_details_global_stats_heading.tr(),
+        heading: LocaleKeys.general_details_global_stats_heading.tr(),
       ),
     );
 
@@ -179,7 +179,7 @@ List<Widget> _buildUserStatList({
   if (userStatList.isNotEmpty) {
     finalList.add(
       LibraryStatisticHeading(
-        heading: LocaleKeys.libraries_details_user_stats_heading.tr(),
+        heading: LocaleKeys.general_details_user_stats_heading.tr(),
       ),
     );
 
