@@ -244,10 +244,13 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                                               backgroundColor:
                                                   PlexColorPalette.shark,
                                               content: const Text(
-                                                'Media details for this type of synced item is not supported.',
-                                              ),
+                                                LocaleKeys
+                                                    .synced_items_media_details_unsupported,
+                                              ).tr(),
                                               action: SnackBarAction(
-                                                label: 'LEARN MORE',
+                                                label: LocaleKeys
+                                                    .button_learn_more
+                                                    .tr(),
                                                 onPressed: () async {
                                                   await launch(
                                                     'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#synced_items_caveats',
@@ -335,15 +338,15 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                             ),
                           );
                         } else {
-                          return const Expanded(
+                          return Expanded(
                             child: Center(
-                              child: Text(
-                                'No synced items found.',
+                              child: const Text(
+                                LocaleKeys.synced_items_empty,
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16,
                                 ),
-                              ),
+                              ).tr(),
                             ),
                           );
                         }
@@ -398,7 +401,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
         builder: (context, state) {
           if (state is UsersListSuccess) {
             return PopupMenuButton(
-              tooltip: 'Users',
+              tooltip: LocaleKeys.general_filter_users.tr(),
               icon: FaIcon(
                 FontAwesomeIcons.userAlt,
                 size: 20,
@@ -427,7 +430,7 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                       (user) => PopupMenuItem(
                         child: Text(
                           _maskSensitiveInfo
-                              ? '*Hidden User*'
+                              ? '*${LocaleKeys.masked_info_user.tr()}*'
                               : user.friendlyName,
                           style: TextStyle(
                             color: _userId == user.userId
@@ -455,9 +458,11 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
                     onPressed: () {
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           backgroundColor: PlexColorPalette.shark,
-                          content: Text('Loading users'),
+                          content: const Text(
+                            LocaleKeys.general_filter_users_loading,
+                          ).tr(),
                         ),
                       );
                     },
@@ -484,9 +489,11 @@ class _SyncedItemsPageContentState extends State<SyncedItemsPageContent> {
             onPressed: () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
+                SnackBar(
                   backgroundColor: PlexColorPalette.shark,
-                  content: Text('Users failed to load'),
+                  content: const Text(
+                    LocaleKeys.general_filter_users_failed,
+                  ).tr(),
                 ),
               );
             },
@@ -523,9 +530,11 @@ class _SlidableAction extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: Colors.green,
-              content: const Text('Delete synced item request sent to Plex.'),
+              content: const Text(
+                LocaleKeys.synced_items_delete_request,
+              ).tr(),
               action: SnackBarAction(
-                label: 'LEARN MORE',
+                label: LocaleKeys.button_learn_more.tr(),
                 onPressed: () async {
                   await launch(
                     'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#synced_items_caveats',
@@ -596,7 +605,7 @@ Future<int> _showDeleteSyncedItemDialog({
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: const Text('Are you sure you want to delete this synced item?'),
+        title: const Text(LocaleKeys.synced_items_delete_dialog_title).tr(),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -608,7 +617,9 @@ Future<int> _showDeleteSyncedItemDialog({
               ),
             ),
             Text(
-              maskSensitiveInfo ? '*Hidden User*' : syncedItem.user,
+              maskSensitiveInfo
+                  ? '*${LocaleKeys.masked_info_user.tr()}*'
+                  : syncedItem.user,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: PlexColorPalette.gamboge,
@@ -625,7 +636,7 @@ Future<int> _showDeleteSyncedItemDialog({
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('CANCEL'),
+            child: const Text(LocaleKeys.button_cancel).tr(),
             onPressed: () {
               Navigator.of(context).pop(0);
             },
@@ -633,7 +644,7 @@ Future<int> _showDeleteSyncedItemDialog({
           Padding(
             padding: const EdgeInsets.only(right: 4),
             child: TextButton(
-              child: const Text('DELETE'),
+              child: const Text(LocaleKeys.button_delete).tr(),
               style: TextButton.styleFrom(
                 backgroundColor: Colors.red,
               ),

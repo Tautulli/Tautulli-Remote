@@ -303,5 +303,11 @@ abstract class  LocaleKeys {
   static const general_minutes = 'general_minutes';
   static const general_seconds = 'general_seconds';
   static const statistics_no_additional_items = 'statistics_no_additional_items';
+  static const synced_items_media_details_unsupported = 'synced_items_media_details_unsupported';
+  static const synced_items_empty = 'synced_items_empty';
+  static const synced_items_delete_request = 'synced_items_delete_request';
+  static const synced_items_delete_dialog_title = 'synced_items_delete_dialog_title';
+  static const button_delete = 'button_delete';
+  static const synced_items_delete = 'synced_items_delete';
 
 }

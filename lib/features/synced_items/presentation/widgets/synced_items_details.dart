@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:tautulli_remote/core/helpers/color_palette_helper.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/data_unit_format_helper.dart';
 import '../../../../core/helpers/string_format_helper.dart';
 import '../../../../core/widgets/media_type_icon.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../domain/entities/synced_item.dart';
 
 class SyncedItemsDetails extends StatelessWidget {
@@ -34,7 +36,9 @@ class SyncedItemsDetails extends StatelessWidget {
                 ),
               ),
               Text(
-                maskSensitiveInfo ? '*Hidden User*' : syncedItem.user,
+                maskSensitiveInfo
+                    ? '*${LocaleKeys.masked_info_user.tr()}*'
+                    : syncedItem.user,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 15,

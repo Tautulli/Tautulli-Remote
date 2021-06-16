@@ -316,7 +316,13 @@ class CodegenLoader extends AssetLoader{
   "general_hours": "hours",
   "general_minutes": "minutes",
   "general_seconds": "seconds",
-  "statistics_no_additional_items": "No additional items for this statistic"
+  "statistics_no_additional_items": "No additional items for this statistic",
+  "synced_items_media_details_unsupported": "Media details for this type of synced item is not supported.",
+  "synced_items_empty": "No synced items found.",
+  "synced_items_delete_request": "Delete synced item request sent to Plex.",
+  "synced_items_delete_dialog_title": "Are you sure you want to delete this synced item?",
+  "button_delete": "DELETE",
+  "synced_items_delete": "Delete"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en};
 }
