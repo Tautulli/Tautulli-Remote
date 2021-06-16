@@ -314,5 +314,23 @@ abstract class  LocaleKeys {
   static const general_details_all_time = 'general_details_all_time';
   static const general_details_hours = 'general_details_hours';
   static const masked_info_player_name = 'masked_info_player_name';
+  static const wizard_skip_dialog_message_privacy = 'wizard_skip_dialog_message_privacy';
+  static const wizard_skip_dialog_message_servers = 'wizard_skip_dialog_message_servers';
+  static const wizard_quit_dialog_title = 'wizard_quit_dialog_title';
+  static const wizard_skip_dialog_title = 'wizard_skip_dialog_title';
+  static const button_quit = 'button_quit';
+  static const button_skip = 'button_skip';
+  static const wizard_closing_title = 'wizard_closing_title';
+  static const wizard_closing_announcements = 'wizard_closing_announcements';
+  static const wizard_closing_support = 'wizard_closing_support';
+  static const wizard_closing_notifications = 'wizard_closing_notifications';
+  static const wizard_onesignal_text_1 = 'wizard_onesignal_text_1';
+  static const wizard_onesignal_text_2 = 'wizard_onesignal_text_2';
+  static const button_view_onesignal_privacy = 'button_view_onesignal_privacy';
+  static const wizard_onesignal_communication_error = 'wizard_onesignal_communication_error';
+  static const wizard_onesignal_allow_message = 'wizard_onesignal_allow_message';
+  static const wizard_servers_text_1 = 'wizard_servers_text_1';
+  static const wizard_servers_text_2 = 'wizard_servers_text_2';
+  static const wizard_servers_text_3 = 'wizard_servers_text_3';
 
 }

@@ -327,7 +327,25 @@ class CodegenLoader extends AssetLoader{
   "general_details_plays": "PLAYS",
   "general_details_all_time": "All Time",
   "general_details_hours": "Hours",
-  "masked_info_player_name": "Hidden Player Name"
+  "masked_info_player_name": "Hidden Player Name",
+  "wizard_skip_dialog_message_privacy": "You will need to consent to the OneSignal data privacy later if you wish to use Tautulli Remote to receive push notifications.",
+  "wizard_skip_dialog_message_servers": "You have not yet registered with any Tautulli servers.",
+  "wizard_quit_dialog_title": "Are you sure you want to quit the Setup Wizard?",
+  "wizard_skip_dialog_title": "Are you sure you want to skip?",
+  "button_quit": "QUIT",
+  "button_skip": "SKIP",
+  "wizard_closing_title": "A Few Final Things",
+  "wizard_closing_announcements": "Keep an eye on the Announcements page to receive important messages regarding the app.",
+  "wizard_closing_support": "For assistance with issues or to provide feedback, visit the Help & Support links on the Settings page.",
+  "wizard_closing_notifications": "Remember to configure Tautulli Remote as a notification agent in Tautulli under Settings > Notification Agents.",
+  "wizard_onesignal_text_1": "Tautulli uses OneSignal to send push notifications to Tautulli Remote. The content of these notifications can be encrypted.",
+  "wizard_onesignal_text_2": "If you would like to receive notifications in this app, please review and accept the OneSignal data privacy below.",
+  "button_view_onesignal_privacy": "View OneSignal Data Privacy",
+  "wizard_onesignal_communication_error": "Unable to communicate with OneSignal. Please verify this device can reach onesignal.com.",
+  "wizard_onesignal_allow_message": "Allow OneSignal to send push notifications",
+  "wizard_servers_text_1": "Welcome!",
+  "wizard_servers_text_2": "Tautulli Remote allows you to view your Plex server activity, history, statistics, and more by connecting to your existing Tautulli server.",
+  "wizard_servers_text_3": "Ensure that Tautulli is currently running and accessible from this device before continuing with the setup wizard."
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en};
 }

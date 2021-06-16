@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../privacy/presentation/pages/privacy_page.dart';
 import '../bloc/wizard_bloc.dart';
@@ -35,16 +37,16 @@ class OneSignal extends StatelessWidget {
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Text(
-                      'Tautulli uses OneSignal to send push notifications to Tautulli Remote. The content of these notifications can be encrypted.',
+                  children: [
+                    const Text(
+                      LocaleKeys.wizard_onesignal_text_1,
                       style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(height: 12),
-                    Text(
-                      'If you would like to receive notifications in this app, please review and accept the OneSignal data privacy below.',
+                    ).tr(),
+                    const SizedBox(height: 12),
+                    const Text(
+                      LocaleKeys.wizard_onesignal_text_2,
                       style: TextStyle(fontSize: 16),
-                    ),
+                    ).tr(),
                   ],
                 ),
               ),
@@ -72,7 +74,9 @@ class OneSignal extends StatelessWidget {
                             ),
                           );
                         },
-                        child: const Text('View OneSignal Data Privacy'),
+                        child: const Text(
+                          LocaleKeys.button_view_onesignal_privacy,
+                        ).tr(),
                       ),
                     ),
                   ],
@@ -100,20 +104,21 @@ class OneSignal extends StatelessWidget {
                             child: Column(
                               children: [
                                 Row(
-                                  children: const [
-                                    FaIcon(
+                                  children: [
+                                    const FaIcon(
                                       FontAwesomeIcons.exclamationCircle,
                                       color: TautulliColorPalette.not_white,
                                       size: 30,
                                     ),
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     Expanded(
-                                      child: Text(
-                                        'Unable to communicate with OneSignal. Please verify this device can reach onesignal.com.',
+                                      child: const Text(
+                                        LocaleKeys
+                                            .wizard_onesignal_communication_error,
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),
-                                      ),
+                                      ).tr(),
                                     ),
                                   ],
                                 ),
@@ -126,7 +131,9 @@ class OneSignal extends StatelessWidget {
                                               OneSignalHealthCheck(),
                                             );
                                       },
-                                      child: const Text('CHECK AGAIN'),
+                                      child: const Text(
+                                        LocaleKeys.button_check_again,
+                                      ).tr(),
                                     ),
                                   ],
                                 ),
@@ -148,8 +155,8 @@ class OneSignal extends StatelessWidget {
                                   );
                             },
                             title: const Text(
-                              'Allow OneSignal to send push notifications',
-                            ),
+                              LocaleKeys.wizard_onesignal_allow_message,
+                            ).tr(),
                           );
                         }
                         return const SizedBox(height: 0, width: 0);

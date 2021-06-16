@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,6 +6,7 @@ import 'package:quiver/strings.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/register_device_bloc.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../settings/presentation/pages/server_registration_page.dart';
@@ -90,21 +92,21 @@ class ServersContent extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 // crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'Welcome!',
+                children: [
+                  const Text(
+                    LocaleKeys.wizard_servers_text_1,
                     style: TextStyle(fontSize: 18),
-                  ),
-                  SizedBox(height: 12),
-                  Text(
-                    'Tautulli Remote allows you to view your Plex server activity, history, statistics, and more by connecting to your existing Tautulli server.',
+                  ).tr(),
+                  const SizedBox(height: 12),
+                  const Text(
+                    LocaleKeys.wizard_servers_text_2,
                     style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 12),
-                  Text(
-                    'Ensure that Tautulli is currently running and accessible from this device before continuing with the setup wizard.',
+                  ).tr(),
+                  const SizedBox(height: 12),
+                  const Text(
+                    LocaleKeys.wizard_servers_text_3,
                     style: TextStyle(fontSize: 16),
-                  ),
+                  ).tr(),
                 ],
               ),
             ),
@@ -146,7 +148,9 @@ class ServersContent extends StatelessWidget {
                                             subtitle: (isEmpty(server
                                                     .primaryConnectionAddress))
                                                 ? const Text(
-                                                    'Primary Connection Address Missing')
+                                                    LocaleKeys
+                                                        .settings_primary_connection_missing,
+                                                  ).tr()
                                                 : isNotEmpty(server
                                                             .primaryConnectionAddress) &&
                                                         server.primaryActive &&
@@ -162,7 +166,8 @@ class ServersContent extends StatelessWidget {
                                                         ? Text(server
                                                             .secondaryConnectionAddress)
                                                         : const Text(
-                                                            '*Hidden Connection Address*'),
+                                                            '*${LocaleKeys.masked_info_connection_address}*',
+                                                          ),
                                             trailing: const FaIcon(
                                               FontAwesomeIcons.cog,
                                               color: TautulliColorPalette
@@ -220,16 +225,19 @@ class ServersContent extends StatelessWidget {
                                                 .hideCurrentSnackBar();
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
-                                              const SnackBar(
+                                              SnackBar(
                                                 backgroundColor: Colors.green,
-                                                content: Text(
-                                                    'Tautulli Registration Successful'),
+                                                content: const Text(
+                                                  LocaleKeys
+                                                      .settings_registration_success,
+                                                ).tr(),
                                               ),
                                             );
                                           }
                                         },
                                         child: const Text(
-                                            'Register a Tautulli Server'),
+                                          LocaleKeys.button_register_server,
+                                        ).tr(),
                                       ),
                                     ),
                                   ],

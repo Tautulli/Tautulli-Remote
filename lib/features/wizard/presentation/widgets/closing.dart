@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../translations/locale_keys.g.dart';
 import '../bloc/wizard_bloc.dart';
 
 class Closing extends StatelessWidget {
@@ -17,12 +19,12 @@ class Closing extends StatelessWidget {
             child: Column(
               children: [
                 const Text(
-                  'A Few Final Things',
+                  LocaleKeys.wizard_closing_title,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
-                ),
+                ).tr(),
                 Padding(
                   padding: const EdgeInsets.only(
                     top: 24,
@@ -39,8 +41,8 @@ class Closing extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 16),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Padding(
+                                children: [
+                                  const Padding(
                                     padding: EdgeInsets.only(
                                       top: 4,
                                       right: 16,
@@ -53,10 +55,10 @@ class Closing extends StatelessWidget {
                                     ),
                                   ),
                                   Expanded(
-                                    child: Text(
-                                      'Keep an eye on the Announcements page to receive important messages regarding the app.',
+                                    child: const Text(
+                                      LocaleKeys.wizard_closing_announcements,
                                       style: TextStyle(fontSize: 16),
-                                    ),
+                                    ).tr(),
                                   ),
                                 ],
                               ),
@@ -66,8 +68,8 @@ class Closing extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 16),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Padding(
+                                children: [
+                                  const Padding(
                                     padding: EdgeInsets.only(
                                       top: 4,
                                       right: 16,
@@ -81,10 +83,10 @@ class Closing extends StatelessWidget {
                                     ),
                                   ),
                                   Expanded(
-                                    child: Text(
-                                      'For assistance with issues or to provide feedback, visit the Help & Support links on the Settings page.',
+                                    child: const Text(
+                                      LocaleKeys.wizard_closing_support,
                                       style: TextStyle(fontSize: 16),
-                                    ),
+                                    ).tr(),
                                   ),
                                 ],
                               ),
@@ -96,8 +98,8 @@ class Closing extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 16),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Padding(
+                                  children: [
+                                    const Padding(
                                       padding: EdgeInsets.only(
                                         top: 4,
                                         right: 14,
@@ -112,10 +114,10 @@ class Closing extends StatelessWidget {
                                       ),
                                     ),
                                     Expanded(
-                                      child: Text(
-                                        'Remember to configure Tautulli Remote as a notification agent in Tautulli under Settings > Notification Agents.',
+                                      child: const Text(
+                                        LocaleKeys.wizard_closing_notifications,
                                         style: TextStyle(fontSize: 16),
-                                      ),
+                                      ).tr(),
                                     ),
                                   ],
                                 ),
