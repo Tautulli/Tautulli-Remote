@@ -22,7 +22,7 @@ class DeviceInfoImpl implements DeviceInfo {
       return androidInfo.model;
     } else {
       final iosInfo = await deviceInfoPlugin.iosInfo;
-      return iosInfo.utsname.machine;
+      return iosInfo.name;
     }
   }
 
