@@ -635,6 +635,7 @@ Future<void> init() async {
     () => OneSignalDataSourceImpl(
       client: sl(),
       networkInfo: sl(),
+      settings: sl(),
     ),
   );
 
