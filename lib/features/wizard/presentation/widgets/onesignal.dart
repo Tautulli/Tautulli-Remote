@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../privacy/presentation/pages/privacy_page.dart';
+import '../../../privacy/presentation/widgets/notification_setting_dialog.dart';
 import '../bloc/wizard_bloc.dart';
 
 class OneSignal extends StatelessWidget {
@@ -142,10 +146,22 @@ class OneSignal extends StatelessWidget {
                         if (wizardState is WizardLoaded) {
                           return CheckboxListTile(
                             value: wizardState.onesignalAccepted,
-                            onChanged: (value) {
-                              context.read<WizardBloc>().add(
-                                    WizardAcceptOneSignal(value),
-                                  );
+                            onChanged: (value) async {
+                              if (Platform.isIOS) {
+                                if (await Permission.notification
+                                    .request()
+                                    .isGranted) {
+                                  context.read<WizardBloc>().add(
+                                        WizardAcceptOneSignal(value),
+                                      );
+                                } else {
+                                  await showNotificationSettingsDialog(context);
+                                }
+                              } else {
+                                context.read<WizardBloc>().add(
+                                      WizardAcceptOneSignal(value),
+                                    );
+                              }
                             },
                             title: const Text(
                               'Allow OneSignal to send push notifications',

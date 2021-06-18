@@ -71,7 +71,11 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
 
   @override
   Future<bool> get hasConsented async {
-    return await OneSignal.shared.userProvidedPrivacyConsent();
+    try {
+      return await OneSignal.shared.userProvidedPrivacyConsent();
+    } catch (_) {
+      return false;
+    }
   }
 
   @override

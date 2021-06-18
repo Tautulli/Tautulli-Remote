@@ -1,11 +1,15 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
+import '../widgets/notification_setting_dialog.dart';
 
 class PrivacyPage extends StatelessWidget {
   final bool showConsentSwitch;
@@ -92,10 +96,23 @@ class PrivacyPage extends StatelessWidget {
                             : false,
                         onChanged: (_) async {
                           if (state is OneSignalPrivacyConsentFailure) {
-                            await _grantConsentFuture(oneSignalPrivacyBloc);
-                            oneSignalSubscriptionBloc
-                                .add(OneSignalSubscriptionCheck());
-                            oneSignalHealthBloc.add(OneSignalHealthCheck());
+                            if (Platform.isIOS) {
+                              if (await Permission.notification
+                                  .request()
+                                  .isGranted) {
+                                await _grantConsentFuture(oneSignalPrivacyBloc);
+                                oneSignalSubscriptionBloc
+                                    .add(OneSignalSubscriptionCheck());
+                                oneSignalHealthBloc.add(OneSignalHealthCheck());
+                              } else {
+                                await showNotificationSettingsDialog(context);
+                              }
+                            } else {
+                              await _grantConsentFuture(oneSignalPrivacyBloc);
+                              oneSignalSubscriptionBloc
+                                  .add(OneSignalSubscriptionCheck());
+                              oneSignalHealthBloc.add(OneSignalHealthCheck());
+                            }
                           }
                           if (state is OneSignalPrivacyConsentSuccess) {
                             oneSignalPrivacyBloc
