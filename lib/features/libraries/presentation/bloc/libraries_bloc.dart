@@ -113,6 +113,8 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
           final backgroundImageUrlOrFailure = await getImageUrl(
             tautulliId: tautulliId,
             img: library.libraryArt,
+            width: 500,
+            height: 280,
             settingsBloc: settingsBloc,
           );
 
