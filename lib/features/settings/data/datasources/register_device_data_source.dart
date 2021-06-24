@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:meta/meta.dart';
 import 'package:quiver/strings.dart';
 
@@ -50,6 +52,7 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
       deviceId: deviceId,
       deviceName: deviceName,
       onesignalId: isNotEmpty(onesignalId) ? onesignalId : 'onesignal-disabled',
+      platform: Platform.isIOS ? 'ios' : 'android',
       trustCert: trustCert,
     );
 
