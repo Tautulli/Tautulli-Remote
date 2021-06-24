@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_group_directory/app_group_directory.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,8 +25,10 @@ class DBProvider {
   }
 
   initDB() async {
-    // Get the location of the app directory
-    Directory documentsDir = await getApplicationDocumentsDirectory();
+    Directory documentsDir = Platform.isIOS
+        ? await AppGroupDirectory.getAppGroupDirectory(
+            'group.com.tautulli.tautulliRemote.onesignal')
+        : await getApplicationDocumentsDirectory();
     String path = join(documentsDir.path, 'tautulli_remote.db');
 
     return await openDatabase(
