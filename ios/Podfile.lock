@@ -4,6 +4,7 @@ PODS:
   - connectivity_plus (0.0.1):
     - Flutter
     - Reachability
+  - CryptoSwift (1.4.0)
   - device_info_plus (0.0.1):
     - Flutter
   - Firebase/CoreOnly (8.0.0):
@@ -75,6 +76,7 @@ PODS:
 DEPENDENCIES:
   - app_group_directory (from `.symlinks/plugins/app_group_directory/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
+  - CryptoSwift (~> 1.4.0)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
@@ -92,6 +94,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - CryptoSwift
     - Firebase
     - FirebaseCore
     - FirebaseCoreDiagnostics
@@ -143,6 +146,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   app_group_directory: 7bf9f8f9819ead554de29da7c25fb7a680d6a9a0
   connectivity_plus: f5e5e0b894ec1187bfab9816d6c2f034da8d46da
+  CryptoSwift: 7cc902df1784de3b389a387756c7d710f197730c
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
   firebase_core: e4d3efb030a2b2021819f8faa538bb23deb46695
@@ -172,6 +176,6 @@ SPEC CHECKSUMS:
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
-PODFILE CHECKSUM: 3c4c582a67ee4a3bc3c08c688ade372f4b6dc677
+PODFILE CHECKSUM: 03cb7ed4a753fa8827c35f1d45af35a4fbe9b447
 
 COCOAPODS: 1.10.1
