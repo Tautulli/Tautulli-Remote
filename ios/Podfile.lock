@@ -44,7 +44,7 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - OneSignal (3.4.4)
-  - onesignal_flutter (3.0.0-beta4):
+  - onesignal_flutter (3.0.0):
     - Flutter
     - OneSignalXCFramework (= 3.4.4)
   - OneSignalXCFramework (3.4.4)
@@ -160,7 +160,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OneSignal: d20ee5601f44496573c7abe95923a04d1b49977f
-  onesignal_flutter: a925200b2828f100748326b5dd3c4a8e26f3459f
+  onesignal_flutter: 6a582e3051074be6d9d129002a93a3bfd04a5b88
   OneSignalXCFramework: eaf286b7438aa1f030f03e5fa9f1c79ede5d8f04
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c

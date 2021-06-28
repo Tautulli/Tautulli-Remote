@@ -155,7 +155,7 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
       text: TextSpan(
         style: const TextStyle(fontSize: 16),
         children: [
-          const TextSpan(
+          TextSpan(
             text: textBlock1[0],
           ),
           TextSpan(
@@ -168,11 +168,11 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
                 launch('https://onesignal.com/');
               },
           ),
-          const TextSpan(
-            ext: textBlock1[2],
+          TextSpan(
+            text: textBlock1[2],
           ),
-          const TextSpan(
-           text: '\n\n${textBlock2[0]}',
+          TextSpan(
+            text: '\n\n${textBlock2[0]}',
           ),
           TextSpan(
             text: textBlock2[1],
@@ -185,7 +185,7 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
                     'https://github.com/Tautulli/Tautulli-Wiki/wiki/Frequently-Asked-Questions#notifications-pycryptodome');
               },
           ),
-          const TextSpan(
+          TextSpan(
             text: textBlock2[2],
           ),
           TextSpan(
@@ -198,10 +198,10 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
                 launch('https://onesignal.com/privacy');
               },
           ),
-          const TextSpan(
+          TextSpan(
             text: textBlock2[4],
           ),
-          const TextSpan(
+          TextSpan(
             text: '\n\n${textBlock3[0]}',
           ),
           TextSpan(
@@ -215,10 +215,10 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
                     'https://documentation.onesignal.com/docs/handling-personal-data#deleting-notification-data');
               },
           ),
-          const TextSpan(
+          TextSpan(
             text: textBlock3[2],
           ),
-          const TextSpan(
+          TextSpan(
             text: '\n\n${textBlock4[0]}',
           ),
         ],

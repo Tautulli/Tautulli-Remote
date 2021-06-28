@@ -91,10 +91,11 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
               if (state is RegisterDeviceSuccess) {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
+                  SnackBar(
                     backgroundColor: Colors.green,
                     content:
-                      const Text(LocaleKeys.settings_registration_success).tr(),
+                        const Text(LocaleKeys.settings_registration_success)
+                            .tr(),
                   ),
                 );
               }
@@ -143,8 +144,9 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                                           title: Text('${server.plexName}'),
                                           subtitle: (isEmpty(server
                                                   .primaryConnectionAddress))
-                                              ? const Text(LocaleKeys
-                                                    .settings_primary_connection_missing,
+                                              ? const Text(
+                                                  LocaleKeys
+                                                      .settings_primary_connection_missing,
                                                 ).tr()
                                               : isNotEmpty(server
                                                           .primaryConnectionAddress) &&
@@ -161,8 +163,8 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                                                       ? Text(server
                                                           .secondaryConnectionAddress)
                                                       : Text(
-                                                        '*${LocaleKeys.masked_info_connection_address.tr()}*',
-                                                      ),
+                                                          '*${LocaleKeys.masked_info_connection_address.tr()}*',
+                                                        ),
                                           trailing: const FaIcon(
                                             FontAwesomeIcons.cog,
                                             color:
@@ -220,7 +222,7 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                                     ScaffoldMessenger.of(context)
                                         .hideCurrentSnackBar();
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
+                                      SnackBar(
                                         backgroundColor: Colors.green,
                                         content: const Text(
                                           LocaleKeys
@@ -231,8 +233,8 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                                   }
                                 },
                                 child: const Text(
-                                        LocaleKeys.button_register_server,
-                                       ).tr(),
+                                  LocaleKeys.button_register_server,
+                                ).tr(),
                               ),
                             ),
                           ],
@@ -240,13 +242,13 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                       ),
                       const SizedBox(height: 20),
                       //* App settings
-                      const ListHeader(
+                      ListHeader(
                         headingText:
-                          LocaleKeys.settings_app_settings_heading.tr(),
+                            LocaleKeys.settings_app_settings_heading.tr(),
                       ),
                       ListTile(
                         title:
-                          const Text(LocaleKeys.settings_server_timeout).tr(),
+                            const Text(LocaleKeys.settings_server_timeout).tr(),
                         subtitle: _serverTimeoutDisplay(state.serverTimeout),
                         onTap: () {
                           return showDialog(
@@ -258,9 +260,9 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                         },
                       ),
                       ListTile(
-                        title:
-                          const Text(LocaleKeys.settings_activity_refresh_rate)
-                              .tr(),
+                        title: const Text(
+                                LocaleKeys.settings_activity_refresh_rate)
+                            .tr(),
                         subtitle: _serverRefreshRateDisplay(state.refreshRate),
                         onTap: () {
                           return showDialog(
@@ -275,8 +277,8 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                       ),
                       if (Platform.isAndroid)
                         CheckboxListTile(
-                          title:
-                          const Text(LocaleKeys.settings_double_tap_exit_title)
+                          title: const Text(
+                                  LocaleKeys.settings_double_tap_exit_title)
                               .tr(),
                           subtitle: const Text(
                             LocaleKeys.settings_double_tap_exit_message,
@@ -291,11 +293,11 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                           value: state.doubleTapToExit ?? false,
                         ),
                       CheckboxListTile(
-                        title:
-                          const Text(LocaleKeys.settings_mask_info_title).tr(),
-                      subtitle:
-                          const Text(LocaleKeys.settings_mask_info_message)
-                              .tr(),
+                        title: const Text(LocaleKeys.settings_mask_info_title)
+                            .tr(),
+                        subtitle:
+                            const Text(LocaleKeys.settings_mask_info_message)
+                                .tr(),
                         onChanged: (value) {
                           context.read<SettingsBloc>().add(
                                 SettingsUpdateMaskSensitiveInfo(
@@ -393,7 +395,7 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                             applicationName: 'Tautulli Remote',
                             applicationVersion: packageInfo.version,
                             applicationLegalese:
-                              LocaleKeys.settings_about_license.tr(),
+                                LocaleKeys.settings_about_license.tr(),
                           );
                         },
                       ),
