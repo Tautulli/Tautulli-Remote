@@ -335,5 +335,7 @@
   "translate_text_2": "If you would like to add a new language please submit a feature request on GitHub.",
   "translate_help_translate": "Translate Tautulli Remote",
   "translate_request_language": "Request a new language",
-  "wizard_closing_translate": "Tautulli Remote supports multiple languages, help translate under Settings > Help Translate."
+  "wizard_closing_translate": "Tautulli Remote supports multiple languages, help translate under Settings > Help Translate.",
+  "privacy_alert_title": "Notification Permission Required",
+  "privacy_alert_content": "Give Tautulli Remote notification access to receive push notitifications."
 }
