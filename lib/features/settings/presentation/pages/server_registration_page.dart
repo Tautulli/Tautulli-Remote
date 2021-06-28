@@ -188,6 +188,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                             children: <Widget>[
                               TextFormField(
                                 controller: _primaryConnectionAddressController,
+                                autocorrect: false,
                                 decoration: InputDecoration(
                                   labelText: LocaleKeys
                                       .settings_primary_connection_address
@@ -216,6 +217,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                               TextFormField(
                                 controller:
                                     _secondaryConnectionAddressController,
+                                autocorrect: false,
                                 decoration: InputDecoration(
                                   labelText: LocaleKeys
                                       .settings_secondary_connection_address
@@ -244,6 +246,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                               ),
                               TextFormField(
                                 controller: _deviceTokenController,
+                                autocorrect: false,
                                 decoration: InputDecoration(
                                   labelText:
                                       LocaleKeys.settings_device_token.tr(),

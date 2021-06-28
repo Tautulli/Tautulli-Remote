@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  app_group_directory: ^2.0.0
   color: ^3.0.0
   connectivity_plus: ^1.0.1
   cupertino_icons: ^1.0.3
@@ -72,6 +73,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
+  remove_alpha_ios: true
   image_path: "dev_assets/logo.png"
   adaptive_icon_background: "#292b2f"
   adaptive_icon_foreground: "dev_assets/logo-adaptive.png"

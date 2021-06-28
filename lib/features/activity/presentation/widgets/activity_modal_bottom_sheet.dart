@@ -272,88 +272,47 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         color: Theme.of(context).backgroundColor,
-                        child: ActivityMediaDetails(
-                          constraints: constraints,
-                          activity: activity,
-                          tautulliId: widget.tautulliId,
+                        child: SingleChildScrollView(
+                          child: ActivityMediaDetails(
+                            constraints: constraints,
+                            activity: activity,
+                            tautulliId: widget.tautulliId,
+                          ),
                         ),
                       ),
                     ),
                     Container(
                       color: Theme.of(context).backgroundColor,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8,
-                                right: 4,
-                              ),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  UserTable user = UserTable(
-                                    userId: activity.userId,
-                                    friendlyName: activity.friendlyName,
-                                    userThumb: activity.userThumb,
-                                  );
-
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => UserDetailsPage(
-                                        user: user,
-                                        tautulliIdOverride: widget.tautulliId,
-                                        forceGetUser: true,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: PlexColorPalette.gamboge,
-                                ),
-                                child: Text(
-                                  LocaleKeys.button_view_user.tr(),
-                                  style: const TextStyle(
-                                    color: TautulliColorPalette.not_white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          if (activity.mediaType != 'photo')
+                      child: SafeArea(
+                        bottom: !widget.showTerminateButton,
+                        child: Row(
+                          children: [
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                  left: 4,
-                                  right: 8,
+                                  left: 8,
+                                  right: 4,
                                 ),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    MediaItem mediaItem = MediaItem(
-                                      grandparentTitle:
-                                          activity.grandparentTitle,
-                                      parentMediaIndex:
-                                          activity.parentMediaIndex,
-                                      mediaIndex: activity.mediaIndex,
-                                      mediaType: activity.mediaType,
-                                      parentTitle: activity.parentTitle,
-                                      posterUrl: activity.posterUrl,
-                                      ratingKey: activity.ratingKey,
-                                      title: activity.title,
-                                      year: activity.year,
+                                    UserTable user = UserTable(
+                                      userId: activity.userId,
+                                      friendlyName: activity.friendlyName,
+                                      userThumb: activity.userThumb,
                                     );
 
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => MediaItemPage(
-                                          item: mediaItem,
-                                          enableNavOptions: true,
+                                        builder: (context) => UserDetailsPage(
+                                          user: user,
                                           tautulliIdOverride: widget.tautulliId,
+                                          forceGetUser: true,
                                         ),
                                       ),
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    primary: PlexColorPalette.curious_blue,
+                                    primary: PlexColorPalette.gamboge,
                                   ),
                                   child: Text(
                                     LocaleKeys.button_view_media.tr(),
@@ -364,79 +323,129 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                 ),
                               ),
                             ),
-                        ],
+                            if (activity.mediaType != 'photo')
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 4,
+                                    right: 8,
+                                  ),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      MediaItem mediaItem = MediaItem(
+                                        grandparentTitle:
+                                            activity.grandparentTitle,
+                                        parentMediaIndex:
+                                            activity.parentMediaIndex,
+                                        mediaIndex: activity.mediaIndex,
+                                        mediaType: activity.mediaType,
+                                        parentTitle: activity.parentTitle,
+                                        posterUrl: activity.posterUrl,
+                                        ratingKey: activity.ratingKey,
+                                        title: activity.title,
+                                        year: activity.year,
+                                      );
+
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => MediaItemPage(
+                                            item: mediaItem,
+                                            enableNavOptions: true,
+                                            tautulliIdOverride:
+                                                widget.tautulliId,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: PlexColorPalette.curious_blue,
+                                    ),
+                                    child: const Text(
+                                      'View Media',
+                                      style: TextStyle(
+                                        color: TautulliColorPalette.not_white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                     if (widget.showTerminateButton)
                       Container(
                         color: Theme.of(context).backgroundColor,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 4,
-                            left: 8,
-                            right: 8,
-                            bottom: 8,
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Theme.of(context).errorColor,
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                  onPressed: () async {
-                                    final confirm =
-                                        await showTerminateSessionDialog(
-                                      context: context,
-                                      controller:
-                                          widget.terminateMessageController,
-                                      activity: activity,
-                                      maskSensitiveInfo:
-                                          settingsLoadSuccess.maskSensitiveInfo,
-                                    );
-
-                                    if (confirm == 1) {
-                                      terminateSessionBloc.add(
-                                        TerminateSessionStarted(
-                                          tautulliId: widget.tautulliId,
-                                          sessionId: activity.sessionId,
-                                          message: widget
-                                                      .terminateMessageController
-                                                      .text !=
-                                                  null
-                                              ? widget
-                                                  .terminateMessageController
-                                                  .text
-                                              : '${LocaleKeys.termination_default_message}.',
-                                          settingsBloc: settingsBloc,
-                                        ),
+                        child: SafeArea(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 4,
+                              left: 8,
+                              right: 8,
+                              bottom: 8,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Theme.of(context).errorColor,
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                    onPressed: () async {
+                                      final confirm =
+                                          await showTerminateSessionDialog(
+                                        context: context,
+                                        controller:
+                                            widget.terminateMessageController,
+                                        activity: activity,
+                                        maskSensitiveInfo: settingsLoadSuccess
+                                            .maskSensitiveInfo,
                                       );
-                                    }
-                                  },
-                                  child: BlocBuilder<TerminateSessionBloc,
-                                      TerminateSessionState>(
-                                    builder: (context, state) {
-                                      if (state is TerminateSessionInProgress) {
-                                        return const SizedBox(
-                                          height: 20,
-                                          width: 20,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 3,
-                                            color:
-                                                TautulliColorPalette.not_white,
+
+                                      if (confirm == 1) {
+                                        terminateSessionBloc.add(
+                                          TerminateSessionStarted(
+                                            tautulliId: widget.tautulliId,
+                                            sessionId: activity.sessionId,
+                                            message: widget
+                                                        .terminateMessageController
+                                                        .text !=
+                                                    null
+                                                ? widget
+                                                    .terminateMessageController
+                                                    .text
+                                                : 'The server owner has ended the stream.',
+                                            settingsBloc: settingsBloc,
                                           ),
                                         );
                                       }
-                                      return const Text(LocaleKeys
-                                              .button_terminate_stream)
-                                          .tr();
                                     },
+                                    child: BlocBuilder<TerminateSessionBloc,
+                                        TerminateSessionState>(
+                                      builder: (context, state) {
+                                        if (state
+                                            is TerminateSessionInProgress) {
+                                          return const SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 3,
+                                              color: TautulliColorPalette
+                                                  .not_white,
+                                            ),
+                                          );
+                                        }
+                                        return const Text(
+                                          LocaleKeys.button_terminate_stream,
+                                        ).tr();
+                                      },
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),

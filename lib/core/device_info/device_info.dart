@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:device_info_plus/device_info_plus.dart';
 
 abstract class DeviceInfo {
@@ -15,13 +17,23 @@ class DeviceInfoImpl implements DeviceInfo {
 
   @override
   Future<String> get model async {
-    final androidInfo = await deviceInfoPlugin.androidInfo;
-    return androidInfo.model;
+    if (Platform.isAndroid) {
+      final androidInfo = await deviceInfoPlugin.androidInfo;
+      return androidInfo.model;
+    } else {
+      final iosInfo = await deviceInfoPlugin.iosInfo;
+      return iosInfo.name;
+    }
   }
 
   @override
   Future<String> get uniqueId async {
-    final androidInfo = await deviceInfoPlugin.androidInfo;
-    return androidInfo.androidId;
+    if (Platform.isAndroid) {
+      final androidInfo = await deviceInfoPlugin.androidInfo;
+      return androidInfo.androidId;
+    } else {
+      final iosInfo = await deviceInfoPlugin.iosInfo;
+      return iosInfo.identifierForVendor;
+    }
   }
 }

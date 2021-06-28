@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../../../core/network/network_info.dart';
+import '../../../settings/domain/usecases/settings.dart';
 
 /// Containers getters and functions for various OneSignal data points.
 abstract class OneSignalDataSource {
@@ -30,10 +31,12 @@ abstract class OneSignalDataSource {
 class OneSignalDataSourceImpl implements OneSignalDataSource {
   final http.Client client;
   final NetworkInfo networkInfo;
+  final Settings settings;
 
   OneSignalDataSourceImpl({
     @required this.client,
     @required this.networkInfo,
+    @required this.settings,
   });
 
   @override
@@ -71,7 +74,7 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
 
   @override
   Future<bool> get hasConsented async {
-    return await OneSignal.shared.userProvidedPrivacyConsent();
+    return await settings.getOneSignalConsented() ?? false;
   }
 
   @override

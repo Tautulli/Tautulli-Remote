@@ -1,13 +1,17 @@
+import 'dart:io' show Platform;
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
+import '../widgets/notification_setting_dialog.dart';
 
 class PrivacyPage extends StatelessWidget {
   final bool showConsentSwitch;
@@ -94,10 +98,23 @@ class PrivacyPage extends StatelessWidget {
                             : false,
                         onChanged: (_) async {
                           if (state is OneSignalPrivacyConsentFailure) {
-                            await _grantConsentFuture(oneSignalPrivacyBloc);
-                            oneSignalSubscriptionBloc
-                                .add(OneSignalSubscriptionCheck());
-                            oneSignalHealthBloc.add(OneSignalHealthCheck());
+                            if (Platform.isIOS) {
+                              if (await Permission.notification
+                                  .request()
+                                  .isGranted) {
+                                await _grantConsentFuture(oneSignalPrivacyBloc);
+                                oneSignalSubscriptionBloc
+                                    .add(OneSignalSubscriptionCheck());
+                                oneSignalHealthBloc.add(OneSignalHealthCheck());
+                              } else {
+                                await showNotificationSettingsDialog(context);
+                              }
+                            } else {
+                              await _grantConsentFuture(oneSignalPrivacyBloc);
+                              oneSignalSubscriptionBloc
+                                  .add(OneSignalSubscriptionCheck());
+                              oneSignalHealthBloc.add(OneSignalHealthCheck());
+                            }
                           }
                           if (state is OneSignalPrivacyConsentSuccess) {
                             oneSignalPrivacyBloc
@@ -138,7 +155,7 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
       text: TextSpan(
         style: const TextStyle(fontSize: 16),
         children: [
-          TextSpan(
+          const TextSpan(
             text: textBlock1[0],
           ),
           TextSpan(
@@ -151,11 +168,11 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
                 launch('https://onesignal.com/');
               },
           ),
-          TextSpan(
-            text: textBlock1[2],
+          const TextSpan(
+            ext: textBlock1[2],
           ),
-          TextSpan(
-            text: '\n\n${textBlock2[0]}',
+          const TextSpan(
+           text: '\n\n${textBlock2[0]}',
           ),
           TextSpan(
             text: textBlock2[1],
@@ -168,7 +185,7 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
                     'https://github.com/Tautulli/Tautulli-Wiki/wiki/Frequently-Asked-Questions#notifications-pycryptodome');
               },
           ),
-          TextSpan(
+          const TextSpan(
             text: textBlock2[2],
           ),
           TextSpan(
@@ -181,10 +198,10 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
                 launch('https://onesignal.com/privacy');
               },
           ),
-          TextSpan(
+          const TextSpan(
             text: textBlock2[4],
           ),
-          TextSpan(
+          const TextSpan(
             text: '\n\n${textBlock3[0]}',
           ),
           TextSpan(
@@ -198,10 +215,10 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
                     'https://documentation.onesignal.com/docs/handling-personal-data#deleting-notification-data');
               },
           ),
-          TextSpan(
+          const TextSpan(
             text: textBlock3[2],
           ),
-          TextSpan(
+          const TextSpan(
             text: '\n\n${textBlock4[0]}',
           ),
         ],

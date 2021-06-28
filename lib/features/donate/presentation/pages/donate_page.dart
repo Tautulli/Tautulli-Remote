@@ -124,219 +124,221 @@ class _DonatePageContentState extends State<DonatePageContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Divider(
-          indent: 50,
-          endIndent: 50,
-          height: 50,
-          color: PlexColorPalette.gamboge,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Column(
-            children: [
-              const Text(
-                LocaleKeys.donate_message_title,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
-              ).tr(),
-              const SizedBox(height: 8),
-              const Text(
-                LocaleKeys.donate_message_body,
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
-              ).tr(),
-            ],
+    return SafeArea(
+      child: Column(
+        children: [
+          const Divider(
+            indent: 50,
+            endIndent: 50,
+            height: 50,
+            color: PlexColorPalette.gamboge,
           ),
-        ),
-        const Divider(
-          indent: 50,
-          endIndent: 50,
-          height: 50,
-          color: PlexColorPalette.gamboge,
-        ),
-        Expanded(
-          child: _offerings == null
-              ? Center(
-                  child: CircularProgressIndicator(
-                    color: Theme.of(context).accentColor,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Column(
+              children: const [
+                Text(
+                  LocaleKeys.donate_message_title,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
                   ),
-                )
-              : _offerings.all.isNotEmpty
-                  ? ListView(
-                      children: [
-                        DonateHeader(
-                          text: LocaleKeys.donate_one_time_heading.tr(),
-                        ),
-                        Card(
-                          child: ListTile(
-                            title: const Text(LocaleKeys.donate_cone).tr(),
-                            subtitle: const Text('\$1.99'),
-                            trailing: const FaIcon(
-                              FontAwesomeIcons.iceCream,
-                              color: TautulliColorPalette.not_white,
-                            ),
-                            onTap: () => _buyProduct(
-                              _offerings
-                                  .getOffering('default')
-                                  .getPackage('ice_cream'),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 8),
+                Text(
+                  LocaleKeys.donate_message_body,
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          const Divider(
+            indent: 50,
+            endIndent: 50,
+            height: 50,
+            color: PlexColorPalette.gamboge,
+          ),
+          Expanded(
+            child: _offerings == null
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).accentColor,
+                    ),
+                  )
+                : _offerings.all.isNotEmpty
+                    ? ListView(
+                        children: [
+                          DonateHeader(
+                            text: LocaleKeys.donate_one_time_heading.tr(),
+                          ),
+                          Card(
+                            child: ListTile(
+                              title: const Text(LocaleKeys.donate_cone).tr(),
+                              subtitle: const Text('\$1.99'),
+                              trailing: const FaIcon(
+                                FontAwesomeIcons.iceCream,
+                                color: TautulliColorPalette.not_white,
+                              ),
+                              onTap: () => _buyProduct(
+                                _offerings
+                                    .getOffering('default')
+                                    .getPackage('ice_cream'),
+                              ),
                             ),
                           ),
-                        ),
-                        Card(
-                          child: ListTile(
-                            title: const Text(LocaleKeys.donate_slice).tr(),
-                            subtitle: const Text('\$3.49'),
-                            trailing: const FaIcon(
-                              FontAwesomeIcons.pizzaSlice,
-                              color: TautulliColorPalette.not_white,
-                            ),
-                            onTap: () => _buyProduct(
-                              _offerings
-                                  .getOffering('default')
-                                  .getPackage('pizza'),
-                            ),
-                          ),
-                        ),
-                        Card(
-                          child: ListTile(
-                            title: const Text(LocaleKeys.donate_burger).tr(),
-                            subtitle: const Text('\$4.99'),
-                            trailing: const FaIcon(
-                              FontAwesomeIcons.hamburger,
-                              color: TautulliColorPalette.not_white,
-                            ),
-                            onTap: () => _buyProduct(
-                              _offerings
-                                  .getOffering('default')
-                                  .getPackage('hamburger'),
+                          Card(
+                            child: ListTile(
+                              title: const Text(LocaleKeys.donate_slice).tr(),
+                              subtitle: const Text('\$3.49'),
+                              trailing: const FaIcon(
+                                FontAwesomeIcons.pizzaSlice,
+                                color: TautulliColorPalette.not_white,
+                              ),
+                              onTap: () => _buyProduct(
+                                _offerings
+                                    .getOffering('default')
+                                    .getPackage('pizza'),
+                              ),
                             ),
                           ),
-                        ),
-                        Card(
-                          child: ListTile(
-                            title: const Text(LocaleKeys.donate_meal).tr(),
-                            subtitle: const Text('\$9.99'),
-                            trailing: const Icon(
-                              Icons.fastfood,
-                              color: TautulliColorPalette.not_white,
-                              size: 26,
-                            ),
-                            onTap: () => _buyProduct(
-                              _offerings
-                                  .getOffering('default')
-                                  .getPackage('meal'),
-                            ),
-                          ),
-                        ),
-                        const Divider(
-                          indent: 50,
-                          endIndent: 50,
-                          height: 50,
-                          color: PlexColorPalette.gamboge,
-                        ),
-                        DonateHeader(
-                          text: LocaleKeys.donate_recurring_heading.tr(),
-                        ),
-                        Card(
-                          child: ListTile(
-                            title: const Text(LocaleKeys.donate_tip_jar).tr(),
-                            subtitle: Text(
-                              '\$0.99/${LocaleKeys.donate_month.tr()}',
-                            ),
-                            trailing: FaIcon(
-                              FontAwesomeIcons.donate,
-                              color: _purchaserInfo.activeSubscriptions
-                                      .contains('subscription_tier_1')
-                                  ? PlexColorPalette.atlantis
-                                  : TautulliColorPalette.not_white,
-                              size: 26,
-                            ),
-                            onTap: () => _buyProduct(
-                              _offerings
-                                  .getOffering('default')
-                                  .getPackage('subscription_tier_1'),
+                          Card(
+                            child: ListTile(
+                              title: const Text(LocaleKeys.donate_burger).tr(),
+                              subtitle: const Text('\$4.99'),
+                              trailing: const FaIcon(
+                                FontAwesomeIcons.hamburger,
+                                color: TautulliColorPalette.not_white,
+                              ),
+                              onTap: () => _buyProduct(
+                                _offerings
+                                    .getOffering('default')
+                                    .getPackage('hamburger'),
+                              ),
                             ),
                           ),
-                        ),
-                        Card(
-                          child: ListTile(
-                            title: const Text(LocaleKeys.donate_big_tip).tr(),
-                            subtitle: Text(
-                              '\$1.99/${LocaleKeys.donate_month.tr()}',
-                            ),
-                            trailing: FaIcon(
-                              FontAwesomeIcons.donate,
-                              color: _purchaserInfo.activeSubscriptions
-                                      .contains('subscription_tier_2')
-                                  ? PlexColorPalette.atlantis
-                                  : TautulliColorPalette.not_white,
-                              size: 26,
-                            ),
-                            onTap: () => _buyProduct(
-                              _offerings
-                                  .getOffering('default')
-                                  .getPackage('subscription_tier_2'),
+                          Card(
+                            child: ListTile(
+                              title: const Text(LocaleKeys.donate_meal).tr(),
+                              subtitle: const Text('\$9.99'),
+                              trailing: const Icon(
+                                Icons.fastfood,
+                                color: TautulliColorPalette.not_white,
+                                size: 26,
+                              ),
+                              onTap: () => _buyProduct(
+                                _offerings
+                                    .getOffering('default')
+                                    .getPackage('meal'),
+                              ),
                             ),
                           ),
-                        ),
-                        Card(
-                          child: ListTile(
-                            title: const Text(LocaleKeys.donate_supporter).tr(),
-                            subtitle: Text(
-                              '\$4.99/${LocaleKeys.donate_month.tr()}',
-                            ),
-                            trailing: FaIcon(
-                              FontAwesomeIcons.donate,
-                              color: _purchaserInfo.activeSubscriptions
-                                      .contains('subscription_tier_3')
-                                  ? PlexColorPalette.atlantis
-                                  : TautulliColorPalette.not_white,
-                              size: 26,
-                            ),
-                            onTap: () => _buyProduct(
-                              _offerings
-                                  .getOffering('default')
-                                  .getPackage('subscription_tier_3'),
+                          const Divider(
+                            indent: 50,
+                            endIndent: 50,
+                            height: 50,
+                            color: PlexColorPalette.gamboge,
+                          ),
+                          DonateHeader(
+                            text: LocaleKeys.donate_recurring_heading.tr(),
+                          ),
+                          Card(
+                            child: ListTile(
+                              title: const Text(LocaleKeys.donate_tip_jar).tr(),
+                              subtitle: Text(
+                                '\$0.99/${LocaleKeys.donate_month.tr()}',
+                              ),
+                              trailing: FaIcon(
+                                FontAwesomeIcons.donate,
+                                color: _purchaserInfo.activeSubscriptions
+                                        .contains('subscription_tier_1')
+                                    ? PlexColorPalette.atlantis
+                                    : TautulliColorPalette.not_white,
+                                size: 26,
+                              ),
+                              onTap: () => _buyProduct(
+                                _offerings
+                                    .getOffering('default')
+                                    .getPackage('subscription_tier_1'),
+                              ),
                             ),
                           ),
-                        ),
-                        Card(
-                          child: ListTile(
-                            title: const Text(LocaleKeys.donate_patron).tr(),
-                            subtitle: Text(
-                              '\$9.99/${LocaleKeys.donate_month.tr()}',
-                            ),
-                            trailing: FaIcon(
-                              FontAwesomeIcons.donate,
-                              color: _purchaserInfo.activeSubscriptions
-                                      .contains('subscription_tier_4')
-                                  ? PlexColorPalette.atlantis
-                                  : TautulliColorPalette.not_white,
-                              size: 26,
-                            ),
-                            onTap: () => _buyProduct(
-                              _offerings
-                                  .getOffering('default')
-                                  .getPackage('subscription_tier_4'),
+                          Card(
+                            child: ListTile(
+                              title: const Text(LocaleKeys.donate_big_tip).tr(),
+                              subtitle: Text(
+                                '\$1.99/${LocaleKeys.donate_month.tr()}',
+                              ),
+                              trailing: FaIcon(
+                                FontAwesomeIcons.donate,
+                                color: _purchaserInfo.activeSubscriptions
+                                        .contains('subscription_tier_2')
+                                    ? PlexColorPalette.atlantis
+                                    : TautulliColorPalette.not_white,
+                                size: 26,
+                              ),
+                              onTap: () => _buyProduct(
+                                _offerings
+                                    .getOffering('default')
+                                    .getPackage('subscription_tier_2'),
+                              ),
                             ),
                           ),
+                          Card(
+                            child: ListTile(
+                              title: const Text(LocaleKeys.donate_supporter).tr(),
+                              subtitle: Text(
+                                '\$4.99/${LocaleKeys.donate_month.tr()}',
+                              ),
+                              trailing: FaIcon(
+                                FontAwesomeIcons.donate,
+                                color: _purchaserInfo.activeSubscriptions
+                                        .contains('subscription_tier_3')
+                                    ? PlexColorPalette.atlantis
+                                    : TautulliColorPalette.not_white,
+                                size: 26,
+                              ),
+                              onTap: () => _buyProduct(
+                                _offerings
+                                    .getOffering('default')
+                                    .getPackage('subscription_tier_3'),
+                              ),
+                            ),
+                          ),
+                          Card(
+                            child: ListTile(
+                              title: const Text(LocaleKeys.donate_patron).tr(),
+                              subtitle: Text(
+                                '\$9.99/${LocaleKeys.donate_month.tr()}',
+                              ),
+                              trailing: FaIcon(
+                                FontAwesomeIcons.donate,
+                                color: _purchaserInfo.activeSubscriptions
+                                        .contains('subscription_tier_4')
+                                    ? PlexColorPalette.atlantis
+                                    : TautulliColorPalette.not_white,
+                                size: 26,
+                              ),
+                              onTap: () => _buyProduct(
+                                _offerings
+                                    .getOffering('default')
+                                    .getPackage('subscription_tier_4'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : const Text(
+                        'Failed to load donation items.',
+                        style: TextStyle(
+                          fontSize: 18,
                         ),
-                      ],
-                    )
-                  : const Text(
-                      LocaleKeys.donate_load_failed,
-                      style: TextStyle(
-                        fontSize: 18,
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ).tr(),
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }
