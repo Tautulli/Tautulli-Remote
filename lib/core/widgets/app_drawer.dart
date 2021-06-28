@@ -120,7 +120,8 @@ class AppDrawer extends StatelessWidget {
                               size: 20,
                               color: TautulliColorPalette.not_white,
                             ),
-                            title: const Text(LocaleKeys.history_page_title.tr()),
+                            title:
+                                const Text(LocaleKeys.history_page_title).tr(),
                             onTap: () {
                               if (route.settings.name !=
                                   HistoryPage.routeName) {

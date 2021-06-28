@@ -241,25 +241,25 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                           ),
                         ],
                       ),
-                    ),
-                    TabBar(
-                      indicatorSize: TabBarIndicatorSize.label,
-                      tabs: [
-                        Tab(
-                          child:
-                              const Text(LocaleKeys.graphs_media_type_tab).tr(),
-                        ),
-                        Tab(
-                          child: const Text(LocaleKeys.graphs_stream_type_tab)
-                              .tr(),
-                        ),
-                        Tab(
-                          child: const Text(LocaleKeys.graphs_play_totals_tab)
-                              .tr(),
-                        ),
-                      ],
-                    ),
-                  ],
+                      TabBar(
+                        indicatorSize: TabBarIndicatorSize.label,
+                        tabs: [
+                          Tab(
+                            child: const Text(LocaleKeys.graphs_media_type_tab)
+                                .tr(),
+                          ),
+                          Tab(
+                            child: const Text(LocaleKeys.graphs_stream_type_tab)
+                                .tr(),
+                          ),
+                          Tab(
+                            child: const Text(LocaleKeys.graphs_play_totals_tab)
+                                .tr(),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

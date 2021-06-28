@@ -136,21 +136,21 @@ class _DonatePageContentState extends State<DonatePageContent> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Column(
-              children: const [
-                Text(
+              children: [
+                const Text(
                   LocaleKeys.donate_message_title,
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 8),
-                Text(
+                ).tr(),
+                const SizedBox(height: 8),
+                const Text(
                   LocaleKeys.donate_message_body,
                   style: TextStyle(fontSize: 16),
                   textAlign: TextAlign.center,
-                ),
+                ).tr(),
               ],
             ),
           ),
@@ -287,7 +287,8 @@ class _DonatePageContentState extends State<DonatePageContent> {
                           ),
                           Card(
                             child: ListTile(
-                              title: const Text(LocaleKeys.donate_supporter).tr(),
+                              title:
+                                  const Text(LocaleKeys.donate_supporter).tr(),
                               subtitle: Text(
                                 '\$4.99/${LocaleKeys.donate_month.tr()}',
                               ),
