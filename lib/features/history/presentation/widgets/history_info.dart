@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/ip_address_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../activity/domain/entities/geo_ip.dart';
 import '../../../activity/presentation/bloc/geo_ip_bloc.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -51,33 +53,33 @@ class _HistoryInfoState extends State<HistoryInfo> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _ItemRow(
-            title: 'USER',
+            title: LocaleKeys.history_details_user.tr(),
             item: _FormattedText(
               widget.maskSensitiveInfo
-                  ? '*Hidden User*'
+                  ? '*${LocaleKeys.masked_info_user.tr()}*'
                   : widget.item.friendlyName,
             ),
           ),
           _ItemRow(
-            title: 'PLATFORM',
+            title: LocaleKeys.history_details_platform.tr(),
             item: _FormattedText(
               widget.item.platform,
             ),
           ),
           if (widget.item.product != null)
             _ItemRow(
-              title: 'PRODUCT',
+              title: LocaleKeys.history_details_product.tr(),
               item: _FormattedText(widget.item.product),
             ),
           _ItemRow(
-            title: 'PLAYER',
+            title: LocaleKeys.history_details_player.tr(),
             item: _FormattedText(widget.item.player),
           ),
           _ItemRow(
-            title: 'IP ADDRESS',
+            title: LocaleKeys.history_details_ip_address.tr(),
             item: _FormattedText(
               widget.maskSensitiveInfo
-                  ? '*Hidden IP Address*'
+                  ? '*${LocaleKeys.masked_info_ip_address.tr()}*'
                   : widget.item.ipAddress,
             ),
           ),
@@ -92,10 +94,10 @@ class _HistoryInfoState extends State<HistoryInfo> {
 
                       if (widget.item.ipAddress != 'N/A') {
                         text = widget.maskSensitiveInfo
-                            ? '*Hidden Location*'
+                            ? '*${LocaleKeys.masked_info_location.tr()}*'
                             : '${geoIpItem.city}, ${geoIpItem.region} ${geoIpItem.code}';
                       } else {
-                        text = 'N/A';
+                        text = LocaleKeys.media_details_na.tr();
                       }
 
                       return _ItemRow(
@@ -105,9 +107,11 @@ class _HistoryInfoState extends State<HistoryInfo> {
                     }
                     return const SizedBox(height: 0, width: 0);
                   }
-                  return const _ItemRow(
+                  return _ItemRow(
                     title: '',
-                    item: _FormattedText('ERROR: IP Address not in GeoIP map'),
+                    item: _FormattedText(
+                      LocaleKeys.media_details_location_error.tr(),
+                    ),
                   );
                 }
                 return _ItemRow(
@@ -122,9 +126,11 @@ class _HistoryInfoState extends State<HistoryInfo> {
                           color: Theme.of(context).accentColor,
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 5),
-                        child: _FormattedText('Loading location data'),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: _FormattedText(
+                          LocaleKeys.media_details_location_loading.tr(),
+                        ),
                       ),
                     ],
                   ),
@@ -143,7 +149,7 @@ class _HistoryInfoState extends State<HistoryInfo> {
             ),
           ),
           _ItemRow(
-            title: 'DATE',
+            title: LocaleKeys.history_details_date.tr(),
             item: _FormattedText(
               TimeFormatHelper.cleanDateTime(
                 widget.item.date,
@@ -153,7 +159,7 @@ class _HistoryInfoState extends State<HistoryInfo> {
             ),
           ),
           _ItemRow(
-            title: 'STARTED',
+            title: LocaleKeys.history_details_started.tr(),
             item: _FormattedText(
               TimeFormatHelper.cleanDateTime(
                 widget.item.started,
@@ -163,7 +169,7 @@ class _HistoryInfoState extends State<HistoryInfo> {
             ),
           ),
           _ItemRow(
-            title: 'STOPPED',
+            title: LocaleKeys.history_details_stopped.tr(),
             item: _FormattedText(
               TimeFormatHelper.cleanDateTime(
                 widget.item.stopped,
@@ -173,19 +179,19 @@ class _HistoryInfoState extends State<HistoryInfo> {
             ),
           ),
           _ItemRow(
-            title: 'PAUSED',
+            title: LocaleKeys.history_details_paused.tr(),
             item: _FormattedText(
               TimeFormatHelper.pretty(widget.item.pausedCounter),
             ),
           ),
           _ItemRow(
-            title: 'DURATION',
+            title: LocaleKeys.general_details_duration.tr(),
             item: _FormattedText(
               TimeFormatHelper.pretty(widget.item.duration),
             ),
           ),
           _ItemRow(
-            title: 'WATCHED',
+            title: LocaleKeys.history_details_watched.tr(),
             item: _FormattedText('${widget.item.percentComplete}%'),
           ),
         ],

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,6 +16,7 @@ import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/icon_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library.dart';
 import '../bloc/libraries_bloc.dart';
@@ -109,7 +111,9 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: const AppDrawerIcon(),
-        title: const Text('Libraries'),
+        title: Text(
+          LocaleKeys.libraries_page_title.tr(),
+        ),
         actions: _appBarActions(),
       ),
       drawer: const AppDrawer(),
@@ -226,15 +230,15 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                       ),
                     );
                   } else {
-                    return const Expanded(
+                    return Expanded(
                       child: Center(
-                        child: Text(
-                          'No libraries found.',
+                        child: const Text(
+                          LocaleKeys.libraries_empty,
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                           ),
-                        ),
+                        ).tr(),
                       ),
                     );
                   }
@@ -285,7 +289,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
     return [
       PopupMenuButton(
         icon: _currentSortIcon(),
-        tooltip: 'Sort libraries',
+        tooltip: LocaleKeys.general_tooltip_sort_libraries.tr(),
         onSelected: (value) {
           List<String> values = value.split('|');
 
@@ -332,9 +336,9 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text('Name'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.general_filter_name).tr(),
                   ),
                 ],
               ),
@@ -357,9 +361,9 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text('Count'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.general_filter_count).tr(),
                   ),
                 ],
               ),
@@ -382,9 +386,9 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text('Duration'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.general_filter_duration).tr(),
                   ),
                 ],
               ),
@@ -406,9 +410,9 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text('Plays'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.general_filter_plays).tr(),
                   ),
                 ],
               ),
@@ -457,15 +461,15 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
   String _currentSortName() {
     switch (_orderColumn) {
       case ('section_name'):
-        return 'Name';
+        return LocaleKeys.general_filter_name.tr();
       case ('count,parent_count,child_count'):
-        return 'Count';
+        return LocaleKeys.general_filter_count.tr();
       case ('duration'):
-        return 'Duration';
+        return LocaleKeys.general_filter_duration.tr();
       case ('plays'):
-        return 'Plays';
+        return LocaleKeys.general_filter_name.tr();
       default:
-        return 'unknown';
+        return LocaleKeys.media_details_unknown.tr();
     }
   }
 }

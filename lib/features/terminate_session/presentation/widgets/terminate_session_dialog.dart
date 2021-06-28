@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/string_format_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../activity/domain/entities/activity.dart';
 
 Future<int> showTerminateSessionDialog({
@@ -14,7 +16,7 @@ Future<int> showTerminateSessionDialog({
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: const Text('Are you sure you want to terminate this stream?'),
+        title: Text('${LocaleKeys.termination_dialog_title.tr()}?'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -25,15 +27,16 @@ Future<int> showTerminateSessionDialog({
             TextFormField(
               controller: controller,
               maxLines: 2,
-              decoration: const InputDecoration(
-                  helperText: 'Terminate Message',
-                  hintText: 'The server owner has ended the stream.'),
+              decoration: InputDecoration(
+                helperText: LocaleKeys.termination_terminate_message_label.tr(),
+                hintText: '${LocaleKeys.termination_default_message.tr()}.',
+              ),
             ),
           ],
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('CANCEL'),
+            child: const Text(LocaleKeys.button_cancel).tr(),
             onPressed: () {
               Navigator.of(context).pop(0);
             },
@@ -41,7 +44,7 @@ Future<int> showTerminateSessionDialog({
           Padding(
             padding: const EdgeInsets.only(right: 4),
             child: TextButton(
-              child: const Text('TERMINATE'),
+              child: const Text(LocaleKeys.button_terminate).tr(),
               style: TextButton.styleFrom(
                 backgroundColor: Colors.red,
               ),
@@ -121,7 +124,9 @@ class _TerminateSessionMediaInfo extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text(
-            maskSensitiveInfo ? '*Hidden User*' : activity.friendlyName,
+            maskSensitiveInfo
+                ? '*${LocaleKeys.masked_info_user.tr()}*'
+                : activity.friendlyName,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).accentColor,

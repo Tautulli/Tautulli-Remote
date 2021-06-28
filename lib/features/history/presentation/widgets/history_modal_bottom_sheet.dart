@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiver/strings.dart';
@@ -8,6 +9,7 @@ import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/poster_chooser.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../activity/presentation/bloc/geo_ip_bloc.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
@@ -207,11 +209,11 @@ class HistoryModalBottomSheet extends StatelessWidget {
                           primary: PlexColorPalette.gamboge,
                         ),
                         child: const Text(
-                          'View User',
+                          LocaleKeys.button_view_user,
                           style: TextStyle(
                             color: TautulliColorPalette.not_white,
                           ),
-                        ),
+                        ).tr(),
                       ),
                     ),
                   ),
@@ -249,11 +251,11 @@ class HistoryModalBottomSheet extends StatelessWidget {
                           primary: PlexColorPalette.curious_blue,
                         ),
                         child: const Text(
-                          'View Media',
+                          LocaleKeys.button_view_media,
                           style: TextStyle(
                             color: TautulliColorPalette.not_white,
                           ),
-                        ),
+                        ).tr(),
                       ),
                     ),
                   ),

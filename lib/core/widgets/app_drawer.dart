@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,6 +15,7 @@ import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/statistics/presentation/pages/statistics_page.dart';
 import '../../features/synced_items/presentation/pages/synced_items_page.dart';
 import '../../features/users/presentation/pages/users_page.dart';
+import '../../translations/locale_keys.g.dart';
 import '../helpers/color_palette_helper.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -94,7 +96,9 @@ class AppDrawer extends StatelessWidget {
                               size: 20,
                               color: TautulliColorPalette.not_white,
                             ),
-                            title: const Text('Activity'),
+                            title: Text(
+                              LocaleKeys.activity_page_title.tr(),
+                            ),
                             onTap: () {
                               if (route.settings.name !=
                                       ActivityPage.routeName &&
@@ -116,7 +120,7 @@ class AppDrawer extends StatelessWidget {
                               size: 20,
                               color: TautulliColorPalette.not_white,
                             ),
-                            title: const Text('History'),
+                            title: const Text(LocaleKeys.history_page_title.tr()),
                             onTap: () {
                               if (route.settings.name !=
                                   HistoryPage.routeName) {
@@ -137,7 +141,9 @@ class AppDrawer extends StatelessWidget {
                               size: 20,
                               color: TautulliColorPalette.not_white,
                             ),
-                            title: const Text('Recently Added'),
+                            title: Text(
+                              LocaleKeys.recently_added_page_title.tr(),
+                            ),
                             onTap: () {
                               if (route.settings.name !=
                                   RecentlyAddedPage.routeName) {
@@ -158,7 +164,9 @@ class AppDrawer extends StatelessWidget {
                               size: 20,
                               color: TautulliColorPalette.not_white,
                             ),
-                            title: const Text('Libraries'),
+                            title: Text(
+                              LocaleKeys.libraries_page_title.tr(),
+                            ),
                             onTap: () {
                               if (route.settings.name !=
                                   LibrariesPage.routeName) {
@@ -179,7 +187,9 @@ class AppDrawer extends StatelessWidget {
                               size: 20,
                               color: TautulliColorPalette.not_white,
                             ),
-                            title: const Text('Users'),
+                            title: Text(
+                              LocaleKeys.users_page_title.tr(),
+                            ),
                             onTap: () {
                               if (route.settings.name != UsersPage.routeName) {
                                 Navigator.of(context)
@@ -199,7 +209,9 @@ class AppDrawer extends StatelessWidget {
                               size: 20,
                               color: TautulliColorPalette.not_white,
                             ),
-                            title: const Text('Statistics'),
+                            title: Text(
+                              LocaleKeys.statistics_page_title.tr(),
+                            ),
                             onTap: () {
                               if (route.settings.name !=
                                   StatisticsPage.routeName) {
@@ -220,7 +232,9 @@ class AppDrawer extends StatelessWidget {
                               size: 20,
                               color: TautulliColorPalette.not_white,
                             ),
-                            title: const Text('Graphs'),
+                            title: Text(
+                              LocaleKeys.graphs_page_title.tr(),
+                            ),
                             onTap: () {
                               if (route.settings.name != GraphsPage.routeName) {
                                 Navigator.of(context)
@@ -240,7 +254,9 @@ class AppDrawer extends StatelessWidget {
                               size: 20,
                               color: TautulliColorPalette.not_white,
                             ),
-                            title: const Text('Synced Items'),
+                            title: Text(
+                              LocaleKeys.synced_items_page_title.tr(),
+                            ),
                             onTap: () {
                               if (route.settings.name !=
                                   SyncedItemsPage.routeName) {
@@ -271,7 +287,9 @@ class AppDrawer extends StatelessWidget {
                       size: 20,
                       color: TautulliColorPalette.not_white,
                     ),
-                    title: const Text('Announcements'),
+                    title: Text(
+                      LocaleKeys.announcements_page_title.tr(),
+                    ),
                     onTap: () {
                       if (route.settings.name != AnnouncementsPage.routeName) {
                         Navigator.pop(context);
@@ -309,7 +327,9 @@ class AppDrawer extends StatelessWidget {
                       size: 20,
                       color: Colors.red[400],
                     ),
-                    title: const Text('Donate'),
+                    title: Text(
+                      LocaleKeys.donate_page_title.tr(),
+                    ),
                     onTap: () {
                       if (route.settings.name != DonatePage.routeName) {
                         Navigator.pop(context);
@@ -329,7 +349,9 @@ class AppDrawer extends StatelessWidget {
                       size: 20,
                       color: TautulliColorPalette.not_white,
                     ),
-                    title: const Text('Settings'),
+                    title: Text(
+                      LocaleKeys.settings_page_title.tr(),
+                    ),
                     onTap: () {
                       if (route.settings.name != SettingsPage.routeName) {
                         Navigator.of(context)

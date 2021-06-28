@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -7,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../bloc/load_logs_bloc.dart';
 import '../widgets/log_table.dart';
 
@@ -45,7 +47,7 @@ class _LogsPageContentState extends State<_LogsPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: const Text('Tautulli Remote Logs'),
+        title: const Text(LocaleKeys.logs_page_title).tr(),
         actions: <Widget>[
           PopupMenuButton(
             onSelected: (value) async {
@@ -64,12 +66,12 @@ class _LogsPageContentState extends State<_LogsPageContent> {
               return null;
             },
             itemBuilder: (context) => [
-              const PopupMenuItem(
-                child: Text('Export logs'),
+              PopupMenuItem(
+                child: const Text(LocaleKeys.logs_export).tr(),
                 value: 'export',
               ),
-              const PopupMenuItem(
-                child: Text('Clear logs'),
+              PopupMenuItem(
+                child: const Text(LocaleKeys.logs_clear).tr(),
                 value: 'clear',
               ),
             ],
@@ -88,9 +90,9 @@ class _LogsPageContentState extends State<_LogsPageContent> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 backgroundColor: PlexColorPalette.shark,
-                content: const Text('Logs exported'),
+                content: const Text(LocaleKeys.logs_exported).tr(),
                 action: SnackBarAction(
-                  label: 'HOW TO ACCESS LOGS',
+                  label: LocaleKeys.button_access_logs.tr(),
                   onPressed: () async {
                     await launch(
                       'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#logs',
@@ -104,11 +106,11 @@ class _LogsPageContentState extends State<_LogsPageContent> {
         },
         builder: (context, state) {
           if (state is LogsFailure) {
-            return const Center(
-              child: Text(
-                'Failed to load logs',
+            return Center(
+              child: const Text(
+                LocaleKeys.logs_failed,
                 style: TextStyle(fontSize: 18),
-              ),
+              ).tr(),
             );
           }
           if (state is LogsExportInProgress) {
@@ -140,16 +142,17 @@ Future _showClearLogsDialog({
     builder: (context) {
       return AlertDialog(
         title: const Text(
-            'Are you sure you want to clear the Tautulli Remote logs?'),
+          LocaleKeys.logs_clear_dialog_title,
+        ).tr(),
         actions: <Widget>[
           TextButton(
-            child: const Text('CANCEL'),
+            child: const Text(LocaleKeys.button_cancel).tr(),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: const Text('CONFIRM'),
+            child: const Text(LocaleKeys.button_confirm).tr(),
             style: TextButton.styleFrom(
               backgroundColor: Colors.red,
             ),

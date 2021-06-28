@@ -1,10 +1,11 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:quiver/strings.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
@@ -17,6 +18,7 @@ import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../terminate_session/presentation/bloc/terminate_session_bloc.dart';
 import '../../domain/entities/activity.dart';
@@ -99,7 +101,9 @@ class _ActivityPageContentState extends State<ActivityPageContent>
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: const AppDrawerIcon(),
-        title: const Text('Activity'),
+        title: Text(
+          LocaleKeys.activity_page_title.tr(),
+        ),
       ),
       drawer: const AppDrawer(),
       body: DoubleTapExit(
@@ -175,7 +179,8 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                             ),
                     );
                   } else {
-                    return const Text('ERROR: Settings not loaded');
+                    return const Text(LocaleKeys.settings_not_loaded_error)
+                        .tr();
                   }
                 },
               );
@@ -220,10 +225,10 @@ Widget _buildSingleServerActivity({
         physics: const AlwaysScrollableScrollPhysics(),
         child: Container(
           height: constraints.maxHeight,
-          child: const Center(
+          child: Center(
             child: Text(
-              'Nothing is currently being played.',
-              style: TextStyle(fontSize: 18),
+              '${LocaleKeys.activity_empty.tr()}.',
+              style: const TextStyle(fontSize: 18),
             ),
           ),
         ),
@@ -248,15 +253,25 @@ Widget _buildSingleServerActivity({
 
   return BlocProvider<TerminateSessionBloc>(
     create: (context) => di.sl<TerminateSessionBloc>(),
-    child: ListView(
-      children: [
-        StickyHeader(
-          header: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-            child: BandwidthHeader(bandwidthMap: bandwidthMap),
+    child: CustomScrollView(
+      slivers: [
+        SliverStickyHeader(
+          header: DecoratedBox(
+            decoration: const BoxDecoration(
+              color: TautulliColorPalette.midnight,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+              child: BandwidthHeader(bandwidthMap: bandwidthMap),
+            ),
           ),
-          content: Column(
-            children: serverActivityList,
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return serverActivityList[index];
+              },
+              childCount: serverActivityList.length,
+            ),
           ),
         ),
       ],
@@ -327,8 +342,9 @@ Widget _buildMultiserverActivity({
         }
       } else {
         serverActivityList.add(
-          const _StatusCard(
-              customMessage: 'Nothing is currently being played.'),
+          _StatusCard(
+            customMessage: '${LocaleKeys.activity_empty.tr()}.',
+          ),
         );
       }
     }
@@ -343,23 +359,23 @@ Widget _buildMultiserverActivity({
     }
 
     activityWidgetList.add(
-      StickyHeader(
-        header: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ServerHeader(
-              color: TautulliColorPalette.midnight,
-              serverName: serverData['plex_name'],
-              state: serverData['loadingState'],
-              secondWidget: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: BandwidthHeader(bandwidthMap: serverData['bandwidth']),
-              ),
-            ),
-          ],
+      SliverStickyHeader(
+        header: ServerHeader(
+          color: TautulliColorPalette.midnight,
+          serverName: serverData['plex_name'],
+          state: serverData['loadingState'],
+          secondWidget: Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: BandwidthHeader(bandwidthMap: serverData['bandwidth']),
+          ),
         ),
-        content: Column(
-          children: serverActivityList,
+        sliver: SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return serverActivityList[index];
+            },
+            childCount: serverActivityList.length,
+          ),
         ),
       ),
     );
@@ -369,8 +385,8 @@ Widget _buildMultiserverActivity({
     create: (context) => di.sl<TerminateSessionBloc>(),
     child: Padding(
       padding: const EdgeInsets.only(top: 4),
-      child: ListView(
-        children: activityWidgetList,
+      child: CustomScrollView(
+        slivers: activityWidgetList,
       ),
     ),
   );
@@ -424,7 +440,9 @@ class _StatusCard extends StatelessWidget {
                   bottom: 4,
                 ),
                 child: Text(
-                  isNotEmpty(failureMessage) ? failureMessage : 'Unknown Error',
+                  isNotEmpty(failureMessage)
+                      ? failureMessage
+                      : LocaleKeys.general_unknown_error.tr(),
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 16,

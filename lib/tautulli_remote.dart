@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +26,7 @@ import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/statistics/presentation/pages/statistics_page.dart';
 import 'features/synced_items/presentation/pages/synced_items_page.dart';
+import 'features/translate/presentation/pages/translate_page.dart';
 import 'features/users/presentation/pages/users_page.dart';
 import 'features/wizard/presentation/pages/wizard_page.dart';
 import 'injection_container.dart' as di;
@@ -160,6 +162,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     }
 
     return MaterialApp(
+      supportedLocales: context.supportedLocales,
+      localizationsDelegates: context.localizationDelegates,
+      locale: context.locale,
       title: 'Tautulli Remote',
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -217,19 +222,20 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       routes: {
         ActivityPage.routeName: (ctx) => const ActivityPage(),
         AnnouncementsPage.routeName: (ctx) => const AnnouncementsPage(),
-        HistoryPage.routeName: (ctx) => const HistoryPage(),
-        RecentlyAddedPage.routeName: (ctx) => const RecentlyAddedPage(),
-        LibrariesPage.routeName: (ctx) => const LibrariesPage(),
-        UsersPage.routeName: (ctx) => const UsersPage(),
-        StatisticsPage.routeName: (ctx) => const StatisticsPage(),
-        GraphsPage.routeName: (ctx) => const GraphsPage(),
-        SyncedItemsPage.routeName: (ctx) => const SyncedItemsPage(),
-        HelpPage.routeName: (ctx) => const HelpPage(),
-        DonatePage.routeName: (ctx) => const DonatePage(),
-        SettingsPage.routeName: (ctx) => const SettingsPage(),
-        PrivacyPage.routeName: (ctx) => const PrivacyPage(),
-        LogsPage.routeName: (ctx) => const LogsPage(),
         ChangelogPage.routeName: (ctx) => const ChangelogPage(),
+        TranslatePage.routeName: (ctx) => const TranslatePage(),
+        DonatePage.routeName: (ctx) => const DonatePage(),
+        GraphsPage.routeName: (ctx) => const GraphsPage(),
+        HelpPage.routeName: (ctx) => const HelpPage(),
+        HistoryPage.routeName: (ctx) => const HistoryPage(),
+        LibrariesPage.routeName: (ctx) => const LibrariesPage(),
+        LogsPage.routeName: (ctx) => const LogsPage(),
+        PrivacyPage.routeName: (ctx) => const PrivacyPage(),
+        RecentlyAddedPage.routeName: (ctx) => const RecentlyAddedPage(),
+        SettingsPage.routeName: (ctx) => const SettingsPage(),
+        StatisticsPage.routeName: (ctx) => const StatisticsPage(),
+        SyncedItemsPage.routeName: (ctx) => const SyncedItemsPage(),
+        UsersPage.routeName: (ctx) => const UsersPage(),
         WizardPage.routeName: (ctx) => const WizardPage(),
       },
       initialRoute: widget.showWizard

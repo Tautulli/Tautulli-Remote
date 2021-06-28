@@ -1,11 +1,13 @@
 import 'dart:io' show Platform;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
@@ -144,15 +146,20 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textBlock1 = LocaleKeys.privacy_text_block_1.tr().split('%');
+    final textBlock2 = LocaleKeys.privacy_text_block_2.tr().split('%');
+    final textBlock3 = LocaleKeys.privacy_text_block_3.tr().split('%');
+    final textBlock4 = LocaleKeys.privacy_text_block_4.tr().split('%');
+
     return RichText(
       text: TextSpan(
         style: const TextStyle(fontSize: 16),
         children: [
           const TextSpan(
-            text: 'Tautulli Remote uses ',
+            text: textBlock1[0],
           ),
           TextSpan(
-            text: 'OneSignal',
+            text: textBlock1[1],
             style: TextStyle(
               color: Theme.of(context).accentColor,
             ),
@@ -162,13 +169,13 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
               },
           ),
           const TextSpan(
-            text: ' to handle delivery of notifications.',
+            ext: textBlock1[2],
           ),
           const TextSpan(
-            text: '\n\nWith ',
+           text: '\n\n${textBlock2[0]}',
           ),
           TextSpan(
-            text: 'encryption enabled',
+            text: textBlock2[1],
             style: TextStyle(
               color: Theme.of(context).accentColor,
             ),
@@ -179,11 +186,10 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
               },
           ),
           const TextSpan(
-            text:
-                ' in Tautulli there is no Personally Identifiable Information (PII) collected. Some non-PII user information is collected and cannot be encrypted. Read the ',
+            text: textBlock2[2],
           ),
           TextSpan(
-            text: 'OneSignal Privacy Policy',
+            text: textBlock2[3],
             style: TextStyle(
               color: Theme.of(context).accentColor,
             ),
@@ -193,15 +199,13 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
               },
           ),
           const TextSpan(
-            text:
-                ' for more details. Without encryption the contents of the notifications are sent to OneSignal in plain text.',
+            text: textBlock2[4],
           ),
           const TextSpan(
-            text:
-                '\n\nNotification data sent through OneSignal\'s API will be ',
+            text: '\n\n${textBlock3[0]}',
           ),
           TextSpan(
-            text: 'deleted after ~30 days',
+            text: textBlock3[1],
             style: TextStyle(
               color: Theme.of(context).accentColor,
             ),
@@ -212,11 +216,10 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
               },
           ),
           const TextSpan(
-            text: '.',
+            text: textBlock3[2],
           ),
           const TextSpan(
-            text:
-                '\n\nOnce you accept, this device will register with OneSignal. Consent can be revoked to prevent further communication with OneSignal.',
+            text: '\n\n${textBlock4[0]}',
           ),
         ],
       ),

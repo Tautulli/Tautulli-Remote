@@ -44,6 +44,9 @@ If this is a new bug, open a [bug report](https://github.com/Tautulli/Tautulli-R
 
 2. If this is a new feature request, open a [feature request](https://github.com/Tautulli/Tautulli-Remote/issues/new/choose) on the issues tracker.
 
+## Translations
+[Weblate](https://hosted.weblate.org/engage/tautulli-remote/) is used for translations and your help with localizing Tautulli Remote would be greatly appreciated! If your language is missing please open a [feature request](https://github.com/Tautulli/Tautulli-Remote/issues/new/choose).
+
 ## License
 [![GPLv3](https://img.shields.io/badge/License-GPLv3%20License-orange?style=flat-square)](https://github.com/Tautulli/Tautulli-Remote/blob/master/Licence)
 

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -10,6 +11,7 @@ import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/tools/debouncer.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/poster_chooser.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../terminate_session/presentation/bloc/terminate_session_bloc.dart';
 import '../../../terminate_session/presentation/widgets/terminate_session_dialog.dart';
@@ -77,9 +79,11 @@ class _ActivityCardState extends State<ActivityCard> {
               _debouncer.run(
                 () {
                   return ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
+                    SnackBar(
                       backgroundColor: PlexColorPalette.shark,
-                      content: Text('Photo streams cannot be terminated.'),
+                      content: Text(
+                        '${LocaleKeys.termination_photo_alert.tr()}.',
+                      ),
                     ),
                   );
                 },
@@ -88,9 +92,11 @@ class _ActivityCardState extends State<ActivityCard> {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               _debouncer.run(
                 () => ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
+                  SnackBar(
                     backgroundColor: PlexColorPalette.shark,
-                    content: Text('Synced content cannot be terminated.'),
+                    content: Text(
+                      '${LocaleKeys.termination_synced_alert.tr()}.',
+                    ),
                   ),
                 ),
               );
@@ -134,10 +140,11 @@ class _ActivityCardState extends State<ActivityCard> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: Colors.green,
-                                content: const Text(
-                                    'Termination request sent to Plex.'),
+                                content: Text(
+                                  '${LocaleKeys.termination_request_sent_alert.tr()}.',
+                                ),
                                 action: SnackBarAction(
-                                  label: 'LEARN MORE',
+                                  label: LocaleKeys.button_learn_more.tr(),
                                   onPressed: () async {
                                     await launch(
                                       'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#termination_caveats',
@@ -174,7 +181,7 @@ class _ActivityCardState extends State<ActivityCard> {
                                   message: _terminateMessageController.text !=
                                           null
                                       ? _terminateMessageController.text
-                                      : 'The server owner has ended the stream.',
+                                      : '${LocaleKeys.termination_default_message.tr()}',
                                   settingsBloc: settingsBloc,
                                 ),
                               );
@@ -309,7 +316,7 @@ class _ActivityCardState extends State<ActivityCard> {
                                             Text(
                                               settingsLoadSuccess
                                                       .maskSensitiveInfo
-                                                  ? '*Hidden User*'
+                                                  ? '*${LocaleKeys.masked_info_user.tr()}*'
                                                   : activity.friendlyName,
                                             ),
                                             //* Time left or Live tv channel

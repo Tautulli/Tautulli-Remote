@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,6 +8,7 @@ import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../core/widgets/bottom_row_loader.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../history/domain/entities/history.dart';
 import '../../../history/presentation/bloc/history_individual_bloc.dart';
 import '../../../history/presentation/widgets/history_modal_bottom_sheet.dart';
@@ -133,8 +135,8 @@ class _MediaHistoryTabContentState extends State<MediaHistoryTabContent> {
         }
         if (state is HistoryIndividualSuccess) {
           return state.list.isEmpty
-              ? const Center(
-                  child: Text('No History'),
+              ? Center(
+                  child: const Text(LocaleKeys.history_empty).tr(),
                 )
               : MediaQuery.removePadding(
                   context: context,
@@ -304,7 +306,7 @@ class _HistoryRow extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(maskSensitiveInfo
-                              ? '*Hidden User*'
+                              ? '*${LocaleKeys.masked_info_user}*'
                               : history.friendlyName),
                           if (['show', 'season', 'artist', 'album']
                               .contains(mediaType))

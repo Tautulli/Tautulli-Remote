@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:validators/validators.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../bloc/settings_bloc.dart';
 
 class ServerSettingsPage extends StatelessWidget {
@@ -31,7 +33,7 @@ class ServerSettingsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text('$plexName Settings'),
+        title: Text('$plexName ${LocaleKeys.settings_page_title.tr()}'),
         actions: <Widget>[
           IconButton(
             icon: const FaIcon(
@@ -65,13 +67,17 @@ class ServerSettingsPage extends StatelessWidget {
               return ListView(
                 children: <Widget>[
                   ListTile(
-                    title: const Text('Primary Connection Address'),
+                    title: const Text(
+                            LocaleKeys.settings_primary_connection_address)
+                        .tr(),
                     subtitle: isEmpty(server.primaryConnectionAddress)
-                        ? const Text('Required')
+                        ? const Text(LocaleKeys.settings_required).tr()
                         : isNotEmpty(server.primaryConnectionAddress) &&
                                 !maskSensitiveInfo
                             ? Text(server.primaryConnectionAddress)
-                            : const Text('*Hidden Connection Address*'),
+                            : Text(
+                                '*${LocaleKeys.masked_info_connection_address.tr()}*',
+                              ),
                     trailing: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
@@ -87,10 +93,10 @@ class ServerSettingsPage extends StatelessWidget {
                       child: Text(
                         isNotEmpty(server.primaryConnectionAddress) &&
                                 server.primaryActive
-                            ? 'Active'
+                            ? LocaleKeys.settings_active.tr()
                             : isNotEmpty(server.primaryConnectionAddress)
-                                ? 'Passive'
-                                : 'Disabled',
+                                ? LocaleKeys.settings_passive.tr()
+                                : LocaleKeys.settings_disabled.tr(),
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           color: server.primaryActive
@@ -117,22 +123,27 @@ class ServerSettingsPage extends StatelessWidget {
                         );
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
+                          SnackBar(
                             backgroundColor: PlexColorPalette.shark,
-                            content: Text('Copied to clipboard'),
+                            content:
+                                const Text(LocaleKeys.settings_copied).tr(),
                           ),
                         );
                       }
                     },
                   ),
                   ListTile(
-                    title: const Text('Secondary Connection Address'),
+                    title: const Text(
+                            LocaleKeys.settings_secondary_connection_address)
+                        .tr(),
                     subtitle: isEmpty(server.secondaryConnectionAddress)
-                        ? const Text('Not configured')
+                        ? const Text(LocaleKeys.settings_not_configured).tr()
                         : isNotEmpty(server.secondaryConnectionAddress) &&
                                 !maskSensitiveInfo
                             ? Text(server.secondaryConnectionAddress)
-                            : const Text('*Hidden Connection Address*'),
+                            : Text(
+                                '*${LocaleKeys.masked_info_connection_address.tr()}*',
+                              ),
                     trailing: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
@@ -147,10 +158,10 @@ class ServerSettingsPage extends StatelessWidget {
                       ),
                       child: Text(
                         isEmpty(server.secondaryConnectionAddress)
-                            ? 'Disabled'
+                            ? LocaleKeys.settings_disabled.tr()
                             : !server.primaryActive
-                                ? 'Active'
-                                : 'Passive',
+                                ? LocaleKeys.settings_active.tr()
+                                : LocaleKeys.settings_passive.tr(),
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           color: !server.primaryActive
@@ -178,9 +189,10 @@ class ServerSettingsPage extends StatelessWidget {
                         );
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
+                          SnackBar(
                             backgroundColor: PlexColorPalette.shark,
-                            content: Text('Copied to clipboard'),
+                            content:
+                                const Text(LocaleKeys.settings_copied).tr(),
                           ),
                         );
                       }
@@ -188,14 +200,14 @@ class ServerSettingsPage extends StatelessWidget {
                   ),
                   ListTile(
                     title: const Text(
-                      'Device Token',
+                      LocaleKeys.settings_device_token,
                       style: TextStyle(
                         color: Colors.grey,
                       ),
-                    ),
+                    ).tr(),
                     subtitle: Text(
                       maskSensitiveInfo
-                          ? '*Hidden Device Token*'
+                          ? '*${LocaleKeys.masked_device_token.tr()}*'
                           : server.deviceToken,
                       style: const TextStyle(
                         color: Colors.grey,
@@ -206,9 +218,11 @@ class ServerSettingsPage extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: PlexColorPalette.shark,
-                          content: const Text('Device tokens cannot be edited'),
+                          content: const Text(
+                                  LocaleKeys.settings_copy_device_token_message)
+                              .tr(),
                           action: SnackBarAction(
-                            label: 'LEARN MORE',
+                            label: LocaleKeys.button_learn_more.tr(),
                             onPressed: () async {
                               await launch(
                                 'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#device_tokens',
@@ -226,9 +240,10 @@ class ServerSettingsPage extends StatelessWidget {
                         );
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
+                          SnackBar(
                             backgroundColor: PlexColorPalette.shark,
-                            content: Text('Copied to clipboard'),
+                            content:
+                                const Text(LocaleKeys.settings_copied).tr(),
                           ),
                         );
                       }
@@ -241,7 +256,9 @@ class ServerSettingsPage extends StatelessWidget {
                     ),
                   ),
                   ListTile(
-                    title: Text('Open ${server.plexName} in browser'),
+                    title: const Text(LocaleKeys.settings_open_server).tr(
+                      args: [server.plexName],
+                    ),
                     trailing: const FaIcon(
                       FontAwesomeIcons.externalLinkAlt,
                       color: TautulliColorPalette.not_white,
@@ -258,7 +275,9 @@ class ServerSettingsPage extends StatelessWidget {
                 ],
               );
             } catch (error) {
-              return Text('Server not found in settings [$error]');
+              return const Text(
+                LocaleKeys.settings_server_error,
+              ).tr(args: [error]);
             }
           }
           return const Text('Bloc error');
@@ -285,13 +304,15 @@ Future _buildPrimaryConnectionAddressSettingsDialog({
         controller.text = primaryConnectionAddress;
       }
       return AlertDialog(
-        title: const Text('Tautulli Primary Connection Address'),
+        title: const Text(LocaleKeys.settings_primary_connection_dialog_title)
+            .tr(),
         content: Form(
           key: _primaryConnectionFormKey,
           child: TextFormField(
             controller: controller,
-            decoration: const InputDecoration(
-                hintText: 'Input your primary connection address'),
+            decoration: InputDecoration(
+              hintText: LocaleKeys.settings_primary_connection_dialog_hint.tr(),
+            ),
             validator: (value) {
               bool validUrl = isURL(
                 value,
@@ -299,7 +320,8 @@ Future _buildPrimaryConnectionAddressSettingsDialog({
                 requireProtocol: true,
               );
               if (validUrl == false) {
-                return 'Please enter a valid URL format';
+                return LocaleKeys.settings_connection_address_validation_message
+                    .tr();
               }
               return null;
             },
@@ -307,13 +329,13 @@ Future _buildPrimaryConnectionAddressSettingsDialog({
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text("CLOSE"),
+            child: const Text(LocaleKeys.button_close).tr(),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: const Text("SAVE"),
+            child: const Text(LocaleKeys.button_save).tr(),
             onPressed: () {
               if (_primaryConnectionFormKey.currentState.validate()) {
                 settingsBloc.add(
@@ -350,13 +372,16 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
         controller.text = secondaryConnectionAddress;
       }
       return AlertDialog(
-        title: const Text('Tautulli Secondary Connection Address'),
+        title: const Text(LocaleKeys.settings_secondary_connection_dialog_title)
+            .tr(),
         content: Form(
           key: _secondaryConnectionFormKey,
           child: TextFormField(
             controller: controller,
-            decoration: const InputDecoration(
-                hintText: 'Input your secondary connection address'),
+            decoration: InputDecoration(
+              hintText:
+                  LocaleKeys.settings_secondary_connection_dialog_hint.tr(),
+            ),
             validator: (value) {
               bool validUrl = isURL(
                 value,
@@ -364,7 +389,8 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
                 requireProtocol: true,
               );
               if (isNotEmpty(controller.text) && validUrl == false) {
-                return 'Please enter a valid URL format';
+                return LocaleKeys.settings_connection_address_validation_message
+                    .tr();
               }
               return null;
             },
@@ -372,13 +398,13 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text("CLOSE"),
+            child: const Text(LocaleKeys.button_close).tr(),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: const Text("SAVE"),
+            child: const Text(LocaleKeys.button_save).tr(),
             onPressed: () {
               if (_secondaryConnectionFormKey.currentState.validate()) {
                 settingsBloc.add(
@@ -407,16 +433,18 @@ Future<bool> _showDeleteServerDialog({
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: Text('Are you sure you want to remove $plexName?'),
+        title: const Text(
+          LocaleKeys.settings_server_delete_dialog_title,
+        ).tr(args: [plexName]),
         actions: <Widget>[
           TextButton(
-            child: const Text('CANCEL'),
+            child: const Text(LocaleKeys.button_cancel).tr(),
             onPressed: () {
               Navigator.of(context).pop(false);
             },
           ),
           TextButton(
-            child: const Text('CONFIRM'),
+            child: const Text(LocaleKeys.button_confirm).tr(),
             style: TextButton.styleFrom(
               backgroundColor: Colors.red,
             ),

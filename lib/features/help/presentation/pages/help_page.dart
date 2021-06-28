@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/list_header.dart';
+import '../../../../translations/locale_keys.g.dart';
 
 class HelpPage extends StatelessWidget {
   const HelpPage({Key key}) : super(key: key);
@@ -15,13 +17,13 @@ class HelpPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: const Text('Help & Support'),
+        title: const Text(LocaleKeys.help_page_title).tr(),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 8),
         child: ListView(
           children: [
-            const ListHeader(headingText: 'Help Topics'),
+            ListHeader(headingText: LocaleKeys.help_help_topics_heading.tr()),
             ListTile(
               title: const Text('Secondary Connection Address'),
               trailing: const FaIcon(
@@ -62,7 +64,7 @@ class HelpPage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 15),
-            const ListHeader(headingText: 'Support'),
+            ListHeader(headingText: LocaleKeys.help_support_heading.tr()),
             ListTile(
               title: const Text('Wiki'),
               trailing: const FaIcon(
@@ -99,7 +101,7 @@ class HelpPage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 15),
-            const ListHeader(headingText: 'Bugs/Feature Requests'),
+            ListHeader(headingText: LocaleKeys.help_bugs_features_heading.tr()),
             ListTile(
               title: const Text('GitHub'),
               trailing: const FaIcon(
@@ -113,9 +115,9 @@ class HelpPage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 15),
-            const ListHeader(headingText: 'Logs'),
+            ListHeader(headingText: LocaleKeys.help_logs_heading.tr()),
             ListTile(
-              title: const Text('View Tautulli Remote logs'),
+              title: const Text(LocaleKeys.help_tautulli_remote_logs).tr(),
               trailing: const FaIcon(
                 FontAwesomeIcons.angleRight,
                 color: TautulliColorPalette.smoke,

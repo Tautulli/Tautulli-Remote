@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,7 @@ import '../../../../core/helpers/data_unit_format_helper.dart';
 import '../../../../core/helpers/string_format_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../core/widgets/error_message.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../domain/entities/metadata_item.dart';
 import '../bloc/metadata_bloc.dart';
 
@@ -143,8 +145,8 @@ class _TabContent extends StatelessWidget {
                                       ),
                                       child: Text(
                                         controller.expanded
-                                            ? "READ LESS"
-                                            : "READ MORE",
+                                            ? LocaleKeys.general_read_more.tr()
+                                            : LocaleKeys.general_read_less.tr(),
                                         style: const TextStyle(
                                           fontSize: 13,
                                         ),
@@ -183,7 +185,7 @@ class _TabContent extends StatelessWidget {
               if (metadata.childrenCount != null &&
                   isNotEmpty(metadata.subMediaType))
                 _ItemRow(
-                  title: 'ITEMS',
+                  title: LocaleKeys.media_details_items.tr(),
                   item: [
                     '${metadata.childrenCount} ${StringFormatHelper.capitalize(metadata.subMediaType)}${(metadata.childrenCount > 1 ? "s" : "")}'
                   ],
@@ -191,25 +193,25 @@ class _TabContent extends StatelessWidget {
               if (metadata.childrenCount != null &&
                   isNotEmpty(metadata.playlistType))
                 _ItemRow(
-                  title: 'ITEMS',
+                  title: LocaleKeys.media_details_items.tr(),
                   item: [
                     '${metadata.childrenCount} ${StringFormatHelper.capitalize(metadata.playlistType)}${(metadata.childrenCount > 1 ? "s" : "")}'
                   ],
                 ),
               if (metadata.minYear != null && metadata.maxYear != null)
                 _ItemRow(
-                  title: 'YEAR',
+                  title: LocaleKeys.media_details_year.tr(),
                   item: ['${metadata.minYear} - ${metadata.maxYear}'],
                 ),
               if (isNotEmpty(metadata.studio))
                 _ItemRow(
-                  title: 'STUDIO',
+                  title: LocaleKeys.media_details_studio.tr(),
                   item: [metadata.studio],
                 ),
               if (metadata.mediaType == 'show' &&
                   isNotEmpty(metadata.year.toString()))
                 _ItemRow(
-                  title: 'AIRED',
+                  title: LocaleKeys.media_details_aired.tr(),
                   item: [metadata.year.toString()],
                 ),
               if ([
@@ -219,12 +221,14 @@ class _TabContent extends StatelessWidget {
                   ].contains(metadata.mediaType) &&
                   isNotEmpty(formattedOriginallyAvailableAt))
                 _ItemRow(
-                  title: metadata.mediaType == 'episode' ? 'AIRED' : 'TAKEN',
+                  title: metadata.mediaType == 'episode'
+                    ? LocaleKeys.media_details_aired.tr()
+                    : LocaleKeys.media_details_taken.tr(),
                   item: [formattedOriginallyAvailableAt],
                 ),
               if (metadata.duration != null)
                 _ItemRow(
-                  title: 'RUNTIME',
+                  title: LocaleKeys.media_details_runtime.tr(),
                   item: [
                     metadata.duration != null
                         ? TimeFormatHelper.pretty(metadata.duration ~/ 1000)
@@ -233,27 +237,27 @@ class _TabContent extends StatelessWidget {
                 ),
               if (isNotEmpty(metadata.contentRating))
                 _ItemRow(
-                  title: 'RATED',
+                  title: LocaleKeys.media_details_rated.tr(),
                   item: [metadata.contentRating],
                 ),
               if (metadata.genres != null && metadata.genres.isNotEmpty)
                 _ItemRow(
-                  title: 'GENRES',
+                  title: LocaleKeys.media_details_genres.tr(),
                   item: metadata.genres,
                 ),
               if (metadata.directors != null && metadata.directors.isNotEmpty)
                 _ItemRow(
-                  title: 'DIRECTED BY',
+                  title: LocaleKeys.media_details_directed_by.tr(),
                   item: metadata.directors,
                 ),
               if (metadata.writers != null && metadata.writers.isNotEmpty)
                 _ItemRow(
-                  title: 'WRITTEN BY',
+                  title: LocaleKeys.media_details_written_by.tr(),
                   item: metadata.writers,
                 ),
               if (metadata.genres != null && metadata.actors.isNotEmpty)
                 _ItemRow(
-                  title: 'STARRING',
+                  title: LocaleKeys.media_details_starring.tr(),
                   item: metadata.actors,
                 ),
               if (isNotEmpty(metadata.container) ||
@@ -274,31 +278,31 @@ class _TabContent extends StatelessWidget {
                 ),
               if (isNotEmpty(metadata.container))
                 _ItemRow(
-                  title: 'CONTAINER',
+                  title: LocaleKeys.media_details_container.tr(),
                   item: [metadata.container.toUpperCase()],
                 ),
               if (isNotEmpty(formattedFullVideoResolution))
                 _ItemRow(
-                  title: 'VIDEO',
+                  title: LocaleKeys.media_details_video.tr(),
                   item: [
                     '$formattedFullVideoResolution (${metadata.videoCodec.toUpperCase()})'
                   ],
                 ),
               if (metadata.audioChannels != null)
                 _ItemRow(
-                  title: 'AUDIO',
+                  title: LocaleKeys.media_details_audio.tr(),
                   item: [
                     '${MediaFlagsCleaner.audioChannels(metadata.audioChannels.toString())} (${metadata.audioCodec.toUpperCase()})'
                   ],
                 ),
               if (metadata.bitrate != null)
                 _ItemRow(
-                  title: 'BITRATE',
+                  title: LocaleKeys.media_details_bitrate.tr(),
                   item: [DataUnitFormatHelper.bitrate(metadata.bitrate)],
                 ),
               if (metadata.fileSize != null)
                 _ItemRow(
-                  title: 'FILE SIZE',
+                  title: LocaleKeys.media_details_file_size.tr(),
                   item: [
                     DataUnitFormatHelper.prettyFilesize(metadata.fileSize)
                   ],

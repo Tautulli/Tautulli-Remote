@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/string_mapper_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../bloc/statistics_bloc.dart';
 import '../pages/single_statistic_type_page.dart';
 
@@ -46,9 +48,10 @@ class StatisticsHeading extends StatelessWidget {
           : () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
+                SnackBar(
                   backgroundColor: PlexColorPalette.shark,
-                  content: Text('No additional items for this statistic'),
+                  content: const Text(LocaleKeys.statistics_no_additional_items)
+                      .tr(),
                 ),
               );
             },

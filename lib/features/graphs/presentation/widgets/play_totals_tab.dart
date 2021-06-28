@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/graph_state.dart';
 import '../bloc/play_totals_graphs_bloc.dart';
@@ -80,8 +82,13 @@ class _PlayTotalsTabState extends State<PlayTotalsTab> {
             child: ListView(
               children: [
                 GraphHeading(
-                  graphHeading:
-                      'Total Play ${widget.yAxis == 'plays' ? 'Count' : 'Duration'} for Last 12 Months',
+                  graphHeading: LocaleKeys.graphs_play_totals_last_12_months.tr(
+                    args: [
+                      widget.yAxis == 'plays'
+                          ? LocaleKeys.general_filter_count.tr()
+                          : LocaleKeys.general_filter_duration.tr(),
+                    ],
+                  ),
                 ),
                 (state is PlayTotalsGraphsLoaded &&
                         state.playsPerMonth.graphCurrentState !=

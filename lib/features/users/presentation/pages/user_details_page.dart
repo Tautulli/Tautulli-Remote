@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -9,6 +10,7 @@ import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../core/widgets/user_icon.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/user_table.dart';
 import '../bloc/user_bloc.dart';
@@ -246,7 +248,7 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                                   children: [
                                     Text(
                                       _maskSensitiveInfo
-                                          ? '*Hidden User*'
+                                          ? '*${LocaleKeys.masked_info_user.tr()}*'
                                           : widget.user.friendlyName,
                                       style: const TextStyle(
                                         fontSize: 20,
@@ -260,8 +262,9 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                                           ? RichText(
                                               text: TextSpan(
                                                 children: [
-                                                  const TextSpan(
-                                                    text: 'STREAMED ',
+                                                  TextSpan(
+                                                    text:
+                                                        '${LocaleKeys.general_details_streamed.tr()} ',
                                                   ),
                                                   TextSpan(
                                                     text: widget.user
@@ -285,15 +288,18 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                                                     return RichText(
                                                       text: TextSpan(
                                                         children: [
-                                                          const TextSpan(
-                                                            text: 'STREAMED ',
+                                                          TextSpan(
+                                                            text:
+                                                                '${LocaleKeys.general_details_streamed.tr()} ',
                                                           ),
                                                           TextSpan(
                                                             text: state.user
                                                                         .lastSeen !=
                                                                     null
                                                                 ? '${TimeFormatHelper.timeAgo(state.user.lastSeen)}'
-                                                                : 'never',
+                                                                : LocaleKeys
+                                                                    .general_never
+                                                                    .tr(),
                                                             style:
                                                                 const TextStyle(
                                                               color:
@@ -322,14 +328,18 @@ class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
                             length: 2,
                             child: Column(
                               children: [
-                                const TabBar(
+                                TabBar(
                                   indicatorSize: TabBarIndicatorSize.label,
                                   tabs: [
                                     Tab(
-                                      child: Text('Stats'),
+                                      child: const Text(
+                                        LocaleKeys.general_details_tab_stats,
+                                      ).tr(),
                                     ),
                                     Tab(
-                                      child: Text('History'),
+                                      child: const Text(
+                                        LocaleKeys.history_page_title,
+                                      ).tr(),
                                     ),
                                   ],
                                 ),

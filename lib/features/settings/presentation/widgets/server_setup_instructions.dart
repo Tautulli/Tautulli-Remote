@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/text_list.dart';
+import '../../../../translations/locale_keys.g.dart';
 
 class ServerSetupInstructions extends StatelessWidget {
   final bool showWarning;
@@ -21,25 +23,25 @@ class ServerSetupInstructions extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: Text(
-              'This app is not registered to a Tautulli server.',
+              LocaleKeys.settings_setup_instructions_warning,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: fontSize,
               ),
-            ),
+            ).tr(),
           ),
         Text(
-          'To register with a Tautulli server:',
+          LocaleKeys.settings_setup_instructions_line_1,
           style: TextStyle(fontSize: fontSize),
-        ),
+        ).tr(),
         const SizedBox(height: 4),
-        const TextList(
+        TextList(
           numberedList: true,
           textItems: [
-            'Open the Tautulli web interface on another device.',
-            'Navigate to Settings > Tautulli Remote App.',
-            'Select "Register a new device".',
-            'Use the button below to register with the server.'
+            LocaleKeys.settings_setup_instructions_line_2.tr(),
+            LocaleKeys.settings_setup_instructions_line_3.tr(),
+            LocaleKeys.settings_setup_instructions_line_4.tr(),
+            LocaleKeys.settings_setup_instructions_line_5.tr(),
           ],
           fontSize: 16,
         ),

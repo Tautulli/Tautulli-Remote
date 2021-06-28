@@ -2,7 +2,7 @@ Map changelog = {
   "data": [
     {
       "version": "v2.10.0",
-      "date": "May 29, 2021",
+      "date": "June 16, 2021",
       "changes": [
         {
           "type": "important",
@@ -13,6 +13,11 @@ Map changelog = {
           "type": "new",
           "detail":
               "There is now a Startup Wizard to improve the setup experience for new users",
+        },
+        {
+          "type": "new",
+          "detail":
+              "Localization has been added, help translate under Settings > Help Translate",
         },
         {
           "type": "improvement",

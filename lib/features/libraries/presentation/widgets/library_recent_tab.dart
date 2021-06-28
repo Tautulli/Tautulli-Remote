@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -5,6 +6,7 @@ import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../recent/presentation/bloc/libraries_recently_added_bloc.dart';
@@ -152,7 +154,9 @@ class __LibraryRecentTabContentState extends State<_LibraryRecentTabContent> {
           );
         }
         if (state is LibrariesRecentlyAddedFailure) {
-          return const Text('FAILURE');
+          return const Text(
+            LocaleKeys.libraries_details_recent_tab_failure,
+          ).tr();
         }
         return Center(
           child: CircularProgressIndicator(

@@ -1,11 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -187,10 +189,11 @@ class FabButton extends StatelessWidget {
                     final result = await _showSkipDialog(
                       context,
                       currentWizardStage == WizardStage.oneSignal
-                          ? 'You will need to consent to the OneSignal data privacy later if you wish to use Tautulli Remote to receive push notifications.'
+                          ? LocaleKeys.wizard_skip_dialog_message_privacy.tr()
                           : currentWizardStage == WizardStage.servers
-                              ? 'You have not yet registered with any Tautulli servers.'
-                              : 'UNKNOWN',
+                              ? LocaleKeys.wizard_skip_dialog_message_servers
+                                  .tr()
+                              : LocaleKeys.general_unknown_error.tr(),
                     );
                     if (result) {
                       context.read<WizardBloc>().add(
@@ -255,16 +258,16 @@ Future<bool> _showQuitDialog(BuildContext context) {
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: const Text('Are you sure you want to quit the Setup Wizard?'),
+        title: const Text(LocaleKeys.wizard_quit_dialog_title).tr(),
         actions: <Widget>[
           TextButton(
-            child: const Text('CANCEL'),
+            child: const Text(LocaleKeys.button_cancel).tr(),
             onPressed: () {
               Navigator.of(context).pop(false);
             },
           ),
           TextButton(
-            child: const Text('QUIT'),
+            child: const Text(LocaleKeys.button_quit).tr(),
             style: TextButton.styleFrom(
               backgroundColor: Theme.of(context).errorColor,
             ),
@@ -288,19 +291,19 @@ Future<bool> _showSkipDialog(BuildContext context, String message) {
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: const Text('Are you sure you want to skip?'),
+        title: const Text(LocaleKeys.wizard_skip_dialog_title).tr(),
         content: Text(
           message,
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('CANCEL'),
+            child: const Text(LocaleKeys.button_cancel).tr(),
             onPressed: () {
               Navigator.of(context).pop(false);
             },
           ),
           TextButton(
-            child: const Text('SKIP'),
+            child: const Text(LocaleKeys.button_skip).tr(),
             onPressed: () {
               Navigator.of(context).pop(true);
             },

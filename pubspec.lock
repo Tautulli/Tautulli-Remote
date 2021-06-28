@@ -260,6 +260,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.6"
+  easy_localization:
+    dependency: "direct main"
+    description:
+      name: easy_localization
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
+  easy_logger:
+    dependency: transitive
+    description:
+      name: easy_logger
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   equatable:
     dependency: "direct main"
     description:
@@ -377,6 +391,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.0"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -388,6 +407,13 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_slidable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.0"
+  flutter_sticky_header:
+    dependency: "direct main"
+    description:
+      name: flutter_sticky_header
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.0"
@@ -512,7 +538,7 @@ packages:
       name: onesignal_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0-beta4"
+    version: "3.0.0"
   package_config:
     dependency: transitive
     description:
@@ -812,13 +838,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
-  sticky_headers:
-    dependency: "direct main"
-    description:
-      name: sticky_headers
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0"
   stream_channel:
     dependency: transitive
     description:
@@ -910,6 +929,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+  value_layout_builder:
+    dependency: transitive
+    description:
+      name: value_layout_builder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1"
   vector_math:
     dependency: transitive
     description:

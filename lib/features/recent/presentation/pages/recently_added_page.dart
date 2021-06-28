@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,6 +15,7 @@ import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../media/domain/entities/media_item.dart';
 import '../../../media/presentation/pages/media_item_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -105,7 +107,9 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: const AppDrawerIcon(),
-        title: const Text('Recently Added'),
+        title: Text(
+          LocaleKeys.recently_added_page_title.tr(),
+        ),
         actions: _appBarActions(),
       ),
       drawer: const AppDrawer(),
@@ -230,18 +234,20 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                       child: Center(
                         child: _mediaType == 'all'
                             ? const Text(
-                                'No recently added items.',
+                                LocaleKeys.recently_added_empty,
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16,
                                 ),
-                              )
-                            : Text(
-                                'No recently added items for ${_mediaTypeToTitle(_mediaType)}.',
-                                style: const TextStyle(
+                              ).tr()
+                            : const Text(
+                                LocaleKeys.recently_added_empty_filter,
+                                style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16,
                                 ),
+                              ).tr(
+                                args: [_mediaTypeToTitle(_mediaType)],
                               ),
                       ),
                     );
@@ -318,7 +324,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
               ? Theme.of(context).accentColor
               : TautulliColorPalette.not_white,
         ),
-        tooltip: 'Filter media type',
+        tooltip: LocaleKeys.general_tooltip_filter_media_type.tr(),
         onSelected: (value) {
           if (_mediaType != value) {
             setState(() {
@@ -334,57 +340,57 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
           return [
             PopupMenuItem(
               child: Text(
-                'All',
+                LocaleKeys.general_all,
                 style: TextStyle(
                   color: _mediaType == 'all'
                       ? Theme.of(context).accentColor
                       : TautulliColorPalette.not_white,
                 ),
-              ),
+              ).tr(),
               value: 'all',
             ),
             PopupMenuItem(
               child: Text(
-                'Movies',
+                LocaleKeys.general_movies,
                 style: TextStyle(
                   color: _mediaType == 'movie'
                       ? Theme.of(context).accentColor
                       : TautulliColorPalette.not_white,
                 ),
-              ),
+              ).tr(),
               value: 'movie',
             ),
             PopupMenuItem(
               child: Text(
-                'TV Shows',
+                LocaleKeys.general_tv_shows,
                 style: TextStyle(
                   color: _mediaType == 'show'
                       ? Theme.of(context).accentColor
                       : TautulliColorPalette.not_white,
                 ),
-              ),
+              ).tr(),
               value: 'show',
             ),
             PopupMenuItem(
               child: Text(
-                'Music',
+                LocaleKeys.general_music,
                 style: TextStyle(
                   color: _mediaType == 'artist'
                       ? Theme.of(context).accentColor
                       : TautulliColorPalette.not_white,
                 ),
-              ),
+              ).tr(),
               value: 'artist',
             ),
             PopupMenuItem(
               child: Text(
-                'Videos',
+                LocaleKeys.general_videos,
                 style: TextStyle(
                   color: _mediaType == 'other_video'
                       ? Theme.of(context).accentColor
                       : TautulliColorPalette.not_white,
                 ),
-              ),
+              ).tr(),
               value: 'other_video',
             ),
           ];
@@ -397,14 +403,14 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
 String _mediaTypeToTitle(String mediaType) {
   switch (mediaType) {
     case ('movie'):
-      return 'Movies';
+      return LocaleKeys.general_movies.tr();
     case ('show'):
-      return 'TV Shows';
+      return LocaleKeys.general_tv_shows.tr();
     case ('artist'):
-      return 'Music';
+      return LocaleKeys.general_music.tr();
     case ('other_video'):
-      return 'Videos';
+      return LocaleKeys.general_videos.tr();
     default:
-      return 'unknown';
+      return LocaleKeys.media_details_unknown.tr();
   }
 }

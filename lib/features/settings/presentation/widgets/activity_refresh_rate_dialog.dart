@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../translations/locale_keys.g.dart';
 import '../bloc/settings_bloc.dart';
 
 class ActivityRefreshRateDialog extends StatefulWidget {
@@ -38,40 +40,45 @@ class _ActivityRefreshRateDialogState extends State<ActivityRefreshRateDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: const Text('Activity Refresh Rate'),
+      title: const Text(LocaleKeys.settings_activity_refresh_rate).tr(),
       children: <Widget>[
         RadioListTile(
-          title: const Text('5 sec - Faster'),
+          title: Text(
+              '5 ${LocaleKeys.general_details_sec.tr()} - ${LocaleKeys.settings_faster.tr()}'),
           value: 5,
           groupValue: _refresh,
           onChanged: (value) => _refreshRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('7 sec - Fast'),
+          title: Text(
+              '7 ${LocaleKeys.general_details_sec.tr()} - ${LocaleKeys.settings_fast.tr()}'),
           value: 7,
           groupValue: _refresh,
           onChanged: (value) => _refreshRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('10 sec - Normal'),
+          title: Text(
+              '10 ${LocaleKeys.general_details_sec.tr()} - ${LocaleKeys.settings_normal.tr()}'),
           value: 10,
           groupValue: _refresh,
           onChanged: (value) => _refreshRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('15 sec - Slow'),
+          title: Text(
+              '15 ${LocaleKeys.general_details_sec.tr()} - ${LocaleKeys.settings_slow.tr()}'),
           value: 15,
           groupValue: _refresh,
           onChanged: (value) => _refreshRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('20 sec - Slower'),
+          title: Text(
+              '20 ${LocaleKeys.general_details_sec.tr()} - ${LocaleKeys.settings_slower.tr()}'),
           value: 20,
           groupValue: _refresh,
           onChanged: (value) => _refreshRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('Disabled'),
+          title: const Text(LocaleKeys.settings_disabled).tr(),
           value: 0,
           groupValue: _refresh,
           onChanged: (value) => _refreshRadioValueChanged(value),

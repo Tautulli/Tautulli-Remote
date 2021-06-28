@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../translations/locale_keys.g.dart';
 import '../bloc/settings_bloc.dart';
 
 class ServerTimeoutDialog extends StatefulWidget {
@@ -37,34 +39,36 @@ class _ServerTimeoutDialogState extends State<ServerTimeoutDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: const Text('Server Timeout'),
+      title: const Text(LocaleKeys.settings_server_timeout).tr(),
       children: <Widget>[
         RadioListTile(
-          title: const Text('3 sec'),
+          title: Text('3 ${LocaleKeys.general_details_sec.tr()}'),
           value: 3,
           groupValue: _timeout,
           onChanged: (value) => _timeoutRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('5 sec'),
+          title: Text('5 ${LocaleKeys.general_details_sec.tr()}'),
           value: 5,
           groupValue: _timeout,
           onChanged: (value) => _timeoutRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('8 sec'),
+          title: Text('8 ${LocaleKeys.general_details_sec.tr()}'),
           value: 8,
           groupValue: _timeout,
           onChanged: (value) => _timeoutRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('15 sec (Default)'),
+          title: Text(
+            '15 ${LocaleKeys.general_details_sec.tr()} (${LocaleKeys.settings_default.tr()})',
+          ),
           value: 15,
           groupValue: _timeout,
           onChanged: (value) => _timeoutRadioValueChanged(value),
         ),
         RadioListTile(
-          title: const Text('30 sec'),
+          title: Text('30 ${LocaleKeys.general_details_sec.tr()}'),
           value: 30,
           groupValue: _timeout,
           onChanged: (value) => _timeoutRadioValueChanged(value),

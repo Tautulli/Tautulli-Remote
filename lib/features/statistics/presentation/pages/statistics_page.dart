@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,6 +18,7 @@ import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../core/widgets/user_card.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../libraries/domain/entities/library.dart';
 import '../../../libraries/presentation/pages/library_details_page.dart';
 import '../../../media/domain/entities/media_item.dart';
@@ -118,7 +120,9 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: const AppDrawerIcon(),
-        title: const Text('Statistics'),
+        title: Text(
+          LocaleKeys.statistics_page_title.tr(),
+        ),
         actions: _appBarActions(),
       ),
       drawer: const AppDrawer(),
@@ -201,15 +205,15 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                       ),
                     );
                   } else {
-                    return const Expanded(
+                    return Expanded(
                       child: Center(
-                        child: Text(
-                          'No stats to show for the selected period.',
+                        child: const Text(
+                          LocaleKeys.statistics_filter_empty,
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                           ),
-                        ),
+                        ).tr(),
                       ),
                     );
                   }
@@ -265,7 +269,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
           size: 20,
           color: TautulliColorPalette.not_white,
         ),
-        tooltip: 'Stats type',
+        tooltip: LocaleKeys.general_tooltip_stats_type.tr(),
         onSelected: (value) {
           if (value != _statsType) {
             setState(() {
@@ -296,13 +300,13 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: Text(
-                      'Plays',
+                      LocaleKeys.general_filter_plays,
                       style: TextStyle(
                         color: _statsType == 'plays'
                             ? Theme.of(context).accentColor
                             : TautulliColorPalette.not_white,
                       ),
-                    ),
+                    ).tr(),
                   ),
                 ],
               ),
@@ -321,13 +325,13 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: Text(
-                      'Duration',
+                      LocaleKeys.general_filter_duration,
                       style: TextStyle(
                         color: _statsType == 'duration'
                             ? Theme.of(context).accentColor
                             : TautulliColorPalette.not_white,
                       ),
-                    ),
+                    ).tr(),
                   ),
                 ],
               ),
@@ -346,7 +350,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                 size: 20,
                 color: TautulliColorPalette.not_white,
               ),
-              tooltip: 'Time range',
+              tooltip: LocaleKeys.general_tooltip_time_range.tr(),
               onSelected: (value) {
                 if (_timeRange != value) {
                   if (value > 0) {
@@ -369,7 +373,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                 return [
                   PopupMenuItem(
                     child: Text(
-                      '7 Days',
+                      '7 ${LocaleKeys.general_filter_days.tr()}',
                       style: TextStyle(
                         color: _timeRange == 7
                             ? Theme.of(context).accentColor
@@ -380,7 +384,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                   ),
                   PopupMenuItem(
                     child: Text(
-                      '30 Days',
+                      '30 ${LocaleKeys.general_filter_days.tr()}',
                       style: TextStyle(
                         color: _timeRange == 30
                             ? Theme.of(context).accentColor
@@ -391,7 +395,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                   ),
                   PopupMenuItem(
                     child: Text(
-                      '90 Days',
+                      '90 ${LocaleKeys.general_filter_days.tr()}',
                       style: TextStyle(
                         color: _timeRange == 90
                             ? Theme.of(context).accentColor
@@ -403,8 +407,8 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                   PopupMenuItem(
                     child: Text(
                       [7, 30, 90].contains(_timeRange)
-                          ? 'Custom'
-                          : 'Custom ($_timeRange Days)',
+                          ? '${LocaleKeys.general_filter_custom.tr()}'
+                          : '${LocaleKeys.general_filter_custom.tr()} ($_timeRange ${LocaleKeys.general_filter_days.tr()})',
                       style: TextStyle(
                         color: ![7, 30, 90].contains(_timeRange)
                             ? Theme.of(context).accentColor
@@ -456,18 +460,21 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
         final _customTimeRangeFormKey = GlobalKey<FormState>();
 
         return AlertDialog(
-          title: const Text('Custom Time Range'),
+          title: const Text(LocaleKeys.general_time_range_dialog_title).tr(),
           content: Form(
             key: _customTimeRangeFormKey,
             child: TextFormField(
               keyboardType: TextInputType.number,
-              decoration:
-                  const InputDecoration(hintText: 'Enter a time range in days'),
+              decoration: InputDecoration(
+                  hintText:
+                      LocaleKeys.general_time_range_dialog_hint_text.tr()),
               validator: (value) {
                 if (!isNumeric(value)) {
-                  return 'Please enter an integer';
+                  return LocaleKeys.general_time_range_dialog_validator_integer
+                      .tr();
                 } else if (int.tryParse(value) < 1) {
-                  return 'Please enter an integer larger than 0';
+                  return LocaleKeys.general_time_range_dialog_validator_larger_0
+                      .tr();
                 }
 
                 setState(() {
@@ -480,13 +487,13 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
           ),
           actions: [
             TextButton(
-              child: const Text("CLOSE"),
+              child: const Text(LocaleKeys.button_close).tr(),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text("SAVE"),
+              child: const Text(LocaleKeys.button_save).tr(),
               onPressed: () {
                 if (_customTimeRangeFormKey.currentState.validate()) {
                   _statisticsBloc.add(

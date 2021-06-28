@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,6 +13,7 @@ import '../../../../core/widgets/app_drawer_icon.dart';
 import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/media_type_graphs_bloc.dart';
 import '../bloc/play_totals_graphs_bloc.dart';
@@ -110,7 +112,9 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: const Text('Graphs'),
+        title: Text(
+          LocaleKeys.graphs_page_title.tr(),
+        ),
         leading: const AppDrawerIcon(),
         actions: _appBarActions(),
       ),
@@ -237,8 +241,25 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    TabBar(
+                      indicatorSize: TabBarIndicatorSize.label,
+                      tabs: [
+                        Tab(
+                          child:
+                              const Text(LocaleKeys.graphs_media_type_tab).tr(),
+                        ),
+                        Tab(
+                          child: const Text(LocaleKeys.graphs_stream_type_tab)
+                              .tr(),
+                        ),
+                        Tab(
+                          child: const Text(LocaleKeys.graphs_play_totals_tab)
+                              .tr(),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -258,7 +279,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
           size: 20,
           color: TautulliColorPalette.not_white,
         ),
-        tooltip: 'Y Axis',
+        tooltip: LocaleKeys.general_tooltip_y_axis.tr(),
         onSelected: (value) {
           if (value != _yAxis) {
             setState(() {
@@ -306,13 +327,13 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: Text(
-                      'Plays',
+                      LocaleKeys.general_filter_plays,
                       style: TextStyle(
                         color: _yAxis == 'plays'
                             ? Theme.of(context).accentColor
                             : TautulliColorPalette.not_white,
                       ),
-                    ),
+                    ).tr(),
                   ),
                 ],
               ),
@@ -331,13 +352,13 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: Text(
-                      'Duration',
+                      LocaleKeys.general_filter_duration,
                       style: TextStyle(
                         color: _yAxis == 'duration'
                             ? Theme.of(context).accentColor
                             : TautulliColorPalette.not_white,
                       ),
-                    ),
+                    ).tr(),
                   ),
                 ],
               ),
@@ -356,7 +377,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                 size: 20,
                 color: TautulliColorPalette.not_white,
               ),
-              tooltip: 'Time range',
+              tooltip: LocaleKeys.general_tooltip_time_range.tr(),
               onSelected: (value) {
                 if (_timeRange != value) {
                   if (value > 0) {
@@ -388,7 +409,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                 return [
                   PopupMenuItem(
                     child: Text(
-                      '7 Days',
+                      '7 ${LocaleKeys.general_filter_days.tr()}',
                       style: TextStyle(
                         color: _timeRange == 7
                             ? Theme.of(context).accentColor
@@ -399,7 +420,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                   ),
                   PopupMenuItem(
                     child: Text(
-                      '14 Days',
+                      '14 ${LocaleKeys.general_filter_days.tr()}',
                       style: TextStyle(
                         color: _timeRange == 14
                             ? Theme.of(context).accentColor
@@ -410,7 +431,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                   ),
                   PopupMenuItem(
                     child: Text(
-                      '30 Days',
+                      '30 ${LocaleKeys.general_filter_days.tr()}',
                       style: TextStyle(
                         color: _timeRange == 30
                             ? Theme.of(context).accentColor
@@ -422,8 +443,8 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                   PopupMenuItem(
                     child: Text(
                       [7, 14, 30].contains(_timeRange)
-                          ? 'Custom'
-                          : 'Custom ($_timeRange Days)',
+                          ? LocaleKeys.general_filter_custom.tr()
+                          : '${LocaleKeys.general_filter_custom.tr()} ($_timeRange ${LocaleKeys.general_filter_days.tr()})',
                       style: TextStyle(
                         color: ![7, 14, 30].contains(_timeRange)
                             ? Theme.of(context).accentColor
@@ -475,7 +496,7 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
         final _customTimeRangeFormKey = GlobalKey<FormState>();
 
         return AlertDialog(
-          title: const Text('Custom Time Range'),
+          title: const Text(LocaleKeys.general_time_range_dialog_title).tr(),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -484,13 +505,17 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                 key: _customTimeRangeFormKey,
                 child: TextFormField(
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      hintText: 'Enter a time range in days'),
+                  decoration: InputDecoration(
+                    hintText:
+                        LocaleKeys.general_time_range_dialog_hint_text.tr(),
+                  ),
                   validator: (value) {
                     if (!isNumeric(value)) {
-                      return 'Please enter an integer';
+                      return LocaleKeys
+                          .general_time_range_dialog_validator_integer;
                     } else if (int.tryParse(value) < 2) {
-                      return 'Please enter an integer larger than 1';
+                      return LocaleKeys
+                          .general_time_range_dialog_validator_larger_1;
                     }
 
                     setState(() {
@@ -503,22 +528,22 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
               ),
               const SizedBox(height: 16),
               const Text(
-                'It is recommended you do not exceed 90 days for most screen sizes.',
+                LocaleKeys.general_time_range_dialog_notice,
                 style: TextStyle(
                   color: Colors.grey,
                 ),
-              ),
+              ).tr(),
             ],
           ),
           actions: [
             TextButton(
-              child: const Text("CLOSE"),
+              child: const Text(LocaleKeys.button_close).tr(),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text("SAVE"),
+              child: const Text(LocaleKeys.button_save).tr(),
               onPressed: () {
                 if (_customTimeRangeFormKey.currentState.validate()) {
                   _mediaTypeGraphsBloc.add(

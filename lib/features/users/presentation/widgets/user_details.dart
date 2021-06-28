@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../domain/entities/user_table.dart';
 
 class UsersDetails extends StatelessWidget {
@@ -21,20 +23,22 @@ class UsersDetails extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          maskSensitiveInfo ? '*Hidden User*' : user.friendlyName ?? '',
+          maskSensitiveInfo
+              ? '*${LocaleKeys.masked_info_user.tr()}*'
+              : user.friendlyName ?? '',
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontSize: 18),
         ),
         RichText(
           text: TextSpan(
             children: [
-              const TextSpan(
-                text: 'STREAMED ',
+              TextSpan(
+                text: '${LocaleKeys.general_details_streamed.tr()} ',
               ),
               TextSpan(
                 text: user.lastSeen != null
                     ? '${TimeFormatHelper.timeAgo(user.lastSeen)}'
-                    : 'never',
+                    : LocaleKeys.general_never.tr(),
                 style: const TextStyle(
                   color: PlexColorPalette.gamboge,
                 ),
@@ -55,8 +59,8 @@ class UsersDetails extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: [
-          const TextSpan(
-            text: 'PLAYS ',
+          TextSpan(
+            text: '${LocaleKeys.general_details_plays.tr()} ',
           ),
           TextSpan(
             text: user.plays.toString(),
@@ -69,8 +73,8 @@ class UsersDetails extends StatelessWidget {
               durationMap['hour'] > 1 ||
               durationMap['min'] > 1 ||
               durationMap['sec'] > 1)
-            const TextSpan(
-              text: 'DURATION ',
+            TextSpan(
+              text: '${LocaleKeys.general_details_duration.tr()} ',
             ),
           if (durationMap['day'] > 0)
             TextSpan(
@@ -81,8 +85,8 @@ class UsersDetails extends StatelessWidget {
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                const TextSpan(
-                  text: ' days ',
+                TextSpan(
+                  text: ' ${LocaleKeys.general_details_days.tr()} ',
                 ),
               ],
             ),
@@ -95,8 +99,8 @@ class UsersDetails extends StatelessWidget {
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                const TextSpan(
-                  text: ' hrs ',
+                TextSpan(
+                  text: ' ${LocaleKeys.general_details_hrs.tr()} ',
                 ),
               ],
             ),
@@ -109,8 +113,8 @@ class UsersDetails extends StatelessWidget {
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                const TextSpan(
-                  text: ' mins',
+                TextSpan(
+                  text: ' ${LocaleKeys.general_details_mins.tr()}',
                 ),
               ],
             ),
@@ -126,8 +130,8 @@ class UsersDetails extends StatelessWidget {
                     color: PlexColorPalette.gamboge,
                   ),
                 ),
-                const TextSpan(
-                  text: ' secs',
+                TextSpan(
+                  text: ' ${LocaleKeys.general_details_secs.tr()}',
                 ),
               ],
             ),

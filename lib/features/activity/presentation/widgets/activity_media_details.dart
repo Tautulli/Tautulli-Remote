@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/clean_data_helper.dart';
 import '../../../../core/helpers/ip_address_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/activity.dart';
 import '../../domain/entities/geo_ip.dart';
@@ -207,8 +209,8 @@ List<Widget> _buildList({
               constraints: constraints,
               left: '',
               right: Row(
-                children: const [
-                  Text('ERROR: IP Address not in GeoIP map'),
+                children: [
+                  const Text(LocaleKeys.media_details_location_error).tr(),
                 ],
               ),
             );
@@ -226,9 +228,10 @@ List<Widget> _buildList({
                     color: Theme.of(context).accentColor,
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 5),
-                  child: Text('Loading location data'),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: const Text(LocaleKeys.media_details_location_loading)
+                      .tr(),
                 ),
               ],
             ),

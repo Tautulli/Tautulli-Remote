@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../translations/locale_keys.g.dart';
 import '../../domain/entities/media_item.dart';
 import 'media_tab_contents.dart';
 
@@ -53,8 +55,8 @@ List<Widget> _tabBuilder(
   bool metadataFailed = false,
 }) {
   return [
-    const Tab(
-      text: 'Details',
+    Tab(
+      text: LocaleKeys.media_tab_details.tr(),
     ),
     if (mediaType == null && !metadataFailed)
       Tab(
@@ -78,20 +80,20 @@ List<Widget> _tabBuilder(
     ].contains(mediaType))
       Tab(
         text: mediaType == 'show'
-            ? 'Seasons'
+            ? LocaleKeys.media_tab_seasons.tr()
             : mediaType == 'season'
-                ? 'Episodes'
+                ? LocaleKeys.media_tab_episodes.tr()
                 : mediaType == 'artist'
-                    ? 'Albums'
+                    ? LocaleKeys.media_tab_albums.tr()
                     : mediaType == 'album'
-                        ? 'Tracks'
+                        ? LocaleKeys.media_tab_tracks.tr()
                         : mediaType == 'collection'
-                            ? 'Movies'
-                            : 'Media',
+                            ? LocaleKeys.media_tab_movies.tr()
+                            : LocaleKeys.media_tab_media.tr(),
       ),
     if (!['photo', 'clip', 'collection', 'playlist'].contains(mediaType))
-      const Tab(
-        text: 'History',
+      Tab(
+        text: LocaleKeys.history_page_title.tr(),
       ),
   ];
 }

@@ -1,6 +1,9 @@
 import 'package:duration/duration.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_moment/simple_moment.dart';
+
+import '../../translations/locale_keys.g.dart';
 
 /// Provides helper functions to create more readable durations.
 class TimeFormatHelper {
@@ -33,13 +36,16 @@ class TimeFormatHelper {
     String minutes = '';
     String seconds = '';
     if (duration.inMinutes > 59) {
-      hours = '${duration.inHours.toString()} hours ';
+      hours =
+          '${duration.inHours.toString()} ${LocaleKeys.general_hours.tr()} ';
     }
     if (duration.inMinutes > 0) {
-      minutes = '${duration.inMinutes.remainder(60).toString()} minutes ';
+      minutes =
+          '${duration.inMinutes.remainder(60).toString()} ${LocaleKeys.general_minutes.tr()} ';
     }
     if (duration.inMinutes < 1) {
-      seconds = '${duration.inSeconds.toString()} seconds';
+      seconds =
+          '${duration.inSeconds.toString()} ${LocaleKeys.general_seconds.tr()}';
     }
 
     return '$hours$minutes$seconds';

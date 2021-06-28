@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -10,6 +11,7 @@ import '../../../../core/helpers/asset_mapper_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../domain/entities/library.dart';
 import '../bloc/library_media_bloc.dart';
@@ -232,15 +234,18 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                             child: RichText(
                                               text: TextSpan(
                                                 children: [
-                                                  const TextSpan(
-                                                    text: 'STREAMED ',
+                                                  TextSpan(
+                                                    text:
+                                                        '${LocaleKeys.general_details_streamed.tr()} ',
                                                   ),
                                                   TextSpan(
                                                     text: widget.library
                                                                 .lastAccessed >=
                                                             0
                                                         ? '${TimeFormatHelper.timeAgo(widget.library.lastAccessed)}'
-                                                        : 'never',
+                                                        : LocaleKeys
+                                                            .general_never
+                                                            .tr(),
                                                     style: const TextStyle(
                                                       color: PlexColorPalette
                                                           .gamboge,
@@ -270,19 +275,27 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                   indicatorSize: TabBarIndicatorSize.label,
                                   tabs: [
                                     if (!widget.disableStatsTab)
-                                      const Tab(
-                                        child: Text('Stats'),
+                                      Tab(
+                                        child: const Text(
+                                          LocaleKeys.general_details_tab_stats,
+                                        ).tr(),
                                       ),
                                     if (sectionType != 'photo')
-                                      const Tab(
-                                        child: Text('New'),
+                                      Tab(
+                                        child: const Text(
+                                          LocaleKeys.libraries_details_tab_new,
+                                        ).tr(),
                                       ),
                                     if (sectionType != 'photo')
-                                      const Tab(
-                                        child: Text('History'),
+                                      Tab(
+                                        child: const Text(
+                                          LocaleKeys.history_page_title,
+                                        ).tr(),
                                       ),
-                                    const Tab(
-                                      child: Text('Media'),
+                                    Tab(
+                                      child: const Text(LocaleKeys
+                                              .libraries_details_tab_media)
+                                          .tr(),
                                     ),
                                   ],
                                 ),

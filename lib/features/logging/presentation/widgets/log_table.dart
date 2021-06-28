@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:f_logs/f_logs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/log_format_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../bloc/load_logs_bloc.dart';
 import 'log_table_row.dart';
 import 'log_table_row_with_header.dart';
@@ -36,11 +38,11 @@ class LogTable extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               child: Container(
                 height: constraints.maxHeight,
-                child: const Center(
-                  child: Text(
-                    'No logs found',
+                child: Center(
+                  child: const Text(
+                    LocaleKeys.logs_empty,
                     style: TextStyle(fontSize: 18),
-                  ),
+                  ).tr(),
                 ),
               ),
             );

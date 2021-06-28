@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,6 +15,7 @@ import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../core/widgets/user_card.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/users_bloc.dart';
 import '../widgets/user_details.dart';
@@ -111,7 +113,9 @@ class _UsersPageContentState extends State<UsersPageContent> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: const AppDrawerIcon(),
-        title: const Text('Users'),
+        title: Text(
+          LocaleKeys.users_page_title.tr(),
+        ),
         actions: _appBarActions(),
       ),
       drawer: const AppDrawer(),
@@ -213,15 +217,15 @@ class _UsersPageContentState extends State<UsersPageContent> {
                             ),
                           );
                         } else {
-                          return const Expanded(
+                          return Expanded(
                             child: Center(
-                              child: Text(
-                                'No users found.',
+                              child: const Text(
+                                LocaleKeys.users_empty,
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16,
                                 ),
-                              ),
+                              ).tr(),
                             ),
                           );
                         }
@@ -296,7 +300,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
     return [
       PopupMenuButton(
         icon: _currentSortIcon(),
-        tooltip: 'Sort users',
+        tooltip: LocaleKeys.general_tooltip_sort_users.tr(),
         onSelected: (value) {
           List<String> values = value.split('|');
 
@@ -344,9 +348,9 @@ class _UsersPageContentState extends State<UsersPageContent> {
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text('Name'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.general_filter_name).tr(),
                   ),
                 ],
               ),
@@ -368,9 +372,11 @@ class _UsersPageContentState extends State<UsersPageContent> {
                           color: TautulliColorPalette.not_white,
                           size: 20,
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text('Last Streamed'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(
+                      LocaleKeys.general_filter_last_streamed,
+                    ).tr(),
                   ),
                 ],
               ),
@@ -422,11 +428,11 @@ class _UsersPageContentState extends State<UsersPageContent> {
   String _currentSortName() {
     switch (_orderColumn) {
       case ('friendly_name'):
-        return 'Name';
+        return LocaleKeys.general_filter_name.tr();
       case ('last_seen'):
-        return 'Last Streamed';
+        return LocaleKeys.general_filter_last_streamed.tr();
       default:
-        return 'unknown';
+        return LocaleKeys.media_details_unknown.tr();
     }
   }
 }

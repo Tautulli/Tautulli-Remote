@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +17,7 @@ import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/list_header.dart';
 import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../bloc/register_device_bloc.dart';
@@ -64,7 +66,9 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         leading: const AppDrawerIcon(),
-        title: const Text('Settings'),
+        title: Text(
+          LocaleKeys.settings_page_title.tr(),
+        ),
       ),
       drawer: const AppDrawer(),
       body: DoubleTapExit(
@@ -89,7 +93,8 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     backgroundColor: Colors.green,
-                    content: Text('Tautulli Registration Successful'),
+                    content:
+                      const Text(LocaleKeys.settings_registration_success).tr(),
                   ),
                 );
               }
@@ -103,8 +108,8 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                         padding: EdgeInsets.only(bottom: 10),
                         child: SettingsAlertBanner(),
                       ),
-                      const ListHeader(
-                        headingText: 'Tautulli Servers',
+                      ListHeader(
+                        headingText: LocaleKeys.settings_servers_heading.tr(),
                       ),
                       Column(
                         mainAxisSize: MainAxisSize.min,
@@ -138,8 +143,9 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                                           title: Text('${server.plexName}'),
                                           subtitle: (isEmpty(server
                                                   .primaryConnectionAddress))
-                                              ? const Text(
-                                                  'Primary Connection Address Missing')
+                                              ? const Text(LocaleKeys
+                                                    .settings_primary_connection_missing,
+                                                ).tr()
                                               : isNotEmpty(server
                                                           .primaryConnectionAddress) &&
                                                       server.primaryActive &&
@@ -154,8 +160,9 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                                                               .maskSensitiveInfo
                                                       ? Text(server
                                                           .secondaryConnectionAddress)
-                                                      : const Text(
-                                                          '*Hidden Connection Address*'),
+                                                      : Text(
+                                                        '*${LocaleKeys.masked_info_connection_address.tr()}*',
+                                                      ),
                                           trailing: const FaIcon(
                                             FontAwesomeIcons.cog,
                                             color:
@@ -215,13 +222,17 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         backgroundColor: Colors.green,
-                                        content: Text(
-                                            'Tautulli Registration Successful'),
+                                        content: const Text(
+                                          LocaleKeys
+                                              .settings_registration_success,
+                                        ).tr(),
                                       ),
                                     );
                                   }
                                 },
-                                child: const Text('Register a Tautulli Server'),
+                                child: const Text(
+                                        LocaleKeys.button_register_server,
+                                       ).tr(),
                               ),
                             ),
                           ],
@@ -230,10 +241,12 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                       const SizedBox(height: 20),
                       //* App settings
                       const ListHeader(
-                        headingText: 'App Settings',
+                        headingText:
+                          LocaleKeys.settings_app_settings_heading.tr(),
                       ),
                       ListTile(
-                        title: const Text('Server Timeout'),
+                        title:
+                          const Text(LocaleKeys.settings_server_timeout).tr(),
                         subtitle: _serverTimeoutDisplay(state.serverTimeout),
                         onTap: () {
                           return showDialog(
@@ -245,7 +258,9 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                         },
                       ),
                       ListTile(
-                        title: const Text('Activity Refresh Rate'),
+                        title:
+                          const Text(LocaleKeys.settings_activity_refresh_rate)
+                              .tr(),
                         subtitle: _serverRefreshRateDisplay(state.refreshRate),
                         onTap: () {
                           return showDialog(
@@ -260,10 +275,12 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                       ),
                       if (Platform.isAndroid)
                         CheckboxListTile(
-                          title: const Text('Double Tap To Exit'),
+                          title:
+                          const Text(LocaleKeys.settings_double_tap_exit_title)
+                              .tr(),
                           subtitle: const Text(
-                            'Tap back twice to exit',
-                          ),
+                            LocaleKeys.settings_double_tap_exit_message,
+                          ).tr(),
                           onChanged: (value) {
                             context.read<SettingsBloc>().add(
                                   SettingsUpdateDoubleTapToExit(
@@ -274,8 +291,11 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                           value: state.doubleTapToExit ?? false,
                         ),
                       CheckboxListTile(
-                        title: const Text('Mask Sensitive Info'),
-                        subtitle: const Text('Hides sensitive info in the UI'),
+                        title:
+                          const Text(LocaleKeys.settings_mask_info_title).tr(),
+                      subtitle:
+                          const Text(LocaleKeys.settings_mask_info_message)
+                              .tr(),
                         onChanged: (value) {
                           context.read<SettingsBloc>().add(
                                 SettingsUpdateMaskSensitiveInfo(
@@ -297,11 +317,11 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                       ),
                       ListTile(
                         title: const Text(
-                          'OneSignal Data Privacy',
+                          LocaleKeys.privacy_page_title,
                           style: TextStyle(
                             color: TautulliColorPalette.smoke,
                           ),
-                        ),
+                        ).tr(),
                         trailing: const FaIcon(
                           FontAwesomeIcons.angleRight,
                           color: TautulliColorPalette.smoke,
@@ -311,11 +331,11 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                       ),
                       ListTile(
                         title: const Text(
-                          'Help & Support',
+                          LocaleKeys.help_page_title,
                           style: TextStyle(
                             color: TautulliColorPalette.smoke,
                           ),
-                        ),
+                        ).tr(),
                         trailing: const FaIcon(
                           FontAwesomeIcons.angleRight,
                           color: TautulliColorPalette.smoke,
@@ -324,11 +344,11 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                       ),
                       ListTile(
                         title: const Text(
-                          'Changelog',
+                          LocaleKeys.changelog_page_title,
                           style: TextStyle(
                             color: TautulliColorPalette.smoke,
                           ),
-                        ),
+                        ).tr(),
                         trailing: const FaIcon(
                           FontAwesomeIcons.angleRight,
                           color: TautulliColorPalette.smoke,
@@ -338,11 +358,25 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                       ),
                       ListTile(
                         title: const Text(
-                          'About',
+                          LocaleKeys.translate_page_title,
                           style: TextStyle(
                             color: TautulliColorPalette.smoke,
                           ),
+                        ).tr(),
+                        trailing: const FaIcon(
+                          FontAwesomeIcons.angleRight,
+                          color: TautulliColorPalette.smoke,
                         ),
+                        onTap: () =>
+                            Navigator.of(context).pushNamed('/translate'),
+                      ),
+                      ListTile(
+                        title: const Text(
+                          LocaleKeys.settings_about,
+                          style: TextStyle(
+                            color: TautulliColorPalette.smoke,
+                          ),
+                        ).tr(),
                         trailing: const FaIcon(
                           FontAwesomeIcons.angleRight,
                           color: TautulliColorPalette.smoke,
@@ -359,7 +393,7 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                             applicationName: 'Tautulli Remote',
                             applicationVersion: packageInfo.version,
                             applicationLegalese:
-                                'Licensed under the GNU General Public License v3.0',
+                              LocaleKeys.settings_about_license.tr(),
                           );
                         },
                       ),
@@ -375,7 +409,7 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                 } else {
                   return const Center(
                     child: Text(
-                      'There was an error loading settings. Please use the help page to get assistance.',
+                      'There was an error loading settings.',
                     ),
                   );
                 }
@@ -391,31 +425,37 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
 Widget _serverTimeoutDisplay(int timeout) {
   switch (timeout) {
     case (3):
-      return const Text('3 sec');
+      return Text('3 ${LocaleKeys.general_details_sec.tr()}');
     case (5):
-      return const Text('5 sec');
+      return Text('5 ${LocaleKeys.general_details_sec.tr()}');
     case (8):
-      return const Text('8 sec');
+      return Text('8 ${LocaleKeys.general_details_sec.tr()}');
     case (30):
-      return const Text('30 sec');
+      return Text('30 ${LocaleKeys.general_details_sec.tr()}');
     default:
-      return const Text('15 sec (Default)');
+      return Text(
+          '15 ${LocaleKeys.general_details_sec.tr()} (${LocaleKeys.settings_default.tr()})');
   }
 }
 
 Widget _serverRefreshRateDisplay(int refreshRate) {
   switch (refreshRate) {
     case (5):
-      return const Text('5 sec - Faster');
+      return Text(
+          '5 ${LocaleKeys.general_details_sec.tr()} - ${LocaleKeys.settings_faster.tr()}');
     case (7):
-      return const Text('7 sec - Fast');
+      return Text(
+          '7 ${LocaleKeys.general_details_sec.tr()} - ${LocaleKeys.settings_fast.tr()}');
     case (10):
-      return const Text('10 sec - Normal');
+      return Text(
+          '10 ${LocaleKeys.general_details_sec.tr()} - ${LocaleKeys.settings_normal.tr()}');
     case (15):
-      return const Text('15 sec - Slow');
+      return Text(
+          '15 ${LocaleKeys.general_details_sec.tr()} - ${LocaleKeys.settings_slow.tr()}');
     case (20):
-      return const Text('20 sec - Slower');
+      return Text(
+          '20 ${LocaleKeys.general_details_sec.tr()} - ${LocaleKeys.settings_slower.tr()}');
     default:
-      return const Text('Disabled');
+      return const Text(LocaleKeys.settings_default).tr();
   }
 }
