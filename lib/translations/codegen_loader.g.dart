@@ -351,7 +351,9 @@ class CodegenLoader extends AssetLoader{
   "translate_text_2": "",
   "translate_help_translate": "",
   "translate_request_language": "",
-  "wizard_closing_translate": ""
+  "wizard_closing_translate": "",
+  "privacy_alert_title": "",
+  "privacy_alert_content": ""
 };
 static const Map<String,dynamic> el = {
   "activity_empty": "",
@@ -690,7 +692,9 @@ static const Map<String,dynamic> el = {
   "translate_text_2": "",
   "translate_help_translate": "",
   "translate_request_language": "",
-  "wizard_closing_translate": ""
+  "wizard_closing_translate": "",
+  "privacy_alert_title": "",
+  "privacy_alert_content": ""
 };
 static const Map<String,dynamic> en = {
   "activity_empty": "Nothing is currently being played",
@@ -1029,7 +1033,9 @@ static const Map<String,dynamic> en = {
   "translate_text_2": "If you would like to add a new language please submit a feature request on GitHub.",
   "translate_help_translate": "Translate Tautulli Remote",
   "translate_request_language": "Request a new language",
-  "wizard_closing_translate": "Tautulli Remote supports multiple languages, help translate under Settings > Help Translate."
+  "wizard_closing_translate": "Tautulli Remote supports multiple languages, help translate under Settings > Help Translate.",
+  "privacy_alert_title": "Notification Permission Required",
+  "privacy_alert_content": "Give Tautulli Remote notification access to receive push notitifications."
 };
 static const Map<String,dynamic> es = {
   "activity_empty": "",
@@ -1368,7 +1374,9 @@ static const Map<String,dynamic> es = {
   "translate_text_2": "",
   "translate_help_translate": "",
   "translate_request_language": "",
-  "wizard_closing_translate": ""
+  "wizard_closing_translate": "",
+  "privacy_alert_title": "",
+  "privacy_alert_content": ""
 };
 static const Map<String,dynamic> fr = {
   "activity_empty": "",
@@ -1707,7 +1715,9 @@ static const Map<String,dynamic> fr = {
   "translate_text_2": "",
   "translate_help_translate": "",
   "translate_request_language": "",
-  "wizard_closing_translate": ""
+  "wizard_closing_translate": "",
+  "privacy_alert_title": "",
+  "privacy_alert_content": ""
 };
 static const Map<String,dynamic> it = {
   "activity_empty": "",
@@ -2046,7 +2056,9 @@ static const Map<String,dynamic> it = {
   "translate_text_2": "",
   "translate_help_translate": "",
   "translate_request_language": "",
-  "wizard_closing_translate": ""
+  "wizard_closing_translate": "",
+  "privacy_alert_title": "",
+  "privacy_alert_content": ""
 };
 static const Map<String,dynamic> nl = {
   "activity_empty": "",
@@ -2385,7 +2397,9 @@ static const Map<String,dynamic> nl = {
   "translate_text_2": "",
   "translate_help_translate": "",
   "translate_request_language": "",
-  "wizard_closing_translate": ""
+  "wizard_closing_translate": "",
+  "privacy_alert_title": "",
+  "privacy_alert_content": ""
 };
 static const Map<String,dynamic> pt_BR = {
   "activity_empty": "",
@@ -2724,7 +2738,9 @@ static const Map<String,dynamic> pt_BR = {
   "translate_text_2": "",
   "translate_help_translate": "",
   "translate_request_language": "",
-  "wizard_closing_translate": ""
+  "wizard_closing_translate": "",
+  "privacy_alert_title": "",
+  "privacy_alert_content": ""
 };
 static const Map<String,dynamic> pt_PT = {
   "activity_empty": "",
@@ -3063,7 +3079,9 @@ static const Map<String,dynamic> pt_PT = {
   "translate_text_2": "",
   "translate_help_translate": "",
   "translate_request_language": "",
-  "wizard_closing_translate": ""
+  "wizard_closing_translate": "",
+  "privacy_alert_title": "",
+  "privacy_alert_content": ""
 };
 static const Map<String,dynamic> sv = {
   "activity_empty": "",
@@ -3402,7 +3420,9 @@ static const Map<String,dynamic> sv = {
   "translate_text_2": "",
   "translate_help_translate": "",
   "translate_request_language": "",
-  "wizard_closing_translate": ""
+  "wizard_closing_translate": "",
+  "privacy_alert_title": "",
+  "privacy_alert_content": ""
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"de": de, "el": el, "en": en, "es": es, "fr": fr, "it": it, "nl": nl, "pt_BR": pt_BR, "pt_PT": pt_PT, "sv": sv};
 }

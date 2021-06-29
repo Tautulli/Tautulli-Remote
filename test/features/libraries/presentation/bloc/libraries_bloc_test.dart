@@ -91,6 +91,8 @@ void main() {
       mockGetImageUrl(
         tautulliId: anyNamed('tautulliId'),
         img: anyNamed('img'),
+        width: anyNamed('width'),
+        height: anyNamed('height'),
         ratingKey: anyNamed('ratingKey'),
         fallback: anyNamed('fallback'),
         settingsBloc: anyNamed('settingsBloc'),
@@ -179,6 +181,8 @@ void main() {
           mockGetImageUrl(
             tautulliId: anyNamed('tautulliId'),
             img: anyNamed('img'),
+            width: anyNamed('width'),
+            height: anyNamed('height'),
             ratingKey: anyNamed('ratingKey'),
             fallback: anyNamed('fallback'),
             settingsBloc: anyNamed('settingsBloc'),
@@ -189,6 +193,8 @@ void main() {
           mockGetImageUrl(
             tautulliId: tTautulliId,
             img: anyNamed('img'),
+            width: anyNamed('width'),
+            height: anyNamed('height'),
             ratingKey: anyNamed('ratingKey'),
             fallback: anyNamed('fallback'),
             settingsBloc: anyNamed('settingsBloc'),

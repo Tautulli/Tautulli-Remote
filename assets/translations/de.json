@@ -336,4 +336,6 @@
     "translate_help_translate": "Übersetzen Sie Tautulli Remote",
     "translate_request_language": "Eine neue Sprache anfordern",
     "wizard_closing_translate": "Tautulli Remote unterstützt mehrere Sprachen, Hilfe übersetzen unter Einstellungen > Hilfe übersetzen."
+    "privacy_alert_title": "",
+    "privacy_alert_content": ""
 }

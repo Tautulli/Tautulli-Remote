@@ -336,4 +336,6 @@
     "translate_help_translate": "Traduire Tautulli Remote",
     "translate_request_language": "Demander une nouvelle langue",
     "wizard_closing_translate": "Tautulli Remote prend en charge plusieurs langues, participez à la traduction via Paramètres > Aider à traduire."
+    "privacy_alert_title": "",
+    "privacy_alert_content": ""
 }

@@ -338,5 +338,7 @@ abstract class  LocaleKeys {
   static const translate_help_translate = 'translate_help_translate';
   static const translate_request_language = 'translate_request_language';
   static const wizard_closing_translate = 'wizard_closing_translate';
+  static const privacy_alert_title = 'privacy_alert_title';
+  static const privacy_alert_content = 'privacy_alert_content';
 
 }

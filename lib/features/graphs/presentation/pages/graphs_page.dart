@@ -218,29 +218,6 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
                           ],
                         ),
                       ),
-                      const TabBar(
-                        indicatorSize: TabBarIndicatorSize.label,
-                        tabs: [
-                          Tab(
-                            child: Text(
-                              'Media Type',
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Tab(
-                            child: Text(
-                              'Stream Type',
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Tab(
-                            child: Text(
-                              'Play Totals',
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
                       TabBar(
                         indicatorSize: TabBarIndicatorSize.label,
                         tabs: [

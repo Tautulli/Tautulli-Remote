@@ -193,7 +193,7 @@ void main() {
             serverList: tServerList,
             serverTimeout: tServerTimeout,
             refreshRate: tRefreshRate,
-            doubleTapToExit: tDoubleTapToExit,
+            doubleTapToExit: false,
             maskSensitiveInfo: tMaskSensitiveInfo,
             lastSelectedServer: tTautulliId,
             statsType: tStatsType,
