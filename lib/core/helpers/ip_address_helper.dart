@@ -34,4 +34,25 @@ class IpAddressHelper {
 
     return true;
   }
+
+  static String parseIpFromUrl(String url) {
+    String parsedIp = '';
+
+    RegExp ipv4Exp = RegExp(r"http[s]?:\/\/([0-9,.]+)[\S]*");
+    RegExp ipv6Exp = RegExp(r"http[s]?:\/\/([[a-f,0-9,:]+])[\S]*");
+
+    if (ipv4Exp.hasMatch(url)) {
+      Iterable<Match> ipv4Matches = ipv4Exp.allMatches(url);
+      ipv4Matches.forEach((m) {
+        parsedIp = m.group(1);
+      });
+    } else if (ipv6Exp.hasMatch(url)) {
+      Iterable<Match> ipv6Matches = ipv6Exp.allMatches(url);
+      ipv6Matches.forEach((m) {
+        parsedIp = m.group(1);
+      });
+    }
+
+    return parsedIp;
+  }
 }
