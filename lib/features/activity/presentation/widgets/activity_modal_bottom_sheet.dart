@@ -315,7 +315,7 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                     primary: PlexColorPalette.gamboge,
                                   ),
                                   child: Text(
-                                    LocaleKeys.button_view_media.tr(),
+                                    LocaleKeys.button_view_user.tr(),
                                     style: const TextStyle(
                                       color: TautulliColorPalette.not_white,
                                     ),
@@ -361,11 +361,11 @@ class _ActivityModalBottomSheetState extends State<ActivityModalBottomSheet> {
                                       primary: PlexColorPalette.curious_blue,
                                     ),
                                     child: const Text(
-                                      'View Media',
+                                      LocaleKeys.button_view_media,
                                       style: TextStyle(
                                         color: TautulliColorPalette.not_white,
                                       ),
-                                    ),
+                                    ).tr(),
                                   ),
                                 ),
                               ),
