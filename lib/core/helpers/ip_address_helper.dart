@@ -35,6 +35,20 @@ class IpAddressHelper {
     return true;
   }
 
+  static Future<bool> hostResolvesToPublic(String host) async {
+    final ipList = await InternetAddress.lookup(host);
+
+    if (ipList.isEmpty) {
+      return true;
+    }
+
+    if (!isPublic(ipList[0].address)) {
+      return false;
+    }
+
+    return true;
+  }
+
   static String parseIpFromUrl(String url) {
     String parsedIp = '';
 
