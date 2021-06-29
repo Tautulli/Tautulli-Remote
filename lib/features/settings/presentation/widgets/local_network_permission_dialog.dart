@@ -41,7 +41,8 @@ Future<void> showLocalNetworkPermissionDialog({
           ),
           TextButton(
             onPressed: () {
-              Ping(ipAddress, count: 1);
+              final ping = Ping(ipAddress, count: 1);
+              ping.stream.listen((event) {});
               context.read<SettingsBloc>().add(
                     SettingsUpdateIosLocalNetworkPermissionPrompted(true),
                   );
