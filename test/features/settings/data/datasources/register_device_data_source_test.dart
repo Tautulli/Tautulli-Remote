@@ -58,6 +58,7 @@ void main() {
         deviceId: anyNamed('deviceId'),
         deviceName: anyNamed('deviceName'),
         onesignalId: anyNamed('onesignalId'),
+        platform: 'android',
       ),
     ).thenAnswer((_) async => registerJson);
   }
@@ -135,6 +136,7 @@ void main() {
             deviceName: tDeviceName,
             deviceId: tDeviceId,
             onesignalId: tOnesignalId,
+            platform: 'android',
           ),
         );
       },
