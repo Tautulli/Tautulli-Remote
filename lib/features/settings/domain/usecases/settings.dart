@@ -225,4 +225,12 @@ class Settings {
   Future<bool> setCustomCertHashList(List<int> certHashList) async {
     return repository.setCustomCertHashList(certHashList);
   }
+
+  Future<bool> getIosLocalNetworkPermissionPrompted() async {
+    return await repository.getIosLocalNetworkPermissionPrompted();
+  }
+
+  Future<bool> setIosLocalNetworkPermissionPrompted(bool value) async {
+    return repository.setIosLocalNetworkPermissionPrompted(value);
+  }
 }

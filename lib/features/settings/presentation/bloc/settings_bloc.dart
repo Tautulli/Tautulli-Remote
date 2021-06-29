@@ -328,6 +328,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       if (event is SettingsUpdateWizardCompleteStatus) {
         await settings.setWizardCompleteStatus(event.complete);
       }
+      if (event is SettingsUpdateIosLocalNetworkPermissionPrompted) {
+        if (event.prompted) {
+          logging.info('Settings: Prompted for iOS local network permission');
+        }
+        await settings.setIosLocalNetworkPermissionPrompted(event.prompted);
+        yield currentState.copyWith(
+          iosLocalNetworkPermissionPrompted: event.prompted,
+        );
+      }
     }
   }
 
@@ -344,6 +353,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final usersSort = await settings.getUsersSort();
     final oneSignalBannerDismissed =
         await settings.getOneSignalBannerDismissed();
+    final iosLocalNetworkPermissionPrompted =
+        await settings.getIosLocalNetworkPermissionPrompted();
 
     if (serverList.length > 1) {
       serverList.sort((a, b) => a.sortIndex.compareTo(b.sortIndex));
@@ -360,6 +371,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yAxis: yAxis ?? 'plays',
       usersSort: usersSort ?? 'friendly_name|asc',
       oneSignalBannerDismissed: oneSignalBannerDismissed ?? false,
+      iosLocalNetworkPermissionPrompted:
+          iosLocalNetworkPermissionPrompted ?? false,
     );
   }
 

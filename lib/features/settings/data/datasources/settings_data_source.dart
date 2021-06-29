@@ -74,6 +74,10 @@ abstract class SettingsDataSource {
   Future<List<int>> getCustomCertHashList();
 
   Future<bool> setCustomCertHashList(List<int> certHashList);
+
+  Future<bool> getIosLocalNetworkPermissionPrompted();
+
+  Future<bool> setIosLocalNetworkPermissionPrompted(bool value);
 }
 
 const SETTINGS_SERVER_TIMEOUT = 'SETTINGS_SERVER_TIMEOUT';
@@ -90,6 +94,8 @@ const LAST_APP_VERSION = 'LAST_APP_VERSION';
 const LAST_READ_ANNOUNCEMENT_ID = 'LAST_READ_ANNOUNCEMENT_ID';
 const WIZARD_COMPLETE_STATUS = 'WIZARD_COMPLETE_STATUS';
 const CUSTOM_CERT_HASH_LIST = 'CUSTOM_CERT_HASH_LIST';
+const IOS_LOCAL_NETWORK_PERMISSION_PROMPTED =
+    'IOS_LOCAL_NETWORK_PERMISSION_PROMPTED';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
   final SharedPreferences sharedPreferences;
@@ -298,5 +304,21 @@ class SettingsDataSourceImpl implements SettingsDataSource {
         certHashList.map((i) => i.toString()).toList();
 
     return sharedPreferences.setStringList(CUSTOM_CERT_HASH_LIST, stringList);
+  }
+
+  @override
+  Future<bool> getIosLocalNetworkPermissionPrompted() {
+    final value = sharedPreferences.getBool(
+      IOS_LOCAL_NETWORK_PERMISSION_PROMPTED,
+    );
+    return Future.value(value);
+  }
+
+  @override
+  Future<bool> setIosLocalNetworkPermissionPrompted(bool value) {
+    return sharedPreferences.setBool(
+      IOS_LOCAL_NETWORK_PERMISSION_PROMPTED,
+      value,
+    );
   }
 }

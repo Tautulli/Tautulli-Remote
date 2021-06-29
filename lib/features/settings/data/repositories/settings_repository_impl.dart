@@ -326,4 +326,16 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<bool> setCustomCertHashList(List<int> certHashList) async {
     return dataSource.setCustomCertHashList(certHashList);
   }
+
+  @override
+  Future<bool> getIosLocalNetworkPermissionPrompted() async {
+    final iOSLocalNetworkPermissionPrompted =
+        await dataSource.getIosLocalNetworkPermissionPrompted();
+    return iOSLocalNetworkPermissionPrompted;
+  }
+
+  @override
+  Future<bool> setIosLocalNetworkPermissionPrompted(bool value) async {
+    return dataSource.setIosLocalNetworkPermissionPrompted(value);
+  }
 }

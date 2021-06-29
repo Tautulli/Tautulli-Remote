@@ -113,4 +113,8 @@ abstract class SettingsRepository {
   Future<List<int>> getCustomCertHashList();
 
   Future<bool> setCustomCertHashList(List<int> certHashList);
+
+  Future<bool> getIosLocalNetworkPermissionPrompted();
+
+  Future<bool> setIosLocalNetworkPermissionPrompted(bool value);
 }

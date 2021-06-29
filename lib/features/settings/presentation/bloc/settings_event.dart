@@ -244,6 +244,15 @@ class SettingsUpdateWizardCompleteStatus extends SettingsEvent {
   List<Object> get props => [complete];
 }
 
+class SettingsUpdateIosLocalNetworkPermissionPrompted extends SettingsEvent {
+  final bool prompted;
+
+  SettingsUpdateIosLocalNetworkPermissionPrompted(this.prompted);
+
+  @override
+  List<Object> get props => [prompted];
+}
+
 class SettingsDeleteServer extends SettingsEvent {
   final int id;
   final String plexName;
