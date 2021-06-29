@@ -24,6 +24,8 @@ PODS:
   - Flutter (1.0.0)
   - flutter_barcode_scanner (2.0.0):
     - Flutter
+  - flutter_icmp_ping (0.0.1):
+    - Flutter
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
@@ -81,6 +83,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - flutter_barcode_scanner (from `.symlinks/plugins/flutter_barcode_scanner/ios`)
+  - flutter_icmp_ping (from `.symlinks/plugins/flutter_icmp_ping/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - OneSignal (< 4.0, >= 3.4.3)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
@@ -124,6 +127,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_barcode_scanner:
     :path: ".symlinks/plugins/flutter_barcode_scanner/ios"
+  flutter_icmp_ping:
+    :path: ".symlinks/plugins/flutter_icmp_ping/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
   onesignal_flutter:
@@ -154,6 +159,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 3e249cee3de5c5f9cfd6cc2a19997231286fec11
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_barcode_scanner: 7a1144744c28dc0c57a8de7218ffe5ec59a9e4bf
+  flutter_icmp_ping: 07e508847df7fa9262d050bb0b203de074bbe517
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleDataTransport: 11e3a5f2c190327df1a4a5d7e7ae3d4d5b9c9e4c

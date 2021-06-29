@@ -384,6 +384,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.0"
+  flutter_icmp_ping:
+    dependency: "direct main"
+    description:
+      name: flutter_icmp_ping
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:

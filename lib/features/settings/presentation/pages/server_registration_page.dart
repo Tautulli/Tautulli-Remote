@@ -1,16 +1,21 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tautulli_remote/core/helpers/connection_address_helper.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/helpers/ip_address_helper.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../bloc/register_device_bloc.dart';
 import '../bloc/settings_bloc.dart';
 import '../widgets/certificate_failure_alert_dialog.dart';
+import '../widgets/local_network_permission_dialog.dart';
 
 class ServerRegistrationPage extends StatefulWidget {
   final double fontSize;
@@ -285,28 +290,72 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                                           const Text(LocaleKeys.button_cancel)
                                               .tr(),
                                     ),
-                                    TextButton(
-                                      onPressed: () {
-                                        if (_formKey.currentState.validate()) {
-                                          registerDeviceBloc.add(
-                                            RegisterDeviceStarted(
-                                              primaryConnectionAddress:
-                                                  _primaryConnectionAddressController
-                                                      .text,
-                                              secondaryConnectionAddress:
-                                                  _secondaryConnectionAddressController
-                                                      .text,
-                                              deviceToken:
-                                                  _deviceTokenController.text,
-                                              settingsBloc:
-                                                  context.read<SettingsBloc>(),
+                                    BlocBuilder<SettingsBloc, SettingsState>(
+                                      builder: (context, state) {
+                                        return TextButton(
+                                          onPressed: () async {
+                                            if (state is SettingsLoadSuccess) {
+                                              if (_formKey.currentState
+                                                  .validate()) {
+                                                final url =
+                                                    _primaryConnectionAddressController
+                                                        .text;
+                                                final host =
+                                                    ConnectionAddressHelper
+                                                        .parse(url)['domain'];
+                                                final ipAddress =
+                                                    IpAddressHelper
+                                                        .parseIpFromUrl(url);
+
+                                                final bool isPrivateIp =
+                                                    (ipAddress != '' &&
+                                                            !IpAddressHelper
+                                                                .isPublic(
+                                                                    ipAddress)) ||
+                                                        !await IpAddressHelper
+                                                            .hostResolvesToPublic(
+                                                                host);
+
+                                                if (Platform.isIOS &&
+                                                    isPrivateIp &&
+                                                    !state
+                                                        .iosLocalNetworkPermissionPrompted) {
+                                                  await showLocalNetworkPermissionDialog(
+                                                    context: context,
+                                                    ipAddress: ipAddress,
+                                                  );
+                                                } else {
+                                                  registerDeviceBloc.add(
+                                                    RegisterDeviceStarted(
+                                                      primaryConnectionAddress:
+                                                          _primaryConnectionAddressController
+                                                              .text,
+                                                      secondaryConnectionAddress:
+                                                          _secondaryConnectionAddressController
+                                                              .text,
+                                                      deviceToken:
+                                                          _deviceTokenController
+                                                              .text,
+                                                      settingsBloc: context
+                                                          .read<SettingsBloc>(),
+                                                    ),
+                                                  );
+                                                }
+                                              }
+                                            }
+                                          },
+                                          child: Text(
+                                            LocaleKeys.button_register,
+                                            style: TextStyle(
+                                              color:
+                                                  state is SettingsLoadSuccess
+                                                      ? TautulliColorPalette
+                                                          .not_white
+                                                      : Colors.grey,
                                             ),
-                                          );
-                                        }
+                                          ).tr(),
+                                        );
                                       },
-                                      child:
-                                          const Text(LocaleKeys.button_register)
-                                              .tr(),
                                     ),
                                   ],
                                 ),
