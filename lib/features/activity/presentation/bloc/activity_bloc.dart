@@ -106,10 +106,11 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         for (String key in _activityMap.keys.toList()) {
           _activityMap[key]['loadingState'] = ActivityLoadingState.inProgress;
         }
-        yield ActivityLoaded(
-          activityMap: _activityMap,
-          loadedAt: DateTime.now(),
-        );
+        //TODO: Remove this commented code if confirmed to fix issue
+        // yield ActivityLoaded(
+        //   activityMap: _activityMap,
+        //   loadedAt: DateTime.now(),
+        // );
         _loadServer(
           serverList: serverList,
           activityMap: _activityMap,
