@@ -340,5 +340,10 @@ abstract class  LocaleKeys {
   static const wizard_closing_translate = 'wizard_closing_translate';
   static const privacy_alert_title = 'privacy_alert_title';
   static const privacy_alert_content = 'privacy_alert_content';
+  static const settings_alert_ios_local_network_permission_title = 'settings_alert_ios_local_network_permission_title';
+  static const settings_alert_ios_local_network_permission_content_1 = 'settings_alert_ios_local_network_permission_content_1';
+  static const settings_alert_ios_local_network_permission_content_2 = 'settings_alert_ios_local_network_permission_content_2';
+  static const settings_alert_ios_local_network_permission_content_3 = 'settings_alert_ios_local_network_permission_content_3';
+  static const button_continue = 'button_continue';
 
 }

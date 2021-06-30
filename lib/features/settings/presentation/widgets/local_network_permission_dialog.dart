@@ -15,21 +15,23 @@ Future<void> showLocalNetworkPermissionDialog({
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: const Text('Local Network Access Permission Required'),
+        title: const Text(
+          LocaleKeys.settings_alert_ios_local_network_permission_title,
+        ).tr(),
         content: Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
-            Text(
-              'In order to connect to a local server Tautulli Remote needs the local network permission.',
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Click CONTINUE and accept the prompt to allow this permission before registering.',
-            ),
-            SizedBox(height: 8),
-            Text(
-              'If denied you will need to manually enable this in the iOS settings.',
-            ),
+          children: [
+            const Text(
+              LocaleKeys.settings_alert_ios_local_network_permission_content_1,
+            ).tr(),
+            const SizedBox(height: 8),
+            const Text(
+              LocaleKeys.settings_alert_ios_local_network_permission_content_2,
+            ).tr(),
+            const SizedBox(height: 8),
+            const Text(
+              LocaleKeys.settings_alert_ios_local_network_permission_content_3,
+            ).tr(),
           ],
         ),
         actions: [
