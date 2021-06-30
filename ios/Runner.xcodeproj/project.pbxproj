@@ -10,6 +10,7 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		65039799266924410018C8BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 65039798266924410018C8BF /* GoogleService-Info.plist */; };
+		6599710D268D0A59009A57BC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599710C268D0A59009A57BC /* StoreKit.framework */; };
 		65EB8964267193EE00F493EF /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB8963267193EE00F493EF /* NotificationService.swift */; };
 		65EB8968267193EE00F493EF /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 65EB8961267193EE00F493EF /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -64,6 +65,7 @@
 		65039798266924410018C8BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6569EFC526692B8A006C659F /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Profile.xcconfig; path = Flutter/Profile.xcconfig; sourceTree = "<group>"; };
 		6596EE06267195B20020C821 /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
+		6599710C268D0A59009A57BC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		65EB895C26718A7900F493EF /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		65EB8961267193EE00F493EF /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		65EB8963267193EE00F493EF /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2592499BB4561254BE5C919 /* Pods_Runner.framework in Frameworks */,
+				6599710D268D0A59009A57BC /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +111,7 @@
 		48FF70B905AEB4BC1E141BA0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6599710C268D0A59009A57BC /* StoreKit.framework */,
 				0C71A4743F3591D805C13FEC /* Pods_Runner.framework */,
 				769BBD10B0C50AAC4FA556F6 /* Pods_OneSignalNotificationServiceExtension.framework */,
 			);
