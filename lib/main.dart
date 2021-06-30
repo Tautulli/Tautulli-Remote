@@ -9,6 +9,7 @@ import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
+import 'features/settings/domain/usecases/register_device.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'injection_container.dart' as di;
@@ -46,13 +47,26 @@ void main() async {
       await di.sl<Settings>().getCustomCertHashList();
   HttpOverrides.global = MyHttpOverrides(customCertHashList);
 
-  // Get version information to determine if we should show the changelog
+  // Get version information to determine if we should show the changelog or wizard
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   final runningVersion = packageInfo.version;
   final lastAppVersion = await di.sl<Settings>().getLastAppVersion();
   final wizardCompleteStatus =
       await di.sl<Settings>().getWizardCompleteStatus();
   final serverList = await di.sl<Settings>().getAllServers();
+
+  final bool versionMismatch = runningVersion != lastAppVersion;
+
+  if (versionMismatch && serverList.isNotEmpty) {
+    for (var i = 0; i < serverList.length; i++) {
+      await di.sl<RegisterDevice>().call(
+            connectionProtocol: serverList[i].primaryConnectionProtocol,
+            connectionDomain: serverList[i].primaryConnectionDomain,
+            connectionPath: serverList[i].primaryConnectionPath,
+            deviceToken: serverList[i].deviceToken,
+          );
+    }
+  }
 
   runApp(
     EasyLocalization(
@@ -86,7 +100,7 @@ void main() async {
         child: TautulliRemote(
           showWizard: (wizardCompleteStatus != null && !wizardCompleteStatus) ||
               (wizardCompleteStatus == null && serverList.isEmpty),
-          showChangelog: runningVersion != lastAppVersion,
+          showChangelog: versionMismatch,
         ),
       ),
     ),
