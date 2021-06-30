@@ -72,6 +72,7 @@ void main() {
   const String tLastAppVersion = '2.1.5';
   const int tLastReadAnnouncementId = 1;
   const bool tWizardCompleteStatus = false;
+  const bool tIosLocalNetworkPermissionPrompt = false;
   final List<int> tCustomCertHashList = [1, 2];
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
@@ -591,6 +592,33 @@ void main() {
         // assert
         verify(
             mockSettingsDataSource.setCustomCertHashList(tCustomCertHashList));
+      },
+    );
+  });
+
+  group('iOS Local Network Permission Prompt', () {
+    test(
+      'should return the local network permission prompt value from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getIosLocalNetworkPermissionPrompted())
+            .thenAnswer((_) async => tIosLocalNetworkPermissionPrompt);
+        // act
+        final result = await repository.getIosLocalNetworkPermissionPrompted();
+        // assert
+        expect(result, equals(tIosLocalNetworkPermissionPrompt));
+      },
+    );
+
+    test(
+      'should forward the call to the data source to set banner dismiss',
+      () async {
+        // act
+        await repository.setIosLocalNetworkPermissionPrompted(
+            tIosLocalNetworkPermissionPrompt);
+        // assert
+        verify(mockSettingsDataSource.setIosLocalNetworkPermissionPrompted(
+            tIosLocalNetworkPermissionPrompt));
       },
     );
   });

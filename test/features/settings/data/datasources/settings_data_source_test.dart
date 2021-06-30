@@ -739,4 +739,51 @@ void main() {
       },
     );
   });
+
+  group('iOS Local Notification Permission Prompt', () {
+    test(
+      'should return bool from settings',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(IOS_LOCAL_NETWORK_PERMISSION_PROMPTED),
+        ).thenReturn(true);
+        // act
+        final iosLocalNetworkPermissionPrompted =
+            await dataSource.getIosLocalNetworkPermissionPrompted();
+        // assert
+        verify(mockSharedPreferences
+            .getBool(IOS_LOCAL_NETWORK_PERMISSION_PROMPTED));
+        expect(iosLocalNetworkPermissionPrompted, equals(true));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(IOS_LOCAL_NETWORK_PERMISSION_PROMPTED),
+        ).thenReturn(null);
+        // act
+        final iosLocalNetworkPermissionPrompted =
+            await dataSource.getIosLocalNetworkPermissionPrompted();
+        // assert
+        expect(iosLocalNetworkPermissionPrompted, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the wizard complete status value',
+      () async {
+        // act
+        await dataSource.setIosLocalNetworkPermissionPrompted(true);
+        // assert
+        verify(
+          mockSharedPreferences.setBool(
+              IOS_LOCAL_NETWORK_PERMISSION_PROMPTED, true),
+        );
+      },
+    );
+  });
 }

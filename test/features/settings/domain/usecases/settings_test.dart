@@ -678,4 +678,31 @@ void main() {
       verifyNoMoreInteractions(mockSettingsRepository);
     },
   );
+
+  test(
+    'getIosLocalNetworkPermissionPrompted should get permission prompt status value from settings',
+    () async {
+      // arrange
+      when(
+        mockSettingsRepository.getIosLocalNetworkPermissionPrompted(),
+      ).thenAnswer((_) async => true);
+      // act
+      final result = await settings.getIosLocalNetworkPermissionPrompted();
+      // assert
+      expect(result, equals(true));
+      verify(mockSettingsRepository.getIosLocalNetworkPermissionPrompted());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setIosLocalNetworkPermissionPrompted should forward request to the repository',
+    () async {
+      // act
+      await settings.setIosLocalNetworkPermissionPrompted(true);
+      // assert
+      verify(mockSettingsRepository.setIosLocalNetworkPermissionPrompted(true));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
 }
