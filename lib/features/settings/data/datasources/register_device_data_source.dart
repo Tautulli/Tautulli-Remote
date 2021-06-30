@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:meta/meta.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:quiver/strings.dart';
 
 import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
@@ -43,6 +44,9 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
     final deviceId = await deviceInfo.uniqueId;
     final deviceName = await deviceInfo.model;
     String onesignalId = await oneSignal.userId;
+    String version = await PackageInfo.fromPlatform().then(
+      (value) => value.version,
+    );
 
     final registerJson = await apiRegisterDevice(
       connectionProtocol: connectionProtocol,
@@ -53,6 +57,7 @@ class RegisterDeviceDataSourceImpl implements RegisterDeviceDataSource {
       deviceName: deviceName,
       onesignalId: isNotEmpty(onesignalId) ? onesignalId : 'onesignal-disabled',
       platform: Platform.isIOS ? 'ios' : 'android',
+      version: version,
       trustCert: trustCert,
     );
 
