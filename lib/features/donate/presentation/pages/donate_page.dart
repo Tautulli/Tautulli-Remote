@@ -191,7 +191,7 @@ class _DonatePageContentState extends State<DonatePageContent> {
                           Card(
                             child: ListTile(
                               title: const Text(LocaleKeys.donate_slice).tr(),
-                              subtitle: const Text('\$3.49'),
+                              subtitle: const Text('\$2.99'),
                               trailing: const FaIcon(
                                 FontAwesomeIcons.pizzaSlice,
                                 color: TautulliColorPalette.not_white,
