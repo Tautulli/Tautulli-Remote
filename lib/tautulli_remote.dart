@@ -64,8 +64,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
   Future<void> initPlatformState() async {
     if (!mounted) return;
 
-    //TODO: remove onesignal logging
-    await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    // await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
     await OneSignal.shared.setLocationShared(false);
 
