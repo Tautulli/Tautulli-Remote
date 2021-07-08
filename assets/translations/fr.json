@@ -49,7 +49,7 @@
   "termination_terminate_message_label": "Message d'interruption",
   "button_cancel": "ANNULER",
   "button_terminate": "INTERROMPRE",
-  "button_go_to_settings": "Aller aux paramètres",
+  "button_go_to_settings": "ALLER AUX PARAMÈTRES",
   "button_retry": "Réessayer",
   "media_details_location_error": "ERREUR : Adresse IP non présente dans la carte GeoIP",
   "media_details_location_loading": "Chargement des données d'emplacement",

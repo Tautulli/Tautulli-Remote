@@ -49,7 +49,7 @@
   "termination_terminate_message_label": "Nachricht beenden",
   "button_cancel": "Abbrechen",
   "button_terminate": "BEENDEN",
-  "button_go_to_settings": "Zu den Einstellungen gehen",
+  "button_go_to_settings": "ZU DEN EINSTELLUNGEN GEHEN",
   "button_retry": "Wiederholen",
   "media_details_location_error": "ERROR: IP-Adresse nicht in GeoIP-Karte",
   "media_details_location_loading": "Laden von Standortdaten",
