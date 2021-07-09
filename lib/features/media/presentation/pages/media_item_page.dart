@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/platform_custom/platform_custom_icons.dart';
 import '../../../../core/widgets/poster_chooser.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
@@ -489,13 +490,17 @@ List<Widget> _appBarActions({
               },
             );
           }
-          return const IconButton(
-            icon: Icon(Icons.more_vert),
+          return IconButton(
+            icon: Icon(
+              PlatformCustomIcons.more(),
+            ),
             onPressed: null,
           );
         }
-        return const IconButton(
-          icon: Icon(Icons.more_vert),
+        return IconButton(
+          icon: Icon(
+            PlatformCustomIcons.more(),
+          ),
           onPressed: null,
         );
       },
