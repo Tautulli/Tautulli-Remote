@@ -237,12 +237,11 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         UsersPage.routeName: (ctx) => const UsersPage(),
         WizardPage.routeName: (ctx) => const WizardPage(),
       },
-      initialRoute: widget.showWizard
-          ? '/wizard'
+      home: widget.showWizard
+          ? const WizardPage()
           : widget.showChangelog
-              ? '/changelog'
-              : null,
-      home: const ActivityPage(),
+              ? const ChangelogPage()
+              : const ActivityPage(),
     );
   }
 }
