@@ -1,6 +1,36 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.11.0",
+      "date": "July 15, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "The Android app is moving to stable, beta testing will continue as part of the Tautulli Remote development cycle",
+        },
+        {
+          "type": "new",
+          "detail": "iOS support is here, the iOS app is now in beta",
+        },
+        {
+          "type": "important",
+          "detail":
+              "New translations for French, German, Swedish, and Spanish (Thanks @NathanBnm, @Jerome2013, and @ferrangar)",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Resolve issue where app could display black screen on resume",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "'Buy Me A Slice' donation level has been reduced on Android to 2.99 USD to match Apple restrictions",
+        },
+      ],
+    },
+    {
       "version": "v2.10.0",
       "date": "June 16, 2021",
       "changes": [
