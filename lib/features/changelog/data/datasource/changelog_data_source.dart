@@ -14,7 +14,7 @@ Map changelog = {
           "detail": "iOS support is here, the iOS app is now in beta",
         },
         {
-          "type": "important",
+          "type": "improvement",
           "detail":
               "New translations for French, German, Swedish, and Spanish (Thanks @NathanBnm, @Jerome2013, and @ferrangar)",
         },
