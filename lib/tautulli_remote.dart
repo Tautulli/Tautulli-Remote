@@ -239,9 +239,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       },
       home: widget.showWizard
           ? const WizardPage()
-          : widget.showChangelog
-              ? const ChangelogPage()
-              : const ActivityPage(),
+          : ActivityPage(
+              showChangelog: widget.showChangelog,
+            ),
     );
   }
 }

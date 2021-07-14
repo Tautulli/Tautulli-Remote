@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
@@ -28,13 +29,30 @@ import '../widgets/activity_card.dart';
 import '../widgets/activity_error_button.dart';
 import '../widgets/bandwidth_header.dart';
 
+// Due to multiple builds of the ActivityPage on app start this
+// ensures no repeat pushes of the ChangelogPage
+bool changelogTriggered = false;
+
 class ActivityPage extends StatelessWidget {
-  const ActivityPage({Key key}) : super(key: key);
+  final bool showChangelog;
+
+  const ActivityPage({
+    Key key,
+    this.showChangelog = false,
+  }) : super(key: key);
 
   static const routeName = '/activity';
 
   @override
   Widget build(BuildContext context) {
+    // Display changelog page
+    if (showChangelog && !changelogTriggered) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pushNamed('/changelog');
+      });
+      changelogTriggered = true;
+    }
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<ActivityBloc>(
