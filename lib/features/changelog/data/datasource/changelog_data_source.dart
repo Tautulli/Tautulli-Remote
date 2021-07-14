@@ -28,6 +28,11 @@ Map changelog = {
           "detail":
               "'Buy Me A Slice' donation level has been reduced on Android to 2.99 USD to match Apple restrictions",
         },
+        {
+          "type": "fix",
+          "detail":
+              "Adjust how the changelog is triggered on starting a new app version (to support iOS)",
+        },
       ],
     },
     {
