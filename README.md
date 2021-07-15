@@ -4,7 +4,8 @@ A mobile companion app for [Tautulli](https://tautulli.com/) written with Dart a
 Tautulli Remote is available for Android and iOS (in beta) and can be downloaded from the Google Play Store and through TestFlight respectively.
 
 <a href='https://play.google.com/store/apps/details?id=com.tautulli.tautulli_remote&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="150"/></a>
-<a href="https://testflight.apple.com/join/G29OmIm1"><img src="https://developer.foursquare.com/docs/static/30030abacfedfe34db9d34686abfee39/8e687/testflight-badge.png" alt="Download on the App Store" height="45" style="padding:6px;"/></a>
+
+<a href="https://testflight.apple.com/join/G29OmIm1"><img src="https://developer.foursquare.com/docs/static/30030abacfedfe34db9d34686abfee39/8e687/testflight-badge.png" alt="Download on the App Store" height="45"/></a>
 <!-- <a href=""><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;" alt="Download on the App Store" style="border-radius: 13px; width: 125px; height: 58px;"></a> -->
 
 ## Features
