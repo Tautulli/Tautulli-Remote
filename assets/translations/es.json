@@ -107,17 +107,10 @@
     "history_details_watched": "VISTO",
     "libraries_empty": "No se han encontrado librerias.",
     "general_tooltip_sort_libraries": "Ordenar librerias",
-    "general_details_hrs": "",
     "logs_timestamp": "",
-    "media_details_rated": "",
     "privacy_consent_switch": "",
-    "settings_registration_scan_code": "",
     "masked_device_token": "",
-    "settings_activity_refresh_rate": "",
     "button_no": "",
-    "onesignal_consent_error_message": "",
     "general_seconds": "",
-    "general_details_plays": "",
-    "button_view_onesignal_privacy": "",
-    "settings_alert_ios_local_network_permission_content_2": ""
+    "button_view_onesignal_privacy": ""
 }

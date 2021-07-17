@@ -1,23 +1,12 @@
 {
-    "media_details_direct_play": "",
     "media_details_stream": "",
-    "termination_terminate_message_label": "",
     "donate_slice": "",
-    "general_tooltip_time_range": "",
     "graphs_media_type_top_users": "",
-    "general_filter_users": "",
     "history_details_date": "",
-    "libraries_details_albums": "",
     "logs_clear": "",
-    "general_read_less": "",
     "media_tab_episodes": "",
-    "general_tooltip_filter_media_type": "",
     "masked_info_connection_address": "",
-    "settings_registration_success": "",
     "settings_fast": "",
-    "button_view_privacy_page": "",
     "general_play": "",
-    "users_empty": "",
-    "wizard_closing_title": "",
-    "translate_request_language": ""
+    "wizard_closing_title": ""
 }
