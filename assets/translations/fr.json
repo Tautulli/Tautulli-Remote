@@ -203,7 +203,6 @@
     "recently_added_empty_filter": "Aucun élément récent ajouté pour {}.",
     "general_tooltip_filter_media_type": "Filtrer le type de média",
     "general_added": "Ajouté",
-    "settings_registration_text_1": "",
     "settings_registration_qr_error": "Erreur lors de l'analyse du QR code",
     "settings_registration_scan_code": "Scanner le QR code",
     "settings_primary_connection_address": "Adresse de connexion principale",
@@ -256,7 +255,6 @@
     "settings_certificate_dialog_content": "Le certificat de ce serveur n'a pas pu être authentifié et peut être auto-signé. Voulez-vous faire confiance à ce certificat ?",
     "settings_setup_instructions_warning": ".Cette application n'est pas enregistrée sur un serveur Tautulli.",
     "settings_setup_instructions_line_1": "Pour s'inscrire à un serveur Tautulli :",
-    "settings_setup_instructions_line_3": "",
     "settings_setup_instructions_line_5": "",
     "button_dismiss": "MASQUER",
     "button_view_privacy_page": "VOIR LA POLITIQUE DE CONFIDENTIALITÉ",
@@ -325,7 +323,5 @@
     "translate_help_translate": "Traduire Tautulli Remote",
     "translate_request_language": "Demander une nouvelle langue",
     "wizard_closing_translate": "Tautulli Remote prend en charge plusieurs langues, participez à la traduction via Paramètres > Aider à traduire.",
-    "privacy_alert_content": "",
-    "settings_alert_ios_local_network_permission_content_1": "",
-    "settings_alert_ios_local_network_permission_content_3": ""
+    "settings_alert_ios_local_network_permission_content_1": ""
 }

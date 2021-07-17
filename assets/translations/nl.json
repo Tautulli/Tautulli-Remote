@@ -316,15 +316,9 @@
     "button_skip": "Overslaan",
     "wizard_closing_title": "Een Paar Laatste Dingen",
     "wizard_closing_announcements": "Houd de Notificatie pagina in de gaten om belangrijke berichten over de app te ontvangen.",
-    "wizard_closing_notifications": "",
     "wizard_onesignal_text_2": "",
-    "wizard_onesignal_communication_error": "",
     "wizard_servers_text_1": "",
-    "wizard_servers_text_3": "",
     "translate_text_1": "",
-    "translate_help_translate": "",
     "wizard_closing_translate": "",
-    "privacy_alert_content": "",
-    "settings_alert_ios_local_network_permission_content_1": "",
-    "settings_alert_ios_local_network_permission_content_3": ""
+    "settings_alert_ios_local_network_permission_content_1": ""
 }
