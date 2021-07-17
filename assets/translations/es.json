@@ -106,6 +106,5 @@
     "history_details_paused": "PAUSADO",
     "history_details_watched": "VISTO",
     "libraries_empty": "No se han encontrado librerias.",
-    "general_tooltip_sort_libraries": "Ordenar librerias",
-    "button_no": ""
+    "general_tooltip_sort_libraries": "Ordenar librerias"
 }
