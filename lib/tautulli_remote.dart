@@ -237,6 +237,15 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         UsersPage.routeName: (ctx) => const UsersPage(),
         WizardPage.routeName: (ctx) => const WizardPage(),
       },
+      builder: (context, child) {
+        final MediaQueryData data = MediaQuery.of(context);
+        return MediaQuery(
+          data: data.copyWith(
+            textScaleFactor: 1.0,
+          ),
+          child: child,
+        );
+      },
       home: widget.showWizard
           ? const WizardPage()
           : ActivityPage(

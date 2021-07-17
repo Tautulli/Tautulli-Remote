@@ -54,6 +54,9 @@ If this is a new bug, open a [bug report](https://github.com/Tautulli/Tautulli-R
 <img src="https://hosted.weblate.org/widgets/tautulli-remote/-/multi-auto.svg" alt="Translation status" />
 </a>
 
+## Contributing
+You can help improve Tautulli Remote! Check out the [Contribution Guide](CONTRIBUTING.md) to get started.
+
 ## License
 [![GPLv3](https://img.shields.io/badge/License-GPLv3%20License-orange?style=flat-square)](https://github.com/Tautulli/Tautulli-Remote/blob/master/Licence)
 

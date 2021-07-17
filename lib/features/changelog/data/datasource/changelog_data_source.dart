@@ -1,6 +1,28 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.11.1",
+      "date": "July 17, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "New translations for Dutch (Thanks @Zucht)",
+        },
+        {
+          "type": "improvement",
+          "detail": "Change display name to 'Tautulli' on iOS",
+        },
+        {
+          "type": "fix",
+          "detail": "Fixed translations not loading",
+        },
+        {
+          "type": "fix",
+          "detail": "OS font size could cause issues with text layout",
+        },
+      ],
+    },
+    {
       "version": "v2.11.0",
       "date": "July 15, 2021",
       "changes": [

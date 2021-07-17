@@ -72,9 +72,18 @@ void main() async {
     EasyLocalization(
       path: 'assets/translations',
       supportedLocales: const [
+        Locale('de'),
+        Locale('el'),
         Locale('en'),
+        Locale('es'),
+        Locale('fr'),
+        Locale('it'),
+        Locale('nl'),
+        Locale('pt', 'BR'),
+        Locale('pt', 'PT'),
       ],
       fallbackLocale: const Locale('en'),
+      useFallbackTranslations: true,
       assetLoader: const CodegenLoader(),
       child: MultiBlocProvider(
         providers: [
