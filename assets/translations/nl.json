@@ -316,9 +316,6 @@
     "button_skip": "Overslaan",
     "wizard_closing_title": "Een Paar Laatste Dingen",
     "wizard_closing_announcements": "Houd de Notificatie pagina in de gaten om belangrijke berichten over de app te ontvangen.",
-    "wizard_onesignal_text_2": "",
     "wizard_servers_text_1": "",
-    "translate_text_1": "",
-    "wizard_closing_translate": "",
-    "settings_alert_ios_local_network_permission_content_1": ""
+    "wizard_closing_translate": ""
 }

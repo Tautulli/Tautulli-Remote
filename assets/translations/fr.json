@@ -255,7 +255,6 @@
     "settings_certificate_dialog_content": "Le certificat de ce serveur n'a pas pu être authentifié et peut être auto-signé. Voulez-vous faire confiance à ce certificat ?",
     "settings_setup_instructions_warning": ".Cette application n'est pas enregistrée sur un serveur Tautulli.",
     "settings_setup_instructions_line_1": "Pour s'inscrire à un serveur Tautulli :",
-    "settings_setup_instructions_line_5": "",
     "button_dismiss": "MASQUER",
     "button_view_privacy_page": "VOIR LA POLITIQUE DE CONFIDENTIALITÉ",
     "button_check_again": "VÉRIFIER À NOUVEAU",
@@ -322,6 +321,5 @@
     "translate_text_2": "Si vous souhaitez ajouter une nouvelle langue veuillez soumettre une demande de fonctionnalité sur GitHub.",
     "translate_help_translate": "Traduire Tautulli Remote",
     "translate_request_language": "Demander une nouvelle langue",
-    "wizard_closing_translate": "Tautulli Remote prend en charge plusieurs langues, participez à la traduction via Paramètres > Aider à traduire.",
-    "settings_alert_ios_local_network_permission_content_1": ""
+    "wizard_closing_translate": "Tautulli Remote prend en charge plusieurs langues, participez à la traduction via Paramètres > Aider à traduire."
 }
