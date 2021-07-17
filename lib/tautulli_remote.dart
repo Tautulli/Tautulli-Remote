@@ -241,7 +241,8 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         final MediaQueryData data = MediaQuery.of(context);
         return MediaQuery(
           data: data.copyWith(
-            textScaleFactor: 1.0,
+            textScaleFactor:
+                data.textScaleFactor < 1.15 ? data.textScaleFactor : 1.15,
           ),
           child: child,
         );
