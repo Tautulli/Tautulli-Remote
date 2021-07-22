@@ -12,6 +12,7 @@ class TranslationHelper {
       const Locale('en'),
       const Locale('es'),
       const Locale('fr'),
+      const Locale('hu'),
       const Locale('it'),
       const Locale('nl'),
       const Locale('pt', 'BR'),
@@ -31,6 +32,8 @@ class TranslationHelper {
       return 'Español';
     } else if (locale.languageCode == 'fr') {
       return 'Français';
+    } else if (locale.languageCode == 'hu') {
+      return 'Magyar';
     } else if (locale.languageCode == 'it') {
       return 'Italiano';
     } else if (locale.languageCode == 'nl') {

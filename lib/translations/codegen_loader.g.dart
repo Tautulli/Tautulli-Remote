@@ -1145,6 +1145,7 @@ static const Map<String,dynamic> fr = {
   "wizard_closing_translate": "Tautulli Remote prend en charge plusieurs langues, participez à la traduction via Paramètres > Aider à traduire.",
   "general_unknown": "Inconnu"
 };
+static const Map<String,dynamic> hu = {};
 static const Map<String,dynamic> it = {};
 static const Map<String,dynamic> nl = {
   "activity_empty": "Er wordt niets afgespeeld",
@@ -1813,5 +1814,5 @@ static const Map<String,dynamic> sv = {
   "button_continue": "FORTSÄTT",
   "general_unknown": "Okänd"
 };
-static const Map<String, Map<String,dynamic>> mapLocales = {"de": de, "el": el, "en": en, "es": es, "fr": fr, "it": it, "nl": nl, "pt_BR": pt_BR, "pt_PT": pt_PT, "sv": sv};
+static const Map<String, Map<String,dynamic>> mapLocales = {"de": de, "el": el, "en": en, "es": es, "fr": fr, "hu": hu, "it": it, "nl": nl, "pt_BR": pt_BR, "pt_PT": pt_PT, "sv": sv};
 }
