@@ -16,6 +16,7 @@ class TranslationHelper {
       const Locale('nl'),
       const Locale('pt', 'BR'),
       const Locale('pt', 'PT'),
+      const Locale('sv'),
     ];
   }
 
@@ -40,6 +41,8 @@ class TranslationHelper {
       } else {
         return 'Português (Portugal)';
       }
+    } else if (locale.languageCode == 'sv') {
+      return 'Svenska';
     } else {
       return LocaleKeys.general_unknown.tr();
     }
