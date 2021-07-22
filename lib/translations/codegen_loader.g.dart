@@ -706,16 +706,7 @@ static const Map<String,dynamic> en = {
   "settings_alert_ios_local_network_permission_content_3": "If denied you will need to manually enable this in the iOS settings.",
   "button_continue": "CONTINUE",
   "general_unknown": "Unknown",
-  "translate_language_german": "German",
-  "translate_language_greek": "Greek",
-  "translate_language_english": "English",
-  "translate_language_spanish": "Spanish",
-  "translate_language_french": "French",
-  "translate_language_italian": "Italian",
-  "translate_language_dutch": "Dutch",
-  "translate_language_portuguese": "Portuguese",
-  "translate_country_brazil": "Brazil",
-  "translate_country_portugal": "Portugal"
+  "settings_language_title": "Language"
 };
 static const Map<String,dynamic> es = {
   "activity_empty": "Sin reproducciones",

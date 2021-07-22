@@ -411,14 +411,5 @@ abstract class LocaleKeys {
       'settings_alert_ios_local_network_permission_content_3';
   static const button_continue = 'button_continue';
   static const general_unknown = 'general_unknown';
-  static const translate_language_german = 'translate_language_german';
-  static const translate_language_greek = 'translate_language_greek';
-  static const translate_language_english = 'translate_language_english';
-  static const translate_language_spanish = 'translate_language_spanish';
-  static const translate_language_french = 'translate_language_french';
-  static const translate_language_italian = 'translate_language_italian';
-  static const translate_language_dutch = 'translate_language_dutch';
-  static const translate_language_portuguese = 'translate_language_portuguese';
-  static const translate_country_brazil = 'translate_country_brazil';
-  static const translate_country_portugal = 'translate_country_portugal';
+  static const settings_language_title = 'settings_language_title';
 }
