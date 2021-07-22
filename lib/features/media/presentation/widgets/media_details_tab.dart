@@ -145,8 +145,8 @@ class _TabContent extends StatelessWidget {
                                       ),
                                       child: Text(
                                         controller.expanded
-                                            ? LocaleKeys.general_read_more.tr()
-                                            : LocaleKeys.general_read_less.tr(),
+                                            ? LocaleKeys.general_read_less.tr()
+                                            : LocaleKeys.general_read_more.tr(),
                                         style: const TextStyle(
                                           fontSize: 13,
                                         ),
@@ -222,8 +222,8 @@ class _TabContent extends StatelessWidget {
                   isNotEmpty(formattedOriginallyAvailableAt))
                 _ItemRow(
                   title: metadata.mediaType == 'episode'
-                    ? LocaleKeys.media_details_aired.tr()
-                    : LocaleKeys.media_details_taken.tr(),
+                      ? LocaleKeys.media_details_aired.tr()
+                      : LocaleKeys.media_details_taken.tr(),
                   item: [formattedOriginallyAvailableAt],
                 ),
               if (metadata.duration != null)

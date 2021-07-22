@@ -11,6 +11,7 @@ import '../../../settings/presentation/bloc/register_device_bloc.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../settings/presentation/pages/server_registration_page.dart';
 import '../../../settings/presentation/pages/server_settings_page.dart';
+import '../../../settings/presentation/widgets/language_dialog.dart';
 import '../../../settings/presentation/widgets/server_setup_instructions.dart';
 
 class Servers extends StatelessWidget {
@@ -87,7 +88,7 @@ class ServersContent extends StatelessWidget {
                 top: 30,
                 left: 16,
                 right: 16,
-                bottom: 12,
+                // bottom: 12,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -107,6 +108,35 @@ class ServersContent extends StatelessWidget {
                     LocaleKeys.wizard_servers_text_3,
                     style: TextStyle(fontSize: 16),
                   ).tr(),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            return showDialog(
+                              context: context,
+                              builder: (context) => LanguageDialog(
+                                initialValue: context.locale,
+                              ),
+                            );
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const FaIcon(
+                                FontAwesomeIcons.language,
+                                color: TautulliColorPalette.not_white,
+                              ),
+                              const SizedBox(width: 8),
+                              const Text(
+                                LocaleKeys.translate_change_language,
+                              ).tr(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -129,12 +159,14 @@ class ServersContent extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: state.serverList.isEmpty
                                     ? [
-                                        const Padding(
-                                          padding: EdgeInsets.only(
+                                        // ignore: prefer_const_constructors
+                                        Padding(
+                                          padding: const EdgeInsets.only(
                                             top: 8,
                                             left: 16,
                                             right: 16,
                                           ),
+                                          // ignore: prefer_const_constructors
                                           child: ServerSetupInstructions(
                                             showWarning: false,
                                           ),

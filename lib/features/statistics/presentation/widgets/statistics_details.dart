@@ -69,7 +69,7 @@ class StatisticsDetails extends StatelessWidget {
             ? '*${LocaleKeys.masked_info_user.tr()}*'
             : statistic.friendlyName;
       default:
-        return LocaleKeys.media_details_unknown.tr();
+        return LocaleKeys.general_unknown.tr();
     }
   }
 

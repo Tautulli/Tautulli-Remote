@@ -1,5 +1,3 @@
-import 'dart:io' show Platform;
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -117,12 +115,14 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           state.serverList.isEmpty
-                              ? const Padding(
-                                  padding: EdgeInsets.only(
+                              // ignore: prefer_const_constructors
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
                                     left: 16,
                                     right: 16,
                                     top: 10,
                                   ),
+                                  // ignore: prefer_const_constructors
                                   child: ServerSetupInstructions(),
                                 )
                               : ReorderableColumn(
@@ -275,37 +275,16 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                           );
                         },
                       ),
-                      if (Platform.isAndroid)
-                        CheckboxListTile(
-                          title: const Text(
-                                  LocaleKeys.settings_double_tap_exit_title)
-                              .tr(),
-                          subtitle: const Text(
-                            LocaleKeys.settings_double_tap_exit_message,
-                          ).tr(),
-                          onChanged: (value) {
-                            context.read<SettingsBloc>().add(
-                                  SettingsUpdateDoubleTapToExit(
-                                    value: value,
-                                  ),
-                                );
-                          },
-                          value: state.doubleTapToExit ?? false,
+                      ListTile(
+                        title: const Text(
+                          LocaleKeys.advanced_settings_page_title,
+                        ).tr(),
+                        onTap: () =>
+                            Navigator.of(context).pushNamed('/advanced'),
+                        trailing: const FaIcon(
+                          FontAwesomeIcons.angleRight,
+                          color: TautulliColorPalette.not_white,
                         ),
-                      CheckboxListTile(
-                        title: const Text(LocaleKeys.settings_mask_info_title)
-                            .tr(),
-                        subtitle:
-                            const Text(LocaleKeys.settings_mask_info_message)
-                                .tr(),
-                        onChanged: (value) {
-                          context.read<SettingsBloc>().add(
-                                SettingsUpdateMaskSensitiveInfo(
-                                  value: value,
-                                ),
-                              );
-                        },
-                        value: state.maskSensitiveInfo ?? false,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import 'core/helpers/translation_helper.dart';
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -12,6 +13,7 @@ import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 import 'features/settings/domain/usecases/register_device.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
+import 'features/translate/presentation/bloc/translate_bloc.dart';
 import 'injection_container.dart' as di;
 import 'tautulli_remote.dart';
 import 'translations/codegen_loader.g.dart';
@@ -71,17 +73,7 @@ void main() async {
   runApp(
     EasyLocalization(
       path: 'assets/translations',
-      supportedLocales: const [
-        Locale('de'),
-        Locale('el'),
-        Locale('en'),
-        Locale('es'),
-        Locale('fr'),
-        Locale('it'),
-        Locale('nl'),
-        Locale('pt', 'BR'),
-        Locale('pt', 'PT'),
-      ],
+      supportedLocales: TranslationHelper.supportedLocales(),
       fallbackLocale: const Locale('en'),
       useFallbackTranslations: true,
       assetLoader: const CodegenLoader(),
@@ -104,6 +96,9 @@ void main() async {
           BlocProvider<AnnouncementsBloc>(
             create: (context) =>
                 di.sl<AnnouncementsBloc>()..add(AnnouncementsFetch()),
+          ),
+          BlocProvider<TranslateBloc>(
+            create: (context) => di.sl<TranslateBloc>(),
           ),
         ],
         child: TautulliRemote(

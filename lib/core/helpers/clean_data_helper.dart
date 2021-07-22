@@ -74,7 +74,7 @@ class ActivityMediaDetailsCleaner {
     } else if (activity.syncedVersion == 1) {
       finalText = LocaleKeys.media_details_none.tr();
     } else {
-      finalText = LocaleKeys.media_details_unknown.tr();
+      finalText = LocaleKeys.general_unknown.tr();
     }
     final formattedBandwidth = RichText(
       text: TextSpan(
@@ -177,7 +177,7 @@ class ActivityMediaDetailsCleaner {
     String code,
     bool maskSensitiveInfo,
   }) {
-    if (city != null && city != LocaleKeys.media_details_unknown.tr()) {
+    if (city != null && city != LocaleKeys.general_unknown.tr()) {
       city = '$city, ';
     } else {
       city = '';

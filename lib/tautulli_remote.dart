@@ -23,6 +23,7 @@ import 'features/recent/presentation/pages/recently_added_page.dart';
 import 'features/settings/domain/usecases/register_device.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
+import 'features/settings/presentation/pages/advanced_settings_page.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/statistics/presentation/pages/statistics_page.dart';
 import 'features/synced_items/presentation/pages/synced_items_page.dart';
@@ -232,6 +233,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         PrivacyPage.routeName: (ctx) => const PrivacyPage(),
         RecentlyAddedPage.routeName: (ctx) => const RecentlyAddedPage(),
         SettingsPage.routeName: (ctx) => const SettingsPage(),
+        AdvancedSettingsPage.routeName: (ctx) => const AdvancedSettingsPage(),
         StatisticsPage.routeName: (ctx) => const StatisticsPage(),
         SyncedItemsPage.routeName: (ctx) => const SyncedItemsPage(),
         UsersPage.routeName: (ctx) => const UsersPage(),

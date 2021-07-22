@@ -65,7 +65,7 @@ class _HeadingText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String text = LocaleKeys.media_details_unknown.tr();
+    String text = LocaleKeys.general_unknown.tr();
 
     String parentTitle = item.parentTitle;
     String title = item.title;
