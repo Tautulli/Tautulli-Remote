@@ -31,7 +31,6 @@ class CodegenLoader extends AssetLoader{
   "media_details_transcode": "Transkodieren",
   "media_details_direct_stream": "Direkter Stream",
   "media_details_direct_play": "Direktwiedergabe",
-  "media_details_unknown": "Unbekannt",
   "media_details_bandwidth": "BANDBREITE",
   "media_details_container": "Container",
   "media_details_converting": "Konvertieren",
@@ -358,7 +357,8 @@ class CodegenLoader extends AssetLoader{
   "settings_alert_ios_local_network_permission_content_1": "Um sich mit einem lokalen Server verbinden zu können, benötigt Tautulli Remote die Berechtigung für das lokale Netzwerk.",
   "settings_alert_ios_local_network_permission_content_2": "Klicken Sie auf WEITER und akzeptieren Sie die Aufforderung, diese Berechtigung vor der Registrierung zuzulassen.",
   "settings_alert_ios_local_network_permission_content_3": "Wenn dies verweigert wird, müssen Sie dies manuell in den iOS-Einstellungen aktivieren.",
-  "button_continue": "WEITER"
+  "button_continue": "WEITER",
+  "general_unknown": "Unbekannt"
 };
 static const Map<String,dynamic> el = {};
 static const Map<String,dynamic> en = {
@@ -378,7 +378,6 @@ static const Map<String,dynamic> en = {
   "media_details_transcode": "Transcode",
   "media_details_direct_stream": "Direct Stream",
   "media_details_direct_play": "Direct Play",
-  "media_details_unknown": "Unknown",
   "media_details_bandwidth": "BANDWIDTH",
   "media_details_container": "CONTAINER",
   "media_details_converting": "Converting",
@@ -705,7 +704,8 @@ static const Map<String,dynamic> en = {
   "settings_alert_ios_local_network_permission_content_1": "In order to connect to a local server Tautulli Remote needs the local network permission.",
   "settings_alert_ios_local_network_permission_content_2": "Click CONTINUE and accept the prompt to allow this permission before registering.",
   "settings_alert_ios_local_network_permission_content_3": "If denied you will need to manually enable this in the iOS settings.",
-  "button_continue": "CONTINUE"
+  "button_continue": "CONTINUE",
+  "general_unknown": "Unknown"
 };
 static const Map<String,dynamic> es = {
   "activity_empty": "Sin reproducciones",
@@ -724,7 +724,6 @@ static const Map<String,dynamic> es = {
   "media_details_transcode": "Transcodificar",
   "media_details_direct_stream": "Stream directo",
   "media_details_direct_play": "Reproducción directa",
-  "media_details_unknown": "Desconocido",
   "media_details_bandwidth": "ANCHO DE BANDA",
   "media_details_container": "CONTENEDOR",
   "media_details_converting": "Convirtiendo",
@@ -815,7 +814,8 @@ static const Map<String,dynamic> es = {
   "history_details_paused": "PAUSADO",
   "history_details_watched": "VISTO",
   "libraries_empty": "No se han encontrado librerias.",
-  "general_tooltip_sort_libraries": "Ordenar librerias"
+  "general_tooltip_sort_libraries": "Ordenar librerias",
+  "general_unknown": "Desconocido"
 };
 static const Map<String,dynamic> fr = {
   "activity_empty": "Aucune lecture en cours",
@@ -833,7 +833,6 @@ static const Map<String,dynamic> fr = {
   "media_details_audio": "AUDIO",
   "media_details_direct_stream": "Flux en direct",
   "media_details_direct_play": "Lecture en direct",
-  "media_details_unknown": "Inconnu",
   "media_details_bandwidth": "BANDE PASSANTE",
   "media_details_container": "CONTENEUR",
   "media_details_converting": "Conversion",
@@ -1140,7 +1139,8 @@ static const Map<String,dynamic> fr = {
   "translate_text_2": "Si vous souhaitez ajouter une nouvelle langue veuillez soumettre une demande de fonctionnalité sur GitHub.",
   "translate_help_translate": "Traduire Tautulli Remote",
   "translate_request_language": "Demander une nouvelle langue",
-  "wizard_closing_translate": "Tautulli Remote prend en charge plusieurs langues, participez à la traduction via Paramètres > Aider à traduire."
+  "wizard_closing_translate": "Tautulli Remote prend en charge plusieurs langues, participez à la traduction via Paramètres > Aider à traduire.",
+  "general_unknown": "Inconnu"
 };
 static const Map<String,dynamic> it = {};
 static const Map<String,dynamic> nl = {
@@ -1160,7 +1160,6 @@ static const Map<String,dynamic> nl = {
   "media_details_transcode": "Transcodeer",
   "media_details_direct_stream": "Directe Stream",
   "media_details_direct_play": "Direct Afspelen",
-  "media_details_unknown": "Onbekend",
   "media_details_bandwidth": "Bandbreedte",
   "media_details_container": "Container",
   "media_details_converting": "Converteren",
@@ -1460,7 +1459,8 @@ static const Map<String,dynamic> nl = {
   "button_quit": "Stoppen",
   "button_skip": "Overslaan",
   "wizard_closing_title": "Een Paar Laatste Dingen",
-  "wizard_closing_announcements": "Houd de Notificatie pagina in de gaten om belangrijke berichten over de app te ontvangen."
+  "wizard_closing_announcements": "Houd de Notificatie pagina in de gaten om belangrijke berichten over de app te ontvangen.",
+  "general_unknown": "Onbekend"
 };
 static const Map<String,dynamic> pt_BR = {};
 static const Map<String,dynamic> pt_PT = {};
@@ -1481,7 +1481,6 @@ static const Map<String,dynamic> sv = {
   "media_details_transcode": "Omkodning",
   "media_details_direct_stream": "Direkt strömning",
   "media_details_direct_play": "Direktspel",
-  "media_details_unknown": "Okänd",
   "media_details_bandwidth": "BANDVIDT",
   "media_details_container": "CONTAINER",
   "media_details_converting": "Konvertera",
@@ -1808,7 +1807,8 @@ static const Map<String,dynamic> sv = {
   "settings_alert_ios_local_network_permission_content_1": "För att kunna ansluta till en lokal server behöver Tautulli Remote tillstånd för det lokala nätverket.",
   "settings_alert_ios_local_network_permission_content_2": "Klicka på FORTSÄTT och acceptera uppmaningen att tillåta denna behörighet innan du registrerar dig.",
   "settings_alert_ios_local_network_permission_content_3": "Om du nekas måste du aktivera detta manuellt i inställningarna för iOS.",
-  "button_continue": "FORTSÄTT"
+  "button_continue": "FORTSÄTT",
+  "general_unknown": "Okänd"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"de": de, "el": el, "en": en, "es": es, "fr": fr, "it": it, "nl": nl, "pt_BR": pt_BR, "pt_PT": pt_PT, "sv": sv};
 }

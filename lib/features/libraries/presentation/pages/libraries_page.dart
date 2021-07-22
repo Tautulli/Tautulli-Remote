@@ -469,7 +469,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
       case ('plays'):
         return LocaleKeys.general_filter_name.tr();
       default:
-        return LocaleKeys.media_details_unknown.tr();
+        return LocaleKeys.general_unknown.tr();
     }
   }
 }

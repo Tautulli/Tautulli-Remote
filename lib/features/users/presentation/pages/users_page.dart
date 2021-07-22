@@ -432,7 +432,7 @@ class _UsersPageContentState extends State<UsersPageContent> {
       case ('last_seen'):
         return LocaleKeys.general_filter_last_streamed.tr();
       default:
-        return LocaleKeys.media_details_unknown.tr();
+        return LocaleKeys.general_unknown.tr();
     }
   }
 }

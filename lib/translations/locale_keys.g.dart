@@ -17,7 +17,6 @@ abstract class  LocaleKeys {
   static const media_details_transcode = 'media_details_transcode';
   static const media_details_direct_stream = 'media_details_direct_stream';
   static const media_details_direct_play = 'media_details_direct_play';
-  static const media_details_unknown = 'media_details_unknown';
   static const media_details_bandwidth = 'media_details_bandwidth';
   static const media_details_container = 'media_details_container';
   static const media_details_converting = 'media_details_converting';
@@ -345,5 +344,6 @@ abstract class  LocaleKeys {
   static const settings_alert_ios_local_network_permission_content_2 = 'settings_alert_ios_local_network_permission_content_2';
   static const settings_alert_ios_local_network_permission_content_3 = 'settings_alert_ios_local_network_permission_content_3';
   static const button_continue = 'button_continue';
+  static const general_unknown = 'general_unknown';
 
 }

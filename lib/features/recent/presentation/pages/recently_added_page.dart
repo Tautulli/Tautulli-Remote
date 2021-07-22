@@ -411,6 +411,6 @@ String _mediaTypeToTitle(String mediaType) {
     case ('other_video'):
       return LocaleKeys.general_videos.tr();
     default:
-      return LocaleKeys.media_details_unknown.tr();
+      return LocaleKeys.general_unknown.tr();
   }
 }

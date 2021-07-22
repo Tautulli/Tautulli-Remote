@@ -85,7 +85,7 @@ String _rowOne(RecentItem item) {
     case ('album'):
       return item.parentTitle;
     default:
-      return LocaleKeys.media_details_unknown.tr();
+      return LocaleKeys.general_unknown.tr();
   }
 }
 
@@ -103,7 +103,7 @@ String _rowTwo(RecentItem item) {
     case ('album'):
       return item.title;
     default:
-      return LocaleKeys.media_details_unknown.tr();
+      return LocaleKeys.general_unknown.tr();
   }
 }
 
@@ -122,6 +122,6 @@ String _rowThree(RecentItem item) {
     case ('album'):
       return item.year.toString();
     default:
-      return LocaleKeys.media_details_unknown.tr();
+      return LocaleKeys.general_unknown.tr();
   }
 }
