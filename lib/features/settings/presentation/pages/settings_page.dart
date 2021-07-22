@@ -11,6 +11,7 @@ import 'package:reorderables/reorderables.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/helpers/translation_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/app_drawer_icon.dart';
 import '../../../../core/widgets/double_tap_exit.dart';
@@ -24,6 +25,7 @@ import '../bloc/register_device_bloc.dart';
 import '../bloc/settings_bloc.dart';
 import '../widgets/activity_refresh_rate_dialog.dart';
 import '../widgets/certificate_failure_alert_dialog.dart';
+import '../widgets/language_dialog.dart';
 import '../widgets/server_setup_instructions.dart';
 import '../widgets/server_timeout_dialog.dart';
 import '../widgets/settings_alert_banner.dart';
@@ -117,12 +119,14 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           state.serverList.isEmpty
-                              ? const Padding(
-                                  padding: EdgeInsets.only(
+                              // ignore: prefer_const_constructors
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
                                     left: 16,
                                     right: 16,
                                     top: 10,
                                   ),
+                                  // ignore: prefer_const_constructors
                                   child: ServerSetupInstructions(),
                                 )
                               : ReorderableColumn(
@@ -306,6 +310,22 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                               );
                         },
                         value: state.maskSensitiveInfo ?? false,
+                      ),
+                      ListTile(
+                        title: const Text(
+                          LocaleKeys.settings_language_title,
+                        ).tr(),
+                        subtitle: Text(
+                          TranslationHelper.localeToString(context.locale),
+                        ),
+                        onTap: () {
+                          return showDialog(
+                            context: context,
+                            builder: (context) => LanguageDialog(
+                              initialValue: context.locale,
+                            ),
+                          );
+                        },
                       ),
                       Padding(
                         padding: const EdgeInsets.only(

@@ -121,6 +121,7 @@ import 'features/terminate_session/data/repositories/terminate_session_repositor
 import 'features/terminate_session/domain/repositories/terminate_session_repository.dart';
 import 'features/terminate_session/domain/usecases/terminate_session.dart';
 import 'features/terminate_session/presentation/bloc/terminate_session_bloc.dart';
+import 'features/translate/presentation/bloc/translate_bloc.dart';
 import 'features/users/data/datasources/user_statistics_data_source.dart';
 import 'features/users/data/datasources/users_data_source.dart';
 import 'features/users/data/repositories/user_statistics_repository_impl.dart';
@@ -859,6 +860,13 @@ Future<void> init() async {
   sl.registerLazySingleton<TerminateSessionDataSource>(
     () => TerminateSessionDataSourceImpl(
       apiTerminateSession: sl(),
+    ),
+  );
+
+  //! Features - Translate
+  sl.registerFactory(
+    () => TranslateBloc(
+      logging: sl(),
     ),
   );
 
