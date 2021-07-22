@@ -1,5 +1,3 @@
-import 'dart:io' show Platform;
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -11,7 +9,6 @@ import 'package:reorderables/reorderables.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/helpers/translation_helper.dart';
 import '../../../../core/widgets/app_drawer.dart';
 import '../../../../core/widgets/app_drawer_icon.dart';
 import '../../../../core/widgets/double_tap_exit.dart';
@@ -25,7 +22,6 @@ import '../bloc/register_device_bloc.dart';
 import '../bloc/settings_bloc.dart';
 import '../widgets/activity_refresh_rate_dialog.dart';
 import '../widgets/certificate_failure_alert_dialog.dart';
-import '../widgets/language_dialog.dart';
 import '../widgets/server_setup_instructions.dart';
 import '../widgets/server_timeout_dialog.dart';
 import '../widgets/settings_alert_banner.dart';
@@ -279,53 +275,16 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                           );
                         },
                       ),
-                      if (Platform.isAndroid)
-                        CheckboxListTile(
-                          title: const Text(
-                                  LocaleKeys.settings_double_tap_exit_title)
-                              .tr(),
-                          subtitle: const Text(
-                            LocaleKeys.settings_double_tap_exit_message,
-                          ).tr(),
-                          onChanged: (value) {
-                            context.read<SettingsBloc>().add(
-                                  SettingsUpdateDoubleTapToExit(
-                                    value: value,
-                                  ),
-                                );
-                          },
-                          value: state.doubleTapToExit ?? false,
-                        ),
-                      CheckboxListTile(
-                        title: const Text(LocaleKeys.settings_mask_info_title)
-                            .tr(),
-                        subtitle:
-                            const Text(LocaleKeys.settings_mask_info_message)
-                                .tr(),
-                        onChanged: (value) {
-                          context.read<SettingsBloc>().add(
-                                SettingsUpdateMaskSensitiveInfo(
-                                  value: value,
-                                ),
-                              );
-                        },
-                        value: state.maskSensitiveInfo ?? false,
-                      ),
                       ListTile(
                         title: const Text(
-                          LocaleKeys.settings_language_title,
+                          LocaleKeys.advanced_settings_page_title,
                         ).tr(),
-                        subtitle: Text(
-                          TranslationHelper.localeToString(context.locale),
+                        onTap: () =>
+                            Navigator.of(context).pushNamed('/advanced'),
+                        trailing: const FaIcon(
+                          FontAwesomeIcons.angleRight,
+                          color: TautulliColorPalette.not_white,
                         ),
-                        onTap: () {
-                          return showDialog(
-                            context: context,
-                            builder: (context) => LanguageDialog(
-                              initialValue: context.locale,
-                            ),
-                          );
-                        },
                       ),
                       Padding(
                         padding: const EdgeInsets.only(

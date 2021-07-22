@@ -413,4 +413,5 @@ abstract class LocaleKeys {
   static const general_unknown = 'general_unknown';
   static const settings_language_title = 'settings_language_title';
   static const translate_change_language = 'translate_change_language';
+  static const advanced_settings_page_title = 'advanced_settings_page_title';
 }

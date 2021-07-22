@@ -707,7 +707,8 @@ static const Map<String,dynamic> en = {
   "button_continue": "CONTINUE",
   "general_unknown": "Unknown",
   "settings_language_title": "Language",
-  "translate_change_language": "Change Language"
+  "translate_change_language": "Change Language",
+  "advanced_settings_page_title": "Advanced Settings"
 };
 static const Map<String,dynamic> es = {
   "activity_empty": "Sin reproducciones",
