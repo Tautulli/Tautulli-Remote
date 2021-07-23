@@ -88,7 +88,7 @@ String _rowTwo(History item) {
     case ('photo'):
       return item.year == null ? '' : item.year.toString();
     case ('episode'):
-      return 'S${item.parentMediaIndex} • E${item.mediaIndex}';
+      return '${item.parentMediaIndex != null ? "S${item.parentMediaIndex}" : ""}${item.parentMediaIndex != null && item.mediaIndex != null ? " • " : ""}${item.mediaIndex != null ? "E${item.mediaIndex}" : ""}';
     case ('track'):
       return item.parentTitle;
     case ('clip'):

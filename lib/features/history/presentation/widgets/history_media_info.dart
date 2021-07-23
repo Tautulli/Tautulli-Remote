@@ -45,11 +45,12 @@ class HistoryMediaInfo extends StatelessWidget {
             history.mediaType == 'movie' && history.year != null
                 ? _HistoryMediaInfoH3(text: history.year.toString())
                 : history.mediaType == 'episode' &&
-                        history.parentMediaIndex != null &&
-                        history.mediaIndex != null
+                        (history.parentMediaIndex != null ||
+                            history.mediaIndex != null)
                     ? _HistoryMediaInfoH3(
                         text:
-                            'S${history.parentMediaIndex} • E${history.mediaIndex}')
+                            '${history.parentMediaIndex != null ? "S${history.parentMediaIndex}" : ""}${history.parentMediaIndex != null && history.mediaIndex != null ? " • " : ""}${history.mediaIndex != null ? "E${history.mediaIndex}" : ""}',
+                      )
                     : history.mediaType == 'track'
                         ? _HistoryMediaInfoH3(text: history.parentTitle)
                         : Container(),
