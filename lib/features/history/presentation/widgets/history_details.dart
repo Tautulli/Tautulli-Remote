@@ -39,7 +39,7 @@ class HistoryDetails extends StatelessWidget {
                 ),
               ),
               Text(
-                _rowTwo(historyItem),
+                _rowTwo(item: historyItem, server: server),
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 15,
@@ -82,12 +82,22 @@ class HistoryDetails extends StatelessWidget {
   }
 }
 
-String _rowTwo(History item) {
+String _rowTwo({
+  @required History item,
+  @required Server server,
+}) {
   switch (item.mediaType) {
     case ('movie'):
     case ('photo'):
       return item.year == null ? '' : item.year.toString();
     case ('episode'):
+      if (item.live == 1 && item.mediaIndex == null) {
+        return TimeFormatHelper.cleanDateTime(
+          item.date,
+          dateOnly: true,
+          dateFormat: server.dateFormat,
+        );
+      }
       return '${item.parentMediaIndex != null ? "S${item.parentMediaIndex}" : ""}${item.parentMediaIndex != null && item.mediaIndex != null ? " • " : ""}${item.mediaIndex != null ? "E${item.mediaIndex}" : ""}';
     case ('track'):
       return item.parentTitle;

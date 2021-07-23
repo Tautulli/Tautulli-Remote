@@ -107,6 +107,7 @@ class HistoryModalBottomSheet extends StatelessWidget {
                                     ),
                                     child: HistoryMediaInfo(
                                       history: item,
+                                      server: server,
                                     ),
                                   ),
                                 ),

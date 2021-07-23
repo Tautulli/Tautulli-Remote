@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/database/domain/entities/server.dart';
+import '../../../../core/helpers/time_format_helper.dart';
 import '../../domain/entities/history.dart';
 
 class HistoryMediaInfo extends StatelessWidget {
   final History history;
+  final Server server;
 
   const HistoryMediaInfo({
     Key key,
     @required this.history,
+    @required this.server,
   }) : super(key: key);
 
   @override
@@ -45,15 +49,25 @@ class HistoryMediaInfo extends StatelessWidget {
             history.mediaType == 'movie' && history.year != null
                 ? _HistoryMediaInfoH3(text: history.year.toString())
                 : history.mediaType == 'episode' &&
-                        (history.parentMediaIndex != null ||
-                            history.mediaIndex != null)
+                        history.live == 1 &&
+                        history.mediaIndex == null
                     ? _HistoryMediaInfoH3(
-                        text:
-                            '${history.parentMediaIndex != null ? "S${history.parentMediaIndex}" : ""}${history.parentMediaIndex != null && history.mediaIndex != null ? " • " : ""}${history.mediaIndex != null ? "E${history.mediaIndex}" : ""}',
+                        text: TimeFormatHelper.cleanDateTime(
+                          history.date,
+                          dateOnly: true,
+                          dateFormat: server.dateFormat,
+                        ),
                       )
-                    : history.mediaType == 'track'
-                        ? _HistoryMediaInfoH3(text: history.parentTitle)
-                        : Container(),
+                    : history.mediaType == 'episode' &&
+                            (history.parentMediaIndex != null ||
+                                history.mediaIndex != null)
+                        ? _HistoryMediaInfoH3(
+                            text:
+                                '${history.parentMediaIndex != null ? "S${history.parentMediaIndex}" : ""}${history.parentMediaIndex != null && history.mediaIndex != null ? " • " : ""}${history.mediaIndex != null ? "E${history.mediaIndex}" : ""}',
+                          )
+                        : history.mediaType == 'track'
+                            ? _HistoryMediaInfoH3(text: history.parentTitle)
+                            : Container(),
           ],
         ),
       ),
