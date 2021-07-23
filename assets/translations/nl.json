@@ -341,5 +341,6 @@
     "wizard_onesignal_text_1": "Tautulli gebruikt OneSignal voor het versturen van push berichten naar Tautilli Remote. De inhoud van deze berichten kan worden versleuteld.",
     "wizard_closing_notifications": "Vergeet niet om Tautilli Remote te configureren als een notificatie agent in Tautulli onder Settings > Notification Agents.",
     "wizard_closing_support": "Voor ondersteuning met issues of om feedback te geven bezoek Help & Ondersteuning op de Instellingen pagina.",
-    "media_details_burn": "Ingebrand"
+    "media_details_burn": "Ingebrand",
+    "general_unknown": "Onbekend"
 }
