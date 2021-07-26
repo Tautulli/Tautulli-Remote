@@ -82,7 +82,7 @@ flutter_icons:
 
 flutter_native_splash:
   color: "#292b2f"
-  image: assets/logo/splash_ios.png
+  image: assets/splash/splash_ios.png
   android: false
   web: false
 
@@ -133,7 +133,7 @@ flutter:
     - assets/images/default_profile.png
     - assets/logo/logo.png
     - assets/logo/logo_transparent.png
-    - assets/logo/splash_ios.png
+    - assets/splash/splash_ios.png
     - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
