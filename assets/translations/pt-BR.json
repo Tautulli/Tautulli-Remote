@@ -3,14 +3,14 @@
     "media_details_na": "N/D",
     "media_details_converting": "Convertendo",
     "media_details_container": "CONTAINER",
-    "media_details_bandwidth": "BANDWIDTH",
+    "media_details_bandwidth": "LARGURA DE BANDA",
     "media_details_direct_play": "Reprodução Direta",
     "media_details_direct_stream": "Stream Direto",
     "media_details_transcode": "Transcodificação",
     "media_details_audio": "ÁUDIO",
     "settings_page_title": "Configurações",
     "donate_page_title": "Doar",
-    "announcements_page_title": "Anúncios",
+    "announcements_page_title": "Notificações",
     "synced_items_page_title": "Itens Sincronizados",
     "graphs_page_title": "Gráficos",
     "statistics_page_title": "Estatísticas",
@@ -19,5 +19,6 @@
     "recently_added_page_title": "Adicionado Recentemente",
     "history_page_title": "Histórico",
     "activity_page_title": "Atividade",
-    "activity_empty": "Nada está sendo reproduzido no momento"
+    "activity_empty": "Sem reproduções no momento",
+    "masked_info_ip_address": "IP Oculto"
 }
