@@ -68,7 +68,7 @@ class CodegenLoader extends AssetLoader{
   "button_retry": "Wiederholen",
   "media_details_location_error": "ERROR: IP-Adresse nicht in GeoIP-Karte",
   "media_details_location_loading": "Laden von Standortdaten",
-  "activity_time_left": "links",
+  "activity_time_left": "Übrig",
   "settings_not_loaded_error": "ERROR: Einstellungen nicht geladen",
   "general_unknown_error": "Unbekannter Fehler",
   "donate_thank_you_alert": "Vielen Dank für Ihre Spende",
@@ -358,7 +358,10 @@ class CodegenLoader extends AssetLoader{
   "settings_alert_ios_local_network_permission_content_2": "Klicken Sie auf WEITER und akzeptieren Sie die Aufforderung, diese Berechtigung vor der Registrierung zuzulassen.",
   "settings_alert_ios_local_network_permission_content_3": "Wenn dies verweigert wird, müssen Sie dies manuell in den iOS-Einstellungen aktivieren.",
   "button_continue": "WEITER",
-  "general_unknown": "Unbekannt"
+  "general_unknown": "Unbekannt",
+  "advanced_settings_page_title": "Erweiterte Einstellungen",
+  "translate_change_language": "Sprache ändern",
+  "settings_language_title": "Sprache"
 };
 static const Map<String,dynamic> el = {};
 static const Map<String,dynamic> en = {
@@ -853,7 +856,36 @@ static const Map<String,dynamic> es = {
   "donate_recurring_heading": "Donaciones periódicas",
   "donate_slice": "Cómprame un pedazo",
   "donate_cone": "Cómprame un helado",
-  "donate_one_time_heading": "Donación única"
+  "donate_one_time_heading": "Donación única",
+  "statistics_empty": "No se encontraron estadísticas.",
+  "general_details_min": "min",
+  "libraries_details_recent_tab_failure": "No se pudo obtener los elementos.",
+  "libraries_full_refresh": "Realizando una actualización completa del contenido de la librería.",
+  "libraries_media_tab_empty": "No se encontraron elementos.",
+  "general_details_secs": "segs",
+  "general_details_mins": "mins",
+  "general_details_hrs": "hrs",
+  "general_details_duration": "Duración",
+  "libraries_details_videos": "Videos",
+  "libraries_details_photos": "Fotos",
+  "libraries_details_tracks": "Pistas",
+  "libraries_details_albums": "Discos",
+  "libraries_details_artists": "Artistas",
+  "libraries_details_episodes": "Episodios",
+  "libraries_details_seasons": "Temporadas",
+  "libraries_details_shows": "Series",
+  "libraries_details_movies": "Películas",
+  "libraries_details_tab_media": "Contenido",
+  "libraries_details_tab_new": "Nueva",
+  "general_never": "Nunca",
+  "general_filter_name": "Nombre",
+  "general_filter_history": "Historial de filtros",
+  "history_filter_empty": "No se ha encontrado actividad para los filtros seleccionados.",
+  "help_bugs_features_heading": "Incidencias/Petición de funcionalidades",
+  "advanced_settings_page_title": "Configuración avanzada",
+  "graphs_stream_type_platform": "Reproducir {} según Plataforma y tipo de flujo",
+  "help_help_topics_heading": "Temas de ayuda",
+  "graphs_stream_type_user": "Reproducir {} según usuario y tipo de flujo"
 };
 static const Map<String,dynamic> fr = {
   "activity_empty": "Aucune lecture en cours",
@@ -1525,21 +1557,22 @@ static const Map<String,dynamic> nl = {
   "wizard_onesignal_text_1": "Tautulli gebruikt OneSignal voor het versturen van push berichten naar Tautilli Remote. De inhoud van deze berichten kan worden versleuteld.",
   "wizard_closing_notifications": "Vergeet niet om Tautilli Remote te configureren als een notificatie agent in Tautulli onder Settings > Notification Agents.",
   "wizard_closing_support": "Voor ondersteuning met issues of om feedback te geven bezoek Help & Ondersteuning op de Instellingen pagina.",
-  "media_details_burn": "Ingebrand"
+  "media_details_burn": "Ingebrand",
+  "general_unknown": "Onbekend"
 };
 static const Map<String,dynamic> pt_BR = {
   "media_details_location": "LOCALIZAÇÃO",
   "media_details_na": "N/D",
   "media_details_converting": "Convertendo",
   "media_details_container": "CONTAINER",
-  "media_details_bandwidth": "BANDWIDTH",
+  "media_details_bandwidth": "LARGURA DE BANDA",
   "media_details_direct_play": "Reprodução Direta",
   "media_details_direct_stream": "Stream Direto",
   "media_details_transcode": "Transcodificação",
   "media_details_audio": "ÁUDIO",
   "settings_page_title": "Configurações",
   "donate_page_title": "Doar",
-  "announcements_page_title": "Anúncios",
+  "announcements_page_title": "Notificações",
   "synced_items_page_title": "Itens Sincronizados",
   "graphs_page_title": "Gráficos",
   "statistics_page_title": "Estatísticas",
@@ -1548,7 +1581,8 @@ static const Map<String,dynamic> pt_BR = {
   "recently_added_page_title": "Adicionado Recentemente",
   "history_page_title": "Histórico",
   "activity_page_title": "Atividade",
-  "activity_empty": "Nada está sendo reproduzido no momento"
+  "activity_empty": "Sem reproduções no momento",
+  "masked_info_ip_address": "IP Oculto"
 };
 static const Map<String,dynamic> pt_PT = {};
 static const Map<String,dynamic> sv = {
