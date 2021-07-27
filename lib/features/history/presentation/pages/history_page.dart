@@ -7,11 +7,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/widgets/app_drawer.dart';
-import '../../../../core/widgets/app_drawer_icon.dart';
 import '../../../../core/widgets/bottom_loader.dart';
-import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/error_message.dart';
+import '../../../../core/widgets/inner_drawer_scaffold.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
@@ -135,197 +133,190 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        leading: const AppDrawerIcon(),
-        title: Text(
-          LocaleKeys.history_page_title.tr(),
-        ),
-        actions: _appBarActions(),
+    return InnerDrawerScaffold(
+      title: Text(
+        LocaleKeys.history_page_title.tr(),
       ),
-      drawer: const AppDrawer(),
-      body: DoubleTapExit(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (context, state) {
-                if (state is SettingsLoadSuccess) {
-                  if (state.serverList.length > 1) {
-                    return DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        value: _tautulliId,
-                        style: TextStyle(color: Theme.of(context).accentColor),
-                        items: state.serverList.map((server) {
-                          return DropdownMenuItem(
-                            child: ServerHeader(serverName: server.plexName),
-                            value: server.tautulliId,
+      actions: _appBarActions(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              if (state is SettingsLoadSuccess) {
+                if (state.serverList.length > 1) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                      value: _tautulliId,
+                      style: TextStyle(color: Theme.of(context).accentColor),
+                      items: state.serverList.map((server) {
+                        return DropdownMenuItem(
+                          child: ServerHeader(serverName: server.plexName),
+                          value: server.tautulliId,
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        if (value != _tautulliId) {
+                          setState(() {
+                            _tautulliId = value;
+                            _userId = null;
+                          });
+                          _settingsBloc.add(
+                            SettingsUpdateLastSelectedServer(
+                              tautulliId: _tautulliId,
+                            ),
                           );
-                        }).toList(),
-                        onChanged: (value) {
-                          if (value != _tautulliId) {
-                            setState(() {
-                              _tautulliId = value;
-                              _userId = null;
-                            });
-                            _settingsBloc.add(
-                              SettingsUpdateLastSelectedServer(
-                                tautulliId: _tautulliId,
-                              ),
-                            );
-                            _historyBloc.add(
-                              HistoryFilter(
-                                tautulliId: value,
-                                mediaType: _mediaType,
-                                transcodeDecision: _transcodeDecision,
-                              ),
-                            );
-                            _usersListBloc.add(
-                              UsersListFetch(
-                                tautulliId: _tautulliId,
-                                settingsBloc: _settingsBloc,
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    );
-                  }
-                }
-                return Container(height: 0, width: 0);
-              },
-            ),
-            BlocConsumer<HistoryBloc, HistoryState>(
-              listener: (context, state) {
-                if (state is HistorySuccess) {
-                  _refreshCompleter?.complete();
-                  _refreshCompleter = Completer();
-                }
-              },
-              builder: (context, state) {
-                if (state is HistorySuccess) {
-                  final SettingsLoadSuccess settingsState = _settingsBloc.state;
-                  final server = settingsState.serverList.firstWhere(
-                    (server) => server.tautulliId == _tautulliId,
-                  );
-
-                  if (state.list.isNotEmpty) {
-                    return Expanded(
-                      child: RefreshIndicator(
-                        color: Theme.of(context).accentColor,
-                        onRefresh: () {
                           _historyBloc.add(
                             HistoryFilter(
-                              tautulliId: _tautulliId,
-                              userId: _userId,
+                              tautulliId: value,
                               mediaType: _mediaType,
                               transcodeDecision: _transcodeDecision,
                             ),
                           );
-                          return _refreshCompleter.future;
-                        },
-                        child: Scrollbar(
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return index >= state.list.length
-                                  ? BottomLoader()
-                                  : GestureDetector(
-                                      onTap: () {
-                                        return showModalBottomSheet(
-                                          context: context,
-                                          barrierColor: Colors.black87,
-                                          backgroundColor: Colors.transparent,
-                                          isScrollControlled: true,
-                                          builder: (context) => BlocBuilder<
-                                              SettingsBloc, SettingsState>(
-                                            builder: (context, settingsState) {
-                                              return HistoryModalBottomSheet(
-                                                item: state.list[index],
-                                                server: server,
-                                                maskSensitiveInfo: settingsState
-                                                        is SettingsLoadSuccess
-                                                    ? settingsState
-                                                        .maskSensitiveInfo
-                                                    : false,
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      },
-                                      child: PosterCard(
-                                        item: state.list[index],
-                                        details: HistoryDetails(
-                                          historyItem: state.list[index],
-                                          server: server,
-                                          maskSensitiveInfo: _maskSensitiveInfo,
-                                        ),
-                                      ),
-                                    );
-                            },
-                            itemCount: state.hasReachedMax
-                                ? state.list.length
-                                : state.list.length + 1,
-                            controller: _scrollController,
-                          ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Expanded(
-                      child: Center(
-                        child: Text(
-                          _mediaType != null || _transcodeDecision != null
-                              ? LocaleKeys.history_filter_empty
-                              : LocaleKeys.history_empty,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
-                        ).tr(),
-                      ),
-                    );
-                  }
-                }
-                if (state is HistoryFailure) {
-                  return Expanded(
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Center(
-                            child: ErrorMessage(
-                              failure: state.failure,
-                              message: state.message,
-                              suggestion: state.suggestion,
-                            ),
-                          ),
-                          HistoryErrorButton(
-                            completer: _refreshCompleter,
-                            failure: state.failure,
-                            historyEvent: HistoryFilter(
+                          _usersListBloc.add(
+                            UsersListFetch(
                               tautulliId: _tautulliId,
-                              userId: _userId,
-                              mediaType: _mediaType,
-                              transcodeDecision: _transcodeDecision,
+                              settingsBloc: _settingsBloc,
                             ),
-                          ),
-                        ],
-                      ),
+                          );
+                        }
+                      },
                     ),
                   );
                 }
+              }
+              return Container(height: 0, width: 0);
+            },
+          ),
+          BlocConsumer<HistoryBloc, HistoryState>(
+            listener: (context, state) {
+              if (state is HistorySuccess) {
+                _refreshCompleter?.complete();
+                _refreshCompleter = Completer();
+              }
+            },
+            builder: (context, state) {
+              if (state is HistorySuccess) {
+                final SettingsLoadSuccess settingsState = _settingsBloc.state;
+                final server = settingsState.serverList.firstWhere(
+                  (server) => server.tautulliId == _tautulliId,
+                );
+
+                if (state.list.isNotEmpty) {
+                  return Expanded(
+                    child: RefreshIndicator(
+                      color: Theme.of(context).accentColor,
+                      onRefresh: () {
+                        _historyBloc.add(
+                          HistoryFilter(
+                            tautulliId: _tautulliId,
+                            userId: _userId,
+                            mediaType: _mediaType,
+                            transcodeDecision: _transcodeDecision,
+                          ),
+                        );
+                        return _refreshCompleter.future;
+                      },
+                      child: Scrollbar(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return index >= state.list.length
+                                ? BottomLoader()
+                                : GestureDetector(
+                                    onTap: () {
+                                      return showModalBottomSheet(
+                                        context: context,
+                                        barrierColor: Colors.black87,
+                                        backgroundColor: Colors.transparent,
+                                        isScrollControlled: true,
+                                        builder: (context) => BlocBuilder<
+                                            SettingsBloc, SettingsState>(
+                                          builder: (context, settingsState) {
+                                            return HistoryModalBottomSheet(
+                                              item: state.list[index],
+                                              server: server,
+                                              maskSensitiveInfo: settingsState
+                                                      is SettingsLoadSuccess
+                                                  ? settingsState
+                                                      .maskSensitiveInfo
+                                                  : false,
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    child: PosterCard(
+                                      item: state.list[index],
+                                      details: HistoryDetails(
+                                        historyItem: state.list[index],
+                                        server: server,
+                                        maskSensitiveInfo: _maskSensitiveInfo,
+                                      ),
+                                    ),
+                                  );
+                          },
+                          itemCount: state.hasReachedMax
+                              ? state.list.length
+                              : state.list.length + 1,
+                          controller: _scrollController,
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Expanded(
+                    child: Center(
+                      child: Text(
+                        _mediaType != null || _transcodeDecision != null
+                            ? LocaleKeys.history_filter_empty
+                            : LocaleKeys.history_empty,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                      ).tr(),
+                    ),
+                  );
+                }
+              }
+              if (state is HistoryFailure) {
                 return Expanded(
                   child: Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).accentColor,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Center(
+                          child: ErrorMessage(
+                            failure: state.failure,
+                            message: state.message,
+                            suggestion: state.suggestion,
+                          ),
+                        ),
+                        HistoryErrorButton(
+                          completer: _refreshCompleter,
+                          failure: state.failure,
+                          historyEvent: HistoryFilter(
+                            tautulliId: _tautulliId,
+                            userId: _userId,
+                            mediaType: _mediaType,
+                            transcodeDecision: _transcodeDecision,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
-              },
-            ),
-          ],
-        ),
+              }
+              return Expanded(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).accentColor,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

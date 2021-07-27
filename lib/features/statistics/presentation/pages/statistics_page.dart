@@ -9,11 +9,9 @@ import 'package:validators/validators.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/asset_mapper_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/widgets/app_drawer.dart';
-import '../../../../core/widgets/app_drawer_icon.dart';
-import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/icon_card.dart';
+import '../../../../core/widgets/inner_drawer_scaffold.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../core/widgets/user_card.dart';
@@ -116,145 +114,138 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        leading: const AppDrawerIcon(),
-        title: Text(
-          LocaleKeys.statistics_page_title.tr(),
-        ),
-        actions: _appBarActions(),
+    return InnerDrawerScaffold(
+      title: Text(
+        LocaleKeys.statistics_page_title.tr(),
       ),
-      drawer: const AppDrawer(),
-      body: DoubleTapExit(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (context, state) {
-                if (state is SettingsLoadSuccess) {
-                  if (state.serverList.length > 1) {
-                    return DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        value: _tautulliId,
-                        style: TextStyle(color: Theme.of(context).accentColor),
-                        items: state.serverList.map((server) {
-                          return DropdownMenuItem(
-                            child: ServerHeader(serverName: server.plexName),
-                            value: server.tautulliId,
+      actions: _appBarActions(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              if (state is SettingsLoadSuccess) {
+                if (state.serverList.length > 1) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                      value: _tautulliId,
+                      style: TextStyle(color: Theme.of(context).accentColor),
+                      items: state.serverList.map((server) {
+                        return DropdownMenuItem(
+                          child: ServerHeader(serverName: server.plexName),
+                          value: server.tautulliId,
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        if (value != _tautulliId) {
+                          setState(() {
+                            _tautulliId = value;
+                          });
+                          _settingsBloc.add(
+                            SettingsUpdateLastSelectedServer(
+                                tautulliId: _tautulliId),
                           );
-                        }).toList(),
-                        onChanged: (value) {
-                          if (value != _tautulliId) {
-                            setState(() {
-                              _tautulliId = value;
-                            });
-                            _settingsBloc.add(
-                              SettingsUpdateLastSelectedServer(
-                                  tautulliId: _tautulliId),
-                            );
-                            _statisticsBloc.add(
-                              StatisticsFilter(
-                                tautulliId: value,
-                                statsType: _statsType,
-                                timeRange: _timeRange,
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    );
-                  }
-                }
-                return Container(height: 0, width: 0);
-              },
-            ),
-            BlocConsumer<StatisticsBloc, StatisticsState>(
-              listener: (context, state) {
-                if (state is StatisticsSuccess) {
-                  _refreshCompleter?.complete();
-                  _refreshCompleter = Completer();
-                }
-              },
-              builder: (context, state) {
-                if (state is StatisticsSuccess) {
-                  List<Widget> statList = _buildStatisticList(
-                    map: state.map,
-                    hasReachedMaxMap: state.hasReachedMaxMap,
-                  );
-
-                  if (!state.noStats) {
-                    return Expanded(
-                      child: RefreshIndicator(
-                        color: Theme.of(context).accentColor,
-                        onRefresh: () {
                           _statisticsBloc.add(
                             StatisticsFilter(
-                              tautulliId: _tautulliId,
+                              tautulliId: value,
                               statsType: _statsType,
                               timeRange: _timeRange,
                             ),
                           );
-                          return _refreshCompleter.future;
-                        },
-                        child: Scrollbar(
-                          child: ListView(
-                            children: statList,
-                          ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Expanded(
-                      child: Center(
-                        child: const Text(
-                          LocaleKeys.statistics_filter_empty,
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
-                        ).tr(),
-                      ),
-                    );
-                  }
-                }
-                if (state is StatisticsFailure) {
-                  return Expanded(
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Center(
-                            child: ErrorMessage(
-                              failure: state.failure,
-                              message: state.message,
-                              suggestion: state.suggestion,
-                            ),
-                          ),
-                          StatisticsErrorButton(
-                            completer: _refreshCompleter,
-                            failure: state.failure,
-                            statisticsAddedEvent: StatisticsFilter(
-                              tautulliId: _tautulliId,
-                              statsType: _statsType,
-                            ),
-                          ),
-                        ],
-                      ),
+                        }
+                      },
                     ),
                   );
                 }
+              }
+              return Container(height: 0, width: 0);
+            },
+          ),
+          BlocConsumer<StatisticsBloc, StatisticsState>(
+            listener: (context, state) {
+              if (state is StatisticsSuccess) {
+                _refreshCompleter?.complete();
+                _refreshCompleter = Completer();
+              }
+            },
+            builder: (context, state) {
+              if (state is StatisticsSuccess) {
+                List<Widget> statList = _buildStatisticList(
+                  map: state.map,
+                  hasReachedMaxMap: state.hasReachedMaxMap,
+                );
+
+                if (!state.noStats) {
+                  return Expanded(
+                    child: RefreshIndicator(
+                      color: Theme.of(context).accentColor,
+                      onRefresh: () {
+                        _statisticsBloc.add(
+                          StatisticsFilter(
+                            tautulliId: _tautulliId,
+                            statsType: _statsType,
+                            timeRange: _timeRange,
+                          ),
+                        );
+                        return _refreshCompleter.future;
+                      },
+                      child: Scrollbar(
+                        child: ListView(
+                          children: statList,
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Expanded(
+                    child: Center(
+                      child: const Text(
+                        LocaleKeys.statistics_filter_empty,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                      ).tr(),
+                    ),
+                  );
+                }
+              }
+              if (state is StatisticsFailure) {
                 return Expanded(
                   child: Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).accentColor,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Center(
+                          child: ErrorMessage(
+                            failure: state.failure,
+                            message: state.message,
+                            suggestion: state.suggestion,
+                          ),
+                        ),
+                        StatisticsErrorButton(
+                          completer: _refreshCompleter,
+                          failure: state.failure,
+                          statisticsAddedEvent: StatisticsFilter(
+                            tautulliId: _tautulliId,
+                            statsType: _statsType,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
-              },
-            ),
-          ],
-        ),
+              }
+              return Expanded(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).accentColor,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

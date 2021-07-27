@@ -8,9 +8,7 @@ import 'package:validators/validators.dart';
 
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/widgets/app_drawer.dart';
-import '../../../../core/widgets/app_drawer_icon.dart';
-import '../../../../core/widgets/double_tap_exit.dart';
+import '../../../../core/widgets/inner_drawer_scaffold.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
@@ -109,138 +107,130 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        title: Text(
-          LocaleKeys.graphs_page_title.tr(),
-        ),
-        leading: const AppDrawerIcon(),
-        actions: _appBarActions(),
+    return InnerDrawerScaffold(
+      title: Text(
+        LocaleKeys.graphs_page_title.tr(),
       ),
-      drawer: const AppDrawer(),
-      body: DoubleTapExit(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BlocBuilder<SettingsBloc, SettingsState>(
-                builder: (context, state) {
-                  if (state is SettingsLoadSuccess) {
-                    if (state.serverList.length > 1) {
-                      return DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                          value: _tautulliId,
-                          style:
-                              TextStyle(color: Theme.of(context).accentColor),
-                          items: state.serverList.map((server) {
-                            return DropdownMenuItem(
-                              child: ServerHeader(serverName: server.plexName),
-                              value: server.tautulliId,
+      actions: _appBarActions(),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, state) {
+                if (state is SettingsLoadSuccess) {
+                  if (state.serverList.length > 1) {
+                    return DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        value: _tautulliId,
+                        style: TextStyle(color: Theme.of(context).accentColor),
+                        items: state.serverList.map((server) {
+                          return DropdownMenuItem(
+                            child: ServerHeader(serverName: server.plexName),
+                            value: server.tautulliId,
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          if (value != _tautulliId) {
+                            setState(() {
+                              _tautulliId = value;
+                            });
+                            _settingsBloc.add(
+                              SettingsUpdateLastSelectedServer(
+                                tautulliId: _tautulliId,
+                              ),
                             );
-                          }).toList(),
-                          onChanged: (value) {
-                            if (value != _tautulliId) {
-                              setState(() {
-                                _tautulliId = value;
-                              });
-                              _settingsBloc.add(
-                                SettingsUpdateLastSelectedServer(
-                                  tautulliId: _tautulliId,
-                                ),
-                              );
-                              _mediaTypeGraphsBloc.add(
-                                MediaTypeGraphsFetch(
-                                  tautulliId: value,
-                                  timeRange: _timeRange,
-                                  yAxis: _yAxis,
-                                  settingsBloc: _settingsBloc,
-                                ),
-                              );
-                              _streamTypeGraphsBloc.add(
-                                StreamTypeGraphsFetch(
-                                  tautulliId: value,
-                                  timeRange: _timeRange,
-                                  yAxis: _yAxis,
-                                  settingsBloc: _settingsBloc,
-                                ),
-                              );
-                              _playTotalsGraphsBloc.add(
-                                PlayTotalsGraphsFetch(
-                                  tautulliId: value,
-                                  // timeRange: _timeRange,
-                                  yAxis: _yAxis,
-                                  settingsBloc: _settingsBloc,
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      );
-                    }
-                  }
-                  return Container(height: 0, width: 0);
-                },
-              ),
-              DefaultTabController(
-                length: 3,
-                child: Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TabBarView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: [
-                            BlocProvider.value(
-                              value: _mediaTypeGraphsBloc,
-                              child: MediaTypeTab(
-                                tautulliId: _tautulliId,
+                            _mediaTypeGraphsBloc.add(
+                              MediaTypeGraphsFetch(
+                                tautulliId: value,
                                 timeRange: _timeRange,
                                 yAxis: _yAxis,
+                                settingsBloc: _settingsBloc,
                               ),
-                            ),
-                            BlocProvider.value(
-                              value: _streamTypeGraphsBloc,
-                              child: StreamTypeTab(
-                                tautulliId: _tautulliId,
+                            );
+                            _streamTypeGraphsBloc.add(
+                              StreamTypeGraphsFetch(
+                                tautulliId: value,
                                 timeRange: _timeRange,
                                 yAxis: _yAxis,
+                                settingsBloc: _settingsBloc,
                               ),
-                            ),
-                            BlocProvider.value(
-                              value: _playTotalsGraphsBloc,
-                              child: PlayTotalsTab(
-                                tautulliId: _tautulliId,
+                            );
+                            _playTotalsGraphsBloc.add(
+                              PlayTotalsGraphsFetch(
+                                tautulliId: value,
                                 // timeRange: _timeRange,
                                 yAxis: _yAxis,
+                                settingsBloc: _settingsBloc,
                               ),
-                            ),
-                          ],
-                        ),
+                            );
+                          }
+                        },
                       ),
-                      TabBar(
-                        indicatorSize: TabBarIndicatorSize.label,
-                        tabs: [
-                          Tab(
-                            child: const Text(LocaleKeys.graphs_media_type_tab)
-                                .tr(),
+                    );
+                  }
+                }
+                return Container(height: 0, width: 0);
+              },
+            ),
+            DefaultTabController(
+              length: 3,
+              child: Expanded(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          BlocProvider.value(
+                            value: _mediaTypeGraphsBloc,
+                            child: MediaTypeTab(
+                              tautulliId: _tautulliId,
+                              timeRange: _timeRange,
+                              yAxis: _yAxis,
+                            ),
                           ),
-                          Tab(
-                            child: const Text(LocaleKeys.graphs_stream_type_tab)
-                                .tr(),
+                          BlocProvider.value(
+                            value: _streamTypeGraphsBloc,
+                            child: StreamTypeTab(
+                              tautulliId: _tautulliId,
+                              timeRange: _timeRange,
+                              yAxis: _yAxis,
+                            ),
                           ),
-                          Tab(
-                            child: const Text(LocaleKeys.graphs_play_totals_tab)
-                                .tr(),
+                          BlocProvider.value(
+                            value: _playTotalsGraphsBloc,
+                            child: PlayTotalsTab(
+                              tautulliId: _tautulliId,
+                              // timeRange: _timeRange,
+                              yAxis: _yAxis,
+                            ),
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    TabBar(
+                      indicatorSize: TabBarIndicatorSize.label,
+                      tabs: [
+                        Tab(
+                          child:
+                              const Text(LocaleKeys.graphs_media_type_tab).tr(),
+                        ),
+                        Tab(
+                          child: const Text(LocaleKeys.graphs_stream_type_tab)
+                              .tr(),
+                        ),
+                        Tab(
+                          child: const Text(LocaleKeys.graphs_play_totals_tab)
+                              .tr(),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
