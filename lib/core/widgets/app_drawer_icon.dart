@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_inner_drawer/inner_drawer.dart';
 
 import '../../features/announcements/presentation/bloc/announcements_bloc.dart';
 import '../helpers/color_palette_helper.dart';
 
 class AppDrawerIcon extends StatelessWidget {
-  const AppDrawerIcon({Key key}) : super(key: key);
+  final GlobalKey<InnerDrawerState> innerDrawerKey;
+
+  const AppDrawerIcon({
+    Key key,
+    @required this.innerDrawerKey,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,7 @@ class AppDrawerIcon extends StatelessWidget {
               child: IconButton(
                 icon: const Icon(Icons.menu),
                 onPressed: () {
-                  Scaffold.of(context).openDrawer();
+                  innerDrawerKey.currentState.open();
                 },
               ),
             ),
