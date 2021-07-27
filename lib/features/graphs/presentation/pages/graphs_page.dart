@@ -16,6 +16,7 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/media_type_graphs_bloc.dart';
 import '../bloc/play_totals_graphs_bloc.dart';
 import '../bloc/stream_type_graphs_bloc.dart';
+import '../widgets/graph_tips_dialog.dart';
 import '../widgets/media_type_tab.dart';
 import '../widgets/play_totals_tab.dart';
 import '../widgets/stream_type_tab.dart';
@@ -101,6 +102,16 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
       if (mediaTypeGraphsState is MediaTypeGraphsInitial) {
         _yAxis = settingsState.yAxis;
         _timeRange = mediaTypeGraphsState.timeRange ?? 30;
+      }
+
+      if (!settingsState.graphTipsShown) {
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          return showDialog(
+            context: context,
+            builder: (context) => const GraphTipsDialog(),
+          );
+        });
+        _settingsBloc.add(SettingsUpdateGraphTipsShown(true));
       }
     }
   }

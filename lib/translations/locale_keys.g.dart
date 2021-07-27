@@ -348,5 +348,7 @@ abstract class  LocaleKeys {
   static const advanced_settings_page_title = 'advanced_settings_page_title';
   static const translate_change_language = 'translate_change_language';
   static const settings_language_title = 'settings_language_title';
+  static const graphs_tips_dialog_content = 'graphs_tips_dialog_content';
+  static const general_tips = 'general_tips';
 
 }

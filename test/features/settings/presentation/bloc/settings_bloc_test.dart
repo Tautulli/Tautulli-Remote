@@ -112,7 +112,8 @@ void main() {
   const String tUsersSort = 'friendly_name|asc';
   const bool tOneSignalBannerDismissed = false;
   const String oneSignalUserId = 'abd';
-  const bool tIosLocalNetworkPermissionPrompted = false;
+  const bool tIosLocalNetworkPermissionPrompted = true;
+  const bool tGraphTipsShown = true;
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
   final PlexServerInfo tPlexServerInfo =
@@ -145,7 +146,7 @@ void main() {
       settingsBloc: anyNamed('settingsBloc'),
     )).thenAnswer((_) async => Right(tPlexServerInfo));
     when(mockSettings.getIosLocalNetworkPermissionPrompted())
-        .thenAnswer((_) async => true);
+        .thenAnswer((_) async => tIosLocalNetworkPermissionPrompted);
     when(mockSettings.getTautulliSettings(
       tautulliId: anyNamed('tautulliId'),
       settingsBloc: anyNamed('settingsBloc'),
@@ -160,6 +161,8 @@ void main() {
         trustCert: anyNamed('trustCert'),
       ),
     ).thenAnswer((_) async => Right(registerDeviceResponseMap));
+    when(mockSettings.getGraphTipsShown())
+        .thenAnswer((_) async => tGraphTipsShown);
   }
 
   test(
@@ -204,6 +207,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         ];
         // ignore: unawaited_futures
@@ -230,6 +234,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
         when(
@@ -285,6 +290,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -322,6 +328,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -402,6 +409,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -444,6 +452,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -481,6 +490,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -513,6 +523,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -579,6 +590,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -612,6 +624,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -678,6 +691,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -711,6 +725,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -763,6 +778,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -796,6 +812,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -849,6 +866,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
               sortChanged: '0:0:1',
             ),
           ];
@@ -880,6 +898,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -918,6 +937,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -946,6 +966,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -978,6 +999,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -1004,6 +1026,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -1034,6 +1057,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -1058,6 +1082,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -1088,6 +1113,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -1112,6 +1138,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -1142,6 +1169,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -1166,6 +1194,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -1196,6 +1225,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -1220,6 +1250,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -1250,6 +1281,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -1274,6 +1306,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -1304,6 +1337,7 @@ void main() {
               usersSort: 'friendly_name|desc',
               oneSignalBannerDismissed: tOneSignalBannerDismissed,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -1328,6 +1362,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -1358,6 +1393,7 @@ void main() {
               usersSort: tUsersSort,
               oneSignalBannerDismissed: true,
               iosLocalNetworkPermissionPrompted: true,
+              graphTipsShown: true,
             ),
           ];
           // ignore: unawaited_futures
@@ -1382,6 +1418,7 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: true,
           ),
         );
       });
@@ -1411,11 +1448,12 @@ void main() {
             usersSort: tUsersSort,
             oneSignalBannerDismissed: tOneSignalBannerDismissed,
             iosLocalNetworkPermissionPrompted: false,
+            graphTipsShown: true,
           ),
         );
       });
       test(
-        'should call the Settings.setWizardCompleteStatus() use case',
+        'should call the Settings.setIosLocalNetworkPermissionPrompted() use case',
         () async {
           // act
           bloc.add(SettingsUpdateIosLocalNetworkPermissionPrompted(true));
@@ -1423,6 +1461,37 @@ void main() {
               mockSettings.setIosLocalNetworkPermissionPrompted(true));
           // assert
           verify(mockSettings.setIosLocalNetworkPermissionPrompted(true));
+        },
+      );
+    });
+
+    group('SettingsUpdateGraphTipsShown', () {
+      setUp(() {
+        bloc.emit(
+          SettingsLoadSuccess(
+            serverList: tServerList,
+            serverTimeout: tServerTimeout,
+            refreshRate: tRefreshRate,
+            doubleTapToExit: tDoubleTapToExit,
+            maskSensitiveInfo: tMaskSensitiveInfo,
+            lastSelectedServer: tTautulliId,
+            statsType: tStatsType,
+            yAxis: tYAxis,
+            usersSort: tUsersSort,
+            oneSignalBannerDismissed: tOneSignalBannerDismissed,
+            iosLocalNetworkPermissionPrompted: true,
+            graphTipsShown: false,
+          ),
+        );
+      });
+      test(
+        'should call the Settings.setGraphTipsShown() use case',
+        () async {
+          // act
+          bloc.add(SettingsUpdateGraphTipsShown(true));
+          await untilCalled(mockSettings.setGraphTipsShown(true));
+          // assert
+          verify(mockSettings.setGraphTipsShown(true));
         },
       );
     });

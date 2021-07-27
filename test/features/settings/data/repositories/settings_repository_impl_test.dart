@@ -73,6 +73,7 @@ void main() {
   const int tLastReadAnnouncementId = 1;
   const bool tWizardCompleteStatus = false;
   const bool tIosLocalNetworkPermissionPrompt = false;
+  const bool tGraphTipsShown = false;
   final List<int> tCustomCertHashList = [1, 2];
 
   final plexServerInfoJson = json.decode(fixture('plex_server_info.json'));
@@ -611,7 +612,7 @@ void main() {
     );
 
     test(
-      'should forward the call to the data source to set banner dismiss',
+      'should forward the call to the data source to set local network permission prompted',
       () async {
         // act
         await repository.setIosLocalNetworkPermissionPrompted(
@@ -619,6 +620,31 @@ void main() {
         // assert
         verify(mockSettingsDataSource.setIosLocalNetworkPermissionPrompted(
             tIosLocalNetworkPermissionPrompt));
+      },
+    );
+  });
+
+  group('Graph Tips Shown', () {
+    test(
+      'should return the graph tips shown value from settings',
+      () async {
+        // arrange
+        when(mockSettingsDataSource.getGraphTipsShown())
+            .thenAnswer((_) async => tGraphTipsShown);
+        // act
+        final result = await repository.getGraphTipsShown();
+        // assert
+        expect(result, equals(tGraphTipsShown));
+      },
+    );
+
+    test(
+      'should forward the call to the data source to set graph tips shown',
+      () async {
+        // act
+        await repository.setGraphTipsShown(tGraphTipsShown);
+        // assert
+        verify(mockSettingsDataSource.setGraphTipsShown(tGraphTipsShown));
       },
     );
   });

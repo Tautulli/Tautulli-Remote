@@ -253,6 +253,15 @@ class SettingsUpdateIosLocalNetworkPermissionPrompted extends SettingsEvent {
   List<Object> get props => [prompted];
 }
 
+class SettingsUpdateGraphTipsShown extends SettingsEvent {
+  final bool shown;
+
+  SettingsUpdateGraphTipsShown(this.shown);
+
+  @override
+  List<Object> get props => [shown];
+}
+
 class SettingsDeleteServer extends SettingsEvent {
   final int id;
   final String plexName;

@@ -26,6 +26,7 @@ class SettingsLoadSuccess extends SettingsState {
   final String usersSort;
   final bool oneSignalBannerDismissed;
   final bool iosLocalNetworkPermissionPrompted;
+  final bool graphTipsShown;
   final String sortChanged;
 
   SettingsLoadSuccess({
@@ -40,6 +41,7 @@ class SettingsLoadSuccess extends SettingsState {
     @required this.usersSort,
     @required this.oneSignalBannerDismissed,
     @required this.iosLocalNetworkPermissionPrompted,
+    @required this.graphTipsShown,
     this.sortChanged,
   });
 
@@ -55,6 +57,7 @@ class SettingsLoadSuccess extends SettingsState {
     String usersSort,
     bool oneSignalBannerDismissed,
     bool iosLocalNetworkPermissionPrompted,
+    bool graphTipsShown,
     String sortChanged,
   }) {
     return SettingsLoadSuccess(
@@ -71,6 +74,7 @@ class SettingsLoadSuccess extends SettingsState {
           oneSignalBannerDismissed ?? this.oneSignalBannerDismissed,
       iosLocalNetworkPermissionPrompted: iosLocalNetworkPermissionPrompted ??
           this.iosLocalNetworkPermissionPrompted,
+      graphTipsShown: graphTipsShown ?? this.graphTipsShown,
       sortChanged: sortChanged ?? this.sortChanged,
     );
   }
@@ -88,6 +92,7 @@ class SettingsLoadSuccess extends SettingsState {
         usersSort,
         oneSignalBannerDismissed,
         iosLocalNetworkPermissionPrompted,
+        graphTipsShown,
         sortChanged,
       ];
 }

@@ -338,4 +338,15 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<bool> setIosLocalNetworkPermissionPrompted(bool value) async {
     return dataSource.setIosLocalNetworkPermissionPrompted(value);
   }
+
+  @override
+  Future<bool> getGraphTipsShown() async {
+    final graphTipsShown = await dataSource.getGraphTipsShown();
+    return graphTipsShown;
+  }
+
+  @override
+  Future<bool> setGraphTipsShown(bool value) async {
+    return dataSource.setGraphTipsShown(value);
+  }
 }

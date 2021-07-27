@@ -117,4 +117,8 @@ abstract class SettingsRepository {
   Future<bool> getIosLocalNetworkPermissionPrompted();
 
   Future<bool> setIosLocalNetworkPermissionPrompted(bool value);
+
+  Future<bool> getGraphTipsShown();
+
+  Future<bool> setGraphTipsShown(bool value);
 }

@@ -774,7 +774,7 @@ void main() {
     );
 
     test(
-      'should call SharedPreferences to save the wizard complete status value',
+      'should call SharedPreferences to save the iOS local notitication prompt value',
       () async {
         // act
         await dataSource.setIosLocalNetworkPermissionPrompted(true);
@@ -782,6 +782,49 @@ void main() {
         verify(
           mockSharedPreferences.setBool(
               IOS_LOCAL_NETWORK_PERMISSION_PROMPTED, true),
+        );
+      },
+    );
+  });
+
+  group('Graph Tips Shown', () {
+    test(
+      'should return bool from settings',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(GRAPH_TIPS_SHOWN),
+        ).thenReturn(true);
+        // act
+        final graphTipsShown = await dataSource.getGraphTipsShown();
+        // assert
+        verify(mockSharedPreferences.getBool(GRAPH_TIPS_SHOWN));
+        expect(graphTipsShown, equals(true));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(GRAPH_TIPS_SHOWN),
+        ).thenReturn(null);
+        // act
+        final graphTipsShown = await dataSource.getGraphTipsShown();
+        // assert
+        expect(graphTipsShown, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the graph tips shown value',
+      () async {
+        // act
+        await dataSource.setGraphTipsShown(true);
+        // assert
+        verify(
+          mockSharedPreferences.setBool(GRAPH_TIPS_SHOWN, true),
         );
       },
     );
