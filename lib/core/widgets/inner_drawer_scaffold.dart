@@ -25,6 +25,7 @@ class InnerDrawerScaffold extends StatelessWidget {
     return InnerDrawer(
       key: _innerDrawerKey,
       onTapClose: true,
+      swipeChild: true,
       offset: const IDOffset.horizontal(0.5),
       leftChild: const AppDrawer(),
       scaffold: Scaffold(
