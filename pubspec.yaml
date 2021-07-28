@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   app_group_directory: ^2.0.0
+  cached_network_image: ^3.1.0
   color: ^3.0.0
   connectivity_plus: ^1.0.1
   cupertino_icons: ^1.0.3

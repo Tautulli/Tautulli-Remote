@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/activity.dart';
@@ -41,8 +42,8 @@ class _BackgroundImageGeneral extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          child: Image.network(
-            url,
+          child: Image(
+            image: CachedNetworkImageProvider(url),
             fit: BoxFit.cover,
           ),
         ),

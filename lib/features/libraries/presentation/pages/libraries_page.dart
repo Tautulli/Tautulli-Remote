@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -212,8 +213,10 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                                   iconImageUrl: library.iconUrl,
                                   iconColor: TautulliColorPalette.not_white,
                                   backgroundImage: library.sectionType != 'live'
-                                      ? Image.network(
-                                          library.backgroundUrl,
+                                      ? Image(
+                                          image: CachedNetworkImageProvider(
+                                            library.backgroundUrl,
+                                          ),
                                           fit: BoxFit.cover,
                                         )
                                       : Image.asset(
