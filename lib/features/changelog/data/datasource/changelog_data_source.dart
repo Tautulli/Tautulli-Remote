@@ -1,6 +1,48 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.11.2",
+      "date": "July 30, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail":
+              "New translations for Dutch, Portuguese (Brazil), Spanish, and German (Thanks @Zucht, @RubenKremer, @neitzke, @CMBoii, @granjerox, and @Jerome2103)",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added splash screen for iOS",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Add advanced setting to change app language rather than rely only on the system setting",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add option to change app language from the setup wizard",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Moved Double Tap to Exit (Android) and Mask Sensitive Info under new Advanced Settings menu",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix Swedish translations not working",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Live TV history would display null for missing episode/season number",
+        },
+        {
+          "type": "fix",
+          "detail": "Read more/less text for summaries was flipped",
+        },
+      ],
+    },
+    {
       "version": "v2.11.1",
       "date": "July 17, 2021",
       "changes": [
