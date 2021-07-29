@@ -160,107 +160,109 @@ class HistoryModalBottomSheet extends StatelessWidget {
           ),
           Container(
             color: Theme.of(context).backgroundColor,
-            child: Row(
-              children: [
-                // if (!disableStreamInfoButton)
-                //   Expanded(
-                //     child: Padding(
-                //       padding: const EdgeInsets.only(
-                //         left: 8,
-                //         right: 4,
-                //       ),
-                //       child: ElevatedButton(
-                //         onPressed: () {},
-                //         style: ElevatedButton.styleFrom(
-                //           primary: PlexColorPalette.river_bed,
-                //         ),
-                //         child: Text(
-                //           'Stream Info',
-                //           style: TextStyle(
-                //             color: TautulliColorPalette.not_white,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                if (!disableUserButton)
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8,
-                        right: 4,
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          UserTable user = UserTable(
-                            userId: item.userId,
-                            friendlyName: item.friendlyName,
-                          );
-
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => UserDetailsPage(
-                                user: user,
-                                forceGetUser: true,
-                              ),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: PlexColorPalette.gamboge,
+            child: SafeArea(
+              child: Row(
+                children: [
+                  // if (!disableStreamInfoButton)
+                  //   Expanded(
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.only(
+                  //         left: 8,
+                  //         right: 4,
+                  //       ),
+                  //       child: ElevatedButton(
+                  //         onPressed: () {},
+                  //         style: ElevatedButton.styleFrom(
+                  //           primary: PlexColorPalette.river_bed,
+                  //         ),
+                  //         child: Text(
+                  //           'Stream Info',
+                  //           style: TextStyle(
+                  //             color: TautulliColorPalette.not_white,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  if (!disableUserButton)
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 8,
+                          right: 4,
                         ),
-                        child: const Text(
-                          LocaleKeys.button_view_user,
-                          style: TextStyle(
-                            color: TautulliColorPalette.not_white,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            UserTable user = UserTable(
+                              userId: item.userId,
+                              friendlyName: item.friendlyName,
+                            );
+
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => UserDetailsPage(
+                                  user: user,
+                                  forceGetUser: true,
+                                ),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: PlexColorPalette.gamboge,
                           ),
-                        ).tr(),
+                          child: const Text(
+                            LocaleKeys.button_view_user,
+                            style: TextStyle(
+                              color: TautulliColorPalette.not_white,
+                            ),
+                          ).tr(),
+                        ),
                       ),
                     ),
-                  ),
-                if (!disableMediaButton)
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 4,
-                        right: 8,
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          MediaItem mediaItem = MediaItem(
-                            grandparentTitle: item.grandparentTitle,
-                            parentMediaIndex: item.parentMediaIndex,
-                            mediaIndex: item.mediaIndex,
-                            mediaType: item.mediaType,
-                            parentTitle: item.parentTitle,
-                            posterUrl: item.posterUrl,
-                            ratingKey: item.ratingKey,
-                            title: item.title,
-                            year: item.year,
-                          );
-
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => MediaItemPage(
-                                item: mediaItem,
-                                enableNavOptions: true,
-                              ),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: PlexColorPalette.curious_blue,
+                  if (!disableMediaButton)
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 4,
+                          right: 8,
                         ),
-                        child: const Text(
-                          LocaleKeys.button_view_media,
-                          style: TextStyle(
-                            color: TautulliColorPalette.not_white,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            MediaItem mediaItem = MediaItem(
+                              grandparentTitle: item.grandparentTitle,
+                              parentMediaIndex: item.parentMediaIndex,
+                              mediaIndex: item.mediaIndex,
+                              mediaType: item.mediaType,
+                              parentTitle: item.parentTitle,
+                              posterUrl: item.posterUrl,
+                              ratingKey: item.ratingKey,
+                              title: item.title,
+                              year: item.year,
+                            );
+
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => MediaItemPage(
+                                  item: mediaItem,
+                                  enableNavOptions: true,
+                                ),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: PlexColorPalette.curious_blue,
                           ),
-                        ).tr(),
+                          child: const Text(
+                            LocaleKeys.button_view_media,
+                            style: TextStyle(
+                              color: TautulliColorPalette.not_white,
+                            ),
+                          ).tr(),
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
