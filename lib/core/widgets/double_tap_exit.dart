@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
 
 class DoubleTapExit extends StatelessWidget {
+  final GlobalKey<InnerDrawerState> innerDrawerKey;
   final Widget child;
 
   const DoubleTapExit({
+    @required this.innerDrawerKey,
     @required this.child,
     Key key,
   }) : super(key: key);
@@ -21,6 +24,11 @@ class DoubleTapExit extends StatelessWidget {
         if (state is SettingsLoadSuccess && state.doubleTapToExit) {
           return WillPopScope(
             onWillPop: () {
+              if (innerDrawerKey.currentState.opened) {
+                innerDrawerKey.currentState.close();
+                return Future.value(false);
+              }
+
               DateTime now = DateTime.now();
 
               if (currentBackPressTime == null ||

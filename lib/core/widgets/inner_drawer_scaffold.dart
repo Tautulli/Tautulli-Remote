@@ -36,6 +36,7 @@ class InnerDrawerScaffold extends StatelessWidget {
           actions: actions ?? [],
         ),
         body: DoubleTapExit(
+          innerDrawerKey: _innerDrawerKey,
           child: body,
         ),
       ),
