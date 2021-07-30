@@ -9,10 +9,8 @@ import 'package:reorderables/reorderables.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/widgets/app_drawer.dart';
-import '../../../../core/widgets/app_drawer_icon.dart';
-import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
+import '../../../../core/widgets/inner_drawer_scaffold.dart';
 import '../../../../core/widgets/list_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
@@ -60,342 +58,328 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
       oneSignalHealthBloc.add(OneSignalHealthCheck());
     }
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        leading: const AppDrawerIcon(),
-        title: Text(
-          LocaleKeys.settings_page_title.tr(),
-        ),
+    return InnerDrawerScaffold(
+      title: Text(
+        LocaleKeys.settings_page_title.tr(),
       ),
-      drawer: const AppDrawer(),
-      body: DoubleTapExit(
-        child: SafeArea(
-          child: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
-            listener: (context, state) {
-              if (state is RegisterDeviceFailure) {
-                if (state.failure == CertificateVerificationFailure()) {
-                  showCertificateFailureAlertDialog(
-                      context: context,
-                      registerDeviceBloc: context.read<RegisterDeviceBloc>(),
-                      settingsBloc: context.read<SettingsBloc>());
-                } else {
-                  showFailureAlertDialog(
+      body: SafeArea(
+        child: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
+          listener: (context, state) {
+            if (state is RegisterDeviceFailure) {
+              if (state.failure == CertificateVerificationFailure()) {
+                showCertificateFailureAlertDialog(
                     context: context,
-                    failure: state.failure,
-                  );
-                }
+                    registerDeviceBloc: context.read<RegisterDeviceBloc>(),
+                    settingsBloc: context.read<SettingsBloc>());
+              } else {
+                showFailureAlertDialog(
+                  context: context,
+                  failure: state.failure,
+                );
               }
-              if (state is RegisterDeviceSuccess) {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: Colors.green,
-                    content:
-                        const Text(LocaleKeys.settings_registration_success)
-                            .tr(),
+            }
+            if (state is RegisterDeviceSuccess) {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.green,
+                  content:
+                      const Text(LocaleKeys.settings_registration_success).tr(),
+                ),
+              );
+            }
+          },
+          child: BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              if (state is SettingsLoadSuccess) {
+                return ListView(
+                  children: <Widget>[
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: SettingsAlertBanner(),
+                    ),
+                    ListHeader(
+                      headingText: LocaleKeys.settings_servers_heading.tr(),
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        state.serverList.isEmpty
+                            // ignore: prefer_const_constructors
+                            ? Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  right: 16,
+                                  top: 10,
+                                ),
+                                // ignore: prefer_const_constructors
+                                child: ServerSetupInstructions(),
+                              )
+                            : ReorderableColumn(
+                                onReorder: (oldIndex, newIndex) {
+                                  final int movedServerId =
+                                      state.serverList[oldIndex].id;
+                                  context.read<SettingsBloc>().add(
+                                        SettingsUpdateSortIndex(
+                                          serverId: movedServerId,
+                                          oldIndex: oldIndex,
+                                          newIndex: newIndex,
+                                        ),
+                                      );
+                                },
+                                children: state.serverList
+                                    .map(
+                                      (server) => ListTile(
+                                        key: ValueKey(server.id),
+                                        title: Text('${server.plexName}'),
+                                        subtitle: (isEmpty(server
+                                                .primaryConnectionAddress))
+                                            ? const Text(
+                                                LocaleKeys
+                                                    .settings_primary_connection_missing,
+                                              ).tr()
+                                            : isNotEmpty(server
+                                                        .primaryConnectionAddress) &&
+                                                    server.primaryActive &&
+                                                    !state.maskSensitiveInfo
+                                                ? Text(server
+                                                    .primaryConnectionAddress)
+                                                : isNotEmpty(server
+                                                            .primaryConnectionAddress) &&
+                                                        !server.primaryActive &&
+                                                        !state.maskSensitiveInfo
+                                                    ? Text(server
+                                                        .secondaryConnectionAddress)
+                                                    : Text(
+                                                        '*${LocaleKeys.masked_info_connection_address.tr()}*',
+                                                      ),
+                                        trailing: const FaIcon(
+                                          FontAwesomeIcons.cog,
+                                          color: TautulliColorPalette.not_white,
+                                        ),
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return ServerSettingsPage(
+                                                  id: server.id,
+                                                  plexName: server.plexName,
+                                                  maskSensitiveInfo:
+                                                      state.maskSensitiveInfo,
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: state.serverList.isEmpty ? 8 : 0,
+                        left: 16,
+                        right: 16,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Theme.of(context).accentColor,
+                              ),
+                              onPressed: () async {
+                                bool result = await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    fullscreenDialog: true,
+                                    builder: (context) {
+                                      return BlocProvider(
+                                        create: (context) =>
+                                            di.sl<RegisterDeviceBloc>(),
+                                        child: ServerRegistrationPage(),
+                                      );
+                                    },
+                                  ),
+                                );
+
+                                if (result == true) {
+                                  ScaffoldMessenger.of(context)
+                                      .hideCurrentSnackBar();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: const Text(
+                                        LocaleKeys
+                                            .settings_registration_success,
+                                      ).tr(),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: const Text(
+                                LocaleKeys.button_register_server,
+                              ).tr(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    //* App settings
+                    ListHeader(
+                      headingText:
+                          LocaleKeys.settings_app_settings_heading.tr(),
+                    ),
+                    ListTile(
+                      title:
+                          const Text(LocaleKeys.settings_server_timeout).tr(),
+                      subtitle: _serverTimeoutDisplay(state.serverTimeout),
+                      onTap: () {
+                        return showDialog(
+                          context: context,
+                          builder: (context) => ServerTimeoutDialog(
+                            initialValue: state.serverTimeout,
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      title:
+                          const Text(LocaleKeys.settings_activity_refresh_rate)
+                              .tr(),
+                      subtitle: _serverRefreshRateDisplay(state.refreshRate),
+                      onTap: () {
+                        return showDialog(
+                          context: context,
+                          builder: (context) => ActivityRefreshRateDialog(
+                            initialValue: state.refreshRate == null
+                                ? 0
+                                : state.refreshRate,
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      title: const Text(
+                        LocaleKeys.advanced_settings_page_title,
+                      ).tr(),
+                      onTap: () => Navigator.of(context).pushNamed('/advanced'),
+                      trailing: const FaIcon(
+                        FontAwesomeIcons.angleRight,
+                        color: TautulliColorPalette.not_white,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                        bottom: 10,
+                      ),
+                      child: Divider(
+                        color: Theme.of(context).accentColor,
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text(
+                        LocaleKeys.privacy_page_title,
+                        style: TextStyle(
+                          color: TautulliColorPalette.smoke,
+                        ),
+                      ).tr(),
+                      trailing: const FaIcon(
+                        FontAwesomeIcons.angleRight,
+                        color: TautulliColorPalette.smoke,
+                      ),
+                      onTap: () => Navigator.of(context).pushNamed('/privacy'),
+                    ),
+                    ListTile(
+                      title: const Text(
+                        LocaleKeys.help_page_title,
+                        style: TextStyle(
+                          color: TautulliColorPalette.smoke,
+                        ),
+                      ).tr(),
+                      trailing: const FaIcon(
+                        FontAwesomeIcons.angleRight,
+                        color: TautulliColorPalette.smoke,
+                      ),
+                      onTap: () => Navigator.of(context).pushNamed('/help'),
+                    ),
+                    ListTile(
+                      title: const Text(
+                        LocaleKeys.changelog_page_title,
+                        style: TextStyle(
+                          color: TautulliColorPalette.smoke,
+                        ),
+                      ).tr(),
+                      trailing: const FaIcon(
+                        FontAwesomeIcons.angleRight,
+                        color: TautulliColorPalette.smoke,
+                      ),
+                      onTap: () =>
+                          Navigator.of(context).pushNamed('/changelog'),
+                    ),
+                    ListTile(
+                      title: const Text(
+                        LocaleKeys.translate_page_title,
+                        style: TextStyle(
+                          color: TautulliColorPalette.smoke,
+                        ),
+                      ).tr(),
+                      trailing: const FaIcon(
+                        FontAwesomeIcons.angleRight,
+                        color: TautulliColorPalette.smoke,
+                      ),
+                      onTap: () =>
+                          Navigator.of(context).pushNamed('/translate'),
+                    ),
+                    ListTile(
+                      title: const Text(
+                        LocaleKeys.settings_about,
+                        style: TextStyle(
+                          color: TautulliColorPalette.smoke,
+                        ),
+                      ).tr(),
+                      trailing: const FaIcon(
+                        FontAwesomeIcons.angleRight,
+                        color: TautulliColorPalette.smoke,
+                      ),
+                      onTap: () async {
+                        PackageInfo packageInfo =
+                            await PackageInfo.fromPlatform();
+                        showAboutDialog(
+                          context: context,
+                          applicationIcon: SizedBox(
+                            height: 50,
+                            child: Image.asset('assets/logo/logo.png'),
+                          ),
+                          applicationName: 'Tautulli Remote',
+                          applicationVersion: packageInfo.version,
+                          applicationLegalese:
+                              LocaleKeys.settings_about_license.tr(),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              }
+              if (state is SettingsLoadInProgress) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).accentColor,
+                  ),
+                );
+              } else {
+                return const Center(
+                  child: Text(
+                    'There was an error loading settings.',
                   ),
                 );
               }
             },
-            child: BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (context, state) {
-                if (state is SettingsLoadSuccess) {
-                  return ListView(
-                    children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 10),
-                        child: SettingsAlertBanner(),
-                      ),
-                      ListHeader(
-                        headingText: LocaleKeys.settings_servers_heading.tr(),
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          state.serverList.isEmpty
-                              // ignore: prefer_const_constructors
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 16,
-                                    right: 16,
-                                    top: 10,
-                                  ),
-                                  // ignore: prefer_const_constructors
-                                  child: ServerSetupInstructions(),
-                                )
-                              : ReorderableColumn(
-                                  onReorder: (oldIndex, newIndex) {
-                                    final int movedServerId =
-                                        state.serverList[oldIndex].id;
-                                    context.read<SettingsBloc>().add(
-                                          SettingsUpdateSortIndex(
-                                            serverId: movedServerId,
-                                            oldIndex: oldIndex,
-                                            newIndex: newIndex,
-                                          ),
-                                        );
-                                  },
-                                  children: state.serverList
-                                      .map(
-                                        (server) => ListTile(
-                                          key: ValueKey(server.id),
-                                          title: Text('${server.plexName}'),
-                                          subtitle: (isEmpty(server
-                                                  .primaryConnectionAddress))
-                                              ? const Text(
-                                                  LocaleKeys
-                                                      .settings_primary_connection_missing,
-                                                ).tr()
-                                              : isNotEmpty(server
-                                                          .primaryConnectionAddress) &&
-                                                      server.primaryActive &&
-                                                      !state.maskSensitiveInfo
-                                                  ? Text(server
-                                                      .primaryConnectionAddress)
-                                                  : isNotEmpty(server
-                                                              .primaryConnectionAddress) &&
-                                                          !server
-                                                              .primaryActive &&
-                                                          !state
-                                                              .maskSensitiveInfo
-                                                      ? Text(server
-                                                          .secondaryConnectionAddress)
-                                                      : Text(
-                                                          '*${LocaleKeys.masked_info_connection_address.tr()}*',
-                                                        ),
-                                          trailing: const FaIcon(
-                                            FontAwesomeIcons.cog,
-                                            color:
-                                                TautulliColorPalette.not_white,
-                                          ),
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) {
-                                                  return ServerSettingsPage(
-                                                    id: server.id,
-                                                    plexName: server.plexName,
-                                                    maskSensitiveInfo:
-                                                        state.maskSensitiveInfo,
-                                                  );
-                                                },
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: state.serverList.isEmpty ? 8 : 0,
-                          left: 16,
-                          right: 16,
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Theme.of(context).accentColor,
-                                ),
-                                onPressed: () async {
-                                  bool result =
-                                      await Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      fullscreenDialog: true,
-                                      builder: (context) {
-                                        return BlocProvider(
-                                          create: (context) =>
-                                              di.sl<RegisterDeviceBloc>(),
-                                          child: ServerRegistrationPage(),
-                                        );
-                                      },
-                                    ),
-                                  );
-
-                                  if (result == true) {
-                                    ScaffoldMessenger.of(context)
-                                        .hideCurrentSnackBar();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        backgroundColor: Colors.green,
-                                        content: const Text(
-                                          LocaleKeys
-                                              .settings_registration_success,
-                                        ).tr(),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: const Text(
-                                  LocaleKeys.button_register_server,
-                                ).tr(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      //* App settings
-                      ListHeader(
-                        headingText:
-                            LocaleKeys.settings_app_settings_heading.tr(),
-                      ),
-                      ListTile(
-                        title:
-                            const Text(LocaleKeys.settings_server_timeout).tr(),
-                        subtitle: _serverTimeoutDisplay(state.serverTimeout),
-                        onTap: () {
-                          return showDialog(
-                            context: context,
-                            builder: (context) => ServerTimeoutDialog(
-                              initialValue: state.serverTimeout,
-                            ),
-                          );
-                        },
-                      ),
-                      ListTile(
-                        title: const Text(
-                                LocaleKeys.settings_activity_refresh_rate)
-                            .tr(),
-                        subtitle: _serverRefreshRateDisplay(state.refreshRate),
-                        onTap: () {
-                          return showDialog(
-                            context: context,
-                            builder: (context) => ActivityRefreshRateDialog(
-                              initialValue: state.refreshRate == null
-                                  ? 0
-                                  : state.refreshRate,
-                            ),
-                          );
-                        },
-                      ),
-                      ListTile(
-                        title: const Text(
-                          LocaleKeys.advanced_settings_page_title,
-                        ).tr(),
-                        onTap: () =>
-                            Navigator.of(context).pushNamed('/advanced'),
-                        trailing: const FaIcon(
-                          FontAwesomeIcons.angleRight,
-                          color: TautulliColorPalette.not_white,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10,
-                          right: 10,
-                          bottom: 10,
-                        ),
-                        child: Divider(
-                          color: Theme.of(context).accentColor,
-                        ),
-                      ),
-                      ListTile(
-                        title: const Text(
-                          LocaleKeys.privacy_page_title,
-                          style: TextStyle(
-                            color: TautulliColorPalette.smoke,
-                          ),
-                        ).tr(),
-                        trailing: const FaIcon(
-                          FontAwesomeIcons.angleRight,
-                          color: TautulliColorPalette.smoke,
-                        ),
-                        onTap: () =>
-                            Navigator.of(context).pushNamed('/privacy'),
-                      ),
-                      ListTile(
-                        title: const Text(
-                          LocaleKeys.help_page_title,
-                          style: TextStyle(
-                            color: TautulliColorPalette.smoke,
-                          ),
-                        ).tr(),
-                        trailing: const FaIcon(
-                          FontAwesomeIcons.angleRight,
-                          color: TautulliColorPalette.smoke,
-                        ),
-                        onTap: () => Navigator.of(context).pushNamed('/help'),
-                      ),
-                      ListTile(
-                        title: const Text(
-                          LocaleKeys.changelog_page_title,
-                          style: TextStyle(
-                            color: TautulliColorPalette.smoke,
-                          ),
-                        ).tr(),
-                        trailing: const FaIcon(
-                          FontAwesomeIcons.angleRight,
-                          color: TautulliColorPalette.smoke,
-                        ),
-                        onTap: () =>
-                            Navigator.of(context).pushNamed('/changelog'),
-                      ),
-                      ListTile(
-                        title: const Text(
-                          LocaleKeys.translate_page_title,
-                          style: TextStyle(
-                            color: TautulliColorPalette.smoke,
-                          ),
-                        ).tr(),
-                        trailing: const FaIcon(
-                          FontAwesomeIcons.angleRight,
-                          color: TautulliColorPalette.smoke,
-                        ),
-                        onTap: () =>
-                            Navigator.of(context).pushNamed('/translate'),
-                      ),
-                      ListTile(
-                        title: const Text(
-                          LocaleKeys.settings_about,
-                          style: TextStyle(
-                            color: TautulliColorPalette.smoke,
-                          ),
-                        ).tr(),
-                        trailing: const FaIcon(
-                          FontAwesomeIcons.angleRight,
-                          color: TautulliColorPalette.smoke,
-                        ),
-                        onTap: () async {
-                          PackageInfo packageInfo =
-                              await PackageInfo.fromPlatform();
-                          showAboutDialog(
-                            context: context,
-                            applicationIcon: SizedBox(
-                              height: 50,
-                              child: Image.asset('assets/logo/logo.png'),
-                            ),
-                            applicationName: 'Tautulli Remote',
-                            applicationVersion: packageInfo.version,
-                            applicationLegalese:
-                                LocaleKeys.settings_about_license.tr(),
-                          );
-                        },
-                      ),
-                    ],
-                  );
-                }
-                if (state is SettingsLoadInProgress) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).accentColor,
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: Text(
-                      'There was an error loading settings.',
-                    ),
-                  );
-                }
-              },
-            ),
           ),
         ),
       ),

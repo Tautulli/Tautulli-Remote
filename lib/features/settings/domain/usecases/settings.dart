@@ -233,4 +233,12 @@ class Settings {
   Future<bool> setIosLocalNetworkPermissionPrompted(bool value) async {
     return repository.setIosLocalNetworkPermissionPrompted(value);
   }
+
+  Future<bool> getGraphTipsShown() async {
+    return await repository.getGraphTipsShown();
+  }
+
+  Future<bool> setGraphTipsShown(bool value) async {
+    return repository.setGraphTipsShown(value);
+  }
 }

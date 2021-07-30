@@ -711,7 +711,9 @@ static const Map<String,dynamic> en = {
   "general_unknown": "Unknown",
   "settings_language_title": "Language",
   "translate_change_language": "Change Language",
-  "advanced_settings_page_title": "Advanced Settings"
+  "advanced_settings_page_title": "Advanced Settings",
+  "graphs_tips_dialog_content": "Long press a graph before swiping right to avoid triggering the app drawer.",
+  "general_tips": "Tips"
 };
 static const Map<String,dynamic> es = {
   "activity_empty": "Sin reproducciones",

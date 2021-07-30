@@ -12,10 +12,8 @@ import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
-import '../../../../core/widgets/app_drawer.dart';
-import '../../../../core/widgets/app_drawer_icon.dart';
-import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/error_message.dart';
+import '../../../../core/widgets/inner_drawer_scaffold.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart';
 import '../../../../injection_container.dart' as di;
@@ -115,113 +113,103 @@ class _ActivityPageContentState extends State<ActivityPageContent>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        leading: const AppDrawerIcon(),
-        title: Text(
-          LocaleKeys.activity_page_title.tr(),
-        ),
+    return InnerDrawerScaffold(
+      title: Text(
+        LocaleKeys.activity_page_title.tr(),
       ),
-      drawer: const AppDrawer(),
-      body: DoubleTapExit(
-        child: BlocConsumer<ActivityBloc, ActivityState>(
-          listener: (context, state) {
-            if (state is ActivityLoaded) {
-              _refreshCompleter?.complete();
-              _refreshCompleter = Completer();
-            }
-          },
-          builder: (context, state) {
-            if (state is ActivityLoaded) {
-              return BlocBuilder<SettingsBloc, SettingsState>(
-                builder: (context, settingsState) {
-                  if (settingsState is SettingsLoadSuccess) {
-                    final bool multiserver =
-                        settingsState.serverList.length > 1;
-                    //* If single server display different widgets for failure
-                    //* and inProgress then multiserver would display
-                    if (!multiserver) {
-                      final Map<String, dynamic> serverMap =
-                          state.activityMap.values.toList()[0];
-                      final ActivityLoadingState result =
-                          serverMap['loadingState'];
-                      if (result == ActivityLoadingState.failure) {
-                        final Failure failure = serverMap['failure'];
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            ErrorMessage(
-                              failure: failure,
-                              message: FailureMapperHelper.mapFailureToMessage(
-                                  failure),
-                              suggestion:
-                                  FailureMapperHelper.mapFailureToSuggestion(
-                                      failure),
-                            ),
-                            ActivityErrorButton(
-                              completer: _refreshCompleter,
-                              failure: failure,
-                            ),
-                          ],
-                        );
-                      } else if (result == ActivityLoadingState.inProgress &&
-                          serverMap['activityList'].isEmpty) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: Theme.of(context).accentColor,
+      body: BlocConsumer<ActivityBloc, ActivityState>(
+        listener: (context, state) {
+          if (state is ActivityLoaded) {
+            _refreshCompleter?.complete();
+            _refreshCompleter = Completer();
+          }
+        },
+        builder: (context, state) {
+          if (state is ActivityLoaded) {
+            return BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, settingsState) {
+                if (settingsState is SettingsLoadSuccess) {
+                  final bool multiserver = settingsState.serverList.length > 1;
+                  //* If single server display different widgets for failure
+                  //* and inProgress then multiserver would display
+                  if (!multiserver) {
+                    final Map<String, dynamic> serverMap =
+                        state.activityMap.values.toList()[0];
+                    final ActivityLoadingState result =
+                        serverMap['loadingState'];
+                    if (result == ActivityLoadingState.failure) {
+                      final Failure failure = serverMap['failure'];
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          ErrorMessage(
+                            failure: failure,
+                            message: FailureMapperHelper.mapFailureToMessage(
+                                failure),
+                            suggestion:
+                                FailureMapperHelper.mapFailureToSuggestion(
+                                    failure),
                           ),
-                        );
-                      }
+                          ActivityErrorButton(
+                            completer: _refreshCompleter,
+                            failure: failure,
+                          ),
+                        ],
+                      );
+                    } else if (result == ActivityLoadingState.inProgress &&
+                        serverMap['activityList'].isEmpty) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).accentColor,
+                        ),
+                      );
                     }
-
-                    return RefreshIndicator(
-                      color: Theme.of(context).accentColor,
-                      onRefresh: () {
-                        context.read<ActivityBloc>().add(
-                              ActivityLoadAndRefresh(
-                                settingsBloc: context.read<SettingsBloc>(),
-                              ),
-                            );
-                        return _refreshCompleter.future;
-                      },
-                      child: multiserver
-                          ? _buildMultiserverActivity(
-                              activityMap: state.activityMap,
-                              serverList: settingsState.serverList,
-                            )
-                          : _buildSingleServerActivity(
-                              activityMap: state.activityMap,
-                              timeFormat:
-                                  settingsState.serverList[0].timeFormat,
-                            ),
-                    );
-                  } else {
-                    return const Text(LocaleKeys.settings_not_loaded_error)
-                        .tr();
                   }
-                },
-              );
-            }
-            if (state is ActivityLoadFailure) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ErrorMessage(
-                    failure: state.failure,
-                    message: state.message,
-                    suggestion: state.suggestion,
-                  ),
-                  ActivityErrorButton(
-                    completer: _refreshCompleter,
-                    failure: state.failure,
-                  ),
-                ],
-              );
-            }
-            return const SizedBox(height: 0, width: 0);
-          },
-        ),
+
+                  return RefreshIndicator(
+                    color: Theme.of(context).accentColor,
+                    onRefresh: () {
+                      context.read<ActivityBloc>().add(
+                            ActivityLoadAndRefresh(
+                              settingsBloc: context.read<SettingsBloc>(),
+                            ),
+                          );
+                      return _refreshCompleter.future;
+                    },
+                    child: multiserver
+                        ? _buildMultiserverActivity(
+                            activityMap: state.activityMap,
+                            serverList: settingsState.serverList,
+                          )
+                        : _buildSingleServerActivity(
+                            activityMap: state.activityMap,
+                            timeFormat: settingsState.serverList[0].timeFormat,
+                          ),
+                  );
+                } else {
+                  return const Text(LocaleKeys.settings_not_loaded_error).tr();
+                }
+              },
+            );
+          }
+          if (state is ActivityLoadFailure) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ErrorMessage(
+                  failure: state.failure,
+                  message: state.message,
+                  suggestion: state.suggestion,
+                ),
+                ActivityErrorButton(
+                  completer: _refreshCompleter,
+                  failure: state.failure,
+                ),
+              ],
+            );
+          }
+          return const SizedBox(height: 0, width: 0);
+        },
       ),
     );
   }

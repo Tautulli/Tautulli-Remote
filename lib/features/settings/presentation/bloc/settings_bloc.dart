@@ -337,6 +337,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           iosLocalNetworkPermissionPrompted: event.prompted,
         );
       }
+      if (event is SettingsUpdateGraphTipsShown) {
+        await settings.setGraphTipsShown(event.shown);
+        yield currentState.copyWith(graphTipsShown: event.shown);
+      }
     }
   }
 
@@ -355,6 +359,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         await settings.getOneSignalBannerDismissed();
     final iosLocalNetworkPermissionPrompted =
         await settings.getIosLocalNetworkPermissionPrompted();
+    final graphTipsShown = await settings.getGraphTipsShown();
 
     if (serverList.length > 1) {
       serverList.sort((a, b) => a.sortIndex.compareTo(b.sortIndex));
@@ -373,6 +378,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       oneSignalBannerDismissed: oneSignalBannerDismissed ?? false,
       iosLocalNetworkPermissionPrompted:
           iosLocalNetworkPermissionPrompted ?? false,
+      graphTipsShown: graphTipsShown ?? false,
     );
   }
 

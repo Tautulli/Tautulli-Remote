@@ -705,4 +705,31 @@ void main() {
       verifyNoMoreInteractions(mockSettingsRepository);
     },
   );
+
+  test(
+    'getGraphTipsShown should get graph tips shown value from settings',
+    () async {
+      // arrange
+      when(
+        mockSettingsRepository.getGraphTipsShown(),
+      ).thenAnswer((_) async => true);
+      // act
+      final result = await settings.getGraphTipsShown();
+      // assert
+      expect(result, equals(true));
+      verify(mockSettingsRepository.getGraphTipsShown());
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
+
+  test(
+    'setGraphTipsShown should forward request to the repository',
+    () async {
+      // act
+      await settings.setGraphTipsShown(true);
+      // assert
+      verify(mockSettingsRepository.setGraphTipsShown(true));
+      verifyNoMoreInteractions(mockSettingsRepository);
+    },
+  );
 }

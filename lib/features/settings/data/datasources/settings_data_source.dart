@@ -78,6 +78,10 @@ abstract class SettingsDataSource {
   Future<bool> getIosLocalNetworkPermissionPrompted();
 
   Future<bool> setIosLocalNetworkPermissionPrompted(bool value);
+
+  Future<bool> getGraphTipsShown();
+
+  Future<bool> setGraphTipsShown(bool value);
 }
 
 const SETTINGS_SERVER_TIMEOUT = 'SETTINGS_SERVER_TIMEOUT';
@@ -96,6 +100,7 @@ const WIZARD_COMPLETE_STATUS = 'WIZARD_COMPLETE_STATUS';
 const CUSTOM_CERT_HASH_LIST = 'CUSTOM_CERT_HASH_LIST';
 const IOS_LOCAL_NETWORK_PERMISSION_PROMPTED =
     'IOS_LOCAL_NETWORK_PERMISSION_PROMPTED';
+const GRAPH_TIPS_SHOWN = 'GRAPH_TIPS_SHOWN';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
   final SharedPreferences sharedPreferences;
@@ -318,6 +323,22 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   Future<bool> setIosLocalNetworkPermissionPrompted(bool value) {
     return sharedPreferences.setBool(
       IOS_LOCAL_NETWORK_PERMISSION_PROMPTED,
+      value,
+    );
+  }
+
+  @override
+  Future<bool> getGraphTipsShown() {
+    final value = sharedPreferences.getBool(
+      GRAPH_TIPS_SHOWN,
+    );
+    return Future.value(value);
+  }
+
+  @override
+  Future<bool> setGraphTipsShown(bool value) {
+    return sharedPreferences.setBool(
+      GRAPH_TIPS_SHOWN,
       value,
     );
   }

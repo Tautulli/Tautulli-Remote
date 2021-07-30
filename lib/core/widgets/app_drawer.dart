@@ -293,7 +293,6 @@ class AppDrawer extends StatelessWidget {
                     ),
                     onTap: () {
                       if (route.settings.name != AnnouncementsPage.routeName) {
-                        Navigator.pop(context);
                         Navigator.of(context)
                             .pushNamed(AnnouncementsPage.routeName);
                       } else {
@@ -333,7 +332,6 @@ class AppDrawer extends StatelessWidget {
                     ),
                     onTap: () {
                       if (route.settings.name != DonatePage.routeName) {
-                        Navigator.pop(context);
                         Navigator.of(context).pushNamed(DonatePage.routeName);
                       } else {
                         Navigator.pop(context);

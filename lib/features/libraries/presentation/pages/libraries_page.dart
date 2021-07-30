@@ -9,11 +9,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/asset_mapper_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/widgets/app_drawer.dart';
-import '../../../../core/widgets/app_drawer_icon.dart';
-import '../../../../core/widgets/double_tap_exit.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/icon_card.dart';
+import '../../../../core/widgets/inner_drawer_scaffold.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
@@ -107,180 +105,172 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        leading: const AppDrawerIcon(),
-        title: Text(
-          LocaleKeys.libraries_page_title.tr(),
-        ),
-        actions: _appBarActions(),
+    return InnerDrawerScaffold(
+      title: Text(
+        LocaleKeys.libraries_page_title.tr(),
       ),
-      drawer: const AppDrawer(),
-      body: DoubleTapExit(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (context, state) {
-                if (state is SettingsLoadSuccess) {
-                  if (state.serverList.length > 1) {
-                    return DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        value: _tautulliId,
-                        style: TextStyle(color: Theme.of(context).accentColor),
-                        items: state.serverList.map((server) {
-                          return DropdownMenuItem(
-                            child: ServerHeader(serverName: server.plexName),
-                            value: server.tautulliId,
+      actions: _appBarActions(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              if (state is SettingsLoadSuccess) {
+                if (state.serverList.length > 1) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                      value: _tautulliId,
+                      style: TextStyle(color: Theme.of(context).accentColor),
+                      items: state.serverList.map((server) {
+                        return DropdownMenuItem(
+                          child: ServerHeader(serverName: server.plexName),
+                          value: server.tautulliId,
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        if (value != _tautulliId) {
+                          setState(() {
+                            _tautulliId = value;
+                          });
+                          _settingsBloc.add(
+                            SettingsUpdateLastSelectedServer(
+                                tautulliId: _tautulliId),
                           );
-                        }).toList(),
-                        onChanged: (value) {
-                          if (value != _tautulliId) {
-                            setState(() {
-                              _tautulliId = value;
-                            });
-                            _settingsBloc.add(
-                              SettingsUpdateLastSelectedServer(
-                                  tautulliId: _tautulliId),
-                            );
-                            _librariesBloc.add(
-                              LibrariesFilter(
-                                tautulliId: value,
-                                orderColumn: _orderColumn,
-                                orderDir: _orderDir,
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    );
-                  }
-                }
-                return Container(height: 0, width: 0);
-              },
-            ),
-            BlocConsumer<LibrariesBloc, LibrariesState>(
-              listener: (context, state) {
-                if (state is LibrariesSuccess) {
-                  _refreshCompleter?.complete();
-                  _refreshCompleter = Completer();
-                }
-              },
-              builder: (context, state) {
-                if (state is LibrariesSuccess) {
-                  if (state.librariesList.isNotEmpty) {
-                    return Expanded(
-                      child: RefreshIndicator(
-                        color: Theme.of(context).accentColor,
-                        onRefresh: () {
                           _librariesBloc.add(
                             LibrariesFilter(
-                              tautulliId: _tautulliId,
+                              tautulliId: value,
                               orderColumn: _orderColumn,
                               orderDir: _orderDir,
                             ),
                           );
-                          return _refreshCompleter.future;
-                        },
-                        child: Scrollbar(
-                          child: ListView.builder(
-                            itemCount: state.librariesList.length,
-                            itemBuilder: (context, index) {
-                              final heroTag = UniqueKey();
-
-                              Library library = state.librariesList[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  if (library.sectionType != 'live') {
-                                    return Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            LibraryDetailsPage(
-                                          library: library,
-                                          sectionType: library.sectionType,
-                                          heroTag: heroTag,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: IconCard(
-                                  localIconImagePath:
-                                      AssetMapperHelper.mapLibraryToPath(
-                                          library.sectionType),
-                                  iconImageUrl: library.iconUrl,
-                                  iconColor: TautulliColorPalette.not_white,
-                                  backgroundImage: library.sectionType != 'live'
-                                      ? Image.network(
-                                          library.backgroundUrl,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image.asset(
-                                          'assets/images/livetv_fallback.png',
-                                          fit: BoxFit.cover,
-                                        ),
-                                  details: LibraryDetails(library: library),
-                                  heroTag: heroTag,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Expanded(
-                      child: Center(
-                        child: const Text(
-                          LocaleKeys.libraries_empty,
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
-                        ).tr(),
-                      ),
-                    );
-                  }
-                }
-                if (state is LibrariesFailure) {
-                  return Expanded(
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Center(
-                            child: ErrorMessage(
-                              failure: state.failure,
-                              message: state.message,
-                              suggestion: state.suggestion,
-                            ),
-                          ),
-                          LibrariesErrorButton(
-                            completer: _refreshCompleter,
-                            failure: state.failure,
-                            librariesEvent: LibrariesFilter(
-                              tautulliId: _tautulliId,
-                              orderColumn: _orderColumn,
-                              orderDir: _orderDir,
-                            ),
-                          ),
-                        ],
-                      ),
+                        }
+                      },
                     ),
                   );
                 }
+              }
+              return Container(height: 0, width: 0);
+            },
+          ),
+          BlocConsumer<LibrariesBloc, LibrariesState>(
+            listener: (context, state) {
+              if (state is LibrariesSuccess) {
+                _refreshCompleter?.complete();
+                _refreshCompleter = Completer();
+              }
+            },
+            builder: (context, state) {
+              if (state is LibrariesSuccess) {
+                if (state.librariesList.isNotEmpty) {
+                  return Expanded(
+                    child: RefreshIndicator(
+                      color: Theme.of(context).accentColor,
+                      onRefresh: () {
+                        _librariesBloc.add(
+                          LibrariesFilter(
+                            tautulliId: _tautulliId,
+                            orderColumn: _orderColumn,
+                            orderDir: _orderDir,
+                          ),
+                        );
+                        return _refreshCompleter.future;
+                      },
+                      child: Scrollbar(
+                        child: ListView.builder(
+                          itemCount: state.librariesList.length,
+                          itemBuilder: (context, index) {
+                            final heroTag = UniqueKey();
+
+                            Library library = state.librariesList[index];
+                            return GestureDetector(
+                              onTap: () {
+                                if (library.sectionType != 'live') {
+                                  return Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => LibraryDetailsPage(
+                                        library: library,
+                                        sectionType: library.sectionType,
+                                        heroTag: heroTag,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: IconCard(
+                                localIconImagePath:
+                                    AssetMapperHelper.mapLibraryToPath(
+                                        library.sectionType),
+                                iconImageUrl: library.iconUrl,
+                                iconColor: TautulliColorPalette.not_white,
+                                backgroundImage: library.sectionType != 'live'
+                                    ? Image.network(
+                                        library.backgroundUrl,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(
+                                        'assets/images/livetv_fallback.png',
+                                        fit: BoxFit.cover,
+                                      ),
+                                details: LibraryDetails(library: library),
+                                heroTag: heroTag,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Expanded(
+                    child: Center(
+                      child: const Text(
+                        LocaleKeys.libraries_empty,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
+                      ).tr(),
+                    ),
+                  );
+                }
+              }
+              if (state is LibrariesFailure) {
                 return Expanded(
                   child: Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).accentColor,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Center(
+                          child: ErrorMessage(
+                            failure: state.failure,
+                            message: state.message,
+                            suggestion: state.suggestion,
+                          ),
+                        ),
+                        LibrariesErrorButton(
+                          completer: _refreshCompleter,
+                          failure: state.failure,
+                          librariesEvent: LibrariesFilter(
+                            tautulliId: _tautulliId,
+                            orderColumn: _orderColumn,
+                            orderDir: _orderDir,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
-              },
-            ),
-          ],
-        ),
+              }
+              return Expanded(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).accentColor,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

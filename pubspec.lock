@@ -391,6 +391,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  flutter_inner_drawer:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: fc009311235fc58965e751e27da8357d41465c2b
+      url: "https://github.com/TheMeanCanEHdian/flutter_inner_drawer.git"
+    source: git
+    version: "1.0.0+1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
