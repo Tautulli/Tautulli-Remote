@@ -17,6 +17,7 @@ part 'history_event.dart';
 part 'history_state.dart';
 
 List<History> _historyListCache;
+bool _hasReachedMaxCache;
 int _userIdCache;
 String _mediaTypeCache;
 String _transcodeDecisionCache;
@@ -134,7 +135,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         _tautulliIdCache == tautulliId) {
       yield HistorySuccess(
         list: _historyListCache,
-        hasReachedMax: false,
+        hasReachedMax: _hasReachedMaxCache ?? false,
       );
     } else {
       final failureOrHistory = await getHistory(
@@ -178,6 +179,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           );
 
           _historyListCache = updatedList;
+          _hasReachedMaxCache = updatedList.length < 25;
 
           yield HistorySuccess(
             list: updatedList,
@@ -253,6 +255,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           );
 
           _historyListCache = currentState.list + list;
+          _hasReachedMaxCache = updatedList.length < 25;
 
           yield HistorySuccess(
             list: currentState.list + updatedList,
