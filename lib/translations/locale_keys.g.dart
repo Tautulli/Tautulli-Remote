@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class  LocaleKeys {
+abstract class LocaleKeys {
   static const activity_empty = 'activity_empty';
   static const activity_page_title = 'activity_page_title';
   static const history_page_title = 'history_page_title';
@@ -42,18 +42,21 @@ abstract class  LocaleKeys {
   static const button_terminate_stream = 'button_terminate_stream';
   static const button_learn_more = 'button_learn_more';
   static const masked_info_user = 'masked_info_user';
-  static const termination_request_sent_alert = 'termination_request_sent_alert';
+  static const termination_request_sent_alert =
+      'termination_request_sent_alert';
   static const termination_default_message = 'termination_default_message';
   static const termination_photo_alert = 'termination_photo_alert';
   static const termination_synced_alert = 'termination_synced_alert';
   static const termination_dialog_title = 'termination_dialog_title';
-  static const termination_terminate_message_label = 'termination_terminate_message_label';
+  static const termination_terminate_message_label =
+      'termination_terminate_message_label';
   static const button_cancel = 'button_cancel';
   static const button_terminate = 'button_terminate';
   static const button_go_to_settings = 'button_go_to_settings';
   static const button_retry = 'button_retry';
   static const media_details_location_error = 'media_details_location_error';
-  static const media_details_location_loading = 'media_details_location_loading';
+  static const media_details_location_loading =
+      'media_details_location_loading';
   static const activity_time_left = 'activity_time_left';
   static const settings_not_loaded_error = 'settings_not_loaded_error';
   static const general_unknown_error = 'general_unknown_error';
@@ -82,10 +85,14 @@ abstract class  LocaleKeys {
   static const general_tooltip_time_range = 'general_tooltip_time_range';
   static const general_filter_days = 'general_filter_days';
   static const general_filter_custom = 'general_filter_custom';
-  static const general_time_range_dialog_title = 'general_time_range_dialog_title';
-  static const general_time_range_dialog_hint_text = 'general_time_range_dialog_hint_text';
-  static const general_time_range_dialog_validator_integer = 'general_time_range_dialog_validator_integer';
-  static const general_time_range_dialog_notice = 'general_time_range_dialog_notice';
+  static const general_time_range_dialog_title =
+      'general_time_range_dialog_title';
+  static const general_time_range_dialog_hint_text =
+      'general_time_range_dialog_hint_text';
+  static const general_time_range_dialog_validator_integer =
+      'general_time_range_dialog_validator_integer';
+  static const general_time_range_dialog_notice =
+      'general_time_range_dialog_notice';
   static const button_save = 'button_save';
   static const button_close = 'button_close';
   static const masked_info_hidden = 'masked_info_hidden';
@@ -94,13 +101,17 @@ abstract class  LocaleKeys {
   static const graphs_media_type_daily_play = 'graphs_media_type_daily_play';
   static const graphs_media_type_day_of_week = 'graphs_media_type_day_of_week';
   static const graphs_media_type_hour_of_day = 'graphs_media_type_hour_of_day';
-  static const graphs_media_type_top_platforms = 'graphs_media_type_top_platforms';
+  static const graphs_media_type_top_platforms =
+      'graphs_media_type_top_platforms';
   static const graphs_media_type_top_users = 'graphs_media_type_top_users';
   static const general_filter_count = 'general_filter_count';
-  static const graphs_play_totals_last_12_months = 'graphs_play_totals_last_12_months';
+  static const graphs_play_totals_last_12_months =
+      'graphs_play_totals_last_12_months';
   static const graphs_stream_type_daily_play = 'graphs_stream_type_daily_play';
-  static const graphs_stream_type_source_resolution = 'graphs_stream_type_source_resolution';
-  static const graphs_stream_type_stream_resolution = 'graphs_stream_type_stream_resolution';
+  static const graphs_stream_type_source_resolution =
+      'graphs_stream_type_source_resolution';
+  static const graphs_stream_type_stream_resolution =
+      'graphs_stream_type_stream_resolution';
   static const graphs_stream_type_platform = 'graphs_stream_type_platform';
   static const graphs_stream_type_user = 'graphs_stream_type_user';
   static const help_help_topics_heading = 'help_help_topics_heading';
@@ -133,7 +144,8 @@ abstract class  LocaleKeys {
   static const history_details_paused = 'history_details_paused';
   static const history_details_watched = 'history_details_watched';
   static const libraries_empty = 'libraries_empty';
-  static const general_tooltip_sort_libraries = 'general_tooltip_sort_libraries';
+  static const general_tooltip_sort_libraries =
+      'general_tooltip_sort_libraries';
   static const general_filter_name = 'general_filter_name';
   static const general_never = 'general_never';
   static const libraries_details_tab_new = 'libraries_details_tab_new';
@@ -154,7 +166,8 @@ abstract class  LocaleKeys {
   static const general_details_secs = 'general_details_secs';
   static const libraries_media_tab_empty = 'libraries_media_tab_empty';
   static const libraries_full_refresh = 'libraries_full_refresh';
-  static const libraries_details_recent_tab_failure = 'libraries_details_recent_tab_failure';
+  static const libraries_details_recent_tab_failure =
+      'libraries_details_recent_tab_failure';
   static const general_details_min = 'general_details_min';
   static const statistics_empty = 'statistics_empty';
   static const logs_page_title = 'logs_page_title';
@@ -207,47 +220,68 @@ abstract class  LocaleKeys {
   static const privacy_text_block_4 = 'privacy_text_block_4';
   static const recently_added_empty = 'recently_added_empty';
   static const recently_added_empty_filter = 'recently_added_empty_filter';
-  static const general_tooltip_filter_media_type = 'general_tooltip_filter_media_type';
+  static const general_tooltip_filter_media_type =
+      'general_tooltip_filter_media_type';
   static const general_added = 'general_added';
-  static const settings_registration_page_title = 'settings_registration_page_title';
+  static const settings_registration_page_title =
+      'settings_registration_page_title';
   static const settings_registration_text_1 = 'settings_registration_text_1';
   static const settings_registration_text_2 = 'settings_registration_text_2';
-  static const settings_registration_qr_error = 'settings_registration_qr_error';
-  static const settings_registration_scan_code = 'settings_registration_scan_code';
-  static const settings_primary_connection_address = 'settings_primary_connection_address';
-  static const settings_secondary_connection_address = 'settings_secondary_connection_address';
-  static const settings_connection_address_validation_message = 'settings_connection_address_validation_message';
+  static const settings_registration_qr_error =
+      'settings_registration_qr_error';
+  static const settings_registration_scan_code =
+      'settings_registration_scan_code';
+  static const settings_primary_connection_address =
+      'settings_primary_connection_address';
+  static const settings_secondary_connection_address =
+      'settings_secondary_connection_address';
+  static const settings_connection_address_validation_message =
+      'settings_connection_address_validation_message';
   static const settings_device_token = 'settings_device_token';
-  static const settings_device_token_validation_message = 'settings_device_token_validation_message';
+  static const settings_device_token_validation_message =
+      'settings_device_token_validation_message';
   static const button_register = 'button_register';
-  static const settings_registration_exit_dialog_title = 'settings_registration_exit_dialog_title';
-  static const settings_registration_exit_dialog_content = 'settings_registration_exit_dialog_content';
+  static const settings_registration_exit_dialog_title =
+      'settings_registration_exit_dialog_title';
+  static const settings_registration_exit_dialog_content =
+      'settings_registration_exit_dialog_content';
   static const button_discard = 'button_discard';
-  static const masked_info_connection_address = 'masked_info_connection_address';
+  static const masked_info_connection_address =
+      'masked_info_connection_address';
   static const settings_active = 'settings_active';
   static const settings_passive = 'settings_passive';
   static const settings_disabled = 'settings_disabled';
   static const settings_copied = 'settings_copied';
   static const settings_not_configured = 'settings_not_configured';
   static const masked_device_token = 'masked_device_token';
-  static const settings_copy_device_token_message = 'settings_copy_device_token_message';
+  static const settings_copy_device_token_message =
+      'settings_copy_device_token_message';
   static const settings_open_server = 'settings_open_server';
   static const settings_server_error = 'settings_server_error';
-  static const settings_primary_connection_dialog_title = 'settings_primary_connection_dialog_title';
-  static const settings_primary_connection_dialog_hint = 'settings_primary_connection_dialog_hint';
-  static const settings_server_delete_dialog_title = 'settings_server_delete_dialog_title';
+  static const settings_primary_connection_dialog_title =
+      'settings_primary_connection_dialog_title';
+  static const settings_primary_connection_dialog_hint =
+      'settings_primary_connection_dialog_hint';
+  static const settings_server_delete_dialog_title =
+      'settings_server_delete_dialog_title';
   static const settings_required = 'settings_required';
-  static const settings_secondary_connection_dialog_hint = 'settings_secondary_connection_dialog_hint';
-  static const settings_secondary_connection_dialog_title = 'settings_secondary_connection_dialog_title';
+  static const settings_secondary_connection_dialog_hint =
+      'settings_secondary_connection_dialog_hint';
+  static const settings_secondary_connection_dialog_title =
+      'settings_secondary_connection_dialog_title';
   static const settings_registration_success = 'settings_registration_success';
   static const settings_servers_heading = 'settings_servers_heading';
-  static const settings_primary_connection_missing = 'settings_primary_connection_missing';
+  static const settings_primary_connection_missing =
+      'settings_primary_connection_missing';
   static const button_register_server = 'button_register_server';
   static const settings_app_settings_heading = 'settings_app_settings_heading';
   static const settings_server_timeout = 'settings_server_timeout';
-  static const settings_activity_refresh_rate = 'settings_activity_refresh_rate';
-  static const settings_double_tap_exit_title = 'settings_double_tap_exit_title';
-  static const settings_double_tap_exit_message = 'settings_double_tap_exit_message';
+  static const settings_activity_refresh_rate =
+      'settings_activity_refresh_rate';
+  static const settings_double_tap_exit_title =
+      'settings_double_tap_exit_title';
+  static const settings_double_tap_exit_message =
+      'settings_double_tap_exit_message';
   static const settings_mask_info_title = 'settings_mask_info_title';
   static const settings_mask_info_message = 'settings_mask_info_message';
   static const changelog_page_title = 'changelog_page_title';
@@ -262,30 +296,48 @@ abstract class  LocaleKeys {
   static const general_details_sec = 'general_details_sec';
   static const button_trust = 'button_trust';
   static const button_no = 'button_no';
-  static const settings_certificate_dialog_title = 'settings_certificate_dialog_title';
-  static const settings_certificate_dialog_content = 'settings_certificate_dialog_content';
-  static const settings_setup_instructions_warning = 'settings_setup_instructions_warning';
-  static const settings_setup_instructions_line_1 = 'settings_setup_instructions_line_1';
-  static const settings_setup_instructions_line_2 = 'settings_setup_instructions_line_2';
-  static const settings_setup_instructions_line_3 = 'settings_setup_instructions_line_3';
-  static const settings_setup_instructions_line_4 = 'settings_setup_instructions_line_4';
-  static const settings_setup_instructions_line_5 = 'settings_setup_instructions_line_5';
+  static const settings_certificate_dialog_title =
+      'settings_certificate_dialog_title';
+  static const settings_certificate_dialog_content =
+      'settings_certificate_dialog_content';
+  static const settings_setup_instructions_warning =
+      'settings_setup_instructions_warning';
+  static const settings_setup_instructions_line_1 =
+      'settings_setup_instructions_line_1';
+  static const settings_setup_instructions_line_2 =
+      'settings_setup_instructions_line_2';
+  static const settings_setup_instructions_line_3 =
+      'settings_setup_instructions_line_3';
+  static const settings_setup_instructions_line_4 =
+      'settings_setup_instructions_line_4';
+  static const settings_setup_instructions_line_5 =
+      'settings_setup_instructions_line_5';
   static const button_dismiss = 'button_dismiss';
   static const button_view_privacy_page = 'button_view_privacy_page';
   static const button_check_again = 'button_check_again';
-  static const settings_alert_onesignal_connection_title = 'settings_alert_onesignal_connection_title';
-  static const settings_alert_onesignal_connection_item_1 = 'settings_alert_onesignal_connection_item_1';
-  static const settings_alert_onesignal_connection_item_2 = 'settings_alert_onesignal_connection_item_2';
+  static const settings_alert_onesignal_connection_title =
+      'settings_alert_onesignal_connection_title';
+  static const settings_alert_onesignal_connection_item_1 =
+      'settings_alert_onesignal_connection_item_1';
+  static const settings_alert_onesignal_connection_item_2 =
+      'settings_alert_onesignal_connection_item_2';
   static const onesignal_consent_error_title = 'onesignal_consent_error_title';
-  static const onesignal_consent_error_message = 'onesignal_consent_error_message';
-  static const onesignal_register_error_title = 'onesignal_register_error_title';
-  static const onesignal_register_error_message = 'onesignal_register_error_message';
-  static const onesignal_unexpected_error_title = 'onesignal_unexpected_error_title';
-  static const onesignal_unexpected_error_message = 'onesignal_unexpected_error_message';
+  static const onesignal_consent_error_message =
+      'onesignal_consent_error_message';
+  static const onesignal_register_error_title =
+      'onesignal_register_error_title';
+  static const onesignal_register_error_message =
+      'onesignal_register_error_message';
+  static const onesignal_unexpected_error_title =
+      'onesignal_unexpected_error_title';
+  static const onesignal_unexpected_error_message =
+      'onesignal_unexpected_error_message';
   static const statistics_filter_empty = 'statistics_filter_empty';
   static const general_tooltip_stats_type = 'general_tooltip_stats_type';
-  static const general_time_range_dialog_validator_larger_1 = 'general_time_range_dialog_validator_larger_1';
-  static const general_time_range_dialog_validator_larger_0 = 'general_time_range_dialog_validator_larger_0';
+  static const general_time_range_dialog_validator_larger_1 =
+      'general_time_range_dialog_validator_larger_1';
+  static const general_time_range_dialog_validator_larger_0 =
+      'general_time_range_dialog_validator_larger_0';
   static const statistics_no_title = 'statistics_no_title';
   static const general_play = 'general_play';
   static const general_plays = 'general_plays';
@@ -294,11 +346,14 @@ abstract class  LocaleKeys {
   static const general_hours = 'general_hours';
   static const general_minutes = 'general_minutes';
   static const general_seconds = 'general_seconds';
-  static const statistics_no_additional_items = 'statistics_no_additional_items';
-  static const synced_items_media_details_unsupported = 'synced_items_media_details_unsupported';
+  static const statistics_no_additional_items =
+      'statistics_no_additional_items';
+  static const synced_items_media_details_unsupported =
+      'synced_items_media_details_unsupported';
   static const synced_items_empty = 'synced_items_empty';
   static const synced_items_delete_request = 'synced_items_delete_request';
-  static const synced_items_delete_dialog_title = 'synced_items_delete_dialog_title';
+  static const synced_items_delete_dialog_title =
+      'synced_items_delete_dialog_title';
   static const button_delete = 'button_delete';
   static const synced_items_delete = 'synced_items_delete';
   static const general_details_streamed = 'general_details_streamed';
@@ -306,15 +361,20 @@ abstract class  LocaleKeys {
   static const users_empty = 'users_empty';
   static const general_tooltip_sort_users = 'general_tooltip_sort_users';
   static const general_filter_last_streamed = 'general_filter_last_streamed';
-  static const general_details_global_stats_heading = 'general_details_global_stats_heading';
-  static const general_details_user_stats_heading = 'general_details_user_stats_heading';
-  static const general_details_player_stats_heading = 'general_details_player_stats_heading';
+  static const general_details_global_stats_heading =
+      'general_details_global_stats_heading';
+  static const general_details_user_stats_heading =
+      'general_details_user_stats_heading';
+  static const general_details_player_stats_heading =
+      'general_details_player_stats_heading';
   static const general_details_plays = 'general_details_plays';
   static const general_details_all_time = 'general_details_all_time';
   static const general_details_hours = 'general_details_hours';
   static const masked_info_player_name = 'masked_info_player_name';
-  static const wizard_skip_dialog_message_privacy = 'wizard_skip_dialog_message_privacy';
-  static const wizard_skip_dialog_message_servers = 'wizard_skip_dialog_message_servers';
+  static const wizard_skip_dialog_message_privacy =
+      'wizard_skip_dialog_message_privacy';
+  static const wizard_skip_dialog_message_servers =
+      'wizard_skip_dialog_message_servers';
   static const wizard_quit_dialog_title = 'wizard_quit_dialog_title';
   static const wizard_skip_dialog_title = 'wizard_skip_dialog_title';
   static const button_quit = 'button_quit';
@@ -326,8 +386,10 @@ abstract class  LocaleKeys {
   static const wizard_onesignal_text_1 = 'wizard_onesignal_text_1';
   static const wizard_onesignal_text_2 = 'wizard_onesignal_text_2';
   static const button_view_onesignal_privacy = 'button_view_onesignal_privacy';
-  static const wizard_onesignal_communication_error = 'wizard_onesignal_communication_error';
-  static const wizard_onesignal_allow_message = 'wizard_onesignal_allow_message';
+  static const wizard_onesignal_communication_error =
+      'wizard_onesignal_communication_error';
+  static const wizard_onesignal_allow_message =
+      'wizard_onesignal_allow_message';
   static const wizard_servers_text_1 = 'wizard_servers_text_1';
   static const wizard_servers_text_2 = 'wizard_servers_text_2';
   static const wizard_servers_text_3 = 'wizard_servers_text_3';
@@ -339,14 +401,24 @@ abstract class  LocaleKeys {
   static const wizard_closing_translate = 'wizard_closing_translate';
   static const privacy_alert_title = 'privacy_alert_title';
   static const privacy_alert_content = 'privacy_alert_content';
-  static const settings_alert_ios_local_network_permission_title = 'settings_alert_ios_local_network_permission_title';
-  static const settings_alert_ios_local_network_permission_content_1 = 'settings_alert_ios_local_network_permission_content_1';
-  static const settings_alert_ios_local_network_permission_content_2 = 'settings_alert_ios_local_network_permission_content_2';
-  static const settings_alert_ios_local_network_permission_content_3 = 'settings_alert_ios_local_network_permission_content_3';
+  static const settings_alert_ios_local_network_permission_title =
+      'settings_alert_ios_local_network_permission_title';
+  static const settings_alert_ios_local_network_permission_content_1 =
+      'settings_alert_ios_local_network_permission_content_1';
+  static const settings_alert_ios_local_network_permission_content_2 =
+      'settings_alert_ios_local_network_permission_content_2';
+  static const settings_alert_ios_local_network_permission_content_3 =
+      'settings_alert_ios_local_network_permission_content_3';
   static const button_continue = 'button_continue';
   static const general_unknown = 'general_unknown';
   static const advanced_settings_page_title = 'advanced_settings_page_title';
   static const translate_change_language = 'translate_change_language';
   static const settings_language_title = 'settings_language_title';
-
+  static const settings_clear_cache_title = "settings_clear_cache_title";
+  static const settings_clear_cache_subtitle = "settings_clear_cache_subtitle";
+  static const button_clear = "button_clear";
+  static const settings_clear_cache_dialog_content =
+      "settings_clear_cache_dialog_content";
+  static const image_cache_clear_alert = "image_cache_clear_alert";
+  static const operations_heading = 'operations_heading';
 }

@@ -711,7 +711,13 @@ static const Map<String,dynamic> en = {
   "general_unknown": "Unknown",
   "settings_language_title": "Language",
   "translate_change_language": "Change Language",
-  "advanced_settings_page_title": "Advanced Settings"
+  "advanced_settings_page_title": "Advanced Settings",
+  "settings_clear_cache_title": "Clear Cache",
+  "settings_clear_cache_subtitle": "Clear image cache",
+  "button_clear": "CLEAR",
+  "settings_clear_cache_dialog_content": "Are you sure you want to clear the cache?",
+  "image_cache_clear_alert": "Image cache cleared",
+  "operations_heading": "Operations"
 };
 static const Map<String,dynamic> es = {
   "activity_empty": "Sin reproducciones",
