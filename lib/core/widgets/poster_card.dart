@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'poster_chooser.dart';
@@ -36,8 +37,10 @@ class PosterCard extends StatelessWidget {
                     sigmaX: 25,
                     sigmaY: 25,
                   ),
-                  child: Image.network(
-                    item.posterUrl != null ? item.posterUrl : '',
+                  child: Image(
+                    image: CachedNetworkImageProvider(
+                      item.posterUrl != null ? item.posterUrl : '',
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),

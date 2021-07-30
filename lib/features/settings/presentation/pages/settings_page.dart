@@ -33,7 +33,6 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<SettingsBloc>();
     return BlocProvider(
       create: (context) => di.sl<RegisterDeviceBloc>(),
       child: const SettingsPageContent(),

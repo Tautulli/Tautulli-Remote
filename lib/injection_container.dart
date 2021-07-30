@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +23,11 @@ import 'features/announcements/data/repositories/announcements_repository_impl.d
 import 'features/announcements/domain/repositories/announcements_repository.dart';
 import 'features/announcements/domain/usecases/get_announcements.dart';
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
+import 'features/cache/data/datasources/cache_data_source.dart';
+import 'features/cache/data/repositories/cache_repository_impl.dart';
+import 'features/cache/domain/repositories/cache_repository.dart';
+import 'features/cache/domain/usecases/clear_cache.dart';
+import 'features/cache/presentation/bloc/cache_bloc.dart';
 import 'features/graphs/data/datasources/graphs_data_source.dart';
 import 'features/graphs/data/repositories/graphs_repository_impl.dart';
 import 'features/graphs/domain/repositories/graphs_repository.dart';
@@ -234,8 +240,38 @@ Future<void> init() async {
     ),
   );
 
-  //! Features = Graphs
-  //Bloc
+  //! Features - Cache
+  // Bloc
+  sl.registerFactory(
+    () => CacheBloc(
+      clearCache: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => ClearCache(
+      repository: sl(),
+    ),
+  );
+
+  // Repositories
+  sl.registerLazySingleton<CacheRepository>(
+    () => CacheRepositoryImpl(
+      dataSource: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<CacheDataSource>(
+    () => CacheDataSourceImpl(
+      cacheManager: sl(),
+    ),
+  );
+
+  //! Features - Graphs
+  // Bloc
   sl.registerFactory(
     () => MediaTypeGraphsBloc(
       getPlaysByDate: sl(),
@@ -1175,4 +1211,5 @@ Future<void> init() async {
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => Connectivity());
   sl.registerLazySingleton(() => DeviceInfoPlugin());
+  sl.registerLazySingleton(() => DefaultCacheManager());
 }

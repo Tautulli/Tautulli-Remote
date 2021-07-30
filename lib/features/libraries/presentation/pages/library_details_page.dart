@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -166,10 +167,12 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                   sigmaY: 25,
                 ),
                 child: sectionType != 'live'
-                    ? Image.network(
-                        widget.backgroundUrlOverride != null
-                            ? widget.backgroundUrlOverride
-                            : widget.library.backgroundUrl,
+                    ? Image(
+                        image: CachedNetworkImageProvider(
+                          widget.backgroundUrlOverride != null
+                              ? widget.backgroundUrlOverride
+                              : widget.library.backgroundUrl,
+                        ),
                         fit: BoxFit.cover,
                       )
                     : Image.asset(
@@ -385,8 +388,10 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                               height: 65,
                               width: 65,
                               child: widget.library.iconUrl != null
-                                  ? Image.network(
-                                      widget.library.iconUrl,
+                                  ? Image(
+                                      image: CachedNetworkImageProvider(
+                                        widget.library.iconUrl,
+                                      ),
                                       fit: BoxFit.contain,
                                     )
                                   : WebsafeSvg.asset(
@@ -404,8 +409,10 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                       tag: widget.heroTag ?? UniqueKey(),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        child: Image.network(
-                          widget.backgroundUrlOverride,
+                        child: Image(
+                          image: CachedNetworkImageProvider(
+                            widget.backgroundUrlOverride,
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),

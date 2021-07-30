@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -195,16 +196,20 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
                 child: BlocBuilder<MetadataBloc, MetadataState>(
                   builder: (context, state) {
                     if (widget.item.posterUrl != null) {
-                      return Image.network(
-                        widget.item.posterUrl,
+                      return Image(
+                        image: CachedNetworkImageProvider(
+                          widget.item.posterUrl,
+                        ),
                         fit: BoxFit.cover,
                       );
                     }
                     if (state is MetadataSuccess) {
-                      return Image.network(
-                        state.metadata.mediaType == 'episode'
-                            ? state.metadata.grandparentPosterUrl
-                            : state.metadata.posterUrl,
+                      return Image(
+                        image: CachedNetworkImageProvider(
+                          state.metadata.mediaType == 'episode'
+                              ? state.metadata.grandparentPosterUrl
+                              : state.metadata.posterUrl,
+                        ),
                         fit: BoxFit.cover,
                       );
                     }

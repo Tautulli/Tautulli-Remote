@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PosterChooser extends StatelessWidget {
@@ -36,8 +37,8 @@ class _PosterGeneral extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4),
         child: url != null
-            ? Image.network(
-                url,
+            ? Image(
+                image: CachedNetworkImageProvider(url),
                 fit: BoxFit.cover,
               )
             : null,
@@ -68,8 +69,8 @@ class _PosterSquare extends StatelessWidget {
                   sigmaY: 8,
                 ),
                 child: url != null
-                    ? Image.network(
-                        url,
+                    ? Image(
+                        image: CachedNetworkImageProvider(url),
                         fit: BoxFit.cover,
                       )
                     : Container(),
@@ -77,8 +78,8 @@ class _PosterSquare extends StatelessWidget {
             ),
             Center(
               child: url != null
-                  ? Image.network(
-                      url,
+                  ? Image(
+                      image: CachedNetworkImageProvider(url),
                       fit: BoxFit.contain,
                     )
                   : Container(),

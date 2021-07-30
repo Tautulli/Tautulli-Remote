@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
@@ -52,8 +53,10 @@ class IconCard extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(4),
                           child: iconImageUrl != null
-                              ? Image.network(
-                                  iconImageUrl,
+                              ? Image(
+                                  image: CachedNetworkImageProvider(
+                                    iconImageUrl,
+                                  ),
                                   fit: BoxFit.contain,
                                 )
                               : localIconImagePath != null

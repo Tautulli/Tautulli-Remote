@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -637,7 +638,9 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                     localIconImagePath:
                         AssetMapperHelper.mapLibraryToPath(s.sectionType),
                     iconImageUrl: s.iconUrl,
-                    backgroundImage: Image.network(s.posterUrl),
+                    backgroundImage: Image(
+                      image: CachedNetworkImageProvider(s.posterUrl),
+                    ),
                     iconColor: TautulliColorPalette.not_white,
                     details: StatisticsDetails(
                       statistic: s,
