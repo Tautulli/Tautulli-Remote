@@ -345,5 +345,8 @@
     "general_unknown": "Unbekannt",
     "advanced_settings_page_title": "Erweiterte Einstellungen",
     "translate_change_language": "Sprache ändern",
-    "settings_language_title": "Sprache"
+    "settings_language_title": "Sprache",
+    "settings_clear_cache_title": "Cache leeren",
+    "graphs_tips_dialog_content": "Drücke lange auf ein Graphen, bevor du nach rechts wischt, um zu vermeiden, dass sich der App Drawer öffnet.",
+    "general_tips": "Tipps"
 }
