@@ -132,5 +132,9 @@
     "recently_added_page_title": "Legutóbb hozzáadott",
     "history_page_title": "Előzmények",
     "activity_page_title": "Aktivitás",
-    "activity_empty": "Jelenleg semmi sincs lejátszás alatt"
+    "activity_empty": "Jelenleg semmi sincs lejátszás alatt",
+    "graphs_media_type_day_of_week": "Lejátszva {} napon ezen a héten",
+    "graphs_media_type_daily_play": "Napi lejátszás {} média típus szerint",
+    "general_time_range_dialog_notice": "A legtöbb képernyőméret esetén nem ajánlott meghaladni a 90 napot.",
+    "media_details_throttled": "Lassított"
 }
