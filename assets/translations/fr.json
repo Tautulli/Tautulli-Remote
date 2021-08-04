@@ -337,5 +337,21 @@
     "settings_registration_page_title": "Enregistrer un Serveur Tautulli",
     "settings_clear_cache_title": "Vider le Cache",
     "settings_clear_cache_dialog_content": "Êtes-vous sûr de vouloir vider le cache ?",
-    "operations_heading": "Opérations"
+    "operations_heading": "Opérations",
+    "image_cache_clear_alert": "Cache des images vidé",
+    "button_clear": "VIDER",
+    "settings_clear_cache_subtitle": "Vider le cache des images",
+    "graphs_tips_dialog_content": "Appuyez longuement sur un graphique avant de glisser vers la droite pour éviter de déclencher le tiroir d'applications.",
+    "settings_alert_ios_local_network_permission_content_3": "Si refusée, vous devrez activer manuellement cela dans les paramètres d'iOS.",
+    "settings_alert_ios_local_network_permission_content_2": "Cliquez sur CONTINUER et acceptez la demande pour autoriser ceci avant l'inscription.",
+    "settings_alert_ios_local_network_permission_content_1": "Afin de se connecter à un serveur local, Tautulli Remote nécessite une autorisation d'accès au réseau local.",
+    "privacy_alert_title": "Autorisation pour les notifications requise",
+    "settings_setup_instructions_line_5": "Utilisez le bouton ci-dessous pour vous inscrire sur le serveur.",
+    "settings_device_token_validation_message": "Doit contenir 32 caractères (actuellement : {})",
+    "settings_registration_text_2": "Vous pouvez également ajouter une adresse de connexion secondaire. Si l'adresse de connexion principale est inaccessible, l'application utilisera automatiquement l'adresse secondaire.",
+    "settings_registration_text_1": "Utilisez le bouton ci-dessous pour scanner le QR code et remplir automatiquement les informations de votre serveur ou bien renseignez les manuellement.",
+    "privacy_text_block_4": "Une fois que vous acceptez, cet appareil s'enregistrera auprès de OneSignal. Le consentement peut être révoqué pour empêcher toute communication ultérieure avec OneSignal.",
+    "privacy_text_block_2": "Avec le %chiffrement activé% dans Tautulli, aucune Information Personnellement Identifiable (PII) n'est collectée. Certaines informations utilisateur non-PII sont collectées et ne peuvent pas être chiffrées. Lisez la politique de confidentialité de %OneSignal% pour plus d'informations. Sans chiffrement, le contenu des notifications est envoyé à OneSignal en clair.",
+    "media_details_aired": "DIFFUSÉ",
+    "donate_tip_jar": "Pourboire"
 }
