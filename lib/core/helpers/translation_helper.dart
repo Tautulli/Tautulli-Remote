@@ -7,6 +7,8 @@ import '../../translations/locale_keys.g.dart';
 class TranslationHelper {
   static List<Locale> supportedLocales() {
     return [
+      const Locale('ca'),
+      const Locale('da'),
       const Locale('de'),
       const Locale('el'),
       const Locale('en'),
@@ -22,7 +24,11 @@ class TranslationHelper {
   }
 
   static String localeToString(Locale locale) {
-    if (locale.languageCode == 'de') {
+    if (locale.languageCode == 'ca') {
+      return 'Català';
+    } else if (locale.languageCode == 'da') {
+      return 'Dansk';
+    } else if (locale.languageCode == 'de') {
       return 'Deutsch';
     } else if (locale.languageCode == 'el') {
       return 'Eλληνικά';
