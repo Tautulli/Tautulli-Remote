@@ -16,7 +16,7 @@ body:
   - type: textarea
     id: feature
     attributes:
-      label: What is your feature request.
+      label: What is your feature request?
       placeholder: A clear and concise description of the feature.
     validations:
       required: true
