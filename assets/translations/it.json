@@ -36,5 +36,16 @@
     "recently_added_page_title": "Aggiunti di recente",
     "history_page_title": "Cronologia",
     "activity_page_title": "Attività",
-    "activity_empty": "Nulla attualmente in riproduzione"
+    "activity_empty": "Nulla attualmente in riproduzione",
+    "button_retry": "Riprova",
+    "button_go_to_settings": "VAI A IMPOSTAZIONI",
+    "button_terminate": "INTERROMPI",
+    "button_cancel": "ANNULLA",
+    "termination_synced_alert": "Il contenuto sincronizzato non può essere interrotto",
+    "termination_photo_alert": "Gli stream di foto non possono essere interrotti",
+    "termination_dialog_title": "Sei sicuro di voler interrompere questo stream",
+    "termination_default_message": "Il proprietario del server ha interrotto lo stream",
+    "termination_request_sent_alert": "Richiesta di termine inviata a Plex",
+    "masked_info_user": "Utente Nascosto",
+    "button_learn_more": "PER SAPERNE DI PIU'"
 }
