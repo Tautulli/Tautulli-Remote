@@ -71,6 +71,15 @@ class ChangelogItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(change['detail']),
+                          if (change['additional'] != null)
+                            Text(
+                              change['additional'],
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 13,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
                         ],
                       ),
                     ),
