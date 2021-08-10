@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icmp_ping/flutter_icmp_ping.dart';
+// import 'package:flutter_icmp_ping/flutter_icmp_ping.dart';
 
 import '../../../../translations/locale_keys.g.dart';
 import '../bloc/settings_bloc.dart';
@@ -43,8 +43,8 @@ Future<void> showLocalNetworkPermissionDialog({
           ),
           TextButton(
             onPressed: () {
-              final ping = Ping(ipAddress, count: 1);
-              ping.stream.listen((event) {});
+              // final ping = Ping(ipAddress, count: 1);
+              // ping.stream.listen((event) {});
               context.read<SettingsBloc>().add(
                     SettingsUpdateIosLocalNetworkPermissionPrompted(true),
                   );
