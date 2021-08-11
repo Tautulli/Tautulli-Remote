@@ -75,6 +75,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
 
     OneSignal.shared.setNotificationWillShowInForegroundHandler((event) {
       // will be called whenever a notification is received
+      event.complete(event.notification);
     });
 
     OneSignal.shared
