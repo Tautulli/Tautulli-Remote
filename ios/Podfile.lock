@@ -4,19 +4,19 @@ PODS:
   - connectivity_plus (0.0.1):
     - Flutter
     - Reachability
-  - CryptoSwift (1.4.0)
+  - CryptoSwift (1.4.1)
   - device_info_plus (0.0.1):
     - Flutter
-  - Firebase/CoreOnly (8.0.0):
-    - FirebaseCore (= 8.0.0)
-  - firebase_core (1.2.0):
-    - Firebase/CoreOnly (= 8.0.0)
+  - Firebase/CoreOnly (8.3.0):
+    - FirebaseCore (= 8.3.0)
+  - firebase_core (1.4.0):
+    - Firebase/CoreOnly (= 8.3.0)
     - Flutter
-  - FirebaseCore (8.0.0):
+  - FirebaseCore (8.3.0):
     - FirebaseCoreDiagnostics (~> 8.0)
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/Logger (~> 7.4)
-  - FirebaseCoreDiagnostics (8.1.0):
+  - FirebaseCoreDiagnostics (8.5.0):
     - GoogleDataTransport (~> 9.0)
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/Logger (~> 7.4)
@@ -24,47 +24,45 @@ PODS:
   - Flutter (1.0.0)
   - flutter_barcode_scanner (2.0.0):
     - Flutter
-  - flutter_icmp_ping (0.0.1):
-    - Flutter
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - GoogleDataTransport (9.0.0):
+  - GoogleDataTransport (9.1.0):
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
-    - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Environment (7.4.1):
-    - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (7.4.1):
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/Environment (7.5.0):
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/Logger (7.5.0):
     - GoogleUtilities/Environment
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
-  - OneSignal (3.4.4)
-  - onesignal_flutter (3.0.0):
+  - OneSignal (3.6.0)
+  - onesignal_flutter (3.2.0):
     - Flutter
-    - OneSignalXCFramework (= 3.4.4)
-  - OneSignalXCFramework (3.4.4)
+    - OneSignalXCFramework (= 3.6.0)
+  - OneSignalXCFramework (3.6.0)
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider (0.0.1):
     - Flutter
   - "permission_handler (5.1.0+2)":
     - Flutter
-  - PromisesObjC (1.2.12)
-  - Purchases (3.11.1):
-    - PurchasesCoreSwift (= 3.11.1)
-  - purchases_flutter (3.2.2):
+  - PromisesObjC (2.0.0)
+  - Purchases (3.12.2):
+    - PurchasesCoreSwift (= 3.12.2)
+  - purchases_flutter (3.4.1):
     - Flutter
-    - PurchasesHybridCommon (= 1.6.3)
-  - PurchasesCoreSwift (3.11.1)
-  - PurchasesHybridCommon (1.6.3):
-    - Purchases (= 3.11.1)
+    - PurchasesHybridCommon (= 1.8.1)
+  - PurchasesCoreSwift (3.12.2)
+  - PurchasesHybridCommon (1.8.1):
+    - Purchases (= 3.12.2)
   - Reachability (3.2)
   - shared_preferences (0.0.1):
     - Flutter
@@ -83,7 +81,6 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - flutter_barcode_scanner (from `.symlinks/plugins/flutter_barcode_scanner/ios`)
-  - flutter_icmp_ping (from `.symlinks/plugins/flutter_icmp_ping/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - OneSignal (< 4.0, >= 3.4.3)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
@@ -127,8 +124,6 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_barcode_scanner:
     :path: ".symlinks/plugins/flutter_barcode_scanner/ios"
-  flutter_icmp_ping:
-    :path: ".symlinks/plugins/flutter_icmp_ping/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
   onesignal_flutter:
@@ -150,32 +145,31 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   app_group_directory: 7bf9f8f9819ead554de29da7c25fb7a680d6a9a0
-  connectivity_plus: f5e5e0b894ec1187bfab9816d6c2f034da8d46da
-  CryptoSwift: 7cc902df1784de3b389a387756c7d710f197730c
+  connectivity_plus: 5f0eb61093bec56935f21a1699dd2758bc895587
+  CryptoSwift: 0bc800a7e6a24c4fc9ebeab97d44b0d5f73a78bd
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
-  Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
-  firebase_core: e4d3efb030a2b2021819f8faa538bb23deb46695
-  FirebaseCore: 3f09591d51292843e2a46f18358d60bf4e996255
-  FirebaseCoreDiagnostics: 3e249cee3de5c5f9cfd6cc2a19997231286fec11
+  Firebase: 817b9171d0d51dccc458b94a5e8edff6b1dd323d
+  firebase_core: 72374607c8c6f5a0adc0559e5c5bf57deda975e3
+  FirebaseCore: a6dba751680d7033b9d3831e1cfc95ead0605118
+  FirebaseCoreDiagnostics: 7bf55d386f9fc690d971b70a582142321a390eb8
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_barcode_scanner: 7a1144744c28dc0c57a8de7218ffe5ec59a9e4bf
-  flutter_icmp_ping: 07e508847df7fa9262d050bb0b203de074bbe517
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  GoogleDataTransport: 11e3a5f2c190327df1a4a5d7e7ae3d4d5b9c9e4c
-  GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
+  GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
+  GoogleUtilities: eea970f4a389963963bffe8d8fabe43540678b9c
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  OneSignal: d20ee5601f44496573c7abe95923a04d1b49977f
-  onesignal_flutter: 6a582e3051074be6d9d129002a93a3bfd04a5b88
-  OneSignalXCFramework: eaf286b7438aa1f030f03e5fa9f1c79ede5d8f04
+  OneSignal: fba3971064be02510de1d8b9c90fabd749da2e52
+  onesignal_flutter: 367950f701ad3bb25b21c15f3da6a08777f9237b
+  OneSignalXCFramework: ba3a7daeafd11bd6af8dd47e5689870911357d52
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
-  PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  Purchases: 6351f9ff6bd514e5ec5aa0f989ea181effa94bf5
-  purchases_flutter: 627527b070d80cdaf486fabe8b3d1dbe8d5cad92
-  PurchasesCoreSwift: ee857e4c21e6254b09d7e303a756fcf2b9164408
-  PurchasesHybridCommon: d65a799a61d688588534b80338edbcbf604ca93d
+  PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
+  Purchases: 3e20881892483ab6ca17cb86a89af4c6d1731562
+  purchases_flutter: e4ffd92c27d310827fa04432196200264a339d60
+  PurchasesCoreSwift: e614645840af49d465dee1918011f784365d79a6
+  PurchasesHybridCommon: a6ec3e74e4f274b9c7437c25e5dcc564a87a04ad
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
