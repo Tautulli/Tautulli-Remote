@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -7,6 +8,7 @@ import '../../../../core/helpers/icon_mapper_helper.dart';
 import '../../../../core/helpers/string_format_helper.dart';
 import '../../../../core/helpers/time_format_helper.dart';
 import '../../../../core/widgets/media_type_icon.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../domain/entities/history.dart';
 
 class HistoryDetails extends StatelessWidget {
@@ -46,7 +48,9 @@ class HistoryDetails extends StatelessWidget {
                 ),
               ),
               Text(
-                maskSensitiveInfo ? '*Hidden User*' : historyItem.friendlyName,
+                maskSensitiveInfo
+                    ? LocaleKeys.masked_info_user.tr()
+                    : historyItem.friendlyName,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 15,
