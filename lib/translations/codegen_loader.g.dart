@@ -2010,9 +2010,24 @@ static const Map<String,dynamic> pt_BR = {
   "history_page_title": "Histórico",
   "activity_page_title": "Atividade",
   "activity_empty": "Sem reproduções no momento",
-  "masked_info_ip_address": "IP Oculto"
+  "masked_info_ip_address": "IP Oculto",
+  "media_details_video": "VÍDEO",
+  "media_details_synced": "SINCRONIZADO",
+  "media_details_burn": "Queimar",
+  "media_details_subtitle": "LEGENDA",
+  "media_details_stream": "TRANSMISSÃO",
+  "media_details_speed": "Velocidade",
+  "media_details_quality": "QUALIDADE",
+  "media_details_product": "PRODUTO",
+  "media_details_optimized": "OTIMIZADO",
+  "masked_info_location": "Localização Oculta",
+  "media_details_relay_message": "Esta transmissão usa Plex Relay"
 };
-static const Map<String,dynamic> pt_PT = {};
+static const Map<String,dynamic> pt_PT = {
+  "recently_added_page_title": "Adicionado Recentemente",
+  "history_page_title": "Histórico",
+  "activity_page_title": "Atividade"
+};
 static const Map<String,dynamic> sv = {
   "activity_empty": "Inget spelas för närvarande",
   "activity_page_title": "Aktivitet",
