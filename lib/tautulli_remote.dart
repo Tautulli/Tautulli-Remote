@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:quiver/strings.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/activity/presentation/pages/activity_page.dart';
@@ -16,6 +17,7 @@ import 'features/history/presentation/pages/history_page.dart';
 import 'features/libraries/presentation/pages/libraries_page.dart';
 import 'features/logging/domain/usecases/logging.dart';
 import 'features/logging/presentation/pages/logs_page.dart';
+import 'features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 import 'features/privacy/presentation/pages/privacy_page.dart';
@@ -68,6 +70,17 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     // await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
     await OneSignal.shared.setLocationShared(false);
+
+    // If OneSignal is reporting an empty ID but we've stored that the user
+    // has provided consent trigger a grantConsent.
+    // This helps with some oddities when OneSignal updates the SDK.
+    if (isEmpty(await di.sl<OneSignalDataSource>().userId)) {
+      await di.sl<Settings>().getOneSignalConsented().then((consented) async {
+        if (consented) {
+          await di.sl<OneSignalDataSource>().grantConsent(true);
+        }
+      });
+    }
 
     await OneSignal.shared.setRequiresUserPrivacyConsent(true);
 
