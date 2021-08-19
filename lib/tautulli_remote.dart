@@ -71,12 +71,14 @@ class _TautulliRemoteState extends State<TautulliRemote> {
 
     await OneSignal.shared.setLocationShared(false);
 
-    // If OneSignal is reporting an empty ID but we've stored that the user
-    // has provided consent trigger a grantConsent.
-    // This helps with some oddities when OneSignal updates the SDK.
+    // If OneSignal is returns an empty userId and the user has provided
+    // then consent trigger a grantConsent.
     if (isEmpty(await di.sl<OneSignalDataSource>().userId)) {
       await di.sl<Settings>().getOneSignalConsented().then((consented) async {
         if (consented) {
+          di.sl<Logging>().info(
+                'OneSignal: Detected consent mismatch, granting consent.',
+              );
           await di.sl<OneSignalDataSource>().grantConsent(true);
         }
       });
