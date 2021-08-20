@@ -71,9 +71,10 @@ class _TautulliRemoteState extends State<TautulliRemote> {
 
     await OneSignal.shared.setLocationShared(false);
 
-    // If OneSignal is returns an empty userId and the user has provided
-    // then consent trigger a grantConsent.
-    if (isEmpty(await di.sl<OneSignalDataSource>().userId)) {
+    // If OneSignal returns an empty userId and the user has provided consent
+    //  trigger a grantConsent.
+    if (isEmpty(await di.sl<OneSignalDataSource>().userId) &&
+        await di.sl<OneSignalDataSource>().hasConsented == true) {
       await di.sl<Settings>().getOneSignalConsented().then((consented) async {
         if (consented) {
           di.sl<Logging>().info(
@@ -115,6 +116,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
             await di.sl<Settings>().getAllServersWithoutOnesignalRegistered();
 
         if (serversRegisteredWithoutOnesignal.isNotEmpty) {
+          di.sl<Logging>().info(
+                'OneSignal: OneSignal registration changed, updating registration.',
+              );
           for (var i = 0; i < serversRegisteredWithoutOnesignal.length; i++) {
             final server = serversRegisteredWithoutOnesignal[i];
             final failureOrRegisterDevice = await di.sl<RegisterDevice>()(
