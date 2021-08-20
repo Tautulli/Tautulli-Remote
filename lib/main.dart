@@ -4,9 +4,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:quiver/strings.dart';
 
 import 'core/helpers/translation_helper.dart';
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
+import 'features/logging/domain/usecases/logging.dart';
+import 'features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
@@ -59,13 +62,27 @@ void main() async {
 
   final bool versionMismatch = runningVersion != lastAppVersion;
 
+  // Update device registration after update
   if (versionMismatch && serverList.isNotEmpty) {
-    for (var i = 0; i < serverList.length; i++) {
-      await di.sl<RegisterDevice>().call(
-            connectionProtocol: serverList[i].primaryConnectionProtocol,
-            connectionDomain: serverList[i].primaryConnectionDomain,
-            connectionPath: serverList[i].primaryConnectionPath,
-            deviceToken: serverList[i].deviceToken,
+    di.sl<Logging>().info(
+          'General: Version changed, updating registration.',
+        );
+    // Skip registration update if user has consented but user ID is empty.
+    // This condition will be caught by the app triggering a registration when
+    // the user ID changes from empty to valid.
+    if (await di.sl<OneSignalDataSource>().hasConsented &&
+        isNotEmpty(await di.sl<OneSignalDataSource>().userId)) {
+      for (var i = 0; i < serverList.length; i++) {
+        await di.sl<RegisterDevice>().call(
+              connectionProtocol: serverList[i].primaryConnectionProtocol,
+              connectionDomain: serverList[i].primaryConnectionDomain,
+              connectionPath: serverList[i].primaryConnectionPath,
+              deviceToken: serverList[i].deviceToken,
+            );
+      }
+    } else {
+      di.sl<Logging>().error(
+            'General: Consent & user ID mismatch, skipping registration update.',
           );
     }
   }
