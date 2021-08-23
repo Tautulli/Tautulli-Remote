@@ -26,38 +26,38 @@ class NotificationService: UNNotificationServiceExtension {
                 let serverInfoDict = getServerInfo(serverId: serverId)
                 let deviceToken = serverInfoDict["deviceToken"]! as String
                 
-                let salt = data["salt"] as! String
-                let nonce = data["nonce"] as! String
-                let cipherText = data["cipher_text"] as! String
-                
                 let encrypted = data["encrypted"] as! Int
-                let plainText = encrypted == 1 ? getUnencryptedMessage(deviceToken: deviceToken, salt: salt, nonce: nonce, cipherText: cipherText) : data["plain_text"] as! String
+                var jsonMessage: [String: Any] = [:]
                 
-                do {
-                    let jsonMessage = try JSONSerialization.jsonObject(with: Data(plainText.utf8)) as? [String: Any]
-                    
-                    let notificationType = jsonMessage!["notification_type"] as! Int
-                    
-                    bestAttemptContent.body = jsonMessage!["body"] as! String
-                    bestAttemptContent.title = jsonMessage!["subject"] as! String
-                    
-                    if notificationType != 0 {
-                        var connectionAddress: String?
-                        if serverInfoDict["primaryActive"]! == "1" {
-                            connectionAddress = serverInfoDict["primaryConnectionAddress"]!
-                        } else {
-                            connectionAddress = serverInfoDict["secondaryConnectionAddress"]!
-                        }
-                        
-                        let urlString = "\(connectionAddress!)/api/v2?apikey=\(deviceToken)&cmd=pms_image_proxy&app=true&img=\(jsonMessage!["poster_thumb"]!)&width=1080"
-                        // os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "URL STRING: \(urlString)")
-                    }
-                } catch {
-                    os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "JSON ERROR: \(error)")
+                if encrypted == 1 {
+                    let salt = data["salt"] as! String
+                    let nonce = data["nonce"] as! String
+                    let cipherText = data["cipher_text"] as! String
+                    jsonMessage = getUnencryptedMessage(deviceToken: deviceToken, salt: salt, nonce: nonce, cipherText: cipherText)
+                } else {
+                    jsonMessage = data["plain_text"] as! [String: Any]
                 }
+                
+                bestAttemptContent.body = jsonMessage["body"] as! String
+                bestAttemptContent.title = jsonMessage["subject"] as! String
+                
+                // let notificationType = jsonMessage["notification_type"] as! Int
+                
+                // if notificationType != 0 {
+                //     var connectionAddress: String?
+                //     if serverInfoDict["primaryActive"]! == "1" {
+                //         connectionAddress = serverInfoDict["primaryConnectionAddress"]!
+                //     } else {
+                //         connectionAddress = serverInfoDict["secondaryConnectionAddress"]!
+                //     }
+                    
+                //     let urlString = "\(connectionAddress!)/api/v2?apikey=\(deviceToken)&cmd=pms_image_proxy&app=true&img=\(jsonMessage["poster_thumb"]!)&width=1080"
+                //     os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "URL STRING: \(urlString)")
+                // }
+
             }
             
-            OneSignal.didReceiveNotificationExtensionRequest(self.receivedRequest, with: self.bestAttemptContent)
+            OneSignal.didReceiveNotificationExtensionRequest(self.receivedRequest, with: self.bestAttemptContent, withContentHandler: self.contentHandler)
             contentHandler(bestAttemptContent)
         }
     }
@@ -132,7 +132,7 @@ class NotificationService: UNNotificationServiceExtension {
         return serverInfoDict
     }
     
-    private func getUnencryptedMessage(deviceToken: String, salt: String, nonce: String, cipherText: String) -> String {
+    private func getUnencryptedMessage(deviceToken: String, salt: String, nonce: String, cipherText: String) -> [String: Any] {
         let password: Array<UInt8> = Array(deviceToken.utf8)
         let salt: Array<UInt8> = Array(Data(base64Encoded: salt)!.bytes)
         let nonce: Array<UInt8> = Array(Data(base64Encoded: nonce)!.bytes)
@@ -143,10 +143,13 @@ class NotificationService: UNNotificationServiceExtension {
             let gcm = GCM(iv: nonce, mode: .combined)
             let aes = try AES(key: key, blockMode: gcm, padding: .noPadding)
             let plainText = try aes.decrypt(cipherText)
+
+            let decryptedData = try JSONSerialization.jsonObject(with: Data(plainText)) as! [String: Any]
             
-            return String(bytes: plainText, encoding: .utf8)!
+            return decryptedData
         } catch {
-            return "FAILED TO DECRYPT: \(error)"
+            os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "FAILED TO DECRYPT: \(error)")
+            return ["ERROR": error]
         }
     }
 }
