@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:quiver/strings.dart';
 
 import 'core/helpers/color_palette_helper.dart';
@@ -70,6 +73,18 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     // await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
     await OneSignal.shared.setLocationShared(false);
+
+    // Disables OneSignal integration on iOS if previously enabled without
+    // the App Tracking permission
+    if (Platform.isIOS &&
+        await di.sl<Settings>().getOneSignalConsented() &&
+        !await Permission.appTrackingTransparency.isGranted) {
+      di.sl<Logging>().error(
+            'OneSignal: OneSignal consent is granted but App Tracking Transparency is not. Revoking OneSignal consent, please re-consent to fix.',
+          );
+      await di.sl<Settings>().setOneSignalConsented(false);
+      await di.sl<OneSignalDataSource>().grantConsent(false);
+    }
 
     // If OneSignal returns an empty userId and the user has provided consent
     //  trigger a grantConsent.
