@@ -101,42 +101,54 @@ class _WizardPageContentState extends State<WizardPageContent> {
             );
           },
         ),
-        body: Swiper(
-          controller: _swiperController,
-          itemCount: 3,
-          physics: const NeverScrollableScrollPhysics(),
-          pagination: SwiperCustomPagination(
-            builder: (context, config) {
-              return Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: const DotSwiperPaginationBuilder(
-                    color: TautulliColorPalette.smoke,
-                    activeColor: PlexColorPalette.gamboge,
-                  ).build(context, config),
-                ),
-              );
-            },
-          ),
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return const Servers();
-            } else if (index == 1) {
-              return const OneSignal();
-            } else if (index == 2) {
-              return const Closing();
-            } else {
-              return const Padding(
-                padding: EdgeInsets.only(top: 48),
-                child: Text(
-                  'No Content',
-                  textAlign: TextAlign.center,
-                ),
-              );
-            }
-          },
+        body: Stack(
+          children: [
+            Swiper(
+              controller: _swiperController,
+              itemCount: 3,
+              physics: const NeverScrollableScrollPhysics(),
+              pagination: SwiperCustomPagination(
+                builder: (context, config) {
+                  return Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: const DotSwiperPaginationBuilder(
+                        color: TautulliColorPalette.smoke,
+                        activeColor: PlexColorPalette.gamboge,
+                      ).build(context, config),
+                    ),
+                  );
+                },
+              ),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return const Servers();
+                } else if (index == 1) {
+                  return const OneSignal();
+                } else if (index == 2) {
+                  return const Closing();
+                } else {
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 48),
+                    child: Text(
+                      'No Content',
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }
+              },
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.maybePop(context);
+              },
+              child: const Text(
+                LocaleKeys.button_quit,
+              ).tr(),
+            ),
+          ],
         ),
       ),
     );
