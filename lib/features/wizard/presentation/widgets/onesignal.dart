@@ -10,7 +10,7 @@ import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../privacy/presentation/pages/privacy_page.dart';
-import '../../../privacy/presentation/widgets/notification_setting_dialog.dart';
+import '../../../privacy/presentation/widgets/permission_setting_dialog.dart';
 import '../bloc/wizard_bloc.dart';
 
 class OneSignal extends StatelessWidget {
@@ -155,14 +155,28 @@ class OneSignal extends StatelessWidget {
                             value: wizardState.onesignalAccepted,
                             onChanged: (value) async {
                               if (Platform.isIOS) {
-                                if (await Permission.notification
+                                if (await Permission.appTrackingTransparency
                                     .request()
                                     .isGranted) {
-                                  context.read<WizardBloc>().add(
-                                        WizardAcceptOneSignal(value),
-                                      );
+                                  if (await Permission.notification
+                                      .request()
+                                      .isGranted) {
+                                    context.read<WizardBloc>().add(
+                                          WizardAcceptOneSignal(value),
+                                        );
+                                  } else {
+                                    await showPermissionSettingsDialog(
+                                      context,
+                                      LocaleKeys.privacy_alert_title.tr(),
+                                      LocaleKeys.privacy_alert_content.tr(),
+                                    );
+                                  }
                                 } else {
-                                  await showNotificationSettingsDialog(context);
+                                  await showPermissionSettingsDialog(
+                                    context,
+                                    'Tracking Permission Required',
+                                    'Give Tautulli Remote tracking access in order to receive push notifications.',
+                                  );
                                 }
                               } else {
                                 context.read<WizardBloc>().add(

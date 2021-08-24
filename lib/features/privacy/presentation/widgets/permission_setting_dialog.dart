@@ -4,13 +4,17 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../translations/locale_keys.g.dart';
 
-Future<void> showNotificationSettingsDialog(BuildContext context) {
+Future<void> showPermissionSettingsDialog(
+  BuildContext context,
+  String title,
+  String content,
+) {
   return showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: const Text(LocaleKeys.privacy_alert_title).tr(),
-        content: const Text(LocaleKeys.privacy_alert_content).tr(),
+        title: Text(title),
+        content: Text(content),
         actions: [
           TextButton(
             onPressed: () {

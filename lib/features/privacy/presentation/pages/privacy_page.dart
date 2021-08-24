@@ -7,11 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
-import '../widgets/notification_setting_dialog.dart';
+import '../widgets/permission_setting_dialog.dart';
 
 class PrivacyPage extends StatelessWidget {
   final bool showConsentSwitch;
@@ -58,6 +59,7 @@ class PrivacyPage extends StatelessWidget {
                           'Consent to OneSignal data privacy',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
+                            color: TautulliColorPalette.not_white,
                           ),
                         ),
                         subtitle: BlocBuilder<OneSignalPrivacyBloc,
@@ -70,6 +72,7 @@ class PrivacyPage extends StatelessWidget {
                                     text: 'Status: ',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w300,
+                                      color: TautulliColorPalette.not_white,
                                     ),
                                   ),
                                   if (state is OneSignalPrivacyConsentFailure)
@@ -99,15 +102,31 @@ class PrivacyPage extends StatelessWidget {
                         onChanged: (_) async {
                           if (state is OneSignalPrivacyConsentFailure) {
                             if (Platform.isIOS) {
-                              if (await Permission.notification
+                              if (await Permission.appTrackingTransparency
                                   .request()
                                   .isGranted) {
-                                await _grantConsentFuture(oneSignalPrivacyBloc);
-                                oneSignalSubscriptionBloc
-                                    .add(OneSignalSubscriptionCheck());
-                                oneSignalHealthBloc.add(OneSignalHealthCheck());
+                                if (await Permission.notification
+                                    .request()
+                                    .isGranted) {
+                                  await _grantConsentFuture(
+                                      oneSignalPrivacyBloc);
+                                  oneSignalSubscriptionBloc
+                                      .add(OneSignalSubscriptionCheck());
+                                  oneSignalHealthBloc
+                                      .add(OneSignalHealthCheck());
+                                } else {
+                                  await showPermissionSettingsDialog(
+                                    context,
+                                    LocaleKeys.privacy_alert_title.tr(),
+                                    LocaleKeys.privacy_alert_content.tr(),
+                                  );
+                                }
                               } else {
-                                await showNotificationSettingsDialog(context);
+                                await showPermissionSettingsDialog(
+                                  context,
+                                  'Tracking Permission Required',
+                                  'Give Tautulli Remote tracking access in order to receive push notifications.',
+                                );
                               }
                             } else {
                               await _grantConsentFuture(oneSignalPrivacyBloc);
