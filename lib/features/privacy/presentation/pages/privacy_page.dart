@@ -124,8 +124,8 @@ class PrivacyPage extends StatelessWidget {
                               } else {
                                 await showPermissionSettingsDialog(
                                   context,
-                                  'Tracking Permission Required',
-                                  'Give Tautulli Remote tracking access in order to receive push notifications.',
+                                  LocaleKeys.tracking_alert_title.tr(),
+                                  LocaleKeys.tracking_alert_content.tr(),
                                 );
                               }
                             } else {

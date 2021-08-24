@@ -423,4 +423,6 @@ abstract class LocaleKeys {
       "settings_clear_cache_dialog_content";
   static const image_cache_clear_alert = "image_cache_clear_alert";
   static const operations_heading = 'operations_heading';
+  static const tracking_alert_title = 'tracking_alert_title';
+  static const tracking_alert_content = 'tracking_alert_content';
 }
