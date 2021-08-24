@@ -140,13 +140,21 @@ class _WizardPageContentState extends State<WizardPageContent> {
                 }
               },
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.maybePop(context);
+            BlocBuilder<WizardBloc, WizardState>(
+              builder: (context, state) {
+                if (state is WizardLoaded &&
+                    state.wizardStage != WizardStage.closing) {
+                  return TextButton(
+                    onPressed: () {
+                      Navigator.maybePop(context);
+                    },
+                    child: const Text(
+                      LocaleKeys.button_quit,
+                    ).tr(),
+                  );
+                }
+                return const SizedBox(height: 0, width: 0);
               },
-              child: const Text(
-                LocaleKeys.button_quit,
-              ).tr(),
             ),
           ],
         ),
