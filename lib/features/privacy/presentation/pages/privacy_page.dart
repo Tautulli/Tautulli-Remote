@@ -108,10 +108,13 @@ class PrivacyPage extends StatelessWidget {
                                 if (await Permission.notification
                                     .request()
                                     .isGranted) {
-                                  await _grantConsentFuture(
-                                      oneSignalPrivacyBloc);
-                                  oneSignalSubscriptionBloc
-                                      .add(OneSignalSubscriptionCheck());
+                                  oneSignalPrivacyBloc
+                                      .add(OneSignalPrivacyGrantConsent());
+                                  await Future.delayed(
+                                      const Duration(seconds: 2), () {
+                                    oneSignalSubscriptionBloc
+                                        .add(OneSignalSubscriptionCheck());
+                                  });
                                   oneSignalHealthBloc
                                       .add(OneSignalHealthCheck());
                                 } else {
@@ -129,9 +132,13 @@ class PrivacyPage extends StatelessWidget {
                                 );
                               }
                             } else {
-                              await _grantConsentFuture(oneSignalPrivacyBloc);
-                              oneSignalSubscriptionBloc
-                                  .add(OneSignalSubscriptionCheck());
+                              oneSignalPrivacyBloc
+                                  .add(OneSignalPrivacyGrantConsent());
+                              await Future.delayed(const Duration(seconds: 2),
+                                  () {
+                                oneSignalSubscriptionBloc
+                                    .add(OneSignalSubscriptionCheck());
+                              });
                               oneSignalHealthBloc.add(OneSignalHealthCheck());
                             }
                           }
@@ -153,11 +160,6 @@ class PrivacyPage extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<void> _grantConsentFuture(OneSignalPrivacyBloc oneSignalPrivacyBloc) {
-  oneSignalPrivacyBloc.add(OneSignalPrivacyGrantConsent());
-  return Future.value(null);
 }
 
 class _OneSignalDataPrivacyText extends StatelessWidget {
