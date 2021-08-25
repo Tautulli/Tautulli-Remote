@@ -22,6 +22,7 @@ import 'features/logging/domain/usecases/logging.dart';
 import 'features/logging/presentation/pages/logs_page.dart';
 import 'features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
+import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 import 'features/privacy/presentation/pages/privacy_page.dart';
 import 'features/recent/presentation/pages/recently_added_page.dart';
@@ -82,8 +83,8 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       di.sl<Logging>().error(
             'OneSignal: OneSignal consent is granted but App Tracking Transparency is not. Revoking OneSignal consent, please re-consent to fix.',
           );
-      await di.sl<Settings>().setOneSignalConsented(false);
-      await di.sl<OneSignalDataSource>().grantConsent(false);
+      di.sl<OneSignalPrivacyBloc>().add(OneSignalPrivacyRevokeConsent());
+      di.sl<OneSignalSubscriptionBloc>().add(OneSignalSubscriptionCheck());
     }
 
     // If OneSignal returns an empty userId and the user has provided consent
