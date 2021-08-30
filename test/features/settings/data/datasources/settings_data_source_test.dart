@@ -829,4 +829,50 @@ void main() {
       },
     );
   });
+
+  group('iOS Notification Permission Declined', () {
+    test(
+      'should return bool from settings',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(IOS_NOTIFICATION_PERMISSION_DECLINED),
+        ).thenReturn(true);
+        // act
+        final iosNotificationPermissionDeclined =
+            await dataSource.getIosNotificationPermissionDeclined();
+        // assert
+        verify(mockSharedPreferences
+            .getBool(IOS_NOTIFICATION_PERMISSION_DECLINED));
+        expect(iosNotificationPermissionDeclined, equals(true));
+      },
+    );
+
+    test(
+      'should return null when there is no stored value',
+      () async {
+        // arrange
+        when(
+          mockSharedPreferences.getBool(IOS_NOTIFICATION_PERMISSION_DECLINED),
+        ).thenReturn(null);
+        // act
+        final iosNotificationPermissionDeclined =
+            await dataSource.getIosNotificationPermissionDeclined();
+        // assert
+        expect(iosNotificationPermissionDeclined, equals(null));
+      },
+    );
+
+    test(
+      'should call SharedPreferences to save the graph tips shown value',
+      () async {
+        // act
+        await dataSource.setGraphTipsShown(true);
+        // assert
+        verify(
+          mockSharedPreferences.setBool(GRAPH_TIPS_SHOWN, true),
+        );
+      },
+    );
+  });
 }

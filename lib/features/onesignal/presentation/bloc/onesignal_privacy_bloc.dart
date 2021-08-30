@@ -9,6 +9,7 @@ import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/register_device.dart';
 import '../../../settings/domain/usecases/settings.dart';
 import '../../data/datasources/onesignal_data_source.dart';
+import '../../../../injection_container.dart' as di;
 
 part 'onesignal_privacy_event.dart';
 part 'onesignal_privacy_state.dart';
@@ -52,6 +53,10 @@ class OneSignalPrivacyBloc
             await Permission.appTrackingTransparency.isGranted ?? false,
         iosNotificationPermissionGranted:
             await Permission.notification.isGranted ?? false,
+        iosNotificationPermissionDeclined:
+            await di.sl<Settings>().setIosNotificationPermissionDeclined(
+                  true,
+                ),
       );
     }
   }
@@ -80,6 +85,10 @@ class OneSignalPrivacyBloc
       iosAppTrackingPermissionGranted:
           await Permission.appTrackingTransparency.isGranted,
       iosNotificationPermissionGranted: await Permission.notification.isGranted,
+      iosNotificationPermissionDeclined:
+          await di.sl<Settings>().setIosNotificationPermissionDeclined(
+                true,
+              ),
     );
   }
 }

@@ -121,4 +121,8 @@ abstract class SettingsRepository {
   Future<bool> getGraphTipsShown();
 
   Future<bool> setGraphTipsShown(bool value);
+
+  Future<bool> getIosNotificationPermissionDeclined();
+
+  Future<bool> setIosNotificationPermissionDeclined(bool value);
 }

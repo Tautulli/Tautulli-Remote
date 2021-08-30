@@ -4,7 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../injection_container.dart' as di;
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
+import '../../../settings/domain/usecases/settings.dart';
 
 part 'wizard_event.dart';
 part 'wizard_state.dart';
@@ -44,6 +46,7 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
         );
       }
       if (event is WizardRejectOneSignalPermission) {
+        await di.sl<Settings>().setIosNotificationPermissionDeclined(true);
         yield currentState.copyWith(onesignalPermissionRejected: true);
       }
     }

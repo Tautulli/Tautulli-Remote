@@ -241,4 +241,12 @@ class Settings {
   Future<bool> setGraphTipsShown(bool value) async {
     return repository.setGraphTipsShown(value);
   }
+
+  Future<bool> getIosNotificationPermissionDeclined() async {
+    return await repository.getIosNotificationPermissionDeclined();
+  }
+
+  Future<bool> setIosNotificationPermissionDeclined(bool value) async {
+    return repository.setIosNotificationPermissionDeclined(value);
+  }
 }

@@ -8,10 +8,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../injection_container.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
+import '../../../settings/domain/usecases/settings.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 class PrivacyPage extends StatelessWidget {
@@ -115,7 +117,8 @@ class PrivacyPage extends StatelessWidget {
                             ? true
                             : false,
                         onChanged: (Platform.isIOS &&
-                                    state is OneSignalPrivacyConsentFailure) &&
+                                    state is OneSignalPrivacyConsentFailure &&
+                                    state.iosNotificationPermissionDeclined) &&
                                 (!state.iosAppTrackingPermissionGranted ||
                                     !state.iosNotificationPermissionGranted)
                             ? null
@@ -138,6 +141,11 @@ class PrivacyPage extends StatelessWidget {
                                         oneSignalHealthBloc
                                             .add(OneSignalHealthCheck());
                                       } else {
+                                        await di
+                                            .sl<Settings>()
+                                            .setIosNotificationPermissionDeclined(
+                                              true,
+                                            );
                                         context.read<SettingsBloc>().add(
                                               SettingsUpdateOneSignalBannerDismiss(
                                                 true,
@@ -145,6 +153,11 @@ class PrivacyPage extends StatelessWidget {
                                             );
                                       }
                                     } else {
+                                      await di
+                                          .sl<Settings>()
+                                          .setIosNotificationPermissionDeclined(
+                                            true,
+                                          );
                                       context.read<SettingsBloc>().add(
                                             SettingsUpdateOneSignalBannerDismiss(
                                               true,

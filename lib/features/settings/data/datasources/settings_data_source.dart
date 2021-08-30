@@ -82,6 +82,10 @@ abstract class SettingsDataSource {
   Future<bool> getGraphTipsShown();
 
   Future<bool> setGraphTipsShown(bool value);
+
+  Future<bool> getIosNotificationPermissionDeclined();
+
+  Future<bool> setIosNotificationPermissionDeclined(bool value);
 }
 
 const SETTINGS_SERVER_TIMEOUT = 'SETTINGS_SERVER_TIMEOUT';
@@ -101,6 +105,8 @@ const CUSTOM_CERT_HASH_LIST = 'CUSTOM_CERT_HASH_LIST';
 const IOS_LOCAL_NETWORK_PERMISSION_PROMPTED =
     'IOS_LOCAL_NETWORK_PERMISSION_PROMPTED';
 const GRAPH_TIPS_SHOWN = 'GRAPH_TIPS_SHOWN';
+const IOS_NOTIFICATION_PERMISSION_DECLINED =
+    'IOS_NOTIFICATION_PERMISSION_DECLINED';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
   final SharedPreferences sharedPreferences;
@@ -339,6 +345,21 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   Future<bool> setGraphTipsShown(bool value) {
     return sharedPreferences.setBool(
       GRAPH_TIPS_SHOWN,
+      value,
+    );
+  }
+
+  @override
+  Future<bool> getIosNotificationPermissionDeclined() {
+    final value =
+        sharedPreferences.getBool(IOS_NOTIFICATION_PERMISSION_DECLINED);
+    return Future.value(value);
+  }
+
+  @override
+  Future<bool> setIosNotificationPermissionDeclined(bool value) {
+    return sharedPreferences.setBool(
+      IOS_NOTIFICATION_PERMISSION_DECLINED,
       value,
     );
   }

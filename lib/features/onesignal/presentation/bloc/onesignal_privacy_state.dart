@@ -17,10 +17,12 @@ class OneSignalPrivacyConsentSuccess extends OneSignalPrivacyState {
 class OneSignalPrivacyConsentFailure extends OneSignalPrivacyState {
   final bool iosAppTrackingPermissionGranted;
   final bool iosNotificationPermissionGranted;
+  final bool iosNotificationPermissionDeclined;
 
   OneSignalPrivacyConsentFailure({
     this.iosAppTrackingPermissionGranted,
     this.iosNotificationPermissionGranted,
+    this.iosNotificationPermissionDeclined,
   });
 
   @override

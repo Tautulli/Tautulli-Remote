@@ -349,4 +349,16 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<bool> setGraphTipsShown(bool value) async {
     return dataSource.setGraphTipsShown(value);
   }
+
+  @override
+  Future<bool> getIosNotificationPermissionDeclined() async {
+    final iosNotificationPermissionDeclined =
+        await dataSource.getIosNotificationPermissionDeclined();
+    return iosNotificationPermissionDeclined;
+  }
+
+  @override
+  Future<bool> setIosNotificationPermissionDeclined(bool value) async {
+    return dataSource.setIosNotificationPermissionDeclined(value);
+  }
 }
