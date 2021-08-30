@@ -54,9 +54,8 @@ class OneSignalPrivacyBloc
         iosNotificationPermissionGranted:
             await Permission.notification.isGranted ?? false,
         iosNotificationPermissionDeclined:
-            await di.sl<Settings>().setIosNotificationPermissionDeclined(
-                  true,
-                ),
+            await di.sl<Settings>().getIosNotificationPermissionDeclined() ??
+                false,
       );
     }
   }
@@ -86,9 +85,8 @@ class OneSignalPrivacyBloc
           await Permission.appTrackingTransparency.isGranted,
       iosNotificationPermissionGranted: await Permission.notification.isGranted,
       iosNotificationPermissionDeclined:
-          await di.sl<Settings>().setIosNotificationPermissionDeclined(
-                true,
-              ),
+          await di.sl<Settings>().getIosNotificationPermissionDeclined() ??
+              false,
     );
   }
 }

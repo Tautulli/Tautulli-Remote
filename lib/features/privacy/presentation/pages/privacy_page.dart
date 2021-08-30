@@ -64,54 +64,52 @@ class PrivacyPage extends StatelessWidget {
                             color: TautulliColorPalette.not_white,
                           ),
                         ),
-                        subtitle: BlocBuilder<OneSignalPrivacyBloc,
-                            OneSignalPrivacyState>(
-                          builder: (context, state) {
-                            return RichText(
-                              text: TextSpan(
-                                children: [
-                                  const TextSpan(
-                                    text: 'Status: ',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      color: TautulliColorPalette.not_white,
-                                    ),
-                                  ),
-                                  if (state is OneSignalPrivacyConsentFailure)
-                                    TextSpan(
-                                      text: Platform.isIOS &&
-                                              !state
-                                                  .iosAppTrackingPermissionGranted
-                                          ? 'Tracking Permission Disabled'
-                                          : Platform.isIOS &&
-                                                  !state
-                                                      .iosNotificationPermissionGranted
-                                              ? 'Notification Permission Disabled'
-                                              : 'Not Accepted X',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w300,
-                                        color: Platform.isIOS &&
-                                                    !state
-                                                        .iosAppTrackingPermissionGranted ||
-                                                Platform.isIOS &&
-                                                    !state
-                                                        .iosNotificationPermissionGranted
-                                            ? Colors.grey
-                                            : Colors.red,
-                                      ),
-                                    ),
-                                  if (state is OneSignalPrivacyConsentSuccess)
-                                    const TextSpan(
-                                      text: 'Accepted ✓',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                ],
+                        subtitle: RichText(
+                          text: TextSpan(
+                            children: [
+                              const TextSpan(
+                                text: 'Status: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  color: TautulliColorPalette.not_white,
+                                ),
                               ),
-                            );
-                          },
+                              if (state is OneSignalPrivacyConsentFailure)
+                                TextSpan(
+                                  text: Platform.isIOS &&
+                                          state
+                                              .iosNotificationPermissionDeclined &&
+                                          !state.iosAppTrackingPermissionGranted
+                                      ? 'Tracking Permission Disabled'
+                                      : Platform.isIOS &&
+                                              state
+                                                  .iosNotificationPermissionDeclined &&
+                                              !state
+                                                  .iosNotificationPermissionGranted
+                                          ? 'Notification Permission Disabled'
+                                          : 'Not Accepted X',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    color: (Platform.isIOS &&
+                                                state
+                                                    .iosNotificationPermissionDeclined) &&
+                                            (!state.iosAppTrackingPermissionGranted ||
+                                                !state
+                                                    .iosNotificationPermissionGranted)
+                                        ? Colors.grey
+                                        : Colors.red,
+                                  ),
+                                ),
+                              if (state is OneSignalPrivacyConsentSuccess)
+                                const TextSpan(
+                                  text: 'Accepted ✓',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
                         value: state is OneSignalPrivacyConsentSuccess
                             ? true
@@ -119,7 +117,7 @@ class PrivacyPage extends StatelessWidget {
                         onChanged: (Platform.isIOS &&
                                     state is OneSignalPrivacyConsentFailure &&
                                     state.iosNotificationPermissionDeclined) &&
-                                (!state.iosAppTrackingPermissionGranted ||
+                                (!state.iosAppTrackingPermissionGranted &&
                                     !state.iosNotificationPermissionGranted)
                             ? null
                             : (_) async {
@@ -128,30 +126,6 @@ class PrivacyPage extends StatelessWidget {
                                     if (await Permission.appTrackingTransparency
                                         .request()
                                         .isGranted) {
-                                      if (await Permission.notification
-                                          .request()
-                                          .isGranted) {
-                                        oneSignalPrivacyBloc.add(
-                                            OneSignalPrivacyGrantConsent());
-                                        await Future.delayed(
-                                            const Duration(seconds: 2), () {
-                                          oneSignalSubscriptionBloc.add(
-                                              OneSignalSubscriptionCheck());
-                                        });
-                                        oneSignalHealthBloc
-                                            .add(OneSignalHealthCheck());
-                                      } else {
-                                        await di
-                                            .sl<Settings>()
-                                            .setIosNotificationPermissionDeclined(
-                                              true,
-                                            );
-                                        context.read<SettingsBloc>().add(
-                                              SettingsUpdateOneSignalBannerDismiss(
-                                                true,
-                                              ),
-                                            );
-                                      }
                                     } else {
                                       await di
                                           .sl<Settings>()
@@ -163,6 +137,36 @@ class PrivacyPage extends StatelessWidget {
                                               true,
                                             ),
                                           );
+                                      context
+                                          .read<OneSignalPrivacyBloc>()
+                                          .add(OneSignalPrivacyCheckConsent());
+                                    }
+                                    if (await Permission.notification
+                                        .request()
+                                        .isGranted) {
+                                      oneSignalPrivacyBloc
+                                          .add(OneSignalPrivacyGrantConsent());
+                                      await Future.delayed(
+                                          const Duration(seconds: 2), () {
+                                        oneSignalSubscriptionBloc
+                                            .add(OneSignalSubscriptionCheck());
+                                      });
+                                      oneSignalHealthBloc
+                                          .add(OneSignalHealthCheck());
+                                    } else {
+                                      await di
+                                          .sl<Settings>()
+                                          .setIosNotificationPermissionDeclined(
+                                            true,
+                                          );
+                                      context.read<SettingsBloc>().add(
+                                            SettingsUpdateOneSignalBannerDismiss(
+                                              true,
+                                            ),
+                                          );
+                                      context
+                                          .read<OneSignalPrivacyBloc>()
+                                          .add(OneSignalPrivacyCheckConsent());
                                     }
                                   } else {
                                     oneSignalPrivacyBloc
