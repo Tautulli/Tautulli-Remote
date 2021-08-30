@@ -15,7 +15,6 @@
   "media_details_location_loading": "Indlæser placeringsdata",
   "media_details_location_error": "FEJL: IP adresse findes ikke i GeoIP kortet",
   "button_retry": "Prøve igen",
-  "button_go_to_settings": "GÅ TIL INDSTILLINGER",
   "button_terminate": "AFSLUTTE",
   "button_cancel": "ANNULLER",
   "termination_terminate_message_label": "Afslut meddelelse",

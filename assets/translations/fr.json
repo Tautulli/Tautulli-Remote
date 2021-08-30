@@ -47,7 +47,6 @@
     "termination_terminate_message_label": "Message d'interruption",
     "button_cancel": "ANNULER",
     "button_terminate": "INTERROMPRE",
-    "button_go_to_settings": "ALLER AUX PARAMÈTRES",
     "button_retry": "Réessayer",
     "media_details_location_error": "ERREUR : Adresse IP non présente dans la carte GeoIP",
     "media_details_location_loading": "Chargement des données d'emplacement",
@@ -329,7 +328,6 @@
     "settings_language_title": "Langue",
     "button_continue": "CONTINUER",
     "settings_alert_ios_local_network_permission_title": "Permission d’accès au réseau local requise",
-    "privacy_alert_content": "Autorisez l’accès aux notifications de l’application Tautulli Remote afin de recevoir les notifications pus.",
     "settings_setup_instructions_line_4": "Sélectionnez « Enregistrer un nouvel appareil ».",
     "settings_setup_instructions_line_3": "Aller à Paramètres > Application Tautulli Remote.",
     "settings_setup_instructions_line_2": "Ouvrez l’interface web Tautulli sur un autre appareil.",
@@ -345,7 +343,6 @@
     "settings_alert_ios_local_network_permission_content_3": "Si refusée, vous devrez activer manuellement cela dans les paramètres d'iOS.",
     "settings_alert_ios_local_network_permission_content_2": "Cliquez sur CONTINUER et acceptez la demande pour autoriser ceci avant l'inscription.",
     "settings_alert_ios_local_network_permission_content_1": "Afin de se connecter à un serveur local, Tautulli Remote nécessite une autorisation d'accès au réseau local.",
-    "privacy_alert_title": "Autorisation pour les notifications requise",
     "settings_setup_instructions_line_5": "Utilisez le bouton ci-dessous pour enregistrer votre serveur.",
     "settings_device_token_validation_message": "Doit contenir 32 caractères (actuellement : {})",
     "settings_registration_text_2": "Vous pouvez également ajouter une adresse de connexion secondaire. Si l'adresse de connexion principale est inaccessible, l'application utilisera automatiquement l'adresse secondaire.",
@@ -353,7 +350,5 @@
     "privacy_text_block_4": "Une fois que vous acceptez, cet appareil s'enregistrera auprès de OneSignal. Le consentement peut être révoqué pour empêcher toute communication ultérieure avec OneSignal.",
     "privacy_text_block_2": "Avec le %chiffrement activé% dans Tautulli, aucune Information Personnellement Identifiable (PII) n'est collectée. Certaines informations utilisateur non-PII sont collectées et ne peuvent pas être chiffrées. Lisez la politique de confidentialité de %OneSignal% pour plus d'informations. Sans chiffrement, le contenu des notifications est envoyé à OneSignal en clair.",
     "media_details_aired": "DIFFUSÉ",
-    "donate_tip_jar": "Pourboire",
-    "tracking_alert_content": "Autorisez l'accès au suivi à Tautulli Remote pour pouvoir recevoir des notifications push.",
-    "tracking_alert_title": "Autorisation du suivi requise"
+    "donate_tip_jar": "Pourboire"
 }

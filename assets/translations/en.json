@@ -48,7 +48,6 @@
   "termination_terminate_message_label": "Terminate Message",
   "button_cancel": "CANCEL",
   "button_terminate": "TERMINATE",
-  "button_go_to_settings": "GO TO SETTINGS",
   "button_retry": "Retry",
   "media_details_location_error": "ERROR: IP Address not in GeoIP map",
   "media_details_location_loading": "Loading location data",
@@ -335,8 +334,6 @@
   "translate_help_translate": "Translate Tautulli Remote",
   "translate_request_language": "Request a new language",
   "wizard_closing_translate": "Tautulli Remote supports multiple languages, help translate under Settings > Help Translate.",
-  "privacy_alert_title": "Notification Permission Required",
-  "privacy_alert_content": "Give Tautulli Remote notification access to receive push notitifications.",
   "settings_alert_ios_local_network_permission_title": "Local Network Access Permission Required",
   "settings_alert_ios_local_network_permission_content_1": "In order to connect to a local server Tautulli Remote needs the local network permission.",
   "settings_alert_ios_local_network_permission_content_2": "Click CONTINUE and accept the prompt to allow this permission before registering.",
@@ -353,7 +350,5 @@
   "button_clear": "CLEAR",
   "settings_clear_cache_dialog_content": "Are you sure you want to clear the cache?",
   "image_cache_clear_alert": "Image cache cleared",
-  "operations_heading": "Operations",
-  "tracking_alert_title": "Tracking Permission Required",
-  "tracking_alert_content": "Give Tautulli Remote tracking access in order to receive push notifications."
+  "operations_heading": "Operations"
 }

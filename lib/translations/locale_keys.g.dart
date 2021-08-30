@@ -52,7 +52,6 @@ abstract class LocaleKeys {
       'termination_terminate_message_label';
   static const button_cancel = 'button_cancel';
   static const button_terminate = 'button_terminate';
-  static const button_go_to_settings = 'button_go_to_settings';
   static const button_retry = 'button_retry';
   static const media_details_location_error = 'media_details_location_error';
   static const media_details_location_loading =
@@ -399,8 +398,6 @@ abstract class LocaleKeys {
   static const translate_help_translate = 'translate_help_translate';
   static const translate_request_language = 'translate_request_language';
   static const wizard_closing_translate = 'wizard_closing_translate';
-  static const privacy_alert_title = 'privacy_alert_title';
-  static const privacy_alert_content = 'privacy_alert_content';
   static const settings_alert_ios_local_network_permission_title =
       'settings_alert_ios_local_network_permission_title';
   static const settings_alert_ios_local_network_permission_content_1 =
@@ -423,6 +420,4 @@ abstract class LocaleKeys {
       "settings_clear_cache_dialog_content";
   static const image_cache_clear_alert = "image_cache_clear_alert";
   static const operations_heading = 'operations_heading';
-  static const tracking_alert_title = 'tracking_alert_title';
-  static const tracking_alert_content = 'tracking_alert_content';
 }

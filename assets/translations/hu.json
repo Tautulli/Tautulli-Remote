@@ -85,7 +85,6 @@
   "media_details_location_loading": "Hely adatok betöltése",
   "media_details_location_error": "HIBA: Az IP cím nem található a GeoIP térképen",
   "button_retry": "Újra",
-  "button_go_to_settings": "MENJ A BEÁLLÍTÁSOKBA",
   "button_terminate": "MEGSZAKÍTÁS",
   "button_cancel": "MÉGSE",
   "termination_terminate_message_label": "Megszakítási üzenet",

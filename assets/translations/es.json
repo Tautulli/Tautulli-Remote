@@ -48,7 +48,6 @@
   "termination_terminate_message_label": "Mensaje finalizado",
   "button_cancel": "CANCELAR",
   "button_terminate": "FINALIZAR",
-  "button_go_to_settings": "IR A AJUSTES",
   "button_retry": "Reintentar",
   "media_details_location_error": "ERROR: Dirección IP no está en el mapa GeoIP",
   "media_details_location_loading": "Cargando datos de localización",

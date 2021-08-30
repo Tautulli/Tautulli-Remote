@@ -43,7 +43,6 @@
   "media_details_location_loading": "S'estan carregant les dades d'ubicació",
   "media_details_location_error": "ERROR: l'adreça IP no es troba al mapa GeoIP",
   "button_retry": "Torna-ho a provar",
-  "button_go_to_settings": "VÉS A LA CONFIGURACIÓ",
   "button_terminate": "FINALITZA",
   "button_cancel": "CANCEL·LA",
   "termination_terminate_message_label": "Missatge de finalització",
