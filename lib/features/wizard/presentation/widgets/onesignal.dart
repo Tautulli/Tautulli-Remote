@@ -10,7 +10,7 @@ import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../privacy/presentation/pages/privacy_page.dart';
-import '../../../privacy/presentation/widgets/permission_setting_dialog.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/wizard_bloc.dart';
 
 class OneSignal extends StatelessWidget {
@@ -153,37 +153,46 @@ class OneSignal extends StatelessWidget {
                         if (wizardState is WizardLoaded) {
                           return CheckboxListTile(
                             value: wizardState.onesignalAccepted,
-                            onChanged: (value) async {
-                              if (Platform.isIOS) {
-                                if (await Permission.appTrackingTransparency
-                                    .request()
-                                    .isGranted) {
-                                  if (await Permission.notification
-                                      .request()
-                                      .isGranted) {
-                                    context.read<WizardBloc>().add(
-                                          WizardAcceptOneSignal(value),
-                                        );
-                                  } else {
-                                    await showPermissionSettingsDialog(
-                                      context,
-                                      LocaleKeys.privacy_alert_title.tr(),
-                                      LocaleKeys.privacy_alert_content.tr(),
-                                    );
-                                  }
-                                } else {
-                                  await showPermissionSettingsDialog(
-                                    context,
-                                    LocaleKeys.tracking_alert_title.tr(),
-                                    LocaleKeys.tracking_alert_content.tr(),
-                                  );
-                                }
-                              } else {
-                                context.read<WizardBloc>().add(
-                                      WizardAcceptOneSignal(value),
-                                    );
-                              }
-                            },
+                            onChanged: wizardState.onesignalPermissionRejected
+                                ? null
+                                : (value) async {
+                                    if (Platform.isIOS) {
+                                      if (await Permission
+                                          .appTrackingTransparency
+                                          .request()
+                                          .isGranted) {
+                                        if (await Permission.notification
+                                            .request()
+                                            .isGranted) {
+                                          context.read<WizardBloc>().add(
+                                                WizardAcceptOneSignal(value),
+                                              );
+                                        } else {
+                                          context.read<WizardBloc>().add(
+                                                WizardRejectOneSignalPermission(),
+                                              );
+                                          context.read<SettingsBloc>().add(
+                                                SettingsUpdateOneSignalBannerDismiss(
+                                                  true,
+                                                ),
+                                              );
+                                        }
+                                      } else {
+                                        context.read<WizardBloc>().add(
+                                              WizardRejectOneSignalPermission(),
+                                            );
+                                        context.read<SettingsBloc>().add(
+                                              SettingsUpdateOneSignalBannerDismiss(
+                                                true,
+                                              ),
+                                            );
+                                      }
+                                    } else {
+                                      context.read<WizardBloc>().add(
+                                            WizardAcceptOneSignal(value),
+                                          );
+                                    }
+                                  },
                             title: const Text(
                               LocaleKeys.wizard_onesignal_allow_message,
                             ).tr(),

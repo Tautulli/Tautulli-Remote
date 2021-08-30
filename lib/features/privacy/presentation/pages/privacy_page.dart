@@ -12,7 +12,7 @@ import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
-import '../widgets/permission_setting_dialog.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 class PrivacyPage extends StatelessWidget {
   final bool showConsentSwitch;
@@ -76,11 +76,26 @@ class PrivacyPage extends StatelessWidget {
                                     ),
                                   ),
                                   if (state is OneSignalPrivacyConsentFailure)
-                                    const TextSpan(
-                                      text: 'Not Accepted X',
+                                    TextSpan(
+                                      text: Platform.isIOS &&
+                                              !state
+                                                  .iosAppTrackingPermissionGranted
+                                          ? 'Tracking Permission Disabled'
+                                          : Platform.isIOS &&
+                                                  !state
+                                                      .iosNotificationPermissionGranted
+                                              ? 'Notification Permission Disabled'
+                                              : 'Not Accepted X',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w300,
-                                        color: Colors.red,
+                                        color: Platform.isIOS &&
+                                                    !state
+                                                        .iosAppTrackingPermissionGranted ||
+                                                Platform.isIOS &&
+                                                    !state
+                                                        .iosNotificationPermissionGranted
+                                            ? Colors.grey
+                                            : Colors.red,
                                       ),
                                     ),
                                   if (state is OneSignalPrivacyConsentSuccess)
@@ -99,57 +114,64 @@ class PrivacyPage extends StatelessWidget {
                         value: state is OneSignalPrivacyConsentSuccess
                             ? true
                             : false,
-                        onChanged: (_) async {
-                          if (state is OneSignalPrivacyConsentFailure) {
-                            if (Platform.isIOS) {
-                              if (await Permission.appTrackingTransparency
-                                  .request()
-                                  .isGranted) {
-                                if (await Permission.notification
-                                    .request()
-                                    .isGranted) {
+                        onChanged: (Platform.isIOS &&
+                                    state is OneSignalPrivacyConsentFailure) &&
+                                (!state.iosAppTrackingPermissionGranted ||
+                                    !state.iosNotificationPermissionGranted)
+                            ? null
+                            : (_) async {
+                                if (state is OneSignalPrivacyConsentFailure) {
+                                  if (Platform.isIOS) {
+                                    if (await Permission.appTrackingTransparency
+                                        .request()
+                                        .isGranted) {
+                                      if (await Permission.notification
+                                          .request()
+                                          .isGranted) {
+                                        oneSignalPrivacyBloc.add(
+                                            OneSignalPrivacyGrantConsent());
+                                        await Future.delayed(
+                                            const Duration(seconds: 2), () {
+                                          oneSignalSubscriptionBloc.add(
+                                              OneSignalSubscriptionCheck());
+                                        });
+                                        oneSignalHealthBloc
+                                            .add(OneSignalHealthCheck());
+                                      } else {
+                                        context.read<SettingsBloc>().add(
+                                              SettingsUpdateOneSignalBannerDismiss(
+                                                true,
+                                              ),
+                                            );
+                                      }
+                                    } else {
+                                      context.read<SettingsBloc>().add(
+                                            SettingsUpdateOneSignalBannerDismiss(
+                                              true,
+                                            ),
+                                          );
+                                    }
+                                  } else {
+                                    oneSignalPrivacyBloc
+                                        .add(OneSignalPrivacyGrantConsent());
+                                    await Future.delayed(
+                                        const Duration(seconds: 2), () {
+                                      oneSignalSubscriptionBloc
+                                          .add(OneSignalSubscriptionCheck());
+                                    });
+                                    oneSignalHealthBloc
+                                        .add(OneSignalHealthCheck());
+                                  }
+                                }
+                                if (state is OneSignalPrivacyConsentSuccess) {
                                   oneSignalPrivacyBloc
-                                      .add(OneSignalPrivacyGrantConsent());
-                                  await Future.delayed(
-                                      const Duration(seconds: 2), () {
-                                    oneSignalSubscriptionBloc
-                                        .add(OneSignalSubscriptionCheck());
-                                  });
+                                      .add(OneSignalPrivacyRevokeConsent());
+                                  oneSignalSubscriptionBloc
+                                      .add(OneSignalSubscriptionCheck());
                                   oneSignalHealthBloc
                                       .add(OneSignalHealthCheck());
-                                } else {
-                                  await showPermissionSettingsDialog(
-                                    context,
-                                    LocaleKeys.privacy_alert_title.tr(),
-                                    LocaleKeys.privacy_alert_content.tr(),
-                                  );
                                 }
-                              } else {
-                                await showPermissionSettingsDialog(
-                                  context,
-                                  LocaleKeys.tracking_alert_title.tr(),
-                                  LocaleKeys.tracking_alert_content.tr(),
-                                );
-                              }
-                            } else {
-                              oneSignalPrivacyBloc
-                                  .add(OneSignalPrivacyGrantConsent());
-                              await Future.delayed(const Duration(seconds: 2),
-                                  () {
-                                oneSignalSubscriptionBloc
-                                    .add(OneSignalSubscriptionCheck());
-                              });
-                              oneSignalHealthBloc.add(OneSignalHealthCheck());
-                            }
-                          }
-                          if (state is OneSignalPrivacyConsentSuccess) {
-                            oneSignalPrivacyBloc
-                                .add(OneSignalPrivacyRevokeConsent());
-                            oneSignalSubscriptionBloc
-                                .add(OneSignalSubscriptionCheck());
-                            oneSignalHealthBloc.add(OneSignalHealthCheck());
-                          }
-                        },
+                              },
                       ),
                     );
                   },

@@ -86,6 +86,8 @@ class _WizardPageContentState extends State<WizardPageContent> {
                     FabState fabState = _determineFabState(
                       currentWizardStage: currentWizardStage,
                       onesignalAccepted: wizardState.onesignalAccepted,
+                      onesignalPermissionRejected:
+                          wizardState.onesignalPermissionRejected,
                       settingsState: settingsState,
                     );
 
@@ -251,6 +253,7 @@ class FabButton extends StatelessWidget {
 FabState _determineFabState({
   @required WizardStage currentWizardStage,
   @required bool onesignalAccepted,
+  @required bool onesignalPermissionRejected,
   @required SettingsState settingsState,
 }) {
   if (currentWizardStage == WizardStage.servers) {
@@ -262,6 +265,9 @@ FabState _determineFabState({
   }
   if (currentWizardStage == WizardStage.oneSignal) {
     if (onesignalAccepted) {
+      return FabState.enabled;
+    }
+    if (onesignalPermissionRejected) {
       return FabState.enabled;
     }
     return FabState.skip;

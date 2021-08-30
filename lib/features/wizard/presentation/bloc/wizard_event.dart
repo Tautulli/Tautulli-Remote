@@ -28,3 +28,5 @@ class WizardAcceptOneSignal extends WizardEvent {
   @override
   List<Object> get props => [accept];
 }
+
+class WizardRejectOneSignalPermission extends WizardEvent {}

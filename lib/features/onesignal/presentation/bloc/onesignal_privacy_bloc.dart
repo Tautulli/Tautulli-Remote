@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/register_device.dart';
@@ -46,7 +47,12 @@ class OneSignalPrivacyBloc
     if (await oneSignal.hasConsented) {
       yield OneSignalPrivacyConsentSuccess();
     } else {
-      yield OneSignalPrivacyConsentFailure();
+      yield OneSignalPrivacyConsentFailure(
+        iosAppTrackingPermissionGranted:
+            await Permission.appTrackingTransparency.isGranted ?? false,
+        iosNotificationPermissionGranted:
+            await Permission.notification.isGranted ?? false,
+      );
     }
   }
 
@@ -70,6 +76,10 @@ class OneSignalPrivacyBloc
     logging.info(
       'OneSignal: Privacy consent revoked',
     );
-    yield OneSignalPrivacyConsentFailure();
+    yield OneSignalPrivacyConsentFailure(
+      iosAppTrackingPermissionGranted:
+          await Permission.appTrackingTransparency.isGranted,
+      iosNotificationPermissionGranted: await Permission.notification.isGranted,
+    );
   }
 }

@@ -43,6 +43,9 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
           onesignalAccepted: event.accept,
         );
       }
+      if (event is WizardRejectOneSignalPermission) {
+        yield currentState.copyWith(onesignalPermissionRejected: true);
+      }
     }
   }
 }
