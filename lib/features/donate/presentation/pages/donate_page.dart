@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../translations/locale_keys.g.dart';
@@ -328,6 +331,28 @@ class _DonatePageContentState extends State<DonatePageContent> {
                               ),
                             ),
                           ),
+                          if (Platform.isIOS)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 30,
+                                bottom: 8,
+                              ),
+                              child: Center(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    launch(
+                                        'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/');
+                                  },
+                                  child: const Text(
+                                    'Terms of Use',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                         ],
                       )
                     : const Text(
