@@ -345,5 +345,6 @@
   "settings_language_title": "Sprache",
   "settings_clear_cache_title": "Cache leeren",
   "graphs_tips_dialog_content": "Drücke lange auf ein Graphen, bevor du nach rechts wischt, um zu vermeiden, dass sich der App Drawer öffnet.",
-  "general_tips": "Tipps"
+  "general_tips": "Tipps",
+  "button_go_to_settings": "ZU DEN EINSTELLUNGEN GEHEN"
 }

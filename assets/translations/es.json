@@ -169,5 +169,6 @@
   "advanced_settings_page_title": "Configuración avanzada",
   "graphs_stream_type_platform": "Reproducir {} según Plataforma y tipo de flujo",
   "help_help_topics_heading": "Temas de ayuda",
-  "graphs_stream_type_user": "Reproducir {} según usuario y tipo de flujo"
+  "graphs_stream_type_user": "Reproducir {} según usuario y tipo de flujo",
+  "button_go_to_settings": "IR A AJUSTES"
 }

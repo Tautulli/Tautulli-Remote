@@ -420,4 +420,5 @@ abstract class LocaleKeys {
       "settings_clear_cache_dialog_content";
   static const image_cache_clear_alert = "image_cache_clear_alert";
   static const operations_heading = 'operations_heading';
+  static const button_go_to_settings = 'button_go_to_settings';
 }

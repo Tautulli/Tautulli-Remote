@@ -135,5 +135,6 @@
   "graphs_media_type_day_of_week": "Lejátszva {} napon ezen a héten",
   "graphs_media_type_daily_play": "Napi lejátszás {} média típus szerint",
   "general_time_range_dialog_notice": "A legtöbb képernyőméret esetén nem ajánlott meghaladni a 90 napot.",
-  "media_details_throttled": "Lassított"
+  "media_details_throttled": "Lassított",
+  "button_go_to_settings": "MENJ A BEÁLLÍTÁSOKBA"
 }

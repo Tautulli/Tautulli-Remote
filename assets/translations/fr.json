@@ -350,5 +350,6 @@
     "privacy_text_block_4": "Une fois que vous acceptez, cet appareil s'enregistrera auprès de OneSignal. Le consentement peut être révoqué pour empêcher toute communication ultérieure avec OneSignal.",
     "privacy_text_block_2": "Avec le %chiffrement activé% dans Tautulli, aucune Information Personnellement Identifiable (PII) n'est collectée. Certaines informations utilisateur non-PII sont collectées et ne peuvent pas être chiffrées. Lisez la politique de confidentialité de %OneSignal% pour plus d'informations. Sans chiffrement, le contenu des notifications est envoyé à OneSignal en clair.",
     "media_details_aired": "DIFFUSÉ",
-    "donate_tip_jar": "Pourboire"
+    "donate_tip_jar": "Pourboire",
+    "button_go_to_settings": "ALLER AUX PARAMÈTRES"
 }

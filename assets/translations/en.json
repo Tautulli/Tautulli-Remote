@@ -350,5 +350,6 @@
   "button_clear": "CLEAR",
   "settings_clear_cache_dialog_content": "Are you sure you want to clear the cache?",
   "image_cache_clear_alert": "Image cache cleared",
-  "operations_heading": "Operations"
+  "operations_heading": "Operations",
+  "button_go_to_settings": "GO TO SETTINGS"
 }

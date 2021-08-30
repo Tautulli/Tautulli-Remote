@@ -148,5 +148,6 @@
   "activity_time_left": "rimanente",
   "media_details_location_loading": "Caricamento dati posizione",
   "media_details_location_error": "ERRORE: Indirizzo IP non presente in mappa GeoIP",
-  "termination_terminate_message_label": "Messaggio Terminazione"
+  "termination_terminate_message_label": "Messaggio Terminazione",
+  "button_go_to_settings": "VAI A IMPOSTAZIONI"
 }

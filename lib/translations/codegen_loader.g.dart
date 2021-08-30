@@ -107,7 +107,8 @@ class CodegenLoader extends AssetLoader{
   "recently_added_page_title": "Afegit recentment",
   "history_page_title": "Historial",
   "activity_page_title": "Activitat",
-  "activity_empty": "Sense reproduccions"
+  "activity_empty": "Sense reproduccions",
+  "button_go_to_settings": "VÉS A LA CONFIGURACIÓ"
 };
 static const Map<String,dynamic> da = {
   "donate_recurring_heading": "Tilbagevendende donationer",
@@ -195,7 +196,8 @@ static const Map<String,dynamic> da = {
   "donate_supporter": "Tilhænger",
   "donate_big_tip": "Stort tip",
   "donate_tip_jar": "Tip Krukke",
-  "media_details_converting": "Konvertere"
+  "media_details_converting": "Konvertere",
+  "button_go_to_settings": "GÅ TIL INDSTILLINGER"
 };
 static const Map<String,dynamic> de = {
   "activity_empty": "Es wird derzeit nichts wiedergegeben",
@@ -544,7 +546,8 @@ static const Map<String,dynamic> de = {
   "settings_language_title": "Sprache",
   "settings_clear_cache_title": "Cache leeren",
   "graphs_tips_dialog_content": "Drücke lange auf ein Graphen, bevor du nach rechts wischt, um zu vermeiden, dass sich der App Drawer öffnet.",
-  "general_tips": "Tipps"
+  "general_tips": "Tipps",
+  "button_go_to_settings": "ZU DEN EINSTELLUNGEN GEHEN"
 };
 static const Map<String,dynamic> el = {};
 static const Map<String,dynamic> en = {
@@ -899,7 +902,8 @@ static const Map<String,dynamic> en = {
   "button_clear": "CLEAR",
   "settings_clear_cache_dialog_content": "Are you sure you want to clear the cache?",
   "image_cache_clear_alert": "Image cache cleared",
-  "operations_heading": "Operations"
+  "operations_heading": "Operations",
+  "button_go_to_settings": "GO TO SETTINGS"
 };
 static const Map<String,dynamic> es = {
   "activity_empty": "Sin reproducciones",
@@ -1072,7 +1076,8 @@ static const Map<String,dynamic> es = {
   "advanced_settings_page_title": "Configuración avanzada",
   "graphs_stream_type_platform": "Reproducir {} según Plataforma y tipo de flujo",
   "help_help_topics_heading": "Temas de ayuda",
-  "graphs_stream_type_user": "Reproducir {} según usuario y tipo de flujo"
+  "graphs_stream_type_user": "Reproducir {} según usuario y tipo de flujo",
+  "button_go_to_settings": "IR A AJUSTES"
 };
 static const Map<String,dynamic> fr = {
   "activity_empty": "Aucune lecture en cours",
@@ -1426,7 +1431,8 @@ static const Map<String,dynamic> fr = {
   "privacy_text_block_4": "Une fois que vous acceptez, cet appareil s'enregistrera auprès de OneSignal. Le consentement peut être révoqué pour empêcher toute communication ultérieure avec OneSignal.",
   "privacy_text_block_2": "Avec le %chiffrement activé% dans Tautulli, aucune Information Personnellement Identifiable (PII) n'est collectée. Certaines informations utilisateur non-PII sont collectées et ne peuvent pas être chiffrées. Lisez la politique de confidentialité de %OneSignal% pour plus d'informations. Sans chiffrement, le contenu des notifications est envoyé à OneSignal en clair.",
   "media_details_aired": "DIFFUSÉ",
-  "donate_tip_jar": "Pourboire"
+  "donate_tip_jar": "Pourboire",
+  "button_go_to_settings": "ALLER AUX PARAMÈTRES"
 };
 static const Map<String,dynamic> hu = {
   "libraries_media_tab_empty": "Nem találhatóak elemek.",
@@ -1565,7 +1571,8 @@ static const Map<String,dynamic> hu = {
   "graphs_media_type_day_of_week": "Lejátszva {} napon ezen a héten",
   "graphs_media_type_daily_play": "Napi lejátszás {} média típus szerint",
   "general_time_range_dialog_notice": "A legtöbb képernyőméret esetén nem ajánlott meghaladni a 90 napot.",
-  "media_details_throttled": "Lassított"
+  "media_details_throttled": "Lassított",
+  "button_go_to_settings": "MENJ A BEÁLLÍTÁSOKBA"
 };
 static const Map<String,dynamic> it = {
   "media_details_direct_stream": "Stream Diretto",
@@ -1717,7 +1724,8 @@ static const Map<String,dynamic> it = {
   "activity_time_left": "rimanente",
   "media_details_location_loading": "Caricamento dati posizione",
   "media_details_location_error": "ERRORE: Indirizzo IP non presente in mappa GeoIP",
-  "termination_terminate_message_label": "Messaggio Terminazione"
+  "termination_terminate_message_label": "Messaggio Terminazione",
+  "button_go_to_settings": "VAI A IMPOSTAZIONI"
 };
 static const Map<String,dynamic> nl = {
   "activity_empty": "Er wordt niets afgespeeld",
@@ -2071,7 +2079,8 @@ static const Map<String,dynamic> nl = {
   "general_tips": "Tips",
   "advanced_settings_page_title": "Geavanceerde instellingen",
   "translate_change_language": "Wijzig taal",
-  "settings_language_title": "Taal"
+  "settings_language_title": "Taal",
+  "button_go_to_settings": "GA NAAR INSTELLINGEN"
 };
 static const Map<String,dynamic> pt_BR = {
   "media_details_location": "LOCALIZAÇÃO",
@@ -2137,7 +2146,6 @@ static const Map<String,dynamic> pt_BR = {
   "media_details_location_loading": "Carregando dados de localização",
   "media_details_location_error": "ERRO: endereço IP não está no mapa GeoIP",
   "button_retry": "Tentar novamente",
-  "button_go_to_settings": "IR PARA CONFIGURAÇÕES",
   "button_terminate": "INTERROMPER",
   "button_cancel": "CANCELAR",
   "termination_terminate_message_label": "Mensagem de interrupção",
@@ -2196,7 +2204,6 @@ static const Map<String,dynamic> pt_BR = {
   "translate_help_translate": "Traduzir Tautulli Remote",
   "translate_request_language": "Solicitar um novo idioma",
   "wizard_closing_translate": "O Tautulli Remote suporta vários idiomas, ajude a traduzir em Configurações > Ajudar a Traduzir.",
-  "privacy_alert_title": "Permissão de Notificação Necessária",
   "settings_alert_ios_local_network_permission_title": "Permissão de Acesso à Rede Local Necessária",
   "settings_alert_ios_local_network_permission_content_1": "Para se conectar a um servidor local, o Tautulli Remote precisa da permissão de rede local.",
   "settings_alert_ios_local_network_permission_content_2": "Clique em CONTINUAR e aceite a solicitação para permitir essa permissão, antes de se registrar.",
@@ -2212,8 +2219,6 @@ static const Map<String,dynamic> pt_BR = {
   "button_clear": "ESVAZIAR",
   "settings_clear_cache_dialog_content": "Tem certeza de que deseja limpar o cache?",
   "image_cache_clear_alert": "Cache de imagem limpo",
-  "tracking_alert_title": "Autorização de Rastreamento Necessária",
-  "tracking_alert_content": "Permitir acesso de rastreamento ao Tautulli Remote para poder receber notificações push.",
   "settings_servers_heading": "Servidores Tautulli",
   "privacy_accepted": "Aceito",
   "privacy_not_accepted": "Não Aceito",
@@ -2614,7 +2619,8 @@ static const Map<String,dynamic> sv = {
   "general_tips": "Tips",
   "advanced_settings_page_title": "Avancerade inställningar",
   "translate_change_language": "Byt språk",
-  "settings_language_title": "Språk"
+  "settings_language_title": "Språk",
+  "button_go_to_settings": "GÅ TILL INSTÄLLNINGAR"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ca": ca, "da": da, "de": de, "el": el, "en": en, "es": es, "fr": fr, "hu": hu, "it": it, "nl": nl, "pt_BR": pt_BR, "pt_PT": pt_PT, "sv": sv};
 }
