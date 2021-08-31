@@ -242,7 +242,8 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
             recognizer: TapGestureRecognizer()
               ..onTap = () {
                 launch(
-                    'https://github.com/Tautulli/Tautulli-Wiki/wiki/Frequently-Asked-Questions#notifications-pycryptodome');
+                  'https://github.com/Tautulli/Tautulli/wiki/Frequently-Asked-Questions#notifications-pycryptodome',
+                );
               },
           ),
           TextSpan(
