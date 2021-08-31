@@ -12,7 +12,7 @@ Tautulli Remote is available for Android and iOS and can be downloaded from the 
 - Terminate streams (requires Plex Pass).
 - View history and filter by user and media type.
 - See synced items for all users and allows you to delete those synced items.
-- Receive [encrypted notifications](https://github.com/Tautulli/Tautulli-Wiki/wiki/Frequently-Asked-Questions#notifications-pycryptodome) from Tautulli.
+- Receive [encrypted notifications](https://github.com/Tautulli/Tautulli/wiki/Frequently-Asked-Questions#notifications-pycryptodome) from Tautulli.
 - Navigate through your libraries without going to Plex.
 - Open an item in the Plex app right from Tautulli Remote.
 - Supports basic authentication.
