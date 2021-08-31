@@ -1,13 +1,71 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.12.1",
+      "date": "August 31, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "The app drawer has been changed into a new inner drawer, swipe right to easily reveal the drawer",
+        },
+        {
+          "type": "new",
+          "detail": "Added Catalan and Danish languages",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Network images are now cached, this cache can be cleared under Advanced Settings",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "New translations for Catalan, Danish, Dutch, French, German, Hungarian, Italian, Portuguese (Brazil), Portuguese (Portugal), and Swedish",
+          "additional":
+              "Thanks @dtalens, @Tntdruid, @raoul-m, @bninot, @NathanBnm, @TautulliPiece, @MaddionMax, @janus158, @taduo, @Bllstc, and @bittin",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added a quit button to the setup Wizard",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Enabling iOS notifications now requires the tracking permission",
+          "additional":
+              "This change was requested by Apple, there has been no change to the data collected",
+        },
+        {
+          "type": "fix",
+          "detail": "iOS notifications would wait to timeout before displaying",
+        },
+        {
+          "type": "fix",
+          "detail": "Unencrypted iOS notifications were incorrect",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fixed history details buttons being clipped on some devices",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Registration update could send a blank OneSignal Device ID after app version update",
+        },
+      ],
+    },
+    {
       "version": "v2.11.2",
       "date": "July 30, 2021",
       "changes": [
         {
           "type": "improvement",
           "detail":
-              "New translations for Dutch, Portuguese (Brazil), Spanish, and German (Thanks @Zucht, @RubenKremer, @neitzke, @CMBoii, @granjerox, and @Jerome2103)",
+              "New translations for Dutch, Portuguese (Brazil), Spanish, and German",
+          "additional":
+              "Thanks @Zucht, @RubenKremer, @neitzke, @CMBoii, @granjerox, and @Jerome2103",
         },
         {
           "type": "improvement",
@@ -48,7 +106,8 @@ Map changelog = {
       "changes": [
         {
           "type": "improvement",
-          "detail": "New translations for Dutch (Thanks @Zucht)",
+          "detail": "New translations for Dutch",
+          "additional": "Thanks @Zucht",
         },
         {
           "type": "improvement",
@@ -79,8 +138,8 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail":
-              "New translations for French, German, Swedish, and Spanish (Thanks @NathanBnm, @Jerome2013, and @ferrangar)",
+          "detail": "New translations for French, German, Swedish, and Spanish",
+          "additional": "Thanks @NathanBnm, @Jerome2013, and @ferrangar",
         },
         {
           "type": "fix",
