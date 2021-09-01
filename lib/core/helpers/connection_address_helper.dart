@@ -1,4 +1,7 @@
 /// Helper functions for manipulating a connection address.
+
+// @dart=2.9
+
 class ConnectionAddressHelper {
   /// Parses a connection address into seperate components.
   ///

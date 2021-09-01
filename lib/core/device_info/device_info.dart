@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'dart:io' show Platform;
 
 import 'package:device_info_plus/device_info_plus.dart';

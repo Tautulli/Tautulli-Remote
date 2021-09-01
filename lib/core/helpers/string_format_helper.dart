@@ -1,4 +1,7 @@
 /// Helper functions to manipulate string.
+
+// @dart=2.9
+
 class StringFormatHelper {
   /// Capitalizes the first letter of a string.
   ///

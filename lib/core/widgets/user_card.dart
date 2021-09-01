@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 import '../../features/users/presentation/pages/user_details_page.dart';

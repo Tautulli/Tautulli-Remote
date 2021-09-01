@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'recently_added_bloc.dart';
 
 abstract class RecentlyAddedState extends Equatable {

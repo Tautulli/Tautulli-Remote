@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'terminate_session_bloc.dart';
 
 abstract class TerminateSessionEvent extends Equatable {

@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'register_device_bloc.dart';
 
 abstract class RegisterDeviceEvent extends Equatable {

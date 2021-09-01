@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'metadata_bloc.dart';
 
 abstract class MetadataState extends Equatable {

@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'libraries_bloc.dart';
 
 abstract class LibrariesEvent extends Equatable {

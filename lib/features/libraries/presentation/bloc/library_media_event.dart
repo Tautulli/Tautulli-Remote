@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'library_media_bloc.dart';
 
 abstract class LibraryMediaEvent extends Equatable {

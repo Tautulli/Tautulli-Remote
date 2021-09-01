@@ -1,5 +1,7 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
+// @dart=2.9
+
 // ignore_for_file: prefer_single_quotes
 
 import 'dart:ui';

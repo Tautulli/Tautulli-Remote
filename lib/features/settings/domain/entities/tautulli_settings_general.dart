@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:equatable/equatable.dart';
 
 abstract class TautulliSettingsGeneral extends Equatable {

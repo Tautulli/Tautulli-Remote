@@ -1,4 +1,7 @@
 /// Throw when no servers are configured
+
+// @dart=2.9
+
 class MissingServerException implements Exception {}
 
 /// Throw when a server provides an undesired response.

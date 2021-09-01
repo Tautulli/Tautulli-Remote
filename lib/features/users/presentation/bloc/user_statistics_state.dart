@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'user_statistics_bloc.dart';
 
 abstract class UserStatisticsState extends Equatable {

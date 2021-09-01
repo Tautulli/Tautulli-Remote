@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart';
 
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';

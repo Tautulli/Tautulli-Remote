@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/tautulli_settings_general.dart';
 

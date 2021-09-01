@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'delete_synced_item_bloc.dart';
 
 abstract class DeleteSyncedItemEvent extends Equatable {

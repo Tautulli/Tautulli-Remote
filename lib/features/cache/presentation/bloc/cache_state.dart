@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'cache_bloc.dart';
 
 abstract class CacheState extends Equatable {

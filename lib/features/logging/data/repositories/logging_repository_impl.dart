@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:f_logs/model/flog/log.dart';
 import 'package:meta/meta.dart';
 

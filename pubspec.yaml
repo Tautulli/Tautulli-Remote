@@ -8,7 +8,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 2.12.1+121
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   app_group_directory: ^2.0.0
@@ -16,7 +16,7 @@ dependencies:
   color: ^3.0.0
   connectivity_plus: ^1.0.6
   cupertino_icons: ^1.0.3
-  dartz: ^0.9.2
+  dartz: ^0.10.0
   device_info_plus: ^2.1.0
   duration: ^3.0.6
   easy_localization: ^3.0.0
@@ -57,6 +57,7 @@ dependencies:
   validators: ^3.0.0
   version: ^2.0.0
   websafe_svg: ^2.0.0
+  collection: ^1.15.0-nullsafety.4
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.0

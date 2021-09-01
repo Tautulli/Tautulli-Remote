@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:meta/meta.dart';
 
 import '../../../../core/helpers/value_helper.dart';

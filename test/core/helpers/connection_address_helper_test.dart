@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tautulli_remote/core/helpers/connection_address_helper.dart';
 

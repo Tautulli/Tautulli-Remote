@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'stream_type_graphs_bloc.dart';
 
 abstract class StreamTypeGraphsEvent extends Equatable {

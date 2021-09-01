@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 import 'package:tautulli_remote/core/helpers/failure_mapper_helper.dart';

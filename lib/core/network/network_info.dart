@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:meta/meta.dart';
 

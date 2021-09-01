@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'activity_bloc.dart';
 
 abstract class ActivityEvent extends Equatable {

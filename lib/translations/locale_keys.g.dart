@@ -1,5 +1,7 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
+// @dart=2.9
+
 abstract class LocaleKeys {
   static const activity_empty = 'activity_empty';
   static const activity_page_title = 'activity_page_title';

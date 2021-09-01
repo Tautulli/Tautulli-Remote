@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'onesignal_privacy_bloc.dart';
 
 abstract class OneSignalPrivacyEvent extends Equatable {

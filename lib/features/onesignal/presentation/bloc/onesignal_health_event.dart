@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'onesignal_health_bloc.dart';
 
 @immutable

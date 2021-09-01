@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'dart:ui' as ui;
 
 import 'package:easy_localization/easy_localization.dart';

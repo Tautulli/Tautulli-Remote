@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import '../../../../core/helpers/value_helper.dart';
 import '../../domain/entities/metadata_item.dart';
 

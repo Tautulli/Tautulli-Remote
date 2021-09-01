@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'synced_items_bloc.dart';
 
 abstract class SyncedItemsEvent extends Equatable {

@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'users_list_bloc.dart';
 
 abstract class UsersListState extends Equatable {

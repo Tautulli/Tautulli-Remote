@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:tautulli_remote/core/helpers/value_helper.dart';
 import 'package:tautulli_remote/features/libraries/domain/entities/library_statistic.dart';
 import 'package:meta/meta.dart';

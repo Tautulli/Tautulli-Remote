@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:f_logs/f_logs.dart';
 
 class LogFormatHelper {

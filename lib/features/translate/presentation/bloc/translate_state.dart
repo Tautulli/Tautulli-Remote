@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'translate_bloc.dart';
 
 abstract class TranslateState extends Equatable {

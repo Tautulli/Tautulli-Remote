@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';

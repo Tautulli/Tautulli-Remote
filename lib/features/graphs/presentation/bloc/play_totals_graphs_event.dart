@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'play_totals_graphs_bloc.dart';
 
 abstract class PlayTotalsGraphsEvent extends Equatable {

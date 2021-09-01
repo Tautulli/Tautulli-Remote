@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'history_libraries_bloc.dart';
 
 abstract class HistoryLibrariesEvent extends Equatable {

@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'geo_ip_bloc.dart';
 
 abstract class GeoIpEvent extends Equatable {

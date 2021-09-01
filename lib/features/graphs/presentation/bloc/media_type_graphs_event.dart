@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'media_type_graphs_bloc.dart';
 
 abstract class MediaTypeGraphsEvent extends Equatable {

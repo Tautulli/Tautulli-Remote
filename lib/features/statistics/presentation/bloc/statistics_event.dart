@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'statistics_bloc.dart';
 
 abstract class StatisticsEvent extends Equatable {

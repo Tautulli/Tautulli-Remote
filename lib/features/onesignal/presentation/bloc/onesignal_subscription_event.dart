@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'onesignal_subscription_bloc.dart';
 
 abstract class OneSignalSubscriptionEvent extends Equatable {

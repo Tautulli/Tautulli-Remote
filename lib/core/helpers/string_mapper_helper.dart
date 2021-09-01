@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import '../../features/graphs/domain/entities/series_data.dart';
 
 class StringMapperHelper {

@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'load_logs_bloc.dart';
 
 abstract class LogsState {

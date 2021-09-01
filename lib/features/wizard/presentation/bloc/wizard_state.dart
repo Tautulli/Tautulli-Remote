@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'wizard_bloc.dart';
 
 abstract class WizardState extends Equatable {

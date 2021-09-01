@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'library_statistics_bloc.dart';
 
 abstract class LibraryStatisticsEvent extends Equatable {

@@ -1,3 +1,5 @@
+// @dart=2.9
+
 part of 'history_individual_bloc.dart';
 
 abstract class HistoryIndividualState extends Equatable {

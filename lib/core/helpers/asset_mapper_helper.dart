@@ -1,4 +1,7 @@
 /// Helper functions for mapping assets to identifiers.
+
+// @dart=2.9
+
 class AssetMapperHelper {
   static const String _platformsAssetPath = 'assets/platforms/';
   static const String _librariesAssetPath = 'assets/libraries/';
