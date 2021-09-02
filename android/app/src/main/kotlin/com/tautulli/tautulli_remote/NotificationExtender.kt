@@ -4,11 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.module.AppGlideModule
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.onesignal.OSMutableNotification
 import com.onesignal.OSNotification
 import com.onesignal.OSNotificationReceivedEvent
@@ -23,6 +28,8 @@ import java.io.IOException
 import android.database.sqlite.SQLiteDatabase
 import android.app.*
 
+@GlideModule
+class AppGlideModule : AppGlideModule()
 
 class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
     override fun remoteNotificationReceived(context: Context, notificationReceivedEvent: OSNotificationReceivedEvent) {
@@ -62,31 +69,6 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
 
-            // Fetch and add image if notification type is 1 or 2
-            if (notificationType != 0) {
-                var connectionAddress: String?
-                if (serverInfoMap["primaryActive"] == "1") {
-                    connectionAddress = serverInfoMap["primaryConnectionAddress"]
-                } else {
-                    connectionAddress = serverInfoMap["secondaryConnectionAddress"]
-                } 
-
-                val urlString = if (notificationType == 1) {
-                    "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=${jsonMessage.getString("poster_thumb")}&height=200"
-                } else {
-                    "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=${jsonMessage.getString("poster_thumb")}&width=1080"
-                }
-                val bitmap: Bitmap? = getBitmapFromURL(urlString)
-
-                builder.setLargeIcon(bitmap)
-
-                if (notificationType == 2) {
-                    builder.setStyle(NotificationCompat.BigPictureStyle()
-                            .bigPicture(bitmap)
-                            .bigLargeIcon(null))
-                }
-            }
-
             createNotificationChannel(context)
 
             with(NotificationManagerCompat.from(context)) {
@@ -95,6 +77,46 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
                 val ts = tsLong.toString()
                 val tsTrunc: String = ts.substring(ts.length - 9)
                 val notificationId: Int = Integer.parseInt(tsTrunc)
+
+                // Fetch/add image and send notification if notification type is 1 or 2
+                if (notificationType != 0) {
+                    var posterThumb = jsonMessage.getString("poster_thumb")
+
+                    if (!posterThumb.isNullOrEmpty()) {
+                        var connectionAddress: String?
+                        if (serverInfoMap["primaryActive"] == "1") {
+                            connectionAddress = serverInfoMap["primaryConnectionAddress"]
+                        } else {
+                            connectionAddress = serverInfoMap["secondaryConnectionAddress"]
+                        }
+
+                        val urlString = if (notificationType == 1) {
+                            "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=$posterThumb&height=200"
+                        } else {
+                            "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=$posterThumb&width=1080"
+                        }
+
+                        GlideApp.with(context)
+                            .asBitmap()
+                            .load(urlString)
+                            .into(object : CustomTarget<Bitmap>() {
+                                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                                    builder.setLargeIcon(resource)
+
+                                    if (notificationType == 2) {
+                                        builder.setStyle(NotificationCompat.BigPictureStyle()
+                                                .bigPicture(resource)
+                                                .bigLargeIcon(null))
+                                    }
+                                    
+                                     //* Send notification with image
+                                    notify(notificationId, builder.build())
+                                }
+
+                                override fun onLoadCleared(placeholder: Drawable?) {}
+                            })
+                    }
+                }
 
                 //* Send notification
                 notify(notificationId, builder.build())
@@ -141,7 +163,7 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
         val documentDir = context.dataDir
         val path = File(documentDir, "app_flutter/tautulli_remote.db")
         val db: SQLiteDatabase = SQLiteDatabase.openDatabase(path.absolutePath, null, 0)
-        val query = "SELECT primary_connection_address, secondary_connection_address, primary_active, device_token FROM servers WHERE tautulli_id = \"$serverId\""
+        val query = "SELECT primary_connection_address, secondary_connection_address, primary_active, device_token FROM servers WHERE tautulli_id = \'$serverId\'"
 
         var primaryConnectionAddress = ""
         var secondaryConnectionAddress = ""
@@ -164,21 +186,6 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
         val serverInfoMap = mapOf("primaryConnectionAddress" to primaryConnectionAddress, "secondaryConnectionAddress" to secondaryConnectionAddress, "primaryActive" to primaryActive, "deviceToken" to deviceToken)
         
         return serverInfoMap
-    }
-
-    fun getBitmapFromURL(urlString:String):Bitmap? {
-        try {
-            val url = URL(urlString)
-            val connection = url.openConnection()
-            connection.setDoInput(true)
-            connection.connect()
-            val input = connection.getInputStream()
-            val myBitmap = BitmapFactory.decodeStream(input)
-            return myBitmap
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return null
-        }
     }
 
     companion object {
