@@ -42,5 +42,9 @@
     "libraries_page_title": "Библиотеки",
     "recently_added_page_title": "Недавно добавленные",
     "history_page_title": "История",
-    "activity_empty": "Ничего не воспроизводится"
+    "activity_empty": "Ничего не воспроизводится",
+    "button_retry": "Повторить",
+    "button_terminate": "ПРЕРВАТЬ",
+    "button_cancel": "ОТМЕНА",
+    "termination_dialog_title": "Вы уверены, что хотите прервать поток"
 }
