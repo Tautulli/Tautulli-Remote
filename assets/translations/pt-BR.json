@@ -176,5 +176,9 @@
     "general_details_global_stats_heading": "Estatísticas Globais",
     "general_filter_last_streamed": "Última Transmissão",
     "general_tooltip_sort_users": "Classificar usuários",
-    "operations_heading": "Operações"
+    "operations_heading": "Operações",
+    "graphs_load_fail": "Falha ao carregar o gráfico",
+    "button_close": "FECHAR",
+    "button_save": "SALVAR",
+    "donate_supporter": "Apoiador"
 }
