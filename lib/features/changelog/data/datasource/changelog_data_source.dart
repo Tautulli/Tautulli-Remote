@@ -3,6 +3,31 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.12.2",
+      "date": "September 2, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added Czech and Russian languages",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "New translations for Czech, Portuguese (Brazil), and Russian",
+          "additional": "Thanks @karelkryda, @neitzke, and @barbuddah",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add support for null safe code",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Android notifications would fail when an Image Type was set in Tautulli",
+        },
+      ],
+    },
+    {
       "version": "v2.12.1",
       "date": "August 31, 2021",
       "changes": [
