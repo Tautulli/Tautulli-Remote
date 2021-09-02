@@ -10,6 +10,7 @@ class TranslationHelper {
   static List<Locale> supportedLocales() {
     return [
       const Locale('ca'),
+      const Locale('cs'),
       const Locale('da'),
       const Locale('de'),
       const Locale('el'),
@@ -21,6 +22,7 @@ class TranslationHelper {
       const Locale('nl'),
       const Locale('pt', 'BR'),
       const Locale('pt', 'PT'),
+      const Locale('ru'),
       const Locale('sv'),
     ];
   }
@@ -28,6 +30,8 @@ class TranslationHelper {
   static String localeToString(Locale locale) {
     if (locale.languageCode == 'ca') {
       return 'Català';
+    } else if (locale.languageCode == 'cs') {
+      return 'Čeština';
     } else if (locale.languageCode == 'da') {
       return 'Dansk';
     } else if (locale.languageCode == 'de') {
@@ -52,6 +56,8 @@ class TranslationHelper {
       } else {
         return 'Português (Portugal)';
       }
+    } else if (locale.languageCode == 'ru') {
+      return 'Русский';
     } else if (locale.languageCode == 'sv') {
       return 'Svenska';
     } else {
