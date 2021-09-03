@@ -163,9 +163,13 @@ class OneSignal extends StatelessWidget {
                                           .appTrackingTransparency
                                           .request()
                                           .isGranted) {
+                                        context.read<WizardBloc>().add(
+                                            WizardUpdateIosAppTrackingPermission());
                                         if (await Permission.notification
                                             .request()
                                             .isGranted) {
+                                          context.read<WizardBloc>().add(
+                                              WizardUpdateIosNotificationPermission());
                                           context.read<WizardBloc>().add(
                                                 WizardAcceptOneSignal(value),
                                               );
@@ -195,9 +199,36 @@ class OneSignal extends StatelessWidget {
                                           );
                                     }
                                   },
+                            isThreeLine: Platform.isIOS,
                             title: const Text(
                               LocaleKeys.wizard_onesignal_allow_message,
                             ).tr(),
+                            subtitle: Platform.isIOS
+                                ? RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: wizardState
+                                                  .iosAppTrackingPermission
+                                              ? 'Tracking Permission: Enabled\n'
+                                              : 'Tracking Permission: Disabled\n',
+                                          style: const TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: wizardState
+                                                  .iosNotificationPermission
+                                              ? 'Notification Permission: Enabled\n'
+                                              : 'Notification Permission: Disabled\n',
+                                          style: const TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : null,
                           );
                         }
                         return const SizedBox(height: 0, width: 0);

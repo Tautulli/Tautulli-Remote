@@ -32,3 +32,7 @@ class WizardAcceptOneSignal extends WizardEvent {
 }
 
 class WizardRejectOneSignalPermission extends WizardEvent {}
+
+class WizardUpdateIosAppTrackingPermission extends WizardEvent {}
+
+class WizardUpdateIosNotificationPermission extends WizardEvent {}
