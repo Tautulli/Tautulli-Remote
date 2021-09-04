@@ -79,5 +79,9 @@
     "settings_not_loaded_error": "ОШИБКА: конфигурация не загружена",
     "activity_time_left": "левый",
     "media_details_location_loading": "Загрузка данных местонахождения",
-    "media_details_location_error": "ОШИБКА: IP-адрес не найдет в карте GeoIP"
+    "media_details_location_error": "ОШИБКА: IP-адрес не найдет в карте GeoIP",
+    "masked_info_hidden": "Скрытый",
+    "button_close": "ЗАКРЫТЬ",
+    "button_save": "СОХРАНИТЬ",
+    "general_time_range_dialog_notice": "Для большинства экранов рекомендуется не превышать 90 дней."
 }
