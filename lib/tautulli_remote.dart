@@ -77,17 +77,17 @@ class _TautulliRemoteState extends State<TautulliRemote> {
 
     await OneSignal.shared.setLocationShared(false);
 
-    // Disables OneSignal integration on iOS if previously enabled without
-    // the App Tracking permission
-    if (Platform.isIOS &&
-        await di.sl<Settings>().getOneSignalConsented() &&
-        !await Permission.appTrackingTransparency.isGranted) {
-      di.sl<Logging>().error(
-            'OneSignal: OneSignal consent is granted but App Tracking Transparency is not. Revoking OneSignal consent, please re-consent to fix.',
-          );
-      di.sl<OneSignalPrivacyBloc>().add(OneSignalPrivacyRevokeConsent());
-      di.sl<OneSignalSubscriptionBloc>().add(OneSignalSubscriptionCheck());
-    }
+    // // Disables OneSignal integration on iOS if previously enabled without
+    // // the App Tracking permission
+    // if (Platform.isIOS &&
+    //     await di.sl<Settings>().getOneSignalConsented() &&
+    //     !await Permission.appTrackingTransparency.isGranted) {
+    //   di.sl<Logging>().error(
+    //         'OneSignal: OneSignal consent is granted but App Tracking Transparency is not. Revoking OneSignal consent, please re-consent to fix.',
+    //       );
+    //   di.sl<OneSignalPrivacyBloc>().add(OneSignalPrivacyRevokeConsent());
+    //   di.sl<OneSignalSubscriptionBloc>().add(OneSignalSubscriptionCheck());
+    // }
 
     // If OneSignal returns an empty userId and the user has provided consent
     //  trigger a grantConsent.
