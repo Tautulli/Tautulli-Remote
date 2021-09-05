@@ -198,8 +198,6 @@
   "privacy_status": "Status",
   "privacy_not_accepted": "Nicht akzeptiert",
   "privacy_accepted": "Angenommen",
-  "privacy_text_block_1": "Tautulli Remote verwendet %OneSignal% für die Zustellung von Benachrichtigungen.",
-  "privacy_text_block_2": "Bei aktivierter %Verschlüsselung% in Tautulli werden keine persönlich identifizierbaren Informationen (PII) gesammelt. Einige Nicht-PII-Benutzerinformationen werden gesammelt und können nicht verschlüsselt werden. Lesen Sie die %OneSignal-Datenschutzrichtlinie% für weitere Details. Ohne Verschlüsselung werden die Inhalte der Benachrichtigungen im Klartext an OneSignal gesendet.",
   "privacy_text_block_3": "Benachrichtigungsdaten, die über die API von OneSignal gesendet werden, werden %deleted after ~30 days%.",
   "privacy_text_block_4": "Sobald Sie zustimmen, wird dieses Gerät bei OneSignal registriert. Die Zustimmung kann widerrufen werden, um weitere Kommunikation mit OneSignal zu verhindern.",
   "recently_added_empty": "Keine kürzlich hinzugefügten Elemente.",

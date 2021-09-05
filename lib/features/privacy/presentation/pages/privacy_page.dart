@@ -11,13 +11,13 @@ import 'package:tautulli_remote/features/privacy/presentation/widgets/permission
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../injection_container.dart' as di;
+// import '../../../../injection_container.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
-import '../../../settings/domain/usecases/settings.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
+// import '../../../settings/domain/usecases/settings.dart';
+// import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 class PrivacyPage extends StatelessWidget {
   final bool showConsentSwitch;
@@ -147,8 +147,12 @@ class PrivacyPage extends StatelessWidget {
                               } else {
                                 await showPermissionSettingsDialog(
                                   context,
-                                  'Notification Permission Disabled',
-                                  'In order to receive notifications the notification permission must be enabled.',
+                                  LocaleKeys
+                                      .privacy_notification_permission_dialog_title
+                                      .tr(),
+                                  LocaleKeys
+                                      .privacy_notification_permission_dialog_content
+                                      .tr(),
                                 );
                                 // await di
                                 //     .sl<Settings>()
@@ -263,24 +267,23 @@ class _OneSignalDataPrivacyText extends StatelessWidget {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                launch('https://onesignal.com/');
+                launch(
+                  'https://github.com/Tautulli/Tautulli/wiki/Frequently-Asked-Questions#notifications-pycryptodome',
+                );
               },
           ),
           TextSpan(
             text: textBlock1[2],
           ),
           TextSpan(
-            text: '\n\n${textBlock2[0]}',
-          ),
-          TextSpan(
-            text: textBlock2[1],
+            text: '\n\n${textBlock2[1]}',
             style: TextStyle(
               color: Theme.of(context).accentColor,
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
                 launch(
-                  'https://github.com/Tautulli/Tautulli/wiki/Frequently-Asked-Questions#notifications-pycryptodome',
+                  'https://onesignal.com/',
                 );
               },
           ),

@@ -198,8 +198,6 @@
   "privacy_status": "status",
   "privacy_not_accepted": "Godkändes inte",
   "privacy_accepted": "Godkänd",
-  "privacy_text_block_1": "Tautulli Remote använder% OneSignal% för att hantera leverans av meddelanden.",
-  "privacy_text_block_2": "Med %kryptering aktiverad% i Tautulli samlas ingen personligt identifierbar information (PII) in. Viss icke-PII-användarinformation samlas in och kan inte krypteras. Läs %OneSignal Privacy Policy% för mer information. Utan kryptering skickas innehållet i meddelandena till OneSignal i klartext.",
   "privacy_text_block_3": "Aviseringsdata som skickas via OneSignals API kommer att raderas% efter ~ 30 dagar%.",
   "privacy_text_block_4": "När du har godkänt registreras enheten i OneSignal. Samtycket kan återkallas för att förhindra ytterligare kommunikation med OneSignal.",
   "recently_added_empty": "Inga nyligen tillagda objekt.",

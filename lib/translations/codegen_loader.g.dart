@@ -465,10 +465,6 @@ class CodegenLoader extends AssetLoader {
     "privacy_status": "Status",
     "privacy_not_accepted": "Nicht akzeptiert",
     "privacy_accepted": "Angenommen",
-    "privacy_text_block_1":
-        "Tautulli Remote verwendet %OneSignal% für die Zustellung von Benachrichtigungen.",
-    "privacy_text_block_2":
-        "Bei aktivierter %Verschlüsselung% in Tautulli werden keine persönlich identifizierbaren Informationen (PII) gesammelt. Einige Nicht-PII-Benutzerinformationen werden gesammelt und können nicht verschlüsselt werden. Lesen Sie die %OneSignal-Datenschutzrichtlinie% für weitere Details. Ohne Verschlüsselung werden die Inhalte der Benachrichtigungen im Klartext an OneSignal gesendet.",
     "privacy_text_block_3":
         "Benachrichtigungsdaten, die über die API von OneSignal gesendet werden, werden %deleted after ~30 days%.",
     "privacy_text_block_4":
@@ -886,10 +882,9 @@ class CodegenLoader extends AssetLoader {
     "privacy_status": "Status",
     "privacy_not_accepted": "Not Accepted",
     "privacy_accepted": "Accepted",
-    "privacy_text_block_1":
-        "Tautulli Remote uses %OneSignal% to handle delivery of notifications.",
+    "privacy_text_block_1": "Tautulli Remote supports %end-to-end encryption%.",
     "privacy_text_block_2":
-        "With %encryption enabled% in Tautulli there is no Personally Identifiable Information (PII) collected. Some non-PII user information is collected and cannot be encrypted. Read the %OneSignal Privacy Policy% for more details. Without encryption the contents of the notifications are sent to OneSignal in plain text.",
+        "%OneSignal% is used to deliver notifications from Tautulli. No Personally Identifiable Information (PII) is being collected by OneSignal. Read the %OneSignal Privacy Policy% for more details.",
     "privacy_text_block_3":
         "Notification data sent through OneSignal's API will be %deleted after ~30 days%.",
     "privacy_text_block_4":
@@ -1090,7 +1085,11 @@ class CodegenLoader extends AssetLoader {
         "Are you sure you want to clear the cache?",
     "image_cache_clear_alert": "Image cache cleared",
     "operations_heading": "Operations",
-    "button_go_to_settings": "GO TO SETTINGS"
+    "button_go_to_settings": "GO TO SETTINGS",
+    "privacy_notification_permission_dialog_title":
+        "Notification Permission Disabled",
+    "privacy_notification_permission_dialog_content":
+        "The notification permission is required to receive notifications."
   };
   static const Map<String, dynamic> es = {
     "activity_empty": "Sin reproducciones",
@@ -1498,8 +1497,6 @@ class CodegenLoader extends AssetLoader {
     "privacy_status": "État",
     "privacy_not_accepted": "Non accepté",
     "privacy_accepted": "Accepté",
-    "privacy_text_block_1":
-        "Tautulli Remote utilise %OneSignal% pour gérer l'envoi de notifications.",
     "privacy_text_block_3":
         "Les données de notification sont envoyées par l'intermédiaire de l'API de OneSignal et seront %supprimées après 30 jours environ%.",
     "recently_added_empty": "Aucun élément récemment ajouté.",
@@ -1715,8 +1712,6 @@ class CodegenLoader extends AssetLoader {
         "Utilisez le bouton ci-dessous pour scanner le QR code et remplir automatiquement les informations de votre serveur ou bien renseignez les manuellement.",
     "privacy_text_block_4":
         "Une fois que vous acceptez, cet appareil s'enregistrera auprès de OneSignal. Le consentement peut être révoqué pour empêcher toute communication ultérieure avec OneSignal.",
-    "privacy_text_block_2":
-        "Avec le %chiffrement activé% dans Tautulli, aucune Information Personnellement Identifiable (PII) n'est collectée. Certaines informations utilisateur non-PII sont collectées et ne peuvent pas être chiffrées. Lisez la politique de confidentialité de %OneSignal% pour plus d'informations. Sans chiffrement, le contenu des notifications est envoyé à OneSignal en clair.",
     "media_details_aired": "DIFFUSÉ",
     "donate_tip_jar": "Pourboire",
     "button_go_to_settings": "ALLER AUX PARAMÈTRES"
@@ -2246,10 +2241,6 @@ class CodegenLoader extends AssetLoader {
     "privacy_status": "Status",
     "privacy_not_accepted": "Niet Geaccepteerd",
     "privacy_accepted": "Geaccepteerd",
-    "privacy_text_block_1":
-        "Tautulli Remote gebruikt %OneSignal% voor het versturen van notificaties.",
-    "privacy_text_block_2":
-        "Met %encryptie geactiveerd% in Tautulli wordt er geen Persoonlijk Identificeerbare Informatie (PII) verzameld. Sommige niet PII gebruikers informatie is verzameld en kan niet worden versleuteld. Lees de %OneSignal Privacy Policy% voor meer details. Zonder encryptie wordt de inhoud van de notificaties in platte text naar OneSignal verstuurd.",
     "privacy_text_block_3":
         "Notificatie data verstuurd via OneSignal's API wordt %verwijderd na ~30 dagen%.",
     "privacy_text_block_4":
@@ -2564,8 +2555,6 @@ class CodegenLoader extends AssetLoader {
     "recently_added_empty": "Nenhum item adicionado recentemente.",
     "privacy_text_block_4":
         "Depois de aceitar, este dispositivo será registrado com OneSignal. O consentimento pode ser revogado para evitar comunicação futura com OneSignal.",
-    "privacy_text_block_1":
-        "Tautulli Remote usa %OneSignal% para lidar com a entrega de notificações.",
     "privacy_consent_switch":
         "Consentimento para privacidade de dados OneSignal",
     "media_details_taken": "OCUPADO",
@@ -2692,8 +2681,6 @@ class CodegenLoader extends AssetLoader {
         "Insira um formato de URL válido",
     "privacy_text_block_3":
         "Os dados de notificação enviados por meio da API do OneSignal serão %excluídos após ~30 dias%.",
-    "privacy_text_block_2":
-        "Com a %criptografia ativada% em Tautulli, não há Informações de Identificação Pessoal (PII) coletadas. Algumas informações do usuário não PII são coletadas e não podem ser criptografadas. Leia a %Política de Privacidade OneSignal% para mais detalhes. Sem criptografia, o conteúdo das notificações é enviado para OneSignal em texto simples.",
     "media_details_aired": "EXIBIDO",
     "media_details_studio": "ESTÚDIO",
     "media_details_year": "ANO",
@@ -3001,10 +2988,6 @@ class CodegenLoader extends AssetLoader {
     "privacy_status": "status",
     "privacy_not_accepted": "Godkändes inte",
     "privacy_accepted": "Godkänd",
-    "privacy_text_block_1":
-        "Tautulli Remote använder% OneSignal% för att hantera leverans av meddelanden.",
-    "privacy_text_block_2":
-        "Med %kryptering aktiverad% i Tautulli samlas ingen personligt identifierbar information (PII) in. Viss icke-PII-användarinformation samlas in och kan inte krypteras. Läs %OneSignal Privacy Policy% för mer information. Utan kryptering skickas innehållet i meddelandena till OneSignal i klartext.",
     "privacy_text_block_3":
         "Aviseringsdata som skickas via OneSignals API kommer att raderas% efter ~ 30 dagar%.",
     "privacy_text_block_4":

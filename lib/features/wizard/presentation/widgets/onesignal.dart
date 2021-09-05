@@ -13,7 +13,7 @@ import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../privacy/presentation/pages/privacy_page.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
+// import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/wizard_bloc.dart';
 
 class OneSignal extends StatelessWidget {
@@ -173,8 +173,12 @@ class OneSignal extends StatelessWidget {
                                 } else {
                                   await showPermissionSettingsDialog(
                                     context,
-                                    'Notification Permission Disabled',
-                                    'In order to receive notifications the notification permission must be enabled.',
+                                    LocaleKeys
+                                        .privacy_notification_permission_dialog_title
+                                        .tr(),
+                                    LocaleKeys
+                                        .privacy_notification_permission_dialog_content
+                                        .tr(),
                                   );
                                   // context.read<WizardBloc>().add(
                                   //       WizardRejectOneSignalPermission(),
