@@ -23,6 +23,7 @@ class TranslationHelper {
       const Locale('pt', 'BR'),
       const Locale('pt', 'PT'),
       const Locale('ru'),
+      const Locale('sk'),
       const Locale('sv'),
     ];
   }
@@ -58,6 +59,8 @@ class TranslationHelper {
       }
     } else if (locale.languageCode == 'ru') {
       return 'Русский';
+    } else if (locale.languageCode == 'sk') {
+      return 'Slovenčina';
     } else if (locale.languageCode == 'sv') {
       return 'Svenska';
     } else {
