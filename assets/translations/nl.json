@@ -195,8 +195,6 @@
   "privacy_status": "Status",
   "privacy_not_accepted": "Niet Geaccepteerd",
   "privacy_accepted": "Geaccepteerd",
-  "privacy_text_block_1": "Tautulli Remote gebruikt %OneSignal% voor het versturen van notificaties.",
-  "privacy_text_block_2": "Met %encryptie geactiveerd% in Tautulli wordt er geen Persoonlijk Identificeerbare Informatie (PII) verzameld. Sommige niet PII gebruikers informatie is verzameld en kan niet worden versleuteld. Lees de %OneSignal Privacy Policy% voor meer details. Zonder encryptie wordt de inhoud van de notificaties in platte text naar OneSignal verstuurd.",
   "privacy_text_block_3": "Notificatie data verstuurd via OneSignal's API wordt %verwijderd na ~30 dagen%.",
   "privacy_text_block_4": "Zodra je accepteerd wordt dit apparaat geregistreerd bij OneSignal. Toestemming kan worden ingetrokken om verdere communicatie met OneSignal te voorkomen.",
   "recently_added_empty": "Geen recent toegevoegde items.",

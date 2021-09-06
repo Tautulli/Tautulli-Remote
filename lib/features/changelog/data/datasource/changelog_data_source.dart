@@ -3,6 +3,18 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.12.3",
+      "date": "September 5, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail":
+              "The iOS app no longer requires the app tracking permission.",
+          "additional": "Existing users can safely disable this permission.",
+        },
+      ],
+    },
+    {
       "version": "v2.12.2",
       "date": "September 2, 2021",
       "changes": [

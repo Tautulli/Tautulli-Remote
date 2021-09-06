@@ -7,12 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tautulli_remote/features/privacy/presentation/widgets/permission_setting_dialog.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../privacy/presentation/pages/privacy_page.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
+// import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/wizard_bloc.dart';
 
 class OneSignal extends StatelessWidget {
@@ -155,80 +156,109 @@ class OneSignal extends StatelessWidget {
                         if (wizardState is WizardLoaded) {
                           return CheckboxListTile(
                             value: wizardState.onesignalAccepted,
-                            onChanged: wizardState.onesignalPermissionRejected
-                                ? null
-                                : (value) async {
-                                    if (Platform.isIOS) {
-                                      if (await Permission
-                                          .appTrackingTransparency
-                                          .request()
-                                          .isGranted) {
-                                        context.read<WizardBloc>().add(
-                                            WizardUpdateIosAppTrackingPermission());
-                                        if (await Permission.notification
-                                            .request()
-                                            .isGranted) {
-                                          context.read<WizardBloc>().add(
-                                              WizardUpdateIosNotificationPermission());
-                                          context.read<WizardBloc>().add(
-                                                WizardAcceptOneSignal(value),
-                                              );
-                                        } else {
-                                          context.read<WizardBloc>().add(
-                                                WizardRejectOneSignalPermission(),
-                                              );
-                                          context.read<SettingsBloc>().add(
-                                                SettingsUpdateOneSignalBannerDismiss(
-                                                  true,
-                                                ),
-                                              );
-                                        }
-                                      } else {
-                                        context.read<WizardBloc>().add(
-                                              WizardRejectOneSignalPermission(),
-                                            );
-                                        context.read<SettingsBloc>().add(
-                                              SettingsUpdateOneSignalBannerDismiss(
-                                                true,
-                                              ),
-                                            );
-                                      }
-                                    } else {
-                                      context.read<WizardBloc>().add(
-                                            WizardAcceptOneSignal(value),
-                                          );
-                                    }
-                                  },
-                            isThreeLine: Platform.isIOS,
+                            onChanged:
+                                // wizardState.onesignalPermissionRejected
+                                //     ? null
+                                //     :
+                                (value) async {
+                              if (Platform.isIOS) {
+                                if (await Permission.notification
+                                    .request()
+                                    .isGranted) {
+                                  // context.read<WizardBloc>().add(
+                                  //     WizardUpdateIosNotificationPermission());
+                                  context.read<WizardBloc>().add(
+                                        WizardAcceptOneSignal(value),
+                                      );
+                                } else {
+                                  await showPermissionSettingsDialog(
+                                    context,
+                                    LocaleKeys
+                                        .privacy_notification_permission_dialog_title
+                                        .tr(),
+                                    LocaleKeys
+                                        .privacy_notification_permission_dialog_content
+                                        .tr(),
+                                  );
+                                  // context.read<WizardBloc>().add(
+                                  //       WizardRejectOneSignalPermission(),
+                                  //     );
+                                  // context.read<SettingsBloc>().add(
+                                  //       SettingsUpdateOneSignalBannerDismiss(
+                                  //         true,
+                                  //       ),
+                                  //     );
+                                }
+                                // if (await Permission
+                                //     .appTrackingTransparency
+                                //     .request()
+                                //     .isGranted) {
+                                //   context.read<WizardBloc>().add(
+                                //       WizardUpdateIosAppTrackingPermission());
+                                //   if (await Permission.notification
+                                //       .request()
+                                //       .isGranted) {
+                                //     context.read<WizardBloc>().add(
+                                //         WizardUpdateIosNotificationPermission());
+                                //     context.read<WizardBloc>().add(
+                                //           WizardAcceptOneSignal(value),
+                                //         );
+                                //   } else {
+                                //     context.read<WizardBloc>().add(
+                                //           WizardRejectOneSignalPermission(),
+                                //         );
+                                //     context.read<SettingsBloc>().add(
+                                //           SettingsUpdateOneSignalBannerDismiss(
+                                //             true,
+                                //           ),
+                                //         );
+                                //   }
+                                // } else {
+                                //   context.read<WizardBloc>().add(
+                                //         WizardRejectOneSignalPermission(),
+                                //       );
+                                //   context.read<SettingsBloc>().add(
+                                //         SettingsUpdateOneSignalBannerDismiss(
+                                //           true,
+                                //         ),
+                                //       );
+                                // }
+                              } else {
+                                context.read<WizardBloc>().add(
+                                      WizardAcceptOneSignal(value),
+                                    );
+                              }
+                            },
+                            // isThreeLine: Platform.isIOS,
                             title: const Text(
                               LocaleKeys.wizard_onesignal_allow_message,
                             ).tr(),
-                            subtitle: Platform.isIOS
-                                ? RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text: wizardState
-                                                  .iosAppTrackingPermission
-                                              ? 'Tracking Permission: Enabled\n'
-                                              : 'Tracking Permission: Disabled\n',
-                                          style: const TextStyle(
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: wizardState
-                                                  .iosNotificationPermission
-                                              ? 'Notification Permission: Enabled\n'
-                                              : 'Notification Permission: Disabled\n',
-                                          style: const TextStyle(
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : null,
+                            // subtitle: Platform.isIOS
+                            //     ? RichText(
+                            //         text: TextSpan(
+                            //           children: [
+                            //             TextSpan(
+                            //               text: wizardState
+                            //                       .iosAppTrackingPermission
+                            //                   ? 'Tracking Permission: Enabled\n'
+                            //                   : 'Tracking Permission: Disabled\n',
+                            //               style: const TextStyle(
+                            //                 color: Colors.grey,
+                            //               ),
+                            //             ),
+                            //             TextSpan(
+                            //               text: wizardState
+                            //                       .iosNotificationPermission
+                            //                   ? 'Notification Permission: Enabled\n'
+                            //                   : 'Notification Permission: Disabled\n',
+                            //               style: const TextStyle(
+                            //                 color: Colors.grey,
+                            //               ),
+                            //             ),
+                            //           ],
+                            //         ),
+                            //       )
+                            //     : null,
                           );
                         }
                         return const SizedBox(height: 0, width: 0);

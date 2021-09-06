@@ -41,9 +41,9 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
         currentWizardStage = _UpdateStage(event.currentStage);
         yield currentState.copyWith(
           wizardStage: currentWizardStage,
-          iosAppTrackingPermission:
-              await Permission.appTrackingTransparency.isGranted,
-          iosNotificationPermission: await Permission.notification.isGranted,
+          // iosAppTrackingPermission:
+          //     await Permission.appTrackingTransparency.isGranted,
+          // iosNotificationPermission: await Permission.notification.isGranted,
         );
       }
       if (event is WizardAcceptOneSignal) {
@@ -51,21 +51,21 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
           onesignalAccepted: event.accept,
         );
       }
-      if (event is WizardRejectOneSignalPermission) {
-        await di.sl<Settings>().setIosNotificationPermissionDeclined(true);
-        yield currentState.copyWith(onesignalPermissionRejected: true);
-      }
-      if (event is WizardUpdateIosAppTrackingPermission) {
-        yield currentState.copyWith(
-          iosAppTrackingPermission:
-              await Permission.appTrackingTransparency.isGranted,
-        );
-      }
-      if (event is WizardUpdateIosNotificationPermission) {
-        yield currentState.copyWith(
-          iosNotificationPermission: await Permission.notification.isGranted,
-        );
-      }
+      // if (event is WizardRejectOneSignalPermission) {
+      //   await di.sl<Settings>().setIosNotificationPermissionDeclined(true);
+      //   yield currentState.copyWith(onesignalPermissionRejected: true);
+      // }
+      // if (event is WizardUpdateIosAppTrackingPermission) {
+      //   yield currentState.copyWith(
+      //     iosAppTrackingPermission:
+      //         await Permission.appTrackingTransparency.isGranted,
+      //   );
+      // }
+      // if (event is WizardUpdateIosNotificationPermission) {
+      //   yield currentState.copyWith(
+      //     iosNotificationPermission: await Permission.notification.isGranted,
+      //   );
+      // }
     }
   }
 }

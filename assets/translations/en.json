@@ -198,8 +198,8 @@
   "privacy_status": "Status",
   "privacy_not_accepted": "Not Accepted",
   "privacy_accepted": "Accepted",
-  "privacy_text_block_1": "Tautulli Remote uses %OneSignal% to handle delivery of notifications.",
-  "privacy_text_block_2": "With %encryption enabled% in Tautulli there is no Personally Identifiable Information (PII) collected. Some non-PII user information is collected and cannot be encrypted. Read the %OneSignal Privacy Policy% for more details. Without encryption the contents of the notifications are sent to OneSignal in plain text.",
+  "privacy_text_block_1": "Tautulli Remote supports %end-to-end encryption%.",
+  "privacy_text_block_2": "%OneSignal% is used to deliver notifications from Tautulli. No Personally Identifiable Information (PII) is being collected by OneSignal. Read the %OneSignal Privacy Policy% for more details.",
   "privacy_text_block_3": "Notification data sent through OneSignal's API will be %deleted after ~30 days%.",
   "privacy_text_block_4": "Once you accept, this device will register with OneSignal. Consent can be revoked to prevent further communication with OneSignal.",
   "recently_added_empty": "No recently added items.",
@@ -351,5 +351,7 @@
   "settings_clear_cache_dialog_content": "Are you sure you want to clear the cache?",
   "image_cache_clear_alert": "Image cache cleared",
   "operations_heading": "Operations",
-  "button_go_to_settings": "GO TO SETTINGS"
+  "button_go_to_settings": "GO TO SETTINGS",
+  "privacy_notification_permission_dialog_title": "Notification Permission Disabled",
+  "privacy_notification_permission_dialog_content": "The notification permission is required to receive notifications."
 }

@@ -38,8 +38,6 @@
 		<string>Camera permission is required for barcode scanning.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>Tautulli Remote does not use this but included in a package.</string>
-		<key>NSUserTrackingUsageDescription</key>
-		<string>Your data will be used to deliver notifications to your device.</string>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>remote-notification</string>
