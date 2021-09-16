@@ -4,15 +4,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:validators/validators.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../bloc/register_device_bloc.dart';
+import '../bloc/register_device_headers_bloc.dart';
 import '../bloc/settings_bloc.dart';
 import '../widgets/certificate_failure_alert_dialog.dart';
+import '../widgets/header_type_dialog.dart';
 
 class ServerRegistrationPage extends StatefulWidget {
   final double fontSize;
@@ -33,6 +37,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
   TextEditingController _secondaryConnectionAddressController =
       TextEditingController();
   TextEditingController _deviceTokenController = TextEditingController();
+  List<CustomHeaderModel> headerList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +51,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
-          title: const Text('Register a Tautulli Server'),
+          title: const Text(LocaleKeys.button_register_server).tr(),
         ),
         body: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
           listener: (context, state) {
@@ -66,6 +71,9 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
               }
             }
             if (state is RegisterDeviceSuccess) {
+              context.read<RegisterDeviceHeadersBloc>().add(
+                    RegisterDeviceHeadersClear(),
+                  );
               Navigator.of(context).pop(true);
             }
           },
@@ -270,92 +278,167 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                                   return null;
                                 },
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    TextButton(
-                                      onPressed: () async {
-                                        bool value =
-                                            await _showExitDialog(context);
-                                        if (value) {
-                                          Navigator.of(context).pop();
-                                        }
-                                      },
-                                      child:
-                                          const Text(LocaleKeys.button_cancel)
-                                              .tr(),
-                                    ),
-                                    BlocBuilder<SettingsBloc, SettingsState>(
-                                      builder: (context, state) {
-                                        return TextButton(
-                                          onPressed: () async {
-                                            if (state is SettingsLoadSuccess) {
-                                              if (_formKey.currentState
-                                                  .validate()) {
-                                                // final url =
-                                                //     _primaryConnectionAddressController
-                                                //         .text;
-                                                // final host =
-                                                //     ConnectionAddressHelper
-                                                //         .parse(url)['domain'];
-                                                // final ipAddress =
-                                                //     IpAddressHelper
-                                                //         .parseIpFromUrl(url);
-
-                                                // final bool isPrivateIp =
-                                                //     (ipAddress != '' &&
-                                                //             !IpAddressHelper
-                                                //                 .isPublic(
-                                                //                     ipAddress)) ||
-                                                //         !await IpAddressHelper
-                                                //             .hostResolvesToPublic(
-                                                //                 host);
-
-                                                // if (Platform.isIOS &&
-                                                //     isPrivateIp &&
-                                                //     !state
-                                                //         .iosLocalNetworkPermissionPrompted) {
-                                                //   await showLocalNetworkPermissionDialog(
-                                                //     context: context,
-                                                //     ipAddress: ipAddress,
-                                                //   );
-                                                // } else {
-                                                registerDeviceBloc.add(
-                                                  RegisterDeviceStarted(
-                                                    primaryConnectionAddress:
-                                                        _primaryConnectionAddressController
-                                                            .text,
-                                                    secondaryConnectionAddress:
-                                                        _secondaryConnectionAddressController
-                                                            .text,
-                                                    deviceToken:
-                                                        _deviceTokenController
-                                                            .text,
-                                                    settingsBloc: context
-                                                        .read<SettingsBloc>(),
-                                                  ),
-                                                );
-                                                // }
-                                              }
-                                            }
-                                          },
-                                          child: Text(
-                                            LocaleKeys.button_register,
-                                            style: TextStyle(
-                                              color:
-                                                  state is SettingsLoadSuccess
-                                                      ? TautulliColorPalette
-                                                          .not_white
-                                                      : Colors.grey,
+                              const SizedBox(height: 4),
+                              BlocConsumer<RegisterDeviceHeadersBloc,
+                                  RegisterDeviceHeadersState>(
+                                listener: (context, state) {
+                                  if (state is RegisterDeviceHeadersLoaded) {
+                                    setState(() {
+                                      headerList = state.headers;
+                                    });
+                                  }
+                                },
+                                builder: (context, state) {
+                                  final List<CustomHeaderModel> headers =
+                                      state is RegisterDeviceHeadersLoaded &&
+                                              state.headers.isNotEmpty
+                                          ? state.headers
+                                          : [];
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: headers
+                                        .map(
+                                          (header) => ListTile(
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                              right: 4,
                                             ),
-                                          ).tr(),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
+                                            title: Text(header.key),
+                                            subtitle: Text(header.value),
+                                            trailing: IconButton(
+                                              icon: const FaIcon(
+                                                FontAwesomeIcons.trashAlt,
+                                                color: TautulliColorPalette
+                                                    .not_white,
+                                              ),
+                                              onPressed: () {
+                                                context
+                                                    .read<
+                                                        RegisterDeviceHeadersBloc>()
+                                                    .add(
+                                                      RegisterDeviceHeadersRemove(
+                                                        header.key,
+                                                      ),
+                                                    );
+                                              },
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                                  );
+                                },
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  TextButton(
+                                    child: const Text(
+                                      LocaleKeys.button_add_header,
+                                    ).tr(),
+                                    onPressed: () async {
+                                      await showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return const HeaderTypeDialog(
+                                            registerDevice: true,
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  Row(
+                                    children: [
+                                      TextButton(
+                                        onPressed: () async {
+                                          bool value =
+                                              await _showExitDialog(context);
+                                          if (value) {
+                                            context
+                                                .read<
+                                                    RegisterDeviceHeadersBloc>()
+                                                .add(
+                                                  RegisterDeviceHeadersClear(),
+                                                );
+                                            Navigator.of(context).pop();
+                                          }
+                                        },
+                                        child:
+                                            const Text(LocaleKeys.button_cancel)
+                                                .tr(),
+                                      ),
+                                      BlocBuilder<SettingsBloc, SettingsState>(
+                                        builder: (context, state) {
+                                          return TextButton(
+                                            onPressed: () async {
+                                              if (state
+                                                  is SettingsLoadSuccess) {
+                                                if (_formKey.currentState
+                                                    .validate()) {
+                                                  // final url =
+                                                  //     _primaryConnectionAddressController
+                                                  //         .text;
+                                                  // final host =
+                                                  //     ConnectionAddressHelper
+                                                  //         .parse(url)['domain'];
+                                                  // final ipAddress =
+                                                  //     IpAddressHelper
+                                                  //         .parseIpFromUrl(url);
+
+                                                  // final bool isPrivateIp =
+                                                  //     (ipAddress != '' &&
+                                                  //             !IpAddressHelper
+                                                  //                 .isPublic(
+                                                  //                     ipAddress)) ||
+                                                  //         !await IpAddressHelper
+                                                  //             .hostResolvesToPublic(
+                                                  //                 host);
+
+                                                  // if (Platform.isIOS &&
+                                                  //     isPrivateIp &&
+                                                  //     !state
+                                                  //         .iosLocalNetworkPermissionPrompted) {
+                                                  //   await showLocalNetworkPermissionDialog(
+                                                  //     context: context,
+                                                  //     ipAddress: ipAddress,
+                                                  //   );
+                                                  // } else {
+                                                  registerDeviceBloc.add(
+                                                    RegisterDeviceStarted(
+                                                      primaryConnectionAddress:
+                                                          _primaryConnectionAddressController
+                                                              .text,
+                                                      secondaryConnectionAddress:
+                                                          _secondaryConnectionAddressController
+                                                              .text,
+                                                      deviceToken:
+                                                          _deviceTokenController
+                                                              .text,
+                                                      headers: headerList,
+                                                      settingsBloc: context
+                                                          .read<SettingsBloc>(),
+                                                    ),
+                                                  );
+                                                  // }
+                                                }
+                                              }
+                                            },
+                                            child: Text(
+                                              LocaleKeys.button_register,
+                                              style: TextStyle(
+                                                color:
+                                                    state is SettingsLoadSuccess
+                                                        ? TautulliColorPalette
+                                                            .not_white
+                                                        : Colors.grey,
+                                              ),
+                                            ).tr(),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ],
                           ),
