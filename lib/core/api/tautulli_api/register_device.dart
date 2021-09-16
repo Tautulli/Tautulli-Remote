@@ -2,6 +2,7 @@
 
 import 'package:meta/meta.dart';
 
+import '../../database/data/models/custom_header_model.dart';
 import '../../requirements/versions.dart';
 import 'connection_handler.dart';
 
@@ -16,6 +17,7 @@ abstract class RegisterDevice {
     @required String onesignalId,
     @required String platform,
     @required String version,
+    List<CustomHeaderModel> headers,
     bool trustCert,
   });
 }
@@ -36,6 +38,7 @@ class RegisterDeviceImpl implements RegisterDevice {
     @required String platform,
     @required String version,
     bool trustCert,
+    List<CustomHeaderModel> headers,
   }) async {
     final responseJson = await connectionHandler(
       primaryConnectionProtocol: connectionProtocol,
@@ -51,6 +54,7 @@ class RegisterDeviceImpl implements RegisterDevice {
         'platform': platform,
         'version': version,
       },
+      registerDeviceHeaders: headers,
       trustCert: trustCert,
     );
 

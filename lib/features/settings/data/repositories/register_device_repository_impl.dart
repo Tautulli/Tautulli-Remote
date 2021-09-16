@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/network/network_info.dart';
@@ -26,6 +27,7 @@ class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
     @required String connectionDomain,
     @required String connectionPath,
     @required String deviceToken,
+    List<CustomHeaderModel> headers,
     bool trustCert,
   }) async {
     if (await networkInfo.isConnected) {
@@ -35,6 +37,7 @@ class RegisterDeviceRepositoryImpl implements RegisterDeviceRepository {
           connectionDomain: connectionDomain,
           connectionPath: connectionPath,
           deviceToken: deviceToken,
+          headers: headers,
           trustCert: trustCert,
         );
         return Right(result);

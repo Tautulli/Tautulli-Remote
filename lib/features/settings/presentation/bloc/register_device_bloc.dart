@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/connection_address_helper.dart';
@@ -23,6 +24,7 @@ part 'register_device_state.dart';
 String primaryConnectionAddressCache;
 String secondaryConnectionAddressCache;
 String deviceTokenCache;
+List<CustomHeaderModel> headersCache = [];
 
 class RegisterDeviceBloc
     extends Bloc<RegisterDeviceEvent, RegisterDeviceState> {
@@ -47,6 +49,7 @@ class RegisterDeviceBloc
         primaryConnectionAddress: event.primaryConnectionAddress,
         secondaryConnectionAddress: event.secondaryConnectionAddress,
         deviceToken: event.deviceToken,
+        headers: event.headers,
         settingsBloc: event.settingsBloc,
       );
     }
@@ -58,6 +61,7 @@ class RegisterDeviceBloc
         secondaryConnectionAddressCache,
         deviceTokenCache,
         event.settingsBloc,
+        headers: headersCache,
         trustCert: true,
       );
     }
@@ -67,6 +71,7 @@ class RegisterDeviceBloc
     @required String primaryConnectionAddress,
     String secondaryConnectionAddress,
     @required String deviceToken,
+    List<CustomHeaderModel> headers,
     @required SettingsBloc settingsBloc,
   }) async* {
     yield RegisterDeviceInProgress();
@@ -76,12 +81,14 @@ class RegisterDeviceBloc
         ? secondaryConnectionAddress.trim()
         : '';
     deviceTokenCache = deviceToken.trim();
+    headersCache = headers;
 
     yield* _failureOrRegisterDevice(
       primaryConnectionAddressCache,
       secondaryConnectionAddressCache,
       deviceTokenCache,
       settingsBloc,
+      headers: headersCache,
     );
   }
 
@@ -90,6 +97,7 @@ class RegisterDeviceBloc
     String secondaryConnectionAddress,
     String deviceToken,
     SettingsBloc settingsBloc, {
+    List<CustomHeaderModel> headers,
     bool trustCert = false,
   }) async* {
     final primaryConnectionMap =
@@ -105,6 +113,7 @@ class RegisterDeviceBloc
       connectionDomain: primaryConnectionDomain,
       connectionPath: primaryConnectionPath,
       deviceToken: deviceToken,
+      headers: headers,
       trustCert: trustCert,
     );
 
@@ -141,6 +150,7 @@ class RegisterDeviceBloc
               plexIdentifier: registeredData['pms_identifier'],
               plexPass: plexPass,
               onesignalRegistered: onesignalRegistered,
+              headers: headers,
             ),
           );
 
@@ -165,6 +175,7 @@ class RegisterDeviceBloc
               dateFormat: existingServer.dateFormat,
               timeFormat: existingServer.timeFormat,
               onesignalRegistered: onesignalRegistered,
+              headers: headers,
             ),
           );
 

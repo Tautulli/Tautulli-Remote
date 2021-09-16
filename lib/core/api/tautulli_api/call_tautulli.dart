@@ -24,6 +24,7 @@ abstract class CallTautulli {
     Map<String, String> params,
     bool trustCert,
     int timeoutOverride,
+    @required Map<String, String> headers,
   });
 }
 
@@ -42,6 +43,7 @@ class CallTautulliImpl implements CallTautulli {
     Map<String, String> params,
     bool trustCert,
     int timeoutOverride,
+    @required Map<String, String> headers,
   }) async {
     // If no params provided initalize params
     if (params == null) {
@@ -103,18 +105,20 @@ class CallTautulliImpl implements CallTautulli {
 
     // Call API using constructed URI
     try {
-      response = await ioClient.get(
-        uri,
-        headers: {'Content-Type': 'application/json'},
-      ).timeout(
-        Duration(
-          seconds: timeoutOverride != null
-              ? timeoutOverride
-              : timeout != null
-                  ? timeout
-                  : 5,
-        ),
-      );
+      response = await ioClient
+          .get(
+            uri,
+            headers: headers,
+          )
+          .timeout(
+            Duration(
+              seconds: timeoutOverride != null
+                  ? timeoutOverride
+                  : timeout != null
+                      ? timeout
+                      : 5,
+            ),
+          );
     } catch (exception) {
       if (exception.runtimeType == HandshakeException &&
           exception.toString().contains('CERTIFICATE_VERIFY_FAILED')) {

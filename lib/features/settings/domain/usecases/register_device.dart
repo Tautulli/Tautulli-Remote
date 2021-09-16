@@ -3,6 +3,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/error/failure.dart';
 import '../repositories/register_device_repository.dart';
 
@@ -17,6 +18,7 @@ class RegisterDevice {
     @required String connectionPath,
     @required String deviceToken,
     bool clearOnesignalId,
+    List<CustomHeaderModel> headers,
     bool trustCert,
   }) async {
     return await repository(
@@ -24,6 +26,7 @@ class RegisterDevice {
       connectionDomain: connectionDomain,
       connectionPath: connectionPath,
       deviceToken: deviceToken,
+      headers: headers,
       trustCert: trustCert,
     );
   }

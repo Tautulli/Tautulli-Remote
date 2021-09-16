@@ -7,6 +7,7 @@ import '../../../features/logging/domain/usecases/logging.dart';
 import '../../../features/settings/domain/usecases/settings.dart';
 import '../../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../../injection_container.dart' as di;
+import '../../database/data/models/custom_header_model.dart';
 import '../../database/domain/entities/server.dart';
 import '../../error/exception.dart';
 import 'call_tautulli.dart';
@@ -24,6 +25,7 @@ abstract class ConnectionHandler {
     Map<String, String> params,
     int timeoutOverride,
     bool trustCert,
+    List<CustomHeaderModel> registerDeviceHeaders,
     SettingsBloc settingsBloc,
   });
 }
@@ -48,6 +50,7 @@ class ConnectionHandlerImpl implements ConnectionHandler {
     Map<String, String> params,
     int timeoutOverride,
     bool trustCert = false,
+    List<CustomHeaderModel> registerDeviceHeaders = const [],
     SettingsBloc settingsBloc,
   }) async {
     String secondaryConnectionAddress;
@@ -91,6 +94,21 @@ class ConnectionHandlerImpl implements ConnectionHandler {
 
     var response;
 
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    if (tautulliId != null) {
+      final List<CustomHeaderModel> customHeaders =
+          await di.sl<Settings>().getCustomHeadersByTautulliId(tautulliId);
+
+      customHeaders.forEach((header) {
+        headers[header.key] = header.value;
+      });
+    } else if (registerDeviceHeaders.isNotEmpty) {
+      registerDeviceHeaders.forEach((header) {
+        headers[header.key] = header.value;
+      });
+    }
+
     // Attempt to connect using active connection
     try {
       response = await callTautulli(
@@ -106,6 +124,7 @@ class ConnectionHandlerImpl implements ConnectionHandler {
         params: params,
         timeoutOverride: timeoutOverride,
         trustCert: trustCert,
+        headers: headers,
       );
     } catch (error) {
       // If secondary connection configured try again with the other connection
@@ -134,6 +153,7 @@ class ConnectionHandlerImpl implements ConnectionHandler {
             params: params,
             timeoutOverride: timeoutOverride,
             trustCert: trustCert,
+            headers: headers,
           );
 
           settingsBloc.add(

@@ -10,12 +10,14 @@ class RegisterDeviceStarted extends RegisterDeviceEvent {
   final String primaryConnectionAddress;
   final String secondaryConnectionAddress;
   final String deviceToken;
+  final List<CustomHeaderModel> headers;
   final SettingsBloc settingsBloc;
 
   RegisterDeviceStarted({
     @required this.primaryConnectionAddress,
     this.secondaryConnectionAddress,
     @required this.deviceToken,
+    this.headers = const [],
     @required this.settingsBloc,
   });
 
@@ -24,6 +26,7 @@ class RegisterDeviceStarted extends RegisterDeviceEvent {
         primaryConnectionAddress,
         secondaryConnectionAddress,
         deviceToken,
+        headers,
       ];
 }
 
