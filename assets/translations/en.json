@@ -353,5 +353,10 @@
   "operations_heading": "Operations",
   "button_go_to_settings": "GO TO SETTINGS",
   "privacy_notification_permission_dialog_title": "Notification Permission Disabled",
-  "privacy_notification_permission_dialog_content": "The notification permission is required to receive notifications."
+  "privacy_notification_permission_dialog_content": "The notification permission is required to receive notifications.",
+  "button_help": "HELP",
+  "button_add_header": "ADD HEADER",
+  "settings_header_basic_auth": "Basic Authentication",
+  "settings_server_custom_http_headers": "Custom HTTP Headers",
+  "settings_custom_headers_missing": "No custom HTTP headers configured."
 }

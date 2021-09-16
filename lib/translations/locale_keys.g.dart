@@ -427,4 +427,11 @@ abstract class LocaleKeys {
       'privacy_notification_permission_dialog_title';
   static const privacy_notification_permission_dialog_content =
       'privacy_notification_permission_dialog_content';
+  static const button_help = 'button_help';
+  static const button_add_header = 'button_add_header';
+  static const settings_header_basic_auth = 'settings_header_basic_auth';
+  static const settings_server_custom_http_headers =
+      'settings_server_custom_http_headers';
+  static const settings_custom_headers_missing =
+      'settings_custom_headers_missing';
 }
