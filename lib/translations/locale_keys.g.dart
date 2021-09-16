@@ -434,4 +434,12 @@ abstract class LocaleKeys {
       'settings_server_custom_http_headers';
   static const settings_custom_headers_missing =
       'settings_custom_headers_missing';
+  static const settings_header_input_username =
+      'settings_header_input_username';
+  static const settings_header_input_password =
+      'settings_header_input_password';
+  static const settings_header_input_header_key =
+      'settings_header_input_header_key';
+  static const settings_header_input_header_value =
+      'settings_header_input_header_value';
 }

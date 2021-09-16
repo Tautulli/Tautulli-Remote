@@ -1015,7 +1015,11 @@ static const Map<String,dynamic> en = {
   "button_add_header": "ADD HEADER",
   "settings_header_basic_auth": "Basic Authentication",
   "settings_server_custom_http_headers": "Custom HTTP Headers",
-  "settings_custom_headers_missing": "No custom HTTP headers configured."
+  "settings_custom_headers_missing": "No custom HTTP headers configured.",
+  "settings_header_input_username": "Username",
+  "settings_header_input_header_key": "Header Key",
+  "settings_header_input_header_value": "Header Value",
+  "settings_header_input_password": "Password"
 };
 static const Map<String,dynamic> es = {
   "activity_empty": "Sin reproducciones",
