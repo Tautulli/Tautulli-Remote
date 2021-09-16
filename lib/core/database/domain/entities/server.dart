@@ -3,6 +3,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import '../../data/models/custom_header_model.dart';
+
 class Server extends Equatable {
   final int id;
   final int sortIndex;
@@ -23,6 +25,7 @@ class Server extends Equatable {
   final bool plexPass;
   final String dateFormat;
   final String timeFormat;
+  final List<CustomHeaderModel> customHeaders;
 
   Server({
     this.id,
@@ -44,6 +47,7 @@ class Server extends Equatable {
     @required this.plexPass,
     this.dateFormat,
     this.timeFormat,
+    this.customHeaders,
   });
 
   @override
@@ -67,6 +71,7 @@ class Server extends Equatable {
         plexPass,
         dateFormat,
         timeFormat,
+        customHeaders,
       ];
 
   @override

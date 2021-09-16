@@ -1,9 +1,12 @@
 // @dart=2.9
 
+import 'dart:convert';
+
 import 'package:meta/meta.dart';
 import 'package:validators/sanitizers.dart';
 
 import '../../domain/entities/server.dart';
+import 'custom_header_model.dart';
 
 class ServerModel extends Server {
   ServerModel({
@@ -26,6 +29,7 @@ class ServerModel extends Server {
     @required bool plexPass,
     String dateFormat,
     String timeFormat,
+    List<CustomHeaderModel> customHeaders,
   }) : super(
           id: id,
           sortIndex: sortIndex,
@@ -46,6 +50,7 @@ class ServerModel extends Server {
           plexPass: plexPass,
           dateFormat: dateFormat,
           timeFormat: timeFormat,
+          customHeaders: customHeaders,
         );
 
   ServerModel copyWith({
@@ -68,6 +73,7 @@ class ServerModel extends Server {
     bool plexPass,
     String dateFormat,
     String timeFormat,
+    List<CustomHeaderModel> customHeaders,
   }) {
     return ServerModel(
       id: id ?? this.id,
@@ -97,36 +103,52 @@ class ServerModel extends Server {
       plexPass: plexPass ?? this.plexPass,
       dateFormat: dateFormat ?? this.dateFormat,
       timeFormat: timeFormat ?? this.timeFormat,
+      customHeaders: customHeaders ?? this.customHeaders,
     );
   }
 
   // Create Settings from JSON data
-  factory ServerModel.fromJson(Map<String, dynamic> json) {
-    bool primaryActiveBool = toBoolean(json['primary_active'].toString());
+  factory ServerModel.fromJson(Map<String, dynamic> serverJson) {
+    bool primaryActiveBool = toBoolean(serverJson['primary_active'].toString());
     bool onesignalRegisteredBool =
-        toBoolean(json['onesignal_registered'].toString());
-    bool plexPass = toBoolean(json['plex_plexpass'].toString());
+        toBoolean(serverJson['onesignal_registered'].toString());
+    bool plexPass = toBoolean(serverJson['plex_plexpass'].toString());
+
+    Map<String, dynamic> decodedCustomHeaders =
+        serverJson['custom_headers'] != null
+            ? json.decode(
+                serverJson['custom_headers'],
+              )
+            : {};
+    List<CustomHeaderModel> customHeaderList = [];
+    decodedCustomHeaders.forEach((key, value) {
+      customHeaderList.add(CustomHeaderModel(
+        key: key,
+        value: value,
+      ));
+    });
 
     return ServerModel(
-      id: json['id'],
-      sortIndex: json['sort_index'],
-      plexName: json['plex_name'],
-      plexIdentifier: json['plex_identifier'],
-      tautulliId: json['tautulli_id'],
-      primaryConnectionAddress: json['primary_connection_address'],
-      primaryConnectionProtocol: json['primary_connection_protocol'],
-      primaryConnectionDomain: json['primary_connection_domain'],
-      primaryConnectionPath: json['primary_connection_path'],
-      secondaryConnectionAddress: json['secondary_connection_address'],
-      secondaryConnectionProtocol: json['secondary_connection_protocol'],
-      secondaryConnectionDomain: json['secondary_connection_domain'],
-      secondaryConnectionPath: json['secondary_connection_path'],
-      deviceToken: json['device_token'],
+      id: serverJson['id'],
+      sortIndex: serverJson['sort_index'],
+      plexName: serverJson['plex_name'],
+      plexIdentifier: serverJson['plex_identifier'],
+      tautulliId: serverJson['tautulli_id'],
+      primaryConnectionAddress: serverJson['primary_connection_address'],
+      primaryConnectionProtocol: serverJson['primary_connection_protocol'],
+      primaryConnectionDomain: serverJson['primary_connection_domain'],
+      primaryConnectionPath: serverJson['primary_connection_path'],
+      secondaryConnectionAddress: serverJson['secondary_connection_address'],
+      secondaryConnectionProtocol: serverJson['secondary_connection_protocol'],
+      secondaryConnectionDomain: serverJson['secondary_connection_domain'],
+      secondaryConnectionPath: serverJson['secondary_connection_path'],
+      deviceToken: serverJson['device_token'],
       primaryActive: primaryActiveBool,
       onesignalRegistered: onesignalRegisteredBool,
       plexPass: plexPass,
-      dateFormat: json['date_format'],
-      timeFormat: json['time_format'],
+      dateFormat: serverJson['date_format'],
+      timeFormat: serverJson['time_format'],
+      customHeaders: customHeaderList,
     );
   }
 
@@ -135,6 +157,7 @@ class ServerModel extends Server {
     int primaryActiveInt;
     int onesignalRegisteredInt;
     int plexPassInt;
+    Map<String, dynamic> customHeaderMap = {};
 
     switch (primaryActive) {
       case (false):
@@ -163,6 +186,12 @@ class ServerModel extends Server {
         break;
     }
 
+    if (customHeaders != null && customHeaders.isNotEmpty) {
+      customHeaders.forEach((customHeader) {
+        customHeaderMap['${customHeader.key}'] = '${customHeader.value}';
+      });
+    }
+
     return {
       'id': id,
       'sort_index': sortIndex,
@@ -183,6 +212,7 @@ class ServerModel extends Server {
       'plex_pass': plexPassInt,
       'date_format': dateFormat,
       'time_format': timeFormat,
+      'custom_headers': json.encode(customHeaderMap),
     };
   }
 }

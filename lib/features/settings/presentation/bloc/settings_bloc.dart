@@ -1,6 +1,7 @@
 // @dart=2.9
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:bloc/bloc.dart';
@@ -10,6 +11,7 @@ import 'package:meta/meta.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/connection_address_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
@@ -78,6 +80,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           primaryActive: true,
           onesignalRegistered: event.onesignalRegistered,
           plexPass: event.plexPass,
+          customHeaders: event.headers,
         );
 
         await settings.addServer(server: server);
@@ -134,6 +137,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           plexPass: event.plexPass,
           dateFormat: event.dateFormat,
           timeFormat: event.timeFormat,
+          customHeaders: event.headers,
         );
 
         await settings.updateServerById(
@@ -241,6 +245,92 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
         updatedList[index] = currentState.serverList[index].copyWith(
           primaryActive: event.primaryActive,
+        );
+        yield currentState.copyWith(serverList: updatedList);
+      }
+      if (event is SettingsAddCustomHeader) {
+        final int index = currentState.serverList.indexWhere(
+          (server) => server.tautulliId == event.tautulliId,
+        );
+
+        List<ServerModel> updatedList = [...currentState.serverList];
+
+        List<CustomHeaderModel> customHeaders = [
+          ...updatedList[index].customHeaders
+        ];
+
+        //TODO
+        if (event.basicAuth) {
+          final currentIndex = customHeaders.indexWhere(
+            (header) => header.key == 'Authorization',
+          );
+
+          final String base64Value =
+              base64Encode(utf8.encode('${event.key}:${event.value}'));
+
+          if (currentIndex == -1) {
+            customHeaders.add(
+              CustomHeaderModel(
+                key: 'Authorization',
+                value: 'Basic $base64Value',
+              ),
+            );
+          } else {
+            customHeaders[currentIndex] = CustomHeaderModel(
+              key: 'Authorization',
+              value: 'Basic $base64Value',
+            );
+          }
+        } else {
+          final currentIndex = customHeaders.indexWhere(
+            (header) => header.key == event.key,
+          );
+
+          if (currentIndex == -1) {
+            customHeaders.add(
+              CustomHeaderModel(
+                key: event.key,
+                value: event.value,
+              ),
+            );
+          } else {
+            customHeaders[currentIndex] = CustomHeaderModel(
+              key: event.key,
+              value: event.value,
+            );
+          }
+        }
+
+        await settings.updateCustomHeaders(
+          tautulliId: event.tautulliId,
+          customHeaders: customHeaders,
+        );
+
+        updatedList[index] = currentState.serverList[index].copyWith(
+          customHeaders: customHeaders,
+        );
+        yield currentState.copyWith(serverList: updatedList);
+      }
+      if (event is SettingsRemoveCustomHeader) {
+        final int index = currentState.serverList.indexWhere(
+          (server) => server.tautulliId == event.tautulliId,
+        );
+
+        List<ServerModel> updatedList = [...currentState.serverList];
+
+        List<CustomHeaderModel> customHeaders = [
+          ...updatedList[index].customHeaders
+        ];
+
+        customHeaders.removeWhere((header) => header.key == event.key);
+
+        await settings.updateCustomHeaders(
+          tautulliId: event.tautulliId,
+          customHeaders: customHeaders,
+        );
+
+        updatedList[index] = currentState.serverList[index].copyWith(
+          customHeaders: customHeaders,
         );
         yield currentState.copyWith(serverList: updatedList);
       }

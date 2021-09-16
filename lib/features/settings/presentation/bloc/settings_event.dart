@@ -24,6 +24,7 @@ class SettingsAddServer extends SettingsEvent {
   final String plexIdentifier;
   final bool plexPass;
   final bool onesignalRegistered;
+  List<CustomHeaderModel> headers;
 
   SettingsAddServer({
     @required this.primaryConnectionAddress,
@@ -34,6 +35,7 @@ class SettingsAddServer extends SettingsEvent {
     @required this.plexIdentifier,
     @required this.plexPass,
     this.onesignalRegistered,
+    this.headers,
   });
 
   @override
@@ -45,6 +47,7 @@ class SettingsAddServer extends SettingsEvent {
         plexName,
         plexPass,
         onesignalRegistered,
+        headers,
       ];
 }
 
@@ -61,6 +64,7 @@ class SettingsUpdateServer extends SettingsEvent {
   final String dateFormat;
   final String timeFormat;
   final bool onesignalRegistered;
+  List<CustomHeaderModel> headers;
 
   SettingsUpdateServer({
     @required this.id,
@@ -75,6 +79,7 @@ class SettingsUpdateServer extends SettingsEvent {
     @required this.dateFormat,
     @required this.timeFormat,
     this.onesignalRegistered,
+    this.headers,
   });
 
   @override
@@ -90,6 +95,7 @@ class SettingsUpdateServer extends SettingsEvent {
         dateFormat,
         timeFormat,
         onesignalRegistered,
+        headers,
       ];
 }
 
@@ -134,6 +140,36 @@ class SettingsUpdatePrimaryActive extends SettingsEvent {
 
   @override
   List<Object> get props => [tautulliId, primaryActive];
+}
+
+class SettingsAddCustomHeader extends SettingsEvent {
+  final String tautulliId;
+  final String key;
+  final String value;
+  final bool basicAuth;
+
+  SettingsAddCustomHeader({
+    @required this.tautulliId,
+    @required this.key,
+    @required this.value,
+    this.basicAuth = false,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, key, value, basicAuth];
+}
+
+class SettingsRemoveCustomHeader extends SettingsEvent {
+  final String tautulliId;
+  final String key;
+
+  SettingsRemoveCustomHeader({
+    @required this.tautulliId,
+    @required this.key,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, key];
 }
 
 class SettingsUpdateSortIndex extends SettingsEvent {

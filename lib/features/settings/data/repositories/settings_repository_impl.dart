@@ -1,9 +1,12 @@
 // @dart=2.9
 
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/database/data/datasources/database.dart';
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
@@ -87,6 +90,26 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future getCustomHeadersByTautulliId(String tautulliId) async {
+    final String encodedHeaders =
+        await DBProvider.db.getCustomHeadersByTautulliId(tautulliId);
+    final Map<String, dynamic> decodedHeaders = json.decode(encodedHeaders);
+
+    final List<CustomHeaderModel> customHeaderList = [];
+
+    decodedHeaders.forEach((key, value) {
+      customHeaderList.add(
+        CustomHeaderModel(
+          key: key,
+          value: value,
+        ),
+      );
+    });
+
+    return customHeaderList;
+  }
+
+  @override
   Future updatePrimaryConnection({
     @required int id,
     @required Map<String, String> primaryConnectionInfo,
@@ -127,6 +150,22 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await DBProvider.db.updatePrimaryActive(
       tautulliId: tautulliId,
       primaryActive: value,
+    );
+  }
+
+  @override
+  Future updateCustomHeaders({
+    @required String tautulliId,
+    @required List<CustomHeaderModel> customHeaders,
+  }) async {
+    Map<String, String> customHeaderMap = {};
+    customHeaders.forEach((customHeader) {
+      customHeaderMap['${customHeader.key}'] = '${customHeader.value}';
+    });
+
+    return await DBProvider.db.updateCustomHeaders(
+      tautulliId: tautulliId,
+      encodedCustomHeaders: json.encode(customHeaderMap),
     );
   }
 

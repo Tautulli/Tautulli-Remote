@@ -3,6 +3,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../presentation/bloc/settings_bloc.dart';
@@ -54,6 +55,10 @@ class Settings {
     return await repository.getServerByTautulliId(tautulliId);
   }
 
+  Future getCustomHeadersByTautulliId(String tautulliId) async {
+    return await repository.getCustomHeadersByTautulliId(tautulliId);
+  }
+
   Future updatePrimaryConnection({
     @required int id,
     @required Map<String, String> primaryConnectionInfo,
@@ -93,6 +98,16 @@ class Settings {
     return repository.updatePrimaryActive(
       tautulliId: tautulliId,
       primaryActive: primaryActive,
+    );
+  }
+
+  Future updateCustomHeaders({
+    @required String tautulliId,
+    @required List<CustomHeaderModel> customHeaders,
+  }) {
+    return repository.updateCustomHeaders(
+      tautulliId: tautulliId,
+      customHeaders: customHeaders,
     );
   }
 

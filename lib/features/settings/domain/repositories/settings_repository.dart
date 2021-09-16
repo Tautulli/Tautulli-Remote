@@ -3,6 +3,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../presentation/bloc/settings_bloc.dart';
@@ -35,6 +36,8 @@ abstract class SettingsRepository {
 
   Future getServerByTautulliId(String tautulliId);
 
+  Future getCustomHeadersByTautulliId(String tautulliId);
+
   Future updatePrimaryConnection({
     @required int id,
     @required Map<String, String> primaryConnectionInfo,
@@ -48,6 +51,11 @@ abstract class SettingsRepository {
   Future updatePrimaryActive({
     @required String tautulliId,
     @required bool primaryActive,
+  });
+
+  Future updateCustomHeaders({
+    @required String tautulliId,
+    @required List<CustomHeaderModel> customHeaders,
   });
 
   Future<Either<Failure, PlexServerInfo>> getPlexServerInfo({
