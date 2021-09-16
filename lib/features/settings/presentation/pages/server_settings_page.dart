@@ -13,6 +13,8 @@ import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../bloc/settings_bloc.dart';
+import '../widgets/delete_dialog.dart';
+import 'custom_headers_page.dart';
 
 class ServerSettingsPage extends StatelessWidget {
   final int id;
@@ -251,6 +253,26 @@ class ServerSettingsPage extends StatelessWidget {
                       }
                     },
                   ),
+                  ListTile(
+                    title: const Text(
+                      LocaleKeys.settings_server_custom_http_headers,
+                    ).tr(),
+                    trailing: const FaIcon(
+                      FontAwesomeIcons.angleRight,
+                      color: TautulliColorPalette.not_white,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return CustomHeadersPage(
+                              tautulliId: server.tautulliId,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Divider(
@@ -279,7 +301,7 @@ class ServerSettingsPage extends StatelessWidget {
             } catch (error) {
               return const Text(
                 LocaleKeys.settings_server_error,
-              ).tr(args: [error]);
+              ).tr(args: [error.toString()]);
             }
           }
           return const Text('Bloc error');
@@ -434,27 +456,10 @@ Future<bool> _showDeleteServerDialog({
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      return AlertDialog(
-        title: const Text(
+      return DeleteDialog(
+        titleWidget: const Text(
           LocaleKeys.settings_server_delete_dialog_title,
         ).tr(args: [plexName]),
-        actions: <Widget>[
-          TextButton(
-            child: const Text(LocaleKeys.button_cancel).tr(),
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-          ),
-          TextButton(
-            child: const Text(LocaleKeys.button_confirm).tr(),
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.red,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-          ),
-        ],
       );
     },
   );

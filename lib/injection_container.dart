@@ -108,6 +108,7 @@ import 'features/settings/domain/repositories/settings_repository.dart';
 import 'features/settings/domain/usecases/register_device.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/register_device_bloc.dart';
+import 'features/settings/presentation/bloc/register_device_headers_bloc.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/statistics/data/datasources/statistics_data_source.dart';
 import 'features/statistics/data/repositories/statistics_repository_impl.dart';
@@ -736,6 +737,10 @@ Future<void> init() async {
       settings: sl(),
       logging: sl(),
     ),
+  );
+
+  sl.registerFactory(
+    () => RegisterDeviceHeadersBloc(),
   );
 
   // Use case

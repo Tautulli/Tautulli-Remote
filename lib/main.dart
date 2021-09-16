@@ -17,6 +17,7 @@ import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
 import 'features/settings/domain/usecases/register_device.dart';
 import 'features/settings/domain/usecases/settings.dart';
+import 'features/settings/presentation/bloc/register_device_headers_bloc.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/translate/presentation/bloc/translate_bloc.dart';
 import 'injection_container.dart' as di;
@@ -100,6 +101,9 @@ void main() async {
         providers: [
           BlocProvider<SettingsBloc>(
             create: (context) => di.sl<SettingsBloc>(),
+          ),
+          BlocProvider<RegisterDeviceHeadersBloc>(
+            create: (context) => di.sl<RegisterDeviceHeadersBloc>(),
           ),
           BlocProvider<OneSignalHealthBloc>(
             create: (context) => di.sl<OneSignalHealthBloc>(),

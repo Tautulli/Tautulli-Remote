@@ -198,10 +198,9 @@ class _SettingsPageContentState extends State<SettingsPageContent> {
                                     fullscreenDialog: true,
                                     builder: (context) {
                                       return BlocProvider(
-                                        create: (context) =>
-                                            di.sl<RegisterDeviceBloc>(),
-                                        child: ServerRegistrationPage(),
-                                      );
+                                          create: (context) =>
+                                              di.sl<RegisterDeviceBloc>(),
+                                          child: ServerRegistrationPage());
                                     },
                                   ),
                                 );
