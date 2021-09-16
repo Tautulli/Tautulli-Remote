@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/widgets/inherited_headers.dart';
 import '../../domain/entities/activity.dart';
 
 class BackgroundImageChooser extends StatelessWidget {
@@ -19,6 +20,10 @@ class BackgroundImageChooser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, String> headerMap = InheritedHeaders.of(context) != null
+        ? InheritedHeaders.of(context).headerMap
+        : {};
+
     return ImageFiltered(
       imageFilter: ImageFilter.blur(
         sigmaX: addBlur ? 25 : 0,
@@ -26,17 +31,22 @@ class BackgroundImageChooser extends StatelessWidget {
       ),
       child: activity.live == 1
           ? const _BackgroundImageLiveTv()
-          : _BackgroundImageGeneral(url: activity.posterUrl),
+          : _BackgroundImageGeneral(
+              url: activity.posterUrl,
+              headerMap: headerMap,
+            ),
     );
   }
 }
 
 class _BackgroundImageGeneral extends StatelessWidget {
   final String url;
+  final Map<String, String> headerMap;
 
   const _BackgroundImageGeneral({
     Key key,
     @required this.url,
+    @required this.headerMap,
   }) : super(key: key);
 
   @override
@@ -45,7 +55,10 @@ class _BackgroundImageGeneral extends StatelessWidget {
       children: <Widget>[
         Positioned.fill(
           child: Image(
-            image: CachedNetworkImageProvider(url),
+            image: CachedNetworkImageProvider(
+              url,
+              headers: headerMap,
+            ),
             fit: BoxFit.cover,
           ),
         ),

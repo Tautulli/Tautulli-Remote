@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import 'inherited_headers.dart';
 import 'poster_chooser.dart';
 
 class PosterCard extends StatelessWidget {
@@ -25,6 +26,10 @@ class PosterCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, String> headerMap = InheritedHeaders.of(context) != null
+        ? InheritedHeaders.of(context).headerMap
+        : {};
+
     return Card(
       margin: cardMargin ?? const EdgeInsets.all(4.0),
       child: ClipRRect(
@@ -42,6 +47,7 @@ class PosterCard extends StatelessWidget {
                   child: Image(
                     image: CachedNetworkImageProvider(
                       item.posterUrl != null ? item.posterUrl : '',
+                      headers: headerMap,
                     ),
                     fit: BoxFit.cover,
                   ),

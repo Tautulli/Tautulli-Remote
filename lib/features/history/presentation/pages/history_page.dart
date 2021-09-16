@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/error_message.dart';
+import '../../../../core/widgets/inherited_headers.dart';
 import '../../../../core/widgets/inner_drawer_scaffold.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
@@ -63,6 +65,7 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
   String _mediaType;
   String _transcodeDecision;
   bool _maskSensitiveInfo;
+  Map<String, String> headerMap = {};
 
   @override
   void initState() {
@@ -85,6 +88,11 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
         for (Server server in settingsState.serverList) {
           if (server.tautulliId == settingsState.lastSelectedServer) {
             lastSelectedServer = settingsState.lastSelectedServer;
+
+            for (CustomHeaderModel header in server.customHeaders) {
+              headerMap[header.key] = header.value;
+            }
+
             break;
           }
         }
@@ -97,6 +105,10 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
       } else if (settingsState.serverList.isNotEmpty) {
         setState(() {
           _tautulliId = settingsState.serverList[0].tautulliId;
+          for (CustomHeaderModel header
+              in settingsState.serverList[0].customHeaders) {
+            headerMap[header.key] = header.value;
+          }
         });
       } else {
         setState(() {
@@ -159,9 +171,18 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                       }).toList(),
                       onChanged: (value) {
                         if (value != _tautulliId) {
+                          final server = state.serverList.firstWhere(
+                              (server) => server.tautulliId == value);
+                          Map<String, String> newHeaderMap = {};
+                          for (CustomHeaderModel header
+                              in server.customHeaders) {
+                            newHeaderMap[header.key] = header.value;
+                          }
+
                           setState(() {
                             _tautulliId = value;
                             _userId = null;
+                            headerMap = newHeaderMap;
                           });
                           _settingsBloc.add(
                             SettingsUpdateLastSelectedServer(
@@ -205,62 +226,65 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
                 );
 
                 if (state.list.isNotEmpty) {
-                  return Expanded(
-                    child: RefreshIndicator(
-                      color: Theme.of(context).accentColor,
-                      onRefresh: () {
-                        _historyBloc.add(
-                          HistoryFilter(
-                            tautulliId: _tautulliId,
-                            userId: _userId,
-                            mediaType: _mediaType,
-                            transcodeDecision: _transcodeDecision,
-                          ),
-                        );
-                        return _refreshCompleter.future;
-                      },
-                      child: Scrollbar(
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            return index >= state.list.length
-                                ? BottomLoader()
-                                : GestureDetector(
-                                    onTap: () {
-                                      return showModalBottomSheet(
-                                        context: context,
-                                        barrierColor: Colors.black87,
-                                        backgroundColor: Colors.transparent,
-                                        isScrollControlled: true,
-                                        builder: (context) => BlocBuilder<
-                                            SettingsBloc, SettingsState>(
-                                          builder: (context, settingsState) {
-                                            return HistoryModalBottomSheet(
-                                              item: state.list[index],
-                                              server: server,
-                                              maskSensitiveInfo: settingsState
-                                                      is SettingsLoadSuccess
-                                                  ? settingsState
-                                                      .maskSensitiveInfo
-                                                  : false,
-                                            );
-                                          },
+                  return InheritedHeaders(
+                    headerMap: headerMap,
+                    child: Expanded(
+                      child: RefreshIndicator(
+                        color: Theme.of(context).accentColor,
+                        onRefresh: () {
+                          _historyBloc.add(
+                            HistoryFilter(
+                              tautulliId: _tautulliId,
+                              userId: _userId,
+                              mediaType: _mediaType,
+                              transcodeDecision: _transcodeDecision,
+                            ),
+                          );
+                          return _refreshCompleter.future;
+                        },
+                        child: Scrollbar(
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return index >= state.list.length
+                                  ? BottomLoader()
+                                  : GestureDetector(
+                                      onTap: () {
+                                        return showModalBottomSheet(
+                                          context: context,
+                                          barrierColor: Colors.black87,
+                                          backgroundColor: Colors.transparent,
+                                          isScrollControlled: true,
+                                          builder: (context) => BlocBuilder<
+                                              SettingsBloc, SettingsState>(
+                                            builder: (context, settingsState) {
+                                              return HistoryModalBottomSheet(
+                                                item: state.list[index],
+                                                server: server,
+                                                maskSensitiveInfo: settingsState
+                                                        is SettingsLoadSuccess
+                                                    ? settingsState
+                                                        .maskSensitiveInfo
+                                                    : false,
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      child: PosterCard(
+                                        item: state.list[index],
+                                        details: HistoryDetails(
+                                          historyItem: state.list[index],
+                                          server: server,
+                                          maskSensitiveInfo: _maskSensitiveInfo,
                                         ),
-                                      );
-                                    },
-                                    child: PosterCard(
-                                      item: state.list[index],
-                                      details: HistoryDetails(
-                                        historyItem: state.list[index],
-                                        server: server,
-                                        maskSensitiveInfo: _maskSensitiveInfo,
                                       ),
-                                    ),
-                                  );
-                          },
-                          itemCount: state.hasReachedMax
-                              ? state.list.length
-                              : state.list.length + 1,
-                          controller: _scrollController,
+                                    );
+                            },
+                            itemCount: state.hasReachedMax
+                                ? state.list.length
+                                : state.list.length + 1,
+                            controller: _scrollController,
+                          ),
                         ),
                       ),
                     ),

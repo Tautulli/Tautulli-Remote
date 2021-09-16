@@ -9,11 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/asset_mapper_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/icon_card.dart';
+import '../../../../core/widgets/inherited_headers.dart';
 import '../../../../core/widgets/inner_drawer_scaffold.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart' as di;
@@ -53,6 +55,7 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
   String _tautulliId;
   String _orderColumn;
   String _orderDir;
+  Map<String, String> headerMap = {};
 
   @override
   void initState() {
@@ -71,6 +74,11 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
         for (Server server in settingsState.serverList) {
           if (server.tautulliId == settingsState.lastSelectedServer) {
             lastSelectedServer = settingsState.lastSelectedServer;
+
+            for (CustomHeaderModel header in server.customHeaders) {
+              headerMap[header.key] = header.value;
+            }
+
             break;
           }
         }
@@ -83,6 +91,10 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
       } else if (settingsState.serverList.isNotEmpty) {
         setState(() {
           _tautulliId = settingsState.serverList[0].tautulliId;
+          for (CustomHeaderModel header
+              in settingsState.serverList[0].customHeaders) {
+            headerMap[header.key] = header.value;
+          }
         });
       } else {
         setState(() {
@@ -132,8 +144,17 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
                       }).toList(),
                       onChanged: (value) {
                         if (value != _tautulliId) {
+                          final server = state.serverList.firstWhere(
+                              (server) => server.tautulliId == value);
+                          Map<String, String> newHeaderMap = {};
+                          for (CustomHeaderModel header
+                              in server.customHeaders) {
+                            newHeaderMap[header.key] = header.value;
+                          }
+
                           setState(() {
                             _tautulliId = value;
+                            headerMap = newHeaderMap;
                           });
                           _settingsBloc.add(
                             SettingsUpdateLastSelectedServer(
@@ -165,62 +186,66 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
             builder: (context, state) {
               if (state is LibrariesSuccess) {
                 if (state.librariesList.isNotEmpty) {
-                  return Expanded(
-                    child: RefreshIndicator(
-                      color: Theme.of(context).accentColor,
-                      onRefresh: () {
-                        _librariesBloc.add(
-                          LibrariesFilter(
-                            tautulliId: _tautulliId,
-                            orderColumn: _orderColumn,
-                            orderDir: _orderDir,
-                          ),
-                        );
-                        return _refreshCompleter.future;
-                      },
-                      child: Scrollbar(
-                        child: ListView.builder(
-                          itemCount: state.librariesList.length,
-                          itemBuilder: (context, index) {
-                            final heroTag = UniqueKey();
+                  return InheritedHeaders(
+                    headerMap: headerMap,
+                    child: Expanded(
+                      child: RefreshIndicator(
+                        color: Theme.of(context).accentColor,
+                        onRefresh: () {
+                          _librariesBloc.add(
+                            LibrariesFilter(
+                              tautulliId: _tautulliId,
+                              orderColumn: _orderColumn,
+                              orderDir: _orderDir,
+                            ),
+                          );
+                          return _refreshCompleter.future;
+                        },
+                        child: Scrollbar(
+                          child: ListView.builder(
+                            itemCount: state.librariesList.length,
+                            itemBuilder: (context, index) {
+                              final heroTag = UniqueKey();
 
-                            Library library = state.librariesList[index];
-                            return GestureDetector(
-                              onTap: () {
-                                if (library.sectionType != 'live') {
-                                  return Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => LibraryDetailsPage(
-                                        library: library,
-                                        sectionType: library.sectionType,
-                                        heroTag: heroTag,
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: IconCard(
-                                localIconImagePath:
-                                    AssetMapperHelper.mapLibraryToPath(
-                                        library.sectionType),
-                                iconImageUrl: library.iconUrl,
-                                iconColor: TautulliColorPalette.not_white,
-                                backgroundImage: library.sectionType != 'live'
-                                    ? Image(
-                                        image: CachedNetworkImageProvider(
-                                          library.backgroundUrl,
+                              Library library = state.librariesList[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  if (library.sectionType != 'live') {
+                                    return Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            LibraryDetailsPage(
+                                          library: library,
+                                          sectionType: library.sectionType,
+                                          heroTag: heroTag,
                                         ),
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        'assets/images/livetv_fallback.png',
-                                        fit: BoxFit.cover,
                                       ),
-                                details: LibraryDetails(library: library),
-                                heroTag: heroTag,
-                              ),
-                            );
-                          },
+                                    );
+                                  }
+                                },
+                                child: IconCard(
+                                  localIconImagePath:
+                                      AssetMapperHelper.mapLibraryToPath(
+                                          library.sectionType),
+                                  iconImageUrl: library.iconUrl,
+                                  iconColor: TautulliColorPalette.not_white,
+                                  backgroundImage: library.sectionType != 'live'
+                                      ? Image(
+                                          image: CachedNetworkImageProvider(
+                                              library.backgroundUrl,
+                                              headers: headerMap),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          'assets/images/livetv_fallback.png',
+                                          fit: BoxFit.cover,
+                                        ),
+                                  details: LibraryDetails(library: library),
+                                  heroTag: heroTag,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),

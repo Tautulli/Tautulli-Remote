@@ -10,11 +10,13 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/failure_mapper_helper.dart';
 import '../../../../core/widgets/error_message.dart';
+import '../../../../core/widgets/inherited_headers.dart';
 import '../../../../core/widgets/inner_drawer_scaffold.dart';
 import '../../../../core/widgets/server_header.dart';
 import '../../../../injection_container.dart';
@@ -186,6 +188,8 @@ class _ActivityPageContentState extends State<ActivityPageContent>
                         : _buildSingleServerActivity(
                             activityMap: state.activityMap,
                             timeFormat: settingsState.serverList[0].timeFormat,
+                            headerList:
+                                settingsState.serverList[0].customHeaders,
                           ),
                   );
                 } else {
@@ -220,11 +224,17 @@ class _ActivityPageContentState extends State<ActivityPageContent>
 Widget _buildSingleServerActivity({
   @required Map<String, Map<String, Object>> activityMap,
   @required String timeFormat,
+  List<CustomHeaderModel> headerList = const [],
 }) {
   Map<String, Map<String, Object>> map = activityMap;
   List mapKeys = map.keys.toList();
   List<ActivityItem> activityList = map[mapKeys[0]]['activityList'];
   Map bandwidthMap = map[mapKeys[0]]['bandwidth'];
+  Map<String, String> headerMap = {};
+
+  for (CustomHeaderModel header in headerList) {
+    headerMap[header.key] = header.value;
+  }
 
   if (activityList.isEmpty) {
     return LayoutBuilder(
@@ -249,12 +259,15 @@ Widget _buildSingleServerActivity({
 
   for (ActivityItem activityItem in activityList) {
     serverActivityList.add(
-      ActivityCard(
-        activityMap: activityMap,
-        index: activityList.indexOf(activityItem),
-        tautulliId: mapKeys[0],
-        timeFormat: timeFormat,
-        slidableController: _slidableController,
+      InheritedHeaders(
+        headerMap: headerMap,
+        child: ActivityCard(
+          activityMap: activityMap,
+          index: activityList.indexOf(activityItem),
+          tautulliId: mapKeys[0],
+          timeFormat: timeFormat,
+          slidableController: _slidableController,
+        ),
       ),
     );
   }
@@ -300,6 +313,14 @@ Widget _buildMultiserverActivity({
     tautulliId = serverId;
     List activityList = serverData['activityList'];
     List<Widget> serverActivityList = [];
+    Map<String, String> headerMap = {};
+
+    List<CustomHeaderModel> headerList = serverList
+        .firstWhere((server) => server.tautulliId == tautulliId)
+        .customHeaders;
+    for (CustomHeaderModel header in headerList) {
+      headerMap[header.key] = header.value;
+    }
 
     if (serverData['loadingState'] == ActivityLoadingState.inProgress) {
       if (serverData['failure'] == null) {
@@ -311,14 +332,17 @@ Widget _buildMultiserverActivity({
         } else {
           for (ActivityItem activityItem in activityList) {
             serverActivityList.add(
-              ActivityCard(
-                activityMap: activityMap,
-                index: activityList.indexOf(activityItem),
-                tautulliId: tautulliId,
-                timeFormat: serverList
-                    .firstWhere((server) => server.tautulliId == tautulliId)
-                    .timeFormat,
-                slidableController: _slidableController,
+              InheritedHeaders(
+                headerMap: headerMap,
+                child: ActivityCard(
+                  activityMap: activityMap,
+                  index: activityList.indexOf(activityItem),
+                  tautulliId: tautulliId,
+                  timeFormat: serverList
+                      .firstWhere((server) => server.tautulliId == tautulliId)
+                      .timeFormat,
+                  slidableController: _slidableController,
+                ),
               ),
             );
           }
@@ -337,14 +361,17 @@ Widget _buildMultiserverActivity({
       if (activityList.isNotEmpty) {
         for (ActivityItem activityItem in activityList) {
           serverActivityList.add(
-            ActivityCard(
-              activityMap: activityMap,
-              index: activityList.indexOf(activityItem),
-              tautulliId: tautulliId,
-              timeFormat: serverList
-                  .firstWhere((server) => server.tautulliId == tautulliId)
-                  .timeFormat,
-              slidableController: _slidableController,
+            InheritedHeaders(
+              headerMap: headerMap,
+              child: ActivityCard(
+                activityMap: activityMap,
+                index: activityList.indexOf(activityItem),
+                tautulliId: tautulliId,
+                timeFormat: serverList
+                    .firstWhere((server) => server.tautulliId == tautulliId)
+                    .timeFormat,
+                slidableController: _slidableController,
+              ),
             ),
           );
         }

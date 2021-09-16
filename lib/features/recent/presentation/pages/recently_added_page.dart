@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/error_message.dart';
+import '../../../../core/widgets/inherited_headers.dart';
 import '../../../../core/widgets/inner_drawer_scaffold.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
@@ -53,6 +55,7 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
   RecentlyAddedBloc _recentlyAddedBloc;
   String _tautulliId;
   String _mediaType = 'all';
+  Map<String, String> headerMap = {};
 
   @override
   void initState() {
@@ -72,6 +75,11 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
         for (Server server in settingsState.serverList) {
           if (server.tautulliId == settingsState.lastSelectedServer) {
             lastSelectedServer = settingsState.lastSelectedServer;
+
+            for (CustomHeaderModel header in server.customHeaders) {
+              headerMap[header.key] = header.value;
+            }
+
             break;
           }
         }
@@ -84,6 +92,10 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
       } else if (settingsState.serverList.isNotEmpty) {
         setState(() {
           _tautulliId = settingsState.serverList[0].tautulliId;
+          for (CustomHeaderModel header
+              in settingsState.serverList[0].customHeaders) {
+            headerMap[header.key] = header.value;
+          }
         });
       } else {
         _tautulliId = null;
@@ -127,9 +139,18 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
                       }).toList(),
                       onChanged: (value) {
                         if (value != _tautulliId) {
+                          final server = state.serverList.firstWhere(
+                              (server) => server.tautulliId == value);
+                          Map<String, String> newHeaderMap = {};
+                          for (CustomHeaderModel header
+                              in server.customHeaders) {
+                            newHeaderMap[header.key] = header.value;
+                          }
+
                           setState(() {
                             _tautulliId = value;
                             // _mediaType = 'all';
+                            headerMap = newHeaderMap;
                           });
                           _settingsBloc.add(
                             SettingsUpdateLastSelectedServer(
@@ -160,65 +181,68 @@ class _RecentlyAddedPageContentState extends State<RecentlyAddedPageContent> {
             builder: (context, state) {
               if (state is RecentlyAddedSuccess) {
                 if (state.list.isNotEmpty) {
-                  return Expanded(
-                    child: RefreshIndicator(
-                      color: Theme.of(context).accentColor,
-                      onRefresh: () {
-                        _recentlyAddedBloc.add(
-                          RecentlyAddedFilter(
-                            tautulliId: _tautulliId,
-                            mediaType: _mediaType,
-                          ),
-                        );
-                        return _refreshCompleter.future;
-                      },
-                      child: Scrollbar(
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            final heroTag = UniqueKey();
+                  return InheritedHeaders(
+                    headerMap: headerMap,
+                    child: Expanded(
+                      child: RefreshIndicator(
+                        color: Theme.of(context).accentColor,
+                        onRefresh: () {
+                          _recentlyAddedBloc.add(
+                            RecentlyAddedFilter(
+                              tautulliId: _tautulliId,
+                              mediaType: _mediaType,
+                            ),
+                          );
+                          return _refreshCompleter.future;
+                        },
+                        child: Scrollbar(
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              final heroTag = UniqueKey();
 
-                            return index >= state.list.length
-                                ? BottomLoader()
-                                : GestureDetector(
-                                    onTap: () {
-                                      final recentItem = state.list[index];
+                              return index >= state.list.length
+                                  ? BottomLoader()
+                                  : GestureDetector(
+                                      onTap: () {
+                                        final recentItem = state.list[index];
 
-                                      MediaItem mediaItem = MediaItem(
-                                        grandparentTitle:
-                                            recentItem.grandparentTitle,
-                                        parentMediaIndex:
-                                            recentItem.parentMediaIndex,
-                                        mediaIndex: recentItem.mediaIndex,
-                                        mediaType: recentItem.mediaType,
-                                        parentTitle: recentItem.parentTitle,
-                                        posterUrl: recentItem.posterUrl,
-                                        ratingKey: recentItem.ratingKey,
-                                        title: recentItem.title,
-                                        year: recentItem.year,
-                                      );
+                                        MediaItem mediaItem = MediaItem(
+                                          grandparentTitle:
+                                              recentItem.grandparentTitle,
+                                          parentMediaIndex:
+                                              recentItem.parentMediaIndex,
+                                          mediaIndex: recentItem.mediaIndex,
+                                          mediaType: recentItem.mediaType,
+                                          parentTitle: recentItem.parentTitle,
+                                          posterUrl: recentItem.posterUrl,
+                                          ratingKey: recentItem.ratingKey,
+                                          title: recentItem.title,
+                                          year: recentItem.year,
+                                        );
 
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => MediaItemPage(
-                                            item: mediaItem,
-                                            heroTag: heroTag,
-                                            enableNavOptions: true,
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => MediaItemPage(
+                                              item: mediaItem,
+                                              heroTag: heroTag,
+                                              enableNavOptions: true,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                    child: PosterCard(
-                                      heroTag: heroTag,
-                                      item: state.list[index],
-                                      details: RecentlyAddedDetails(
-                                          recentItem: state.list[index]),
-                                    ),
-                                  );
-                          },
-                          itemCount: state.hasReachedMax
-                              ? state.list.length
-                              : state.list.length + 1,
-                          controller: _scrollController,
+                                        );
+                                      },
+                                      child: PosterCard(
+                                        heroTag: heroTag,
+                                        item: state.list[index],
+                                        details: RecentlyAddedDetails(
+                                            recentItem: state.list[index]),
+                                      ),
+                                    );
+                            },
+                            itemCount: state.hasReachedMax
+                                ? state.list.length
+                                : state.list.length + 1,
+                            controller: _scrollController,
+                          ),
                         ),
                       ),
                     ),

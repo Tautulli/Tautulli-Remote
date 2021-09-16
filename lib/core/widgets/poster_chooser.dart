@@ -5,6 +5,8 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import 'inherited_headers.dart';
+
 class PosterChooser extends StatelessWidget {
   final dynamic item;
 
@@ -15,21 +17,29 @@ class PosterChooser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, String> headerMap = InheritedHeaders.of(context) != null
+        ? InheritedHeaders.of(context).headerMap
+        : {};
+
     return ['artist', 'album', 'track', 'playlist'].contains(item.mediaType)
         ? _PosterSquare(
             url: item.posterUrl,
+            headerMap: headerMap,
           )
         : _PosterGeneral(
             url: item.posterUrl,
+            headerMap: headerMap,
           );
   }
 }
 
 class _PosterGeneral extends StatelessWidget {
   final String url;
+  final Map<String, String> headerMap;
 
   _PosterGeneral({
     @required this.url,
+    @required this.headerMap,
   });
 
   @override
@@ -40,7 +50,10 @@ class _PosterGeneral extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
         child: url != null
             ? Image(
-                image: CachedNetworkImageProvider(url),
+                image: CachedNetworkImageProvider(
+                  url,
+                  headers: headerMap,
+                ),
                 fit: BoxFit.cover,
               )
             : null,
@@ -51,9 +64,11 @@ class _PosterGeneral extends StatelessWidget {
 
 class _PosterSquare extends StatelessWidget {
   final String url;
+  final Map<String, String> headerMap;
 
   _PosterSquare({
     @required this.url,
+    @required this.headerMap,
   });
 
   @override
@@ -72,7 +87,10 @@ class _PosterSquare extends StatelessWidget {
                 ),
                 child: url != null
                     ? Image(
-                        image: CachedNetworkImageProvider(url),
+                        image: CachedNetworkImageProvider(
+                          url,
+                          headers: headerMap,
+                        ),
                         fit: BoxFit.cover,
                       )
                     : Container(),
@@ -81,7 +99,10 @@ class _PosterSquare extends StatelessWidget {
             Center(
               child: url != null
                   ? Image(
-                      image: CachedNetworkImageProvider(url),
+                      image: CachedNetworkImageProvider(
+                        url,
+                        headers: headerMap,
+                      ),
                       fit: BoxFit.contain,
                     )
                   : Container(),

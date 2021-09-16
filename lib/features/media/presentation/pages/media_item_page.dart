@@ -9,9 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/platform_custom/platform_custom_icons.dart';
+import '../../../../core/widgets/inherited_headers.dart';
 import '../../../../core/widgets/poster_chooser.dart';
 import '../../../../injection_container.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
@@ -94,6 +96,7 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
   ChildrenMetadataBloc _childrenMetadataBloc;
   String _tautulliId;
   String _plexIdentifier;
+  Map<String, String> headerMap = {};
 
   @override
   void initState() {
@@ -113,6 +116,11 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
           if (server.tautulliId == widget.tautulliIdOverride) {
             lastSelectedServer = widget.tautulliIdOverride;
             plexIdentifier = server.plexIdentifier;
+
+            for (CustomHeaderModel header in server.customHeaders) {
+              headerMap[header.key] = header.value;
+            }
+
             break;
           }
         }
@@ -121,6 +129,11 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
           if (server.tautulliId == settingsState.lastSelectedServer) {
             lastSelectedServer = settingsState.lastSelectedServer;
             plexIdentifier = server.plexIdentifier;
+
+            for (CustomHeaderModel header in server.customHeaders) {
+              headerMap[header.key] = header.value;
+            }
+
             break;
           }
         }
@@ -135,6 +148,11 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
         setState(() {
           _tautulliId = settingsState.serverList[0].tautulliId;
           _plexIdentifier = settingsState.serverList[0].plexIdentifier;
+
+          for (CustomHeaderModel header
+              in settingsState.serverList[0].customHeaders) {
+            headerMap[header.key] = header.value;
+          }
         });
       } else {
         _tautulliId = null;
@@ -178,216 +196,226 @@ class _MediaItemPageContentState extends State<MediaItemPageContent> {
           tautulliIdOverride: widget.tautulliIdOverride,
         ),
       ),
-      body: Stack(
-        children: [
-          //* Background image
-          ClipRect(
-            child: Container(
-              // Height is 185 to provide 10 pixels background to show
-              // behind the rounded corners
-              height: 195 +
-                  10 +
-                  MediaQuery.of(context).padding.top -
-                  AppBar().preferredSize.height,
-              width: MediaQuery.of(context).size.width,
-              child: ImageFiltered(
-                imageFilter: ImageFilter.blur(
-                  sigmaX: 25,
-                  sigmaY: 25,
-                ),
-                child: BlocBuilder<MetadataBloc, MetadataState>(
-                  builder: (context, state) {
-                    if (widget.item.posterUrl != null) {
-                      return Image(
-                        image: CachedNetworkImageProvider(
-                          widget.item.posterUrl,
-                        ),
-                        fit: BoxFit.cover,
-                      );
-                    }
-                    if (state is MetadataSuccess) {
-                      return Image(
-                        image: CachedNetworkImageProvider(
-                          state.metadata.mediaType == 'episode'
-                              ? state.metadata.grandparentPosterUrl
-                              : state.metadata.posterUrl,
-                        ),
-                        fit: BoxFit.cover,
-                      );
-                    }
-                    return const SizedBox(height: 0, width: 0);
-                  },
+      body: InheritedHeaders(
+        headerMap: headerMap,
+        child: Stack(
+          children: [
+            //* Background image
+            ClipRect(
+              child: Container(
+                // Height is 185 to provide 10 pixels background to show
+                // behind the rounded corners
+                height: 195 +
+                    10 +
+                    MediaQuery.of(context).padding.top -
+                    AppBar().preferredSize.height,
+                width: MediaQuery.of(context).size.width,
+                child: ImageFiltered(
+                  imageFilter: ImageFilter.blur(
+                    sigmaX: 25,
+                    sigmaY: 25,
+                  ),
+                  child: BlocBuilder<MetadataBloc, MetadataState>(
+                    builder: (context, state) {
+                      if (widget.item.posterUrl != null) {
+                        return Image(
+                          image: CachedNetworkImageProvider(
+                            widget.item.posterUrl,
+                            headers: headerMap,
+                          ),
+                          fit: BoxFit.cover,
+                        );
+                      }
+                      if (state is MetadataSuccess) {
+                        return Image(
+                          image: CachedNetworkImageProvider(
+                            state.metadata.mediaType == 'episode'
+                                ? state.metadata.grandparentPosterUrl
+                                : state.metadata.posterUrl,
+                            headers: headerMap,
+                          ),
+                          fit: BoxFit.cover,
+                        );
+                      }
+                      return const SizedBox(height: 0, width: 0);
+                    },
+                  ),
                 ),
               ),
             ),
-          ),
-          //* Main body
-          Column(
-            children: [
-              // Empty space for background to show
-              SizedBox(
-                height: 195 +
-                    MediaQuery.of(context).padding.top -
-                    AppBar().preferredSize.height,
-              ),
-              //* Content area
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
-                  child: DecoratedBox(
-                    decoration: const BoxDecoration(
-                      color: PlexColorPalette.shark,
+            //* Main body
+            Column(
+              children: [
+                // Empty space for background to show
+                SizedBox(
+                  height: 195 +
+                      MediaQuery.of(context).padding.top -
+                      AppBar().preferredSize.height,
+                ),
+                //* Content area
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
                     ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            //* Title section
-                            Expanded(
-                              child: Container(
-                                height: 120,
-                                // Make room for the poster
-                                padding: const EdgeInsets.only(
-                                  left: 137.0 + 8.0,
-                                  top: 4,
-                                  right: 4,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    BlocProvider.value(
-                                      value: _metadataBloc,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          MediaItemH1(
-                                            item: widget.item,
-                                          ),
-                                          MediaItemH2(
-                                            item: widget.item,
-                                          ),
-                                          MediaItemH3(
-                                            item: widget.item,
-                                          ),
-                                        ],
+                    child: DecoratedBox(
+                      decoration: const BoxDecoration(
+                        color: PlexColorPalette.shark,
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              //* Title section
+                              Expanded(
+                                child: Container(
+                                  height: 120,
+                                  // Make room for the poster
+                                  padding: const EdgeInsets.only(
+                                    left: 137.0 + 8.0,
+                                    top: 4,
+                                    right: 4,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      BlocProvider.value(
+                                        value: _metadataBloc,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            MediaItemH1(
+                                              item: widget.item,
+                                            ),
+                                            MediaItemH2(
+                                              item: widget.item,
+                                            ),
+                                            MediaItemH3(
+                                              item: widget.item,
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Expanded(
-                          child: BlocBuilder<MetadataBloc, MetadataState>(
-                            builder: (context, state) {
-                              if (widget.item.mediaType != null) {
-                                return MediaTabController(
-                                  length: ['show', 'season', 'artist', 'album']
-                                          .contains(widget.item.mediaType)
-                                      ? 3
-                                      : [
-                                          'photo',
-                                          'clip',
-                                        ].contains(widget.item.mediaType)
-                                          ? 1
-                                          : 2,
-                                  item: widget.item,
-                                  mediaType: widget.item.mediaType,
-                                );
-                              } else {
-                                if (state is MetadataInProgress) {
-                                  return MediaTabController(
-                                    length: 3,
-                                    item: widget.item,
-                                    mediaType: widget.item.mediaType,
-                                  );
-                                }
-                                if (state is MetadataFailure) {
-                                  return MediaTabController(
-                                    length: 2,
-                                    item: widget.item,
-                                    metadataFailed: true,
-                                  );
-                                }
-                                if (state is MetadataSuccess) {
+                            ],
+                          ),
+                          Expanded(
+                            child: BlocBuilder<MetadataBloc, MetadataState>(
+                              builder: (context, state) {
+                                if (widget.item.mediaType != null) {
                                   return MediaTabController(
                                     length: [
                                       'show',
                                       'season',
                                       'artist',
-                                      'album',
-                                    ].contains(state.metadata.mediaType)
+                                      'album'
+                                    ].contains(widget.item.mediaType)
                                         ? 3
                                         : [
                                             'photo',
                                             'clip',
-                                          ].contains(state.metadata.mediaType)
+                                          ].contains(widget.item.mediaType)
                                             ? 1
                                             : 2,
                                     item: widget.item,
-                                    mediaType: state.metadata.mediaType,
+                                    mediaType: widget.item.mediaType,
                                   );
+                                } else {
+                                  if (state is MetadataInProgress) {
+                                    return MediaTabController(
+                                      length: 3,
+                                      item: widget.item,
+                                      mediaType: widget.item.mediaType,
+                                    );
+                                  }
+                                  if (state is MetadataFailure) {
+                                    return MediaTabController(
+                                      length: 2,
+                                      item: widget.item,
+                                      metadataFailed: true,
+                                    );
+                                  }
+                                  if (state is MetadataSuccess) {
+                                    return MediaTabController(
+                                      length: [
+                                        'show',
+                                        'season',
+                                        'artist',
+                                        'album',
+                                      ].contains(state.metadata.mediaType)
+                                          ? 3
+                                          : [
+                                              'photo',
+                                              'clip',
+                                            ].contains(state.metadata.mediaType)
+                                              ? 1
+                                              : 2,
+                                      item: widget.item,
+                                      mediaType: state.metadata.mediaType,
+                                    );
+                                  }
                                 }
-                              }
-                              return const SizedBox(height: 0, width: 0);
-                            },
+                                return const SizedBox(height: 0, width: 0);
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          //* Poster
-          BlocBuilder<MetadataBloc, MetadataState>(
-            builder: (context, state) {
-              if (widget.item.posterUrl != null) {
-                return MediaPosterLoader(
-                  item: widget.item,
-                  syncedMediaType: widget.syncedMediaType,
-                  heroTag: widget.heroTag,
-                  child: PosterChooser(item: widget.item),
-                );
-              }
-              if (state is MetadataInProgress) {
-                return MediaPosterLoader(
-                  item: widget.item,
-                  syncedMediaType: widget.syncedMediaType,
-                  heroTag: widget.heroTag,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).accentColor,
+              ],
+            ),
+            //* Poster
+            BlocBuilder<MetadataBloc, MetadataState>(
+              builder: (context, state) {
+                if (widget.item.posterUrl != null) {
+                  return MediaPosterLoader(
+                    item: widget.item,
+                    syncedMediaType: widget.syncedMediaType,
+                    heroTag: widget.heroTag,
+                    child: PosterChooser(item: widget.item),
+                  );
+                }
+                if (state is MetadataInProgress) {
+                  return MediaPosterLoader(
+                    item: widget.item,
+                    syncedMediaType: widget.syncedMediaType,
+                    heroTag: widget.heroTag,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).accentColor,
+                      ),
                     ),
-                  ),
-                );
-              }
-              if (state is MetadataSuccess) {
-                final item = MediaItem(
-                  posterUrl: state.metadata.mediaType == 'episode'
-                      ? state.metadata.grandparentPosterUrl
-                      : state.metadata.posterUrl,
-                );
+                  );
+                }
+                if (state is MetadataSuccess) {
+                  final item = MediaItem(
+                    posterUrl: state.metadata.mediaType == 'episode'
+                        ? state.metadata.grandparentPosterUrl
+                        : state.metadata.posterUrl,
+                  );
 
-                return MediaPosterLoader(
-                  item: widget.item,
-                  syncedMediaType: widget.syncedMediaType,
-                  heroTag: widget.heroTag,
-                  child: PosterChooser(item: item),
-                );
-              }
-              return const SizedBox(height: 0, width: 0);
-            },
-          ),
-        ],
+                  return MediaPosterLoader(
+                    item: widget.item,
+                    syncedMediaType: widget.syncedMediaType,
+                    heroTag: widget.heroTag,
+                    child: PosterChooser(item: item),
+                  );
+                }
+                return const SizedBox(height: 0, width: 0);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

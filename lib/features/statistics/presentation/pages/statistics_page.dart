@@ -9,11 +9,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:validators/validators.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/asset_mapper_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/error_message.dart';
 import '../../../../core/widgets/icon_card.dart';
+import '../../../../core/widgets/inherited_headers.dart';
 import '../../../../core/widgets/inner_drawer_scaffold.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../../core/widgets/server_header.dart';
@@ -62,6 +64,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
   String _statsType;
   int _timeRange;
   bool _maskSensitiveInfo;
+  Map<String, String> headerMap = {};
 
   @override
   void initState() {
@@ -82,6 +85,11 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
         for (Server server in settingsState.serverList) {
           if (server.tautulliId == settingsState.lastSelectedServer) {
             lastSelectedServer = settingsState.lastSelectedServer;
+
+            for (CustomHeaderModel header in server.customHeaders) {
+              headerMap[header.key] = header.value;
+            }
+
             break;
           }
         }
@@ -94,6 +102,10 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
       } else if (settingsState.serverList.isNotEmpty) {
         setState(() {
           _tautulliId = settingsState.serverList[0].tautulliId;
+          for (CustomHeaderModel header
+              in settingsState.serverList[0].customHeaders) {
+            headerMap[header.key] = header.value;
+          }
         });
       } else {
         _tautulliId = null;
@@ -141,8 +153,17 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                       }).toList(),
                       onChanged: (value) {
                         if (value != _tautulliId) {
+                          final server = state.serverList.firstWhere(
+                              (server) => server.tautulliId == value);
+                          Map<String, String> newHeaderMap = {};
+                          for (CustomHeaderModel header
+                              in server.customHeaders) {
+                            newHeaderMap[header.key] = header.value;
+                          }
+
                           setState(() {
                             _tautulliId = value;
+                            headerMap = newHeaderMap;
                           });
                           _settingsBloc.add(
                             SettingsUpdateLastSelectedServer(
@@ -176,25 +197,29 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                 List<Widget> statList = _buildStatisticList(
                   map: state.map,
                   hasReachedMaxMap: state.hasReachedMaxMap,
+                  headerMap: headerMap,
                 );
 
                 if (!state.noStats) {
-                  return Expanded(
-                    child: RefreshIndicator(
-                      color: Theme.of(context).accentColor,
-                      onRefresh: () {
-                        _statisticsBloc.add(
-                          StatisticsFilter(
-                            tautulliId: _tautulliId,
-                            statsType: _statsType,
-                            timeRange: _timeRange,
+                  return InheritedHeaders(
+                    headerMap: headerMap,
+                    child: Expanded(
+                      child: RefreshIndicator(
+                        color: Theme.of(context).accentColor,
+                        onRefresh: () {
+                          _statisticsBloc.add(
+                            StatisticsFilter(
+                              tautulliId: _tautulliId,
+                              statsType: _statsType,
+                              timeRange: _timeRange,
+                            ),
+                          );
+                          return _refreshCompleter.future;
+                        },
+                        child: Scrollbar(
+                          child: ListView(
+                            children: statList,
                           ),
-                        );
-                        return _refreshCompleter.future;
-                      },
-                      child: Scrollbar(
-                        child: ListView(
-                          children: statList,
                         ),
                       ),
                     ),
@@ -510,6 +535,7 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
   List<Widget> _buildStatisticList({
     @required Map<String, List<Statistics>> map,
     @required Map<String, bool> hasReachedMaxMap,
+    @required Map<String, String> headerMap,
   }) {
     final List keys = map.keys.toList();
     List<Widget> statList = [];
@@ -641,7 +667,10 @@ class _StatisticsPageContentState extends State<StatisticsPageContent> {
                         AssetMapperHelper.mapLibraryToPath(s.sectionType),
                     iconImageUrl: s.iconUrl,
                     backgroundImage: Image(
-                      image: CachedNetworkImageProvider(s.posterUrl),
+                      image: CachedNetworkImageProvider(
+                        s.posterUrl,
+                        headers: headerMap,
+                      ),
                     ),
                     iconColor: TautulliColorPalette.not_white,
                     details: StatisticsDetails(

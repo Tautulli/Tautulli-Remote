@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/database/domain/entities/server.dart';
 import '../../../../core/helpers/asset_mapper_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
@@ -91,6 +92,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
   SettingsBloc _settingsBloc;
   LibraryMediaBloc _libraryMediaBloc;
   String _tautulliId;
+  Map<String, String> headerMap = {};
 
   @override
   void initState() {
@@ -108,6 +110,11 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
         for (Server server in settingsState.serverList) {
           if (server.tautulliId == settingsState.lastSelectedServer) {
             lastSelectedServer = settingsState.lastSelectedServer;
+
+            for (CustomHeaderModel header in server.customHeaders) {
+              headerMap[header.key] = header.value;
+            }
+
             break;
           }
         }
@@ -120,6 +127,10 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
       } else if (settingsState.serverList.isNotEmpty) {
         setState(() {
           _tautulliId = settingsState.serverList[0].tautulliId;
+          for (CustomHeaderModel header
+              in settingsState.serverList[0].customHeaders) {
+            headerMap[header.key] = header.value;
+          }
         });
       } else {
         _tautulliId = null;
@@ -143,7 +154,11 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
         widget.backgroundUrlOverride ?? widget.library.backgroundUrl;
     bool hasNetworkImage =
         backgroundUrl != null ? backgroundUrl.startsWith('http') : false;
-    Future getColorFuture = _getColor(hasNetworkImage, backgroundUrl);
+    Future getColorFuture = _getColor(
+      hasNetworkImage,
+      backgroundUrl,
+      headerMap,
+    );
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -174,6 +189,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                           widget.backgroundUrlOverride != null
                               ? widget.backgroundUrlOverride
                               : widget.library.backgroundUrl,
+                          headers: headerMap,
                         ),
                         fit: BoxFit.cover,
                       )
@@ -393,6 +409,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                                   ? Image(
                                       image: CachedNetworkImageProvider(
                                         widget.library.iconUrl,
+                                        headers: headerMap,
                                       ),
                                       fit: BoxFit.contain,
                                     )
@@ -414,6 +431,7 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
                         child: Image(
                           image: CachedNetworkImageProvider(
                             widget.backgroundUrlOverride,
+                            headers: headerMap,
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -448,11 +466,21 @@ class _LibraryDetailsPageContentState extends State<LibraryDetailsPageContent> {
   }
 }
 
-Future<Map<String, dynamic>> _getColor(bool hasUrl, String url) async {
+Future<Map<String, dynamic>> _getColor(
+  bool hasUrl,
+  String url,
+  Map<String, String> headerMap,
+) async {
   if (hasUrl) {
-    NetworkImage backgroundImage = NetworkImage(url);
+    NetworkImage backgroundImage = NetworkImage(
+      url,
+      headers: headerMap,
+    );
     final palette = await PaletteGenerator.fromImageProvider(
-      NetworkImage(url),
+      NetworkImage(
+        url,
+        headers: headerMap,
+      ),
       maximumColorCount: 12,
     );
     return {

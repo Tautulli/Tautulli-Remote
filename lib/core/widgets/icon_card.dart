@@ -6,6 +6,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import 'inherited_headers.dart';
+
 class IconCard extends StatelessWidget {
   final String localIconImagePath;
   final String iconImageUrl;
@@ -30,6 +32,10 @@ class IconCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, String> headerMap = InheritedHeaders.of(context) != null
+        ? InheritedHeaders.of(context).headerMap
+        : {};
+
     return Card(
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4),
@@ -58,6 +64,7 @@ class IconCard extends StatelessWidget {
                               ? Image(
                                   image: CachedNetworkImageProvider(
                                     iconImageUrl,
+                                    headers: headerMap,
                                   ),
                                   fit: BoxFit.contain,
                                 )
