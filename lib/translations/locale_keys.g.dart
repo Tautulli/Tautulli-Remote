@@ -442,4 +442,7 @@ abstract class LocaleKeys {
       'settings_header_input_header_key';
   static const settings_header_input_header_value =
       'settings_header_input_header_value';
+  static const masked_header_key = 'masked_header_key';
+  static const settings_header_delete_alert_title =
+      'settings_header_delete_alert_title';
 }
