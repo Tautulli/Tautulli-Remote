@@ -58,7 +58,12 @@ class MediaTracksTab extends StatelessWidget {
                       children: [
                         if (tracks[index].mediaIndex != null)
                           Text('${tracks[index].mediaIndex}. '),
-                        Text(tracks[index].title),
+                        Expanded(
+                          child: Text(
+                            tracks[index].title,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ],
                     ),
                   ),
