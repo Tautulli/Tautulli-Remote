@@ -92,7 +92,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future getCustomHeadersByTautulliId(String tautulliId) async {
     final String encodedHeaders =
-        await DBProvider.db.getCustomHeadersByTautulliId(tautulliId);
+        await DBProvider.db.getCustomHeadersByTautulliId(tautulliId) ?? '{}';
     final Map<String, dynamic> decodedHeaders = json.decode(encodedHeaders);
 
     final List<CustomHeaderModel> customHeaderList = [];
