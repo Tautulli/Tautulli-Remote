@@ -23,14 +23,27 @@ class HeaderTypeDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authorizationKeyExists = currentHeaders.firstWhere(
+      (header) => header.key.toLowerCase() == 'authorization',
+      orElse: () => null,
+    );
+
     return SimpleDialog(
       children: [
         ListTile(
-          leading: const FaIcon(
+          enabled: authorizationKeyExists == null,
+          leading: FaIcon(
             FontAwesomeIcons.solidAddressCard,
-            color: TautulliColorPalette.not_white,
+            color: authorizationKeyExists == null
+                ? TautulliColorPalette.not_white
+                : Colors.grey,
           ),
-          title: const Text(LocaleKeys.settings_header_basic_auth).tr(),
+          title: const Text(
+            LocaleKeys.settings_header_basic_auth,
+          ).tr(),
+          subtitle: authorizationKeyExists != null
+              ? const Text(LocaleKeys.settings_header_basic_auth_disabled).tr()
+              : null,
           onTap: () {
             Navigator.of(context).pop();
             return showDialog(

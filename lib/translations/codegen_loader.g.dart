@@ -1023,7 +1023,8 @@ static const Map<String,dynamic> en = {
   "button_register_add_header": "ADD HEADER",
   "button_settings_add_header": "Add Custom HTTP Header",
   "settings_validation_blank": "Cannot be blank",
-  "settings_validation_header_key_exists": "This header key already exists"
+  "settings_validation_header_key_exists": "This header key already exists",
+  "settings_header_basic_auth_disabled": "Authorization header exists"
 };
 static const Map<String,dynamic> es = {
   "activity_empty": "Sin reproducciones",

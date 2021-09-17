@@ -447,4 +447,6 @@ abstract class LocaleKeys {
   static const settings_validation_blank = 'settings_validation_blank';
   static const settings_validation_header_key_exists =
       'settings_validation_header_key_exists';
+  static const settings_header_basic_auth_disabled =
+      'settings_header_basic_auth_disabled';
 }
