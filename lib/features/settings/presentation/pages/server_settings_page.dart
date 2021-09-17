@@ -185,10 +185,7 @@ class ServerSettingsPage extends StatelessWidget {
                     onTap: () {
                       _buildSecondaryConnectionAddressSettingsDialog(
                         context: context,
-                        id: server.id,
-                        plexName: plexName,
-                        secondaryConnectionAddress:
-                            server.secondaryConnectionAddress,
+                        server: server,
                         controller: _secondaryConnectionAddressController,
                         settingsBloc: settingsBloc,
                       );
@@ -498,9 +495,7 @@ Future _buildPrimaryConnectionAddressSettingsDialog({
 
 Future _buildSecondaryConnectionAddressSettingsDialog({
   @required BuildContext context,
-  @required int id,
-  @required String plexName,
-  @required String secondaryConnectionAddress,
+  @required ServerModel server,
   @required TextEditingController controller,
   @required SettingsBloc settingsBloc,
 }) {
@@ -509,8 +504,8 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
     builder: (context) {
       final _secondaryConnectionFormKey = GlobalKey<FormState>();
 
-      if (secondaryConnectionAddress != null) {
-        controller.text = secondaryConnectionAddress;
+      if (server.secondaryConnectionAddress != null) {
+        controller.text = server.secondaryConnectionAddress;
       }
       return AlertDialog(
         title: const Text(LocaleKeys.settings_secondary_connection_dialog_title)
@@ -529,6 +524,7 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
                 protocols: ['http', 'https'],
                 requireProtocol: true,
               );
+              print(validUrl);
               if (isNotEmpty(controller.text) && validUrl == false) {
                 return LocaleKeys.settings_connection_address_validation_message
                     .tr();
@@ -548,10 +544,19 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
             child: const Text(LocaleKeys.button_save).tr(),
             onPressed: () {
               if (_secondaryConnectionFormKey.currentState.validate()) {
+                if (isEmpty(controller.text) && !server.primaryActive) {
+                  settingsBloc.add(
+                    SettingsUpdatePrimaryActive(
+                      tautulliId: server.tautulliId,
+                      primaryActive: true,
+                    ),
+                  );
+                }
+
                 settingsBloc.add(
                   SettingsUpdateSecondaryConnection(
-                    id: id,
-                    plexName: plexName,
+                    id: server.id,
+                    plexName: server.plexName,
                     secondaryConnectionAddress: controller.text,
                   ),
                 );
