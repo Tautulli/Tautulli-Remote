@@ -46,13 +46,13 @@ class _HeaderConfigDialogState extends State<HeaderConfigDialog> {
     if (widget.existingKey != null && widget.existingValue != null) {
       _keyController.text = widget.existingKey;
       _valueController.text = widget.existingValue;
+    }
 
-      if (widget.currentHeaders.isNotEmpty) {
-        headerValidationList = [...widget.currentHeaders];
-        headerValidationList.removeWhere(
-          (header) => header.key == widget.existingKey,
-        );
-      }
+    if (widget.currentHeaders.isNotEmpty) {
+      headerValidationList = [...widget.currentHeaders];
+      headerValidationList.removeWhere(
+        (header) => header.key == widget.existingKey,
+      );
     }
 
     return AlertDialog(
@@ -94,6 +94,7 @@ class _HeaderConfigDialogState extends State<HeaderConfigDialog> {
                   (header) => header.key == value.trim(),
                   orElse: () => null,
                 );
+                print(keyExists);
                 if (keyExists != null) {
                   return LocaleKeys.settings_validation_header_key_exists.tr();
                 }
