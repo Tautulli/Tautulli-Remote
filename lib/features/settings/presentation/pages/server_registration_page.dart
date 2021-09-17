@@ -346,6 +346,8 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                                                         exisitngKey: header.key,
                                                         existingValue:
                                                             header.value,
+                                                        currentHeaders:
+                                                            headerList,
                                                       );
                                                     },
                                                   );
@@ -359,6 +361,8 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                                                       exisitngKey: header.key,
                                                       existingValue:
                                                           header.value,
+                                                      currentHeaders:
+                                                          headerList,
                                                     );
                                                   },
                                                 );

@@ -312,6 +312,7 @@ class ServerSettingsPage extends StatelessWidget {
                                           tautulliId: server.tautulliId,
                                           exisitngKey: header.key,
                                           existingValue: header.value,
+                                          currentHeaders: server.customHeaders,
                                         );
                                       },
                                     );
@@ -324,6 +325,7 @@ class ServerSettingsPage extends StatelessWidget {
                                         tautulliId: server.tautulliId,
                                         exisitngKey: header.key,
                                         existingValue: header.value,
+                                        currentHeaders: server.customHeaders,
                                       );
                                     },
                                   );
