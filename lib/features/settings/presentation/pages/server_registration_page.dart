@@ -332,7 +332,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                                                       return HeaderConfigDialog(
                                                         registerDevice: true,
                                                         basicAuth: true,
-                                                        exisitngKey: creds[0],
+                                                        existingKey: creds[0],
                                                         existingValue: creds[1],
                                                       );
                                                     },
@@ -343,7 +343,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                                                     builder: (context) {
                                                       return HeaderConfigDialog(
                                                         registerDevice: true,
-                                                        exisitngKey: header.key,
+                                                        existingKey: header.key,
                                                         existingValue:
                                                             header.value,
                                                         currentHeaders:
@@ -358,7 +358,7 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                                                   builder: (context) {
                                                     return HeaderConfigDialog(
                                                       registerDevice: true,
-                                                      exisitngKey: header.key,
+                                                      existingKey: header.key,
                                                       existingValue:
                                                           header.value,
                                                       currentHeaders:

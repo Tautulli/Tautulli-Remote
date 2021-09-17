@@ -16,7 +16,7 @@ class HeaderConfigDialog extends StatefulWidget {
   final String tautulliId;
   final bool basicAuth;
   final bool registerDevice;
-  final String exisitngKey;
+  final String existingKey;
   final String existingValue;
   final List<CustomHeaderModel> currentHeaders;
 
@@ -25,7 +25,7 @@ class HeaderConfigDialog extends StatefulWidget {
     this.tautulliId,
     this.basicAuth = false,
     this.registerDevice = false,
-    this.exisitngKey,
+    this.existingKey,
     this.existingValue,
     this.currentHeaders = const [],
   }) : super(key: key);
@@ -35,19 +35,22 @@ class HeaderConfigDialog extends StatefulWidget {
 }
 
 class _HeaderConfigDialogState extends State<HeaderConfigDialog> {
+  List<CustomHeaderModel> headerValidationList = [];
+
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     final _keyController = TextEditingController();
     final _valueController = TextEditingController();
 
-    if (widget.exisitngKey != null && widget.existingValue != null) {
-      _keyController.text = widget.exisitngKey;
+    if (widget.existingKey != null && widget.existingValue != null) {
+      _keyController.text = widget.existingKey;
       _valueController.text = widget.existingValue;
 
       if (widget.currentHeaders.isNotEmpty) {
-        widget.currentHeaders.removeWhere(
-          (header) => header.key == widget.exisitngKey,
+        headerValidationList = [...widget.currentHeaders];
+        headerValidationList.removeWhere(
+          (header) => header.key == widget.existingKey,
         );
       }
     }
@@ -87,9 +90,10 @@ class _HeaderConfigDialogState extends State<HeaderConfigDialog> {
                 if (isBlank(value)) {
                   return LocaleKeys.settings_validation_blank.tr();
                 }
-                final keyExists = widget.currentHeaders.firstWhere(
-                    (header) => header.key == value.trim(),
-                    orElse: () => null);
+                final keyExists = headerValidationList.firstWhere(
+                  (header) => header.key == value.trim(),
+                  orElse: () => null,
+                );
                 if (keyExists != null) {
                   return LocaleKeys.settings_validation_header_key_exists.tr();
                 }
@@ -117,7 +121,7 @@ class _HeaderConfigDialogState extends State<HeaderConfigDialog> {
       actions: <Widget>[
         TextButton(
           child: Text(
-            widget.exisitngKey != null
+            widget.existingKey != null
                 ? LocaleKeys.button_close
                 : LocaleKeys.button_cancel,
           ).tr(),
@@ -136,7 +140,7 @@ class _HeaderConfigDialogState extends State<HeaderConfigDialog> {
                         key: _keyController.value.text.trim(),
                         value: _valueController.value.text.trim(),
                         basicAuth: widget.basicAuth,
-                        previousKey: widget.exisitngKey,
+                        previousKey: widget.existingKey,
                       ),
                     );
               } else {
@@ -145,7 +149,7 @@ class _HeaderConfigDialogState extends State<HeaderConfigDialog> {
                         key: _keyController.value.text.trim(),
                         value: _valueController.value.text.trim(),
                         basicAuth: widget.basicAuth,
-                        previousKey: widget.exisitngKey,
+                        previousKey: widget.existingKey,
                       ),
                     );
               }

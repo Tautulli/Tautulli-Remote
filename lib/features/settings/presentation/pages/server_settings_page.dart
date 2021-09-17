@@ -296,7 +296,7 @@ class ServerSettingsPage extends StatelessWidget {
                                         return HeaderConfigDialog(
                                           tautulliId: server.tautulliId,
                                           basicAuth: true,
-                                          exisitngKey: creds[0],
+                                          existingKey: creds[0],
                                           existingValue: creds[1],
                                         );
                                       },
@@ -307,7 +307,7 @@ class ServerSettingsPage extends StatelessWidget {
                                       builder: (context) {
                                         return HeaderConfigDialog(
                                           tautulliId: server.tautulliId,
-                                          exisitngKey: header.key,
+                                          existingKey: header.key,
                                           existingValue: header.value,
                                           currentHeaders: server.customHeaders,
                                         );
@@ -320,7 +320,7 @@ class ServerSettingsPage extends StatelessWidget {
                                     builder: (context) {
                                       return HeaderConfigDialog(
                                         tautulliId: server.tautulliId,
-                                        exisitngKey: header.key,
+                                        existingKey: header.key,
                                         existingValue: header.value,
                                         currentHeaders: server.customHeaders,
                                       );
@@ -524,7 +524,6 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
                 protocols: ['http', 'https'],
                 requireProtocol: true,
               );
-              print(validUrl);
               if (isNotEmpty(controller.text) && validUrl == false) {
                 return LocaleKeys.settings_connection_address_validation_message
                     .tr();
