@@ -1012,16 +1012,18 @@ static const Map<String,dynamic> en = {
   "privacy_notification_permission_dialog_title": "Notification Permission Disabled",
   "privacy_notification_permission_dialog_content": "The notification permission is required to receive notifications.",
   "button_help": "HELP",
-  "button_add_header": "ADD HEADER",
   "settings_header_basic_auth": "Basic Authentication",
   "settings_server_custom_http_headers": "Custom HTTP Headers",
-  "settings_custom_headers_missing": "No custom HTTP headers configured.",
   "settings_header_input_username": "Username",
   "settings_header_input_header_key": "Header Key",
   "settings_header_input_header_value": "Header Value",
   "settings_header_input_password": "Password",
   "masked_header_key": "Hidden Header Key",
-  "settings_header_delete_alert_title": "Are you sure you want to delete the header '{}'?"
+  "settings_header_delete_alert_title": "Are you sure you want to delete the header '{}'?",
+  "button_register_add_header": "ADD HEADER",
+  "button_settings_add_header": "Add Custom HTTP Header",
+  "settings_validation_blank": "Cannot be blank",
+  "settings_validation_header_key_exists": "This header key already exists"
 };
 static const Map<String,dynamic> es = {
   "activity_empty": "Sin reproducciones",
