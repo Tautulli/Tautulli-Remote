@@ -140,7 +140,7 @@ class GraphDataHelper {
           }
           return value.toStringAsFixed(0);
         },
-        getTextStyles: (value) {
+        getTextStyles: (context, value) {
           return const TextStyle(
             color: Colors.grey,
             fontSize: 12,
@@ -154,13 +154,15 @@ class GraphDataHelper {
         interval: bottomTitlesInterval,
         getTitles: getBottomTitles,
         reservedSize: 30,
-        getTextStyles: (value) {
+        getTextStyles: (context, value) {
           return const TextStyle(
             color: Colors.grey,
             fontSize: 12,
           );
         },
       ),
+      rightTitles: SideTitles(),
+      topTitles: SideTitles(),
     );
   }
 
