@@ -47,24 +47,37 @@ class RegisterDeviceHeadersBloc
           );
         }
       } else {
-        final currentIndex = newList.indexWhere(
-          (header) => header.key == event.key,
-        );
-
-        if (currentIndex == -1) {
-          newList.add(
-            CustomHeaderModel(
-              key: event.key,
-              value: event.value,
-            ),
+        if (event.previousKey != null) {
+          final oldIndex = newList.indexWhere(
+            (header) => header.key == event.previousKey,
           );
-        } else {
-          newList[currentIndex] = CustomHeaderModel(
+
+          newList[oldIndex] = CustomHeaderModel(
             key: event.key,
             value: event.value,
           );
+        } else {
+          final currentIndex = newList.indexWhere(
+            (header) => header.key == event.key,
+          );
+
+          if (currentIndex == -1) {
+            newList.add(
+              CustomHeaderModel(
+                key: event.key,
+                value: event.value,
+              ),
+            );
+          } else {
+            newList[currentIndex] = CustomHeaderModel(
+              key: event.key,
+              value: event.value,
+            );
+          }
         }
       }
+
+      newList.sort((a, b) => a.key.compareTo(b.key));
 
       headerList = [...newList];
 

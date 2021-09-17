@@ -64,7 +64,7 @@ class SettingsUpdateServer extends SettingsEvent {
   final String dateFormat;
   final String timeFormat;
   final bool onesignalRegistered;
-  List<CustomHeaderModel> headers;
+  final List<CustomHeaderModel> headers;
 
   SettingsUpdateServer({
     @required this.id,
@@ -147,16 +147,18 @@ class SettingsAddCustomHeader extends SettingsEvent {
   final String key;
   final String value;
   final bool basicAuth;
+  final String previousKey;
 
   SettingsAddCustomHeader({
     @required this.tautulliId,
     @required this.key,
     @required this.value,
     this.basicAuth = false,
+    this.previousKey,
   });
 
   @override
-  List<Object> get props => [tautulliId, key, value, basicAuth];
+  List<Object> get props => [tautulliId, key, value, basicAuth, previousKey];
 }
 
 class SettingsRemoveCustomHeader extends SettingsEvent {

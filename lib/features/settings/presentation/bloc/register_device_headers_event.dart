@@ -13,15 +13,17 @@ class RegisterDeviceHeadersAdd extends RegisterDeviceHeadersEvent {
   final String key;
   final String value;
   final bool basicAuth;
+  final String previousKey;
 
   RegisterDeviceHeadersAdd({
     @required this.key,
     @required this.value,
     @required this.basicAuth,
+    this.previousKey,
   });
 
   @override
-  List<Object> get props => [key, value, basicAuth];
+  List<Object> get props => [key, value, basicAuth, previousKey];
 }
 
 class RegisterDeviceHeadersRemove extends RegisterDeviceHeadersEvent {

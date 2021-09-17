@@ -1,5 +1,7 @@
 // @dart=2.9
 
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -16,6 +18,7 @@ import '../bloc/register_device_bloc.dart';
 import '../bloc/register_device_headers_bloc.dart';
 import '../bloc/settings_bloc.dart';
 import '../widgets/certificate_failure_alert_dialog.dart';
+import '../widgets/header_config_dialog.dart';
 import '../widgets/header_type_dialog.dart';
 
 class ServerRegistrationPage extends StatefulWidget {
@@ -305,13 +308,64 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                                             ),
                                             title: Text(header.key),
                                             subtitle: Text(header.value),
-                                            trailing: IconButton(
-                                              icon: const FaIcon(
-                                                FontAwesomeIcons.trashAlt,
-                                                color: TautulliColorPalette
-                                                    .not_white,
-                                              ),
-                                              onPressed: () {
+                                            onTap: () {
+                                              final bool isBasicAuth =
+                                                  header.key ==
+                                                          'Authorization' &&
+                                                      header.value
+                                                          .startsWith('Basic ');
+
+                                              if (isBasicAuth) {
+                                                try {
+                                                  final List<String> creds =
+                                                      utf8
+                                                          .decode(base64Decode(
+                                                              header
+                                                                  .value
+                                                                  .substring(
+                                                                      6)))
+                                                          .split(':');
+
+                                                  return showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return HeaderConfigDialog(
+                                                        registerDevice: true,
+                                                        basicAuth: true,
+                                                        exisitngKey: creds[0],
+                                                        existingValue: creds[1],
+                                                      );
+                                                    },
+                                                  );
+                                                } catch (_) {
+                                                  return showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return HeaderConfigDialog(
+                                                        registerDevice: true,
+                                                        exisitngKey: header.key,
+                                                        existingValue:
+                                                            header.value,
+                                                      );
+                                                    },
+                                                  );
+                                                }
+                                              } else {
+                                                return showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return HeaderConfigDialog(
+                                                      registerDevice: true,
+                                                      exisitngKey: header.key,
+                                                      existingValue:
+                                                          header.value,
+                                                    );
+                                                  },
+                                                );
+                                              }
+                                            },
+                                            trailing: GestureDetector(
+                                              onTap: () {
                                                 context
                                                     .read<
                                                         RegisterDeviceHeadersBloc>()
@@ -321,6 +375,11 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                                                       ),
                                                     );
                                               },
+                                              child: const FaIcon(
+                                                FontAwesomeIcons.trashAlt,
+                                                color: TautulliColorPalette
+                                                    .not_white,
+                                              ),
                                             ),
                                           ),
                                         )
@@ -334,14 +393,15 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                                 children: <Widget>[
                                   TextButton(
                                     child: const Text(
-                                      LocaleKeys.button_add_header,
+                                      LocaleKeys.button_register_add_header,
                                     ).tr(),
                                     onPressed: () async {
                                       await showDialog(
                                         context: context,
                                         builder: (context) {
-                                          return const HeaderTypeDialog(
+                                          return HeaderTypeDialog(
                                             registerDevice: true,
+                                            currentHeaders: headerList,
                                           );
                                         },
                                       );
@@ -354,12 +414,6 @@ class _ServerRegistrationPageState extends State<ServerRegistrationPage> {
                                           bool value =
                                               await _showExitDialog(context);
                                           if (value) {
-                                            context
-                                                .read<
-                                                    RegisterDeviceHeadersBloc>()
-                                                .add(
-                                                  RegisterDeviceHeadersClear(),
-                                                );
                                             Navigator.of(context).pop();
                                           }
                                         },
@@ -480,6 +534,9 @@ Future<bool> _showExitDialog(BuildContext context) {
               backgroundColor: Colors.red,
             ),
             onPressed: () {
+              context.read<RegisterDeviceHeadersBloc>().add(
+                    RegisterDeviceHeadersClear(),
+                  );
               Navigator.of(context).pop(true);
             },
           ),

@@ -1,5 +1,7 @@
 // @dart=2.9
 
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,10 +13,12 @@ import 'package:validators/validators.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/widgets/list_header.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../bloc/settings_bloc.dart';
 import '../widgets/delete_dialog.dart';
-import 'custom_headers_page.dart';
+import '../widgets/header_config_dialog.dart';
+import '../widgets/header_type_dialog.dart';
 
 class ServerSettingsPage extends StatelessWidget {
   final int id;
@@ -45,9 +49,11 @@ class ServerSettingsPage extends StatelessWidget {
               color: TautulliColorPalette.not_white,
             ),
             onPressed: () async {
-              bool delete = await _showDeleteServerDialog(
+              bool delete = await _showDeleteDialog(
                 context: context,
-                plexName: plexName,
+                title: LocaleKeys.settings_server_delete_dialog_title.tr(
+                  args: [plexName],
+                ),
               );
               if (delete) {
                 settingsBloc.add(
@@ -68,6 +74,8 @@ class ServerSettingsPage extends StatelessWidget {
             try {
               final ServerModel server =
                   state.serverList.firstWhere((item) => item.id == id);
+              server.customHeaders.sort((a, b) => a.key.compareTo(b.key));
+
               return ListView(
                 children: <Widget>[
                   ListTile(
@@ -253,25 +261,132 @@ class ServerSettingsPage extends StatelessWidget {
                       }
                     },
                   ),
-                  ListTile(
-                    title: const Text(
-                      LocaleKeys.settings_server_custom_http_headers,
-                    ).tr(),
-                    trailing: const FaIcon(
-                      FontAwesomeIcons.angleRight,
-                      color: TautulliColorPalette.not_white,
+                  if (server.customHeaders.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: ListHeader(
+                        headingText:
+                            LocaleKeys.settings_server_custom_http_headers.tr(),
+                      ),
                     ),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return CustomHeadersPage(
-                              tautulliId: server.tautulliId,
-                            );
-                          },
+                  if (server.customHeaders.isNotEmpty)
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: server.customHeaders
+                          .map(
+                            (header) => ListTile(
+                              title: Text(header.key),
+                              subtitle: Text(
+                                !maskSensitiveInfo
+                                    ? header.value
+                                    : '*${LocaleKeys.masked_header_key.tr()}*',
+                              ),
+                              onTap: () {
+                                final bool isBasicAuth =
+                                    header.key == 'Authorization' &&
+                                        header.value.startsWith('Basic ');
+
+                                if (isBasicAuth) {
+                                  try {
+                                    final List<String> creds = utf8
+                                        .decode(base64Decode(
+                                            header.value.substring(6)))
+                                        .split(':');
+
+                                    return showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return HeaderConfigDialog(
+                                          tautulliId: server.tautulliId,
+                                          basicAuth: true,
+                                          exisitngKey: creds[0],
+                                          existingValue: creds[1],
+                                        );
+                                      },
+                                    );
+                                  } catch (_) {
+                                    return showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return HeaderConfigDialog(
+                                          tautulliId: server.tautulliId,
+                                          exisitngKey: header.key,
+                                          existingValue: header.value,
+                                        );
+                                      },
+                                    );
+                                  }
+                                } else {
+                                  return showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return HeaderConfigDialog(
+                                        tautulliId: server.tautulliId,
+                                        exisitngKey: header.key,
+                                        existingValue: header.value,
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                              trailing: GestureDetector(
+                                onTap: () async {
+                                  final delete = await _showDeleteDialog(
+                                    context: context,
+                                    title: LocaleKeys
+                                        .settings_header_delete_alert_title
+                                        .tr(
+                                      args: [header.key],
+                                    ),
+                                  );
+
+                                  if (delete) {
+                                    context.read<SettingsBloc>().add(
+                                          SettingsRemoveCustomHeader(
+                                            tautulliId: server.tautulliId,
+                                            key: header.key,
+                                          ),
+                                        );
+                                  }
+                                },
+                                child: const FaIcon(
+                                  FontAwesomeIcons.trashAlt,
+                                  color: TautulliColorPalette.not_white,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: state.serverList.isEmpty ? 8 : 0,
+                      left: 16,
+                      right: 16,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: TautulliColorPalette.gunmetal,
+                            ),
+                            onPressed: () {
+                              return showDialog(
+                                context: context,
+                                builder: (context) => HeaderTypeDialog(
+                                  tautulliId: server.tautulliId,
+                                  currentHeaders: server.customHeaders,
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              LocaleKeys.button_settings_add_header,
+                            ).tr(),
+                          ),
                         ),
-                      );
-                    },
+                      ],
+                    ),
                   ),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -448,18 +563,16 @@ Future _buildSecondaryConnectionAddressSettingsDialog({
   );
 }
 
-Future<bool> _showDeleteServerDialog({
+Future<bool> _showDeleteDialog({
   @required BuildContext context,
-  @required String plexName,
+  @required String title,
 }) {
   return showDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) {
       return DeleteDialog(
-        titleWidget: const Text(
-          LocaleKeys.settings_server_delete_dialog_title,
-        ).tr(args: [plexName]),
+        titleWidget: Text(title),
       );
     },
   );

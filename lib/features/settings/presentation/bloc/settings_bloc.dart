@@ -259,7 +259,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           ...updatedList[index].customHeaders
         ];
 
-        //TODO
         if (event.basicAuth) {
           final currentIndex = customHeaders.indexWhere(
             (header) => header.key == 'Authorization',
@@ -282,22 +281,33 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             );
           }
         } else {
-          final currentIndex = customHeaders.indexWhere(
-            (header) => header.key == event.key,
-          );
-
-          if (currentIndex == -1) {
-            customHeaders.add(
-              CustomHeaderModel(
-                key: event.key,
-                value: event.value,
-              ),
+          if (event.previousKey != null) {
+            final oldIndex = customHeaders.indexWhere(
+              (header) => header.key == event.previousKey,
             );
-          } else {
-            customHeaders[currentIndex] = CustomHeaderModel(
+
+            customHeaders[oldIndex] = CustomHeaderModel(
               key: event.key,
               value: event.value,
             );
+          } else {
+            final currentIndex = customHeaders.indexWhere(
+              (header) => header.key == event.key,
+            );
+
+            if (currentIndex == -1) {
+              customHeaders.add(
+                CustomHeaderModel(
+                  key: event.key,
+                  value: event.value,
+                ),
+              );
+            } else {
+              customHeaders[currentIndex] = CustomHeaderModel(
+                key: event.key,
+                value: event.value,
+              );
+            }
           }
         }
 

@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/database/data/models/custom_header_model.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../translations/locale_keys.g.dart';
 import 'header_config_dialog.dart';
@@ -11,11 +12,13 @@ import 'header_config_dialog.dart';
 class HeaderTypeDialog extends StatelessWidget {
   final String tautulliId;
   final bool registerDevice;
+  final List<CustomHeaderModel> currentHeaders;
 
   const HeaderTypeDialog({
     Key key,
     this.tautulliId,
     this.registerDevice = false,
+    this.currentHeaders = const [],
   }) : super(key: key);
 
   @override
@@ -37,6 +40,7 @@ class HeaderTypeDialog extends StatelessWidget {
                   tautulliId: tautulliId,
                   basicAuth: true,
                   registerDevice: registerDevice,
+                  currentHeaders: currentHeaders,
                 );
               },
             );
@@ -56,6 +60,7 @@ class HeaderTypeDialog extends StatelessWidget {
                 return HeaderConfigDialog(
                   tautulliId: tautulliId,
                   registerDevice: registerDevice,
+                  currentHeaders: currentHeaders,
                 );
               },
             );
