@@ -91,7 +91,8 @@ class _HeaderConfigDialogState extends State<HeaderConfigDialog> {
                   return LocaleKeys.settings_validation_blank.tr();
                 }
                 final keyExists = headerValidationList.firstWhere(
-                  (header) => header.key == value.trim(),
+                  (header) =>
+                      header.key.toLowerCase() == value.trim().toLowerCase(),
                   orElse: () => null,
                 );
                 print(keyExists);
