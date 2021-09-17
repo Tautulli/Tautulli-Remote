@@ -88,7 +88,7 @@ class _HeaderConfigDialogState extends State<HeaderConfigDialog> {
                   return LocaleKeys.settings_validation_blank.tr();
                 }
                 final keyExists = widget.currentHeaders.firstWhere(
-                    (header) => header.key == value,
+                    (header) => header.key == value.trim(),
                     orElse: () => null);
                 if (keyExists != null) {
                   return LocaleKeys.settings_validation_header_key_exists.tr();
