@@ -81,7 +81,7 @@
     "donate_thank_you_alert": "Köszönjük a támogatását",
     "general_unknown_error": "Ismeretlen hiba",
     "settings_not_loaded_error": "HIBA: A beállítások nem töltődtek be",
-    "activity_time_left": "bal",
+    "activity_time_left": "van hátra",
     "media_details_location_loading": "Hely adatok betöltése",
     "media_details_location_error": "HIBA: Az IP cím nem található a GeoIP térképen",
     "button_retry": "Újra",
