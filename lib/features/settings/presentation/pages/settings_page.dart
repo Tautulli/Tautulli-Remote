@@ -421,6 +421,6 @@ Widget _serverRefreshRateDisplay(int refreshRate) {
       return Text(
           '20 ${LocaleKeys.general_details_sec.tr()} - ${LocaleKeys.settings_slower.tr()}');
     default:
-      return const Text(LocaleKeys.settings_default).tr();
+      return const Text(LocaleKeys.settings_disabled).tr();
   }
 }
