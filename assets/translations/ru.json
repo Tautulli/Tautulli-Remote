@@ -83,6 +83,9 @@
     "masked_info_hidden": "Скрытый",
     "button_close": "ЗАКРЫТЬ",
     "button_save": "СОХРАНИТЬ",
-    "general_time_range_dialog_notice": "Для большинства экранов рекомендуется не превышать 90 дней."
+    "general_time_range_dialog_notice": "Для большинства экранов рекомендуется не превышать 90 дней.",
+    "graphs_media_type_day_of_week": "Воспроизведений {} по дню недели",
+    "graphs_media_type_daily_play": "Воспроизведений каждый день {} по типу носителя",
+    "graphs_load_fail": "Не удалось загрузить график",
+    "graphs_no_plays": "Нет воспроизведений для выбранного периода"
 }
-
