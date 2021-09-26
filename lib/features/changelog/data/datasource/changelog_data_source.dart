@@ -3,6 +3,42 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.13.0",
+      "date": "September 30, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added support for custom HTTP headers",
+          "additional":
+              "Use the prebuilt Basic Auth header or set your own custom ones.",
+        },
+        {
+          "type": "new",
+          "detail": "Added Slovak language",
+        },
+        {
+          "type": "improvement",
+          "detail": "Updated Flutter and packages",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "New translations for Catalan, Danish, Hungarian, Italian, Russian, and Slovak",
+          "additional":
+              "Thanks @dtalens, @ThomasCSR, @MaddionMax, @janus158, @barbuddah, and @johny106",
+        },
+        {
+          "type": "fix",
+          "detail": "Long track names could overflow.",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Refresh Rate setting would say 'Default' instead of 'Disabled.",
+        },
+      ],
+    },
+    {
       "version": "v2.12.3",
       "date": "September 5, 2021",
       "changes": [
