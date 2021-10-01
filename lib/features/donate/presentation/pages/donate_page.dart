@@ -333,10 +333,53 @@ class _DonatePageContentState extends State<DonatePageContent> {
                               ),
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    try {
+                                      PurchaserInfo restoredInfo =
+                                          await Purchases.restoreTransactions();
+                                      setState(() {
+                                        _purchaserInfo = restoredInfo;
+                                      });
+                                      ScaffoldMessenger.of(context)
+                                          .hideCurrentSnackBar();
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          backgroundColor:
+                                              PlexColorPalette.shark,
+                                          content: Text('Donations restored.'),
+                                        ),
+                                      );
+                                    } on PlatformException catch (e) {
+                                      ScaffoldMessenger.of(context)
+                                          .hideCurrentSnackBar();
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          backgroundColor:
+                                              Theme.of(context).errorColor,
+                                          content: const Text(
+                                                  LocaleKeys.donate_error_alert)
+                                              .tr(),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child:
+                                      const Text('Manually Restore Donations'),
+                                ),
+                              ],
+                            ),
+                          ),
                           if (Platform.isIOS)
                             Padding(
                               padding: const EdgeInsets.only(
-                                top: 30,
                                 bottom: 8,
                               ),
                               child: Center(
