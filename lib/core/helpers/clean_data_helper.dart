@@ -31,9 +31,9 @@ class ActivityMediaDetailsCleaner {
         ]);
 
         String textLeft =
-            '${activity.audioCodec.toUpperCase()} ${StringFormatHelper.capitalize(activity.audioChannelLayout.split("(")[0])}';
+            '${activity.audioCodec != null ? activity.audioCodec.toUpperCase() : ''} ${activity.audioChannelLayout != null ? StringFormatHelper.capitalize(activity.audioChannelLayout.split("(")[0]) : ''}';
         String textRight =
-            '${activity.streamAudioCodec.toUpperCase()} ${StringFormatHelper.capitalize(activity.streamAudioChannelLayout.split("(")[0])}';
+            '${activity.streamAudioCodec != null ? activity.streamAudioCodec.toUpperCase() : ''} ${activity.streamAudioChannelLayout != null ? StringFormatHelper.capitalize(activity.streamAudioChannelLayout.split("(")[0]) : ''}';
 
         list.add([
           '',
@@ -41,7 +41,7 @@ class ActivityMediaDetailsCleaner {
         ]);
       } else if (activity.streamAudioDecision == 'copy') {
         String textLeft =
-            '${LocaleKeys.media_details_direct_stream.tr()} (${activity.streamAudioCodec.toUpperCase()} ${StringFormatHelper.capitalize(activity.streamAudioChannelLayout.split("(")[0])})';
+            '${LocaleKeys.media_details_direct_stream.tr()} (${activity.streamAudioCodec != null ? activity.streamAudioCodec.toUpperCase() : ''} ${activity.streamAudioChannelLayout != null ? StringFormatHelper.capitalize(activity.streamAudioChannelLayout.split("(")[0]) : ''})';
 
         list.add([
           title,
@@ -49,7 +49,7 @@ class ActivityMediaDetailsCleaner {
         ]);
       } else {
         String textLeft =
-            '${LocaleKeys.media_details_direct_play.tr()} (${activity.streamAudioCodec.toUpperCase()} ${StringFormatHelper.capitalize(activity.streamAudioChannelLayout.split("(")[0])})';
+            '${LocaleKeys.media_details_direct_play.tr()} (${activity.streamAudioCodec != null ? activity.streamAudioCodec.toUpperCase() : ''} ${activity.streamAudioChannelLayout != null ? StringFormatHelper.capitalize(activity.streamAudioChannelLayout.split("(")[0]) : ''})';
 
         list.add([
           title,
@@ -64,6 +64,7 @@ class ActivityMediaDetailsCleaner {
     String finalText;
 
     if (activity.mediaType != 'photo' &&
+        activity.bandwidth != null &&
         !['Unknown', '', ' '].contains(activity.bandwidth)) {
       int _bw = int.parse(activity.bandwidth);
       if (_bw > 1000000) {
@@ -109,13 +110,17 @@ class ActivityMediaDetailsCleaner {
         ),
       ]);
 
-      String leftText = '${activity.container.toUpperCase()}';
-      String rightText = '${activity.streamContainer.toUpperCase()}';
+      String leftText = activity.container != null
+          ? '${activity.container.toUpperCase()}'
+          : '';
+      String rightText = activity.streamContainer != null
+          ? '${activity.streamContainer.toUpperCase()}'
+          : '';
 
       list.add(['', _formatValue(left: leftText, right: rightText)]);
     } else {
       String value =
-          '${LocaleKeys.media_details_direct_play.tr()} (${activity.streamContainer.toUpperCase()})';
+          '${LocaleKeys.media_details_direct_play.tr()} (${activity.streamContainer != null ? activity.streamContainer.toUpperCase() : ''})';
       list.add([title, _formatValue(left: value)]);
     }
 
@@ -136,7 +141,7 @@ class ActivityMediaDetailsCleaner {
         icon = FontAwesomeIcons.unlock;
       }
       text =
-          '${activity.location.toUpperCase()}: ${maskSensitiveInfo ? '*${LocaleKeys.masked_info_ip_address}*' : activity.ipAddress}';
+          '${activity.location != null ? activity.location.toUpperCase() : ''}: ${maskSensitiveInfo ? '*${LocaleKeys.masked_info_ip_address}*' : activity.ipAddress}';
     } else {
       text = LocaleKeys.media_details_na.tr();
     }
@@ -276,7 +281,9 @@ class ActivityMediaDetailsCleaner {
     String formattedBitrate;
     String finalText;
 
-    if (activity.mediaType != 'photo' && activity.qualityProfile != 'Unknown') {
+    if (activity.mediaType != 'photo' &&
+        activity.qualityProfile != 'Unknown' &&
+        activity.streamBitrate != null) {
       if (activity.streamBitrate > 1000) {
         formattedBitrate =
             '${(activity.streamBitrate / 1000).toStringAsFixed(1)} Mbps';
@@ -353,24 +360,30 @@ class ActivityMediaDetailsCleaner {
           ),
         ]);
 
-        String textLeft = '${activity.subtitleCodec.toUpperCase()}';
-        String textRight = '${activity.streamSubtitleCodec.toUpperCase()}';
+        String textLeft = activity.subtitleCodec != null
+            ? '${activity.subtitleCodec.toUpperCase()}'
+            : '';
+        String textRight = activity.streamSubtitleCodec != null
+            ? '${activity.streamSubtitleCodec.toUpperCase()}'
+            : '';
 
         list.add([
           '',
           _formatValue(left: textLeft, right: textRight),
         ]);
       } else if (activity.streamSubtitleDecision == 'copy') {
-        String textLeft =
-            '${LocaleKeys.media_details_direct_stream.tr()} (${activity.subtitleCodec.toUpperCase()})';
+        String textLeft = activity.subtitleCodec != null
+            ? '${LocaleKeys.media_details_direct_stream.tr()} (${activity.subtitleCodec.toUpperCase()})'
+            : '';
 
         list.add([
           title,
           _formatValue(left: textLeft),
         ]);
       } else if (activity.streamSubtitleDecision == 'burn') {
-        String textLeft =
-            '${LocaleKeys.media_details_burn.tr()} (${activity.subtitleCodec.toUpperCase()})';
+        String textLeft = activity.subtitleCodec != null
+            ? '${LocaleKeys.media_details_burn.tr()} (${activity.subtitleCodec.toUpperCase()})'
+            : '';
 
         list.add([
           title,
@@ -378,16 +391,18 @@ class ActivityMediaDetailsCleaner {
         ]);
       } else {
         if (activity.syncedVersion == 1) {
-          String textLeft =
-              '${LocaleKeys.media_details_direct_play.tr()} (${activity.subtitleCodec.toUpperCase()})';
+          String textLeft = activity.subtitleCodec != null
+              ? '${LocaleKeys.media_details_direct_play.tr()} (${activity.subtitleCodec.toUpperCase()})'
+              : '';
 
           list.add([
             title,
             _formatValue(left: textLeft),
           ]);
         } else {
-          String textLeft =
-              '${LocaleKeys.media_details_direct_play.tr()} (${activity.streamSubtitleCodec.toUpperCase()})';
+          String textLeft = activity.subtitleCodec != null
+              ? '${LocaleKeys.media_details_direct_play.tr()} (${activity.streamSubtitleCodec.toUpperCase()})'
+              : '';
 
           list.add([
             title,
@@ -456,9 +471,9 @@ class ActivityMediaDetailsCleaner {
         ]);
 
         String textLeft =
-            '${activity.videoCodec.toUpperCase()}$_hwD ${activity.videoFullResolution}$_videoDynamicRange';
+            '${activity.videoCodec != null ? activity.videoCodec.toUpperCase() : ''}$_hwD ${activity.videoFullResolution}$_videoDynamicRange';
         String textRight =
-            '${activity.streamVideoCodec.toUpperCase()}$_hwE ${activity.streamVideoFullResolution}$_streamVideoDynamicRange';
+            '${activity.streamVideoCodec != null ? activity.streamVideoCodec.toUpperCase() : ''}$_hwE ${activity.streamVideoFullResolution}$_streamVideoDynamicRange';
 
         list.add([
           '',
@@ -469,7 +484,7 @@ class ActivityMediaDetailsCleaner {
         ]);
       } else if (activity.streamVideoDecision == 'copy') {
         String textLeft =
-            '${LocaleKeys.media_details_direct_stream.tr()} (${activity.streamVideoCodec.toUpperCase()} ${activity.streamVideoFullResolution}$_streamVideoDynamicRange)';
+            '${LocaleKeys.media_details_direct_stream.tr()} (${activity.streamVideoCodec != null ? activity.streamVideoCodec.toUpperCase() : ''} ${activity.streamVideoFullResolution}$_streamVideoDynamicRange)';
 
         list.add([
           title,
@@ -477,7 +492,7 @@ class ActivityMediaDetailsCleaner {
         ]);
       } else {
         String textLeft =
-            '${LocaleKeys.media_details_direct_play.tr()} (${activity.streamVideoCodec.toUpperCase()} ${activity.streamVideoFullResolution}$_streamVideoDynamicRange)';
+            '${LocaleKeys.media_details_direct_play.tr()} (${activity.streamVideoCodec != null ? activity.streamVideoCodec.toUpperCase() : ''} ${activity.streamVideoFullResolution}$_streamVideoDynamicRange)';
 
         list.add([
           title,
