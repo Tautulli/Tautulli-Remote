@@ -10,12 +10,14 @@ class AnnouncementModel extends Announcement {
     @required final String date,
     @required final String title,
     @required final String body,
+    @required final String platform,
     final String actionUrl,
   }) : super(
           id: id,
           date: date,
           body: body,
           title: title,
+          platform: platform,
           actionUrl: actionUrl,
         );
 
@@ -26,6 +28,7 @@ class AnnouncementModel extends Announcement {
       actionUrl: json['actionUrl'],
       body: json['body'],
       title: json['title'],
+      platform: json['platform'],
     );
   }
 }

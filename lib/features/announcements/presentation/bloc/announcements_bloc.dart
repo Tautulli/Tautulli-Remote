@@ -1,6 +1,7 @@
 // @dart=2.9
 
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
@@ -51,13 +52,26 @@ class AnnouncementsBloc extends Bloc<AnnouncementsEvent, AnnouncementsState> {
           );
         },
         (announcementList) async* {
+          final isIos = Platform.isIOS;
           int maxId = 0;
-          if (announcementList.isNotEmpty) {
-            maxId = announcementList.map<int>((a) => a.id).reduce(max);
+          final List<Announcement> filteredAnnouncements = [];
+
+          for (Announcement announcement in announcementList) {
+            if (announcement.platform == null) {
+              filteredAnnouncements.add(announcement);
+            } else if (announcement.platform == 'ios' && isIos) {
+              filteredAnnouncements.add(announcement);
+            } else if (announcement.platform == 'android' && !isIos) {
+              filteredAnnouncements.add(announcement);
+            }
+          }
+
+          if (filteredAnnouncements.isNotEmpty) {
+            maxId = filteredAnnouncements.map<int>((a) => a.id).reduce(max);
           }
 
           yield AnnouncementsSuccess(
-            announcementList: announcementList,
+            announcementList: filteredAnnouncements,
             lastReadAnnouncementId: readAnnouncementId,
             unread: maxId > readAnnouncementId,
           );

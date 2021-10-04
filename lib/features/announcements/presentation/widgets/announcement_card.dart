@@ -6,22 +6,15 @@ import 'package:quiver/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../data/models/announcement_model.dart';
 
 class AnnouncementCard extends StatelessWidget {
-  final int id;
-  final String date;
-  final String title;
-  final String body;
-  final String actionUrl;
+  final AnnouncementModel announcement;
   final int lastReadAnnouncementId;
 
   const AnnouncementCard({
     Key key,
-    @required this.id,
-    @required this.date,
-    @required this.title,
-    @required this.body,
-    @required this.actionUrl,
+    @required this.announcement,
     @required this.lastReadAnnouncementId,
   }) : super(key: key);
 
@@ -31,9 +24,9 @@ class AnnouncementCard extends StatelessWidget {
       child: InkWell(
         customBorder:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        onTap: isNotEmpty(actionUrl)
+        onTap: isNotEmpty(announcement.actionUrl)
             ? () async {
-                await launch(actionUrl);
+                await launch(announcement.actionUrl);
               }
             : null,
         child: Padding(
@@ -47,7 +40,7 @@ class AnnouncementCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          title,
+                          announcement.title,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -56,14 +49,14 @@ class AnnouncementCard extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4),
                           child: Text(
-                            date,
+                            announcement.date,
                             style: const TextStyle(
                               fontStyle: FontStyle.italic,
                             ),
                           ),
                         ),
                         Text(
-                          body,
+                          announcement.body,
                           style: const TextStyle(
                             fontSize: 14,
                           ),
@@ -71,7 +64,7 @@ class AnnouncementCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (isNotEmpty(actionUrl))
+                  if (isNotEmpty(announcement.actionUrl))
                     const Padding(
                       padding: EdgeInsets.only(left: 4),
                       child: FaIcon(
@@ -82,7 +75,7 @@ class AnnouncementCard extends StatelessWidget {
                     ),
                 ],
               ),
-              if (id > lastReadAnnouncementId)
+              if (announcement.id > lastReadAnnouncementId)
                 Positioned(
                   right: 0,
                   child: Padding(

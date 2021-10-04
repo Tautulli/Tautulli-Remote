@@ -60,12 +60,8 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                   final announcement = state.announcementList[index];
 
                   return AnnouncementCard(
-                    actionUrl: announcement.actionUrl,
-                    body: announcement.body,
-                    date: announcement.date,
-                    id: announcement.id,
+                    announcement: announcement,
                     lastReadAnnouncementId: state.lastReadAnnouncementId,
-                    title: announcement.title,
                   );
                 },
               );
