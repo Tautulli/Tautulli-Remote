@@ -449,4 +449,5 @@ abstract class LocaleKeys {
       'settings_validation_header_key_exists';
   static const settings_header_basic_auth_disabled =
       'settings_header_basic_auth_disabled';
+  static const history_details_decision = 'history_details_decision';
 }

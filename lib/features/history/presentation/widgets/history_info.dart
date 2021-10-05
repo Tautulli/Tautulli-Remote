@@ -78,6 +78,12 @@ class _HistoryInfoState extends State<HistoryInfo> {
             item: _FormattedText(widget.item.player),
           ),
           _ItemRow(
+            title: LocaleKeys.history_details_decision.tr(),
+            item: _FormattedText(
+              _transcodeDecisionFormat(widget.item.transcodeDecision),
+            ),
+          ),
+          _ItemRow(
             title: LocaleKeys.history_details_ip_address.tr(),
             item: _FormattedText(
               widget.maskSensitiveInfo
@@ -199,6 +205,19 @@ class _HistoryInfoState extends State<HistoryInfo> {
         ],
       ),
     );
+  }
+}
+
+String _transcodeDecisionFormat(String transcodeDecision) {
+  switch (transcodeDecision) {
+    case ('direct play'):
+      return LocaleKeys.media_details_direct_play.tr();
+    case ('direct stream'):
+      return LocaleKeys.media_details_direct_stream.tr();
+    case ('transcode'):
+      return LocaleKeys.media_details_transcode.tr();
+    default:
+      return 'UNKNOWN';
   }
 }
 
