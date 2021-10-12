@@ -150,6 +150,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
                   ? server.primaryConnectionPath
                   : server.secondaryConnectionPath,
               deviceToken: server.deviceToken,
+              headers: server.customHeaders,
               trustCert: false,
             );
             failureOrRegisterDevice.fold(

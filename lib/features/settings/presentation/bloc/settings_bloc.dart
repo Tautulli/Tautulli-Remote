@@ -599,6 +599,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             ? server.primaryConnectionPath
             : server.secondaryConnectionPath,
         deviceToken: server.deviceToken,
+        headers: server.customHeaders,
         trustCert: false,
       );
       failureOrRegisterDevice.fold(

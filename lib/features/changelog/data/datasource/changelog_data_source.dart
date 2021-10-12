@@ -3,6 +3,17 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.13.1",
+      "date": "October 12, 2021",
+      "changes": [
+        {
+          "type": "fix",
+          "detail":
+              "Would fail to update OneSignal information without custom headers",
+        },
+      ],
+    },
+    {
       "version": "v2.13.0",
       "date": "September 30, 2021",
       "changes": [
