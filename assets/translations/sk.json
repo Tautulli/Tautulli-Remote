@@ -294,7 +294,7 @@
     "donate_thank_you_alert": "Ďakujeme za váš dar",
     "general_unknown_error": "Neznáma chyba",
     "settings_not_loaded_error": "CHYBA: Nastavenia sa nenačítali",
-    "activity_time_left": "vľavo",
+    "activity_time_left": "zostáva",
     "media_details_location_loading": "Načítavajú sa údaje o polohe",
     "media_details_location_error": "CHYBA: Adresa IP nie je na mape GeoIP",
     "button_retry": "Opakovať",
