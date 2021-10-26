@@ -350,5 +350,21 @@
     "media_details_aired": "DIFFUSÉ",
     "donate_tip_jar": "Pourboire",
     "button_go_to_settings": "ALLER AUX PARAMÈTRES",
-    "privacy_text_block_1": "Tautulli Remote prend en charge %end-to-end encryption%."
+    "privacy_text_block_1": "Tautulli Remote prend en charge %end-to-end encryption%.",
+    "privacy_notification_permission_dialog_title": "L'autorisation des notifications est désactivée",
+    "settings_header_input_header_key": "Clé de l'entête",
+    "settings_validation_blank": "Ceci ne peut pas être vide",
+    "privacy_notification_permission_dialog_content": "L'autorisation des notifications est requise pour recevoir des notifications.",
+    "button_help": "AIDE",
+    "settings_header_basic_auth": "Authentification simple",
+    "settings_server_custom_http_headers": "Entêtes HTTP personnalisés",
+    "settings_header_basic_auth_disabled": "L'entête d'autorisation existe déjà",
+    "settings_header_input_username": "Nom d'utilisateur",
+    "settings_header_input_header_value": "Valeur de l'entête",
+    "settings_header_input_password": "Mot de passe",
+    "masked_header_key": "Clé d'entête masquée",
+    "settings_header_delete_alert_title": "Êtes-vous sûr de vouloir supprimer l'entête « {} » ?",
+    "button_register_add_header": "AJOUTER UN ENTÊTE",
+    "button_settings_add_header": "Ajouter un entête HTTP personnalisé",
+    "settings_validation_header_key_exists": "Cette clé d'entête existe déjà"
 }
