@@ -366,5 +366,7 @@
     "settings_header_delete_alert_title": "Êtes-vous sûr de vouloir supprimer l'entête « {} » ?",
     "button_register_add_header": "AJOUTER UN ENTÊTE",
     "button_settings_add_header": "Ajouter un entête HTTP personnalisé",
-    "settings_validation_header_key_exists": "Cette clé d'entête existe déjà"
+    "settings_validation_header_key_exists": "Cette clé d'entête existe déjà",
+    "privacy_text_block_2": "Tautulli utilise %OneSignal% pour délivrés les notifications, aucune Information Personnellement Identifiable (PII) n'est collectée. Lisez la politique de confidentialité de %OneSignal% pour plus d'informations.",
+    "history_details_decision": "décision"
 }
