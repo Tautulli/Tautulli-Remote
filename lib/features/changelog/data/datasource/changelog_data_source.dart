@@ -3,6 +3,32 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.13.2",
+      "date": "October 31, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Announcements can now target Android or iOS specifically",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added transcode decision to history details",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "New translations for Danish, French, German, Hungarian, and Slovak",
+          "additional":
+              "Thanks @starscream10, @NathanBnm, @iophobia, @MaddionMax, and @johny106",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Activity details would break when some expected data was missing",
+        },
+      ],
+    },
+    {
       "version": "v2.13.1",
       "date": "October 12, 2021",
       "changes": [
@@ -40,12 +66,12 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Long track names could overflow.",
+          "detail": "Long track names could overflow",
         },
         {
           "type": "fix",
           "detail":
-              "Refresh Rate setting would say 'Default' instead of 'Disabled.",
+              "Refresh Rate setting would say 'Default' instead of 'Disabled'.",
         },
       ],
     },
@@ -56,7 +82,7 @@ Map changelog = {
         {
           "type": "improvement",
           "detail":
-              "The iOS app no longer requires the app tracking permission.",
+              "The iOS app no longer requires the app tracking permission",
           "additional": "Existing users can safely disable this permission.",
         },
       ],
