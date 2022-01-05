@@ -54,7 +54,7 @@
     "donate_one_time_heading": "Doações Únicas",
     "donate_message_body": "No entanto, qualquer contribuição para o aplicativo é bem-vinda!",
     "donate_message_title": "Tautulli Remote é livre e de código aberto.",
-    "donate_error_alert": "Algo deu errado",
+    "donate_error_alert": "Algo deu errado.",
     "donate_thank_you_alert": "Agradecemos sua doação",
     "general_unknown_error": "Erro Desconhecido",
     "settings_not_loaded_error": "ERRO: as configurações não foram carregadas",
@@ -228,5 +228,15 @@
     "help_logs_heading": "Logs",
     "help_bugs_features_heading": "Bugs/Solicitações de Recursos",
     "help_support_heading": "Suporte",
-    "help_help_topics_heading": "Tópicos de Ajuda"
+    "help_help_topics_heading": "Tópicos de Ajuda",
+    "masked_info_hidden": "Oculto",
+    "general_tv_shows": "Séries de TV",
+    "graphs_media_type_top_platforms": "Reprodução {} por Top 10 Plataformas",
+    "graphs_media_type_day_of_week": "Reprodução {} por Dia da Semana",
+    "graphs_media_type_hour_of_day": "Reprodução {} por Hora do Dia",
+    "graphs_media_type_top_users": "Reprodução {} por Top 10 Usuários",
+    "help_tautulli_remote_logs": "Ver logs Remotos do Tautulli",
+    "history_empty": "Nenhum histórico encontrado.",
+    "graphs_no_plays": "Nenhuma reprodução para o período selecionado",
+    "donate_patron": "Apoiador"
 }
