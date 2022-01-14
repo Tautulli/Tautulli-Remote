@@ -9,9 +9,13 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
+  color: ^3.0.0
   cupertino_icons: ^1.0.3
+  equatable: ^2.0.3
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.1
+  google_fonts: ^2.2.0
   onesignal_flutter: ^3.2.7
 
 dev_dependencies:
@@ -76,30 +80,3 @@ flutter:
     - assets/logo/logo_transparent.png
     - assets/splash/splash_ios.png
     - assets/translations/
-  fonts:
-    - family: OpenSans
-      fonts:
-        - asset: assets/fonts/OpenSans-Light.ttf
-          weight: 300
-        - asset: assets/fonts/OpenSans-LightItalic.ttf
-          weight: 300
-          style: italic
-        - asset: assets/fonts/OpenSans-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/OpenSans-Italic.ttf
-          weight: 400
-        - asset: assets/fonts/OpenSans-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/OpenSans-SemiBoldItalic.ttf
-          weight: 600
-          style: italic
-        - asset: assets/fonts/OpenSans-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/OpenSans-BoldItalic.ttf
-          weight: 700
-          style: italic
-        - asset: assets/fonts/OpenSans-ExtraBold.ttf
-          weight: 800
-        - asset: assets/fonts/OpenSans-ExtraBoldItalic.ttf
-          weight: 800
-          style: italic
