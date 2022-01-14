@@ -37,6 +37,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
           primary: TautulliColorPalette.notWhite,
         ),
       ),
+      listTileTheme: const ListTileThemeData(
+        iconColor: TautulliColorPalette.notWhite,
+      ),
     );
 
     return MaterialApp(

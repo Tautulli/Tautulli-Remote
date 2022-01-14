@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/app_settings_group.dart';
+import '../widgets/help_and_support_group.dart';
+import '../widgets/more_group.dart';
+import '../widgets/servers_group.dart';
+
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -18,29 +23,22 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
+        title: const Text('Settings'),
       ),
       body: SafeArea(
         child: ListView(
-          // mainAxisSize: MainAxisSize.min,
           children: [
-            Text('test'),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Elevated'),
+            const ServersGroup(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: ElevatedButton(
+                child: const Text('Register a Tautulli Server'),
+                onPressed: () {},
+              ),
             ),
-            TextButton(
-              onPressed: () {},
-              child: Text('Text'),
-            ),
-            OutlinedButton(
-              onPressed: () {},
-              child: Text('Outlined'),
-            ),
+            const AppSettingsGroup(),
+            const HelpAndSupportGroup(),
+            const MoreGroup(),
           ],
         ),
       ),
