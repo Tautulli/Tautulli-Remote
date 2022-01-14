@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'settings_list_tile.dart';
-
 class SettingsGroup extends StatelessWidget {
   final String heading;
-  final List<SettingsListTile> settingsListTiles;
+  final List<Widget> settingsListTiles;
 
   const SettingsGroup({
     Key? key,

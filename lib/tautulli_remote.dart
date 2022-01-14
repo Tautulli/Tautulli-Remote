@@ -40,6 +40,12 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       listTileTheme: const ListTileThemeData(
         iconColor: TautulliColorPalette.notWhite,
       ),
+      dialogTheme: const DialogTheme(
+        backgroundColor: TautulliColorPalette.midnight,
+      ),
+      cardColor: TautulliColorPalette
+          .midnight, //Flutter's 'About Licenses' page uses the card color
+      unselectedWidgetColor: TautulliColorPalette.notWhite,
     );
 
     return MaterialApp(

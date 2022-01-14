@@ -9,24 +9,37 @@ class MoreGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SettingsGroup(
+    return SettingsGroup(
       heading: 'More',
       settingsListTiles: [
-        SettingsListTile(
+        const SettingsListTile(
           leading: FaIcon(FontAwesomeIcons.userSecret),
           title: 'OneSignal Data Privacy',
         ),
-        SettingsListTile(
+        const SettingsListTile(
           leading: FaIcon(FontAwesomeIcons.solidClipboard),
           title: 'Changelog',
         ),
-        SettingsListTile(
+        const SettingsListTile(
           leading: FaIcon(FontAwesomeIcons.globe),
           title: 'Help Translate',
         ),
         SettingsListTile(
-          leading: FaIcon(FontAwesomeIcons.infoCircle),
+          leading: const FaIcon(FontAwesomeIcons.infoCircle),
           title: 'About',
+          onTap: () {
+            showAboutDialog(
+              context: context,
+              applicationIcon: SizedBox(
+                height: 50,
+                child: Image.asset('assets/logo/logo.png'),
+              ),
+              applicationName: 'Tautulli Remote',
+              // applicationVersion: packageInfo.version, //TODO
+              applicationLegalese:
+                  'Licensed under the GNU General Public License v3.0',
+            );
+          },
         ),
       ],
     );

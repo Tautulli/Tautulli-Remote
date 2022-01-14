@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../pages/advanced_settings_page.dart';
 import 'settings_group.dart';
 import 'settings_list_tile.dart';
 
@@ -9,10 +10,10 @@ class AppSettingsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SettingsGroup(
+    return SettingsGroup(
       heading: 'App Settings',
       settingsListTiles: [
-        SettingsListTile(
+        const SettingsListTile(
           leading: FaIcon(
             FontAwesomeIcons.stopwatch,
             size: 28,
@@ -20,14 +21,19 @@ class AppSettingsGroup extends StatelessWidget {
           title: 'Server Timeout',
           subtitle: '15 sec (Default)',
         ),
-        SettingsListTile(
+        const SettingsListTile(
           leading: FaIcon(FontAwesomeIcons.solidClock),
           title: 'Activity Refresh Rate',
           subtitle: 'Disabled',
         ),
         SettingsListTile(
-          leading: FaIcon(FontAwesomeIcons.cogs),
+          leading: const FaIcon(FontAwesomeIcons.cogs),
           title: 'Advanced Settings',
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const AdvancedSettingsPage(),
+            ),
+          ),
         ),
       ],
     );

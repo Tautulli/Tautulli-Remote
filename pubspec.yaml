@@ -18,6 +18,7 @@ dependencies:
   font_awesome_flutter: ^10.0.0-beta
   google_fonts: ^2.2.0
   onesignal_flutter: ^3.2.7
+  url_launcher: ^6.0.18
   websafe_svg: ^2.1.0+1
 
 dev_dependencies:
