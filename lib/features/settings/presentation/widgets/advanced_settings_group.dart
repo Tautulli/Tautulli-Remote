@@ -28,7 +28,7 @@ class AdvancedSettingsGroup extends StatelessWidget {
           onChanged: (value) {},
         ),
         const SettingsListTile(
-          leading: FaIcon(FontAwesomeIcons.globe),
+          leading: FaIcon(FontAwesomeIcons.language),
           title: 'Language',
           subtitle: 'English',
         ),
