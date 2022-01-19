@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/app_settings_group.dart';
 import '../widgets/help_and_support_group.dart';
 import '../widgets/more_group.dart';
+import '../widgets/register_server_button.dart';
 import '../widgets/servers_group.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -27,18 +28,15 @@ class SettingsView extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListView(
-          children: [
-            const ServersGroup(),
+          children: const [
+            ServersGroup(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: ElevatedButton(
-                child: const Text('Register a Tautulli Server'),
-                onPressed: () {},
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: RegisterServerButton(),
             ),
-            const AppSettingsGroup(),
-            const HelpAndSupportGroup(),
-            const MoreGroup(),
+            AppSettingsGroup(),
+            HelpAndSupportGroup(),
+            MoreGroup(),
           ],
         ),
       ),

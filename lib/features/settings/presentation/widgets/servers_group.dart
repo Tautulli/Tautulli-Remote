@@ -24,6 +24,7 @@ class ServersGroup extends StatelessWidget {
           ),
           title: 'Server Name',
           subtitle: 'https://tautulli.domain.com',
+          onTap: () {},
         ),
       ],
     );
