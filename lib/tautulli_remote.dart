@@ -19,45 +19,149 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       DeviceOrientation.portraitUp,
     ]);
 
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.dark.copyWith(
+        systemNavigationBarColor: TautulliColorPalette.midnight,
+      ),
+    );
+
     final ThemeData theme = ThemeData(
-      primarySwatch: TautulliColorPalette.createSwatch(),
-      scaffoldBackgroundColor: TautulliColorPalette.midnight,
+      appBarTheme: AppBarTheme(
+        color: TautulliColorPalette.midnight,
+        iconTheme: const IconThemeData(
+          color: TautulliColorPalette.notWhite,
+        ),
+        titleTextStyle: GoogleFonts.openSans(
+          textStyle: const TextStyle(
+            fontSize: 20,
+            color: TautulliColorPalette.notWhite,
+          ),
+        ),
+      ),
+      cardColor: TautulliColorPalette
+          .midnight, //Flutter's 'About Licenses' page uses the card color
+      checkboxTheme: CheckboxThemeData(
+        fillColor: MaterialStateProperty.resolveWith(
+          (states) {
+            if (states.contains(MaterialState.selected)) {
+              return PlexColorPalette.gamboge;
+            }
+          },
+        ),
+      ),
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: TautulliColorPalette.createSwatch(),
+        brightness: Brightness.dark,
+      ).copyWith(
+        secondary: PlexColorPalette.gamboge,
+      ),
+      dialogTheme: const DialogTheme(
+        backgroundColor: TautulliColorPalette.gunmetal,
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          primary: TautulliColorPalette.amber,
+          primary: PlexColorPalette.gamboge,
+          onPrimary: Colors.white,
+          textStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          primary: TautulliColorPalette.notWhite,
-        ),
+      iconTheme: const IconThemeData(
+        color: TautulliColorPalette.notWhite,
       ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          primary: TautulliColorPalette.notWhite,
+      inputDecorationTheme: const InputDecorationTheme(
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: TautulliColorPalette.smoke,
+          ),
+        ),
+        // floatingLabelStyle: TextStyle(
+        //   color: PlexColorPalette.gamboge,
+        // ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: PlexColorPalette.gamboge,
+          ),
+        ),
+        iconColor: TautulliColorPalette.smoke,
+        isDense: true,
+        labelStyle: TextStyle(
+          color: TautulliColorPalette.smoke,
         ),
       ),
       listTileTheme: const ListTileThemeData(
         iconColor: TautulliColorPalette.notWhite,
       ),
-      dialogTheme: const DialogTheme(
-        backgroundColor: TautulliColorPalette.midnight,
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          primary: PlexColorPalette.gamboge,
+          side: const BorderSide(
+            color: PlexColorPalette.gamboge,
+          ),
+        ),
       ),
-      cardColor: TautulliColorPalette
-          .midnight, //Flutter's 'About Licenses' page uses the card color
+      primarySwatch: TautulliColorPalette.createSwatch(),
+      scaffoldBackgroundColor: TautulliColorPalette.midnight,
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          primary: TautulliColorPalette.notWhite,
+        ),
+      ),
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: PlexColorPalette.gamboge,
+        selectionHandleColor: PlexColorPalette.gamboge,
+        selectionColor: PlexColorPalette.gamboge,
+      ),
+      textTheme: GoogleFonts.openSansTextTheme(
+        ThemeData.dark().textTheme.copyWith(
+              bodyText1: const TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
+              bodyText2: const TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
+              button: const TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
+              caption: const TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
+              headline1: const TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
+              headline2: const TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
+              headline3: const TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
+              headline4: const TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
+              headline5: const TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
+              headline6: const TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
+              overline: const TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
+              subtitle1: const TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
+              subtitle2: const TextStyle(
+                color: TautulliColorPalette.smoke,
+              ),
+            ),
+      ),
       unselectedWidgetColor: TautulliColorPalette.notWhite,
     );
 
     return MaterialApp(
       title: 'Tautulli Remote',
-      theme: theme.copyWith(
-        colorScheme: theme.colorScheme.copyWith(
-          secondary: TautulliColorPalette.amber,
-        ),
-        textTheme: GoogleFonts.openSansTextTheme(
-          ThemeData.dark().textTheme.copyWith(),
-        ),
-      ),
+      theme: theme,
       builder: (context, child) {
         final MediaQueryData data = MediaQuery.of(context);
         return MediaQuery(
