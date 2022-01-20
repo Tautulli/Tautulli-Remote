@@ -92,6 +92,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       ),
       listTileTheme: const ListTileThemeData(
         iconColor: TautulliColorPalette.notWhite,
+        tileColor: TautulliColorPalette.gunmetal,
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
@@ -102,6 +103,15 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         ),
       ),
       primarySwatch: TautulliColorPalette.createSwatch(),
+      radioTheme: RadioThemeData(
+        fillColor: MaterialStateProperty.resolveWith(
+          (states) {
+            if (states.contains(MaterialState.selected)) {
+              return PlexColorPalette.gamboge;
+            }
+          },
+        ),
+      ),
       scaffoldBackgroundColor: TautulliColorPalette.midnight,
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
