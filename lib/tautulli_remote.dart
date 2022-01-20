@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
+import 'features/translation/presentation/pages/help_translate_page.dart';
 
 class TautulliRemote extends StatefulWidget {
   const TautulliRemote({Key? key}) : super(key: key);
@@ -57,6 +58,10 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       ),
       dialogTheme: const DialogTheme(
         backgroundColor: TautulliColorPalette.gunmetal,
+      ),
+      dividerTheme: const DividerThemeData(
+        color: PlexColorPalette.gamboge,
+        thickness: 1,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -184,6 +189,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       },
       routes: {
         SettingsPage.routeName: (_) => const SettingsPage(),
+        HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),
       },
       initialRoute: '/settings',
     );
