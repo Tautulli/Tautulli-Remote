@@ -32,7 +32,7 @@ class SettingsGroup extends StatelessWidget {
                 )
               : const SizedBox(height: 0, width: 0),
           Padding(
-            padding: const EdgeInsets.only(top: 8),
+            padding: EdgeInsets.only(top: heading != null ? 8 : 0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: Column(

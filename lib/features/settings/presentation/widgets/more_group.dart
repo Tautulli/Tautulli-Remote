@@ -25,7 +25,9 @@ class MoreGroup extends StatelessWidget {
         SettingsListTile(
           leading: const FaIcon(FontAwesomeIcons.globe),
           title: 'Help Translate',
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).pushNamed('/help_translate');
+          },
         ),
         SettingsListTile(
           leading: const FaIcon(FontAwesomeIcons.infoCircle),
@@ -35,7 +37,7 @@ class MoreGroup extends StatelessWidget {
               context: context,
               applicationIcon: SizedBox(
                 height: 50,
-                child: Image.asset('assets/logo/logo.png'),
+                child: Image.asset('assets/logos/logo.png'),
               ),
               applicationName: 'Tautulli Remote',
               // applicationVersion: packageInfo.version, //TODO

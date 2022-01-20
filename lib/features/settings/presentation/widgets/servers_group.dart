@@ -15,13 +15,10 @@ class ServersGroup extends StatelessWidget {
       heading: 'Servers',
       settingsListTiles: [
         SettingsListTile(
-          leading: SizedBox(
-            width: 35,
+          leading: WebsafeSvg.asset(
+            'assets/logos/logo_flat.svg',
+            color: TautulliColorPalette.notWhite,
             height: 35,
-            child: WebsafeSvg.asset(
-              'assets/logo/logo_flat.svg',
-              color: TautulliColorPalette.notWhite,
-            ),
           ),
           title: 'Server Name',
           subtitle: 'https://tautulli.domain.com',
