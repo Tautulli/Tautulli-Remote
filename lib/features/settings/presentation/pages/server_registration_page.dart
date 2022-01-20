@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/widgets/bullet_list.dart';
+import '../widgets/custom_header_list_tile.dart';
 import '../widgets/registration_exit_dialog.dart';
 import '../widgets/registration_instruction.dart';
 
@@ -194,10 +195,10 @@ class StepThree extends StatelessWidget {
           const BulletList(
             listItems: ['Add any customer headers needed.'],
           ),
-          const ListTile(
-            title: Text('Authorization'),
-            subtitle: Text('Value'),
-            trailing: FaIcon(FontAwesomeIcons.solidTimesCircle),
+          const CustomerHeaderListTile(
+            title: 'Authorization',
+            subtitle: 'Value',
+            showLeading: false,
           ),
           Row(
             children: [
