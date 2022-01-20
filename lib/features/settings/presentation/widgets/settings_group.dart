@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'settings_heading.dart';
 
 class SettingsGroup extends StatelessWidget {
-  final String heading;
+  final String? heading;
   final List<Widget> settingsListTiles;
 
   const SettingsGroup({
     Key? key,
-    required this.heading,
+    this.heading,
     required this.settingsListTiles,
   }) : super(key: key);
 
@@ -20,15 +20,17 @@ class SettingsGroup extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 8,
-              right: 8,
-            ),
-            child: SettingsHeading(
-              text: heading,
-            ),
-          ),
+          heading != null
+              ? Padding(
+                  padding: const EdgeInsets.only(
+                    left: 8,
+                    right: 8,
+                  ),
+                  child: SettingsHeading(
+                    text: heading!,
+                  ),
+                )
+              : const SizedBox(height: 0, width: 0),
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: ClipRRect(
