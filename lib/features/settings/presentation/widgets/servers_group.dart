@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../pages/server_settings_page.dart';
 import 'settings_group.dart';
 import 'settings_list_tile.dart';
 
@@ -24,7 +25,11 @@ class ServersGroup extends StatelessWidget {
           ),
           title: 'Server Name',
           subtitle: 'https://tautulli.domain.com',
-          onTap: () {},
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const ServerSettingsPage(),
+            ),
+          ),
         ),
       ],
     );
