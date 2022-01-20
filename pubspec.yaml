@@ -79,8 +79,9 @@ flutter:
     - assets/icons/concurrent.svg
     - assets/images/livetv_fallback.png
     - assets/images/default_profile.png
-    - assets/logo/logo.png
-    - assets/logo/logo_transparent.png
-    - assets/logo/logo_flat.svg
+    - assets/logos/logo.png
+    - assets/logos/logo_transparent.png
+    - assets/logos/logo_flat.svg
+    - assets/logos/weblate.svg
     - assets/splash/splash_ios.png
     - assets/translations/
