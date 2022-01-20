@@ -12,17 +12,20 @@ class MoreGroup extends StatelessWidget {
     return SettingsGroup(
       heading: 'More',
       settingsListTiles: [
-        const SettingsListTile(
-          leading: FaIcon(FontAwesomeIcons.userSecret),
+        SettingsListTile(
+          leading: const FaIcon(FontAwesomeIcons.userSecret),
           title: 'OneSignal Data Privacy',
+          onTap: () {},
         ),
-        const SettingsListTile(
-          leading: FaIcon(FontAwesomeIcons.solidClipboard),
+        SettingsListTile(
+          leading: const FaIcon(FontAwesomeIcons.solidClipboard),
           title: 'Changelog',
+          onTap: () {},
         ),
-        const SettingsListTile(
-          leading: FaIcon(FontAwesomeIcons.globe),
+        SettingsListTile(
+          leading: const FaIcon(FontAwesomeIcons.globe),
           title: 'Help Translate',
+          onTap: () {},
         ),
         SettingsListTile(
           leading: const FaIcon(FontAwesomeIcons.infoCircle),

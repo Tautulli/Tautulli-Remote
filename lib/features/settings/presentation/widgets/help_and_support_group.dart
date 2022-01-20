@@ -47,9 +47,10 @@ class HelpAndSupportGroup extends StatelessWidget {
             await launch('https://github.com/Tautulli/Tautulli-Remote/issues');
           },
         ),
-        const SettingsListTile(
-          leading: FaIcon(FontAwesomeIcons.list),
+        SettingsListTile(
+          leading: const FaIcon(FontAwesomeIcons.list),
           title: 'Tautulli Remote Logs',
+          onTap: () {},
         ),
       ],
     );
