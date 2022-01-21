@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/package_information/package_information.dart';
 import 'settings_group.dart';
 import 'settings_list_tile.dart';
 
@@ -32,7 +33,7 @@ class MoreGroup extends StatelessWidget {
         SettingsListTile(
           leading: const FaIcon(FontAwesomeIcons.infoCircle),
           title: 'About',
-          onTap: () {
+          onTap: () async {
             showAboutDialog(
               context: context,
               applicationIcon: SizedBox(
@@ -40,7 +41,7 @@ class MoreGroup extends StatelessWidget {
                 child: Image.asset('assets/logos/logo.png'),
               ),
               applicationName: 'Tautulli Remote',
-              // applicationVersion: packageInfo.version, //TODO
+              applicationVersion: await PackageInformationImpl().version,
               applicationLegalese:
                   'Licensed under the GNU General Public License v3.0',
             );
