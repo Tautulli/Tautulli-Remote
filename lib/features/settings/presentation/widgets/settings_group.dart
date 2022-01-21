@@ -14,35 +14,32 @@ class SettingsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          heading != null
-              ? Padding(
-                  padding: const EdgeInsets.only(
-                    left: 8,
-                    right: 8,
-                  ),
-                  child: SettingsHeading(
-                    text: heading!,
-                  ),
-                )
-              : const SizedBox(height: 0, width: 0),
-          Padding(
-            padding: EdgeInsets.only(top: heading != null ? 8 : 0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: settingsListTiles,
-              ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        heading != null
+            ? Padding(
+                padding: const EdgeInsets.only(
+                  left: 8,
+                  right: 8,
+                ),
+                child: SettingsHeading(
+                  text: heading!,
+                ),
+              )
+            : const SizedBox(height: 0, width: 0),
+        Padding(
+          padding: EdgeInsets.only(top: heading != null ? 8 : 0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: settingsListTiles,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

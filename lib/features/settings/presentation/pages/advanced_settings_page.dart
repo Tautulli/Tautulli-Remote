@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 import '../widgets/advanced_settings_group.dart';
 import '../widgets/operations_group.dart';
@@ -22,11 +23,15 @@ class AdvancedSettingsView extends StatelessWidget {
         title: const Text('Advanced Settings'),
       ),
       body: SafeArea(
-        child: ListView(
-          children: const [
-            AdvancedSettingsGroup(),
-            OperationsGroup(),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            children: const [
+              AdvancedSettingsGroup(),
+              Gap(8),
+              OperationsGroup(),
+            ],
+          ),
         ),
       ),
     );

@@ -36,11 +36,11 @@ class ServerRegistrationView extends StatelessWidget {
             child: ListView(
               children: const [
                 StepOne(),
-                Gap(16),
+                Gap(8),
                 StepTwo(),
-                Gap(16),
+                Gap(8),
                 StepThree(),
-                Gap(16),
+                Gap(8),
                 StepFour(),
               ],
             ),

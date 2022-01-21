@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
 
 import '../widgets/active_connection_indicator.dart';
 import '../widgets/custom_header_list_tile.dart';
@@ -31,48 +32,49 @@ class ServerSettingsView extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView(
-        children: [
-          SettingsGroup(
-            heading: 'Connection Details',
-            settingsListTiles: [
-              SettingsListTile(
-                leading: const FaIcon(FontAwesomeIcons.networkWired),
-                title: 'Primary Connection Address',
-                subtitle: 'https://tautulli.domain.com',
-                trailing: const ActiveConnectionIndicator(),
-                onTap: () {},
-              ),
-              SettingsListTile(
-                leading: const FaIcon(FontAwesomeIcons.networkWired),
-                title: 'Secondary Connection Address',
-                subtitle: 'https://plexpy.domain.com',
-                onTap: () {},
-              ),
-              SettingsListTile(
-                leading: FaIcon(
-                  FontAwesomeIcons.key,
-                  color: Theme.of(context).textTheme.subtitle2!.color,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: [
+            SettingsGroup(
+              heading: 'Connection Details',
+              settingsListTiles: [
+                SettingsListTile(
+                  leading: const FaIcon(FontAwesomeIcons.networkWired),
+                  title: 'Primary Connection Address',
+                  subtitle: 'https://tautulli.domain.com',
+                  trailing: const ActiveConnectionIndicator(),
+                  onTap: () {},
                 ),
-                title: 'Device Token',
-                subtitle: 'goc4waof_NQ9PiwzST1bJB9GHD6cQ_4R',
-                disabled: true,
-                onTap: () {},
-              ),
-            ],
-          ),
-          const SettingsGroup(
-            heading: 'Custom HTTP Headers',
-            settingsListTiles: [
-              CustomerHeaderListTile(
-                title: 'Authorization',
-                subtitle: 'Value',
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
+                SettingsListTile(
+                  leading: const FaIcon(FontAwesomeIcons.networkWired),
+                  title: 'Secondary Connection Address',
+                  subtitle: 'https://plexpy.domain.com',
+                  onTap: () {},
+                ),
+                SettingsListTile(
+                  leading: FaIcon(
+                    FontAwesomeIcons.key,
+                    color: Theme.of(context).textTheme.subtitle2!.color,
+                  ),
+                  title: 'Device Token',
+                  subtitle: 'goc4waof_NQ9PiwzST1bJB9GHD6cQ_4R',
+                  disabled: true,
+                  onTap: () {},
+                ),
+              ],
+            ),
+            const Gap(8),
+            const SettingsGroup(
+              heading: 'Custom HTTP Headers',
+              settingsListTiles: [
+                CustomerHeaderListTile(
+                  title: 'Authorization',
+                  subtitle: 'Value',
+                ),
+              ],
+            ),
+            Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
@@ -85,28 +87,29 @@ class ServerSettingsView extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          SettingsGroup(
-            heading: 'Other',
-            settingsListTiles: [
-              Material(
-                child: ListTile(
-                  leading: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      SizedBox(
-                        width: 35,
-                        child: FaIcon(FontAwesomeIcons.windowMaximize),
-                      ),
-                    ],
+            const Gap(8),
+            SettingsGroup(
+              heading: 'Other',
+              settingsListTiles: [
+                Material(
+                  child: ListTile(
+                    leading: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        SizedBox(
+                          width: 35,
+                          child: FaIcon(FontAwesomeIcons.windowMaximize),
+                        ),
+                      ],
+                    ),
+                    title: const Text('Open Server Name in browser'),
+                    onTap: () {},
                   ),
-                  title: const Text('Open Server Name in browser'),
-                  onTap: () {},
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

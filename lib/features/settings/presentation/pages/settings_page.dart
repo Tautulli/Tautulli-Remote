@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 import '../widgets/app_settings_group.dart';
 import '../widgets/help_and_support_group.dart';
@@ -27,17 +28,20 @@ class SettingsView extends StatelessWidget {
         title: const Text('Settings'),
       ),
       body: SafeArea(
-        child: ListView(
-          children: const [
-            ServersGroup(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: RegisterServerButton(),
-            ),
-            AppSettingsGroup(),
-            HelpAndSupportGroup(),
-            MoreGroup(),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            children: const [
+              ServersGroup(),
+              RegisterServerButton(),
+              Gap(8),
+              AppSettingsGroup(),
+              Gap(8),
+              HelpAndSupportGroup(),
+              Gap(8),
+              MoreGroup(),
+            ],
+          ),
         ),
       ),
     );
