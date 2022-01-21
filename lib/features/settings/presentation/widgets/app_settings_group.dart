@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../pages/advanced_settings_page.dart';
+import '../pages/advanced_page.dart';
 import 'activity_refresh_rate_dialog.dart';
 import 'server_timeout_dialog.dart';
 import 'settings_group.dart';
@@ -13,7 +13,7 @@ class AppSettingsGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SettingsGroup(
-      heading: 'App Settings',
+      heading: 'Settings & Operations',
       settingsListTiles: [
         SettingsListTile(
           leading: const FaIcon(
@@ -37,11 +37,11 @@ class AppSettingsGroup extends StatelessWidget {
           ),
         ),
         SettingsListTile(
-          leading: const FaIcon(FontAwesomeIcons.cogs),
-          title: 'Advanced Settings',
+          leading: const FaIcon(FontAwesomeIcons.wrench),
+          title: 'Advanced',
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const AdvancedSettingsPage(),
+              builder: (context) => const AdvancedPage(),
             ),
           ),
         ),

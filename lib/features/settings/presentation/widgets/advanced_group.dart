@@ -5,13 +5,13 @@ import 'checkbox_settings_list_tile.dart';
 import 'settings_group.dart';
 import 'settings_list_tile.dart';
 
-class AdvancedSettingsGroup extends StatelessWidget {
-  const AdvancedSettingsGroup({Key? key}) : super(key: key);
+class AdvancedGroup extends StatelessWidget {
+  const AdvancedGroup({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SettingsGroup(
-      heading: 'Advanced Settings',
+      heading: 'Settings',
       settingsListTiles: [
         CheckboxSettingsListTile(
           leading: const FaIcon(FontAwesomeIcons.backward),
