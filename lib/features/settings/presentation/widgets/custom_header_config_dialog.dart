@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
 
 enum CustomHeaderType {
   basicAuth,
@@ -25,7 +26,7 @@ class CustomHeaderConfigDialog extends StatelessWidget {
                 ? FontAwesomeIcons.solidAddressCard
                 : FontAwesomeIcons.addressCard,
           ),
-          const SizedBox(width: 8),
+          const Gap(8),
           Expanded(
             child: Text(
               headerType == CustomHeaderType.basicAuth
@@ -46,7 +47,7 @@ class CustomHeaderConfigDialog extends StatelessWidget {
                     : 'Header Key',
               ),
             ),
-            const SizedBox(height: 16),
+            const Gap(16),
             TextFormField(
               decoration: InputDecoration(
                 labelText: headerType == CustomHeaderType.basicAuth

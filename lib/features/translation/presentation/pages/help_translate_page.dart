@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
@@ -49,7 +50,7 @@ class HelpTranslateView extends StatelessWidget {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 8),
+                    Gap(8),
                     Text(
                       'Your contributions help improve Tautulli Remote and make it accessible to more of the community.',
                       textAlign: TextAlign.center,

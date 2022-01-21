@@ -16,6 +16,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.0.1
   font_awesome_flutter: ^10.0.0-beta
+  gap: ^2.0.0
   google_fonts: ^2.2.0
   onesignal_flutter: ^3.2.7
   url_launcher: ^6.0.18

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/bullet_list.dart';
 import '../widgets/custom_header_list_tile.dart';
@@ -35,11 +36,11 @@ class ServerRegistrationView extends StatelessWidget {
             child: ListView(
               children: const [
                 StepOne(),
-                SizedBox(height: 16),
+                Gap(16),
                 StepTwo(),
-                SizedBox(height: 16),
+                Gap(16),
                 StepThree(),
-                SizedBox(height: 16),
+                Gap(16),
                 StepFour(),
               ],
             ),
@@ -108,14 +109,14 @@ class StepTwo extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const Gap(8),
           TextFormField(
             autocorrect: false,
             decoration: const InputDecoration(
               labelText: 'Primary Connection Address',
             ),
           ),
-          const SizedBox(height: 16),
+          const Gap(16),
           TextFormField(
             autocorrect: false,
             decoration: InputDecoration(
@@ -142,7 +143,7 @@ class StepTwo extends StatelessWidget {
                                 Text(
                                   'The Secondary Connection Address will be used if the Primary Connection Address is unreachable.',
                                 ),
-                                SizedBox(height: 8),
+                                Gap(8),
                                 Text(
                                   'This is particularly useful if your public IP address is not accessible inside your network.',
                                 ),
@@ -165,14 +166,14 @@ class StepTwo extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const Gap(16),
           TextFormField(
             autocorrect: false,
             decoration: const InputDecoration(
               labelText: 'Device Token',
             ),
           ),
-          const SizedBox(height: 4),
+          const Gap(4),
         ],
       ),
     );
@@ -232,7 +233,7 @@ class StepFour extends StatelessWidget {
           const BulletList(
             listItems: ['Register your Tautulli server.'],
           ),
-          const SizedBox(height: 8),
+          const Gap(8),
           Row(
             children: [
               Expanded(

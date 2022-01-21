@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class BulletList extends StatelessWidget {
   final List<String> listItems;
@@ -18,7 +19,7 @@ class BulletList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('•'),
-                const SizedBox(width: 4),
+                const Gap(4),
                 Expanded(child: Text(item)),
               ],
             ),
