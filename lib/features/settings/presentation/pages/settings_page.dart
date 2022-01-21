@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/widgets/page_body.dart';
 import '../widgets/app_settings_group.dart';
 import '../widgets/help_and_support_group.dart';
 import '../widgets/more_group.dart';
@@ -27,21 +28,18 @@ class SettingsView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Settings'),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView(
-            children: const [
-              ServersGroup(),
-              RegisterServerButton(),
-              Gap(8),
-              AppSettingsGroup(),
-              Gap(8),
-              HelpAndSupportGroup(),
-              Gap(8),
-              MoreGroup(),
-            ],
-          ),
+      body: PageBody(
+        child: ListView(
+          children: const [
+            ServersGroup(),
+            RegisterServerButton(),
+            Gap(8),
+            AppSettingsGroup(),
+            Gap(8),
+            HelpAndSupportGroup(),
+            Gap(8),
+            MoreGroup(),
+          ],
         ),
       ),
     );

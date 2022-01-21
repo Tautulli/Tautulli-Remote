@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/widgets/page_body.dart';
 import '../widgets/active_connection_indicator.dart';
 import '../widgets/custom_header_list_tile.dart';
 import '../widgets/custom_header_type_dialog.dart';
@@ -32,8 +33,7 @@ class ServerSettingsView extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
+      body: PageBody(
         child: ListView(
           children: [
             SettingsGroup(

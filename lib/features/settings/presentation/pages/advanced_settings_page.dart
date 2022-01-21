@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/widgets/page_body.dart';
 import '../widgets/advanced_settings_group.dart';
 import '../widgets/operations_group.dart';
 
@@ -22,16 +23,13 @@ class AdvancedSettingsView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Advanced Settings'),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView(
-            children: const [
-              AdvancedSettingsGroup(),
-              Gap(8),
-              OperationsGroup(),
-            ],
-          ),
+      body: PageBody(
+        child: ListView(
+          children: const [
+            AdvancedSettingsGroup(),
+            Gap(8),
+            OperationsGroup(),
+          ],
         ),
       ),
     );

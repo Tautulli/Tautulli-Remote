@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/bullet_list.dart';
+import '../../../../core/widgets/page_body.dart';
 import '../widgets/custom_header_list_tile.dart';
 import '../widgets/registration_exit_dialog.dart';
 import '../widgets/registration_instruction.dart';
@@ -25,13 +26,12 @@ class ServerRegistrationView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Server Registration'),
       ),
-      body: WillPopScope(
-        onWillPop: () async => await showDialog(
-          context: context,
-          builder: (context) => const RegistrationExitDialog(),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
+      body: PageBody(
+        child: WillPopScope(
+          onWillPop: () async => await showDialog(
+            context: context,
+            builder: (context) => const RegistrationExitDialog(),
+          ),
           child: Form(
             child: ListView(
               children: const [
