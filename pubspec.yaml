@@ -17,6 +17,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   font_awesome_flutter: ^10.0.0-beta
   gap: ^2.0.0
+  get_it: ^7.2.0
   google_fonts: ^2.2.0
   onesignal_flutter: ^3.2.7
   package_info_plus: ^1.3.0
