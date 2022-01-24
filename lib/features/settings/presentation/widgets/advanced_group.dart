@@ -1,7 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tautulli_remote/features/settings/presentation/widgets/language_dialog.dart';
+import 'package:tautulli_remote/features/translation/presentation/bloc/translation_bloc.dart';
 
+import '../../../../core/helpers/translation_helper.dart';
 import '../bloc/settings_bloc.dart';
 import 'checkbox_settings_list_tile.dart';
 import 'settings_group.dart';
@@ -55,10 +59,21 @@ class AdvancedGroup extends StatelessWidget {
             );
           },
         ),
-        const SettingsListTile(
-          leading: FaIcon(FontAwesomeIcons.language),
+        SettingsListTile(
+          leading: const FaIcon(FontAwesomeIcons.language),
           title: 'Language',
-          subtitle: 'English',
+          subtitle: TranslationHelper.localeToString(context.locale),
+          onTap: () async {
+            await showDialog(
+              context: context,
+              builder: (context) => BlocProvider(
+                create: (context) => TranslationBloc(),
+                child: LanguageDialog(
+                  initialValue: context.locale,
+                ),
+              ),
+            );
+          },
         ),
       ],
     );
