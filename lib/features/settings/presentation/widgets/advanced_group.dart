@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../bloc/settings_bloc.dart';
 import 'checkbox_settings_list_tile.dart';
 import 'settings_group.dart';
 import 'settings_list_tile.dart';
@@ -13,19 +15,45 @@ class AdvancedGroup extends StatelessWidget {
     return SettingsGroup(
       heading: 'Settings',
       settingsListTiles: [
-        CheckboxSettingsListTile(
-          leading: const FaIcon(FontAwesomeIcons.backward),
-          title: 'Double Tap To Exit',
-          subtitle: 'Tap back twice to edit',
-          value: true,
-          onChanged: (value) {},
+        BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            state as SettingsSuccess;
+            final doubleTapToExit = state.appSettings.doubleTapToExit;
+
+            return CheckboxSettingsListTile(
+              leading: const FaIcon(FontAwesomeIcons.backward),
+              title: 'Double Tap To Exit',
+              subtitle: 'Tap back twice to edit',
+              value: doubleTapToExit,
+              onChanged: (value) {
+                if (value != null) {
+                  context.read<SettingsBloc>().add(
+                        SettingsUpdateDoubleTapToExit(value),
+                      );
+                }
+              },
+            );
+          },
         ),
-        CheckboxSettingsListTile(
-          leading: const FaIcon(FontAwesomeIcons.solidEyeSlash),
-          title: 'Mask Sensitive Info',
-          subtitle: 'Hides IP addresses and other sensitive info',
-          value: false,
-          onChanged: (value) {},
+        BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            state as SettingsSuccess;
+            final maskSensitiveInfo = state.appSettings.maskSensitiveInfo;
+
+            return CheckboxSettingsListTile(
+              leading: const FaIcon(FontAwesomeIcons.solidEyeSlash),
+              title: 'Mask Sensitive Info',
+              subtitle: 'Hides IP addresses and other sensitive info',
+              value: maskSensitiveInfo,
+              onChanged: (value) {
+                if (value != null) {
+                  context.read<SettingsBloc>().add(
+                        SettingsUpdateMaskSensitiveInfo(value),
+                      );
+                }
+              },
+            );
+          },
         ),
         const SettingsListTile(
           leading: FaIcon(FontAwesomeIcons.language),

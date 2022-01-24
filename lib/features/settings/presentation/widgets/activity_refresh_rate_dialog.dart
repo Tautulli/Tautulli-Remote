@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/settings_bloc.dart';
 
 class ActivityRefreshRateDialog extends StatefulWidget {
-  const ActivityRefreshRateDialog({Key? key}) : super(key: key);
+  final int initalValue;
+
+  const ActivityRefreshRateDialog({
+    Key? key,
+    required this.initalValue,
+  }) : super(key: key);
 
   @override
   State<ActivityRefreshRateDialog> createState() =>
@@ -9,13 +17,21 @@ class ActivityRefreshRateDialog extends StatefulWidget {
 }
 
 class _ActivityRefreshRateDialogState extends State<ActivityRefreshRateDialog> {
-  late int _refresh = 0;
+  late int _refresh;
+
+  @override
+  void initState() {
+    super.initState();
+    _refresh = widget.initalValue;
+  }
 
   void _refreshRadioValueChanged(int value) {
     setState(() {
       _refresh = value;
-
-      // Navigator.of(context).pop();
+      context.read<SettingsBloc>().add(
+            SettingsUpdateRefreshRate(value),
+          );
+      Navigator.of(context).pop();
     });
   }
 

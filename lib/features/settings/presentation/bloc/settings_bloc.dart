@@ -14,6 +14,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     required this.settings,
   }) : super(SettingsInitial()) {
     on<SettingsLoad>((event, emit) => _onSettingsLoad(event, emit));
+    on<SettingsUpdateDoubleTapToExit>(
+      (event, emit) => _onSettingsUpdateDoubleTapToExit(event, emit),
+    );
+    on<SettingsUpdateMaskSensitiveInfo>(
+      (event, emit) => _onSettingsUpdateMaskSensitiveInfo(event, emit),
+    );
+    on<SettingsUpdateRefreshRate>(
+      (event, emit) => _onSettingsUpdateRefreshRate(event, emit),
+    );
     on<SettingsUpdateServerTimeout>(
       (event, emit) => _onSettingsUpdateServerTimeout(event, emit),
     );
@@ -30,7 +39,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     try {
       // Fetch settings
       final AppSettingsModel appSettings = AppSettingsModel(
+        doubleTapToExit: await settings.getDoubleTapToExit(),
+        maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
         serverTimeout: await settings.getServerTimeout(),
+        refreshRate: await settings.getRefreshRate(),
       );
 
       emit(
@@ -43,6 +55,60 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         SettingsFailure(),
       );
     }
+  }
+
+  void _onSettingsUpdateDoubleTapToExit(
+    SettingsUpdateDoubleTapToExit event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    settings.setDoubleTapToExit(event.doubleTapToExit);
+    //TODO: Log change
+
+    emit(
+      SettingsSuccess(
+        appSettings: currentState.appSettings.copyWith(
+          doubleTapToExit: event.doubleTapToExit,
+        ),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateMaskSensitiveInfo(
+    SettingsUpdateMaskSensitiveInfo event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    settings.setMaskSensitiveInfo(event.maskSensitiveInfo);
+    //TODO: Log change
+
+    emit(
+      SettingsSuccess(
+        appSettings: currentState.appSettings.copyWith(
+          maskSensitiveInfo: event.maskSensitiveInfo,
+        ),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateRefreshRate(
+    SettingsUpdateRefreshRate event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    settings.setRefreshRate(event.refreshRate);
+    //TODO: Log change
+
+    emit(
+      SettingsSuccess(
+        appSettings: currentState.appSettings.copyWith(
+          refreshRate: event.refreshRate,
+        ),
+      ),
+    );
   }
 
   void _onSettingsUpdateServerTimeout(

@@ -38,14 +38,23 @@ class AppSettingsGroup extends StatelessWidget {
             );
           },
         ),
-        SettingsListTile(
-          leading: const FaIcon(FontAwesomeIcons.solidClock),
-          title: 'Activity Refresh Rate',
-          subtitle: 'Disabled',
-          onTap: () async => await showDialog(
-            context: context,
-            builder: (context) => const ActivityRefreshRateDialog(),
-          ),
+        BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            state as SettingsSuccess;
+            final refreshRate = state.appSettings.refreshRate;
+
+            return SettingsListTile(
+              leading: const FaIcon(FontAwesomeIcons.solidClock),
+              title: 'Activity Refresh Rate',
+              subtitle: _activityRefreshRateDisplay(refreshRate),
+              onTap: () async => await showDialog(
+                context: context,
+                builder: (context) => ActivityRefreshRateDialog(
+                  initalValue: refreshRate,
+                ),
+              ),
+            );
+          },
         ),
         SettingsListTile(
           leading: const FaIcon(FontAwesomeIcons.wrench),
@@ -59,19 +68,36 @@ class AppSettingsGroup extends StatelessWidget {
       ],
     );
   }
-}
 
-String _serverTimeoutDisplay(int timeout) {
-  switch (timeout) {
-    case (3):
-      return '3 sec';
-    case (5):
-      return '5 sec';
-    case (8):
-      return '8 sec';
-    case (30):
-      return '30 sec';
-    default:
-      return '15 sec (Default)';
+  String _serverTimeoutDisplay(int timeout) {
+    switch (timeout) {
+      case (3):
+        return '3 sec';
+      case (5):
+        return '5 sec';
+      case (8):
+        return '8 sec';
+      case (30):
+        return '30 sec';
+      default:
+        return '15 sec (Default)';
+    }
+  }
+
+  String _activityRefreshRateDisplay(int refreshRate) {
+    switch (refreshRate) {
+      case (5):
+        return '5 sec - Faster';
+      case (7):
+        return '7 sec - Fast';
+      case (10):
+        return '10 sec - Normal';
+      case (15):
+        return '15 sec - Slow';
+      case (20):
+        return '20 sec - Slower';
+      default:
+        return 'Disabled';
+    }
   }
 }

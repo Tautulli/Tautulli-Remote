@@ -6,6 +6,39 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   SettingsRepositoryImpl({required this.dataSource});
 
+  // Mask Sensitive Info
+  @override
+  Future<bool> getMaskSensitiveInfo() async {
+    return await dataSource.getMaskSensitiveInfo();
+  }
+
+  @override
+  Future<bool> setMaskSensitiveInfo(bool value) async {
+    return await dataSource.setMaskSensitiveInfo(value);
+  }
+
+  // Double Tap To Exit
+  @override
+  Future<bool> getDoubleTapToExit() async {
+    return await dataSource.getDoubleTapToExit();
+  }
+
+  @override
+  Future<bool> setDoubleTapToExit(bool value) async {
+    return await dataSource.setDoubleTapToExit(value);
+  }
+
+  // Refresh Rate
+  @override
+  Future<int> getRefreshRate() async {
+    return await dataSource.getRefreshRate();
+  }
+
+  @override
+  Future<bool> setRefreshRate(int value) async {
+    return await dataSource.setRefreshRate(value);
+  }
+
   // Server Timeout
   @override
   Future<int> getServerTimeout() async {
