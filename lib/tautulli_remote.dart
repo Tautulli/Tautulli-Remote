@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'core/helpers/color_palette_helper.dart';
+import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/translation/presentation/pages/help_translate_page.dart';
 
@@ -14,6 +16,12 @@ class TautulliRemote extends StatefulWidget {
 }
 
 class _TautulliRemoteState extends State<TautulliRemote> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<SettingsBloc>().add(SettingsLoad());
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -49,6 +57,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
             }
           },
         ),
+      ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: TautulliColorPalette.notWhite,
       ),
       colorScheme: ColorScheme.fromSwatch(
         primarySwatch: TautulliColorPalette.createSwatch(),

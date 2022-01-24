@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/settings_bloc.dart';
 
 class ServerTimeoutDialog extends StatefulWidget {
-  const ServerTimeoutDialog({Key? key}) : super(key: key);
+  final int initialValue;
+
+  const ServerTimeoutDialog({
+    Key? key,
+    required this.initialValue,
+  }) : super(key: key);
 
   @override
   State<ServerTimeoutDialog> createState() => _ServerTimeoutDialogState();
 }
 
 class _ServerTimeoutDialogState extends State<ServerTimeoutDialog> {
-  late int _timeout = 15;
+  late int _timeout;
+
+  @override
+  void initState() {
+    super.initState();
+    _timeout = widget.initialValue;
+  }
 
   void _timeoutRadioValueChanged(int value) {
     setState(() {
       _timeout = value;
-      // Navigator.of(context).pop();
+      context.read<SettingsBloc>().add(
+            SettingsUpdateServerTimeout(value),
+          );
+      Navigator.of(context).pop();
     });
   }
 

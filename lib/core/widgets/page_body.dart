@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../features/settings/presentation/bloc/settings_bloc.dart';
+import 'settings_not_loaded.dart';
 
 class PageBody extends StatelessWidget {
   final Widget child;
@@ -13,7 +17,13 @@ class PageBody extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: child,
+        child: BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            if (state is SettingsSuccess) return child;
+
+            return const SettingsNotLoaded();
+          },
+        ),
       ),
     );
   }
