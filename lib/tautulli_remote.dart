@@ -129,6 +129,12 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         ),
       ),
       scaffoldBackgroundColor: TautulliColorPalette.midnight,
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: TautulliColorPalette.gunmetal,
+        contentTextStyle: TextStyle(
+          color: TautulliColorPalette.notWhite,
+        ),
+      ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           primary: TautulliColorPalette.notWhite,

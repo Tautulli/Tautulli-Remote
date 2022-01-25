@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/manage_cache/manage_cache.dart';
 import '../../data/models/app_settings_model.dart';
 import '../../domain/usecases/settings.dart';
 
@@ -8,11 +9,14 @@ part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
+  final ManageCache manageCache;
   final Settings settings;
 
   SettingsBloc({
+    required this.manageCache,
     required this.settings,
   }) : super(SettingsInitial()) {
+    on<SettingsClearCache>((event, emit) => _onSettingsClearCache(event, emit));
     on<SettingsLoad>((event, emit) => _onSettingsLoad(event, emit));
     on<SettingsUpdateDoubleTapToExit>(
       (event, emit) => _onSettingsUpdateDoubleTapToExit(event, emit),
@@ -26,6 +30,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateServerTimeout>(
       (event, emit) => _onSettingsUpdateServerTimeout(event, emit),
     );
+  }
+
+  void _onSettingsClearCache(
+    SettingsClearCache event,
+    Emitter<SettingsState> emit,
+  ) async {
+    manageCache.clearCache();
   }
 
   void _onSettingsLoad(

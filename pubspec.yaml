@@ -9,6 +9,7 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
+  cached_network_image: ^3.2.0
   color: ^3.0.0
   cupertino_icons: ^1.0.3
   easy_localization: ^3.0.0
@@ -16,6 +17,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
+  flutter_cache_manager: ^3.3.0
   font_awesome_flutter: ^10.0.0-beta
   gap: ^2.0.0
   get_it: ^7.2.0
