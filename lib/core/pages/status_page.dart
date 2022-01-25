@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
 class StatusPage extends StatelessWidget {
@@ -39,7 +40,7 @@ class StatusPage extends StatelessWidget {
                       fontSize: 18,
                     ),
                   ),
-                  if (isNotBlank(suggestion)) const SizedBox(height: 8),
+                  if (isNotBlank(suggestion)) const Gap(8),
                   if (isNotBlank(suggestion))
                     Text(
                       suggestion!,
@@ -47,7 +48,7 @@ class StatusPage extends StatelessWidget {
                         fontSize: 16,
                       ),
                     ),
-                  if (action != null) const SizedBox(height: 4),
+                  if (action != null) const Gap(4),
                   if (action != null) action!,
                 ],
               ),
