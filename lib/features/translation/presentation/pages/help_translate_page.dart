@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/widgets/page_body.dart';
 import '../../../settings/presentation/widgets/settings_group.dart';
 import '../../../settings/presentation/widgets/settings_list_tile.dart';
 
@@ -28,41 +29,41 @@ class HelpTranslateView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Help Translate'),
       ),
-      body: SafeArea(
+      body: PageBody(
         child: ListView(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Text(
-                      'Thank you for helping to translate Tautulli Remote!',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                      textAlign: TextAlign.center,
+            const Gap(8),
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Text(
+                    'Thank you for helping to translate Tautulli Remote!',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
-                    Gap(8),
-                    Text(
-                      'Your contributions help improve Tautulli Remote and make it accessible to more of the community.',
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Gap(8),
+                  Text(
+                    'Your contributions help improve Tautulli Remote and make it accessible to more of the community.',
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
+            const Gap(8),
             const Divider(
               indent: 32,
               endIndent: 32,
             ),
+            const Gap(8),
             SettingsGroup(
               settingsListTiles: [
                 SettingsListTile(
