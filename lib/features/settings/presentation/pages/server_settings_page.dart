@@ -38,7 +38,7 @@ class ServerSettingsView extends StatelessWidget {
           children: [
             ListTileGroup(
               heading: 'Connection Details',
-              settingsListTiles: [
+              listTiles: [
                 SettingsListTile(
                   leading: const FaIcon(FontAwesomeIcons.networkWired),
                   title: 'Primary Connection Address',
@@ -67,7 +67,7 @@ class ServerSettingsView extends StatelessWidget {
             const Gap(8),
             const ListTileGroup(
               heading: 'Custom HTTP Headers',
-              settingsListTiles: [
+              listTiles: [
                 CustomerHeaderListTile(
                   title: 'Authorization',
                   subtitle: 'Value',
@@ -90,7 +90,7 @@ class ServerSettingsView extends StatelessWidget {
             const Gap(8),
             ListTileGroup(
               heading: 'Other',
-              settingsListTiles: [
+              listTiles: [
                 Material(
                   child: ListTile(
                     leading: Column(

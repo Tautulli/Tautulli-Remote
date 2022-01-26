@@ -12,7 +12,7 @@ class OperationsGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTileGroup(
       heading: 'Operations',
-      settingsListTiles: [
+      listTiles: [
         SettingsListTile(
           leading: const FaIcon(FontAwesomeIcons.eraser),
           title: 'Clear Image Cache',

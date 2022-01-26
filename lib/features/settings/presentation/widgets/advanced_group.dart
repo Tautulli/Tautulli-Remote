@@ -18,7 +18,7 @@ class AdvancedGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTileGroup(
       heading: 'Settings',
-      settingsListTiles: [
+      listTiles: [
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;

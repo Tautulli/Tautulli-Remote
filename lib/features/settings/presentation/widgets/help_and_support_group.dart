@@ -12,7 +12,7 @@ class HelpAndSupportGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTileGroup(
       heading: 'Help & Support',
-      settingsListTiles: [
+      listTiles: [
         SettingsListTile(
           leading: const FaIcon(FontAwesomeIcons.github),
           title: 'Wiki',

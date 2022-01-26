@@ -13,7 +13,7 @@ class MoreGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTileGroup(
       heading: 'More',
-      settingsListTiles: [
+      listTiles: [
         SettingsListTile(
           leading: WebsafeSvg.asset(
             'assets/logos/onesignal.svg',

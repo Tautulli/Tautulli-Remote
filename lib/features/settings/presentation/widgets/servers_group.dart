@@ -12,7 +12,7 @@ class ServersGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTileGroup(
       heading: 'Servers',
-      settingsListTiles: [
+      listTiles: [
         SettingsListTile(
           leading: WebsafeSvg.asset(
             'assets/logos/logo_flat.svg',

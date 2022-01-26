@@ -33,7 +33,7 @@ class OneSignalDataPrivacyView extends StatelessWidget {
               const OnesignalDataPrivacyText(),
               const Gap(8),
               ListTileGroup(
-                settingsListTiles: [
+                listTiles: [
                   Material(
                     child: SwitchListTile(
                       title: const Text('Consent to OneSignal data privacy'),

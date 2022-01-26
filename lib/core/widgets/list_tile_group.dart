@@ -4,12 +4,12 @@ import 'heading.dart';
 
 class ListTileGroup extends StatelessWidget {
   final String? heading;
-  final List<Widget> settingsListTiles;
+  final List<Widget> listTiles;
 
   const ListTileGroup({
     Key? key,
     this.heading,
-    required this.settingsListTiles,
+    required this.listTiles,
   }) : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class ListTileGroup extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: settingsListTiles,
+              children: listTiles,
             ),
           ),
         ),

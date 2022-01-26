@@ -16,7 +16,7 @@ class AppSettingsGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTileGroup(
       heading: 'Settings & Operations',
-      settingsListTiles: [
+      listTiles: [
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;

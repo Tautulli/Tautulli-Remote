@@ -62,7 +62,7 @@ class HelpTranslateView extends StatelessWidget {
             ),
             const Gap(4),
             ListTileGroup(
-              settingsListTiles: [
+              listTiles: [
                 SettingsListTile(
                   leading: WebsafeSvg.asset(
                     'assets/logos/weblate.svg',
