@@ -32,6 +32,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
                 text: textBlock1[1],
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
+                  decoration: TextDecoration.underline,
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
@@ -45,6 +46,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
                 text: '\n\n${textBlock2[1]}',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
+                  decoration: TextDecoration.underline,
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
@@ -58,6 +60,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
                 text: textBlock2[3],
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
+                  decoration: TextDecoration.underline,
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
@@ -74,6 +77,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
                 text: textBlock3[1],
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
+                  decoration: TextDecoration.underline,
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
