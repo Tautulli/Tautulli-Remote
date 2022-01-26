@@ -19,7 +19,7 @@ class MoreGroup extends StatelessWidget {
           onTap: () {},
         ),
         SettingsListTile(
-          leading: const FaIcon(FontAwesomeIcons.solidClipboard),
+          leading: const FaIcon(FontAwesomeIcons.clipboardList),
           title: 'Changelog',
           onTap: () {
             Navigator.of(context).pushNamed('/changelog');
