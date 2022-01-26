@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/helpers/translation_helper.dart';
 import 'dependency_injection.dart' as di;
+import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'tautulli_remote.dart';
 import 'translations/codegen_loader.g.dart';
@@ -22,6 +23,9 @@ void main() async {
       assetLoader: const CodegenLoader(),
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(
+            create: (context) => di.sl<OneSignalPrivacyBloc>(),
+          ),
           BlocProvider(
             create: (context) => di.sl<SettingsBloc>(),
           ),

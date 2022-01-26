@@ -6,3 +6,9 @@ abstract class OneSignalPrivacyEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class OneSignalPrivacyCheck extends OneSignalPrivacyEvent {}
+
+class OneSignalPrivacyGrant extends OneSignalPrivacyEvent {}
+
+class OneSignalPrivacyRevoke extends OneSignalPrivacyEvent {}

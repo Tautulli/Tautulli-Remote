@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
+import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/pages/onesignal_data_privacy.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
@@ -21,6 +22,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
   @override
   void initState() {
     super.initState();
+    context.read<OneSignalPrivacyBloc>().add(OneSignalPrivacyCheck());
     context.read<SettingsBloc>().add(SettingsLoad());
   }
 

@@ -8,6 +8,7 @@ import 'core/local_storage/local_storage.dart';
 import 'core/manage_cache/manage_cache.dart';
 import 'core/network_info/network_info.dart';
 import 'features/onesignal/data/datasources/onesignal_data_source.dart';
+import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/settings/data/datasources/settings_data_source.dart';
 import 'features/settings/data/repositories/settings_repository_impl.dart';
 import 'features/settings/domain/repositories/settings_repository.dart';
@@ -37,6 +38,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => Connectivity());
 
   //! Features - OneSignal
+  // Bloc
+  sl.registerFactory(
+    () => OneSignalPrivacyBloc(
+      oneSignal: sl(),
+      settings: sl(),
+    ),
+  );
+
   // Data sources
   sl.registerLazySingleton<OneSignalDataSource>(
     () => OneSignalDataSourceImpl(

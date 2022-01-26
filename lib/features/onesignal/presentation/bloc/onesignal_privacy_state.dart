@@ -8,3 +8,7 @@ abstract class OneSignalPrivacyState extends Equatable {
 }
 
 class OneSignalPrivacyInitial extends OneSignalPrivacyState {}
+
+class OneSignalPrivacySuccess extends OneSignalPrivacyState {}
+
+class OneSignalPrivacyFailure extends OneSignalPrivacyState {}
