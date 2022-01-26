@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'settings_heading.dart';
+import 'heading.dart';
 
-class SettingsGroup extends StatelessWidget {
+class ListTileGroup extends StatelessWidget {
   final String? heading;
   final List<Widget> settingsListTiles;
 
-  const SettingsGroup({
+  const ListTileGroup({
     Key? key,
     this.heading,
     required this.settingsListTiles,
@@ -24,7 +24,7 @@ class SettingsGroup extends StatelessWidget {
                   left: 8,
                   right: 8,
                 ),
-                child: SettingsHeading(
+                child: Heading(
                   text: heading!,
                 ),
               )

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'settings_heading.dart';
+import '../../../../core/widgets/heading.dart';
 
 class RegistrationInstruction extends StatelessWidget {
   final String heading;
@@ -20,7 +20,7 @@ class RegistrationInstruction extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8, bottom: 8),
-          child: SettingsHeading(text: heading),
+          child: Heading(text: heading),
         ),
         ClipRRect(
           borderRadius: BorderRadius.circular(4),

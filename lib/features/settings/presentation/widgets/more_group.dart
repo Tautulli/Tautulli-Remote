@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/package_information/package_information.dart';
-import 'settings_group.dart';
+import '../../../../core/widgets/list_tile_group.dart';
 import 'settings_list_tile.dart';
 
 class MoreGroup extends StatelessWidget {
@@ -10,7 +10,7 @@ class MoreGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsGroup(
+    return ListTileGroup(
       heading: 'More',
       settingsListTiles: [
         SettingsListTile(
@@ -21,7 +21,9 @@ class MoreGroup extends StatelessWidget {
         SettingsListTile(
           leading: const FaIcon(FontAwesomeIcons.solidClipboard),
           title: 'Changelog',
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).pushNamed('/changelog');
+          },
         ),
         SettingsListTile(
           leading: const FaIcon(FontAwesomeIcons.globe),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/widgets/list_tile_group.dart';
 import 'clear_cache_dialog.dart';
-import 'settings_group.dart';
 import 'settings_list_tile.dart';
 
 class OperationsGroup extends StatelessWidget {
@@ -10,7 +10,7 @@ class OperationsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsGroup(
+    return ListTileGroup(
       heading: 'Operations',
       settingsListTiles: [
         SettingsListTile(

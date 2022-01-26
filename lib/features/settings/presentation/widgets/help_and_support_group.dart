@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'settings_group.dart';
+import '../../../../core/widgets/list_tile_group.dart';
 import 'settings_list_tile.dart';
 
 class HelpAndSupportGroup extends StatelessWidget {
@@ -10,7 +10,7 @@ class HelpAndSupportGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsGroup(
+    return ListTileGroup(
       heading: 'Help & Support',
       settingsListTiles: [
         SettingsListTile(

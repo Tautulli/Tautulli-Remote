@@ -2,13 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tautulli_remote/features/settings/presentation/widgets/language_dialog.dart';
-import 'package:tautulli_remote/features/translation/presentation/bloc/translation_bloc.dart';
 
 import '../../../../core/helpers/translation_helper.dart';
+import '../../../../core/widgets/list_tile_group.dart';
+import '../../../translation/presentation/bloc/translation_bloc.dart';
 import '../bloc/settings_bloc.dart';
 import 'checkbox_settings_list_tile.dart';
-import 'settings_group.dart';
+import 'language_dialog.dart';
 import 'settings_list_tile.dart';
 
 class AdvancedGroup extends StatelessWidget {
@@ -16,7 +16,7 @@ class AdvancedGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsGroup(
+    return ListTileGroup(
       heading: 'Settings',
       settingsListTiles: [
         BlocBuilder<SettingsBloc, SettingsState>(

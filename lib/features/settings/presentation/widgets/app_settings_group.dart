@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../core/widgets/list_tile_group.dart';
 import '../bloc/settings_bloc.dart';
 import '../pages/advanced_page.dart';
 import 'activity_refresh_rate_dialog.dart';
 import 'server_timeout_dialog.dart';
-import 'settings_group.dart';
 import 'settings_list_tile.dart';
 
 class AppSettingsGroup extends StatelessWidget {
@@ -14,7 +14,7 @@ class AppSettingsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsGroup(
+    return ListTileGroup(
       heading: 'Settings & Operations',
       settingsListTiles: [
         BlocBuilder<SettingsBloc, SettingsState>(

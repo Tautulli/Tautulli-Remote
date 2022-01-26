@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/widgets/list_tile_group.dart';
 import '../pages/server_settings_page.dart';
-import 'settings_group.dart';
 import 'settings_list_tile.dart';
 
 class ServersGroup extends StatelessWidget {
@@ -11,7 +11,7 @@ class ServersGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsGroup(
+    return ListTileGroup(
       heading: 'Servers',
       settingsListTiles: [
         SettingsListTile(
