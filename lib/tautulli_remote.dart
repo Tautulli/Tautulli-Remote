@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'core/helpers/color_palette_helper.dart';
+import 'features/changelog/presentation/pages/changelog_page.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/translation/presentation/pages/help_translate_page.dart';
@@ -47,8 +48,12 @@ class _TautulliRemoteState extends State<TautulliRemote> {
           ),
         ),
       ),
-      cardColor: TautulliColorPalette
-          .midnight, //Flutter's 'About Licenses' page uses the card color
+      cardTheme: const CardTheme(
+        margin: EdgeInsets.all(0),
+        elevation: 0,
+        color: TautulliColorPalette
+            .midnight, //Flutter's 'About Licenses' page uses the card color
+      ),
       checkboxTheme: CheckboxThemeData(
         fillColor: MaterialStateProperty.resolveWith(
           (states) {
@@ -66,6 +71,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         brightness: Brightness.dark,
       ).copyWith(
         secondary: PlexColorPalette.gamboge,
+        secondaryVariant: TautulliColorPalette.notWhite,
       ),
       dialogTheme: const DialogTheme(
         backgroundColor: TautulliColorPalette.gunmetal,
@@ -205,8 +211,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         );
       },
       routes: {
-        SettingsPage.routeName: (_) => const SettingsPage(),
+        ChangelogPage.routeName: (_) => const ChangelogPage(),
         HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),
+        SettingsPage.routeName: (_) => const SettingsPage(),
       },
       initialRoute: '/settings',
     );
