@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/list_tile_group.dart';
 import '../../../../core/widgets/page_body.dart';
+import '../widgets/onesignal_data_privacy_list_tile.dart';
 import '../widgets/onesignal_data_privacy_text.dart';
 
 class OneSignalDataPrivacyPage extends StatelessWidget {
@@ -29,18 +30,12 @@ class OneSignalDataPrivacyView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              const OnesignalDataPrivacyText(),
-              const Gap(8),
+            children: const [
+              OnesignalDataPrivacyText(),
+              Gap(8),
               ListTileGroup(
                 listTiles: [
-                  Material(
-                    child: SwitchListTile(
-                      title: const Text('Consent to OneSignal data privacy'),
-                      value: true,
-                      onChanged: (value) {},
-                    ),
-                  ),
+                  OneSignalDataPrivacyListTile(),
                 ],
               ),
             ],
