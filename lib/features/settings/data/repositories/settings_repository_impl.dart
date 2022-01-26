@@ -6,6 +6,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   SettingsRepositoryImpl({required this.dataSource});
 
+  // Double Tap To Exit
+  @override
+  Future<bool> getDoubleTapToExit() async {
+    return await dataSource.getDoubleTapToExit();
+  }
+
+  @override
+  Future<bool> setDoubleTapToExit(bool value) async {
+    return await dataSource.setDoubleTapToExit(value);
+  }
+
   // Mask Sensitive Info
   @override
   Future<bool> getMaskSensitiveInfo() async {
@@ -17,15 +28,15 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setMaskSensitiveInfo(value);
   }
 
-  // Double Tap To Exit
+  // OneSignal Consented
   @override
-  Future<bool> getDoubleTapToExit() async {
-    return await dataSource.getDoubleTapToExit();
+  Future<bool> getOneSignalConsented() async {
+    return await dataSource.getOneSignalConsented();
   }
 
   @override
-  Future<bool> setDoubleTapToExit(bool value) async {
-    return await dataSource.setDoubleTapToExit(value);
+  Future<bool> setOneSignalConsented(bool value) async {
+    return await dataSource.setOneSignalConsented(value);
   }
 
   // Refresh Rate

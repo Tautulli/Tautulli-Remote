@@ -9,6 +9,10 @@ abstract class SettingsDataSource {
   Future<bool> getMaskSensitiveInfo();
   Future<bool> setMaskSensitiveInfo(bool value);
 
+  // OneSignal Consented
+  Future<bool> getOneSignalConsented();
+  Future<bool> setOneSignalConsented(bool value);
+
   // Refresh Rate
   Future<int> getRefreshRate();
   Future<bool> setRefreshRate(int value);
@@ -20,6 +24,7 @@ abstract class SettingsDataSource {
 
 const doubleTapToExit = 'doubleTapToExit';
 const maskSensitiveInfo = 'maskSensitiveInfo';
+const oneSignalConsented = 'oneSignalConsented';
 const refreshRate = 'refreshRate';
 const serverTimeout = 'serverTimeout';
 
@@ -27,6 +32,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   final LocalStorage localStorage;
 
   SettingsDataSourceImpl({required this.localStorage});
+
+  // Double Tap To Exit
+  @override
+  Future<bool> getDoubleTapToExit() async {
+    return Future.value(localStorage.getBool(doubleTapToExit) ?? false);
+  }
+
+  @override
+  Future<bool> setDoubleTapToExit(bool value) {
+    return localStorage.setBool(doubleTapToExit, value);
+  }
 
   // Mask Sensitive Info
   @override
@@ -39,15 +55,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     return localStorage.setBool(maskSensitiveInfo, value);
   }
 
-  // Double Tap To Exit
+  // OneSignal Consented
   @override
-  Future<bool> getDoubleTapToExit() async {
-    return Future.value(localStorage.getBool(doubleTapToExit) ?? false);
+  Future<bool> getOneSignalConsented() async {
+    return Future.value(
+      localStorage.getBool(oneSignalConsented) ?? false,
+    );
   }
 
   @override
-  Future<bool> setDoubleTapToExit(bool value) {
-    return localStorage.setBool(doubleTapToExit, value);
+  Future<bool> setOneSignalConsented(bool value) {
+    return localStorage.setBool(oneSignalConsented, value);
   }
 
   // Refresh Rate

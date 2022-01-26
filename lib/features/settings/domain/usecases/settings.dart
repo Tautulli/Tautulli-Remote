@@ -5,6 +5,18 @@ class Settings {
 
   Settings({required this.repository});
 
+  /// Returns if exiting the app should require two sequential back actions.
+  ///
+  /// If no value is stored returns `false`.
+  Future<bool> getDoubleTapToExit() async {
+    return await repository.getDoubleTapToExit();
+  }
+
+  /// Sets if exiting the app should require two sequential back actions.
+  Future<bool> setDoubleTapToExit(bool value) async {
+    return await repository.setDoubleTapToExit(value);
+  }
+
   /// Returns if the app should mask sensitive info.
   ///
   /// If no value is stored returns `false`.
@@ -17,16 +29,19 @@ class Settings {
     return await repository.setMaskSensitiveInfo(value);
   }
 
-  /// Returns if exiting the app should require two sequential back actions.
+  /// Returns if the user has consented to OneSignal.
+  ///
+  /// Used to account for issues where updating OneSignal clears out the
+  /// consent status.
   ///
   /// If no value is stored returns `false`.
-  Future<bool> getDoubleTapToExit() async {
-    return await repository.getDoubleTapToExit();
+  Future<bool> getOneSignalConsented() async {
+    return await repository.getOneSignalConsented();
   }
 
-  /// Sets if exiting the app should require two sequential back actions.
-  Future<bool> setDoubleTapToExit(bool value) async {
-    return await repository.setDoubleTapToExit(value);
+  /// Sets if OneSignal data privacy has been consented to.
+  Future<bool> setOneSignalConsented(bool value) async {
+    return await repository.setOneSignalConsented(value);
   }
 
   /// Returns the refresh rate used for auto refreshing activity.
