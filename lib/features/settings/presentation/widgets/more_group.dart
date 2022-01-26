@@ -14,7 +14,7 @@ class MoreGroup extends StatelessWidget {
       heading: 'More',
       settingsListTiles: [
         SettingsListTile(
-          leading: const FaIcon(FontAwesomeIcons.userSecret),
+          leading: const FaIcon(FontAwesomeIcons.shieldAlt),
           title: 'OneSignal Data Privacy',
           onTap: () {},
         ),
