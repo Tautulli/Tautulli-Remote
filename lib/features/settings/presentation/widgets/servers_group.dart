@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/list_tile_group.dart';
 import '../pages/server_settings_page.dart';
 import 'settings_list_tile.dart';
@@ -17,7 +16,7 @@ class ServersGroup extends StatelessWidget {
         SettingsListTile(
           leading: WebsafeSvg.asset(
             'assets/logos/logo_flat.svg',
-            color: TautulliColorPalette.notWhite,
+            color: Theme.of(context).colorScheme.secondaryVariant,
             height: 35,
           ),
           title: 'Server Name',

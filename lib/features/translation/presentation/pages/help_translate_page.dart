@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/list_tile_group.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../settings/presentation/widgets/settings_list_tile.dart';
@@ -67,7 +66,7 @@ class HelpTranslateView extends StatelessWidget {
                 SettingsListTile(
                   leading: WebsafeSvg.asset(
                     'assets/logos/weblate.svg',
-                    color: TautulliColorPalette.notWhite,
+                    color: Theme.of(context).colorScheme.secondaryVariant,
                     height: 35,
                     width: 35,
                   ),
