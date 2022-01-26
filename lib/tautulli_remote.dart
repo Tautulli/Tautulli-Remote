@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
+import 'features/onesignal/presentation/pages/onesignal_data_privacy.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/translation/presentation/pages/help_translate_page.dart';
@@ -62,9 +63,6 @@ class _TautulliRemoteState extends State<TautulliRemote> {
             }
           },
         ),
-      ),
-      progressIndicatorTheme: const ProgressIndicatorThemeData(
-        color: TautulliColorPalette.notWhite,
       ),
       colorScheme: ColorScheme.fromSwatch(
         primarySwatch: TautulliColorPalette.createSwatch(),
@@ -125,6 +123,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         ),
       ),
       primarySwatch: TautulliColorPalette.createSwatch(),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: TautulliColorPalette.notWhite,
+      ),
       radioTheme: RadioThemeData(
         fillColor: MaterialStateProperty.resolveWith(
           (states) {
@@ -139,6 +140,22 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         backgroundColor: TautulliColorPalette.gunmetal,
         contentTextStyle: TextStyle(
           color: TautulliColorPalette.notWhite,
+        ),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: MaterialStateProperty.resolveWith(
+          (states) {
+            if (states.contains(MaterialState.selected)) {
+              return PlexColorPalette.gamboge;
+            }
+          },
+        ),
+        trackColor: MaterialStateProperty.resolveWith(
+          (states) {
+            if (states.contains(MaterialState.selected)) {
+              return PlexColorPalette.gamboge.withAlpha(175);
+            }
+          },
         ),
       ),
       textButtonTheme: TextButtonThemeData(
@@ -213,6 +230,8 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       routes: {
         ChangelogPage.routeName: (_) => const ChangelogPage(),
         HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),
+        OneSignalDataPrivacyPage.routeName: (_) =>
+            const OneSignalDataPrivacyPage(),
         SettingsPage.routeName: (_) => const SettingsPage(),
       },
       initialRoute: '/settings',

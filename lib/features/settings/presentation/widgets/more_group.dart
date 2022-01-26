@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../core/package_information/package_information.dart';
 import '../../../../core/widgets/list_tile_group.dart';
@@ -14,9 +15,15 @@ class MoreGroup extends StatelessWidget {
       heading: 'More',
       settingsListTiles: [
         SettingsListTile(
-          leading: const FaIcon(FontAwesomeIcons.shieldAlt),
+          leading: WebsafeSvg.asset(
+            'assets/logos/onesignal.svg',
+            color: Theme.of(context).colorScheme.secondaryVariant,
+            height: 35,
+          ),
           title: 'OneSignal Data Privacy',
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).pushNamed('/onesignal_privacy');
+          },
         ),
         SettingsListTile(
           leading: const FaIcon(FontAwesomeIcons.clipboardList),

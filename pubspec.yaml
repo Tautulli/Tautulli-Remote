@@ -91,5 +91,6 @@ flutter:
     - assets/logos/logo_transparent.png
     - assets/logos/logo_flat.svg
     - assets/logos/weblate.svg
+    - assets/logos/onesignal.svg
     - assets/splash/splash_ios.png
     - assets/translations/
