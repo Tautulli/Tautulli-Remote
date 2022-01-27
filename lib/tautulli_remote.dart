@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
@@ -22,8 +23,36 @@ class _TautulliRemoteState extends State<TautulliRemote> {
   @override
   void initState() {
     super.initState();
+    initalizeOneSignal();
     context.read<OneSignalPrivacyBloc>().add(OneSignalPrivacyCheck());
     context.read<SettingsBloc>().add(SettingsLoad());
+  }
+
+  Future<void> initalizeOneSignal() async {
+    if (!mounted) return;
+
+    // await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+
+    await OneSignal.shared.setLocationShared(false);
+
+    await OneSignal.shared.setRequiresUserPrivacyConsent(true);
+
+    await OneSignal.shared.setAppId("3b4b666a-d557-4b92-acdf-e2c8c4b95357");
+
+    OneSignal.shared.setNotificationWillShowInForegroundHandler((event) {
+      // Will be called whenever a notification is received
+      event.complete(event.notification);
+    });
+
+    OneSignal.shared
+        .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+      // Will be called whenever a notification is opened/button pressed
+    });
+
+    OneSignal.shared
+        .setSubscriptionObserver((OSSubscriptionStateChanges changes) async {
+      // Will be called whenever the subscription changes
+    });
   }
 
   @override
@@ -50,6 +79,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
             color: TautulliColorPalette.notWhite,
           ),
         ),
+      ),
+      bannerTheme: const MaterialBannerThemeData(
+        elevation: 1,
       ),
       cardTheme: const CardTheme(
         margin: EdgeInsets.all(0),
@@ -163,6 +195,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           primary: TautulliColorPalette.notWhite,
+          textStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       textSelectionTheme: const TextSelectionThemeData(
