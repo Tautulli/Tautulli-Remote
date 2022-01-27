@@ -15,15 +15,12 @@ class PageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            if (state is SettingsSuccess) return child;
+      child: BlocBuilder<SettingsBloc, SettingsState>(
+        builder: (context, state) {
+          if (state is SettingsSuccess) return child;
 
-            return const SettingsNotLoaded();
-          },
-        ),
+          return const SettingsNotLoaded();
+        },
       ),
     );
   }
