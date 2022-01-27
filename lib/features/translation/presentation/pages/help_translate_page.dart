@@ -30,6 +30,7 @@ class HelpTranslateView extends StatelessWidget {
       ),
       body: PageBody(
         child: ListView(
+          padding: const EdgeInsets.all(8.0),
           children: [
             Card(
               color: Theme.of(context).colorScheme.primary,
