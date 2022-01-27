@@ -28,19 +28,26 @@ class SettingsView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Settings'),
       ),
-      body: PageBody(
-        child: ListView(
-          children: const [
-            ServersGroup(),
-            RegisterServerButton(),
-            Gap(8),
-            AppSettingsGroup(),
-            Gap(8),
-            HelpAndSupportGroup(),
-            Gap(8),
-            MoreGroup(),
-          ],
-        ),
+      body: Column(
+        children: [
+          Expanded(
+            child: PageBody(
+              child: ListView(
+                padding: const EdgeInsets.all(8.0),
+                children: const [
+                  ServersGroup(),
+                  RegisterServerButton(),
+                  Gap(8),
+                  AppSettingsGroup(),
+                  Gap(8),
+                  HelpAndSupportGroup(),
+                  Gap(8),
+                  MoreGroup(),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

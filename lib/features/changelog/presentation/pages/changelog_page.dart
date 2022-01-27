@@ -40,6 +40,7 @@ class ChangelogView extends StatelessWidget {
       ),
       body: PageBody(
         child: ListView.builder(
+          padding: const EdgeInsets.all(8.0),
           itemCount: changelog['data'].length,
           itemBuilder: (context, index) {
             return ChangelogItem(

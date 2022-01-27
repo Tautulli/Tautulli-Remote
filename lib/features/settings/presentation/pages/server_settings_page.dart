@@ -35,6 +35,7 @@ class ServerSettingsView extends StatelessWidget {
       ),
       body: PageBody(
         child: ListView(
+          padding: const EdgeInsets.all(8.0),
           children: [
             ListTileGroup(
               heading: 'Connection Details',

@@ -25,6 +25,7 @@ class AdvancedView extends StatelessWidget {
       ),
       body: PageBody(
         child: ListView(
+          padding: const EdgeInsets.all(8.0),
           children: const [
             AdvancedGroup(),
             Gap(8),

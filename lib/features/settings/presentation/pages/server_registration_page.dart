@@ -34,6 +34,7 @@ class ServerRegistrationView extends StatelessWidget {
           ),
           child: Form(
             child: ListView(
+              padding: const EdgeInsets.all(8.0),
               children: const [
                 StepOne(),
                 Gap(8),
