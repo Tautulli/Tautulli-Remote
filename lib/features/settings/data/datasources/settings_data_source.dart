@@ -9,6 +9,10 @@ abstract class SettingsDataSource {
   Future<bool> getMaskSensitiveInfo();
   Future<bool> setMaskSensitiveInfo(bool value);
 
+  // OneSignal Banner Dismissed
+  Future<bool> getOneSignalBannerDismissed();
+  Future<bool> setOneSignalBannerDismissed(bool value);
+
   // OneSignal Consented
   Future<bool> getOneSignalConsented();
   Future<bool> setOneSignalConsented(bool value);
@@ -24,6 +28,7 @@ abstract class SettingsDataSource {
 
 const doubleTapToExit = 'doubleTapToExit';
 const maskSensitiveInfo = 'maskSensitiveInfo';
+const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
 const oneSignalConsented = 'oneSignalConsented';
 const refreshRate = 'refreshRate';
 const serverTimeout = 'serverTimeout';
@@ -53,6 +58,19 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setMaskSensitiveInfo(bool value) {
     return localStorage.setBool(maskSensitiveInfo, value);
+  }
+
+  // OneSignal Banner Dismissed
+  @override
+  Future<bool> getOneSignalBannerDismissed() async {
+    return Future.value(
+      localStorage.getBool(oneSignalBannerDismissed) ?? false,
+    );
+  }
+
+  @override
+  Future<bool> setOneSignalBannerDismissed(bool value) {
+    return localStorage.setBool(oneSignalBannerDismissed, value);
   }
 
   // OneSignal Consented

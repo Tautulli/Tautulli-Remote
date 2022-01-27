@@ -7,6 +7,10 @@ abstract class SettingsRepository {
   Future<bool> getMaskSensitiveInfo();
   Future<bool> setMaskSensitiveInfo(bool value);
 
+  // OneSignal Banner Dismissed
+  Future<bool> getOneSignalBannerDismissed();
+  Future<bool> setOneSignalBannerDismissed(bool value);
+
   // OneSignal Consented
   Future<bool> getOneSignalConsented();
   Future<bool> setOneSignalConsented(bool value);

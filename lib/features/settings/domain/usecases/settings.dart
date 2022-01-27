@@ -29,6 +29,19 @@ class Settings {
     return await repository.setMaskSensitiveInfo(value);
   }
 
+  /// Returns if the OneSignal Banner has been dismissed when determining if
+  /// it should be displayed.
+  ///
+  /// If no value is stored returns `false`.
+  Future<bool> getOneSignalBannerDismissed() async {
+    return await repository.getOneSignalBannerDismissed();
+  }
+
+  /// Sets if the OneSignal banner has been manually dismissed.
+  Future<bool> setOneSignalBannerDismissed(bool value) async {
+    return await repository.setOneSignalBannerDismissed(value);
+  }
+
   /// Returns if the user has consented to OneSignal.
   ///
   /// Used to account for issues where updating OneSignal clears out the

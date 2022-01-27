@@ -24,6 +24,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateMaskSensitiveInfo>(
       (event, emit) => _onSettingsUpdateMaskSensitiveInfo(event, emit),
     );
+    on<SettingsUpdateOneSignalBannerDismiss>(
+      (event, emit) => _onSettingsUpdateOneSignalBannerDismiss(event, emit),
+    );
     on<SettingsUpdateRefreshRate>(
       (event, emit) => _onSettingsUpdateRefreshRate(event, emit),
     );
@@ -52,6 +55,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final AppSettingsModel appSettings = AppSettingsModel(
         doubleTapToExit: await settings.getDoubleTapToExit(),
         maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
+        oneSignalBannerDismissed: await settings.getOneSignalBannerDismissed(),
         serverTimeout: await settings.getServerTimeout(),
         refreshRate: await settings.getRefreshRate(),
       );
@@ -74,7 +78,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async {
     final currentState = state as SettingsSuccess;
 
-    settings.setDoubleTapToExit(event.doubleTapToExit);
+    await settings.setDoubleTapToExit(event.doubleTapToExit);
     //TODO: Log change
 
     emit(
@@ -92,7 +96,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async {
     final currentState = state as SettingsSuccess;
 
-    settings.setMaskSensitiveInfo(event.maskSensitiveInfo);
+    await settings.setMaskSensitiveInfo(event.maskSensitiveInfo);
     //TODO: Log change
 
     emit(
@@ -104,13 +108,31 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
   }
 
+  void _onSettingsUpdateOneSignalBannerDismiss(
+    SettingsUpdateOneSignalBannerDismiss event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setOneSignalBannerDismissed(event.dismiss);
+    //TODO: Log change
+
+    emit(
+      SettingsSuccess(
+        appSettings: currentState.appSettings.copyWith(
+          oneSignalBannerDismissed: event.dismiss,
+        ),
+      ),
+    );
+  }
+
   void _onSettingsUpdateRefreshRate(
     SettingsUpdateRefreshRate event,
     Emitter<SettingsState> emit,
   ) async {
     final currentState = state as SettingsSuccess;
 
-    settings.setRefreshRate(event.refreshRate);
+    await settings.setRefreshRate(event.refreshRate);
     //TODO: Log change
 
     emit(
@@ -128,7 +150,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async {
     final currentState = state as SettingsSuccess;
 
-    settings.setServerTimeout(event.timeout);
+    await settings.setServerTimeout(event.timeout);
     //TODO: Log change
 
     emit(

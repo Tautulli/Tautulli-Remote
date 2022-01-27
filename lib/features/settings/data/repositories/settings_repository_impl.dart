@@ -28,6 +28,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setMaskSensitiveInfo(value);
   }
 
+  // OneSignal Banner Dismissed
+  @override
+  Future<bool> getOneSignalBannerDismissed() async {
+    return await dataSource.getOneSignalBannerDismissed();
+  }
+
+  @override
+  Future<bool> setOneSignalBannerDismissed(bool value) async {
+    return await dataSource.setOneSignalBannerDismissed(value);
+  }
+
   // OneSignal Consented
   @override
   Future<bool> getOneSignalConsented() async {

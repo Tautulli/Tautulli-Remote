@@ -29,6 +29,15 @@ class SettingsUpdateMaskSensitiveInfo extends SettingsEvent {
   List<Object> get props => [maskSensitiveInfo];
 }
 
+class SettingsUpdateOneSignalBannerDismiss extends SettingsEvent {
+  final bool dismiss;
+
+  const SettingsUpdateOneSignalBannerDismiss(this.dismiss);
+
+  @override
+  List<Object> get props => [dismiss];
+}
+
 class SettingsUpdateRefreshRate extends SettingsEvent {
   final int refreshRate;
 
