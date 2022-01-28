@@ -3,11 +3,18 @@ import 'dart:ui';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/helpers/translation_helper.dart';
+import '../../../logging/domain/usecases/logging.dart';
+
 part 'translation_event.dart';
 part 'translation_state.dart';
 
 class TranslationBloc extends Bloc<TranslationEvent, TranslationState> {
-  TranslationBloc() : super(TranslationInitial()) {
+  final Logging logging;
+
+  TranslationBloc({
+    required this.logging,
+  }) : super(TranslationInitial()) {
     on<TranslationLocaleUpdated>(
       (event, emit) => _translationLocaleUpdated(event, emit),
     );
@@ -17,6 +24,8 @@ class TranslationBloc extends Bloc<TranslationEvent, TranslationState> {
     TranslationLocaleUpdated event,
     Emitter<TranslationState> emit,
   ) {
-    //TODO Add logging when locale is changed
+    logging.info(
+      'Settings :: Locale changed to ${TranslationHelper.localeToEnglishString(event.locale)} [code: ${event.locale}]',
+    );
   }
 }

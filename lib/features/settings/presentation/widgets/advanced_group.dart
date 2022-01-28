@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/helpers/translation_helper.dart';
 import '../../../../core/widgets/list_tile_group.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../translation/presentation/bloc/translation_bloc.dart';
 import '../bloc/settings_bloc.dart';
 import 'checkbox_settings_list_tile.dart';
@@ -67,7 +68,7 @@ class AdvancedGroup extends StatelessWidget {
             await showDialog(
               context: context,
               builder: (context) => BlocProvider(
-                create: (context) => TranslationBloc(),
+                create: (context) => di.sl<TranslationBloc>(),
                 child: LanguageDialog(
                   initialValue: context.locale,
                 ),

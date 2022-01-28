@@ -23,6 +23,7 @@ import 'features/settings/data/repositories/settings_repository_impl.dart';
 import 'features/settings/domain/repositories/settings_repository.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
+import 'features/translation/presentation/bloc/translation_bloc.dart';
 
 // Service locator alias
 final sl = GetIt.instance;
@@ -82,6 +83,7 @@ Future<void> init() async {
   // Bloc
   sl.registerFactory(
     () => OneSignalHealthBloc(
+      logging: sl(),
       oneSignal: sl(),
     ),
   );
@@ -116,6 +118,7 @@ Future<void> init() async {
   // Bloc
   sl.registerFactory(
     () => SettingsBloc(
+      logging: sl(),
       manageCache: sl(),
       settings: sl(),
     ),
@@ -139,6 +142,14 @@ Future<void> init() async {
   sl.registerLazySingleton<SettingsDataSource>(
     () => SettingsDataSourceImpl(
       localStorage: sl(),
+    ),
+  );
+
+  //! Features - Translation
+  // Bloc
+  sl.registerFactory(
+    () => TranslationBloc(
+      logging: sl(),
     ),
   );
 }

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/manage_cache/manage_cache.dart';
+import '../../../logging/domain/usecases/logging.dart';
 import '../../data/models/app_settings_model.dart';
 import '../../domain/usecases/settings.dart';
 
@@ -9,10 +10,12 @@ part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
+  final Logging logging;
   final ManageCache manageCache;
   final Settings settings;
 
   SettingsBloc({
+    required this.logging,
     required this.manageCache,
     required this.settings,
   }) : super(SettingsInitial()) {
@@ -80,7 +83,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final currentState = state as SettingsSuccess;
 
     await settings.setDoubleTapToExit(event.doubleTapToExit);
-    //TODO: Log change
+    logging.info(
+      'Settings :: Double Tap To Exit set to ${event.doubleTapToExit}',
+    );
 
     emit(
       SettingsSuccess(
@@ -98,7 +103,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final currentState = state as SettingsSuccess;
 
     await settings.setMaskSensitiveInfo(event.maskSensitiveInfo);
-    //TODO: Log change
+    logging.info(
+      'Settings :: Mask Sensitive Info set to ${event.maskSensitiveInfo}',
+    );
 
     emit(
       SettingsSuccess(
@@ -116,7 +123,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final currentState = state as SettingsSuccess;
 
     await settings.setOneSignalBannerDismissed(event.dismiss);
-    //TODO: Log change
+    if (event.dismiss) {
+      logging.info(
+        'Settings :: OneSignal Banner Dismissed',
+      );
+    }
 
     emit(
       SettingsSuccess(
@@ -134,7 +145,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final currentState = state as SettingsSuccess;
 
     await settings.setRefreshRate(event.refreshRate);
-    //TODO: Log change
+    logging.info(
+      'Settings :: Activity Refresh Rate set to ${event.refreshRate}',
+    );
 
     emit(
       SettingsSuccess(
@@ -152,7 +165,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final currentState = state as SettingsSuccess;
 
     await settings.setServerTimeout(event.timeout);
-    //TODO: Log change
+    logging.info(
+      'Settings :: Server Timeout set to ${event.timeout}',
+    );
 
     emit(
       SettingsSuccess(
