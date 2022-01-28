@@ -15,6 +15,8 @@ class DataDumpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
+
     return BlocProvider(
       create: (context) => di.sl<OneSignalStatusBloc>()
         ..add(
