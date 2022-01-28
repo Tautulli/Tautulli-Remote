@@ -138,6 +138,7 @@ class _LoggingViewState extends State<LoggingView> {
             return PopupMenuButton(
               icon: FaIcon(
                 FontAwesomeIcons.filter,
+                size: 22,
                 color: state.level != LogLevel.ALL
                     ? Theme.of(context).colorScheme.secondary
                     : Theme.of(context).colorScheme.secondaryVariant,
