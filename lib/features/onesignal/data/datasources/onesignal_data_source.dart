@@ -20,6 +20,9 @@ abstract class OneSignalDataSource {
   /// Indicates if the user is subscribed to OneSignal.
   Future<bool> get isSubscribed;
 
+  /// Returns an `OSDeviceState` object, which contains the current device state
+  Future<OSDeviceState?> state();
+
   /// Provides the OneSignal User ID (AKA playerID).
   ///
   /// Returns `'onesignal-disabled'` if an error is thrown.
@@ -71,6 +74,11 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
     } else {
       return false;
     }
+  }
+
+  @override
+  Future<OSDeviceState?> state() async {
+    return await OneSignal.shared.getDeviceState();
   }
 
   @override
