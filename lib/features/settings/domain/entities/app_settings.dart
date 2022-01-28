@@ -4,6 +4,7 @@ abstract class AppSettings extends Equatable {
   final bool doubleTapToExit;
   final bool maskSensitiveInfo;
   final bool oneSignalBannerDismissed;
+  final bool oneSignalConsented;
   final int refreshRate;
   final int serverTimeout;
 
@@ -11,6 +12,7 @@ abstract class AppSettings extends Equatable {
     required this.doubleTapToExit,
     required this.maskSensitiveInfo,
     required this.oneSignalBannerDismissed,
+    required this.oneSignalConsented,
     required this.refreshRate,
     required this.serverTimeout,
   });
@@ -20,6 +22,7 @@ abstract class AppSettings extends Equatable {
         doubleTapToExit,
         maskSensitiveInfo,
         oneSignalBannerDismissed,
+        oneSignalConsented,
         refreshRate,
         serverTimeout,
       ];

@@ -56,6 +56,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         doubleTapToExit: await settings.getDoubleTapToExit(),
         maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
         oneSignalBannerDismissed: await settings.getOneSignalBannerDismissed(),
+        oneSignalConsented: await settings.getOneSignalConsented(),
         serverTimeout: await settings.getServerTimeout(),
         refreshRate: await settings.getRefreshRate(),
       );
