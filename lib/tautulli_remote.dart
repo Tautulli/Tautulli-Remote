@@ -115,6 +115,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       colorScheme: ColorScheme.fromSwatch(
         primarySwatch: TautulliColorPalette.createSwatch(),
         brightness: Brightness.dark,
+        errorColor: Colors.red[900],
       ).copyWith(
         secondary: PlexColorPalette.gamboge,
         secondaryVariant: TautulliColorPalette.notWhite,

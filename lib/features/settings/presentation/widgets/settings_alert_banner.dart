@@ -111,7 +111,7 @@ class _SettingsAlertBannerContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialBanner(
       forceActionsBelow: true,
-      backgroundColor: backgroundColor ?? Colors.red[900],
+      backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.error,
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       leading: const FaIcon(
         FontAwesomeIcons.exclamationTriangle,
