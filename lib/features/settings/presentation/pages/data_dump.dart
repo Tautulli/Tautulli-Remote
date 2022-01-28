@@ -10,8 +10,8 @@ import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_status_bloc.dart';
 import '../bloc/settings_bloc.dart';
 
-class SettingsDumpPage extends StatelessWidget {
-  const SettingsDumpPage({Key? key}) : super(key: key);
+class DataDumpPage extends StatelessWidget {
+  const DataDumpPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,13 @@ class SettingsDumpPage extends StatelessWidget {
         ..add(
           OneSignalStatusLoad(),
         ),
-      child: const SettingsDumpView(),
+      child: const DataDumpView(),
     );
   }
 }
 
-class SettingsDumpView extends StatelessWidget {
-  const SettingsDumpView({Key? key}) : super(key: key);
+class DataDumpView extends StatelessWidget {
+  const DataDumpView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -108,10 +108,10 @@ class _SettingDumpGroup extends StatelessWidget {
   }
 }
 
-class _SettingsDumpRow extends StatelessWidget {
+class _DataDumpRow extends StatelessWidget {
   final List<Widget> children;
 
-  const _SettingsDumpRow({
+  const _DataDumpRow({
     Key? key,
     required this.children,
   }) : super(key: key);
@@ -146,7 +146,7 @@ class _AppSettings extends StatelessWidget {
           .dump()
           .entries
           .map(
-            (e) => _SettingsDumpRow(
+            (e) => _DataDumpRow(
               children: [
                 Text(e.key),
                 const Gap(16),
@@ -169,7 +169,7 @@ class _OneSignalStatus extends StatelessWidget {
       widgetList: [
         BlocBuilder<OneSignalHealthBloc, OneSignalHealthState>(
           builder: (context, state) {
-            return _SettingsDumpRow(
+            return _DataDumpRow(
               children: [
                 const Text('Can Connect to OneSignal'),
                 const Gap(16),
@@ -191,7 +191,7 @@ class _OneSignalStatus extends StatelessWidget {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _SettingsDumpRow(
+                  _DataDumpRow(
                     children: [
                       const Text('Notification Permission'),
                       const Gap(16),
@@ -203,7 +203,7 @@ class _OneSignalStatus extends StatelessWidget {
                       ),
                     ],
                   ),
-                  _SettingsDumpRow(
+                  _DataDumpRow(
                     children: [
                       const Text('Push Disabled'),
                       const Gap(16),
@@ -212,7 +212,7 @@ class _OneSignalStatus extends StatelessWidget {
                       ),
                     ],
                   ),
-                  _SettingsDumpRow(
+                  _DataDumpRow(
                     children: [
                       const Text('Subscribed'),
                       const Gap(16),
@@ -221,7 +221,7 @@ class _OneSignalStatus extends StatelessWidget {
                       ),
                     ],
                   ),
-                  _SettingsDumpRow(
+                  _DataDumpRow(
                     children: [
                       const Text('User ID'),
                       const Gap(16),

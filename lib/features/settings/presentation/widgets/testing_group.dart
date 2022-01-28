@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/widgets/list_tile_group.dart';
 import '../pages/how_to_test_page.dart';
-import '../pages/settings_dump.dart';
+import '../pages/data_dump.dart';
 import 'settings_list_tile.dart';
 
 class TestingGroup extends StatelessWidget {
@@ -33,7 +33,7 @@ class TestingGroup extends StatelessWidget {
           onTap: () async {
             await Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const SettingsDumpPage(),
+                builder: (context) => const DataDumpPage(),
               ),
             );
           },
