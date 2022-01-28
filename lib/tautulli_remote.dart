@@ -6,7 +6,9 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
+import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
+import 'features/onesignal/presentation/bloc/onesignal_sub_bloc.dart';
 import 'features/onesignal/presentation/pages/onesignal_data_privacy.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
@@ -24,7 +26,13 @@ class _TautulliRemoteState extends State<TautulliRemote> {
   void initState() {
     super.initState();
     initalizeOneSignal();
+
     context.read<OneSignalPrivacyBloc>().add(OneSignalPrivacyCheck());
+    // Delay OneSignalSubCheck on app start to avoid calling OSDeviceState
+    // before OneSignal is fully initalized
+    Future.delayed(const Duration(seconds: 2), () {
+      context.read<OneSignalSubBloc>().add(OneSignalSubCheck());
+    });
     context.read<SettingsBloc>().add(SettingsLoad());
   }
 
@@ -52,6 +60,12 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     OneSignal.shared
         .setSubscriptionObserver((OSSubscriptionStateChanges changes) async {
       // Will be called whenever the subscription changes
+
+      // Only trigger new checks when userId or pushToken move from null to a value
+      if (changes.to.userId != null || changes.to.pushToken != null) {
+        context.read<OneSignalSubBloc>().add(OneSignalSubCheck());
+        context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
+      }
     });
   }
 

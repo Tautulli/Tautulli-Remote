@@ -32,12 +32,10 @@ class OneSignalPrivacyBloc
     Emitter<OneSignalPrivacyState> emit,
   ) async {
     if (await oneSignal.hasConsented) {
-      print('CONSENTED');
       emit(
         OneSignalPrivacySuccess(),
       );
     } else {
-      print('NOT CONSENTED');
       emit(
         OneSignalPrivacyFailure(),
       );
@@ -47,10 +45,30 @@ class OneSignalPrivacyBloc
   void _onOneSignalPrivacyGrant(
     OneSignalPrivacyGrant event,
     Emitter<OneSignalPrivacyState> emit,
-  ) async {}
+  ) async {
+    await oneSignal.grantConsent(true);
+    await oneSignal.disablePush(false);
+    await settings.setOneSignalConsented(true);
+
+    //TODO: Log privacy granted
+
+    emit(
+      OneSignalPrivacySuccess(),
+    );
+  }
 
   void _onOneSignalPrivacyRevoke(
     OneSignalPrivacyRevoke event,
     Emitter<OneSignalPrivacyState> emit,
-  ) async {}
+  ) async {
+    await oneSignal.disablePush(true);
+    await oneSignal.grantConsent(false);
+    await settings.setOneSignalConsented(false);
+
+    //TODO: Log privacy revoked
+
+    emit(
+      OneSignalPrivacyFailure(),
+    );
+  }
 }

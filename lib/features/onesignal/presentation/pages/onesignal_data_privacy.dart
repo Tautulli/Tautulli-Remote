@@ -28,6 +28,7 @@ class OneSignalDataPrivacyView extends StatelessWidget {
       ),
       body: PageBody(
         child: SingleChildScrollView(
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: const [
