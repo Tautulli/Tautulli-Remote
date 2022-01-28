@@ -20,10 +20,7 @@ class ListTileGroup extends StatelessWidget {
       children: [
         heading != null
             ? Padding(
-                padding: const EdgeInsets.only(
-                  left: 8,
-                  right: 8,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Heading(
                   text: heading!,
                 ),
