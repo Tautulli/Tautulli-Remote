@@ -10,6 +10,7 @@ import 'core/network_info/network_info.dart';
 import 'features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
+import 'features/onesignal/presentation/bloc/onesignal_status_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_sub_bloc.dart';
 import 'features/settings/data/datasources/settings_data_source.dart';
 import 'features/settings/data/repositories/settings_repository_impl.dart';
@@ -50,6 +51,11 @@ Future<void> init() async {
     () => OneSignalPrivacyBloc(
       oneSignal: sl(),
       settings: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => OneSignalStatusBloc(
+      oneSignal: sl(),
     ),
   );
   sl.registerFactory(
