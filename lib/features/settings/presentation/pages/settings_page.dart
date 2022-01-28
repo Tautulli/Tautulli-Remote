@@ -11,6 +11,7 @@ import '../widgets/more_group.dart';
 import '../widgets/register_server_button.dart';
 import '../widgets/servers_group.dart';
 import '../widgets/settings_alert_banner.dart';
+import '../widgets/testing_group.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -51,6 +52,8 @@ class SettingsView extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.all(8.0),
                 children: const [
+                  TestingGroup(),
+                  Gap(8),
                   ServersGroup(),
                   RegisterServerButton(),
                   Gap(8),
