@@ -13,8 +13,13 @@ dependencies:
   color: ^3.0.0
   connectivity_plus: ^2.2.0
   cupertino_icons: ^1.0.3
+  duration: ^3.0.8
   easy_localization: ^3.0.0
   equatable: ^2.0.3
+  # f_logs: ^2.0.0
+  f_logs:
+    git:
+      url: https://github.com/zubairehman/Flogs.git
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1

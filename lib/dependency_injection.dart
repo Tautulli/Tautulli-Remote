@@ -7,6 +7,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/local_storage/local_storage.dart';
 import 'core/manage_cache/manage_cache.dart';
 import 'core/network_info/network_info.dart';
+import 'features/logging/data/datasources/logging_data_source.dart';
+import 'features/logging/data/repositories/logging_repository_impl.dart';
+import 'features/logging/domain/repositories/logging_repository.dart';
+import 'features/logging/domain/usecases/logging.dart';
+import 'features/logging/presentation/bloc/logging_bloc.dart';
+import 'features/logging/presentation/bloc/logging_export_bloc.dart';
 import 'features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -40,6 +46,38 @@ Future<void> init() async {
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => Connectivity());
 
+  //! Features - Logging
+  // Bloc
+  sl.registerFactory(
+    () => LoggingBloc(
+      logging: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => LoggingExportBloc(
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => Logging(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<LoggingRepository>(
+    () => LoggingRepositoryImpl(
+      dataSource: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<LoggingDataSource>(
+    () => LoggingDataSourceImpl(),
+  );
+
   //! Features - OneSignal
   // Bloc
   sl.registerFactory(
@@ -49,6 +87,7 @@ Future<void> init() async {
   );
   sl.registerFactory(
     () => OneSignalPrivacyBloc(
+      logging: sl(),
       oneSignal: sl(),
       settings: sl(),
     ),

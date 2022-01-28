@@ -1,3 +1,4 @@
+import 'package:f_logs/f_logs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
   void initState() {
     super.initState();
     initalizeOneSignal();
+    initalizeFLogConfiguration();
 
     context.read<OneSignalPrivacyBloc>().add(OneSignalPrivacyCheck());
     // Delay OneSignalSubCheck on app start to avoid calling OSDeviceState
@@ -67,6 +69,12 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
       }
     });
+  }
+
+  void initalizeFLogConfiguration() {
+    FLog.applyConfigurations(
+      LogsConfig()..activeLogLevel = LogLevel.ALL,
+    );
   }
 
   @override
@@ -186,6 +194,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       ),
       scaffoldBackgroundColor: TautulliColorPalette.midnight,
       snackBarTheme: const SnackBarThemeData(
+        actionTextColor: TautulliColorPalette.notWhite,
         backgroundColor: TautulliColorPalette.gunmetal,
         contentTextStyle: TextStyle(
           color: TautulliColorPalette.notWhite,

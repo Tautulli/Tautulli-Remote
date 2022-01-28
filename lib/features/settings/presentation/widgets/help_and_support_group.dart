@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/widgets/list_tile_group.dart';
+import '../../../logging/presentation/pages/logging_page.dart';
 import 'settings_list_tile.dart';
 
 class HelpAndSupportGroup extends StatelessWidget {
@@ -50,7 +51,13 @@ class HelpAndSupportGroup extends StatelessWidget {
         SettingsListTile(
           leading: const FaIcon(FontAwesomeIcons.list),
           title: 'Tautulli Remote Logs',
-          onTap: () {},
+          onTap: () async {
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const LoggingPage(),
+              ),
+            );
+          },
         ),
       ],
     );
