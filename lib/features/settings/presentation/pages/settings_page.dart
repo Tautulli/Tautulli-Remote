@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/widgets/double_tap_to_exit.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../bloc/settings_bloc.dart';
@@ -35,38 +36,40 @@ class SettingsView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Settings'),
       ),
-      body: Column(
-        children: [
-          BlocBuilder<SettingsBloc, SettingsState>(
-            builder: (context, state) {
-              if (state is SettingsSuccess &&
-                  !state.appSettings.oneSignalBannerDismissed) {
-                return const SettingsAlertBanner();
-              }
+      body: PageBody(
+        child: DoubleTapToExit(
+          child: Column(
+            children: [
+              BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, state) {
+                  if (state is SettingsSuccess &&
+                      !state.appSettings.oneSignalBannerDismissed) {
+                    return const SettingsAlertBanner();
+                  }
 
-              return const SizedBox(height: 0, width: 0);
-            },
-          ),
-          Expanded(
-            child: PageBody(
-              child: ListView(
-                padding: const EdgeInsets.all(8.0),
-                children: const [
-                  TestingGroup(),
-                  Gap(8),
-                  ServersGroup(),
-                  RegisterServerButton(),
-                  Gap(8),
-                  AppSettingsGroup(),
-                  Gap(8),
-                  HelpAndSupportGroup(),
-                  Gap(8),
-                  MoreGroup(),
-                ],
+                  return const SizedBox(height: 0, width: 0);
+                },
               ),
-            ),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.all(8.0),
+                  children: const [
+                    TestingGroup(),
+                    Gap(8),
+                    ServersGroup(),
+                    RegisterServerButton(),
+                    Gap(8),
+                    AppSettingsGroup(),
+                    Gap(8),
+                    HelpAndSupportGroup(),
+                    Gap(8),
+                    MoreGroup(),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
