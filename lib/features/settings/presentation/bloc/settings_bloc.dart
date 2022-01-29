@@ -43,6 +43,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     Emitter<SettingsState> emit,
   ) async {
     manageCache.clearCache();
+    logging.info(
+      'Settings :: Image cache cleared',
+    );
   }
 
   void _onSettingsLoad(
@@ -70,6 +73,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         ),
       );
     } catch (e) {
+      logging.info(
+        'Settings :: Failed to load settings [$e]',
+      );
+
       emit(
         SettingsFailure(),
       );
