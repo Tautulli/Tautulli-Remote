@@ -14,26 +14,30 @@ class DoubleTapToExit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsState = context.read<SettingsBloc>().state as SettingsSuccess;
     DateTime? currentBackPressTime;
 
-    if (!settingsState.appSettings.doubleTapToExit) return child;
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, state) {
+        if (state is SettingsSuccess && state.appSettings.doubleTapToExit) {
+          return WillPopScope(
+            onWillPop: () {
+              DateTime now = DateTime.now();
 
-    return WillPopScope(
-      onWillPop: () {
-        DateTime now = DateTime.now();
+              if (currentBackPressTime == null ||
+                  now.difference(currentBackPressTime!) >
+                      const Duration(seconds: 2)) {
+                currentBackPressTime = now;
+                Fluttertoast.showToast(msg: 'Press again to exit app');
+                return Future.value(false);
+              }
 
-        if (currentBackPressTime == null ||
-            now.difference(currentBackPressTime!) >
-                const Duration(seconds: 2)) {
-          currentBackPressTime = now;
-          Fluttertoast.showToast(msg: 'Press again to exit app');
-          return Future.value(false);
+              return Future.value(true);
+            },
+            child: child,
+          );
         }
-
-        return Future.value(true);
+        return child;
       },
-      child: child,
     );
   }
 }
