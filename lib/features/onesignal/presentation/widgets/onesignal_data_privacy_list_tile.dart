@@ -21,32 +21,35 @@ class OneSignalDataPrivacyListTile extends StatelessWidget {
         return Material(
           child: SwitchListTile(
             title: const Text('Consent to OneSignal data privacy'),
-            subtitle: RichText(
-              text: TextSpan(
-                children: [
-                  const TextSpan(
-                    text: 'Status: ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  if (state is OneSignalPrivacyFailure)
-                    TextSpan(
-                      text: 'Not Accepted X',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        color: Theme.of(context).errorColor,
-                      ),
-                    ),
-                  if (state is OneSignalPrivacySuccess)
+            subtitle: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: RichText(
+                text: TextSpan(
+                  children: [
                     const TextSpan(
-                      text: 'Accepted ✓',
+                      text: 'Status: ',
                       style: TextStyle(
                         fontWeight: FontWeight.w300,
-                        color: Colors.green,
                       ),
                     ),
-                ],
+                    if (state is OneSignalPrivacyFailure)
+                      TextSpan(
+                        text: 'Not Accepted X',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: Theme.of(context).errorColor,
+                        ),
+                      ),
+                    if (state is OneSignalPrivacySuccess)
+                      const TextSpan(
+                        text: 'Accepted ✓',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: Colors.green,
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
             value: state is OneSignalPrivacySuccess,
