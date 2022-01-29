@@ -27,7 +27,10 @@ class DoubleTapToExit extends StatelessWidget {
                   now.difference(currentBackPressTime!) >
                       const Duration(seconds: 2)) {
                 currentBackPressTime = now;
-                Fluttertoast.showToast(msg: 'Press again to exit app');
+                Fluttertoast.showToast(
+                  toastLength: Toast.LENGTH_SHORT,
+                  msg: 'Press again to exit app',
+                );
                 return Future.value(false);
               }
 
