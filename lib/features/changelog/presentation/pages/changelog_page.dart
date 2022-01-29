@@ -26,8 +26,8 @@ class ChangelogView extends StatelessWidget {
         title: const Text('Changelog'),
         actions: [
           TextButton.icon(
-            onPressed: () {
-              //TODO: Donate link
+            onPressed: () async {
+              await Navigator.of(context).pushNamed('/donate');
             },
             icon: const FaIcon(
               FontAwesomeIcons.solidHeart,

@@ -19,7 +19,6 @@ class ChangelogItem extends StatelessWidget {
       padding: EdgeInsets.only(bottom: bottomPadding ? 8 : 0),
       child: Card(
         margin: const EdgeInsets.all(0),
-        color: Theme.of(context).colorScheme.primary,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

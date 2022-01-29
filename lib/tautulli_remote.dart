@@ -7,6 +7,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'core/helpers/color_palette_helper.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
+import 'features/donate/presentation/pages/donate_page.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_sub_bloc.dart';
@@ -105,11 +106,12 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       bannerTheme: const MaterialBannerThemeData(
         elevation: 1,
       ),
+      cardColor: TautulliColorPalette
+          .gunmetal, //Flutter's 'About Licenses' page uses the cardColor
       cardTheme: const CardTheme(
         margin: EdgeInsets.all(0),
         elevation: 0,
-        color: TautulliColorPalette
-            .midnight, //Flutter's 'About Licenses' page uses the card color
+        color: TautulliColorPalette.gunmetal,
       ),
       checkboxTheme: CheckboxThemeData(
         fillColor: MaterialStateProperty.resolveWith(
@@ -290,6 +292,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       },
       routes: {
         ChangelogPage.routeName: (_) => const ChangelogPage(),
+        DonatePage.routeName: (_) => const DonatePage(),
         HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),
         OneSignalDataPrivacyPage.routeName: (_) =>
             const OneSignalDataPrivacyPage(),

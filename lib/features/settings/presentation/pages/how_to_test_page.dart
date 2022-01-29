@@ -104,7 +104,7 @@ class _ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: color ?? Theme.of(context).colorScheme.primary,
+      color: color ?? Theme.of(context).cardTheme.color,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(

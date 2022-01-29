@@ -33,7 +33,6 @@ class HelpTranslateView extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           children: [
             Card(
-              color: Theme.of(context).colorScheme.primary,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
                 child: Column(

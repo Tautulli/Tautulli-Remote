@@ -48,16 +48,18 @@ class DataDumpView extends StatelessWidget {
                   children: [
                     const FaIcon(FontAwesomeIcons.exclamationTriangle),
                     const Gap(16),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'WARNING: This page includes sensitive data.',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text('Be cautious when sharing'),
-                      ],
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'WARNING: This page includes sensitive data.',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text('Be cautious when sharing'),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -96,7 +98,6 @@ class _SettingDumpGroup extends StatelessWidget {
         ),
         const Gap(8),
         Card(
-          color: Theme.of(context).colorScheme.primary,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

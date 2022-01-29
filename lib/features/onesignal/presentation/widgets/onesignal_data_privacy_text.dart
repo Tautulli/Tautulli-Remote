@@ -20,7 +20,6 @@ class OnesignalDataPrivacyText extends StatelessWidget {
             .split('%');
 
     return Card(
-      color: Theme.of(context).colorScheme.primary,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: RichText(
