@@ -14,6 +14,7 @@ class ServersGroup extends StatelessWidget {
       heading: 'Servers',
       listTiles: [
         SettingsListTile(
+          sensitive: true,
           leading: WebsafeSvg.asset(
             'assets/logos/logo_flat.svg',
             color: Theme.of(context).colorScheme.secondaryVariant,

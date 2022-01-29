@@ -41,6 +41,7 @@ class ServerSettingsView extends StatelessWidget {
               heading: 'Connection Details',
               listTiles: [
                 SettingsListTile(
+                  sensitive: true,
                   leading: const FaIcon(FontAwesomeIcons.networkWired),
                   title: 'Primary Connection Address',
                   subtitle: 'https://tautulli.domain.com',
@@ -48,12 +49,14 @@ class ServerSettingsView extends StatelessWidget {
                   onTap: () {},
                 ),
                 SettingsListTile(
+                  sensitive: true,
                   leading: const FaIcon(FontAwesomeIcons.networkWired),
                   title: 'Secondary Connection Address',
                   subtitle: 'https://plexpy.domain.com',
                   onTap: () {},
                 ),
                 SettingsListTile(
+                  sensitive: true,
                   leading: FaIcon(
                     FontAwesomeIcons.key,
                     color: Theme.of(context).textTheme.subtitle2!.color,
@@ -70,6 +73,7 @@ class ServerSettingsView extends StatelessWidget {
               heading: 'Custom HTTP Headers',
               listTiles: [
                 CustomerHeaderListTile(
+                  sensitive: true,
                   title: 'Authorization',
                   subtitle: 'Value',
                 ),
