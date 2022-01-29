@@ -21,6 +21,7 @@ class TestingGroup extends StatelessWidget {
           onTap: () async {
             await Navigator.of(context).push(
               MaterialPageRoute(
+                fullscreenDialog: true,
                 builder: (context) => const HowToTestPage(),
               ),
             );
@@ -33,6 +34,7 @@ class TestingGroup extends StatelessWidget {
           onTap: () async {
             await Navigator.of(context).push(
               MaterialPageRoute(
+                fullscreenDialog: true,
                 builder: (context) => const DataDumpPage(),
               ),
             );
