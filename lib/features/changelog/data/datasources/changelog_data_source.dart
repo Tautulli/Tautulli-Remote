@@ -9,6 +9,11 @@ Map changelog = {
           "detail":
               "Version 3 has been rewritten and redesigned from the ground up",
         },
+        {
+          "type": "important",
+          "detail":
+              "Donations cannot be tested in the alpha, they will always fail to load",
+        },
       ],
     },
     {
