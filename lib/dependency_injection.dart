@@ -11,6 +11,7 @@ import 'core/local_storage/local_storage.dart';
 import 'core/manage_cache/manage_cache.dart';
 import 'core/network_info/network_info.dart';
 import 'core/package_information/package_information.dart';
+import 'core/qr_code_scanner/qr_code_scanner.dart';
 import 'features/logging/data/datasources/logging_data_source.dart';
 import 'features/logging/data/repositories/logging_repository_impl.dart';
 import 'features/logging/domain/repositories/logging_repository.dart';
@@ -69,6 +70,11 @@ Future<void> init() async {
   //! Core - Package Information
   sl.registerLazySingleton<PackageInformation>(
     () => PackageInformationImpl(),
+  );
+
+  //! Core - QR Code Scanner
+  sl.registerLazySingleton<QrCodeScanner>(
+    () => QrCodeScannerImpl(),
   );
 
   //! External

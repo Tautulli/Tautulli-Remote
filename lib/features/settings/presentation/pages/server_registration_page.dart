@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:validators/validators.dart';
 
+import '../../../../core/qr_code_scanner/qr_code_scanner.dart';
 import '../../../../core/widgets/bullet_list.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../dependency_injection.dart' as di;
@@ -154,31 +154,22 @@ class _StepTwoState extends State<_StepTwo> {
                 child: ElevatedButton(
                   child: const Text('Scan QR Code'),
                   onPressed: () async {
-                    //TODO: Create intermediate file
-                    final qrCodeScan = await FlutterBarcodeScanner.scanBarcode(
-                      '#e5a00d',
-                      'CANCEL',
-                      false,
-                      ScanMode.QR,
-                    );
-
-                    if (qrCodeScan != '-1') {
-                      try {
-                        final List scanResults = qrCodeScan.split('|');
-
-                        widget.primaryController.text = scanResults[0].trim();
-                        widget.tokenController.text = scanResults[1].trim();
-                      } catch (_) {
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Theme.of(context).errorColor,
-                            content: const Text(
-                              'Error scanning QR code',
-                            ),
-                          ),
-                        );
+                    try {
+                      final qrCodeScan = await di.sl<QrCodeScanner>().scan();
+                      if (qrCodeScan != null) {
+                        widget.primaryController.text = qrCodeScan.value1;
+                        widget.tokenController.text = qrCodeScan.value2;
                       }
+                    } catch (_) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Theme.of(context).errorColor,
+                          content: const Text(
+                            'Error scanning QR code',
+                          ),
+                        ),
+                      );
                     }
                   },
                 ),
