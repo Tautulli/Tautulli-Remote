@@ -1,51 +1,63 @@
 import 'package:equatable/equatable.dart';
 
-abstract class NewFailure extends Equatable {
+abstract class Failure extends Equatable {
+  final dynamic data;
+
+  const Failure({this.data});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [data];
 }
 
 /// The TSL/SSL certificate is expired.
-class CertificateExpiredFailure extends NewFailure {}
+class CertificateExpiredFailure extends Failure {}
 
 /// A failure in verifying the TSL/SSL certificate.
-class CertificateVerificationFailure extends NewFailure {}
+class CertificateVerificationFailure extends Failure {}
 
 /// Connection details are missing.
-class ConnectionDetailsFailure extends NewFailure {}
+class ConnectionDetailsFailure extends Failure {}
 
 /// Device is not connected to a network.
-class ConnectionFailure extends NewFailure {}
+class ConnectionFailure extends Failure {}
 
 /// Error initalizing the database.
-class DatabaseInitFailure extends NewFailure {}
+class DatabaseInitFailure extends Failure {}
+
+/// Error thrown by the dio HTTP client.
+class DioFailure extends Failure {
+  const DioFailure({dynamic data}) : super(data: data);
+
+  @override
+  List<Object> get props => [data];
+}
 
 /// A catch-all Failure.
-class GenericFailure extends NewFailure {}
+class GenericFailure extends Failure {}
 
 /// Error parsing JSON.
-class JsonDecodeFailure extends NewFailure {}
+class JsonDecodeFailure extends Failure {}
 
 /// No servers are configured.
-class MissingServerFailure extends NewFailure {}
+class MissingServerFailure extends Failure {}
 
 // Server has provided an undesired response.
-class ServerFailure extends NewFailure {}
+class ServerFailure extends Failure {}
 
 /// Server min version is not met.
-class ServerVersionFailure extends NewFailure {}
+class ServerVersionFailure extends Failure {}
 
 /// Required settings are missing.
-class SettingsFailure extends NewFailure {}
+class SettingsFailure extends Failure {}
 
 /// Unable to connect to a provided address.
-class SocketFailure extends NewFailure {}
+class SocketFailure extends Failure {}
 
 /// Time to connect to a server exceeded.
-class TimeoutFailure extends NewFailure {}
+class TimeoutFailure extends Failure {}
 
 /// A failure in TLS/SSL connection.
-class TlsFailure extends NewFailure {}
+class TlsFailure extends Failure {}
 
 /// URL provided is improperly formatted.
-class UrlFormatFailure extends NewFailure {}
+class UrlFormatFailure extends Failure {}
