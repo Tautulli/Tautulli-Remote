@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../bloc/registration_headers_bloc.dart';
 import 'custom_header_config_dialog.dart';
 
 class CustomHeaderTypeDialog extends StatelessWidget {
@@ -18,9 +20,14 @@ class CustomHeaderTypeDialog extends StatelessWidget {
 
             await showDialog(
               context: context,
-              builder: (context) => const CustomHeaderConfigDialog(
-                headerType: CustomHeaderType.basicAuth,
-              ),
+              builder: (_) {
+                return BlocProvider.value(
+                  value: context.read<RegistrationHeadersBloc>(),
+                  child: const CustomHeaderConfigDialog(
+                    headerType: CustomHeaderType.basicAuth,
+                  ),
+                );
+              },
             );
           },
         ),
@@ -32,9 +39,14 @@ class CustomHeaderTypeDialog extends StatelessWidget {
 
             await showDialog(
               context: context,
-              builder: (context) => const CustomHeaderConfigDialog(
-                headerType: CustomHeaderType.custom,
-              ),
+              builder: (_) {
+                return BlocProvider.value(
+                  value: context.read<RegistrationHeadersBloc>(),
+                  child: const CustomHeaderConfigDialog(
+                    headerType: CustomHeaderType.custom,
+                  ),
+                );
+              },
             );
           },
         ),

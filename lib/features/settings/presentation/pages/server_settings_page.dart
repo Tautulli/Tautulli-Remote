@@ -72,7 +72,7 @@ class ServerSettingsView extends StatelessWidget {
             const ListTileGroup(
               heading: 'Custom HTTP Headers',
               listTiles: [
-                CustomerHeaderListTile(
+                CustomHeaderListTile(
                   sensitive: true,
                   title: 'Authorization',
                   subtitle: 'Value',

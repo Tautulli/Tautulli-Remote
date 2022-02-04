@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../bloc/registration_headers_bloc.dart';
 import '../bloc/settings_bloc.dart';
 
-class CustomerHeaderListTile extends StatelessWidget {
+class CustomHeaderListTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final bool showLeading;
   final bool sensitive;
 
-  const CustomerHeaderListTile({
+  const CustomHeaderListTile({
     Key? key,
     required this.title,
     required this.subtitle,
@@ -48,7 +49,11 @@ class CustomerHeaderListTile extends StatelessWidget {
               child: const FaIcon(
                 FontAwesomeIcons.solidTimesCircle,
               ),
-              onTap: () {},
+              onTap: () {
+                context.read<RegistrationHeadersBloc>().add(
+                      RegistrationHeadersDelete(title),
+                    );
+              },
             ),
           ),
         );
