@@ -1,6 +1,21 @@
+import 'package:dartz/dartz.dart';
+
+import '../../../../core/api/tautulli/models/register_device_model.dart';
+import '../../../../core/api/tautulli/tautulli_api.dart';
+import '../../../../core/device_info/device_info.dart';
+import '../../../../core/error/exception.dart';
 import '../../../../core/local_storage/local_storage.dart';
+import '../../../../core/package_information/package_information.dart';
+import '../../../../dependency_injection.dart' as di;
+import '../../../onesignal/data/datasources/onesignal_data_source.dart';
+import '../models/custom_header_model.dart';
 
 abstract class SettingsDataSource {
+  //* Store & Retrive Values
+  // Custom Cert Hash List
+  Future<List<int>> getCustomCertHashList();
+  Future<bool> setCustomCertHashList(List<int> certHashList);
+
   // Double Tap To Exit
   Future<bool> getDoubleTapToExit();
   Future<bool> setDoubleTapToExit(bool value);
@@ -24,8 +39,19 @@ abstract class SettingsDataSource {
   // Server Timeout
   Future<int> getServerTimeout();
   Future<bool> setServerTimeout(int value);
+
+  //* Settings Actions
+  Future<Tuple2<RegisterDeviceModel, bool>> registerDevice({
+    required String connectionProtocol,
+    required String connectionDomain,
+    required String connectionPath,
+    required String deviceToken,
+    List<CustomHeaderModel>? customHeaders,
+    bool trustCert,
+  });
 }
 
+const customCertHashList = 'customCertHashList';
 const doubleTapToExit = 'doubleTapToExit';
 const maskSensitiveInfo = 'maskSensitiveInfo';
 const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
@@ -34,9 +60,38 @@ const refreshRate = 'refreshRate';
 const serverTimeout = 'serverTimeout';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
+  final DeviceInfo deviceInfo;
   final LocalStorage localStorage;
+  final PackageInformation packageInfo;
+  final RegisterDevice registerDeviceApi;
 
-  SettingsDataSourceImpl({required this.localStorage});
+  SettingsDataSourceImpl({
+    required this.deviceInfo,
+    required this.localStorage,
+    required this.packageInfo,
+    required this.registerDeviceApi,
+  });
+
+  //* Store & Retrive Values
+  // Custom Cert Hash List
+  @override
+  Future<List<int>> getCustomCertHashList() {
+    List<String> stringList;
+    List<int> intList = [];
+
+    stringList = localStorage.getStringList(customCertHashList) ?? [];
+    intList = stringList.map((i) => int.parse(i)).toList();
+
+    return Future.value(intList);
+  }
+
+  @override
+  Future<bool> setCustomCertHashList(List<int> certHashList) {
+    final List<String> stringList =
+        certHashList.map((i) => i.toString()).toList();
+
+    return localStorage.setStringList(customCertHashList, stringList);
+  }
 
   // Double Tap To Exit
   @override
@@ -106,5 +161,53 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setServerTimeout(int value) {
     return localStorage.setInt(serverTimeout, value);
+  }
+
+  //* Settings Actions
+  @override
+  Future<Tuple2<RegisterDeviceModel, bool>> registerDevice({
+    required String connectionProtocol,
+    required String connectionDomain,
+    required String connectionPath,
+    required String deviceToken,
+    List<CustomHeaderModel>? customHeaders,
+    bool trustCert = false,
+  }) async {
+    final String deviceId = await deviceInfo.uniqueId ?? 'unknown';
+    final String deviceName = await deviceInfo.model ?? 'unknown';
+    final String oneSignalId = await di.sl<OneSignalDataSource>().userId;
+    final String platform = await deviceInfo.platform;
+    final String version = await packageInfo.version;
+
+    final result = await registerDeviceApi(
+      connectionProtocol: connectionProtocol,
+      connectionDomain: connectionDomain,
+      connectionPath: connectionPath,
+      deviceToken: deviceToken,
+      deviceId: deviceId,
+      deviceName: deviceName,
+      onesignalId: oneSignalId,
+      platform: platform,
+      version: version,
+      customHeaders: customHeaders,
+      trustCert: trustCert,
+    );
+
+    // If the response result is not success throw ServerException.
+    if (result.value1['response']['result'] != 'success') {
+      throw ServerException();
+    }
+
+    final Map<String, dynamic> responseData = result.value1['response']['data'];
+
+    // If response data is missing tautulli_version throw ServerVersionException.
+    if (!responseData.containsKey('tautulli_version')) {
+      throw ServerVersionException();
+    }
+
+    return Tuple2(
+      RegisterDeviceModel.fromJson(responseData),
+      result.value2,
+    );
   }
 }

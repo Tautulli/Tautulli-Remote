@@ -1,9 +1,29 @@
+import 'package:dartz/dartz.dart';
+
+import '../../../../core/api/tautulli/models/register_device_model.dart';
+import '../../../../core/error/failure.dart';
+import '../../data/models/custom_header_model.dart';
 import '../repositories/settings_repository.dart';
 
 class Settings {
   final SettingsRepository repository;
 
   Settings({required this.repository});
+
+  /// Returns a list of user approved certificate hashes.
+  ///
+  /// Used for communicating with servers that could not be authenticated by
+  /// any of the built in trusted root certificates.
+  ///
+  /// If no value is store returns an empty list.
+  Future<List<int>> getCustomCertHashList() async {
+    return await repository.getCustomCertHashList();
+  }
+
+  /// Sets the list of approved custom cert hashes.
+  Future<bool> setCustomCertHashList(List<int> certHashList) async {
+    return await repository.setCustomCertHashList(certHashList);
+  }
 
   /// Returns if exiting the app should require two sequential back actions.
   ///
@@ -79,5 +99,31 @@ class Settings {
   /// Sets the time to wait in seconds before timing out the server connection.
   Future<bool> setServerTimeout(int value) async {
     return await repository.setServerTimeout(value);
+  }
+
+  /// Used to register with a Tautulli server.
+  ///
+  /// When successful returns a `RegisterDeviceModel` containing response data
+  /// as well as a bool to indicate the active primary connection address.
+  ///
+  /// Set `trustCert` to true to add the certificate's hash to a list of user
+  /// trusted certificates that could not be authenticated by
+  /// any of the built in trusted root certificates.
+  Future<Either<Failure, Tuple2<RegisterDeviceModel, bool>>> registerDevice({
+    required String connectionProtocol,
+    required String connectionDomain,
+    required String connectionPath,
+    required String deviceToken,
+    List<CustomHeaderModel>? customHeaders,
+    bool trustCert = false,
+  }) async {
+    return await repository.registerDevice(
+      connectionProtocol: connectionProtocol,
+      connectionDomain: connectionDomain,
+      connectionPath: connectionPath,
+      deviceToken: deviceToken,
+      customHeaders: customHeaders,
+      trustCert: trustCert,
+    );
   }
 }
