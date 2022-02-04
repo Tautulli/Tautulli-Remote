@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/widgets/list_tile_group.dart';
-import '../pages/how_to_test_page.dart';
 import '../pages/data_dump.dart';
+import '../pages/how_to_test_page.dart';
 import 'settings_list_tile.dart';
 
 class TestingGroup extends StatelessWidget {
