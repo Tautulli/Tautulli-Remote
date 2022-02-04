@@ -149,23 +149,33 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       iconTheme: const IconThemeData(
         color: TautulliColorPalette.notWhite,
       ),
-      inputDecorationTheme: const InputDecorationTheme(
-        enabledBorder: OutlineInputBorder(
+      inputDecorationTheme: InputDecorationTheme(
+        enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             color: TautulliColorPalette.smoke,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.red[900]!,
           ),
         ),
         // floatingLabelStyle: TextStyle(
         //   color: PlexColorPalette.gamboge,
         // ),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             color: PlexColorPalette.gamboge,
           ),
         ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.red[900]!,
+          ),
+        ),
         iconColor: TautulliColorPalette.smoke,
         isDense: true,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: TautulliColorPalette.smoke,
         ),
       ),
