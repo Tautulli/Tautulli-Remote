@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/registration_headers_bloc.dart';
 
 class RegistrationExitDialog extends StatelessWidget {
   const RegistrationExitDialog({Key? key}) : super(key: key);
@@ -22,6 +25,9 @@ class RegistrationExitDialog extends StatelessWidget {
             backgroundColor: Theme.of(context).errorColor,
           ),
           onPressed: () {
+            context.read<RegistrationHeadersBloc>().add(
+                  RegistrationHeadersClear(),
+                );
             Navigator.of(context).pop(true);
           },
         ),
