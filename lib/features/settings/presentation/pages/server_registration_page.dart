@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:validators/validators.dart';
 
+import '../../../../core/error/failure.dart';
 import '../../../../core/qr_code_scanner/qr_code_scanner.dart';
 import '../../../../core/widgets/bullet_list.dart';
 import '../../../../core/widgets/page_body.dart';
@@ -12,8 +13,10 @@ import '../../data/models/custom_header_model.dart';
 import '../bloc/register_device_bloc.dart';
 import '../bloc/registration_headers_bloc.dart';
 import '../bloc/settings_bloc.dart';
+import '../widgets/certificate_failure_dialog.dart';
 import '../widgets/custom_header_type_dialog.dart';
 import '../widgets/registration_exit_dialog.dart';
+import '../widgets/registration_failure_dialog.dart';
 import '../widgets/registration_instruction.dart';
 
 class ServerRegistrationPage extends StatelessWidget {
@@ -60,28 +63,55 @@ class ServerRegistrationView extends StatelessWidget {
               );
             },
           ),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              padding: const EdgeInsets.all(8.0),
-              children: [
-                const _StepOne(),
-                const Gap(8),
-                _StepTwo(
-                  primaryController: _primaryController,
-                  secondaryController: _secondaryController,
-                  tokenController: _tokenController,
-                ),
-                const Gap(8),
-                const _StepThree(),
-                const Gap(8),
-                _StepFour(
-                  formKey: _formKey,
-                  primaryController: _primaryController,
-                  secondaryController: _secondaryController,
-                  tokenController: _tokenController,
-                ),
-              ],
+          child: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
+            listener: (context, state) async {
+              if (state is RegisterDeviceSuccess) {
+                Navigator.of(context).pop();
+              }
+              if (state is RegisterDeviceFailure) {
+                if (state.failure == CertificateVerificationFailure()) {
+                  await showDialog(
+                    context: context,
+                    builder: (_) {
+                      return BlocProvider.value(
+                        value: context.read<RegisterDeviceBloc>(),
+                        child: const CertificateFailureDialog(),
+                      );
+                    },
+                  );
+                } else {
+                  await showDialog(
+                    context: context,
+                    builder: (context) => RegistrationFailureDialog(
+                      failure: state.failure,
+                    ),
+                  );
+                }
+              }
+            },
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                padding: const EdgeInsets.all(8.0),
+                children: [
+                  const _StepOne(),
+                  const Gap(8),
+                  _StepTwo(
+                    primaryController: _primaryController,
+                    secondaryController: _secondaryController,
+                    tokenController: _tokenController,
+                  ),
+                  const Gap(8),
+                  const _StepThree(),
+                  const Gap(8),
+                  _StepFour(
+                    formKey: _formKey,
+                    primaryController: _primaryController,
+                    secondaryController: _secondaryController,
+                    tokenController: _tokenController,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
