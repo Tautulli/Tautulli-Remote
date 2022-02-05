@@ -141,7 +141,7 @@ class _LoggingViewState extends State<LoggingView> {
                 size: 22,
                 color: state.level != LogLevel.ALL
                     ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).colorScheme.secondaryVariant,
+                    : Theme.of(context).colorScheme.tertiary,
               ),
               onSelected: (LogLevel value) {
                 context.read<LoggingBloc>().add(
@@ -156,7 +156,7 @@ class _LoggingViewState extends State<LoggingView> {
                       style: TextStyle(
                         color: state.level == LogLevel.ALL
                             ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.secondaryVariant,
+                            : Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
                     value: LogLevel.ALL,
@@ -167,7 +167,7 @@ class _LoggingViewState extends State<LoggingView> {
                       style: TextStyle(
                         color: state.level == LogLevel.DEBUG
                             ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.secondaryVariant,
+                            : Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
                     value: LogLevel.DEBUG,
@@ -178,7 +178,7 @@ class _LoggingViewState extends State<LoggingView> {
                       style: TextStyle(
                         color: state.level == LogLevel.INFO
                             ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.secondaryVariant,
+                            : Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
                     value: LogLevel.INFO,
@@ -189,7 +189,7 @@ class _LoggingViewState extends State<LoggingView> {
                       style: TextStyle(
                         color: state.level == LogLevel.WARNING
                             ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.secondaryVariant,
+                            : Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
                     value: LogLevel.WARNING,
@@ -200,7 +200,7 @@ class _LoggingViewState extends State<LoggingView> {
                       style: TextStyle(
                         color: state.level == LogLevel.ERROR
                             ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.secondaryVariant,
+                            : Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
                     value: LogLevel.ERROR,

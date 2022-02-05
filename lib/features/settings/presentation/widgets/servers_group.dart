@@ -17,7 +17,7 @@ class ServersGroup extends StatelessWidget {
           sensitive: true,
           leading: WebsafeSvg.asset(
             'assets/logos/logo_flat.svg',
-            color: Theme.of(context).colorScheme.secondaryVariant,
+            color: Theme.of(context).colorScheme.tertiary,
             height: 35,
           ),
           title: 'Server Name',

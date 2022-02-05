@@ -66,7 +66,7 @@ class HelpTranslateView extends StatelessWidget {
                 SettingsListTile(
                   leading: WebsafeSvg.asset(
                     'assets/logos/weblate.svg',
-                    color: Theme.of(context).colorScheme.secondaryVariant,
+                    color: Theme.of(context).colorScheme.tertiary,
                     height: 35,
                     width: 35,
                   ),

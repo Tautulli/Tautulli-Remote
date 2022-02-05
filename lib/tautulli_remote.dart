@@ -91,6 +91,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     );
 
     final ThemeData theme = ThemeData(
+      useMaterial3: true,
       appBarTheme: AppBarTheme(
         color: TautulliColorPalette.midnight,
         iconTheme: const IconThemeData(
@@ -128,7 +129,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         errorColor: Colors.red[900],
       ).copyWith(
         secondary: PlexColorPalette.gamboge,
-        secondaryVariant: TautulliColorPalette.notWhite,
+        tertiary: TautulliColorPalette.notWhite,
       ),
       dialogTheme: const DialogTheme(
         backgroundColor: TautulliColorPalette.gunmetal,
