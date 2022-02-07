@@ -68,8 +68,6 @@ class FailureHelper {
 
     // Parse DioError responses to map to more specific errors
     if (exception.runtimeType == DioError) {
-      print('EXCEPTION RESPONSE: ${exception.response}');
-
       final responseString = exception.response.toString();
 
       if (responseString.toLowerCase().contains('authorization required')) {
@@ -77,7 +75,7 @@ class FailureHelper {
       } else if (responseString.contains('"message":"Invalid apikey"')) {
         exception = InvalidApiKeyException;
       } else {
-        if (isNotBlank(responseString)) {
+        if (isNotBlank(responseString) && responseString != 'null') {
           di.sl<Logging>().error(
                 'FailureMapper :: Unaccounted for HTTP client error response [$responseString]',
               );
