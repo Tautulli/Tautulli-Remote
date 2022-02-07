@@ -101,11 +101,6 @@ class CallTautulliImpl implements CallTautulli {
       };
     };
 
-    // If new cert was trusted update the stored custom cert hash list
-    if (trustCert) {
-      await di.sl<Settings>().setCustomCertHashList(customCertHashList);
-    }
-
     // Get timeout value from settings
     final timeout = await di.sl<Settings>().getServerTimeout();
 
@@ -119,9 +114,15 @@ class CallTautulliImpl implements CallTautulli {
             ),
           )
           .timeout(Duration(seconds: timeoutOverride ?? timeout));
+
+      // If new cert was trusted update the stored custom cert hash list.
+      // Has to be after the dio call in order to trigger the
+      // badCertificateCallback.
+      if (trustCert) {
+        await di.sl<Settings>().setCustomCertHashList(customCertHashList);
+      }
     } catch (e) {
-      if (e.runtimeType == HandshakeException &&
-          e.toString().contains('CERTIFICATE_VERIFY_FAILED')) {
+      if (e.toString().contains('CERTIFICATE_VERIFY_FAILED')) {
         throw CertificateVerificationException;
       }
 
