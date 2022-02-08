@@ -62,6 +62,9 @@ class ServerRegistrationView extends StatelessWidget {
           child: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
             listener: (context, state) async {
               if (state is RegisterDeviceSuccess) {
+                context.read<RegistrationHeadersBloc>().add(
+                      RegistrationHeadersClear(),
+                    );
                 Navigator.of(context).pop();
               }
               if (state is RegisterDeviceFailure) {
