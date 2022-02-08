@@ -120,6 +120,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
             if (states.contains(MaterialState.selected)) {
               return PlexColorPalette.gamboge;
             }
+            return null;
           },
         ),
       ),
@@ -202,6 +203,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
             if (states.contains(MaterialState.selected)) {
               return PlexColorPalette.gamboge;
             }
+            return null;
           },
         ),
       ),
@@ -219,6 +221,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
             if (states.contains(MaterialState.selected)) {
               return PlexColorPalette.gamboge;
             }
+            return null;
           },
         ),
         trackColor: MaterialStateProperty.resolveWith(
@@ -226,6 +229,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
             if (states.contains(MaterialState.selected)) {
               return PlexColorPalette.gamboge.withAlpha(175);
             }
+            return null;
           },
         ),
       ),
