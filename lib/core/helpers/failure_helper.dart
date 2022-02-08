@@ -14,7 +14,7 @@ const String certificateExpiredMessage = 'TLS/SSL Certificate is Expired.';
 const String certificateVerificationMessage =
     'Certificate verification failed.';
 const String connectionMessage = 'No network connectivity.';
-// const String dataBaseInitMessage = 'Failed to initalize database.';
+const String dataBaseInitMessage = 'Failed to initalize database.';
 const String genericMessage = 'Unknown error.';
 const String invalidApiKeyMessage = 'Invalid Device Token';
 // const String jsonMessage = 'Failed to parse response.';
@@ -93,8 +93,8 @@ class FailureHelper {
         return CertificateVerificationFailure();
       // case (ConnectionDetailsException):
       //   return ConnectionDetailsFailure();
-      // case (DatabaseInitException):
-      //   return DatabaseInitFailure();
+      case (DatabaseInitException):
+        return DatabaseInitFailure();
       case (DioError):
         return DioFailure();
       case (InvalidApiKeyException):
@@ -135,8 +135,8 @@ class FailureHelper {
       //   return settingsMessage;
       case (ConnectionFailure):
         return connectionMessage;
-      // case (DatabaseInitFailure):
-      //   return dataBaseInitMessage;
+      case (DatabaseInitFailure):
+        return dataBaseInitMessage;
       case (InvalidApiKeyFailure):
         return invalidApiKeyMessage;
       // case (JsonDecodeFailure):
@@ -174,8 +174,8 @@ class FailureHelper {
       //   return checkServerSettingsSuggestion;
       case (ConnectionFailure):
         return '';
-      // case (DatabaseInitFailure):
-      //   return genericSuggestion;
+      case (DatabaseInitFailure):
+        return genericSuggestion;
       case (InvalidApiKeyFailure):
         return invalidApiKeySuggestion;
       // case (JsonDecodeFailure):

@@ -21,8 +21,8 @@ class CertificateVerificationFailure extends Failure {}
 /// Device is not connected to a network.
 class ConnectionFailure extends Failure {}
 
-// /// Error initalizing the database.
-// class DatabaseInitFailure extends Failure {}
+/// Error initalizing the database.
+class DatabaseInitFailure extends Failure {}
 
 /// Error thrown by the dio HTTP client.
 class DioFailure extends Failure {}

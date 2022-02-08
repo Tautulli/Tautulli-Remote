@@ -11,8 +11,8 @@ class CertificateVerificationException implements Exception {}
 // /// Throw when connection details are missing.
 // class ConnectionDetailsException implements Exception {}
 
-// /// Throw when there is an error initializing the database.
-// class DatabaseInitException implements Exception {}
+/// Throw when there is an error initializing the database.
+class DatabaseInitException implements Exception {}
 
 /// Throw when the provided connection protocol is not `http` or `https`.
 class IncorrectConnectionProtocolException implements Exception {}
