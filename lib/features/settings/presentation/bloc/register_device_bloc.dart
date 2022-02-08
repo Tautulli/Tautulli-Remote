@@ -1,11 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/protocol.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../onesignal/data/datasources/onesignal_data_source.dart';
 import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';
 import '../../domain/usecases/settings.dart';
@@ -91,7 +92,7 @@ class RegisterDeviceBloc
       trustCert: trustCert,
     );
 
-    failureOrResult.fold(
+    await failureOrResult.fold(
       (failure) {
         logging.error(
           'RegisterDevice :: Failed to register device [$failure]',
@@ -101,28 +102,71 @@ class RegisterDeviceBloc
           RegisterDeviceFailure(failure),
         );
       },
-      (result) {
-        try {
-          //TODO: Check for existing server and update if there
-          throw ServerNotFoundException;
-        } catch (e) {
-          if (e == ServerNotFoundException) {
-            //TODO: Add new server
+      (result) async {
+        final registerResults = result.value1;
+        final bool oneSignalRegistered =
+            await di.sl<OneSignalDataSource>().userId != 'onesignal-disabled';
 
+        try {
+          if (registerResults.serverId != null) {
+            final existingServer = await settings.getServerByTautulliId(
+              registerResults.serverId!,
+            );
+
+            if (existingServer == null) {
+              settingsBloc.add(
+                SettingsAddServer(
+                  primaryConnectionAddress: primaryConnectionAddressCache!,
+                  secondaryConnectionAddress: secondaryConnectionAddressCache,
+                  deviceToken: deviceTokenCache!,
+                  tautulliId: registerResults.serverId!,
+                  plexName: registerResults.pmsName!,
+                  plexIdentifier: registerResults.pmsIdentifier!,
+                  plexPass: registerResults.pmsPlexpass!,
+                  oneSignalRegistered: oneSignalRegistered,
+                  customHeaders: customHeadersCache,
+                ),
+              );
+
+              emit(
+                RegisterDeviceSuccess(),
+              );
+            } else {
+              settingsBloc.add(
+                SettingsUpdateServer(
+                  id: existingServer.id!,
+                  sortIndex: existingServer.sortIndex,
+                  primaryConnectionAddress: primaryConnectionAddressCache!,
+                  secondaryConnectionAddress:
+                      secondaryConnectionAddressCache ?? '',
+                  deviceToken: deviceTokenCache!,
+                  tautulliId: registerResults.serverId!,
+                  plexName: registerResults.pmsName!,
+                  plexIdentifier: registerResults.pmsIdentifier!,
+                  plexPass: registerResults.pmsPlexpass!,
+                  oneSignalRegistered: oneSignalRegistered,
+                  customHeaders: customHeadersCache,
+                  dateFormat: existingServer.dateFormat,
+                  timeFormat: existingServer.timeFormat,
+                ),
+              );
+            }
             emit(
               RegisterDeviceSuccess(),
             );
           } else {
-            final failure = FailureHelper.castToFailure(e);
-
-            logging.error(
-              'RegisterDevice :: Failed to properly save server [$failure]',
-            );
-
-            emit(
-              RegisterDeviceFailure(failure),
-            );
+            //TODO: Handle missing server ID
           }
+        } catch (e) {
+          final failure = FailureHelper.castToFailure(e);
+
+          logging.error(
+            'RegisterDevice :: Failed to properly save server [$failure]',
+          );
+
+          emit(
+            RegisterDeviceFailure(failure),
+          );
         }
       },
     );
