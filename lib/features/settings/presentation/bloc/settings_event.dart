@@ -7,6 +7,40 @@ abstract class SettingsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class SettingsAddServer extends SettingsEvent {
+  final String primaryConnectionAddress;
+  final String? secondaryConnectionAddress;
+  final String deviceToken;
+  final String tautulliId;
+  final String plexName;
+  final String plexIdentifier;
+  final bool plexPass;
+  final bool oneSignalRegistered;
+  final List<CustomHeaderModel>? customHeaders;
+
+  const SettingsAddServer({
+    required this.primaryConnectionAddress,
+    this.secondaryConnectionAddress,
+    required this.deviceToken,
+    required this.tautulliId,
+    required this.plexName,
+    required this.plexIdentifier,
+    required this.plexPass,
+    required this.oneSignalRegistered,
+    this.customHeaders,
+  });
+
+  @override
+  List<Object> get props => [
+        primaryConnectionAddress,
+        deviceToken,
+        tautulliId,
+        plexName,
+        plexPass,
+        oneSignalRegistered,
+      ];
+}
+
 class SettingsClearCache extends SettingsEvent {}
 
 class SettingsLoad extends SettingsEvent {}
@@ -45,6 +79,51 @@ class SettingsUpdateRefreshRate extends SettingsEvent {
 
   @override
   List<Object> get props => [refreshRate];
+}
+
+class SettingsUpdateServer extends SettingsEvent {
+  final int id;
+  final int sortIndex;
+  final String primaryConnectionAddress;
+  final String secondaryConnectionAddress;
+  final String deviceToken;
+  final String tautulliId;
+  final String plexName;
+  final String plexIdentifier;
+  final bool plexPass;
+  final String? dateFormat;
+  final String? timeFormat;
+  final bool oneSignalRegistered;
+  final List<CustomHeaderModel>? customHeaders;
+
+  const SettingsUpdateServer({
+    required this.id,
+    required this.sortIndex,
+    required this.primaryConnectionAddress,
+    required this.secondaryConnectionAddress,
+    required this.deviceToken,
+    required this.tautulliId,
+    required this.plexName,
+    required this.plexIdentifier,
+    required this.plexPass,
+    this.dateFormat,
+    this.timeFormat,
+    required this.oneSignalRegistered,
+    this.customHeaders,
+  });
+
+  @override
+  List<Object> get props => [
+        id,
+        sortIndex,
+        primaryConnectionAddress,
+        secondaryConnectionAddress,
+        deviceToken,
+        tautulliId,
+        plexName,
+        plexPass,
+        oneSignalRegistered,
+      ];
 }
 
 class SettingsUpdateServerTimeout extends SettingsEvent {

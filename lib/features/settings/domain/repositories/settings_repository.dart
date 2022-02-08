@@ -1,10 +1,20 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/api/tautulli/models/register_device_model.dart';
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../data/models/custom_header_model.dart';
 
 abstract class SettingsRepository {
+  //* Database Interactions
+  Future<int> addServer(ServerModel server);
+
+  Future<List<ServerModel>> getAllServers();
+
+  Future<ServerModel?> getServerByTautulliId(String tautulliId);
+
+  Future<int> updateServer(ServerModel server);
+
   //* Store & Retrive Values
   // Custom Cert Hash List
   Future<List<int>> getCustomCertHashList();

@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/api/tautulli/models/register_device_model.dart';
 import '../../../../core/api/tautulli/tautulli_api.dart';
+import '../../../../core/database/data/datasources/database.dart';
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/local_storage/local_storage.dart';
@@ -11,6 +13,15 @@ import '../../../onesignal/data/datasources/onesignal_data_source.dart';
 import '../models/custom_header_model.dart';
 
 abstract class SettingsDataSource {
+  //* Database Interactions
+  Future<int> addServer(ServerModel server);
+
+  Future<List<ServerModel>> getAllServers();
+
+  Future<ServerModel?> getServerByTautulliId(String tautulliId);
+
+  Future<int> updateServer(ServerModel server);
+
   //* Store & Retrive Values
   // Custom Cert Hash List
   Future<List<int>> getCustomCertHashList();
@@ -71,6 +82,27 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     required this.packageInfo,
     required this.registerDeviceApi,
   });
+
+  //* Database Interactions
+  @override
+  Future<int> addServer(ServerModel server) async {
+    return await DBProvider.db.addServer(server);
+  }
+
+  @override
+  Future<List<ServerModel>> getAllServers() async {
+    return await DBProvider.db.getAllServers();
+  }
+
+  @override
+  Future<ServerModel?> getServerByTautulliId(String tautulliId) async {
+    return await DBProvider.db.getServerByTautulliId(tautulliId);
+  }
+
+  @override
+  Future<int> updateServer(ServerModel server) async {
+    return await DBProvider.db.updateServer(server);
+  }
 
   //* Store & Retrive Values
   // Custom Cert Hash List

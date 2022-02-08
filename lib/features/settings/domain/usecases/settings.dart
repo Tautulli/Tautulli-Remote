@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/api/tautulli/models/register_device_model.dart';
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../data/models/custom_header_model.dart';
 import '../repositories/settings_repository.dart';
@@ -9,6 +10,32 @@ class Settings {
   final SettingsRepository repository;
 
   Settings({required this.repository});
+
+  /// Inserts the provided `ServerModel` into the database.
+  ///
+  /// Returns the ID of the last inserted row;
+  Future<int> addServer(ServerModel server) async {
+    return await repository.addServer(server);
+  }
+
+  /// Returns a list of `ServerModel` with all servers in the database.
+  ///
+  /// List will be empty if there are no servers.
+  Future<List<ServerModel>> getAllServers() async {
+    return await repository.getAllServers();
+  }
+
+  /// Returns a `ServerModel` for the corresponding Tautulli ID.
+  ///
+  /// Returns null if no server is found.
+  Future<ServerModel?> getServerByTautulliId(String tautulliId) async {
+    return await repository.getServerByTautulliId(tautulliId);
+  }
+
+  /// Updates the server with the provided `ServerModel` data.
+  Future<int> updateServer(ServerModel server) async {
+    return await repository.updateServer(server);
+  }
 
   /// Returns a list of user approved certificate hashes.
   ///

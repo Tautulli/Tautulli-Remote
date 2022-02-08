@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/api/tautulli/models/register_device_model.dart';
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/network_info/network_info.dart';
@@ -16,6 +17,27 @@ class SettingsRepositoryImpl implements SettingsRepository {
     required this.dataSource,
     required this.networkInfo,
   });
+
+  //* Database Interactions
+  @override
+  Future<int> addServer(ServerModel server) async {
+    return await dataSource.addServer(server);
+  }
+
+  @override
+  Future<List<ServerModel>> getAllServers() async {
+    return await dataSource.getAllServers();
+  }
+
+  @override
+  Future<ServerModel?> getServerByTautulliId(String tautulliId) async {
+    return await dataSource.getServerByTautulliId(tautulliId);
+  }
+
+  @override
+  Future<int> updateServer(ServerModel server) async {
+    return await dataSource.updateServer(server);
+  }
 
   //* Store & Retrive Values
   // Custom Cert Hash List
