@@ -5,7 +5,6 @@ import '../../../requirements/tautulli_version.dart';
 import '../connection_handler.dart';
 
 abstract class RegisterDevice {
-  //TODO: Be more specific than dynamic?
   Future<Tuple2<dynamic, bool>> call({
     required String connectionProtocol,
     required String connectionDomain,
