@@ -10,6 +10,7 @@ import '../error/failure.dart';
 import '../requirements/tautulli_version.dart';
 
 //* Error Messages
+const String badApiResponseMessage = 'Bad API Response';
 const String certificateExpiredMessage = 'TLS/SSL Certificate is Expired.';
 const String certificateVerificationMessage =
     'Certificate verification failed.';
@@ -30,6 +31,8 @@ const String serverVersionMessage =
 //* Error Suggestions
 const String authorizationRequiredSuggestion =
     'Server responded with Authorization Required. Verify connection details and headers.';
+const String badApiResponseSuggestion =
+    'The server response was missing required information. Please contact support.';
 const String certificateExpiredSuggestion =
     'Please check your certificate and re-register with your Tautulli server.';
 const String certificateVerificationSuggestion =
@@ -87,6 +90,8 @@ class FailureHelper {
     switch (exception) {
       case (AuthorizationRequiredException):
         return AuthorizationRequiredFailure();
+      case (BadApiResponseException):
+        return BadApiResponseFailure();
       case (CertificateExpiredException):
         return CertificateExpiredFailure();
       case (CertificateVerificationException):
@@ -127,6 +132,8 @@ class FailureHelper {
     switch (failure.runtimeType) {
       case (AuthorizationRequiredFailure):
         return serverMessage;
+      case (BadApiResponseFailure):
+        return badApiResponseMessage;
       case (CertificateExpiredFailure):
         return certificateExpiredMessage;
       case (CertificateVerificationFailure):
@@ -166,6 +173,8 @@ class FailureHelper {
     switch (failure.runtimeType) {
       case (AuthorizationRequiredFailure):
         return authorizationRequiredSuggestion;
+      case (BadApiResponseFailure):
+        return badApiResponseSuggestion;
       case (CertificateExpiredFailure):
         return certificateExpiredSuggestion;
       case (CertificateVerificationFailure):

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/protocol.dart';
@@ -155,7 +156,7 @@ class RegisterDeviceBloc
               RegisterDeviceSuccess(),
             );
           } else {
-            //TODO: Handle missing server ID
+            throw BadApiResponseException();
           }
         } catch (e) {
           final failure = FailureHelper.castToFailure(e);

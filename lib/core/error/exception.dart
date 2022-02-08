@@ -2,6 +2,9 @@
 /// Typically, from missing basic authentication headers.
 class AuthorizationRequiredException implements Exception {}
 
+/// Throw when the API response is missing required information.
+class BadApiResponseException implements Exception {}
+
 /// Throw when a TSL/SSL certificate is expired.
 class CertificateExpiredException implements Exception {}
 

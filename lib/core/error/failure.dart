@@ -9,6 +9,9 @@ abstract class Failure extends Equatable {
 /// from missing basic authentication headers.
 class AuthorizationRequiredFailure extends Failure {}
 
+/// The API response is missing required information.
+class BadApiResponseFailure extends Failure {}
+
 /// The TSL/SSL certificate is expired.
 class CertificateExpiredFailure extends Failure {}
 
