@@ -4,6 +4,8 @@ import 'package:quiver/strings.dart';
 import '../../../dependency_injection.dart' as di;
 import '../../../features/logging/domain/usecases/logging.dart';
 import '../../../features/settings/data/models/custom_header_model.dart';
+import '../../../features/settings/domain/usecases/settings.dart';
+import '../../error/exception.dart';
 import 'call_tautulli.dart';
 
 abstract class ConnectionHandler {
@@ -68,17 +70,32 @@ class ConnectionHandlerImpl implements ConnectionHandler {
 
     // If using Tautulli ID to fetch existing server details
     if (isNotBlank(tautulliId)) {
-      //TODO: Get server from settings and update all variables
+      final server = await di.sl<Settings>().getServerByTautulliId(tautulliId!);
+      if (server != null) {
+        connectionProtocol = server.primaryConnectionProtocol;
+        connectionDomain = server.primaryConnectionDomain;
+        connectionPath = server.primaryConnectionPath;
+        secondaryConnectionAddress = server.secondaryConnectionAddress;
+        secondaryConnectionProtocol = server.secondaryConnectionProtocol;
+        secondaryConnectionDomain = server.secondaryConnectionDomain;
+        secondaryConnectionPath = server.secondaryConnectionPath;
+        deviceToken = server.deviceToken;
+        primaryActive = server.primaryActive;
+
+        // Parse custom headers for existing server
+        for (CustomHeaderModel header in server.customHeaders) {
+          headers[header.key] = header.value;
+        }
+      } else {
+        throw ServerNotFoundException();
+      }
     }
 
     // If primaryActive has not been set, default to true
     primaryActive ??= true;
 
-    //TODO: Parse custom headers
-    if (isNotBlank(tautulliId)) {
-      //TODO: Parse existing server headers
-    } else {
-      //TODO: Parse registration headers
+    // Parse custom headers provided when Tautulli ID is blank.
+    if (isBlank(tautulliId)) {
       if (customHeaders != null) {
         for (CustomHeaderModel customHeader in customHeaders) {
           headers[customHeader.key] = customHeader.value;
