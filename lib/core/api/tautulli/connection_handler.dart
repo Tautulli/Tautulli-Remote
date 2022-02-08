@@ -103,7 +103,7 @@ class ConnectionHandlerImpl implements ConnectionHandler {
       }
     }
 
-    var responseData;
+    Either<Uri, dynamic> responseData;
     // Try making the call to Tautulli using the active connection details.
     //
     // If that fails, and there are secondary connection details, swap the
@@ -172,6 +172,9 @@ class ConnectionHandlerImpl implements ConnectionHandler {
       }
     }
 
-    return Tuple2(responseData, primaryActive);
+    return responseData.fold(
+      (uri) => Tuple2(uri, primaryActive!),
+      (apiResponse) => Tuple2(apiResponse, primaryActive!),
+    );
   }
 }

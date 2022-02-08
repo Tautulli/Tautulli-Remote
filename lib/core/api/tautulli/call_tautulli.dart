@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dartz/dartz.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 
@@ -9,7 +10,7 @@ import '../../../features/settings/domain/usecases/settings.dart';
 import '../../error/exception.dart';
 
 abstract class CallTautulli {
-  Future call({
+  Future<Either<Uri, dynamic>> call({
     required String connectionProtocol,
     required String connectionDomain,
     required String? connectionPath,
@@ -24,7 +25,7 @@ abstract class CallTautulli {
 
 class CallTautulliImpl implements CallTautulli {
   @override
-  Future call({
+  Future<Either<Uri, dynamic>> call({
     required String connectionProtocol,
     required String connectionDomain,
     required String? connectionPath,
@@ -55,7 +56,7 @@ class CallTautulliImpl implements CallTautulli {
 
     //* Return URI for pmsImageProxy
     if (cmd == 'pms_image_proxy') {
-      return uri;
+      return Left(uri);
     }
 
     var dio = Dio();
@@ -99,6 +100,7 @@ class CallTautulliImpl implements CallTautulli {
 
         return false;
       };
+      return client;
     };
 
     // Get timeout value from settings
@@ -146,6 +148,6 @@ class CallTautulliImpl implements CallTautulli {
     }
 
     // Return parsed JSON
-    return response.data;
+    return Right(response.data);
   }
 }
