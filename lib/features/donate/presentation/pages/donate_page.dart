@@ -80,16 +80,17 @@ class _DonateViewState extends State<DonateView> {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          duration: const Duration(seconds: 6),
           content: Row(
-            children: [
+            children: const [
               Padding(
-                padding: const EdgeInsets.only(right: 8),
+                padding: EdgeInsets.only(right: 8),
                 child: FaIcon(
                   FontAwesomeIcons.solidHeart,
-                  color: Colors.red[400],
+                  color: Colors.red,
                 ),
               ),
-              const Text('Thank you for your donation'),
+              Text('Thank you for your donation'),
             ],
           ),
         ),
