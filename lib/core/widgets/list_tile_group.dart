@@ -18,14 +18,13 @@ class ListTileGroup extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        heading != null
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Heading(
-                  text: heading!,
-                ),
-              )
-            : const SizedBox(height: 0, width: 0),
+        if (heading != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Heading(
+              text: heading!,
+            ),
+          ),
         Padding(
           padding: EdgeInsets.only(top: heading != null ? 8 : 0),
           child: ClipRRect(
