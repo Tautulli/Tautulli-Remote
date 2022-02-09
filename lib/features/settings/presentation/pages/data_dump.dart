@@ -32,6 +32,8 @@ class DataDumpView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsState = context.read<SettingsBloc>().state as SettingsSuccess;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Data Dump'),
@@ -57,7 +59,7 @@ class DataDumpView extends StatelessWidget {
                             'WARNING: This page includes sensitive data.',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text('Be cautious when sharing'),
+                          Text('Be cautious when sharing.'),
                         ],
                       ),
                     ),
@@ -66,9 +68,11 @@ class DataDumpView extends StatelessWidget {
               ),
             ),
             const Gap(8),
-            const _AppSettings(),
+            _AppSettings(settingsState: settingsState),
             const Gap(8),
             const _OneSignalStatus(),
+            const Gap(8),
+            _ServerDumpGroup(settingsState: settingsState),
           ],
         ),
       ),
@@ -137,12 +141,15 @@ class _DataDumpRow extends StatelessWidget {
 }
 
 class _AppSettings extends StatelessWidget {
-  const _AppSettings({Key? key}) : super(key: key);
+  final SettingsSuccess settingsState;
+
+  const _AppSettings({
+    Key? key,
+    required this.settingsState,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final settingsState = context.read<SettingsBloc>().state as SettingsSuccess;
-
     return _SettingDumpGroup(
       title: 'App Settings',
       widgetList: settingsState.appSettings
@@ -246,6 +253,226 @@ class _OneSignalStatus extends StatelessWidget {
           },
         )
       ],
+    );
+  }
+}
+
+class _ServerDumpGroup extends StatelessWidget {
+  final SettingsSuccess settingsState;
+
+  const _ServerDumpGroup({
+    Key? key,
+    required this.settingsState,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: settingsState.serverList
+          .map(
+            (server) => _SettingDumpGroup(
+              title: server.plexName,
+              widgetList: [
+                _DataDumpRow(
+                  children: [
+                    const Text('ID'),
+                    const Gap(16),
+                    Text(server.id.toString()),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Sort Index'),
+                    const Gap(16),
+                    Text(server.sortIndex.toString()),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Plex Identifier'),
+                    const Gap(16),
+                    Expanded(
+                      child: Text(
+                        server.plexIdentifier,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Tautulli ID'),
+                    const Gap(16),
+                    Expanded(
+                      child: Text(
+                        server.tautulliId,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Primary Address'),
+                    const Gap(16),
+                    Expanded(
+                      child: Text(
+                        server.primaryConnectionAddress,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Primary Protocol'),
+                    const Gap(16),
+                    Expanded(
+                      child: Text(
+                        server.primaryConnectionProtocol,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Primary Domain'),
+                    const Gap(16),
+                    Expanded(
+                      child: Text(
+                        server.primaryConnectionDomain,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Primary Path'),
+                    const Gap(16),
+                    Expanded(
+                      child: Text(
+                        server.primaryConnectionPath ?? '',
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Secondary Address'),
+                    const Gap(16),
+                    Expanded(
+                      child: Text(
+                        server.secondaryConnectionAddress ?? '',
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Secondary Protocol'),
+                    const Gap(16),
+                    Text(server.secondaryConnectionProtocol ?? '')
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Secondary Domain'),
+                    const Gap(16),
+                    Expanded(
+                      child: Text(
+                        server.secondaryConnectionDomain ?? '',
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Secondary Path'),
+                    const Gap(16),
+                    Expanded(
+                      child: Text(
+                        server.secondaryConnectionPath ?? '',
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Device Token'),
+                    const Gap(16),
+                    Expanded(
+                      child: Text(
+                        server.deviceToken,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Primary Active'),
+                    const Gap(16),
+                    Text(server.primaryActive.toString()),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('OneSignal Registered'),
+                    const Gap(16),
+                    Text(server.oneSignalRegistered.toString()),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Plex Pass'),
+                    const Gap(16),
+                    Text(server.plexPass.toString()),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Date Format'),
+                    const Gap(16),
+                    Text(server.dateFormat ?? ''),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Time Format'),
+                    const Gap(16),
+                    Text(server.timeFormat ?? ''),
+                  ],
+                ),
+                _DataDumpRow(
+                  children: [
+                    const Text('Custom Headers'),
+                    const Gap(16),
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: server.customHeaders
+                            .map(
+                              (header) => Text(
+                                '• ${header.key} : ${header.value}',
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
+          .toList(),
     );
   }
 }
