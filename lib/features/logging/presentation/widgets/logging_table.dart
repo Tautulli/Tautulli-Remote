@@ -18,18 +18,16 @@ class LoggingTable extends StatelessWidget {
       children: [
         const LoggingTableHeaders(),
         Expanded(
-          child: Scrollbar(
-            child: ListView.builder(
-              itemCount: logs.length,
-              itemBuilder: (context, index) {
-                return LoggingTableRow(
-                  logs[index],
-                  backgroundColor: (index % 2 == 0)
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.transparent,
-                );
-              },
-            ),
+          child: ListView.builder(
+            itemCount: logs.length,
+            itemBuilder: (context, index) {
+              return LoggingTableRow(
+                logs[index],
+                backgroundColor: (index % 2 == 0)
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.transparent,
+              );
+            },
           ),
         ),
       ],
