@@ -41,6 +41,7 @@ dependencies:
   permission_handler: ^8.3.0
   purchases_flutter: ^3.9.2
   quiver: ^3.0.1+1
+  reorderables: ^0.4.2
   shared_preferences: ^2.0.12
   sqflite: ^2.0.2
   url_launcher: ^6.0.18
