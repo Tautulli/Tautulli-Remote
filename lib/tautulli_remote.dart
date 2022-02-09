@@ -210,7 +210,8 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       scaffoldBackgroundColor: TautulliColorPalette.midnight,
       snackBarTheme: const SnackBarThemeData(
         actionTextColor: TautulliColorPalette.notWhite,
-        backgroundColor: TautulliColorPalette.gunmetal,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: PlexColorPalette.shark,
         contentTextStyle: TextStyle(
           color: TautulliColorPalette.notWhite,
         ),
