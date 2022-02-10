@@ -46,6 +46,7 @@ class AdvancedGroup extends StatelessWidget {
             final maskSensitiveInfo = state.appSettings.maskSensitiveInfo;
 
             return CheckboxSettingsListTile(
+              subtitleIsTwoLines: true,
               leading: const FaIcon(FontAwesomeIcons.solidEyeSlash),
               title: 'Mask Sensitive Info',
               subtitle: 'Hides IP addresses and other sensitive info',
