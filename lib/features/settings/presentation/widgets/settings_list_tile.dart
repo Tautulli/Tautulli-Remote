@@ -57,6 +57,7 @@ class SettingsListTile extends StatelessWidget {
                             state.appSettings.maskSensitiveInfo
                         ? 'HIDDEN'
                         : subtitle!,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.subtitle2,
                   )
                 : null,
