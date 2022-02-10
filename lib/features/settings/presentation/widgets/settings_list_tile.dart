@@ -43,6 +43,7 @@ class SettingsListTile extends StatelessWidget {
             ),
             title: Text(
               title,
+              overflow: TextOverflow.ellipsis,
               style: disabled
                   ? TextStyle(
                       color: Theme.of(context).textTheme.subtitle2!.color,
