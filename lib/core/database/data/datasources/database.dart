@@ -8,6 +8,7 @@ import 'package:sqflite/sqflite.dart';
 import '../../../../features/settings/data/models/connection_address_model.dart';
 import '../../../error/exception.dart';
 import '../../../types/protocol.dart';
+import '../../../utilities/cast.dart';
 import '../models/server_model.dart';
 
 class DBProvider {
@@ -349,20 +350,24 @@ class DBProvider {
   //   return result;
   // }
 
-  // Future<int> updatePrimaryActive({
-  //   required String tautulliId,
-  //   required int primaryActive,
-  // }) async {
-  //   final db = await database;
-  //   var result = await db!.update(
-  //     'servers',
-  //     {'primary_active': primaryActive},
-  //     where: 'tautulli_id = ?',
-  //     whereArgs: [tautulliId],
-  //   );
+  Future<int> updatePrimaryActive({
+    required String tautulliId,
+    required bool primaryActive,
+  }) async {
+    final db = await database;
+    if (db != null) {
+      var result = await db.update(
+        'servers',
+        {'primary_active': Cast.castToInt(primaryActive)},
+        where: 'tautulli_id = ?',
+        whereArgs: [tautulliId],
+      );
 
-  //   return result;
-  // }
+      return result;
+    } else {
+      throw DatabaseInitException();
+    }
+  }
 
   Future<int> updateServer(ServerModel server) async {
     final db = await database;

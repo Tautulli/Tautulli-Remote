@@ -45,6 +45,20 @@ class Settings {
     );
   }
 
+  /// Updates the primary active state of the server with `tautulliId`
+  ///
+  /// Primary Active is used to determine if the primary connection address is
+  /// active or not.
+  Future<int> updatePrimaryActive({
+    required String tautulliId,
+    required bool primaryActive,
+  }) async {
+    return await repository.updatePrimaryActive(
+      tautulliId: tautulliId,
+      primaryActive: primaryActive,
+    );
+  }
+
   /// Updates the server with the provided `ServerModel` data.
   Future<int> updateServer(ServerModel server) async {
     return await repository.updateServer(server);

@@ -26,6 +26,11 @@ abstract class SettingsDataSource {
     required ConnectionAddressModel connectionAddress,
   });
 
+  Future<int> updatePrimaryActive({
+    required String tautulliId,
+    required bool primaryActive,
+  });
+
   Future<int> updateServer(ServerModel server);
 
   Future<void> updateServerSort({
@@ -119,6 +124,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     return await DBProvider.db.updateConnectionInfo(
       id: id,
       connectionAddress: connectionAddress,
+    );
+  }
+
+  @override
+  Future<int> updatePrimaryActive({
+    required String tautulliId,
+    required bool primaryActive,
+  }) async {
+    return await DBProvider.db.updatePrimaryActive(
+      tautulliId: tautulliId,
+      primaryActive: primaryActive,
     );
   }
 

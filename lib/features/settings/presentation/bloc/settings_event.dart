@@ -45,6 +45,21 @@ class SettingsClearCache extends SettingsEvent {}
 
 class SettingsLoad extends SettingsEvent {}
 
+class SettingsUpdateConnectionInfo extends SettingsEvent {
+  final bool primary;
+  final String connectionAddress;
+  final ServerModel server;
+
+  const SettingsUpdateConnectionInfo({
+    required this.primary,
+    required this.connectionAddress,
+    required this.server,
+  });
+
+  @override
+  List<Object> get props => [primary, connectionAddress, server];
+}
+
 class SettingsUpdateDoubleTapToExit extends SettingsEvent {
   final bool doubleTapToExit;
 
@@ -72,6 +87,19 @@ class SettingsUpdateOneSignalBannerDismiss extends SettingsEvent {
   List<Object> get props => [dismiss];
 }
 
+class SettingsUpdatePrimaryActive extends SettingsEvent {
+  final String tautulliId;
+  final bool primaryActive;
+
+  const SettingsUpdatePrimaryActive({
+    required this.tautulliId,
+    required this.primaryActive,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, primaryActive];
+}
+
 class SettingsUpdateRefreshRate extends SettingsEvent {
   final int refreshRate;
 
@@ -79,21 +107,6 @@ class SettingsUpdateRefreshRate extends SettingsEvent {
 
   @override
   List<Object> get props => [refreshRate];
-}
-
-class SettingsUpdateConnectionInfo extends SettingsEvent {
-  final bool primary;
-  final String connectionAddress;
-  final ServerModel server;
-
-  const SettingsUpdateConnectionInfo({
-    required this.primary,
-    required this.connectionAddress,
-    required this.server,
-  });
-
-  @override
-  List<Object> get props => [primary, connectionAddress, server];
 }
 
 class SettingsUpdateServer extends SettingsEvent {

@@ -39,6 +39,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateOneSignalBannerDismiss>(
       (event, emit) => _onSettingsUpdateOneSignalBannerDismiss(event, emit),
     );
+    on<SettingsUpdatePrimaryActive>(
+      (event, emit) => _onSettingsUpdatePrimaryActive(event, emit),
+    );
     on<SettingsUpdateRefreshRate>(
       (event, emit) => _onSettingsUpdateRefreshRate(event, emit),
     );
@@ -265,6 +268,32 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         appSettings: currentState.appSettings
             .copyWith(oneSignalBannerDismissed: event.dismiss),
       ),
+    );
+  }
+
+  void _onSettingsUpdatePrimaryActive(
+    SettingsUpdatePrimaryActive event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.updatePrimaryActive(
+      tautulliId: event.tautulliId,
+      primaryActive: event.primaryActive,
+    );
+
+    final int index = currentState.serverList.indexWhere(
+      (oldServer) => oldServer.tautulliId == event.tautulliId,
+    );
+
+    List<ServerModel> updatedList = [...currentState.serverList];
+
+    updatedList[index] = currentState.serverList[index].copyWith(
+      primaryActive: event.primaryActive,
+    );
+
+    emit(
+      currentState.copyWith(serverList: updatedList),
     );
   }
 

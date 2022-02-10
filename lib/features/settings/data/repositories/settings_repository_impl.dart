@@ -47,6 +47,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<int> updatePrimaryActive({
+    required String tautulliId,
+    required bool primaryActive,
+  }) async {
+    return await dataSource.updatePrimaryActive(
+      tautulliId: tautulliId,
+      primaryActive: primaryActive,
+    );
+  }
+
+  @override
   Future<int> updateServer(ServerModel server) async {
     return await dataSource.updateServer(server);
   }

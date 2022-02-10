@@ -19,6 +19,11 @@ abstract class SettingsRepository {
     required ConnectionAddressModel connectionAddress,
   });
 
+  Future<int> updatePrimaryActive({
+    required String tautulliId,
+    required bool primaryActive,
+  });
+
   Future<int> updateServer(ServerModel server);
 
   Future<void> updateServerSort({
