@@ -7,6 +7,7 @@ import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/network_info/network_info.dart';
 import '../../domain/repositories/settings_repository.dart';
 import '../datasources/settings_data_source.dart';
+import '../models/connection_address_model.dart';
 import '../models/custom_header_model.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
@@ -32,6 +33,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<ServerModel?> getServerByTautulliId(String tautulliId) async {
     return await dataSource.getServerByTautulliId(tautulliId);
+  }
+
+  @override
+  Future<int> updateConnectionInfo({
+    required int id,
+    required ConnectionAddressModel connectionAddress,
+  }) async {
+    return await dataSource.updateConnectionInfo(
+      id: id,
+      connectionAddress: connectionAddress,
+    );
   }
 
   @override

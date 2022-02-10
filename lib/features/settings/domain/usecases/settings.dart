@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/api/tautulli/models/register_device_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
+import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';
 import '../repositories/settings_repository.dart';
 
@@ -30,6 +31,18 @@ class Settings {
   /// Returns null if no server is found.
   Future<ServerModel?> getServerByTautulliId(String tautulliId) async {
     return await repository.getServerByTautulliId(tautulliId);
+  }
+
+  /// Updates the server with `id` using the information in
+  /// `ConnectionAddressModel`.
+  Future<int> updateConnectionInfo({
+    required int id,
+    required ConnectionAddressModel connectionAddress,
+  }) async {
+    return await repository.updateConnectionInfo(
+      id: id,
+      connectionAddress: connectionAddress,
+    );
   }
 
   /// Updates the server with the provided `ServerModel` data.

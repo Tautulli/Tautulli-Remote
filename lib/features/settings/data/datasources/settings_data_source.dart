@@ -10,6 +10,7 @@ import '../../../../core/local_storage/local_storage.dart';
 import '../../../../core/package_information/package_information.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
+import '../models/connection_address_model.dart';
 import '../models/custom_header_model.dart';
 
 abstract class SettingsDataSource {
@@ -19,6 +20,11 @@ abstract class SettingsDataSource {
   Future<List<ServerModel>> getAllServers();
 
   Future<ServerModel?> getServerByTautulliId(String tautulliId);
+
+  Future<int> updateConnectionInfo({
+    required int id,
+    required ConnectionAddressModel connectionAddress,
+  });
 
   Future<int> updateServer(ServerModel server);
 
@@ -103,6 +109,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<ServerModel?> getServerByTautulliId(String tautulliId) async {
     return await DBProvider.db.getServerByTautulliId(tautulliId);
+  }
+
+  @override
+  Future<int> updateConnectionInfo({
+    required int id,
+    required ConnectionAddressModel connectionAddress,
+  }) async {
+    return await DBProvider.db.updateConnectionInfo(
+      id: id,
+      connectionAddress: connectionAddress,
+    );
   }
 
   @override

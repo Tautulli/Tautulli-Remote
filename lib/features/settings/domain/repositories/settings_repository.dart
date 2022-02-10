@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/api/tautulli/models/register_device_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
+import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';
 
 abstract class SettingsRepository {
@@ -12,6 +13,11 @@ abstract class SettingsRepository {
   Future<List<ServerModel>> getAllServers();
 
   Future<ServerModel?> getServerByTautulliId(String tautulliId);
+
+  Future<int> updateConnectionInfo({
+    required int id,
+    required ConnectionAddressModel connectionAddress,
+  });
 
   Future<int> updateServer(ServerModel server);
 

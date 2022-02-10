@@ -5,7 +5,9 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../../../features/settings/data/models/connection_address_model.dart';
 import '../../../error/exception.dart';
+import '../../../types/protocol.dart';
 import '../models/server_model.dart';
 
 class DBProvider {
@@ -291,20 +293,46 @@ class DBProvider {
     }
   }
 
-  // Future<int> updateConnection({
-  //   required int id,
-  //   required Map<String, dynamic> dbConnectionAddressMap,
-  // }) async {
-  //   final db = await database;
-  //   var result = await db!.update(
-  //     'servers',
-  //     dbConnectionAddressMap,
-  //     where: 'id = ?',
-  //     whereArgs: [id],
-  //   );
+  Future<int> updateConnectionInfo({
+    required int id,
+    required ConnectionAddressModel connectionAddress,
+  }) async {
+    final db = await database;
+    if (db != null) {
+      final Map<String, String?> connectionAddressMap = {};
 
-  //   return result;
-  // }
+      if (connectionAddress.primary) {
+        connectionAddressMap['primary_connection_address'] =
+            connectionAddress.address;
+        connectionAddressMap['primary_connection_protocol'] =
+            connectionAddress.protocol?.toShortString();
+        connectionAddressMap['primary_connection_domain'] =
+            connectionAddress.domain;
+        connectionAddressMap['primary_connection_path'] =
+            connectionAddress.path;
+      } else {
+        connectionAddressMap['secondary_connection_address'] =
+            connectionAddress.address;
+        connectionAddressMap['secondary_connection_protocol'] =
+            connectionAddress.protocol?.toShortString();
+        connectionAddressMap['secondary_connection_domain'] =
+            connectionAddress.domain;
+        connectionAddressMap['secondary_connection_path'] =
+            connectionAddress.path;
+      }
+
+      var result = await db.update(
+        'servers',
+        connectionAddressMap,
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+
+      return result;
+    } else {
+      throw DatabaseInitException();
+    }
+  }
 
   // Future<int> updateCustomHeaders({
   //   required String tautulliId,

@@ -81,6 +81,21 @@ class SettingsUpdateRefreshRate extends SettingsEvent {
   List<Object> get props => [refreshRate];
 }
 
+class SettingsUpdateConnectionInfo extends SettingsEvent {
+  final bool primary;
+  final String connectionAddress;
+  final ServerModel server;
+
+  const SettingsUpdateConnectionInfo({
+    required this.primary,
+    required this.connectionAddress,
+    required this.server,
+  });
+
+  @override
+  List<Object> get props => [primary, connectionAddress, server];
+}
+
 class SettingsUpdateServer extends SettingsEvent {
   final int id;
   final int sortIndex;
