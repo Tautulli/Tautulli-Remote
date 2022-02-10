@@ -62,7 +62,7 @@ class ServersGroup extends StatelessWidget {
                             onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const ServerSettingsPage(),
+                                    ServerSettingsPage(serverId: server.id!),
                               ),
                             ),
                           ),

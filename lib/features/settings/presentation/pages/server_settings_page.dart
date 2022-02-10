@@ -1,121 +1,111 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/list_tile_group.dart';
 import '../../../../core/widgets/page_body.dart';
-import '../widgets/active_connection_indicator.dart';
+import '../bloc/settings_bloc.dart';
 import '../widgets/custom_header_list_tile.dart';
 import '../widgets/custom_header_type_dialog.dart';
-import '../widgets/settings_list_tile.dart';
+import '../widgets/server_device_token_list_tile.dart';
+import '../widgets/server_open_in_browser_list_tile.dart';
+import '../widgets/server_primary_connection_list_tile.dart';
+import '../widgets/server_secondary_connection_list_tile.dart';
 
 class ServerSettingsPage extends StatelessWidget {
-  const ServerSettingsPage({Key? key}) : super(key: key);
+  final int serverId;
+
+  const ServerSettingsPage({
+    Key? key,
+    required this.serverId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const ServerSettingsView();
+    return ServerSettingsView(
+      serverId: serverId,
+    );
   }
 }
 
 class ServerSettingsView extends StatelessWidget {
-  const ServerSettingsView({Key? key}) : super(key: key);
+  final int serverId;
+
+  const ServerSettingsView({
+    Key? key,
+    required this.serverId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Server Name'),
-        actions: [
-          IconButton(
-            icon: const FaIcon(FontAwesomeIcons.trash),
-            onPressed: () {},
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, state) {
+        state as SettingsSuccess;
+
+        final server = state.serverList.firstWhere(
+          (server) => server.id == serverId,
+        );
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(server.plexName),
+            actions: [
+              IconButton(
+                icon: const FaIcon(FontAwesomeIcons.trash),
+                onPressed: () {},
+              ),
+            ],
           ),
-        ],
-      ),
-      body: PageBody(
-        child: ListView(
-          padding: const EdgeInsets.all(8.0),
-          children: [
-            ListTileGroup(
-              heading: 'Connection Details',
-              listTiles: [
-                SettingsListTile(
-                  sensitive: true,
-                  leading: const FaIcon(FontAwesomeIcons.networkWired),
-                  title: 'Primary Connection Address',
-                  subtitle: 'https://tautulli.domain.com',
-                  trailing: const ActiveConnectionIndicator(),
-                  onTap: () {},
-                ),
-                SettingsListTile(
-                  sensitive: true,
-                  leading: const FaIcon(FontAwesomeIcons.networkWired),
-                  title: 'Secondary Connection Address',
-                  subtitle: 'https://plexpy.domain.com',
-                  onTap: () {},
-                ),
-                SettingsListTile(
-                  sensitive: true,
-                  leading: FaIcon(
-                    FontAwesomeIcons.key,
-                    color: Theme.of(context).textTheme.subtitle2!.color,
-                  ),
-                  title: 'Device Token',
-                  subtitle: 'goc4waof_NQ9PiwzST1bJB9GHD6cQ_4R',
-                  disabled: true,
-                  onTap: () {},
-                ),
-              ],
-            ),
-            const Gap(8),
-            const ListTileGroup(
-              heading: 'Custom HTTP Headers',
-              listTiles: [
-                CustomHeaderListTile(
-                  sensitive: true,
-                  title: 'Authorization',
-                  subtitle: 'Value',
-                ),
-              ],
-            ),
-            Row(
+          body: PageBody(
+            child: ListView(
+              padding: const EdgeInsets.all(8.0),
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                    child: const Text('Add Custom HTTP Header'),
-                    onPressed: () async => await showDialog(
-                      context: context,
-                      builder: (context) => const CustomHeaderTypeDialog(),
-                    ),
-                  ),
+                ListTileGroup(
+                  heading: 'Connection Details',
+                  listTiles: [
+                    ServerPrimaryConnectionListTile(server: server),
+                    ServerSecondaryConnectionListTile(server: server),
+                    ServerDeviceTokenListTile(deviceToken: server.deviceToken),
+                  ],
                 ),
-              ],
-            ),
-            const Gap(8),
-            ListTileGroup(
-              heading: 'Other',
-              listTiles: [
-                Material(
-                  child: ListTile(
-                    leading: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        SizedBox(
-                          width: 35,
-                          child: FaIcon(FontAwesomeIcons.windowMaximize),
+                const Gap(8),
+                ListTileGroup(
+                  heading: 'Custom HTTP Headers',
+                  listTiles: server.customHeaders
+                      .map(
+                        (header) => CustomHeaderListTile(
+                          title: header.key,
+                          subtitle: header.value,
                         ),
-                      ],
+                      )
+                      .toList(),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        child: const Text('Add Custom HTTP Header'),
+                        onPressed: () async => await showDialog(
+                          context: context,
+                          builder: (context) => const CustomHeaderTypeDialog(),
+                        ),
+                      ),
                     ),
-                    title: const Text('Open Server Name in browser'),
-                    onTap: () {},
-                  ),
+                  ],
+                ),
+                const Gap(8),
+                ListTileGroup(
+                  heading: 'Other',
+                  listTiles: [
+                    ServerOpenInBrowserListTile(server: server),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
