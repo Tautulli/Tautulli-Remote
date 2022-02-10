@@ -115,6 +115,20 @@ class _SettingDumpGroup extends StatelessWidget {
   }
 }
 
+class _DataDumpRowHeading extends StatelessWidget {
+  final String text;
+
+  const _DataDumpRowHeading(this.text, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: const TextStyle(fontWeight: FontWeight.bold),
+    );
+  }
+}
+
 class _DataDumpRow extends StatelessWidget {
   final List<Widget> children;
 
@@ -158,7 +172,7 @@ class _AppSettings extends StatelessWidget {
           .map(
             (e) => _DataDumpRow(
               children: [
-                Text(e.key),
+                _DataDumpRowHeading(e.key),
                 const Gap(16),
                 Text(e.value),
               ],
@@ -181,7 +195,7 @@ class _OneSignalStatus extends StatelessWidget {
           builder: (context, state) {
             return _DataDumpRow(
               children: [
-                const Text('Can Connect to OneSignal'),
+                const _DataDumpRowHeading('Can Connect to OneSignal'),
                 const Gap(16),
                 if (state is OneSignalHealthSuccess) const Text('true'),
                 if (state is OneSignalHealthFailure) const Text('false'),
@@ -203,7 +217,7 @@ class _OneSignalStatus extends StatelessWidget {
                 children: [
                   _DataDumpRow(
                     children: [
-                      const Text('Notification Permission'),
+                      const _DataDumpRowHeading('Notification Permission'),
                       const Gap(16),
                       Expanded(
                         child: Text(
@@ -215,7 +229,7 @@ class _OneSignalStatus extends StatelessWidget {
                   ),
                   _DataDumpRow(
                     children: [
-                      const Text('Push Disabled'),
+                      const _DataDumpRowHeading('Push Disabled'),
                       const Gap(16),
                       Text(
                         state.state.pushDisabled.toString(),
@@ -224,7 +238,7 @@ class _OneSignalStatus extends StatelessWidget {
                   ),
                   _DataDumpRow(
                     children: [
-                      const Text('Subscribed'),
+                      const _DataDumpRowHeading('Subscribed'),
                       const Gap(16),
                       Text(
                         state.state.subscribed.toString(),
@@ -233,7 +247,7 @@ class _OneSignalStatus extends StatelessWidget {
                   ),
                   _DataDumpRow(
                     children: [
-                      const Text('User ID'),
+                      const _DataDumpRowHeading('User ID'),
                       const Gap(16),
                       Expanded(
                         child: Text(
@@ -276,21 +290,21 @@ class _ServerDumpGroup extends StatelessWidget {
               widgetList: [
                 _DataDumpRow(
                   children: [
-                    const Text('ID'),
+                    const _DataDumpRowHeading('ID'),
                     const Gap(16),
                     Text(server.id.toString()),
                   ],
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Sort Index'),
+                    const _DataDumpRowHeading('Sort Index'),
                     const Gap(16),
                     Text(server.sortIndex.toString()),
                   ],
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Plex Identifier'),
+                    const _DataDumpRowHeading('Plex Identifier'),
                     const Gap(16),
                     Expanded(
                       child: Text(
@@ -302,7 +316,7 @@ class _ServerDumpGroup extends StatelessWidget {
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Tautulli ID'),
+                    const _DataDumpRowHeading('Tautulli ID'),
                     const Gap(16),
                     Expanded(
                       child: Text(
@@ -314,7 +328,7 @@ class _ServerDumpGroup extends StatelessWidget {
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Primary Address'),
+                    const _DataDumpRowHeading('Primary Address'),
                     const Gap(16),
                     Expanded(
                       child: Text(
@@ -326,7 +340,7 @@ class _ServerDumpGroup extends StatelessWidget {
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Primary Protocol'),
+                    const _DataDumpRowHeading('Primary Protocol'),
                     const Gap(16),
                     Expanded(
                       child: Text(
@@ -338,7 +352,7 @@ class _ServerDumpGroup extends StatelessWidget {
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Primary Domain'),
+                    const _DataDumpRowHeading('Primary Domain'),
                     const Gap(16),
                     Expanded(
                       child: Text(
@@ -350,7 +364,7 @@ class _ServerDumpGroup extends StatelessWidget {
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Primary Path'),
+                    const _DataDumpRowHeading('Primary Path'),
                     const Gap(16),
                     Expanded(
                       child: Text(
@@ -362,7 +376,7 @@ class _ServerDumpGroup extends StatelessWidget {
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Secondary Address'),
+                    const _DataDumpRowHeading('Secondary Address'),
                     const Gap(16),
                     Expanded(
                       child: Text(
@@ -374,14 +388,14 @@ class _ServerDumpGroup extends StatelessWidget {
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Secondary Protocol'),
+                    const _DataDumpRowHeading('Secondary Protocol'),
                     const Gap(16),
                     Text(server.secondaryConnectionProtocol ?? '')
                   ],
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Secondary Domain'),
+                    const _DataDumpRowHeading('Secondary Domain'),
                     const Gap(16),
                     Expanded(
                       child: Text(
@@ -393,7 +407,7 @@ class _ServerDumpGroup extends StatelessWidget {
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Secondary Path'),
+                    const _DataDumpRowHeading('Secondary Path'),
                     const Gap(16),
                     Expanded(
                       child: Text(
@@ -405,7 +419,7 @@ class _ServerDumpGroup extends StatelessWidget {
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Device Token'),
+                    const _DataDumpRowHeading('Device Token'),
                     const Gap(16),
                     Expanded(
                       child: Text(
@@ -417,42 +431,42 @@ class _ServerDumpGroup extends StatelessWidget {
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Primary Active'),
+                    const _DataDumpRowHeading('Primary Active'),
                     const Gap(16),
                     Text(server.primaryActive.toString()),
                   ],
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('OneSignal Registered'),
+                    const _DataDumpRowHeading('OneSignal Registered'),
                     const Gap(16),
                     Text(server.oneSignalRegistered.toString()),
                   ],
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Plex Pass'),
+                    const _DataDumpRowHeading('Plex Pass'),
                     const Gap(16),
                     Text(server.plexPass.toString()),
                   ],
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Date Format'),
+                    const _DataDumpRowHeading('Date Format'),
                     const Gap(16),
                     Text(server.dateFormat ?? ''),
                   ],
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Time Format'),
+                    const _DataDumpRowHeading('Time Format'),
                     const Gap(16),
                     Text(server.timeFormat ?? ''),
                   ],
                 ),
                 _DataDumpRow(
                   children: [
-                    const Text('Custom Headers'),
+                    const _DataDumpRowHeading('Custom Headers'),
                     const Gap(16),
                     Expanded(
                       child: Column(
