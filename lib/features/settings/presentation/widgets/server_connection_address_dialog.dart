@@ -71,13 +71,12 @@ class ServerConnectionAddressDialog extends StatelessWidget {
             if (formKey.currentState != null &&
                 formKey.currentState!.validate()) {
               if (isEmpty(controller.text) && server.primaryActive != true) {
-                //TODO
-                // context.read<SettingsBloc>().add(
-                //       SettingsUpdatePrimaryActive(
-                //         primaryActive: true,
-                //         server: server,
-                //       ),
-                //     );
+                context.read<SettingsBloc>().add(
+                      SettingsUpdatePrimaryActive(
+                        tautulliId: server.tautulliId,
+                        primaryActive: true,
+                      ),
+                    );
               }
 
               context.read<SettingsBloc>().add(
