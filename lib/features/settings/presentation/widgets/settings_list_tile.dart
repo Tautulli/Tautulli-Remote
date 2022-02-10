@@ -9,6 +9,7 @@ class SettingsListTile extends StatelessWidget {
   final String? subtitle;
   final Widget? trailing;
   final Function()? onTap;
+  final Function()? onLongPress;
   final bool disabled;
   final bool sensitive;
 
@@ -19,6 +20,7 @@ class SettingsListTile extends StatelessWidget {
     this.subtitle,
     this.trailing,
     this.onTap,
+    this.onLongPress,
     this.disabled = false,
     this.sensitive = false,
   }) : super(key: key);
@@ -59,6 +61,7 @@ class SettingsListTile extends StatelessWidget {
                 : null,
             trailing: trailing,
             onTap: onTap,
+            onLongPress: onLongPress,
           ),
         );
       },
