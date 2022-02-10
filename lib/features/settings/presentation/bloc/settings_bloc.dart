@@ -42,6 +42,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateServer>(
       (event, emit) => _onSettingsUpdateServer(event, emit),
     );
+    on<SettingsUpdateServerSort>(
+      (event, emit) => _onSettingsUpdateServerSort(event, emit),
+    );
     on<SettingsUpdateServerTimeout>(
       (event, emit) => _onSettingsUpdateServerTimeout(event, emit),
     );
@@ -295,6 +298,35 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(
       currentState.copyWith(serverList: updatedList),
     );
+  }
+
+  void _onSettingsUpdateServerSort(
+    SettingsUpdateServerSort event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    List<ServerModel> updatedServerList = [...currentState.serverList];
+    ServerModel movedServer = updatedServerList.removeAt(event.oldIndex);
+    updatedServerList.insert(event.newIndex, movedServer);
+
+    emit(
+      currentState.copyWith(serverList: updatedServerList),
+    );
+
+    await settings.updateServerSort(
+      serverId: event.serverId,
+      oldIndex: event.oldIndex,
+      newIndex: event.newIndex,
+    );
+
+    // Get Servers with updated sorts to keep state accurate
+    updatedServerList = await settings.getAllServers();
+    emit(
+      currentState.copyWith(serverList: updatedServerList),
+    );
+
+    logging.info('Settings :: Updated server sort');
   }
 
   void _onSettingsUpdateServerTimeout(

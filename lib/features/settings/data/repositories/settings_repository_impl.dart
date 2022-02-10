@@ -39,6 +39,19 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.updateServer(server);
   }
 
+  @override
+  Future<void> updateServerSort({
+    required int serverId,
+    required int oldIndex,
+    required int newIndex,
+  }) async {
+    return await dataSource.updateServerSort(
+      serverId: serverId,
+      oldIndex: oldIndex,
+      newIndex: newIndex,
+    );
+  }
+
   //* Store & Retrive Values
   // Custom Cert Hash List
   @override

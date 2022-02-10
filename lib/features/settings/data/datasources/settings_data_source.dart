@@ -22,6 +22,12 @@ abstract class SettingsDataSource {
 
   Future<int> updateServer(ServerModel server);
 
+  Future<void> updateServerSort({
+    required int serverId,
+    required int oldIndex,
+    required int newIndex,
+  });
+
   //* Store & Retrive Values
   // Custom Cert Hash List
   Future<List<int>> getCustomCertHashList();
@@ -102,6 +108,19 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<int> updateServer(ServerModel server) async {
     return await DBProvider.db.updateServer(server);
+  }
+
+  @override
+  Future<void> updateServerSort({
+    required int serverId,
+    required int oldIndex,
+    required int newIndex,
+  }) async {
+    return DBProvider.db.updateServerSort(
+      serverId: serverId,
+      oldIndex: oldIndex,
+      newIndex: newIndex,
+    );
   }
 
   //* Store & Retrive Values

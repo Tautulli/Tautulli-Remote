@@ -210,11 +210,18 @@ class DBProvider {
 
       if (result.isEmpty) return [];
 
-      return result
+      List<ServerModel> serverList = result
           .map(
             (server) => ServerModel.fromJson(server),
           )
           .toList();
+
+      // Sort server list using sort index
+      if (serverList.length > 1) {
+        serverList.sort((a, b) => a.sortIndex.compareTo(b.sortIndex));
+      }
+
+      return serverList;
     } else {
       throw DatabaseInitException();
     }
@@ -341,50 +348,53 @@ class DBProvider {
     }
   }
 
-  // Future<void> updateServerSort(
-  //   int serverId,
-  //   int oldIndex,
-  //   int newIndex,
-  // ) async {
-  //   final db = await database;
-  //   var batch = db!.batch();
-  //   // Change moved item sort index to -1 to avoid 'where' conflicts
-  //   batch.update(
-  //     'servers',
-  //     {'sort_index': -1},
-  //     where: 'id = ?',
-  //     whereArgs: [serverId],
-  //   );
-  //   // If item moved higher in list
-  //   if (oldIndex < newIndex) {
-  //     for (var i = oldIndex; i < newIndex; i++) {
-  //       batch.update(
-  //         'servers',
-  //         {'sort_index': i},
-  //         where: 'sort_index = ?',
-  //         whereArgs: [oldIndex + 1],
-  //       );
-  //     }
-  //   }
-  //   // If item moved lower in list
-  //   if (newIndex < oldIndex) {
-  //     for (var i = newIndex; i < oldIndex; i++) {
-  //       batch.update(
-  //         'servers',
-  //         {'sort_index': i + 1},
-  //         where: 'sort_index = ?',
-  //         whereArgs: [newIndex],
-  //       );
-  //     }
-  //   }
-  //   // Change sort index of moved item to new index
-  //   batch.update(
-  //     'servers',
-  //     {'sort_index': newIndex},
-  //     where: 'id = ?',
-  //     whereArgs: [serverId],
-  //   );
-
-  //   await batch.commit();
-  // }
+  Future<void> updateServerSort({
+    required int serverId,
+    required int oldIndex,
+    required int newIndex,
+  }) async {
+    final db = await database;
+    if (db != null) {
+      var batch = db.batch();
+      // Change moved item sort index to -1 to avoid 'where' conflicts
+      batch.update(
+        'servers',
+        {'sort_index': -1},
+        where: 'id = ?',
+        whereArgs: [serverId],
+      );
+      // If item moved higher in list
+      if (oldIndex > newIndex) {
+        for (var i = newIndex; i < oldIndex; i++) {
+          batch.update(
+            'servers',
+            {'sort_index': i + 1},
+            where: 'sort_index = ?',
+            whereArgs: [i],
+          );
+        }
+      }
+      // If item moved lower in list
+      if (newIndex > oldIndex) {
+        for (var i = newIndex; i > oldIndex; i--) {
+          batch.update(
+            'servers',
+            {'sort_index': i - 1},
+            where: 'sort_index = ?',
+            whereArgs: [i],
+          );
+        }
+      }
+      // Change sort index of moved item to new index
+      batch.update(
+        'servers',
+        {'sort_index': newIndex},
+        where: 'id = ?',
+        whereArgs: [serverId],
+      );
+      await batch.commit();
+    } else {
+      throw DatabaseInitException();
+    }
+  }
 }

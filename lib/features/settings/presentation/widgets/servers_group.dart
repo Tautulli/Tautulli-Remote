@@ -31,7 +31,19 @@ class ServersGroup extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
               child: ReorderableColumn(
                 mainAxisSize: MainAxisSize.min,
-                onReorder: (oldIndex, newIndex) {},
+                onReorder: (oldIndex, newIndex) {
+                  if (state is SettingsSuccess) {
+                    final int movedServerId = state.serverList[oldIndex].id!;
+
+                    context.read<SettingsBloc>().add(
+                          SettingsUpdateServerSort(
+                            serverId: movedServerId,
+                            oldIndex: oldIndex,
+                            newIndex: newIndex,
+                          ),
+                        );
+                  }
+                },
                 children: state is SettingsSuccess
                     ? state.serverList
                         .map(

@@ -126,6 +126,21 @@ class SettingsUpdateServer extends SettingsEvent {
       ];
 }
 
+class SettingsUpdateServerSort extends SettingsEvent {
+  final int serverId;
+  final int oldIndex;
+  final int newIndex;
+
+  const SettingsUpdateServerSort({
+    required this.serverId,
+    required this.oldIndex,
+    required this.newIndex,
+  });
+
+  @override
+  List<Object> get props => [serverId, oldIndex, newIndex];
+}
+
 class SettingsUpdateServerTimeout extends SettingsEvent {
   final int timeout;
 

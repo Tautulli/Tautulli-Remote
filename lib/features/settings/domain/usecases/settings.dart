@@ -37,6 +37,20 @@ class Settings {
     return await repository.updateServer(server);
   }
 
+  /// Updates the server sort by taking the server with provided `serverId` and
+  ///moving it from `oldIndex` to `newIndex`.
+  Future<void> updateServerSort({
+    required int serverId,
+    required int oldIndex,
+    required int newIndex,
+  }) async {
+    return await repository.updateServerSort(
+      serverId: serverId,
+      oldIndex: oldIndex,
+      newIndex: newIndex,
+    );
+  }
+
   /// Returns a list of user approved certificate hashes.
   ///
   /// Used for communicating with servers that could not be authenticated by

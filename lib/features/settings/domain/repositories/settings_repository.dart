@@ -15,6 +15,12 @@ abstract class SettingsRepository {
 
   Future<int> updateServer(ServerModel server);
 
+  Future<void> updateServerSort({
+    required int serverId,
+    required int oldIndex,
+    required int newIndex,
+  });
+
   //* Store & Retrive Values
   // Custom Cert Hash List
   Future<List<int>> getCustomCertHashList();
