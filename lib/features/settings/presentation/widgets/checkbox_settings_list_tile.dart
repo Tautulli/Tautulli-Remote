@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CheckboxSettingsListTile extends StatelessWidget {
+  final bool subtitleIsTwoLines;
   final Widget leading;
   final String title;
   final String? subtitle;
@@ -9,6 +10,7 @@ class CheckboxSettingsListTile extends StatelessWidget {
 
   const CheckboxSettingsListTile({
     Key? key,
+    this.subtitleIsTwoLines = false,
     required this.leading,
     required this.title,
     this.subtitle,
@@ -30,8 +32,18 @@ class CheckboxSettingsListTile extends StatelessWidget {
             ),
           ],
         ),
-        title: Text(title),
-        subtitle: subtitle != null ? Text(subtitle!) : null,
+        title: Text(
+          title,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: subtitle != null
+            ? Text(
+                subtitle!,
+                overflow: subtitleIsTwoLines ? null : TextOverflow.ellipsis,
+                maxLines: subtitleIsTwoLines ? 2 : 1,
+                style: Theme.of(context).textTheme.subtitle2,
+              )
+            : null,
         value: value,
         onChanged: onChanged,
       ),
