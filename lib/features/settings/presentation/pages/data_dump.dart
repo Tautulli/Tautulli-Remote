@@ -295,7 +295,7 @@ class _ServerDumpGroup extends StatelessWidget {
                     Expanded(
                       child: Text(
                         server.plexIdentifier,
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],
@@ -307,7 +307,7 @@ class _ServerDumpGroup extends StatelessWidget {
                     Expanded(
                       child: Text(
                         server.tautulliId,
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],
@@ -319,7 +319,7 @@ class _ServerDumpGroup extends StatelessWidget {
                     Expanded(
                       child: Text(
                         server.primaryConnectionAddress,
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],
@@ -331,7 +331,7 @@ class _ServerDumpGroup extends StatelessWidget {
                     Expanded(
                       child: Text(
                         server.primaryConnectionProtocol,
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],
@@ -343,7 +343,7 @@ class _ServerDumpGroup extends StatelessWidget {
                     Expanded(
                       child: Text(
                         server.primaryConnectionDomain,
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],
@@ -355,7 +355,7 @@ class _ServerDumpGroup extends StatelessWidget {
                     Expanded(
                       child: Text(
                         server.primaryConnectionPath ?? '',
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],
@@ -367,7 +367,7 @@ class _ServerDumpGroup extends StatelessWidget {
                     Expanded(
                       child: Text(
                         server.secondaryConnectionAddress ?? '',
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],
@@ -386,7 +386,7 @@ class _ServerDumpGroup extends StatelessWidget {
                     Expanded(
                       child: Text(
                         server.secondaryConnectionDomain ?? '',
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],
@@ -398,7 +398,7 @@ class _ServerDumpGroup extends StatelessWidget {
                     Expanded(
                       child: Text(
                         server.secondaryConnectionPath ?? '',
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],
@@ -410,7 +410,7 @@ class _ServerDumpGroup extends StatelessWidget {
                     Expanded(
                       child: Text(
                         server.deviceToken,
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],
@@ -457,11 +457,12 @@ class _ServerDumpGroup extends StatelessWidget {
                     Expanded(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: server.customHeaders
                             .map(
                               (header) => Text(
-                                '• ${header.key} : ${header.value}',
+                                '{${header.key} : ${header.value}}',
+                                textAlign: TextAlign.end,
                               ),
                             )
                             .toList(),
