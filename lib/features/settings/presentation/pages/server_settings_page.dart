@@ -47,6 +47,16 @@ class ServerSettingsView extends StatelessWidget {
           (server) => server.id == serverId,
         );
 
+        // Sort headers and make sure Authorization is first
+        server.customHeaders.sort((a, b) => a.key.compareTo(b.key));
+        final index = server.customHeaders.indexWhere(
+          (element) => element.key == 'Authorization',
+        );
+        if (index != -1) {
+          final authHeader = server.customHeaders.removeAt(index);
+          server.customHeaders.insert(0, authHeader);
+        }
+
         return Scaffold(
           appBar: AppBar(
             title: Text(server.plexName),
@@ -75,6 +85,8 @@ class ServerSettingsView extends StatelessWidget {
                   listTiles: server.customHeaders
                       .map(
                         (header) => CustomHeaderListTile(
+                          forRegistration: false,
+                          tautulliId: server.tautulliId,
                           title: header.key,
                           subtitle: header.value,
                         ),
@@ -88,7 +100,11 @@ class ServerSettingsView extends StatelessWidget {
                         child: const Text('Add Custom HTTP Header'),
                         onPressed: () async => await showDialog(
                           context: context,
-                          builder: (context) => const CustomHeaderTypeDialog(),
+                          builder: (context) => CustomHeaderTypeDialog(
+                            forRegistration: false,
+                            tautulliId: server.tautulliId,
+                            currentHeaders: server.customHeaders,
+                          ),
                         ),
                       ),
                     ),

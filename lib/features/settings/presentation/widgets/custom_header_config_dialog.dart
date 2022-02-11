@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
 import '../bloc/registration_headers_bloc.dart';
+import '../bloc/settings_bloc.dart';
 
 enum CustomHeaderType {
   basicAuth,
@@ -13,14 +14,20 @@ enum CustomHeaderType {
 
 class CustomHeaderConfigDialog extends StatefulWidget {
   final CustomHeaderType headerType;
+  final bool forRegistration;
   final String? existingKey;
   final String? existingValue;
+  final String? tautulliId;
+  // final List<CustomHeaderModel>? currentHeaders;
 
   const CustomHeaderConfigDialog({
     Key? key,
     required this.headerType,
+    required this.forRegistration,
     this.existingKey,
     this.existingValue,
+    this.tautulliId,
+    // this.currentHeaders,
   }) : super(key: key);
 
   @override
@@ -29,21 +36,49 @@ class CustomHeaderConfigDialog extends StatefulWidget {
 }
 
 class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
-  final _formKey = GlobalKey<FormState>();
-  final _keyController = TextEditingController();
-  final _keyFocus = FocusNode();
-  bool _keyValid = true;
-  final _valueController = TextEditingController();
-  final _valueFocus = FocusNode();
-  bool _valueValid = true;
+  late GlobalKey<FormState> _formKey;
+  late TextEditingController _keyController;
+  late FocusNode _keyFocus;
+  late bool _keyValid;
+  late TextEditingController _valueController;
+  late FocusNode _valueFocus;
+  late bool _valueValid;
+
+  @override
+  void initState() {
+    super.initState();
+    _formKey = GlobalKey<FormState>();
+    _keyController = TextEditingController();
+    _keyFocus = FocusNode();
+    _keyValid = true;
+    _valueController = TextEditingController();
+    _valueFocus = FocusNode();
+    _valueValid = true;
+
+    if (widget.existingKey != null && widget.existingValue != null) {
+      _keyController.text = widget.existingKey!;
+      _keyController.selection = TextSelection.fromPosition(
+        TextPosition(offset: _keyController.text.length),
+      );
+
+      _valueController.text = widget.existingValue!;
+      _valueController.selection = TextSelection.fromPosition(
+        TextPosition(offset: _valueController.text.length),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _keyController.dispose();
+    _keyFocus.dispose();
+    _valueController.dispose();
+    _valueFocus.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.existingKey != null && widget.existingValue != null) {
-      _keyController.text = widget.existingKey!;
-      _valueController.text = widget.existingValue!;
-    }
-
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 6.0),
       title: Row(
@@ -95,7 +130,7 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
               ),
               onTap: () {
                 setState(() {
-                  FocusScope.of(context).requestFocus(_keyFocus);
+                  _keyFocus.requestFocus();
                 });
               },
               validator: (value) {
@@ -139,7 +174,7 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
               ),
               onTap: () {
                 setState(() {
-                  FocusScope.of(context).requestFocus(_valueFocus);
+                  _valueFocus.requestFocus();
                 });
               },
               validator: (value) {
@@ -169,15 +204,30 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
           child: const Text('SAVE'),
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              context.read<RegistrationHeadersBloc>().add(
-                    RegistrationHeadersUpdate(
-                      title: _keyController.value.text.trim(),
-                      subtitle: _valueController.value.text.trim(),
-                      basicAuth:
-                          widget.headerType == CustomHeaderType.basicAuth,
-                      previousTitle: widget.existingKey,
-                    ),
-                  );
+              if (widget.forRegistration) {
+                context.read<RegistrationHeadersBloc>().add(
+                      RegistrationHeadersUpdate(
+                        title: _keyController.value.text.trim(),
+                        subtitle: _valueController.value.text.trim(),
+                        basicAuth:
+                            widget.headerType == CustomHeaderType.basicAuth,
+                        previousTitle: widget.existingKey,
+                      ),
+                    );
+              } else {
+                if (widget.tautulliId != null) {
+                  context.read<SettingsBloc>().add(
+                        SettingsUpdateCustomHeaders(
+                          tautulliId: widget.tautulliId!,
+                          title: _keyController.value.text.trim(),
+                          subtitle: _valueController.value.text.trim(),
+                          basicAuth:
+                              widget.headerType == CustomHeaderType.basicAuth,
+                          previousTitle: widget.existingKey,
+                        ),
+                      );
+                }
+              }
 
               Navigator.of(context).pop();
             }
