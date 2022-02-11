@@ -31,11 +31,6 @@ class ServerRegistrationStepThree extends StatelessWidget {
               );
             },
           ),
-          // const CustomHeaderListTile(
-          //   title: 'Authorization',
-          //   subtitle: 'Value',
-          //   showLeading: false,
-          // ),
           Row(
             children: [
               Expanded(
