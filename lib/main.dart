@@ -7,6 +7,7 @@ import 'dependency_injection.dart' as di;
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_sub_bloc.dart';
+import 'features/settings/presentation/bloc/registration_headers_bloc.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'tautulli_remote.dart';
 import 'translations/codegen_loader.g.dart';
@@ -33,6 +34,9 @@ void main() async {
           ),
           BlocProvider(
             create: (context) => di.sl<OneSignalSubBloc>(),
+          ),
+          BlocProvider(
+            create: (context) => di.sl<RegistrationHeadersBloc>(),
           ),
           BlocProvider(
             create: (context) => di.sl<SettingsBloc>(),

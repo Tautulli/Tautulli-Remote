@@ -20,15 +20,8 @@ class ServerRegistrationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => di.sl<RegisterDeviceBloc>(),
-        ),
-        BlocProvider(
-          create: (context) => di.sl<RegistrationHeadersBloc>(),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => di.sl<RegisterDeviceBloc>(),
       child: const ServerRegistrationView(),
     );
   }
@@ -53,10 +46,7 @@ class ServerRegistrationView extends StatelessWidget {
           onWillPop: () async => await showDialog(
             context: context,
             builder: (_) {
-              return BlocProvider.value(
-                value: context.read<RegistrationHeadersBloc>(),
-                child: const RegistrationExitDialog(),
-              );
+              return const RegistrationExitDialog();
             },
           ),
           child: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
