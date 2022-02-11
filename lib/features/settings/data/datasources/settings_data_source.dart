@@ -26,6 +26,11 @@ abstract class SettingsDataSource {
     required ConnectionAddressModel connectionAddress,
   });
 
+  Future<int> updateCustomHeaders({
+    required String tautulliId,
+    required List<CustomHeaderModel> headers,
+  });
+
   Future<int> updatePrimaryActive({
     required String tautulliId,
     required bool primaryActive,
@@ -124,6 +129,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     return await DBProvider.db.updateConnectionInfo(
       id: id,
       connectionAddress: connectionAddress,
+    );
+  }
+
+  @override
+  Future<int> updateCustomHeaders({
+    required String tautulliId,
+    required List<CustomHeaderModel> headers,
+  }) async {
+    return await DBProvider.db.updateCustomHeaders(
+      tautulliId: tautulliId,
+      headers: headers,
     );
   }
 

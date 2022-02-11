@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:app_group_directory/app_group_directory.dart';
@@ -6,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../../../features/settings/data/models/connection_address_model.dart';
+import '../../../../features/settings/data/models/custom_header_model.dart';
 import '../../../error/exception.dart';
 import '../../../types/protocol.dart';
 import '../../../utilities/cast.dart';
@@ -335,20 +337,30 @@ class DBProvider {
     }
   }
 
-  // Future<int> updateCustomHeaders({
-  //   required String tautulliId,
-  //   required String encodedCustomHeaders,
-  // }) async {
-  //   final db = await database;
-  //   var result = await db!.update(
-  //     'servers',
-  //     {'custom_headers': encodedCustomHeaders},
-  //     where: 'tautulli_id = ?',
-  //     whereArgs: [tautulliId],
-  //   );
+  Future<int> updateCustomHeaders({
+    required String tautulliId,
+    required List<CustomHeaderModel> headers,
+  }) async {
+    final db = await database;
+    if (db != null) {
+      final jsonMappedHeaders = headers
+          .map(
+            (header) => header.toJson(),
+          )
+          .toList();
 
-  //   return result;
-  // }
+      var result = await db.update(
+        'servers',
+        {'custom_headers': jsonEncode(jsonMappedHeaders)},
+        where: 'tautulli_id = ?',
+        whereArgs: [tautulliId],
+      );
+
+      return result;
+    } else {
+      throw DatabaseInitException();
+    }
+  }
 
   Future<int> updatePrimaryActive({
     required String tautulliId,

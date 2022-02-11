@@ -43,6 +43,19 @@ class SettingsAddServer extends SettingsEvent {
 
 class SettingsClearCache extends SettingsEvent {}
 
+class SettingsDeleteCustomHeader extends SettingsEvent {
+  final String tautulliId;
+  final String title;
+
+  const SettingsDeleteCustomHeader({
+    required this.tautulliId,
+    required this.title,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, title];
+}
+
 class SettingsLoad extends SettingsEvent {}
 
 class SettingsUpdateConnectionInfo extends SettingsEvent {
@@ -58,6 +71,25 @@ class SettingsUpdateConnectionInfo extends SettingsEvent {
 
   @override
   List<Object> get props => [primary, connectionAddress, server];
+}
+
+class SettingsUpdateCustomHeaders extends SettingsEvent {
+  final String tautulliId;
+  final String title;
+  final String subtitle;
+  final bool basicAuth;
+  final String? previousTitle;
+
+  const SettingsUpdateCustomHeaders({
+    required this.tautulliId,
+    required this.title,
+    required this.subtitle,
+    required this.basicAuth,
+    this.previousTitle,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, title, subtitle, basicAuth];
 }
 
 class SettingsUpdateDoubleTapToExit extends SettingsEvent {

@@ -47,6 +47,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<int> updateCustomHeaders({
+    required String tautulliId,
+    required List<CustomHeaderModel> headers,
+  }) async {
+    return await dataSource.updateCustomHeaders(
+      tautulliId: tautulliId,
+      headers: headers,
+    );
+  }
+
+  @override
   Future<int> updatePrimaryActive({
     required String tautulliId,
     required bool primaryActive,

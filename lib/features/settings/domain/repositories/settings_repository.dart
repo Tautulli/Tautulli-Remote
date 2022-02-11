@@ -19,6 +19,11 @@ abstract class SettingsRepository {
     required ConnectionAddressModel connectionAddress,
   });
 
+  Future<int> updateCustomHeaders({
+    required String tautulliId,
+    required List<CustomHeaderModel> headers,
+  });
+
   Future<int> updatePrimaryActive({
     required String tautulliId,
     required bool primaryActive,

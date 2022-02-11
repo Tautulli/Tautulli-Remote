@@ -45,6 +45,20 @@ class Settings {
     );
   }
 
+  /// Updates the server with the provided `tautulliId` with the list of
+  /// `CustomHeaderModel`.
+  ///
+  /// This list should contain all headers for the server.
+  Future<int> updateCustomHeaders({
+    required String tautulliId,
+    required List<CustomHeaderModel> headers,
+  }) async {
+    return await repository.updateCustomHeaders(
+      tautulliId: tautulliId,
+      headers: headers,
+    );
+  }
+
   /// Updates the primary active state of the server with `tautulliId`
   ///
   /// Primary Active is used to determine if the primary connection address is
