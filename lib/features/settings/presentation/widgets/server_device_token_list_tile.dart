@@ -23,7 +23,7 @@ class ServerDeviceTokenListTile extends StatelessWidget {
       ),
       title: 'Device Token',
       subtitle: deviceToken,
-      disabled: true,
+      inactive: true,
       onTap: () {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(

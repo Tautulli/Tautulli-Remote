@@ -10,7 +10,7 @@ class SettingsListTile extends StatelessWidget {
   final Widget? trailing;
   final Function()? onTap;
   final Function()? onLongPress;
-  final bool disabled;
+  final bool inactive;
   final bool sensitive;
 
   const SettingsListTile({
@@ -21,7 +21,7 @@ class SettingsListTile extends StatelessWidget {
     this.trailing,
     this.onTap,
     this.onLongPress,
-    this.disabled = false,
+    this.inactive = false,
     this.sensitive = false,
   }) : super(key: key);
 
@@ -44,7 +44,7 @@ class SettingsListTile extends StatelessWidget {
             title: Text(
               title,
               overflow: TextOverflow.ellipsis,
-              style: disabled
+              style: inactive
                   ? TextStyle(
                       color: Theme.of(context).textTheme.subtitle2!.color,
                     )

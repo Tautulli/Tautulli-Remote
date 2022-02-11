@@ -18,16 +18,16 @@ class ServerSecondaryConnectionListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool disabled = isBlank(server.secondaryConnectionAddress);
+    final bool inactive = isBlank(server.secondaryConnectionAddress);
     return SettingsListTile(
-      disabled: disabled,
+      inactive: inactive,
       sensitive: true,
       leading: FaIcon(
         FontAwesomeIcons.networkWired,
-        color: disabled ? Theme.of(context).textTheme.subtitle2!.color : null,
+        color: inactive ? Theme.of(context).textTheme.subtitle2!.color : null,
       ),
       title: 'Secondary Connection',
-      subtitle: disabled ? 'Not configured' : server.secondaryConnectionAddress,
+      subtitle: inactive ? 'Not configured' : server.secondaryConnectionAddress,
       trailing: server.primaryActive != true
           ? const ActiveConnectionIndicator()
           : null,
@@ -41,7 +41,7 @@ class ServerSecondaryConnectionListTile extends StatelessWidget {
         );
       },
       onLongPress: () {
-        if (!disabled) {
+        if (!inactive) {
           Clipboard.setData(
             ClipboardData(text: server.secondaryConnectionAddress),
           );
