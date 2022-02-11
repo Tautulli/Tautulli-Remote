@@ -161,7 +161,9 @@ Future<void> init() async {
     ),
   );
   sl.registerFactory(
-    () => RegistrationHeadersBloc(),
+    () => RegistrationHeadersBloc(
+      logging: sl(),
+    ),
   );
   sl.registerFactory(
     () => SettingsBloc(
