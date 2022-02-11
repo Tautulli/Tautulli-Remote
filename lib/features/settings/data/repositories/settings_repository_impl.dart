@@ -26,6 +26,11 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<void> deleteServer(int id) async {
+    return await dataSource.deleteServer(id);
+  }
+
+  @override
   Future<List<ServerModel>> getAllServers() async {
     return await dataSource.getAllServers();
   }

@@ -10,6 +10,8 @@ abstract class SettingsRepository {
   //* Database Interactions
   Future<int> addServer(ServerModel server);
 
+  Future<void> deleteServer(int id);
+
   Future<List<ServerModel>> getAllServers();
 
   Future<ServerModel?> getServerByTautulliId(String tautulliId);

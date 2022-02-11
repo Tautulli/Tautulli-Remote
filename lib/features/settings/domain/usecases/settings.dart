@@ -19,6 +19,11 @@ class Settings {
     return await repository.addServer(server);
   }
 
+  /// Deletes the server with the provided `id` from the database.
+  Future<void> deleteServer(int id) async {
+    return await repository.deleteServer(id);
+  }
+
   /// Returns a list of `ServerModel` with all servers in the database.
   ///
   /// List will be empty if there are no servers.

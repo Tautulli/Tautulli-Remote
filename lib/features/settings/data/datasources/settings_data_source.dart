@@ -17,6 +17,8 @@ abstract class SettingsDataSource {
   //* Database Interactions
   Future<int> addServer(ServerModel server);
 
+  Future<void> deleteServer(int id);
+
   Future<List<ServerModel>> getAllServers();
 
   Future<ServerModel?> getServerByTautulliId(String tautulliId);
@@ -109,6 +111,11 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<int> addServer(ServerModel server) async {
     return await DBProvider.db.addServer(server);
+  }
+
+  @override
+  Future<void> deleteServer(int id) async {
+    return await DBProvider.db.deleteServer(id);
   }
 
   @override

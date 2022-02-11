@@ -174,39 +174,39 @@ class DBProvider {
     }
   }
 
-  // Future<void> deleteServer(int id) async {
-  //   final db = await database;
-  //   var batch = db!.batch();
+  Future<void> deleteServer(int id) async {
+    final db = await database;
+    var batch = db!.batch();
 
-  //   int count = Sqflite.firstIntValue(
-  //     await db.rawQuery('SELECT COUNT(*) FROM servers'),
-  //   )!;
+    int count = Sqflite.firstIntValue(
+      await db.rawQuery('SELECT COUNT(*) FROM servers'),
+    )!;
 
-  //   batch.delete('servers', where: 'id = ?', whereArgs: [id]);
+    batch.delete('servers', where: 'id = ?', whereArgs: [id]);
 
-  //   if (count > 1) {
-  //     int sortIndex = await db
-  //         .query(
-  //           'servers',
-  //           columns: ['sort_index'],
-  //           where: 'id = ?',
-  //           whereArgs: [id],
-  //         )
-  //         .then(
-  //           (value) => value.first['sort_index'] as int,
-  //         );
+    if (count > 1) {
+      int sortIndex = await db
+          .query(
+            'servers',
+            columns: ['sort_index'],
+            where: 'id = ?',
+            whereArgs: [id],
+          )
+          .then(
+            (value) => value.first['sort_index'] as int,
+          );
 
-  //     for (var i = count - 1; i > sortIndex; i--) {
-  //       batch.update(
-  //         'servers',
-  //         {'sort_index': i - 1},
-  //         where: 'sort_index = ?',
-  //         whereArgs: [i],
-  //       );
-  //     }
-  //   }
-  //   await batch.commit();
-  // }
+      for (var i = count - 1; i > sortIndex; i--) {
+        batch.update(
+          'servers',
+          {'sort_index': i - 1},
+          where: 'sort_index = ?',
+          whereArgs: [i],
+        );
+      }
+    }
+    await batch.commit();
+  }
 
   Future<List<ServerModel>> getAllServers() async {
     final db = await database;

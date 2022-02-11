@@ -56,6 +56,19 @@ class SettingsDeleteCustomHeader extends SettingsEvent {
   List<Object> get props => [tautulliId, title];
 }
 
+class SettingsDeleteServer extends SettingsEvent {
+  final int id;
+  final String plexName;
+
+  const SettingsDeleteServer({
+    required this.id,
+    required this.plexName,
+  });
+
+  @override
+  List<Object> get props => [id, plexName];
+}
+
 class SettingsLoad extends SettingsEvent {}
 
 class SettingsUpdateConnectionInfo extends SettingsEvent {

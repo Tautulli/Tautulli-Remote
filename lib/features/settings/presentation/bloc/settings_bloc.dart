@@ -31,6 +31,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsDeleteCustomHeader>(
       (event, emit) => _onSettingsDeleteCustomHeader(event, emit),
     );
+    on<SettingsDeleteServer>(
+      (event, emit) => _onSettingsDeleteServer(event, emit),
+    );
     on<SettingsLoad>((event, emit) => _onSettingsLoad(event, emit));
     on<SettingsUpdateConnectionInfo>(
       (event, emit) => _onSettingsUpdateConnectionInfo(event, emit),
@@ -70,10 +73,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async {
     final currentState = state as SettingsSuccess;
 
-    logging.info(
-      'Settings :: Saving server details for ${event.plexName}',
-    );
-
     final ConnectionAddressModel primaryConnectionAddress =
         ConnectionAddressModel.fromConnectionAddress(
       primary: true,
@@ -112,6 +111,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
 
     final serverId = await settings.addServer(server);
+
+    logging.info(
+      "Settings :: Added server '${event.plexName}'",
+    );
 
     server = server.copyWith(id: serverId);
 
@@ -166,6 +169,33 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     updatedList[index] = currentState.serverList[index].copyWith(
       customHeaders: customHeaders,
     );
+    emit(
+      currentState.copyWith(serverList: updatedList),
+    );
+  }
+
+  void _onSettingsDeleteServer(
+    SettingsDeleteServer event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    List<ServerModel> updatedList = [...currentState.serverList];
+
+    final int index = updatedList.indexWhere(
+      (server) => server.id == event.id,
+    );
+    updatedList.removeAt(index);
+
+    await settings.deleteServer(event.id);
+
+    logging.info("Settings :: Deleted server '${event.plexName}'");
+
+    // Delay item removal to avoid user noticing server page trying to display
+    // after server is removed from the list
+    //TODO: There has to be a better solution to this problem
+    await Future.delayed(const Duration(milliseconds: 180));
+
     emit(
       currentState.copyWith(serverList: updatedList),
     );
