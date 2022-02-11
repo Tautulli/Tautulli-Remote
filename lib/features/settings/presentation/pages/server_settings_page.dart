@@ -8,6 +8,7 @@ import '../../../../core/widgets/page_body.dart';
 import '../bloc/settings_bloc.dart';
 import '../widgets/custom_header_list_tile.dart';
 import '../widgets/custom_header_type_dialog.dart';
+import '../widgets/delete_dialog.dart';
 import '../widgets/server_device_token_list_tile.dart';
 import '../widgets/server_open_in_browser_list_tile.dart';
 import '../widgets/server_primary_connection_list_tile.dart';
@@ -63,7 +64,27 @@ class ServerSettingsView extends StatelessWidget {
             actions: [
               IconButton(
                 icon: const FaIcon(FontAwesomeIcons.trash),
-                onPressed: () {},
+                onPressed: () async {
+                  final result = await showDialog(
+                    context: context,
+                    builder: (_) => DeleteDialog(
+                      title: Text(
+                        "Are you sure you want to delete '${server.plexName}'?",
+                      ),
+                    ),
+                  );
+
+                  if (result) {
+                    Navigator.of(context).pop();
+
+                    context.read<SettingsBloc>().add(
+                          SettingsDeleteServer(
+                            id: serverId,
+                            plexName: server.plexName,
+                          ),
+                        );
+                  }
+                },
               ),
             ],
           ),
