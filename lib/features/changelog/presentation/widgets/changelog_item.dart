@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'change_type_tag.dart';
 
@@ -27,6 +28,7 @@ class ChangelogItem extends StatelessWidget {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
                     release['version'],
@@ -34,7 +36,7 @@ class ChangelogItem extends StatelessWidget {
                   ),
                   Text(
                     release['date'],
-                    style: Theme.of(context).textTheme.subtitle2,
+                    style: GoogleFonts.openSans(fontWeight: FontWeight.w300),
                   ),
                 ],
               ),
