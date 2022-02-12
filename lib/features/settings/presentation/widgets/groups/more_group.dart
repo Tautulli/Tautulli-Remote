@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../../core/package_information/package_information.dart';
-import '../../../../core/widgets/list_tile_group.dart';
-import 'settings_list_tile.dart';
+import '../../../../../core/package_information/package_information.dart';
+import '../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../core/widgets/custom_list_tile.dart';
 
 class MoreGroup extends StatelessWidget {
   const MoreGroup({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class MoreGroup extends StatelessWidget {
     return ListTileGroup(
       heading: 'More',
       listTiles: [
-        SettingsListTile(
+        CustomListTile(
           leading: WebsafeSvg.asset(
             'assets/logos/onesignal.svg',
             color: Theme.of(context).colorScheme.tertiary,
@@ -25,21 +25,21 @@ class MoreGroup extends StatelessWidget {
             Navigator.of(context).pushNamed('/onesignal_privacy');
           },
         ),
-        SettingsListTile(
+        CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.clipboardList),
           title: 'Changelog',
           onTap: () {
             Navigator.of(context).pushNamed('/changelog');
           },
         ),
-        SettingsListTile(
+        CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.globe),
           title: 'Help Translate',
           onTap: () {
             Navigator.of(context).pushNamed('/help_translate');
           },
         ),
-        SettingsListTile(
+        CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.infoCircle),
           title: 'About',
           onTap: () async {

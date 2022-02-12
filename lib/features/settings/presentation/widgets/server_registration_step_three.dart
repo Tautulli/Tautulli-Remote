@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/widgets/bullet_list.dart';
 import '../../data/models/custom_header_model.dart';
 import '../bloc/registration_headers_bloc.dart';
-import 'custom_header_type_dialog.dart';
+import 'dialogs/custom_header_type_dialog.dart';
 import 'registration_instruction.dart';
 
 class ServerRegistrationStepThree extends StatelessWidget {

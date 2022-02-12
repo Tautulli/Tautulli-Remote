@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'settings_list_tile.dart';
+import '../../../../../core/widgets/custom_list_tile.dart';
 
 class ServerDeviceTokenListTile extends StatelessWidget {
   final String deviceToken;
@@ -15,7 +15,7 @@ class ServerDeviceTokenListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsListTile(
+    return CustomListTile(
       sensitive: true,
       leading: FaIcon(
         FontAwesomeIcons.key,

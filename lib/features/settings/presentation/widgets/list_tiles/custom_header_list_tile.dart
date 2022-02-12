@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../bloc/registration_headers_bloc.dart';
-import '../bloc/settings_bloc.dart';
-import 'custom_header_config_dialog.dart';
-import 'delete_dialog.dart';
+import '../../bloc/registration_headers_bloc.dart';
+import '../../bloc/settings_bloc.dart';
+import '../dialogs/custom_header_config_dialog.dart';
+import '../dialogs/delete_dialog.dart';
 
 class CustomHeaderListTile extends StatelessWidget {
   final bool forRegistration;

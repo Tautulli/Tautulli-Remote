@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../logging/domain/usecases/logging.dart';
-import '../widgets/custom_header_list_tile.dart';
+import '../widgets/list_tiles/custom_header_list_tile.dart';
 
 part 'registration_headers_event.dart';
 part 'registration_headers_state.dart';

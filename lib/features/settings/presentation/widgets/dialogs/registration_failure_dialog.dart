@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_helper.dart';
+import '../../../../../core/error/failure.dart';
+import '../../../../../core/helpers/failure_helper.dart';
 
 class RegistrationFailureDialog extends StatelessWidget {
   final Failure failure;

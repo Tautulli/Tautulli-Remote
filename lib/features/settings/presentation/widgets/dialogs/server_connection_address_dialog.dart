@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiver/strings.dart';
 import 'package:validators/validators.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import '../bloc/settings_bloc.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../../bloc/settings_bloc.dart';
 
 class ServerConnectionAddressDialog extends StatelessWidget {
   final bool primary;

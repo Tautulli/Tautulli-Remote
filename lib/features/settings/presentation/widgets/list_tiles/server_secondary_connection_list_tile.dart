@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../core/database/data/models/server_model.dart';
-import 'active_connection_indicator.dart';
-import 'server_connection_address_dialog.dart';
-import 'settings_list_tile.dart';
+import '../../../../../core/database/data/models/server_model.dart';
+import '../active_connection_indicator.dart';
+import '../dialogs/server_connection_address_dialog.dart';
+import '../../../../../core/widgets/custom_list_tile.dart';
 
 class ServerSecondaryConnectionListTile extends StatelessWidget {
   final ServerModel server;
@@ -19,7 +19,7 @@ class ServerSecondaryConnectionListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool inactive = isBlank(server.secondaryConnectionAddress);
-    return SettingsListTile(
+    return CustomListTile(
       inactive: inactive,
       sensitive: true,
       leading: FaIcon(

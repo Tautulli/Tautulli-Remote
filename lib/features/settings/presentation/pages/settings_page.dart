@@ -6,13 +6,13 @@ import '../../../../core/widgets/double_tap_to_exit.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../bloc/settings_bloc.dart';
-import '../widgets/app_settings_group.dart';
-import '../widgets/help_and_support_group.dart';
-import '../widgets/more_group.dart';
+import '../widgets/groups/app_settings_group.dart';
+import '../widgets/groups/help_and_support_group.dart';
+import '../widgets/groups/more_group.dart';
+import '../widgets/groups/servers_group.dart';
+import '../widgets/groups/testing_group.dart';
 import '../widgets/register_server_button.dart';
-import '../widgets/servers_group.dart';
 import '../widgets/settings_alert_banner.dart';
-import '../widgets/testing_group.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);

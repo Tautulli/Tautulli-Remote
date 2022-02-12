@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/widgets/list_tile_group.dart';
-import '../pages/data_dump.dart';
-import '../pages/how_to_test_page.dart';
-import 'settings_list_tile.dart';
+import '../../../../../core/widgets/list_tile_group.dart';
+import '../../pages/data_dump.dart';
+import '../../pages/how_to_test_page.dart';
+import '../../../../../core/widgets/custom_list_tile.dart';
 
 class TestingGroup extends StatelessWidget {
   const TestingGroup({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class TestingGroup extends StatelessWidget {
     return ListTileGroup(
       heading: 'Testing',
       listTiles: [
-        SettingsListTile(
+        CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.handsHelping),
           title: 'How To Test',
           subtitle: 'Help make v3 the best version of itself',
@@ -27,7 +27,7 @@ class TestingGroup extends StatelessWidget {
             );
           },
         ),
-        SettingsListTile(
+        CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.faucet),
           title: 'Data Dump',
           subtitle: 'App status and settings',

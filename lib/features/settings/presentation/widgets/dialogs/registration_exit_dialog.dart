@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/registration_headers_bloc.dart';
+import '../../bloc/registration_headers_bloc.dart';
 
 class RegistrationExitDialog extends StatelessWidget {
   const RegistrationExitDialog({Key? key}) : super(key: key);

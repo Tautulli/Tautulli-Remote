@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/helpers/translation_helper.dart';
-import '../../../../core/widgets/list_tile_group.dart';
-import '../../../../dependency_injection.dart' as di;
-import '../../../translation/presentation/bloc/translation_bloc.dart';
-import '../bloc/settings_bloc.dart';
-import 'checkbox_settings_list_tile.dart';
-import 'language_dialog.dart';
-import 'settings_list_tile.dart';
+import '../../../../../core/helpers/translation_helper.dart';
+import '../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../dependency_injection.dart' as di;
+import '../../../../translation/presentation/bloc/translation_bloc.dart';
+import '../../bloc/settings_bloc.dart';
+import '../dialogs/language_dialog.dart';
+import '../list_tiles/checkbox_settings_list_tile.dart';
+import '../../../../../core/widgets/custom_list_tile.dart';
 
 class AdvancedGroup extends StatelessWidget {
   const AdvancedGroup({Key? key}) : super(key: key);
@@ -61,7 +61,7 @@ class AdvancedGroup extends StatelessWidget {
             );
           },
         ),
-        SettingsListTile(
+        CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.language),
           title: 'Language',
           subtitle: TranslationHelper.localeToString(context.locale),

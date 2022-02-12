@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/widgets/list_tile_group.dart';
-import '../bloc/settings_bloc.dart';
-import '../pages/advanced_page.dart';
-import 'activity_refresh_rate_dialog.dart';
-import 'server_timeout_dialog.dart';
-import 'settings_list_tile.dart';
+import '../../../../../core/widgets/list_tile_group.dart';
+import '../../bloc/settings_bloc.dart';
+import '../../pages/advanced_page.dart';
+import '../dialogs/activity_refresh_rate_dialog.dart';
+import '../dialogs/server_timeout_dialog.dart';
+import '../../../../../core/widgets/custom_list_tile.dart';
 
 class AppSettingsGroup extends StatelessWidget {
   const AppSettingsGroup({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class AppSettingsGroup extends StatelessWidget {
             state as SettingsSuccess;
             final serverTimeout = state.appSettings.serverTimeout;
 
-            return SettingsListTile(
+            return CustomListTile(
               leading: const FaIcon(
                 FontAwesomeIcons.stopwatch,
                 size: 28,
@@ -43,7 +43,7 @@ class AppSettingsGroup extends StatelessWidget {
             state as SettingsSuccess;
             final refreshRate = state.appSettings.refreshRate;
 
-            return SettingsListTile(
+            return CustomListTile(
               leading: const FaIcon(FontAwesomeIcons.solidClock),
               title: 'Activity Refresh Rate',
               subtitle: _activityRefreshRateDisplay(refreshRate),
@@ -56,7 +56,7 @@ class AppSettingsGroup extends StatelessWidget {
             );
           },
         ),
-        SettingsListTile(
+        CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.wrench),
           title: 'Advanced',
           onTap: () => Navigator.of(context).push(

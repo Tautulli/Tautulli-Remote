@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
-import '../bloc/registration_headers_bloc.dart';
-import '../bloc/settings_bloc.dart';
+import '../../bloc/registration_headers_bloc.dart';
+import '../../bloc/settings_bloc.dart';
 
 enum CustomHeaderType {
   basicAuth,

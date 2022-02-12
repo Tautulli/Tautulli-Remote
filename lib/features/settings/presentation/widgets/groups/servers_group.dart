@@ -4,10 +4,10 @@ import 'package:gap/gap.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../../core/widgets/heading.dart';
-import '../bloc/settings_bloc.dart';
-import '../pages/server_settings_page.dart';
-import 'settings_list_tile.dart';
+import '../../../../../core/widgets/heading.dart';
+import '../../bloc/settings_bloc.dart';
+import '../../pages/server_settings_page.dart';
+import '../../../../../core/widgets/custom_list_tile.dart';
 
 class ServersGroup extends StatelessWidget {
   const ServersGroup({Key? key}) : super(key: key);
@@ -47,7 +47,7 @@ class ServersGroup extends StatelessWidget {
                 children: state is SettingsSuccess
                     ? state.serverList
                         .map(
-                          (server) => SettingsListTile(
+                          (server) => CustomListTile(
                             key: ValueKey(server.tautulliId),
                             sensitive: true,
                             leading: WebsafeSvg.asset(

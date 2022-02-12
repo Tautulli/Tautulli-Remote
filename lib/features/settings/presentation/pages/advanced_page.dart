@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/page_body.dart';
-import '../widgets/advanced_group.dart';
-import '../widgets/operations_group.dart';
+import '../widgets/groups/advanced_group.dart';
+import '../widgets/groups/operations_group.dart';
 
 class AdvancedPage extends StatelessWidget {
   const AdvancedPage({Key? key}) : super(key: key);
