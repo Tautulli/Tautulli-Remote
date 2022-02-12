@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/settings_bloc.dart';
+import '../../features/settings/presentation/bloc/settings_bloc.dart';
 
-class SettingsListTile extends StatelessWidget {
+class CustomListTile extends StatelessWidget {
   final Widget leading;
   final String title;
   final String? subtitle;
@@ -13,7 +13,7 @@ class SettingsListTile extends StatelessWidget {
   final bool inactive;
   final bool sensitive;
 
-  const SettingsListTile({
+  const CustomListTile({
     Key? key,
     required this.leading,
     required this.title,
