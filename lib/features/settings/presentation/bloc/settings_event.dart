@@ -69,7 +69,16 @@ class SettingsDeleteServer extends SettingsEvent {
   List<Object> get props => [id, plexName];
 }
 
-class SettingsLoad extends SettingsEvent {}
+class SettingsLoad extends SettingsEvent {
+  final bool updateServerInfo;
+
+  const SettingsLoad({
+    this.updateServerInfo = true,
+  });
+
+  @override
+  List<Object> get props => [updateServerInfo];
+}
 
 class SettingsUpdateConnectionInfo extends SettingsEvent {
   final bool primary;

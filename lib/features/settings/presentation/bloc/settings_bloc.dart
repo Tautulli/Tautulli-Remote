@@ -235,8 +235,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         ),
       );
 
-      for (ServerModel server in serverList) {
-        _updateServerInfo(server: server);
+      if (event.updateServerInfo) {
+        for (ServerModel server in serverList) {
+          _updateServerInfo(server: server);
+        }
       }
     } catch (e) {
       logging.info(
