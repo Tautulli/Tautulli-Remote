@@ -8,9 +8,9 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/pages/status_page.dart';
+import '../../../../core/widgets/custom_list_tile.dart';
 import '../../../../core/widgets/list_tile_group.dart';
 import '../../../../core/widgets/page_body.dart';
-import '../../../settings/presentation/widgets/settings_list_tile.dart';
 
 class DonatePage extends StatelessWidget {
   const DonatePage({Key? key}) : super(key: key);
@@ -162,7 +162,7 @@ class _DonateViewState extends State<DonateView> {
                               ListTileGroup(
                                 heading: 'One-Time Donations',
                                 listTiles: [
-                                  SettingsListTile(
+                                  CustomListTile(
                                     leading: const FaIcon(
                                       FontAwesomeIcons.iceCream,
                                     ),
@@ -174,7 +174,7 @@ class _DonateViewState extends State<DonateView> {
                                           .getPackage('ice_cream')!,
                                     ),
                                   ),
-                                  SettingsListTile(
+                                  CustomListTile(
                                     leading: const FaIcon(
                                       FontAwesomeIcons.pizzaSlice,
                                     ),
@@ -186,7 +186,7 @@ class _DonateViewState extends State<DonateView> {
                                           .getPackage('pizza')!,
                                     ),
                                   ),
-                                  SettingsListTile(
+                                  CustomListTile(
                                     leading: const FaIcon(
                                       FontAwesomeIcons.hamburger,
                                     ),
@@ -198,7 +198,7 @@ class _DonateViewState extends State<DonateView> {
                                           .getPackage('hamburger')!,
                                     ),
                                   ),
-                                  SettingsListTile(
+                                  CustomListTile(
                                     leading: const Icon(
                                       Icons.fastfood_rounded,
                                       size: 26,
@@ -217,7 +217,7 @@ class _DonateViewState extends State<DonateView> {
                               ListTileGroup(
                                 heading: 'Recurring Donations',
                                 listTiles: [
-                                  SettingsListTile(
+                                  CustomListTile(
                                     leading: FaIcon(
                                       FontAwesomeIcons.donate,
                                       color: _purchaserInfo!.activeSubscriptions
@@ -233,7 +233,7 @@ class _DonateViewState extends State<DonateView> {
                                           .getPackage('subscription_tier_1')!,
                                     ),
                                   ),
-                                  SettingsListTile(
+                                  CustomListTile(
                                     leading: FaIcon(
                                       FontAwesomeIcons.donate,
                                       color: _purchaserInfo!.activeSubscriptions
@@ -249,7 +249,7 @@ class _DonateViewState extends State<DonateView> {
                                           .getPackage('subscription_tier_2')!,
                                     ),
                                   ),
-                                  SettingsListTile(
+                                  CustomListTile(
                                     leading: FaIcon(
                                       FontAwesomeIcons.donate,
                                       color: _purchaserInfo!.activeSubscriptions
@@ -265,7 +265,7 @@ class _DonateViewState extends State<DonateView> {
                                           .getPackage('subscription_tier_3')!,
                                     ),
                                   ),
-                                  SettingsListTile(
+                                  CustomListTile(
                                     leading: FaIcon(
                                       FontAwesomeIcons.donate,
                                       color: _purchaserInfo!.activeSubscriptions

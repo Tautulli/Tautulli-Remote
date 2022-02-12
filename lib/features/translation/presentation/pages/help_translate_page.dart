@@ -4,9 +4,9 @@ import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../../../core/widgets/custom_list_tile.dart';
 import '../../../../core/widgets/list_tile_group.dart';
 import '../../../../core/widgets/page_body.dart';
-import '../../../settings/presentation/widgets/settings_list_tile.dart';
 
 class HelpTranslatePage extends StatelessWidget {
   const HelpTranslatePage({Key? key}) : super(key: key);
@@ -63,7 +63,7 @@ class HelpTranslateView extends StatelessWidget {
             const Gap(4),
             ListTileGroup(
               listTiles: [
-                SettingsListTile(
+                CustomListTile(
                   leading: WebsafeSvg.asset(
                     'assets/logos/weblate.svg',
                     color: Theme.of(context).colorScheme.tertiary,
@@ -76,7 +76,7 @@ class HelpTranslateView extends StatelessWidget {
                         'https://hosted.weblate.org/engage/tautulli-remote/');
                   },
                 ),
-                SettingsListTile(
+                CustomListTile(
                   leading: const FaIcon(FontAwesomeIcons.github),
                   title: 'Request a new language',
                   onTap: () async {
