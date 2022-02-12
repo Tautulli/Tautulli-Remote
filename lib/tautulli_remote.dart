@@ -5,13 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
+import 'core/database/data/models/server_model.dart';
 import 'core/helpers/color_palette_helper.dart';
+import 'dependency_injection.dart' as di;
 import 'features/changelog/presentation/pages/changelog_page.dart';
 import 'features/donate/presentation/pages/donate_page.dart';
+import 'features/logging/domain/usecases/logging.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_sub_bloc.dart';
 import 'features/onesignal/presentation/pages/onesignal_data_privacy.dart';
+import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/translation/presentation/pages/help_translate_page.dart';
@@ -36,7 +40,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     Future.delayed(const Duration(seconds: 2), () {
       context.read<OneSignalSubBloc>().add(OneSignalSubCheck());
     });
-    context.read<SettingsBloc>().add(SettingsLoad());
+    context.read<SettingsBloc>().add(const SettingsLoad());
   }
 
   Future<void> initalizeOneSignal() async {
@@ -68,6 +72,56 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       if (changes.to.userId != null || changes.to.pushToken != null) {
         context.read<OneSignalSubBloc>().add(OneSignalSubCheck());
         context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
+
+        if (changes.to.userId != null) {
+          final serversWithoutOneSignal =
+              await di.sl<Settings>().getAllServersWithoutOnesignalRegistered();
+
+          if (serversWithoutOneSignal != null &&
+              serversWithoutOneSignal.isNotEmpty) {
+            di.sl<Logging>().info(
+                  'OneSignal :: OneSignal registration changed, updating server registration',
+                );
+
+            for (ServerModel server in serversWithoutOneSignal) {
+              String connectionProtocol = server.primaryActive!
+                  ? server.primaryConnectionProtocol
+                  : server.secondaryConnectionProtocol!;
+              String connectionDomain = server.primaryActive!
+                  ? server.primaryConnectionDomain
+                  : server.secondaryConnectionDomain!;
+              String? connectionPath = server.primaryActive!
+                  ? server.primaryConnectionPath
+                  : server.secondaryConnectionPath;
+
+              final failureOrRegisterDevice =
+                  await di.sl<Settings>().registerDevice(
+                        connectionProtocol: connectionProtocol,
+                        connectionDomain: connectionDomain,
+                        connectionPath: connectionPath ?? '',
+                        deviceToken: server.deviceToken,
+                        customHeaders: server.customHeaders,
+                      );
+
+              failureOrRegisterDevice.fold(
+                (failure) {
+                  di.sl<Logging>().error(
+                        'OneSignal :: Failed to update registration for ${server.plexName} with OneSignal ID',
+                      );
+                },
+                (results) {
+                  di.sl<Settings>().updateServer(
+                        server.copyWith(oneSignalRegistered: true),
+                      );
+
+                  di.sl<Logging>().info(
+                        'OneSignal :: Updated registration for ${server.plexName} with OneSignal ID',
+                      );
+                },
+              );
+            }
+          }
+        }
       }
     });
   }
