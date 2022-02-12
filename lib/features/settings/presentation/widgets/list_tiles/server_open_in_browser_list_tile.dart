@@ -25,7 +25,7 @@ class ServerOpenInBrowserListTile extends StatelessWidget {
             ),
           ],
         ),
-        title: const Text('Open Server Name in browser'),
+        title: Text('Open ${server.plexName} in browser'),
         onTap: () async {
           if (server.primaryActive != false) {
             await launch(server.primaryConnectionAddress);
