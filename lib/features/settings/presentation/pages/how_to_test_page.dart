@@ -60,6 +60,17 @@ class HowToTestView extends StatelessWidget {
                   "View your app's status and data using the Data Dump page under the Testing section of Settings.",
             ),
             const Gap(8),
+            const _ItemCard(
+              color: Color.fromRGBO(88, 101, 242, 0.9),
+              leading: FaIcon(
+                FontAwesomeIcons.discord,
+                size: 28,
+              ),
+              title: 'Discuss the alpha',
+              content:
+                  'Visit the dedicated Discord channel #v3-alpha-discussion to chat about the new alpha.',
+            ),
+            const Gap(8),
             _ItemCard(
               color: PlexColorPalette.atlantis.withAlpha(200),
               leading: const FaIcon(
@@ -67,7 +78,8 @@ class HowToTestView extends StatelessWidget {
                 size: 28,
               ),
               title: 'Let us know what you broke!',
-              content: "Submit bugs under Help & Support on the Settings page.",
+              content:
+                  "Submit bugs under Help & Support on the Settings page. Don't forget to mention it's for the alpha!",
             ),
             const Gap(8),
             _ItemCard(
@@ -78,7 +90,7 @@ class HowToTestView extends StatelessWidget {
               ),
               title: 'Got An Idea?',
               content:
-                  'Submit feature requests under Help & Support on the Settings page.',
+                  "Submit feature requests under Help & Support on the Settings page. Don't forget to mention it's for the alpha!",
             ),
           ],
         ),
