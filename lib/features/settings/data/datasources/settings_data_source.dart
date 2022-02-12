@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/register_device_model.dart';
+import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/api/tautulli/tautulli_api.dart';
 import '../../../../core/database/data/datasources/database.dart';
 import '../../../../core/database/data/models/server_model.dart';
@@ -14,6 +16,22 @@ import '../models/connection_address_model.dart';
 import '../models/custom_header_model.dart';
 
 abstract class SettingsDataSource {
+  //* API Calls
+  Future<Tuple2<PlexInfoModel, bool>> getPlexInfo(String tautulliId);
+
+  Future<Tuple2<TautulliGeneralSettingsModel, bool>> getTautulliSettings(
+    String tautulliId,
+  );
+
+  Future<Tuple2<RegisterDeviceModel, bool>> registerDevice({
+    required String connectionProtocol,
+    required String connectionDomain,
+    required String connectionPath,
+    required String deviceToken,
+    List<CustomHeaderModel>? customHeaders,
+    bool trustCert,
+  });
+
   //* Database Interactions
   Future<int> addServer(ServerModel server);
 
@@ -74,16 +92,6 @@ abstract class SettingsDataSource {
   // Server Timeout
   Future<int> getServerTimeout();
   Future<bool> setServerTimeout(int value);
-
-  //* Settings Actions
-  Future<Tuple2<RegisterDeviceModel, bool>> registerDevice({
-    required String connectionProtocol,
-    required String connectionDomain,
-    required String connectionPath,
-    required String deviceToken,
-    List<CustomHeaderModel>? customHeaders,
-    bool trustCert,
-  });
 }
 
 const customCertHashList = 'customCertHashList';
@@ -98,14 +106,100 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   final DeviceInfo deviceInfo;
   final LocalStorage localStorage;
   final PackageInformation packageInfo;
+  final GetServerInfo getServerInfoApi;
+  final GetSettings getSettingsApi;
   final RegisterDevice registerDeviceApi;
 
   SettingsDataSourceImpl({
     required this.deviceInfo,
     required this.localStorage,
     required this.packageInfo,
+    required this.getServerInfoApi,
+    required this.getSettingsApi,
     required this.registerDeviceApi,
   });
+
+  //* API Calls
+  @override
+  Future<Tuple2<PlexInfoModel, bool>> getPlexInfo(String tautulliId) async {
+    final result = await getServerInfoApi(tautulliId: tautulliId);
+
+    // If the response result is not success throw ServerException.
+    if (result.value1['response']['result'] != 'success') {
+      throw BadApiResponseException();
+    }
+
+    final plexInfoModel = PlexInfoModel.fromJson(
+      result.value1['response']['data'],
+    );
+
+    return Tuple2(plexInfoModel, result.value2);
+  }
+
+  @override
+  Future<Tuple2<TautulliGeneralSettingsModel, bool>> getTautulliSettings(
+    String tautulliId,
+  ) async {
+    final result = await getSettingsApi(tautulliId: tautulliId);
+
+    // If the response result is not success throw ServerException.
+    if (result.value1['response']['result'] != 'success') {
+      throw BadApiResponseException();
+    }
+
+    final generalSettings = TautulliGeneralSettingsModel.fromJson(
+      result.value1['response']['data']['General'],
+    );
+
+    return Tuple2(generalSettings, result.value2);
+  }
+
+  @override
+  Future<Tuple2<RegisterDeviceModel, bool>> registerDevice({
+    required String connectionProtocol,
+    required String connectionDomain,
+    required String connectionPath,
+    required String deviceToken,
+    List<CustomHeaderModel>? customHeaders,
+    bool trustCert = false,
+  }) async {
+    final String deviceId = await deviceInfo.uniqueId ?? 'unknown';
+    final String deviceName = await deviceInfo.model ?? 'unknown';
+    final String oneSignalId = await di.sl<OneSignalDataSource>().userId;
+    final String platform = await deviceInfo.platform;
+    final String version = await packageInfo.version;
+
+    final result = await registerDeviceApi(
+      connectionProtocol: connectionProtocol,
+      connectionDomain: connectionDomain,
+      connectionPath: connectionPath,
+      deviceToken: deviceToken,
+      deviceId: deviceId,
+      deviceName: deviceName,
+      onesignalId: oneSignalId,
+      platform: platform,
+      version: version,
+      customHeaders: customHeaders,
+      trustCert: trustCert,
+    );
+
+    // If the response result is not success throw ServerException.
+    if (result.value1['response']['result'] != 'success') {
+      throw BadApiResponseException();
+    }
+
+    final Map<String, dynamic> responseData = result.value1['response']['data'];
+
+    // If response data is missing tautulli_version throw ServerVersionException.
+    if (!responseData.containsKey('tautulli_version')) {
+      throw ServerVersionException();
+    }
+
+    return Tuple2(
+      RegisterDeviceModel.fromJson(responseData),
+      result.value2,
+    );
+  }
 
   //* Database Interactions
   @override
@@ -268,53 +362,5 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setServerTimeout(int value) {
     return localStorage.setInt(serverTimeout, value);
-  }
-
-  //* Settings Actions
-  @override
-  Future<Tuple2<RegisterDeviceModel, bool>> registerDevice({
-    required String connectionProtocol,
-    required String connectionDomain,
-    required String connectionPath,
-    required String deviceToken,
-    List<CustomHeaderModel>? customHeaders,
-    bool trustCert = false,
-  }) async {
-    final String deviceId = await deviceInfo.uniqueId ?? 'unknown';
-    final String deviceName = await deviceInfo.model ?? 'unknown';
-    final String oneSignalId = await di.sl<OneSignalDataSource>().userId;
-    final String platform = await deviceInfo.platform;
-    final String version = await packageInfo.version;
-
-    final result = await registerDeviceApi(
-      connectionProtocol: connectionProtocol,
-      connectionDomain: connectionDomain,
-      connectionPath: connectionPath,
-      deviceToken: deviceToken,
-      deviceId: deviceId,
-      deviceName: deviceName,
-      onesignalId: oneSignalId,
-      platform: platform,
-      version: version,
-      customHeaders: customHeaders,
-      trustCert: trustCert,
-    );
-
-    // If the response result is not success throw ServerException.
-    if (result.value1['response']['result'] != 'success') {
-      throw ServerException();
-    }
-
-    final Map<String, dynamic> responseData = result.value1['response']['data'];
-
-    // If response data is missing tautulli_version throw ServerVersionException.
-    if (!responseData.containsKey('tautulli_version')) {
-      throw ServerVersionException();
-    }
-
-    return Tuple2(
-      RegisterDeviceModel.fromJson(responseData),
-      result.value2,
-    );
   }
 }

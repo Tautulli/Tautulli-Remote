@@ -23,7 +23,7 @@ abstract class ConnectionHandler {
     required String cmd,
     required Map<String, String> params,
     List<CustomHeaderModel>? customHeaders,
-    required bool trustCert,
+    bool trustCert,
     int? timeoutOverride,
   });
 }
@@ -43,7 +43,7 @@ class ConnectionHandlerImpl implements ConnectionHandler {
     required String cmd,
     required Map<String, String> params,
     List<CustomHeaderModel>? customHeaders,
-    required bool trustCert,
+    bool trustCert = false,
     int? timeoutOverride,
   }) async {
     if ((tautulliId == null) ||

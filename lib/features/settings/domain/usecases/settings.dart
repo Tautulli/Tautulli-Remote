@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/register_device_model.dart';
+import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../data/models/connection_address_model.dart';
@@ -11,6 +13,51 @@ class Settings {
   final SettingsRepository repository;
 
   Settings({required this.repository});
+
+  //* API Calls
+
+  /// Returns `PlexInfoModel` as well as a bool to indicate the active
+  /// connection address.
+  Future<Either<Failure, Tuple2<PlexInfoModel, bool>>> getPlexInfo(
+    String tautulliId,
+  ) async {
+    return await repository.getPlexInfo(tautulliId);
+  }
+
+  /// Returns `TautulliGeneralSettingsModel` as well as a bool to indicate the
+  /// active connection address.
+  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>>
+      getTautulliSettings(String tautulliId) async {
+    return await repository.getTautulliSettings(tautulliId);
+  }
+
+  /// Used to register with a Tautulli server.
+  ///
+  /// When successful returns a `RegisterDeviceModel` containing response data
+  /// as well as a bool to indicate the active connection address.
+  ///
+  /// Set `trustCert` to true to add the certificate's hash to a list of user
+  /// trusted certificates that could not be authenticated by
+  /// any of the built in trusted root certificates.
+  Future<Either<Failure, Tuple2<RegisterDeviceModel, bool>>> registerDevice({
+    required String connectionProtocol,
+    required String connectionDomain,
+    required String connectionPath,
+    required String deviceToken,
+    List<CustomHeaderModel>? customHeaders,
+    bool trustCert = false,
+  }) async {
+    return await repository.registerDevice(
+      connectionProtocol: connectionProtocol,
+      connectionDomain: connectionDomain,
+      connectionPath: connectionPath,
+      deviceToken: deviceToken,
+      customHeaders: customHeaders,
+      trustCert: trustCert,
+    );
+  }
+
+  //* Database Interactions
 
   /// Inserts the provided `ServerModel` into the database.
   ///
@@ -96,6 +143,8 @@ class Settings {
       newIndex: newIndex,
     );
   }
+
+  //* Store & Retrive Values
 
   /// Returns a list of user approved certificate hashes.
   ///
@@ -186,31 +235,5 @@ class Settings {
   /// Sets the time to wait in seconds before timing out the server connection.
   Future<bool> setServerTimeout(int value) async {
     return await repository.setServerTimeout(value);
-  }
-
-  /// Used to register with a Tautulli server.
-  ///
-  /// When successful returns a `RegisterDeviceModel` containing response data
-  /// as well as a bool to indicate the active primary connection address.
-  ///
-  /// Set `trustCert` to true to add the certificate's hash to a list of user
-  /// trusted certificates that could not be authenticated by
-  /// any of the built in trusted root certificates.
-  Future<Either<Failure, Tuple2<RegisterDeviceModel, bool>>> registerDevice({
-    required String connectionProtocol,
-    required String connectionDomain,
-    required String connectionPath,
-    required String deviceToken,
-    List<CustomHeaderModel>? customHeaders,
-    bool trustCert = false,
-  }) async {
-    return await repository.registerDevice(
-      connectionProtocol: connectionProtocol,
-      connectionDomain: connectionDomain,
-      connectionPath: connectionPath,
-      deviceToken: deviceToken,
-      customHeaders: customHeaders,
-      trustCert: trustCert,
-    );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/register_device_model.dart';
+import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
@@ -18,6 +20,72 @@ class SettingsRepositoryImpl implements SettingsRepository {
     required this.dataSource,
     required this.networkInfo,
   });
+
+  //* API Calls
+  @override
+  Future<Either<Failure, Tuple2<PlexInfoModel, bool>>> getPlexInfo(
+    String tautulliId,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.getPlexInfo(tautulliId);
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>>
+      getTautulliSettings(String tautulliId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.getTautulliSettings(tautulliId);
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Tuple2<RegisterDeviceModel, bool>>> registerDevice({
+    required String connectionProtocol,
+    required String connectionDomain,
+    required String connectionPath,
+    required String deviceToken,
+    List<CustomHeaderModel>? customHeaders,
+    bool trustCert = false,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.registerDevice(
+          connectionProtocol: connectionProtocol,
+          connectionDomain: connectionDomain,
+          connectionPath: connectionPath,
+          deviceToken: deviceToken,
+          customHeaders: customHeaders,
+          trustCert: trustCert,
+        );
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
 
   //* Database Interactions
   @override
@@ -167,36 +235,5 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<bool> setServerTimeout(int value) async {
     return await dataSource.setServerTimeout(value);
-  }
-
-  //* Settings Actions
-  @override
-  Future<Either<Failure, Tuple2<RegisterDeviceModel, bool>>> registerDevice({
-    required String connectionProtocol,
-    required String connectionDomain,
-    required String connectionPath,
-    required String deviceToken,
-    List<CustomHeaderModel>? customHeaders,
-    bool trustCert = false,
-  }) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final results = await dataSource.registerDevice(
-          connectionProtocol: connectionProtocol,
-          connectionDomain: connectionDomain,
-          connectionPath: connectionPath,
-          deviceToken: deviceToken,
-          customHeaders: customHeaders,
-          trustCert: trustCert,
-        );
-
-        return Right(results);
-      } catch (e) {
-        final failure = FailureHelper.castToFailure(e);
-        return Left(failure);
-      }
-    } else {
-      return Left(ConnectionFailure());
-    }
   }
 }

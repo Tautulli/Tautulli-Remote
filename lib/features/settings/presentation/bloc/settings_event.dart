@@ -199,6 +199,17 @@ class SettingsUpdateServer extends SettingsEvent {
       ];
 }
 
+class SettingsUpdateServerPlexAndTautulliInfo extends SettingsEvent {
+  final ServerModel serverModel;
+
+  const SettingsUpdateServerPlexAndTautulliInfo({
+    required this.serverModel,
+  });
+
+  @override
+  List<Object> get props => [serverModel];
+}
+
 class SettingsUpdateServerSort extends SettingsEvent {
   final int serverId;
   final int oldIndex;

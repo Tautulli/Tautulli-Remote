@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../core/api/tautulli/models/plex_info_model.dart';
+import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/manage_cache/manage_cache.dart';
 import '../../../../core/types/protocol.dart';
@@ -58,6 +60,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
     on<SettingsUpdateServer>(
       (event, emit) => _onSettingsUpdateServer(event, emit),
+    );
+    on<SettingsUpdateServerPlexAndTautulliInfo>(
+      (event, emit) => _onSettingsUpdateServerPlexAndTautulliInfo(event, emit),
     );
     on<SettingsUpdateServerSort>(
       (event, emit) => _onSettingsUpdateServerSort(event, emit),
@@ -129,6 +134,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(
       currentState.copyWith(serverList: updatedList),
     );
+
+    _updateServerInfo(server: server);
   }
 
   void _onSettingsClearCache(
@@ -227,6 +234,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           appSettings: appSettings,
         ),
       );
+
+      for (ServerModel server in serverList) {
+        _updateServerInfo(server: server);
+      }
     } catch (e) {
       logging.info(
         'Settings :: Failed to load settings [$e]',
@@ -552,6 +563,27 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
   }
 
+  void _onSettingsUpdateServerPlexAndTautulliInfo(
+    SettingsUpdateServerPlexAndTautulliInfo event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    List<ServerModel> updatedList = [...currentState.serverList];
+
+    final int index = currentState.serverList.indexWhere(
+      (server) => server.id == event.serverModel.id,
+    );
+
+    updatedList[index] = event.serverModel;
+
+    await settings.updateServer(event.serverModel);
+
+    emit(
+      currentState.copyWith(serverList: updatedList),
+    );
+  }
+
   void _onSettingsUpdateServerSort(
     SettingsUpdateServerSort event,
     Emitter<SettingsState> emit,
@@ -599,5 +631,80 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         ),
       ),
     );
+  }
+
+  void _updateServerInfo({
+    required ServerModel server,
+  }) async {
+    String? plexName;
+    String? plexIdentifier;
+    bool? plexPass;
+    String? dateFormat;
+    String? timeFormat;
+
+    final failureOrPlexInfo = await settings.getPlexInfo(server.tautulliId);
+    final failureOrTautulliSettings = await settings.getTautulliSettings(
+      server.tautulliId,
+    );
+
+    failureOrPlexInfo.fold(
+      (failure) {
+        logging.error(
+          'Settings: Failed to fetch updated Plex info for ${server.plexName}',
+        );
+      },
+      (response) {
+        add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: server.tautulliId,
+            primaryActive: response.value2,
+          ),
+        );
+
+        final PlexInfoModel results = response.value1;
+
+        plexName = results.pmsName;
+        plexIdentifier = results.pmsIdentifier;
+        plexPass = results.pmsPlexpass;
+      },
+    );
+
+    failureOrTautulliSettings.fold(
+      (failure) {
+        logging.error(
+          'Settings: Failed to fetch updated Tautulli Settings for ${server.plexName}',
+        );
+      },
+      (response) {
+        add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: server.tautulliId,
+            primaryActive: response.value2,
+          ),
+        );
+
+        final TautulliGeneralSettingsModel results = response.value1;
+
+        dateFormat = results.dateFormat;
+        timeFormat = results.timeFormat;
+      },
+    );
+
+    ServerModel updatedServer = server.copyWith(
+      plexName: plexName,
+      plexIdentifier: plexIdentifier,
+      plexPass: plexPass,
+      dateFormat: dateFormat,
+      timeFormat: timeFormat,
+    );
+
+    if (server != updatedServer) {
+      logging.info(
+        'Settings :: Updating Plex and Tautulli details for ${updatedServer.plexName}',
+      );
+      add(
+        SettingsUpdateServerPlexAndTautulliInfo(serverModel: updatedServer),
+      );
+    }
   }
 }

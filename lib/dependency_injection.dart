@@ -43,6 +43,12 @@ Future<void> init() async {
   sl.registerLazySingleton<tautulli_api.ConnectionHandler>(
     () => tautulli_api.ConnectionHandlerImpl(sl()),
   );
+  sl.registerLazySingleton<tautulli_api.GetServerInfo>(
+    () => tautulli_api.GetServerInfoImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetSettings>(
+    () => tautulli_api.GetSettingsImpl(sl()),
+  );
   sl.registerLazySingleton<tautulli_api.RegisterDevice>(
     () => tautulli_api.RegisterDeviceImpl(sl()),
   );
@@ -194,6 +200,8 @@ Future<void> init() async {
       deviceInfo: sl(),
       localStorage: sl(),
       packageInfo: sl(),
+      getServerInfoApi: sl(),
+      getSettingsApi: sl(),
       registerDeviceApi: sl(),
     ),
   );
