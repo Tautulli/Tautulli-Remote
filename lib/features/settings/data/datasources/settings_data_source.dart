@@ -41,6 +41,8 @@ abstract class SettingsDataSource {
 
   Future<ServerModel?> getServerByTautulliId(String tautulliId);
 
+  Future<List<ServerModel>?> getAllServersWithoutOnesignalRegistered();
+
   Future<int> updateConnectionInfo({
     required int id,
     required ConnectionAddressModel connectionAddress,
@@ -220,6 +222,11 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<ServerModel?> getServerByTautulliId(String tautulliId) async {
     return await DBProvider.db.getServerByTautulliId(tautulliId);
+  }
+
+  @override
+  Future<List<ServerModel>?> getAllServersWithoutOnesignalRegistered() async {
+    return await DBProvider.db.getAllServersWithoutOnesignalRegistered();
   }
 
   @override

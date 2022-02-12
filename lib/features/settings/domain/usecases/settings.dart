@@ -85,6 +85,10 @@ class Settings {
     return await repository.getServerByTautulliId(tautulliId);
   }
 
+  Future<List<ServerModel>?> getAllServersWithoutOnesignalRegistered() async {
+    return await repository.getAllServersWithoutOnesignalRegistered();
+  }
+
   /// Updates the server with `id` using the information in
   /// `ConnectionAddressModel`.
   Future<int> updateConnectionInfo({

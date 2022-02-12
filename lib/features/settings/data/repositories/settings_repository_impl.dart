@@ -109,6 +109,11 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<List<ServerModel>?> getAllServersWithoutOnesignalRegistered() async {
+    return await dataSource.getAllServersWithoutOnesignalRegistered();
+  }
+
+  @override
   Future<int> updateConnectionInfo({
     required int id,
     required ConnectionAddressModel connectionAddress,
