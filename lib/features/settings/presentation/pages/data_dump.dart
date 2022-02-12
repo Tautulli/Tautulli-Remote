@@ -16,6 +16,9 @@ class DataDumpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
+    context.read<SettingsBloc>().add(
+          const SettingsLoad(updateServerInfo: false),
+        );
 
     return BlocProvider(
       create: (context) => di.sl<OneSignalStatusBloc>()
@@ -32,8 +35,6 @@ class DataDumpView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsState = context.read<SettingsBloc>().state as SettingsSuccess;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Data Dump'),
@@ -68,11 +69,21 @@ class DataDumpView extends StatelessWidget {
               ),
             ),
             const Gap(8),
-            _AppSettings(settingsState: settingsState),
+            BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, state) {
+                return _AppSettings(settingsState: state as SettingsSuccess);
+              },
+            ),
             const Gap(8),
             const _OneSignalStatus(),
             const Gap(8),
-            _ServerDumpGroup(settingsState: settingsState),
+            BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, state) {
+                return _ServerDumpGroup(
+                  settingsState: state as SettingsSuccess,
+                );
+              },
+            ),
           ],
         ),
       ),
