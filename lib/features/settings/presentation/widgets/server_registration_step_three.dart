@@ -23,7 +23,7 @@ class ServerRegistrationStepThree extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const BulletList(
-                listItems: ['Add any customer headers needed.'],
+                listItems: ['Add any custom headers needed.'],
               ),
               if (state is RegistrationHeadersLoaded) ...state.headers,
               Row(
