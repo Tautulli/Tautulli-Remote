@@ -43,7 +43,8 @@ class SettingsView extends StatelessWidget {
               BlocBuilder<SettingsBloc, SettingsState>(
                 builder: (context, state) {
                   if (state is SettingsSuccess &&
-                      !state.appSettings.oneSignalBannerDismissed) {
+                      (!state.appSettings.oneSignalBannerDismissed ||
+                          state.appSettings.oneSignalConsented)) {
                     return const SettingsAlertBanner();
                   }
 
