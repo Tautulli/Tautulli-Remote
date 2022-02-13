@@ -141,6 +141,15 @@ class SettingsUpdateOneSignalBannerDismiss extends SettingsEvent {
   List<Object> get props => [dismiss];
 }
 
+class SettingsUpdateOneSignalConsented extends SettingsEvent {
+  final bool consented;
+
+  const SettingsUpdateOneSignalConsented(this.consented);
+
+  @override
+  List<Object> get props => [consented];
+}
+
 class SettingsUpdatePrimaryActive extends SettingsEvent {
   final String tautulliId;
   final bool primaryActive;

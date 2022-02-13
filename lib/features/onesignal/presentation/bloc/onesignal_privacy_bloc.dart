@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/settings.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/datasources/onesignal_data_source.dart';
 
 part 'onesignal_privacy_event.dart';
@@ -51,7 +52,7 @@ class OneSignalPrivacyBloc
   ) async {
     await oneSignal.grantConsent(true);
     await oneSignal.disablePush(false);
-    await settings.setOneSignalConsented(true);
+    event.settingsBloc.add(const SettingsUpdateOneSignalConsented(true));
 
     logging.info('OneSignal :: Data Privacy accepted');
 
@@ -66,7 +67,7 @@ class OneSignalPrivacyBloc
   ) async {
     await oneSignal.disablePush(true);
     await oneSignal.grantConsent(false);
-    await settings.setOneSignalConsented(false);
+    event.settingsBloc.add(const SettingsUpdateOneSignalConsented(false));
 
     logging.info('OneSignal :: Data Privacy revoked');
 

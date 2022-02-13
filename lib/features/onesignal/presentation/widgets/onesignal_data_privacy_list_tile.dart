@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../core/widgets/permission_setting_dialog.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/onesignal_health_bloc.dart';
 import '../bloc/onesignal_privacy_bloc.dart';
 
@@ -15,6 +16,7 @@ class OneSignalDataPrivacyListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final oneSignalPrivacyBloc = context.read<OneSignalPrivacyBloc>();
     final oneSignalHealthBloc = context.read<OneSignalHealthBloc>();
+    final settingsBloc = context.read<SettingsBloc>();
 
     return BlocBuilder<OneSignalPrivacyBloc, OneSignalPrivacyState>(
       builder: (context, state) {
@@ -61,7 +63,9 @@ class OneSignalDataPrivacyListTile extends StatelessWidget {
                 // has been granted.
                 if (Platform.isIOS) {
                   if (await Permission.notification.request().isGranted) {
-                    oneSignalPrivacyBloc.add(OneSignalPrivacyGrant());
+                    oneSignalPrivacyBloc.add(
+                      OneSignalPrivacyGrant(settingsBloc: settingsBloc),
+                    );
                     oneSignalHealthBloc.add(OneSignalHealthCheck());
                   } else {
                     await showDialog(
@@ -74,13 +78,17 @@ class OneSignalDataPrivacyListTile extends StatelessWidget {
                     );
                   }
                 } else {
-                  oneSignalPrivacyBloc.add(OneSignalPrivacyGrant());
+                  oneSignalPrivacyBloc.add(
+                    OneSignalPrivacyGrant(settingsBloc: settingsBloc),
+                  );
                   oneSignalHealthBloc.add(OneSignalHealthCheck());
                 }
               }
               // If current state is OneSignalPrivacySuccess then revoke consent
               if (state is OneSignalPrivacySuccess) {
-                oneSignalPrivacyBloc.add(OneSignalPrivacyRevoke());
+                oneSignalPrivacyBloc.add(
+                  OneSignalPrivacyRevoke(settingsBloc: settingsBloc),
+                );
                 oneSignalHealthBloc.add(OneSignalHealthCheck());
               }
             },

@@ -49,6 +49,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateMaskSensitiveInfo>(
       (event, emit) => _onSettingsUpdateMaskSensitiveInfo(event, emit),
     );
+    on<SettingsUpdateOneSignalConsented>(
+      (event, emit) => _onSettingsUpdateOneSignalConsented(event, emit),
+    );
     on<SettingsUpdateOneSignalBannerDismiss>(
       (event, emit) => _onSettingsUpdateOneSignalBannerDismiss(event, emit),
     );
@@ -434,6 +437,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       currentState.copyWith(
         appSettings: currentState.appSettings
             .copyWith(maskSensitiveInfo: event.maskSensitiveInfo),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateOneSignalConsented(
+    SettingsUpdateOneSignalConsented event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setOneSignalConsented(event.consented);
+
+    // Logging handled by OneSignalPrivacyBloc
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings
+            .copyWith(oneSignalConsented: event.consented),
       ),
     );
   }
