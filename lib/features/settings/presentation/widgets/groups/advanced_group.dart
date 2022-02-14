@@ -28,7 +28,7 @@ class AdvancedGroup extends StatelessWidget {
             return CheckboxSettingsListTile(
               leading: const FaIcon(FontAwesomeIcons.angleDoubleLeft),
               title: 'Double Tap To Exit',
-              subtitle: 'Tap back twice to edit',
+              subtitle: 'Tap back twice to exit',
               value: doubleTapToExit,
               onChanged: (value) {
                 if (value != null) {
