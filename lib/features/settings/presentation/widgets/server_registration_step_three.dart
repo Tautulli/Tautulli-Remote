@@ -15,6 +15,7 @@ class ServerRegistrationStepThree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RegistrationInstruction(
+      isOptional: true,
       heading: 'Step 3',
       child: BlocBuilder<RegistrationHeadersBloc, RegistrationHeadersState>(
         builder: (context, state) {

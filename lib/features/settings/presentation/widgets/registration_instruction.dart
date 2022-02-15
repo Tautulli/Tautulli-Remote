@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/heading.dart';
 
 class RegistrationInstruction extends StatelessWidget {
+  final bool isOptional;
   final String heading;
   final Widget child;
 
   const RegistrationInstruction({
     Key? key,
+    this.isOptional = false,
     required this.heading,
     required this.child,
   }) : super(key: key);
@@ -20,7 +23,21 @@ class RegistrationInstruction extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8, bottom: 8),
-          child: Heading(text: heading),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Heading(text: heading),
+              if (isOptional) const Gap(4),
+              if (isOptional)
+                Text(
+                  '(optional)',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Theme.of(context).textTheme.subtitle2!.color,
+                  ),
+                ),
+            ],
+          ),
         ),
         ClipRRect(
           borderRadius: BorderRadius.circular(4),
