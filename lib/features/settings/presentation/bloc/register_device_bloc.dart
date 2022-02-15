@@ -130,7 +130,7 @@ class RegisterDeviceBloc
               );
 
               emit(
-                RegisterDeviceSuccess(),
+                RegisterDeviceSuccess(serverName: registerResults.pmsName!),
               );
             } else {
               settingsBloc.add(
@@ -153,7 +153,7 @@ class RegisterDeviceBloc
               );
             }
             emit(
-              RegisterDeviceSuccess(),
+              RegisterDeviceSuccess(serverName: registerResults.pmsName!),
             );
           } else {
             throw BadApiResponseException();

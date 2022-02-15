@@ -11,7 +11,16 @@ class RegisterDeviceInitial extends RegisterDeviceState {}
 
 class RegisterDeviceInProgress extends RegisterDeviceState {}
 
-class RegisterDeviceSuccess extends RegisterDeviceState {}
+class RegisterDeviceSuccess extends RegisterDeviceState {
+  final String serverName;
+
+  const RegisterDeviceSuccess({
+    required this.serverName,
+  });
+
+  @override
+  List<Object> get props => [serverName];
+}
 
 class RegisterDeviceFailure extends RegisterDeviceState {
   final Failure failure;
