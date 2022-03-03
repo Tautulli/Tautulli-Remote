@@ -11,6 +11,7 @@ import '../../../../core/pages/status_page.dart';
 import '../../../../core/widgets/custom_list_tile.dart';
 import '../../../../core/widgets/list_tile_group.dart';
 import '../../../../core/widgets/page_body.dart';
+import '../widgets/donate_heading_card.dart';
 
 class DonatePage extends StatelessWidget {
   const DonatePage({Key? key}) : super(key: key);
@@ -122,35 +123,7 @@ class _DonateViewState extends State<DonateView> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Text(
-                        'Tautulli Remote is free and open source.',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      Gap(8),
-                      Text(
-                        'However, any contributions you can make towards the app are appriciated!',
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const Gap(4),
-              const Divider(
-                indent: 32,
-                endIndent: 32,
-              ),
-              const Gap(4),
+              const DonateHeadingCard(),
               Expanded(
                 child: _offerings == null
                     ? const Center(
