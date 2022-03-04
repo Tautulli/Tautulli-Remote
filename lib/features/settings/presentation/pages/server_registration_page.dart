@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../dependency_injection.dart' as di;
+import '../../data/models/custom_header_model.dart';
 import '../bloc/register_device_bloc.dart';
 import '../bloc/registration_headers_bloc.dart';
+import '../bloc/settings_bloc.dart';
 import '../widgets/dialogs/certificate_failure_dialog.dart';
 import '../widgets/dialogs/registration_exit_dialog.dart';
 import '../widgets/dialogs/registration_failure_dialog.dart';
-import '../widgets/server_registration_step_four.dart';
 import '../widgets/server_registration_step_one.dart';
 import '../widgets/server_registration_step_three.dart';
 import '../widgets/server_registration_step_two.dart';
@@ -40,6 +42,39 @@ class ServerRegistrationView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Server Registration'),
+      ),
+      floatingActionButton:
+          BlocBuilder<RegistrationHeadersBloc, RegistrationHeadersState>(
+        builder: (context, state) {
+          return FloatingActionButton.extended(
+            icon: const FaIcon(
+              FontAwesomeIcons.solidEdit,
+              size: 20,
+            ),
+            label: const Text('Register Server'),
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                context.read<RegisterDeviceBloc>().add(
+                      RegisterDeviceStarted(
+                        primaryConnectionAddress: _primaryController.text,
+                        secondaryConnectionAddress: _secondaryController.text,
+                        deviceToken: _tokenController.text,
+                        headers: state is RegistrationHeadersLoaded
+                            ? state.headers
+                                .map(
+                                  (widget) => CustomHeaderModel(
+                                      key: widget.title,
+                                      value: widget.subtitle),
+                                )
+                                .toList()
+                            : [],
+                        settingsBloc: context.read<SettingsBloc>(),
+                      ),
+                    );
+              }
+            },
+          );
+        },
       ),
       body: PageBody(
         child: WillPopScope(
@@ -89,7 +124,12 @@ class ServerRegistrationView extends StatelessWidget {
             child: Form(
               key: _formKey,
               child: ListView(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(
+                  left: 8,
+                  top: 8,
+                  right: 8,
+                  bottom: kFloatingActionButtonMargin + 48,
+                ),
                 children: [
                   const ServerRegistrationStepOne(),
                   const Gap(8),
@@ -100,13 +140,6 @@ class ServerRegistrationView extends StatelessWidget {
                   ),
                   const Gap(8),
                   const ServerRegistrationStepThree(),
-                  const Gap(8),
-                  ServerRegistrationStepFour(
-                    formKey: _formKey,
-                    primaryController: _primaryController,
-                    secondaryController: _secondaryController,
-                    tokenController: _tokenController,
-                  ),
                 ],
               ),
             ),

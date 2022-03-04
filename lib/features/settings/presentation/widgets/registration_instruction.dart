@@ -5,14 +5,20 @@ import '../../../../core/widgets/heading.dart';
 
 class RegistrationInstruction extends StatelessWidget {
   final bool isOptional;
+  final bool hasChildPadding;
   final String heading;
-  final Widget child;
+  final Widget? child;
+  final Widget? action;
+  final bool actionOnTop;
 
   const RegistrationInstruction({
     Key? key,
     this.isOptional = false,
+    this.hasChildPadding = true,
     required this.heading,
-    required this.child,
+    this.child,
+    this.action,
+    this.actionOnTop = false,
   }) : super(key: key);
 
   @override
@@ -22,7 +28,10 @@ class RegistrationInstruction extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 8, bottom: 8),
+          padding: EdgeInsets.only(
+            left: 8,
+            bottom: !actionOnTop && child != null ? 8 : 0,
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -39,18 +48,21 @@ class RegistrationInstruction extends StatelessWidget {
             ],
           ),
         ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: Theme.of(context).dialogTheme.backgroundColor,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: child,
+        if (action != null && actionOnTop) action!,
+        if (child != null)
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Theme.of(context).dialogTheme.backgroundColor,
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(hasChildPadding ? 8.0 : 0),
+                child: child,
+              ),
             ),
           ),
-        ),
+        if (action != null && !actionOnTop) action!
       ],
     );
   }

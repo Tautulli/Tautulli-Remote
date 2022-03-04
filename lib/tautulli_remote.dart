@@ -202,6 +202,12 @@ class _TautulliRemoteState extends State<TautulliRemote> {
           ),
         ),
       ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        foregroundColor: TautulliColorPalette.notWhite,
+        extendedTextStyle: GoogleFonts.openSans(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       iconTheme: const IconThemeData(
         color: TautulliColorPalette.notWhite,
       ),

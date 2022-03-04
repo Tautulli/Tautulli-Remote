@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../core/qr_code_scanner/qr_code_scanner.dart';
-import '../../../../core/widgets/bullet_list.dart';
 import '../../../../dependency_injection.dart' as di;
 import 'registration_instruction.dart';
 
@@ -36,16 +35,11 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
   @override
   Widget build(BuildContext context) {
     return RegistrationInstruction(
+      actionOnTop: true,
       heading: 'Step 2',
-      child: Column(
+      action: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const BulletList(
-            listItems: [
-              'Scan the QR code in Tautulli or manually enter the connection address and device token information.',
-            ],
-          ),
           Row(
             children: [
               Expanded(
@@ -74,15 +68,17 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'or',
-                style: Theme.of(context).textTheme.subtitle2,
-              ),
-            ],
+          Text(
+            'or',
+            style: Theme.of(context).textTheme.subtitle2,
           ),
+          const Gap(4),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           const Gap(8),
           TextFormField(
             controller: widget.primaryController,
