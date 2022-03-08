@@ -61,31 +61,21 @@ class OneSignalDataPrivacyListTile extends StatelessWidget {
               // If current state is OneSignalPrivacyFailure then go through the
               // steps to grant permission.
               if (state is OneSignalPrivacyFailure) {
-                // If the platform is iOS make sure the notification persmission
-                // has been granted.
-                if (Platform.isIOS) {
-                  if (await Permission.notification.request().isGranted) {
-                    oneSignalPrivacyBloc.add(
-                      OneSignalPrivacyGrant(settingsBloc: settingsBloc),
-                    );
-                    oneSignalHealthBloc.add(OneSignalHealthCheck());
-                  } else {
-                    await showDialog(
-                      context: context,
-                      builder: (context) => PermissionSettingDialog(
-                        title: LocaleKeys.notification_permission_dialog_title
-                            .tr(),
-                        content: LocaleKeys
-                            .notification_permission_dialog_content
-                            .tr(),
-                      ),
-                    );
-                  }
-                } else {
+                if (await Permission.notification.request().isGranted) {
                   oneSignalPrivacyBloc.add(
                     OneSignalPrivacyGrant(settingsBloc: settingsBloc),
                   );
                   oneSignalHealthBloc.add(OneSignalHealthCheck());
+                } else {
+                  await showDialog(
+                    context: context,
+                    builder: (context) => PermissionSettingDialog(
+                      title:
+                          LocaleKeys.notification_permission_dialog_title.tr(),
+                      content: LocaleKeys.notification_permission_dialog_content
+                          .tr(),
+                    ),
+                  );
                 }
               }
               // If current state is OneSignalPrivacySuccess then revoke consent
