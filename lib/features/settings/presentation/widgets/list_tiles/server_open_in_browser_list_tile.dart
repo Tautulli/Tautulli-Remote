@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../translations/locale_keys.g.dart';
 
 class ServerOpenInBrowserListTile extends StatelessWidget {
   final ServerModel server;
@@ -25,7 +27,9 @@ class ServerOpenInBrowserListTile extends StatelessWidget {
             ),
           ],
         ),
-        title: Text('Open ${server.plexName} in browser'),
+        title: const Text(
+          LocaleKeys.open_server_in_browser_title,
+        ).tr(args: [server.plexName]),
         onTap: () async {
           if (server.primaryActive != false) {
             await launch(server.primaryConnectionAddress);

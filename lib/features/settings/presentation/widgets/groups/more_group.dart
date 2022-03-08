@@ -1,10 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../core/package_information/package_information.dart';
-import '../../../../../core/widgets/list_tile_group.dart';
 import '../../../../../core/widgets/custom_list_tile.dart';
+import '../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../translations/locale_keys.g.dart';
 
 class MoreGroup extends StatelessWidget {
   const MoreGroup({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class MoreGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTileGroup(
-      heading: 'More',
+      heading: LocaleKeys.more_title.tr(),
       listTiles: [
         CustomListTile(
           leading: WebsafeSvg.asset(
@@ -20,28 +22,28 @@ class MoreGroup extends StatelessWidget {
             color: Theme.of(context).colorScheme.tertiary,
             height: 35,
           ),
-          title: 'OneSignal Data Privacy',
+          title: LocaleKeys.onesignal_data_privacy_title.tr(),
           onTap: () {
             Navigator.of(context).pushNamed('/onesignal_privacy');
           },
         ),
         CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.clipboardList),
-          title: 'Changelog',
+          title: LocaleKeys.changelog_title.tr(),
           onTap: () {
             Navigator.of(context).pushNamed('/changelog');
           },
         ),
         CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.globe),
-          title: 'Help Translate',
+          title: LocaleKeys.help_translate_title.tr(),
           onTap: () {
             Navigator.of(context).pushNamed('/help_translate');
           },
         ),
         CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.infoCircle),
-          title: 'About',
+          title: LocaleKeys.about_title.tr(),
           onTap: () async {
             showAboutDialog(
               context: context,
@@ -51,8 +53,7 @@ class MoreGroup extends StatelessWidget {
               ),
               applicationName: 'Tautulli Remote',
               applicationVersion: await PackageInformationImpl().version,
-              applicationLegalese:
-                  'Licensed under the GNU General Public License v3.0',
+              applicationLegalese: LocaleKeys.about_legalese.tr(),
             );
           },
         ),

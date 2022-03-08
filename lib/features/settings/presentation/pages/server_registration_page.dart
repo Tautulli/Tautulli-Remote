@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,6 +7,7 @@ import 'package:gap/gap.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../dependency_injection.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/custom_header_model.dart';
 import '../bloc/register_device_bloc.dart';
 import '../bloc/registration_headers_bloc.dart';
@@ -41,7 +43,7 @@ class ServerRegistrationView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Server Registration'),
+        title: const Text(LocaleKeys.server_registration_title).tr(),
       ),
       floatingActionButton:
           BlocBuilder<RegistrationHeadersBloc, RegistrationHeadersState>(
@@ -51,7 +53,7 @@ class ServerRegistrationView extends StatelessWidget {
               FontAwesomeIcons.solidEdit,
               size: 20,
             ),
-            label: const Text('Register Server'),
+            label: const Text(LocaleKeys.register_server_button).tr(),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 context.read<RegisterDeviceBloc>().add(
@@ -91,7 +93,9 @@ class ServerRegistrationView extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: Colors.green[700],
-                    content: Text('Updated ${state.serverName} registration'),
+                    content: const Text(
+                      LocaleKeys.server_registration_updated_snackbar_message,
+                    ).tr(args: [state.serverName]),
                   ),
                 );
 

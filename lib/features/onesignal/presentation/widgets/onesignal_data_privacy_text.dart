@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../translations/locale_keys.g.dart';
 
 class OnesignalDataPrivacyText extends StatelessWidget {
   const OnesignalDataPrivacyText({Key? key}) : super(key: key);
@@ -8,16 +11,13 @@ class OnesignalDataPrivacyText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textBlock1 =
-        'Tautulli Remote supports %end-to-end encryption%.'.split('%');
+        LocaleKeys.onesignal_data_privacy_text_block_1.tr().split('%');
     final textBlock2 =
-        '%OneSignal% is used to deliver notifications from Tautulli. No Personally Identifiable Information (PII) is being collected by OneSignal. Read the %OneSignal Privacy Policy% for more details.'
-            .split('%');
+        LocaleKeys.onesignal_data_privacy_text_block_2.tr().split('%');
     final textBlock3 =
-        "Notification data sent through OneSignal's API will be %deleted after ~30 days%."
-            .split('%');
+        LocaleKeys.onesignal_data_privacy_text_block_3.tr().split('%');
     final textBlock4 =
-        'Once you accept, this device will register with OneSignal. Consent can be revoked to prevent further communication with OneSignal.'
-            .split('%');
+        LocaleKeys.onesignal_data_privacy_text_block_4.tr().split('%');
 
     return Card(
       child: Padding(

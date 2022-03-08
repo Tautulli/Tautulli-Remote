@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../core/widgets/permission_setting_dialog.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/onesignal_health_bloc.dart';
 import '../bloc/onesignal_privacy_bloc.dart';
@@ -22,30 +24,30 @@ class OneSignalDataPrivacyListTile extends StatelessWidget {
       builder: (context, state) {
         return Material(
           child: SwitchListTile(
-            title: const Text('Consent to OneSignal data privacy'),
+            title: const Text(LocaleKeys.onesignal_consent_switch_title).tr(),
             subtitle: Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: RichText(
                 text: TextSpan(
                   children: [
-                    const TextSpan(
-                      text: 'Status: ',
-                      style: TextStyle(
+                    TextSpan(
+                      text: '${LocaleKeys.status_title.tr()}: ',
+                      style: const TextStyle(
                         fontWeight: FontWeight.w300,
                       ),
                     ),
                     if (state is OneSignalPrivacyFailure)
                       TextSpan(
-                        text: 'Not Accepted X',
+                        text: '${LocaleKeys.not_accepted_title.tr()} X',
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           color: Theme.of(context).errorColor,
                         ),
                       ),
                     if (state is OneSignalPrivacySuccess)
-                      const TextSpan(
-                        text: 'Accepted ✓',
-                        style: TextStyle(
+                      TextSpan(
+                        text: '${LocaleKeys.accepted_title.tr()} ✓',
+                        style: const TextStyle(
                           fontWeight: FontWeight.w300,
                           color: Colors.green,
                         ),
@@ -70,10 +72,12 @@ class OneSignalDataPrivacyListTile extends StatelessWidget {
                   } else {
                     await showDialog(
                       context: context,
-                      builder: (context) => const PermissionSettingDialog(
-                        title: 'Notification Permission Disabled',
-                        content:
-                            'The notification permission is required to receive notifications.',
+                      builder: (context) => PermissionSettingDialog(
+                        title: LocaleKeys.notification_permission_dialog_title
+                            .tr(),
+                        content: LocaleKeys
+                            .notification_permission_dialog_content
+                            .tr(),
                       ),
                     );
                   }

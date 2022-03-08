@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../../../translations/locale_keys.g.dart';
 
 class ActiveConnectionIndicator extends StatelessWidget {
   const ActiveConnectionIndicator({Key? key}) : super(key: key);
@@ -15,13 +18,11 @@ class ActiveConnectionIndicator extends StatelessWidget {
       onTap: () async => await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Active Connection'),
-          content: const Text(
-            'This is the current connection address being used by Tautulli Remote.',
-          ),
+          title: const Text(LocaleKeys.active_connection_title).tr(),
+          content: const Text(LocaleKeys.active_connection_content).tr(),
           actions: [
             TextButton(
-              child: const Text('CLOSE'),
+              child: const Text(LocaleKeys.close_button).tr(),
               onPressed: () {
                 Navigator.of(context).pop();
               },

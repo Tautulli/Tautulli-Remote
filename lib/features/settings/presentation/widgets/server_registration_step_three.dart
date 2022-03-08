@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/custom_header_model.dart';
 import '../bloc/registration_headers_bloc.dart';
 import 'dialogs/custom_header_type_dialog.dart';
@@ -18,7 +20,7 @@ class ServerRegistrationStepThree extends StatelessWidget {
         return RegistrationInstruction(
           isOptional: true,
           hasChildPadding: false,
-          heading: 'Step 3',
+          heading: '${LocaleKeys.step_title.tr()} 3',
           child: state is RegistrationHeadersLoaded && state.headers.isNotEmpty
               ? Column(
                   mainAxisSize: MainAxisSize.min,
@@ -30,7 +32,8 @@ class ServerRegistrationStepThree extends StatelessWidget {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  child: const Text('Add Custom Header'),
+                  child:
+                      const Text(LocaleKeys.add_custom_http_header_button).tr(),
                   onPressed: () async => await showDialog(
                     context: context,
                     builder: (_) {

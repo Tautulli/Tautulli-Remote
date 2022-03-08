@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../translations/locale_keys.g.dart';
 
 class CustomListTile extends StatelessWidget {
   final Widget leading;
@@ -55,7 +57,7 @@ class CustomListTile extends StatelessWidget {
                     sensitive &&
                             state is SettingsSuccess &&
                             state.appSettings.maskSensitiveInfo
-                        ? 'HIDDEN'
+                        ? LocaleKeys.hidden_message.tr()
                         : subtitle!,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.subtitle2,

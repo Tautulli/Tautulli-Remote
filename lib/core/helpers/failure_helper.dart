@@ -1,55 +1,57 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:quiver/strings.dart';
 
 import '../../dependency_injection.dart' as di;
 import '../../features/logging/domain/usecases/logging.dart';
+import '../../translations/locale_keys.g.dart';
 import '../error/exception.dart';
 import '../error/failure.dart';
 import '../requirements/tautulli_version.dart';
 
 //* Error Messages
-const String badApiResponseMessage = 'Bad API Response';
-const String certificateExpiredMessage = 'TLS/SSL Certificate is Expired.';
-const String certificateVerificationMessage =
-    'Certificate verification failed.';
-const String connectionMessage = 'No network connectivity.';
-const String dataBaseInitMessage = 'Failed to initalize database.';
-const String genericMessage = 'Unknown error.';
-const String invalidApiKeyMessage = 'Invalid Device Token';
-// const String jsonMessage = 'Failed to parse response.';
+String badApiResponseMessage = LocaleKeys.error_message_bad_api_response.tr();
+String certificateExpiredMessage =
+    LocaleKeys.error_message_certificate_expired.tr();
+String certificateVerificationMessage =
+    LocaleKeys.error_message_certificate_verification.tr();
+String connectionMessage = LocaleKeys.error_message_connection.tr();
+String dataBaseInitMessage = LocaleKeys.error_message_database_init.tr();
+String genericMessage = LocaleKeys.error_message_generic.tr();
+String invalidApiKeyMessage = LocaleKeys.error_message_invalid_api_key.tr();
+//  String jsonMessage = 'Failed to parse response.';
 // const String missingServerMessage = 'No servers are configured.';
-const String serverMessage = 'Failed to connect to server.';
-const String serverVersionMessage =
-    'Server version does not meet requirements.';
+String serverMessage = LocaleKeys.error_message_server.tr();
+String serverVersionMessage = LocaleKeys.error_message_server_version.tr();
 // const String settingsMessage = 'Required settings are missing.';
 // const String socketMessage = 'Failed to connect to Connection Address.';
 // const String timeoutMessage = 'Connection to server timed out.';
 // const String tlsMessage = 'Failed to establish TLS/SSL connection.';
 
 //* Error Suggestions
-const String authorizationRequiredSuggestion =
-    'Server responded with Authorization Required. Verify connection details and headers.';
-const String badApiResponseSuggestion =
-    'The server response was missing required information. Please contact support.';
-const String certificateExpiredSuggestion =
-    'Please check your certificate and re-register with your Tautulli server.';
-const String certificateVerificationSuggestion =
-    'Please re-register with your Tautulli server.';
-const String checkConnectionAddressSuggestion =
-    'Check your Connection Address for errors.';
-const String checkServerSettingsSuggestion =
-    'Please verify your connection settings.';
-const String genericSuggestion = 'Please contact Support.';
+String authorizationRequiredSuggestion =
+    LocaleKeys.error_suggestion_authorization_required.tr();
+String badApiResponseSuggestion =
+    LocaleKeys.error_suggestion_bad_api_response.tr();
+String certificateExpiredSuggestion =
+    LocaleKeys.error_suggestion_certificate_expired.tr();
+String certificateVerificationSuggestion =
+    LocaleKeys.error_suggestion_certificate_verification.tr();
+String checkConnectionAddressSuggestion =
+    LocaleKeys.error_suggestion_check_connection_address.tr();
+String checkServerSettingsSuggestion =
+    LocaleKeys.error_suggestion_check_server_settings.tr();
+String genericSuggestion = LocaleKeys.error_suggestion_generic.tr();
 // const String missingServerSuggestion =
 //     'Please register with a Tautulli server.';
-const String invalidApiKeySuggestion =
-    'Check your device token or try generating a new QR code on Tautulli.';
-const String plexConnectionSuggestion =
-    'Check your Connection Address for errors and make sure Tautulli can communicate with Plex.';
-final String serverVersionSuggestion =
-    'Please update the Tautulli server to v${MinimumVersion.tautulliServer} or greater';
+String invalidApiKeySuggestion =
+    LocaleKeys.error_suggestion_invalid_api_key.tr();
+String plexConnectionSuggestion =
+    LocaleKeys.error_suggestion_plex_connection.tr();
+String serverVersionSuggestion = LocaleKeys.error_suggestion_server_version
+    .tr(args: [MinimumVersion.tautulliServer.toString()]);
 
 class FailureHelper {
   /// Map `Exception` to corresponding `Failure`.

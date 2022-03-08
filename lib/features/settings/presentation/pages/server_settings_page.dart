@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,6 +6,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/list_tile_group.dart';
 import '../../../../core/widgets/page_body.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../bloc/settings_bloc.dart';
 import '../widgets/dialogs/custom_header_type_dialog.dart';
 import '../widgets/dialogs/delete_dialog.dart';
@@ -68,9 +70,9 @@ class ServerSettingsView extends StatelessWidget {
                   final result = await showDialog(
                     context: context,
                     builder: (_) => DeleteDialog(
-                      title: Text(
-                        "Are you sure you want to delete '${server.plexName}'?",
-                      ),
+                      title: const Text(
+                        LocaleKeys.server_delete_dialog_title,
+                      ).tr(args: [server.plexName]),
                     ),
                   );
 
@@ -93,7 +95,7 @@ class ServerSettingsView extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               children: [
                 ListTileGroup(
-                  heading: 'Connection Details',
+                  heading: LocaleKeys.connection_details_title.tr(),
                   listTiles: [
                     ServerPrimaryConnectionListTile(server: server),
                     ServerSecondaryConnectionListTile(server: server),
@@ -102,7 +104,7 @@ class ServerSettingsView extends StatelessWidget {
                 ),
                 const Gap(8),
                 ListTileGroup(
-                  heading: 'Custom HTTP Headers',
+                  heading: LocaleKeys.custom_http_headers_title.tr(),
                   listTiles: server.customHeaders
                       .map(
                         (header) => CustomHeaderListTile(
@@ -118,7 +120,9 @@ class ServerSettingsView extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        child: const Text('Add Custom HTTP Header'),
+                        child: const Text(
+                          LocaleKeys.add_custom_http_header_button,
+                        ).tr(),
                         onPressed: () async => await showDialog(
                           context: context,
                           builder: (context) => CustomHeaderTypeDialog(
@@ -133,7 +137,7 @@ class ServerSettingsView extends StatelessWidget {
                 ),
                 const Gap(8),
                 ListTileGroup(
-                  heading: 'Other',
+                  heading: LocaleKeys.other_title.tr(),
                   listTiles: [
                     ServerOpenInBrowserListTile(server: server),
                   ],

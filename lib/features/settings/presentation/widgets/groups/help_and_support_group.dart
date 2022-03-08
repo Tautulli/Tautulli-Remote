@@ -1,10 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../../core/widgets/list_tile_group.dart';
-import '../../../../logging/presentation/pages/logging_page.dart';
 import '../../../../../core/widgets/custom_list_tile.dart';
+import '../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../../../../logging/presentation/pages/logging_page.dart';
 
 class HelpAndSupportGroup extends StatelessWidget {
   const HelpAndSupportGroup({Key? key}) : super(key: key);
@@ -12,11 +14,11 @@ class HelpAndSupportGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTileGroup(
-      heading: 'Help & Support',
+      heading: LocaleKeys.help_and_support_title.tr(),
       listTiles: [
         CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.github),
-          title: 'Wiki',
+          title: LocaleKeys.wiki_title.tr(),
           onTap: () async {
             await launch('https://github.com/Tautulli/Tautulli-Remote/wiki');
           },
@@ -26,7 +28,7 @@ class HelpAndSupportGroup extends StatelessWidget {
             FontAwesomeIcons.discord,
             size: 22,
           ),
-          title: 'Discord',
+          title: LocaleKeys.discord_title.tr(),
           onTap: () async {
             await launch('https://tautulli.com/discord.html');
           },
@@ -36,21 +38,21 @@ class HelpAndSupportGroup extends StatelessWidget {
             FontAwesomeIcons.redditAlien,
             size: 28,
           ),
-          title: 'Reddit',
+          title: LocaleKeys.reddit_title.tr(),
           onTap: () async {
             await launch('https://www.reddit.com/r/Tautulli/');
           },
         ),
         CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.github),
-          title: 'Bugs/Feature Requests',
+          title: LocaleKeys.bugs_and_feature_requests_title.tr(),
           onTap: () async {
             await launch('https://github.com/Tautulli/Tautulli-Remote/issues');
           },
         ),
         CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.list),
-          title: 'Tautulli Remote Logs',
+          title: LocaleKeys.tautulli_remote_logs_title.tr(),
           onTap: () async {
             await Navigator.of(context).push(
               MaterialPageRoute(

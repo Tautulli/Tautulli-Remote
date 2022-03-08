@@ -1,11 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/widgets/custom_list_tile.dart';
+import '../../../../../translations/locale_keys.g.dart';
 import '../active_connection_indicator.dart';
 import '../dialogs/server_connection_address_dialog.dart';
-import '../../../../../core/widgets/custom_list_tile.dart';
 
 class ServerPrimaryConnectionListTile extends StatelessWidget {
   final ServerModel server;
@@ -20,7 +22,7 @@ class ServerPrimaryConnectionListTile extends StatelessWidget {
     return CustomListTile(
       sensitive: true,
       leading: const FaIcon(FontAwesomeIcons.networkWired),
-      title: 'Primary Connection',
+      title: LocaleKeys.primary_connection_title.tr(),
       subtitle: server.primaryConnectionAddress,
       trailing: server.primaryActive == true
           ? const ActiveConnectionIndicator()
@@ -40,8 +42,10 @@ class ServerPrimaryConnectionListTile extends StatelessWidget {
         );
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Copied to clipboard'),
+          SnackBar(
+            content: const Text(
+              LocaleKeys.copied_to_clipboard_snackbar_message,
+            ).tr(),
           ),
         );
       },

@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+
+import '../../../../translations/locale_keys.g.dart';
 
 class DonateHeadingCard extends StatelessWidget {
   const DonateHeadingCard({Key? key}) : super(key: key);
@@ -14,20 +17,20 @@ class DonateHeadingCard extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: const [
-                Text(
-                  'Tautulli Remote is free and open source.',
+              children: [
+                const Text(
+                  LocaleKeys.donate_heading_card_title,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
-                ),
-                Gap(8),
-                Text(
-                  'However, any contributions you can make towards the app are appriciated!',
+                ).tr(),
+                const Gap(8),
+                const Text(
+                  LocaleKeys.donate_heading_card_content,
                   textAlign: TextAlign.center,
-                ),
+                ).tr(),
               ],
             ),
           ),

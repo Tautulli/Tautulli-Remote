@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_sub_bloc.dart';
@@ -21,18 +23,18 @@ class SettingsAlertBanner extends StatelessWidget {
         if (privacyState is OneSignalPrivacyFailure) {
           return _SettingsAlertBannerContent(
             backgroundColor: Colors.deepOrange[900],
-            title: 'OneSignal Data Privacy Not Accepted',
+            title: LocaleKeys.onesignal_data_privacy_not_accepted_title.tr(),
             message: const Text(
-              'To receive notifications from Tautulli consent to the OneSignal data privacy is required.',
-            ),
+              LocaleKeys.onesignal_data_privacy_not_accepted_content,
+            ).tr(),
             buttonOne: TextButton(
-              child: const Text('DISMISS'),
+              child: const Text(LocaleKeys.dismiss_buttom).tr(),
               onPressed: () => settingsBloc.add(
                 const SettingsUpdateOneSignalBannerDismiss(true),
               ),
             ),
             buttonTwo: TextButton(
-              child: const Text('VIEW PRIVACY PAGE'),
+              child: const Text(LocaleKeys.view_privacy_page_button).tr(),
               onPressed: () =>
                   Navigator.of(context).pushNamed('/onesignal_privacy'),
             ),
@@ -45,12 +47,12 @@ class SettingsAlertBanner extends StatelessWidget {
             // If OneSignal is not reachable
             if (healthState is OneSignalHealthFailure) {
               return _SettingsAlertBannerContent(
-                title: 'Unable to reach OneSignal',
+                title: LocaleKeys.onesignal_unreachable_title.tr(),
                 message: const Text(
-                  'In this state notifications will not work and Tautulli Remote will be unable to register with OneSignal.',
-                ),
+                  LocaleKeys.onesignal_unreachable_content,
+                ).tr(),
                 buttonOne: TextButton(
-                  child: const Text('CHECK AGAIN'),
+                  child: const Text(LocaleKeys.check_again_button).tr(),
                   onPressed: () => context.read<OneSignalHealthBloc>().add(
                         OneSignalHealthCheck(),
                       ),
@@ -68,7 +70,7 @@ class SettingsAlertBanner extends StatelessWidget {
                     title: subState.title,
                     message: Text(subState.message),
                     buttonOne: TextButton(
-                      child: const Text('LEARN MORE'),
+                      child: const Text(LocaleKeys.learn_more_button).tr(),
                       onPressed: () async {
                         await launch(
                           'https://github.com/Tautulli/Tautulli-Remote/wiki/OneSignal#registering',

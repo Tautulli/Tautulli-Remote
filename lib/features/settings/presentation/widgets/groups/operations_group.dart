@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../../core/widgets/list_tile_group.dart';
-import '../dialogs/clear_cache_dialog.dart';
 import '../../../../../core/widgets/custom_list_tile.dart';
+import '../../../../../core/widgets/list_tile_group.dart';
+import '../../../../../translations/locale_keys.g.dart';
+import '../dialogs/clear_cache_dialog.dart';
 
 class OperationsGroup extends StatelessWidget {
   const OperationsGroup({Key? key}) : super(key: key);
@@ -11,12 +13,12 @@ class OperationsGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTileGroup(
-      heading: 'Operations',
+      heading: LocaleKeys.operations_title.tr(),
       listTiles: [
         CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.eraser),
-          title: 'Clear Image Cache',
-          subtitle: 'Delete cached posters and artwork',
+          title: LocaleKeys.clear_image_cache_title.tr(),
+          subtitle: LocaleKeys.clear_image_cache_subtitle.tr(),
           onTap: () async {
             final bool cleared = await showDialog(
               context: context,
@@ -26,8 +28,10 @@ class OperationsGroup extends StatelessWidget {
             if (cleared) {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Image cache cleared.'),
+                SnackBar(
+                  content: const Text(
+                    LocaleKeys.clear_image_cache_snackbar_message,
+                  ).tr(),
                 ),
               );
             }

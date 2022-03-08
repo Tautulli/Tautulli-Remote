@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
@@ -5,6 +6,7 @@ import 'package:validators/validators.dart';
 
 import '../../../../core/qr_code_scanner/qr_code_scanner.dart';
 import '../../../../dependency_injection.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import 'registration_instruction.dart';
 
 class ServerRegistrationStepTwo extends StatefulWidget {
@@ -36,7 +38,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
   Widget build(BuildContext context) {
     return RegistrationInstruction(
       actionOnTop: true,
-      heading: 'Step 2',
+      heading: '${LocaleKeys.step_title.tr()} 2',
       action: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -44,7 +46,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  child: const Text('Scan QR Code'),
+                  child: const Text(LocaleKeys.scan_qr_code_button).tr(),
                   onPressed: () async {
                     try {
                       final qrCodeScan = await di.sl<QrCodeScanner>().scan();
@@ -58,8 +60,8 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                         SnackBar(
                           backgroundColor: Theme.of(context).errorColor,
                           content: const Text(
-                            'Error scanning QR code',
-                          ),
+                            LocaleKeys.qr_code_scan_error_snackbar_message,
+                          ).tr(),
                         ),
                       );
                     }
@@ -86,7 +88,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
             autocorrect: false,
             decoration: InputDecoration(
               labelText:
-                  'Primary Connection Address${!_primaryValid ? '*' : ''}',
+                  '${LocaleKeys.primary_connection_address_title.tr()}${!_primaryValid ? '*' : ''}',
               labelStyle: TextStyle(
                 color: _primaryValid
                     ? Theme.of(context).inputDecorationTheme.labelStyle!.color
@@ -120,7 +122,9 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                 setState(() {
                   _primaryValid = false;
                 });
-                return 'Enter a valid URL format';
+                return LocaleKeys
+                    .server_connection_address_dialog_primary_validation
+                    .tr();
               }
               setState(() {
                 _primaryValid = true;
@@ -135,7 +139,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
             autocorrect: false,
             decoration: InputDecoration(
               labelText:
-                  'Secondary Connection Address${!_secondaryValid ? '*' : ''}',
+                  '${LocaleKeys.secondary_connection_address_title.tr()}${!_secondaryValid ? '*' : ''}',
               labelStyle: TextStyle(
                 color: _secondaryValid
                     ? Theme.of(context).inputDecorationTheme.labelStyle!.color
@@ -166,23 +170,25 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                         builder: (context) {
                           return AlertDialog(
                             title: const Text(
-                              'Secondary Connection Address',
-                            ),
+                              LocaleKeys.secondary_connection_address_title,
+                            ).tr(),
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Text(
-                                  'The Secondary Connection Address will be used if the Primary Connection Address is unreachable.',
-                                ),
-                                Gap(8),
-                                Text(
-                                  'This is particularly useful if your public IP address is not accessible inside your network.',
-                                ),
+                              children: [
+                                const Text(
+                                  LocaleKeys
+                                      .secondary_connection_address_explanation_one,
+                                ).tr(),
+                                const Gap(8),
+                                const Text(
+                                  LocaleKeys
+                                      .secondary_connection_address_explanation_two,
+                                ).tr(),
                               ],
                             ),
                             actions: [
                               TextButton(
-                                child: const Text('CLOSE'),
+                                child: const Text(LocaleKeys.close_button).tr(),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -212,7 +218,9 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                 setState(() {
                   _secondaryValid = false;
                 });
-                return 'Leave blank or enter a valid URL format';
+                return LocaleKeys
+                    .server_connection_address_dialog_secondary_validation
+                    .tr();
               }
               setState(() {
                 _secondaryValid = true;
@@ -226,7 +234,8 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
             focusNode: _tokenFocus,
             autocorrect: false,
             decoration: InputDecoration(
-              labelText: 'Device Token${!_tokenValid ? '*' : ''}',
+              labelText:
+                  '${LocaleKeys.device_token_title.tr()}${!_tokenValid ? '*' : ''}',
               labelStyle: TextStyle(
                 color: _tokenValid
                     ? Theme.of(context).inputDecorationTheme.labelStyle!.color
@@ -254,7 +263,8 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                 setState(() {
                   _tokenValid = false;
                 });
-                return 'Must be 32 characters long (current: ${value.length.toString()})';
+                return LocaleKeys.device_token_validation
+                    .tr(args: [value.length.toString()]);
               }
               setState(() {
                 _tokenValid = true;

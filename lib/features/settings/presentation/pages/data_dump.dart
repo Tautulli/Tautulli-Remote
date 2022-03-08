@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,6 +7,7 @@ import 'package:gap/gap.dart';
 import '../../../../core/widgets/heading.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../dependency_injection.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_status_bloc.dart';
 import '../bloc/settings_bloc.dart';
@@ -37,7 +39,7 @@ class DataDumpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Data Dump'),
+        title: const Text(LocaleKeys.data_dump_title).tr(),
       ),
       body: PageBody(
         child: ListView(
@@ -55,12 +57,12 @@ class DataDumpView extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'WARNING: This page includes sensitive data.',
+                        children: [
+                          const Text(
+                            LocaleKeys.data_dump_warning_line_1,
                             style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text('Be cautious when sharing.'),
+                          ).tr(),
+                          const Text(LocaleKeys.data_dump_warning_line_2).tr(),
                         ],
                       ),
                     ),

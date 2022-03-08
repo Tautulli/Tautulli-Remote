@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/registration_headers_bloc.dart';
 import '../../bloc/settings_bloc.dart';
 import '../dialogs/custom_header_config_dialog.dart';
@@ -49,10 +51,10 @@ class CustomHeaderListTile extends StatelessWidget {
               sensitive &&
                       state is SettingsSuccess &&
                       state.appSettings.maskSensitiveInfo
-                  ? 'HIDDEN'
+                  ? LocaleKeys.hidden_message
                   : subtitle,
               style: Theme.of(context).textTheme.subtitle2,
-            ),
+            ).tr(),
             trailing: GestureDetector(
               child: const FaIcon(
                 FontAwesomeIcons.solidTimesCircle,
@@ -61,9 +63,9 @@ class CustomHeaderListTile extends StatelessWidget {
                 final result = await showDialog(
                   context: context,
                   builder: (_) => DeleteDialog(
-                    title: Text(
-                      "Are you sure you want to remove the header '$title'?",
-                    ),
+                    title: const Text(
+                      LocaleKeys.server_delete_dialog_title,
+                    ).tr(args: [title]),
                   ),
                 );
 

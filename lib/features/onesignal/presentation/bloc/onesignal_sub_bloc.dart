@@ -1,19 +1,20 @@
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../translations/locale_keys.g.dart';
 import '../../data/datasources/onesignal_data_source.dart';
 
 part 'onesignal_sub_event.dart';
 part 'onesignal_sub_state.dart';
 
-String registerErrorTitle = 'Device Has Not Registered With OneSignal';
+String registerErrorTitle = LocaleKeys.onesignal_error_registration_title.tr();
 String registerErrorMessage =
-    'This device is attempting to register with OneSignal. This process may take up to 2 min.';
-String unexpectedErrorTitle =
-    'Unexpected Error With OneSignal Subscription State';
+    LocaleKeys.onesignal_error_registration_message.tr();
+String unexpectedErrorTitle = LocaleKeys.onesignal_error_unexpected_title.tr();
 String unexpectedErrorMessage =
-    'Please contact Tautulli support for assistance.';
+    LocaleKeys.onesignal_error_unexpected_message.tr();
 
 class OneSignalSubBloc extends Bloc<OneSignalSubEvent, OneSignalSubState> {
   final OneSignalDataSource oneSignal;

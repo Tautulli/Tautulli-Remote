@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../translations/locale_keys.g.dart';
 import '../pages/status_page.dart';
 
 class SettingsNotLoaded extends StatelessWidget {
@@ -13,29 +15,29 @@ class SettingsNotLoaded extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
         if (state is SettingsInProgress) {
-          return const StatusPage(
-            message: 'Settings are loading.',
-            action: CircularProgressIndicator(),
+          return StatusPage(
+            message: LocaleKeys.settings_loading_message.tr(),
+            action: const CircularProgressIndicator(),
           );
         }
         if (state is SettingsFailure) {
           return StatusPage(
-            message: 'Settings failed to load.',
+            message: LocaleKeys.settings_load_failed_message.tr(),
             action: ElevatedButton(
               onPressed: () async {
                 await launch('https://tautulli.com/#support');
               },
-              child: const Text('CONTACT SUPPORT'),
+              child: const Text(LocaleKeys.contact_support_button).tr(),
             ),
           );
         }
         return StatusPage(
-          message: 'Unknown error with settings.',
+          message: LocaleKeys.settings_load_error_message.tr(),
           action: ElevatedButton(
             onPressed: () async {
               await launch('https://tautulli.com/#support');
             },
-            child: const Text('CONTACT SUPPORT'),
+            child: const Text(LocaleKeys.contact_support_button).tr(),
           ),
         );
       },

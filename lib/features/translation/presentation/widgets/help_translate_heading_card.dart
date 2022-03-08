@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+
+import '../../../../translations/locale_keys.g.dart';
 
 class HelpTranslateHeadingCard extends StatelessWidget {
   const HelpTranslateHeadingCard({Key? key}) : super(key: key);
@@ -14,20 +17,20 @@ class HelpTranslateHeadingCard extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: const [
-                Text(
-                  'Thank you for helping to translate Tautulli Remote!',
+              children: [
+                const Text(
+                  LocaleKeys.help_translate_heading_card_title,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
-                ),
-                Gap(8),
-                Text(
-                  'Your contributions help improve Tautulli Remote and make it accessible to more of the community.',
+                ).tr(),
+                const Gap(8),
+                const Text(
+                  LocaleKeys.help_translate_heading_card_content,
                   textAlign: TextAlign.center,
-                ),
+                ).tr(),
               ],
             ),
           ),

@@ -1,13 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../../../../core/widgets/custom_list_tile.dart';
 import '../../../../../core/widgets/heading.dart';
+import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/settings_bloc.dart';
 import '../../pages/server_settings_page.dart';
-import '../../../../../core/widgets/custom_list_tile.dart';
 
 class ServersGroup extends StatelessWidget {
   const ServersGroup({Key? key}) : super(key: key);
@@ -20,10 +22,10 @@ class ServersGroup extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Heading(
-                text: 'Servers',
+                text: LocaleKeys.servers_title.tr(),
               ),
             ),
             const Gap(8),

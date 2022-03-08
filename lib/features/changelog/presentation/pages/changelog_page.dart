@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/widgets/page_body.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../data/datasources/changelog_data_source.dart';
 import '../widgets/changelog_item.dart';
 
@@ -23,7 +25,7 @@ class ChangelogView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Changelog'),
+        title: const Text(LocaleKeys.changelog_title).tr(),
         actions: [
           TextButton.icon(
             onPressed: () async {
@@ -34,7 +36,7 @@ class ChangelogView extends StatelessWidget {
               color: Colors.red,
               size: 18,
             ),
-            label: const Text('Donate'),
+            label: const Text(LocaleKeys.donate_title).tr(),
           ),
         ],
       ),

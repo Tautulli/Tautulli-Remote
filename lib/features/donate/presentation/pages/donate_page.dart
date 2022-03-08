@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +12,7 @@ import '../../../../core/pages/status_page.dart';
 import '../../../../core/widgets/custom_list_tile.dart';
 import '../../../../core/widgets/list_tile_group.dart';
 import '../../../../core/widgets/page_body.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../widgets/donate_heading_card.dart';
 
 class DonatePage extends StatelessWidget {
@@ -83,15 +85,15 @@ class _DonateViewState extends State<DonateView> {
         SnackBar(
           duration: const Duration(seconds: 6),
           content: Row(
-            children: const [
-              Padding(
+            children: [
+              const Padding(
                 padding: EdgeInsets.only(right: 8),
                 child: FaIcon(
                   FontAwesomeIcons.solidHeart,
                   color: Colors.red,
                 ),
               ),
-              Text('Thank you for your donation'),
+              const Text(LocaleKeys.donate_thanks_snackbar_message).tr(),
             ],
           ),
         ),
@@ -105,18 +107,19 @@ class _DonateViewState extends State<DonateView> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Theme.of(context).colorScheme.error,
-            content: const Text('Something went wrong'),
+            content: const Text(LocaleKeys.error_snackbar_message).tr(),
           ),
         );
       }
     }
   }
 
+  //TODO: Update displayed price to be based on local currency
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Donate'),
+        title: const Text(LocaleKeys.donate_title).tr(),
       ),
       body: PageBody(
         child: Padding(
@@ -133,14 +136,14 @@ class _DonateViewState extends State<DonateView> {
                         ? ListView(
                             children: [
                               ListTileGroup(
-                                heading: 'One-Time Donations',
+                                heading: LocaleKeys.donate_onetime_title.tr(),
                                 listTiles: [
                                   CustomListTile(
                                     leading: const FaIcon(
                                       FontAwesomeIcons.iceCream,
                                     ),
-                                    title: 'Buy Me A Cone',
-                                    subtitle: '\$1.99',
+                                    title: LocaleKeys.donate_cone_title.tr(),
+                                    subtitle: '1.99 USD',
                                     onTap: () => _buyProduct(
                                       _offerings!
                                           .getOffering('default')!
@@ -151,8 +154,8 @@ class _DonateViewState extends State<DonateView> {
                                     leading: const FaIcon(
                                       FontAwesomeIcons.pizzaSlice,
                                     ),
-                                    title: 'Buy Me A Slice',
-                                    subtitle: '\$2.99',
+                                    title: LocaleKeys.donate_slice_title.tr(),
+                                    subtitle: '2.99 USD',
                                     onTap: () => _buyProduct(
                                       _offerings!
                                           .getOffering('default')!
@@ -163,8 +166,8 @@ class _DonateViewState extends State<DonateView> {
                                     leading: const FaIcon(
                                       FontAwesomeIcons.hamburger,
                                     ),
-                                    title: 'Buy Me A Burger',
-                                    subtitle: '\$4.99',
+                                    title: LocaleKeys.donate_burger_title.tr(),
+                                    subtitle: '4.99 USD',
                                     onTap: () => _buyProduct(
                                       _offerings!
                                           .getOffering('default')!
@@ -176,8 +179,8 @@ class _DonateViewState extends State<DonateView> {
                                       Icons.fastfood_rounded,
                                       size: 26,
                                     ),
-                                    title: 'Buy Me A Meal',
-                                    subtitle: '\$9.99',
+                                    title: LocaleKeys.donate_meal_title.tr(),
+                                    subtitle: '9.99 USD',
                                     onTap: () => _buyProduct(
                                       _offerings!
                                           .getOffering('default')!
@@ -188,7 +191,7 @@ class _DonateViewState extends State<DonateView> {
                               ),
                               const Gap(8),
                               ListTileGroup(
-                                heading: 'Recurring Donations',
+                                heading: LocaleKeys.donate_recurring_title.tr(),
                                 listTiles: [
                                   CustomListTile(
                                     leading: FaIcon(
@@ -198,8 +201,8 @@ class _DonateViewState extends State<DonateView> {
                                           ? Colors.green
                                           : Theme.of(context).iconTheme.color,
                                     ),
-                                    title: 'Tip Jar',
-                                    subtitle: '\$0.99/month',
+                                    title: LocaleKeys.donate_tip_jar_title.tr(),
+                                    subtitle: '0.99 USD/month',
                                     onTap: () => _buyProduct(
                                       _offerings!
                                           .getOffering('default')!
@@ -214,8 +217,8 @@ class _DonateViewState extends State<DonateView> {
                                           ? Colors.green
                                           : Theme.of(context).iconTheme.color,
                                     ),
-                                    title: 'Big Tip',
-                                    subtitle: '\$1.99/month',
+                                    title: LocaleKeys.donate_big_tip_title.tr(),
+                                    subtitle: '1.99 USD/month',
                                     onTap: () => _buyProduct(
                                       _offerings!
                                           .getOffering('default')!
@@ -230,8 +233,9 @@ class _DonateViewState extends State<DonateView> {
                                           ? Colors.green
                                           : Theme.of(context).iconTheme.color,
                                     ),
-                                    title: 'Supporter',
-                                    subtitle: '\$4.99/month',
+                                    title:
+                                        LocaleKeys.donate_supporter_title.tr(),
+                                    subtitle: '4.99 USD/month',
                                     onTap: () => _buyProduct(
                                       _offerings!
                                           .getOffering('default')!
@@ -246,8 +250,8 @@ class _DonateViewState extends State<DonateView> {
                                           ? Colors.green
                                           : Theme.of(context).iconTheme.color,
                                     ),
-                                    title: 'Patron',
-                                    subtitle: '\$9.99/month',
+                                    title: LocaleKeys.donate_patron_title.tr(),
+                                    subtitle: '9.99 USD/month',
                                     onTap: () => _buyProduct(
                                       _offerings!
                                           .getOffering('default')!
@@ -262,10 +266,10 @@ class _DonateViewState extends State<DonateView> {
                                 children: [
                                   TextButton(
                                     child: Text(
-                                      'Manually Restore Donations',
+                                      LocaleKeys.donate_restore_button,
                                       style:
                                           Theme.of(context).textTheme.subtitle2,
-                                    ),
+                                    ).tr(),
                                     onPressed: () async {
                                       try {
                                         PurchaserInfo restoredInfo =
@@ -278,8 +282,11 @@ class _DonateViewState extends State<DonateView> {
                                             .hideCurrentSnackBar();
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Donations restored'),
+                                          SnackBar(
+                                            content: const Text(
+                                              LocaleKeys
+                                                  .donate_restored_snackbar_message,
+                                            ).tr(),
                                           ),
                                         );
                                       } on PlatformException catch (_) {
@@ -292,8 +299,8 @@ class _DonateViewState extends State<DonateView> {
                                                 .colorScheme
                                                 .error,
                                             content: const Text(
-                                              'Something went wrong',
-                                            ),
+                                              LocaleKeys.error_snackbar_message,
+                                            ).tr(),
                                           ),
                                         );
                                       }
@@ -314,7 +321,7 @@ class _DonateViewState extends State<DonateView> {
                                           );
                                         },
                                         child: Text(
-                                          'Terms of Use',
+                                          LocaleKeys.terms_of_use_title,
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .textTheme
@@ -323,7 +330,7 @@ class _DonateViewState extends State<DonateView> {
                                             decoration:
                                                 TextDecoration.underline,
                                           ),
-                                        ),
+                                        ).tr(),
                                       ),
                                       const Gap(4),
                                       GestureDetector(
@@ -333,7 +340,7 @@ class _DonateViewState extends State<DonateView> {
                                           );
                                         },
                                         child: Text(
-                                          'Privacy Policy',
+                                          LocaleKeys.privacy_policy_title,
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .textTheme
@@ -342,15 +349,15 @@ class _DonateViewState extends State<DonateView> {
                                             decoration:
                                                 TextDecoration.underline,
                                           ),
-                                        ),
+                                        ).tr(),
                                       ),
                                     ],
                                   ),
                                 ),
                             ],
                           )
-                        : const StatusPage(
-                            message: 'Failed to load donation items.',
+                        : StatusPage(
+                            message: LocaleKeys.donate_load_failed_message.tr(),
                           ),
               ),
             ],

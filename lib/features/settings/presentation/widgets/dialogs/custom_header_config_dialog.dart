@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/registration_headers_bloc.dart';
 import '../../bloc/settings_bloc.dart';
 
@@ -92,8 +94,8 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
           Expanded(
             child: Text(
               widget.headerType == CustomHeaderType.basicAuth
-                  ? 'Basic Authentication'
-                  : 'Custom',
+                  ? LocaleKeys.basic_authentication_title.tr()
+                  : LocaleKeys.custom_title.tr(),
             ),
           ),
         ],
@@ -109,8 +111,8 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
               autocorrect: false,
               decoration: InputDecoration(
                 labelText: widget.headerType == CustomHeaderType.basicAuth
-                    ? 'Username${!_keyValid ? '*' : ''}'
-                    : 'Header Key${!_keyValid ? '*' : ''}',
+                    ? '${LocaleKeys.username_title.tr()}${!_keyValid ? '*' : ''}'
+                    : '${LocaleKeys.header_key_title.tr()}${!_keyValid ? '*' : ''}',
                 labelStyle: TextStyle(
                   color: _keyValid
                       ? Theme.of(context).inputDecorationTheme.labelStyle!.color
@@ -138,7 +140,7 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
                   setState(() {
                     _keyValid = false;
                   });
-                  return 'Cannot be blank';
+                  return LocaleKeys.cannot_be_blank_message.tr();
                 }
                 setState(() {
                   _keyValid = true;
@@ -153,8 +155,8 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
               autocorrect: false,
               decoration: InputDecoration(
                 labelText: widget.headerType == CustomHeaderType.basicAuth
-                    ? 'Password${!_valueValid ? '*' : ''}'
-                    : 'Header Value${!_valueValid ? '*' : ''}',
+                    ? '${LocaleKeys.password_title.tr()}${!_valueValid ? '*' : ''}'
+                    : '${LocaleKeys.header_value_title.tr()}${!_valueValid ? '*' : ''}',
                 labelStyle: TextStyle(
                   color: _valueValid
                       ? Theme.of(context).inputDecorationTheme.labelStyle!.color
@@ -182,7 +184,7 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
                   setState(() {
                     _valueValid = false;
                   });
-                  return 'Cannot be blank';
+                  return LocaleKeys.cannot_be_blank_message.tr();
                 }
                 setState(() {
                   _valueValid = true;
@@ -195,13 +197,13 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
       ),
       actions: [
         TextButton(
-          child: const Text('CANCEL'),
+          child: const Text(LocaleKeys.cancel_button).tr(),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         TextButton(
-          child: const Text('SAVE'),
+          child: const Text(LocaleKeys.save_button).tr(),
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               if (widget.forRegistration) {

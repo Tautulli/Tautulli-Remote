@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:f_logs/model/flog/log.dart';
 import 'package:f_logs/model/flog/log_level.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import '../../../../../dependency_injection.dart' as di;
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../bloc/logging_bloc.dart';
 import '../bloc/logging_export_bloc.dart';
 import '../widgets/clear_logging_dialog.dart';
@@ -56,7 +58,7 @@ class _LoggingViewState extends State<LoggingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('App Logs'),
+        title: const Text(LocaleKeys.app_logs_title).tr(),
         actions: _appbarActions(),
       ),
       body: PageBody(
@@ -72,9 +74,11 @@ class _LoggingViewState extends State<LoggingView> {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text('Logs exported'),
+                    content: const Text(
+                      LocaleKeys.logs_exported_snackbar_message,
+                    ).tr(),
                     action: SnackBarAction(
-                      label: 'HOW TO ACCESS LOGS',
+                      label: LocaleKeys.how_to_access_logs_button.tr(),
                       onPressed: () async {
                         await launch(
                           'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#logs',
@@ -94,16 +98,16 @@ class _LoggingViewState extends State<LoggingView> {
               },
               builder: (context, state) {
                 if (state is LoggingFailure) {
-                  return const StatusPage(
+                  return StatusPage(
                     scrollable: true,
-                    message: 'Failed to load logs.',
+                    message: LocaleKeys.logs_failed_to_load_message.tr(),
                   );
                 }
                 if (state is LoggingSuccess) {
                   if (state.logs.isEmpty) {
-                    return const StatusPage(
+                    return StatusPage(
                       scrollable: true,
-                      message: 'No logs found.',
+                      message: LocaleKeys.logs_empty_message.tr(),
                     );
                   } else {
                     List<Log> filteredLogs = _filterLogs(
@@ -112,9 +116,9 @@ class _LoggingViewState extends State<LoggingView> {
                     );
 
                     if (filteredLogs.isEmpty) {
-                      return const StatusPage(
+                      return StatusPage(
                         scrollable: true,
-                        message: 'No logs for the selected filter.',
+                        message: LocaleKeys.logs_empty_filter_message.tr(),
                       );
                     }
 
@@ -152,7 +156,7 @@ class _LoggingViewState extends State<LoggingView> {
                 return [
                   PopupMenuItem(
                     child: Text(
-                      'All',
+                      LocaleKeys.all_title.tr(),
                       style: TextStyle(
                         color: state.level == LogLevel.ALL
                             ? Theme.of(context).colorScheme.secondary
@@ -236,12 +240,12 @@ class _LoggingViewState extends State<LoggingView> {
           }
         },
         itemBuilder: (context) => [
-          const PopupMenuItem(
-            child: Text('Export logs'),
+          PopupMenuItem(
+            child: const Text(LocaleKeys.logs_export_menu_item).tr(),
             value: 'export',
           ),
-          const PopupMenuItem(
-            child: Text('Clear logs'),
+          PopupMenuItem(
+            child: const Text(LocaleKeys.logs_clear_menu_item).tr(),
             value: 'clear',
           ),
         ],

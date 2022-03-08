@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,6 +7,7 @@ import 'package:websafe_svg/websafe_svg.dart';
 import '../../../../core/widgets/custom_list_tile.dart';
 import '../../../../core/widgets/list_tile_group.dart';
 import '../../../../core/widgets/page_body.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../widgets/help_translate_heading_card.dart';
 
 class HelpTranslatePage extends StatelessWidget {
@@ -26,7 +28,7 @@ class HelpTranslateView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Help Translate'),
+        title: const Text(LocaleKeys.help_translate_title).tr(),
       ),
       body: PageBody(
         child: ListView(
@@ -42,7 +44,7 @@ class HelpTranslateView extends StatelessWidget {
                     height: 35,
                     width: 35,
                   ),
-                  title: 'Translate Tautulli Remote',
+                  title: LocaleKeys.translate_tautulli_remote_title.tr(),
                   onTap: () async {
                     await launch(
                         'https://hosted.weblate.org/engage/tautulli-remote/');
@@ -50,7 +52,7 @@ class HelpTranslateView extends StatelessWidget {
                 ),
                 CustomListTile(
                   leading: const FaIcon(FontAwesomeIcons.github),
-                  title: 'Request a new language',
+                  title: LocaleKeys.request_a_new_language_title.tr(),
                   onTap: () async {
                     await launch(
                         'https://github.com/Tautulli/Tautulli-Remote/issues/new/choose');

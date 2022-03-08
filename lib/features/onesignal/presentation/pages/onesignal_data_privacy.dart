@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/list_tile_group.dart';
 import '../../../../core/widgets/page_body.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../widgets/onesignal_data_privacy_list_tile.dart';
 import '../widgets/onesignal_data_privacy_text.dart';
 
@@ -24,7 +26,7 @@ class OneSignalDataPrivacyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('OneSignal Data Privacy'),
+        title: const Text(LocaleKeys.onesignal_data_privacy_title).tr(),
       ),
       body: PageBody(
         child: SingleChildScrollView(

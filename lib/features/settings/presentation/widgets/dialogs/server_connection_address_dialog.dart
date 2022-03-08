@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiver/strings.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/settings_bloc.dart';
 
 class ServerConnectionAddressDialog extends StatelessWidget {
@@ -30,16 +32,19 @@ class ServerConnectionAddressDialog extends StatelessWidget {
 
     return AlertDialog(
       title: Text(
-        '${primary ? 'Primary' : 'Secondary'} Connection',
-      ),
+        primary
+            ? LocaleKeys.primary_connection_title
+            : LocaleKeys.secondary_connection_title,
+      ).tr(),
       content: Form(
         key: formKey,
         child: TextFormField(
           controller: controller,
           autocorrect: false,
           decoration: InputDecoration(
-            hintText:
-                'Input your ${primary ? 'primary' : 'secondary'} connection address',
+            hintText: primary
+                ? LocaleKeys.primary_connection_address_hint.tr()
+                : LocaleKeys.secondary_connection_address_hint.tr(),
             errorMaxLines: 2,
           ),
           validator: (value) {
@@ -52,7 +57,13 @@ class ServerConnectionAddressDialog extends StatelessWidget {
                 (!primary &&
                     isNotBlank(controller.text) &&
                     validUrl == false)) {
-              return 'Please enter a valid URL format${!primary ? ' or remove all text to disable' : ''}';
+              return primary
+                  ? LocaleKeys
+                      .server_connection_address_dialog_primary_validation
+                      .tr()
+                  : LocaleKeys
+                      .server_connection_address_dialog_secondary_validation
+                      .tr();
             }
             return null;
           },
@@ -60,13 +71,13 @@ class ServerConnectionAddressDialog extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          child: const Text('CLOSE'),
+          child: const Text(LocaleKeys.close_button).tr(),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         TextButton(
-          child: const Text('SAVE'),
+          child: const Text(LocaleKeys.save_button).tr(),
           onPressed: () {
             if (formKey.currentState != null &&
                 formKey.currentState!.validate()) {

@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/bullet_list.dart';
+import '../../../../translations/locale_keys.g.dart';
 import 'registration_instruction.dart';
 
 class ServerRegistrationStepOne extends StatelessWidget {
@@ -10,14 +12,14 @@ class ServerRegistrationStepOne extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const RegistrationInstruction(
-      heading: 'Step 1',
+    return RegistrationInstruction(
+      heading: '${LocaleKeys.step_title.tr()} 1',
       child: BulletList(
         listItems: [
-          'Open the Tautulli web interface on another device.',
-          'Navigate to Settings > Tautulli Remote App.',
-          "Select 'Register a new device'.",
-          'Make sure the Tautulli Address is accessible from other devices.',
+          LocaleKeys.server_registration_bullet_one.tr(),
+          LocaleKeys.server_registration_bullet_two.tr(),
+          LocaleKeys.server_registration_bullet_three.tr(),
+          LocaleKeys.server_registration_bullet_four.tr(),
         ],
       ),
     );

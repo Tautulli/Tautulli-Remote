@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/double_tap_to_exit.dart';
 import '../../../../core/widgets/page_body.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../bloc/settings_bloc.dart';
 import '../widgets/groups/app_settings_group.dart';
@@ -34,7 +36,7 @@ class SettingsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const Text(LocaleKeys.settings_title).tr(),
       ),
       body: PageBody(
         child: DoubleTapToExit(

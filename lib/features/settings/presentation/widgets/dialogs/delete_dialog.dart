@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../translations/locale_keys.g.dart';
 
 class DeleteDialog extends StatelessWidget {
   final Widget title;
@@ -14,13 +17,13 @@ class DeleteDialog extends StatelessWidget {
       title: title,
       actions: [
         TextButton(
-          child: const Text('CANCEL'),
+          child: const Text(LocaleKeys.cancel_button).tr(),
           onPressed: () {
             Navigator.of(context).pop(false);
           },
         ),
         TextButton(
-          child: const Text('CONFIRM'),
+          child: const Text(LocaleKeys.delete_button).tr(),
           style: TextButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.error,
           ),

@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/heading.dart';
+import '../../../../translations/locale_keys.g.dart';
 
 class RegistrationInstruction extends StatelessWidget {
   final bool isOptional;
@@ -39,12 +41,12 @@ class RegistrationInstruction extends StatelessWidget {
               if (isOptional) const Gap(4),
               if (isOptional)
                 Text(
-                  '(optional)',
+                  '(${LocaleKeys.optional})',
                   style: TextStyle(
                     fontSize: 12,
                     color: Theme.of(context).textTheme.subtitle2!.color,
                   ),
-                ),
+                ).tr(),
             ],
           ),
         ),

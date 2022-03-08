@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/page_body.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../widgets/groups/advanced_group.dart';
 import '../widgets/groups/operations_group.dart';
 
@@ -21,7 +23,7 @@ class AdvancedView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Advanced'),
+        title: const Text(LocaleKeys.advanced_title).tr(),
       ),
       body: PageBody(
         child: ListView(

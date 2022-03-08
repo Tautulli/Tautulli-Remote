@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../../translations/locale_keys.g.dart';
 
 class PermissionSettingDialog extends StatelessWidget {
   final String title;
@@ -21,7 +24,7 @@ class PermissionSettingDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('CANCEL'),
+          child: const Text(LocaleKeys.cancel_button).tr(),
         ),
         TextButton(
           onPressed: () async {
@@ -33,7 +36,7 @@ class PermissionSettingDialog extends StatelessWidget {
               },
             );
           },
-          child: const Text('GO TO SETTINGS'),
+          child: const Text(LocaleKeys.go_to_settings_button).tr(),
         ),
       ],
     );
