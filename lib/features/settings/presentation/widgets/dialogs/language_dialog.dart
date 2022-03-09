@@ -29,9 +29,15 @@ class _LanguageDialogState extends State<LanguageDialog> {
 
   @override
   Widget build(BuildContext context) {
+    List<Locale> locales = TranslationHelper.supportedLocales();
+    locales.sort(
+      (a, b) => TranslationHelper.localeToEnglishString(a).compareTo(
+        TranslationHelper.localeToEnglishString(b),
+      ),
+    );
     return SimpleDialog(
       title: const Text(LocaleKeys.language_title).tr(),
-      children: TranslationHelper.supportedLocales()
+      children: locales
           .map(
             (locale) => RadioListTile(
               title: Text(
