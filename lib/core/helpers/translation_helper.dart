@@ -62,7 +62,7 @@ class TranslationHelper {
     } else if (locale.languageCode == 'sv') {
       return 'Svenska';
     } else if (locale.languageCode == 'zh') {
-      return '中文（粤语）';
+      return '简体中文';
     } else {
       return 'Unknown';
       // return LocaleKeys.general_unknown.tr(); //TODO
@@ -107,7 +107,7 @@ class TranslationHelper {
     } else if (locale.languageCode == 'sv') {
       return 'Swedish';
     } else if (locale.languageCode == 'zh') {
-      return 'Chinese (Cantonese)';
+      return 'Chinese (Simplified)';
     } else {
       return 'Unknown';
     }
