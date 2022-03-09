@@ -868,6 +868,7 @@ static const Map<String,dynamic> it = {
   "onesignal_data_privacy_text_block_1": "Tautulli Remote supporta la %crittografia end-to-end%.",
   "onesignal_data_privacy_text_block_2": "%OneSignal% viene utilizzato per recapitare le notifiche da Tautulli. Nessuna Informazione di Identificazione Personale (PII) viene raccolta da OneSignal. Leggi la %Privacy Policy di OneSignal% per ulteriori dettagli."
 };
+static const Map<String,dynamic> nb = {};
 static const Map<String,dynamic> nl = {
   "all_title": "Alles",
   "bugs_and_feature_requests_title": "Bugs/Suggesties",
@@ -1478,5 +1479,6 @@ static const Map<String,dynamic> sv = {
   "notification_permission_dialog_title": "Povolenie upozornení je vypnuté",
   "notification_permission_dialog_content": "Na prijímanie upozornení je potrebné zapnúť upozornenia."
 };
-static const Map<String, Map<String,dynamic>> mapLocales = {"ca": ca, "cs": cs, "da": da, "de": de, "el": el, "en": en, "es": es, "fr": fr, "hu": hu, "it": it, "nl": nl, "pt_BR": pt_BR, "pt_PT": pt_PT, "ru": ru, "sk": sk, "sv": sv};
+static const Map<String,dynamic> zh = {};
+static const Map<String, Map<String,dynamic>> mapLocales = {"ca": ca, "cs": cs, "da": da, "de": de, "el": el, "en": en, "es": es, "fr": fr, "hu": hu, "it": it, "nb": nb, "nl": nl, "pt_BR": pt_BR, "pt_PT": pt_PT, "ru": ru, "sk": sk, "sv": sv, "zh": zh};
 }
