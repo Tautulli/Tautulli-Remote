@@ -202,7 +202,8 @@ class _DonateViewState extends State<DonateView> {
                                           : Theme.of(context).iconTheme.color,
                                     ),
                                     title: LocaleKeys.donate_tip_jar_title.tr(),
-                                    subtitle: '0.99 USD/month',
+                                    subtitle:
+                                        '0.99 USD/${LocaleKeys.month.tr()}',
                                     onTap: () => _buyProduct(
                                       _offerings!
                                           .getOffering('default')!
@@ -218,7 +219,8 @@ class _DonateViewState extends State<DonateView> {
                                           : Theme.of(context).iconTheme.color,
                                     ),
                                     title: LocaleKeys.donate_big_tip_title.tr(),
-                                    subtitle: '1.99 USD/month',
+                                    subtitle:
+                                        '1.99 USD/${LocaleKeys.month.tr()}',
                                     onTap: () => _buyProduct(
                                       _offerings!
                                           .getOffering('default')!
@@ -235,7 +237,8 @@ class _DonateViewState extends State<DonateView> {
                                     ),
                                     title:
                                         LocaleKeys.donate_supporter_title.tr(),
-                                    subtitle: '4.99 USD/month',
+                                    subtitle:
+                                        '4.99 USD/${LocaleKeys.month.tr()}',
                                     onTap: () => _buyProduct(
                                       _offerings!
                                           .getOffering('default')!
@@ -251,7 +254,8 @@ class _DonateViewState extends State<DonateView> {
                                           : Theme.of(context).iconTheme.color,
                                     ),
                                     title: LocaleKeys.donate_patron_title.tr(),
-                                    subtitle: '9.99 USD/month',
+                                    subtitle:
+                                        '9.99 USD/${LocaleKeys.month.tr()}',
                                     onTap: () => _buyProduct(
                                       _offerings!
                                           .getOffering('default')!
