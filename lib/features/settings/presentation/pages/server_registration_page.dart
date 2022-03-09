@@ -89,15 +89,17 @@ class ServerRegistrationView extends StatelessWidget {
           child: BlocListener<RegisterDeviceBloc, RegisterDeviceState>(
             listener: (context, state) async {
               if (state is RegisterDeviceSuccess) {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: Colors.green[700],
-                    content: const Text(
-                      LocaleKeys.server_registration_updated_snackbar_message,
-                    ).tr(args: [state.serverName]),
-                  ),
-                );
+                if (state.isUpdate) {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Colors.green[700],
+                      content: const Text(
+                        LocaleKeys.server_registration_updated_snackbar_message,
+                      ).tr(args: [state.serverName]),
+                    ),
+                  );
+                }
 
                 context.read<RegistrationHeadersBloc>().add(
                       RegistrationHeadersClear(),

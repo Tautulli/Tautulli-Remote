@@ -13,9 +13,11 @@ class RegisterDeviceInProgress extends RegisterDeviceState {}
 
 class RegisterDeviceSuccess extends RegisterDeviceState {
   final String serverName;
+  final bool isUpdate;
 
   const RegisterDeviceSuccess({
     required this.serverName,
+    required this.isUpdate,
   });
 
   @override

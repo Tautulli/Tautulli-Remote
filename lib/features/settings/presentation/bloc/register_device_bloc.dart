@@ -130,7 +130,10 @@ class RegisterDeviceBloc
               );
 
               emit(
-                RegisterDeviceSuccess(serverName: registerResults.pmsName!),
+                RegisterDeviceSuccess(
+                  serverName: registerResults.pmsName!,
+                  isUpdate: false,
+                ),
               );
             } else {
               settingsBloc.add(
@@ -153,7 +156,10 @@ class RegisterDeviceBloc
               );
             }
             emit(
-              RegisterDeviceSuccess(serverName: registerResults.pmsName!),
+              RegisterDeviceSuccess(
+                serverName: registerResults.pmsName!,
+                isUpdate: true,
+              ),
             );
           } else {
             throw BadApiResponseException();
