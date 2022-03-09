@@ -41,12 +41,12 @@ class RegistrationInstruction extends StatelessWidget {
               if (isOptional) const Gap(4),
               if (isOptional)
                 Text(
-                  '(${LocaleKeys.optional})',
+                  '(${LocaleKeys.optional.tr()})',
                   style: TextStyle(
                     fontSize: 12,
                     color: Theme.of(context).textTheme.subtitle2!.color,
                   ),
-                ).tr(),
+                ),
             ],
           ),
         ),
