@@ -2,7 +2,7 @@ Map changelog = {
   "data": [
     {
       "version": "v3.0.0-alpha.2",
-      "date": "March xx, 2022",
+      "date": "March 8, 2022",
       "changes": [
         {
           "type": "new",
@@ -13,6 +13,11 @@ Map changelog = {
           "type": "improvement",
           "detail":
               "Consenting to OneSignal data privacy will check for notification permission on Android as well as iOS",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "When re-registering an existing server a message is now displayed to show that the entry was updated",
         },
       ],
     },
