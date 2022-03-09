@@ -28,8 +28,8 @@ class AdvancedGroup extends StatelessWidget {
 
             return CheckboxSettingsListTile(
               leading: const FaIcon(FontAwesomeIcons.angleDoubleLeft),
-              title: LocaleKeys.double_tap_to_exit_title.tr(),
-              subtitle: LocaleKeys.double_tap_to_exit_subtitle.tr(),
+              title: LocaleKeys.double_back_to_exit_title.tr(),
+              subtitle: LocaleKeys.double_back_to_exit_subtitle.tr(),
               value: doubleTapToExit,
               onChanged: (value) {
                 if (value != null) {
