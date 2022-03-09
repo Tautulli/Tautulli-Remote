@@ -1,6 +1,17 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.3",
+      "date": "March 8, 2022",
+      "changes": [
+        {
+          "type": "fix",
+          "detail":
+              "Selecting Chinese (Simplified) or Norwegian Bokmål would lock up app",
+        }
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.2",
       "date": "March 8, 2022",
       "changes": [
