@@ -13,12 +13,14 @@ class TranslationHelper {
       const Locale('fr'),
       const Locale('hu'),
       const Locale('it'),
+      const Locale('nb'),
       const Locale('nl'),
       const Locale('pt', 'BR'),
       const Locale('pt', 'PT'),
       const Locale('ru'),
       const Locale('sk'),
       const Locale('sv'),
+      const Locale('zh'),
     ];
   }
 
@@ -43,6 +45,8 @@ class TranslationHelper {
       return 'Magyar';
     } else if (locale.languageCode == 'it') {
       return 'Italiano';
+    } else if (locale.languageCode == 'nb') {
+      return 'Bokmål';
     } else if (locale.languageCode == 'nl') {
       return 'Nederlands';
     } else if (locale.languageCode == 'pt') {
@@ -57,6 +61,8 @@ class TranslationHelper {
       return 'Slovenčina';
     } else if (locale.languageCode == 'sv') {
       return 'Svenska';
+    } else if (locale.languageCode == 'zh') {
+      return '中文（粤语）';
     } else {
       return 'Unknown';
       // return LocaleKeys.general_unknown.tr(); //TODO
@@ -84,6 +90,8 @@ class TranslationHelper {
       return 'Hungarian';
     } else if (locale.languageCode == 'it') {
       return 'Italian';
+    } else if (locale.languageCode == 'nb') {
+      return 'Norwegian Bokmål';
     } else if (locale.languageCode == 'nl') {
       return 'Dutch';
     } else if (locale.languageCode == 'pt') {
@@ -98,6 +106,8 @@ class TranslationHelper {
       return 'Slovak';
     } else if (locale.languageCode == 'sv') {
       return 'Swedish';
+    } else if (locale.languageCode == 'zh') {
+      return 'Chinese (Cantonese)';
     } else {
       return 'Unknown';
     }

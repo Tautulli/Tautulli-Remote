@@ -1,6 +1,22 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.2",
+      "date": "March xx, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Translations are now implemented, check the Help Translate page to assist with translating",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Consenting to OneSignal data privacy will check for notification permission on Android as well as iOS",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.1",
       "date": "Feb 13, 2022",
       "changes": [
