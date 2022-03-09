@@ -104,6 +104,7 @@ abstract class  LocaleKeys {
   static const logs_exported_snackbar_message = 'logs_exported_snackbar_message';
   static const mask_senstivie_info_subtitle = 'mask_senstivie_info_subtitle';
   static const mask_senstivie_info_title = 'mask_senstivie_info_title';
+  static const month = 'month';
   static const more_title = 'more_title';
   static const normal_title = 'normal_title';
   static const no_button = 'no_button';
@@ -146,9 +147,7 @@ abstract class  LocaleKeys {
   static const secondary_connection_title = 'secondary_connection_title';
   static const secondary_connection_address_hint = 'secondary_connection_address_hint';
   static const secondary_connection_address_title = 'secondary_connection_address_title';
-  static const server_connection_address_dialog_primary_hint = 'server_connection_address_dialog_primary_hint';
   static const server_connection_address_dialog_primary_validation = 'server_connection_address_dialog_primary_validation';
-  static const server_connection_address_dialog_secondary_hint = 'server_connection_address_dialog_secondary_hint';
   static const server_connection_address_dialog_secondary_validation = 'server_connection_address_dialog_secondary_validation';
   static const server_delete_dialog_title = 'server_delete_dialog_title';
   static const server_registration_bullet_one = 'server_registration_bullet_one';
