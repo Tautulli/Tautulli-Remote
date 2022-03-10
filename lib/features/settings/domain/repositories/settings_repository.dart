@@ -61,6 +61,10 @@ abstract class SettingsRepository {
   });
 
   //* Store & Retrive Values
+  // Active Server ID
+  Future<String> getActiveServerId();
+  Future<bool> setActiveServerId(String value);
+
   // Custom Cert Hash List
   Future<List<int>> getCustomCertHashList();
   Future<bool> setCustomCertHashList(List<int> certHashList);

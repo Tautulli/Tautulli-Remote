@@ -1,7 +1,10 @@
+import 'package:tautulli_remote/core/database/data/models/server_model.dart';
+
 import '../../domain/entities/app_settings.dart';
 
 class AppSettingsModel extends AppSettings {
   const AppSettingsModel({
+    required ServerModel activeServer,
     required bool doubleTapToExit,
     required bool maskSensitiveInfo,
     required bool oneSignalBannerDismissed,
@@ -9,6 +12,7 @@ class AppSettingsModel extends AppSettings {
     required int refreshRate,
     required int serverTimeout,
   }) : super(
+          activeServer: activeServer,
           doubleTapToExit: doubleTapToExit,
           maskSensitiveInfo: maskSensitiveInfo,
           oneSignalBannerDismissed: oneSignalBannerDismissed,
@@ -18,6 +22,7 @@ class AppSettingsModel extends AppSettings {
         );
 
   AppSettingsModel copyWith({
+    ServerModel? activeServer,
     bool? doubleTapToExit,
     bool? maskSensitiveInfo,
     bool? oneSignalBannerDismissed,
@@ -26,6 +31,7 @@ class AppSettingsModel extends AppSettings {
     int? serverTimeout,
   }) {
     return AppSettingsModel(
+      activeServer: activeServer ?? this.activeServer,
       doubleTapToExit: doubleTapToExit ?? this.doubleTapToExit,
       maskSensitiveInfo: maskSensitiveInfo ?? this.maskSensitiveInfo,
       oneSignalBannerDismissed:
@@ -38,6 +44,7 @@ class AppSettingsModel extends AppSettings {
 
   Map<String, String> dump() {
     return {
+      'Active Server': activeServer.plexName,
       'Double Tap To Exit': doubleTapToExit.toString(),
       'Mask Sensitive Info': maskSensitiveInfo.toString(),
       'OneSignal Banner Dismissed': oneSignalBannerDismissed.toString(),

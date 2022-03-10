@@ -194,6 +194,9 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         color: PlexColorPalette.gamboge,
         thickness: 1,
       ),
+      drawerTheme: const DrawerThemeData(
+        backgroundColor: TautulliColorPalette.gunmetal,
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           primary: PlexColorPalette.gamboge,

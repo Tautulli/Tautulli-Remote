@@ -80,6 +80,17 @@ class SettingsLoad extends SettingsEvent {
   List<Object> get props => [updateServerInfo];
 }
 
+class SettingsUpdateActiveServer extends SettingsEvent {
+  final ServerModel activeServer;
+
+  const SettingsUpdateActiveServer({
+    required this.activeServer,
+  });
+
+  @override
+  List<Object> get props => [activeServer];
+}
+
 class SettingsUpdateConnectionInfo extends SettingsEvent {
   final bool primary;
   final String connectionAddress;

@@ -167,6 +167,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   //* Store & Retrive Values
   // Custom Cert Hash List
   @override
+  Future<String> getActiveServerId() async {
+    return await dataSource.getActiveServerId();
+  }
+
+  @override
+  Future<bool> setActiveServerId(String value) async {
+    return await dataSource.setActiveServerId(value);
+  }
+
+  // Custom Cert Hash List
+  @override
   Future<List<int>> getCustomCertHashList() async {
     return await dataSource.getCustomCertHashList();
   }

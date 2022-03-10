@@ -28,6 +28,8 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   flutter_bloc: ^8.0.1
   flutter_cache_manager: ^3.3.0
+  flutter_inner_drawer:
+    git: https://github.com/TheMeanCanEHdian/flutter_inner_drawer.git
   fluttertoast: ^8.0.8
   font_awesome_flutter: ^10.0.0-beta
   gap: ^2.0.0

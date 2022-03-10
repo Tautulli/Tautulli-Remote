@@ -67,6 +67,10 @@ abstract class SettingsDataSource {
   });
 
   //* Store & Retrive Values
+  // Active Server ID
+  Future<String> getActiveServerId();
+  Future<bool> setActiveServerId(String value);
+
   // Custom Cert Hash List
   Future<List<int>> getCustomCertHashList();
   Future<bool> setCustomCertHashList(List<int> certHashList);
@@ -96,6 +100,7 @@ abstract class SettingsDataSource {
   Future<bool> setServerTimeout(int value);
 }
 
+const activeServerId = 'activeServerId';
 const customCertHashList = 'customCertHashList';
 const doubleTapToExit = 'doubleTapToExit';
 const maskSensitiveInfo = 'maskSensitiveInfo';
@@ -282,6 +287,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   }
 
   //* Store & Retrive Values
+  // Active Server ID
+  @override
+  Future<String> getActiveServerId() {
+    return Future.value(localStorage.getString(activeServerId) ?? '');
+  }
+
+  @override
+  Future<bool> setActiveServerId(String value) {
+    return localStorage.setString(activeServerId, value);
+  }
+
   // Custom Cert Hash List
   @override
   Future<List<int>> getCustomCertHashList() {

@@ -18,6 +18,21 @@ import '../../domain/usecases/settings.dart';
 part 'settings_event.dart';
 part 'settings_state.dart';
 
+const ServerModel blankServer = ServerModel(
+  sortIndex: -1,
+  plexName: '',
+  plexIdentifier: '',
+  tautulliId: '',
+  primaryConnectionAddress: '',
+  primaryConnectionProtocol: '',
+  primaryConnectionDomain: '',
+  deviceToken: '',
+  primaryActive: true,
+  oneSignalRegistered: false,
+  plexPass: false,
+  customHeaders: [],
+);
+
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final Logging logging;
   final ManageCache manageCache;
@@ -37,6 +52,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       (event, emit) => _onSettingsDeleteServer(event, emit),
     );
     on<SettingsLoad>((event, emit) => _onSettingsLoad(event, emit));
+    on<SettingsUpdateActiveServer>(
+      (event, emit) => _onSettingsUpdateActiveServer(event, emit),
+    );
     on<SettingsUpdateConnectionInfo>(
       (event, emit) => _onSettingsUpdateConnectionInfo(event, emit),
     );
@@ -128,6 +146,18 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     List<ServerModel> updatedList = [...currentState.serverList];
 
+    // If server list is empty when adding a new server set the sever to active
+    if (updatedList.isEmpty) {
+      await settings.setActiveServerId(server.tautulliId);
+      logging.debug("Settings :: Active server set to '${server.plexName}'");
+
+      emit(
+        currentState.copyWith(
+          appSettings: currentState.appSettings.copyWith(activeServer: server),
+        ),
+      );
+    }
+
     updatedList.add(server);
 
     if (updatedList.length > 1) {
@@ -197,6 +227,36 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
     updatedList.removeAt(index);
 
+    // If server list is empty store empty string for activeServerId.
+
+    // Else if the active server is being removed set the first server in
+    // updatedList to be active.
+    if (updatedList.isEmpty) {
+      logging.debug(
+        'Settings :: Last server has been deleted, clearing active server',
+      );
+      await settings.setActiveServerId('');
+      emit(
+        currentState.copyWith(
+          appSettings: currentState.appSettings.copyWith(
+            activeServer: blankServer,
+          ),
+        ),
+      );
+    } else if (currentState.appSettings.activeServer.id == event.id) {
+      logging.debug(
+        "Settings :: Active server has been deleted, setting '${updatedList[0].plexName}' as active server",
+      );
+      await settings.setActiveServerId(updatedList[0].tautulliId);
+      emit(
+        currentState.copyWith(
+          appSettings: currentState.appSettings.copyWith(
+            activeServer: updatedList[0],
+          ),
+        ),
+      );
+    }
+
     await settings.deleteServer(event.id);
 
     logging.info("Settings :: Deleted server '${event.plexName}'");
@@ -222,7 +282,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     try {
       // Fetch settings
       final List<ServerModel> serverList = await settings.getAllServers();
+      final String activeServerId = await settings.getActiveServerId();
+
       final AppSettingsModel appSettings = AppSettingsModel(
+        activeServer: activeServerId != ''
+            ? serverList
+                .firstWhere((server) => server.tautulliId == activeServerId)
+            : serverList.isNotEmpty
+                ? serverList.first
+                : blankServer,
         doubleTapToExit: await settings.getDoubleTapToExit(),
         maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
         oneSignalBannerDismissed: await settings.getOneSignalBannerDismissed(),
@@ -252,6 +320,25 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         SettingsFailure(),
       );
     }
+  }
+
+  void _onSettingsUpdateActiveServer(
+    SettingsUpdateActiveServer event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setActiveServerId(event.activeServer.tautulliId);
+    logging.debug(
+      "Settings :: Active server changed to '${event.activeServer.plexName}'",
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings:
+            currentState.appSettings.copyWith(activeServer: event.activeServer),
+      ),
+    );
   }
 
   void _onSettingsUpdateConnectionInfo(
@@ -533,7 +620,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final currentState = state as SettingsSuccess;
 
     logging.info(
-      'Settings :: Updating server details for ${event.plexName}',
+      "Settings :: Updating server details for '${event.plexName}'",
     );
 
     final ConnectionAddressModel primaryConnectionAddress =

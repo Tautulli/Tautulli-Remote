@@ -150,12 +150,24 @@ class Settings {
 
   //* Store & Retrive Values
 
+  /// Returns the Server ID for the active server.
+  ///
+  /// If no value is stored returns an empty string.
+  Future<String> getActiveServerId() async {
+    return await repository.getActiveServerId();
+  }
+
+  /// Sets the active server ID.
+  Future<bool> setActiveServerId(String value) async {
+    return await repository.setActiveServerId(value);
+  }
+
   /// Returns a list of user approved certificate hashes.
   ///
   /// Used for communicating with servers that could not be authenticated by
   /// any of the built in trusted root certificates.
   ///
-  /// If no value is store returns an empty list.
+  /// If no value is stored returns an empty list.
   Future<List<int>> getCustomCertHashList() async {
     return await repository.getCustomCertHashList();
   }

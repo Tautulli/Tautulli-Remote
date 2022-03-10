@@ -1,6 +1,9 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
+
 abstract class AppSettings extends Equatable {
+  final ServerModel activeServer;
   final bool doubleTapToExit;
   final bool maskSensitiveInfo;
   final bool oneSignalBannerDismissed;
@@ -9,6 +12,7 @@ abstract class AppSettings extends Equatable {
   final int serverTimeout;
 
   const AppSettings({
+    required this.activeServer,
     required this.doubleTapToExit,
     required this.maskSensitiveInfo,
     required this.oneSignalBannerDismissed,
@@ -19,6 +23,7 @@ abstract class AppSettings extends Equatable {
 
   @override
   List<Object> get props => [
+        activeServer,
         doubleTapToExit,
         maskSensitiveInfo,
         oneSignalBannerDismissed,
