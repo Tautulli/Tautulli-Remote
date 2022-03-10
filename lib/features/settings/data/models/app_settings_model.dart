@@ -1,5 +1,4 @@
-import 'package:tautulli_remote/core/database/data/models/server_model.dart';
-
+import '../../../../core/database/data/models/server_model.dart';
 import '../../domain/entities/app_settings.dart';
 
 class AppSettingsModel extends AppSettings {
