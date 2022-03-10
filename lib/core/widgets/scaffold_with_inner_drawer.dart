@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:tautulli_remote/core/helpers/color_palette_helper.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
@@ -33,17 +32,19 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
       onTapClose: true,
       swipeChild: true,
       offset: IDOffset.horizontal(
-        screenAspect > 1.2 && screenAspect < 1.5
-            ? -0.5
-            : screenAspect > 1
-                ? -0.2
-                : screenAspect > 0.85
-                    ? -0.1
-                    : screenAspect > 0.70
-                        ? -0.3
-                        : screenAspect < 0.43
-                            ? 0.6
-                            : 0.4,
+        screenAspect > 2.5
+            ? -0.4
+            : screenAspect > 1.2 && screenAspect < 1.5
+                ? -0.35
+                : screenAspect > 1
+                    ? -0.2
+                    : screenAspect > 0.85
+                        ? -0.1
+                        : screenAspect > 0.70
+                            ? -0.2
+                            : screenAspect < 0.43
+                                ? 0.6
+                                : 0.4,
       ),
       leftChild: const _AppDrawer(),
       scaffold: Scaffold(
@@ -249,6 +250,7 @@ class __ServerSelectorState extends State<_ServerSelector> {
                   ),
                   title: Text(
                     state.appSettings.activeServer.plexName,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 body: Column(
@@ -258,7 +260,10 @@ class __ServerSelectorState extends State<_ServerSelector> {
                       return ListTile(
                         tileColor: Theme.of(context).scaffoldBackgroundColor,
                         leading: const SizedBox(width: 30),
-                        title: Text(server.plexName),
+                        title: Text(
+                          server.plexName,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         onTap: () {
                           setState(() {
                             isOpen = !isOpen;
