@@ -75,9 +75,9 @@ abstract class SettingsDataSource {
   Future<List<int>> getCustomCertHashList();
   Future<bool> setCustomCertHashList(List<int> certHashList);
 
-  // Double Tap To Exit
-  Future<bool> getDoubleTapToExit();
-  Future<bool> setDoubleTapToExit(bool value);
+  // Double Back To Exit
+  Future<bool> getDoubleBackToExit();
+  Future<bool> setDoubleBackToExit(bool value);
 
   // Mask Sensitive Info
   Future<bool> getMaskSensitiveInfo();
@@ -102,7 +102,7 @@ abstract class SettingsDataSource {
 
 const activeServerId = 'activeServerId';
 const customCertHashList = 'customCertHashList';
-const doubleTapToExit = 'doubleTapToExit';
+const doubleBackToExit = 'doubleTapToExit';
 const maskSensitiveInfo = 'maskSensitiveInfo';
 const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
 const oneSignalConsented = 'oneSignalConsented';
@@ -318,15 +318,15 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     return localStorage.setStringList(customCertHashList, stringList);
   }
 
-  // Double Tap To Exit
+  // Double Back To Exit
   @override
-  Future<bool> getDoubleTapToExit() async {
-    return Future.value(localStorage.getBool(doubleTapToExit) ?? false);
+  Future<bool> getDoubleBackToExit() async {
+    return Future.value(localStorage.getBool(doubleBackToExit) ?? false);
   }
 
   @override
-  Future<bool> setDoubleTapToExit(bool value) {
-    return localStorage.setBool(doubleTapToExit, value);
+  Future<bool> setDoubleBackToExit(bool value) {
+    return localStorage.setBool(doubleBackToExit, value);
   }
 
   // Mask Sensitive Info

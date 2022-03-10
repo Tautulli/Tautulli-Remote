@@ -125,13 +125,13 @@ class SettingsUpdateCustomHeaders extends SettingsEvent {
   List<Object> get props => [tautulliId, title, subtitle, basicAuth];
 }
 
-class SettingsUpdateDoubleTapToExit extends SettingsEvent {
-  final bool doubleTapToExit;
+class SettingsUpdateDoubleBackToExit extends SettingsEvent {
+  final bool doubleBackToExit;
 
-  const SettingsUpdateDoubleTapToExit(this.doubleTapToExit);
+  const SettingsUpdateDoubleBackToExit(this.doubleBackToExit);
 
   @override
-  List<Object> get props => [doubleTapToExit];
+  List<Object> get props => [doubleBackToExit];
 }
 
 class SettingsUpdateMaskSensitiveInfo extends SettingsEvent {

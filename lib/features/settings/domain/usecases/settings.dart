@@ -180,13 +180,13 @@ class Settings {
   /// Returns if exiting the app should require two sequential back actions.
   ///
   /// If no value is stored returns `false`.
-  Future<bool> getDoubleTapToExit() async {
-    return await repository.getDoubleTapToExit();
+  Future<bool> getDoubleBackToExit() async {
+    return await repository.getDoubleBackToExit();
   }
 
   /// Sets if exiting the app should require two sequential back actions.
-  Future<bool> setDoubleTapToExit(bool value) async {
-    return await repository.setDoubleTapToExit(value);
+  Future<bool> setDoubleBackToExit(bool value) async {
+    return await repository.setDoubleBackToExit(value);
   }
 
   /// Returns if the app should mask sensitive info.

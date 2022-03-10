@@ -61,8 +61,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateCustomHeaders>(
       (event, emit) => _onSettingsUpdateCustomHeaders(event, emit),
     );
-    on<SettingsUpdateDoubleTapToExit>(
-      (event, emit) => _onSettingsUpdateDoubleTapToExit(event, emit),
+    on<SettingsUpdateDoubleBackToExit>(
+      (event, emit) => _onSettingsUpdateDoubleBackToExit(event, emit),
     );
     on<SettingsUpdateMaskSensitiveInfo>(
       (event, emit) => _onSettingsUpdateMaskSensitiveInfo(event, emit),
@@ -301,7 +301,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             : serverList.isNotEmpty
                 ? serverList.first
                 : blankServer,
-        doubleTapToExit: await settings.getDoubleTapToExit(),
+        doubleBackToExit: await settings.getDoubleBackToExit(),
         maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
         oneSignalBannerDismissed: await settings.getOneSignalBannerDismissed(),
         oneSignalConsented: await settings.getOneSignalConsented(),
@@ -500,21 +500,21 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
   }
 
-  void _onSettingsUpdateDoubleTapToExit(
-    SettingsUpdateDoubleTapToExit event,
+  void _onSettingsUpdateDoubleBackToExit(
+    SettingsUpdateDoubleBackToExit event,
     Emitter<SettingsState> emit,
   ) async {
     final currentState = state as SettingsSuccess;
 
-    await settings.setDoubleTapToExit(event.doubleTapToExit);
+    await settings.setDoubleBackToExit(event.doubleBackToExit);
     logging.info(
-      'Settings :: Double Tap To Exit set to ${event.doubleTapToExit}',
+      'Settings :: Double Back To Exit set to ${event.doubleBackToExit}',
     );
 
     emit(
       currentState.copyWith(
         appSettings: currentState.appSettings
-            .copyWith(doubleTapToExit: event.doubleTapToExit),
+            .copyWith(doubleBackToExit: event.doubleBackToExit),
       ),
     );
   }

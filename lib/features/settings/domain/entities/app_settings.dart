@@ -4,7 +4,7 @@ import '../../../../core/database/data/models/server_model.dart';
 
 abstract class AppSettings extends Equatable {
   final ServerModel activeServer;
-  final bool doubleTapToExit;
+  final bool doubleBackToExit;
   final bool maskSensitiveInfo;
   final bool oneSignalBannerDismissed;
   final bool oneSignalConsented;
@@ -13,7 +13,7 @@ abstract class AppSettings extends Equatable {
 
   const AppSettings({
     required this.activeServer,
-    required this.doubleTapToExit,
+    required this.doubleBackToExit,
     required this.maskSensitiveInfo,
     required this.oneSignalBannerDismissed,
     required this.oneSignalConsented,
@@ -24,7 +24,7 @@ abstract class AppSettings extends Equatable {
   @override
   List<Object> get props => [
         activeServer,
-        doubleTapToExit,
+        doubleBackToExit,
         maskSensitiveInfo,
         oneSignalBannerDismissed,
         oneSignalConsented,

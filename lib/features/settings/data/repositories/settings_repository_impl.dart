@@ -187,15 +187,15 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setCustomCertHashList(certHashList);
   }
 
-  // Double Tap To Exit
+  // Double Back To Exit
   @override
-  Future<bool> getDoubleTapToExit() async {
-    return await dataSource.getDoubleTapToExit();
+  Future<bool> getDoubleBackToExit() async {
+    return await dataSource.getDoubleBackToExit();
   }
 
   @override
-  Future<bool> setDoubleTapToExit(bool value) async {
-    return await dataSource.setDoubleTapToExit(value);
+  Future<bool> setDoubleBackToExit(bool value) async {
+    return await dataSource.setDoubleBackToExit(value);
   }
 
   // Mask Sensitive Info

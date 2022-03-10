@@ -69,9 +69,9 @@ abstract class SettingsRepository {
   Future<List<int>> getCustomCertHashList();
   Future<bool> setCustomCertHashList(List<int> certHashList);
 
-  // Double Tap To Exit
-  Future<bool> getDoubleTapToExit();
-  Future<bool> setDoubleTapToExit(bool value);
+  // Double Back To Exit
+  Future<bool> getDoubleBackToExit();
+  Future<bool> setDoubleBackToExit(bool value);
 
   // Mask Sensitive Info
   Future<bool> getMaskSensitiveInfo();

@@ -5,7 +5,7 @@ import '../../domain/entities/app_settings.dart';
 class AppSettingsModel extends AppSettings {
   const AppSettingsModel({
     required ServerModel activeServer,
-    required bool doubleTapToExit,
+    required bool doubleBackToExit,
     required bool maskSensitiveInfo,
     required bool oneSignalBannerDismissed,
     required bool oneSignalConsented,
@@ -13,7 +13,7 @@ class AppSettingsModel extends AppSettings {
     required int serverTimeout,
   }) : super(
           activeServer: activeServer,
-          doubleTapToExit: doubleTapToExit,
+          doubleBackToExit: doubleBackToExit,
           maskSensitiveInfo: maskSensitiveInfo,
           oneSignalBannerDismissed: oneSignalBannerDismissed,
           oneSignalConsented: oneSignalConsented,
@@ -23,7 +23,7 @@ class AppSettingsModel extends AppSettings {
 
   AppSettingsModel copyWith({
     ServerModel? activeServer,
-    bool? doubleTapToExit,
+    bool? doubleBackToExit,
     bool? maskSensitiveInfo,
     bool? oneSignalBannerDismissed,
     bool? oneSignalConsented,
@@ -32,7 +32,7 @@ class AppSettingsModel extends AppSettings {
   }) {
     return AppSettingsModel(
       activeServer: activeServer ?? this.activeServer,
-      doubleTapToExit: doubleTapToExit ?? this.doubleTapToExit,
+      doubleBackToExit: doubleBackToExit ?? this.doubleBackToExit,
       maskSensitiveInfo: maskSensitiveInfo ?? this.maskSensitiveInfo,
       oneSignalBannerDismissed:
           oneSignalBannerDismissed ?? this.oneSignalBannerDismissed,
@@ -45,7 +45,7 @@ class AppSettingsModel extends AppSettings {
   Map<String, String> dump() {
     return {
       'Active Server': activeServer.plexName,
-      'Double Tap To Exit': doubleTapToExit.toString(),
+      'Double Back To Exit': doubleBackToExit.toString(),
       'Mask Sensitive Info': maskSensitiveInfo.toString(),
       'OneSignal Banner Dismissed': oneSignalBannerDismissed.toString(),
       'OneSignal Privacy Accepted': oneSignalConsented.toString(),

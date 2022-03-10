@@ -24,17 +24,17 @@ class AdvancedGroup extends StatelessWidget {
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
-            final doubleTapToExit = state.appSettings.doubleTapToExit;
+            final doubleBackToExit = state.appSettings.doubleBackToExit;
 
             return CheckboxSettingsListTile(
               leading: const FaIcon(FontAwesomeIcons.angleDoubleLeft),
               title: LocaleKeys.double_back_to_exit_title.tr(),
               subtitle: LocaleKeys.double_back_to_exit_subtitle.tr(),
-              value: doubleTapToExit,
+              value: doubleBackToExit,
               onChanged: (value) {
                 if (value != null) {
                   context.read<SettingsBloc>().add(
-                        SettingsUpdateDoubleTapToExit(value),
+                        SettingsUpdateDoubleBackToExit(value),
                       );
                 }
               },
