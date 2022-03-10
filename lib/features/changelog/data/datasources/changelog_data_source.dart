@@ -1,6 +1,26 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.4",
+      "date": "March 9, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Added an Inner Drawer that supports swipe gestures to open/close",
+        },
+        {
+          "type": "new",
+          "detail":
+              "Added a Server Selector to the Inner Drawer when more than one server are registered",
+        },
+        {
+          "type": "new",
+          "detail": "Removed the locked portrait mode orientation",
+        }
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.3",
       "date": "March 8, 2022",
       "changes": [
