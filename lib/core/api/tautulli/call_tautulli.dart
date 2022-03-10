@@ -111,8 +111,8 @@ class CallTautulliImpl implements CallTautulli {
     Response response;
     try {
       response = await dio
-          .get(
-            uri.toString(),
+          .getUri(
+            uri,
             options: Options(
               headers: headers,
             ),
