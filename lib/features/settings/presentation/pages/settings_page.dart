@@ -2,10 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:tautulli_remote/core/widgets/scaffold_with_inner_drawer.dart';
 
-import '../../../../core/widgets/double_tap_to_exit.dart';
-import '../../../../core/widgets/page_body.dart';
+import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../bloc/settings_bloc.dart';
@@ -37,39 +35,37 @@ class SettingsView extends StatelessWidget {
 
     return ScaffoldWithInnerDrawer(
       title: const Text(LocaleKeys.settings_title).tr(),
-      body: DoubleTapToExit(
-        child: Column(
-          children: [
-            BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (context, state) {
-                if (state is SettingsSuccess &&
-                    (!state.appSettings.oneSignalBannerDismissed ||
-                        state.appSettings.oneSignalConsented)) {
-                  return const SettingsAlertBanner();
-                }
+      body: Column(
+        children: [
+          BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              if (state is SettingsSuccess &&
+                  (!state.appSettings.oneSignalBannerDismissed ||
+                      state.appSettings.oneSignalConsented)) {
+                return const SettingsAlertBanner();
+              }
 
-                return const SizedBox(height: 0, width: 0);
-              },
+              return const SizedBox(height: 0, width: 0);
+            },
+          ),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(8.0),
+              children: const [
+                TestingGroup(),
+                Gap(8),
+                ServersGroup(),
+                RegisterServerButton(),
+                Gap(8),
+                AppSettingsGroup(),
+                Gap(8),
+                HelpAndSupportGroup(),
+                Gap(8),
+                MoreGroup(),
+              ],
             ),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.all(8.0),
-                children: const [
-                  TestingGroup(),
-                  Gap(8),
-                  ServersGroup(),
-                  RegisterServerButton(),
-                  Gap(8),
-                  AppSettingsGroup(),
-                  Gap(8),
-                  HelpAndSupportGroup(),
-                  Gap(8),
-                  MoreGroup(),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

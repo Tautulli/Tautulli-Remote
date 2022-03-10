@@ -7,6 +7,7 @@ import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../database/data/models/server_model.dart';
+import 'double_tap_to_exit.dart';
 import 'page_body.dart';
 
 class ScaffoldWithInnerDrawer extends StatelessWidget {
@@ -59,7 +60,10 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
           actions: actions,
         ),
         body: PageBody(
-          child: body,
+          child: DoubleTapToExit(
+            innerDrawerKey: _innerDrawerKey,
+            child: body,
+          ),
         ),
       ),
     );
