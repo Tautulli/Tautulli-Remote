@@ -1,20 +1,21 @@
-import '../../../../core/types/types.dart';
-import '../../domain/entities/connection_address.dart';
+import 'package:equatable/equatable.dart';
 
-class ConnectionAddressModel extends ConnectionAddress {
+import '../../../../core/types/types.dart';
+
+class ConnectionAddressModel extends Equatable {
+  final bool primary;
+  final String? address;
+  final Protocol? protocol;
+  final String? domain;
+  final String? path;
+
   const ConnectionAddressModel({
-    required bool primary,
-    String? address,
-    Protocol? protocol,
-    String? domain,
-    String? path,
-  }) : super(
-          primary: primary,
-          address: address,
-          protocol: protocol,
-          domain: domain,
-          path: path,
-        );
+    required this.primary,
+    this.address,
+    this.protocol,
+    this.domain,
+    this.path,
+  });
 
   factory ConnectionAddressModel.fromConnectionAddress({
     required bool primary,
@@ -46,4 +47,7 @@ class ConnectionAddressModel extends ConnectionAddress {
       path: path,
     );
   }
+
+  @override
+  List<Object> get props => [];
 }

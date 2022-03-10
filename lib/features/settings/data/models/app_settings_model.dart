@@ -1,24 +1,25 @@
-import '../../../../core/database/data/models/server_model.dart';
-import '../../domain/entities/app_settings.dart';
+import 'package:equatable/equatable.dart';
 
-class AppSettingsModel extends AppSettings {
+import '../../../../core/database/data/models/server_model.dart';
+
+class AppSettingsModel extends Equatable {
+  final ServerModel activeServer;
+  final bool doubleBackToExit;
+  final bool maskSensitiveInfo;
+  final bool oneSignalBannerDismissed;
+  final bool oneSignalConsented;
+  final int refreshRate;
+  final int serverTimeout;
+
   const AppSettingsModel({
-    required ServerModel activeServer,
-    required bool doubleBackToExit,
-    required bool maskSensitiveInfo,
-    required bool oneSignalBannerDismissed,
-    required bool oneSignalConsented,
-    required int refreshRate,
-    required int serverTimeout,
-  }) : super(
-          activeServer: activeServer,
-          doubleBackToExit: doubleBackToExit,
-          maskSensitiveInfo: maskSensitiveInfo,
-          oneSignalBannerDismissed: oneSignalBannerDismissed,
-          oneSignalConsented: oneSignalConsented,
-          refreshRate: refreshRate,
-          serverTimeout: serverTimeout,
-        );
+    required this.activeServer,
+    required this.doubleBackToExit,
+    required this.maskSensitiveInfo,
+    required this.oneSignalBannerDismissed,
+    required this.oneSignalConsented,
+    required this.refreshRate,
+    required this.serverTimeout,
+  });
 
   AppSettingsModel copyWith({
     ServerModel? activeServer,
@@ -52,4 +53,15 @@ class AppSettingsModel extends AppSettings {
       'Server Timeout': serverTimeout.toString(),
     };
   }
+
+  @override
+  List<Object> get props => [
+        activeServer,
+        doubleBackToExit,
+        maskSensitiveInfo,
+        oneSignalBannerDismissed,
+        oneSignalConsented,
+        refreshRate,
+        serverTimeout,
+      ];
 }
