@@ -60,6 +60,7 @@ abstract class  LocaleKeys {
   static const donate_thanks_snackbar_message = 'donate_thanks_snackbar_message';
   static const donate_tip_jar_title = 'donate_tip_jar_title';
   static const donate_title = 'donate_title';
+  static const double_back_to_exit_toast_message = 'double_back_to_exit_toast_message';
   static const double_back_to_exit_subtitle = 'double_back_to_exit_subtitle';
   static const double_back_to_exit_title = 'double_back_to_exit_title';
   static const error_message_bad_api_response = 'error_message_bad_api_response';

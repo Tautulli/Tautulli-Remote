@@ -351,6 +351,7 @@ static const Map<String,dynamic> en = {
   "donate_thanks_snackbar_message": "Thank you for your donation",
   "donate_tip_jar_title": "Tip Jar",
   "donate_title": "Donate",
+  "double_back_to_exit_toast_message": "Use back again to exit",
   "double_back_to_exit_subtitle": "Use back twice to exit",
   "double_back_to_exit_title": "Double Back To Exit",
   "error_message_bad_api_response": "Bad API Response",
