@@ -282,7 +282,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     try {
       // Fetch settings
       final List<ServerModel> serverList = await settings.getAllServers();
-      final String activeServerId = await settings.getActiveServerId();
+      String activeServerId = await settings.getActiveServerId();
+
+      // If active server ID is blank but server list isn't empty set the first
+      // server to be the active server.
+      if (activeServerId == '' && serverList.isNotEmpty) {
+        activeServerId = serverList.first.tautulliId;
+        await settings.setActiveServerId(activeServerId);
+        logging.debug(
+          "Settings :: No active server, setting '${serverList.first.plexName}' to active",
+        );
+      }
 
       final AppSettingsModel appSettings = AppSettingsModel(
         activeServer: activeServerId != ''
