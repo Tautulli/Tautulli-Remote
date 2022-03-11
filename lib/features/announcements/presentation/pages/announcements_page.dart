@@ -34,7 +34,11 @@ class AnnouncementsPage extends StatelessWidget {
           if (state is AnnouncementsSuccess) {
             return WillPopScope(
               onWillPop: () {
-                context.read<AnnouncementsBloc>().add(AnnouncementsMarkRead());
+                if (state.unread) {
+                  context
+                      .read<AnnouncementsBloc>()
+                      .add(AnnouncementsMarkRead());
+                }
                 return Future.value(true);
               },
               child: PageBody(
