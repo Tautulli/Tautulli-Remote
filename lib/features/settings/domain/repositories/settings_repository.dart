@@ -73,6 +73,10 @@ abstract class SettingsRepository {
   Future<bool> getDoubleBackToExit();
   Future<bool> setDoubleBackToExit(bool value);
 
+  // Last App Version
+  Future<String> getLastAppVersion();
+  Future<bool> setLastAppVersion(String value);
+
   // Last Read Announcement ID
   Future<int> getLastReadAnnouncementId();
   Future<bool> setLastReadAnnouncementId(int value);

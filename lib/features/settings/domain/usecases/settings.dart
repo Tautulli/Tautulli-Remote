@@ -189,6 +189,20 @@ class Settings {
     return await repository.setDoubleBackToExit(value);
   }
 
+  /// Returns the app version from the last time the app was started.
+  ///
+  /// Used to determine if the changelog page should be displayed on start.
+  ///
+  /// If no value is stored returns ``.
+  Future<String> getLastAppVersion() async {
+    return await repository.getLastAppVersion();
+  }
+
+  /// Sets the last app version.
+  Future<bool> setLastAppVersion(String value) async {
+    return await repository.setLastAppVersion(value);
+  }
+
   /// Returns the last read announcement ID.
   ///
   /// Used to determine if there are unread announcements and which ones are

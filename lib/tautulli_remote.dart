@@ -24,7 +24,12 @@ import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/translation/presentation/pages/help_translate_page.dart';
 
 class TautulliRemote extends StatefulWidget {
-  const TautulliRemote({Key? key}) : super(key: key);
+  final String? initialRoute;
+
+  const TautulliRemote({
+    Key? key,
+    this.initialRoute,
+  }) : super(key: key);
 
   @override
   _TautulliRemoteState createState() => _TautulliRemoteState();
@@ -385,7 +390,8 @@ class _TautulliRemoteState extends State<TautulliRemote> {
             const OneSignalDataPrivacyPage(),
         SettingsPage.routeName: (_) => const SettingsPage(),
       },
-      initialRoute: '/settings',
+      initialRoute: widget.initialRoute,
+      home: const SettingsPage(),
     );
   }
 }

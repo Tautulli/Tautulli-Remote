@@ -79,6 +79,10 @@ abstract class SettingsDataSource {
   Future<bool> getDoubleBackToExit();
   Future<bool> setDoubleBackToExit(bool value);
 
+  // Last App Version
+  Future<String> getLastAppVersion();
+  Future<bool> setLastAppVersion(String value);
+
   // Last Read Announcement ID
   Future<int> getLastReadAnnouncementId();
   Future<bool> setLastReadAnnouncementId(int value);
@@ -107,6 +111,7 @@ abstract class SettingsDataSource {
 const activeServerId = 'activeServerId';
 const customCertHashList = 'customCertHashList';
 const doubleBackToExit = 'doubleTapToExit';
+const lastAppVersion = 'lastAppVersion';
 const lastReadAnnouncementId = 'lastReadAnnouncementId';
 const maskSensitiveInfo = 'maskSensitiveInfo';
 const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
@@ -332,6 +337,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setDoubleBackToExit(bool value) {
     return localStorage.setBool(doubleBackToExit, value);
+  }
+
+  // Last App Version
+  @override
+  Future<String> getLastAppVersion() async {
+    return Future.value(localStorage.getString(lastAppVersion) ?? '');
+  }
+
+  @override
+  Future<bool> setLastAppVersion(String value) {
+    return localStorage.setString(lastAppVersion, value);
   }
 
   // Last Read Announcement ID
