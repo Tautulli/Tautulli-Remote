@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/widgets/page_body.dart';
+import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../bloc/announcements_bloc.dart';
 import '../widgets/announcement_card.dart';
@@ -25,10 +26,8 @@ class AnnouncementsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(LocaleKeys.announcements_title).tr(),
-      ),
+    return ScaffoldWithInnerDrawer(
+      title: const Text(LocaleKeys.announcements_title).tr(),
       body: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
         builder: (context, state) {
           if (state is AnnouncementsSuccess) {
