@@ -10,6 +10,8 @@ abstract class  LocaleKeys {
   static const add_custom_http_header_button = 'add_custom_http_header_button';
   static const advanced_title = 'advanced_title';
   static const all_title = 'all_title';
+  static const announcements_load_failed_message = 'announcements_load_failed_message';
+  static const announcements_title = 'announcements_title';
   static const app_logs_title = 'app_logs_title';
   static const basic_authentication_title = 'basic_authentication_title';
   static const bugs_and_feature_requests_title = 'bugs_and_feature_requests_title';
@@ -136,6 +138,7 @@ abstract class  LocaleKeys {
   static const primary_connection_address_hint = 'primary_connection_address_hint';
   static const primary_connection_address_title = 'primary_connection_address_title';
   static const privacy_policy_title = 'privacy_policy_title';
+  static const published_title = 'published_title';
   static const reddit_title = 'reddit_title';
   static const register_a_tautulli_server_button = 'register_a_tautulli_server_button';
   static const register_server_button = 'register_server_button';
