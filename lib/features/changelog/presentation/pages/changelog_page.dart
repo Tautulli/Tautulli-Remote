@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/widgets/page_body.dart';
 import '../../../../translations/locale_keys.g.dart';
+import '../../../donate/presentation/pages/donate_page.dart';
 import '../../data/datasources/changelog_data_source.dart';
 import '../widgets/changelog_item.dart';
 
@@ -29,7 +30,14 @@ class ChangelogView extends StatelessWidget {
         actions: [
           TextButton.icon(
             onPressed: () async {
-              await Navigator.of(context).pushNamed('/donate');
+              await Navigator.of(context).push(
+                MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (context) => const DonatePage(
+                    showDrawer: false,
+                  ),
+                ),
+              );
             },
             icon: const FaIcon(
               FontAwesomeIcons.solidHeart,
