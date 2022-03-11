@@ -8,6 +8,7 @@ import '../../../../core/widgets/heading.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
+import '../../../announcements/presentation/bloc/announcements_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_status_bloc.dart';
 import '../bloc/settings_bloc.dart';
@@ -78,6 +79,8 @@ class DataDumpView extends StatelessWidget {
             ),
             const Gap(8),
             const _OneSignalStatus(),
+            const Gap(8),
+            const _AnnouncementsDumpGroup(),
             const Gap(8),
             BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, state) {
@@ -280,6 +283,90 @@ class _OneSignalStatus extends StatelessWidget {
           },
         )
       ],
+    );
+  }
+}
+
+class _AnnouncementsDumpGroup extends StatelessWidget {
+  const _AnnouncementsDumpGroup({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
+      builder: (context, state) {
+        if (state is AnnouncementsSuccess) {
+          return _SettingDumpGroup(
+            title: 'Announcements',
+            widgetList: [
+              _DataDumpRow(
+                children: [
+                  const _DataDumpRowHeading('Unread'),
+                  const Gap(16),
+                  Expanded(
+                    child: Text(
+                      state.unread.toString(),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ],
+              ),
+              _DataDumpRow(
+                children: [
+                  const _DataDumpRowHeading('Total'),
+                  const Gap(16),
+                  Expanded(
+                    child: Text(
+                      state.announcementList.length.toString(),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ],
+              ),
+              _DataDumpRow(
+                children: [
+                  const _DataDumpRowHeading('Filtered'),
+                  const Gap(16),
+                  Expanded(
+                    child: Text(
+                      (state.announcementList.length -
+                              state.filteredList.length)
+                          .toString(),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ],
+              ),
+              _DataDumpRow(
+                children: [
+                  const _DataDumpRowHeading('Max ID'),
+                  const Gap(16),
+                  Expanded(
+                    child: Text(
+                      state.maxId.toString(),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ],
+              ),
+              _DataDumpRow(
+                children: [
+                  const _DataDumpRowHeading('Last Read ID'),
+                  const Gap(16),
+                  Expanded(
+                    child: Text(
+                      state.lastReadAnnouncementId.toString(),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        }
+        if (state is AnnouncementsFailure) {}
+
+        return Container();
+      },
     );
   }
 }
