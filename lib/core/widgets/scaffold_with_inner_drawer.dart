@@ -148,8 +148,13 @@ class _AppDrawer extends StatelessWidget {
                       },
                     ),
                     onTap: () {
-                      Navigator.of(context).pushNamed('/announcements');
-                      // innerDrawerKey.currentState!.close();
+                      if (route?.settings.name != '/announcements') {
+                        Navigator.of(context).pushReplacementNamed(
+                          '/announcements',
+                        );
+                      } else {
+                        innerDrawerKey.currentState!.close();
+                      }
                     },
                   ),
                   ListTile(
@@ -159,8 +164,11 @@ class _AppDrawer extends StatelessWidget {
                     ),
                     title: const Text(LocaleKeys.donate_title).tr(),
                     onTap: () async {
-                      Navigator.of(context).pushNamed('/donate');
-                      // innerDrawerKey.currentState!.close();
+                      if (route?.settings.name != '/donate') {
+                        Navigator.of(context).pushReplacementNamed('/donate');
+                      } else {
+                        innerDrawerKey.currentState!.close();
+                      }
                     },
                   ),
                   ListTile(
