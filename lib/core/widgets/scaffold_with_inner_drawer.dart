@@ -51,7 +51,7 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
                                 ? 0.6
                                 : 0.4,
       ),
-      leftChild: const _AppDrawer(),
+      leftChild: _AppDrawer(innerDrawerKey: _innerDrawerKey),
       scaffold: Scaffold(
         appBar: AppBar(
           leading: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
@@ -85,7 +85,12 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
 }
 
 class _AppDrawer extends StatelessWidget {
-  const _AppDrawer({Key? key}) : super(key: key);
+  final GlobalKey<InnerDrawerState> innerDrawerKey;
+
+  const _AppDrawer({
+    Key? key,
+    required this.innerDrawerKey,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -143,11 +148,8 @@ class _AppDrawer extends StatelessWidget {
                       },
                     ),
                     onTap: () {
-                      if (route?.settings.name != '/announcements') {
-                        Navigator.of(context).pushNamed('/announcements');
-                      } else {
-                        Navigator.pop(context);
-                      }
+                      Navigator.of(context).pushNamed('/announcements');
+                      // innerDrawerKey.currentState!.close();
                     },
                   ),
                   ListTile(
@@ -156,12 +158,9 @@ class _AppDrawer extends StatelessWidget {
                       color: Colors.red,
                     ),
                     title: const Text(LocaleKeys.donate_title).tr(),
-                    onTap: () {
-                      if (route?.settings.name != '/donate') {
-                        Navigator.of(context).pushNamed('/donate');
-                      } else {
-                        Navigator.pop(context);
-                      }
+                    onTap: () async {
+                      Navigator.of(context).pushNamed('/donate');
+                      // innerDrawerKey.currentState!.close();
                     },
                   ),
                   ListTile(
@@ -173,7 +172,7 @@ class _AppDrawer extends StatelessWidget {
                       if (route?.settings.name != '/settings') {
                         Navigator.of(context).pushReplacementNamed('/settings');
                       } else {
-                        Navigator.pop(context);
+                        innerDrawerKey.currentState!.close();
                       }
                     },
                   ),
