@@ -73,6 +73,10 @@ abstract class SettingsRepository {
   Future<bool> getDoubleBackToExit();
   Future<bool> setDoubleBackToExit(bool value);
 
+  // Last Read Announcement ID
+  Future<int> getLastReadAnnouncementId();
+  Future<bool> setLastReadAnnouncementId(int value);
+
   // Mask Sensitive Info
   Future<bool> getMaskSensitiveInfo();
   Future<bool> setMaskSensitiveInfo(bool value);

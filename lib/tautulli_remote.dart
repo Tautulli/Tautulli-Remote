@@ -9,6 +9,8 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'core/database/data/models/server_model.dart';
 import 'core/helpers/color_palette_helper.dart';
 import 'dependency_injection.dart' as di;
+import 'features/announcements/presentation/bloc/announcements_bloc.dart';
+import 'features/announcements/presentation/pages/announcements_page.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
 import 'features/donate/presentation/pages/donate_page.dart';
 import 'features/logging/domain/usecases/logging.dart';
@@ -42,6 +44,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       context.read<OneSignalSubBloc>().add(OneSignalSubCheck());
     });
     context.read<SettingsBloc>().add(const SettingsLoad());
+    context.read<AnnouncementsBloc>().add(AnnouncementsFetch());
   }
 
   Future<void> initalizeOneSignal() async {
@@ -374,6 +377,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         );
       },
       routes: {
+        AnnouncementsPage.routeName: (_) => const AnnouncementsPage(),
         ChangelogPage.routeName: (_) => const ChangelogPage(),
         DonatePage.routeName: (_) => const DonatePage(),
         HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),

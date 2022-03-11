@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/helpers/translation_helper.dart';
 import 'dependency_injection.dart' as di;
+import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_sub_bloc.dart';
@@ -26,6 +27,9 @@ void main() async {
       assetLoader: const CodegenLoader(),
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(
+            create: (context) => di.sl<AnnouncementsBloc>(),
+          ),
           BlocProvider(
             create: (context) => di.sl<OneSignalHealthBloc>(),
           ),

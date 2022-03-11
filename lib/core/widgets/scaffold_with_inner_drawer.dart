@@ -1,3 +1,5 @@
+import 'package:badges/badges.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
@@ -5,7 +7,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../features/announcements/presentation/bloc/announcements_bloc.dart';
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../../translations/locale_keys.g.dart';
 import '../database/data/models/server_model.dart';
 import 'double_back_to_exit.dart';
 import 'page_body.dart';
@@ -50,10 +54,20 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
       leftChild: const _AppDrawer(),
       scaffold: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              _innerDrawerKey.currentState?.open();
+          leading: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
+            builder: (context, state) {
+              return IconButton(
+                icon: Badge(
+                  animationDuration: Duration.zero,
+                  badgeColor: Theme.of(context).colorScheme.secondary,
+                  position: BadgePosition.topEnd(top: 1, end: -2),
+                  showBadge: state is AnnouncementsSuccess && state.unread,
+                  child: const Icon(Icons.menu),
+                ),
+                onPressed: () {
+                  _innerDrawerKey.currentState?.open();
+                },
+              );
             },
           ),
           title: title,
@@ -87,7 +101,6 @@ class _AppDrawer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const _Logo(),
-                  // const Gap(16),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -95,11 +108,8 @@ class _AppDrawer extends StatelessWidget {
                         children: [
                           const _ServerSelector(),
                           // ListTile(
-                          //   // tileColor:
-                          //   //     Theme.of(context).drawerTheme.backgroundColor,
                           //   leading: const FaIcon(
                           //     FontAwesomeIcons.tv,
-                          //     size: 20,
                           //   ),
                           //   title: const Text('Activity'),
                           //   onTap: () {},
@@ -111,15 +121,54 @@ class _AppDrawer extends StatelessWidget {
                   Divider(
                     indent: 8,
                     endIndent: 8,
-                    color: Theme.of(context).colorScheme.tertiary,
+                    color: Theme.of(context).textTheme.subtitle2!.color,
                   ),
                   ListTile(
-                    // tileColor: Theme.of(context).drawerTheme.backgroundColor,
+                    leading: const FaIcon(
+                      FontAwesomeIcons.bullhorn,
+                    ),
+                    title: const Text(LocaleKeys.announcements_title).tr(),
+                    trailing:
+                        BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
+                      builder: (context, state) {
+                        if (state is AnnouncementsSuccess && state.unread) {
+                          return FaIcon(
+                            FontAwesomeIcons.solidCircle,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.secondary,
+                          );
+                        }
+
+                        return const SizedBox(height: 0, width: 0);
+                      },
+                    ),
+                    onTap: () {
+                      if (route?.settings.name != '/announcements') {
+                        Navigator.of(context).pushNamed('/announcements');
+                      } else {
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                  ListTile(
+                    leading: const FaIcon(
+                      FontAwesomeIcons.solidHeart,
+                      color: Colors.red,
+                    ),
+                    title: const Text(LocaleKeys.donate_title).tr(),
+                    onTap: () {
+                      if (route?.settings.name != '/donate') {
+                        Navigator.of(context).pushNamed('/donate');
+                      } else {
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                  ListTile(
                     leading: const FaIcon(
                       FontAwesomeIcons.cogs,
-                      size: 20,
                     ),
-                    title: const Text('Settings'),
+                    title: const Text(LocaleKeys.settings_title).tr(),
                     onTap: () {
                       if (route?.settings.name != '/settings') {
                         Navigator.of(context).pushReplacementNamed('/settings');

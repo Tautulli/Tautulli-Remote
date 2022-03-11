@@ -189,6 +189,21 @@ class Settings {
     return await repository.setDoubleBackToExit(value);
   }
 
+  /// Returns the last read announcement ID.
+  ///
+  /// Used to determine if there are unread announcements and which ones are
+  /// unread.
+  ///
+  /// If no value is stored returns `0`.
+  Future<int> getLastReadAnnouncementId() async {
+    return await repository.getLastReadAnnouncementId();
+  }
+
+  /// Sets the last read announcement ID.
+  Future<bool> setLastReadAnnouncementId(int value) async {
+    return await repository.setLastReadAnnouncementId(value);
+  }
+
   /// Returns if the app should mask sensitive info.
   ///
   /// If no value is stored returns `false`.

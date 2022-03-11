@@ -198,6 +198,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setDoubleBackToExit(value);
   }
 
+  // Last Read Announcement ID
+  @override
+  Future<int> getLastReadAnnouncementId() async {
+    return await dataSource.getLastReadAnnouncementId();
+  }
+
+  @override
+  Future<bool> setLastReadAnnouncementId(int value) async {
+    return await dataSource.setLastReadAnnouncementId(value);
+  }
+
   // Mask Sensitive Info
   @override
   Future<bool> getMaskSensitiveInfo() async {

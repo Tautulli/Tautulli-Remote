@@ -44,7 +44,7 @@ class AppSettingsModel extends Equatable {
 
   Map<String, String> dump() {
     return {
-      'Active Server': activeServer.plexName,
+      'Active Server': '${activeServer.plexName} (${activeServer.id})',
       'Double Back To Exit': doubleBackToExit.toString(),
       'Mask Sensitive Info': maskSensitiveInfo.toString(),
       'OneSignal Banner Dismissed': oneSignalBannerDismissed.toString(),

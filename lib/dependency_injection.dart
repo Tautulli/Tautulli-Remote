@@ -5,6 +5,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tautulli_remote/features/announcements/domain/usecases/announcements.dart';
 
 import 'core/api/tautulli/tautulli_api.dart' as tautulli_api;
 import 'core/device_info/device_info.dart';
@@ -13,6 +14,10 @@ import 'core/manage_cache/manage_cache.dart';
 import 'core/network_info/network_info.dart';
 import 'core/package_information/package_information.dart';
 import 'core/qr_code_scanner/qr_code_scanner.dart';
+import 'features/announcements/data/datasources/announcements_data_source.dart';
+import 'features/announcements/data/repositories/announcements_repository_impl.dart';
+import 'features/announcements/domain/repositories/announcements_repository.dart';
+import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/logging/data/datasources/logging_data_source.dart';
 import 'features/logging/data/repositories/logging_repository_impl.dart';
 import 'features/logging/domain/repositories/logging_repository.dart';
@@ -92,6 +97,36 @@ Future<void> init() async {
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => Connectivity());
   sl.registerLazySingleton(() => DeviceInfoPlugin());
+
+  //! Features - Announcements
+  // Bloc
+  sl.registerFactory(
+    () => AnnouncementsBloc(
+      announcements: sl(),
+      logging: sl(),
+      settings: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => Announcements(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<AnnouncementsRepository>(
+    () => AnnouncementsRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<AnnouncementsDataSource>(
+    () => AnnouncementsDataSourceImpl(dio: sl()),
+  );
 
   //! Features - Logging
   // Bloc
