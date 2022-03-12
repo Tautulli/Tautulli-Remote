@@ -1,6 +1,25 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.5",
+      "date": "March 11, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added Announcements page",
+        },
+        {
+          "type": "improvement",
+          "detail": "Show changelog on start after app update",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added Donate page to Inner Drawer",
+          "additional": "Donate page still won't work properly during Alpha",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.4",
       "date": "March 9, 2022",
       "changes": [
