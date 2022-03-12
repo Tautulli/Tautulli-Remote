@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tautulli_remote/core/package_information/package_information.dart';
 
 import 'core/helpers/translation_helper.dart';
+import 'core/package_information/package_information.dart';
 import 'dependency_injection.dart' as di;
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
