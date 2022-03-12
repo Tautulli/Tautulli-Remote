@@ -19,10 +19,25 @@ class AnnouncementsView extends StatelessWidget {
   }
 }
 
-class AnnouncementsPage extends StatelessWidget {
+class AnnouncementsPage extends StatefulWidget {
   const AnnouncementsPage({Key? key}) : super(key: key);
 
   static const routeName = '/announcements';
+
+  @override
+  State<AnnouncementsPage> createState() => _AnnouncementsPageState();
+}
+
+class _AnnouncementsPageState extends State<AnnouncementsPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 2)).then(
+      (_) => context.read<AnnouncementsBloc>().add(
+            AnnouncementsMarkRead(),
+          ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,30 +46,20 @@ class AnnouncementsPage extends StatelessWidget {
       body: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
         builder: (context, state) {
           if (state is AnnouncementsSuccess) {
-            return WillPopScope(
-              onWillPop: () {
-                if (state.unread) {
-                  context
-                      .read<AnnouncementsBloc>()
-                      .add(AnnouncementsMarkRead());
-                }
-                return Future.value(true);
-              },
-              child: PageBody(
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: state.announcementList.length,
-                  separatorBuilder: (context, index) => const Gap(8),
-                  itemBuilder: (context, index) {
-                    final announcement = state.announcementList[index];
-                    return Card(
-                      child: AnnouncementCard(
-                        announcement: announcement,
-                        lastReadAnnouncementId: state.lastReadAnnouncementId,
-                      ),
-                    );
-                  },
-                ),
+            return PageBody(
+              child: ListView.separated(
+                padding: const EdgeInsets.all(8),
+                itemCount: state.announcementList.length,
+                separatorBuilder: (context, index) => const Gap(8),
+                itemBuilder: (context, index) {
+                  final announcement = state.announcementList[index];
+                  return Card(
+                    child: AnnouncementCard(
+                      announcement: announcement,
+                      lastReadAnnouncementId: state.lastReadAnnouncementId,
+                    ),
+                  );
+                },
               ),
             );
           }
