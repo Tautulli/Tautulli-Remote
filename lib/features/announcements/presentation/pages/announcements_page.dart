@@ -33,9 +33,18 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2)).then(
-      (_) => context.read<AnnouncementsBloc>().add(
-            AnnouncementsMarkRead(),
-          ),
+      (_) {
+        final announcementsBloc = context.read<AnnouncementsBloc>();
+
+        if (announcementsBloc.state is AnnouncementsSuccess) {
+          final currentState = announcementsBloc.state as AnnouncementsSuccess;
+          if (currentState.unread) {
+            context.read<AnnouncementsBloc>().add(
+                  AnnouncementsMarkRead(),
+                );
+          }
+        }
+      },
     );
   }
 
