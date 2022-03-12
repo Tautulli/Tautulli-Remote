@@ -95,6 +95,7 @@ class AnnouncementsBloc extends Bloc<AnnouncementsEvent, AnnouncementsState> {
       final currentState = state as AnnouncementsSuccess;
 
       await settings.setLastReadAnnouncementId(currentState.maxId);
+      logging.info('Announcements :: Marked read');
 
       emit(
         currentState.copyWith(
