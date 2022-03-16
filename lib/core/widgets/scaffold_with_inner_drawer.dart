@@ -30,27 +30,38 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final GlobalKey<InnerDrawerState> _innerDrawerKey =
         GlobalKey<InnerDrawerState>();
-    final double screenAspect = MediaQuery.of(context).size.aspectRatio;
+
+    double calculateDrawerOffset() {
+      // Tested Virtual Devices Sizes
+      // Pixel C portrait: 900 x 1224
+      // Pixel 4 portrait: 392.72727272727275 x 781.0909090909091
+      // Pixel 6 portrait: 360 x 752
+      // 7.6" Foldable (closed) portrait: 294.6666666666667 x 688
+      // 7.6" Foldable (open) portrait: 589.3333333333334 x 688
+      // Galaxy Tab S8 portrait: 1066.6666666666667 x 1650.6666666666667
+      // S22 Ultra 5G portrait: 480 x 981.3333333333334
+      // OnePlus 7T portrait: 360 x 752
+
+      final double width = MediaQuery.of(context).size.width;
+
+      if (width >= 1600) return -0.65; // Tuned on Galaxy Tab S8
+      if (width >= 1200) return -0.55; // Tuned on Pixel C
+      if (width >= 1000) return -0.4; // Tuned on Galaxy Tab S8
+      if (width >= 900) return -0.35; // Tuned on Pixel C
+      if (width >= 700) return -0.3; // Tuned on Pixel 4
+      if (width >= 600) return -0.25; // Tuned on 7.6" Foldable Open
+      if (width >= 500) return -0.15; // Tuned on 7.6" Foldable Open
+      if (width >= 400) return 0.25; // Tuned on S22 Ultra 5G
+      if (width >= 300) return 0.6; // Tuned on Pixel 6
+      if (width >= 200) return 0.7; // Tuned on 7.6" Foldable Closed
+      return 0.4;
+    }
 
     return InnerDrawer(
       key: _innerDrawerKey,
       onTapClose: true,
       swipeChild: true,
-      offset: IDOffset.horizontal(
-        screenAspect > 2.5
-            ? -0.4
-            : screenAspect > 1.2 && screenAspect < 1.5
-                ? -0.35
-                : screenAspect > 1
-                    ? -0.2
-                    : screenAspect > 0.85
-                        ? -0.1
-                        : screenAspect > 0.70
-                            ? -0.2
-                            : screenAspect < 0.43
-                                ? 0.6
-                                : 0.4,
-      ),
+      offset: IDOffset.horizontal(calculateDrawerOffset()),
       leftChild: _AppDrawer(innerDrawerKey: _innerDrawerKey),
       scaffold: Scaffold(
         appBar: AppBar(
@@ -106,19 +117,19 @@ class _AppDrawer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const _Logo(),
+                  const _ServerSelector(),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const _ServerSelector(),
-                          // ListTile(
-                          //   leading: const FaIcon(
-                          //     FontAwesomeIcons.tv,
-                          //   ),
-                          //   title: const Text('Activity'),
-                          //   onTap: () {},
-                          // ),
+                          ListTile(
+                            leading: const FaIcon(
+                              FontAwesomeIcons.tv,
+                            ),
+                            title: const Text('Activity'),
+                            onTap: () {},
+                          ),
                         ],
                       ),
                     ),
@@ -208,6 +219,7 @@ class _Logo extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Needed for space behind status bar
           Container(
