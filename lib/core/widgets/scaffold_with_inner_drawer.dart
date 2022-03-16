@@ -106,6 +106,7 @@ class _AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final route = ModalRoute.of(context);
+    final double height = MediaQuery.of(context).size.height;
 
     return Drawer(
       child: SafeArea(
@@ -116,84 +117,32 @@ class _AppDrawer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const _Logo(),
+                  if (height > 500) const _Logo(),
+                  if (height <= 500)
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.top,
+                    ),
                   const _ServerSelector(),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          ListTile(
-                            leading: const FaIcon(
-                              FontAwesomeIcons.tv,
-                            ),
-                            title: const Text('Activity'),
-                            onTap: () {},
-                          ),
+                          // ListTile(
+                          //   leading: const FaIcon(
+                          //     FontAwesomeIcons.tv,
+                          //   ),
+                          //   title: const Text('Activity'),
+                          //   onTap: () {},
+                          // ),
                         ],
                       ),
                     ),
                   ),
-                  Divider(
-                    indent: 8,
-                    endIndent: 8,
-                    color: Theme.of(context).textTheme.subtitle2!.color,
-                  ),
-                  ListTile(
-                    leading: const FaIcon(
-                      FontAwesomeIcons.bullhorn,
-                    ),
-                    title: const Text(LocaleKeys.announcements_title).tr(),
-                    trailing:
-                        BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
-                      builder: (context, state) {
-                        if (state is AnnouncementsSuccess && state.unread) {
-                          return FaIcon(
-                            FontAwesomeIcons.solidCircle,
-                            size: 12,
-                            color: Theme.of(context).colorScheme.secondary,
-                          );
-                        }
-
-                        return const SizedBox(height: 0, width: 0);
-                      },
-                    ),
-                    onTap: () {
-                      if (route?.settings.name != '/announcements') {
-                        Navigator.of(context).pushReplacementNamed(
-                          '/announcements',
-                        );
-                      } else {
-                        innerDrawerKey.currentState!.close();
-                      }
-                    },
-                  ),
-                  ListTile(
-                    leading: const FaIcon(
-                      FontAwesomeIcons.solidHeart,
-                      color: Colors.red,
-                    ),
-                    title: const Text(LocaleKeys.donate_title).tr(),
-                    onTap: () async {
-                      if (route?.settings.name != '/donate') {
-                        Navigator.of(context).pushReplacementNamed('/donate');
-                      } else {
-                        innerDrawerKey.currentState!.close();
-                      }
-                    },
-                  ),
-                  ListTile(
-                    leading: const FaIcon(
-                      FontAwesomeIcons.cogs,
-                    ),
-                    title: const Text(LocaleKeys.settings_title).tr(),
-                    onTap: () {
-                      if (route?.settings.name != '/settings') {
-                        Navigator.of(context).pushReplacementNamed('/settings');
-                      } else {
-                        innerDrawerKey.currentState!.close();
-                      }
-                    },
+                  _SettingsGroup(
+                    innerDrawerKey: innerDrawerKey,
+                    route: route,
+                    useListTiles: height > 500,
                   ),
                 ],
               ),
@@ -357,6 +306,158 @@ class __ServerSelectorState extends State<_ServerSelector> {
 
         return const SizedBox(height: 0, width: 0);
       },
+    );
+  }
+}
+
+class _SettingsGroup extends StatelessWidget {
+  final GlobalKey<InnerDrawerState> innerDrawerKey;
+  final ModalRoute<Object?>? route;
+  final bool useListTiles;
+
+  const _SettingsGroup({
+    Key? key,
+    required this.innerDrawerKey,
+    required this.route,
+    this.useListTiles = true,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (useListTiles) {
+      return Column(
+        children: [
+          Divider(
+            indent: 8,
+            endIndent: 8,
+            color: Theme.of(context).textTheme.subtitle2!.color,
+          ),
+          ListTile(
+            leading: const FaIcon(
+              FontAwesomeIcons.bullhorn,
+            ),
+            title: const Text(LocaleKeys.announcements_title).tr(),
+            trailing: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
+              builder: (context, state) {
+                if (state is AnnouncementsSuccess && state.unread) {
+                  return FaIcon(
+                    FontAwesomeIcons.solidCircle,
+                    size: 12,
+                    color: Theme.of(context).colorScheme.secondary,
+                  );
+                }
+
+                return const SizedBox(height: 0, width: 0);
+              },
+            ),
+            onTap: () {
+              if (route?.settings.name != '/announcements') {
+                Navigator.of(context).pushReplacementNamed(
+                  '/announcements',
+                );
+              } else {
+                innerDrawerKey.currentState!.close();
+              }
+            },
+          ),
+          ListTile(
+            leading: const FaIcon(
+              FontAwesomeIcons.solidHeart,
+              color: Colors.red,
+            ),
+            title: const Text(LocaleKeys.donate_title).tr(),
+            onTap: () async {
+              if (route?.settings.name != '/donate') {
+                Navigator.of(context).pushReplacementNamed('/donate');
+              } else {
+                innerDrawerKey.currentState!.close();
+              }
+            },
+          ),
+          ListTile(
+            leading: const FaIcon(
+              FontAwesomeIcons.cogs,
+            ),
+            title: const Text(LocaleKeys.settings_title).tr(),
+            onTap: () {
+              if (route?.settings.name != '/settings') {
+                Navigator.of(context).pushReplacementNamed('/settings');
+              } else {
+                innerDrawerKey.currentState!.close();
+              }
+            },
+          ),
+        ],
+      );
+    }
+
+    return IntrinsicHeight(
+      child: Column(
+        children: [
+          Divider(
+            height: 0,
+            indent: 8,
+            endIndent: 8,
+            color: Theme.of(context).textTheme.subtitle2!.color,
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
+                  builder: (context, state) {
+                    return Badge(
+                      animationDuration: Duration.zero,
+                      badgeColor: Theme.of(context).colorScheme.secondary,
+                      position: BadgePosition.topEnd(top: 7, end: 5),
+                      showBadge: state is AnnouncementsSuccess && state.unread,
+                      child: IconButton(
+                        icon: const FaIcon(
+                          FontAwesomeIcons.bullhorn,
+                        ),
+                        onPressed: () {
+                          if (route?.settings.name != '/announcements') {
+                            Navigator.of(context).pushReplacementNamed(
+                              '/announcements',
+                            );
+                          } else {
+                            innerDrawerKey.currentState!.close();
+                          }
+                        },
+                      ),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const FaIcon(
+                    FontAwesomeIcons.solidHeart,
+                    color: Colors.red,
+                  ),
+                  onPressed: () {
+                    if (route?.settings.name != '/donate') {
+                      Navigator.of(context).pushReplacementNamed('/donate');
+                    } else {
+                      innerDrawerKey.currentState!.close();
+                    }
+                  },
+                ),
+                IconButton(
+                  icon: const FaIcon(
+                    FontAwesomeIcons.cogs,
+                  ),
+                  onPressed: () {
+                    if (route?.settings.name != '/settings') {
+                      Navigator.of(context).pushReplacementNamed('/settings');
+                    } else {
+                      innerDrawerKey.currentState!.close();
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
