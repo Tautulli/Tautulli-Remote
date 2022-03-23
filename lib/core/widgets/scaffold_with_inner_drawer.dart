@@ -13,6 +13,7 @@ import '../../translations/locale_keys.g.dart';
 import '../database/data/models/server_model.dart';
 import 'double_back_to_exit.dart';
 import 'page_body.dart';
+import 'tautulli_logo_title.dart';
 
 class ScaffoldWithInnerDrawer extends StatelessWidget {
   final Widget title;
@@ -177,48 +178,13 @@ class _Logo extends StatelessWidget {
           ),
           const Gap(8),
           // Logo section
-          FittedBox(
+          const FittedBox(
             child: Padding(
-              padding: const EdgeInsets.only(
+              padding: EdgeInsets.only(
                 left: 8,
                 right: 16,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: 70,
-                        padding: const EdgeInsets.only(right: 3),
-                        child: Image.asset('assets/logos/logo_transparent.png'),
-                      ),
-                      RichText(
-                        text: const TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Tautulli',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'Remote',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              child: TautulliLogoTitle(),
             ),
           ),
           const Gap(16),
