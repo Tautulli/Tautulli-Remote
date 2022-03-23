@@ -23,6 +23,19 @@ void main() async {
   Future<String?> calculateInitialRoute() async {
     final runningVersion = await PackageInformationImpl().version;
     final lastAppVersion = await di.sl<Settings>().getLastAppVersion();
+    final bool wizardComplete = await di.sl<Settings>().getWizardComplete();
+
+    if (!wizardComplete) {
+      final serversExist = await di.sl<Settings>().getAllServers().then(
+            (value) => value.isNotEmpty,
+          );
+      // Mark wizard as complete for users who added servers before wizard existed
+      if (serversExist) {
+        await di.sl<Settings>().setWizardComplete(true);
+      } else {
+        return Future.value('/wizard');
+      }
+    }
 
     if (runningVersion != lastAppVersion) {
       await di.sl<Settings>().setLastAppVersion(runningVersion);

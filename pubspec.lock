@@ -571,6 +571,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  im_stepper:
+    dependency: "direct main"
+    description:
+      name: im_stepper
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   image:
     dependency: transitive
     description:
