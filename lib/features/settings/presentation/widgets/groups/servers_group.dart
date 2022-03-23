@@ -10,9 +10,15 @@ import '../../../../../core/widgets/heading.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/settings_bloc.dart';
 import '../../pages/server_settings_page.dart';
+import '../delete_server_button.dart';
 
 class ServersGroup extends StatelessWidget {
-  const ServersGroup({Key? key}) : super(key: key);
+  final bool isWizard;
+
+  const ServersGroup({
+    Key? key,
+    this.isWizard = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +67,23 @@ class ServersGroup extends StatelessWidget {
                             subtitle: server.primaryActive!
                                 ? server.primaryConnectionAddress
                                 : server.secondaryConnectionAddress,
-                            onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ServerSettingsPage(serverId: server.id!),
-                              ),
-                            ),
+                            onTap: isWizard
+                                ? null
+                                : () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ServerSettingsPage(
+                                          serverId: server.id!,
+                                        ),
+                                      ),
+                                    ),
+                            trailing: isWizard
+                                ? DeleteServerButton(
+                                    isWizard: isWizard,
+                                    serverId: server.id!,
+                                    server: server,
+                                  )
+                                : null,
                           ),
                         )
                         .toList()
