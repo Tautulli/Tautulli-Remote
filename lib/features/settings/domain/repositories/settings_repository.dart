@@ -100,4 +100,8 @@ abstract class SettingsRepository {
   // Server Timeout
   Future<int> getServerTimeout();
   Future<bool> setServerTimeout(int value);
+
+  // Wizard Complete
+  Future<bool> getWizardComplete();
+  Future<bool> setWizardComplete(bool value);
 }

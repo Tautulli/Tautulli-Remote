@@ -307,6 +307,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         oneSignalConsented: await settings.getOneSignalConsented(),
         serverTimeout: await settings.getServerTimeout(),
         refreshRate: await settings.getRefreshRate(),
+        wizardComplete: await settings.getWizardComplete(),
       );
 
       emit(

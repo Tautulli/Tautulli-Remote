@@ -274,4 +274,15 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<bool> setServerTimeout(int value) async {
     return await dataSource.setServerTimeout(value);
   }
+
+  // Wizard Complete
+  @override
+  Future<bool> getWizardComplete() async {
+    return await dataSource.getWizardComplete();
+  }
+
+  @override
+  Future<bool> setWizardComplete(bool value) async {
+    return await dataSource.setWizardComplete(value);
+  }
 }

@@ -281,4 +281,17 @@ class Settings {
   Future<bool> setServerTimeout(int value) async {
     return await repository.setServerTimeout(value);
   }
+
+  /// Whether the wizard was exited early or fully completed.
+  ///
+  /// If no value is stored returns `false`.
+  Future<bool> getWizardComplete() async {
+    return await repository.getWizardComplete();
+  }
+
+  /// Sets that the wizard has been exited or completed to prevent it from
+  /// showing on app start.
+  Future<bool> setWizardComplete(bool value) async {
+    return await repository.setWizardComplete(value);
+  }
 }

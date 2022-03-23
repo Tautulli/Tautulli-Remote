@@ -106,6 +106,10 @@ abstract class SettingsDataSource {
   // Server Timeout
   Future<int> getServerTimeout();
   Future<bool> setServerTimeout(int value);
+
+  // Wizard Complete
+  Future<bool> getWizardComplete();
+  Future<bool> setWizardComplete(bool value);
 }
 
 const activeServerId = 'activeServerId';
@@ -118,6 +122,7 @@ const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
 const oneSignalConsented = 'oneSignalConsented';
 const refreshRate = 'refreshRate';
 const serverTimeout = 'serverTimeout';
+const wizardComplete = 'wizardComplete';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
   final DeviceInfo deviceInfo;
@@ -418,5 +423,16 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setServerTimeout(int value) {
     return localStorage.setInt(serverTimeout, value);
+  }
+
+  // Wizard Complete
+  @override
+  Future<bool> getWizardComplete() async {
+    return Future.value(localStorage.getBool(wizardComplete) ?? false);
+  }
+
+  @override
+  Future<bool> setWizardComplete(bool value) {
+    return localStorage.setBool(wizardComplete, value);
   }
 }
