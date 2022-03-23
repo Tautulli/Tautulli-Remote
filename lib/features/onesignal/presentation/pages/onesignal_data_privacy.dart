@@ -9,18 +9,28 @@ import '../widgets/onesignal_data_privacy_list_tile.dart';
 import '../widgets/onesignal_data_privacy_text.dart';
 
 class OneSignalDataPrivacyPage extends StatelessWidget {
-  const OneSignalDataPrivacyPage({Key? key}) : super(key: key);
+  final bool showToggle;
+
+  const OneSignalDataPrivacyPage({
+    Key? key,
+    this.showToggle = true,
+  }) : super(key: key);
 
   static const routeName = '/onesignal_privacy';
 
   @override
   Widget build(BuildContext context) {
-    return const OneSignalDataPrivacyView();
+    return OneSignalDataPrivacyView(showToggle: showToggle);
   }
 }
 
 class OneSignalDataPrivacyView extends StatelessWidget {
-  const OneSignalDataPrivacyView({Key? key}) : super(key: key);
+  final bool showToggle;
+
+  const OneSignalDataPrivacyView({
+    Key? key,
+    required this.showToggle,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +43,15 @@ class OneSignalDataPrivacyView extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: const [
-              OnesignalDataPrivacyText(),
-              Gap(8),
-              ListTileGroup(
-                listTiles: [
-                  OneSignalDataPrivacyListTile(),
-                ],
-              ),
+            children: [
+              const OnesignalDataPrivacyText(),
+              if (showToggle) const Gap(8),
+              if (showToggle)
+                const ListTileGroup(
+                  listTiles: [
+                    OneSignalDataPrivacyListTile(),
+                  ],
+                ),
             ],
           ),
         ),
