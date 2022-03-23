@@ -19,6 +19,7 @@ abstract class  LocaleKeys {
   static const cannot_be_blank_message = 'cannot_be_blank_message';
   static const certificate_verification_failed_content = 'certificate_verification_failed_content';
   static const certificate_verification_failed_title = 'certificate_verification_failed_title';
+  static const change_language_button = 'change_language_button';
   static const changelog_title = 'changelog_title';
   static const check_again_button = 'check_again_button';
   static const clear_image_cache_dialog_content = 'clear_image_cache_dialog_content';
@@ -139,6 +140,7 @@ abstract class  LocaleKeys {
   static const primary_connection_address_title = 'primary_connection_address_title';
   static const privacy_policy_title = 'privacy_policy_title';
   static const published_title = 'published_title';
+  static const quit_button = 'quit_button';
   static const reddit_title = 'reddit_title';
   static const register_a_tautulli_server_button = 'register_a_tautulli_server_button';
   static const register_server_button = 'register_server_button';
@@ -169,6 +171,7 @@ abstract class  LocaleKeys {
   static const settings_loading_message = 'settings_loading_message';
   static const settings_title = 'settings_title';
   static const settings_and_operations_title = 'settings_and_operations_title';
+  static const skip_button = 'skip_button';
   static const slow_title = 'slow_title';
   static const slower_title = 'slower_title';
   static const status_title = 'status_title';
@@ -178,9 +181,25 @@ abstract class  LocaleKeys {
   static const translate_tautulli_remote_title = 'translate_tautulli_remote_title';
   static const trust_button = 'trust_button';
   static const username_title = 'username_title';
+  static const view_onesignal_privacy_button = 'view_onesignal_privacy_button';
   static const view_privacy_page_button = 'view_privacy_page_button';
   static const password_title = 'password_title';
   static const qr_code_scan_error_snackbar_message = 'qr_code_scan_error_snackbar_message';
   static const wiki_title = 'wiki_title';
+  static const wizard_closing_announcements = 'wizard_closing_announcements';
+  static const wizard_closing_notifications = 'wizard_closing_notifications';
+  static const wizard_closing_support = 'wizard_closing_support';
+  static const wizard_closing_title = 'wizard_closing_title';
+  static const wizard_closing_translate = 'wizard_closing_translate';
+  static const wizard_onesignal_allow_title = 'wizard_onesignal_allow_title';
+  static const wizard_onesignal_text_1 = 'wizard_onesignal_text_1';
+  static const wizard_onesignal_text_2 = 'wizard_onesignal_text_2';
+  static const wizard_skip_dialog_message_onesignal = 'wizard_skip_dialog_message_onesignal';
+  static const wizard_skip_dialog_message_servers = 'wizard_skip_dialog_message_servers';
+  static const wizard_skip_dialog_title = 'wizard_skip_dialog_title';
+  static const wizard_quit_dialog_title = 'wizard_quit_dialog_title';
+  static const wizard_welcome_text_1 = 'wizard_welcome_text_1';
+  static const wizard_welcome_text_2 = 'wizard_welcome_text_2';
+  static const wizard_welcome_text_3 = 'wizard_welcome_text_3';
 
 }
