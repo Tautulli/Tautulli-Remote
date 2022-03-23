@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/widgets/notice_card.dart';
 import '../../../../core/widgets/page_body.dart';
 
 class HowToTestPage extends StatelessWidget {
@@ -27,7 +28,7 @@ class HowToTestView extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(8),
           children: [
-            _ItemCard(
+            NoticeCard(
               color: PlexColorPalette.curiousBlue.withAlpha(230),
               leading: const FaIcon(
                 FontAwesomeIcons.flask,
@@ -38,7 +39,7 @@ class HowToTestView extends StatelessWidget {
                   'Try every setting, feature, and function you can in Tautulli Remote.',
             ),
             const Gap(8),
-            _ItemCard(
+            NoticeCard(
               color: Theme.of(context).colorScheme.error,
               leading: const FaIcon(
                 FontAwesomeIcons.dumpsterFire,
@@ -49,7 +50,7 @@ class HowToTestView extends StatelessWidget {
                   'Your goal is to intentionally break things. Try doing things in a strange order and exploit as many edge cases as you can.',
             ),
             const Gap(8),
-            _ItemCard(
+            NoticeCard(
               color: Colors.brown[800],
               leading: const FaIcon(
                 FontAwesomeIcons.poo,
@@ -60,7 +61,7 @@ class HowToTestView extends StatelessWidget {
                   "View your app's status and data using the Data Dump page under the Testing section of Settings.",
             ),
             const Gap(8),
-            const _ItemCard(
+            const NoticeCard(
               color: Color.fromRGBO(88, 101, 242, 0.9),
               leading: FaIcon(
                 FontAwesomeIcons.discord,
@@ -71,7 +72,7 @@ class HowToTestView extends StatelessWidget {
                   'Visit the dedicated Discord channel #v3-alpha-discussion to chat about the new alpha.',
             ),
             const Gap(8),
-            _ItemCard(
+            NoticeCard(
               color: PlexColorPalette.atlantis.withAlpha(200),
               leading: const FaIcon(
                 FontAwesomeIcons.solidComment,
@@ -82,7 +83,7 @@ class HowToTestView extends StatelessWidget {
                   "Submit bugs under Help & Support on the Settings page. Don't forget to mention it's for the alpha!",
             ),
             const Gap(8),
-            _ItemCard(
+            NoticeCard(
               color: Theme.of(context).colorScheme.secondary.withAlpha(230),
               leading: const FaIcon(
                 FontAwesomeIcons.solidLightbulb,
@@ -91,54 +92,6 @@ class HowToTestView extends StatelessWidget {
               title: 'Got An Idea?',
               content:
                   "Submit feature requests under Help & Support on the Settings page. Don't forget to mention it's for the alpha!",
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ItemCard extends StatelessWidget {
-  final Widget leading;
-  final String title;
-  final String? content;
-  final Color? color;
-
-  const _ItemCard({
-    Key? key,
-    required this.leading,
-    required this.title,
-    this.content,
-    this.color,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: color ?? Theme.of(context).cardTheme.color,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            SizedBox(
-              width: 40,
-              child: leading,
-            ),
-            const Gap(16),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  if (content != null) const Gap(4),
-                  if (content != null) Text(content!),
-                ],
-              ),
             ),
           ],
         ),
