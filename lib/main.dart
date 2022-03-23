@@ -25,6 +25,8 @@ void main() async {
     final lastAppVersion = await di.sl<Settings>().getLastAppVersion();
     final bool wizardComplete = await di.sl<Settings>().getWizardComplete();
 
+    String? routeToReturn;
+
     if (!wizardComplete) {
       final serversExist = await di.sl<Settings>().getAllServers().then(
             (value) => value.isNotEmpty,
@@ -33,15 +35,16 @@ void main() async {
       if (serversExist) {
         await di.sl<Settings>().setWizardComplete(true);
       } else {
-        return Future.value('/wizard');
+        routeToReturn ??= '/wizard';
       }
     }
 
     if (runningVersion != lastAppVersion) {
       await di.sl<Settings>().setLastAppVersion(runningVersion);
-      return Future.value('/changelog');
+      routeToReturn ??= '/changelog';
     }
-    return Future.value(null);
+
+    return Future.value(routeToReturn);
   }
 
   final initialRoute = await calculateInitialRoute();
