@@ -50,15 +50,16 @@ class AnnouncementCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (announcement.id > lastReadAnnouncementId)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 4),
-                          child: FaIcon(
-                            FontAwesomeIcons.solidCircle,
-                            size: 10,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4),
+                        child: FaIcon(
+                          FontAwesomeIcons.solidCircle,
+                          size: 10,
+                          color: announcement.id > lastReadAnnouncementId
+                              ? Theme.of(context).colorScheme.secondary
+                              : Colors.transparent,
                         ),
+                      ),
                     ],
                   ),
                   const Gap(4),
