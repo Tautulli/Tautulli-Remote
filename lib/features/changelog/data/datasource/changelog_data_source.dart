@@ -3,6 +3,20 @@
 Map changelog = {
   "data": [
     {
+      "version": "v2.13.3",
+      "date": "March 24, 2022",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Update to Flutter 2.10.3",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix missing loading indicator on Activity page",
+        },
+      ],
+    },
+    {
       "version": "v2.13.2",
       "date": "October 31, 2021",
       "changes": [
