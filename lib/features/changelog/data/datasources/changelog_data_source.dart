@@ -1,6 +1,36 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.6",
+      "date": "March 23, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added Setup Wizard",
+          "additional": "Please clear app data and launch the app to test",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Tuned Inner Drawer to look better across a variety of screen sizes",
+        },
+        {
+          "type": "improvement",
+          "detail": "Fixed issue with how old translations were moved over",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for French and German",
+          "additional": "Thanks @NathanBnm and @strausmann",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Server Selector would not correctly display the active server after adding servers for the first time",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.5",
       "date": "March 11, 2022",
       "changes": [
