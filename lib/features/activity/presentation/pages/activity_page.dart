@@ -214,7 +214,11 @@ class _ActivityPageContentState extends State<ActivityPageContent>
               ],
             );
           }
-          return const SizedBox(height: 0, width: 0);
+          return Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).accentColor,
+            ),
+          );
         },
       ),
     );
