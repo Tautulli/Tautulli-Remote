@@ -97,7 +97,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsAddServer event,
     Emitter<SettingsState> emit,
   ) async {
-    final currentState = state as SettingsSuccess;
+    SettingsSuccess currentState = state as SettingsSuccess;
 
     final ConnectionAddressModel primaryConnectionAddress =
         ConnectionAddressModel.fromConnectionAddress(
@@ -151,10 +151,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       await settings.setActiveServerId(server.tautulliId);
       logging.debug("Settings :: Active server set to '${server.plexName}'");
 
-      emit(
-        currentState.copyWith(
-          appSettings: currentState.appSettings.copyWith(activeServer: server),
+      currentState = currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          activeServer: server,
         ),
+      );
+
+      emit(
+        currentState,
       );
     }
 
