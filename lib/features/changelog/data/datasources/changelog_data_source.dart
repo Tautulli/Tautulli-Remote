@@ -1,6 +1,16 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.7",
+      "date": "March 25, 2022",
+      "changes": [
+        {
+          "type": "fix",
+          "detail": "Manually trusting a certificate would fail",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.6",
       "date": "March 23, 2022",
       "changes": [
