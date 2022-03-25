@@ -7,12 +7,10 @@ abstract class AnnouncementsDataSource {
 }
 
 class AnnouncementsDataSourceImpl implements AnnouncementsDataSource {
-  final Dio dio;
-
-  AnnouncementsDataSourceImpl({required this.dio});
-
   @override
   Future<List<AnnouncementModel>> getAnnouncements() async {
+    Dio dio = Dio();
+
     final response = await dio.get(
       'https://tautulli.com/news/tautulli-remote-announcements.json',
       options: Options(

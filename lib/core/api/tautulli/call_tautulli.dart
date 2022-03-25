@@ -24,10 +24,6 @@ abstract class CallTautulli {
 }
 
 class CallTautulliImpl implements CallTautulli {
-  final Dio dio;
-
-  CallTautulliImpl({required this.dio});
-
   @override
   Future<Either<Uri, dynamic>> call({
     required String connectionProtocol,
@@ -62,6 +58,8 @@ class CallTautulliImpl implements CallTautulli {
     if (cmd == 'pms_image_proxy') {
       return Left(uri);
     }
+
+    Dio dio = Dio();
 
     //* Handle Custom Certs
     // Get list of custom cert hashes

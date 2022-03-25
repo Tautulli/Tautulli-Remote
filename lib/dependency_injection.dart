@@ -1,6 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -44,7 +43,7 @@ final sl = GetIt.instance;
 Future<void> init() async {
   //! Core - API
   sl.registerLazySingleton<tautulli_api.CallTautulli>(
-    () => tautulli_api.CallTautulliImpl(dio: sl()),
+    () => tautulli_api.CallTautulliImpl(),
   );
   sl.registerLazySingleton<tautulli_api.ConnectionHandler>(
     () => tautulli_api.ConnectionHandlerImpl(sl()),
@@ -92,7 +91,6 @@ Future<void> init() async {
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => DefaultCacheManager());
-  sl.registerLazySingleton(() => Dio());
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => Connectivity());
@@ -125,7 +123,7 @@ Future<void> init() async {
 
   // Data sources
   sl.registerLazySingleton<AnnouncementsDataSource>(
-    () => AnnouncementsDataSourceImpl(dio: sl()),
+    () => AnnouncementsDataSourceImpl(),
   );
 
   //! Features - Logging
