@@ -1,1 +1,24 @@
-{}
+{
+    "announcements_title": "Kunngjøringer",
+    "bugs_and_feature_requests_title": "Feil/Funskjon-etterspørsel",
+    "cannot_be_blank_message": "Kan ikke være blank",
+    "certificate_verification_failed_title": "Sertifikat Verifikasjonen Mislyktes",
+    "advanced_title": "Avansert",
+    "all_title": "Alle",
+    "cancel_button": "AVBRYT",
+    "clear_image_cache_dialog_content": "Er du sikker på at du vil tømme cachen?",
+    "clear_image_cache_snackbar_message": "Bildecache tømt",
+    "clear_image_cache_subtitle": "Slette cachede plakater og kunstverk",
+    "clear_image_cache_title": "Rens Bilde Cache",
+    "close_button": "LUKK",
+    "contact_support_button": "KONTAKT STØTTE",
+    "basic_authentication_title": "Enkel Autentisering",
+    "certificate_verification_failed_content": "Sertifikatet for denne serveren kunne ikke bli autentifisert og kan være selv-signert. Velger du å stole på sertifikatet?",
+    "announcements_load_failed_message": "Klarte ikke laste inn kunngjøringer.",
+    "check_again_button": "SJEKK IGJEN",
+    "app_logs_title": "Applikasjon Logger",
+    "change_language_button": "Bytt Språk",
+    "changelog_title": "Endringslogg",
+    "clear_button": "TØM",
+    "connection_details_title": "Tilkoblingsdetaljer"
+}
