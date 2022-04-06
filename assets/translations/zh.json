@@ -1,1 +1,16 @@
-{}
+{
+    "announcements_load_failed_message": "载入公告失败。",
+    "announcements_title": "公告",
+    "bugs_and_feature_requests_title": "Bugs/Feature 请求",
+    "cancel_button": "取消",
+    "about_title": "关于",
+    "accepted_title": "接受",
+    "active_connection_content": "这是当前Tautulli Remote使用的连接地址。",
+    "active_connection_title": "活动连接",
+    "activity_refresh_rate_title": "活动刷新率",
+    "add_custom_http_header_button": "添加自定义HTTP头",
+    "advanced_title": "高级",
+    "all_title": "全部",
+    "app_logs_title": "应用日志",
+    "basic_authentication_title": "基本认证"
+}
