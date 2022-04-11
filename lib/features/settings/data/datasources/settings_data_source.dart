@@ -146,11 +146,6 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   Future<Tuple2<PlexInfoModel, bool>> getPlexInfo(String tautulliId) async {
     final result = await getServerInfoApi(tautulliId: tautulliId);
 
-    // If the response result is not success throw ServerException.
-    if (result.value1['response']['result'] != 'success') {
-      throw BadApiResponseException();
-    }
-
     final plexInfoModel = PlexInfoModel.fromJson(
       result.value1['response']['data'],
     );
@@ -163,11 +158,6 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     String tautulliId,
   ) async {
     final result = await getSettingsApi(tautulliId: tautulliId);
-
-    // If the response result is not success throw ServerException.
-    if (result.value1['response']['result'] != 'success') {
-      throw BadApiResponseException();
-    }
 
     final generalSettings = TautulliGeneralSettingsModel.fromJson(
       result.value1['response']['data']['General'],
@@ -205,11 +195,6 @@ class SettingsDataSourceImpl implements SettingsDataSource {
       customHeaders: customHeaders,
       trustCert: trustCert,
     );
-
-    // If the response result is not success throw ServerException.
-    if (result.value1['response']['result'] != 'success') {
-      throw BadApiResponseException();
-    }
 
     final Map<String, dynamic> responseData = result.value1['response']['data'];
 

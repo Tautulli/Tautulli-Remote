@@ -147,6 +147,11 @@ class CallTautulliImpl implements CallTautulli {
       throw ServerException();
     }
 
+    // If the response result is not success throw BadApiResponseException.
+    if (response.data['response']['result'] != 'success') {
+      throw BadApiResponseException();
+    }
+
     // Return parsed JSON
     return Right(response.data);
   }
