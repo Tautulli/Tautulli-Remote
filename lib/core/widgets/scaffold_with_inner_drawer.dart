@@ -12,6 +12,7 @@ import '../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../translations/locale_keys.g.dart';
 import '../database/data/models/server_model.dart';
 import 'double_back_to_exit.dart';
+import 'drawer_tile.dart';
 import 'page_body.dart';
 import 'tautulli_logo_title.dart';
 
@@ -124,18 +125,44 @@ class _AppDrawer extends StatelessWidget {
                       height: MediaQuery.of(context).padding.top,
                     ),
                   const _ServerSelector(),
+                  const Gap(4),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // ListTile(
-                          //   leading: const FaIcon(
-                          //     FontAwesomeIcons.tv,
-                          //   ),
-                          //   title: const Text('Activity'),
-                          //   onTap: () {},
-                          // ),
+                          ListTile(
+                            tileColor: Colors.transparent,
+                            leading: const FaIcon(
+                              FontAwesomeIcons.tv,
+                            ),
+                            title: const Text('Activity'),
+                            onTap: () {},
+                          ),
+                          DrawerTile(
+                            selected: route?.settings.name == '/users',
+                            leading: const FaIcon(
+                              FontAwesomeIcons.users,
+                            ),
+                            title: const Text('Users'),
+                            onTap: () {
+                              if (route?.settings.name != '/users') {
+                                Navigator.of(context).pushReplacementNamed(
+                                  '/users',
+                                );
+                              } else {
+                                innerDrawerKey.currentState!.close();
+                              }
+                            },
+                          ),
+                          ListTile(
+                            tileColor: Colors.transparent,
+                            leading: const FaIcon(
+                              FontAwesomeIcons.chartBar,
+                            ),
+                            title: const Text('Graphs'),
+                            onTap: () {},
+                          ),
                         ],
                       ),
                     ),
@@ -145,6 +172,7 @@ class _AppDrawer extends StatelessWidget {
                     route: route,
                     useListTiles: height > 500,
                   ),
+                  const Gap(4),
                 ],
               ),
             ),
@@ -298,7 +326,8 @@ class _SettingsGroup extends StatelessWidget {
             endIndent: 8,
             color: Theme.of(context).textTheme.subtitle2!.color,
           ),
-          ListTile(
+          DrawerTile(
+            selected: route?.settings.name == '/announcements',
             leading: const FaIcon(
               FontAwesomeIcons.bullhorn,
             ),
@@ -326,28 +355,36 @@ class _SettingsGroup extends StatelessWidget {
               }
             },
           ),
-          ListTile(
+          DrawerTile(
+            selected: route?.settings.name == '/donate',
             leading: const FaIcon(
               FontAwesomeIcons.solidHeart,
               color: Colors.red,
             ),
             title: const Text(LocaleKeys.donate_title).tr(),
-            onTap: () async {
+            onTap: () {
               if (route?.settings.name != '/donate') {
-                Navigator.of(context).pushReplacementNamed('/donate');
+                Navigator.of(context).pushReplacementNamed(
+                  '/donate',
+                );
               } else {
                 innerDrawerKey.currentState!.close();
               }
             },
           ),
-          ListTile(
+          DrawerTile(
+            //TODO: Change default route one activity exists
+            selected: route?.settings.name == '/settings' ||
+                route?.settings.name == '/',
             leading: const FaIcon(
               FontAwesomeIcons.cogs,
             ),
             title: const Text(LocaleKeys.settings_title).tr(),
             onTap: () {
               if (route?.settings.name != '/settings') {
-                Navigator.of(context).pushReplacementNamed('/settings');
+                Navigator.of(context).pushReplacementNamed(
+                  '/settings',
+                );
               } else {
                 innerDrawerKey.currentState!.close();
               }
