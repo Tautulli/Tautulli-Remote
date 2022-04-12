@@ -12,6 +12,7 @@ import '../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../translations/locale_keys.g.dart';
 import '../database/data/models/server_model.dart';
 import 'double_back_to_exit.dart';
+import 'drawer_icon_button.dart';
 import 'drawer_tile.dart';
 import 'page_body.dart';
 import 'tautulli_logo_title.dart';
@@ -131,14 +132,14 @@ class _AppDrawer extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          ListTile(
-                            tileColor: Colors.transparent,
-                            leading: const FaIcon(
-                              FontAwesomeIcons.tv,
-                            ),
-                            title: const Text('Activity'),
-                            onTap: () {},
-                          ),
+                          // ListTile(
+                          //   tileColor: Colors.transparent,
+                          //   leading: const FaIcon(
+                          //     FontAwesomeIcons.tv,
+                          //   ),
+                          //   title: const Text('Activity'),
+                          //   onTap: () {},
+                          // ),
                           DrawerTile(
                             selected: route?.settings.name == '/users',
                             leading: const FaIcon(
@@ -155,14 +156,14 @@ class _AppDrawer extends StatelessWidget {
                               }
                             },
                           ),
-                          ListTile(
-                            tileColor: Colors.transparent,
-                            leading: const FaIcon(
-                              FontAwesomeIcons.chartBar,
-                            ),
-                            title: const Text('Graphs'),
-                            onTap: () {},
-                          ),
+                          // ListTile(
+                          //   tileColor: Colors.transparent,
+                          //   leading: const FaIcon(
+                          //     FontAwesomeIcons.chartBar,
+                          //   ),
+                          //   title: const Text('Graphs'),
+                          //   onTap: () {},
+                          // ),
                         ],
                       ),
                     ),
@@ -373,7 +374,7 @@ class _SettingsGroup extends StatelessWidget {
             },
           ),
           DrawerTile(
-            //TODO: Change default route one activity exists
+            //TODO: Change default route once activity exists
             selected: route?.settings.name == '/settings' ||
                 route?.settings.name == '/',
             leading: const FaIcon(
@@ -403,6 +404,7 @@ class _SettingsGroup extends StatelessWidget {
             endIndent: 8,
             color: Theme.of(context).textTheme.subtitle2!.color,
           ),
+          const Gap(4),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -412,17 +414,17 @@ class _SettingsGroup extends StatelessWidget {
                     return Badge(
                       animationDuration: Duration.zero,
                       badgeColor: Theme.of(context).colorScheme.secondary,
-                      position: BadgePosition.topEnd(top: 7, end: 5),
+                      position: BadgePosition.topEnd(top: 9, end: 7),
                       showBadge: state is AnnouncementsSuccess && state.unread,
-                      child: IconButton(
+                      child: DrawerIconButton(
+                        selected: route?.settings.name == '/announcements',
                         icon: const FaIcon(
                           FontAwesomeIcons.bullhorn,
                         ),
                         onPressed: () {
                           if (route?.settings.name != '/announcements') {
-                            Navigator.of(context).pushReplacementNamed(
-                              '/announcements',
-                            );
+                            Navigator.of(context)
+                                .pushReplacementNamed('/announcements');
                           } else {
                             innerDrawerKey.currentState!.close();
                           }
@@ -431,7 +433,8 @@ class _SettingsGroup extends StatelessWidget {
                     );
                   },
                 ),
-                IconButton(
+                DrawerIconButton(
+                  selected: route?.settings.name == '/donate',
                   icon: const FaIcon(
                     FontAwesomeIcons.solidHeart,
                     color: Colors.red,
@@ -444,7 +447,10 @@ class _SettingsGroup extends StatelessWidget {
                     }
                   },
                 ),
-                IconButton(
+                DrawerIconButton(
+                  //TODO: Change default route once activity exists
+                  selected: route?.settings.name == '/settings' ||
+                      route?.settings.name == '/',
                   icon: const FaIcon(
                     FontAwesomeIcons.cogs,
                   ),
