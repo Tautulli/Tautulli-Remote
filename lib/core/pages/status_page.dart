@@ -30,27 +30,30 @@ class StatusPage extends StatelessWidget {
               minWidth: constraints.maxWidth,
             ),
             child: IntrinsicHeight(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    message,
-                    style: const TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                  if (isNotBlank(suggestion)) const Gap(8),
-                  if (isNotBlank(suggestion))
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     Text(
-                      suggestion!,
+                      message,
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                       ),
                     ),
-                  if (action != null) const Gap(4),
-                  if (action != null) action!,
-                ],
+                    if (isNotBlank(suggestion)) const Gap(8),
+                    if (isNotBlank(suggestion))
+                      Text(
+                        suggestion!,
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    if (action != null) const Gap(4),
+                    if (action != null) action!,
+                  ],
+                ),
               ),
             ),
           ),
