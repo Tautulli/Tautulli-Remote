@@ -106,7 +106,7 @@ class Cast {
   /// Casts `String` to a `Location`.
   ///
   /// Returns `Location.unknown` if no match is found.
-  static Location? castStringToLocation(String value) {
+  static Location? castStringToLocation(String? value) {
     switch (value) {
       case ('lan'):
         return Location.lan;
@@ -125,8 +125,10 @@ class Cast {
   /// Casts `String` to a `MediaType`.
   ///
   /// Returns `MediaType.unknown` if no match is found.
-  static MediaType? castStringToMediaType(String value) {
+  static MediaType? castStringToMediaType(String? value) {
     switch (value) {
+      case (null):
+        return null;
       case ('album'):
         return MediaType.album;
       case ('clip'):
@@ -158,8 +160,10 @@ class Cast {
   /// Casts `String` to a `PlaybackState`.
   ///
   /// Returns `PlaybackState.unknown` if no match is found.
-  static PlaybackState? castStringToPlaybackState(String value) {
+  static PlaybackState? castStringToPlaybackState(String? value) {
     switch (value) {
+      case (null):
+        return null;
       case ('buffering'):
         return PlaybackState.buffering;
       case ('error'):
@@ -179,8 +183,10 @@ class Cast {
   /// Casts `String` to a `StreamDecision`.
   ///
   /// Returns `StreamDecision.unknown` if no match is found.
-  static StreamDecision? castStringToStreamDecision(String value) {
+  static StreamDecision? castStringToStreamDecision(String? value) {
     switch (value) {
+      case (null):
+        return null;
       case ('copy'):
         return StreamDecision.copy;
       case ('direct play'):
@@ -198,8 +204,10 @@ class Cast {
   /// Casts `String` to a `SubtitleDecision`.
   ///
   /// Returns `SubtitleDecision.unknown` if no match is found.
-  static SubtitleDecision? castStringToSubtitleDecision(String value) {
+  static SubtitleDecision? castStringToSubtitleDecision(String? value) {
     switch (value) {
+      case (null):
+        return null;
       case ('burn'):
         return SubtitleDecision.burn;
       case ('copy'):
@@ -217,8 +225,10 @@ class Cast {
   /// Casts `String` to a `VideoDynamicRange`.
   ///
   /// Returns `VideoDynamicRange.unknown` if no match is found.
-  static VideoDynamicRange? castStringToVideoDynamicRange(String value) {
+  static VideoDynamicRange? castStringToVideoDynamicRange(String? value) {
     switch (value) {
+      case (null):
+        return null;
       case ('hdr'):
       case ('HDR'):
         return VideoDynamicRange.hdr;
