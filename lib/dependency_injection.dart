@@ -36,6 +36,11 @@ import 'features/settings/presentation/bloc/register_device_bloc.dart';
 import 'features/settings/presentation/bloc/registration_headers_bloc.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/translation/presentation/bloc/translation_bloc.dart';
+import 'features/users/data/datasources/users_data_source.dart';
+import 'features/users/data/repositories/users_repository_impl.dart';
+import 'features/users/domain/repositories/users_repository.dart';
+import 'features/users/domain/usecases/users.dart';
+import 'features/users/presentation/bloc/users_bloc.dart';
 
 // Service locator alias
 final sl = GetIt.instance;
@@ -53,6 +58,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.GetSettings>(
     () => tautulli_api.GetSettingsImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetUsersTable>(
+    () => tautulli_api.GetUsersTableImpl(sl()),
   );
   sl.registerLazySingleton<tautulli_api.RegisterDevice>(
     () => tautulli_api.RegisterDeviceImpl(sl()),
@@ -246,6 +254,36 @@ Future<void> init() async {
   sl.registerFactory(
     () => TranslationBloc(
       logging: sl(),
+    ),
+  );
+
+  //! Features - Users
+  // Bloc
+  sl.registerFactory(
+    () => UsersBloc(
+      users: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => Users(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<UsersRepository>(
+    () => UsersRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<UsersDataSource>(
+    () => UsersDataSourceImpl(
+      getUsersTableApi: sl(),
     ),
   );
 }

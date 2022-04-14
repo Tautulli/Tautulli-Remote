@@ -22,6 +22,7 @@ import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 import 'features/translation/presentation/pages/help_translate_page.dart';
+import 'features/users/presentation/pages/users_page.dart';
 import 'features/wizard/presentation/pages/wizard_page.dart';
 
 class TautulliRemote extends StatefulWidget {
@@ -394,6 +395,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
         OneSignalDataPrivacyPage.routeName: (_) =>
             const OneSignalDataPrivacyPage(),
         SettingsPage.routeName: (_) => const SettingsPage(),
+        UsersPage.routeName: (_) => const UsersPage(),
         WizardPage.routeName: (_) => const WizardPage(),
       },
       initialRoute: widget.initialRoute,
