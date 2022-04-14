@@ -6,10 +6,12 @@ import 'settings_not_loaded.dart';
 
 class PageBody extends StatelessWidget {
   final Widget child;
+  final bool loading;
 
   const PageBody({
     Key? key,
     required this.child,
+    this.loading = false,
   }) : super(key: key);
 
   @override
@@ -17,7 +19,14 @@ class PageBody extends StatelessWidget {
     return SafeArea(
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
-          if (state is SettingsSuccess) return child;
+          if (state is SettingsSuccess) {
+            return Stack(
+              children: [
+                if (loading) const LinearProgressIndicator(),
+                child,
+              ],
+            );
+          }
 
           return const SettingsNotLoaded();
         },
