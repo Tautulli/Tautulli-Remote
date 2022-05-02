@@ -1,5 +1,6 @@
 import 'package:duration/duration.dart';
 import 'package:intl/intl.dart';
+import 'package:simple_moment/simple_moment.dart';
 
 class TimeHelper {
   static String cleanDateTime(
@@ -20,6 +21,15 @@ class TimeHelper {
     return DateFormat(
       '${!timeOnly ? parsedDateFormat : ""} ${!dateOnly ? parsedTimeFormat : ""}',
     ).format(dateTime).trim();
+  }
+
+  static Map<String, int> durationMap(Duration duration) {
+    return {
+      'day': duration.inDays,
+      'hour': duration.inHours.remainder(24),
+      'min': duration.inMinutes.remainder(60),
+      'sec': duration.inSeconds.remainder(60),
+    };
   }
 
   static String eta(
@@ -71,6 +81,14 @@ class TimeHelper {
         timeFormat != null ? '$_parseTimeFormat(timeFormat):ss' : 'HH:mm:ss';
 
     return DateFormat(parsedTimeFormat).format(dateTime).trim();
+  }
+
+  static String timeAgo(int? addedAt) {
+    if (addedAt == null) return 'Unknown';
+
+    Moment moment = Moment.now();
+
+    return moment.from(DateTime.fromMillisecondsSinceEpoch(addedAt * 1000));
   }
 
   /// Returns a cleaner version of [Duration].
