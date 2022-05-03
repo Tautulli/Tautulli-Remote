@@ -36,7 +36,11 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       );
     }
 
-    final failureOrUsers = await users.getUsers(tautulliId: event.tautulliId);
+    final failureOrUsers = await users.getUsers(
+      tautulliId: event.tautulliId,
+      orderDir: event.orderDir,
+      orderColumn: event.orderColumn,
+    );
 
     failureOrUsers.fold(
       (failure) {

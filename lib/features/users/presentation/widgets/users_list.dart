@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_model.dart';
 import '../bloc/users_bloc.dart';
 import 'user_card.dart';
@@ -14,12 +13,18 @@ class UsersList extends StatelessWidget {
   final bool loading;
   final bool displayMessage;
   final List<UserModel> users;
+  final String tautulliId;
+  final String orderColumn;
+  final String orderDir;
 
   const UsersList({
     Key? key,
     required this.loading,
     this.displayMessage = true,
     required this.users,
+    required this.tautulliId,
+    required this.orderColumn,
+    required this.orderDir,
   }) : super(key: key);
 
   @override
@@ -28,12 +33,11 @@ class UsersList extends StatelessWidget {
       loading: loading,
       child: ThemedRefreshIndicator(
         onRefresh: () {
-          final settingsState =
-              context.read<SettingsBloc>().state as SettingsSuccess;
-
           context.read<UsersBloc>().add(
                 UsersFetch(
-                  tautulliId: settingsState.appSettings.activeServer.tautulliId,
+                  tautulliId: tautulliId,
+                  orderColumn: orderColumn,
+                  orderDir: orderDir,
                 ),
               );
 
@@ -48,7 +52,10 @@ class UsersList extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 itemCount: users.length,
                 separatorBuilder: (context, index) => const Gap(8),
-                itemBuilder: (context, index) => UserCard(user: users[index]),
+                itemBuilder: (context, index) => UserCard(
+                  key: ValueKey(users[index].userId!),
+                  user: users[index],
+                ),
               ),
       ),
     );
