@@ -10,6 +10,7 @@ class AppSettingsModel extends Equatable {
   final bool oneSignalConsented;
   final int refreshRate;
   final int serverTimeout;
+  final String usersSort;
   final bool wizardComplete;
 
   const AppSettingsModel({
@@ -20,6 +21,7 @@ class AppSettingsModel extends Equatable {
     required this.oneSignalConsented,
     required this.refreshRate,
     required this.serverTimeout,
+    required this.usersSort,
     required this.wizardComplete,
   });
 
@@ -31,6 +33,7 @@ class AppSettingsModel extends Equatable {
     bool? oneSignalConsented,
     int? refreshRate,
     int? serverTimeout,
+    String? usersSort,
     bool? wizardComplete,
   }) {
     return AppSettingsModel(
@@ -42,6 +45,7 @@ class AppSettingsModel extends Equatable {
       oneSignalConsented: oneSignalConsented ?? this.oneSignalConsented,
       refreshRate: refreshRate ?? this.refreshRate,
       serverTimeout: serverTimeout ?? this.serverTimeout,
+      usersSort: usersSort ?? this.usersSort,
       wizardComplete: wizardComplete ?? this.wizardComplete,
     );
   }
@@ -55,6 +59,7 @@ class AppSettingsModel extends Equatable {
       'OneSignal Privacy Accepted': oneSignalConsented.toString(),
       'Refresh Rate': refreshRate.toString(),
       'Server Timeout': serverTimeout.toString(),
+      'Users Sort': usersSort,
       'Wizard Complete': wizardComplete.toString(),
     };
   }
@@ -68,6 +73,7 @@ class AppSettingsModel extends Equatable {
         oneSignalConsented,
         refreshRate,
         serverTimeout,
+        usersSort,
         wizardComplete,
       ];
 }

@@ -275,6 +275,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setServerTimeout(value);
   }
 
+  // User Sort
+  @override
+  Future<String> getUsersSort() async {
+    return await dataSource.getUsersSort();
+  }
+
+  @override
+  Future<bool> setUsersSort(String value) async {
+    return await dataSource.setUsersSort(value);
+  }
+
   // Wizard Complete
   @override
   Future<bool> getWizardComplete() async {

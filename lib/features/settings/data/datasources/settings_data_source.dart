@@ -107,6 +107,10 @@ abstract class SettingsDataSource {
   Future<int> getServerTimeout();
   Future<bool> setServerTimeout(int value);
 
+  // Users Sort
+  Future<String> getUsersSort();
+  Future<bool> setUsersSort(String value);
+
   // Wizard Complete
   Future<bool> getWizardComplete();
   Future<bool> setWizardComplete(bool value);
@@ -122,6 +126,7 @@ const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
 const oneSignalConsented = 'oneSignalConsented';
 const refreshRate = 'refreshRate';
 const serverTimeout = 'serverTimeout';
+const usersSort = 'usersSort';
 const wizardComplete = 'wizardComplete';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
@@ -408,6 +413,19 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setServerTimeout(int value) {
     return localStorage.setInt(serverTimeout, value);
+  }
+
+  // Users Sort
+  @override
+  Future<String> getUsersSort() async {
+    return Future.value(
+      localStorage.getString(usersSort) ?? 'friendly_name|asc',
+    );
+  }
+
+  @override
+  Future<bool> setUsersSort(String value) {
+    return localStorage.setString(usersSort, value);
   }
 
   // Wizard Complete

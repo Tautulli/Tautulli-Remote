@@ -282,6 +282,20 @@ class Settings {
     return await repository.setServerTimeout(value);
   }
 
+  /// Returns the order_column and order_dir for Users.
+  ///
+  /// Items are returned in a string connected by a `|`.
+  ///
+  /// If no value is stored returns `friendly_name|asc`.
+  Future<String> getUsersSort() async {
+    return await repository.getUsersSort();
+  }
+
+  /// Sets the users sort.
+  Future<bool> setUsersSort(String value) async {
+    return await repository.setUsersSort(value);
+  }
+
   /// Whether the wizard was exited early or fully completed.
   ///
   /// If no value is stored returns `false`.

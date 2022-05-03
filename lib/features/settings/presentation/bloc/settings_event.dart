@@ -262,3 +262,12 @@ class SettingsUpdateServerTimeout extends SettingsEvent {
   @override
   List<Object> get props => [timeout];
 }
+
+class SettingsUpdateUsersSort extends SettingsEvent {
+  final String usersSort;
+
+  const SettingsUpdateUsersSort(this.usersSort);
+
+  @override
+  List<Object> get props => [usersSort];
+}

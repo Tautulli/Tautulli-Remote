@@ -91,6 +91,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateServerTimeout>(
       (event, emit) => _onSettingsUpdateServerTimeout(event, emit),
     );
+    on<SettingsUpdateUsersSort>(
+      (event, emit) => _onSettingsUpdateUsersSort(event, emit),
+    );
   }
 
   void _onSettingsAddServer(
@@ -311,6 +314,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         oneSignalConsented: await settings.getOneSignalConsented(),
         serverTimeout: await settings.getServerTimeout(),
         refreshRate: await settings.getRefreshRate(),
+        usersSort: await settings.getUsersSort(),
         wizardComplete: await settings.getWizardComplete(),
       );
 
@@ -831,5 +835,25 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         SettingsUpdateServerPlexAndTautulliInfo(serverModel: updatedServer),
       );
     }
+  }
+
+  void _onSettingsUpdateUsersSort(
+    SettingsUpdateUsersSort event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setUsersSort(event.usersSort);
+    logging.info(
+      'Settings :: Users Sort set to ${event.usersSort}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          usersSort: event.usersSort,
+        ),
+      ),
+    );
   }
 }

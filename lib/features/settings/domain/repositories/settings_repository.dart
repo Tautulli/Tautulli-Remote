@@ -101,6 +101,10 @@ abstract class SettingsRepository {
   Future<int> getServerTimeout();
   Future<bool> setServerTimeout(int value);
 
+  // User Sort
+  Future<String> getUsersSort();
+  Future<bool> setUsersSort(String value);
+
   // Wizard Complete
   Future<bool> getWizardComplete();
   Future<bool> setWizardComplete(bool value);
