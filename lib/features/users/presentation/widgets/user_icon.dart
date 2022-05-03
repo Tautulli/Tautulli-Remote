@@ -33,7 +33,7 @@ class UserIcon extends StatelessWidget {
           ),
           if (user.isActive != null && !user.isActive!)
             Positioned(
-              bottom: 0,
+              bottom: -1,
               right: 0,
               child: Stack(
                 children: [
