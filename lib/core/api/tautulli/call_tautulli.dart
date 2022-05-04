@@ -8,6 +8,7 @@ import '../../../dependency_injection.dart' as di;
 import '../../../features/logging/domain/usecases/logging.dart';
 import '../../../features/settings/domain/usecases/settings.dart';
 import '../../error/exception.dart';
+import '../../utilities/cast.dart';
 
 abstract class CallTautulli {
   Future<Either<Uri, dynamic>> call({
@@ -40,6 +41,11 @@ class CallTautulliImpl implements CallTautulli {
     params['cmd'] = cmd;
     params['apikey'] = deviceToken;
     params['app'] = 'true';
+
+    // Make sure all values in params are cast to string
+    for (String key in params.keys) {
+      params[key] = Cast.castToString(params[key]);
+    }
 
     // Construct URI using connection information and params
     Uri uri;
