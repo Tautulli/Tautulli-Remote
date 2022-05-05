@@ -32,7 +32,9 @@ class UserDetails extends StatelessWidget {
                 text: 'Streamed ',
               ),
               TextSpan(
-                text: TimeHelper.timeAgo(user.lastSeen),
+                text: user.lastSeen != null
+                    ? TimeHelper.timeAgo(user.lastSeen)
+                    : 'never',
                 style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,
@@ -102,7 +104,7 @@ class UserDetails extends StatelessWidget {
                           ),
                           const TextSpan(
                             text: ' days ',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
                             ),
