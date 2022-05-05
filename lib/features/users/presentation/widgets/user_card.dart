@@ -6,7 +6,7 @@ import '../../data/models/user_model.dart';
 import 'user_details.dart';
 import 'user_icon.dart';
 
-Map<int, Color?> backgroundColorCache = {};
+Map<String, Color?> backgroundColorCache = {};
 
 class UserCard extends StatefulWidget {
   final UserModel user;
@@ -39,11 +39,14 @@ class _UserCardState extends State<UserCard> {
       future: getColorFuture,
       builder: (context, snapshot) {
         // Load in cached color if it's cached to prevent the transition
-        Color? color = backgroundColorCache[widget.user.userId!];
+        Color? color = backgroundColorCache[
+            '${widget.user.userId!}:${widget.user.username}'];
 
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
-          backgroundColorCache[widget.user.userId!] = snapshot.data as Color;
+          backgroundColorCache[
+                  '${widget.user.userId!}:${widget.user.username}'] =
+              snapshot.data as Color;
           color = snapshot.data as Color;
         }
 
@@ -62,16 +65,31 @@ class _UserCardState extends State<UserCard> {
                         ),
                 ),
                 Positioned.fill(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        UserIcon(user: widget.user),
-                        const Gap(8),
-                        Expanded(
-                          child: UserDetails(user: widget.user),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        //TODO
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            duration: Duration(seconds: 6),
+                            content: Text('User details are not yet available'),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            UserIcon(user: widget.user),
+                            const Gap(8),
+                            Expanded(
+                              child: UserDetails(user: widget.user),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
