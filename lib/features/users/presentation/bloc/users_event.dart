@@ -7,7 +7,7 @@ abstract class UsersEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class UsersFetch extends UsersEvent {
+class UsersFetched extends UsersEvent {
   final String tautulliId;
   final bool? grouping;
   final String? orderColumn;
@@ -15,8 +15,9 @@ class UsersFetch extends UsersEvent {
   final int? start;
   final int? length;
   final String? search;
+  final bool freshFetch;
 
-  const UsersFetch({
+  const UsersFetched({
     required this.tautulliId,
     this.grouping,
     this.orderColumn,
@@ -24,6 +25,7 @@ class UsersFetch extends UsersEvent {
     this.start,
     this.length,
     this.search,
+    this.freshFetch = false,
   });
 
   @override

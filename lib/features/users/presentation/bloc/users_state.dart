@@ -1,73 +1,42 @@
 part of 'users_bloc.dart';
 
-abstract class UsersState extends Equatable {
-  const UsersState();
+enum UsersStatus { initial, success, failure }
 
-  @override
-  List<Object> get props => [];
-}
-
-class UsersInitial extends UsersState {
+class UsersState extends Equatable {
+  final UsersStatus status;
   final List<UserModel> users;
+  final Failure? failure;
+  final String? message;
+  final String? suggestion;
+  final bool hasReachedMax;
 
-  const UsersInitial({
-    required this.users,
+  const UsersState({
+    this.status = UsersStatus.initial,
+    this.users = const [],
+    this.failure,
+    this.message,
+    this.suggestion,
+    this.hasReachedMax = false,
   });
 
-  @override
-  List<Object> get props => [users];
-}
-
-class UsersSuccess extends UsersState {
-  final bool loading;
-  final List<UserModel> users;
-
-  const UsersSuccess({
-    required this.loading,
-    required this.users,
-  });
-
-  UsersSuccess copyWith({
-    bool? loading,
+  UsersState copyWith({
+    UsersStatus? status,
     List<UserModel>? users,
-  }) {
-    return UsersSuccess(
-      loading: loading ?? this.loading,
-      users: users ?? this.users,
-    );
-  }
-
-  @override
-  List<Object> get props => [loading, users];
-}
-
-class UsersFailure extends UsersState {
-  final bool loading;
-  final Failure failure;
-  final String message;
-  final String suggestion;
-
-  const UsersFailure({
-    required this.loading,
-    required this.failure,
-    required this.message,
-    required this.suggestion,
-  });
-
-  UsersFailure copyWith({
-    bool? loading,
     Failure? failure,
     String? message,
     String? suggestion,
+    bool? hasReachedMax,
   }) {
-    return UsersFailure(
-      loading: loading ?? this.loading,
+    return UsersState(
+      status: status ?? this.status,
+      users: users ?? this.users,
       failure: failure ?? this.failure,
       message: message ?? this.message,
       suggestion: suggestion ?? this.suggestion,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
 
   @override
-  List<Object> get props => [loading, failure, message, suggestion];
+  List<Object> get props => [status, users, hasReachedMax];
 }

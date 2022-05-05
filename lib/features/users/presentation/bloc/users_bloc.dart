@@ -1,8 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
+import '../../../logging/domain/usecases/logging.dart';
 import '../../data/models/user_model.dart';
 import '../../domain/usecases/users.dart';
 
@@ -10,43 +14,101 @@ part 'users_event.dart';
 part 'users_state.dart';
 
 List<UserModel> usersCache = [];
+bool hasReachedMaxCache = false;
+
+const throttleDuration = Duration(milliseconds: 100);
+const length = 25;
+
+EventTransformer<E> throttleDroppable<E>(Duration duration) {
+  return (events, mapper) {
+    return droppable<E>().call(events.throttle(duration), mapper);
+  };
+}
 
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
   final Users users;
+  final Logging logging;
 
   UsersBloc({
     required this.users,
-  }) : super(UsersInitial(users: usersCache)) {
-    on<UsersFetch>((event, emit) => _onUsersFetch(event, emit));
+    required this.logging,
+  }) : super(
+          UsersState(
+            users: usersCache,
+            hasReachedMax: hasReachedMaxCache,
+          ),
+        ) {
+    on<UsersFetched>(
+      _onUsersFetched,
+      transformer: throttleDroppable(throttleDuration),
+    );
   }
 
-  void _onUsersFetch(
-    UsersFetch event,
+  Future<void> _onUsersFetched(
+    UsersFetched event,
     Emitter<UsersState> emit,
   ) async {
-    //* Used to indicate to the UI the page is loading
-    final currentState = state;
-    if (currentState is UsersSuccess) {
+    if (event.freshFetch) {
       emit(
-        currentState.copyWith(loading: true),
+        state.copyWith(
+          status: UsersStatus.initial,
+          hasReachedMax: false,
+        ),
       );
-    } else if (currentState is UsersFailure) {
-      emit(
-        currentState.copyWith(loading: true),
-      );
+      usersCache = [];
+      hasReachedMaxCache = false;
     }
 
-    final failureOrUsers = await users.getUsers(
-      tautulliId: event.tautulliId,
-      orderDir: event.orderDir,
-      orderColumn: event.orderColumn,
-    );
+    if (state.hasReachedMax) return;
 
+    if (state.status == UsersStatus.initial) {
+      // Prevent triggering initial fetch when navigating back to Users page
+      if (usersCache.isNotEmpty) {
+        return emit(
+          state.copyWith(
+            status: UsersStatus.success,
+          ),
+        );
+      }
+
+      final failureOrUsers = await users.getUsers(
+        tautulliId: event.tautulliId,
+        orderDir: event.orderDir,
+        orderColumn: event.orderColumn,
+        length: length,
+      );
+
+      return _emitFailureOrUsers(emit, failureOrUsers);
+    } else {
+      // Make sure bottom loader loading indicator displays when
+      // attempting to fetch
+      emit(
+        state.copyWith(status: UsersStatus.success),
+      );
+
+      final failureOrUsers = await users.getUsers(
+        tautulliId: event.tautulliId,
+        orderDir: event.orderDir,
+        orderColumn: event.orderColumn,
+        length: length,
+        start: usersCache.length,
+      );
+
+      return _emitFailureOrUsers(emit, failureOrUsers);
+    }
+  }
+
+  void _emitFailureOrUsers(
+    Emitter<UsersState> emit,
+    Either<Failure, Tuple2<List<UserModel>, bool>> failureOrUsers,
+  ) {
     failureOrUsers.fold(
       (failure) {
-        emit(
-          UsersFailure(
-            loading: false,
+        //TODO Log failure
+
+        return emit(
+          state.copyWith(
+            status: UsersStatus.failure,
             failure: failure,
             message: FailureHelper.mapFailureToMessage(failure),
             suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -56,12 +118,14 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       (users) {
         //TODO: Update primary active if value changed?
 
-        usersCache = users.value1;
+        usersCache = usersCache + users.value1;
+        hasReachedMaxCache = users.value1.length < 10;
 
-        emit(
-          UsersSuccess(
-            loading: false,
-            users: users.value1,
+        return emit(
+          state.copyWith(
+            status: UsersStatus.success,
+            users: usersCache,
+            hasReachedMax: hasReachedMaxCache,
           ),
         );
       },

@@ -3,15 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tautulli_remote/core/widgets/page_body.dart';
-import 'package:tautulli_remote/features/users/presentation/widgets/users_list.dart';
+import 'package:gap/gap.dart';
 
 import '../../../../core/pages/status_page.dart';
+import '../../../../core/widgets/bottom_loader.dart';
+import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/users_bloc.dart';
+import '../widgets/user_card.dart';
 
 class UsersPage extends StatelessWidget {
   const UsersPage({Key? key}) : super(key: key);
@@ -35,6 +37,7 @@ class UsersView extends StatefulWidget {
 }
 
 class _UsersViewState extends State<UsersView> {
+  final _scrollController = ScrollController();
   late String _orderColumn;
   late String _orderDir;
   late UsersBloc _usersBloc;
@@ -44,6 +47,7 @@ class _UsersViewState extends State<UsersView> {
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
     _usersBloc = context.read<UsersBloc>();
     _settingsBloc = context.read<SettingsBloc>();
     final usersState = _usersBloc.state;
@@ -51,14 +55,14 @@ class _UsersViewState extends State<UsersView> {
 
     _tautulliId = settingsState.appSettings.activeServer.tautulliId;
 
-    if (usersState is UsersInitial) {
+    if (usersState.status == UsersStatus.initial) {
       final usersSort = settingsState.appSettings.usersSort.split('|');
       _orderColumn = usersSort[0];
       _orderDir = usersSort[1];
     }
 
     context.read<UsersBloc>().add(
-          UsersFetch(
+          UsersFetched(
             tautulliId: _tautulliId,
             orderColumn: _orderColumn,
             orderDir: _orderDir,
@@ -73,10 +77,11 @@ class _UsersViewState extends State<UsersView> {
         if (state is SettingsSuccess) {
           _tautulliId = state.appSettings.activeServer.tautulliId;
           context.read<UsersBloc>().add(
-                UsersFetch(
+                UsersFetched(
                   tautulliId: _tautulliId,
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
+                  freshFetch: true,
                 ),
               );
         }
@@ -86,53 +91,108 @@ class _UsersViewState extends State<UsersView> {
         actions: _appBarActions(),
         body: BlocBuilder<UsersBloc, UsersState>(
           builder: (context, state) {
-            if (state is UsersInitial) {
-              return UsersList(
-                loading: true,
-                displayMessage: false,
-                users: state.users,
-                tautulliId: _tautulliId,
-                orderColumn: _orderColumn,
-                orderDir: _orderDir,
-              );
-            }
-            if (state is UsersSuccess) {
-              return UsersList(
-                loading: state.loading,
-                users: state.users,
-                tautulliId: _tautulliId,
-                orderColumn: _orderColumn,
-                orderDir: _orderDir,
-              );
-            }
-            if (state is UsersFailure) {
-              return ThemedRefreshIndicator(
+            return PageBody(
+              loading:
+                  state.status == UsersStatus.initial && !state.hasReachedMax,
+              child: ThemedRefreshIndicator(
                 onRefresh: () {
-                  _usersBloc.add(
-                    UsersFetch(
-                      tautulliId: _tautulliId,
-                      orderColumn: _orderColumn,
-                      orderDir: _orderDir,
-                    ),
-                  );
+                  context.read<UsersBloc>().add(
+                        UsersFetched(
+                          tautulliId: _tautulliId,
+                          orderColumn: _orderColumn,
+                          orderDir: _orderDir,
+                          freshFetch: true,
+                        ),
+                      );
 
                   return Future.value(null);
                 },
-                child: PageBody(
-                  loading: state.loading,
-                  child: StatusPage(
-                    scrollable: true,
-                    message: state.message,
-                    suggestion: state.suggestion,
-                  ),
+                child: Builder(
+                  builder: (context) {
+                    if (state.users.isEmpty) {
+                      if (state.status == UsersStatus.failure) {
+                        return StatusPage(
+                          scrollable: true,
+                          message: state.message ?? '',
+                          suggestion: state.suggestion ?? '',
+                        );
+                      }
+                      if (state.status == UsersStatus.success) {
+                        return const StatusPage(
+                          scrollable: true,
+                          message: 'No users found.',
+                        );
+                      }
+                    }
+
+                    return ListView.separated(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.all(8),
+                      itemCount: state.hasReachedMax ||
+                              state.status == UsersStatus.initial
+                          ? state.users.length
+                          : state.users.length + 1,
+                      separatorBuilder: (context, index) => const Gap(8),
+                      itemBuilder: (context, index) {
+                        if (index >= state.users.length) {
+                          return BottomLoader(
+                            status: state.status,
+                            failure: state.failure,
+                            message: state.message,
+                            suggestion: state.suggestion,
+                            onTap: () {
+                              context.read<UsersBloc>().add(
+                                    UsersFetched(
+                                      tautulliId: _tautulliId,
+                                      orderColumn: _orderColumn,
+                                      orderDir: _orderDir,
+                                    ),
+                                  );
+                            },
+                          );
+                        }
+
+                        return UserCard(
+                          key: ValueKey(state.users[index].userId!),
+                          user: state.users[index],
+                        );
+                      },
+                    );
+                  },
                 ),
-              );
-            }
-            return const LinearProgressIndicator();
+              ),
+            );
           },
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom) {
+      _usersBloc.add(
+        UsersFetched(
+          tautulliId: _tautulliId,
+          orderColumn: _orderColumn,
+          orderDir: _orderDir,
+        ),
+      );
+    }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 
   List<Widget> _appBarActions() {
@@ -158,10 +218,11 @@ class _UsersViewState extends State<UsersView> {
 
               _settingsBloc.add(SettingsUpdateUsersSort(value));
               _usersBloc.add(
-                UsersFetch(
+                UsersFetched(
                   tautulliId: _tautulliId,
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
+                  freshFetch: true,
                 ),
               );
             }

@@ -262,6 +262,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => UsersBloc(
       users: sl(),
+      logging: sl(),
     ),
   );
 

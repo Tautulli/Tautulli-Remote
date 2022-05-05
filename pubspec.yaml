@@ -11,6 +11,7 @@ environment:
 dependencies:
   app_group_directory: ^2.0.0
   badges: ^2.0.2
+  bloc_concurrency: ^0.2.0
   cached_network_image: ^3.2.0
   color: ^3.0.0
   connectivity_plus: ^2.2.0
@@ -50,6 +51,7 @@ dependencies:
   shared_preferences: ^2.0.12
   simple_moment: ^1.1.1
   sqflite: ^2.0.2
+  stream_transform: ^2.0.0
   url_launcher: ^6.0.18
   validators: ^3.0.0
   version: ^2.0.0
