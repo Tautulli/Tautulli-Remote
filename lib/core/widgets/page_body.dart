@@ -22,8 +22,8 @@ class PageBody extends StatelessWidget {
           if (state is SettingsSuccess) {
             return Stack(
               children: [
-                if (loading) const LinearProgressIndicator(),
                 child,
+                if (loading) const LinearProgressIndicator(),
               ],
             );
           }
