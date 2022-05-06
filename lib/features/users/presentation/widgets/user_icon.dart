@@ -28,6 +28,17 @@ class UserIcon extends StatelessWidget {
                     fadeOutDuration: const Duration(milliseconds: 100),
                     placeholder: 'assets/images/default_profile.png',
                     image: user.userThumb!,
+                    imageErrorBuilder: (context, object, stackTrace) => Stack(
+                      children: [
+                        Image.asset('assets/images/default_profile.png'),
+                        Positioned.fill(
+                          child: FaIcon(
+                            FontAwesomeIcons.exclamation,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ],
+                    ),
                   )
                 : Image.asset('assets/images/default_profile.png'),
           ),
