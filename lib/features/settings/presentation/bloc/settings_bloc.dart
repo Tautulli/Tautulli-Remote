@@ -592,24 +592,27 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async {
     final currentState = state as SettingsSuccess;
 
-    await settings.updatePrimaryActive(
-      tautulliId: event.tautulliId,
-      primaryActive: event.primaryActive,
-    );
-
     final int index = currentState.serverList.indexWhere(
       (oldServer) => oldServer.tautulliId == event.tautulliId,
     );
 
-    List<ServerModel> updatedList = [...currentState.serverList];
+    // Only update primary active if new value is different
+    if (currentState.serverList[index].primaryActive != event.primaryActive) {
+      await settings.updatePrimaryActive(
+        tautulliId: event.tautulliId,
+        primaryActive: event.primaryActive,
+      );
 
-    updatedList[index] = currentState.serverList[index].copyWith(
-      primaryActive: event.primaryActive,
-    );
+      List<ServerModel> updatedList = [...currentState.serverList];
 
-    emit(
-      currentState.copyWith(serverList: updatedList),
-    );
+      updatedList[index] = currentState.serverList[index].copyWith(
+        primaryActive: event.primaryActive,
+      );
+
+      emit(
+        currentState.copyWith(serverList: updatedList),
+      );
+    }
   }
 
   void _onSettingsUpdateRefreshRate(
