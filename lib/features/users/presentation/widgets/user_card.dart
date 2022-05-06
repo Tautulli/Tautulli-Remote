@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:palette_generator/palette_generator.dart';
 
+import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/user_model.dart';
 import 'user_details.dart';
 import 'user_icon.dart';
@@ -72,9 +74,12 @@ class _UserCardState extends State<UserCard> {
                         //TODO
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            duration: Duration(seconds: 6),
-                            content: Text('User details are not yet available'),
+                          SnackBar(
+                            duration: const Duration(seconds: 6),
+                            content: const Text(
+                              LocaleKeys
+                                  .feature_not_yet_available_snackbar_message,
+                            ).tr(),
                           ),
                         );
                       },

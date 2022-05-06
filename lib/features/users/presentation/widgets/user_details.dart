@@ -1,7 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/helpers/time_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_model.dart';
 
 class UserDetails extends StatelessWidget {
@@ -18,23 +22,34 @@ class UserDetails extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          user.friendlyName ?? 'name missing',
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
+        BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            state as SettingsSuccess;
+
+            return Text(
+              state.appSettings.maskSensitiveInfo
+                  ? LocaleKeys.hidden_message
+                  : user.friendlyName ?? 'name missing',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ).tr();
+          },
         ),
         RichText(
           text: TextSpan(
             children: [
+              TextSpan(
+                text: LocaleKeys.streamed_title.tr(),
+              ),
               const TextSpan(
-                text: 'Streamed ',
+                text: ' ',
               ),
               TextSpan(
                 text: user.lastSeen != null
                     ? TimeHelper.timeAgo(user.lastSeen)
-                    : 'never',
+                    : LocaleKeys.never.tr(),
                 style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,
@@ -62,8 +77,11 @@ class UserDetails extends StatelessWidget {
             RichText(
               text: TextSpan(
                 children: [
+                  TextSpan(
+                    text: LocaleKeys.plays_title.tr(),
+                  ),
                   const TextSpan(
-                    text: 'Plays ',
+                    text: ' ',
                   ),
                   TextSpan(
                     text: user.plays.toString(),
@@ -89,8 +107,8 @@ class UserDetails extends StatelessWidget {
                         durationMap['hour']! > 1 ||
                         durationMap['min']! > 1 ||
                         durationMap['sec']! > 1)
-                      const TextSpan(
-                        text: 'Duration ',
+                      TextSpan(
+                        text: '${LocaleKeys.duration_title.tr()} ',
                       ),
                     if (durationMap['day']! > 0)
                       TextSpan(

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +12,7 @@ import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../dependency_injection.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/users_bloc.dart';
 import '../widgets/user_card.dart';
@@ -96,7 +98,7 @@ class _UsersViewState extends State<UsersView> {
         }
       },
       child: ScaffoldWithInnerDrawer(
-        title: const Text('Users'),
+        title: const Text(LocaleKeys.users_title).tr(),
         actions: _appBarActions(),
         body: BlocBuilder<UsersBloc, UsersState>(
           builder: (context, state) {
@@ -128,9 +130,9 @@ class _UsersViewState extends State<UsersView> {
                         );
                       }
                       if (state.status == UsersStatus.success) {
-                        return const StatusPage(
+                        return StatusPage(
                           scrollable: true,
-                          message: 'No users found.',
+                          message: LocaleKeys.users_empty_message.tr(),
                         );
                       }
                     }
@@ -217,7 +219,7 @@ class _UsersViewState extends State<UsersView> {
         ),
         child: PopupMenuButton(
           icon: _currentSortIcon(),
-          tooltip: 'Sort Users',
+          tooltip: LocaleKeys.sort_users_title.tr(),
           onSelected: (value) {
             if (value != null) {
               value as String;
@@ -273,9 +275,9 @@ class _UsersViewState extends State<UsersView> {
                             FontAwesomeIcons.sortAlphaDown,
                             size: 20,
                           ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 5),
-                      child: Text('Name'),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: const Text(LocaleKeys.name_title).tr(),
                     ),
                   ],
                 ),
@@ -295,11 +297,9 @@ class _UsersViewState extends State<UsersView> {
                             FontAwesomeIcons.sortNumericDown,
                             size: 20,
                           ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 5),
-                      child: Text(
-                        'Last Streamed',
-                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: const Text(LocaleKeys.last_streamed_title).tr(),
                     ),
                   ],
                 ),
@@ -352,9 +352,9 @@ class _UsersViewState extends State<UsersView> {
   String _currentSortName() {
     switch (_orderColumn) {
       case ('friendly_name'):
-        return 'Name';
+        return LocaleKeys.name_title.tr();
       case ('last_seen'):
-        return 'Last Streamed';
+        return LocaleKeys.last_streamed_title.tr();
       default:
         return 'Unknown';
     }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_model.dart';
 
 class UserIcon extends StatelessWidget {
@@ -22,8 +24,14 @@ class UserIcon extends StatelessWidget {
             borderRadius: const BorderRadius.all(
               Radius.circular(50.0),
             ),
-            child: user.userThumb != null && user.userThumb!.startsWith('http')
-                ? FadeInImage.assetNetwork(
+            child: BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, state) {
+                state as SettingsSuccess;
+
+                if (!state.appSettings.maskSensitiveInfo &&
+                    user.userThumb != null &&
+                    user.userThumb!.startsWith('http')) {
+                  return FadeInImage.assetNetwork(
                     fadeInDuration: const Duration(milliseconds: 400),
                     fadeOutDuration: const Duration(milliseconds: 100),
                     placeholder: 'assets/images/default_profile.png',
@@ -39,8 +47,12 @@ class UserIcon extends StatelessWidget {
                         ),
                       ],
                     ),
-                  )
-                : Image.asset('assets/images/default_profile.png'),
+                  );
+                }
+
+                return Image.asset('assets/images/default_profile.png');
+              },
+            ),
           ),
           if (user.isActive != null && !user.isActive!)
             Positioned(
