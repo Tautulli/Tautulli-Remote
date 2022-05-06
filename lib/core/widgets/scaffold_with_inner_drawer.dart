@@ -145,7 +145,7 @@ class _AppDrawer extends StatelessWidget {
                             leading: const FaIcon(
                               FontAwesomeIcons.users,
                             ),
-                            title: const Text('Users'),
+                            title: const Text(LocaleKeys.users_title).tr(),
                             onTap: () {
                               if (route?.settings.name != '/users') {
                                 Navigator.of(context).pushReplacementNamed(
