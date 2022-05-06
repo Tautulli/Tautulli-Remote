@@ -1,6 +1,38 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.8",
+      "date": "May 6, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added Users page",
+          "additional":
+              "This new Users page features various UI/UX improvements",
+        },
+        {
+          "type": "improvement",
+          "detail": "Use the stretch animation for overscroll on Android",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add visual indicator for current page in inner drawer",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Fade out indicators on announcement cards when marked as read",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "New translations for French, Czech, Norwegian Bokmål, Chinese (Simplified), and Swedish",
+          "additional":
+              "Thanks @NathanBnm, David Nedvěd, @aunefyren, @FaintGhost & @blackisle, and Johan Qvist",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.7",
       "date": "March 25, 2022",
       "changes": [
