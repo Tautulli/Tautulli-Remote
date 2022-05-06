@@ -19,12 +19,18 @@
     "donate_thanks_snackbar_message": "Gracias por tu donación",
     "donate_tip_jar_title": "Regalar una jarra",
     "donate_title": "Donar",
+    "duration_title": "Duración",
     "go_to_settings_button": "IR A AJUSTES",
     "help_and_support_title": "Ayuda y soporte",
     "learn_more_button": "LEER MAS",
     "month": "mensual",
+    "name_title": "Nombre",
+    "never": "Nunca",
+    "plays_title": "Reproducciones",
     "quit_button": "APAGAR",
     "save_button": "GUARDAR",
     "settings_title": "Ajustes",
-    "skip_button": "SALTAR"
+    "skip_button": "SALTAR",
+    "users_empty_message": "Ningún usuario encontrado.",
+    "users_title": "Usuarios"
 }

@@ -19,6 +19,7 @@
     "donate_thanks_snackbar_message": "Gràcies per la vostra donació",
     "donate_tip_jar_title": "Propina",
     "donate_title": "Dóna",
+    "duration_title": "Durada",
     "go_to_settings_button": "VÉS A LA CONFIGURACIÓ",
     "help_and_support_title": "Ajuda i assistència",
     "learn_more_button": "MÉS INFORMACIÓ",
@@ -26,7 +27,11 @@
     "logs_export_menu_item": "Exporta els registres",
     "logs_exported_snackbar_message": "Registres exportats",
     "month": "mensual",
+    "name_title": "Nom",
+    "never": "mai",
+    "plays_title": "Reproduccions",
     "save_button": "DESA",
     "settings_title": "Configuració",
-    "tautulli_remote_logs_title": "Registres de Tautulli Remote"
+    "tautulli_remote_logs_title": "Registres de Tautulli Remote",
+    "users_title": "Usuaris"
 }

@@ -16,9 +16,12 @@
     "donate_thanks_snackbar_message": "Tak for din donation",
     "donate_tip_jar_title": "Tip Krukke",
     "donate_title": "Doner",
+    "duration_title": "Varighed",
     "go_to_settings_button": "GÅ TIL INDSTILLINGER",
     "learn_more_button": "LÆR MERE",
     "month": "måned",
+    "plays_title": "Afspiller",
     "save_button": "GEM",
-    "settings_title": "Indstillinger"
+    "settings_title": "Indstillinger",
+    "users_title": "Brugere"
 }

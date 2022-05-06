@@ -66,6 +66,7 @@ abstract class  LocaleKeys {
   static const double_back_to_exit_toast_message = 'double_back_to_exit_toast_message';
   static const double_back_to_exit_subtitle = 'double_back_to_exit_subtitle';
   static const double_back_to_exit_title = 'double_back_to_exit_title';
+  static const duration_title = 'duration_title';
   static const error_message_bad_api_response = 'error_message_bad_api_response';
   static const error_message_certificate_expired = 'error_message_certificate_expired';
   static const error_message_certificate_verification = 'error_message_certificate_verification';
@@ -88,6 +89,7 @@ abstract class  LocaleKeys {
   static const error_suggestion_server_version = 'error_suggestion_server_version';
   static const fast_title = 'fast_title';
   static const faster_title = 'faster_title';
+  static const feature_not_yet_available_snackbar_message = 'feature_not_yet_available_snackbar_message';
   static const go_to_settings_button = 'go_to_settings_button';
   static const header_key_title = 'header_key_title';
   static const header_value_title = 'header_value_title';
@@ -98,6 +100,7 @@ abstract class  LocaleKeys {
   static const hidden_message = 'hidden_message';
   static const how_to_access_logs_button = 'how_to_access_logs_button';
   static const language_title = 'language_title';
+  static const last_streamed_title = 'last_streamed_title';
   static const learn_more_button = 'learn_more_button';
   static const logs_clear_menu_item = 'logs_clear_menu_item';
   static const logs_clear_dialog_title = 'logs_clear_dialog_title';
@@ -110,6 +113,8 @@ abstract class  LocaleKeys {
   static const mask_senstivie_info_title = 'mask_senstivie_info_title';
   static const month = 'month';
   static const more_title = 'more_title';
+  static const name_title = 'name_title';
+  static const never = 'never';
   static const normal_title = 'normal_title';
   static const no_button = 'no_button';
   static const not_accepted_title = 'not_accepted_title';
@@ -135,6 +140,7 @@ abstract class  LocaleKeys {
   static const operations_title = 'operations_title';
   static const optional = 'optional';
   static const other_title = 'other_title';
+  static const plays_title = 'plays_title';
   static const primary_connection_title = 'primary_connection_title';
   static const primary_connection_address_hint = 'primary_connection_address_hint';
   static const primary_connection_address_title = 'primary_connection_address_title';
@@ -174,13 +180,17 @@ abstract class  LocaleKeys {
   static const skip_button = 'skip_button';
   static const slow_title = 'slow_title';
   static const slower_title = 'slower_title';
+  static const sort_users_title = 'sort_users_title';
   static const status_title = 'status_title';
   static const step_title = 'step_title';
+  static const streamed_title = 'streamed_title';
   static const tautulli_remote_logs_title = 'tautulli_remote_logs_title';
   static const terms_of_use_title = 'terms_of_use_title';
   static const translate_tautulli_remote_title = 'translate_tautulli_remote_title';
   static const trust_button = 'trust_button';
   static const username_title = 'username_title';
+  static const users_title = 'users_title';
+  static const users_empty_message = 'users_empty_message';
   static const view_onesignal_privacy_button = 'view_onesignal_privacy_button';
   static const view_privacy_page_button = 'view_privacy_page_button';
   static const password_title = 'password_title';

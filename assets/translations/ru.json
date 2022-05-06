@@ -17,8 +17,11 @@
     "donate_thanks_snackbar_message": "Спасибо за Ваше пожертвование",
     "donate_tip_jar_title": "Коробка для чаевых",
     "donate_title": "Сделать пожертвование",
+    "duration_title": "Длительность",
     "learn_more_button": "ПОДРОБНЕЕ",
     "month": "месяц",
+    "plays_title": "Воспроизведения",
     "save_button": "СОХРАНИТЬ",
-    "settings_title": "Конфигурация"
+    "settings_title": "Конфигурация",
+    "users_title": "Пользователи"
 }

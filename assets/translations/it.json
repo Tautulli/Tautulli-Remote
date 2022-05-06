@@ -34,6 +34,7 @@
     "donate_thanks_snackbar_message": "Grazie per la tua donazione",
     "donate_tip_jar_title": "Salvadanaio",
     "donate_title": "Donazioni",
+    "duration_title": "Durata",
     "fast_title": "Veloce",
     "faster_title": "Più veloce",
     "go_to_settings_button": "VAI A IMPOSTAZIONI",
@@ -48,6 +49,8 @@
     "logs_failed_to_load_message": "Impossibile caricare i log.",
     "mask_senstivie_info_title": "Nascondi Informazioni Sensibili",
     "month": "mese",
+    "name_title": "Nome",
+    "never": "mai",
     "no_button": "NO",
     "normal_title": "Normale",
     "not_accepted_title": "Non Accettato",
@@ -64,6 +67,7 @@
     "onesignal_error_unexpected_message": "Contatta il supporto Tautulli per assistenza.",
     "onesignal_unreachable_title": "Impossibile raggiungere OneSignal",
     "open_server_in_browser_title": "Apri {} nel browser",
+    "plays_title": "Riproduzioni",
     "primary_connection_address_hint": "Inserisci l'indirizzo di connessione principale",
     "primary_connection_address_title": "Indirizzo di Connessione Principale",
     "qr_code_scan_error_snackbar_message": "Errore nella scansione del codice QR",
@@ -82,5 +86,6 @@
     "slower_title": "Più lento",
     "status_title": "Stato",
     "tautulli_remote_logs_title": "Log di Tautulli Remote",
+    "users_title": "Utenti",
     "view_privacy_page_button": "VISUALIZZA LA PAGINA PRIVACY"
 }
