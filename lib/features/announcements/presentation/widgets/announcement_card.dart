@@ -52,12 +52,16 @@ class AnnouncementCard extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 4),
-                        child: FaIcon(
-                          FontAwesomeIcons.solidCircle,
-                          size: 10,
-                          color: announcement.id > lastReadAnnouncementId
-                              ? Theme.of(context).colorScheme.secondary
-                              : Colors.transparent,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 400),
+                          child: announcement.id > lastReadAnnouncementId
+                              ? FaIcon(
+                                  FontAwesomeIcons.solidCircle,
+                                  size: 10,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                )
+                              : const SizedBox(height: 10, width: 10),
                         ),
                       ),
                     ],
