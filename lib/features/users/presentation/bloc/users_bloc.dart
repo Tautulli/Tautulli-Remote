@@ -7,6 +7,7 @@ import 'package:stream_transform/stream_transform.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_model.dart';
 import '../../domain/usecases/users.dart';
 
@@ -78,7 +79,11 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         length: length,
       );
 
-      return _emitFailureOrUsers(emit, failureOrUsers);
+      return _emitFailureOrUsers(
+        event: event,
+        emit: emit,
+        failureOrUsers: failureOrUsers,
+      );
     } else {
       // Make sure bottom loader loading indicator displays when
       // attempting to fetch
@@ -94,21 +99,27 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         start: usersCache.length,
       );
 
-      return _emitFailureOrUsers(emit, failureOrUsers);
+      return _emitFailureOrUsers(
+        event: event,
+        emit: emit,
+        failureOrUsers: failureOrUsers,
+      );
     }
   }
 
-  void _emitFailureOrUsers(
-    Emitter<UsersState> emit,
-    Either<Failure, Tuple2<List<UserModel>, bool>> failureOrUsers,
-  ) {
+  void _emitFailureOrUsers({
+    required UsersFetched event,
+    required Emitter<UsersState> emit,
+    required Either<Failure, Tuple2<List<UserModel>, bool>> failureOrUsers,
+  }) {
     failureOrUsers.fold(
       (failure) {
-        //TODO Log failure
+        logging.error('Users :: Failed to fetch users [$failure]');
 
         return emit(
           state.copyWith(
             status: UsersStatus.failure,
+            users: event.freshFetch ? usersCache : state.users,
             failure: failure,
             message: FailureHelper.mapFailureToMessage(failure),
             suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -116,7 +127,12 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         );
       },
       (users) {
-        //TODO: Update primary active if value changed?
+        event.settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: event.tautulliId,
+            primaryActive: users.value2,
+          ),
+        );
 
         usersCache = usersCache + users.value1;
         hasReachedMaxCache = users.value1.length < 10;

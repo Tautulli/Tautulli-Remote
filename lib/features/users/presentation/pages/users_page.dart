@@ -50,22 +50,20 @@ class _UsersViewState extends State<UsersView> {
     _scrollController.addListener(_onScroll);
     _usersBloc = context.read<UsersBloc>();
     _settingsBloc = context.read<SettingsBloc>();
-    final usersState = _usersBloc.state;
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
     _tautulliId = settingsState.appSettings.activeServer.tautulliId;
 
-    if (usersState.status == UsersStatus.initial) {
-      final usersSort = settingsState.appSettings.usersSort.split('|');
-      _orderColumn = usersSort[0];
-      _orderDir = usersSort[1];
-    }
+    final usersSort = settingsState.appSettings.usersSort.split('|');
+    _orderColumn = usersSort[0];
+    _orderDir = usersSort[1];
 
     context.read<UsersBloc>().add(
           UsersFetched(
             tautulliId: _tautulliId,
             orderColumn: _orderColumn,
             orderDir: _orderDir,
+            settingsBloc: _settingsBloc,
           ),
         );
   }
@@ -73,6 +71,16 @@ class _UsersViewState extends State<UsersView> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SettingsBloc, SettingsState>(
+      // Listen for active server change and run a fresh user fetch if it does
+      listenWhen: (previous, current) {
+        if (previous is SettingsSuccess && current is SettingsSuccess) {
+          if (previous.appSettings.activeServer !=
+              current.appSettings.activeServer) {
+            return true;
+          }
+        }
+        return false;
+      },
       listener: (ctx, state) {
         if (state is SettingsSuccess) {
           _tautulliId = state.appSettings.activeServer.tautulliId;
@@ -82,6 +90,7 @@ class _UsersViewState extends State<UsersView> {
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
                   freshFetch: true,
+                  settingsBloc: _settingsBloc,
                 ),
               );
         }
@@ -102,6 +111,7 @@ class _UsersViewState extends State<UsersView> {
                           orderColumn: _orderColumn,
                           orderDir: _orderDir,
                           freshFetch: true,
+                          settingsBloc: _settingsBloc,
                         ),
                       );
 
@@ -146,6 +156,7 @@ class _UsersViewState extends State<UsersView> {
                                       tautulliId: _tautulliId,
                                       orderColumn: _orderColumn,
                                       orderDir: _orderDir,
+                                      settingsBloc: _settingsBloc,
                                     ),
                                   );
                             },
@@ -183,6 +194,7 @@ class _UsersViewState extends State<UsersView> {
           tautulliId: _tautulliId,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
+          settingsBloc: _settingsBloc,
         ),
       );
     }
@@ -223,6 +235,7 @@ class _UsersViewState extends State<UsersView> {
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
                   freshFetch: true,
+                  settingsBloc: _settingsBloc,
                 ),
               );
             }

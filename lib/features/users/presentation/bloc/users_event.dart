@@ -16,6 +16,7 @@ class UsersFetched extends UsersEvent {
   final int? length;
   final String? search;
   final bool freshFetch;
+  final SettingsBloc settingsBloc;
 
   const UsersFetched({
     required this.tautulliId,
@@ -26,8 +27,9 @@ class UsersFetched extends UsersEvent {
     this.length,
     this.search,
     this.freshFetch = false,
+    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [tautulliId];
+  List<Object> get props => [tautulliId, settingsBloc];
 }
