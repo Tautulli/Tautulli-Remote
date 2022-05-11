@@ -9,10 +9,10 @@ class PageBody extends StatelessWidget {
   final bool loading;
 
   const PageBody({
-    Key? key,
+    super.key,
     required this.child,
     this.loading = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@ import '../../translations/locale_keys.g.dart';
 import '../pages/status_page.dart';
 
 class SettingsNotLoaded extends StatelessWidget {
-  const SettingsNotLoaded({Key? key}) : super(key: key);
+  const SettingsNotLoaded({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/registration_headers_bloc.dart';
 
 class RegistrationExitDialog extends StatelessWidget {
-  const RegistrationExitDialog({Key? key}) : super(key: key);
+  const RegistrationExitDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

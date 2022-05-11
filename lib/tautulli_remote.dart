@@ -29,9 +29,9 @@ class TautulliRemote extends StatefulWidget {
   final String? initialRoute;
 
   const TautulliRemote({
-    Key? key,
+    super.key,
     this.initialRoute,
-  }) : super(key: key);
+  });
 
   @override
   _TautulliRemoteState createState() => _TautulliRemoteState();
@@ -368,10 +368,6 @@ class _TautulliRemoteState extends State<TautulliRemote> {
     );
 
     return MaterialApp(
-      // TODO: Eventually remove when this works from the themedata userMaterial3 flag
-      scrollBehavior: const ScrollBehavior(
-        androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
-      ),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,

@@ -10,9 +10,9 @@ class ChangelogItem extends StatelessWidget {
 
   const ChangelogItem(
     this.release, {
-    Key? key,
+    super.key,
     this.bottomPadding = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../translations/locale_keys.g.dart';
 
 class OnesignalDataPrivacyText extends StatelessWidget {
-  const OnesignalDataPrivacyText({Key? key}) : super(key: key);
+  const OnesignalDataPrivacyText({super.key});
 
   @override
   Widget build(BuildContext context) {

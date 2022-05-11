@@ -11,7 +11,7 @@ import '../../../../translations/locale_keys.g.dart';
 import '../widgets/help_translate_heading_card.dart';
 
 class HelpTranslatePage extends StatelessWidget {
-  const HelpTranslatePage({Key? key}) : super(key: key);
+  const HelpTranslatePage({super.key});
 
   static const routeName = '/help_translate';
 
@@ -22,7 +22,7 @@ class HelpTranslatePage extends StatelessWidget {
 }
 
 class HelpTranslateView extends StatelessWidget {
-  const HelpTranslateView({Key? key}) : super(key: key);
+  const HelpTranslateView({super.key});
 
   @override
   Widget build(BuildContext context) {

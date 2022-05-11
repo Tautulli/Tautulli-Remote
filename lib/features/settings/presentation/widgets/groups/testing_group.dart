@@ -9,7 +9,7 @@ import '../../pages/data_dump.dart';
 import '../../pages/how_to_test_page.dart';
 
 class TestingGroup extends StatelessWidget {
-  const TestingGroup({Key? key}) : super(key: key);
+  const TestingGroup({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -8,9 +8,9 @@ class WizardNextButton extends StatelessWidget {
   final bool isDisabled;
 
   const WizardNextButton({
-    Key? key,
+    super.key,
     this.isDisabled = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -16,7 +16,7 @@ class CustomListTile extends StatelessWidget {
   final bool sensitive;
 
   const CustomListTile({
-    Key? key,
+    super.key,
     required this.leading,
     required this.title,
     this.subtitle,
@@ -25,7 +25,7 @@ class CustomListTile extends StatelessWidget {
     this.onLongPress,
     this.inactive = false,
     this.sensitive = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

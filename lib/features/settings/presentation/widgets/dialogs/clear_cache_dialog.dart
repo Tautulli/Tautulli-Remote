@@ -6,7 +6,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/settings_bloc.dart';
 
 class ClearCacheDialog extends StatelessWidget {
-  const ClearCacheDialog({Key? key}) : super(key: key);
+  const ClearCacheDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -9,9 +9,9 @@ class ActivityRefreshRateDialog extends StatefulWidget {
   final int initalValue;
 
   const ActivityRefreshRateDialog({
-    Key? key,
+    super.key,
     required this.initalValue,
-  }) : super(key: key);
+  });
 
   @override
   State<ActivityRefreshRateDialog> createState() =>

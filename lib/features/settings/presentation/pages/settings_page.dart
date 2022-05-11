@@ -16,7 +16,7 @@ import '../widgets/register_server_button.dart';
 import '../widgets/settings_alert_banner.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   static const routeName = '/settings';
 
@@ -27,7 +27,7 @@ class SettingsPage extends StatelessWidget {
 }
 
 class SettingsView extends StatelessWidget {
-  const SettingsView({Key? key}) : super(key: key);
+  const SettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {

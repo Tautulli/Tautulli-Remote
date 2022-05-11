@@ -11,7 +11,7 @@ import '../../../onesignal/presentation/bloc/onesignal_sub_bloc.dart';
 import '../bloc/settings_bloc.dart';
 
 class SettingsAlertBanner extends StatelessWidget {
-  const SettingsAlertBanner({Key? key}) : super(key: key);
+  const SettingsAlertBanner({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -100,14 +100,13 @@ class _SettingsAlertBannerContent extends StatelessWidget {
   final TextButton? buttonTwo;
 
   const _SettingsAlertBannerContent({
-    Key? key,
+    super.key,
     this.backgroundColor,
     required this.title,
     this.message,
     this.buttonOne,
     this.buttonTwo,
-  })  : assert(buttonOne != null || buttonTwo != null),
-        super(key: key);
+  }) : assert(buttonOne != null || buttonTwo != null);
 
   @override
   Widget build(BuildContext context) {

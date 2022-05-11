@@ -12,9 +12,9 @@ class UserDetails extends StatelessWidget {
   final UserModel user;
 
   const UserDetails({
-    Key? key,
+    super.key,
     required this.user,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

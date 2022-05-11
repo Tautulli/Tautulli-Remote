@@ -20,9 +20,9 @@ class DonatePage extends StatelessWidget {
   final bool showDrawer;
 
   const DonatePage({
-    Key? key,
+    super.key,
     this.showDrawer = true,
-  }) : super(key: key);
+  });
 
   static const routeName = '/donate';
 
@@ -47,7 +47,7 @@ class DonatePage extends StatelessWidget {
 }
 
 class DonateView extends StatefulWidget {
-  const DonateView({Key? key}) : super(key: key);
+  const DonateView({super.key});
 
   @override
   State<DonateView> createState() => _DonateViewState();

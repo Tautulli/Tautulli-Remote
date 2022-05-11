@@ -20,7 +20,7 @@ import '../widgets/clear_logging_dialog.dart';
 import '../widgets/logging_table.dart';
 
 class LoggingPage extends StatelessWidget {
-  const LoggingPage({Key? key}) : super(key: key);
+  const LoggingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class LoggingPage extends StatelessWidget {
 }
 
 class LoggingView extends StatefulWidget {
-  const LoggingView({Key? key}) : super(key: key);
+  const LoggingView({super.key});
 
   @override
   State<LoggingView> createState() => _LoggingViewState();

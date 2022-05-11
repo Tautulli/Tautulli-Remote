@@ -6,11 +6,11 @@ class DrawerIconButton extends StatelessWidget {
   final bool selected;
 
   const DrawerIconButton({
-    Key? key,
+    super.key,
     required this.icon,
     this.onPressed,
     required this.selected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

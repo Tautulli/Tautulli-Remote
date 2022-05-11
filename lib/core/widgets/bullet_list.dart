@@ -5,9 +5,9 @@ class BulletList extends StatelessWidget {
   final List<String> listItems;
 
   const BulletList({
-    Key? key,
+    super.key,
     required this.listItems,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

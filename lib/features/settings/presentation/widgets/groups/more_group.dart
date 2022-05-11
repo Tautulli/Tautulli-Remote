@@ -9,7 +9,7 @@ import '../../../../../core/widgets/list_tile_group.dart';
 import '../../../../../translations/locale_keys.g.dart';
 
 class MoreGroup extends StatelessWidget {
-  const MoreGroup({Key? key}) : super(key: key);
+  const MoreGroup({super.key});
 
   @override
   Widget build(BuildContext context) {

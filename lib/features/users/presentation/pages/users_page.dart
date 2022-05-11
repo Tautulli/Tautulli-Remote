@@ -18,7 +18,7 @@ import '../bloc/users_bloc.dart';
 import '../widgets/user_card.dart';
 
 class UsersPage extends StatelessWidget {
-  const UsersPage({Key? key}) : super(key: key);
+  const UsersPage({super.key});
 
   static const routeName = '/users';
 
@@ -32,7 +32,7 @@ class UsersPage extends StatelessWidget {
 }
 
 class UsersView extends StatefulWidget {
-  const UsersView({Key? key}) : super(key: key);
+  const UsersView({super.key});
 
   @override
   State<UsersView> createState() => _UsersViewState();

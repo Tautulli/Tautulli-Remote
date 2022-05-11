@@ -9,9 +9,9 @@ class RegistrationFailureDialog extends StatelessWidget {
   final Failure failure;
 
   const RegistrationFailureDialog({
-    Key? key,
+    super.key,
     required this.failure,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

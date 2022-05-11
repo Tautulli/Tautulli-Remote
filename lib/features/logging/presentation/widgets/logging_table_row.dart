@@ -9,9 +9,9 @@ class LoggingTableRow extends StatelessWidget {
 
   const LoggingTableRow(
     this.log, {
-    Key? key,
+    super.key,
     this.backgroundColor = Colors.transparent,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

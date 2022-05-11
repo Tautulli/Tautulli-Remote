@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import '../../../../translations/locale_keys.g.dart';
 
 class HelpTranslateHeadingCard extends StatelessWidget {
-  const HelpTranslateHeadingCard({Key? key}) : super(key: key);
+  const HelpTranslateHeadingCard({super.key});
 
   @override
   Widget build(BuildContext context) {

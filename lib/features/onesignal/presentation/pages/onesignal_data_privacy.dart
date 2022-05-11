@@ -12,9 +12,9 @@ class OneSignalDataPrivacyPage extends StatelessWidget {
   final bool showToggle;
 
   const OneSignalDataPrivacyPage({
-    Key? key,
+    super.key,
     this.showToggle = true,
-  }) : super(key: key);
+  });
 
   static const routeName = '/onesignal_privacy';
 
@@ -28,9 +28,9 @@ class OneSignalDataPrivacyView extends StatelessWidget {
   final bool showToggle;
 
   const OneSignalDataPrivacyView({
-    Key? key,
+    super.key,
     required this.showToggle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

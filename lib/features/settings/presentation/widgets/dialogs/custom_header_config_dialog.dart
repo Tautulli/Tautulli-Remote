@@ -23,14 +23,14 @@ class CustomHeaderConfigDialog extends StatefulWidget {
   // final List<CustomHeaderModel>? currentHeaders;
 
   const CustomHeaderConfigDialog({
-    Key? key,
+    super.key,
     required this.headerType,
     required this.forRegistration,
     this.existingKey,
     this.existingValue,
     this.tautulliId,
     // this.currentHeaders,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomHeaderConfigDialog> createState() =>

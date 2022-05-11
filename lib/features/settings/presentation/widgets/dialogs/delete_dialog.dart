@@ -7,9 +7,9 @@ class DeleteDialog extends StatelessWidget {
   final Widget title;
 
   const DeleteDialog({
-    Key? key,
+    super.key,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

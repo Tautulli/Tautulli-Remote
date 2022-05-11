@@ -19,9 +19,9 @@ class ServerSettingsPage extends StatelessWidget {
   final int serverId;
 
   const ServerSettingsPage({
-    Key? key,
+    super.key,
     required this.serverId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +35,9 @@ class ServerSettingsView extends StatelessWidget {
   final int serverId;
 
   const ServerSettingsView({
-    Key? key,
+    super.key,
     required this.serverId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

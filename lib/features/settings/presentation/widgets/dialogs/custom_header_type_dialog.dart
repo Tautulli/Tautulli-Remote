@@ -12,11 +12,11 @@ class CustomHeaderTypeDialog extends StatelessWidget {
   final List<CustomHeaderModel>? currentHeaders;
 
   const CustomHeaderTypeDialog({
-    Key? key,
+    super.key,
     required this.forRegistration,
     this.tautulliId,
     this.currentHeaders,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

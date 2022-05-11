@@ -20,7 +20,7 @@ import '../widgets/server_registration_step_three.dart';
 import '../widgets/server_registration_step_two.dart';
 
 class ServerRegistrationPage extends StatelessWidget {
-  const ServerRegistrationPage({Key? key}) : super(key: key);
+  const ServerRegistrationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class ServerRegistrationPage extends StatelessWidget {
 }
 
 class ServerRegistrationView extends StatelessWidget {
-  const ServerRegistrationView({Key? key}) : super(key: key);
+  const ServerRegistrationView({super.key});
 
   @override
   Widget build(BuildContext context) {

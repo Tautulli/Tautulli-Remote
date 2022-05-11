@@ -13,10 +13,10 @@ class ServerConnectionAddressDialog extends StatelessWidget {
   final ServerModel server;
 
   const ServerConnectionAddressDialog({
-    Key? key,
+    super.key,
     required this.primary,
     required this.server,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

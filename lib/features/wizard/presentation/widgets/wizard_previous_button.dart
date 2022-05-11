@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../bloc/wizard_bloc.dart';
 
 class WizardPreviousButton extends StatelessWidget {
-  const WizardPreviousButton({Key? key}) : super(key: key);
+  const WizardPreviousButton({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -10,7 +10,7 @@ import 'wizard_previous_button.dart';
 import 'wizard_stepper.dart';
 
 class WizardClosing extends StatelessWidget {
-  const WizardClosing({Key? key}) : super(key: key);
+  const WizardClosing({super.key});
 
   @override
   Widget build(BuildContext context) {

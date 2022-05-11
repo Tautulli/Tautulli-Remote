@@ -9,9 +9,9 @@ class ServerTimeoutDialog extends StatefulWidget {
   final int initialValue;
 
   const ServerTimeoutDialog({
-    Key? key,
+    super.key,
     required this.initialValue,
-  }) : super(key: key);
+  });
 
   @override
   State<ServerTimeoutDialog> createState() => _ServerTimeoutDialogState();

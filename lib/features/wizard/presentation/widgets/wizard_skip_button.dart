@@ -16,9 +16,9 @@ class WizardSkipButton extends StatelessWidget {
   final SkipType skipType;
 
   const WizardSkipButton({
-    Key? key,
+    super.key,
     required this.skipType,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

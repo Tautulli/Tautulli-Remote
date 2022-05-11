@@ -5,7 +5,7 @@ import '../../../../dependency_injection.dart' as di;
 import '../../../settings/domain/usecases/settings.dart';
 
 class WizardExitButton extends StatelessWidget {
-  const WizardExitButton({Key? key}) : super(key: key);
+  const WizardExitButton({super.key});
 
   @override
   Widget build(BuildContext context) {

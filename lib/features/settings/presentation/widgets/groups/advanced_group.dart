@@ -14,7 +14,7 @@ import '../dialogs/language_dialog.dart';
 import '../list_tiles/checkbox_settings_list_tile.dart';
 
 class AdvancedGroup extends StatelessWidget {
-  const AdvancedGroup({Key? key}) : super(key: key);
+  const AdvancedGroup({super.key});
 
   @override
   Widget build(BuildContext context) {

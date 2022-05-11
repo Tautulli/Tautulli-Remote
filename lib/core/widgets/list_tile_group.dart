@@ -7,10 +7,10 @@ class ListTileGroup extends StatelessWidget {
   final List<Widget> listTiles;
 
   const ListTileGroup({
-    Key? key,
+    super.key,
     this.heading,
     required this.listTiles,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

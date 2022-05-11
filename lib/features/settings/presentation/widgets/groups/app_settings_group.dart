@@ -12,7 +12,7 @@ import '../dialogs/activity_refresh_rate_dialog.dart';
 import '../dialogs/server_timeout_dialog.dart';
 
 class AppSettingsGroup extends StatelessWidget {
-  const AppSettingsGroup({Key? key}) : super(key: key);
+  const AppSettingsGroup({super.key});
 
   @override
   Widget build(BuildContext context) {

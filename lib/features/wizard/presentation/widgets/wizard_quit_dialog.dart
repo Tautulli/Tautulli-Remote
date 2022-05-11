@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../translations/locale_keys.g.dart';
 
 class WizardQuitDialog extends StatelessWidget {
-  const WizardQuitDialog({Key? key}) : super(key: key);
+  const WizardQuitDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -9,10 +9,10 @@ class WizardStepper extends StatelessWidget {
   final Widget rightAction;
 
   const WizardStepper({
-    Key? key,
+    super.key,
     required this.leftAction,
     required this.rightAction,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../translations/locale_keys.g.dart';
 
 class ActiveConnectionIndicator extends StatelessWidget {
-  const ActiveConnectionIndicator({Key? key}) : super(key: key);
+  const ActiveConnectionIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {

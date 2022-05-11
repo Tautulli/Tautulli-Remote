@@ -7,7 +7,7 @@ import '../../../../core/widgets/notice_card.dart';
 import '../../../../core/widgets/page_body.dart';
 
 class HowToTestPage extends StatelessWidget {
-  const HowToTestPage({Key? key}) : super(key: key);
+  const HowToTestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class HowToTestPage extends StatelessWidget {
 }
 
 class HowToTestView extends StatelessWidget {
-  const HowToTestView({Key? key}) : super(key: key);
+  const HowToTestView({super.key});
 
   @override
   Widget build(BuildContext context) {

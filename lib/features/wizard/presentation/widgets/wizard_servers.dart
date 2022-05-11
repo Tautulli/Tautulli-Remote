@@ -18,7 +18,7 @@ import 'wizard_skip_button.dart';
 import 'wizard_stepper.dart';
 
 class WizardServers extends StatelessWidget {
-  const WizardServers({Key? key}) : super(key: key);
+  const WizardServers({super.key});
 
   @override
   Widget build(BuildContext context) {

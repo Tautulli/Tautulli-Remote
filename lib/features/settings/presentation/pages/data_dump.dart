@@ -14,7 +14,7 @@ import '../../../onesignal/presentation/bloc/onesignal_status_bloc.dart';
 import '../bloc/settings_bloc.dart';
 
 class DataDumpPage extends StatelessWidget {
-  const DataDumpPage({Key? key}) : super(key: key);
+  const DataDumpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class DataDumpPage extends StatelessWidget {
 }
 
 class DataDumpView extends StatelessWidget {
-  const DataDumpView({Key? key}) : super(key: key);
+  const DataDumpView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -101,10 +101,10 @@ class _SettingDumpGroup extends StatelessWidget {
   final List<Widget> widgetList;
 
   const _SettingDumpGroup({
-    Key? key,
+    super.key,
     required this.title,
     required this.widgetList,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +134,7 @@ class _SettingDumpGroup extends StatelessWidget {
 class _DataDumpRowHeading extends StatelessWidget {
   final String text;
 
-  const _DataDumpRowHeading(this.text, {Key? key}) : super(key: key);
+  const _DataDumpRowHeading(this.text, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -149,9 +149,9 @@ class _DataDumpRow extends StatelessWidget {
   final List<Widget> children;
 
   const _DataDumpRow({
-    Key? key,
+    super.key,
     required this.children,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -174,9 +174,9 @@ class _AppSettings extends StatelessWidget {
   final SettingsSuccess settingsState;
 
   const _AppSettings({
-    Key? key,
+    super.key,
     required this.settingsState,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +200,7 @@ class _AppSettings extends StatelessWidget {
 }
 
 class _OneSignalStatus extends StatelessWidget {
-  const _OneSignalStatus({Key? key}) : super(key: key);
+  const _OneSignalStatus({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -288,7 +288,7 @@ class _OneSignalStatus extends StatelessWidget {
 }
 
 class _AnnouncementsDumpGroup extends StatelessWidget {
-  const _AnnouncementsDumpGroup({Key? key}) : super(key: key);
+  const _AnnouncementsDumpGroup({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -375,9 +375,9 @@ class _ServerDumpGroup extends StatelessWidget {
   final SettingsSuccess settingsState;
 
   const _ServerDumpGroup({
-    Key? key,
+    super.key,
     required this.settingsState,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

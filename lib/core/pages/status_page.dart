@@ -9,12 +9,12 @@ class StatusPage extends StatelessWidget {
   final bool scrollable;
 
   const StatusPage({
-    Key? key,
+    super.key,
     required this.message,
     this.suggestion,
     this.action,
     this.scrollable = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

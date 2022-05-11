@@ -13,9 +13,9 @@ class ServerPrimaryConnectionListTile extends StatelessWidget {
   final ServerModel server;
 
   const ServerPrimaryConnectionListTile({
-    Key? key,
+    super.key,
     required this.server,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

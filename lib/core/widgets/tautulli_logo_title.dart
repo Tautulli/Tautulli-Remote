@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TautulliLogoTitle extends StatelessWidget {
-  const TautulliLogoTitle({Key? key}) : super(key: key);
+  const TautulliLogoTitle({super.key});
 
   @override
   Widget build(BuildContext context) {

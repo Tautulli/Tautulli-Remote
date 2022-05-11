@@ -11,7 +11,7 @@ import '../widgets/wizard_quit_dialog.dart';
 import '../widgets/wizard_servers.dart';
 
 class WizardPage extends StatelessWidget {
-  const WizardPage({Key? key}) : super(key: key);
+  const WizardPage({super.key});
 
   static const routeName = '/wizard';
 
@@ -25,7 +25,7 @@ class WizardPage extends StatelessWidget {
 }
 
 class WizardView extends StatelessWidget {
-  const WizardView({Key? key}) : super(key: key);
+  const WizardView({super.key});
 
   @override
   Widget build(BuildContext context) {

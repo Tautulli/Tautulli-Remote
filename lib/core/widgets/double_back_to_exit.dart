@@ -12,10 +12,10 @@ class DoubleBackToExit extends StatelessWidget {
   final GlobalKey<InnerDrawerState> innerDrawerKey;
 
   const DoubleBackToExit({
-    Key? key,
+    super.key,
     required this.child,
     required this.innerDrawerKey,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

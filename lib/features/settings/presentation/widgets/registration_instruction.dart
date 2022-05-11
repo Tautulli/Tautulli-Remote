@@ -14,14 +14,14 @@ class RegistrationInstruction extends StatelessWidget {
   final bool actionOnTop;
 
   const RegistrationInstruction({
-    Key? key,
+    super.key,
     this.isOptional = false,
     this.hasChildPadding = true,
     required this.heading,
     this.child,
     this.action,
     this.actionOnTop = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

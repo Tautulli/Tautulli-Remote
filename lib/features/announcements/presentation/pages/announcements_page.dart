@@ -11,7 +11,7 @@ import '../bloc/announcements_bloc.dart';
 import '../widgets/announcement_card.dart';
 
 class AnnouncementsView extends StatelessWidget {
-  const AnnouncementsView({Key? key}) : super(key: key);
+  const AnnouncementsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class AnnouncementsView extends StatelessWidget {
 }
 
 class AnnouncementsPage extends StatefulWidget {
-  const AnnouncementsPage({Key? key}) : super(key: key);
+  const AnnouncementsPage({super.key});
 
   static const routeName = '/announcements';
 

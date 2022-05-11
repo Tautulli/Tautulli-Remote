@@ -15,11 +15,11 @@ class ServerRegistrationStepTwo extends StatefulWidget {
   final TextEditingController tokenController;
 
   const ServerRegistrationStepTwo({
-    Key? key,
+    super.key,
     required this.primaryController,
     required this.secondaryController,
     required this.tokenController,
-  }) : super(key: key);
+  });
 
   @override
   State<ServerRegistrationStepTwo> createState() =>

@@ -9,7 +9,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../../../../logging/presentation/pages/logging_page.dart';
 
 class HelpAndSupportGroup extends StatelessWidget {
-  const HelpAndSupportGroup({Key? key}) : super(key: key);
+  const HelpAndSupportGroup({super.key});
 
   @override
   Widget build(BuildContext context) {

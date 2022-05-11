@@ -16,9 +16,9 @@ class ServersGroup extends StatelessWidget {
   final bool isWizard;
 
   const ServersGroup({
-    Key? key,
+    super.key,
     this.isWizard = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

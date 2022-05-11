@@ -11,9 +11,9 @@ class ServerDeviceTokenListTile extends StatelessWidget {
   final String deviceToken;
 
   const ServerDeviceTokenListTile({
-    Key? key,
+    super.key,
     required this.deviceToken,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

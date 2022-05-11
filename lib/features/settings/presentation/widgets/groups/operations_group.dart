@@ -8,7 +8,7 @@ import '../../../../../translations/locale_keys.g.dart';
 import '../dialogs/clear_cache_dialog.dart';
 
 class OperationsGroup extends StatelessWidget {
-  const OperationsGroup({Key? key}) : super(key: key);
+  const OperationsGroup({super.key});
 
   @override
   Widget build(BuildContext context) {

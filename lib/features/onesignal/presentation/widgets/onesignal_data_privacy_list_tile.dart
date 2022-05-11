@@ -10,7 +10,7 @@ import '../bloc/onesignal_health_bloc.dart';
 import '../bloc/onesignal_privacy_bloc.dart';
 
 class OneSignalDataPrivacyListTile extends StatelessWidget {
-  const OneSignalDataPrivacyListTile({Key? key}) : super(key: key);
+  const OneSignalDataPrivacyListTile({super.key});
 
   @override
   Widget build(BuildContext context) {

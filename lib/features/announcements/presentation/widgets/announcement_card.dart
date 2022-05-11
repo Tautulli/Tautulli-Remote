@@ -13,10 +13,10 @@ class AnnouncementCard extends StatelessWidget {
   final int lastReadAnnouncementId;
 
   const AnnouncementCard({
-    Key? key,
+    super.key,
     required this.announcement,
     required this.lastReadAnnouncementId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

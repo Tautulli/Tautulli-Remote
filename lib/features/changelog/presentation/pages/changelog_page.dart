@@ -9,7 +9,7 @@ import '../../data/datasources/changelog_data_source.dart';
 import '../widgets/changelog_item.dart';
 
 class ChangelogPage extends StatelessWidget {
-  const ChangelogPage({Key? key}) : super(key: key);
+  const ChangelogPage({super.key});
 
   static const routeName = '/changelog';
 
@@ -20,7 +20,7 @@ class ChangelogPage extends StatelessWidget {
 }
 
 class ChangelogView extends StatelessWidget {
-  const ChangelogView({Key? key}) : super(key: key);
+  const ChangelogView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -8,12 +8,12 @@ class NoticeCard extends StatelessWidget {
   final Color? color;
 
   const NoticeCard({
-    Key? key,
+    super.key,
     required this.leading,
     required this.title,
     this.content,
     this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

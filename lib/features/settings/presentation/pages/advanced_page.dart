@@ -8,7 +8,7 @@ import '../widgets/groups/advanced_group.dart';
 import '../widgets/groups/operations_group.dart';
 
 class AdvancedPage extends StatelessWidget {
-  const AdvancedPage({Key? key}) : super(key: key);
+  const AdvancedPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class AdvancedPage extends StatelessWidget {
 }
 
 class AdvancedView extends StatelessWidget {
-  const AdvancedView({Key? key}) : super(key: key);
+  const AdvancedView({super.key});
 
   @override
   Widget build(BuildContext context) {

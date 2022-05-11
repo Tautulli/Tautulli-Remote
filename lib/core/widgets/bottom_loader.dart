@@ -13,13 +13,13 @@ class BottomLoader extends StatelessWidget {
   final Function()? onTap;
 
   const BottomLoader({
-    Key? key,
+    super.key,
     required this.status,
     this.failure,
     this.message,
     this.suggestion,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

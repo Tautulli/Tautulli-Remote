@@ -10,7 +10,7 @@ class CheckboxSettingsListTile extends StatelessWidget {
   final Function(bool?)? onChanged;
 
   const CheckboxSettingsListTile({
-    Key? key,
+    super.key,
     this.titleIsTwoLines = false,
     this.subtitleIsTwoLines = false,
     required this.leading,
@@ -18,7 +18,7 @@ class CheckboxSettingsListTile extends StatelessWidget {
     this.subtitle,
     required this.value,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

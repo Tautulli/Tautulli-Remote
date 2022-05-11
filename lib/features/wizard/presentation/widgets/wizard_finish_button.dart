@@ -9,7 +9,7 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/wizard_bloc.dart';
 
 class WizardFinishButton extends StatelessWidget {
-  const WizardFinishButton({Key? key}) : super(key: key);
+  const WizardFinishButton({super.key});
 
   @override
   Widget build(BuildContext context) {

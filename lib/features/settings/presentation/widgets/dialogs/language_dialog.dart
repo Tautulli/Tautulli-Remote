@@ -10,9 +10,9 @@ class LanguageDialog extends StatefulWidget {
   final Locale initialValue;
 
   const LanguageDialog({
-    Key? key,
+    super.key,
     required this.initialValue,
-  }) : super(key: key);
+  });
 
   @override
   _LanguageDialogState createState() => _LanguageDialogState();

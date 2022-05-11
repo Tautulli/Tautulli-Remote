@@ -23,11 +23,11 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
   final List<Widget>? actions;
 
   const ScaffoldWithInnerDrawer({
-    Key? key,
+    super.key,
     required this.title,
     required this.body,
     this.actions,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -102,9 +102,9 @@ class _AppDrawer extends StatelessWidget {
   final GlobalKey<InnerDrawerState> innerDrawerKey;
 
   const _AppDrawer({
-    Key? key,
+    super.key,
     required this.innerDrawerKey,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +188,7 @@ class _AppDrawer extends StatelessWidget {
 }
 
 class _Logo extends StatelessWidget {
-  const _Logo({Key? key}) : super(key: key);
+  const _Logo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +224,7 @@ class _Logo extends StatelessWidget {
 }
 
 class _ServerSelector extends StatefulWidget {
-  const _ServerSelector({Key? key}) : super(key: key);
+  const _ServerSelector({super.key});
 
   @override
   State<_ServerSelector> createState() => __ServerSelectorState();
@@ -311,11 +311,11 @@ class _SettingsGroup extends StatelessWidget {
   final bool useListTiles;
 
   const _SettingsGroup({
-    Key? key,
+    super.key,
     required this.innerDrawerKey,
     required this.route,
     this.useListTiles = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -14,11 +14,11 @@ class DeleteServerButton extends StatelessWidget {
   final ServerModel server;
 
   const DeleteServerButton({
-    Key? key,
+    super.key,
     this.isWizard = false,
     required this.serverId,
     required this.server,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

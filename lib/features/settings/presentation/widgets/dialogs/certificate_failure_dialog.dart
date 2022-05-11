@@ -7,7 +7,7 @@ import '../../bloc/register_device_bloc.dart';
 import '../../bloc/settings_bloc.dart';
 
 class CertificateFailureDialog extends StatelessWidget {
-  const CertificateFailureDialog({Key? key}) : super(key: key);
+  const CertificateFailureDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

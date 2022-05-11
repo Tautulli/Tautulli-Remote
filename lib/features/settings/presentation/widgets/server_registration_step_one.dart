@@ -7,8 +7,8 @@ import 'registration_instruction.dart';
 
 class ServerRegistrationStepOne extends StatelessWidget {
   const ServerRegistrationStepOne({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

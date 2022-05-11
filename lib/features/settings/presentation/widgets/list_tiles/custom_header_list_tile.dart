@@ -20,14 +20,14 @@ class CustomHeaderListTile extends StatelessWidget {
   final bool sensitive;
 
   const CustomHeaderListTile({
-    Key? key,
+    super.key,
     required this.forRegistration,
     required this.title,
     required this.subtitle,
     this.showLeading = true,
     this.tautulliId,
     this.sensitive = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

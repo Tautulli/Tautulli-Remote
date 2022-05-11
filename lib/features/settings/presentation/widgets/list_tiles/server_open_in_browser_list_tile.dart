@@ -10,9 +10,9 @@ class ServerOpenInBrowserListTile extends StatelessWidget {
   final ServerModel server;
 
   const ServerOpenInBrowserListTile({
-    Key? key,
+    super.key,
     required this.server,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -8,13 +8,13 @@ class DrawerTile extends StatelessWidget {
   final bool selected;
 
   const DrawerTile({
-    Key? key,
+    super.key,
     this.leading,
     this.title,
     this.onTap,
     this.trailing,
     required this.selected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

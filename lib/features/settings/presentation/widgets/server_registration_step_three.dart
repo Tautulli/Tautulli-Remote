@@ -10,8 +10,8 @@ import 'registration_instruction.dart';
 
 class ServerRegistrationStepThree extends StatelessWidget {
   const ServerRegistrationStepThree({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

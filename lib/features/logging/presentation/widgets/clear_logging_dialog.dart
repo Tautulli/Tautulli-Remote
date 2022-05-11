@@ -9,8 +9,8 @@ class ClearLoggingDialog extends StatelessWidget {
 
   const ClearLoggingDialog(
     this.loggingBloc, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

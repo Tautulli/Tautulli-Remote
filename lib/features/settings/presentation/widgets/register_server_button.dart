@@ -5,7 +5,7 @@ import '../../../../translations/locale_keys.g.dart';
 import '../pages/server_registration_page.dart';
 
 class RegisterServerButton extends StatelessWidget {
-  const RegisterServerButton({Key? key}) : super(key: key);
+  const RegisterServerButton({super.key});
 
   @override
   Widget build(BuildContext context) {
