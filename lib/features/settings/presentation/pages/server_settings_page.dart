@@ -95,6 +95,7 @@ class ServerSettingsView extends StatelessWidget {
                       )
                       .toList(),
                 ),
+                if (server.customHeaders.isNotEmpty) const Gap(8),
                 Row(
                   children: [
                     Expanded(
