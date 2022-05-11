@@ -218,6 +218,7 @@ class _TautulliRemoteState extends State<TautulliRemote> {
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         foregroundColor: TautulliColorPalette.notWhite,
+        backgroundColor: PlexColorPalette.gamboge,
         extendedTextStyle: GoogleFonts.openSans(
           fontWeight: FontWeight.bold,
         ),
