@@ -41,8 +41,8 @@ class HelpTranslateView extends StatelessWidget {
                   leading: WebsafeSvg.asset(
                     'assets/logos/weblate.svg',
                     color: Theme.of(context).colorScheme.tertiary,
-                    height: 35,
-                    width: 35,
+                    height: 30,
+                    width: 30,
                   ),
                   title: LocaleKeys.translate_tautulli_remote_title.tr(),
                   onTap: () async {

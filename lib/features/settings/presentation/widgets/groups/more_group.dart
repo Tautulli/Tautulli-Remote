@@ -20,7 +20,7 @@ class MoreGroup extends StatelessWidget {
           leading: WebsafeSvg.asset(
             'assets/logos/onesignal.svg',
             color: Theme.of(context).colorScheme.tertiary,
-            height: 35,
+            height: 30,
           ),
           title: LocaleKeys.onesignal_data_privacy_title.tr(),
           onTap: () {
