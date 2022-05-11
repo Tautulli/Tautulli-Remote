@@ -7,7 +7,7 @@ part 'wizard_state.dart';
 class WizardBloc extends Bloc<WizardEvent, WizardState> {
   WizardBloc()
       : super(
-          WizardInitial(
+          const WizardInitial(
             activeStep: 0,
             oneSignalAllowed: false,
             oneSignalSkipped: false,

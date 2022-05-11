@@ -14,7 +14,7 @@ class WizardInitial extends WizardState {
   final int stepCount;
   final bool serversSkipped;
 
-  WizardInitial({
+  const WizardInitial({
     required this.activeStep,
     required this.oneSignalSkipped,
     required this.oneSignalAllowed,

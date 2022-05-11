@@ -108,8 +108,8 @@ class WizardServers extends StatelessWidget {
                     leftAction: const WizardExitButton(),
                     rightAction: settingsState.serverList.isEmpty &&
                             !wizardState.serversSkipped
-                        ? WizardSkipButton(skipType: SkipType.servers)
-                        : WizardNextButton(),
+                        ? const WizardSkipButton(skipType: SkipType.servers)
+                        : const WizardNextButton(),
                   );
                 },
               );
