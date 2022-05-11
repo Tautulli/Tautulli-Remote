@@ -39,7 +39,9 @@ class CustomListTile extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 40,
-                  child: leading,
+                  child: Center(
+                    child: leading,
+                  ),
                 ),
               ],
             ),
