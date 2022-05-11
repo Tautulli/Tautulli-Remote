@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/widgets/custom_list_tile.dart';
@@ -325,7 +325,7 @@ class _DonateViewState extends State<DonateView> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      launch(
+                                      launchUrlString(
                                         'https://tautulli.com/tautulli_remote_ios_terms_and_conditions',
                                       );
                                     },
@@ -343,7 +343,7 @@ class _DonateViewState extends State<DonateView> {
                                   const Gap(4),
                                   GestureDetector(
                                     onTap: () {
-                                      launch(
+                                      launchUrlString(
                                         'https://tautulli.com/tautulli_remote_privacy',
                                       );
                                     },

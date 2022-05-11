@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
@@ -72,7 +72,7 @@ class SettingsAlertBanner extends StatelessWidget {
                     buttonOne: TextButton(
                       child: const Text(LocaleKeys.learn_more_button).tr(),
                       onPressed: () async {
-                        await launch(
+                        await launchUrlString(
                           'https://github.com/Tautulli/Tautulli-Remote/wiki/OneSignal#registering',
                         );
                       },

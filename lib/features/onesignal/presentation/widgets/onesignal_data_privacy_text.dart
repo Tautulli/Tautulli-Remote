@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../translations/locale_keys.g.dart';
 
@@ -35,7 +35,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    launch(
+                    launchUrlString(
                       'https://github.com/Tautulli/Tautulli/wiki/Frequently-Asked-Questions#notifications-pycryptodome',
                     );
                   },
@@ -49,7 +49,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    launch(
+                    launchUrlString(
                       'https://onesignal.com/',
                     );
                   },
@@ -63,7 +63,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    launch(
+                    launchUrlString(
                       'https://onesignal.com/privacy',
                     );
                   },
@@ -80,7 +80,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    launch(
+                    launchUrlString(
                       'https://documentation.onesignal.com/docs/handling-personal-data#deleting-notification-data',
                     );
                   },

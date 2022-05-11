@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../core/pages/status_page.dart';
@@ -80,7 +80,7 @@ class _LoggingViewState extends State<LoggingView> {
                     action: SnackBarAction(
                       label: LocaleKeys.how_to_access_logs_button.tr(),
                       onPressed: () async {
-                        await launch(
+                        await launchUrlString(
                           'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#logs',
                         );
                       },

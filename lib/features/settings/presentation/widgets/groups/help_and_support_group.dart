@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/widgets/custom_list_tile.dart';
 import '../../../../../core/widgets/list_tile_group.dart';
@@ -20,7 +20,8 @@ class HelpAndSupportGroup extends StatelessWidget {
           leading: const FaIcon(FontAwesomeIcons.github),
           title: LocaleKeys.wiki_title.tr(),
           onTap: () async {
-            await launch('https://github.com/Tautulli/Tautulli-Remote/wiki');
+            await launchUrlString(
+                'https://github.com/Tautulli/Tautulli-Remote/wiki');
           },
         ),
         CustomListTile(
@@ -30,7 +31,7 @@ class HelpAndSupportGroup extends StatelessWidget {
           ),
           title: LocaleKeys.discord_title.tr(),
           onTap: () async {
-            await launch('https://tautulli.com/discord.html');
+            await launchUrlString('https://tautulli.com/discord.html');
           },
         ),
         CustomListTile(
@@ -40,14 +41,15 @@ class HelpAndSupportGroup extends StatelessWidget {
           ),
           title: LocaleKeys.reddit_title.tr(),
           onTap: () async {
-            await launch('https://www.reddit.com/r/Tautulli/');
+            await launchUrlString('https://www.reddit.com/r/Tautulli/');
           },
         ),
         CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.github),
           title: LocaleKeys.bugs_and_feature_requests_title.tr(),
           onTap: () async {
-            await launch('https://github.com/Tautulli/Tautulli-Remote/issues');
+            await launchUrlString(
+                'https://github.com/Tautulli/Tautulli-Remote/issues');
           },
         ),
         CustomListTile(

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../core/widgets/custom_list_tile.dart';
@@ -46,7 +46,7 @@ class HelpTranslateView extends StatelessWidget {
                   ),
                   title: LocaleKeys.translate_tautulli_remote_title.tr(),
                   onTap: () async {
-                    await launch(
+                    await launchUrlString(
                         'https://hosted.weblate.org/engage/tautulli-remote/');
                   },
                 ),
@@ -54,7 +54,7 @@ class HelpTranslateView extends StatelessWidget {
                   leading: const FaIcon(FontAwesomeIcons.github),
                   title: LocaleKeys.request_a_new_language_title.tr(),
                   onTap: () async {
-                    await launch(
+                    await launchUrlString(
                         'https://github.com/Tautulli/Tautulli-Remote/issues/new/choose');
                   },
                 ),

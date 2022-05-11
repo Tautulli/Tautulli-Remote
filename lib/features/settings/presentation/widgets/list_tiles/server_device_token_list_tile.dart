@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/widgets/custom_list_tile.dart';
 import '../../../../../translations/locale_keys.g.dart';
@@ -36,7 +36,7 @@ class ServerDeviceTokenListTile extends StatelessWidget {
             action: SnackBarAction(
               label: LocaleKeys.learn_more_button.tr(),
               onPressed: () async {
-                await launch(
+                await launchUrlString(
                   'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#device_tokens',
                 );
               },

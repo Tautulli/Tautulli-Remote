@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../translations/locale_keys.g.dart';
@@ -25,7 +25,7 @@ class SettingsNotLoaded extends StatelessWidget {
             message: LocaleKeys.settings_load_failed_message.tr(),
             action: ElevatedButton(
               onPressed: () async {
-                await launch('https://tautulli.com/#support');
+                await launchUrlString('https://tautulli.com/#support');
               },
               child: const Text(LocaleKeys.contact_support_button).tr(),
             ),
@@ -35,7 +35,7 @@ class SettingsNotLoaded extends StatelessWidget {
           message: LocaleKeys.settings_load_error_message.tr(),
           action: ElevatedButton(
             onPressed: () async {
-              await launch('https://tautulli.com/#support');
+              await launchUrlString('https://tautulli.com/#support');
             },
             child: const Text(LocaleKeys.contact_support_button).tr(),
           ),

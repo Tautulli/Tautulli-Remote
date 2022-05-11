@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/announcement_model.dart';
@@ -28,7 +28,7 @@ class AnnouncementCard extends StatelessWidget {
         ),
         onTap: isNotBlank(announcement.actionUrl)
             ? () async {
-                launch(announcement.actionUrl!);
+                launchUrlString(announcement.actionUrl!);
               }
             : null,
         child: Padding(

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
 import '../../../../../translations/locale_keys.g.dart';
@@ -32,19 +32,19 @@ class ServerOpenInBrowserListTile extends StatelessWidget {
         ).tr(args: [server.plexName]),
         onTap: () async {
           if (server.primaryActive != false) {
-            await launch(server.primaryConnectionAddress);
+            await launchUrlString(server.primaryConnectionAddress);
           } else if (server.secondaryConnectionAddress != null) {
-            await launch(server.secondaryConnectionAddress!);
+            await launchUrlString(server.secondaryConnectionAddress!);
           }
         },
         onLongPress: () async {
-          // If a secondary connection address is configured launch
+          // If a secondary connection address is configured launchUrlString
           // the non active address on a long press
           if (server.secondaryConnectionAddress != null) {
             if (server.primaryActive != false) {
-              await launch(server.secondaryConnectionAddress!);
+              await launchUrlString(server.secondaryConnectionAddress!);
             } else {
-              await launch(server.primaryConnectionAddress);
+              await launchUrlString(server.primaryConnectionAddress);
             }
           }
         },
