@@ -102,7 +102,6 @@ class _AppDrawer extends StatelessWidget {
   final GlobalKey<InnerDrawerState> innerDrawerKey;
 
   const _AppDrawer({
-    super.key,
     required this.innerDrawerKey,
   });
 
@@ -188,7 +187,7 @@ class _AppDrawer extends StatelessWidget {
 }
 
 class _Logo extends StatelessWidget {
-  const _Logo({super.key});
+  const _Logo();
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +223,7 @@ class _Logo extends StatelessWidget {
 }
 
 class _ServerSelector extends StatefulWidget {
-  const _ServerSelector({super.key});
+  const _ServerSelector();
 
   @override
   State<_ServerSelector> createState() => __ServerSelectorState();
@@ -311,7 +310,6 @@ class _SettingsGroup extends StatelessWidget {
   final bool useListTiles;
 
   const _SettingsGroup({
-    super.key,
     required this.innerDrawerKey,
     required this.route,
     this.useListTiles = true,

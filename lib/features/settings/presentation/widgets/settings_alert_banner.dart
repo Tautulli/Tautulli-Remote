@@ -100,7 +100,6 @@ class _SettingsAlertBannerContent extends StatelessWidget {
   final TextButton? buttonTwo;
 
   const _SettingsAlertBannerContent({
-    super.key,
     this.backgroundColor,
     required this.title,
     this.message,

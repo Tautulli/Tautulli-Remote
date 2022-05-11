@@ -101,7 +101,6 @@ class _SettingDumpGroup extends StatelessWidget {
   final List<Widget> widgetList;
 
   const _SettingDumpGroup({
-    super.key,
     required this.title,
     required this.widgetList,
   });
@@ -134,7 +133,7 @@ class _SettingDumpGroup extends StatelessWidget {
 class _DataDumpRowHeading extends StatelessWidget {
   final String text;
 
-  const _DataDumpRowHeading(this.text, {super.key});
+  const _DataDumpRowHeading(this.text);
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +148,6 @@ class _DataDumpRow extends StatelessWidget {
   final List<Widget> children;
 
   const _DataDumpRow({
-    super.key,
     required this.children,
   });
 
@@ -174,7 +172,6 @@ class _AppSettings extends StatelessWidget {
   final SettingsSuccess settingsState;
 
   const _AppSettings({
-    super.key,
     required this.settingsState,
   });
 
@@ -200,7 +197,7 @@ class _AppSettings extends StatelessWidget {
 }
 
 class _OneSignalStatus extends StatelessWidget {
-  const _OneSignalStatus({super.key});
+  const _OneSignalStatus();
 
   @override
   Widget build(BuildContext context) {
@@ -288,7 +285,7 @@ class _OneSignalStatus extends StatelessWidget {
 }
 
 class _AnnouncementsDumpGroup extends StatelessWidget {
-  const _AnnouncementsDumpGroup({super.key});
+  const _AnnouncementsDumpGroup();
 
   @override
   Widget build(BuildContext context) {
@@ -375,7 +372,6 @@ class _ServerDumpGroup extends StatelessWidget {
   final SettingsSuccess settingsState;
 
   const _ServerDumpGroup({
-    super.key,
     required this.settingsState,
   });
 
