@@ -36,7 +36,7 @@ class ServersGroup extends StatelessWidget {
             ),
             const Gap(8),
             ClipRRect(
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(12),
               child: ReorderableColumn(
                 mainAxisSize: MainAxisSize.min,
                 onReorder: (oldIndex, newIndex) {

@@ -24,7 +24,7 @@ class AnnouncementCard extends StatelessWidget {
       elevation: 0,
       child: InkWell(
         customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(12),
         ),
         onTap: isNotBlank(announcement.actionUrl)
             ? () async {

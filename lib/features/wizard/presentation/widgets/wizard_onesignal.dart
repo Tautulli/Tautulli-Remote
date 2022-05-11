@@ -85,7 +85,7 @@ class WizardOneSignal extends StatelessWidget {
                     ),
                     const Gap(8),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(12),
                       child: Material(
                         child: CheckboxSettingsListTile(
                           titleIsTwoLines: true,

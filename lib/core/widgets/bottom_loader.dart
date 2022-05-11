@@ -38,7 +38,7 @@ class BottomLoader extends StatelessWidget {
             ),
           )
         : ClipRRect(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(12),
             child: Material(
               color: Colors.transparent,
               child: InkWell(

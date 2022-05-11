@@ -39,7 +39,7 @@ class ChangeTypeTag extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 2),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(2),
+        borderRadius: BorderRadius.circular(6),
         child: Container(
           width: 40,
           decoration: BoxDecoration(

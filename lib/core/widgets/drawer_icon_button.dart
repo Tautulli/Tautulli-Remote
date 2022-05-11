@@ -20,7 +20,7 @@ class DrawerIconButton extends StatelessWidget {
           Positioned.fromRelativeRect(
             rect: const RelativeRect.fromLTRB(2, 2, 2, 2),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(12),
               child: Container(
                 color: HSLColor.fromColor(
                   Theme.of(context).listTileTheme.tileColor!,
@@ -31,7 +31,7 @@ class DrawerIconButton extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(2),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(12),
             child: Material(
               color: Colors.transparent,
               child: IconButton(

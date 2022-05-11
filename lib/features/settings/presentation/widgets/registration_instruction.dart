@@ -53,7 +53,7 @@ class RegistrationInstruction extends StatelessWidget {
         if (action != null && actionOnTop) action!,
         if (child != null)
           ClipRRect(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(12),
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: Theme.of(context).dialogTheme.backgroundColor,

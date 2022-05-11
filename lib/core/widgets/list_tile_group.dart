@@ -28,7 +28,7 @@ class ListTileGroup extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: heading != null ? 8 : 0),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(12),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: listTiles,
