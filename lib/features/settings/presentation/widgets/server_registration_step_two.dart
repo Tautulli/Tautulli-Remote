@@ -42,6 +42,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
       action: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const Gap(8),
           Row(
             children: [
               Expanded(

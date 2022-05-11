@@ -55,6 +55,7 @@ class SettingsView extends StatelessWidget {
                 TestingGroup(),
                 Gap(8),
                 ServersGroup(),
+                Gap(8),
                 RegisterServerButton(),
                 Gap(8),
                 AppSettingsGroup(),

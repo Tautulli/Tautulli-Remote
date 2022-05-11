@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
 import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/custom_header_model.dart';
@@ -28,31 +29,37 @@ class ServerRegistrationStepThree extends StatelessWidget {
                   children: state.headers,
                 )
               : null,
-          action: Row(
+          action: Column(
             children: [
-              Expanded(
-                child: ElevatedButton(
-                  child:
-                      const Text(LocaleKeys.add_custom_http_header_button).tr(),
-                  onPressed: () async => await showDialog(
-                    context: context,
-                    builder: (_) {
-                      return CustomHeaderTypeDialog(
-                        forRegistration: true,
-                        currentHeaders: state is RegistrationHeadersLoaded
-                            ? state.headers
-                                .map(
-                                  (widget) => CustomHeaderModel(
-                                    key: widget.title,
-                                    value: widget.subtitle,
-                                  ),
-                                )
-                                .toList()
-                            : [],
-                      );
-                    },
+              const Gap(8),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      child:
+                          const Text(LocaleKeys.add_custom_http_header_button)
+                              .tr(),
+                      onPressed: () async => await showDialog(
+                        context: context,
+                        builder: (_) {
+                          return CustomHeaderTypeDialog(
+                            forRegistration: true,
+                            currentHeaders: state is RegistrationHeadersLoaded
+                                ? state.headers
+                                    .map(
+                                      (widget) => CustomHeaderModel(
+                                        key: widget.title,
+                                        value: widget.subtitle,
+                                      ),
+                                    )
+                                    .toList()
+                                : [],
+                          );
+                        },
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
