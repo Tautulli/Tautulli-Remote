@@ -378,7 +378,7 @@ class _SettingsGroup extends StatelessWidget {
             selected: route?.settings.name == '/settings' ||
                 route?.settings.name == '/',
             leading: const FaIcon(
-              FontAwesomeIcons.cogs,
+              FontAwesomeIcons.gears,
             ),
             title: const Text(LocaleKeys.settings_title).tr(),
             onTap: () {
@@ -452,7 +452,7 @@ class _SettingsGroup extends StatelessWidget {
                   selected: route?.settings.name == '/settings' ||
                       route?.settings.name == '/',
                   icon: const FaIcon(
-                    FontAwesomeIcons.cogs,
+                    FontAwesomeIcons.gears,
                   ),
                   onPressed: () {
                     if (route?.settings.name != '/settings') {

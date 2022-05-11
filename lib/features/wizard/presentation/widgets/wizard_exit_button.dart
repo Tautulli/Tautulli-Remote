@@ -12,7 +12,7 @@ class WizardExitButton extends StatelessWidget {
     return FloatingActionButton(
       heroTag: 'exit',
       backgroundColor: Theme.of(context).colorScheme.error,
-      child: const FaIcon(FontAwesomeIcons.times),
+      child: const FaIcon(FontAwesomeIcons.xmark),
       onPressed: () async {
         await di.sl<Settings>().setWizardComplete(true);
         Navigator.of(context).maybePop();

@@ -179,7 +179,7 @@ class _DonateViewState extends State<DonateView> {
                               ),
                               CustomListTile(
                                 leading: const FaIcon(
-                                  FontAwesomeIcons.hamburger,
+                                  FontAwesomeIcons.burger,
                                 ),
                                 title: LocaleKeys.donate_burger_title.tr(),
                                 subtitle: '4.99 USD',
@@ -210,7 +210,7 @@ class _DonateViewState extends State<DonateView> {
                             listTiles: [
                               CustomListTile(
                                 leading: FaIcon(
-                                  FontAwesomeIcons.donate,
+                                  FontAwesomeIcons.circleDollarToSlot,
                                   color: _purchaserInfo!.activeSubscriptions
                                           .contains('subscription_tier_1')
                                       ? Colors.green
@@ -226,7 +226,7 @@ class _DonateViewState extends State<DonateView> {
                               ),
                               CustomListTile(
                                 leading: FaIcon(
-                                  FontAwesomeIcons.donate,
+                                  FontAwesomeIcons.circleDollarToSlot,
                                   color: _purchaserInfo!.activeSubscriptions
                                           .contains('subscription_tier_2')
                                       ? Colors.green
@@ -242,7 +242,7 @@ class _DonateViewState extends State<DonateView> {
                               ),
                               CustomListTile(
                                 leading: FaIcon(
-                                  FontAwesomeIcons.donate,
+                                  FontAwesomeIcons.circleDollarToSlot,
                                   color: _purchaserInfo!.activeSubscriptions
                                           .contains('subscription_tier_3')
                                       ? Colors.green
@@ -258,7 +258,7 @@ class _DonateViewState extends State<DonateView> {
                               ),
                               CustomListTile(
                                 leading: FaIcon(
-                                  FontAwesomeIcons.donate,
+                                  FontAwesomeIcons.circleDollarToSlot,
                                   color: _purchaserInfo!.activeSubscriptions
                                           .contains('subscription_tier_4')
                                       ? Colors.green

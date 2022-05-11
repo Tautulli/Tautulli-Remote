@@ -27,7 +27,7 @@ class AdvancedGroup extends StatelessWidget {
             final doubleBackToExit = state.appSettings.doubleBackToExit;
 
             return CheckboxSettingsListTile(
-              leading: const FaIcon(FontAwesomeIcons.angleDoubleLeft),
+              leading: const FaIcon(FontAwesomeIcons.anglesLeft),
               title: LocaleKeys.double_back_to_exit_title.tr(),
               subtitle: LocaleKeys.double_back_to_exit_subtitle.tr(),
               value: doubleBackToExit,

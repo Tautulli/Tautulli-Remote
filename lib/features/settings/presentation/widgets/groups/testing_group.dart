@@ -17,7 +17,7 @@ class TestingGroup extends StatelessWidget {
       heading: 'Testing',
       listTiles: [
         CustomListTile(
-          leading: const FaIcon(FontAwesomeIcons.handsHelping),
+          leading: const FaIcon(FontAwesomeIcons.handshakeSimple),
           title: 'How To Test',
           subtitle: 'Help make v3 the best version of itself',
           onTap: () async {

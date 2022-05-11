@@ -268,11 +268,11 @@ class _UsersViewState extends State<UsersView> {
                   children: [
                     _orderColumn == 'friendly_name' && _orderDir == 'asc'
                         ? const FaIcon(
-                            FontAwesomeIcons.sortAlphaDownAlt,
+                            FontAwesomeIcons.arrowDownZA,
                             size: 20,
                           )
                         : const FaIcon(
-                            FontAwesomeIcons.sortAlphaDown,
+                            FontAwesomeIcons.arrowDownAZ,
                             size: 20,
                           ),
                     Padding(
@@ -290,11 +290,11 @@ class _UsersViewState extends State<UsersView> {
                   children: [
                     _orderColumn == 'last_seen' && _orderDir == 'desc'
                         ? const FaIcon(
-                            FontAwesomeIcons.sortNumericDownAlt,
+                            FontAwesomeIcons.arrowDown91,
                             size: 20,
                           )
                         : const FaIcon(
-                            FontAwesomeIcons.sortNumericDown,
+                            FontAwesomeIcons.arrowDown19,
                             size: 20,
                           ),
                     Padding(
@@ -318,13 +318,13 @@ class _UsersViewState extends State<UsersView> {
     if (_orderColumn == 'friendly_name') {
       if (_orderDir == 'asc') {
         return FaIcon(
-          FontAwesomeIcons.sortAlphaDown,
+          FontAwesomeIcons.arrowDownAZ,
           size: 20,
           color: color,
         );
       } else {
         return FaIcon(
-          FontAwesomeIcons.sortAlphaDownAlt,
+          FontAwesomeIcons.arrowDownZA,
           size: 20,
           color: color,
         );
@@ -333,20 +333,20 @@ class _UsersViewState extends State<UsersView> {
     if (_orderColumn == 'last_seen') {
       if (_orderDir == 'asc') {
         return FaIcon(
-          FontAwesomeIcons.sortNumericDownAlt,
+          FontAwesomeIcons.arrowDown91,
           size: 20,
           color: color,
         );
       } else {
         return FaIcon(
-          FontAwesomeIcons.sortNumericDown,
+          FontAwesomeIcons.arrowDown19,
           size: 20,
           color: color,
         );
       }
     }
 
-    return const FaIcon(FontAwesomeIcons.questionCircle);
+    return const FaIcon(FontAwesomeIcons.circleQuestion);
   }
 
   String _currentSortName() {

@@ -88,7 +88,7 @@ class AnnouncementCard extends StatelessWidget {
                     const Padding(
                       padding: EdgeInsets.only(left: 8),
                       child: FaIcon(
-                        FontAwesomeIcons.externalLinkSquareAlt,
+                        FontAwesomeIcons.squareUpRight,
                       ),
                     ),
                 ],

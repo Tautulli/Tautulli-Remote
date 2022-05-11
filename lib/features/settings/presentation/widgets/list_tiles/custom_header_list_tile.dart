@@ -57,7 +57,7 @@ class CustomHeaderListTile extends StatelessWidget {
             ).tr(),
             trailing: GestureDetector(
               child: const FaIcon(
-                FontAwesomeIcons.solidTimesCircle,
+                FontAwesomeIcons.solidCircleXmark,
               ),
               onTap: () async {
                 final result = await showDialog(

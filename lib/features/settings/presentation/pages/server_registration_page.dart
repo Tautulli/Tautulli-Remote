@@ -50,7 +50,7 @@ class ServerRegistrationView extends StatelessWidget {
         builder: (context, state) {
           return FloatingActionButton.extended(
             icon: const FaIcon(
-              FontAwesomeIcons.solidEdit,
+              FontAwesomeIcons.pen,
               size: 20,
             ),
             label: const Text(LocaleKeys.register_server_button).tr(),

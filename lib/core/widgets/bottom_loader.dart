@@ -61,7 +61,7 @@ class BottomLoader extends StatelessWidget {
                               ),
                             if (message != null) const Gap(4),
                             const FaIcon(
-                              FontAwesomeIcons.redo,
+                              FontAwesomeIcons.arrowRotateRight,
                               size: 16,
                             ),
                           ],

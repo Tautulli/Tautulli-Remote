@@ -116,7 +116,7 @@ class _SettingsAlertBannerContent extends StatelessWidget {
       backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.error,
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       leading: const FaIcon(
-        FontAwesomeIcons.exclamationTriangle,
+        FontAwesomeIcons.triangleExclamation,
         size: 30,
       ),
       content: Column(

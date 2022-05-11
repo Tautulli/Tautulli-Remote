@@ -52,7 +52,7 @@ class DataDumpView extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    const FaIcon(FontAwesomeIcons.exclamationTriangle),
+                    const FaIcon(FontAwesomeIcons.triangleExclamation),
                     const Gap(16),
                     Expanded(
                       child: Column(

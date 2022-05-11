@@ -70,7 +70,7 @@ class UserIcon extends StatelessWidget {
                     ),
                   ),
                   FaIcon(
-                    FontAwesomeIcons.exclamationTriangle,
+                    FontAwesomeIcons.triangleExclamation,
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ],

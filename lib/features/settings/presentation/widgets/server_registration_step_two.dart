@@ -162,7 +162,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                   color: Colors.transparent,
                   child: IconButton(
                     icon: const FaIcon(
-                      FontAwesomeIcons.solidQuestionCircle,
+                      FontAwesomeIcons.solidCircleQuestion,
                     ),
                     onPressed: () async {
                       await showDialog(

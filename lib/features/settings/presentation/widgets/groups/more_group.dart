@@ -42,7 +42,7 @@ class MoreGroup extends StatelessWidget {
           },
         ),
         CustomListTile(
-          leading: const FaIcon(FontAwesomeIcons.infoCircle),
+          leading: const FaIcon(FontAwesomeIcons.circleInfo),
           title: LocaleKeys.about_title.tr(),
           onTap: () async {
             showAboutDialog(
