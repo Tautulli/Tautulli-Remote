@@ -21,7 +21,7 @@ class ChangelogItem extends StatelessWidget {
       child: Card(
         margin: const EdgeInsets.all(0),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -14,7 +14,7 @@ class DonateHeadingCard extends StatelessWidget {
       children: [
         Card(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

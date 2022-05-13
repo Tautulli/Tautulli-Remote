@@ -118,7 +118,7 @@ class _SettingDumpGroup extends StatelessWidget {
         const Gap(8),
         Card(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: widgetList,
