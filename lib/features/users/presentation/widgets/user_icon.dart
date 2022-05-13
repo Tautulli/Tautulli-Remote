@@ -66,7 +66,7 @@ class UserIcon extends StatelessWidget {
                     child: FaIcon(
                       FontAwesomeIcons.solidCircle,
                       color: Theme.of(context).colorScheme.tertiary,
-                      size: 15,
+                      size: 14,
                     ),
                   ),
                   FaIcon(
