@@ -95,12 +95,9 @@ class WizardServers extends StatelessWidget {
                     return const SizedBox(height: 0, width: 0);
                   },
                 ),
-                Row(
-                  children: const [
-                    Expanded(
-                      child: RegisterServerButton(),
-                    ),
-                  ],
+                const SizedBox(
+                  width: double.infinity,
+                  child: RegisterServerButton(),
                 ),
               ],
             ),

@@ -96,24 +96,18 @@ class ServerSettingsView extends StatelessWidget {
                       .toList(),
                 ),
                 if (server.customHeaders.isNotEmpty) const Gap(8),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        child: const Text(
-                          LocaleKeys.add_custom_http_header_button,
-                        ).tr(),
-                        onPressed: () async => await showDialog(
-                          context: context,
-                          builder: (context) => CustomHeaderTypeDialog(
-                            forRegistration: false,
-                            tautulliId: server.tautulliId,
-                            currentHeaders: server.customHeaders,
-                          ),
-                        ),
-                      ),
+                ElevatedButton(
+                  child: const Text(
+                    LocaleKeys.add_custom_http_header_button,
+                  ).tr(),
+                  onPressed: () async => await showDialog(
+                    context: context,
+                    builder: (context) => CustomHeaderTypeDialog(
+                      forRegistration: false,
+                      tautulliId: server.tautulliId,
+                      currentHeaders: server.customHeaders,
                     ),
-                  ],
+                  ),
                 ),
                 const Gap(8),
                 ListTileGroup(

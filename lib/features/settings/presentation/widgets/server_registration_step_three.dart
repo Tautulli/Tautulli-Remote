@@ -32,34 +32,30 @@ class ServerRegistrationStepThree extends StatelessWidget {
           action: Column(
             children: [
               const Gap(8),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      child:
-                          const Text(LocaleKeys.add_custom_http_header_button)
-                              .tr(),
-                      onPressed: () async => await showDialog(
-                        context: context,
-                        builder: (_) {
-                          return CustomHeaderTypeDialog(
-                            forRegistration: true,
-                            currentHeaders: state is RegistrationHeadersLoaded
-                                ? state.headers
-                                    .map(
-                                      (widget) => CustomHeaderModel(
-                                        key: widget.title,
-                                        value: widget.subtitle,
-                                      ),
-                                    )
-                                    .toList()
-                                : [],
-                          );
-                        },
-                      ),
-                    ),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  child:
+                      const Text(LocaleKeys.add_custom_http_header_button).tr(),
+                  onPressed: () async => await showDialog(
+                    context: context,
+                    builder: (_) {
+                      return CustomHeaderTypeDialog(
+                        forRegistration: true,
+                        currentHeaders: state is RegistrationHeadersLoaded
+                            ? state.headers
+                                .map(
+                                  (widget) => CustomHeaderModel(
+                                    key: widget.title,
+                                    value: widget.subtitle,
+                                  ),
+                                )
+                                .toList()
+                            : [],
+                      );
+                    },
                   ),
-                ],
+                ),
               ),
             ],
           ),

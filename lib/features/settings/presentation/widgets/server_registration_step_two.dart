@@ -43,33 +43,30 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Gap(8),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  child: const Text(LocaleKeys.scan_qr_code_button).tr(),
-                  onPressed: () async {
-                    try {
-                      final qrCodeScan = await di.sl<QrCodeScanner>().scan();
-                      if (qrCodeScan != null) {
-                        widget.primaryController.text = qrCodeScan.value1;
-                        widget.tokenController.text = qrCodeScan.value2;
-                      }
-                    } catch (_) {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Theme.of(context).errorColor,
-                          content: const Text(
-                            LocaleKeys.qr_code_scan_error_snackbar_message,
-                          ).tr(),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ],
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              child: const Text(LocaleKeys.scan_qr_code_button).tr(),
+              onPressed: () async {
+                try {
+                  final qrCodeScan = await di.sl<QrCodeScanner>().scan();
+                  if (qrCodeScan != null) {
+                    widget.primaryController.text = qrCodeScan.value1;
+                    widget.tokenController.text = qrCodeScan.value2;
+                  }
+                } catch (_) {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Theme.of(context).errorColor,
+                      content: const Text(
+                        LocaleKeys.qr_code_scan_error_snackbar_message,
+                      ).tr(),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
           Text(
             'or',

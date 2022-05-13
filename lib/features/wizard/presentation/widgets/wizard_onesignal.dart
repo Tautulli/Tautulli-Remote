@@ -58,30 +58,27 @@ class WizardOneSignal extends StatelessWidget {
                     Divider(
                       color: Theme.of(context).textTheme.subtitle2!.color,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Theme.of(context).cardTheme.color,
-                            ),
-                            child: const Text(
-                              LocaleKeys.view_onesignal_privacy_button,
-                            ).tr(),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  fullscreenDialog: true,
-                                  builder: (context) =>
-                                      const OneSignalDataPrivacyPage(
-                                    showToggle: false,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).cardTheme.color,
                         ),
-                      ],
+                        child: const Text(
+                          LocaleKeys.view_onesignal_privacy_button,
+                        ).tr(),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              fullscreenDialog: true,
+                              builder: (context) =>
+                                  const OneSignalDataPrivacyPage(
+                                showToggle: false,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                     const Gap(8),
                     ClipRRect(
