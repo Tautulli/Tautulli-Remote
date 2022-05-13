@@ -86,6 +86,15 @@ class WizardServers extends StatelessWidget {
                   color: Theme.of(context).textTheme.subtitle2!.color,
                 ),
                 const ServersGroup(isWizard: true),
+                BlocBuilder<SettingsBloc, SettingsState>(
+                  builder: (context, state) {
+                    state as SettingsSuccess;
+
+                    if (state.serverList.isNotEmpty) return const Gap(8);
+
+                    return const SizedBox(height: 0, width: 0);
+                  },
+                ),
                 Row(
                   children: const [
                     Expanded(
