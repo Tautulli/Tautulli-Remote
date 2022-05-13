@@ -33,7 +33,7 @@ class WizardClosing extends StatelessWidget {
                 ),
                 const Gap(8),
                 NoticeCard(
-                  leading: const FaIcon(FontAwesomeIcons.solidLifeRing),
+                  leading: const FaIcon(FontAwesomeIcons.handshakeSimple),
                   title: LocaleKeys.wizard_closing_support.tr(),
                 ),
                 const Gap(8),
