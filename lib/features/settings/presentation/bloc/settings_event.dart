@@ -271,3 +271,12 @@ class SettingsUpdateUsersSort extends SettingsEvent {
   @override
   List<Object> get props => [usersSort];
 }
+
+class SettingsUpdateWizardComplete extends SettingsEvent {
+  final bool wizardComplete;
+
+  const SettingsUpdateWizardComplete(this.wizardComplete);
+
+  @override
+  List<Object> get props => [wizardComplete];
+}

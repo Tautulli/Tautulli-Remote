@@ -94,6 +94,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateUsersSort>(
       (event, emit) => _onSettingsUpdateUsersSort(event, emit),
     );
+    on<SettingsUpdateWizardComplete>(
+      (event, emit) => _onSettingsUpdateWizardComplete(event, emit),
+    );
   }
 
   void _onSettingsAddServer(
@@ -857,6 +860,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           usersSort: event.usersSort,
         ),
       ),
+    );
+  }
+
+  void _onSettingsUpdateWizardComplete(
+    SettingsUpdateWizardComplete event,
+    Emitter<SettingsState> emit,
+  ) async {
+    await settings.setWizardComplete(event.wizardComplete);
+
+    logging.info(
+      'Settings :: Wizard complete',
     );
   }
 }
