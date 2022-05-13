@@ -25,7 +25,9 @@ class NoticeCard extends StatelessWidget {
           children: [
             SizedBox(
               width: 40,
-              child: leading,
+              child: Center(
+                child: leading,
+              ),
             ),
             const Gap(16),
             Expanded(
