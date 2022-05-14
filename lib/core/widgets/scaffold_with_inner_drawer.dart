@@ -72,7 +72,7 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
             builder: (context, state) {
               return IconButton(
                 icon: Badge(
-                  animationDuration: Duration.zero,
+                  animationDuration: const Duration(milliseconds: 400),
                   badgeColor: Theme.of(context).colorScheme.secondary,
                   position: BadgePosition.topEnd(top: 1, end: -2),
                   showBadge: state is AnnouncementsSuccess && state.unread,
