@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tautulli_remote/core/types/types.dart';
 
+import '../../../../core/types/types.dart';
 import '../../../../core/utilities/cast.dart';
 
 part 'user_model.g.dart';
