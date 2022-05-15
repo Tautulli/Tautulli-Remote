@@ -83,7 +83,7 @@ class TimeHelper {
     return DateFormat(parsedTimeFormat).format(dateTime).trim();
   }
 
-  static String timeAgo(int? addedAt) {
+  static String moment(int? addedAt) {
     if (addedAt == null) return 'Unknown';
 
     Moment moment = Moment.now();
