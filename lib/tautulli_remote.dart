@@ -309,6 +309,15 @@ class _TautulliRemoteState extends State<TautulliRemote> {
           },
         ),
       ),
+      tabBarTheme: const TabBarTheme(
+        indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(
+            color: TautulliColorPalette.notWhite,
+          ),
+        ),
+        indicatorSize: TabBarIndicatorSize.label,
+        labelColor: TautulliColorPalette.notWhite,
+      ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           primary: TautulliColorPalette.notWhite,
