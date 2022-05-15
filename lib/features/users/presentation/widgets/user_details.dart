@@ -48,7 +48,7 @@ class UserDetails extends StatelessWidget {
               ),
               TextSpan(
                 text: user.lastSeen != null
-                    ? TimeHelper.timeAgo(user.lastSeen)
+                    ? TimeHelper.moment(user.lastSeen)
                     : LocaleKeys.never.tr(),
                 style: const TextStyle(
                   fontWeight: FontWeight.w300,

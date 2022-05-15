@@ -1,10 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/user_model.dart';
+import '../pages/user_details_page.dart';
 import 'user_details.dart';
 import 'user_icon.dart';
 
@@ -14,9 +13,9 @@ class UserCard extends StatefulWidget {
   final UserModel user;
 
   const UserCard({
-    Key? key,
+    super.key,
     required this.user,
-  }) : super(key: key);
+  });
 
   @override
   State<UserCard> createState() => _UserCardState();
@@ -53,7 +52,7 @@ class _UserCardState extends State<UserCard> {
         }
 
         return ClipRRect(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(12),
           child: SizedBox(
             height: 100,
             child: Stack(
@@ -62,8 +61,10 @@ class _UserCardState extends State<UserCard> {
                   duration: const Duration(milliseconds: 400),
                   child: color != null
                       ? _DarkenedBackground(color: color)
-                      : Container(
-                          color: Theme.of(context).cardColor,
+                      : DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor,
+                          ),
                         ),
                 ),
                 Positioned.fill(
@@ -71,15 +72,12 @@ class _UserCardState extends State<UserCard> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        //TODO
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            duration: const Duration(seconds: 6),
-                            content: const Text(
-                              LocaleKeys
-                                  .feature_not_yet_available_snackbar_message,
-                            ).tr(),
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => UserDetailsPage(
+                              user: widget.user,
+                              backgroundColor: color,
+                            ),
                           ),
                         );
                       },
@@ -111,9 +109,8 @@ class _DarkenedBackground extends StatelessWidget {
   final Color color;
 
   const _DarkenedBackground({
-    Key? key,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
