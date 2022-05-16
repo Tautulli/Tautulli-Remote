@@ -3,5 +3,7 @@ export 'connection_handler.dart';
 //  Endpoints
 export 'endpoints/get_server_info.dart';
 export 'endpoints/get_settings.dart';
+export 'endpoints/get_user_player_stats.dart';
+export 'endpoints/get_user_watch_time_stats.dart';
 export 'endpoints/get_users_table.dart';
 export 'endpoints/register_device.dart';

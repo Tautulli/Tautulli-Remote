@@ -59,6 +59,12 @@ Future<void> init() async {
   sl.registerLazySingleton<tautulli_api.GetSettings>(
     () => tautulli_api.GetSettingsImpl(sl()),
   );
+  sl.registerLazySingleton<tautulli_api.GetUserPlayerStats>(
+    () => tautulli_api.GetUserPlayerStatsImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetUserWatchTimeStats>(
+    () => tautulli_api.GetUserWatchTimeStatsImpl(sl()),
+  );
   sl.registerLazySingleton<tautulli_api.GetUsersTable>(
     () => tautulli_api.GetUsersTableImpl(sl()),
   );
