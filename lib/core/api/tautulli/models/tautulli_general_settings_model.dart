@@ -7,9 +7,9 @@ part 'tautulli_general_settings_model.g.dart';
 @JsonSerializable()
 class TautulliGeneralSettingsModel {
   @JsonKey(name: 'date_format', fromJson: Cast.castToString)
-  String? dateFormat;
+  final String? dateFormat;
   @JsonKey(name: 'time_format', fromJson: Cast.castToString)
-  String? timeFormat;
+  final String? timeFormat;
 
   TautulliGeneralSettingsModel({
     this.dateFormat,

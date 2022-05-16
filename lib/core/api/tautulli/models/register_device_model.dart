@@ -7,49 +7,49 @@ part 'register_device_model.g.dart';
 @JsonSerializable()
 class RegisterDeviceModel {
   @JsonKey(name: 'pms_identifier', fromJson: Cast.castToString)
-  String? pmsIdentifier;
+  final String? pmsIdentifier;
   @JsonKey(name: 'pms_ip', fromJson: Cast.castToString)
-  String? pmsIp;
+  final String? pmsIp;
   @JsonKey(name: 'pms_is_remote', fromJson: Cast.castToBool)
-  bool? pmsIsRemote;
+  final bool? pmsIsRemote;
   @JsonKey(name: 'pms_name', fromJson: Cast.castToString)
-  String? pmsName;
+  final String? pmsName;
   @JsonKey(name: 'pms_platform', fromJson: Cast.castToString)
-  String? pmsPlatform;
+  final String? pmsPlatform;
   @JsonKey(name: 'pms_plexpass', fromJson: Cast.castToBool)
-  bool? pmsPlexpass;
+  final bool? pmsPlexpass;
   @JsonKey(name: 'pms_port', fromJson: Cast.castToInt)
-  int? pmsPort;
+  final int? pmsPort;
   @JsonKey(name: 'pms_ssl', fromJson: Cast.castToBool)
-  bool? pmsSsl;
+  final bool? pmsSsl;
   @JsonKey(name: 'pms_url', fromJson: Cast.castToString)
-  String? pmsUrl;
+  final String? pmsUrl;
   @JsonKey(name: 'pms_url_manual', fromJson: Cast.castToBool)
-  bool? pmsUrlManual;
+  final bool? pmsUrlManual;
   @JsonKey(name: 'pms_version', fromJson: Cast.castToString)
-  String? pmsVersion;
+  final String? pmsVersion;
   @JsonKey(name: 'server_id', fromJson: Cast.castToString)
-  String? serverId;
+  final String? serverId;
   @JsonKey(name: 'tautulli_install_type', fromJson: Cast.castToString)
-  String? tautulliInstallType;
+  final String? tautulliInstallType;
   @JsonKey(name: 'tautulli_branch', fromJson: Cast.castToString)
-  String? tautulliBranch;
+  final String? tautulliBranch;
   @JsonKey(name: 'tautulli_commit', fromJson: Cast.castToString)
-  String? tautulliCommit;
+  final String? tautulliCommit;
   @JsonKey(name: 'tautulli_platform', fromJson: Cast.castToString)
-  String? tautulliPlatform;
+  final String? tautulliPlatform;
   @JsonKey(name: 'tautulli_platform_device_name', fromJson: Cast.castToString)
-  String? tautulliPlatformDeviceName;
+  final String? tautulliPlatformDeviceName;
   @JsonKey(name: 'tautulli_platform_linux_distro', fromJson: Cast.castToString)
-  String? tautulliPlatformLinuxDistro;
+  final String? tautulliPlatformLinuxDistro;
   @JsonKey(name: 'tautulli_platform_release', fromJson: Cast.castToString)
-  String? tautulliPlatformRelease;
+  final String? tautulliPlatformRelease;
   @JsonKey(name: 'tautulli_platform_version', fromJson: Cast.castToString)
-  String? tautulliPlatformVersion;
+  final String? tautulliPlatformVersion;
   @JsonKey(name: 'tautulli_python_version', fromJson: Cast.castToString)
-  String? tautulliPythonVersion;
+  final String? tautulliPythonVersion;
   @JsonKey(name: 'tautulli_version', fromJson: Cast.castToString)
-  String? tautulliVersion;
+  final String? tautulliVersion;
 
   RegisterDeviceModel({
     this.pmsIdentifier,
