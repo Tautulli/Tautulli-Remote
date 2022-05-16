@@ -34,10 +34,10 @@ class TautulliRemote extends StatefulWidget {
   });
 
   @override
-  _TautulliRemoteState createState() => _TautulliRemoteState();
+  TautulliRemoteState createState() => TautulliRemoteState();
 }
 
-class _TautulliRemoteState extends State<TautulliRemote> {
+class TautulliRemoteState extends State<TautulliRemote> {
   @override
   void initState() {
     super.initState();
