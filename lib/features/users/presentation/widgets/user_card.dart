@@ -61,7 +61,7 @@ class _UserCardState extends State<UserCard> {
                   duration: const Duration(milliseconds: 400),
                   child: color != null
                       ? _DarkenedBackground(color: color)
-                      : DecoratedBox(
+                      : Container(
                           decoration: BoxDecoration(
                             color: Theme.of(context).cardColor,
                           ),
