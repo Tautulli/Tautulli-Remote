@@ -123,9 +123,9 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                 ],
               ),
             ),
-            tabs: const [
-              Tab(text: 'Stats'),
-              Tab(text: 'History'),
+            tabs: [
+              Tab(text: LocaleKeys.stats_title.tr()),
+              Tab(text: LocaleKeys.history_title.tr()),
             ],
             tabChildren: [
               UserDetailsStatsTab(user: widget.user),

@@ -115,15 +115,15 @@ List<Widget> _buildUserStatList({
       (state.watchTimeStatsStatus == UserStatisticsStatus.initial &&
           state.watchTimeStatsList.isNotEmpty)) {
     statList.add(
-      const Padding(
-        padding: EdgeInsets.fromLTRB(4, 0, 8, 8),
-        child: Text(
-          'Global Stats',
+      Padding(
+        padding: const EdgeInsets.fromLTRB(4, 0, 8, 8),
+        child: const Text(
+          LocaleKeys.global_stats_title,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
-        ),
+        ).tr(),
       ),
     );
 
@@ -131,7 +131,7 @@ List<Widget> _buildUserStatList({
       statList.add(
         StatusCard(
           isFailure: true,
-          message: state.message ?? 'Unknown failure.',
+          message: state.message ?? LocaleKeys.error_message_generic.tr(),
           suggestion: state.suggestion,
         ),
       );
@@ -174,15 +174,15 @@ List<Widget> _buildUserStatList({
       (state.playerStatsStatus == UserStatisticsStatus.initial &&
           state.playerStatsList.isNotEmpty)) {
     statList.add(
-      const Padding(
-        padding: EdgeInsets.fromLTRB(4, 8, 8, 8),
-        child: Text(
-          'Player Stats',
+      Padding(
+        padding: const EdgeInsets.fromLTRB(4, 8, 8, 8),
+        child: const Text(
+          LocaleKeys.player_stats_title,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
-        ),
+        ).tr(),
       ),
     );
 
@@ -190,7 +190,7 @@ List<Widget> _buildUserStatList({
       statList.add(
         StatusCard(
           isFailure: true,
-          message: state.message ?? 'Unknown failure.',
+          message: state.message ?? LocaleKeys.error_message_generic.tr(),
           suggestion: state.suggestion,
         ),
       );
@@ -251,11 +251,11 @@ List<Widget> _buildUserStatList({
 
 String _determineWatchTimeStatTitle(UserWatchTimeStatModel watchTimeStat) {
   if (watchTimeStat.queryDays == 0) {
-    return 'All Time';
+    return LocaleKeys.all_time_title.tr();
   } else if (watchTimeStat.queryDays == 1) {
-    return '24 Hours';
+    return '24 ${LocaleKeys.hours_title.tr()}';
   } else {
-    return '${watchTimeStat.queryDays} Days';
+    return '${watchTimeStat.queryDays} ${LocaleKeys.days_title.tr()}';
   }
 }
 
@@ -265,12 +265,13 @@ RichText _playsRichText({
   return RichText(
     text: TextSpan(
       children: [
-        const TextSpan(
-          text: 'Plays ',
-          style: TextStyle(
+        TextSpan(
+          text: LocaleKeys.plays_title.tr(),
+          style: const TextStyle(
             fontSize: 15,
           ),
         ),
+        const TextSpan(text: ' '),
         TextSpan(
           text: totalPlays.toString(),
           style: const TextStyle(
@@ -292,36 +293,37 @@ RichText _durationRichText({
   return RichText(
     text: TextSpan(
       children: [
-        const TextSpan(
-          text: 'Duration ',
-          style: TextStyle(
+        TextSpan(
+          text: LocaleKeys.duration_title.tr(),
+          style: const TextStyle(
             fontSize: 15,
           ),
         ),
+        const TextSpan(text: ' '),
         if (durationMap['day']! > 0)
           _durationTextSpan(
-            '${durationMap['day'].toString()} days ',
+            '${durationMap['day'].toString()} ${LocaleKeys.days.tr()} ',
           ),
         if (durationMap['hour']! > 0)
           _durationTextSpan(
-            '${durationMap['hour'].toString()} hrs ',
+            '${durationMap['hour'].toString()} ${LocaleKeys.hrs.tr()} ',
           ),
         if (durationMap['min']! > 0)
           _durationTextSpan(
-            '${durationMap['min'].toString()} mins',
+            '${durationMap['min'].toString()} ${LocaleKeys.mins.tr()}',
           ),
         if (durationMap['day']! < 1 &&
             durationMap['hour']! < 1 &&
             durationMap['min']! < 1 &&
             durationMap['sec']! > 0)
           _durationTextSpan(
-            '${durationMap['sec'].toString()} secs',
+            '${durationMap['sec'].toString()} ${LocaleKeys.secs.tr()}',
           ),
         if (durationMap['day']! < 1 &&
             durationMap['hour']! < 1 &&
             durationMap['min']! < 1 &&
             durationMap['sec']! < 1)
-          _durationTextSpan('0 min'),
+          _durationTextSpan('0 ${LocaleKeys.min.tr()}'),
       ],
     ),
   );

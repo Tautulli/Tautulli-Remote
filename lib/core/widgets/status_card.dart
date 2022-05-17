@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../../translations/locale_keys.g.dart';
 
 class StatusCard extends StatelessWidget {
   final bool isFailure;
@@ -26,9 +29,9 @@ class StatusCard extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     if (isFailure)
-                      const TextSpan(
-                        text: 'Failure: ',
-                        style: TextStyle(
+                      TextSpan(
+                        text: '${LocaleKeys.failure_title.tr()}: ',
+                        style: const TextStyle(
                           fontSize: 15,
                         ),
                       ),

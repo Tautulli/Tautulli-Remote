@@ -10,6 +10,7 @@ abstract class  LocaleKeys {
   static const add_custom_http_header_button = 'add_custom_http_header_button';
   static const advanced_title = 'advanced_title';
   static const all_title = 'all_title';
+  static const all_time_title = 'all_time_title';
   static const announcements_load_failed_message = 'announcements_load_failed_message';
   static const announcements_title = 'announcements_title';
   static const app_logs_title = 'app_logs_title';
@@ -37,6 +38,8 @@ abstract class  LocaleKeys {
   static const data_dump_title = 'data_dump_title';
   static const data_dump_warning_line_1 = 'data_dump_warning_line_1';
   static const data_dump_warning_line_2 = 'data_dump_warning_line_2';
+  static const days = 'days';
+  static const days_title = 'days_title';
   static const default_title = 'default_title';
   static const delete_button = 'delete_button';
   static const device_token_edit_snackbar_message = 'device_token_edit_snackbar_message';
@@ -87,9 +90,11 @@ abstract class  LocaleKeys {
   static const error_suggestion_invalid_api_key = 'error_suggestion_invalid_api_key';
   static const error_suggestion_plex_connection = 'error_suggestion_plex_connection';
   static const error_suggestion_server_version = 'error_suggestion_server_version';
+  static const failure_title = 'failure_title';
   static const fast_title = 'fast_title';
   static const faster_title = 'faster_title';
   static const feature_not_yet_available_snackbar_message = 'feature_not_yet_available_snackbar_message';
+  static const global_stats_title = 'global_stats_title';
   static const go_to_settings_button = 'go_to_settings_button';
   static const header_key_title = 'header_key_title';
   static const header_value_title = 'header_value_title';
@@ -98,7 +103,10 @@ abstract class  LocaleKeys {
   static const help_translate_heading_card_content = 'help_translate_heading_card_content';
   static const help_translate_title = 'help_translate_title';
   static const hidden_message = 'hidden_message';
+  static const history_title = 'history_title';
+  static const hours_title = 'hours_title';
   static const how_to_access_logs_button = 'how_to_access_logs_button';
+  static const hrs = 'hrs';
   static const language_title = 'language_title';
   static const last_streamed_title = 'last_streamed_title';
   static const learn_more_button = 'learn_more_button';
@@ -111,6 +119,8 @@ abstract class  LocaleKeys {
   static const logs_exported_snackbar_message = 'logs_exported_snackbar_message';
   static const mask_senstivie_info_subtitle = 'mask_senstivie_info_subtitle';
   static const mask_senstivie_info_title = 'mask_senstivie_info_title';
+  static const min = 'min';
+  static const mins = 'mins';
   static const month = 'month';
   static const more_title = 'more_title';
   static const name_title = 'name_title';
@@ -140,6 +150,7 @@ abstract class  LocaleKeys {
   static const operations_title = 'operations_title';
   static const optional = 'optional';
   static const other_title = 'other_title';
+  static const player_stats_title = 'player_stats_title';
   static const plays_title = 'plays_title';
   static const primary_connection_title = 'primary_connection_title';
   static const primary_connection_address_hint = 'primary_connection_address_hint';
@@ -154,6 +165,7 @@ abstract class  LocaleKeys {
   static const save_button = 'save_button';
   static const scan_qr_code_button = 'scan_qr_code_button';
   static const sec = 'sec';
+  static const secs = 'secs';
   static const secondary_connection_address_explanation_one = 'secondary_connection_address_explanation_one';
   static const secondary_connection_address_explanation_two = 'secondary_connection_address_explanation_two';
   static const secondary_connection_title = 'secondary_connection_title';
@@ -181,6 +193,7 @@ abstract class  LocaleKeys {
   static const slow_title = 'slow_title';
   static const slower_title = 'slower_title';
   static const sort_users_title = 'sort_users_title';
+  static const stats_title = 'stats_title';
   static const status_title = 'status_title';
   static const step_title = 'step_title';
   static const streamed_title = 'streamed_title';
