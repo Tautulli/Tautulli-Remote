@@ -1,6 +1,34 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.9",
+      "date": "May 17, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added Users Details page with user stats",
+          "additional": "User history will be added in a future update",
+        },
+        {
+          "type": "improvement",
+          "detail": "Implement Material Design 3",
+        },
+        {
+          "type": "improvement",
+          "detail": "Upgrade to Flutter 3",
+        },
+        {
+          "type": "improvement",
+          "detail": "Upgrade dependencies",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for French",
+          "additional": "Thanks @NathanBnm",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.8",
       "date": "May 6, 2022",
       "changes": [
