@@ -48,10 +48,14 @@ class UserIcon extends StatelessWidget {
                       imageErrorBuilder: (context, object, stackTrace) => Stack(
                         children: [
                           Image.asset('assets/images/default_profile.png'),
-                          Positioned.fill(
-                            child: FaIcon(
-                              FontAwesomeIcons.exclamation,
-                              color: Theme.of(context).colorScheme.primary,
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 4, left: 1),
+                              child: FaIcon(
+                                FontAwesomeIcons.exclamation,
+                                color: Theme.of(context).colorScheme.primary,
+                                size: 24,
+                              ),
                             ),
                           ),
                         ],
