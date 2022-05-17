@@ -195,52 +195,61 @@ List<Widget> _buildUserStatList({
         ),
       );
     } else {
-      for (int i = 0; i < state.playerStatsList.length; i++) {
-        final playerStat = state.playerStatsList[i];
+      if (state.playerStatsList.isEmpty) {
+        statList.addAll(
+          [
+            StatusCard(message: LocaleKeys.player_stats_empty_message.tr()),
+            const Gap(8),
+          ],
+        );
+      } else {
+        for (int i = 0; i < state.playerStatsList.length; i++) {
+          final playerStat = state.playerStatsList[i];
 
-        statList.add(
-          IconCard(
-            background: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: DecoratedBox(
-                position: DecorationPosition.foreground,
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.6),
-                ),
+          statList.add(
+            IconCard(
+              background: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
                 child: DecoratedBox(
+                  position: DecorationPosition.foreground,
                   decoration: BoxDecoration(
-                    color: TautulliColorPalette.mapPlatformToColor(
-                      playerStat.platformName!,
+                    color: Colors.black.withOpacity(0.6),
+                  ),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: TautulliColorPalette.mapPlatformToColor(
+                        playerStat.platformName!,
+                      ),
                     ),
                   ),
                 ),
               ),
+              icon: WebsafeSvg.asset(
+                AssetHelper.mapPlatformToPath(playerStat.platformName!),
+              ),
+              details: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    sensitive
+                        ? LocaleKeys.hidden_message.tr()
+                        : playerStat.playerName!,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  _playsRichText(totalPlays: playerStat.totalPlays ?? 0),
+                  _durationRichText(totalTime: playerStat.totalTime ?? 0),
+                ],
+              ),
             ),
-            icon: WebsafeSvg.asset(
-              AssetHelper.mapPlatformToPath(playerStat.platformName!),
-            ),
-            details: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  sensitive
-                      ? LocaleKeys.hidden_message.tr()
-                      : playerStat.playerName!,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 18),
-                ),
-                _playsRichText(totalPlays: playerStat.totalPlays ?? 0),
-                _durationRichText(totalTime: playerStat.totalTime ?? 0),
-              ],
-            ),
-          ),
-        );
-
-        if (i < state.playerStatsList.length - 1) {
-          statList.add(
-            const Gap(8),
           );
+
+          if (i < state.playerStatsList.length - 1) {
+            statList.add(
+              const Gap(8),
+            );
+          }
         }
       }
     }

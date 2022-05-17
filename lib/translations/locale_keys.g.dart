@@ -150,6 +150,7 @@ abstract class  LocaleKeys {
   static const operations_title = 'operations_title';
   static const optional = 'optional';
   static const other_title = 'other_title';
+  static const player_stats_empty_message = 'player_stats_empty_message';
   static const player_stats_title = 'player_stats_title';
   static const plays_title = 'plays_title';
   static const primary_connection_title = 'primary_connection_title';

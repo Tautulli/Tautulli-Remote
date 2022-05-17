@@ -404,6 +404,7 @@ static const Map<String,dynamic> en = {
   "operations_title": "Operations",
   "optional": "optional",
   "other_title": "Other",
+  "player_stats_empty_message": "No player stats found.",
   "player_stats_title": "Player Stats",
   "plays_title": "Plays",
   "primary_connection_title": "Primary Connection",
