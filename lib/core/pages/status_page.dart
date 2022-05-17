@@ -41,6 +41,7 @@ class StatusPage extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 18,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                     if (isNotBlank(suggestion)) const Gap(8),
                     if (isNotBlank(suggestion))
@@ -49,6 +50,7 @@ class StatusPage extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 16,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     if (action != null) const Gap(4),
                     if (action != null) action!,
