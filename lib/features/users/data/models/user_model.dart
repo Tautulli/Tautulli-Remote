@@ -106,6 +106,8 @@ class UserModel extends Equatable {
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 
+  Map<String, dynamic> toJson() => _$UserModelToJson(this);
+
   static List<int>? sharedLibrariesFromJson(String? libraries) {
     if (libraries == null) return null;
 
