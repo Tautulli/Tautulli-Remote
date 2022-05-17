@@ -4,10 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../../../core/helpers/time_helper.dart';
+import '../../../../core/pages/status_page.dart';
 import '../../../../core/widgets/sliver_tabbed_details.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_model.dart';
+import '../bloc/user_statistics_bloc.dart';
+import '../widgets/user_details_stats_tab.dart';
 import '../widgets/user_icon.dart';
 
 class UserDetailsPage extends StatelessWidget {
@@ -22,9 +26,12 @@ class UserDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return UserDetailsView(
-      user: user,
-      backgroundColor: backgroundColor,
+    return BlocProvider(
+      create: (context) => di.sl<UserStatisticsBloc>(),
+      child: UserDetailsView(
+        user: user,
+        backgroundColor: backgroundColor,
+      ),
     );
   }
 }
@@ -106,7 +113,9 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                     text: ' ',
                   ),
                   TextSpan(
-                    text: TimeHelper.moment(widget.user.lastSeen),
+                    text: widget.user.lastSeen != null
+                        ? TimeHelper.moment(widget.user.lastSeen)
+                        : LocaleKeys.never.tr(),
                     style: const TextStyle(
                       fontWeight: FontWeight.w300,
                     ),
@@ -119,45 +128,10 @@ class _UserDetailsViewState extends State<UserDetailsView> {
               Tab(text: 'History'),
             ],
             tabSlivers: [
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: 20,
-                  (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Material(
-                          child: ListTile(
-                            tileColor: Colors.grey[800],
-                            title: Text('Text $index'),
-                            onTap: () {},
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: 20,
-                  (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Material(
-                          child: ListTile(
-                            tileColor: Colors.grey[800],
-                            title: Text('Text $index'),
-                            onTap: () {},
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+              UserDetailsStatsTab(user: widget.user),
+              StatusPage(
+                message:
+                    LocaleKeys.feature_not_yet_available_snackbar_message.tr(),
               ),
             ],
           );
