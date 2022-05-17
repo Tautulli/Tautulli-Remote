@@ -14,7 +14,8 @@ import '../../domain/usecases/users.dart';
 part 'users_event.dart';
 part 'users_state.dart';
 
-List<UserModel> usersCache = [];
+String? tautulliIdCache;
+Map<String, List<UserModel>> usersCache = {};
 bool hasReachedMaxCache = false;
 
 const throttleDuration = Duration(milliseconds: 100);
@@ -35,7 +36,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     required this.logging,
   }) : super(
           UsersState(
-            users: usersCache,
+            users: tautulliIdCache != null ? usersCache[tautulliIdCache]! : [],
             hasReachedMax: hasReachedMaxCache,
           ),
         ) {
@@ -49,22 +50,31 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     UsersFetched event,
     Emitter<UsersState> emit,
   ) async {
-    if (event.freshFetch) {
+    final bool serverChange = tautulliIdCache != event.tautulliId;
+
+    if (!usersCache.containsKey(event.tautulliId)) {
+      usersCache[event.tautulliId] = [];
+    }
+
+    if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
       emit(
         state.copyWith(
           status: UsersStatus.initial,
+          users: serverChange ? [] : null,
           hasReachedMax: false,
         ),
       );
-      usersCache = [];
+      usersCache[event.tautulliId] = [];
       hasReachedMaxCache = false;
     }
+
+    tautulliIdCache = event.tautulliId;
 
     if (state.hasReachedMax) return;
 
     if (state.status == UsersStatus.initial) {
       // Prevent triggering initial fetch when navigating back to Users page
-      if (usersCache.isNotEmpty) {
+      if (usersCache[event.tautulliId]!.isNotEmpty) {
         return emit(
           state.copyWith(
             status: UsersStatus.success,
@@ -96,7 +106,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         orderDir: event.orderDir,
         orderColumn: event.orderColumn,
         length: length,
-        start: usersCache.length,
+        start: usersCache[event.tautulliId]!.length,
       );
 
       return _emitFailureOrUsers(
@@ -119,7 +129,8 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         return emit(
           state.copyWith(
             status: UsersStatus.failure,
-            users: event.freshFetch ? usersCache : state.users,
+            users:
+                event.freshFetch ? usersCache[event.tautulliId] : state.users,
             failure: failure,
             message: FailureHelper.mapFailureToMessage(failure),
             suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -134,13 +145,14 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           ),
         );
 
-        usersCache = usersCache + users.value1;
+        usersCache[event.tautulliId] =
+            usersCache[event.tautulliId]! + users.value1;
         hasReachedMaxCache = users.value1.length < 10;
 
         return emit(
           state.copyWith(
             status: UsersStatus.success,
-            users: usersCache,
+            users: usersCache[event.tautulliId],
             hasReachedMax: hasReachedMaxCache,
           ),
         );

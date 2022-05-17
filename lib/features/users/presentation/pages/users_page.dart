@@ -91,7 +91,6 @@ class _UsersViewState extends State<UsersView> {
                   tautulliId: _tautulliId,
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
-                  freshFetch: true,
                   settingsBloc: _settingsBloc,
                 ),
               );
