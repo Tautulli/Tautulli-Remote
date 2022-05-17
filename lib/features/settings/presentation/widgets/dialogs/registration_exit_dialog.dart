@@ -22,7 +22,6 @@ class RegistrationExitDialog extends StatelessWidget {
           },
         ),
         TextButton(
-          child: const Text(LocaleKeys.discard_button).tr(),
           style: TextButton.styleFrom(
             backgroundColor: Theme.of(context).errorColor,
           ),
@@ -32,6 +31,7 @@ class RegistrationExitDialog extends StatelessWidget {
                 );
             Navigator.of(context).pop(true);
           },
+          child: const Text(LocaleKeys.discard_button).tr(),
         ),
       ],
     );

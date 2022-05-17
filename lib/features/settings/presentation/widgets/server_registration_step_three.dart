@@ -22,13 +22,6 @@ class ServerRegistrationStepThree extends StatelessWidget {
           isOptional: true,
           hasChildPadding: false,
           heading: '${LocaleKeys.step_title.tr()} 3',
-          child: state is RegistrationHeadersLoaded && state.headers.isNotEmpty
-              ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: state.headers,
-                )
-              : null,
           action: Column(
             children: [
               const Gap(8),
@@ -59,6 +52,13 @@ class ServerRegistrationStepThree extends StatelessWidget {
               ),
             ],
           ),
+          child: state is RegistrationHeadersLoaded && state.headers.isNotEmpty
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: state.headers,
+                )
+              : null,
         );
       },
     );

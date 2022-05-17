@@ -23,7 +23,6 @@ class CertificateFailureDialog extends StatelessWidget {
           },
         ),
         TextButton(
-          child: const Text(LocaleKeys.trust_button).tr(),
           style: TextButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.secondary,
           ),
@@ -33,6 +32,7 @@ class CertificateFailureDialog extends StatelessWidget {
                   RegisterDeviceUnverifiedCert(context.read<SettingsBloc>()),
                 );
           },
+          child: const Text(LocaleKeys.trust_button).tr(),
         ),
       ],
     );

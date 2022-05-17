@@ -23,13 +23,13 @@ class DeleteDialog extends StatelessWidget {
           },
         ),
         TextButton(
-          child: const Text(LocaleKeys.delete_button).tr(),
           style: TextButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
           onPressed: () {
             Navigator.of(context).pop(true);
           },
+          child: const Text(LocaleKeys.delete_button).tr(),
         ),
       ],
     );

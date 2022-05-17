@@ -28,10 +28,10 @@ class ClearLoggingDialog extends StatelessWidget {
             loggingBloc.add(LoggingClear());
             Navigator.of(context).pop();
           },
-          child: const Text(LocaleKeys.clear_button).tr(),
           style: TextButton.styleFrom(
             backgroundColor: Colors.red,
           ),
+          child: const Text(LocaleKeys.clear_button).tr(),
         ),
       ],
     );

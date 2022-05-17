@@ -20,7 +20,6 @@ class WizardQuitDialog extends StatelessWidget {
           },
         ),
         TextButton(
-          child: const Text(LocaleKeys.quit_button).tr(),
           style: TextButton.styleFrom(
             backgroundColor: Theme.of(context).errorColor,
           ),
@@ -31,6 +30,7 @@ class WizardQuitDialog extends StatelessWidget {
 
             Navigator.of(context).pop(true);
           },
+          child: const Text(LocaleKeys.quit_button).tr(),
         ),
       ],
     );

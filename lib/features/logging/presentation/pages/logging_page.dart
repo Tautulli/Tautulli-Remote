@@ -155,6 +155,7 @@ class _LoggingViewState extends State<LoggingView> {
               itemBuilder: (context) {
                 return [
                   PopupMenuItem(
+                    value: LogLevel.ALL,
                     child: Text(
                       LocaleKeys.all_title.tr(),
                       style: TextStyle(
@@ -163,9 +164,9 @@ class _LoggingViewState extends State<LoggingView> {
                             : Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
-                    value: LogLevel.ALL,
                   ),
                   PopupMenuItem(
+                    value: LogLevel.DEBUG,
                     child: Text(
                       'Debug',
                       style: TextStyle(
@@ -174,9 +175,9 @@ class _LoggingViewState extends State<LoggingView> {
                             : Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
-                    value: LogLevel.DEBUG,
                   ),
                   PopupMenuItem(
+                    value: LogLevel.INFO,
                     child: Text(
                       'Info',
                       style: TextStyle(
@@ -185,9 +186,9 @@ class _LoggingViewState extends State<LoggingView> {
                             : Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
-                    value: LogLevel.INFO,
                   ),
                   PopupMenuItem(
+                    value: LogLevel.WARNING,
                     child: Text(
                       'Warning',
                       style: TextStyle(
@@ -196,9 +197,9 @@ class _LoggingViewState extends State<LoggingView> {
                             : Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
-                    value: LogLevel.WARNING,
                   ),
                   PopupMenuItem(
+                    value: LogLevel.ERROR,
                     child: Text(
                       'Error',
                       style: TextStyle(
@@ -207,7 +208,6 @@ class _LoggingViewState extends State<LoggingView> {
                             : Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
-                    value: LogLevel.ERROR,
                   ),
                 ];
               },
@@ -241,12 +241,12 @@ class _LoggingViewState extends State<LoggingView> {
         },
         itemBuilder: (context) => [
           PopupMenuItem(
-            child: const Text(LocaleKeys.logs_export_menu_item).tr(),
             value: 'export',
+            child: const Text(LocaleKeys.logs_export_menu_item).tr(),
           ),
           PopupMenuItem(
-            child: const Text(LocaleKeys.logs_clear_menu_item).tr(),
             value: 'clear',
+            child: const Text(LocaleKeys.logs_clear_menu_item).tr(),
           ),
         ],
       ),

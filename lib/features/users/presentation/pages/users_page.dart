@@ -263,6 +263,9 @@ class _UsersViewState extends State<UsersView> {
               ),
               const PopupMenuDivider(),
               PopupMenuItem(
+                value: _orderColumn == 'friendly_name' && _orderDir == 'asc'
+                    ? 'friendly_name|desc'
+                    : 'friendly_name|asc',
                 child: Row(
                   children: [
                     _orderColumn == 'friendly_name' && _orderDir == 'asc'
@@ -280,11 +283,11 @@ class _UsersViewState extends State<UsersView> {
                     ),
                   ],
                 ),
-                value: _orderColumn == 'friendly_name' && _orderDir == 'asc'
-                    ? 'friendly_name|desc'
-                    : 'friendly_name|asc',
               ),
               PopupMenuItem(
+                value: _orderColumn == 'last_seen' && _orderDir == 'desc'
+                    ? 'last_seen|asc'
+                    : 'last_seen|desc',
                 child: Row(
                   children: [
                     _orderColumn == 'last_seen' && _orderDir == 'desc'
@@ -302,9 +305,6 @@ class _UsersViewState extends State<UsersView> {
                     ),
                   ],
                 ),
-                value: _orderColumn == 'last_seen' && _orderDir == 'desc'
-                    ? 'last_seen|asc'
-                    : 'last_seen|desc',
               ),
             ];
           },

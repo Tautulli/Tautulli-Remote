@@ -17,15 +17,15 @@ class WizardNextButton extends StatelessWidget {
     return FloatingActionButton(
       heroTag: 'next',
       backgroundColor: isDisabled ? Colors.grey : null,
-      child: FaIcon(
-        FontAwesomeIcons.arrowRight,
-        color: isDisabled ? Colors.grey[350] : null,
-      ),
       onPressed: isDisabled
           ? null
           : () {
               context.read<WizardBloc>().add(WizardNext());
             },
+      child: FaIcon(
+        FontAwesomeIcons.arrowRight,
+        color: isDisabled ? Colors.grey[350] : null,
+      ),
     );
   }
 }
