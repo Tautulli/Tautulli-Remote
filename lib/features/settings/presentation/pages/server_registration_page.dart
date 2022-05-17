@@ -36,10 +36,10 @@ class ServerRegistrationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    final _primaryController = TextEditingController();
-    final _secondaryController = TextEditingController();
-    final _tokenController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+    final primaryController = TextEditingController();
+    final secondaryController = TextEditingController();
+    final tokenController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -55,12 +55,12 @@ class ServerRegistrationView extends StatelessWidget {
             ),
             label: const Text(LocaleKeys.register_server_button).tr(),
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
+              if (formKey.currentState!.validate()) {
                 context.read<RegisterDeviceBloc>().add(
                       RegisterDeviceStarted(
-                        primaryConnectionAddress: _primaryController.text,
-                        secondaryConnectionAddress: _secondaryController.text,
-                        deviceToken: _tokenController.text,
+                        primaryConnectionAddress: primaryController.text,
+                        secondaryConnectionAddress: secondaryController.text,
+                        deviceToken: tokenController.text,
                         headers: state is RegistrationHeadersLoaded
                             ? state.headers
                                 .map(
@@ -128,7 +128,7 @@ class ServerRegistrationView extends StatelessWidget {
               }
             },
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: ListView(
                 padding: const EdgeInsets.only(
                   left: 8,
@@ -140,9 +140,9 @@ class ServerRegistrationView extends StatelessWidget {
                   const ServerRegistrationStepOne(),
                   const Gap(8),
                   ServerRegistrationStepTwo(
-                    primaryController: _primaryController,
-                    secondaryController: _secondaryController,
-                    tokenController: _tokenController,
+                    primaryController: primaryController,
+                    secondaryController: secondaryController,
+                    tokenController: tokenController,
                   ),
                   const Gap(8),
                   const ServerRegistrationStepThree(),

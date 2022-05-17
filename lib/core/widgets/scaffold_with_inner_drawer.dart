@@ -31,7 +31,7 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<InnerDrawerState> _innerDrawerKey =
+    final GlobalKey<InnerDrawerState> innerDrawerKey =
         GlobalKey<InnerDrawerState>();
 
     double calculateDrawerOffset() {
@@ -61,11 +61,11 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
     }
 
     return InnerDrawer(
-      key: _innerDrawerKey,
+      key: innerDrawerKey,
       onTapClose: true,
       swipeChild: true,
       offset: IDOffset.horizontal(calculateDrawerOffset()),
-      leftChild: _AppDrawer(innerDrawerKey: _innerDrawerKey),
+      leftChild: _AppDrawer(innerDrawerKey: innerDrawerKey),
       scaffold: Scaffold(
         appBar: AppBar(
           leading: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
@@ -79,7 +79,7 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
                   child: const Icon(Icons.menu),
                 ),
                 onPressed: () {
-                  _innerDrawerKey.currentState?.open();
+                  innerDrawerKey.currentState?.open();
                 },
               );
             },
@@ -89,7 +89,7 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
         ),
         body: PageBody(
           child: DoubleBackToExit(
-            innerDrawerKey: _innerDrawerKey,
+            innerDrawerKey: innerDrawerKey,
             child: body,
           ),
         ),
