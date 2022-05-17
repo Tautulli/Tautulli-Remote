@@ -40,6 +40,7 @@ import 'features/users/data/datasources/users_data_source.dart';
 import 'features/users/data/repositories/users_repository_impl.dart';
 import 'features/users/domain/repositories/users_repository.dart';
 import 'features/users/domain/usecases/users.dart';
+import 'features/users/presentation/bloc/user_statistics_bloc.dart';
 import 'features/users/presentation/bloc/users_bloc.dart';
 
 // Service locator alias
@@ -271,6 +272,12 @@ Future<void> init() async {
       logging: sl(),
     ),
   );
+  sl.registerFactory(
+    () => UserStatisticsBloc(
+      users: sl(),
+      logging: sl(),
+    ),
+  );
 
   // Use case
   sl.registerLazySingleton(
@@ -290,6 +297,8 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<UsersDataSource>(
     () => UsersDataSourceImpl(
+      getUserPlayerStats: sl(),
+      getUserWatchTimeStats: sl(),
       getUsersTableApi: sl(),
     ),
   );
