@@ -687,7 +687,10 @@ static const Map<String,dynamic> fr = {
   "wizard_skip_dialog_title": "Êtes-vous sûr de vouloir ignorer ?",
   "wizard_welcome_text_1": "Bienvenue !",
   "wizard_welcome_text_2": "Tautulli Remote vous permet de consulter l'activité de votre serveur Plex ainsi que l'historique, les statistiques et bien plus en vous connectant à votre serveur Tautulli existant.",
-  "wizard_welcome_text_3": "Assurez-vous que Tautulli actuellement est en cours d'exécution et qu'il est accessible depuis cet appareil avant de poursuivre avec l'assistant d'installation."
+  "wizard_welcome_text_3": "Assurez-vous que Tautulli actuellement est en cours d'exécution et qu'il est accessible depuis cet appareil avant de poursuivre avec l'assistant d'installation.",
+  "feature_not_yet_available_snackbar_message": "Fonctionnalité pas encore disponible",
+  "sort_users_title": "Trier les utilisateurs",
+  "streamed_title": "Diffusé"
 };
 static const Map<String,dynamic> hu = {
   "accepted_title": "Elfogadom",
