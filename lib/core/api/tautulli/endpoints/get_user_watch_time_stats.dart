@@ -5,8 +5,8 @@ import '../connection_handler.dart';
 abstract class GetUserWatchTimeStats {
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
-    required String userId,
-    int? grouping,
+    required int userId,
+    bool? grouping,
     String? queryDays,
   });
 }
@@ -19,8 +19,8 @@ class GetUserWatchTimeStatsImpl implements GetUserWatchTimeStats {
   @override
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
-    required String userId,
-    int? grouping,
+    required int userId,
+    bool? grouping,
     String? queryDays,
   }) {
     Map<String, dynamic> params = {

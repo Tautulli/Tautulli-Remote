@@ -5,8 +5,8 @@ import '../connection_handler.dart';
 abstract class GetUserPlayerStats {
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
-    required String userId,
-    int? grouping,
+    required int userId,
+    bool? grouping,
   });
 }
 
@@ -18,8 +18,8 @@ class GetUserPlayerStatsImpl implements GetUserPlayerStats {
   @override
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
-    required String userId,
-    int? grouping,
+    required int userId,
+    bool? grouping,
   }) {
     Map<String, dynamic> params = {
       'user_id': userId,
