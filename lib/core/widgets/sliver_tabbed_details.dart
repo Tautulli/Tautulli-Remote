@@ -200,6 +200,7 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
                   context: context,
                   removeTop: true,
                   child: Builder(
+                    key: PageStorageKey(ObjectKey(tabSliver)),
                     builder: (context) {
                       return DecoratedBox(
                         decoration: BoxDecoration(
