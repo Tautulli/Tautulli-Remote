@@ -138,8 +138,9 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
                                     height: 60,
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .background,
                                     ),
                                   ),
                                 ),
@@ -180,7 +181,7 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
                         ),
                         Container(
                           height: 46,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.background,
                         ),
                       ],
                     ),
@@ -200,17 +201,19 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
                   removeTop: true,
                   child: Builder(
                     builder: (context) {
-                      return CustomScrollView(
-                        key: PageStorageKey(ObjectKey(tabSliver)),
-                        slivers: [
-                          SliverOverlapInjector(
-                            handle:
+                      return DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.background,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            top:
                                 NestedScrollView.sliverOverlapAbsorberHandleFor(
                               context,
-                            ),
+                            ).layoutExtent!,
                           ),
-                          tabSliver,
-                        ],
+                          child: tabSliver,
+                        ),
                       );
                     },
                   ),
