@@ -127,7 +127,7 @@ class _UserDetailsViewState extends State<UserDetailsView> {
               Tab(text: 'Stats'),
               Tab(text: 'History'),
             ],
-            tabSlivers: [
+            tabChildren: [
               UserDetailsStatsTab(user: widget.user),
               StatusPage(
                 message:

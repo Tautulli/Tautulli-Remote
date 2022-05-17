@@ -14,7 +14,7 @@ class SliverTabbedDetails extends StatefulWidget {
   final String title;
   final Widget subtitle;
   final List<Widget> tabs;
-  final List<Widget> tabSlivers;
+  final List<Widget> tabChildren;
 
   const SliverTabbedDetails({
     super.key,
@@ -24,7 +24,7 @@ class SliverTabbedDetails extends StatefulWidget {
     required this.title,
     required this.subtitle,
     required this.tabs,
-    required this.tabSlivers,
+    required this.tabChildren,
   });
 
   @override
@@ -194,7 +194,7 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
             ];
           },
           body: TabBarView(
-            children: widget.tabSlivers.map(
+            children: widget.tabChildren.map(
               (tabSliver) {
                 return MediaQuery.removePadding(
                   context: context,
