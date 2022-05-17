@@ -2,7 +2,9 @@ include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
-    - unnecessary_const
-    - prefer_const_declarations
-    - prefer_const_constructors
-    - prefer_const_literals_to_create_immutables
+    unnecessary_const: true
+    prefer_const_declarations: true
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    depend_on_referenced_packages: false
+    use_build_context_synchronously: false
