@@ -191,6 +191,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
       ),
       colorScheme: ColorScheme.fromSwatch(
         primarySwatch: TautulliColorPalette.createSwatch(),
+        backgroundColor: TautulliColorPalette.midnight,
         brightness: Brightness.dark,
         errorColor: Colors.red[900],
       ).copyWith(
@@ -312,7 +313,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
       tabBarTheme: const TabBarTheme(
         indicator: UnderlineTabIndicator(
           borderSide: BorderSide(
-            color: TautulliColorPalette.notWhite,
+            color: PlexColorPalette.gamboge,
+            width: 2,
           ),
         ),
         indicatorSize: TabBarIndicatorSize.label,
