@@ -1,0 +1,337 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
+import 'package:websafe_svg/websafe_svg.dart';
+
+import '../../../../core/helpers/asset_helper.dart';
+import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/helpers/time_helper.dart';
+import '../../../../core/pages/status_page.dart';
+import '../../../../core/widgets/icon_card.dart';
+import '../../../../core/widgets/page_body.dart';
+import '../../../../core/widgets/status_card.dart';
+import '../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../translations/locale_keys.g.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../data/models/user_model.dart';
+import '../../data/models/user_watch_time_stat_model.dart';
+import '../bloc/user_statistics_bloc.dart';
+
+class UserDetailsStatsTab extends StatefulWidget {
+  final UserModel user;
+
+  const UserDetailsStatsTab({
+    super.key,
+    required this.user,
+  });
+
+  @override
+  State<UserDetailsStatsTab> createState() => _UserDetailsStatsTabState();
+}
+
+class _UserDetailsStatsTabState extends State<UserDetailsStatsTab> {
+  late SettingsBloc _settingsBloc;
+  late String _tautulliId;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _settingsBloc = context.read<SettingsBloc>();
+    final settingsState = _settingsBloc.state as SettingsSuccess;
+
+    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
+
+    context.read<UserStatisticsBloc>().add(
+          UserStatisticsFetched(
+            tautulliId: _tautulliId,
+            userId: widget.user.userId!,
+            settingsBloc: _settingsBloc,
+          ),
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UserStatisticsBloc, UserStatisticsState>(
+      builder: (context, state) {
+        return ThemedRefreshIndicator(
+          onRefresh: () {
+            context.read<UserStatisticsBloc>().add(
+                  UserStatisticsFetched(
+                    tautulliId: _tautulliId,
+                    userId: widget.user.userId!,
+                    settingsBloc: _settingsBloc,
+                    freshFetch: true,
+                  ),
+                );
+
+            return Future.value();
+          },
+          child: PageBody(
+            loading: state.playerStatsStatus == UserStatisticsStatus.initial ||
+                state.watchTimeStatsStatus == UserStatisticsStatus.initial,
+            child: BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, settingsState) {
+                settingsState as SettingsSuccess;
+
+                if (state.watchTimeStatsStatus ==
+                        UserStatisticsStatus.failure &&
+                    state.playerStatsStatus == UserStatisticsStatus.failure) {
+                  return StatusPage(
+                    scrollable: true,
+                    message: state.message ?? 'Unknown failure.',
+                    suggestion: state.suggestion,
+                  );
+                }
+
+                return ListView(
+                  padding: const EdgeInsets.all(8.0),
+                  children: _buildUserStatList(
+                    context: context,
+                    state: state,
+                    sensitive: settingsState.appSettings.maskSensitiveInfo,
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+List<Widget> _buildUserStatList({
+  required BuildContext context,
+  required UserStatisticsState state,
+  required bool sensitive,
+}) {
+  List<Widget> statList = [];
+
+  if (state.watchTimeStatsStatus != UserStatisticsStatus.initial ||
+      (state.watchTimeStatsStatus == UserStatisticsStatus.initial &&
+          state.watchTimeStatsList.isNotEmpty)) {
+    statList.add(
+      const Padding(
+        padding: EdgeInsets.fromLTRB(4, 0, 8, 8),
+        child: Text(
+          'Global Stats',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+
+    if (state.watchTimeStatsStatus == UserStatisticsStatus.failure) {
+      statList.add(
+        StatusCard(
+          isFailure: true,
+          message: state.message ?? 'Unknown failure.',
+          suggestion: state.suggestion,
+        ),
+      );
+    } else {
+      for (int i = 0; i < state.watchTimeStatsList.length; i++) {
+        final watchTimeStat = state.watchTimeStatsList[i];
+
+        statList.add(
+          IconCard(
+            icon: const FaIcon(
+              FontAwesomeIcons.chartLine,
+              size: 50,
+            ),
+            details: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _determineWatchTimeStatTitle(watchTimeStat),
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 18),
+                ),
+                _playsRichText(totalPlays: watchTimeStat.totalPlays ?? 0),
+                _durationRichText(totalTime: watchTimeStat.totalTime ?? 0),
+              ],
+            ),
+          ),
+        );
+
+        if (i < state.watchTimeStatsList.length - 1) {
+          statList.add(
+            const Gap(8),
+          );
+        }
+      }
+    }
+  }
+
+  if (state.playerStatsStatus != UserStatisticsStatus.initial ||
+      (state.playerStatsStatus == UserStatisticsStatus.initial &&
+          state.playerStatsList.isNotEmpty)) {
+    statList.add(
+      const Padding(
+        padding: EdgeInsets.fromLTRB(4, 8, 8, 8),
+        child: Text(
+          'Player Stats',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+
+    if (state.playerStatsStatus == UserStatisticsStatus.failure) {
+      statList.add(
+        StatusCard(
+          isFailure: true,
+          message: state.message ?? 'Unknown failure.',
+          suggestion: state.suggestion,
+        ),
+      );
+    } else {
+      for (int i = 0; i < state.playerStatsList.length; i++) {
+        final playerStat = state.playerStatsList[i];
+
+        statList.add(
+          IconCard(
+            background: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: DecoratedBox(
+                position: DecorationPosition.foreground,
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.6),
+                ),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: TautulliColorPalette.mapPlatformToColor(
+                      playerStat.platformName!,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            icon: WebsafeSvg.asset(
+              AssetHelper.mapPlatformToPath(playerStat.platformName!),
+            ),
+            details: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  sensitive
+                      ? LocaleKeys.hidden_message.tr()
+                      : playerStat.playerName!,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 18),
+                ),
+                _playsRichText(totalPlays: playerStat.totalPlays ?? 0),
+                _durationRichText(totalTime: playerStat.totalTime ?? 0),
+              ],
+            ),
+          ),
+        );
+
+        if (i < state.playerStatsList.length - 1) {
+          statList.add(
+            const Gap(8),
+          );
+        }
+      }
+    }
+  }
+
+  return statList;
+}
+
+String _determineWatchTimeStatTitle(UserWatchTimeStatModel watchTimeStat) {
+  if (watchTimeStat.queryDays == 0) {
+    return 'All Time';
+  } else if (watchTimeStat.queryDays == 1) {
+    return '24 Hours';
+  } else {
+    return '${watchTimeStat.queryDays} Days';
+  }
+}
+
+RichText _playsRichText({
+  required int totalPlays,
+}) {
+  return RichText(
+    text: TextSpan(
+      children: [
+        const TextSpan(
+          text: 'Plays ',
+          style: TextStyle(
+            fontSize: 15,
+          ),
+        ),
+        TextSpan(
+          text: totalPlays.toString(),
+          style: const TextStyle(
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+RichText _durationRichText({
+  required int totalTime,
+}) {
+  final durationMap = TimeHelper.durationMap(
+    Duration(seconds: totalTime),
+  );
+
+  return RichText(
+    text: TextSpan(
+      children: [
+        const TextSpan(
+          text: 'Duration ',
+          style: TextStyle(
+            fontSize: 15,
+          ),
+        ),
+        if (durationMap['day']! > 0)
+          _durationTextSpan(
+            '${durationMap['day'].toString()} days ',
+          ),
+        if (durationMap['hour']! > 0)
+          _durationTextSpan(
+            '${durationMap['hour'].toString()} hrs ',
+          ),
+        if (durationMap['min']! > 0)
+          _durationTextSpan(
+            '${durationMap['min'].toString()} mins',
+          ),
+        if (durationMap['day']! < 1 &&
+            durationMap['hour']! < 1 &&
+            durationMap['min']! < 1 &&
+            durationMap['sec']! > 0)
+          _durationTextSpan(
+            '${durationMap['sec'].toString()} secs',
+          ),
+        if (durationMap['day']! < 1 &&
+            durationMap['hour']! < 1 &&
+            durationMap['min']! < 1 &&
+            durationMap['sec']! < 1)
+          _durationTextSpan('0 min'),
+      ],
+    ),
+  );
+}
+
+TextSpan _durationTextSpan(String text) {
+  return TextSpan(
+    text: text,
+    style: const TextStyle(
+      fontWeight: FontWeight.w300,
+    ),
+  );
+}
