@@ -15,10 +15,10 @@ class LanguageDialog extends StatefulWidget {
   });
 
   @override
-  _LanguageDialogState createState() => _LanguageDialogState();
+  LanguageDialogState createState() => LanguageDialogState();
 }
 
-class _LanguageDialogState extends State<LanguageDialog> {
+class LanguageDialogState extends State<LanguageDialog> {
   late Locale _locale;
 
   @override
