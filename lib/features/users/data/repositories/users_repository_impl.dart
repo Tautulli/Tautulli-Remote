@@ -6,6 +6,8 @@ import '../../../../core/network_info/network_info.dart';
 import '../../domain/repositories/users_repository.dart';
 import '../datasources/users_data_source.dart';
 import '../models/user_model.dart';
+import '../models/user_player_stat_model.dart';
+import '../models/user_watch_time_stat_model.dart';
 
 class UsersRepositoryImpl implements UsersRepository {
   final UsersDataSource dataSource;
@@ -15,6 +17,58 @@ class UsersRepositoryImpl implements UsersRepository {
     required this.dataSource,
     required this.networkInfo,
   });
+
+  @override
+  Future<Either<Failure, Tuple2<List<UserPlayerStatModel>, bool>>>
+      getPlayerStats({
+    required String tautulliId,
+    required int userId,
+    bool? grouping,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.getPlayerStats(
+          tautulliId: tautulliId,
+          userId: userId,
+          grouping: grouping,
+        );
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Tuple2<List<UserWatchTimeStatModel>, bool>>>
+      getWatchTimeStats({
+    required String tautulliId,
+    required int userId,
+    bool? grouping,
+    String? queryDays,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.getWatchTimeStats(
+          tautulliId: tautulliId,
+          userId: userId,
+          grouping: grouping,
+          queryDays: queryDays,
+        );
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
 
   @override
   Future<Either<Failure, Tuple2<List<UserModel>, bool>>> getUsers({
