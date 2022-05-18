@@ -200,6 +200,7 @@ abstract class  LocaleKeys {
   static const streamed_title = 'streamed_title';
   static const tautulli_remote_logs_title = 'tautulli_remote_logs_title';
   static const terms_of_use_title = 'terms_of_use_title';
+  static const time_title = 'time_title';
   static const translate_tautulli_remote_title = 'translate_tautulli_remote_title';
   static const trust_button = 'trust_button';
   static const username_title = 'username_title';

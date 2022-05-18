@@ -454,6 +454,7 @@ static const Map<String,dynamic> en = {
   "streamed_title": "Streamed",
   "tautulli_remote_logs_title": "Tautulli Remote Logs",
   "terms_of_use_title": "Terms of Use",
+  "time_title": "Time",
   "translate_tautulli_remote_title": "Translate Tautulli Remote",
   "trust_button": "TRUST",
   "username_title": "Username",
