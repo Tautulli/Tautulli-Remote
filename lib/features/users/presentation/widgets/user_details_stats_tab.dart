@@ -141,10 +141,25 @@ List<Widget> _buildUserStatList({
 
         statList.add(
           IconCard(
-            icon: const FaIcon(
-              FontAwesomeIcons.chartLine,
-              size: 50,
-            ),
+            icon: watchTimeStat.queryDays == 1
+                ? const FaIcon(
+                    FontAwesomeIcons.solidClock,
+                    size: 45,
+                  )
+                : watchTimeStat.queryDays == 7
+                    ? const FaIcon(
+                        FontAwesomeIcons.calendarWeek,
+                        size: 50,
+                      )
+                    : watchTimeStat.queryDays == 30
+                        ? const FaIcon(
+                            FontAwesomeIcons.solidCalendarDays,
+                            size: 50,
+                          )
+                        : const FaIcon(
+                            FontAwesomeIcons.hourglass,
+                            size: 50,
+                          ),
             details: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
