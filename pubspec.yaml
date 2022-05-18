@@ -12,7 +12,7 @@ dependencies:
   app_group_directory: ^2.0.0
   badges: ^2.0.2
   bloc_concurrency: ^0.2.0
-  cached_network_image: ^3.2.0
+  cached_network_image: ^3.2.1
   color: ^3.0.0
   connectivity_plus: ^2.3.0
   cupertino_icons: ^1.0.4
