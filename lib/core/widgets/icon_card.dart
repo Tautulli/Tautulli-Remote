@@ -34,7 +34,9 @@ class IconCard extends StatelessWidget {
                     child: SizedBox(
                       width: 50,
                       height: 50,
-                      child: icon,
+                      child: Center(
+                        child: icon,
+                      ),
                     ),
                   ),
                   const Gap(8),
