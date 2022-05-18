@@ -50,9 +50,10 @@ class UserDetails extends StatelessWidget {
                 text: user.lastSeen != null
                     ? TimeHelper.moment(user.lastSeen)
                     : LocaleKeys.never.tr(),
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,
+                  color: Colors.grey[200],
                 ),
               ),
             ],
@@ -85,9 +86,10 @@ class UserDetails extends StatelessWidget {
                   ),
                   TextSpan(
                     text: user.plays.toString(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w300,
                       fontSize: 13,
+                      color: Colors.grey[200],
                     ),
                   ),
                 ],
@@ -108,16 +110,17 @@ class UserDetails extends StatelessWidget {
                         durationMap['min']! > 1 ||
                         durationMap['sec']! > 1)
                       TextSpan(
-                        text: '${LocaleKeys.duration_title.tr()} ',
+                        text: '${LocaleKeys.time_title.tr()} ',
                       ),
                     if (durationMap['day']! > 0)
                       TextSpan(
                         children: [
                           TextSpan(
                             text: durationMap['day'].toString(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
+                              color: Colors.grey[200],
                             ),
                           ),
                           const TextSpan(
@@ -134,16 +137,18 @@ class UserDetails extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: durationMap['hour'].toString(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
+                              color: Colors.grey[200],
                             ),
                           ),
-                          const TextSpan(
+                          TextSpan(
                             text: ' hrs ',
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
+                              color: Colors.grey[200],
                             ),
                           ),
                         ],
@@ -153,16 +158,18 @@ class UserDetails extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: durationMap['min'].toString(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
+                              color: Colors.grey[200],
                             ),
                           ),
-                          const TextSpan(
+                          TextSpan(
                             text: ' mins',
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
+                              color: Colors.grey[200],
                             ),
                           ),
                         ],
@@ -175,16 +182,18 @@ class UserDetails extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: durationMap['sec'].toString(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
+                              color: Colors.grey[200],
                             ),
                           ),
-                          const TextSpan(
+                          TextSpan(
                             text: ' secs',
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
+                              color: Colors.grey[200],
                             ),
                           ),
                         ],

@@ -116,8 +116,9 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                     text: widget.user.lastSeen != null
                         ? TimeHelper.moment(widget.user.lastSeen)
                         : LocaleKeys.never.tr(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w300,
+                      color: Colors.grey[200],
                     ),
                   ),
                 ],

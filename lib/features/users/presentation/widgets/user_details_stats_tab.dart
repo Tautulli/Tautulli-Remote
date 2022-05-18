@@ -152,10 +152,10 @@ List<Widget> _buildUserStatList({
                 Text(
                   _determineWatchTimeStatTitle(watchTimeStat),
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 16),
                 ),
                 _playsRichText(totalPlays: watchTimeStat.totalPlays ?? 0),
-                _durationRichText(totalTime: watchTimeStat.totalTime ?? 0),
+                _timeRichText(totalTime: watchTimeStat.totalTime ?? 0),
               ],
             ),
           ),
@@ -236,10 +236,10 @@ List<Widget> _buildUserStatList({
                         ? LocaleKeys.hidden_message.tr()
                         : playerStat.playerName!,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 16),
                   ),
                   _playsRichText(totalPlays: playerStat.totalPlays ?? 0),
-                  _durationRichText(totalTime: playerStat.totalTime ?? 0),
+                  _timeRichText(totalTime: playerStat.totalTime ?? 0),
                 ],
               ),
             ),
@@ -283,8 +283,9 @@ RichText _playsRichText({
         const TextSpan(text: ' '),
         TextSpan(
           text: totalPlays.toString(),
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w300,
+            color: Colors.grey[200],
           ),
         ),
       ],
@@ -292,7 +293,7 @@ RichText _playsRichText({
   );
 }
 
-RichText _durationRichText({
+RichText _timeRichText({
   required int totalTime,
 }) {
   final durationMap = TimeHelper.durationMap(
@@ -303,46 +304,47 @@ RichText _durationRichText({
     text: TextSpan(
       children: [
         TextSpan(
-          text: LocaleKeys.duration_title.tr(),
+          text: LocaleKeys.time_title.tr(),
           style: const TextStyle(
             fontSize: 15,
           ),
         ),
         const TextSpan(text: ' '),
         if (durationMap['day']! > 0)
-          _durationTextSpan(
+          _timeTextSpan(
             '${durationMap['day'].toString()} ${LocaleKeys.days.tr()} ',
           ),
         if (durationMap['hour']! > 0)
-          _durationTextSpan(
+          _timeTextSpan(
             '${durationMap['hour'].toString()} ${LocaleKeys.hrs.tr()} ',
           ),
         if (durationMap['min']! > 0)
-          _durationTextSpan(
+          _timeTextSpan(
             '${durationMap['min'].toString()} ${LocaleKeys.mins.tr()}',
           ),
         if (durationMap['day']! < 1 &&
             durationMap['hour']! < 1 &&
             durationMap['min']! < 1 &&
             durationMap['sec']! > 0)
-          _durationTextSpan(
+          _timeTextSpan(
             '${durationMap['sec'].toString()} ${LocaleKeys.secs.tr()}',
           ),
         if (durationMap['day']! < 1 &&
             durationMap['hour']! < 1 &&
             durationMap['min']! < 1 &&
             durationMap['sec']! < 1)
-          _durationTextSpan('0 ${LocaleKeys.min.tr()}'),
+          _timeTextSpan('0 ${LocaleKeys.min.tr()}'),
       ],
     ),
   );
 }
 
-TextSpan _durationTextSpan(String text) {
+TextSpan _timeTextSpan(String text) {
   return TextSpan(
     text: text,
-    style: const TextStyle(
+    style: TextStyle(
       fontWeight: FontWeight.w300,
+      color: Colors.grey[200],
     ),
   );
 }
