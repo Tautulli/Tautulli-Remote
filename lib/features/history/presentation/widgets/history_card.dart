@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/widgets/poster_card.dart';
+import '../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
+import '../../data/models/history_model.dart';
+import 'history_bottom_sheet.dart';
+import 'history_card_details.dart';
+
+class HistoryCard extends StatefulWidget {
+  final HistoryModel history;
+  final bool showUser;
+  final bool viewUserEnabled;
+
+  const HistoryCard({
+    super.key,
+    required this.history,
+    this.showUser = true,
+    this.viewUserEnabled = true,
+  });
+
+  @override
+  State<HistoryCard> createState() => _HistoryCardState();
+}
+
+class _HistoryCardState extends State<HistoryCard> {
+  late GeoIpBloc _geoIpBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _geoIpBloc = context.read<GeoIpBloc>();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PosterCard(
+      mediaType: widget.history.mediaType,
+      uri: widget.history.posterUri,
+      details: HistoryCardDetails(
+        history: widget.history,
+        showUser: widget.showUser,
+      ),
+      onTap: () => showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        builder: (context) {
+          return BlocProvider.value(
+            value: _geoIpBloc,
+            child: HistoryBottomSheet(
+              history: widget.history,
+              viewUserEnabled: widget.viewUserEnabled,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
