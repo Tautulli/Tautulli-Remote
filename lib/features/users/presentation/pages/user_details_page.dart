@@ -10,7 +10,7 @@ import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../history/presentation/bloc/individual_history_bloc.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/user_table_model.dart';
+import '../../data/models/user_model.dart';
 import '../bloc/user_individual_bloc.dart';
 import '../bloc/user_statistics_bloc.dart';
 import '../widgets/user_details_history_tab.dart';
@@ -18,7 +18,7 @@ import '../widgets/user_details_stats_tab.dart';
 import '../widgets/user_icon.dart';
 
 class UserDetailsPage extends StatelessWidget {
-  final UserTableModel user; //TODO: User UserModel instead?
+  final UserModel user;
   final Color? backgroundColor;
   final bool fetchUser;
 
@@ -53,7 +53,7 @@ class UserDetailsPage extends StatelessWidget {
 }
 
 class UserDetailsView extends StatefulWidget {
-  final UserTableModel user;
+  final UserModel user;
   final Color? backgroundColor;
   final bool fetchUser;
 
@@ -120,9 +120,9 @@ class _UserDetailsViewState extends State<UserDetailsView> {
 
           return BlocBuilder<UserIndividualBloc, UserIndividualState>(
             builder: (context, userIndividualState) {
-              final fetchedUser = UserTableModel(
+              final fetchedUser = UserModel(
                 userId: userIndividualState.user.userId,
-                username: userIndividualState.user.username,
+                friendlyName: userIndividualState.user.friendlyName,
                 userThumb: userIndividualState.user.userThumb,
                 isActive: userIndividualState.user.isActive,
                 lastSeen: userIndividualState.user.lastSeen,
@@ -210,7 +210,7 @@ class _UserDetailsViewState extends State<UserDetailsView> {
   }
 }
 
-bool _hasNetworkImage(UserTableModel user) {
+bool _hasNetworkImage(UserModel user) {
   if (user.userThumb != null) {
     return user.userThumb!.startsWith('http');
   }

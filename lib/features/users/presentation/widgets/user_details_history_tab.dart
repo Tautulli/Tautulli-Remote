@@ -10,10 +10,10 @@ import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../history/presentation/bloc/individual_history_bloc.dart';
 import '../../../history/presentation/widgets/history_card.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/user_table_model.dart';
+import '../../data/models/user_model.dart';
 
 class UserDetailsHistoryTab extends StatefulWidget {
-  final UserTableModel user;
+  final UserModel user;
 
   const UserDetailsHistoryTab({
     super.key,

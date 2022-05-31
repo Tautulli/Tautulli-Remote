@@ -12,7 +12,7 @@ import '../../../../core/widgets/poster.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../users/data/models/user_table_model.dart';
+import '../../../users/data/models/user_model.dart';
 import '../../../users/presentation/pages/user_details_page.dart';
 import '../../data/models/history_model.dart';
 import 'history_bottom_sheet_details.dart';
@@ -184,7 +184,7 @@ class HistoryBottomSheet extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: viewUserEnabled
                                 ? () {
-                                    final user = UserTableModel(
+                                    final user = UserModel(
                                       friendlyName: history.friendlyName,
                                       userId: history.userId,
                                     );

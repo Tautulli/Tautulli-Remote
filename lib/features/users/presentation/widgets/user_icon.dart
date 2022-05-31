@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/user_table_model.dart';
+import '../../data/models/user_model.dart';
 
 enum UserIconSize {
   normal,
@@ -12,7 +12,7 @@ enum UserIconSize {
 }
 
 class UserIcon extends StatelessWidget {
-  final UserTableModel user;
+  final UserModel user;
   final UserIconSize size;
 
   const UserIcon({
@@ -24,7 +24,7 @@ class UserIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: ValueKey('${user.userId!}:${user.username}'),
+      tag: ValueKey('${user.userId!}:${user.friendlyName}'),
       child: SizedBox(
         height: size == UserIconSize.normal ? 60 : 80,
         width: size == UserIconSize.normal ? 60 : 80,

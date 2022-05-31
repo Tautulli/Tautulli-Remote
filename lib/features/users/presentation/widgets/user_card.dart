@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:palette_generator/palette_generator.dart';
 
+import '../../data/models/user_model.dart';
 import '../../data/models/user_table_model.dart';
 import '../pages/user_details_page.dart';
 import 'user_details.dart';
@@ -37,17 +38,25 @@ class _UserCardState extends State<UserCard> {
 
   @override
   Widget build(BuildContext context) {
+    final user = UserModel(
+      userId: widget.user.userId,
+      friendlyName: widget.user.friendlyName,
+      userThumb: widget.user.userThumb,
+      isActive: widget.user.isActive,
+      lastSeen: widget.user.lastSeen,
+    );
+
     return FutureBuilder(
       future: getColorFuture,
       builder: (context, snapshot) {
         // Load in cached color if it's cached to prevent the transition
         Color? color = backgroundColorCache[
-            '${widget.user.userId!}:${widget.user.username}'];
+            '${widget.user.userId!}:${widget.user.friendlyName}'];
 
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
           backgroundColorCache[
-                  '${widget.user.userId!}:${widget.user.username}'] =
+                  '${widget.user.userId!}:${widget.user.friendlyName}'] =
               snapshot.data as Color;
           color = snapshot.data as Color;
         }
@@ -71,10 +80,12 @@ class _UserCardState extends State<UserCard> {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => UserDetailsPage(
-                              user: widget.user,
-                              backgroundColor: color,
-                            ),
+                            builder: (context) {
+                              return UserDetailsPage(
+                                user: user,
+                                backgroundColor: color,
+                              );
+                            },
                           ),
                         );
                       },
@@ -82,7 +93,7 @@ class _UserCardState extends State<UserCard> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            UserIcon(user: widget.user),
+                            UserIcon(user: user),
                             const Gap(8),
                             Expanded(
                               child: UserDetails(user: widget.user),

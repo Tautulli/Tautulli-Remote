@@ -16,12 +16,12 @@ import '../../../../core/widgets/status_card.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/user_table_model.dart';
+import '../../data/models/user_model.dart';
 import '../../data/models/user_watch_time_stat_model.dart';
 import '../bloc/user_statistics_bloc.dart';
 
 class UserDetailsStatsTab extends StatefulWidget {
-  final UserTableModel user;
+  final UserModel user;
 
   const UserDetailsStatsTab({
     super.key,
