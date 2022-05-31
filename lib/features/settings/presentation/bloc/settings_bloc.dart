@@ -8,7 +8,6 @@ import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/manage_cache/manage_cache.dart';
-import '../../../../core/types/protocol.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../data/models/app_settings_model.dart';
 import '../../data/models/connection_address_model.dart';

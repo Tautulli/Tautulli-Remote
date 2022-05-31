@@ -6,8 +6,8 @@ import '../../../../core/network_info/network_info.dart';
 import '../../domain/repositories/users_repository.dart';
 import '../datasources/users_data_source.dart';
 import '../models/user_model.dart';
-import '../models/user_table_model.dart';
 import '../models/user_player_stat_model.dart';
+import '../models/user_table_model.dart';
 import '../models/user_watch_time_stat_model.dart';
 
 class UsersRepositoryImpl implements UsersRepository {

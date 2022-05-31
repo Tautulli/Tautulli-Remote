@@ -9,7 +9,6 @@ import 'package:sqflite/sqflite.dart';
 import '../../../../features/settings/data/models/connection_address_model.dart';
 import '../../../../features/settings/data/models/custom_header_model.dart';
 import '../../../error/exception.dart';
-import '../../../types/protocol.dart';
 import '../../../utilities/cast.dart';
 import '../models/server_model.dart';
 

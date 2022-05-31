@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
-import '../../../../core/types/protocol.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
