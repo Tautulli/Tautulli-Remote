@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../features/users/presentation/bloc/users_bloc.dart';
 import '../error/failure.dart';
+import '../types/bloc_status.dart';
 
 class BottomLoader extends StatelessWidget {
-  final UsersStatus status;
+  final BlocStatus status;
   final Failure? failure;
   final String? message;
   final String? suggestion;
@@ -23,7 +23,7 @@ class BottomLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return status != UsersStatus.failure
+    return status != BlocStatus.failure
         ? SizedBox(
             height: 50,
             child: Column(
