@@ -40,6 +40,7 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
   @override
   void initState() {
     super.initState();
+
     _scrollController.addListener(() {
       double progress =
           (_scrollController.offset) / (_expandedHeight - 46 - kToolbarHeight);
@@ -225,5 +226,11 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }
