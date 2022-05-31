@@ -1,9 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/user_model.dart';
+import '../../data/models/user_table_model.dart';
 
 enum UserIconSize {
   normal,
@@ -11,7 +12,7 @@ enum UserIconSize {
 }
 
 class UserIcon extends StatelessWidget {
-  final UserModel user;
+  final UserTableModel user;
   final UserIconSize size;
 
   const UserIcon({
@@ -40,12 +41,14 @@ class UserIcon extends StatelessWidget {
                   if (!state.appSettings.maskSensitiveInfo &&
                       user.userThumb != null &&
                       user.userThumb!.startsWith('http')) {
-                    return FadeInImage.assetNetwork(
+                    return CachedNetworkImage(
                       fadeInDuration: const Duration(milliseconds: 400),
                       fadeOutDuration: const Duration(milliseconds: 100),
-                      placeholder: 'assets/images/default_profile.png',
-                      image: user.userThumb!,
-                      imageErrorBuilder: (context, object, stackTrace) => Stack(
+                      imageUrl: user.userThumb!,
+                      placeholder: (context, url) => Image.asset(
+                        'assets/images/default_profile.png',
+                      ),
+                      errorWidget: (context, url, error) => Stack(
                         children: [
                           Image.asset('assets/images/default_profile.png'),
                           Center(
