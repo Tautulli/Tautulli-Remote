@@ -1,5 +1,6 @@
 enum MediaType {
   album,
+  artist,
   clip,
   collection,
   episode,
