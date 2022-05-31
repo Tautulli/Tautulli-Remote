@@ -17,6 +17,21 @@ import 'features/announcements/data/repositories/announcements_repository_impl.d
 import 'features/announcements/domain/repositories/announcements_repository.dart';
 import 'features/announcements/domain/usecases/announcements.dart';
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
+import 'features/geo_ip/data/datasources/geo_ip_data_source.dart';
+import 'features/geo_ip/data/repositories/geo_ip_repository_impl.dart';
+import 'features/geo_ip/domain/repositories/geo_ip_repository.dart';
+import 'features/geo_ip/domain/usecases/geo_ip.dart';
+import 'features/geo_ip/presentation/bloc/geo_ip_bloc.dart';
+import 'features/history/data/datasources/history_data_source.dart';
+import 'features/history/data/repositories/history_repository_impl.dart';
+import 'features/history/domain/repositories/history_repository.dart';
+import 'features/history/domain/usecases/history.dart';
+import 'features/history/presentation/bloc/history_bloc.dart';
+import 'features/history/presentation/bloc/individual_history_bloc.dart';
+import 'features/image_url/data/datasources/image_url_data_source.dart';
+import 'features/image_url/data/repositories/image_url_repository_impl.dart';
+import 'features/image_url/domain/repositories/image_url_repository.dart';
+import 'features/image_url/domain/usecases/image_url.dart';
 import 'features/logging/data/datasources/logging_data_source.dart';
 import 'features/logging/data/repositories/logging_repository_impl.dart';
 import 'features/logging/domain/repositories/logging_repository.dart';
@@ -40,8 +55,10 @@ import 'features/users/data/datasources/users_data_source.dart';
 import 'features/users/data/repositories/users_repository_impl.dart';
 import 'features/users/domain/repositories/users_repository.dart';
 import 'features/users/domain/usecases/users.dart';
+import 'features/users/presentation/bloc/user_individual_bloc.dart';
 import 'features/users/presentation/bloc/user_statistics_bloc.dart';
 import 'features/users/presentation/bloc/users_bloc.dart';
+import 'features/users/presentation/bloc/users_table_bloc.dart';
 
 // Service locator alias
 final sl = GetIt.instance;
@@ -53,6 +70,12 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.ConnectionHandler>(
     () => tautulli_api.ConnectionHandlerImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetGeoIpLookup>(
+    () => tautulli_api.GetGeoIpLookupImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetHistory>(
+    () => tautulli_api.GetHistoryImpl(sl()),
   );
   sl.registerLazySingleton<tautulli_api.GetServerInfo>(
     () => tautulli_api.GetServerInfoImpl(sl()),
@@ -66,8 +89,17 @@ Future<void> init() async {
   sl.registerLazySingleton<tautulli_api.GetUserWatchTimeStats>(
     () => tautulli_api.GetUserWatchTimeStatsImpl(sl()),
   );
+  sl.registerLazySingleton<tautulli_api.GetUser>(
+    () => tautulli_api.GetUserImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetUserNames>(
+    () => tautulli_api.GetUserNamesImpl(sl()),
+  );
   sl.registerLazySingleton<tautulli_api.GetUsersTable>(
     () => tautulli_api.GetUsersTableImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.PmsImageProxy>(
+    () => tautulli_api.PmsImageProxyImpl(sl()),
   );
   sl.registerLazySingleton<tautulli_api.RegisterDevice>(
     () => tautulli_api.RegisterDeviceImpl(sl()),
@@ -139,6 +171,99 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<AnnouncementsDataSource>(
     () => AnnouncementsDataSourceImpl(),
+  );
+
+  //! Features - GeoIp
+  // Bloc
+  sl.registerFactory(
+    () => GeoIpBloc(
+      geoIp: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => GeoIp(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<GeoIpRepository>(
+    () => GeoIpRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<GeoIpDataSource>(
+    () => GeoIpDataSourceImpl(
+      getGeoIpLookup: sl(),
+    ),
+  );
+
+  //! Features - History
+  // Bloc
+  sl.registerFactory(
+    () => HistoryBloc(
+      history: sl(),
+      imageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => IndividualHistoryBloc(
+      history: sl(),
+      imageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => History(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<HistoryRepository>(
+    () => HistoryRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<HistoryDataSource>(
+    () => HistoryDataSourceImpl(
+      getHistoryApi: sl(),
+    ),
+  );
+
+  //! Features - Image URL
+  // Use case
+  sl.registerLazySingleton(
+    () => ImageUrl(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<ImageUrlRepository>(
+    () => ImageUrlRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<ImageUrlDataSource>(
+    () => ImageUrlDataSourceImpl(
+      pmsImageProxy: sl(),
+    ),
   );
 
   //! Features - Logging
@@ -267,7 +392,19 @@ Future<void> init() async {
   //! Features - Users
   // Bloc
   sl.registerFactory(
+    () => UserIndividualBloc(
+      users: sl(),
+      logging: sl(),
+    ),
+  );
+  sl.registerFactory(
     () => UsersBloc(
+      users: sl(),
+      logging: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => UsersTableBloc(
       users: sl(),
       logging: sl(),
     ),
@@ -297,8 +434,10 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<UsersDataSource>(
     () => UsersDataSourceImpl(
+      getUserApi: sl(),
       getUserPlayerStats: sl(),
       getUserWatchTimeStats: sl(),
+      getUserNamesApi: sl(),
       getUsersTableApi: sl(),
     ),
   );
