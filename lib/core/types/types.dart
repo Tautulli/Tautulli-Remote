@@ -1,3 +1,4 @@
+export 'image_fallback.dart';
 export 'loading_state.dart';
 export 'location.dart';
 export 'media_type.dart';
@@ -6,3 +7,4 @@ export 'protocol.dart';
 export 'stream_decision.dart';
 export 'subtitle_decision.dart';
 export 'video_dynamic_range.dart';
+export 'watched_status.dart';
