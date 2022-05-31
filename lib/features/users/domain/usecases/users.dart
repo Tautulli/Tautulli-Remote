@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../data/models/user_model.dart';
+import '../../data/models/user_table_model.dart';
 import '../../data/models/user_player_stat_model.dart';
 import '../../data/models/user_watch_time_stat_model.dart';
 import '../repositories/users_repository.dart';
@@ -41,8 +42,32 @@ class Users {
     );
   }
 
-  // Returns all Tautulli users as a list of `UserModel`.
-  Future<Either<Failure, Tuple2<List<UserModel>, bool>>> getUsers({
+  /// Returns Tautulli user details as a `UserModel`.
+  ///
+  /// `includeLastSeen` will be true if null.
+  Future<Either<Failure, Tuple2<UserModel, bool>>> getUser({
+    required String tautulliId,
+    required int userId,
+    bool? includeLastSeen,
+  }) async {
+    return await repository.getUser(
+      tautulliId: tautulliId,
+      userId: userId,
+      includeLastSeen: includeLastSeen,
+    );
+  }
+
+  /// Returns all Tautulli user firendly name and user ID as a list of `UserModel`.
+  Future<Either<Failure, Tuple2<List<UserModel>, bool>>> getUserNames({
+    required String tautulliId,
+  }) async {
+    return await repository.getUserNames(
+      tautulliId: tautulliId,
+    );
+  }
+
+  /// Returns Tautulli Users Table as a list of `UserTableModel`.
+  Future<Either<Failure, Tuple2<List<UserTableModel>, bool>>> getUsersTable({
     required String tautulliId,
     bool? grouping,
     String? orderColumn,
@@ -51,7 +76,7 @@ class Users {
     int? length,
     String? search,
   }) async {
-    return await repository.getUsers(
+    return await repository.getUsersTable(
       tautulliId: tautulliId,
       grouping: grouping,
       orderColumn: orderColumn,

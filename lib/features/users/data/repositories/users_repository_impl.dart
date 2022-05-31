@@ -6,6 +6,7 @@ import '../../../../core/network_info/network_info.dart';
 import '../../domain/repositories/users_repository.dart';
 import '../datasources/users_data_source.dart';
 import '../models/user_model.dart';
+import '../models/user_table_model.dart';
 import '../models/user_player_stat_model.dart';
 import '../models/user_watch_time_stat_model.dart';
 
@@ -71,7 +72,51 @@ class UsersRepositoryImpl implements UsersRepository {
   }
 
   @override
-  Future<Either<Failure, Tuple2<List<UserModel>, bool>>> getUsers({
+  Future<Either<Failure, Tuple2<UserModel, bool>>> getUser({
+    required String tautulliId,
+    required int userId,
+    bool? includeLastSeen,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.getUser(
+          tautulliId: tautulliId,
+          userId: userId,
+          includeLastSeen: includeLastSeen,
+        );
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Tuple2<List<UserModel>, bool>>> getUserNames({
+    required String tautulliId,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.getUserNames(
+          tautulliId: tautulliId,
+        );
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Tuple2<List<UserTableModel>, bool>>> getUsersTable({
     required String tautulliId,
     bool? grouping,
     String? orderColumn,
@@ -82,7 +127,7 @@ class UsersRepositoryImpl implements UsersRepository {
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await dataSource.getUsers(
+        final result = await dataSource.getUsersTable(
           tautulliId: tautulliId,
           grouping: grouping,
           orderColumn: orderColumn,

@@ -1,36 +1,40 @@
-part of 'users_bloc.dart';
+part of 'users_table_bloc.dart';
 
-class UsersState extends Equatable {
+class UsersTableState extends Equatable {
   final BlocStatus status;
-  final List<UserModel> users;
+  final List<UserTableModel> users;
   final Failure? failure;
   final String? message;
   final String? suggestion;
+  final bool hasReachedMax;
 
-  const UsersState({
+  const UsersTableState({
     this.status = BlocStatus.initial,
     this.users = const [],
     this.failure,
     this.message,
     this.suggestion,
+    this.hasReachedMax = false,
   });
 
-  UsersState copyWith({
+  UsersTableState copyWith({
     BlocStatus? status,
-    List<UserModel>? users,
+    List<UserTableModel>? users,
     Failure? failure,
     String? message,
     String? suggestion,
+    bool? hasReachedMax,
   }) {
-    return UsersState(
+    return UsersTableState(
       status: status ?? this.status,
       users: users ?? this.users,
       failure: failure ?? this.failure,
       message: message ?? this.message,
       suggestion: suggestion ?? this.suggestion,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
 
   @override
-  List<Object> get props => [status, users];
+  List<Object> get props => [status, users, hasReachedMax];
 }

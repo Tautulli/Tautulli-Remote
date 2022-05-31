@@ -9,24 +9,10 @@ abstract class UsersEvent extends Equatable {
 
 class UsersFetched extends UsersEvent {
   final String tautulliId;
-  final bool? grouping;
-  final String? orderColumn;
-  final String? orderDir;
-  final int? start;
-  final int? length;
-  final String? search;
-  final bool freshFetch;
   final SettingsBloc settingsBloc;
 
   const UsersFetched({
     required this.tautulliId,
-    this.grouping,
-    this.orderColumn,
-    this.orderDir,
-    this.start,
-    this.length,
-    this.search,
-    this.freshFetch = false,
     required this.settingsBloc,
   });
 
