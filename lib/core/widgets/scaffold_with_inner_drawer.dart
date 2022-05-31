@@ -131,12 +131,44 @@ class _AppDrawer extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // ListTile(
-                          //   tileColor: Colors.transparent,
+                          // DrawerTile(
+                          //   selected: route?.settings.name == '/activity',
                           //   leading: const FaIcon(
                           //     FontAwesomeIcons.tv,
                           //   ),
                           //   title: const Text('Activity'),
+                          //   onTap: () {},
+                          // ),
+                          DrawerTile(
+                            selected: route?.settings.name == '/history',
+                            leading: const FaIcon(
+                              FontAwesomeIcons.clockRotateLeft,
+                            ),
+                            title: const Text('History'),
+                            onTap: () {
+                              if (route?.settings.name != '/history') {
+                                Navigator.of(context).pushReplacementNamed(
+                                  '/history',
+                                );
+                              } else {
+                                innerDrawerKey.currentState!.close();
+                              }
+                            },
+                          ),
+                          // DrawerTile(
+                          //   selected: route?.settings.name == '/recent',
+                          //   leading: const FaIcon(
+                          //     FontAwesomeIcons.clock,
+                          //   ),
+                          //   title: const Text('Recently Added'),
+                          //   onTap: () {},
+                          // ),
+                          // DrawerTile(
+                          //   selected: route?.settings.name == '/libraries',
+                          //   leading: const FaIcon(
+                          //     FontAwesomeIcons.photoFilm,
+                          //   ),
+                          //   title: const Text('Libraries'),
                           //   onTap: () {},
                           // ),
                           DrawerTile(
@@ -155,10 +187,18 @@ class _AppDrawer extends StatelessWidget {
                               }
                             },
                           ),
-                          // ListTile(
-                          //   tileColor: Colors.transparent,
+                          // DrawerTile(
+                          //   selected: route?.settings.name == '/stats',
                           //   leading: const FaIcon(
-                          //     FontAwesomeIcons.chartBar,
+                          //     FontAwesomeIcons.listOl,
+                          //   ),
+                          //   title: const Text('Statistics'),
+                          //   onTap: () {},
+                          // ),
+                          // DrawerTile(
+                          //   selected: route?.settings.name == '/graphs',
+                          //   leading: const FaIcon(
+                          //     FontAwesomeIcons.chartColumn,
                           //   ),
                           //   title: const Text('Graphs'),
                           //   onTap: () {},
