@@ -104,12 +104,10 @@ class _HistoryViewState extends State<HistoryView> {
       },
       listener: (ctx, state) {
         if (state is SettingsSuccess) {
-          setState(() {
-            _tautulliId = state.appSettings.activeServer.tautulliId;
-            _userId = null;
-            _mediaType = 'all';
-            _transcodeDecision = 'all';
-          });
+          _tautulliId = state.appSettings.activeServer.tautulliId;
+          _userId = null;
+          _mediaType = 'all';
+          _transcodeDecision = 'all';
 
           _historyBloc.add(
             HistoryFetched(
@@ -319,125 +317,134 @@ class _HistoryViewState extends State<HistoryView> {
           );
         },
       ),
-      Theme(
-        data: Theme.of(context).copyWith(
-          dividerTheme: DividerThemeData(
-            color: Theme.of(context).colorScheme.tertiary,
-          ),
-        ),
-        child: PopupMenuButton(
-          icon: FaIcon(
-            FontAwesomeIcons.filter,
-            color: _mediaType != 'all' || _transcodeDecision != 'all'
-                ? Theme.of(context).colorScheme.secondary
-                : null,
-          ),
-          tooltip: LocaleKeys.filter_history_title.tr(),
-          itemBuilder: (context) {
-            ValueNotifier<String> selectedMediaType = ValueNotifier(_mediaType);
-            ValueNotifier<String> selectedTranscodeType =
-                ValueNotifier(_transcodeDecision);
+      BlocBuilder<UsersBloc, UsersState>(
+        builder: (context, state) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              dividerTheme: DividerThemeData(
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+            child: PopupMenuButton(
+              icon: FaIcon(
+                FontAwesomeIcons.filter,
+                color: _mediaType != 'all' || _transcodeDecision != 'all'
+                    ? Theme.of(context).colorScheme.secondary
+                    : null,
+              ),
+              tooltip: LocaleKeys.filter_history_title.tr(),
+              itemBuilder: (context) {
+                ValueNotifier<String> selectedMediaType = ValueNotifier(
+                  _mediaType,
+                );
+                ValueNotifier<String> selectedTranscodeType =
+                    ValueNotifier(_transcodeDecision);
 
-            List mediaTypes = [
-              'all',
-              'movie',
-              'episode',
-              'track',
-              'live',
-            ];
-            List transcodeTypes = [
-              'all',
-              'direct play',
-              'copy',
-              'transcode',
-            ];
+                List mediaTypes = [
+                  'all',
+                  'movie',
+                  'episode',
+                  'track',
+                  'live',
+                ];
+                List transcodeTypes = [
+                  'all',
+                  'direct play',
+                  'copy',
+                  'transcode',
+                ];
 
-            return List.generate(
-              10,
-              (index) {
-                if (index == 5) {
-                  return const PopupMenuDivider();
-                } else if (index < 5) {
-                  return PopupMenuItem(
-                    padding: const EdgeInsets.all(0),
-                    child: AnimatedBuilder(
-                      animation: selectedMediaType,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 16),
-                        child: Text(
-                          _mediaTypeToTitle(mediaTypes[index]),
-                        ),
-                      ),
-                      builder: (context, child) {
-                        return RadioListTile<String>(
-                          value: mediaTypes[index],
-                          groupValue: selectedMediaType.value,
-                          onChanged: (value) {
-                            if (value != null && _mediaType != value) {
-                              selectedMediaType.value = value;
-                              setState(() {
-                                _mediaType = value;
-                              });
-                              _historyBloc.add(
-                                HistoryFetched(
-                                  tautulliId: _tautulliId,
-                                  userId: _userId,
-                                  mediaType: _mediaType,
-                                  transcodeDecision: _transcodeDecision,
-                                  freshFetch: true,
-                                  settingsBloc: _settingsBloc,
-                                ),
-                              );
-                            }
+                return List.generate(
+                  10,
+                  (index) {
+                    if (index == 5) {
+                      return const PopupMenuDivider();
+                    } else if (index < 5) {
+                      return PopupMenuItem(
+                        padding: const EdgeInsets.all(0),
+                        child: AnimatedBuilder(
+                          animation: selectedMediaType,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 16),
+                            child: Text(
+                              _mediaTypeToTitle(mediaTypes[index]),
+                            ),
+                          ),
+                          builder: (context, child) {
+                            return RadioListTile<String>(
+                              value: mediaTypes[index],
+                              groupValue: selectedMediaType.value,
+                              onChanged: (value) {
+                                if (value != null && _mediaType != value) {
+                                  selectedMediaType.value = value;
+                                  setState(() {
+                                    _mediaType = value;
+                                  });
+                                  _historyBloc.add(
+                                    HistoryFetched(
+                                      tautulliId: _tautulliId,
+                                      userId: _userId,
+                                      mediaType: _mediaType,
+                                      transcodeDecision: _transcodeDecision,
+                                      freshFetch: true,
+                                      settingsBloc: _settingsBloc,
+                                    ),
+                                  );
+                                }
+                              },
+                              title: child,
+                            );
                           },
-                          title: child,
-                        );
-                      },
-                    ),
-                  );
-                } else {
-                  return PopupMenuItem(
-                    padding: const EdgeInsets.all(0),
-                    child: AnimatedBuilder(
-                      animation: selectedTranscodeType,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 16),
-                        child: Text(
-                          _transcodeDecisionToTitle(transcodeTypes[index - 6]),
                         ),
-                      ),
-                      builder: (context, child) {
-                        return RadioListTile<String>(
-                          value: transcodeTypes[index - 6],
-                          groupValue: selectedTranscodeType.value,
-                          onChanged: (value) {
-                            if (value != null && _transcodeDecision != value) {
-                              selectedTranscodeType.value = value;
-                              setState(() {
-                                _transcodeDecision = value;
-                              });
-                              _historyBloc.add(
-                                HistoryFetched(
-                                  tautulliId: _tautulliId,
-                                  userId: _userId,
-                                  mediaType: _mediaType,
-                                  transcodeDecision: _transcodeDecision,
-                                  freshFetch: true,
-                                  settingsBloc: _settingsBloc,
-                                ),
-                              );
-                            }
+                      );
+                    } else {
+                      return PopupMenuItem(
+                        padding: const EdgeInsets.all(0),
+                        child: AnimatedBuilder(
+                          animation: selectedTranscodeType,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 16),
+                            child: Text(
+                              _transcodeDecisionToTitle(
+                                transcodeTypes[index - 6],
+                              ),
+                            ),
+                          ),
+                          builder: (context, child) {
+                            return RadioListTile<String>(
+                              value: transcodeTypes[index - 6],
+                              groupValue: selectedTranscodeType.value,
+                              onChanged: (value) {
+                                if (value != null &&
+                                    _transcodeDecision != value) {
+                                  selectedTranscodeType.value = value;
+                                  setState(() {
+                                    _transcodeDecision = value;
+                                  });
+                                  _historyBloc.add(
+                                    HistoryFetched(
+                                      tautulliId: _tautulliId,
+                                      userId: _userId,
+                                      mediaType: _mediaType,
+                                      transcodeDecision: _transcodeDecision,
+                                      freshFetch: true,
+                                      settingsBloc: _settingsBloc,
+                                    ),
+                                  );
+                                }
+                              },
+                              title: child,
+                            );
                           },
-                          title: child,
-                        );
-                      },
-                    ),
-                  );
-                }
+                        ),
+                      );
+                    }
+                  },
+                );
               },
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     ];
   }
