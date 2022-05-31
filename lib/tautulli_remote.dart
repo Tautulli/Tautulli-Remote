@@ -146,10 +146,6 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    // ]);
-
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.dark.copyWith(
         systemNavigationBarColor: TautulliColorPalette.midnight,
@@ -176,6 +172,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
         AnnouncementsPage.routeName: (_) => const AnnouncementsPage(),
         ChangelogPage.routeName: (_) => const ChangelogPage(),
         DonatePage.routeName: (_) => const DonatePage(),
+        HistoryPage.routeName: (_) => const HistoryPage(),
         HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),
         OneSignalDataPrivacyPage.routeName: (_) =>
             const OneSignalDataPrivacyPage(),
