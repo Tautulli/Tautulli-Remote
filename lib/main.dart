@@ -6,6 +6,7 @@ import 'core/helpers/translation_helper.dart';
 import 'core/package_information/package_information.dart';
 import 'dependency_injection.dart' as di;
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
+import 'features/geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_sub_bloc.dart';
@@ -60,6 +61,9 @@ void main() async {
         providers: [
           BlocProvider(
             create: (context) => di.sl<AnnouncementsBloc>(),
+          ),
+          BlocProvider(
+            create: (context) => di.sl<GeoIpBloc>(),
           ),
           BlocProvider(
             create: (context) => di.sl<OneSignalHealthBloc>(),
