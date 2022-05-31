@@ -4,6 +4,8 @@
     "close_button": "ЗАКРЫТЬ",
     "custom_title": "Персонализированный",
     "days_title": "Дни",
+    "direct_play_title": "Прямое воспроизведение",
+    "direct_stream_title": "Прямой поток",
     "donate_big_tip_title": "Крупные чаевые",
     "donate_burger_title": "Пожертвование на бургер",
     "donate_cone_title": "Пожертвование на мороженое",
@@ -25,5 +27,8 @@
     "plays_title": "Воспроизведения",
     "save_button": "СОХРАНИТЬ",
     "settings_title": "Конфигурация",
-    "users_title": "Пользователи"
+    "transcode_title": "Перекодирование",
+    "users_title": "Пользователи",
+    "view_media_title": "Просмотреть носитель",
+    "view_user_title": "Просмотреть пользователя"
 }

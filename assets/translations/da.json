@@ -4,6 +4,8 @@
     "close_button": "LUK",
     "custom_title": "Tilpasset",
     "days_title": "Dage",
+    "direct_play_title": "Direkte afspilning",
+    "direct_stream_title": "Direkte Stream",
     "donate_big_tip_title": "Stort tip",
     "donate_burger_title": "Køb mig en burger",
     "donate_cone_title": "Køb mig en is",
@@ -25,5 +27,7 @@
     "plays_title": "Afspiller",
     "save_button": "GEM",
     "settings_title": "Indstillinger",
-    "users_title": "Brugere"
+    "users_title": "Brugere",
+    "view_media_title": "Se medie",
+    "view_user_title": "Se bruger"
 }
