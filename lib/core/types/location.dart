@@ -4,9 +4,3 @@ enum Location {
   wan,
   unknown,
 }
-
-extension ParseToString on Location {
-  String toShortString() {
-    return toString().split('.').last;
-  }
-}

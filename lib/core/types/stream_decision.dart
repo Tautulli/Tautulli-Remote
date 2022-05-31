@@ -1,6 +1,11 @@
 enum StreamDecision {
-  copy,
-  directPlay,
-  transcode,
-  unknown,
+  copy('copy'),
+  directPlay('direct play'),
+  transcode('transcode'),
+  unknown('unknown');
+
+  final String value;
+  const StreamDecision(this.value);
+
+  String apiValue() => value;
 }

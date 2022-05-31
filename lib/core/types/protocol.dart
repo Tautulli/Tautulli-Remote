@@ -1,10 +1,6 @@
 enum Protocol {
   http,
-  https,
-}
+  https;
 
-extension ProtocolToString on Protocol {
-  String toShortString() {
-    return toString().split('.').last;
-  }
+  String toShortString() => toString().split('.').last;
 }
