@@ -1,10 +1,8 @@
 part of 'user_statistics_bloc.dart';
 
-enum UserStatisticsStatus { initial, success, failure }
-
 class UserStatisticsState extends Equatable {
-  final UserStatisticsStatus watchTimeStatsStatus;
-  final UserStatisticsStatus playerStatsStatus;
+  final BlocStatus watchTimeStatsStatus;
+  final BlocStatus playerStatsStatus;
   final List<UserWatchTimeStatModel> watchTimeStatsList;
   final List<UserPlayerStatModel> playerStatsList;
   final Failure? failure;
@@ -12,8 +10,8 @@ class UserStatisticsState extends Equatable {
   final String? suggestion;
 
   const UserStatisticsState({
-    this.watchTimeStatsStatus = UserStatisticsStatus.initial,
-    this.playerStatsStatus = UserStatisticsStatus.initial,
+    this.watchTimeStatsStatus = BlocStatus.initial,
+    this.playerStatsStatus = BlocStatus.initial,
     this.watchTimeStatsList = const [],
     this.playerStatsList = const [],
     this.failure,
@@ -22,8 +20,8 @@ class UserStatisticsState extends Equatable {
   });
 
   UserStatisticsState copyWith({
-    UserStatisticsStatus? watchTimeStatsStatus,
-    UserStatisticsStatus? playerStatsStatus,
+    BlocStatus? watchTimeStatsStatus,
+    BlocStatus? playerStatsStatus,
     List<UserWatchTimeStatModel>? watchTimeStatsList,
     List<UserPlayerStatModel>? playerStatsList,
     Failure? failure,

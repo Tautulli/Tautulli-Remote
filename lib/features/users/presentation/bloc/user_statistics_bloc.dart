@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/types/bloc_status.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_player_stat_model.dart';
@@ -41,7 +42,7 @@ class UserStatisticsBloc
     if (playerStatsCached) {
       emit(
         state.copyWith(
-          playerStatsStatus: UserStatisticsStatus.success,
+          playerStatsStatus: BlocStatus.success,
           playerStatsList: _playerStatsCache[cacheKey],
         ),
       );
@@ -50,7 +51,7 @@ class UserStatisticsBloc
     if (watchTimeStatsCached) {
       emit(
         state.copyWith(
-          watchTimeStatsStatus: UserStatisticsStatus.success,
+          watchTimeStatsStatus: BlocStatus.success,
           watchTimeStatsList: _watchTimeStatsCache[cacheKey],
         ),
       );
@@ -60,8 +61,8 @@ class UserStatisticsBloc
     if (event.freshFetch || (!watchTimeStatsCached || !playerStatsCached)) {
       emit(
         state.copyWith(
-          watchTimeStatsStatus: UserStatisticsStatus.initial,
-          playerStatsStatus: UserStatisticsStatus.initial,
+          watchTimeStatsStatus: BlocStatus.initial,
+          playerStatsStatus: BlocStatus.initial,
         ),
       );
 
@@ -96,9 +97,9 @@ class UserStatisticsBloc
     required String cacheKey,
   }) {
     List<UserWatchTimeStatModel>? watchTimeStatsList;
-    UserStatisticsStatus? watchTimeStatsStatus;
+    BlocStatus? watchTimeStatsStatus;
     List<UserPlayerStatModel>? playerStatsList;
-    UserStatisticsStatus? playerStatsStatus;
+    BlocStatus? playerStatsStatus;
     Failure? failure;
     String? message;
     String? suggestion;
@@ -110,7 +111,7 @@ class UserStatisticsBloc
         );
 
         _watchTimeStatsCache.remove(cacheKey);
-        watchTimeStatsStatus = UserStatisticsStatus.failure;
+        watchTimeStatsStatus = BlocStatus.failure;
         watchTimeStatsList = [];
         failure = failure;
         message = FailureHelper.mapFailureToMessage(failure);
@@ -125,7 +126,7 @@ class UserStatisticsBloc
         );
 
         _watchTimeStatsCache[cacheKey] = watchTimeStatList.value1;
-        watchTimeStatsStatus = UserStatisticsStatus.success;
+        watchTimeStatsStatus = BlocStatus.success;
         watchTimeStatsList = watchTimeStatList.value1;
       },
     );
@@ -137,7 +138,7 @@ class UserStatisticsBloc
         );
 
         _playerStatsCache.remove(cacheKey);
-        playerStatsStatus = UserStatisticsStatus.failure;
+        playerStatsStatus = BlocStatus.failure;
         playerStatsList = [];
         failure = failure;
         message = FailureHelper.mapFailureToMessage(failure);
@@ -152,7 +153,7 @@ class UserStatisticsBloc
         );
 
         _playerStatsCache[cacheKey] = playerStatList.value1;
-        playerStatsStatus = UserStatisticsStatus.success;
+        playerStatsStatus = BlocStatus.success;
         playerStatsList = playerStatList.value1;
       },
     );
