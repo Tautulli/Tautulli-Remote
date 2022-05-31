@@ -43,6 +43,9 @@ class _HistoryCardState extends State<HistoryCard> {
       ),
       onTap: () => showModalBottomSheet(
         context: context,
+        constraints: const BoxConstraints(
+          maxWidth: 500,
+        ),
         backgroundColor: Colors.transparent,
         isScrollControlled: true,
         builder: (context) {
