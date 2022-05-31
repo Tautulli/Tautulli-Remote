@@ -1,8 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-import '../../data/models/user_model.dart';
+import '../../data/models/user_table_model.dart';
 import '../pages/user_details_page.dart';
 import 'user_details.dart';
 import 'user_icon.dart';
@@ -10,7 +11,7 @@ import 'user_icon.dart';
 Map<String, Color?> backgroundColorCache = {};
 
 class UserCard extends StatefulWidget {
-  final UserModel user;
+  final UserTableModel user;
 
   const UserCard({
     super.key,
@@ -61,11 +62,7 @@ class _UserCardState extends State<UserCard> {
                   duration: const Duration(milliseconds: 400),
                   child: color != null
                       ? _DarkenedBackground(color: color)
-                      : Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                          ),
-                        ),
+                      : Container(color: Theme.of(context).cardColor),
                 ),
                 Positioned.fill(
                   child: Material(
@@ -133,7 +130,7 @@ Future<Color?> _getColor(String? url) async {
   if (url == null || !url.startsWith('http')) return null;
 
   final palette = await PaletteGenerator.fromImageProvider(
-    NetworkImage(url),
+    CachedNetworkImageProvider(url),
     maximumColorCount: 1,
   );
 

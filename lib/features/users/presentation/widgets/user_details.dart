@@ -6,10 +6,10 @@ import 'package:gap/gap.dart';
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/user_model.dart';
+import '../../data/models/user_table_model.dart';
 
 class UserDetails extends StatelessWidget {
-  final UserModel user;
+  final UserTableModel user;
 
   const UserDetails({
     super.key,
