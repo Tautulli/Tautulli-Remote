@@ -18,35 +18,37 @@ class WizardClosing extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            child: Column(
-              children: [
-                const Text(
-                  LocaleKeys.wizard_closing_title,
-                  style: TextStyle(
-                    fontSize: 18,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const Text(
+                    LocaleKeys.wizard_closing_title,
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ).tr(),
+                  const Gap(8),
+                  NoticeCard(
+                    leading: const FaIcon(FontAwesomeIcons.bullhorn),
+                    title: LocaleKeys.wizard_closing_announcements.tr(),
                   ),
-                ).tr(),
-                const Gap(8),
-                NoticeCard(
-                  leading: const FaIcon(FontAwesomeIcons.bullhorn),
-                  title: LocaleKeys.wizard_closing_announcements.tr(),
-                ),
-                const Gap(8),
-                NoticeCard(
-                  leading: const FaIcon(FontAwesomeIcons.handshakeSimple),
-                  title: LocaleKeys.wizard_closing_support.tr(),
-                ),
-                const Gap(8),
-                NoticeCard(
-                  leading: const FaIcon(FontAwesomeIcons.solidBell),
-                  title: LocaleKeys.wizard_closing_notifications.tr(),
-                ),
-                const Gap(8),
-                NoticeCard(
-                  leading: const FaIcon(FontAwesomeIcons.language),
-                  title: LocaleKeys.wizard_closing_translate.tr(),
-                ),
-              ],
+                  const Gap(8),
+                  NoticeCard(
+                    leading: const FaIcon(FontAwesomeIcons.handshakeSimple),
+                    title: LocaleKeys.wizard_closing_support.tr(),
+                  ),
+                  const Gap(8),
+                  NoticeCard(
+                    leading: const FaIcon(FontAwesomeIcons.solidBell),
+                    title: LocaleKeys.wizard_closing_notifications.tr(),
+                  ),
+                  const Gap(8),
+                  NoticeCard(
+                    leading: const FaIcon(FontAwesomeIcons.language),
+                    title: LocaleKeys.wizard_closing_translate.tr(),
+                  ),
+                ],
+              ),
             ),
           ),
           const WizardStepper(
