@@ -1,6 +1,37 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.10",
+      "date": "May 30, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added History page & details",
+        },
+        {
+          "type": "improvement",
+          "detail": "The history tab for User Details is now available",
+        },
+        {
+          "type": "improvement",
+          "detail": "Use 'time' instead of 'duration' for total play time",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjusted user details styling",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Norwegian Bokmål and French",
+          "additional": "Thanks @aunefyren and @NathanBnm",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix wizard closing page not being able to scroll",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.9",
       "date": "May 17, 2022",
       "changes": [
