@@ -104,10 +104,13 @@ class _HistoryViewState extends State<HistoryView> {
       },
       listener: (ctx, state) {
         if (state is SettingsSuccess) {
-          _tautulliId = state.appSettings.activeServer.tautulliId;
-          _userId = null;
-          _mediaType = 'all';
-          _transcodeDecision = 'all';
+          setState(() {
+            _tautulliId = state.appSettings.activeServer.tautulliId;
+            _userId = null;
+            _mediaType = 'all';
+            _transcodeDecision = 'all';
+          });
+
           _historyBloc.add(
             HistoryFetched(
               tautulliId: _tautulliId,
