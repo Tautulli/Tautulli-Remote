@@ -138,6 +138,7 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
                             },
                           ),
                         ),
+                      const Gap(8),
                       _ItemRow(
                         title: LocaleKeys.date_title.tr(),
                         item: Text(
