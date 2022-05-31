@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/pages/status_page.dart';
+import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
@@ -14,7 +15,7 @@ import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../bloc/users_bloc.dart';
+import '../bloc/users_table_bloc.dart';
 import '../widgets/user_card.dart';
 
 class UsersPage extends StatelessWidget {
@@ -25,7 +26,7 @@ class UsersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => di.sl<UsersBloc>(),
+      create: (context) => di.sl<UsersTableBloc>(),
       child: const UsersView(),
     );
   }
@@ -42,7 +43,7 @@ class _UsersViewState extends State<UsersView> {
   final _scrollController = ScrollController();
   late String _orderColumn;
   late String _orderDir;
-  late UsersBloc _usersBloc;
+  late UsersTableBloc _usersTableBloc;
   late SettingsBloc _settingsBloc;
   late String _tautulliId;
 
@@ -50,7 +51,7 @@ class _UsersViewState extends State<UsersView> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    _usersBloc = context.read<UsersBloc>();
+    _usersTableBloc = context.read<UsersTableBloc>();
     _settingsBloc = context.read<SettingsBloc>();
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
@@ -60,8 +61,8 @@ class _UsersViewState extends State<UsersView> {
     _orderColumn = usersSort[0];
     _orderDir = usersSort[1];
 
-    context.read<UsersBloc>().add(
-          UsersFetched(
+    context.read<UsersTableBloc>().add(
+          UsersTableFetched(
             tautulliId: _tautulliId,
             orderColumn: _orderColumn,
             orderDir: _orderDir,
@@ -86,8 +87,8 @@ class _UsersViewState extends State<UsersView> {
       listener: (ctx, state) {
         if (state is SettingsSuccess) {
           _tautulliId = state.appSettings.activeServer.tautulliId;
-          context.read<UsersBloc>().add(
-                UsersFetched(
+          context.read<UsersTableBloc>().add(
+                UsersTableFetched(
                   tautulliId: _tautulliId,
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
@@ -99,15 +100,15 @@ class _UsersViewState extends State<UsersView> {
       child: ScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.users_title).tr(),
         actions: _appBarActions(),
-        body: BlocBuilder<UsersBloc, UsersState>(
+        body: BlocBuilder<UsersTableBloc, UsersTableState>(
           builder: (context, state) {
             return PageBody(
               loading:
-                  state.status == UsersStatus.initial && !state.hasReachedMax,
+                  state.status == BlocStatus.initial && !state.hasReachedMax,
               child: ThemedRefreshIndicator(
                 onRefresh: () {
-                  context.read<UsersBloc>().add(
-                        UsersFetched(
+                  context.read<UsersTableBloc>().add(
+                        UsersTableFetched(
                           tautulliId: _tautulliId,
                           orderColumn: _orderColumn,
                           orderDir: _orderDir,
@@ -121,14 +122,14 @@ class _UsersViewState extends State<UsersView> {
                 child: Builder(
                   builder: (context) {
                     if (state.users.isEmpty) {
-                      if (state.status == UsersStatus.failure) {
+                      if (state.status == BlocStatus.failure) {
                         return StatusPage(
                           scrollable: true,
                           message: state.message ?? '',
                           suggestion: state.suggestion ?? '',
                         );
                       }
-                      if (state.status == UsersStatus.success) {
+                      if (state.status == BlocStatus.success) {
                         return StatusPage(
                           scrollable: true,
                           message: LocaleKeys.users_empty_message.tr(),
@@ -140,7 +141,7 @@ class _UsersViewState extends State<UsersView> {
                       controller: _scrollController,
                       padding: const EdgeInsets.all(8),
                       itemCount: state.hasReachedMax ||
-                              state.status == UsersStatus.initial
+                              state.status == BlocStatus.initial
                           ? state.users.length
                           : state.users.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
@@ -152,8 +153,8 @@ class _UsersViewState extends State<UsersView> {
                             message: state.message,
                             suggestion: state.suggestion,
                             onTap: () {
-                              context.read<UsersBloc>().add(
-                                    UsersFetched(
+                              context.read<UsersTableBloc>().add(
+                                    UsersTableFetched(
                                       tautulliId: _tautulliId,
                                       orderColumn: _orderColumn,
                                       orderDir: _orderDir,
@@ -190,8 +191,8 @@ class _UsersViewState extends State<UsersView> {
 
   void _onScroll() {
     if (_isBottom) {
-      _usersBloc.add(
-        UsersFetched(
+      _usersTableBloc.add(
+        UsersTableFetched(
           tautulliId: _tautulliId,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
@@ -230,8 +231,8 @@ class _UsersViewState extends State<UsersView> {
               });
 
               _settingsBloc.add(SettingsUpdateUsersSort(value));
-              _usersBloc.add(
-                UsersFetched(
+              _usersTableBloc.add(
+                UsersTableFetched(
                   tautulliId: _tautulliId,
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
