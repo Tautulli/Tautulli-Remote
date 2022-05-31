@@ -9,18 +9,19 @@ import '../../../../core/helpers/asset_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/pages/status_page.dart';
+import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/icon_card.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/status_card.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/user_model.dart';
+import '../../data/models/user_table_model.dart';
 import '../../data/models/user_watch_time_stat_model.dart';
 import '../bloc/user_statistics_bloc.dart';
 
 class UserDetailsStatsTab extends StatefulWidget {
-  final UserModel user;
+  final UserTableModel user;
 
   const UserDetailsStatsTab({
     super.key,
@@ -43,14 +44,6 @@ class _UserDetailsStatsTabState extends State<UserDetailsStatsTab> {
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
     _tautulliId = settingsState.appSettings.activeServer.tautulliId;
-
-    context.read<UserStatisticsBloc>().add(
-          UserStatisticsFetched(
-            tautulliId: _tautulliId,
-            userId: widget.user.userId!,
-            settingsBloc: _settingsBloc,
-          ),
-        );
   }
 
   @override
@@ -71,15 +64,14 @@ class _UserDetailsStatsTabState extends State<UserDetailsStatsTab> {
             return Future.value();
           },
           child: PageBody(
-            loading: state.playerStatsStatus == UserStatisticsStatus.initial ||
-                state.watchTimeStatsStatus == UserStatisticsStatus.initial,
+            loading: state.playerStatsStatus == BlocStatus.initial ||
+                state.watchTimeStatsStatus == BlocStatus.initial,
             child: BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, settingsState) {
                 settingsState as SettingsSuccess;
 
-                if (state.watchTimeStatsStatus ==
-                        UserStatisticsStatus.failure &&
-                    state.playerStatsStatus == UserStatisticsStatus.failure) {
+                if (state.watchTimeStatsStatus == BlocStatus.failure &&
+                    state.playerStatsStatus == BlocStatus.failure) {
                   return StatusPage(
                     scrollable: true,
                     message: state.message ?? 'Unknown failure.',
@@ -111,8 +103,8 @@ List<Widget> _buildUserStatList({
 }) {
   List<Widget> statList = [];
 
-  if (state.watchTimeStatsStatus != UserStatisticsStatus.initial ||
-      (state.watchTimeStatsStatus == UserStatisticsStatus.initial &&
+  if (state.watchTimeStatsStatus != BlocStatus.initial ||
+      (state.watchTimeStatsStatus == BlocStatus.initial &&
           state.watchTimeStatsList.isNotEmpty)) {
     statList.add(
       Padding(
@@ -127,7 +119,7 @@ List<Widget> _buildUserStatList({
       ),
     );
 
-    if (state.watchTimeStatsStatus == UserStatisticsStatus.failure) {
+    if (state.watchTimeStatsStatus == BlocStatus.failure) {
       statList.add(
         StatusCard(
           isFailure: true,
@@ -185,8 +177,8 @@ List<Widget> _buildUserStatList({
     }
   }
 
-  if (state.playerStatsStatus != UserStatisticsStatus.initial ||
-      (state.playerStatsStatus == UserStatisticsStatus.initial &&
+  if (state.playerStatsStatus != BlocStatus.initial ||
+      (state.playerStatsStatus == BlocStatus.initial &&
           state.playerStatsList.isNotEmpty)) {
     statList.add(
       Padding(
@@ -201,7 +193,7 @@ List<Widget> _buildUserStatList({
       ),
     );
 
-    if (state.playerStatsStatus == UserStatisticsStatus.failure) {
+    if (state.playerStatsStatus == BlocStatus.failure) {
       statList.add(
         StatusCard(
           isFailure: true,
