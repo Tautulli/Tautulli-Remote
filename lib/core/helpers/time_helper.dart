@@ -4,15 +4,12 @@ import 'package:simple_moment/simple_moment.dart';
 
 class TimeHelper {
   static String cleanDateTime(
-    int timeSinceEpochInSeconds, {
+    DateTime dateTime, {
     String? dateFormat,
     String? timeFormat,
     bool dateOnly = false,
     bool timeOnly = false,
   }) {
-    DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(timeSinceEpochInSeconds * 1000);
-
     final String parsedDateFormat =
         dateFormat != null ? _parseDateFormat(dateFormat) : 'y-MM-dd';
     final String parsedTimeFormat =
@@ -89,6 +86,23 @@ class TimeHelper {
     Moment moment = Moment.now();
 
     return moment.from(DateTime.fromMillisecondsSinceEpoch(addedAt * 1000));
+  }
+
+  static String simple(Duration duration) {
+    String hours = '';
+    String minutes = '';
+    String seconds = '';
+    if (duration.inMinutes > 59) {
+      hours = '${duration.inHours.toString()} hours ';
+    }
+    if (duration.inMinutes > 0) {
+      minutes = '${duration.inMinutes.remainder(60).toString()} minutes ';
+    }
+    if (duration.inMinutes < 1) {
+      seconds = '${duration.inSeconds.toString()} seconds';
+    }
+
+    return '$hours$minutes$seconds';
   }
 
   /// Returns a cleaner version of [Duration].
