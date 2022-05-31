@@ -1,6 +1,25 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.11",
+      "date": "May 31, 2022",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Small adjustment to history details styling",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix images not loading for manually trusted certs",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fix history filter icon from indicating a selection is active after server is changed",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.10",
       "date": "May 30, 2022",
       "changes": [
