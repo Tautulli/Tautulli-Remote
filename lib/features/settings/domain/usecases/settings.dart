@@ -16,6 +16,14 @@ class Settings {
 
   //* API Calls
 
+  /// Returns a bool to indicate success of the API call as well as a bool to
+  /// indicate the active connection address.
+  Future<Either<Failure, Tuple2<bool, bool>>> deleteImageCache(
+    String tautulliId,
+  ) async {
+    return await repository.deleteImageCache(tautulliId);
+  }
+
   /// Returns `PlexInfoModel` as well as a bool to indicate the active
   /// connection address.
   Future<Either<Failure, Tuple2<PlexInfoModel, bool>>> getPlexInfo(
@@ -268,6 +276,16 @@ class Settings {
   /// Set the refresh rate used when automatically updating the activity.
   Future<bool> setRefreshRate(int value) async {
     return await repository.setRefreshRate(value);
+  }
+
+  /// What is a man? A miserable little pile of secrets.
+  Future<bool> getSecret() async {
+    return await repository.getSecret();
+  }
+
+  /// It ain't no secret I didn't get these scars falling over in church.
+  Future<bool> setSecret(bool value) async {
+    return await repository.setSecret(value);
   }
 
   /// How long to wait in seconds before timing out the server connection.

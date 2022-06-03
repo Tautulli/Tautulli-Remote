@@ -78,6 +78,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateRefreshRate>(
       (event, emit) => _onSettingsUpdateRefreshRate(event, emit),
     );
+    on<SettingsUpdateSecret>(
+      (event, emit) => _onSettingsUpdateSecret(event, emit),
+    );
     on<SettingsUpdateServer>(
       (event, emit) => _onSettingsUpdateServer(event, emit),
     );
@@ -186,7 +189,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async {
     manageCache.clearCache();
     logging.info(
-      'Settings :: Image cache cleared',
+      'Settings :: App image cache cleared',
     );
   }
 
@@ -314,6 +317,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
         oneSignalBannerDismissed: await settings.getOneSignalBannerDismissed(),
         oneSignalConsented: await settings.getOneSignalConsented(),
+        secret: await settings.getSecret(),
         serverTimeout: await settings.getServerTimeout(),
         refreshRate: await settings.getRefreshRate(),
         usersSort: await settings.getUsersSort(),
@@ -632,6 +636,26 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       currentState.copyWith(
         appSettings: currentState.appSettings.copyWith(
           refreshRate: event.refreshRate,
+        ),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateSecret(
+    SettingsUpdateSecret event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setSecret(event.secret);
+    logging.info(
+      'What is a man? A miserable little pile of secrets.',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          secret: event.secret,
         ),
       ),
     );

@@ -10,6 +10,10 @@ import '../../data/models/custom_header_model.dart';
 
 abstract class SettingsRepository {
   //* API Calls
+  Future<Either<Failure, Tuple2<bool, bool>>> deleteImageCache(
+    String tautulliId,
+  );
+
   Future<Either<Failure, Tuple2<PlexInfoModel, bool>>> getPlexInfo(
     String tautulliId,
   );
@@ -96,6 +100,10 @@ abstract class SettingsRepository {
   // Refresh Rate
   Future<int> getRefreshRate();
   Future<bool> setRefreshRate(int value);
+
+  // Server Timeout
+  Future<bool> getSecret();
+  Future<bool> setSecret(bool value);
 
   // Server Timeout
   Future<int> getServerTimeout();

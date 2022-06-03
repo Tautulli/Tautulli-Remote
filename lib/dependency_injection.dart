@@ -47,6 +47,7 @@ import 'features/settings/data/datasources/settings_data_source.dart';
 import 'features/settings/data/repositories/settings_repository_impl.dart';
 import 'features/settings/domain/repositories/settings_repository.dart';
 import 'features/settings/domain/usecases/settings.dart';
+import 'features/settings/presentation/bloc/clear_tautulli_image_cache_bloc.dart';
 import 'features/settings/presentation/bloc/register_device_bloc.dart';
 import 'features/settings/presentation/bloc/registration_headers_bloc.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
@@ -70,6 +71,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.ConnectionHandler>(
     () => tautulli_api.ConnectionHandlerImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.DeleteImageCache>(
+    () => tautulli_api.DeleteImageCacheImpl(sl()),
   );
   sl.registerLazySingleton<tautulli_api.GetGeoIpLookup>(
     () => tautulli_api.GetGeoIpLookupImpl(sl()),
@@ -336,6 +340,12 @@ Future<void> init() async {
   //! Features - Settings
   // Bloc
   sl.registerFactory(
+    () => ClearTautulliImageCacheBloc(
+      logging: sl(),
+      settings: sl(),
+    ),
+  );
+  sl.registerFactory(
     () => RegisterDeviceBloc(
       logging: sl(),
       settings: sl(),
@@ -375,6 +385,7 @@ Future<void> init() async {
       deviceInfo: sl(),
       localStorage: sl(),
       packageInfo: sl(),
+      deleteImageCacheApi: sl(),
       getServerInfoApi: sl(),
       getSettingsApi: sl(),
       registerDeviceApi: sl(),

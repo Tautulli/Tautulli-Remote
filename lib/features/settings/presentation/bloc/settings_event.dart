@@ -183,6 +183,15 @@ class SettingsUpdateRefreshRate extends SettingsEvent {
   List<Object> get props => [refreshRate];
 }
 
+class SettingsUpdateSecret extends SettingsEvent {
+  final bool secret;
+
+  const SettingsUpdateSecret(this.secret);
+
+  @override
+  List<Object> get props => [secret];
+}
+
 class SettingsUpdateServer extends SettingsEvent {
   final int id;
   final int sortIndex;

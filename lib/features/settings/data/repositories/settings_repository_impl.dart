@@ -23,6 +23,24 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   //* API Calls
   @override
+  Future<Either<Failure, Tuple2<bool, bool>>> deleteImageCache(
+    String tautulliId,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.deleteImageCache(tautulliId);
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, Tuple2<PlexInfoModel, bool>>> getPlexInfo(
     String tautulliId,
   ) async {
@@ -262,6 +280,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<bool> setRefreshRate(int value) async {
     return await dataSource.setRefreshRate(value);
+  }
+
+  // Secret
+  @override
+  Future<bool> getSecret() async {
+    return await dataSource.getSecret();
+  }
+
+  @override
+  Future<bool> setSecret(bool value) async {
+    return await dataSource.setSecret(value);
   }
 
   // Server Timeout

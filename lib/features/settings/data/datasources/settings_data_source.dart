@@ -17,6 +17,8 @@ import '../models/custom_header_model.dart';
 
 abstract class SettingsDataSource {
   //* API Calls
+  Future<Tuple2<bool, bool>> deleteImageCache(String tautulliId);
+
   Future<Tuple2<PlexInfoModel, bool>> getPlexInfo(String tautulliId);
 
   Future<Tuple2<TautulliGeneralSettingsModel, bool>> getTautulliSettings(
@@ -103,6 +105,10 @@ abstract class SettingsDataSource {
   Future<int> getRefreshRate();
   Future<bool> setRefreshRate(int value);
 
+  // Secret
+  Future<bool> getSecret();
+  Future<bool> setSecret(bool value);
+
   // Server Timeout
   Future<int> getServerTimeout();
   Future<bool> setServerTimeout(int value);
@@ -125,6 +131,7 @@ const maskSensitiveInfo = 'maskSensitiveInfo';
 const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
 const oneSignalConsented = 'oneSignalConsented';
 const refreshRate = 'refreshRate';
+const secret = 'secret';
 const serverTimeout = 'serverTimeout';
 const usersSort = 'usersSort';
 const wizardComplete = 'wizardComplete';
@@ -133,6 +140,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   final DeviceInfo deviceInfo;
   final LocalStorage localStorage;
   final PackageInformation packageInfo;
+  final DeleteImageCache deleteImageCacheApi;
   final GetServerInfo getServerInfoApi;
   final GetSettings getSettingsApi;
   final RegisterDevice registerDeviceApi;
@@ -141,12 +149,22 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     required this.deviceInfo,
     required this.localStorage,
     required this.packageInfo,
+    required this.deleteImageCacheApi,
     required this.getServerInfoApi,
     required this.getSettingsApi,
     required this.registerDeviceApi,
   });
 
   //* API Calls
+  @override
+  Future<Tuple2<bool, bool>> deleteImageCache(String tautulliId) async {
+    final result = await deleteImageCacheApi(tautulliId: tautulliId);
+
+    final success = result.value1['response']['result'] == 'success';
+
+    return Tuple2(success, result.value2);
+  }
+
   @override
   Future<Tuple2<PlexInfoModel, bool>> getPlexInfo(String tautulliId) async {
     final result = await getServerInfoApi(tautulliId: tautulliId);
@@ -402,6 +420,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setRefreshRate(int value) {
     return localStorage.setInt(refreshRate, value);
+  }
+
+  // Secret
+  @override
+  Future<bool> getSecret() async {
+    return Future.value(localStorage.getBool(refreshRate) ?? false);
+  }
+
+  @override
+  Future<bool> setSecret(bool value) {
+    return localStorage.setBool(refreshRate, value);
   }
 
   // Server Timeout
