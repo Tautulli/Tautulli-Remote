@@ -23,7 +23,9 @@ class ServerOpenInBrowserListTile extends StatelessWidget {
           children: const [
             SizedBox(
               width: 35,
-              child: FaIcon(FontAwesomeIcons.windowMaximize),
+              child: Center(
+                child: FaIcon(FontAwesomeIcons.windowMaximize),
+              ),
             ),
           ],
         ),

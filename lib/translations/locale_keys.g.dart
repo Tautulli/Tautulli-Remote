@@ -31,7 +31,6 @@ abstract class  LocaleKeys {
   static const clear_tautulli_image_cache_dialog_content = 'clear_tautulli_image_cache_dialog_content';
   static const clear_tautulli_image_cache_failure_snackbar_message = 'clear_tautulli_image_cache_failure_snackbar_message';
   static const clear_tautulli_image_cache_success_snackbar_message = 'clear_tautulli_image_cache_success_snackbar_message';
-  static const clear_tautulli_image_cache_dialog_multiserver_content = 'clear_tautulli_image_cache_dialog_multiserver_content';
   static const clear_tautulli_image_cache_subtitle = 'clear_tautulli_image_cache_subtitle';
   static const clear_tautulli_image_cache_title = 'clear_tautulli_image_cache_title';
   static const clear_button = 'clear_button';
