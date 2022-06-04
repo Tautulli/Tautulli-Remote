@@ -65,7 +65,6 @@ class AppSettingsModel extends Equatable {
       'Server Timeout': serverTimeout.toString(),
       'Users Sort': usersSort,
       'Wizard Complete': wizardComplete.toString(),
-      'Secret': secret.toString(),
     };
   }
 

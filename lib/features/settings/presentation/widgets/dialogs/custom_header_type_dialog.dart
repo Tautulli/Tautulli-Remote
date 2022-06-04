@@ -25,10 +25,16 @@ class CustomHeaderTypeDialog extends StatelessWidget {
             -1;
 
     return SimpleDialog(
+      contentPadding: const EdgeInsets.fromLTRB(0, 26, 0, 26),
       children: [
         ListTile(
           enabled: !authHeaderExists,
-          leading: const FaIcon(FontAwesomeIcons.solidAddressCard),
+          leading: const SizedBox(
+            width: 35,
+            child: Center(
+              child: FaIcon(FontAwesomeIcons.solidAddressCard),
+            ),
+          ),
           title: const Text(LocaleKeys.basic_authentication_title).tr(),
           onTap: () async {
             Navigator.of(context).pop();
@@ -46,7 +52,12 @@ class CustomHeaderTypeDialog extends StatelessWidget {
           },
         ),
         ListTile(
-          leading: const FaIcon(FontAwesomeIcons.addressCard),
+          leading: const SizedBox(
+            width: 35,
+            child: Center(
+              child: FaIcon(FontAwesomeIcons.addressCard),
+            ),
+          ),
           title: const Text(LocaleKeys.custom_title).tr(),
           onTap: () async {
             Navigator.of(context).pop();

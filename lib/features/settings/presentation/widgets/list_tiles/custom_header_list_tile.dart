@@ -41,7 +41,9 @@ class CustomHeaderListTile extends StatelessWidget {
                     children: const [
                       SizedBox(
                         width: 35,
-                        child: FaIcon(FontAwesomeIcons.solidAddressCard),
+                        child: Center(
+                          child: FaIcon(FontAwesomeIcons.solidAddressCard),
+                        ),
                       ),
                     ],
                   )
@@ -56,8 +58,13 @@ class CustomHeaderListTile extends StatelessWidget {
               style: Theme.of(context).textTheme.subtitle2,
             ).tr(),
             trailing: GestureDetector(
-              child: const FaIcon(
-                FontAwesomeIcons.solidCircleXmark,
+              child: const SizedBox(
+                width: 35,
+                child: Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.solidCircleXmark,
+                  ),
+                ),
               ),
               onTap: () async {
                 final result = await showDialog(

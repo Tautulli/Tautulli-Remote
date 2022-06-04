@@ -90,7 +90,7 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
                 ? FontAwesomeIcons.solidAddressCard
                 : FontAwesomeIcons.addressCard,
           ),
-          const Gap(8),
+          const Gap(12),
           Expanded(
             child: Text(
               widget.headerType == CustomHeaderType.basicAuth

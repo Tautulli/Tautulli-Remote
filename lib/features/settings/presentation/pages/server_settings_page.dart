@@ -120,7 +120,8 @@ class ServerSettingsView extends StatelessWidget {
                       ServerPrimaryConnectionListTile(server: server),
                       ServerSecondaryConnectionListTile(server: server),
                       ServerDeviceTokenListTile(
-                          deviceToken: server.deviceToken),
+                        deviceToken: server.deviceToken,
+                      ),
                     ],
                   ),
                   const Gap(8),
@@ -172,7 +173,9 @@ class ServerSettingsView extends StatelessWidget {
                               return BlocProvider.value(
                                 value:
                                     context.read<ClearTautulliImageCacheBloc>(),
-                                child: const ClearTautulliImageCacheDialog(),
+                                child: ClearTautulliImageCacheDialog(
+                                  server: server,
+                                ),
                               );
                             },
                           );
