@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:quiver/strings.dart';
 
 import '../../../../core/types/types.dart';
 
@@ -22,21 +23,23 @@ class ConnectionAddressModel extends Equatable {
     required String connectionAddress,
   }) {
     Protocol? protocol;
-    String? domain;
-    String? path;
+    String domain = '';
+    String path = '';
 
-    RegExp exp = RegExp(r"(http[s]?):\/\/([\S][^\/]+)([\S]*)");
-    Iterable<Match> matches = exp.allMatches(connectionAddress);
+    if (isNotEmpty(connectionAddress)) {
+      RegExp exp = RegExp(r"(http[s]?):\/\/([\S][^\/]+)([\S]*)");
+      Iterable<Match> matches = exp.allMatches(connectionAddress);
 
-    for (var m in matches) {
-      if (m.group(1)! == 'http') {
-        protocol = Protocol.http;
-      } else if (m.group(1)! == 'https') {
-        protocol = Protocol.https;
+      for (var m in matches) {
+        if (m.group(1)! == 'http') {
+          protocol = Protocol.http;
+        } else if (m.group(1)! == 'https') {
+          protocol = Protocol.https;
+        }
+
+        domain = m.group(2) ?? '';
+        path = m.group(3) ?? '';
       }
-
-      domain = m.group(2)!;
-      path = m.group(3);
     }
 
     return ConnectionAddressModel(

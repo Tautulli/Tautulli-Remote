@@ -679,7 +679,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     final ConnectionAddressModel secondaryConnectionAddress =
         ConnectionAddressModel.fromConnectionAddress(
-      primary: true,
+      primary: false,
       connectionAddress: event.secondaryConnectionAddress,
     );
 
@@ -698,8 +698,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       primaryConnectionDomain: primaryConnectionAddress.domain,
       primaryConnectionPath: primaryConnectionAddress.path,
       secondaryConnectionAddress: secondaryConnectionAddress.address,
-      secondaryConnectionProtocol:
-          secondaryConnectionAddress.protocol?.toShortString(),
+      secondaryConnectionProtocol: secondaryConnectionAddress.protocol != null
+          ? secondaryConnectionAddress.protocol!.toShortString()
+          : '',
       secondaryConnectionDomain: secondaryConnectionAddress.domain,
       secondaryConnectionPath: secondaryConnectionAddress.path,
       deviceToken: event.deviceToken,
