@@ -10,6 +10,14 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <queries>
         <package android:name="com.plexapp.android" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
     </queries>
     <application
         android:name="${applicationName}"
