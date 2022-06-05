@@ -25,7 +25,7 @@ class CustomHeaderTypeDialog extends StatelessWidget {
             -1;
 
     return SimpleDialog(
-      contentPadding: const EdgeInsets.fromLTRB(0, 26, 0, 26),
+      clipBehavior: Clip.hardEdge,
       children: [
         ListTile(
           enabled: !authHeaderExists,

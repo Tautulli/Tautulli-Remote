@@ -39,6 +39,7 @@ class _ServerTimeoutDialogState extends State<ServerTimeoutDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
+      clipBehavior: Clip.hardEdge,
       title: const Text(LocaleKeys.server_timeout_title).tr(),
       children: [
         RadioListTile(

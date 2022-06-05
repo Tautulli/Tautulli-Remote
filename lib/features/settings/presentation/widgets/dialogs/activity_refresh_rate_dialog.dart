@@ -40,6 +40,7 @@ class _ActivityRefreshRateDialogState extends State<ActivityRefreshRateDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
+      clipBehavior: Clip.hardEdge,
       title: const Text(
         LocaleKeys.activity_refresh_rate_title,
       ).tr(),

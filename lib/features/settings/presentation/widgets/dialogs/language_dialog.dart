@@ -36,6 +36,8 @@ class LanguageDialogState extends State<LanguageDialog> {
       ),
     );
     return SimpleDialog(
+      clipBehavior: Clip.hardEdge,
+      titlePadding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
       title: const Text(LocaleKeys.language_title).tr(),
       children: locales
           .map(

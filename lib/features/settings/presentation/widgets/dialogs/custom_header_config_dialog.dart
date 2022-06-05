@@ -82,7 +82,6 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 6.0),
       title: Row(
         children: [
           FaIcon(
