@@ -21,7 +21,9 @@ class HelpAndSupportGroup extends StatelessWidget {
           title: LocaleKeys.wiki_title.tr(),
           onTap: () async {
             await launchUrlString(
-                'https://github.com/Tautulli/Tautulli-Remote/wiki');
+              mode: LaunchMode.externalApplication,
+              'https://github.com/Tautulli/Tautulli-Remote/wiki',
+            );
           },
         ),
         CustomListTile(
@@ -31,7 +33,10 @@ class HelpAndSupportGroup extends StatelessWidget {
           ),
           title: LocaleKeys.discord_title.tr(),
           onTap: () async {
-            await launchUrlString('https://tautulli.com/discord.html');
+            await launchUrlString(
+              mode: LaunchMode.externalApplication,
+              'https://tautulli.com/discord.html',
+            );
           },
         ),
         CustomListTile(
@@ -41,7 +46,10 @@ class HelpAndSupportGroup extends StatelessWidget {
           ),
           title: LocaleKeys.reddit_title.tr(),
           onTap: () async {
-            await launchUrlString('https://www.reddit.com/r/Tautulli/');
+            await launchUrlString(
+              mode: LaunchMode.externalApplication,
+              'https://www.reddit.com/r/Tautulli/',
+            );
           },
         ),
         CustomListTile(
@@ -49,7 +57,9 @@ class HelpAndSupportGroup extends StatelessWidget {
           title: LocaleKeys.bugs_and_feature_requests_title.tr(),
           onTap: () async {
             await launchUrlString(
-                'https://github.com/Tautulli/Tautulli-Remote/issues');
+              mode: LaunchMode.externalApplication,
+              'https://github.com/Tautulli/Tautulli-Remote/issues',
+            );
           },
         ),
         CustomListTile(

@@ -36,6 +36,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     launchUrlString(
+                      mode: LaunchMode.externalApplication,
                       'https://github.com/Tautulli/Tautulli/wiki/Frequently-Asked-Questions#notifications-pycryptodome',
                     );
                   },
@@ -50,6 +51,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     launchUrlString(
+                      mode: LaunchMode.externalApplication,
                       'https://onesignal.com/',
                     );
                   },
@@ -64,6 +66,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     launchUrlString(
+                      mode: LaunchMode.externalApplication,
                       'https://onesignal.com/privacy',
                     );
                   },
@@ -81,6 +84,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     launchUrlString(
+                      mode: LaunchMode.externalApplication,
                       'https://documentation.onesignal.com/docs/handling-personal-data#deleting-notification-data',
                     );
                   },

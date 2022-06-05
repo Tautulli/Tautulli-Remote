@@ -47,7 +47,9 @@ class HelpTranslateView extends StatelessWidget {
                   title: LocaleKeys.translate_tautulli_remote_title.tr(),
                   onTap: () async {
                     await launchUrlString(
-                        'https://hosted.weblate.org/engage/tautulli-remote/');
+                      mode: LaunchMode.externalApplication,
+                      'https://hosted.weblate.org/engage/tautulli-remote/',
+                    );
                   },
                 ),
                 CustomListTile(
@@ -55,7 +57,9 @@ class HelpTranslateView extends StatelessWidget {
                   title: LocaleKeys.request_a_new_language_title.tr(),
                   onTap: () async {
                     await launchUrlString(
-                        'https://github.com/Tautulli/Tautulli-Remote/issues/new/choose');
+                      mode: LaunchMode.externalApplication,
+                      'https://github.com/Tautulli/Tautulli-Remote/issues/new/choose',
+                    );
                   },
                 ),
               ],

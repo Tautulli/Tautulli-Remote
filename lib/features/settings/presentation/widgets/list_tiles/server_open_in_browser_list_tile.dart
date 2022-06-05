@@ -34,9 +34,15 @@ class ServerOpenInBrowserListTile extends StatelessWidget {
         ).tr(args: [server.plexName]),
         onTap: () async {
           if (server.primaryActive != false) {
-            await launchUrlString(server.primaryConnectionAddress);
+            await launchUrlString(
+              mode: LaunchMode.externalApplication,
+              server.primaryConnectionAddress,
+            );
           } else if (server.secondaryConnectionAddress != null) {
-            await launchUrlString(server.secondaryConnectionAddress!);
+            await launchUrlString(
+              mode: LaunchMode.externalApplication,
+              server.secondaryConnectionAddress!,
+            );
           }
         },
         onLongPress: () async {
@@ -44,9 +50,15 @@ class ServerOpenInBrowserListTile extends StatelessWidget {
           // the non active address on a long press
           if (server.secondaryConnectionAddress != null) {
             if (server.primaryActive != false) {
-              await launchUrlString(server.secondaryConnectionAddress!);
+              await launchUrlString(
+                mode: LaunchMode.externalApplication,
+                server.secondaryConnectionAddress!,
+              );
             } else {
-              await launchUrlString(server.primaryConnectionAddress);
+              await launchUrlString(
+                mode: LaunchMode.externalApplication,
+                server.primaryConnectionAddress,
+              );
             }
           }
         },
