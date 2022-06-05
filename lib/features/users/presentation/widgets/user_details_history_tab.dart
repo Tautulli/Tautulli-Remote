@@ -25,7 +25,7 @@ class UserDetailsHistoryTab extends StatefulWidget {
 }
 
 class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
-  late ScrollController _scrollController;
+  ScrollController? _scrollController;
   late IndividualHistoryBloc _individualHistoryBloc;
   late SettingsBloc _settingsBloc;
   late String _tautulliId;
@@ -42,8 +42,11 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
 
   @override
   Widget build(BuildContext context) {
-    _scrollController = PrimaryScrollController.of(context)!;
-    _scrollController.addListener(_onScroll);
+    // Only attach scrollController if it's currently null
+    if (_scrollController == null) {
+      _scrollController = PrimaryScrollController.of(context)!;
+      _scrollController!.addListener(_onScroll);
+    }
 
     return BlocBuilder<IndividualHistoryBloc, IndividualHistoryState>(
       builder: (context, state) {
@@ -119,7 +122,7 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
+    _scrollController!.removeListener(_onScroll);
     super.dispose();
   }
 
@@ -136,9 +139,9 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
   }
 
   bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
+    if (!_scrollController!.hasClients) return false;
+    final maxScroll = _scrollController!.position.maxScrollExtent;
+    final currentScroll = _scrollController!.offset;
     return currentScroll >= (maxScroll * 0.95);
   }
 }

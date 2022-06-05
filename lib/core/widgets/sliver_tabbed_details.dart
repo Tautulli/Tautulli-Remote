@@ -40,50 +40,7 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
   @override
   void initState() {
     super.initState();
-
-    _scrollController.addListener(() {
-      double progress =
-          (_scrollController.offset) / (_expandedHeight - 46 - kToolbarHeight);
-      double progressDelayed = (_scrollController.offset - 50) /
-          (_expandedHeight - 50 - kToolbarHeight - 50);
-
-      // Using easeInSine calculation from https://easings.net/#easeInSine
-      if (progress <= 1) {
-        setState(() {
-          radius = (1 - (1 - cos((progress * pi) / 2))) * 16;
-        });
-      }
-
-      // Using easeInSine calculation from https://easings.net/#easeInSine
-      if (progress <= 0 && detailsOpacity != 1) {
-        setState(() {
-          detailsOpacity = 1;
-        });
-      } else if (progress > 0 && progress <= 1) {
-        setState(() {
-          detailsOpacity = cos((progress * pi) / 2);
-        });
-      } else if (progress > 1 && detailsOpacity != 0) {
-        setState(() {
-          detailsOpacity = 0;
-        });
-      }
-
-      // Using easeInExpo calculation from https://easings.net/#easeInExpo
-      if (progressDelayed <= 0 && titleOpacity != 0) {
-        setState(() {
-          titleOpacity = 0;
-        });
-      } else if (progressDelayed > 0 && progressDelayed <= 1) {
-        setState(() {
-          titleOpacity = pow(2, 10 * progressDelayed - 10).toDouble();
-        });
-      } else if (progressDelayed > 1 && titleOpacity != 1) {
-        setState(() {
-          titleOpacity = 1;
-        });
-      }
-    });
+    _scrollController.addListener(_onScroll);
   }
 
   @override
@@ -228,8 +185,53 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
     );
   }
 
+  void _onScroll() {
+    double progress =
+        (_scrollController.offset) / (_expandedHeight - 46 - kToolbarHeight);
+    double progressDelayed = (_scrollController.offset - 50) /
+        (_expandedHeight - 50 - kToolbarHeight - 50);
+
+    // Using easeInSine calculation from https://easings.net/#easeInSine
+    if (progress <= 1) {
+      setState(() {
+        radius = (1 - (1 - cos((progress * pi) / 2))) * 16;
+      });
+    }
+
+    // Using easeInSine calculation from https://easings.net/#easeInSine
+    if (progress <= 0 && detailsOpacity != 1) {
+      setState(() {
+        detailsOpacity = 1;
+      });
+    } else if (progress > 0 && progress <= 1) {
+      setState(() {
+        detailsOpacity = cos((progress * pi) / 2);
+      });
+    } else if (progress > 1 && detailsOpacity != 0) {
+      setState(() {
+        detailsOpacity = 0;
+      });
+    }
+
+    // Using easeInExpo calculation from https://easings.net/#easeInExpo
+    if (progressDelayed <= 0 && titleOpacity != 0) {
+      setState(() {
+        titleOpacity = 0;
+      });
+    } else if (progressDelayed > 0 && progressDelayed <= 1) {
+      setState(() {
+        titleOpacity = pow(2, 10 * progressDelayed - 10).toDouble();
+      });
+    } else if (progressDelayed > 1 && titleOpacity != 1) {
+      setState(() {
+        titleOpacity = 1;
+      });
+    }
+  }
+
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }
