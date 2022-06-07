@@ -256,6 +256,7 @@ class _HistoryViewState extends State<HistoryView> {
                     color: (_userId != -1 && _userId != null)
                         ? Theme.of(context).colorScheme.secondary
                         : null,
+                    size: 20,
                   ),
                   tooltip: LocaleKeys.select_user_title.tr(),
                   onSelected: (value) {
@@ -331,6 +332,7 @@ class _HistoryViewState extends State<HistoryView> {
                 color: _mediaType != 'all' || _transcodeDecision != 'all'
                     ? Theme.of(context).colorScheme.secondary
                     : null,
+                size: 20,
               ),
               tooltip: LocaleKeys.filter_history_title.tr(),
               itemBuilder: (context) {
