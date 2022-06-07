@@ -433,7 +433,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: e7fc934f245c208c5708bc66c71f15126ff093f7
+      resolved-ref: "6b532c3a4775eb764d31e3bdb1c821433d481947"
       url: "https://github.com/TheMeanCanEHdian/flutter_inner_drawer.git"
     source: git
     version: "1.0.0+1"
