@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../core/types/types.dart';
+import '../../../../core/types/tautulli_types.dart';
 
 class ConnectionAddressModel extends Equatable {
   final bool primary;

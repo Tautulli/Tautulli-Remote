@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../types/types.dart';
+import '../../../types/tautulli_types.dart';
 import '../connection_handler.dart';
 
 abstract class PmsImageProxy {

@@ -1,6 +1,6 @@
 import '../../dependency_injection.dart' as di;
 import '../../features/logging/domain/usecases/logging.dart';
-import '../types/types.dart';
+import '../types/tautulli_types.dart';
 
 class Cast {
   // Dart Types

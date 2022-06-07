@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../types/types.dart';
+import '../types/tautulli_types.dart';
 import 'color_palette_helper.dart';
 
 class IconHelper {
