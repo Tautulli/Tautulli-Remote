@@ -246,7 +246,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                     SearchHistoryFetched(
                       tautulliId:
                           settingsState.appSettings.activeServer.tautulliId,
-                      search: value,
+                      userId: _userId,
                       movieMediaType: _movieMediaType,
                       episodeMediaType: _episodeMediaType,
                       trackMediaType: _trackMediaType,
@@ -254,6 +254,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                       directPlayDecision: _directPlayDecision,
                       directStreamDecision: _directStreamDecision,
                       transcodeDecision: _transcodeDecision,
+                      search: value,
                       freshFetch: true,
                       settingsBloc: context.read<SettingsBloc>(),
                     ),
