@@ -188,6 +188,7 @@ abstract class  LocaleKeys {
   static const request_a_new_language_title = 'request_a_new_language_title';
   static const save_button = 'save_button';
   static const scan_qr_code_button = 'scan_qr_code_button';
+  static const search_history_title = 'search_history_title';
   static const sec = 'sec';
   static const secs = 'secs';
   static const secondary_connection_address_explanation_one = 'secondary_connection_address_explanation_one';

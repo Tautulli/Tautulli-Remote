@@ -186,6 +186,7 @@
     "request_a_new_language_title": "Request a new language",
     "save_button": "SAVE",
     "scan_qr_code_button": "Scan QR Code",
+    "search_history_title": "Search History",
     "sec": "sec",
     "secs": "secs",
     "secondary_connection_address_explanation_one": "The Secondary Connection Address will be used if the Primary Connection Address is unreachable.",

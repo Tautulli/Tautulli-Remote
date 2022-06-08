@@ -28,6 +28,7 @@ import 'features/history/domain/repositories/history_repository.dart';
 import 'features/history/domain/usecases/history.dart';
 import 'features/history/presentation/bloc/history_bloc.dart';
 import 'features/history/presentation/bloc/individual_history_bloc.dart';
+import 'features/history/presentation/bloc/search_history_bloc.dart';
 import 'features/image_url/data/datasources/image_url_data_source.dart';
 import 'features/image_url/data/repositories/image_url_repository_impl.dart';
 import 'features/image_url/domain/repositories/image_url_repository.dart';
@@ -334,6 +335,16 @@ Future<void> init() async {
       client: sl(),
       networkInfo: sl(),
       settings: sl(),
+    ),
+  );
+
+  //! Features - Search
+  // Bloc
+  sl.registerFactory(
+    () => SearchHistoryBloc(
+      history: sl(),
+      imageUrl: sl(),
+      logging: sl(),
     ),
   );
 

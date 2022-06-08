@@ -3,211 +3,210 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:quiver/strings.dart';
 
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/page_body.dart';
-import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
-import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/presentation/bloc/users_bloc.dart';
-import '../bloc/history_bloc.dart';
+import '../bloc/search_history_bloc.dart';
 import '../widgets/history_card.dart';
-import 'history_search_page.dart';
 
-class HistoryPage extends StatelessWidget {
-  const HistoryPage({super.key});
-
-  static const routeName = '/history';
+class HistorySearchPage extends StatelessWidget {
+  const HistorySearchPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => di.sl<HistoryBloc>(),
-        ),
-        BlocProvider(
-          create: (context) => di.sl<UsersBloc>(),
-        ),
-      ],
-      child: const HistoryView(),
+    return BlocProvider(
+      create: (context) => di.sl<SearchHistoryBloc>(),
+      child: const HistorySearchView(),
     );
   }
 }
 
-class HistoryView extends StatefulWidget {
-  const HistoryView({super.key});
+class HistorySearchView extends StatefulWidget {
+  const HistorySearchView({
+    super.key,
+  });
 
   @override
-  State<HistoryView> createState() => _HistoryViewState();
+  State<HistorySearchView> createState() => _HistorySearchViewState();
 }
 
-class _HistoryViewState extends State<HistoryView> {
+class _HistorySearchViewState extends State<HistorySearchView> {
+  final TextEditingController _controller = TextEditingController();
+  bool hasContent = false;
+
   final _scrollController = ScrollController();
-  late HistoryBloc _historyBloc;
-  late UsersBloc _usersBloc;
+  late SearchHistoryBloc _searchHistoryBloc;
   late SettingsBloc _settingsBloc;
   late String _tautulliId;
-  late int? _userId;
-  late String _mediaType;
-  late String _transcodeDecision;
+  int? _userId;
+  String _mediaType = 'all';
+  String _transcodeDecision = 'all';
 
   @override
   void initState() {
     super.initState();
 
     _scrollController.addListener(_onScroll);
-    _historyBloc = context.read<HistoryBloc>();
-    _usersBloc = context.read<UsersBloc>();
+    _searchHistoryBloc = context.read<SearchHistoryBloc>();
     _settingsBloc = context.read<SettingsBloc>();
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
     _tautulliId = settingsState.appSettings.activeServer.tautulliId;
-
-    _userId = _historyBloc.state.userId ?? -1;
-    _mediaType = _historyBloc.state.mediaType;
-    _transcodeDecision = _historyBloc.state.transcodeDecision;
-
-    _historyBloc.add(
-      HistoryFetched(
-        tautulliId: _tautulliId,
-        userId: _userId,
-        mediaType: _mediaType,
-        transcodeDecision: _transcodeDecision,
-        settingsBloc: _settingsBloc,
-      ),
-    );
-
-    _usersBloc.add(
-      UsersFetched(
-        tautulliId: _tautulliId,
-        settingsBloc: _settingsBloc,
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SettingsBloc, SettingsState>(
-      // Listen for active server change and run a fresh user fetch if it does
-      listenWhen: (previous, current) {
-        if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer !=
-              current.appSettings.activeServer) {
-            return true;
-          }
-        }
-        return false;
-      },
-      listener: (ctx, state) {
-        if (state is SettingsSuccess) {
-          _tautulliId = state.appSettings.activeServer.tautulliId;
-          _userId = null;
-          _mediaType = 'all';
-          _transcodeDecision = 'all';
+    return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 0,
+        title: BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, settingsState) {
+            settingsState as SettingsSuccess;
 
-          _historyBloc.add(
-            HistoryFetched(
-              tautulliId: _tautulliId,
-              userId: _userId,
-              mediaType: _mediaType,
-              transcodeDecision: _transcodeDecision,
-              settingsBloc: _settingsBloc,
-            ),
-          );
-          _usersBloc.add(
-            UsersFetched(
-              tautulliId: _tautulliId,
-              settingsBloc: _settingsBloc,
-            ),
-          );
-        }
-      },
-      child: ScaffoldWithInnerDrawer(
-        title: const Text(LocaleKeys.history_title).tr(),
-        actions: _appBarActions(),
-        body: BlocBuilder<HistoryBloc, HistoryState>(
-          builder: (context, state) {
-            return PageBody(
-              loading:
-                  state.status == BlocStatus.initial && !state.hasReachedMax,
-              child: ThemedRefreshIndicator(
-                onRefresh: () {
-                  _historyBloc.add(
-                    HistoryFetched(
-                      tautulliId: _tautulliId,
-                      userId: _userId,
-                      mediaType: _mediaType,
-                      transcodeDecision: _transcodeDecision,
-                      freshFetch: true,
-                      settingsBloc: _settingsBloc,
+            return TextField(
+              controller: _controller,
+              autofocus: true,
+              cursorColor: Theme.of(context).colorScheme.tertiary,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor:
+                    Theme.of(context).colorScheme.tertiary.withOpacity(0.05),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).textTheme.subtitle2!.color!,
+                    width: 2,
+                  ),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).textTheme.subtitle2!.color!,
+                    width: 2,
+                  ),
+                ),
+                hintText: LocaleKeys.search_history_title.tr(),
+                suffixIcon: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: IconButton(
+                    icon: FaIcon(
+                      FontAwesomeIcons.solidCircleXmark,
+                      color: isNotEmpty(_controller.text)
+                          ? Theme.of(context).textTheme.subtitle2!.color!
+                          : Colors.transparent,
+                      size: 20,
                     ),
-                  );
-
-                  return Future.value(null);
-                },
-                child: Builder(
-                  builder: (context) {
-                    if (state.history.isEmpty) {
-                      if (state.status == BlocStatus.failure) {
-                        return StatusPage(
-                          scrollable: true,
-                          message: state.message ?? '',
-                          suggestion: state.suggestion ?? '',
-                        );
-                      }
-                      if (state.status == BlocStatus.success) {
-                        return StatusPage(
-                          scrollable: true,
-                          message: LocaleKeys.history_empty_message.tr(),
-                        );
-                      }
-                    }
-
-                    return ListView.separated(
-                      controller: _scrollController,
-                      padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax ||
-                              state.status == BlocStatus.initial
-                          ? state.history.length
-                          : state.history.length + 1,
-                      separatorBuilder: (context, index) => const Gap(8),
-                      itemBuilder: (context, index) {
-                        if (index >= state.history.length) {
-                          return BottomLoader(
-                            status: state.status,
-                            failure: state.failure,
-                            message: state.message,
-                            suggestion: state.suggestion,
-                            onTap: () {
-                              _historyBloc.add(
-                                HistoryFetched(
-                                  tautulliId: _tautulliId,
-                                  userId: _userId,
-                                  mediaType: _mediaType,
-                                  transcodeDecision: _transcodeDecision,
-                                  settingsBloc: _settingsBloc,
-                                ),
-                              );
-                            },
-                          );
-                        }
-
-                        final history = state.history[index];
-
-                        return HistoryCard(history: history);
-                      },
-                    );
-                  },
+                    onPressed: isNotEmpty(_controller.text)
+                        ? () {
+                            setState(() {
+                              _controller.text = '';
+                              hasContent = false;
+                            });
+                          }
+                        : null,
+                  ),
                 ),
               ),
+              onChanged: (value) {
+                if (!hasContent) {
+                  setState(() {
+                    hasContent = true;
+                  });
+                }
+
+                if (hasContent && value == '') {
+                  setState(() {
+                    hasContent = false;
+                  });
+                }
+              },
+              onSubmitted: (value) {
+                if (isNotBlank(value)) {
+                  context.read<SearchHistoryBloc>().add(
+                        SearchHistoryFetched(
+                          tautulliId:
+                              settingsState.appSettings.activeServer.tautulliId,
+                          search: value,
+                          freshFetch: true,
+                          settingsBloc: context.read<SettingsBloc>(),
+                        ),
+                      );
+                }
+              },
             );
           },
         ),
+        actions: _appBarActions(),
+      ),
+      body: BlocBuilder<SearchHistoryBloc, SearchHistoryState>(
+        builder: (context, searchState) {
+          return PageBody(
+            loading: searchState.status == BlocStatus.inProgress,
+            child: Builder(
+              builder: (context) {
+                if (searchState.history.isEmpty) {
+                  if (searchState.status == BlocStatus.failure) {
+                    return StatusPage(
+                      scrollable: true,
+                      message: searchState.message ?? '',
+                      suggestion: searchState.suggestion ?? '',
+                    );
+                  }
+                  if (searchState.status == BlocStatus.success) {
+                    return StatusPage(
+                      scrollable: true,
+                      message: LocaleKeys.history_empty_message.tr(),
+                    );
+                  }
+                }
+
+                return ListView.separated(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.all(8),
+                  itemCount: searchState.hasReachedMax ||
+                          searchState.status == BlocStatus.initial ||
+                          searchState.status == BlocStatus.inProgress
+                      ? searchState.history.length
+                      : searchState.history.length + 1,
+                  separatorBuilder: (context, index) => const Gap(8),
+                  itemBuilder: (context, index) {
+                    if (index >= searchState.history.length) {
+                      return BottomLoader(
+                        status: searchState.status,
+                        failure: searchState.failure,
+                        message: searchState.message,
+                        suggestion: searchState.suggestion,
+                        onTap: () {
+                          _searchHistoryBloc.add(
+                            SearchHistoryFetched(
+                              tautulliId: _tautulliId,
+                              userId: _userId,
+                              mediaType: _mediaType,
+                              transcodeDecision: _transcodeDecision,
+                              settingsBloc: _settingsBloc,
+                            ),
+                          );
+                        },
+                      );
+                    }
+
+                    final history = searchState.history[index];
+
+                    return HistoryCard(history: history);
+                  },
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }
@@ -222,8 +221,8 @@ class _HistoryViewState extends State<HistoryView> {
 
   void _onScroll() {
     if (_isBottom) {
-      _historyBloc.add(
-        HistoryFetched(
+      _searchHistoryBloc.add(
+        SearchHistoryFetched(
           tautulliId: _tautulliId,
           userId: _userId,
           mediaType: _mediaType,
@@ -243,23 +242,6 @@ class _HistoryViewState extends State<HistoryView> {
 
   List<Widget> _appBarActions() {
     return [
-      IconButton(
-        tooltip: LocaleKeys.search_history_title.tr(),
-        icon: const FaIcon(
-          FontAwesomeIcons.magnifyingGlass,
-          size: 20,
-        ),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => BlocProvider.value(
-                value: context.read<UsersBloc>(),
-                child: const HistorySearchPage(),
-              ),
-            ),
-          );
-        },
-      ),
       BlocBuilder<UsersBloc, UsersState>(
         builder: (context, state) {
           return Stack(
@@ -282,8 +264,8 @@ class _HistoryViewState extends State<HistoryView> {
                       _userId = value as int;
                     });
 
-                    _historyBloc.add(
-                      HistoryFetched(
+                    _searchHistoryBloc.add(
+                      SearchHistoryFetched(
                         tautulliId: _tautulliId,
                         userId: _userId,
                         mediaType: _mediaType,
@@ -400,8 +382,8 @@ class _HistoryViewState extends State<HistoryView> {
                                   setState(() {
                                     _mediaType = value;
                                   });
-                                  _historyBloc.add(
-                                    HistoryFetched(
+                                  _searchHistoryBloc.add(
+                                    SearchHistoryFetched(
                                       tautulliId: _tautulliId,
                                       userId: _userId,
                                       mediaType: _mediaType,
@@ -441,8 +423,8 @@ class _HistoryViewState extends State<HistoryView> {
                                   setState(() {
                                     _transcodeDecision = value;
                                   });
-                                  _historyBloc.add(
-                                    HistoryFetched(
+                                  _searchHistoryBloc.add(
+                                    SearchHistoryFetched(
                                       tautulliId: _tautulliId,
                                       userId: _userId,
                                       mediaType: _mediaType,
