@@ -361,11 +361,9 @@ packages:
   f_logs:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: dcc199bf64a82de37fffc31d75caab86a31a5364
-      url: "https://github.com/zubairehman/Flogs.git"
-    source: git
+      name: f_logs
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "2.0.1"
   fake_async:
     dependency: transitive
@@ -403,9 +401,11 @@ packages:
   flutter_barcode_scanner:
     dependency: "direct main"
     description:
-      name: flutter_barcode_scanner
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "9887116558c39cbf9aeebeea9311e833b77f3628"
+      url: "https://github.com/TheMeanCanEHdian/flutter_barcode_scanner.git"
+    source: git
     version: "2.0.0"
   flutter_bloc:
     dependency: "direct main"
