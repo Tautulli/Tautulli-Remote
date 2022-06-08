@@ -40,8 +40,9 @@ class HistorySearchView extends StatefulWidget {
 }
 
 class _HistorySearchViewState extends State<HistorySearchView> {
-  final TextEditingController _controller = TextEditingController();
-  bool hasContent = false;
+  final TextEditingController _textController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  bool _hasContent = false;
 
   final _scrollController = ScrollController();
   late SearchHistoryBloc _searchHistoryBloc;
@@ -73,90 +74,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
-        title: BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, settingsState) {
-            settingsState as SettingsSuccess;
-
-            return TextField(
-              controller: _controller,
-              autofocus: true,
-              cursorColor: Theme.of(context).colorScheme.tertiary,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor:
-                    Theme.of(context).colorScheme.tertiary.withOpacity(0.05),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).textTheme.subtitle2!.color!,
-                    width: 2,
-                  ),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).textTheme.subtitle2!.color!,
-                    width: 2,
-                  ),
-                ),
-                hintText: LocaleKeys.search_history_title.tr(),
-                suffixIcon: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: IconButton(
-                    icon: FaIcon(
-                      FontAwesomeIcons.solidCircleXmark,
-                      color: isNotEmpty(_controller.text)
-                          ? Theme.of(context).textTheme.subtitle2!.color!
-                          : Colors.transparent,
-                      size: 20,
-                    ),
-                    onPressed: isNotEmpty(_controller.text)
-                        ? () {
-                            setState(() {
-                              _controller.text = '';
-                              hasContent = false;
-                            });
-                            _searchHistoryBloc.add(SearchHistoryClear());
-                          }
-                        : null,
-                  ),
-                ),
-              ),
-              onChanged: (value) {
-                if (!hasContent) {
-                  setState(() {
-                    hasContent = true;
-                  });
-                }
-
-                if (hasContent && value == '') {
-                  setState(() {
-                    hasContent = false;
-                  });
-                }
-              },
-              onSubmitted: (value) {
-                if (isNotBlank(value)) {
-                  context.read<SearchHistoryBloc>().add(
-                        SearchHistoryFetched(
-                          tautulliId:
-                              settingsState.appSettings.activeServer.tautulliId,
-                          search: value,
-                          movieMediaType: _movieMediaType,
-                          episodeMediaType: _episodeMediaType,
-                          trackMediaType: _trackMediaType,
-                          liveMediaType: _liveMediaType,
-                          directPlayDecision: _directPlayDecision,
-                          directStreamDecision: _directStreamDecision,
-                          transcodeDecision: _transcodeDecision,
-                          freshFetch: true,
-                          settingsBloc: context.read<SettingsBloc>(),
-                        ),
-                      );
-                }
-              },
-            );
-          },
-        ),
+        title: _appBarTitle(),
         actions: _appBarActions(),
       ),
       body: BlocBuilder<SearchHistoryBloc, SearchHistoryState>(
@@ -263,6 +181,90 @@ class _HistorySearchViewState extends State<HistorySearchView> {
     return currentScroll >= (maxScroll * 0.9);
   }
 
+  Widget _appBarTitle() {
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, settingsState) {
+        settingsState as SettingsSuccess;
+
+        return TextField(
+          controller: _textController,
+          focusNode: _focusNode,
+          autofocus: true,
+          cursorColor: Theme.of(context).colorScheme.tertiary,
+          style: const TextStyle(
+            fontSize: 18,
+          ),
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.only(top: 11),
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide.none,
+            ),
+            hintText: LocaleKeys.search_history_title.tr(),
+            suffixIcon: SizedBox(
+              width: 20,
+              height: 20,
+              child: IconButton(
+                icon: FaIcon(
+                  FontAwesomeIcons.xmark,
+                  color: isNotEmpty(_textController.text)
+                      ? Theme.of(context).textTheme.subtitle2!.color!
+                      : Colors.transparent,
+                  size: 20,
+                ),
+                onPressed: isNotEmpty(_textController.text)
+                    ? () {
+                        setState(() {
+                          _textController.text = '';
+                          _hasContent = false;
+                        });
+                        _searchHistoryBloc.add(SearchHistoryClear());
+                        FocusScope.of(context).requestFocus(_focusNode);
+                      }
+                    : null,
+              ),
+            ),
+          ),
+          onChanged: (value) {
+            if (!_hasContent) {
+              setState(() {
+                _hasContent = true;
+              });
+            }
+
+            if (_hasContent && value == '') {
+              setState(() {
+                _hasContent = false;
+              });
+            }
+          },
+          onSubmitted: (value) {
+            if (isNotBlank(value)) {
+              context.read<SearchHistoryBloc>().add(
+                    SearchHistoryFetched(
+                      tautulliId:
+                          settingsState.appSettings.activeServer.tautulliId,
+                      search: value,
+                      movieMediaType: _movieMediaType,
+                      episodeMediaType: _episodeMediaType,
+                      trackMediaType: _trackMediaType,
+                      liveMediaType: _liveMediaType,
+                      directPlayDecision: _directPlayDecision,
+                      directStreamDecision: _directStreamDecision,
+                      transcodeDecision: _transcodeDecision,
+                      freshFetch: true,
+                      settingsBloc: context.read<SettingsBloc>(),
+                    ),
+                  );
+            }
+          },
+        );
+      },
+    );
+  }
+
   List<Widget> _appBarActions() {
     return [
       BlocBuilder<UsersBloc, UsersState>(
@@ -287,7 +289,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                       _userId = value as int;
                     });
 
-                    if (isNotBlank(_controller.text)) {
+                    if (isNotBlank(_textController.text)) {
                       _searchHistoryBloc.add(
                         SearchHistoryFetched(
                           tautulliId: _tautulliId,
@@ -614,7 +616,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
     required bool value,
   }) {
     valueNotifier.value = value;
-    if (isNotBlank(_controller.text)) {
+    if (isNotBlank(_textController.text)) {
       _searchHistoryBloc.add(
         SearchHistoryFetched(
           tautulliId: _tautulliId,
