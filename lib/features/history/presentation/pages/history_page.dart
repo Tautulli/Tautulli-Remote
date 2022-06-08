@@ -122,13 +122,13 @@ class _HistoryViewState extends State<HistoryView> {
         if (state is SettingsSuccess) {
           _tautulliId = state.appSettings.activeServer.tautulliId;
           _userId = null;
-          _movieMediaType = true;
-          _episodeMediaType = true;
-          _trackMediaType = true;
-          _liveMediaType = true;
-          _directPlayDecision = true;
-          _directStreamDecision = true;
-          _transcodeDecision = true;
+          _movieMediaType = false;
+          _episodeMediaType = false;
+          _trackMediaType = false;
+          _liveMediaType = false;
+          _directPlayDecision = false;
+          _directStreamDecision = false;
+          _transcodeDecision = false;
 
           _historyBloc.add(
             HistoryFetched(
