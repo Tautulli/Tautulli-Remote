@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/api/tautulli/endpoints/get_history.dart';
-import '../../../../core/types/stream_decision.dart';
 import '../models/history_model.dart';
 
 abstract class HistoryDataSource {
@@ -19,7 +18,7 @@ abstract class HistoryDataSource {
     DateTime? after,
     int? sectionId,
     String? mediaType,
-    StreamDecision? transcodeDecision,
+    String? transcodeDecision,
     String? guid,
     String? orderColumn,
     String? orderDir,
@@ -51,7 +50,7 @@ class HistoryDataSourceImpl implements HistoryDataSource {
     DateTime? after,
     int? sectionId,
     String? mediaType,
-    StreamDecision? transcodeDecision,
+    String? transcodeDecision,
     String? guid,
     String? orderColumn,
     String? orderDir,

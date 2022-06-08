@@ -41,12 +41,13 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
     required this.logging,
   }) : super(const SearchHistoryState()) {
     on<SearchHistoryFetched>(
-      _onSearchStart,
+      _onSearchHistoryFetch,
       transformer: throttleDroppable(throttleDuration),
     );
+    on<SearchHistoryClear>(_onSearchHistoryClear);
   }
 
-  void _onSearchStart(
+  void _onSearchHistoryFetch(
     SearchHistoryFetched event,
     Emitter<SearchHistoryState> emit,
   ) async {
@@ -67,17 +68,23 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
 
     if (state.hasReachedMax) return;
 
+    final List<String> mediaTypes = [];
+    if (event.movieMediaType) mediaTypes.add('movie');
+    if (event.episodeMediaType) mediaTypes.add('episode');
+    if (event.trackMediaType) mediaTypes.add('track');
+    if (event.liveMediaType) mediaTypes.add('live');
+
+    final List<String> decisionTypes = [];
+    if (event.directPlayDecision) decisionTypes.add('direct play');
+    if (event.directStreamDecision) decisionTypes.add('copy');
+    if (event.transcodeDecision) decisionTypes.add('transcode');
+
     if (state.status == BlocStatus.initial) {
       emit(
         state.copyWith(
           status: BlocStatus.inProgress,
         ),
       );
-
-      final StreamDecision? transcodeDecision =
-          event.transcodeDecision == 'all' || event.transcodeDecision == null
-              ? null
-              : Cast.castStringToStreamDecision(event.transcodeDecision);
 
       final failureOrHistory = await history.getHistory(
         tautulliId: event.tautulliId,
@@ -92,8 +99,8 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
         before: event.before,
         after: event.after,
         sectionId: event.sectionId,
-        mediaType: event.mediaType,
-        transcodeDecision: transcodeDecision,
+        mediaType: mediaTypes.join(', '),
+        transcodeDecision: decisionTypes.join(', '),
         guid: event.guid,
         orderColumn: event.orderColumn,
         orderDir: event.orderDir,
@@ -113,11 +120,6 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
         state.copyWith(status: BlocStatus.success),
       );
 
-      final StreamDecision? transcodeDecision =
-          event.transcodeDecision == 'all' || event.transcodeDecision == null
-              ? null
-              : Cast.castStringToStreamDecision(event.transcodeDecision);
-
       final failureOrHistory = await history.getHistory(
         tautulliId: event.tautulliId,
         grouping: event.grouping,
@@ -131,8 +133,8 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
         before: event.before,
         after: event.after,
         sectionId: event.sectionId,
-        mediaType: event.mediaType,
-        transcodeDecision: transcodeDecision,
+        mediaType: mediaTypes.join(', '),
+        transcodeDecision: decisionTypes.join(', '),
         guid: event.guid,
         orderColumn: event.orderColumn,
         orderDir: event.orderDir,
@@ -234,5 +236,18 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
     }
 
     return historyWithImages;
+  }
+
+  void _onSearchHistoryClear(
+    SearchHistoryClear event,
+    Emitter<SearchHistoryState> emit,
+  ) async {
+    return emit(
+      state.copyWith(
+        status: BlocStatus.initial,
+        history: [],
+        hasReachedMax: false,
+      ),
+    );
   }
 }

@@ -20,8 +20,13 @@ class HistoryFetched extends HistoryEvent {
   final DateTime? before;
   final DateTime? after;
   final int? sectionId;
-  final String? mediaType;
-  final String? transcodeDecision;
+  final bool movieMediaType;
+  final bool episodeMediaType;
+  final bool trackMediaType;
+  final bool liveMediaType;
+  final bool directPlayDecision;
+  final bool directStreamDecision;
+  final bool transcodeDecision;
   final String? guid;
   final String? orderColumn;
   final String? orderDir;
@@ -44,8 +49,13 @@ class HistoryFetched extends HistoryEvent {
     this.before,
     this.after,
     this.sectionId,
-    this.mediaType,
-    this.transcodeDecision,
+    required this.movieMediaType,
+    required this.episodeMediaType,
+    required this.trackMediaType,
+    required this.liveMediaType,
+    required this.directPlayDecision,
+    required this.directStreamDecision,
+    required this.transcodeDecision,
     this.guid,
     this.orderColumn,
     this.orderDir,
@@ -57,5 +67,16 @@ class HistoryFetched extends HistoryEvent {
   });
 
   @override
-  List<Object> get props => [tautulliId, freshFetch, settingsBloc];
+  List<Object> get props => [
+        tautulliId,
+        movieMediaType,
+        episodeMediaType,
+        trackMediaType,
+        liveMediaType,
+        directPlayDecision,
+        directStreamDecision,
+        transcodeDecision,
+        freshFetch,
+        settingsBloc
+      ];
 }

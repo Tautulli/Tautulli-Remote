@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../types/stream_decision.dart';
 import '../connection_handler.dart';
 
 abstract class GetHistory {
@@ -18,7 +17,7 @@ abstract class GetHistory {
     DateTime? after,
     int? sectionId,
     String? mediaType,
-    StreamDecision? transcodeDecision,
+    String? transcodeDecision,
     String? guid,
     String? orderColumn,
     String? orderDir,
@@ -48,7 +47,7 @@ class GetHistoryImpl implements GetHistory {
     DateTime? after,
     int? sectionId,
     String? mediaType,
-    StreamDecision? transcodeDecision,
+    String? transcodeDecision,
     String? guid,
     String? orderColumn,
     String? orderDir,

@@ -4,8 +4,13 @@ class HistoryState extends Equatable {
   final BlocStatus status;
   final List<HistoryModel> history;
   final int? userId;
-  final String mediaType;
-  final String transcodeDecision;
+  final bool movieMediaType;
+  final bool episodeMediaType;
+  final bool trackMediaType;
+  final bool liveMediaType;
+  final bool directPlayDecision;
+  final bool directStreamDecision;
+  final bool transcodeDecision;
   final Failure? failure;
   final String? message;
   final String? suggestion;
@@ -15,8 +20,13 @@ class HistoryState extends Equatable {
     this.status = BlocStatus.initial,
     this.history = const [],
     this.userId,
-    this.mediaType = 'all',
-    this.transcodeDecision = 'all',
+    this.movieMediaType = false,
+    this.episodeMediaType = false,
+    this.trackMediaType = false,
+    this.liveMediaType = false,
+    this.directPlayDecision = false,
+    this.directStreamDecision = false,
+    this.transcodeDecision = false,
     this.failure,
     this.message,
     this.suggestion,
@@ -27,8 +37,13 @@ class HistoryState extends Equatable {
     BlocStatus? status,
     List<HistoryModel>? history,
     int? userId,
-    String? mediaType,
-    String? transcodeDecision,
+    bool? movieMediaType,
+    bool? episodeMediaType,
+    bool? trackMediaType,
+    bool? liveMediaType,
+    bool? directPlayDecision,
+    bool? directStreamDecision,
+    bool? transcodeDecision,
     Failure? failure,
     String? message,
     String? suggestion,
@@ -38,7 +53,12 @@ class HistoryState extends Equatable {
       status: status ?? this.status,
       history: history ?? this.history,
       userId: userId ?? this.userId,
-      mediaType: mediaType ?? this.mediaType,
+      movieMediaType: movieMediaType ?? this.movieMediaType,
+      episodeMediaType: episodeMediaType ?? this.episodeMediaType,
+      trackMediaType: trackMediaType ?? this.trackMediaType,
+      liveMediaType: liveMediaType ?? this.liveMediaType,
+      directPlayDecision: directPlayDecision ?? this.directPlayDecision,
+      directStreamDecision: directStreamDecision ?? this.directStreamDecision,
       transcodeDecision: transcodeDecision ?? this.transcodeDecision,
       failure: failure ?? this.failure,
       message: message ?? this.message,
@@ -51,7 +71,12 @@ class HistoryState extends Equatable {
   List<Object> get props => [
         status,
         history,
-        mediaType,
+        movieMediaType,
+        episodeMediaType,
+        trackMediaType,
+        liveMediaType,
+        directPlayDecision,
+        directStreamDecision,
         transcodeDecision,
         hasReachedMax,
       ];

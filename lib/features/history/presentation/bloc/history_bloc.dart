@@ -7,8 +7,6 @@ import 'package:stream_transform/stream_transform.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
-import '../../../../core/types/stream_decision.dart';
-import '../../../../core/utilities/cast.dart';
 import '../../../image_url/domain/usecases/image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -20,8 +18,15 @@ part 'history_state.dart';
 
 String? tautulliIdCache;
 int? userIdCache;
-String? mediaTypeCache;
-String? transcodeDecisionCache;
+// String? mediaTypeCache;
+// String? transcodeDecisionCache;
+bool? movieMediaTypeCache;
+bool? episodeMediaTypeCache;
+bool? trackMediaTypeCache;
+bool? liveMediaTypeCache;
+bool? directPlayDecisionCache;
+bool? directStreamDecisionCache;
+bool? transcodeDecisionCache;
 Map<String, List<HistoryModel>> historyCache = {};
 bool hasReachedMaxCache = false;
 
@@ -48,8 +53,13 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
             history:
                 tautulliIdCache != null ? historyCache[tautulliIdCache]! : [],
             userId: userIdCache,
-            mediaType: mediaTypeCache ?? 'all',
-            transcodeDecision: transcodeDecisionCache ?? 'all',
+            movieMediaType: movieMediaTypeCache ?? false,
+            episodeMediaType: episodeMediaTypeCache ?? false,
+            trackMediaType: trackMediaTypeCache ?? false,
+            liveMediaType: movieMediaTypeCache ?? false,
+            directPlayDecision: directPlayDecisionCache ?? false,
+            directStreamDecision: directStreamDecisionCache ?? false,
+            transcodeDecision: transcodeDecisionCache ?? false,
             hasReachedMax: hasReachedMaxCache,
           ),
         ) {
@@ -83,10 +93,26 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
 
     tautulliIdCache = event.tautulliId;
     userIdCache = event.userId;
-    mediaTypeCache = event.mediaType;
+    movieMediaTypeCache = event.movieMediaType;
+    episodeMediaTypeCache = event.episodeMediaType;
+    trackMediaTypeCache = event.trackMediaType;
+    liveMediaTypeCache = event.liveMediaType;
+    directPlayDecisionCache = event.directPlayDecision;
+    directStreamDecisionCache = event.directStreamDecision;
     transcodeDecisionCache = event.transcodeDecision;
 
     if (state.hasReachedMax) return;
+
+    final List<String> mediaTypes = [];
+    if (event.movieMediaType) mediaTypes.add('movie');
+    if (event.episodeMediaType) mediaTypes.add('episode');
+    if (event.trackMediaType) mediaTypes.add('track');
+    if (event.liveMediaType) mediaTypes.add('live');
+
+    final List<String> decisionTypes = [];
+    if (event.directPlayDecision) decisionTypes.add('direct play');
+    if (event.directStreamDecision) decisionTypes.add('copy');
+    if (event.transcodeDecision) decisionTypes.add('transcode');
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to History page
@@ -97,11 +123,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           ),
         );
       }
-
-      final StreamDecision? transcodeDecision =
-          event.transcodeDecision == 'all' || event.transcodeDecision == null
-              ? null
-              : Cast.castStringToStreamDecision(event.transcodeDecision);
 
       final failureOrHistory = await history.getHistory(
         tautulliId: event.tautulliId,
@@ -116,8 +137,8 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         before: event.before,
         after: event.after,
         sectionId: event.sectionId,
-        mediaType: event.mediaType,
-        transcodeDecision: transcodeDecision,
+        mediaType: mediaTypes.join(', '),
+        transcodeDecision: decisionTypes.join(', '),
         guid: event.guid,
         orderColumn: event.orderColumn,
         orderDir: event.orderDir,
@@ -137,11 +158,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         state.copyWith(status: BlocStatus.success),
       );
 
-      final StreamDecision? transcodeDecision =
-          event.transcodeDecision == 'all' || event.transcodeDecision == null
-              ? null
-              : Cast.castStringToStreamDecision(event.transcodeDecision);
-
       final failureOrHistory = await history.getHistory(
         tautulliId: event.tautulliId,
         grouping: event.grouping,
@@ -155,8 +171,8 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         before: event.before,
         after: event.after,
         sectionId: event.sectionId,
-        mediaType: event.mediaType,
-        transcodeDecision: transcodeDecision,
+        mediaType: mediaTypes.join(', '),
+        transcodeDecision: decisionTypes.join(', '),
         guid: event.guid,
         orderColumn: event.orderColumn,
         orderDir: event.orderDir,

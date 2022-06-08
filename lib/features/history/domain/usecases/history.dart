@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../../../core/types/stream_decision.dart';
 import '../../data/models/history_model.dart';
 import '../repositories/history_repository.dart';
 
@@ -25,7 +24,7 @@ class History {
     DateTime? after,
     int? sectionId,
     String? mediaType,
-    StreamDecision? transcodeDecision,
+    String? transcodeDecision,
     String? guid,
     String? orderColumn,
     String? orderDir,

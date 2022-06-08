@@ -53,8 +53,13 @@ class _HistoryViewState extends State<HistoryView> {
   late SettingsBloc _settingsBloc;
   late String _tautulliId;
   late int? _userId;
-  late String _mediaType;
-  late String _transcodeDecision;
+  late bool _movieMediaType;
+  late bool _episodeMediaType;
+  late bool _trackMediaType;
+  late bool _liveMediaType;
+  late bool _directPlayDecision;
+  late bool _directStreamDecision;
+  late bool _transcodeDecision;
 
   @override
   void initState() {
@@ -69,14 +74,24 @@ class _HistoryViewState extends State<HistoryView> {
     _tautulliId = settingsState.appSettings.activeServer.tautulliId;
 
     _userId = _historyBloc.state.userId ?? -1;
-    _mediaType = _historyBloc.state.mediaType;
+    _movieMediaType = _historyBloc.state.movieMediaType;
+    _episodeMediaType = _historyBloc.state.episodeMediaType;
+    _trackMediaType = _historyBloc.state.trackMediaType;
+    _liveMediaType = _historyBloc.state.liveMediaType;
+    _directPlayDecision = _historyBloc.state.directPlayDecision;
+    _directStreamDecision = _historyBloc.state.directStreamDecision;
     _transcodeDecision = _historyBloc.state.transcodeDecision;
 
     _historyBloc.add(
       HistoryFetched(
         tautulliId: _tautulliId,
         userId: _userId,
-        mediaType: _mediaType,
+        movieMediaType: _movieMediaType,
+        episodeMediaType: _episodeMediaType,
+        trackMediaType: _trackMediaType,
+        liveMediaType: _liveMediaType,
+        directPlayDecision: _directPlayDecision,
+        directStreamDecision: _directStreamDecision,
         transcodeDecision: _transcodeDecision,
         settingsBloc: _settingsBloc,
       ),
@@ -107,14 +122,24 @@ class _HistoryViewState extends State<HistoryView> {
         if (state is SettingsSuccess) {
           _tautulliId = state.appSettings.activeServer.tautulliId;
           _userId = null;
-          _mediaType = 'all';
-          _transcodeDecision = 'all';
+          _movieMediaType = true;
+          _episodeMediaType = true;
+          _trackMediaType = true;
+          _liveMediaType = true;
+          _directPlayDecision = true;
+          _directStreamDecision = true;
+          _transcodeDecision = true;
 
           _historyBloc.add(
             HistoryFetched(
               tautulliId: _tautulliId,
               userId: _userId,
-              mediaType: _mediaType,
+              movieMediaType: _movieMediaType,
+              episodeMediaType: _episodeMediaType,
+              trackMediaType: _trackMediaType,
+              liveMediaType: _liveMediaType,
+              directPlayDecision: _directPlayDecision,
+              directStreamDecision: _directStreamDecision,
               transcodeDecision: _transcodeDecision,
               settingsBloc: _settingsBloc,
             ),
@@ -141,7 +166,12 @@ class _HistoryViewState extends State<HistoryView> {
                     HistoryFetched(
                       tautulliId: _tautulliId,
                       userId: _userId,
-                      mediaType: _mediaType,
+                      movieMediaType: _movieMediaType,
+                      episodeMediaType: _episodeMediaType,
+                      trackMediaType: _trackMediaType,
+                      liveMediaType: _liveMediaType,
+                      directPlayDecision: _directPlayDecision,
+                      directStreamDecision: _directStreamDecision,
                       transcodeDecision: _transcodeDecision,
                       freshFetch: true,
                       settingsBloc: _settingsBloc,
@@ -188,7 +218,12 @@ class _HistoryViewState extends State<HistoryView> {
                                 HistoryFetched(
                                   tautulliId: _tautulliId,
                                   userId: _userId,
-                                  mediaType: _mediaType,
+                                  movieMediaType: _movieMediaType,
+                                  episodeMediaType: _episodeMediaType,
+                                  trackMediaType: _trackMediaType,
+                                  liveMediaType: _liveMediaType,
+                                  directPlayDecision: _directPlayDecision,
+                                  directStreamDecision: _directStreamDecision,
                                   transcodeDecision: _transcodeDecision,
                                   settingsBloc: _settingsBloc,
                                 ),
@@ -226,7 +261,12 @@ class _HistoryViewState extends State<HistoryView> {
         HistoryFetched(
           tautulliId: _tautulliId,
           userId: _userId,
-          mediaType: _mediaType,
+          movieMediaType: _movieMediaType,
+          episodeMediaType: _episodeMediaType,
+          trackMediaType: _trackMediaType,
+          liveMediaType: _liveMediaType,
+          directPlayDecision: _directPlayDecision,
+          directStreamDecision: _directStreamDecision,
           transcodeDecision: _transcodeDecision,
           settingsBloc: _settingsBloc,
         ),
@@ -286,7 +326,12 @@ class _HistoryViewState extends State<HistoryView> {
                       HistoryFetched(
                         tautulliId: _tautulliId,
                         userId: _userId,
-                        mediaType: _mediaType,
+                        movieMediaType: _movieMediaType,
+                        episodeMediaType: _episodeMediaType,
+                        trackMediaType: _trackMediaType,
+                        liveMediaType: _liveMediaType,
+                        directPlayDecision: _directPlayDecision,
+                        directStreamDecision: _directStreamDecision,
                         transcodeDecision: _transcodeDecision,
                         freshFetch: true,
                         settingsBloc: _settingsBloc,
@@ -336,6 +381,8 @@ class _HistoryViewState extends State<HistoryView> {
           );
         },
       ),
+      // Wrapped in BlocBuilder to update the filter icon state when the server
+      // is changed.
       BlocBuilder<UsersBloc, UsersState>(
         builder: (context, state) {
           return Theme(
@@ -347,159 +394,273 @@ class _HistoryViewState extends State<HistoryView> {
             child: PopupMenuButton(
               icon: FaIcon(
                 FontAwesomeIcons.filter,
-                color: _mediaType != 'all' || _transcodeDecision != 'all'
+                color: _filterOptionSelected()
                     ? Theme.of(context).colorScheme.secondary
                     : null,
                 size: 20,
               ),
               tooltip: LocaleKeys.filter_history_title.tr(),
-              itemBuilder: (context) {
-                ValueNotifier<String> selectedMediaType = ValueNotifier(
-                  _mediaType,
-                );
-                ValueNotifier<String> selectedTranscodeType =
-                    ValueNotifier(_transcodeDecision);
-
-                List mediaTypes = [
-                  'all',
-                  'movie',
-                  'episode',
-                  'track',
-                  'live',
-                ];
-                List transcodeTypes = [
-                  'all',
-                  'direct play',
-                  'copy',
-                  'transcode',
-                ];
-
-                return List.generate(
-                  10,
-                  (index) {
-                    if (index == 5) {
-                      return const PopupMenuDivider();
-                    } else if (index < 5) {
-                      return PopupMenuItem(
-                        padding: const EdgeInsets.all(0),
-                        child: AnimatedBuilder(
-                          animation: selectedMediaType,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 16),
-                            child: Text(
-                              _mediaTypeToTitle(mediaTypes[index]),
-                            ),
-                          ),
-                          builder: (context, child) {
-                            return RadioListTile<String>(
-                              value: mediaTypes[index],
-                              groupValue: selectedMediaType.value,
-                              onChanged: (value) {
-                                if (value != null && _mediaType != value) {
-                                  selectedMediaType.value = value;
-                                  setState(() {
-                                    _mediaType = value;
-                                  });
-                                  _historyBloc.add(
-                                    HistoryFetched(
-                                      tautulliId: _tautulliId,
-                                      userId: _userId,
-                                      mediaType: _mediaType,
-                                      transcodeDecision: _transcodeDecision,
-                                      freshFetch: true,
-                                      settingsBloc: _settingsBloc,
-                                    ),
-                                  );
-                                }
-                              },
-                              title: child,
-                            );
-                          },
-                        ),
-                      );
-                    } else {
-                      return PopupMenuItem(
-                        padding: const EdgeInsets.all(0),
-                        child: AnimatedBuilder(
-                          animation: selectedTranscodeType,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 16),
-                            child: Text(
-                              _transcodeDecisionToTitle(
-                                transcodeTypes[index - 6],
-                              ),
-                            ),
-                          ),
-                          builder: (context, child) {
-                            return RadioListTile<String>(
-                              value: transcodeTypes[index - 6],
-                              groupValue: selectedTranscodeType.value,
-                              onChanged: (value) {
-                                if (value != null &&
-                                    _transcodeDecision != value) {
-                                  selectedTranscodeType.value = value;
-                                  setState(() {
-                                    _transcodeDecision = value;
-                                  });
-                                  _historyBloc.add(
-                                    HistoryFetched(
-                                      tautulliId: _tautulliId,
-                                      userId: _userId,
-                                      mediaType: _mediaType,
-                                      transcodeDecision: _transcodeDecision,
-                                      freshFetch: true,
-                                      settingsBloc: _settingsBloc,
-                                    ),
-                                  );
-                                }
-                              },
-                              title: child,
-                            );
-                          },
-                        ),
-                      );
-                    }
-                  },
-                );
-              },
+              itemBuilder: _filterOptions,
             ),
           );
         },
       ),
     ];
   }
-}
 
-String _mediaTypeToTitle(String mediaType) {
-  switch (mediaType) {
-    case ('all'):
-      return LocaleKeys.all_title.tr();
-    case ('movie'):
-      return LocaleKeys.movies_title.tr();
-    case ('episode'):
-      return LocaleKeys.tv_shows_title.tr();
-    case ('track'):
-      return LocaleKeys.music_title.tr();
-    case ('other_video'):
-      return LocaleKeys.videos_title.tr();
-    case ('live'):
-      return LocaleKeys.live_tv_title.tr();
-    default:
-      return '';
+  bool _filterOptionSelected() {
+    return _movieMediaType ||
+        _episodeMediaType ||
+        _trackMediaType ||
+        _liveMediaType ||
+        _directPlayDecision ||
+        _directStreamDecision ||
+        _transcodeDecision;
   }
-}
 
-String _transcodeDecisionToTitle(String decision) {
-  switch (decision) {
-    case ('all'):
-      return LocaleKeys.all_title.tr();
-    case ('direct play'):
-      return LocaleKeys.direct_play_title.tr();
-    case ('copy'):
-      return LocaleKeys.direct_stream_title.tr();
-    case ('transcode'):
-      return LocaleKeys.transcode_title.tr();
-    default:
-      return '';
+  List<PopupMenuEntry<Object?>> _filterOptions(BuildContext context) {
+    ValueNotifier<bool> movieMediaTypeNotifier = ValueNotifier(_movieMediaType);
+    ValueNotifier<bool> episodeMediaTypeNotifier = ValueNotifier(
+      _episodeMediaType,
+    );
+    ValueNotifier<bool> trackMediaTypeNotifier = ValueNotifier(_trackMediaType);
+    ValueNotifier<bool> liveMediaTypeNotifier = ValueNotifier(_liveMediaType);
+    ValueNotifier<bool> directPlayDecisionNotifier = ValueNotifier(
+      _directPlayDecision,
+    );
+    ValueNotifier<bool> directStreamDecisionNotifier = ValueNotifier(
+      _directStreamDecision,
+    );
+    ValueNotifier<bool> transcodeDecisionNotifier = ValueNotifier(
+      _transcodeDecision,
+    );
+
+    return [
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: movieMediaTypeNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(LocaleKeys.movies_title.tr()),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _movieMediaType,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _movieMediaType = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: movieMediaTypeNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: episodeMediaTypeNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(LocaleKeys.tv_shows_title.tr()),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _episodeMediaType,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _episodeMediaType = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: episodeMediaTypeNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: trackMediaTypeNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(LocaleKeys.music_title.tr()),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _trackMediaType,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _trackMediaType = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: trackMediaTypeNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: liveMediaTypeNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(LocaleKeys.live_tv_title.tr()),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _liveMediaType,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _liveMediaType = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: liveMediaTypeNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+      const PopupMenuDivider(),
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: directPlayDecisionNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(
+              LocaleKeys.direct_play_title.tr(),
+            ),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _directPlayDecision,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _directPlayDecision = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: directPlayDecisionNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: directStreamDecisionNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(
+              LocaleKeys.direct_stream_title.tr(),
+            ),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _directStreamDecision,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _directStreamDecision = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: directStreamDecisionNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: transcodeDecisionNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(
+              LocaleKeys.transcode_title.tr(),
+            ),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _transcodeDecision,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _transcodeDecision = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: transcodeDecisionNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+    ];
+  }
+
+  void _filterChanged({
+    required ValueNotifier<bool> valueNotifier,
+    required bool value,
+  }) {
+    valueNotifier.value = value;
+    _historyBloc.add(
+      HistoryFetched(
+        tautulliId: _tautulliId,
+        userId: _userId,
+        movieMediaType: _movieMediaType,
+        episodeMediaType: _episodeMediaType,
+        trackMediaType: _trackMediaType,
+        liveMediaType: _liveMediaType,
+        directPlayDecision: _directPlayDecision,
+        directStreamDecision: _directStreamDecision,
+        transcodeDecision: _transcodeDecision,
+        freshFetch: true,
+        settingsBloc: _settingsBloc,
+      ),
+    );
   }
 }

@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/network_info/network_info.dart';
-import '../../../../core/types/stream_decision.dart';
 import '../../domain/repositories/history_repository.dart';
 import '../datasources/history_data_source.dart';
 import '../models/history_model.dart';
@@ -32,7 +31,7 @@ class HistoryRepositoryImpl implements HistoryRepository {
     DateTime? after,
     int? sectionId,
     String? mediaType,
-    StreamDecision? transcodeDecision,
+    String? transcodeDecision,
     String? guid,
     String? orderColumn,
     String? orderDir,
