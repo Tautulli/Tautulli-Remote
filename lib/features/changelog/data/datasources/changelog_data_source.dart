@@ -1,6 +1,38 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.12",
+      "date": "June 08, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added the ability to search history",
+        },
+        {
+          "type": "new",
+          "detail": "Added setting to clear Tautulli server image cache",
+          "additional": "This can be found on each server's settings page",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Multiple options can now be selected for each history filter type",
+        },
+        {
+          "type": "improvement",
+          "detail": "Reduced the size of the History appbar action icons",
+        },
+        {
+          "type": "fix",
+          "detail": "Make sure URLs launch to external browser",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix dialog content clipping",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.11",
       "date": "May 31, 2022",
       "changes": [
