@@ -425,12 +425,12 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   // Secret
   @override
   Future<bool> getSecret() async {
-    return Future.value(localStorage.getBool(refreshRate) ?? false);
+    return Future.value(localStorage.getBool(secret) ?? false);
   }
 
   @override
   Future<bool> setSecret(bool value) {
-    return localStorage.setBool(refreshRate, value);
+    return localStorage.setBool(secret, value);
   }
 
   // Server Timeout
