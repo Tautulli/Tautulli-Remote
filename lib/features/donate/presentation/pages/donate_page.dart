@@ -326,6 +326,7 @@ class _DonateViewState extends State<DonateView> {
                                   GestureDetector(
                                     onTap: () {
                                       launchUrlString(
+                                        mode: LaunchMode.externalApplication,
                                         'https://tautulli.com/tautulli_remote_ios_terms_and_conditions',
                                       );
                                     },
@@ -344,6 +345,7 @@ class _DonateViewState extends State<DonateView> {
                                   GestureDetector(
                                     onTap: () {
                                       launchUrlString(
+                                        mode: LaunchMode.externalApplication,
                                         'https://tautulli.com/tautulli_remote_privacy',
                                       );
                                     },

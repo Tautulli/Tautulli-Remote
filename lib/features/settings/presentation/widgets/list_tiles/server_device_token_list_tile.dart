@@ -37,6 +37,7 @@ class ServerDeviceTokenListTile extends StatelessWidget {
               label: LocaleKeys.learn_more_button.tr(),
               onPressed: () async {
                 await launchUrlString(
+                  mode: LaunchMode.externalApplication,
                   'https://github.com/Tautulli/Tautulli-Remote/wiki/Settings#device_tokens',
                 );
               },

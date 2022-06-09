@@ -73,6 +73,7 @@ class SettingsAlertBanner extends StatelessWidget {
                       child: const Text(LocaleKeys.learn_more_button).tr(),
                       onPressed: () async {
                         await launchUrlString(
+                          mode: LaunchMode.externalApplication,
                           'https://github.com/Tautulli/Tautulli-Remote/wiki/OneSignal#registering',
                         );
                       },

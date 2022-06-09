@@ -81,6 +81,7 @@ class _LoggingViewState extends State<LoggingView> {
                       label: LocaleKeys.how_to_access_logs_button.tr(),
                       onPressed: () async {
                         await launchUrlString(
+                          mode: LaunchMode.externalApplication,
                           'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#logs',
                         );
                       },

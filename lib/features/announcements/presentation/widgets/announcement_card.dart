@@ -28,7 +28,10 @@ class AnnouncementCard extends StatelessWidget {
         ),
         onTap: isNotBlank(announcement.actionUrl)
             ? () async {
-                launchUrlString(announcement.actionUrl!);
+                launchUrlString(
+                  mode: LaunchMode.externalApplication,
+                  announcement.actionUrl!,
+                );
               }
             : null,
         child: Padding(

@@ -25,7 +25,10 @@ class SettingsNotLoaded extends StatelessWidget {
             message: LocaleKeys.settings_load_failed_message.tr(),
             action: ElevatedButton(
               onPressed: () async {
-                await launchUrlString('https://tautulli.com/#support');
+                await launchUrlString(
+                  mode: LaunchMode.externalApplication,
+                  'https://tautulli.com/#support',
+                );
               },
               child: const Text(LocaleKeys.contact_support_button).tr(),
             ),
@@ -35,7 +38,10 @@ class SettingsNotLoaded extends StatelessWidget {
           message: LocaleKeys.settings_load_error_message.tr(),
           action: ElevatedButton(
             onPressed: () async {
-              await launchUrlString('https://tautulli.com/#support');
+              await launchUrlString(
+                mode: LaunchMode.externalApplication,
+                'https://tautulli.com/#support',
+              );
             },
             child: const Text(LocaleKeys.contact_support_button).tr(),
           ),
