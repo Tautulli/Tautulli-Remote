@@ -44,6 +44,11 @@ import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_status_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_sub_bloc.dart';
+import 'features/recently_added/data/datasources/recently_added_data_source.dart';
+import 'features/recently_added/data/repositories/recently_added_repository_impl.dart';
+import 'features/recently_added/domain/repositories/recently_added_repository.dart';
+import 'features/recently_added/domain/usecases/recently_added.dart';
+import 'features/recently_added/presentation/bloc/recently_added_bloc.dart';
 import 'features/settings/data/datasources/settings_data_source.dart';
 import 'features/settings/data/repositories/settings_repository_impl.dart';
 import 'features/settings/domain/repositories/settings_repository.dart';
@@ -81,6 +86,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.GetHistory>(
     () => tautulli_api.GetHistoryImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetRecentlyAdded>(
+    () => tautulli_api.GetRecentlyAddedImpl(sl()),
   );
   sl.registerLazySingleton<tautulli_api.GetServerInfo>(
     () => tautulli_api.GetServerInfoImpl(sl()),
@@ -335,6 +343,38 @@ Future<void> init() async {
       client: sl(),
       networkInfo: sl(),
       settings: sl(),
+    ),
+  );
+
+  //! Features - Recently Added
+  // Bloc
+  sl.registerFactory(
+    () => RecentlyAddedBloc(
+      recentlyAdded: sl(),
+      imageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => RecentlyAdded(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<RecentlyAddedRepository>(
+    () => RecentlyAddedRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<RecentlyAddedDataSource>(
+    () => RecentlyAddedDataSourceImpl(
+      getRecentlyAddedApi: sl(),
     ),
   );
 

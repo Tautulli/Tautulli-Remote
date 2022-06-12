@@ -155,14 +155,22 @@ class _AppDrawer extends StatelessWidget {
                               }
                             },
                           ),
-                          // DrawerTile(
-                          //   selected: route?.settings.name == '/recent',
-                          //   leading: const FaIcon(
-                          //     FontAwesomeIcons.clock,
-                          //   ),
-                          //   title: const Text('Recently Added'),
-                          //   onTap: () {},
-                          // ),
+                          DrawerTile(
+                            selected: route?.settings.name == '/recent',
+                            leading: const FaIcon(
+                              FontAwesomeIcons.clock,
+                            ),
+                            title: const Text('Recently Added'),
+                            onTap: () {
+                              if (route?.settings.name != '/recent') {
+                                Navigator.of(context).pushReplacementNamed(
+                                  '/recent',
+                                );
+                              } else {
+                                innerDrawerKey.currentState!.close();
+                              }
+                            },
+                          ),
                           // DrawerTile(
                           //   selected: route?.settings.name == '/libraries',
                           //   leading: const FaIcon(
