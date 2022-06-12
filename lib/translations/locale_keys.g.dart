@@ -105,6 +105,7 @@ abstract class  LocaleKeys {
   static const faster_title = 'faster_title';
   static const feature_not_yet_available_snackbar_message = 'feature_not_yet_available_snackbar_message';
   static const filter_history_title = 'filter_history_title';
+  static const filter_recently_added_title = 'filter_recently_added_title';
   static const global_stats_title = 'global_stats_title';
   static const go_to_settings_button = 'go_to_settings_button';
   static const header_key_title = 'header_key_title';
@@ -183,6 +184,8 @@ abstract class  LocaleKeys {
   static const published_title = 'published_title';
   static const quit_button = 'quit_button';
   static const reddit_title = 'reddit_title';
+  static const recently_added_empty_message = 'recently_added_empty_message';
+  static const recently_added_title = 'recently_added_title';
   static const register_a_tautulli_server_button = 'register_a_tautulli_server_button';
   static const register_server_button = 'register_server_button';
   static const request_a_new_language_title = 'request_a_new_language_title';

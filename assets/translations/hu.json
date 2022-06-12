@@ -63,6 +63,7 @@
     "primary_connection_address_hint": "Add meg az elsődleges kapcsolati címet",
     "primary_connection_address_title": "Elsődleges kapcsolat címe",
     "qr_code_scan_error_snackbar_message": "Hiba a QR kód szkennelés közben",
+    "recently_added_title": "Legutóbb hozzáadott",
     "save_button": "MENTÉS",
     "scan_qr_code_button": "QR kód szkennelése",
     "secondary_connection_address_title": "Másodlagos kapcsolat címe",

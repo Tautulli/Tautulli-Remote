@@ -83,6 +83,7 @@
     "primary_connection_address_hint": "Inserisci l'indirizzo di connessione principale",
     "primary_connection_address_title": "Indirizzo di Connessione Principale",
     "qr_code_scan_error_snackbar_message": "Errore nella scansione del codice QR",
+    "recently_added_title": "Aggiunti di recente",
     "register_a_tautulli_server_button": "Registra un Server Tautulli",
     "save_button": "SALVA",
     "scan_qr_code_button": "Scansiona Codice QR",
