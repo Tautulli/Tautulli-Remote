@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:tautulli_remote/translations/locale_keys.g.dart';
 
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/types/media_type.dart';
@@ -38,7 +40,7 @@ class RecentlyAddedCardDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Added ${TimeHelper.moment(recentlyAdded.addedAt)}', //TODO
+              '${LocaleKeys.added_title.tr()} ${TimeHelper.moment(recentlyAdded.addedAt)}',
               overflow: TextOverflow.ellipsis,
             ),
             MediaTypeIcon(mediaType: recentlyAdded.mediaType),
@@ -118,7 +120,7 @@ class _SubtitleRow extends StatelessWidget {
         text = recentlyAdded.parentTitle;
         break;
       case (MediaType.show):
-        text = '${recentlyAdded.childCount} seasons'; //TODO
+        text = '${recentlyAdded.childCount} ${LocaleKeys.seasons.tr()}';
         break;
       default:
         text = null;

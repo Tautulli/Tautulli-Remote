@@ -8,6 +8,7 @@ abstract class  LocaleKeys {
   static const active_connection_title = 'active_connection_title';
   static const activity_refresh_rate_title = 'activity_refresh_rate_title';
   static const add_custom_http_header_button = 'add_custom_http_header_button';
+  static const added_title = 'added_title';
   static const advanced_title = 'advanced_title';
   static const all_title = 'all_title';
   static const all_time_title = 'all_time_title';
@@ -192,6 +193,7 @@ abstract class  LocaleKeys {
   static const save_button = 'save_button';
   static const scan_qr_code_button = 'scan_qr_code_button';
   static const search_history_title = 'search_history_title';
+  static const seasons = 'seasons';
   static const sec = 'sec';
   static const secs = 'secs';
   static const secondary_connection_address_explanation_one = 'secondary_connection_address_explanation_one';
