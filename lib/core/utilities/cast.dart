@@ -96,6 +96,7 @@ class Cast {
         return (value as String?);
       case bool:
         return (value as bool) ? "1" : "0";
+      case MediaType:
       case StreamDecision:
       case ImageFallback:
         return value.apiValue();
