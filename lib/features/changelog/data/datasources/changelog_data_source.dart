@@ -1,6 +1,33 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.13",
+      "date": "June 12, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added the Recently Added page",
+        },
+        {
+          "type": "improvement",
+          "detail": "Make sure all URLs launch in external application",
+        },
+        {
+          "type": "fix",
+          "detail": "Notification decryption was not working in the alpha",
+        },
+        {
+          "type": "fix",
+          "detail": "Activity Refresh Rate would cause settings not to load",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "History filter items would not reset when active server was changed",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.12",
       "date": "June 08, 2022",
       "changes": [
