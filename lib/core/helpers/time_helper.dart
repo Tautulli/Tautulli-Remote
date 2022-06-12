@@ -80,12 +80,12 @@ class TimeHelper {
     return DateFormat(parsedTimeFormat).format(dateTime).trim();
   }
 
-  static String moment(int? addedAt) {
-    if (addedAt == null) return 'Unknown';
+  static String moment(DateTime? dateTime) {
+    if (dateTime == null) return 'Unknown';
 
     Moment moment = Moment.now();
 
-    return moment.from(DateTime.fromMillisecondsSinceEpoch(addedAt * 1000));
+    return moment.from(dateTime);
   }
 
   static String simple(Duration duration) {

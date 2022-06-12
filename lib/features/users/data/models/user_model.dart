@@ -37,8 +37,8 @@ class UserModel extends Equatable {
   final bool? isRestricted;
   @JsonKey(name: 'keep_history', fromJson: Cast.castToBool)
   final bool? keepHistory;
-  @JsonKey(name: 'last_seen', fromJson: Cast.castToInt)
-  final int? lastSeen;
+  @JsonKey(name: 'last_seen', fromJson: dateTimeFromEpochSeconds)
+  final DateTime? lastSeen;
   @JsonKey(name: 'row_id', fromJson: Cast.castToInt)
   final int? rowId;
   @JsonKey(name: 'shared_libraries', fromJson: sharedLibrariesFromJson)
@@ -78,6 +78,11 @@ class UserModel extends Equatable {
       _$UserModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
+
+  static DateTime? dateTimeFromEpochSeconds(int? secondsSinceEpoch) {
+    if (secondsSinceEpoch == null) return null;
+    return DateTime.fromMillisecondsSinceEpoch(secondsSinceEpoch * 1000);
+  }
 
   static List<int>? sharedLibrariesFromJson(List? libraries) {
     if (libraries == null || libraries.isEmpty) return null;

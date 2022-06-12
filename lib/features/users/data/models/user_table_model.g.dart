@@ -21,7 +21,8 @@ UserTableModel _$UserTableModelFromJson(Map<String, dynamic> json) =>
       isActive: Cast.castToBool(json['is_active']),
       keepHistory: Cast.castToBool(json['keep_history']),
       lastPlayed: Cast.castToString(json['last_played']),
-      lastSeen: Cast.castToInt(json['last_seen']),
+      lastSeen:
+          UserTableModel.dateTimeFromEpochSeconds(json['last_seen'] as int?),
       live: Cast.castToBool(json['live']),
       mediaIndex: Cast.castToInt(json['media_index']),
       mediaType: Cast.castStringToMediaType(json['media_type'] as String?),
@@ -54,7 +55,7 @@ Map<String, dynamic> _$UserTableModelToJson(UserTableModel instance) =>
       'is_active': instance.isActive,
       'keep_history': instance.keepHistory,
       'last_played': instance.lastPlayed,
-      'last_seen': instance.lastSeen,
+      'last_seen': instance.lastSeen?.toIso8601String(),
       'live': instance.live,
       'media_index': instance.mediaIndex,
       'media_type': _$MediaTypeEnumMap[instance.mediaType],

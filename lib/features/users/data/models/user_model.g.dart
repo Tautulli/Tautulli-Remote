@@ -22,7 +22,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       isHomeUser: Cast.castToBool(json['is_home_user']),
       isRestricted: Cast.castToBool(json['is_restricted']),
       keepHistory: Cast.castToBool(json['keep_history']),
-      lastSeen: Cast.castToInt(json['last_seen']),
+      lastSeen: UserModel.dateTimeFromEpochSeconds(json['last_seen'] as int?),
       rowId: Cast.castToInt(json['row_id']),
       sharedLibraries:
           UserModel.sharedLibrariesFromJson(json['shared_libraries'] as List?),
@@ -47,7 +47,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'is_home_user': instance.isHomeUser,
       'is_restricted': instance.isRestricted,
       'keep_history': instance.keepHistory,
-      'last_seen': instance.lastSeen,
+      'last_seen': instance.lastSeen?.toIso8601String(),
       'row_id': instance.rowId,
       'shared_libraries': instance.sharedLibraries,
       'user_thumb': instance.userThumb,

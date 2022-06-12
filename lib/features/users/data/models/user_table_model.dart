@@ -30,8 +30,8 @@ class UserTableModel extends Equatable {
   final bool? keepHistory;
   @JsonKey(name: 'last_played', fromJson: Cast.castToString)
   final String? lastPlayed;
-  @JsonKey(name: 'last_seen', fromJson: Cast.castToInt)
-  final int? lastSeen;
+  @JsonKey(name: 'last_seen', fromJson: dateTimeFromEpochSeconds)
+  final DateTime? lastSeen;
   @JsonKey(name: 'live', fromJson: Cast.castToBool)
   final bool? live;
   @JsonKey(name: 'media_index', fromJson: Cast.castToInt)
@@ -107,6 +107,11 @@ class UserTableModel extends Equatable {
       _$UserTableModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserTableModelToJson(this);
+
+  static DateTime? dateTimeFromEpochSeconds(int? secondsSinceEpoch) {
+    if (secondsSinceEpoch == null) return null;
+    return DateTime.fromMillisecondsSinceEpoch(secondsSinceEpoch * 1000);
+  }
 
   static List<int>? sharedLibrariesFromJson(String? libraries) {
     if (libraries == null) return null;
