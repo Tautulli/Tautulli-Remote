@@ -125,6 +125,7 @@ abstract class  LocaleKeys {
   static const language_title = 'language_title';
   static const last_streamed_title = 'last_streamed_title';
   static const learn_more_button = 'learn_more_button';
+  static const live_title = 'live_title';
   static const live_tv_title = 'live_tv_title';
   static const location_lookup_failed_message = 'location_lookup_failed_message';
   static const location_title = 'location_title';
