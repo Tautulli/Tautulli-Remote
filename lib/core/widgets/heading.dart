@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class Heading extends StatelessWidget {
   final String text;
+  final Color? color;
 
   const Heading({
     super.key,
     required this.text,
+    this.color,
   });
 
   @override
@@ -15,7 +17,7 @@ class Heading extends StatelessWidget {
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 15,
-        color: Theme.of(context).colorScheme.secondary,
+        color: color ?? Theme.of(context).colorScheme.secondary,
       ),
     );
   }
