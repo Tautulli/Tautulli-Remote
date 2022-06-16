@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -5,6 +6,7 @@ import '../../../../core/types/tautulli_types.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
 import '../../../../dependency_injection.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/graphs_bloc.dart';
 import '../widgets/media_type_graphs_tab.dart';
@@ -18,15 +20,8 @@ class GraphsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => di.sl<GraphsBloc>(),
-        ),
-        // BlocProvider(
-        //   create: (context) => di.sl<StreamTypeGraphsBloc>(),
-        // ),
-      ],
+    return BlocProvider(
+      create: (context) => di.sl<GraphsBloc>(),
       child: const GraphsView(),
     );
   }
@@ -92,15 +87,15 @@ class _GraphsViewState extends State<GraphsView> {
         }
       },
       child: ScaffoldWithInnerDrawer(
-        title: Text('Graphs'),
+        title: const Text(LocaleKeys.graphs_title).tr(),
         body: PageBody(
           child: DefaultTabController(
             length: 3,
             child: Column(
               children: [
-                Expanded(
+                const Expanded(
                   child: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     children: [
                       MediaTypeGraphsTab(),
                       StreamTypeGraphsTab(),
@@ -111,13 +106,13 @@ class _GraphsViewState extends State<GraphsView> {
                 TabBar(
                   tabs: [
                     Tab(
-                      child: Text('Media Type'),
+                      child: const Text(LocaleKeys.media_type_title).tr(),
                     ),
                     Tab(
-                      child: Text('Stream Type'),
+                      child: const Text(LocaleKeys.stream_type_title).tr(),
                     ),
                     Tab(
-                      child: Text('Play Totals'),
+                      child: const Text(LocaleKeys.play_totals_title).tr(),
                     ),
                   ],
                 ),

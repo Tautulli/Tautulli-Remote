@@ -109,6 +109,7 @@ abstract class  LocaleKeys {
   static const filter_recently_added_title = 'filter_recently_added_title';
   static const global_stats_title = 'global_stats_title';
   static const go_to_settings_button = 'go_to_settings_button';
+  static const graphs_title = 'graphs_title';
   static const header_key_title = 'header_key_title';
   static const header_value_title = 'header_value_title';
   static const help_and_support_title = 'help_and_support_title';
@@ -138,6 +139,7 @@ abstract class  LocaleKeys {
   static const logs_exported_snackbar_message = 'logs_exported_snackbar_message';
   static const mask_senstivie_info_subtitle = 'mask_senstivie_info_subtitle';
   static const mask_senstivie_info_title = 'mask_senstivie_info_title';
+  static const media_type_title = 'media_type_title';
   static const min = 'min';
   static const mins = 'mins';
   static const month = 'month';
@@ -173,6 +175,7 @@ abstract class  LocaleKeys {
   static const other_title = 'other_title';
   static const paused_title = 'paused_title';
   static const platform_title = 'platform_title';
+  static const play_totals_title = 'play_totals_title';
   static const player_stats_empty_message = 'player_stats_empty_message';
   static const player_title = 'player_title';
   static const player_stats_title = 'player_stats_title';
@@ -230,6 +233,7 @@ abstract class  LocaleKeys {
   static const status_title = 'status_title';
   static const stopped_title = 'stopped_title';
   static const step_title = 'step_title';
+  static const stream_type_title = 'stream_type_title';
   static const streamed_title = 'streamed_title';
   static const tautulli_remote_logs_title = 'tautulli_remote_logs_title';
   static const terms_of_use_title = 'terms_of_use_title';
@@ -237,6 +241,7 @@ abstract class  LocaleKeys {
   static const transcode_title = 'transcode_title';
   static const translate_tautulli_remote_title = 'translate_tautulli_remote_title';
   static const trust_button = 'trust_button';
+  static const tv_title = 'tv_title';
   static const tv_shows_title = 'tv_shows_title';
   static const user_title = 'user_title';
   static const username_title = 'username_title';
