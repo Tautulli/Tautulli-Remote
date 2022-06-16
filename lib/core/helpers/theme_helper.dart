@@ -28,6 +28,7 @@ class ThemeHelper {
         margin: EdgeInsets.all(0),
         elevation: 0,
         color: TautulliColorPalette.gunmetal,
+        clipBehavior: Clip.antiAlias,
       ),
       checkboxTheme: CheckboxThemeData(
         fillColor: MaterialStateProperty.resolveWith(
