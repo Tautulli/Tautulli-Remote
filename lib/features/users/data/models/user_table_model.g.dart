@@ -83,6 +83,7 @@ const _$MediaTypeEnumMap = {
   MediaType.collection: 'collection',
   MediaType.episode: 'episode',
   MediaType.movie: 'movie',
+  MediaType.otherVideo: 'otherVideo',
   MediaType.photo: 'photo',
   MediaType.playlist: 'playlist',
   MediaType.season: 'season',
