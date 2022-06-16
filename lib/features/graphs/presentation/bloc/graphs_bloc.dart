@@ -124,7 +124,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
     event.failureOrGraph.fold(
       (failure) {
         logging.error(
-          'Graphs :: Failed to fetch Plays By Stream Type data [$failure]',
+          'Graphs :: Failed to fetch ${event.graphType.graphEndpoint()} data [$failure]',
         );
 
         graphsCache[event.graphType] = graphsCache[event.graphType]!.copyWith(
