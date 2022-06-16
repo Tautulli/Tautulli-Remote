@@ -96,6 +96,7 @@ class Cast {
         return (value as String?);
       case bool:
         return (value as bool) ? "1" : "0";
+      case GraphYAxis:
       case MediaType:
       case StreamDecision:
       case ImageFallback:
@@ -106,6 +107,33 @@ class Cast {
   }
 
   // Tautulli Types
+
+  /// Casts `String` to a `GraphSeriesType`.
+  ///
+  /// Returns `GraphSeriesType.unknown` if no match is found.
+  static GraphSeriesType castStringToGraphSeriesType(String value) {
+    switch (value.toLowerCase()) {
+      case ('tv'):
+        return GraphSeriesType.tv;
+      case ('movies'):
+        return GraphSeriesType.movies;
+      case ('music'):
+        return GraphSeriesType.music;
+      case ('live tv'):
+        return GraphSeriesType.live;
+      case ('direct play'):
+        return GraphSeriesType.directPlay;
+      case ('direct stream'):
+        return GraphSeriesType.directStream;
+      case ('transcode'):
+        return GraphSeriesType.transcode;
+      default:
+        di.sl<Logging>().warning(
+              'Utilities :: Failed to cast $value to GraphSeriesType',
+            );
+        return GraphSeriesType.unknown;
+    }
+  }
 
   /// Casts `String` to a `Location`.
   ///

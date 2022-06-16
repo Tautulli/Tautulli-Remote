@@ -1,3 +1,5 @@
+export 'graph_series_type.dart';
+export 'graph_y_axis.dart';
 export 'image_fallback.dart';
 export 'loading_state.dart';
 export 'location.dart';
