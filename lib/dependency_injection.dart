@@ -22,6 +22,11 @@ import 'features/geo_ip/data/repositories/geo_ip_repository_impl.dart';
 import 'features/geo_ip/domain/repositories/geo_ip_repository.dart';
 import 'features/geo_ip/domain/usecases/geo_ip.dart';
 import 'features/geo_ip/presentation/bloc/geo_ip_bloc.dart';
+import 'features/graphs/data/datasources/graphs_data_source.dart';
+import 'features/graphs/data/repositories/graphs_repository_impl.dart';
+import 'features/graphs/domain/repositories/graphs_repository.dart';
+import 'features/graphs/domain/usecases/graphs.dart';
+import 'features/graphs/presentation/bloc/graphs_bloc.dart';
 import 'features/history/data/datasources/history_data_source.dart';
 import 'features/history/data/repositories/history_repository_impl.dart';
 import 'features/history/domain/repositories/history_repository.dart';
@@ -87,6 +92,33 @@ Future<void> init() async {
   sl.registerLazySingleton<tautulli_api.GetHistory>(
     () => tautulli_api.GetHistoryImpl(sl()),
   );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByDate>(
+    () => tautulli_api.GetPlaysByDateImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByDayOfWeek>(
+    () => tautulli_api.GetPlaysByDayOfWeekImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByHourOfDay>(
+    () => tautulli_api.GetPlaysByHourOfDayImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysBySourceResolution>(
+    () => tautulli_api.GetPlaysBySourceResolutionImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByStreamResolution>(
+    () => tautulli_api.GetPlaysByStreamResolutionImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByStreamType>(
+    () => tautulli_api.GetPlaysByStreamTypeImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByTop10Platforms>(
+    () => tautulli_api.GetPlaysByTop10PlatformsImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysByTop10Users>(
+    () => tautulli_api.GetPlaysByTop10UsersImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetPlaysPerMonth>(
+    () => tautulli_api.GetPlaysPerMonthImpl(sl()),
+  );
   sl.registerLazySingleton<tautulli_api.GetRecentlyAdded>(
     () => tautulli_api.GetRecentlyAddedImpl(sl()),
   );
@@ -95,6 +127,12 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.GetSettings>(
     () => tautulli_api.GetSettingsImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetStreamTypeByTop10Platforms>(
+    () => tautulli_api.GetStreamTypeByTop10PlatformsImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetStreamTypeByTop10Users>(
+    () => tautulli_api.GetStreamTypeByTop10UsersImpl(sl()),
   );
   sl.registerLazySingleton<tautulli_api.GetUserPlayerStats>(
     () => tautulli_api.GetUserPlayerStatsImpl(sl()),
@@ -214,6 +252,38 @@ Future<void> init() async {
   sl.registerLazySingleton<GeoIpDataSource>(
     () => GeoIpDataSourceImpl(
       getGeoIpLookup: sl(),
+    ),
+  );
+
+  //! Features - Graphs
+  // Bloc
+  sl.registerFactory(
+    () => GraphsBloc(
+      graphs: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => Graphs(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<GraphsRepository>(
+    () => GraphsRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<GraphsDataSource>(
+    () => GraphsDataSourceImpl(
+      getPlaysByDateApi: sl(),
+      getPlaysByStreamTypeApi: sl(),
     ),
   );
 

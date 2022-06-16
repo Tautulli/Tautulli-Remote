@@ -203,14 +203,22 @@ class _AppDrawer extends StatelessWidget {
                           //   title: const Text('Statistics'),
                           //   onTap: () {},
                           // ),
-                          // DrawerTile(
-                          //   selected: route?.settings.name == '/graphs',
-                          //   leading: const FaIcon(
-                          //     FontAwesomeIcons.chartColumn,
-                          //   ),
-                          //   title: const Text('Graphs'),
-                          //   onTap: () {},
-                          // ),
+                          DrawerTile(
+                            selected: route?.settings.name == '/graphs',
+                            leading: const FaIcon(
+                              FontAwesomeIcons.chartColumn,
+                            ),
+                            title: const Text('Graphs'),
+                            onTap: () {
+                              if (route?.settings.name != '/graphs') {
+                                Navigator.of(context).pushReplacementNamed(
+                                  '/graphs',
+                                );
+                              } else {
+                                innerDrawerKey.currentState!.close();
+                              }
+                            },
+                          ),
                         ],
                       ),
                     ),
