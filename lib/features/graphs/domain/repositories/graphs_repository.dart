@@ -8,6 +8,7 @@ abstract class GraphsRepository {
   Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByDate({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   });
@@ -15,6 +16,7 @@ abstract class GraphsRepository {
   Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByStreamType({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   });

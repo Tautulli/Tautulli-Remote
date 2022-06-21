@@ -7,6 +7,7 @@ abstract class GetPlaysByDayOfWeek {
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   });
@@ -20,11 +21,15 @@ class GetPlaysByDayOfWeekImpl implements GetPlaysByDayOfWeek {
   @override
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
+    required int timeRange,
     required GraphYAxis yAxis,
     int? userId,
     bool? grouping,
   }) {
-    Map<String, dynamic> params = {'y_axis': yAxis};
+    Map<String, dynamic> params = {
+      'y_axis': yAxis,
+      'time_range': timeRange,
+    };
     if (userId != null) params['user_id'] = userId;
     if (grouping != null) params['grouping'] = grouping;
 

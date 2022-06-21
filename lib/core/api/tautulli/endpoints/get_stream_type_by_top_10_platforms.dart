@@ -7,6 +7,7 @@ abstract class GetStreamTypeByTop10Platforms {
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   });
@@ -22,10 +23,14 @@ class GetStreamTypeByTop10PlatformsImpl
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   }) {
-    Map<String, dynamic> params = {'y_axis': yAxis};
+    Map<String, dynamic> params = {
+      'y_axis': yAxis,
+      'time_range': timeRange,
+    };
     if (userId != null) params['user_id'] = userId;
     if (grouping != null) params['grouping'] = grouping;
 

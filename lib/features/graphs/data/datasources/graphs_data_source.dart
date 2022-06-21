@@ -8,6 +8,7 @@ abstract class GraphsDataSource {
   Future<Tuple2<GraphDataModel, bool>> getPlaysByDate({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   });
@@ -15,6 +16,7 @@ abstract class GraphsDataSource {
   Future<Tuple2<GraphDataModel, bool>> getPlaysByStreamType({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   });
@@ -33,12 +35,14 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   Future<Tuple2<GraphDataModel, bool>> getPlaysByDate({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   }) async {
     final result = await getPlaysByDateApi(
       tautulliId: tautulliId,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
     );
@@ -53,12 +57,14 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   Future<Tuple2<GraphDataModel, bool>> getPlaysByStreamType({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   }) async {
     final result = await getPlaysByStreamTypeApi(
       tautulliId: tautulliId,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
     );

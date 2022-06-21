@@ -21,6 +21,7 @@ class GraphsRepositoryImpl implements GraphsRepository {
   Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByDate({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   }) async {
@@ -29,6 +30,7 @@ class GraphsRepositoryImpl implements GraphsRepository {
         final result = await dataSource.getPlaysByDate(
           tautulliId: tautulliId,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
         );
@@ -47,6 +49,7 @@ class GraphsRepositoryImpl implements GraphsRepository {
   Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByStreamType({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   }) async {
@@ -55,6 +58,7 @@ class GraphsRepositoryImpl implements GraphsRepository {
         final result = await dataSource.getPlaysByStreamType(
           tautulliId: tautulliId,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
         );

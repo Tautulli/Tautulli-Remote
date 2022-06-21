@@ -14,12 +14,14 @@ class Graphs {
   Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByDate({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   }) async {
     return await repository.getPlaysByDate(
       tautulliId: tautulliId,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
     );
@@ -29,12 +31,14 @@ class Graphs {
   Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByStreamType({
     required String tautulliId,
     required GraphYAxis yAxis,
+    required int timeRange,
     int? userId,
     bool? grouping,
   }) async {
     return await repository.getPlaysByStreamType(
       tautulliId: tautulliId,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
     );
