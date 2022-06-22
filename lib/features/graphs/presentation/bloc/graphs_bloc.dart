@@ -67,13 +67,17 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
 
       emit(
         state.copyWith(
-          graphs: graphsCache,
+          yAxis: yAxisCache,
+          timeRange: timeRangeCache,
+          graphs: Map.of(graphsCache),
         ),
       );
     } else if (tautulliIdCache != null && serverChange) {
       emit(
         state.copyWith(
-          graphs: defaultGraphs,
+          yAxis: yAxisCache,
+          timeRange: timeRangeCache,
+          graphs: Map.of(defaultGraphs),
         ),
       );
       graphsCache = defaultGraphs;
