@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tautulli_remote/core/types/graph_type.dart';
-import 'package:tautulli_remote/core/types/tautulli_types.dart';
-import 'package:tautulli_remote/features/graphs/data/models/graph_model.dart';
-import 'package:tautulli_remote/features/graphs/presentation/widgets/graph_card_legend.dart';
 
-import '../../../../core/error/failure.dart';
 import '../../../../core/types/bloc_status.dart';
-import '../../data/models/graph_data_model.dart';
+import '../../../../core/types/graph_type.dart';
+import '../../../../core/types/tautulli_types.dart';
+import '../../data/models/graph_model.dart';
+import 'graph_card_legend.dart';
 import 'line_chart_graph.dart';
 
 class GraphCard extends StatelessWidget {
@@ -14,22 +12,11 @@ class GraphCard extends StatelessWidget {
   final GraphType graphType;
   final GraphModel graph;
 
-  // final BlocStatus status;
-  // final GraphDataModel? graphData;
-  // final Failure? failure;
-  // final String? message;
-  // final String? suggestion;
-
   const GraphCard({
     super.key,
     required this.yAxis,
     required this.graphType,
     required this.graph,
-    // required this.status,
-    // this.graphData,
-    // this.failure,
-    // this.message,
-    // this.suggestion,
   });
 
   @override
@@ -44,9 +31,16 @@ class GraphCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (graph.failureMessage != null) Text(graph.failureMessage!),
+                  if (graph.failureMessage != null)
+                    Text(
+                      graph.failureMessage!,
+                      textAlign: TextAlign.center,
+                    ),
                   if (graph.failureSuggestion != null)
-                    Text(graph.failureSuggestion!),
+                    Text(
+                      graph.failureSuggestion!,
+                      textAlign: TextAlign.center,
+                    ),
                 ],
               ),
             );
