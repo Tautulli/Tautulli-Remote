@@ -20,6 +20,8 @@ class CodegenLoader extends AssetLoader{
   "bugs_and_feature_requests_title": "Incidències/Sol·licitud de funcionalitats",
   "cancel_button": "CANCEL·LA",
   "close_button": "TANCA",
+  "custom_time_range_dialog_content": "Es recomana no superar els 90 dies per a la majoria de mides de pantalla.",
+  "custom_time_range_title": "Interval de temps personalitzat",
   "custom_title": "Personalitzat",
   "days": "dies",
   "days_title": "Dies",
@@ -40,6 +42,8 @@ class CodegenLoader extends AssetLoader{
   "donate_tip_jar_title": "Propina",
   "donate_title": "Dóna",
   "duration_title": "Durada",
+  "enter_an_integer_message": "Introduïu un nombre enter",
+  "enter_time_range_in_days_message": "Introduïu un interval de temps en dies",
   "go_to_settings_button": "VÉS A LA CONFIGURACIÓ",
   "graphs_title": "Gràfics",
   "help_and_support_title": "Ajuda i assistència",
@@ -67,13 +71,15 @@ class CodegenLoader extends AssetLoader{
   "settings_title": "Configuració",
   "stream_type_title": "Tipus de transmissió",
   "tautulli_remote_logs_title": "Registres de Tautulli Remote",
+  "time_range_title": "Interval de temps",
   "transcode_title": "Transcodificació",
   "tv_shows_title": "Programes de televisió",
   "tv_title": "TV",
   "users_title": "Usuaris",
   "videos_title": "Vídeos",
   "view_media_title": "Visualitza el suport multimèdia",
-  "view_user_title": "Visualitza l'usuari"
+  "view_user_title": "Visualitza l'usuari",
+  "y_axis_title": "Eix Y"
 };
 static const Map<String,dynamic> cs = {
   "about_title": "O aplikaci",
@@ -101,6 +107,8 @@ static const Map<String,dynamic> da = {
   "announcements_title": "Meddelelser",
   "cancel_button": "ANNULLER",
   "close_button": "LUK",
+  "custom_time_range_dialog_content": "Det anbefales, at du ikke overskrider 90 dage for de fleste skærmstørrelser.",
+  "custom_time_range_title": "Tilpasset tidsinterval",
   "custom_title": "Tilpasset",
   "days_title": "Dage",
   "direct_play_title": "Direkte afspilning",
@@ -119,6 +127,8 @@ static const Map<String,dynamic> da = {
   "donate_tip_jar_title": "Tip Krukke",
   "donate_title": "Doner",
   "duration_title": "Varighed",
+  "enter_an_integer_message": "Indtast venligst et heltal",
+  "enter_time_range_in_days_message": "Angive et tidsinterval i dage",
   "go_to_settings_button": "GÅ TIL INDSTILLINGER",
   "graphs_title": "Grafer",
   "history_title": "Historik",
@@ -130,9 +140,11 @@ static const Map<String,dynamic> da = {
   "recently_added_title": "Nylig tilføjet",
   "save_button": "GEM",
   "settings_title": "Indstillinger",
+  "time_range_title": "Tidsinterval",
   "users_title": "Brugere",
   "view_media_title": "Se medie",
-  "view_user_title": "Se bruger"
+  "view_user_title": "Se bruger",
+  "y_axis_title": "Y Akse"
 };
 static const Map<String,dynamic> de = {
   "about_legalese": "Lizenziert unter der GNU General Public License v3.0",
@@ -164,6 +176,8 @@ static const Map<String,dynamic> de = {
   "contact_support_button": "KONTAKT ZUM SUPPORT",
   "copied_to_clipboard_snackbar_message": "In die Zwischenablage kopiert",
   "custom_http_headers_title": "Benutzerdefinierte HTTP Headers",
+  "custom_time_range_dialog_content": "Es wird empfohlen, dass Sie bei den meisten Bildschirmgrößen 90 Tage nicht überschreiten.",
+  "custom_time_range_title": "Benutzerdefinierter Zeitbereich",
   "custom_title": "Benutzerdefinierten",
   "data_dump_subtitle": "App-Status und Einstellungen",
   "days": "Tage",
@@ -193,6 +207,8 @@ static const Map<String,dynamic> de = {
   "donate_tip_jar_title": "Tipp-Glas",
   "donate_title": "Spenden",
   "duration_title": "Dauer",
+  "enter_an_integer_message": "Bitte geben Sie eine ganze Zahl ein",
+  "enter_time_range_in_days_message": "Geben Sie einen Zeitbereich in Tagen ein",
   "fast_title": "Schnell",
   "faster_title": "Schneller",
   "global_stats_title": "Globale Statistiken",
@@ -206,6 +222,7 @@ static const Map<String,dynamic> de = {
   "hours_title": "Stunde(n)",
   "how_to_access_logs_button": "WIE MAN AUF PROTOKOLLE ZUGREIFT",
   "hrs": "Std.",
+  "integer_larger_than_1_message": "Bitte geben Sie eine ganze Zahl größer als 1 ein",
   "language_title": "Sprache",
   "last_streamed_title": "Zuletzt gestreamt",
   "learn_more_button": "Weitere Informationen",
@@ -268,6 +285,7 @@ static const Map<String,dynamic> de = {
   "status_title": "Status",
   "stream_type_title": "Stream-Typ",
   "tautulli_remote_logs_title": "Tautulli Remote-Protokolle",
+  "time_range_title": "Zeitspanne",
   "transcode_title": "Transkodieren",
   "translate_tautulli_remote_title": "Übersetzen Sie Tautulli Remote",
   "trust_button": "VERTRAUEN",
@@ -293,7 +311,8 @@ static const Map<String,dynamic> de = {
   "wizard_skip_dialog_title": "Sind Sie sicher, dass Sie das überspringen wollen?",
   "wizard_welcome_text_1": "Willkommen!",
   "wizard_welcome_text_2": "Mit Tautulli Remote können Sie die Aktivitäten, den Verlauf, die Statistiken und vieles mehr Ihres Plex-Servers einsehen, indem Sie sich mit Ihrem bestehenden Tautulli-Server verbinden.",
-  "wizard_welcome_text_3": "Stellen Sie sicher, dass Tautulli aktuell läuft und von diesem Gerät aus erreichbar ist, bevor Sie mit dem Einrichtungsassistenten fortfahren."
+  "wizard_welcome_text_3": "Stellen Sie sicher, dass Tautulli aktuell läuft und von diesem Gerät aus erreichbar ist, bevor Sie mit dem Einrichtungsassistenten fortfahren.",
+  "y_axis_title": "Y-Achse"
 };
 static const Map<String,dynamic> el = {};
 static const Map<String,dynamic> en = {
@@ -335,6 +354,8 @@ static const Map<String,dynamic> en = {
   "connection_details_title": "Connection Details",
   "contact_support_button": "CONTACT SUPPORT",
   "copied_to_clipboard_snackbar_message": "Copied to clipboard",
+  "custom_time_range_dialog_content": "It is recommended you do not exceed 90 days for most screen sizes.",
+  "custom_time_range_title": "Custom Time Range",
   "custom_title": "Custom",
   "custom_http_headers_title": "Custom HTTP Headers",
   "data_dump_subtitle": "App status and settings",
@@ -377,6 +398,8 @@ static const Map<String,dynamic> en = {
   "double_back_to_exit_subtitle": "Use back twice to exit",
   "double_back_to_exit_title": "Double Back To Exit",
   "duration_title": "Duration",
+  "enter_an_integer_message": "Please enter an integer",
+  "enter_time_range_in_days_message": "Enter a time range in days",
   "error_message_bad_api_response": "Bad API Response",
   "error_message_certificate_expired": "TLS/SSL Certificate is Expired",
   "error_message_certificate_verification": "Certificate verification failed",
@@ -419,6 +442,7 @@ static const Map<String,dynamic> en = {
   "how_to_access_logs_button": "HOW TO ACCESS LOGS",
   "hrs": "hrs",
   "ip_address_title": "IP Address",
+  "integer_larger_than_1_message": "Please enter an integer larger than 1",
   "language_title": "Language",
   "last_streamed_title": "Last Streamed",
   "learn_more_button": "LEARN MORE",
@@ -471,10 +495,12 @@ static const Map<String,dynamic> en = {
   "other_title": "Other",
   "paused_title": "Paused",
   "platform_title": "Platform",
+  "play_count_title": "Play Count",
   "play_totals_title": "Play Totals",
   "player_stats_empty_message": "No player stats found.",
   "player_title": "Player",
   "player_stats_title": "Player Stats",
+  "play_time_title": "Play Time",
   "plays_title": "Plays",
   "primary_connection_title": "Primary Connection",
   "product_title": "Product",
@@ -534,6 +560,7 @@ static const Map<String,dynamic> en = {
   "tautulli_remote_logs_title": "Tautulli Remote Logs",
   "terms_of_use_title": "Terms of Use",
   "time_title": "Time",
+  "time_range_title": "Time Range",
   "transcode_title": "Transcode",
   "translate_tautulli_remote_title": "Translate Tautulli Remote",
   "trust_button": "TRUST",
@@ -565,7 +592,8 @@ static const Map<String,dynamic> en = {
   "wizard_quit_dialog_title": "Are you sure you want to quit the Setup Wizard?",
   "wizard_welcome_text_1": "Welcome!",
   "wizard_welcome_text_2": "Tautulli Remote allows you to view your Plex server activity, history, statistics, and more by connecting to your existing Tautulli server.",
-  "wizard_welcome_text_3": "Ensure that Tautulli is currently running and accessible from this device before continuing with the setup wizard."
+  "wizard_welcome_text_3": "Ensure that Tautulli is currently running and accessible from this device before continuing with the setup wizard.",
+  "y_axis_title": "Y Axis"
 };
 static const Map<String,dynamic> es = {
   "all_title": "Todos",
@@ -573,6 +601,8 @@ static const Map<String,dynamic> es = {
   "bugs_and_feature_requests_title": "Incidencias/Petición de funcionalidades",
   "cancel_button": "CANCELAR",
   "close_button": "CERRAR",
+  "custom_time_range_dialog_content": "Es recomendable no exceder los 90 días para la gran parte de las pantallas.",
+  "custom_time_range_title": "Rango de tiempo personalizado",
   "custom_title": "Personalizado",
   "days": "días",
   "days_title": "Días",
@@ -593,6 +623,8 @@ static const Map<String,dynamic> es = {
   "donate_tip_jar_title": "Regalar una jarra",
   "donate_title": "Donar",
   "duration_title": "Duración",
+  "enter_an_integer_message": "por favor introduzca un entero",
+  "enter_time_range_in_days_message": "Introduzca el rango de tiempo en días",
   "go_to_settings_button": "IR A AJUSTES",
   "graphs_title": "Gráficas",
   "help_and_support_title": "Ayuda y soporte",
@@ -619,6 +651,7 @@ static const Map<String,dynamic> es = {
   "settings_title": "Ajustes",
   "skip_button": "SALTAR",
   "stream_type_title": "Tipo de flujo",
+  "time_range_title": "Rango de tiempo",
   "transcode_title": "Transcodificar",
   "tv_shows_title": "Series",
   "tv_title": "TV",
@@ -626,7 +659,8 @@ static const Map<String,dynamic> es = {
   "users_title": "Usuarios",
   "videos_title": "Vídeos",
   "view_media_title": "Ver Media",
-  "view_user_title": "Ver usuario"
+  "view_user_title": "Ver usuario",
+  "y_axis_title": "Eje Y"
 };
 static const Map<String,dynamic> fr = {
   "about_legalese": "Sous licence GNU General Public License v3.0",
@@ -658,6 +692,8 @@ static const Map<String,dynamic> fr = {
   "contact_support_button": "CONTACTER LE SUPPORT TECHNIQUE",
   "copied_to_clipboard_snackbar_message": "Copié dans le presse-papiers",
   "custom_http_headers_title": "En-têtes HTTP personnalisés",
+  "custom_time_range_dialog_content": "Il est recommandé de ne pas dépasser 90 jours pour la plupart des tailles d'écran.",
+  "custom_time_range_title": "Plage de temps personnalisée",
   "custom_title": "Personnalisé",
   "data_dump_subtitle": "État de l'application et paramètres",
   "data_dump_title": "Vidage des données",
@@ -697,6 +733,8 @@ static const Map<String,dynamic> fr = {
   "double_back_to_exit_title": "Retour double pour quitter",
   "double_back_to_exit_toast_message": "Utilisez à nouveau retour pour quitter",
   "duration_title": "Durée",
+  "enter_an_integer_message": "Veuillez entrer un nombre entier",
+  "enter_time_range_in_days_message": "Entrez une plage de temps en jours",
   "error_message_bad_api_response": "Mauvaise réponse de l'API",
   "error_message_certificate_expired": "Le certificat TLS/SSL a expiré",
   "error_message_certificate_verification": "La vérification du certificat a échoué",
@@ -736,6 +774,7 @@ static const Map<String,dynamic> fr = {
   "hours_title": "Heures",
   "how_to_access_logs_button": "COMMENT ACCÉDER AUX JOURNAUX",
   "hrs": "heures",
+  "integer_larger_than_1_message": "Veuillez entrer un nombre entier supérieur à 1",
   "language_title": "Langue",
   "last_streamed_title": "Dernière diffusion",
   "learn_more_button": "EN SAVOIR PLUS",
@@ -837,6 +876,7 @@ static const Map<String,dynamic> fr = {
   "streamed_title": "Diffusé",
   "tautulli_remote_logs_title": "Journaux de Tautulli Remote",
   "terms_of_use_title": "Conditions d'utilisation",
+  "time_range_title": "Plage de temps",
   "transcode_title": "Transcodage",
   "translate_tautulli_remote_title": "Traduire Tautulli Remote",
   "trust_button": "FAIRE CONFIANCE",
@@ -865,7 +905,8 @@ static const Map<String,dynamic> fr = {
   "wizard_skip_dialog_title": "Êtes-vous sûr de vouloir ignorer ?",
   "wizard_welcome_text_1": "Bienvenue !",
   "wizard_welcome_text_2": "Tautulli Remote vous permet de consulter l'activité de votre serveur Plex ainsi que l'historique, les statistiques et bien plus en vous connectant à votre serveur Tautulli existant.",
-  "wizard_welcome_text_3": "Assurez-vous que Tautulli actuellement est en cours d'exécution et qu'il est accessible depuis cet appareil avant de poursuivre avec l'assistant d'installation."
+  "wizard_welcome_text_3": "Assurez-vous que Tautulli actuellement est en cours d'exécution et qu'il est accessible depuis cet appareil avant de poursuivre avec l'assistant d'installation.",
+  "y_axis_title": "Axe Y"
 };
 static const Map<String,dynamic> hu = {
   "accepted_title": "Elfogadom",
@@ -877,6 +918,8 @@ static const Map<String,dynamic> hu = {
   "cancel_button": "MÉGSE",
   "close_button": "BEZÁR",
   "copied_to_clipboard_snackbar_message": "Vágólapra másolva",
+  "custom_time_range_dialog_content": "A legtöbb képernyőméret esetén nem ajánlott meghaladni a 90 napot.",
+  "custom_time_range_title": "Egyedi időtartomány",
   "custom_title": "Egyedi",
   "days": "nap",
   "days_title": "nap",
@@ -901,6 +944,8 @@ static const Map<String,dynamic> hu = {
   "donate_tip_jar_title": "Borravaló",
   "donate_title": "Támogatás",
   "duration_title": "Időtartam",
+  "enter_an_integer_message": "Kérlek adj meg egy egész számot",
+  "enter_time_range_in_days_message": "Adj meg egy időtartományt napokban",
   "go_to_settings_button": "MENJ A BEÁLLÍTÁSOKBA",
   "graphs_title": "Grafikonok",
   "help_and_support_title": "Segítség & Támogatás",
@@ -947,13 +992,15 @@ static const Map<String,dynamic> hu = {
   "status_title": "Állapot",
   "stream_type_title": "Közvetítés típusa",
   "tautulli_remote_logs_title": "Tautulli Remote naplók",
+  "time_range_title": "Időtartomány",
   "transcode_title": "Átalakítás",
   "tv_shows_title": "TV sorozatok",
   "tv_title": "TV",
   "users_title": "Felhasználók",
   "videos_title": "Videók",
   "view_media_title": "Média megtekintése",
-  "view_user_title": "Felhasználó megtekintése"
+  "view_user_title": "Felhasználó megtekintése",
+  "y_axis_title": "Y tengely"
 };
 static const Map<String,dynamic> it = {
   "about_legalese": "Concesso in licenza con GNU General Public License v3.0",
@@ -970,6 +1017,8 @@ static const Map<String,dynamic> it = {
   "check_again_button": "CONTROLLA DI NUOVO",
   "close_button": "CHIUDI",
   "copied_to_clipboard_snackbar_message": "Copiato negli appunti",
+  "custom_time_range_dialog_content": "Si raccomanda di non superare i 90 giorni per la maggior parte degli schermi.",
+  "custom_time_range_title": "Intervallo di tempo personalizzato",
   "custom_title": "Personalizzato",
   "days": "giorni",
   "days_title": "Giorni",
@@ -997,6 +1046,8 @@ static const Map<String,dynamic> it = {
   "donate_tip_jar_title": "Salvadanaio",
   "donate_title": "Donazioni",
   "duration_title": "Durata",
+  "enter_an_integer_message": "Inserisci un numero intero",
+  "enter_time_range_in_days_message": "Inserisci un intervallo di tempo in giorni",
   "fast_title": "Veloce",
   "faster_title": "Più veloce",
   "go_to_settings_button": "VAI A IMPOSTAZIONI",
@@ -1006,6 +1057,7 @@ static const Map<String,dynamic> it = {
   "history_title": "Cronologia",
   "how_to_access_logs_button": "COME ACCEDERE AI LOG",
   "hrs": "ore",
+  "integer_larger_than_1_message": "Inserisci un numero intero maggiore di 1",
   "learn_more_button": "PER SAPERNE DI PIU'",
   "live_tv_title": "TV dal vivo",
   "logs_clear_dialog_title": "Sei sicuro di voler cancellare i log di Tautulli Remote?",
@@ -1062,6 +1114,7 @@ static const Map<String,dynamic> it = {
   "status_title": "Stato",
   "stream_type_title": "Tipo Stream",
   "tautulli_remote_logs_title": "Log di Tautulli Remote",
+  "time_range_title": "Intervallo di tempo",
   "transcode_title": "Transcodifica",
   "tv_shows_title": "Serie TV",
   "tv_title": "TV",
@@ -1069,7 +1122,8 @@ static const Map<String,dynamic> it = {
   "videos_title": "Video",
   "view_media_title": "Visualizza Media",
   "view_privacy_page_button": "VISUALIZZA LA PAGINA PRIVACY",
-  "view_user_title": "Visualizza Utente"
+  "view_user_title": "Visualizza Utente",
+  "y_axis_title": "Asse Y"
 };
 static const Map<String,dynamic> nb = {
   "about_legalese": "Lisensiert ved bruk av GNU General Public License v3.0",
@@ -1166,6 +1220,8 @@ static const Map<String,dynamic> nl = {
   "clear_button": "LEEGMAKEN",
   "close_button": "SLUITEN",
   "copied_to_clipboard_snackbar_message": "Gekopieerd naar klembord",
+  "custom_time_range_dialog_content": "Voor de meeste schermformaten wordt aanbevolen om 90 dagen niet te overschrijden.",
+  "custom_time_range_title": "Aangepast Tijd Bereik",
   "custom_title": "Aangepast",
   "days": "Dagen",
   "days_title": "Dagen",
@@ -1194,6 +1250,8 @@ static const Map<String,dynamic> nl = {
   "donate_tip_jar_title": "Fooienpot",
   "donate_title": "Doneer",
   "duration_title": "Duur",
+  "enter_an_integer_message": "Voer een getal in",
+  "enter_time_range_in_days_message": "Voer een tijd bereik in dagen in",
   "fast_title": "Snel",
   "faster_title": "Sneller",
   "global_stats_title": "Globale Stats",
@@ -1207,6 +1265,7 @@ static const Map<String,dynamic> nl = {
   "hours_title": "Uren",
   "how_to_access_logs_button": "Hoe het logboek te benaderen",
   "hrs": "uur",
+  "integer_larger_than_1_message": "Voer een getal in groter dan 1",
   "language_title": "Taal",
   "last_streamed_title": "Laatst Gestreamed",
   "learn_more_button": "MEER INFO",
@@ -1270,6 +1329,7 @@ static const Map<String,dynamic> nl = {
   "status_title": "Status",
   "stream_type_title": "Type Stream",
   "tautulli_remote_logs_title": "Tautullie Remote Logboek",
+  "time_range_title": "Tijd Bereik",
   "transcode_title": "Transcodeer",
   "translate_tautulli_remote_title": "Vertaal Tautulli Remote",
   "trust_button": "Vertrouw",
@@ -1295,7 +1355,8 @@ static const Map<String,dynamic> nl = {
   "wizard_skip_dialog_title": "Weet je zeker dat je wilt overslaan?",
   "wizard_welcome_text_1": "Welkom!",
   "wizard_welcome_text_2": "Tautulli Remote maakt het mogelijk om je Plex server activiteit, geschidenis, statistieken, en meer te bekijken door te verbinden met je huidige Tautulli server.",
-  "wizard_welcome_text_3": "Zorg ervoor dat Tautulli momenteel actief is en benaderbaar vanaf dit apparaat voordat je doorgaat met de wizard."
+  "wizard_welcome_text_3": "Zorg ervoor dat Tautulli momenteel actief is en benaderbaar vanaf dit apparaat voordat je doorgaat met de wizard.",
+  "y_axis_title": "Y As"
 };
 static const Map<String,dynamic> pt_BR = {
   "about_legalese": "Licenciado sob a GNU General Public License v3.0",
@@ -1311,6 +1372,7 @@ static const Map<String,dynamic> pt_BR = {
   "changelog_title": "Changelog",
   "clear_button": "ESVAZIAR",
   "close_button": "FECHAR",
+  "custom_time_range_title": "Intervalo de Tempo Personalizado",
   "custom_title": "Personalizado",
   "days": "dias",
   "days_title": "Dias",
@@ -1332,6 +1394,7 @@ static const Map<String,dynamic> pt_BR = {
   "donate_thanks_snackbar_message": "Agradecemos sua doação",
   "donate_title": "Doar",
   "duration_title": "Duração",
+  "enter_time_range_in_days_message": "Insira um intervalo de tempo em dias",
   "global_stats_title": "Estatísticas Globais",
   "graphs_title": "Gráficos",
   "help_and_support_title": "Ajuda & Suporte",
@@ -1375,6 +1438,7 @@ static const Map<String,dynamic> pt_BR = {
   "stats_title": "Estatísticas",
   "status_title": "Status",
   "stream_type_title": "Tipo de Transmissão",
+  "time_range_title": "Intervalo de Tempo",
   "transcode_title": "Transcodificação",
   "translate_tautulli_remote_title": "Traduzir Tautulli Remote",
   "tv_title": "TV",
@@ -1397,7 +1461,8 @@ static const Map<String,dynamic> pt_BR = {
   "wizard_skip_dialog_title": "Tem certeza que deseja pular?",
   "wizard_welcome_text_1": "Bem-vindo!",
   "wizard_welcome_text_2": "O Tautulli Remote permite que você visualize a atividade do servidor Plex, histórico, estatísticas e muito mais, conectando-se ao servidor Tautulli existente.",
-  "wizard_welcome_text_3": "Certifique-se de que o Tautulli está atualmente em execução e acessível a partir deste dispositivo antes de continuar com o assistente de configuração."
+  "wizard_welcome_text_3": "Certifique-se de que o Tautulli está atualmente em execução e acessível a partir deste dispositivo antes de continuar com o assistente de configuração.",
+  "y_axis_title": "Eixo Y"
 };
 static const Map<String,dynamic> pt_PT = {
   "history_title": "Histórico",
@@ -1407,6 +1472,8 @@ static const Map<String,dynamic> ru = {
   "announcements_title": "Объявления",
   "cancel_button": "ОТМЕНА",
   "close_button": "ЗАКРЫТЬ",
+  "custom_time_range_dialog_content": "Для большинства экранов рекомендуется не превышать 90 дней.",
+  "custom_time_range_title": "Персонализированный временной промежуток",
   "custom_title": "Персонализированный",
   "days_title": "Дни",
   "direct_play_title": "Прямое воспроизведение",
@@ -1426,6 +1493,8 @@ static const Map<String,dynamic> ru = {
   "donate_tip_jar_title": "Коробка для чаевых",
   "donate_title": "Сделать пожертвование",
   "duration_title": "Длительность",
+  "enter_an_integer_message": "Введите целое число",
+  "enter_time_range_in_days_message": "Введите временной промежуток в днях",
   "graphs_title": "Графики",
   "history_title": "История",
   "learn_more_button": "ПОДРОБНЕЕ",
@@ -1437,10 +1506,12 @@ static const Map<String,dynamic> ru = {
   "save_button": "СОХРАНИТЬ",
   "settings_title": "Конфигурация",
   "stream_type_title": "Тип потока",
+  "time_range_title": "Временной промежуток",
   "transcode_title": "Перекодирование",
   "users_title": "Пользователи",
   "view_media_title": "Просмотреть носитель",
-  "view_user_title": "Просмотреть пользователя"
+  "view_user_title": "Просмотреть пользователя",
+  "y_axis_title": "Ось ординат"
 };
 static const Map<String,dynamic> sk = {
   "about_legalese": "Licencované podľa všeobecnej verejnej licencie GNU v3.0",
@@ -1459,6 +1530,8 @@ static const Map<String,dynamic> sk = {
   "clear_button": "VYČISTIŤ",
   "close_button": "ZAVRIEŤ",
   "copied_to_clipboard_snackbar_message": "Skopírované do schránky",
+  "custom_time_range_dialog_content": "Pri väčšine veľkostí obrazoviek sa odporúča, aby ste nepresiahli 90 dní.",
+  "custom_time_range_title": "Vlastný časový rozsah",
   "custom_title": "Vlastné",
   "days": "dni",
   "days_title": "Dní",
@@ -1484,6 +1557,8 @@ static const Map<String,dynamic> sk = {
   "donate_thanks_snackbar_message": "Ďakujeme za váš dar",
   "donate_title": "Darovať",
   "duration_title": "Trvanie",
+  "enter_an_integer_message": "Zadajte celé číslo",
+  "enter_time_range_in_days_message": "Zadajte časový rozsah v dňoch",
   "fast_title": "Rýchlo",
   "faster_title": "Rýchlejšie",
   "global_stats_title": "Globálne štatistiky",
@@ -1497,6 +1572,7 @@ static const Map<String,dynamic> sk = {
   "hours_title": "Hodiny",
   "how_to_access_logs_button": "AKO PRÍSTUPOVAŤ K LOGOM",
   "hrs": "hod",
+  "integer_larger_than_1_message": "Zadajte celé číslo väčšie ako 1",
   "language_title": "Jazyk",
   "last_streamed_title": "Naposledy Streamované",
   "learn_more_button": "VIAC",
@@ -1564,6 +1640,7 @@ static const Map<String,dynamic> sk = {
   "status_title": "Stav",
   "stream_type_title": "Typ Streamu",
   "tautulli_remote_logs_title": "Logy Tautulli Remote",
+  "time_range_title": "Časový rozsah",
   "transcode_title": "Transkódovanie",
   "translate_tautulli_remote_title": "Preložiť Tautulli Remote",
   "trust_button": "DÔVERYHODNÉ",
@@ -1589,7 +1666,8 @@ static const Map<String,dynamic> sk = {
   "wizard_skip_dialog_title": "Ste si istí, že chcete preskočiť?",
   "wizard_welcome_text_1": "Vitajte!",
   "wizard_welcome_text_2": "Tautulli Remote vám umožňuje zobraziť aktivitu, históriu, štatistiky a ďalšie informácie o vašom serveri Plex pripojením sa k existujúcemu serveru Tautulli.",
-  "wizard_welcome_text_3": "Pred pokračovaním v sprievodcovi nastavením skontrolujte, či je Tautulli aktuálne spustený a prístupný z tohto zariadenia."
+  "wizard_welcome_text_3": "Pred pokračovaním v sprievodcovi nastavením skontrolujte, či je Tautulli aktuálne spustený a prístupný z tohto zariadenia.",
+  "y_axis_title": "Osa Y"
 };
 static const Map<String,dynamic> sv = {
   "about_legalese": "Licensierad enligt GNU General Public License v3.0",
@@ -1609,6 +1687,8 @@ static const Map<String,dynamic> sv = {
   "clear_button": "TÖM",
   "close_button": "STÄNGA",
   "copied_to_clipboard_snackbar_message": "Kopieras till urklipp",
+  "custom_time_range_dialog_content": "Det rekommenderas att du inte överskrider 90 dagar för de flesta skärmstorlekar.",
+  "custom_time_range_title": "Anpassat tidsintervall",
   "custom_title": "Anpassad",
   "days": "dygn",
   "days_title": "Dagar",
@@ -1637,6 +1717,8 @@ static const Map<String,dynamic> sv = {
   "donate_tip_jar_title": "Tipsburk",
   "donate_title": "Donera",
   "duration_title": "Varaktighet",
+  "enter_an_integer_message": "Ange ett heltal",
+  "enter_time_range_in_days_message": "Ange ett tidsintervall i dagar",
   "fast_title": "Snabbt",
   "faster_title": "Snabbare",
   "global_stats_title": "Globala statistik",
@@ -1650,6 +1732,7 @@ static const Map<String,dynamic> sv = {
   "hours_title": "Timmar",
   "how_to_access_logs_button": "HUR MAN FÅR TILLGÅNG TILL LOGGAR",
   "hrs": "timmar",
+  "integer_larger_than_1_message": "Ange ett heltal som är större än 1",
   "language_title": "Språk",
   "last_streamed_title": "Senast streamad",
   "learn_more_button": "LÄS MER",
@@ -1713,6 +1796,7 @@ static const Map<String,dynamic> sv = {
   "status_title": "status",
   "stream_type_title": "Typ av vattendrag",
   "tautulli_remote_logs_title": "Tautulli Fjärrloggar",
+  "time_range_title": "Tidsintervall",
   "transcode_title": "Omkodning",
   "translate_tautulli_remote_title": "Översätt Tautulli Remote",
   "trust_button": "TRUST",
@@ -1738,7 +1822,8 @@ static const Map<String,dynamic> sv = {
   "wizard_skip_dialog_title": "Är du säker på att du vill hoppa över?",
   "wizard_welcome_text_1": "Välkommen!",
   "wizard_welcome_text_2": "Med Tautulli Remote kan du se din Plex-serveraktivitet, historik, statistik och mycket mer genom att ansluta till din befintliga Tautulli-server.",
-  "wizard_welcome_text_3": "Kontrollera att Tautulli för närvarande körs och är tillgängligt från den här enheten innan du fortsätter med installationsguiden."
+  "wizard_welcome_text_3": "Kontrollera att Tautulli för närvarande körs och är tillgängligt från den här enheten innan du fortsätter med installationsguiden.",
+  "y_axis_title": "Y-axel"
 };
 static const Map<String,dynamic> zh = {
   "about_legalese": "遵循GNU通用公共许可协议v3.0",

@@ -15,6 +15,8 @@
     "clear_button": "VYČISTIŤ",
     "close_button": "ZAVRIEŤ",
     "copied_to_clipboard_snackbar_message": "Skopírované do schránky",
+    "custom_time_range_dialog_content": "Pri väčšine veľkostí obrazoviek sa odporúča, aby ste nepresiahli 90 dní.",
+    "custom_time_range_title": "Vlastný časový rozsah",
     "custom_title": "Vlastné",
     "days": "dni",
     "days_title": "Dní",
@@ -40,6 +42,8 @@
     "donate_thanks_snackbar_message": "Ďakujeme za váš dar",
     "donate_title": "Darovať",
     "duration_title": "Trvanie",
+    "enter_an_integer_message": "Zadajte celé číslo",
+    "enter_time_range_in_days_message": "Zadajte časový rozsah v dňoch",
     "fast_title": "Rýchlo",
     "faster_title": "Rýchlejšie",
     "global_stats_title": "Globálne štatistiky",
@@ -53,6 +57,7 @@
     "hours_title": "Hodiny",
     "how_to_access_logs_button": "AKO PRÍSTUPOVAŤ K LOGOM",
     "hrs": "hod",
+    "integer_larger_than_1_message": "Zadajte celé číslo väčšie ako 1",
     "language_title": "Jazyk",
     "last_streamed_title": "Naposledy Streamované",
     "learn_more_button": "VIAC",
@@ -120,6 +125,7 @@
     "status_title": "Stav",
     "stream_type_title": "Typ Streamu",
     "tautulli_remote_logs_title": "Logy Tautulli Remote",
+    "time_range_title": "Časový rozsah",
     "transcode_title": "Transkódovanie",
     "translate_tautulli_remote_title": "Preložiť Tautulli Remote",
     "trust_button": "DÔVERYHODNÉ",
@@ -145,5 +151,6 @@
     "wizard_skip_dialog_title": "Ste si istí, že chcete preskočiť?",
     "wizard_welcome_text_1": "Vitajte!",
     "wizard_welcome_text_2": "Tautulli Remote vám umožňuje zobraziť aktivitu, históriu, štatistiky a ďalšie informácie o vašom serveri Plex pripojením sa k existujúcemu serveru Tautulli.",
-    "wizard_welcome_text_3": "Pred pokračovaním v sprievodcovi nastavením skontrolujte, či je Tautulli aktuálne spustený a prístupný z tohto zariadenia."
+    "wizard_welcome_text_3": "Pred pokračovaním v sprievodcovi nastavením skontrolujte, či je Tautulli aktuálne spustený a prístupný z tohto zariadenia.",
+    "y_axis_title": "Osa Y"
 }

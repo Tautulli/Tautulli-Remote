@@ -28,6 +28,8 @@
     "contact_support_button": "CONTACTER LE SUPPORT TECHNIQUE",
     "copied_to_clipboard_snackbar_message": "Copié dans le presse-papiers",
     "custom_http_headers_title": "En-têtes HTTP personnalisés",
+    "custom_time_range_dialog_content": "Il est recommandé de ne pas dépasser 90 jours pour la plupart des tailles d'écran.",
+    "custom_time_range_title": "Plage de temps personnalisée",
     "custom_title": "Personnalisé",
     "data_dump_subtitle": "État de l'application et paramètres",
     "data_dump_title": "Vidage des données",
@@ -67,6 +69,8 @@
     "double_back_to_exit_title": "Retour double pour quitter",
     "double_back_to_exit_toast_message": "Utilisez à nouveau retour pour quitter",
     "duration_title": "Durée",
+    "enter_an_integer_message": "Veuillez entrer un nombre entier",
+    "enter_time_range_in_days_message": "Entrez une plage de temps en jours",
     "error_message_bad_api_response": "Mauvaise réponse de l'API",
     "error_message_certificate_expired": "Le certificat TLS/SSL a expiré",
     "error_message_certificate_verification": "La vérification du certificat a échoué",
@@ -106,6 +110,7 @@
     "hours_title": "Heures",
     "how_to_access_logs_button": "COMMENT ACCÉDER AUX JOURNAUX",
     "hrs": "heures",
+    "integer_larger_than_1_message": "Veuillez entrer un nombre entier supérieur à 1",
     "language_title": "Langue",
     "last_streamed_title": "Dernière diffusion",
     "learn_more_button": "EN SAVOIR PLUS",
@@ -207,6 +212,7 @@
     "streamed_title": "Diffusé",
     "tautulli_remote_logs_title": "Journaux de Tautulli Remote",
     "terms_of_use_title": "Conditions d'utilisation",
+    "time_range_title": "Plage de temps",
     "transcode_title": "Transcodage",
     "translate_tautulli_remote_title": "Traduire Tautulli Remote",
     "trust_button": "FAIRE CONFIANCE",
@@ -235,5 +241,6 @@
     "wizard_skip_dialog_title": "Êtes-vous sûr de vouloir ignorer ?",
     "wizard_welcome_text_1": "Bienvenue !",
     "wizard_welcome_text_2": "Tautulli Remote vous permet de consulter l'activité de votre serveur Plex ainsi que l'historique, les statistiques et bien plus en vous connectant à votre serveur Tautulli existant.",
-    "wizard_welcome_text_3": "Assurez-vous que Tautulli actuellement est en cours d'exécution et qu'il est accessible depuis cet appareil avant de poursuivre avec l'assistant d'installation."
+    "wizard_welcome_text_3": "Assurez-vous que Tautulli actuellement est en cours d'exécution et qu'il est accessible depuis cet appareil avant de poursuivre avec l'assistant d'installation.",
+    "y_axis_title": "Axe Y"
 }

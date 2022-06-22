@@ -10,6 +10,7 @@ abstract class GraphsEvent extends Equatable {
 class GraphsFetched extends GraphsEvent {
   final String tautulliId;
   final GraphYAxis yAxis;
+  final int timeRange;
   final int? userId;
   final bool? grouping;
   final bool freshFetch;
@@ -18,6 +19,7 @@ class GraphsFetched extends GraphsEvent {
   const GraphsFetched({
     required this.tautulliId,
     required this.yAxis,
+    required this.timeRange,
     this.userId,
     this.grouping,
     this.freshFetch = false,
@@ -25,7 +27,13 @@ class GraphsFetched extends GraphsEvent {
   });
 
   @override
-  List<Object> get props => [tautulliId, yAxis, freshFetch, settingsBloc];
+  List<Object> get props => [
+        tautulliId,
+        yAxis,
+        timeRange,
+        freshFetch,
+        settingsBloc,
+      ];
 }
 
 class GraphsEmit extends GraphsEvent {

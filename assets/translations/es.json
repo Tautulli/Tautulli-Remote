@@ -4,6 +4,8 @@
     "bugs_and_feature_requests_title": "Incidencias/Petición de funcionalidades",
     "cancel_button": "CANCELAR",
     "close_button": "CERRAR",
+    "custom_time_range_dialog_content": "Es recomendable no exceder los 90 días para la gran parte de las pantallas.",
+    "custom_time_range_title": "Rango de tiempo personalizado",
     "custom_title": "Personalizado",
     "days": "días",
     "days_title": "Días",
@@ -24,6 +26,8 @@
     "donate_tip_jar_title": "Regalar una jarra",
     "donate_title": "Donar",
     "duration_title": "Duración",
+    "enter_an_integer_message": "por favor introduzca un entero",
+    "enter_time_range_in_days_message": "Introduzca el rango de tiempo en días",
     "go_to_settings_button": "IR A AJUSTES",
     "graphs_title": "Gráficas",
     "help_and_support_title": "Ayuda y soporte",
@@ -50,6 +54,7 @@
     "settings_title": "Ajustes",
     "skip_button": "SALTAR",
     "stream_type_title": "Tipo de flujo",
+    "time_range_title": "Rango de tiempo",
     "transcode_title": "Transcodificar",
     "tv_shows_title": "Series",
     "tv_title": "TV",
@@ -57,5 +62,6 @@
     "users_title": "Usuarios",
     "videos_title": "Vídeos",
     "view_media_title": "Ver Media",
-    "view_user_title": "Ver usuario"
+    "view_user_title": "Ver usuario",
+    "y_axis_title": "Eje Y"
 }

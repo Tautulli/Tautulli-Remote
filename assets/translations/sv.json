@@ -16,6 +16,8 @@
     "clear_button": "TÖM",
     "close_button": "STÄNGA",
     "copied_to_clipboard_snackbar_message": "Kopieras till urklipp",
+    "custom_time_range_dialog_content": "Det rekommenderas att du inte överskrider 90 dagar för de flesta skärmstorlekar.",
+    "custom_time_range_title": "Anpassat tidsintervall",
     "custom_title": "Anpassad",
     "days": "dygn",
     "days_title": "Dagar",
@@ -44,6 +46,8 @@
     "donate_tip_jar_title": "Tipsburk",
     "donate_title": "Donera",
     "duration_title": "Varaktighet",
+    "enter_an_integer_message": "Ange ett heltal",
+    "enter_time_range_in_days_message": "Ange ett tidsintervall i dagar",
     "fast_title": "Snabbt",
     "faster_title": "Snabbare",
     "global_stats_title": "Globala statistik",
@@ -57,6 +61,7 @@
     "hours_title": "Timmar",
     "how_to_access_logs_button": "HUR MAN FÅR TILLGÅNG TILL LOGGAR",
     "hrs": "timmar",
+    "integer_larger_than_1_message": "Ange ett heltal som är större än 1",
     "language_title": "Språk",
     "last_streamed_title": "Senast streamad",
     "learn_more_button": "LÄS MER",
@@ -120,6 +125,7 @@
     "status_title": "status",
     "stream_type_title": "Typ av vattendrag",
     "tautulli_remote_logs_title": "Tautulli Fjärrloggar",
+    "time_range_title": "Tidsintervall",
     "transcode_title": "Omkodning",
     "translate_tautulli_remote_title": "Översätt Tautulli Remote",
     "trust_button": "TRUST",
@@ -145,5 +151,6 @@
     "wizard_skip_dialog_title": "Är du säker på att du vill hoppa över?",
     "wizard_welcome_text_1": "Välkommen!",
     "wizard_welcome_text_2": "Med Tautulli Remote kan du se din Plex-serveraktivitet, historik, statistik och mycket mer genom att ansluta till din befintliga Tautulli-server.",
-    "wizard_welcome_text_3": "Kontrollera att Tautulli för närvarande körs och är tillgängligt från den här enheten innan du fortsätter med installationsguiden."
+    "wizard_welcome_text_3": "Kontrollera att Tautulli för närvarande körs och är tillgängligt från den här enheten innan du fortsätter med installationsguiden.",
+    "y_axis_title": "Y-axel"
 }

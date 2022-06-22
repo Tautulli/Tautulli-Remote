@@ -12,6 +12,7 @@
     "changelog_title": "Changelog",
     "clear_button": "ESVAZIAR",
     "close_button": "FECHAR",
+    "custom_time_range_title": "Intervalo de Tempo Personalizado",
     "custom_title": "Personalizado",
     "days": "dias",
     "days_title": "Dias",
@@ -33,6 +34,7 @@
     "donate_thanks_snackbar_message": "Agradecemos sua doação",
     "donate_title": "Doar",
     "duration_title": "Duração",
+    "enter_time_range_in_days_message": "Insira um intervalo de tempo em dias",
     "global_stats_title": "Estatísticas Globais",
     "graphs_title": "Gráficos",
     "help_and_support_title": "Ajuda & Suporte",
@@ -76,6 +78,7 @@
     "stats_title": "Estatísticas",
     "status_title": "Status",
     "stream_type_title": "Tipo de Transmissão",
+    "time_range_title": "Intervalo de Tempo",
     "transcode_title": "Transcodificação",
     "translate_tautulli_remote_title": "Traduzir Tautulli Remote",
     "tv_title": "TV",
@@ -98,5 +101,6 @@
     "wizard_skip_dialog_title": "Tem certeza que deseja pular?",
     "wizard_welcome_text_1": "Bem-vindo!",
     "wizard_welcome_text_2": "O Tautulli Remote permite que você visualize a atividade do servidor Plex, histórico, estatísticas e muito mais, conectando-se ao servidor Tautulli existente.",
-    "wizard_welcome_text_3": "Certifique-se de que o Tautulli está atualmente em execução e acessível a partir deste dispositivo antes de continuar com o assistente de configuração."
+    "wizard_welcome_text_3": "Certifique-se de que o Tautulli está atualmente em execução e acessível a partir deste dispositivo antes de continuar com o assistente de configuração.",
+    "y_axis_title": "Eixo Y"
 }

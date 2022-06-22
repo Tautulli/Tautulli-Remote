@@ -2,6 +2,8 @@
     "announcements_title": "Meddelelser",
     "cancel_button": "ANNULLER",
     "close_button": "LUK",
+    "custom_time_range_dialog_content": "Det anbefales, at du ikke overskrider 90 dage for de fleste skærmstørrelser.",
+    "custom_time_range_title": "Tilpasset tidsinterval",
     "custom_title": "Tilpasset",
     "days_title": "Dage",
     "direct_play_title": "Direkte afspilning",
@@ -20,6 +22,8 @@
     "donate_tip_jar_title": "Tip Krukke",
     "donate_title": "Doner",
     "duration_title": "Varighed",
+    "enter_an_integer_message": "Indtast venligst et heltal",
+    "enter_time_range_in_days_message": "Angive et tidsinterval i dage",
     "go_to_settings_button": "GÅ TIL INDSTILLINGER",
     "graphs_title": "Grafer",
     "history_title": "Historik",
@@ -31,7 +35,9 @@
     "recently_added_title": "Nylig tilføjet",
     "save_button": "GEM",
     "settings_title": "Indstillinger",
+    "time_range_title": "Tidsinterval",
     "users_title": "Brugere",
     "view_media_title": "Se medie",
-    "view_user_title": "Se bruger"
+    "view_user_title": "Se bruger",
+    "y_axis_title": "Y Akse"
 }

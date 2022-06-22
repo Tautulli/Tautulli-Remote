@@ -8,6 +8,8 @@
     "cancel_button": "MÉGSE",
     "close_button": "BEZÁR",
     "copied_to_clipboard_snackbar_message": "Vágólapra másolva",
+    "custom_time_range_dialog_content": "A legtöbb képernyőméret esetén nem ajánlott meghaladni a 90 napot.",
+    "custom_time_range_title": "Egyedi időtartomány",
     "custom_title": "Egyedi",
     "days": "nap",
     "days_title": "nap",
@@ -32,6 +34,8 @@
     "donate_tip_jar_title": "Borravaló",
     "donate_title": "Támogatás",
     "duration_title": "Időtartam",
+    "enter_an_integer_message": "Kérlek adj meg egy egész számot",
+    "enter_time_range_in_days_message": "Adj meg egy időtartományt napokban",
     "go_to_settings_button": "MENJ A BEÁLLÍTÁSOKBA",
     "graphs_title": "Grafikonok",
     "help_and_support_title": "Segítség & Támogatás",
@@ -78,11 +82,13 @@
     "status_title": "Állapot",
     "stream_type_title": "Közvetítés típusa",
     "tautulli_remote_logs_title": "Tautulli Remote naplók",
+    "time_range_title": "Időtartomány",
     "transcode_title": "Átalakítás",
     "tv_shows_title": "TV sorozatok",
     "tv_title": "TV",
     "users_title": "Felhasználók",
     "videos_title": "Videók",
     "view_media_title": "Média megtekintése",
-    "view_user_title": "Felhasználó megtekintése"
+    "view_user_title": "Felhasználó megtekintése",
+    "y_axis_title": "Y tengely"
 }

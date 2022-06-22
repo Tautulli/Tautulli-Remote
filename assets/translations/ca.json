@@ -4,6 +4,8 @@
     "bugs_and_feature_requests_title": "Incidències/Sol·licitud de funcionalitats",
     "cancel_button": "CANCEL·LA",
     "close_button": "TANCA",
+    "custom_time_range_dialog_content": "Es recomana no superar els 90 dies per a la majoria de mides de pantalla.",
+    "custom_time_range_title": "Interval de temps personalitzat",
     "custom_title": "Personalitzat",
     "days": "dies",
     "days_title": "Dies",
@@ -24,6 +26,8 @@
     "donate_tip_jar_title": "Propina",
     "donate_title": "Dóna",
     "duration_title": "Durada",
+    "enter_an_integer_message": "Introduïu un nombre enter",
+    "enter_time_range_in_days_message": "Introduïu un interval de temps en dies",
     "go_to_settings_button": "VÉS A LA CONFIGURACIÓ",
     "graphs_title": "Gràfics",
     "help_and_support_title": "Ajuda i assistència",
@@ -51,11 +55,13 @@
     "settings_title": "Configuració",
     "stream_type_title": "Tipus de transmissió",
     "tautulli_remote_logs_title": "Registres de Tautulli Remote",
+    "time_range_title": "Interval de temps",
     "transcode_title": "Transcodificació",
     "tv_shows_title": "Programes de televisió",
     "tv_title": "TV",
     "users_title": "Usuaris",
     "videos_title": "Vídeos",
     "view_media_title": "Visualitza el suport multimèdia",
-    "view_user_title": "Visualitza l'usuari"
+    "view_user_title": "Visualitza l'usuari",
+    "y_axis_title": "Eix Y"
 }

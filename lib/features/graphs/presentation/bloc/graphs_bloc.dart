@@ -18,6 +18,7 @@ part 'graphs_state.dart';
 
 String? tautulliIdCache;
 GraphYAxis? yAxisCache;
+int? timeRangeCache;
 Map<GraphType, GraphModel> graphsCache = Map.of(defaultGraphs);
 GraphDataModel? playsByDateCache;
 GraphDataModel? playsByStreamTypeCache;
@@ -43,6 +44,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
   }) : super(
           GraphsState(
             yAxis: yAxisCache ?? GraphYAxis.plays,
+            timeRange: timeRangeCache ?? 30,
             graphs: graphsCache,
           ),
         ) {
@@ -79,11 +81,13 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
 
     tautulliIdCache = event.tautulliId;
     yAxisCache = event.yAxis;
+    timeRangeCache = event.timeRange;
 
     graphs
         .getPlaysByDate(
           tautulliId: event.tautulliId,
           yAxis: event.yAxis,
+          timeRange: event.timeRange,
           userId: event.userId,
           grouping: event.grouping,
         )
@@ -102,6 +106,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
         .getPlaysByStreamType(
           tautulliId: event.tautulliId,
           yAxis: event.yAxis,
+          timeRange: event.timeRange,
           userId: event.userId,
           grouping: event.grouping,
         )
@@ -136,7 +141,9 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
 
         emit(
           state.copyWith(
-            graphs: graphsCache,
+            yAxis: yAxisCache,
+            timeRange: timeRangeCache,
+            graphs: Map.of(graphsCache),
           ),
         );
       },
@@ -155,7 +162,9 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
 
         emit(
           state.copyWith(
-            graphs: graphsCache,
+            yAxis: yAxisCache,
+            timeRange: timeRangeCache,
+            graphs: Map.of(graphsCache),
           ),
         );
       },

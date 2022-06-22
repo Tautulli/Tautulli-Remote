@@ -2,6 +2,8 @@
     "announcements_title": "Объявления",
     "cancel_button": "ОТМЕНА",
     "close_button": "ЗАКРЫТЬ",
+    "custom_time_range_dialog_content": "Для большинства экранов рекомендуется не превышать 90 дней.",
+    "custom_time_range_title": "Персонализированный временной промежуток",
     "custom_title": "Персонализированный",
     "days_title": "Дни",
     "direct_play_title": "Прямое воспроизведение",
@@ -21,6 +23,8 @@
     "donate_tip_jar_title": "Коробка для чаевых",
     "donate_title": "Сделать пожертвование",
     "duration_title": "Длительность",
+    "enter_an_integer_message": "Введите целое число",
+    "enter_time_range_in_days_message": "Введите временной промежуток в днях",
     "graphs_title": "Графики",
     "history_title": "История",
     "learn_more_button": "ПОДРОБНЕЕ",
@@ -32,8 +36,10 @@
     "save_button": "СОХРАНИТЬ",
     "settings_title": "Конфигурация",
     "stream_type_title": "Тип потока",
+    "time_range_title": "Временной промежуток",
     "transcode_title": "Перекодирование",
     "users_title": "Пользователи",
     "view_media_title": "Просмотреть носитель",
-    "view_user_title": "Просмотреть пользователя"
+    "view_user_title": "Просмотреть пользователя",
+    "y_axis_title": "Ось ординат"
 }

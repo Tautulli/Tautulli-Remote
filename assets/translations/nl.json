@@ -16,6 +16,8 @@
     "clear_button": "LEEGMAKEN",
     "close_button": "SLUITEN",
     "copied_to_clipboard_snackbar_message": "Gekopieerd naar klembord",
+    "custom_time_range_dialog_content": "Voor de meeste schermformaten wordt aanbevolen om 90 dagen niet te overschrijden.",
+    "custom_time_range_title": "Aangepast Tijd Bereik",
     "custom_title": "Aangepast",
     "days": "Dagen",
     "days_title": "Dagen",
@@ -44,6 +46,8 @@
     "donate_tip_jar_title": "Fooienpot",
     "donate_title": "Doneer",
     "duration_title": "Duur",
+    "enter_an_integer_message": "Voer een getal in",
+    "enter_time_range_in_days_message": "Voer een tijd bereik in dagen in",
     "fast_title": "Snel",
     "faster_title": "Sneller",
     "global_stats_title": "Globale Stats",
@@ -57,6 +61,7 @@
     "hours_title": "Uren",
     "how_to_access_logs_button": "Hoe het logboek te benaderen",
     "hrs": "uur",
+    "integer_larger_than_1_message": "Voer een getal in groter dan 1",
     "language_title": "Taal",
     "last_streamed_title": "Laatst Gestreamed",
     "learn_more_button": "MEER INFO",
@@ -120,6 +125,7 @@
     "status_title": "Status",
     "stream_type_title": "Type Stream",
     "tautulli_remote_logs_title": "Tautullie Remote Logboek",
+    "time_range_title": "Tijd Bereik",
     "transcode_title": "Transcodeer",
     "translate_tautulli_remote_title": "Vertaal Tautulli Remote",
     "trust_button": "Vertrouw",
@@ -145,5 +151,6 @@
     "wizard_skip_dialog_title": "Weet je zeker dat je wilt overslaan?",
     "wizard_welcome_text_1": "Welkom!",
     "wizard_welcome_text_2": "Tautulli Remote maakt het mogelijk om je Plex server activiteit, geschidenis, statistieken, en meer te bekijken door te verbinden met je huidige Tautulli server.",
-    "wizard_welcome_text_3": "Zorg ervoor dat Tautulli momenteel actief is en benaderbaar vanaf dit apparaat voordat je doorgaat met de wizard."
+    "wizard_welcome_text_3": "Zorg ervoor dat Tautulli momenteel actief is en benaderbaar vanaf dit apparaat voordat je doorgaat met de wizard.",
+    "y_axis_title": "Y As"
 }
