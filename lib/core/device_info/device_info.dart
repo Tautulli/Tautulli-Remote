@@ -11,6 +11,9 @@ abstract class DeviceInfo {
 
   /// A unique identifier for the device.
   Future<String?> get uniqueId;
+
+  /// The OS version of the device.
+  Future<num> get version;
 }
 
 class DeviceInfoImpl implements DeviceInfo {
@@ -47,5 +50,16 @@ class DeviceInfoImpl implements DeviceInfo {
       return 'ios';
     }
     return 'android';
+  }
+
+  @override
+  Future<num> get version async {
+    if (Platform.isAndroid) {
+      final androidInfo = await deviceInfoPlugin.androidInfo;
+      return num.parse(androidInfo.version.release!);
+    } else {
+      final iosInfo = await deviceInfoPlugin.iosInfo;
+      return num.parse(iosInfo.systemVersion!);
+    }
   }
 }

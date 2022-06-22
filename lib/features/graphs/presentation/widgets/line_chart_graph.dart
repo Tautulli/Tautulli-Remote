@@ -1,10 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+import '../../../../core/device_info/device_info.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/graph_helper.dart';
 import '../../../../core/helpers/string_helper.dart';
 import '../../../../core/types/tautulli_types.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../data/models/chart_data_model.dart';
 import '../../data/models/graph_data_model.dart';
 
@@ -27,6 +30,7 @@ class LineChartGraph extends StatelessWidget {
     final List<LineChartBarData>? lineBarsData = GraphHelper.buildLineBarsData(
       graphData,
     );
+    int? lastTouchedIndex;
 
     return LineChart(
       LineChartData(
@@ -41,7 +45,7 @@ class LineChartGraph extends StatelessWidget {
                 child: Text(
                   value.toStringAsFixed(0),
                   textAlign: TextAlign.end,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 12,
                   ),
@@ -67,7 +71,7 @@ class LineChartGraph extends StatelessWidget {
                     child: Text(
                       GraphHelper.graphDate(
                           graphData.categories[value.toInt()]),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 12,
                       ),
@@ -170,9 +174,31 @@ class LineChartGraph extends StatelessWidget {
               },
             ).toList();
           },
-          touchCallback: (event, touchResponse) {
+          touchCallback: (event, touchResponse) async {
             if (event is FlLongPressStart) {
-              print('LONG PRESS'); //TODO: Make phone vibrate
+              if (await di.sl<DeviceInfo>().platform == 'ios' &&
+                  await di.sl<DeviceInfo>().version < 10) {
+                HapticFeedback.vibrate();
+              } else {
+                HapticFeedback.heavyImpact();
+              }
+
+              lastTouchedIndex = touchResponse?.lineBarSpots?[0].spotIndex;
+            }
+            if (event is FlLongPressMoveUpdate) {
+              if (touchResponse?.lineBarSpots?[0].spotIndex !=
+                  lastTouchedIndex) {
+                lastTouchedIndex = touchResponse?.lineBarSpots?[0].spotIndex;
+
+                if (touchResponse?.lineBarSpots?[0] != null) {
+                  if (await di.sl<DeviceInfo>().platform == 'ios' &&
+                      await di.sl<DeviceInfo>().version < 10) {
+                    HapticFeedback.vibrate();
+                  } else {
+                    HapticFeedback.selectionClick();
+                  }
+                }
+              }
             }
           },
         ),
