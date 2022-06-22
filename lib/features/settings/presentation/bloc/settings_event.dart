@@ -134,6 +134,33 @@ class SettingsUpdateDoubleBackToExit extends SettingsEvent {
   List<Object> get props => [doubleBackToExit];
 }
 
+class SettingsUpdateGraphTimeRange extends SettingsEvent {
+  final int graphTimeRange;
+
+  const SettingsUpdateGraphTimeRange(this.graphTimeRange);
+
+  @override
+  List<Object> get props => [graphTimeRange];
+}
+
+class SettingsUpdateGraphTipsShown extends SettingsEvent {
+  final bool graphTipsShown;
+
+  const SettingsUpdateGraphTipsShown(this.graphTipsShown);
+
+  @override
+  List<Object> get props => [graphTipsShown];
+}
+
+class SettingsUpdateGraphYAxis extends SettingsEvent {
+  final GraphYAxis graphYAxis;
+
+  const SettingsUpdateGraphYAxis(this.graphYAxis);
+
+  @override
+  List<Object> get props => [graphYAxis];
+}
+
 class SettingsUpdateMaskSensitiveInfo extends SettingsEvent {
   final bool maskSensitiveInfo;
 

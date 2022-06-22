@@ -10,6 +10,7 @@ import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/local_storage/local_storage.dart';
 import '../../../../core/package_information/package_information.dart';
+import '../../../../core/types/graph_y_axis.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
 import '../models/connection_address_model.dart';
@@ -81,6 +82,18 @@ abstract class SettingsDataSource {
   Future<bool> getDoubleBackToExit();
   Future<bool> setDoubleBackToExit(bool value);
 
+  // Graph Time Range
+  Future<int> getGraphTimeRange();
+  Future<bool> setGraphTimeRange(int value);
+
+  // Graph Tips Shown
+  Future<bool> getGraphTipsShown();
+  Future<bool> setGraphTipsShown(bool value);
+
+  // Graph Y Axis
+  Future<GraphYAxis> getGraphYAxis();
+  Future<bool> setGraphYAxis(GraphYAxis value);
+
   // Last App Version
   Future<String> getLastAppVersion();
   Future<bool> setLastAppVersion(String value);
@@ -125,6 +138,9 @@ abstract class SettingsDataSource {
 const activeServerId = 'activeServerId';
 const customCertHashList = 'customCertHashList';
 const doubleBackToExit = 'doubleTapToExit';
+const graphTimeRange = 'graphTimeRange';
+const graphTipsShown = 'graphTipsShown';
+const graphYAxis = 'graphYAxis';
 const lastAppVersion = 'lastAppVersion';
 const lastReadAnnouncementId = 'lastReadAnnouncementId';
 const maskSensitiveInfo = 'maskSensitiveInfo';
@@ -350,6 +366,43 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setDoubleBackToExit(bool value) {
     return localStorage.setBool(doubleBackToExit, value);
+  }
+
+  // Graphs Time Range
+  @override
+  Future<int> getGraphTimeRange() async {
+    return Future.value(localStorage.getInt(graphTimeRange) ?? 30);
+  }
+
+  @override
+  Future<bool> setGraphTimeRange(int value) async {
+    return localStorage.setInt(graphTimeRange, value);
+  }
+
+  // Graph Tips Shown
+  @override
+  Future<bool> getGraphTipsShown() async {
+    return Future.value(localStorage.getBool(graphTipsShown) ?? false);
+  }
+
+  @override
+  Future<bool> setGraphTipsShown(bool value) async {
+    return localStorage.setBool(graphTipsShown, value);
+  }
+
+  // Graph Y Axis
+  @override
+  Future<GraphYAxis> getGraphYAxis() async {
+    String timeRangeString = localStorage.getString(graphYAxis) ?? 'plays';
+
+    if (timeRangeString == 'duration') return Future.value(GraphYAxis.time);
+
+    return Future.value(GraphYAxis.plays);
+  }
+
+  @override
+  Future<bool> setGraphYAxis(GraphYAxis value) async {
+    return localStorage.setString(graphYAxis, value.apiValue());
   }
 
   // Last App Version

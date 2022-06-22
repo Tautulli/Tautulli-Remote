@@ -7,6 +7,7 @@ import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/network_info/network_info.dart';
+import '../../../../core/types/graph_y_axis.dart';
 import '../../domain/repositories/settings_repository.dart';
 import '../datasources/settings_data_source.dart';
 import '../models/connection_address_model.dart';
@@ -214,6 +215,39 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<bool> setDoubleBackToExit(bool value) async {
     return await dataSource.setDoubleBackToExit(value);
+  }
+
+  // Graphs Time Range
+  @override
+  Future<int> getGraphTimeRange() async {
+    return await dataSource.getGraphTimeRange();
+  }
+
+  @override
+  Future<bool> setGraphTimeRange(int value) async {
+    return await dataSource.setGraphTimeRange(value);
+  }
+
+  // Graph Tips Shown
+  @override
+  Future<bool> getGraphTipsShown() async {
+    return await dataSource.getGraphTipsShown();
+  }
+
+  @override
+  Future<bool> setGraphTipsShown(bool value) async {
+    return await dataSource.setGraphTipsShown(value);
+  }
+
+  // Graph Y Axis
+  @override
+  Future<GraphYAxis> getGraphYAxis() async {
+    return await dataSource.getGraphYAxis();
+  }
+
+  @override
+  Future<bool> setGraphYAxis(GraphYAxis value) async {
+    return await dataSource.setGraphYAxis(value);
   }
 
   // Last App Version

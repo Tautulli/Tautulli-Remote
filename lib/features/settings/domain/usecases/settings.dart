@@ -5,6 +5,7 @@ import '../../../../core/api/tautulli/models/register_device_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
+import '../../../../core/types/graph_y_axis.dart';
 import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';
 import '../repositories/settings_repository.dart';
@@ -195,6 +196,42 @@ class Settings {
   /// Sets if exiting the app should require two sequential back actions.
   Future<bool> setDoubleBackToExit(bool value) async {
     return await repository.setDoubleBackToExit(value);
+  }
+
+  /// Returns the number of days to display for graphs.
+  ///
+  /// If no value is stored returns `30`.
+  Future<int> getGraphTimeRange() async {
+    return await repository.getGraphTimeRange();
+  }
+
+  /// Sets the number of days to display for graphs.
+  Future<bool> setGraphTimeRange(int value) async {
+    return await repository.setGraphTimeRange(value);
+  }
+
+  /// Returns if the graph tips dialog has been shown.
+  ///
+  /// If no value is stored returns `false`.
+  Future<bool> getGraphTipsShown() async {
+    return await repository.getGraphTipsShown();
+  }
+
+  /// Sets if the graph tips dialog has been shown.
+  Future<bool> setGraphTipsShown(bool value) async {
+    return await repository.setGraphTipsShown(value);
+  }
+
+  /// Returns the initial type of graph y axis to use.
+  ///
+  /// If no value is stored returns `GraphYAxis.plays`.
+  Future<GraphYAxis> getGraphYAxis() async {
+    return await repository.getGraphYAxis();
+  }
+
+  /// Sets the initial y axis to be used by the graphs.
+  Future<bool> setGraphYAxis(GraphYAxis value) async {
+    return await repository.setGraphYAxis(value);
   }
 
   /// Returns the app version from the last time the app was started.

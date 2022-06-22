@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:quiver/strings.dart';
+import 'package:tautulli_remote/core/types/graph_y_axis.dart';
 
 import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
@@ -62,6 +63,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
     on<SettingsUpdateDoubleBackToExit>(
       (event, emit) => _onSettingsUpdateDoubleBackToExit(event, emit),
+    );
+    on<SettingsUpdateGraphTimeRange>(
+      (event, emit) => _onSettingsUpdateGraphTimeRange(event, emit),
+    );
+    on<SettingsUpdateGraphTipsShown>(
+      (event, emit) => _onSettingsUpdateGraphTipsShown(event, emit),
+    );
+    on<SettingsUpdateGraphYAxis>(
+      (event, emit) => _onSettingsUpdateGraphYAxis(event, emit),
     );
     on<SettingsUpdateMaskSensitiveInfo>(
       (event, emit) => _onSettingsUpdateMaskSensitiveInfo(event, emit),
@@ -314,6 +324,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
                 ? serverList.first
                 : blankServer,
         doubleBackToExit: await settings.getDoubleBackToExit(),
+        graphTimeRange: await settings.getGraphTimeRange(),
+        graphTipsShown: await settings.getGraphTipsShown(),
+        graphYAxis: await settings.getGraphYAxis(),
         maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
         oneSignalBannerDismissed: await settings.getOneSignalBannerDismissed(),
         oneSignalConsented: await settings.getOneSignalConsented(),
@@ -530,6 +543,63 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       currentState.copyWith(
         appSettings: currentState.appSettings
             .copyWith(doubleBackToExit: event.doubleBackToExit),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateGraphTimeRange(
+    SettingsUpdateGraphTimeRange event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setGraphTimeRange(event.graphTimeRange);
+    logging.info(
+      'Settings :: Graph Time Range set to ${event.graphTimeRange}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings
+            .copyWith(graphTimeRange: event.graphTimeRange),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateGraphTipsShown(
+    SettingsUpdateGraphTipsShown event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setGraphTipsShown(event.graphTipsShown);
+    logging.info(
+      'Settings :: Graph Tips Shown set to ${event.graphTipsShown}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings
+            .copyWith(graphTipsShown: event.graphTipsShown),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateGraphYAxis(
+    SettingsUpdateGraphYAxis event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setGraphYAxis(event.graphYAxis);
+    logging.info(
+      'Settings :: Graph Y Axis set to ${event.graphYAxis}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings:
+            currentState.appSettings.copyWith(graphYAxis: event.graphYAxis),
       ),
     );
   }

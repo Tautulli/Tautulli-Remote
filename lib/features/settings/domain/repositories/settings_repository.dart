@@ -5,6 +5,7 @@ import '../../../../core/api/tautulli/models/register_device_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
+import '../../../../core/types/graph_y_axis.dart';
 import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';
 
@@ -76,6 +77,18 @@ abstract class SettingsRepository {
   // Double Back To Exit
   Future<bool> getDoubleBackToExit();
   Future<bool> setDoubleBackToExit(bool value);
+
+  // Graph Time Range
+  Future<int> getGraphTimeRange();
+  Future<bool> setGraphTimeRange(int value);
+
+  // Graph Tips Shown
+  Future<bool> getGraphTipsShown();
+  Future<bool> setGraphTipsShown(bool value);
+
+  // Graph Y Axis
+  Future<GraphYAxis> getGraphYAxis();
+  Future<bool> setGraphYAxis(GraphYAxis value);
 
   // Last App Version
   Future<String> getLastAppVersion();
