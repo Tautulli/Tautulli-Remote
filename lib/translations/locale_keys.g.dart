@@ -113,6 +113,7 @@ abstract class  LocaleKeys {
   static const filter_recently_added_title = 'filter_recently_added_title';
   static const global_stats_title = 'global_stats_title';
   static const go_to_settings_button = 'go_to_settings_button';
+  static const graphs_tips_dialog_content = 'graphs_tips_dialog_content';
   static const graphs_title = 'graphs_title';
   static const header_key_title = 'header_key_title';
   static const header_value_title = 'header_value_title';
@@ -246,6 +247,7 @@ abstract class  LocaleKeys {
   static const terms_of_use_title = 'terms_of_use_title';
   static const time_title = 'time_title';
   static const time_range_title = 'time_range_title';
+  static const tips_title = 'tips_title';
   static const transcode_title = 'transcode_title';
   static const translate_tautulli_remote_title = 'translate_tautulli_remote_title';
   static const trust_button = 'trust_button';

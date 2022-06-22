@@ -7,11 +7,13 @@ import 'package:gap/gap.dart';
 import '../../../../core/types/tautulli_types.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/graphs_bloc.dart';
 import '../widgets/custom_time_range_dialog.dart';
+import '../widgets/graph_tips_dialog.dart';
 import '../widgets/media_type_graphs_tab.dart';
 import '../widgets/play_totals_graphs_tab.dart';
 import '../widgets/stream_type_graphs_tab.dart';
@@ -53,8 +55,8 @@ class _GraphsViewState extends State<GraphsView> {
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
     _tautulliId = settingsState.appSettings.activeServer.tautulliId;
-    _yAxis = _graphsBloc.state.yAxis;
-    _timeRange = _graphsBloc.state.timeRange;
+    _yAxis = settingsState.appSettings.graphYAxis;
+    _timeRange = settingsState.appSettings.graphTimeRange;
 
     _graphsBloc.add(
       GraphsFetched(
@@ -64,6 +66,16 @@ class _GraphsViewState extends State<GraphsView> {
         settingsBloc: _settingsBloc,
       ),
     );
+
+    if (!settingsState.appSettings.graphTipsShown) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        return showDialog(
+          context: context,
+          builder: (context) => const GraphTipsDialog(),
+        );
+      });
+      _settingsBloc.add(const SettingsUpdateGraphTipsShown(true));
+    }
   }
 
   @override
@@ -101,13 +113,58 @@ class _GraphsViewState extends State<GraphsView> {
             length: 3,
             child: Column(
               children: [
-                const Expanded(
+                Expanded(
                   child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      MediaTypeGraphsTab(),
-                      StreamTypeGraphsTab(),
-                      PlayTotalsGraphsTab(),
+                      ThemedRefreshIndicator(
+                        onRefresh: () {
+                          _graphsBloc.add(
+                            GraphsFetched(
+                              tautulliId: _tautulliId,
+                              yAxis: _yAxis,
+                              timeRange: _timeRange,
+                              freshFetch: true,
+                              settingsBloc: _settingsBloc,
+                            ),
+                          );
+
+                          return Future.value();
+                        },
+                        child: const MediaTypeGraphsTab(),
+                      ),
+                      ThemedRefreshIndicator(
+                        onRefresh: () {
+                          _graphsBloc.add(
+                            GraphsFetched(
+                              tautulliId: _tautulliId,
+                              yAxis: _yAxis,
+                              timeRange: _timeRange,
+                              freshFetch: true,
+                              settingsBloc: _settingsBloc,
+                            ),
+                          );
+
+                          return Future.value();
+                        },
+                        child: const StreamTypeGraphsTab(),
+                      ),
+                      ThemedRefreshIndicator(
+                        onRefresh: () {
+                          _graphsBloc.add(
+                            GraphsFetched(
+                              tautulliId: _tautulliId,
+                              yAxis: _yAxis,
+                              timeRange: _timeRange,
+                              freshFetch: true,
+                              settingsBloc: _settingsBloc,
+                            ),
+                          );
+
+                          return Future.value();
+                        },
+                        child: const PlayTotalsGraphsTab(),
+                      ),
                     ],
                   ),
                 ),
@@ -148,6 +205,10 @@ class _GraphsViewState extends State<GraphsView> {
             ),
             onSelected: (GraphYAxis value) {
               _yAxis = value;
+
+              _settingsBloc.add(
+                SettingsUpdateGraphYAxis(_yAxis),
+              );
 
               _graphsBloc.add(
                 GraphsFetched(
@@ -227,6 +288,10 @@ class _GraphsViewState extends State<GraphsView> {
                     if (value > 0) {
                       if (value != _timeRange) {
                         _timeRange = value;
+
+                        _settingsBloc.add(
+                          SettingsUpdateGraphTimeRange(_timeRange),
+                        );
 
                         _graphsBloc.add(
                           GraphsFetched(
