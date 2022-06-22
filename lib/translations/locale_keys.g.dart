@@ -43,6 +43,10 @@ abstract class  LocaleKeys {
   static const custom_time_range_title = 'custom_time_range_title';
   static const custom_title = 'custom_title';
   static const custom_http_headers_title = 'custom_http_headers_title';
+  static const daily_play_count_by_media_type_title = 'daily_play_count_by_media_type_title';
+  static const daily_play_duration_by_media_type_title = 'daily_play_duration_by_media_type_title';
+  static const daily_play_count_by_stream_type_title = 'daily_play_count_by_stream_type_title';
+  static const daily_play_duration_by_stream_type_title = 'daily_play_duration_by_stream_type_title';
   static const data_dump_subtitle = 'data_dump_subtitle';
   static const data_dump_title = 'data_dump_title';
   static const data_dump_warning_line_1 = 'data_dump_warning_line_1';
