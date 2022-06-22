@@ -115,4 +115,18 @@ class GraphHelper {
     final formatedDateString = DateFormat(dateFormat).format(parsedDateTime);
     return formatedDateString;
   }
+
+  static String graphDuration(int durationInSeconds, {bool useDays = true}) {
+    Duration time = Duration(seconds: durationInSeconds);
+
+    if (useDays && time.inDays > 0) {
+      return '${time.inDays}d ${time.inHours.remainder(24)}h ${time.inMinutes.remainder(60)}m';
+    }
+
+    if (time.inHours > 0) {
+      return '${time.inHours}h ${time.inMinutes.remainder(60)}m';
+    }
+
+    return '${time.inMinutes.remainder(60)}m';
+  }
 }

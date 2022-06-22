@@ -39,18 +39,22 @@ class LineChartGraph extends StatelessWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 30,
-              getTitlesWidget: (value, meta) => Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Text(
-                  value.toStringAsFixed(0),
-                  textAlign: TextAlign.end,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12,
+              reservedSize: yAxis == GraphYAxis.time ? 55 : 20,
+              getTitlesWidget: (value, meta) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: Text(
+                    yAxis == GraphYAxis.time
+                        ? GraphHelper.graphDuration(value.toInt())
+                        : value.toStringAsFixed(0),
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
               interval: chartData.horizontalLineStep,
             ),
           ),
@@ -148,7 +152,8 @@ class LineChartGraph extends StatelessWidget {
                       ),
                     if (yAxis == GraphYAxis.time)
                       TextSpan(
-                        text: 'Time',
+                        text:
+                            '${StringHelper.mapSeriesTypeToString(graphData.seriesDataList[index].seriesType)}: ${GraphHelper.graphDuration(touchedSpots[index].y.toInt())}',
                         style: TextStyle(
                           color: touchedSpots[index].bar.color,
                         ),
