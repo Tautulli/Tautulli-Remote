@@ -73,5 +73,20 @@
     "error_message_invalid_api_key": "Ugyldig Enhetstoken",
     "error_message_server": "Feilet i å koble seg på server",
     "error_message_server_version": "Server versjon møter ikke kravene",
-    "error_snackbar_message": "Noe gikk galt"
+    "error_snackbar_message": "Noe gikk galt",
+    "custom_time_range_dialog_content": "Det er anbefalt at du kke overskrider 90 dager for de fleste skjermstørrelser.",
+    "custom_time_range_title": "Tilpasset Tidsrom",
+    "y_axis_title": "Y Akse",
+    "daily_play_count_by_media_type_title": "Daglig Spilling av Media Type",
+    "added_title": "Lagt til",
+    "all_users_title": "Alle Brukere",
+    "clear_app_image_cache_dialog_content": "Er du sikker på at du vil tømme den lokale bilde-cachen?",
+    "clear_app_image_cache_subtitle": "Slett lokalt lagrede bilder",
+    "clear_app_image_cache_title": "Tøm Applikasjon Bilde Cache",
+    "clear_app_image_cache_success_snackbar_message": "Applikasjon bilde-cache ble tømt",
+    "clear_tautulli_image_cache_success_snackbar_message": "{} bilde-lagring slettet",
+    "clear_tautulli_image_cache_subtitle": "Slett server lagrede bilder",
+    "clear_tautulli_image_cache_title": "Tøm {} Bilde Cache",
+    "clear_tautulli_image_cache_dialog_content": "Er du sikker på at du vil slette bilde-lagringen på {}?",
+    "clear_tautulli_image_cache_failure_snackbar_message": "Feilet i å slette bilde-lagringen på {}"
 }
