@@ -44,9 +44,9 @@ abstract class  LocaleKeys {
   static const custom_title = 'custom_title';
   static const custom_http_headers_title = 'custom_http_headers_title';
   static const daily_play_count_by_media_type_title = 'daily_play_count_by_media_type_title';
-  static const daily_play_duration_by_media_type_title = 'daily_play_duration_by_media_type_title';
+  static const daily_play_time_by_media_type_title = 'daily_play_time_by_media_type_title';
   static const daily_play_count_by_stream_type_title = 'daily_play_count_by_stream_type_title';
-  static const daily_play_duration_by_stream_type_title = 'daily_play_duration_by_stream_type_title';
+  static const daily_play_time_by_stream_type_title = 'daily_play_time_by_stream_type_title';
   static const data_dump_subtitle = 'data_dump_subtitle';
   static const data_dump_title = 'data_dump_title';
   static const data_dump_warning_line_1 = 'data_dump_warning_line_1';
@@ -185,7 +185,11 @@ abstract class  LocaleKeys {
   static const other_title = 'other_title';
   static const paused_title = 'paused_title';
   static const platform_title = 'platform_title';
+  static const play_count_by_day_of_the_week = 'play_count_by_day_of_the_week';
+  static const play_count_by_source_resolution = 'play_count_by_source_resolution';
   static const play_count_title = 'play_count_title';
+  static const play_time_by_day_of_the_week = 'play_time_by_day_of_the_week';
+  static const play_time_by_source_resolution = 'play_time_by_source_resolution';
   static const play_totals_title = 'play_totals_title';
   static const player_stats_empty_message = 'player_stats_empty_message';
   static const player_title = 'player_title';
