@@ -191,7 +191,11 @@ class BarChartGraph extends StatelessWidget {
 
               List<TextSpan> textSpanList = [];
 
-              if (settingsState.appSettings.maskSensitiveInfo) {
+              if (settingsState.appSettings.maskSensitiveInfo &&
+                  [
+                    GraphType.playsByTop10Users,
+                    GraphType.streamTypeByTop10Users,
+                  ].contains(graphType)) {
                 textSpanList.add(
                   TextSpan(
                     text: '${LocaleKeys.hidden_message.tr()}\n\n',
