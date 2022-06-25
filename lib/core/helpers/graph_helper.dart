@@ -68,9 +68,7 @@ class GraphHelper {
     } else if (longestYValue == 4) {
       leftReservedSize = 43;
     } else if (longestYValue < 7) {
-      leftReservedSize = 58;
-    } else if (longestYValue <= 8) {
-      leftReservedSize = 65;
+      leftReservedSize = 67;
     } else {
       leftReservedSize = 72;
     }
@@ -275,9 +273,7 @@ class GraphHelper {
     } else if (longestYValue == 4) {
       leftReservedSize = 43;
     } else if (longestYValue < 7) {
-      leftReservedSize = 58;
-    } else if (longestYValue <= 8) {
-      leftReservedSize = 65;
+      leftReservedSize = 67;
     } else {
       leftReservedSize = 72;
     }
