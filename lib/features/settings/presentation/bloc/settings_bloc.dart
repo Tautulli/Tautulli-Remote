@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:quiver/strings.dart';
-import 'package:tautulli_remote/core/types/graph_y_axis.dart';
 
 import '../../../../core/api/tautulli/models/plex_info_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/manage_cache/manage_cache.dart';
+import '../../../../core/types/graph_y_axis.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../data/models/app_settings_model.dart';
 import '../../data/models/connection_address_model.dart';

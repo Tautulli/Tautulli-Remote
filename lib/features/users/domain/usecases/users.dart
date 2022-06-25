@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../data/models/user_model.dart';
-import '../../data/models/user_table_model.dart';
 import '../../data/models/user_player_stat_model.dart';
+import '../../data/models/user_table_model.dart';
 import '../../data/models/user_watch_time_stat_model.dart';
 import '../repositories/users_repository.dart';
 

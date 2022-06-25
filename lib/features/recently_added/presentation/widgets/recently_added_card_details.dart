@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:tautulli_remote/translations/locale_keys.g.dart';
 
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/media_type_icon.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/recently_added_model.dart';
 
 class RecentlyAddedCardDetails extends StatelessWidget {

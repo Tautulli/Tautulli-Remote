@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tautulli_remote/core/types/tautulli_types.dart';
 
 import 'graph_series_data_model.dart';
 
