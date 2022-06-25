@@ -171,13 +171,28 @@ class _GraphsViewState extends State<GraphsView> {
                 TabBar(
                   tabs: [
                     Tab(
-                      child: const Text(LocaleKeys.media_type_title).tr(),
+                      child: const Text(
+                        LocaleKeys.media_type_title,
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ).tr(),
                     ),
                     Tab(
-                      child: const Text(LocaleKeys.stream_type_title).tr(),
+                      child: const Text(
+                        LocaleKeys.stream_type_title,
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ).tr(),
                     ),
                     Tab(
-                      child: const Text(LocaleKeys.play_totals_title).tr(),
+                      child: const Text(
+                        LocaleKeys.play_totals_title,
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ).tr(),
                     ),
                   ],
                 ),
