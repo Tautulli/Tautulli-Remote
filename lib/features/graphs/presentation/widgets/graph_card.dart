@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/types/bloc_status.dart';
+import '../../../../core/types/graph_chart_type.dart';
 import '../../../../core/types/graph_type.dart';
 import '../../../../core/types/tautulli_types.dart';
 import '../../data/models/graph_model.dart';
+import 'bar_chart_graph.dart';
 import 'graph_card_legend.dart';
 import 'line_chart_graph.dart';
 
 class GraphCard extends StatelessWidget {
+  final GraphChartType graphChartType;
   final GraphYAxis yAxis;
   final GraphType graphType;
   final GraphModel graph;
+  // final double? bottomTitleAngle;
+  // final EdgeInsets? bottomTitlePadding;
+  final bool? isVertical;
 
   const GraphCard({
     super.key,
+    required this.graphChartType,
     required this.yAxis,
     required this.graphType,
     required this.graph,
+    // this.bottomTitleAngle,
+    // this.bottomTitlePadding,
+    this.isVertical,
   });
 
   @override
@@ -57,13 +67,29 @@ class GraphCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: graph.graphDataModel != null
-                      ? LineChartGraph(
-                          yAxis: yAxis,
-                          graphData: graph.graphDataModel!,
-                        )
-                      : null,
+                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                  child: Builder(
+                    builder: (context) {
+                      if (graph.graphDataModel != null) {
+                        switch (graphChartType) {
+                          case (GraphChartType.line):
+                            return LineChartGraph(
+                              yAxis: yAxis,
+                              graphData: graph.graphDataModel!,
+                            );
+                          case (GraphChartType.bar):
+                            return BarChartGraph(
+                              yAxis: yAxis,
+                              graphType: graphType,
+                              graphData: graph.graphDataModel!,
+                              isVertical: isVertical,
+                            );
+                        }
+                      }
+
+                      return const SizedBox(width: 0, height: 0);
+                    },
+                  ),
                 ),
               ),
               if (graph.graphDataModel != null)

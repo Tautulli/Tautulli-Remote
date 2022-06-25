@@ -1,0 +1,4 @@
+enum GraphChartType {
+  line,
+  bar;
+}

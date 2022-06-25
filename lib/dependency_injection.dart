@@ -283,7 +283,16 @@ Future<void> init() async {
   sl.registerLazySingleton<GraphsDataSource>(
     () => GraphsDataSourceImpl(
       getPlaysByDateApi: sl(),
+      getPlaysByDayOfWeekApi: sl(),
+      getPlaysByHourOfDayApi: sl(),
+      getPlaysBySourceResolutionApi: sl(),
+      getPlaysByStreamResolutionApi: sl(),
       getPlaysByStreamTypeApi: sl(),
+      getPlaysByTop10PlatformsApi: sl(),
+      getPlaysByTop10UsersApi: sl(),
+      getPlaysPerMonthApi: sl(),
+      getStreamTypeByTop10PlatformsApi: sl(),
+      getStreamTypeByTop10UsersApi: sl(),
     ),
   );
 
