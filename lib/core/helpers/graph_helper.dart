@@ -62,17 +62,17 @@ class GraphHelper {
     }
 
     if (longestYValue < 3) {
-      leftReservedSize = 19;
+      leftReservedSize = 29;
     } else if (longestYValue == 3) {
-      leftReservedSize = 26;
+      leftReservedSize = 36;
     } else if (longestYValue == 4) {
-      leftReservedSize = 33;
+      leftReservedSize = 43;
     } else if (longestYValue < 7) {
-      leftReservedSize = 48;
+      leftReservedSize = 58;
     } else if (longestYValue <= 8) {
-      leftReservedSize = 55;
+      leftReservedSize = 65;
     } else {
-      leftReservedSize = 62;
+      leftReservedSize = 72;
     }
 
     // Calculate Vertical Line Step
@@ -269,17 +269,17 @@ class GraphHelper {
     }
 
     if (longestYValue < 3) {
-      leftReservedSize = 19;
+      leftReservedSize = 29;
     } else if (longestYValue == 3) {
-      leftReservedSize = 26;
+      leftReservedSize = 36;
     } else if (longestYValue == 4) {
-      leftReservedSize = 33;
+      leftReservedSize = 43;
     } else if (longestYValue < 7) {
-      leftReservedSize = 48;
+      leftReservedSize = 58;
     } else if (longestYValue <= 8) {
-      leftReservedSize = 55;
+      leftReservedSize = 65;
     } else {
-      leftReservedSize = 62;
+      leftReservedSize = 72;
     }
 
     // Calculate Vertical Line Step
