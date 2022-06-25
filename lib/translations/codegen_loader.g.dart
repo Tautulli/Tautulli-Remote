@@ -585,6 +585,7 @@ static const Map<String,dynamic> en = {
   "time_range_title": "Time Range",
   "tips_title": "Tips",
   "total_play_count_for_last_12_months_title": "Total Play Count for Last 12 Months",
+  "total_play_time_for_last_12_months_title": "Total Play Time for Last 12 Months",
   "transcode_title": "Transcode",
   "translate_tautulli_remote_title": "Translate Tautulli Remote",
   "trust_button": "TRUST",

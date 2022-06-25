@@ -269,6 +269,7 @@ abstract class  LocaleKeys {
   static const time_range_title = 'time_range_title';
   static const tips_title = 'tips_title';
   static const total_play_count_for_last_12_months_title = 'total_play_count_for_last_12_months_title';
+  static const total_play_time_for_last_12_months_title = 'total_play_time_for_last_12_months_title';
   static const transcode_title = 'transcode_title';
   static const translate_tautulli_remote_title = 'translate_tautulli_remote_title';
   static const trust_button = 'trust_button';
