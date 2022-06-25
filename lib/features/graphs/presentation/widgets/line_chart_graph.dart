@@ -23,7 +23,7 @@ class LineChartGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ChartDataModel chartData = GraphHelper.buildChartDataModel(
+    final ChartDataModel chartData = GraphHelper.buildLineChartDataModel(
       yAxis: yAxis,
       graphData: graphData,
     );
@@ -39,7 +39,7 @@ class LineChartGraph extends StatelessWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: yAxis == GraphYAxis.time ? 55 : 20,
+              reservedSize: chartData.leftReservedSize,
               getTitlesWidget: (value, meta) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 4),
@@ -69,9 +69,12 @@ class LineChartGraph extends StatelessWidget {
                 }
 
                 return Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: Transform.rotate(
-                    angle: -0.50,
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    top: 12,
+                  ),
+                  child: RotationTransition(
+                    turns: const AlwaysStoppedAnimation(-40 / 360),
                     child: Text(
                       GraphHelper.graphDate(
                           graphData.categories[value.toInt()]),

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../features/graphs/data/models/chart_data_model.dart';
@@ -10,7 +11,216 @@ import '../types/tautulli_types.dart';
 import 'color_palette_helper.dart';
 
 class GraphHelper {
-  static ChartDataModel buildChartDataModel({
+  static ChartDataModel buildBarChartDataModel({
+    required GraphYAxis yAxis,
+    required GraphDataModel graphData,
+  }) {
+    // Calculate Max Y Value
+    double maxYValue = List<int>.generate(graphData.categories.length, (index) {
+      num value = 0;
+      for (GraphSeriesDataModel seriesDataModel in graphData.seriesDataList) {
+        value = value + seriesDataModel.seriesData[index];
+      }
+      return value.toInt();
+    }).reduce(max).toDouble();
+
+    // Calculate Horizontal Line Step
+    late double horizontalLineStep;
+    if (yAxis == GraphYAxis.time) {
+      List<double> bins = [1800, 3600, 10800, 21600];
+
+      late double durationBin;
+
+      // If max y is more than 21600s (6h) then calculate a new bin in
+      // increments of 21600s
+      if (maxYValue > bins[bins.length - 1]) {
+        durationBin = (maxYValue / 21600).ceilToDouble() * 21600;
+      } else {
+        for (double b in bins) {
+          if (maxYValue <= b) {
+            durationBin = b;
+            break;
+          }
+        }
+      }
+
+      horizontalLineStep = durationBin / 6;
+    } else {
+      horizontalLineStep = (maxYValue / 5).ceilToDouble();
+    }
+
+    // Left Reserved Size
+    late int longestYValue;
+    late double leftReservedSize;
+    if (yAxis == GraphYAxis.plays) {
+      longestYValue = (horizontalLineStep * 6).toInt().toString().length;
+    } else {
+      longestYValue = GraphHelper.graphDuration(
+        (horizontalLineStep * 6).toInt(),
+        useDays: false,
+      ).length;
+    }
+
+    if (longestYValue < 3) {
+      leftReservedSize = 19;
+    } else if (longestYValue == 3) {
+      leftReservedSize = 26;
+    } else if (longestYValue == 4) {
+      leftReservedSize = 33;
+    } else if (longestYValue < 7) {
+      leftReservedSize = 48;
+    } else if (longestYValue <= 8) {
+      leftReservedSize = 55;
+    } else {
+      leftReservedSize = 62;
+    }
+
+    // Calculate Vertical Line Step
+    double verticalLineStep = (graphData.categories.length / 7).ceilToDouble();
+
+    // Calculate Max Y Lines
+    double maxYLines =
+        (maxYValue / horizontalLineStep).ceilToDouble() * horizontalLineStep;
+
+    return ChartDataModel(
+      horizontalLineStep: horizontalLineStep,
+      verticalLineStep: verticalLineStep,
+      leftReservedSize: leftReservedSize,
+      maxYLines: maxYLines,
+    );
+  }
+
+  static List<BarChartGroupData>? buildBarGroups({
+    required GraphDataModel graphData,
+    required double screenWidth,
+  }) {
+    List<BarChartGroupData> barGroups = [];
+    for (var i = 0; i < graphData.categories.length; i++) {
+      Map<GraphSeriesType, double?> barValues = {};
+
+      for (GraphSeriesDataModel seriesData in graphData.seriesDataList) {
+        barValues[seriesData.seriesType] = seriesData.seriesData[i].toDouble();
+      }
+
+      double maxBarY = 0;
+
+      for (GraphSeriesType seriesType in barValues.keys) {
+        maxBarY += barValues[seriesType]!;
+      }
+
+      double barStart = 0;
+      List<BarChartRodStackItem> rodStackItems = [];
+
+      if (barValues.containsKey(GraphSeriesType.live)) {
+        rodStackItems.add(
+          BarChartRodStackItem(
+            barStart,
+            barValues[GraphSeriesType.live]! + barStart,
+            PlexColorPalette.curiousBlue,
+          ),
+        );
+
+        barStart = barStart + barValues[GraphSeriesType.music]!;
+      }
+
+      if (barValues.containsKey(GraphSeriesType.music)) {
+        rodStackItems.add(
+          BarChartRodStackItem(
+            barStart,
+            barValues[GraphSeriesType.music]! + barStart,
+            PlexColorPalette.cinnabar,
+          ),
+        );
+
+        barStart = barStart + barValues[GraphSeriesType.music]!;
+      }
+
+      if (barValues.containsKey(GraphSeriesType.transcode)) {
+        rodStackItems.add(
+          BarChartRodStackItem(
+            barStart,
+            barValues[GraphSeriesType.transcode]! + barStart,
+            PlexColorPalette.cinnabar,
+          ),
+        );
+
+        barStart = barStart + barValues[GraphSeriesType.transcode]!;
+      }
+
+      if (barValues.containsKey(GraphSeriesType.movies)) {
+        rodStackItems.add(
+          BarChartRodStackItem(
+            barStart,
+            barValues[GraphSeriesType.movies]! + barStart,
+            TautulliColorPalette.notWhite,
+          ),
+        );
+
+        barStart = barStart + barValues[GraphSeriesType.movies]!;
+      }
+
+      if (barValues.containsKey(GraphSeriesType.directStream)) {
+        rodStackItems.add(
+          BarChartRodStackItem(
+            barStart,
+            barValues[GraphSeriesType.directStream]! + barStart,
+            TautulliColorPalette.notWhite,
+          ),
+        );
+
+        barStart = barStart + barValues[GraphSeriesType.directStream]!;
+      }
+
+      if (barValues.containsKey(GraphSeriesType.tv)) {
+        rodStackItems.add(
+          BarChartRodStackItem(
+            barStart,
+            barValues[GraphSeriesType.tv]! + barStart,
+            PlexColorPalette.gamboge,
+          ),
+        );
+
+        barStart = barStart + barValues[GraphSeriesType.tv]!;
+      }
+
+      if (barValues.containsKey(GraphSeriesType.directPlay)) {
+        rodStackItems.add(
+          BarChartRodStackItem(
+            barStart,
+            barValues[GraphSeriesType.directPlay]! + barStart,
+            PlexColorPalette.gamboge,
+          ),
+        );
+
+        barStart = barStart + barValues[GraphSeriesType.directPlay]!;
+      }
+
+      final test = screenWidth / graphData.categories.length / 2.5;
+      // print(test);
+
+      barGroups.add(
+        BarChartGroupData(
+          x: i,
+          barRods: [
+            BarChartRodData(
+              toY: maxBarY,
+              width: test, //TODO
+              color: Colors.transparent,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(2),
+                topRight: Radius.circular(2),
+              ),
+              rodStackItems: rodStackItems,
+            ),
+          ],
+        ),
+      );
+    }
+
+    return barGroups;
+  }
+
+  static ChartDataModel buildLineChartDataModel({
     required GraphYAxis yAxis,
     required GraphDataModel graphData,
   }) {
@@ -42,9 +252,35 @@ class GraphHelper {
       }
 
       horizontalLineStep = durationBin / 6;
+    } else {
+      horizontalLineStep = (maxYValue / 5).ceilToDouble();
     }
 
-    horizontalLineStep = (maxYValue / 5).ceilToDouble();
+    // Left Reserved Size
+    late int longestYValue;
+    late double leftReservedSize;
+    if (yAxis == GraphYAxis.plays) {
+      longestYValue = (horizontalLineStep * 6).toInt().toString().length;
+    } else {
+      longestYValue = GraphHelper.graphDuration(
+        (horizontalLineStep * 6).toInt(),
+        useDays: false,
+      ).length;
+    }
+
+    if (longestYValue < 3) {
+      leftReservedSize = 19;
+    } else if (longestYValue == 3) {
+      leftReservedSize = 26;
+    } else if (longestYValue == 4) {
+      leftReservedSize = 33;
+    } else if (longestYValue < 7) {
+      leftReservedSize = 48;
+    } else if (longestYValue <= 8) {
+      leftReservedSize = 55;
+    } else {
+      leftReservedSize = 62;
+    }
 
     // Calculate Vertical Line Step
     double verticalLineStep = (graphData.categories.length / 7).ceilToDouble();
@@ -56,6 +292,7 @@ class GraphHelper {
     return ChartDataModel(
       horizontalLineStep: horizontalLineStep,
       verticalLineStep: verticalLineStep,
+      leftReservedSize: leftReservedSize,
       maxYLines: maxYLines,
     );
   }
@@ -63,8 +300,6 @@ class GraphHelper {
   static List<LineChartBarData>? buildLineBarsData(GraphDataModel graphData) {
     List<LineChartBarData> lineBarsData = [];
     Map<GraphSeriesType, List<FlSpot>> spotListMap = {};
-
-    graphData.seriesDataList;
 
     for (GraphSeriesDataModel seriesData in graphData.seriesDataList) {
       spotListMap[seriesData.seriesType] = [];
