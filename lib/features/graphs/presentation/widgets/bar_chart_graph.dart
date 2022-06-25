@@ -87,10 +87,8 @@ class BarChartGraph extends StatelessWidget {
                       GraphType.playsByTop10Users,
                       GraphType.streamTypeByTop10Users,
                     ].contains(graphType)) {
-                  text = LocaleKeys.hidden_message.tr();
-                }
-
-                if (graphType == GraphType.playsByDayOfWeek) {
+                  text = '${LocaleKeys.hidden_message.tr()}     ';
+                } else if (graphType == GraphType.playsByDayOfWeek) {
                   text = graphData.categories[value.toInt()].substring(0, 3);
                 } else if (graphType == GraphType.playsPerMonth) {
                   final categoryItems =
@@ -191,14 +189,28 @@ class BarChartGraph extends StatelessWidget {
 
               final sortedRodStackItems = rod.rodStackItems.reversed.toList();
 
-              List<TextSpan> textSpanList = [
-                TextSpan(
-                  text: '${graphData.categories[groupIndex]}\n\n',
-                  style: const TextStyle(
-                    color: Colors.grey,
+              List<TextSpan> textSpanList = [];
+
+              if (settingsState.appSettings.maskSensitiveInfo) {
+                textSpanList.add(
+                  TextSpan(
+                    text: '${LocaleKeys.hidden_message.tr()}\n\n',
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-              ];
+                );
+              } else {
+                textSpanList.add(
+                  TextSpan(
+                    text: '${graphData.categories[groupIndex]}\n\n',
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                );
+              }
+
               for (var i = 0; i < validItems.length; i++) {
                 if (yAxis == GraphYAxis.plays) {
                   textSpanList.add(
