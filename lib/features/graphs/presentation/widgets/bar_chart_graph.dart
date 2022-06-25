@@ -246,12 +246,12 @@ class BarChartGraph extends StatelessWidget {
                 HapticFeedback.heavyImpact();
               }
 
-              lastTouchedIndex = touchResponse?.spot?.touchedRodDataIndex;
+              lastTouchedIndex = touchResponse?.spot?.touchedBarGroupIndex;
             }
             if (event is FlLongPressMoveUpdate) {
-              if (touchResponse?.spot?.touchedRodDataIndex !=
+              if (touchResponse?.spot?.touchedBarGroupIndex !=
                   lastTouchedIndex) {
-                lastTouchedIndex = touchResponse?.spot?.touchedRodDataIndex;
+                lastTouchedIndex = touchResponse?.spot?.touchedBarGroupIndex;
 
                 if (touchResponse?.spot != null) {
                   if (await di.sl<DeviceInfo>().platform == 'ios' &&
