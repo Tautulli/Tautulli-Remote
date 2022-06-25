@@ -32,7 +32,7 @@ class StreamTypeGraphsTab extends StatelessWidget {
               graphType: GraphType.playsByStreamType,
               graph: state.graphs[GraphType.playsByStreamType]!,
             ),
-            const Gap(12),
+            const Gap(18),
             GraphHeading(
               text: state.yAxis == GraphYAxis.plays
                   ? LocaleKeys.play_count_by_source_resolution.tr()
@@ -44,7 +44,7 @@ class StreamTypeGraphsTab extends StatelessWidget {
               graphType: GraphType.playsBySourceResolution,
               graph: state.graphs[GraphType.playsBySourceResolution]!,
             ),
-            const Gap(12),
+            const Gap(18),
             GraphHeading(
               text: state.yAxis == GraphYAxis.plays
                   ? LocaleKeys.play_count_by_stream_resolution.tr()
@@ -56,7 +56,7 @@ class StreamTypeGraphsTab extends StatelessWidget {
               graphType: GraphType.playsByStreamResolution,
               graph: state.graphs[GraphType.playsByStreamResolution]!,
             ),
-            const Gap(12),
+            const Gap(18),
             GraphHeading(
               text: state.yAxis == GraphYAxis.plays
                   ? LocaleKeys.play_count_by_platform_stream_type.tr()
@@ -68,7 +68,7 @@ class StreamTypeGraphsTab extends StatelessWidget {
               graphType: GraphType.streamTypeByTop10Platforms,
               graph: state.graphs[GraphType.streamTypeByTop10Platforms]!,
             ),
-            const Gap(12),
+            const Gap(18),
             GraphHeading(
               text: state.yAxis == GraphYAxis.plays
                   ? LocaleKeys.play_count_by_user_stream_type.tr()

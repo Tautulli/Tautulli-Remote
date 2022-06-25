@@ -32,7 +32,7 @@ class MediaTypeGraphsTab extends StatelessWidget {
               graphType: GraphType.playsByDate,
               graph: state.graphs[GraphType.playsByDate]!,
             ),
-            const Gap(12),
+            const Gap(18),
             GraphHeading(
               text: state.yAxis == GraphYAxis.plays
                   ? LocaleKeys.play_count_by_day_of_the_week.tr()
@@ -44,7 +44,7 @@ class MediaTypeGraphsTab extends StatelessWidget {
               graphType: GraphType.playsByDayOfWeek,
               graph: state.graphs[GraphType.playsByDayOfWeek]!,
             ),
-            const Gap(12),
+            const Gap(18),
             GraphHeading(
               text: state.yAxis == GraphYAxis.plays
                   ? LocaleKeys.play_count_by_hour_of_the_day.tr()
@@ -57,7 +57,7 @@ class MediaTypeGraphsTab extends StatelessWidget {
               graph: state.graphs[GraphType.playsByHourOfDay]!,
               isVertical: true,
             ),
-            const Gap(12),
+            const Gap(18),
             GraphHeading(
               text: state.yAxis == GraphYAxis.plays
                   ? LocaleKeys.play_count_by_top_10_platforms.tr()
@@ -69,7 +69,7 @@ class MediaTypeGraphsTab extends StatelessWidget {
               graphType: GraphType.playsByTop10Platforms,
               graph: state.graphs[GraphType.playsByTop10Platforms]!,
             ),
-            const Gap(12),
+            const Gap(18),
             GraphHeading(
               text: state.yAxis == GraphYAxis.plays
                   ? LocaleKeys.play_count_by_top_10_users.tr()
