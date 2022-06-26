@@ -200,8 +200,8 @@ class GraphHelper {
         barStart = barStart + barValues[GraphSeriesType.directPlay]!;
       }
 
-      final test = screenWidth / graphData.categories.length / 2.5;
-      // print(test);
+      final double barWidth = screenWidth / graphData.categories.length / 2.5;
+      print(barWidth);
 
       barGroups.add(
         BarChartGroupData(
@@ -209,11 +209,23 @@ class GraphHelper {
           barRods: [
             BarChartRodData(
               toY: maxBarY,
-              width: test, //TODO
+              width: barWidth,
               color: Colors.transparent,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(2),
-                topRight: Radius.circular(2),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(
+                  barWidth < 10
+                      ? 1
+                      : barWidth < 30
+                          ? 3
+                          : 5,
+                ),
+                topRight: Radius.circular(
+                  barWidth < 10
+                      ? 1
+                      : barWidth < 30
+                          ? 2
+                          : 5,
+                ),
               ),
               rodStackItems: rodStackItems,
             ),
