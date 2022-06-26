@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -21,7 +23,7 @@ GraphYAxis? yAxisCache;
 int? timeRangeCache;
 Map<GraphType, GraphModel> graphsCache = Map.of(defaultGraphs);
 
-const Map<GraphType, GraphModel> defaultGraphs = {
+Map<GraphType, GraphModel> defaultGraphs = {
   GraphType.playsByDate: GraphModel(
     graphType: GraphType.playsByDate,
     status: BlocStatus.initial,
@@ -92,7 +94,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
   ) async {
     final bool serverChange = tautulliIdCache != event.tautulliId;
 
-    if (event.freshFetch) {
+    if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
       for (GraphType graphType in graphsCache.keys) {
         graphsCache[graphType] = graphsCache[graphType]!.copyWith(
           status: BlocStatus.initial,
@@ -106,17 +108,9 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
           graphs: Map.of(graphsCache),
         ),
       );
-    } else if (tautulliIdCache != null && serverChange) {
-      emit(
-        state.copyWith(
-          yAxis: yAxisCache,
-          timeRange: timeRangeCache,
-          graphs: Map.of(defaultGraphs),
-        ),
-      );
-      graphsCache = defaultGraphs;
     }
 
+    graphsCache = defaultGraphs;
     tautulliIdCache = event.tautulliId;
     yAxisCache = event.yAxis;
     timeRangeCache = event.timeRange;
