@@ -67,7 +67,7 @@ class GraphCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 16, 8, 16),
+                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
                   child: Builder(
                     builder: (context) {
                       if (graph.graphDataModel != null) {
