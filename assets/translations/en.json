@@ -158,6 +158,7 @@
     "never": "never",
     "normal_title": "Normal",
     "no_button": "NO",
+    "no_data": "No data",
     "not_accepted_title": "Not Accepted",
     "not_configured_message": "Not configured",
     "notification_permission_dialog_title": "Notification Permission Disabled",

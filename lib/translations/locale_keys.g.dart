@@ -160,6 +160,7 @@ abstract class  LocaleKeys {
   static const never = 'never';
   static const normal_title = 'normal_title';
   static const no_button = 'no_button';
+  static const no_data = 'no_data';
   static const not_accepted_title = 'not_accepted_title';
   static const not_configured_message = 'not_configured_message';
   static const notification_permission_dialog_title = 'notification_permission_dialog_title';
