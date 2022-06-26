@@ -14,6 +14,7 @@ class GraphHelper {
   static ChartDataModel buildBarChartDataModel({
     required GraphYAxis yAxis,
     required GraphDataModel graphData,
+    required double textScaleFactor,
   }) {
     // Calculate Max Y Value
     double maxYValue = List<int>.generate(graphData.categories.length, (index) {
@@ -53,7 +54,7 @@ class GraphHelper {
     late int longestYValue;
     late double leftReservedSize;
     if (yAxis == GraphYAxis.plays) {
-      longestYValue = (horizontalLineStep * 6).toInt().toString().length;
+      longestYValue = (horizontalLineStep * 5).toInt().toString().length;
     } else {
       longestYValue = GraphHelper.graphDuration(
         (horizontalLineStep * 6).toInt(),
@@ -62,15 +63,21 @@ class GraphHelper {
     }
 
     if (longestYValue < 3) {
-      leftReservedSize = 29;
+      leftReservedSize = 19 * textScaleFactor;
     } else if (longestYValue == 3) {
-      leftReservedSize = 36;
+      leftReservedSize = 26 * textScaleFactor;
     } else if (longestYValue == 4) {
-      leftReservedSize = 43;
-    } else if (longestYValue < 7) {
-      leftReservedSize = 67;
+      leftReservedSize = 33 * textScaleFactor;
+    } else if (longestYValue == 5) {
+      leftReservedSize = 41 * textScaleFactor;
+    } else if (longestYValue == 6) {
+      leftReservedSize = 48 * textScaleFactor;
+    } else if (longestYValue == 7) {
+      leftReservedSize = 55 * textScaleFactor;
+    } else if (longestYValue == 8) {
+      leftReservedSize = 62 * textScaleFactor;
     } else {
-      leftReservedSize = 72;
+      leftReservedSize = 66 * textScaleFactor;
     }
 
     // Calculate Vertical Line Step
@@ -118,7 +125,7 @@ class GraphHelper {
           ),
         );
 
-        barStart = barStart + barValues[GraphSeriesType.music]!;
+        barStart = barStart + barValues[GraphSeriesType.live]!;
       }
 
       if (barValues.containsKey(GraphSeriesType.music)) {
@@ -221,6 +228,7 @@ class GraphHelper {
   static ChartDataModel buildLineChartDataModel({
     required GraphYAxis yAxis,
     required GraphDataModel graphData,
+    required double textScaleFactor,
   }) {
     // Calculate Max Y Value
     List<int> allYValues = [];
@@ -258,7 +266,7 @@ class GraphHelper {
     late int longestYValue;
     late double leftReservedSize;
     if (yAxis == GraphYAxis.plays) {
-      longestYValue = (horizontalLineStep * 6).toInt().toString().length;
+      longestYValue = (horizontalLineStep * 5).toInt().toString().length;
     } else {
       longestYValue = GraphHelper.graphDuration(
         (horizontalLineStep * 6).toInt(),
@@ -267,15 +275,21 @@ class GraphHelper {
     }
 
     if (longestYValue < 3) {
-      leftReservedSize = 29;
+      leftReservedSize = 19 * textScaleFactor;
     } else if (longestYValue == 3) {
-      leftReservedSize = 36;
+      leftReservedSize = 26 * textScaleFactor;
     } else if (longestYValue == 4) {
-      leftReservedSize = 43;
-    } else if (longestYValue < 7) {
-      leftReservedSize = 67;
+      leftReservedSize = 33 * textScaleFactor;
+    } else if (longestYValue == 5) {
+      leftReservedSize = 41 * textScaleFactor;
+    } else if (longestYValue == 6) {
+      leftReservedSize = 48 * textScaleFactor;
+    } else if (longestYValue == 7) {
+      leftReservedSize = 55 * textScaleFactor;
+    } else if (longestYValue == 8) {
+      leftReservedSize = 62 * textScaleFactor;
     } else {
-      leftReservedSize = 72;
+      leftReservedSize = 66 * textScaleFactor;
     }
 
     // Calculate Vertical Line Step

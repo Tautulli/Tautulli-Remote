@@ -39,6 +39,7 @@ class BarChartGraph extends StatelessWidget {
     final ChartDataModel chartData = GraphHelper.buildBarChartDataModel(
       yAxis: yAxis,
       graphData: graphData,
+      textScaleFactor: MediaQuery.of(context).textScaleFactor,
     );
     final List<BarChartGroupData>? barGroups = GraphHelper.buildBarGroups(
       graphData: graphData,

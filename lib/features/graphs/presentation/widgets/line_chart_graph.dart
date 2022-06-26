@@ -26,6 +26,7 @@ class LineChartGraph extends StatelessWidget {
     final ChartDataModel chartData = GraphHelper.buildLineChartDataModel(
       yAxis: yAxis,
       graphData: graphData,
+      textScaleFactor: MediaQuery.of(context).textScaleFactor,
     );
     final List<LineChartBarData>? lineBarsData = GraphHelper.buildLineBarsData(
       graphData,
@@ -45,7 +46,10 @@ class LineChartGraph extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4),
                   child: Text(
                     yAxis == GraphYAxis.time
-                        ? GraphHelper.graphDuration(value.toInt())
+                        ? GraphHelper.graphDuration(
+                            value.toInt(),
+                            useDays: false,
+                          )
                         : value.toStringAsFixed(0),
                     textAlign: TextAlign.end,
                     style: const TextStyle(
