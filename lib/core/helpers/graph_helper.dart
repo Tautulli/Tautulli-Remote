@@ -53,11 +53,23 @@ class GraphHelper {
     // Left Reserved Size
     late int longestYValue;
     late double leftReservedSize;
+
+    int largestValue = 0;
+    for (GraphSeriesDataModel seriesDataModel in graphData.seriesDataList) {
+      final int largestDataPoint =
+          seriesDataModel.seriesData.cast<int>().reduce(max);
+      if (largestDataPoint > largestValue) {
+        largestValue = largestDataPoint;
+      }
+    }
+    final numberOfLines = (largestValue / horizontalLineStep).ceilToDouble();
+
     if (yAxis == GraphYAxis.plays) {
-      longestYValue = (horizontalLineStep * 5).toInt().toString().length;
+      longestYValue =
+          (horizontalLineStep * numberOfLines).toInt().toString().length;
     } else {
       longestYValue = GraphHelper.graphDuration(
-        (horizontalLineStep * 6).toInt(),
+        (horizontalLineStep * numberOfLines).toInt(),
         useDays: false,
       ).length;
     }
@@ -201,7 +213,6 @@ class GraphHelper {
       }
 
       final double barWidth = screenWidth / graphData.categories.length / 2.5;
-      print(barWidth);
 
       barGroups.add(
         BarChartGroupData(
@@ -277,11 +288,23 @@ class GraphHelper {
     // Left Reserved Size
     late int longestYValue;
     late double leftReservedSize;
+
+    int largestValue = 0;
+    for (GraphSeriesDataModel seriesDataModel in graphData.seriesDataList) {
+      final int largestDataPoint =
+          seriesDataModel.seriesData.cast<int>().reduce(max);
+      if (largestDataPoint > largestValue) {
+        largestValue = largestDataPoint;
+      }
+    }
+    final numberOfLines = (largestValue / horizontalLineStep).ceilToDouble();
+
     if (yAxis == GraphYAxis.plays) {
-      longestYValue = (horizontalLineStep * 5).toInt().toString().length;
+      longestYValue =
+          (horizontalLineStep * numberOfLines).toInt().toString().length;
     } else {
       longestYValue = GraphHelper.graphDuration(
-        (horizontalLineStep * 6).toInt(),
+        (horizontalLineStep * numberOfLines).toInt(),
         useDays: false,
       ).length;
     }
