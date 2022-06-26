@@ -55,10 +55,12 @@ class GraphHelper {
     late double leftReservedSize;
 
     int largestValue = 0;
-    for (GraphSeriesDataModel seriesDataModel in graphData.seriesDataList) {
-      final int largestDataPoint =
-          seriesDataModel.seriesData.cast<int>().reduce(max);
-      largestValue += largestDataPoint;
+    for (int i = 0; i < graphData.categories.length; i++) {
+      num barHeight = 0;
+      for (int j = 0; j < graphData.seriesDataList.length; j++) {
+        barHeight += graphData.seriesDataList[j].seriesData[i];
+      }
+      if (barHeight > largestValue) largestValue = barHeight.toInt();
     }
     final numberOfLines = (largestValue / horizontalLineStep).ceilToDouble();
 
