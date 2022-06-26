@@ -1,6 +1,21 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.14",
+      "date": "June 25, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added the Graphs page",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Norwegian Bokmål",
+          "additional": "Thanks @aunefyren",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.13",
       "date": "June 12, 2022",
       "changes": [
