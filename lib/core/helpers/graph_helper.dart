@@ -58,9 +58,7 @@ class GraphHelper {
     for (GraphSeriesDataModel seriesDataModel in graphData.seriesDataList) {
       final int largestDataPoint =
           seriesDataModel.seriesData.cast<int>().reduce(max);
-      if (largestDataPoint > largestValue) {
-        largestValue = largestDataPoint;
-      }
+      largestValue += largestDataPoint;
     }
     final numberOfLines = (largestValue / horizontalLineStep).ceilToDouble();
 
