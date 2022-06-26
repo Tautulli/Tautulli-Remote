@@ -93,7 +93,6 @@ class _GraphsViewState extends State<GraphsView> {
       listener: (ctx, state) {
         if (state is SettingsSuccess) {
           _tautulliId = state.appSettings.activeServer.tautulliId;
-          _yAxis = GraphYAxis.plays;
 
           _graphsBloc.add(
             GraphsFetched(
@@ -326,6 +325,10 @@ class _GraphsViewState extends State<GraphsView> {
 
                       if (timeRange != _timeRange) {
                         _timeRange = timeRange;
+
+                        _settingsBloc.add(
+                          SettingsUpdateGraphTimeRange(_timeRange),
+                        );
 
                         _graphsBloc.add(
                           GraphsFetched(
