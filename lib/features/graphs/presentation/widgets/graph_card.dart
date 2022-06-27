@@ -100,12 +100,14 @@ class GraphCard extends StatelessWidget {
                                 isVertical: isVertical,
                               );
                           }
+                        } else {
+                          return Center(
+                            child: const Text(LocaleKeys.no_data).tr(),
+                          );
                         }
                       }
 
-                      return Center(
-                        child: const Text(LocaleKeys.no_data).tr(),
-                      );
+                      return const SizedBox(height: 0, width: 0);
                     },
                   ),
                 ),
