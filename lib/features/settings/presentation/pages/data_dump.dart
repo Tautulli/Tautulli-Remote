@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/device_info/device_info.dart';
 import '../../../../core/widgets/heading.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../dependency_injection.dart' as di;
@@ -71,6 +72,8 @@ class DataDumpView extends StatelessWidget {
                 ),
               ),
             ),
+            const Gap(8),
+            const _DeviceDetails(),
             const Gap(8),
             BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, state) {
@@ -162,6 +165,103 @@ class _DataDumpRow extends StatelessWidget {
         ),
         Divider(
           color: Theme.of(context).textTheme.subtitle2!.color,
+        ),
+      ],
+    );
+  }
+}
+
+class _DeviceDetails extends StatelessWidget {
+  const _DeviceDetails();
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    return _SettingDumpGroup(
+      title: 'Device Details',
+      widgetList: [
+        _DataDumpRow(
+          children: [
+            const _DataDumpRowHeading('Aspect Ratio'),
+            const Gap(16),
+            Text(mediaQuery.size.aspectRatio.toString()),
+          ],
+        ),
+        _DataDumpRow(
+          children: [
+            const _DataDumpRowHeading('Longest Side'),
+            const Gap(16),
+            Text(mediaQuery.size.longestSide.toString()),
+          ],
+        ),
+        _DataDumpRow(
+          children: [
+            const _DataDumpRowHeading('Name'),
+            const Gap(16),
+            FutureBuilder(
+              future: di.sl<DeviceInfo>().model,
+              builder: (context, snapshot) {
+                return Text(snapshot.data.toString());
+              },
+            ),
+          ],
+        ),
+        _DataDumpRow(
+          children: [
+            const _DataDumpRowHeading('Orientation'),
+            const Gap(16),
+            Text(mediaQuery.orientation.toString()),
+          ],
+        ),
+        _DataDumpRow(
+          children: [
+            const _DataDumpRowHeading('Platform'),
+            const Gap(16),
+            FutureBuilder(
+              future: di.sl<DeviceInfo>().platform,
+              builder: (context, snapshot) {
+                return Text(snapshot.data.toString());
+              },
+            ),
+          ],
+        ),
+        _DataDumpRow(
+          children: [
+            const _DataDumpRowHeading('Shortest Side'),
+            const Gap(16),
+            Text(mediaQuery.size.shortestSide.toString()),
+          ],
+        ),
+        _DataDumpRow(
+          children: [
+            const _DataDumpRowHeading('Text Scale Factor'),
+            const Gap(16),
+            Text(mediaQuery.textScaleFactor.toString()),
+          ],
+        ),
+        _DataDumpRow(
+          children: [
+            const _DataDumpRowHeading('Unique ID'),
+            const Gap(16),
+            FutureBuilder(
+              future: di.sl<DeviceInfo>().uniqueId,
+              builder: (context, snapshot) {
+                return Text(snapshot.data.toString());
+              },
+            ),
+          ],
+        ),
+        _DataDumpRow(
+          children: [
+            const _DataDumpRowHeading('Version'),
+            const Gap(16),
+            FutureBuilder(
+              future: di.sl<DeviceInfo>().version,
+              builder: (context, snapshot) {
+                return Text(snapshot.data.toString());
+              },
+            ),
+          ],
         ),
       ],
     );
