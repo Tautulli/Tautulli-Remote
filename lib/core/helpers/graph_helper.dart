@@ -51,7 +51,7 @@ class GraphHelper {
     }
 
     // Left Reserved Size
-    late int longestYValue;
+    int longestYValue = 0;
     late double leftReservedSize;
 
     int largestValue = 0;
@@ -68,10 +68,16 @@ class GraphHelper {
       longestYValue =
           (horizontalLineStep * numberOfLines).toInt().toString().length;
     } else {
-      longestYValue = GraphHelper.graphDuration(
-        (horizontalLineStep * numberOfLines).toInt(),
-        useDays: false,
-      ).length;
+      for (int i = 1; i < numberOfLines + 1; i++) {
+        final int durationCharacterLength = GraphHelper.graphDuration(
+          (horizontalLineStep * i).toInt(),
+          useDays: false,
+        ).length;
+
+        if (durationCharacterLength > longestYValue) {
+          longestYValue = durationCharacterLength;
+        }
+      }
     }
 
     if (longestYValue < 3) {
@@ -286,7 +292,7 @@ class GraphHelper {
     }
 
     // Left Reserved Size
-    late int longestYValue;
+    int longestYValue = 0;
     late double leftReservedSize;
 
     int largestValue = 0;
@@ -303,10 +309,16 @@ class GraphHelper {
       longestYValue =
           (horizontalLineStep * numberOfLines).toInt().toString().length;
     } else {
-      longestYValue = GraphHelper.graphDuration(
-        (horizontalLineStep * numberOfLines).toInt(),
-        useDays: false,
-      ).length;
+      for (int i = 1; i < numberOfLines + 1; i++) {
+        final int durationCharacterLength = GraphHelper.graphDuration(
+          (horizontalLineStep * i).toInt(),
+          useDays: false,
+        ).length;
+
+        if (durationCharacterLength > longestYValue) {
+          longestYValue = durationCharacterLength;
+        }
+      }
     }
 
     if (longestYValue < 3) {
