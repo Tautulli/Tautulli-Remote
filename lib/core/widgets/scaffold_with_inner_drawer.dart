@@ -144,7 +144,7 @@ class _AppDrawer extends StatelessWidget {
                             leading: const FaIcon(
                               FontAwesomeIcons.clockRotateLeft,
                             ),
-                            title: const Text('History'),
+                            title: const Text(LocaleKeys.history_title).tr(),
                             onTap: () {
                               if (route?.settings.name != '/history') {
                                 Navigator.of(context).pushReplacementNamed(
@@ -160,7 +160,8 @@ class _AppDrawer extends StatelessWidget {
                             leading: const FaIcon(
                               FontAwesomeIcons.clock,
                             ),
-                            title: const Text('Recently Added'),
+                            title: const Text(LocaleKeys.recently_added_title)
+                                .tr(),
                             onTap: () {
                               if (route?.settings.name != '/recent') {
                                 Navigator.of(context).pushReplacementNamed(
@@ -208,7 +209,7 @@ class _AppDrawer extends StatelessWidget {
                             leading: const FaIcon(
                               FontAwesomeIcons.chartColumn,
                             ),
-                            title: const Text('Graphs'),
+                            title: const Text(LocaleKeys.graphs_title).tr(),
                             onTap: () {
                               if (route?.settings.name != '/graphs') {
                                 Navigator.of(context).pushReplacementNamed(
