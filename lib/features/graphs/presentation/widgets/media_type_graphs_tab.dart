@@ -19,6 +19,7 @@ class MediaTypeGraphsTab extends StatelessWidget {
     return BlocBuilder<GraphsBloc, GraphsState>(
       builder: (context, state) {
         return ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.all(8),
           children: [
             GraphHeading(

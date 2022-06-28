@@ -200,6 +200,7 @@ class _HistoryViewState extends State<HistoryView> {
 
                     return ListView.separated(
                       controller: _scrollController,
+                      physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
                       itemCount: state.hasReachedMax ||
                               state.status == BlocStatus.initial
