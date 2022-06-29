@@ -5,12 +5,14 @@ class IconCard extends StatelessWidget {
   final Widget? background;
   final Widget icon;
   final Widget details;
+  final Function()? onTap;
 
   const IconCard({
     super.key,
     this.background,
     required this.icon,
     required this.details,
+    this.onTap,
   });
 
   @override
@@ -44,6 +46,14 @@ class IconCard extends StatelessWidget {
                     child: details,
                   ),
                 ],
+              ),
+            ),
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: onTap,
+                ),
               ),
             ),
           ],
