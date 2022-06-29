@@ -111,8 +111,11 @@ flutter:
     - assets/platforms/xbox.svg
     - assets/libraries/artist.svg
     - assets/libraries/movie.svg
+    - assets/libraries/live.svg
     - assets/libraries/photo.svg
+    - assets/libraries/playlist.svg
     - assets/libraries/show.svg
+    - assets/libraries/video.svg
     - assets/icons/concurrent.svg
     - assets/images/default_profile.png
     - assets/images/art_fallback.png
