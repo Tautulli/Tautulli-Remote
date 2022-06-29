@@ -97,7 +97,7 @@ class UserDetails extends StatelessWidget {
             ),
           ],
         ),
-        const Gap(8),
+        const Gap(6),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,11 +123,12 @@ class UserDetails extends StatelessWidget {
                               color: Colors.grey[200],
                             ),
                           ),
-                          const TextSpan(
+                          TextSpan(
                             text: ' days ',
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
+                              color: Colors.grey[200],
                             ),
                           ),
                         ],
