@@ -18,8 +18,6 @@ part 'history_state.dart';
 
 String? tautulliIdCache;
 int? userIdCache;
-// String? mediaTypeCache;
-// String? transcodeDecisionCache;
 bool? movieMediaTypeCache;
 bool? episodeMediaTypeCache;
 bool? trackMediaTypeCache;

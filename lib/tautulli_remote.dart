@@ -15,6 +15,7 @@ import 'features/changelog/presentation/pages/changelog_page.dart';
 import 'features/donate/presentation/pages/donate_page.dart';
 import 'features/graphs/presentation/pages/graphs_page.dart';
 import 'features/history/presentation/pages/history_page.dart';
+import 'features/libraries/presentation/pages/libraries_page.dart';
 import 'features/logging/domain/usecases/logging.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -177,6 +178,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
         GraphsPage.routeName: (_) => const GraphsPage(),
         HistoryPage.routeName: (_) => const HistoryPage(),
         HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),
+        LibrariesPage.routeName: (_) => const LibrariesPage(),
         OneSignalDataPrivacyPage.routeName: (_) =>
             const OneSignalDataPrivacyPage(),
         RecentlyAddedPage.routeName: (_) => const RecentlyAddedPage(),

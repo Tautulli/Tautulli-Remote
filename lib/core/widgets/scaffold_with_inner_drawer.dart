@@ -172,14 +172,22 @@ class _AppDrawer extends StatelessWidget {
                               }
                             },
                           ),
-                          // DrawerTile(
-                          //   selected: route?.settings.name == '/libraries',
-                          //   leading: const FaIcon(
-                          //     FontAwesomeIcons.photoFilm,
-                          //   ),
-                          //   title: const Text('Libraries'),
-                          //   onTap: () {},
-                          // ),
+                          DrawerTile(
+                            selected: route?.settings.name == '/libraries',
+                            leading: const FaIcon(
+                              FontAwesomeIcons.photoFilm,
+                            ),
+                            title: const Text('Libraries'),
+                            onTap: () {
+                              if (route?.settings.name != '/libraries') {
+                                Navigator.of(context).pushReplacementNamed(
+                                  '/libraries',
+                                );
+                              } else {
+                                innerDrawerKey.currentState!.close();
+                              }
+                            },
+                          ),
                           DrawerTile(
                             selected: route?.settings.name == '/users',
                             leading: const FaIcon(

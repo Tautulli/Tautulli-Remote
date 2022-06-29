@@ -38,6 +38,11 @@ import 'features/image_url/data/datasources/image_url_data_source.dart';
 import 'features/image_url/data/repositories/image_url_repository_impl.dart';
 import 'features/image_url/domain/repositories/image_url_repository.dart';
 import 'features/image_url/domain/usecases/image_url.dart';
+import 'features/libraries/data/datasources/libraries_data_source.dart';
+import 'features/libraries/data/repositories/libraries_repository_impl.dart';
+import 'features/libraries/domain/repositories/libraries_repository.dart';
+import 'features/libraries/domain/usecases/libraries.dart';
+import 'features/libraries/presentation/bloc/libraries_bloc.dart';
 import 'features/logging/data/datasources/logging_data_source.dart';
 import 'features/logging/data/repositories/logging_repository_impl.dart';
 import 'features/logging/domain/repositories/logging_repository.dart';
@@ -91,6 +96,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.GetHistory>(
     () => tautulli_api.GetHistoryImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetLibrariesTable>(
+    () => tautulli_api.GetLibrariesTableImpl(sl()),
   );
   sl.registerLazySingleton<tautulli_api.GetPlaysByDate>(
     () => tautulli_api.GetPlaysByDateImpl(sl()),
@@ -355,6 +363,38 @@ Future<void> init() async {
   sl.registerLazySingleton<ImageUrlDataSource>(
     () => ImageUrlDataSourceImpl(
       pmsImageProxy: sl(),
+    ),
+  );
+
+  //! Features - Libraries
+  // Bloc
+  sl.registerFactory(
+    () => LibrariesBloc(
+      libraries: sl(),
+      imageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => Libraries(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<LibrariesRepository>(
+    () => LibrariesRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<LibrariesDataSource>(
+    () => LibrariesDataSourceImpl(
+      getLibrariesTableApi: sl(),
     ),
   );
 
