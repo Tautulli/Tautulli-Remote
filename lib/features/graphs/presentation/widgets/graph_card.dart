@@ -2,12 +2,12 @@ import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:tautulli_remote/translations/locale_keys.g.dart';
 
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/types/graph_chart_type.dart';
 import '../../../../core/types/graph_type.dart';
 import '../../../../core/types/tautulli_types.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/graph_model.dart';
 import '../../data/models/graph_series_data_model.dart';
 import 'bar_chart_graph.dart';
@@ -35,10 +35,8 @@ class GraphCard extends StatelessWidget {
     // Make sure the seriesDataModel contains data > 0 so the graphs can display.
     bool containsData = false;
     if (graph.graphDataModel != null) {
-      for (GraphSeriesDataModel seriesDataModel
-          in graph.graphDataModel!.seriesDataList) {
-        if (seriesDataModel.seriesData.isNotEmpty &&
-            seriesDataModel.seriesData.cast<int>().reduce(max) > 0) {
+      for (GraphSeriesDataModel seriesDataModel in graph.graphDataModel!.seriesDataList) {
+        if (seriesDataModel.seriesData.isNotEmpty && seriesDataModel.seriesData.cast<int>().reduce(max) > 0) {
           containsData = true;
           break;
         }
@@ -70,8 +68,7 @@ class GraphCard extends StatelessWidget {
             );
           }
 
-          if (graph.graphDataModel == null &&
-              graph.status != BlocStatus.initial) {
+          if (graph.graphDataModel == null && graph.status != BlocStatus.initial) {
             return const Center(
               child: Text('No graph data provided'),
             );
