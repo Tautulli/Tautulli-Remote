@@ -1,3 +1,5 @@
+import '../types/section_type.dart';
+
 class AssetHelper {
   static const String _platformsAssetPath = 'assets/platforms/';
   static const String _librariesAssetPath = 'assets/libraries/';
@@ -63,17 +65,23 @@ class AssetHelper {
     }
   }
 
-  static String mapLibraryToPath(String libraryType) {
-    switch (libraryType) {
-      case ('movie'):
-        return '${_librariesAssetPath}movie.svg';
-      case ('show'):
-        return '${_librariesAssetPath}show.svg';
-      case ('artist'):
+  static String mapSectionTypeToPath(SectionType? sectionType) {
+    switch (sectionType) {
+      case (SectionType.artist):
         return '${_librariesAssetPath}artist.svg';
-      case ('photo'):
-      default:
+      case (SectionType.live):
+        return '${_librariesAssetPath}live.svg';
+      case (SectionType.movie):
+        return '${_librariesAssetPath}movie.svg';
+      case (SectionType.photo):
         return '${_librariesAssetPath}photo.svg';
+      case (SectionType.playlist):
+        return '${_librariesAssetPath}playlist.svg';
+      case (SectionType.show):
+        return '${_librariesAssetPath}show.svg';
+      case (SectionType.video):
+      default:
+        return '${_librariesAssetPath}video.svg';
     }
   }
 }

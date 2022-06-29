@@ -1,5 +1,6 @@
 import '../../dependency_injection.dart' as di;
 import '../../features/logging/domain/usecases/logging.dart';
+import '../types/section_type.dart';
 import '../types/tautulli_types.dart';
 
 class Cast {
@@ -98,6 +99,7 @@ class Cast {
         return (value as bool) ? "1" : "0";
       case GraphYAxis:
       case MediaType:
+      case SectionType:
       case StreamDecision:
       case ImageFallback:
         return value.apiValue();
@@ -209,6 +211,29 @@ class Cast {
               'Utilities :: Failed to cast $value to PlaybackState',
             );
         return PlaybackState.unknown;
+    }
+  }
+
+  /// Casts `String` to a `SectionType`.
+  ///
+  /// Returns `SectionType.unknown` if no match is found.
+  static SectionType? castStringToSectionType(String? value) {
+    switch (value) {
+      case (null):
+        return null;
+      case ('artist'):
+        return SectionType.artist;
+      case ('movie'):
+        return SectionType.movie;
+      case ('photo'):
+        return SectionType.photo;
+      case ('show'):
+        return SectionType.show;
+      default:
+        di.sl<Logging>().warning(
+              'Utilities :: Failed to cast $value to SectionType',
+            );
+        return SectionType.unknown;
     }
   }
 
