@@ -42,8 +42,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
     required this.logging,
   }) : super(
           LibrariesState(
-            libraries:
-                tautulliIdCache != null ? librariesCache[tautulliIdCache]! : [],
+            libraries: tautulliIdCache != null ? librariesCache[tautulliIdCache]! : [],
             orderColumn: orderColumnCache ?? 'section_name',
             orderDir: orderDirCache ?? 'asc',
             hasReachedMax: hasReachedMaxCache,
@@ -136,8 +135,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
   void _emitFailureOrLibraries({
     required LibrariesFetched event,
     required Emitter<LibrariesState> emit,
-    required Either<Failure, Tuple2<List<LibraryTableModel>, bool>>
-        failureOrLibraries,
+    required Either<Failure, Tuple2<List<LibraryTableModel>, bool>> failureOrLibraries,
   }) async {
     await failureOrLibraries.fold(
       (failure) async {
@@ -146,9 +144,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
         return emit(
           state.copyWith(
             status: BlocStatus.failure,
-            libraries: event.freshFetch
-                ? librariesCache[event.tautulliId]
-                : state.libraries,
+            libraries: event.freshFetch ? librariesCache[event.tautulliId] : state.libraries,
             failure: failure,
             message: FailureHelper.mapFailureToMessage(failure),
             suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -164,14 +160,12 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
         );
 
         // Add posters to library table models
-        List<LibraryTableModel> libraryListWithUris =
-            await _libraryTableModelsWithPosterUris(
+        List<LibraryTableModel> libraryListWithUris = await _libraryTableModelsWithPosterUris(
           libraryList: libraries.value1,
           settingsBloc: event.settingsBloc,
         );
 
-        librariesCache[event.tautulliId] =
-            librariesCache[event.tautulliId]! + libraryListWithUris;
+        librariesCache[event.tautulliId] = librariesCache[event.tautulliId]! + libraryListWithUris;
         hasReachedMaxCache = libraryListWithUris.length < length;
 
         return emit(
@@ -195,8 +189,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
       Uri? iconUri;
       Uri? backgroundUri;
 
-      if (library.libraryThumb != null &&
-          library.libraryThumb!.startsWith('http')) {
+      if (library.libraryThumb != null && library.libraryThumb!.startsWith('http')) {
         final failureOrIconUrl = await imageUrl.getImageUrl(
           tautulliId: tautulliIdCache!,
           img: library.libraryThumb,
@@ -223,7 +216,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
 
       final failureOrBackgroundUrl = await imageUrl.getImageUrl(
         tautulliId: tautulliIdCache!,
-        img: library.libraryArt,
+        img: library.thumb ?? library.libraryThumb,
       );
 
       await failureOrBackgroundUrl.fold(

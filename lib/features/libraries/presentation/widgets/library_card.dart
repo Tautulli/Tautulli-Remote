@@ -8,8 +8,9 @@ import '../../../../core/widgets/icon_card.dart';
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/library_table_model.dart';
+import '../pages/library_details_page.dart';
 import 'library_card_details.dart';
-import 'library_card_icon.dart';
+import 'library_icon.dart';
 
 class LibraryCard extends StatelessWidget {
   final LibraryTableModel library;
@@ -32,24 +33,21 @@ class LibraryCard extends StatelessWidget {
                 return CachedNetworkImage(
                   imageUrl: library.backgroundUri.toString(),
                   httpHeaders: {
-                    for (CustomHeaderModel headerModel
-                        in state.appSettings.activeServer.customHeaders)
+                    for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
                       headerModel.key: headerModel.value,
                   },
                   imageBuilder: (context, imageProvider) => DecoratedBox(
                     position: DecorationPosition.foreground,
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.2),
+                      color: Colors.black.withOpacity(0.4),
                     ),
                     child: Image(
                       image: imageProvider,
                       fit: BoxFit.fill,
                     ),
                   ),
-                  placeholder: (context, url) =>
-                      Image.asset('assets/images/art_fallback.png'),
-                  errorWidget: (context, url, error) =>
-                      Image.asset('assets/images/art_fallback.png'),
+                  placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
+                  errorWidget: (context, url, error) => Image.asset('assets/images/art_fallback.png'),
                 );
               },
             ),
@@ -63,9 +61,20 @@ class LibraryCard extends StatelessWidget {
           ),
         ],
       ),
-      icon: LibraryCardIcon(library: library),
+      icon: Hero(
+        tag: ValueKey(library.guid),
+        child: LibraryIcon(library: library),
+      ),
       details: LibraryCardDetails(library: library),
-      onTap: () {},
+      onTap: () async {
+        await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => LibraryDetailsPage(
+              libraryTableModel: library,
+            ),
+          ),
+        );
+      },
     );
   }
 }

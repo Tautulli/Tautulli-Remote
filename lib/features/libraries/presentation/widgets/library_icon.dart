@@ -5,10 +5,10 @@ import 'package:websafe_svg/websafe_svg.dart';
 import '../../../../core/helpers/asset_helper.dart';
 import '../../data/models/library_table_model.dart';
 
-class LibraryCardIcon extends StatelessWidget {
+class LibraryIcon extends StatelessWidget {
   final LibraryTableModel library;
 
-  const LibraryCardIcon({
+  const LibraryIcon({
     super.key,
     required this.library,
   });
