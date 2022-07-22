@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/api/tautulli/tautulli_api.dart';
 import '../models/user_model.dart';
-import '../models/user_table_model.dart';
 import '../models/user_player_stat_model.dart';
+import '../models/user_table_model.dart';
 import '../models/user_watch_time_stat_model.dart';
 
 abstract class UsersDataSource {
@@ -68,10 +68,8 @@ class UsersDataSourceImpl implements UsersDataSource {
       grouping: grouping,
     );
 
-    final List<UserPlayerStatModel> playerStatList = result.value1['response']
-            ['data']
-        .map<UserPlayerStatModel>(
-            (playerStat) => UserPlayerStatModel.fromJson(playerStat))
+    final List<UserPlayerStatModel> playerStatList = result.value1['response']['data']
+        .map<UserPlayerStatModel>((playerStat) => UserPlayerStatModel.fromJson(playerStat))
         .toList();
 
     return Tuple2(playerStatList, result.value2);
@@ -91,10 +89,8 @@ class UsersDataSourceImpl implements UsersDataSource {
       queryDays: queryDays,
     );
 
-    final List<UserWatchTimeStatModel> watchTimeStatList = result
-        .value1['response']['data']
-        .map<UserWatchTimeStatModel>(
-            (watchTimeStat) => UserWatchTimeStatModel.fromJson(watchTimeStat))
+    final List<UserWatchTimeStatModel> watchTimeStatList = result.value1['response']['data']
+        .map<UserWatchTimeStatModel>((watchTimeStat) => UserWatchTimeStatModel.fromJson(watchTimeStat))
         .toList();
 
     return Tuple2(watchTimeStatList, result.value2);
@@ -128,9 +124,8 @@ class UsersDataSourceImpl implements UsersDataSource {
       tautulliId: tautulliId,
     );
 
-    final List<UserModel> userList = result.value1['response']['data']
-        .map<UserModel>((user) => UserModel.fromJson(user))
-        .toList();
+    final List<UserModel> userList =
+        result.value1['response']['data'].map<UserModel>((user) => UserModel.fromJson(user)).toList();
 
     return Tuple2(userList, result.value2);
   }
@@ -155,8 +150,7 @@ class UsersDataSourceImpl implements UsersDataSource {
       search: search,
     );
 
-    final List<UserTableModel> userTableList = result.value1['response']['data']
-            ['data']
+    final List<UserTableModel> userTableList = result.value1['response']['data']['data']
         .map<UserTableModel>((userTable) => UserTableModel.fromJson(userTable))
         .toList();
 
