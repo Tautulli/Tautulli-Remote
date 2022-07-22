@@ -62,15 +62,13 @@ class GetHistoryImpl implements GetHistory {
     if (userId != null) params['user_id'] = userId;
     if (ratingKey != null) params['rating_key'] = ratingKey;
     if (parentRatingKey != null) params['parent_rating_key'] = parentRatingKey;
-    if (grandparentRatingKey != null)
-      params['grandparent_rating_key'] = grandparentRatingKey;
+    if (grandparentRatingKey != null) params['grandparent_rating_key'] = grandparentRatingKey;
     if (startDate != null) params['start_date'] = startDate;
     if (before != null) params['before'] = before;
     if (after != null) params['after'] = after;
     if (sectionId != null) params['section_id'] = sectionId;
     if (mediaType != null) params['media_type'] = mediaType;
-    if (transcodeDecision != null)
-      params['transcode_decision'] = transcodeDecision;
+    if (transcodeDecision != null) params['transcode_decision'] = transcodeDecision;
     if (guid != null) params['guid'] = guid;
     if (orderColumn != null) params['order_column'] = orderColumn;
     if (orderDir != null) params['order_dir'] = orderDir;
