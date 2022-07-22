@@ -42,24 +42,21 @@ class PosterCard extends StatelessWidget {
                       return CachedNetworkImage(
                         imageUrl: uri.toString(),
                         httpHeaders: {
-                          for (CustomHeaderModel headerModel
-                              in state.appSettings.activeServer.customHeaders)
+                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
                             headerModel.key: headerModel.value,
                         },
                         imageBuilder: (context, imageProvider) => DecoratedBox(
                           position: DecorationPosition.foreground,
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.2),
+                            color: Colors.black.withOpacity(0.4),
                           ),
                           child: Image(
                             image: imageProvider,
                             fit: BoxFit.fill,
                           ),
                         ),
-                        placeholder: (context, url) =>
-                            Image.asset('assets/images/poster_fallback.png'),
-                        errorWidget: (context, url, error) =>
-                            Image.asset('assets/images/poster_fallback.png'),
+                        placeholder: (context, url) => Image.asset('assets/images/poster_fallback.png'),
+                        errorWidget: (context, url, error) => Image.asset('assets/images/poster_fallback.png'),
                       );
                     },
                   ),
