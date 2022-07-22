@@ -8,6 +8,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'core/database/data/models/server_model.dart';
 import 'core/helpers/color_palette_helper.dart';
 import 'core/helpers/theme_helper.dart';
+import 'core/widgets/settings_not_loaded.dart';
 import 'dependency_injection.dart' as di;
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/announcements/presentation/pages/announcements_page.dart';
@@ -74,13 +75,11 @@ class TautulliRemoteState extends State<TautulliRemote> {
       event.complete(event.notification);
     });
 
-    OneSignal.shared
-        .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+    OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult result) {
       // Will be called whenever a notification is opened/button pressed
     });
 
-    OneSignal.shared
-        .setSubscriptionObserver((OSSubscriptionStateChanges changes) async {
+    OneSignal.shared.setSubscriptionObserver((OSSubscriptionStateChanges changes) async {
       // Will be called whenever the subscription changes
 
       // Only trigger new checks when userId or pushToken move from null to a value
@@ -89,34 +88,28 @@ class TautulliRemoteState extends State<TautulliRemote> {
         context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
 
         if (changes.to.userId != null) {
-          final serversWithoutOneSignal =
-              await di.sl<Settings>().getAllServersWithoutOnesignalRegistered();
+          final serversWithoutOneSignal = await di.sl<Settings>().getAllServersWithoutOnesignalRegistered();
 
-          if (serversWithoutOneSignal != null &&
-              serversWithoutOneSignal.isNotEmpty) {
+          if (serversWithoutOneSignal != null && serversWithoutOneSignal.isNotEmpty) {
             di.sl<Logging>().info(
                   'OneSignal :: OneSignal registration changed, updating server registration',
                 );
 
             for (ServerModel server in serversWithoutOneSignal) {
-              String connectionProtocol = server.primaryActive!
-                  ? server.primaryConnectionProtocol
-                  : server.secondaryConnectionProtocol!;
-              String connectionDomain = server.primaryActive!
-                  ? server.primaryConnectionDomain
-                  : server.secondaryConnectionDomain!;
-              String? connectionPath = server.primaryActive!
-                  ? server.primaryConnectionPath
-                  : server.secondaryConnectionPath;
+              String connectionProtocol =
+                  server.primaryActive! ? server.primaryConnectionProtocol : server.secondaryConnectionProtocol!;
+              String connectionDomain =
+                  server.primaryActive! ? server.primaryConnectionDomain : server.secondaryConnectionDomain!;
+              String? connectionPath =
+                  server.primaryActive! ? server.primaryConnectionPath : server.secondaryConnectionPath;
 
-              final failureOrRegisterDevice =
-                  await di.sl<Settings>().registerDevice(
-                        connectionProtocol: connectionProtocol,
-                        connectionDomain: connectionDomain,
-                        connectionPath: connectionPath ?? '',
-                        deviceToken: server.deviceToken,
-                        customHeaders: server.customHeaders,
-                      );
+              final failureOrRegisterDevice = await di.sl<Settings>().registerDevice(
+                    connectionProtocol: connectionProtocol,
+                    connectionDomain: connectionDomain,
+                    connectionPath: connectionPath ?? '',
+                    deviceToken: server.deviceToken,
+                    customHeaders: server.customHeaders,
+                  );
 
               failureOrRegisterDevice.fold(
                 (failure) {
@@ -165,10 +158,19 @@ class TautulliRemoteState extends State<TautulliRemote> {
         final MediaQueryData data = MediaQuery.of(context);
         return MediaQuery(
           data: data.copyWith(
-            textScaleFactor:
-                data.textScaleFactor < 1.15 ? data.textScaleFactor : 1.15,
+            textScaleFactor: data.textScaleFactor < 1.15 ? data.textScaleFactor : 1.15,
           ),
-          child: child!,
+          child: BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              if (state is SettingsSuccess) {
+                return child!;
+              }
+
+              return const Scaffold(
+                body: SettingsNotLoaded(),
+              );
+            },
+          ),
         );
       },
       routes: {
@@ -179,15 +181,14 @@ class TautulliRemoteState extends State<TautulliRemote> {
         HistoryPage.routeName: (_) => const HistoryPage(),
         HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),
         LibrariesPage.routeName: (_) => const LibrariesPage(),
-        OneSignalDataPrivacyPage.routeName: (_) =>
-            const OneSignalDataPrivacyPage(),
+        OneSignalDataPrivacyPage.routeName: (_) => const OneSignalDataPrivacyPage(),
         RecentlyAddedPage.routeName: (_) => const RecentlyAddedPage(),
         SettingsPage.routeName: (_) => const SettingsPage(),
         UsersPage.routeName: (_) => const UsersPage(),
         WizardPage.routeName: (_) => const WizardPage(),
       },
       initialRoute: widget.initialRoute,
-      home: const SettingsPage(),
+      home: const HistoryPage(),
     );
   }
 }
