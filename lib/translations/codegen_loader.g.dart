@@ -79,7 +79,11 @@ class CodegenLoader extends AssetLoader{
   "videos_title": "Vídeos",
   "view_media_title": "Visualitza el suport multimèdia",
   "view_user_title": "Visualitza l'usuari",
-  "y_axis_title": "Eix Y"
+  "y_axis_title": "Eix Y",
+  "about_title": "Quant a",
+  "accepted_title": "Acceptat",
+  "active_connection_content": "Aquesta és l'adreça de connexió actual que utilitza Tautulli Remote.",
+  "active_connection_title": "Connexió activa"
 };
 static const Map<String,dynamic> cs = {
   "about_title": "O aplikaci",
