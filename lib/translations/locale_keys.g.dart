@@ -149,6 +149,7 @@ abstract class  LocaleKeys {
   static const logs_exported_snackbar_message = 'logs_exported_snackbar_message';
   static const mask_senstivie_info_subtitle = 'mask_senstivie_info_subtitle';
   static const mask_senstivie_info_title = 'mask_senstivie_info_title';
+  static const media_title = 'media_title';
   static const media_type_title = 'media_type_title';
   static const min = 'min';
   static const mins = 'mins';
@@ -158,6 +159,7 @@ abstract class  LocaleKeys {
   static const music_title = 'music_title';
   static const name_title = 'name_title';
   static const never = 'never';
+  static const new_title = 'new_title';
   static const normal_title = 'normal_title';
   static const no_button = 'no_button';
   static const no_data = 'no_data';

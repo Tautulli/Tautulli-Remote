@@ -1,4 +1,8 @@
 {
+    "about_title": "Quant a",
+    "accepted_title": "Acceptat",
+    "active_connection_content": "Aquesta és l'adreça de connexió actual que utilitza Tautulli Remote.",
+    "active_connection_title": "Connexió activa",
     "all_title": "Tots",
     "announcements_title": "Anuncis",
     "bugs_and_feature_requests_title": "Incidències/Sol·licitud de funcionalitats",
@@ -39,6 +43,7 @@
     "logs_clear_menu_item": "Esborra els registres",
     "logs_export_menu_item": "Exporta els registres",
     "logs_exported_snackbar_message": "Registres exportats",
+    "media_title": "Contingut",
     "media_type_title": "Tipus de suport multimèdia",
     "min": "min",
     "mins": "min",
@@ -47,6 +52,7 @@
     "music_title": "Música",
     "name_title": "Nom",
     "never": "mai",
+    "new_title": "Nova",
     "play_totals_title": "Total de reproduccions",
     "plays_title": "Reproduccions",
     "recently_added_title": "Afegit recentment",
@@ -63,9 +69,5 @@
     "videos_title": "Vídeos",
     "view_media_title": "Visualitza el suport multimèdia",
     "view_user_title": "Visualitza l'usuari",
-    "y_axis_title": "Eix Y",
-    "about_title": "Quant a",
-    "accepted_title": "Acceptat",
-    "active_connection_content": "Aquesta és l'adreça de connexió actual que utilitza Tautulli Remote.",
-    "active_connection_title": "Connexió activa"
+    "y_axis_title": "Eix Y"
 }
