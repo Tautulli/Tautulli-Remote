@@ -289,7 +289,7 @@ class LibraryCardDetails extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: ' days ',
+                            text: ' ${LocaleKeys.days.tr()} ',
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
@@ -310,7 +310,7 @@ class LibraryCardDetails extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: ' hrs ',
+                            text: ' ${LocaleKeys.hrs.tr()} ',
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
@@ -331,7 +331,7 @@ class LibraryCardDetails extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: ' mins',
+                            text: ' ${LocaleKeys.mins.tr()}',
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
@@ -355,7 +355,7 @@ class LibraryCardDetails extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: ' secs',
+                            text: ' ${LocaleKeys.secs.tr()}',
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
