@@ -139,7 +139,8 @@ class _AppDrawer extends StatelessWidget {
                           //   onTap: () {},
                           // ),
                           DrawerTile(
-                            selected: route?.settings.name == '/history',
+                            //TODO: Change default route once activity exists
+                            selected: route?.settings.name == '/history' || route?.settings.name == '/',
                             leading: const FaIcon(
                               FontAwesomeIcons.clockRotateLeft,
                             ),
@@ -434,8 +435,7 @@ class _SettingsGroup extends StatelessWidget {
             },
           ),
           DrawerTile(
-            //TODO: Change default route once activity exists
-            selected: route?.settings.name == '/settings' || route?.settings.name == '/',
+            selected: route?.settings.name == '/settings',
             leading: const FaIcon(
               FontAwesomeIcons.gears,
             ),
@@ -506,8 +506,7 @@ class _SettingsGroup extends StatelessWidget {
                   },
                 ),
                 DrawerIconButton(
-                  //TODO: Change default route once activity exists
-                  selected: route?.settings.name == '/settings' || route?.settings.name == '/',
+                  selected: route?.settings.name == '/settings',
                   icon: const FaIcon(
                     FontAwesomeIcons.gears,
                   ),
