@@ -31,8 +31,7 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<InnerDrawerState> innerDrawerKey =
-        GlobalKey<InnerDrawerState>();
+    final GlobalKey<InnerDrawerState> innerDrawerKey = GlobalKey<InnerDrawerState>();
 
     double calculateDrawerOffset() {
       // Tested Virtual Devices Sizes
@@ -160,8 +159,7 @@ class _AppDrawer extends StatelessWidget {
                             leading: const FaIcon(
                               FontAwesomeIcons.clock,
                             ),
-                            title: const Text(LocaleKeys.recently_added_title)
-                                .tr(),
+                            title: const Text(LocaleKeys.recently_added_title).tr(),
                             onTap: () {
                               if (route?.settings.name != '/recent') {
                                 Navigator.of(context).pushReplacementNamed(
@@ -177,7 +175,7 @@ class _AppDrawer extends StatelessWidget {
                             leading: const FaIcon(
                               FontAwesomeIcons.photoFilm,
                             ),
-                            title: const Text('Libraries'),
+                            title: const Text(LocaleKeys.libraries_title).tr(),
                             onTap: () {
                               if (route?.settings.name != '/libraries') {
                                 Navigator.of(context).pushReplacementNamed(
@@ -304,8 +302,7 @@ class __ServerSelectorState extends State<_ServerSelector> {
         if (state is SettingsSuccess && state.serverList.length > 1) {
           List<ServerModel> nonActiveServers = [...state.serverList];
           nonActiveServers.removeWhere(
-            (server) =>
-                server.tautulliId == state.appSettings.activeServer.tautulliId,
+            (server) => server.tautulliId == state.appSettings.activeServer.tautulliId,
           );
 
           return ExpansionPanelList(
@@ -438,8 +435,7 @@ class _SettingsGroup extends StatelessWidget {
           ),
           DrawerTile(
             //TODO: Change default route once activity exists
-            selected: route?.settings.name == '/settings' ||
-                route?.settings.name == '/',
+            selected: route?.settings.name == '/settings' || route?.settings.name == '/',
             leading: const FaIcon(
               FontAwesomeIcons.gears,
             ),
@@ -486,8 +482,7 @@ class _SettingsGroup extends StatelessWidget {
                         ),
                         onPressed: () {
                           if (route?.settings.name != '/announcements') {
-                            Navigator.of(context)
-                                .pushReplacementNamed('/announcements');
+                            Navigator.of(context).pushReplacementNamed('/announcements');
                           } else {
                             innerDrawerKey.currentState!.close();
                           }
@@ -512,8 +507,7 @@ class _SettingsGroup extends StatelessWidget {
                 ),
                 DrawerIconButton(
                   //TODO: Change default route once activity exists
-                  selected: route?.settings.name == '/settings' ||
-                      route?.settings.name == '/',
+                  selected: route?.settings.name == '/settings' || route?.settings.name == '/',
                   icon: const FaIcon(
                     FontAwesomeIcons.gears,
                   ),

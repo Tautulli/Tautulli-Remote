@@ -10,12 +10,14 @@ abstract class  LocaleKeys {
   static const add_custom_http_header_button = 'add_custom_http_header_button';
   static const added_title = 'added_title';
   static const advanced_title = 'advanced_title';
+  static const albums_title = 'albums_title';
   static const all_title = 'all_title';
   static const all_time_title = 'all_time_title';
   static const all_users_title = 'all_users_title';
   static const announcements_load_failed_message = 'announcements_load_failed_message';
   static const announcements_title = 'announcements_title';
   static const app_logs_title = 'app_logs_title';
+  static const artists_title = 'artists_title';
   static const basic_authentication_title = 'basic_authentication_title';
   static const bugs_and_feature_requests_title = 'bugs_and_feature_requests_title';
   static const cancel_button = 'cancel_button';
@@ -89,6 +91,7 @@ abstract class  LocaleKeys {
   static const duration_title = 'duration_title';
   static const enter_an_integer_message = 'enter_an_integer_message';
   static const enter_time_range_in_days_message = 'enter_time_range_in_days_message';
+  static const episodes_title = 'episodes_title';
   static const error_message_bad_api_response = 'error_message_bad_api_response';
   static const error_message_certificate_expired = 'error_message_certificate_expired';
   static const error_message_certificate_verification = 'error_message_certificate_verification';
@@ -136,6 +139,7 @@ abstract class  LocaleKeys {
   static const language_title = 'language_title';
   static const last_streamed_title = 'last_streamed_title';
   static const learn_more_button = 'learn_more_button';
+  static const libraries_title = 'libraries_title';
   static const live_title = 'live_title';
   static const live_tv_title = 'live_tv_title';
   static const location_lookup_failed_message = 'location_lookup_failed_message';
@@ -187,6 +191,7 @@ abstract class  LocaleKeys {
   static const optional = 'optional';
   static const other_title = 'other_title';
   static const paused_title = 'paused_title';
+  static const photos_title = 'photos_title';
   static const platform_title = 'platform_title';
   static const play_count_by_day_of_the_week = 'play_count_by_day_of_the_week';
   static const play_count_by_hour_of_the_day = 'play_count_by_hour_of_the_day';
@@ -229,6 +234,7 @@ abstract class  LocaleKeys {
   static const scan_qr_code_button = 'scan_qr_code_button';
   static const search_history_title = 'search_history_title';
   static const seasons = 'seasons';
+  static const seasons_title = 'seasons_title';
   static const sec = 'sec';
   static const secs = 'secs';
   static const secondary_connection_address_explanation_one = 'secondary_connection_address_explanation_one';
@@ -255,6 +261,7 @@ abstract class  LocaleKeys {
   static const settings_loading_message = 'settings_loading_message';
   static const settings_title = 'settings_title';
   static const settings_and_operations_title = 'settings_and_operations_title';
+  static const shows_title = 'shows_title';
   static const skip_button = 'skip_button';
   static const slow_title = 'slow_title';
   static const slower_title = 'slower_title';
@@ -273,6 +280,7 @@ abstract class  LocaleKeys {
   static const tips_title = 'tips_title';
   static const total_play_count_for_last_12_months_title = 'total_play_count_for_last_12_months_title';
   static const total_play_time_for_last_12_months_title = 'total_play_time_for_last_12_months_title';
+  static const tracks_title = 'tracks_title';
   static const transcode_title = 'transcode_title';
   static const translate_tautulli_remote_title = 'translate_tautulli_remote_title';
   static const trust_button = 'trust_button';

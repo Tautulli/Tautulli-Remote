@@ -42,7 +42,7 @@ class LibraryCardDetails extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: [
-          TextSpan(text: 'Artists'),
+          TextSpan(text: LocaleKeys.artists_title.tr()),
           const TextSpan(
             text: ' ',
           ),
@@ -57,7 +57,7 @@ class LibraryCardDetails extends StatelessWidget {
           const TextSpan(
             text: ' ',
           ),
-          TextSpan(text: 'Albums'),
+          TextSpan(text: LocaleKeys.albums_title.tr()),
           const TextSpan(
             text: ' ',
           ),
@@ -72,7 +72,7 @@ class LibraryCardDetails extends StatelessWidget {
           const TextSpan(
             text: ' ',
           ),
-          TextSpan(text: 'Tracks'),
+          TextSpan(text: LocaleKeys.tracks_title.tr()),
           const TextSpan(
             text: ' ',
           ),
@@ -93,7 +93,7 @@ class LibraryCardDetails extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: [
-          TextSpan(text: 'Movies'),
+          TextSpan(text: LocaleKeys.movies_title.tr()),
           const TextSpan(
             text: ' ',
           ),
@@ -114,7 +114,7 @@ class LibraryCardDetails extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: [
-          TextSpan(text: 'Albums'),
+          TextSpan(text: LocaleKeys.albums_title.tr()),
           const TextSpan(
             text: ' ',
           ),
@@ -129,7 +129,7 @@ class LibraryCardDetails extends StatelessWidget {
           const TextSpan(
             text: ' ',
           ),
-          TextSpan(text: 'Photos'),
+          TextSpan(text: LocaleKeys.photos_title.tr()),
           const TextSpan(
             text: ' ',
           ),
@@ -144,7 +144,7 @@ class LibraryCardDetails extends StatelessWidget {
           const TextSpan(
             text: ' ',
           ),
-          TextSpan(text: 'Videos'),
+          TextSpan(text: LocaleKeys.videos_title.tr()),
           const TextSpan(
             text: ' ',
           ),
@@ -165,7 +165,7 @@ class LibraryCardDetails extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: [
-          TextSpan(text: 'Shows'),
+          TextSpan(text: LocaleKeys.shows_title.tr()),
           const TextSpan(
             text: ' ',
           ),
@@ -180,7 +180,7 @@ class LibraryCardDetails extends StatelessWidget {
           const TextSpan(
             text: ' ',
           ),
-          TextSpan(text: 'Seasons'),
+          TextSpan(text: LocaleKeys.seasons_title.tr()),
           const TextSpan(
             text: ' ',
           ),
@@ -195,7 +195,7 @@ class LibraryCardDetails extends StatelessWidget {
           const TextSpan(
             text: ' ',
           ),
-          TextSpan(text: 'Episodes'),
+          TextSpan(text: LocaleKeys.episodes_title.tr()),
           const TextSpan(
             text: ' ',
           ),
@@ -216,7 +216,7 @@ class LibraryCardDetails extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: [
-          TextSpan(text: 'Videos'),
+          TextSpan(text: LocaleKeys.videos_title.tr()),
           const TextSpan(
             text: ' ',
           ),

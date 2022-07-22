@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -9,6 +10,7 @@ import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../dependency_injection.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/libraries_bloc.dart';
 import '../widgets/library_card.dart';
@@ -72,8 +74,7 @@ class _LibrariesViewState extends State<LibrariesView> {
       // Listen for active server change and run a fresh user fetch if it does
       listenWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer !=
-              current.appSettings.activeServer) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
             return true;
           }
         }
@@ -94,12 +95,11 @@ class _LibrariesViewState extends State<LibrariesView> {
         }
       },
       child: ScaffoldWithInnerDrawer(
-        title: Text('Libraries'),
+        title: const Text(LocaleKeys.libraries_title).tr(),
         body: BlocBuilder<LibrariesBloc, LibrariesState>(
           builder: (context, state) {
             return PageBody(
-              loading:
-                  state.status == BlocStatus.initial && !state.hasReachedMax,
+              loading: state.status == BlocStatus.initial && !state.hasReachedMax,
               child: ThemedRefreshIndicator(
                 onRefresh: () {
                   _librariesBloc.add(
@@ -136,8 +136,7 @@ class _LibrariesViewState extends State<LibrariesView> {
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax ||
-                              state.status == BlocStatus.initial
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial
                           ? state.libraries.length
                           : state.libraries.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
