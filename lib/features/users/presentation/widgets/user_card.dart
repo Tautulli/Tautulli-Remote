@@ -30,9 +30,7 @@ class _UserCardState extends State<UserCard> {
   @override
   void initState() {
     super.initState();
-    hasNetworkImage = widget.user.userThumb != null
-        ? widget.user.userThumb!.startsWith('http')
-        : false;
+    hasNetworkImage = widget.user.userThumb != null ? widget.user.userThumb!.startsWith('http') : false;
     getColorFuture = _getColor(widget.user.userThumb);
   }
 
@@ -50,14 +48,10 @@ class _UserCardState extends State<UserCard> {
       future: getColorFuture,
       builder: (context, snapshot) {
         // Load in cached color if it's cached to prevent the transition
-        Color? color = backgroundColorCache[
-            '${widget.user.userId!}:${widget.user.friendlyName}'];
+        Color? color = backgroundColorCache['${widget.user.userId!}:${widget.user.friendlyName}'];
 
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.data != null) {
-          backgroundColorCache[
-                  '${widget.user.userId!}:${widget.user.friendlyName}'] =
-              snapshot.data as Color;
+        if (snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
+          backgroundColorCache['${widget.user.userId!}:${widget.user.friendlyName}'] = snapshot.data as Color;
           color = snapshot.data as Color;
         }
 
@@ -69,39 +63,36 @@ class _UserCardState extends State<UserCard> {
               children: [
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 400),
-                  child: color != null
-                      ? _DarkenedBackground(color: color)
-                      : Container(color: Theme.of(context).cardColor),
+                  child:
+                      color != null ? _DarkenedBackground(color: color) : Container(color: Theme.of(context).cardColor),
                 ),
-                Positioned.fill(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return UserDetailsPage(
-                                user: user,
-                                backgroundColor: color,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            UserIcon(user: user),
-                            const Gap(8),
-                            Expanded(
-                              child: UserDetails(user: widget.user),
-                            ),
-                          ],
-                        ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      UserIcon(user: user),
+                      const Gap(8),
+                      Expanded(
+                        child: UserDetails(user: widget.user),
                       ),
-                    ),
+                    ],
+                  ),
+                ),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return UserDetailsPage(
+                              user: user,
+                              backgroundColor: color,
+                            );
+                          },
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],
