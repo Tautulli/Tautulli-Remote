@@ -176,7 +176,7 @@ class _LibraryDetailsStatsTabState extends State<LibraryDetailsStatsTab> {
         Padding(
           padding: const EdgeInsets.fromLTRB(4, 8, 8, 8),
           child: const Text(
-            'User Stats',
+            LocaleKeys.user_stats_title,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
