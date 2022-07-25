@@ -197,7 +197,7 @@ class _LibraryDetailsStatsTabState extends State<LibraryDetailsStatsTab> {
         if (state.userStatsList.isEmpty) {
           statList.addAll(
             [
-              StatusCard(message: LocaleKeys.player_stats_empty_message.tr()),
+              StatusCard(message: LocaleKeys.user_stats_empty_message.tr()),
               const Gap(8),
             ],
           );

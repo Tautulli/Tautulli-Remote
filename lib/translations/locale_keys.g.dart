@@ -286,6 +286,7 @@ abstract class  LocaleKeys {
   static const trust_button = 'trust_button';
   static const tv_title = 'tv_title';
   static const tv_shows_title = 'tv_shows_title';
+  static const user_stats_empty_message = 'user_stats_empty_message';
   static const user_stats_title = 'user_stats_title';
   static const user_title = 'user_title';
   static const username_title = 'username_title';

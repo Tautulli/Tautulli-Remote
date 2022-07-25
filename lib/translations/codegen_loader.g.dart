@@ -619,6 +619,7 @@ static const Map<String,dynamic> en = {
   "trust_button": "TRUST",
   "tv_title": "TV",
   "tv_shows_title": "TV Shows",
+  "user_stats_empty_message": "No user stats found.",
   "user_stats_title": "User Stats",
   "user_title": "User",
   "username_title": "Username",
