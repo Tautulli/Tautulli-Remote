@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../data/models/library_table_model.dart';
+import '../../data/models/library_user_stat_model.dart';
+import '../../data/models/library_watch_time_stat_model.dart';
 import '../repositories/libraries_repository.dart';
 
 class Libraries {
@@ -10,8 +12,7 @@ class Libraries {
   Libraries({required this.repository});
 
   /// Returns a list of <LibrariesTableModel>.
-  Future<Either<Failure, Tuple2<List<LibraryTableModel>, bool>>>
-      getLibrariesTable({
+  Future<Either<Failure, Tuple2<List<LibraryTableModel>, bool>>> getLibrariesTable({
     required String tautulliId,
     bool? grouping,
     String? orderColumn,
@@ -28,6 +29,34 @@ class Libraries {
       start: start,
       length: length,
       search: search,
+    );
+  }
+
+  /// Returns a list of library user stats for the library with the provided `sectionId`.
+  Future<Either<Failure, Tuple2<List<LibraryUserStatModel>, bool>>> getLibraryUserStats({
+    required String tautulliId,
+    required int sectionId,
+    bool? grouping,
+  }) async {
+    return await repository.getLibraryUserStats(
+      tautulliId: tautulliId,
+      sectionId: sectionId,
+      grouping: grouping,
+    );
+  }
+
+  /// Returns a list of watch time stats for the library with the provided `sectionId`.
+  Future<Either<Failure, Tuple2<List<LibraryWatchTimeStatModel>, bool>>> getLibraryWatchTimeStats({
+    required String tautulliId,
+    required int sectionId,
+    bool? grouping,
+    String? queryDays,
+  }) async {
+    return await repository.getLibraryWatchTimeStats(
+      tautulliId: tautulliId,
+      sectionId: sectionId,
+      grouping: grouping,
+      queryDays: queryDays,
     );
   }
 }

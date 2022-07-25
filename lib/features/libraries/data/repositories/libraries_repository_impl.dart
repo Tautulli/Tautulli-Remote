@@ -6,6 +6,8 @@ import '../../../../core/network_info/network_info.dart';
 import '../../domain/repositories/libraries_repository.dart';
 import '../datasources/libraries_data_source.dart';
 import '../models/library_table_model.dart';
+import '../models/library_user_stat_model.dart';
+import '../models/library_watch_time_stat_model.dart';
 
 class LibrariesRepositoryImpl implements LibrariesRepository {
   final LibrariesDataSource dataSource;
@@ -17,8 +19,7 @@ class LibrariesRepositoryImpl implements LibrariesRepository {
   });
 
   @override
-  Future<Either<Failure, Tuple2<List<LibraryTableModel>, bool>>>
-      getLibrariesTable({
+  Future<Either<Failure, Tuple2<List<LibraryTableModel>, bool>>> getLibrariesTable({
     required String tautulliId,
     bool? grouping,
     String? orderColumn,
@@ -37,6 +38,56 @@ class LibrariesRepositoryImpl implements LibrariesRepository {
           start: start,
           length: length,
           search: search,
+        );
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Tuple2<List<LibraryUserStatModel>, bool>>> getLibraryUserStats({
+    required String tautulliId,
+    required int sectionId,
+    bool? grouping,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.getLibraryUserStats(
+          tautulliId: tautulliId,
+          sectionId: sectionId,
+          grouping: grouping,
+        );
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Tuple2<List<LibraryWatchTimeStatModel>, bool>>> getLibraryWatchTimeStats({
+    required String tautulliId,
+    required int sectionId,
+    bool? grouping,
+    String? queryDays,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.getLibraryWatchTimeStats(
+          tautulliId: tautulliId,
+          sectionId: sectionId,
+          grouping: grouping,
+          queryDays: queryDays,
         );
 
         return Right(result);

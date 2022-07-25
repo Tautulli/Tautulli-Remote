@@ -13,10 +13,14 @@ Map<String, Color?> backgroundColorCache = {};
 
 class UserCard extends StatefulWidget {
   final UserTableModel user;
+  final bool showLastStreamed;
+  final bool fetchUser;
 
   const UserCard({
     super.key,
     required this.user,
+    this.showLastStreamed = true,
+    this.fetchUser = false,
   });
 
   @override
@@ -73,7 +77,10 @@ class _UserCardState extends State<UserCard> {
                       UserIcon(user: user),
                       const Gap(8),
                       Expanded(
-                        child: UserDetails(user: widget.user),
+                        child: UserDetails(
+                          showLastStreamed: widget.showLastStreamed,
+                          user: widget.user,
+                        ),
                       ),
                     ],
                   ),
@@ -88,6 +95,7 @@ class _UserCardState extends State<UserCard> {
                             return UserDetailsPage(
                               user: user,
                               backgroundColor: color,
+                              fetchUser: widget.fetchUser,
                             );
                           },
                         ),

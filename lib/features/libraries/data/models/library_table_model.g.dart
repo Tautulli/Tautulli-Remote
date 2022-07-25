@@ -107,7 +107,10 @@ const _$MediaTypeEnumMap = {
 const _$SectionTypeEnumMap = {
   SectionType.artist: 'artist',
   SectionType.movie: 'movie',
+  SectionType.live: 'live',
   SectionType.photo: 'photo',
+  SectionType.playlist: 'playlist',
   SectionType.show: 'show',
+  SectionType.video: 'video',
   SectionType.unknown: 'unknown',
 };

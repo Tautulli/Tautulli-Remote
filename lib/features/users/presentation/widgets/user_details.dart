@@ -10,10 +10,12 @@ import '../../data/models/user_table_model.dart';
 
 class UserDetails extends StatelessWidget {
   final UserTableModel user;
+  final bool showLastStreamed;
 
   const UserDetails({
     super.key,
     required this.user,
+    this.showLastStreamed = true,
   });
 
   @override
@@ -37,28 +39,27 @@ class UserDetails extends StatelessWidget {
             );
           },
         ),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: LocaleKeys.streamed_title.tr(),
-              ),
-              const TextSpan(
-                text: ' ',
-              ),
-              TextSpan(
-                text: user.lastSeen != null
-                    ? TimeHelper.moment(user.lastSeen)
-                    : LocaleKeys.never.tr(),
-                style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 13,
-                  color: Colors.grey[200],
+        if (showLastStreamed)
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: LocaleKeys.streamed_title.tr(),
                 ),
-              ),
-            ],
+                const TextSpan(
+                  text: ' ',
+                ),
+                TextSpan(
+                  text: user.lastSeen != null ? TimeHelper.moment(user.lastSeen) : LocaleKeys.never.tr(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 13,
+                    color: Colors.grey[200],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
         _playsAndDuration(),
       ],
     );

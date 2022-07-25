@@ -5,6 +5,8 @@ export 'endpoints/delete_image_cache.dart';
 export 'endpoints/get_geo_ip_lookup.dart';
 export 'endpoints/get_history.dart';
 export 'endpoints/get_libraries_table.dart';
+export 'endpoints/get_library_user_stats.dart';
+export 'endpoints/get_library_watch_time_stats.dart';
 export 'endpoints/get_plays_by_date.dart';
 export 'endpoints/get_plays_by_day_of_week.dart';
 export 'endpoints/get_plays_by_hour_of_day.dart';
