@@ -9,7 +9,7 @@ import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/sliver_tabbed_details.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
-import '../../../history/presentation/bloc/individual_history_bloc.dart';
+import '../../../history/presentation/bloc/user_history_bloc.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_model.dart';
 import '../bloc/user_individual_bloc.dart';
@@ -41,7 +41,7 @@ class UserDetailsPage extends StatelessWidget {
           create: (context) => di.sl<UserStatisticsBloc>(),
         ),
         BlocProvider(
-          create: (context) => di.sl<IndividualHistoryBloc>(),
+          create: (context) => di.sl<UserHistoryBloc>(),
         ),
       ],
       child: UserDetailsView(
@@ -72,7 +72,7 @@ class UserDetailsView extends StatefulWidget {
 class _UserDetailsViewState extends State<UserDetailsView> {
   late Future getColorFuture;
   late bool hasNetworkImage;
-  late IndividualHistoryBloc _individualHistoryBloc;
+  late UserHistoryBloc _userHistoryBloc;
   late String _tautulliId;
 
   @override
@@ -83,7 +83,7 @@ class _UserDetailsViewState extends State<UserDetailsView> {
 
     final settingsBloc = context.read<SettingsBloc>();
     final settingsState = settingsBloc.state as SettingsSuccess;
-    _individualHistoryBloc = context.read<IndividualHistoryBloc>();
+    _userHistoryBloc = context.read<UserHistoryBloc>();
     _tautulliId = settingsState.appSettings.activeServer.tautulliId;
 
     if (widget.fetchUser) {
@@ -96,8 +96,8 @@ class _UserDetailsViewState extends State<UserDetailsView> {
           );
     }
 
-    _individualHistoryBloc.add(
-      IndividualHistoryFetched(
+    _userHistoryBloc.add(
+      UserHistoryFetched(
         tautulliId: _tautulliId,
         userId: widget.user.userId!,
         settingsBloc: settingsBloc,

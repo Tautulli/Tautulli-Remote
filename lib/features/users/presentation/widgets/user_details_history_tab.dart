@@ -7,7 +7,7 @@ import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
-import '../../../history/presentation/bloc/individual_history_bloc.dart';
+import '../../../history/presentation/bloc/user_history_bloc.dart';
 import '../../../history/presentation/widgets/history_card.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_model.dart';
@@ -26,14 +26,14 @@ class UserDetailsHistoryTab extends StatefulWidget {
 
 class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
   ScrollController? _scrollController;
-  late IndividualHistoryBloc _individualHistoryBloc;
+  late UserHistoryBloc _userHistoryBloc;
   late SettingsBloc _settingsBloc;
   late String _tautulliId;
 
   @override
   void initState() {
     super.initState();
-    _individualHistoryBloc = context.read<IndividualHistoryBloc>();
+    _userHistoryBloc = context.read<UserHistoryBloc>();
     _settingsBloc = context.read<SettingsBloc>();
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
@@ -48,12 +48,12 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
       _scrollController!.addListener(_onScroll);
     }
 
-    return BlocBuilder<IndividualHistoryBloc, IndividualHistoryState>(
+    return BlocBuilder<UserHistoryBloc, UserHistoryState>(
       builder: (context, state) {
         return ThemedRefreshIndicator(
           onRefresh: () {
-            _individualHistoryBloc.add(
-              IndividualHistoryFetched(
+            _userHistoryBloc.add(
+              UserHistoryFetched(
                 tautulliId: _tautulliId,
                 userId: widget.user.userId!,
                 settingsBloc: _settingsBloc,
@@ -79,10 +79,9 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
 
                 return ListView.separated(
                   padding: const EdgeInsets.all(8),
-                  itemCount:
-                      state.hasReachedMax || state.status == BlocStatus.initial
-                          ? state.history.length
-                          : state.history.length + 1,
+                  itemCount: state.hasReachedMax || state.status == BlocStatus.initial
+                      ? state.history.length
+                      : state.history.length + 1,
                   separatorBuilder: (context, index) => const Gap(8),
                   itemBuilder: (context, index) {
                     if (index >= state.history.length) {
@@ -92,8 +91,8 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
                         message: state.message,
                         suggestion: state.suggestion,
                         onTap: () {
-                          _individualHistoryBloc.add(
-                            IndividualHistoryFetched(
+                          _userHistoryBloc.add(
+                            UserHistoryFetched(
                               tautulliId: _tautulliId,
                               userId: widget.user.userId!,
                               settingsBloc: _settingsBloc,
@@ -128,8 +127,8 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
 
   void _onScroll() {
     if (_isBottom) {
-      _individualHistoryBloc.add(
-        IndividualHistoryFetched(
+      _userHistoryBloc.add(
+        UserHistoryFetched(
           tautulliId: _tautulliId,
           userId: widget.user.userId!,
           settingsBloc: _settingsBloc,

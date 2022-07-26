@@ -13,10 +13,10 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/history_model.dart';
 import '../../domain/usecases/history.dart';
 
-part 'individual_history_event.dart';
-part 'individual_history_state.dart';
+part 'user_history_event.dart';
+part 'user_history_state.dart';
 
-Map<String, List<HistoryModel>> individualHistoryCache = {};
+Map<String, List<HistoryModel>> userHistoryCache = {};
 
 const throttleDuration = Duration(milliseconds: 100);
 const length = 25;
@@ -27,31 +27,30 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
   };
 }
 
-class IndividualHistoryBloc
-    extends Bloc<IndividualHistoryEvent, IndividualHistoryState> {
+class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
   final History history;
   final ImageUrl imageUrl;
   final Logging logging;
 
-  IndividualHistoryBloc({
+  UserHistoryBloc({
     required this.history,
     required this.imageUrl,
     required this.logging,
-  }) : super(const IndividualHistoryState()) {
-    on<IndividualHistoryFetched>(
+  }) : super(const UserHistoryState()) {
+    on<UserHistoryFetched>(
       _onIndividualHistoryFetched,
       transformer: throttleDroppable(throttleDuration),
     );
   }
 
   void _onIndividualHistoryFetched(
-    IndividualHistoryFetched event,
-    Emitter<IndividualHistoryState> emit,
+    UserHistoryFetched event,
+    Emitter<UserHistoryState> emit,
   ) async {
     final cacheKey = '${event.tautulliId}:${event.userId}';
 
-    if (!individualHistoryCache.containsKey(cacheKey)) {
-      individualHistoryCache[cacheKey] = [];
+    if (!userHistoryCache.containsKey(cacheKey)) {
+      userHistoryCache[cacheKey] = [];
     }
 
     if (event.freshFetch) {
@@ -61,18 +60,18 @@ class IndividualHistoryBloc
           hasReachedMax: false,
         ),
       );
-      individualHistoryCache[cacheKey] = [];
+      userHistoryCache[cacheKey] = [];
     }
 
     if (state.hasReachedMax) return;
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to History tab
-      if (individualHistoryCache[cacheKey]!.isNotEmpty) {
+      if (userHistoryCache[cacheKey]!.isNotEmpty) {
         return emit(
           state.copyWith(
             status: BlocStatus.success,
-            history: individualHistoryCache[cacheKey],
+            history: userHistoryCache[cacheKey],
           ),
         );
       }
@@ -130,7 +129,7 @@ class IndividualHistoryBloc
         guid: event.guid,
         orderColumn: event.orderColumn,
         orderDir: event.orderDir,
-        start: individualHistoryCache[cacheKey]!.length,
+        start: userHistoryCache[cacheKey]!.length,
         length: length,
         search: event.search,
       );
@@ -146,22 +145,20 @@ class IndividualHistoryBloc
 
   void _emitFailureOrHistory({
     required String cacheKey,
-    required IndividualHistoryFetched event,
-    required Emitter<IndividualHistoryState> emit,
+    required UserHistoryFetched event,
+    required Emitter<UserHistoryState> emit,
     required Either<Failure, Tuple2<List<HistoryModel>, bool>> failureOrHistory,
   }) async {
     await failureOrHistory.fold(
       (failure) async {
         logging.error(
-          'History :: Failed to fetch individual history for ${event.userId} [$failure]',
+          'History :: Failed to fetch user history for ${event.userId} [$failure]',
         );
 
         return emit(
           state.copyWith(
             status: BlocStatus.failure,
-            history: event.freshFetch
-                ? individualHistoryCache[cacheKey]
-                : state.history,
+            history: event.freshFetch ? userHistoryCache[cacheKey] : state.history,
             failure: failure,
             message: FailureHelper.mapFailureToMessage(failure),
             suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -177,20 +174,18 @@ class IndividualHistoryBloc
         );
 
         // Add posters to history models
-        List<HistoryModel> historyListWithUris =
-            await _historyModelsWithPosterUris(
+        List<HistoryModel> historyListWithUris = await _historyModelsWithPosterUris(
           tautulliId: event.tautulliId,
           historyList: history.value1,
           settingsBloc: event.settingsBloc,
         );
 
-        individualHistoryCache[cacheKey] =
-            individualHistoryCache[cacheKey]! + historyListWithUris;
+        userHistoryCache[cacheKey] = userHistoryCache[cacheKey]! + historyListWithUris;
 
         return emit(
           state.copyWith(
             status: BlocStatus.success,
-            history: individualHistoryCache[cacheKey],
+            history: userHistoryCache[cacheKey],
             hasReachedMax: historyListWithUris.length < length,
           ),
         );

@@ -1,13 +1,13 @@
-part of 'individual_history_bloc.dart';
+part of 'user_history_bloc.dart';
 
-abstract class IndividualHistoryEvent extends Equatable {
-  const IndividualHistoryEvent();
+abstract class UserHistoryEvent extends Equatable {
+  const UserHistoryEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class IndividualHistoryFetched extends IndividualHistoryEvent {
+class UserHistoryFetched extends UserHistoryEvent {
   final String tautulliId;
   final bool? grouping;
   final bool? includeActivity;
@@ -31,7 +31,7 @@ class IndividualHistoryFetched extends IndividualHistoryEvent {
   final bool freshFetch;
   final SettingsBloc settingsBloc;
 
-  const IndividualHistoryFetched({
+  const UserHistoryFetched({
     required this.tautulliId,
     this.grouping,
     this.includeActivity,

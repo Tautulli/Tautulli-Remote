@@ -1,6 +1,6 @@
-part of 'individual_history_bloc.dart';
+part of 'user_history_bloc.dart';
 
-class IndividualHistoryState extends Equatable {
+class UserHistoryState extends Equatable {
   final BlocStatus status;
   final List<HistoryModel> history;
   final Failure? failure;
@@ -8,7 +8,7 @@ class IndividualHistoryState extends Equatable {
   final String? suggestion;
   final bool hasReachedMax;
 
-  const IndividualHistoryState({
+  const UserHistoryState({
     this.status = BlocStatus.initial,
     this.history = const [],
     this.failure,
@@ -17,7 +17,7 @@ class IndividualHistoryState extends Equatable {
     this.hasReachedMax = false,
   });
 
-  IndividualHistoryState copyWith({
+  UserHistoryState copyWith({
     BlocStatus? status,
     List<HistoryModel>? history,
     Failure? failure,
@@ -25,7 +25,7 @@ class IndividualHistoryState extends Equatable {
     String? suggestion,
     bool? hasReachedMax,
   }) {
-    return IndividualHistoryState(
+    return UserHistoryState(
       status: status ?? this.status,
       history: history ?? this.history,
       failure: failure ?? this.failure,
