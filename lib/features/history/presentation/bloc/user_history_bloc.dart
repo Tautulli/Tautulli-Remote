@@ -38,12 +38,12 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
     required this.logging,
   }) : super(const UserHistoryState()) {
     on<UserHistoryFetched>(
-      _onIndividualHistoryFetched,
+      _onUserHistoryFetched,
       transformer: throttleDroppable(throttleDuration),
     );
   }
 
-  void _onIndividualHistoryFetched(
+  void _onUserHistoryFetched(
     UserHistoryFetched event,
     Emitter<UserHistoryState> emit,
   ) async {
