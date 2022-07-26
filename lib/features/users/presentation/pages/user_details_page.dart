@@ -119,34 +119,22 @@ class _UserDetailsViewState extends State<UserDetailsView> {
         builder: (context, settingsState) {
           settingsState as SettingsSuccess;
 
-          return BlocBuilder<UserIndividualBloc, UserIndividualState>(
-            builder: (context, userIndividualState) {
-              final fetchedUser = UserModel(
-                userId: userIndividualState.user.userId,
-                friendlyName: userIndividualState.user.friendlyName,
-                userThumb: userIndividualState.user.userThumb,
-                isActive: userIndividualState.user.isActive,
-                lastSeen: userIndividualState.user.lastSeen,
-              );
-
-              return SliverTabbedDetails(
-                sensitive: settingsState.appSettings.maskSensitiveInfo,
-                background: widget.backgroundColor != null
-                    ? DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: widget.backgroundColor,
-                        ),
-                      )
-                    : FutureBuilder(
-                        future: hasNetworkImage && !widget.fetchUser
-                            ? getColorFuture
-                            : _getColor(fetchedUser.userThumb),
+          return SliverTabbedDetails(
+            sensitive: settingsState.appSettings.maskSensitiveInfo,
+            background: widget.backgroundColor != null
+                ? DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: widget.backgroundColor,
+                    ),
+                  )
+                : BlocBuilder<UserIndividualBloc, UserIndividualState>(
+                    builder: (context, state) {
+                      return FutureBuilder(
+                        future: hasNetworkImage && !widget.fetchUser ? getColorFuture : _getColor(state.user.userThumb),
                         builder: (context, snapshot) {
                           Color? color;
 
-                          if (snapshot.connectionState ==
-                                  ConnectionState.done &&
-                              snapshot.data != null) {
+                          if (snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
                             color = snapshot.data as Color;
                           }
 
@@ -156,15 +144,21 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                             ),
                           );
                         },
-                      ),
-                icon: UserIcon(
-                  user: widget.fetchUser && fetchedUser.userId != null
-                      ? fetchedUser
-                      : widget.user,
+                      );
+                    },
+                  ),
+            icon: BlocBuilder<UserIndividualBloc, UserIndividualState>(
+              builder: (context, state) {
+                return UserIcon(
+                  user: widget.fetchUser && state.user.userId != null ? state.user : widget.user,
                   size: UserIconSize.large,
-                ),
-                title: widget.user.friendlyName ?? 'name missing',
-                subtitle: RichText(
+                );
+              },
+            ),
+            title: widget.user.friendlyName ?? 'name missing',
+            subtitle: BlocBuilder<UserIndividualBloc, UserIndividualState>(
+              builder: (context, state) {
+                return RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(
@@ -179,11 +173,9 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                       TextSpan(
                         text: widget.user.lastSeen != null && !widget.fetchUser
                             ? TimeHelper.moment(widget.user.lastSeen)
-                            : widget.fetchUser && fetchedUser.lastSeen != null
-                                ? TimeHelper.moment(fetchedUser.lastSeen)
-                                : widget.fetchUser &&
-                                        userIndividualState.status ==
-                                            BlocStatus.initial
+                            : widget.fetchUser && state.user.lastSeen != null
+                                ? TimeHelper.moment(state.user.lastSeen)
+                                : widget.fetchUser && state.status == BlocStatus.initial
                                     ? ''
                                     : LocaleKeys.never.tr(),
                         style: TextStyle(
@@ -193,17 +185,17 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                       ),
                     ],
                   ),
-                ),
-                tabs: [
-                  Tab(text: LocaleKeys.stats_title.tr()),
-                  Tab(text: LocaleKeys.history_title.tr()),
-                ],
-                tabChildren: [
-                  UserDetailsStatsTab(user: widget.user),
-                  UserDetailsHistoryTab(user: widget.user),
-                ],
-              );
-            },
+                );
+              },
+            ),
+            tabs: [
+              Tab(text: LocaleKeys.stats_title.tr()),
+              Tab(text: LocaleKeys.history_title.tr()),
+            ],
+            tabChildren: [
+              UserDetailsStatsTab(user: widget.user),
+              UserDetailsHistoryTab(user: widget.user),
+            ],
           );
         },
       ),
