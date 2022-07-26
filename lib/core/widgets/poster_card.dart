@@ -27,7 +27,7 @@ class PosterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100 * MediaQuery.of(context).textScaleFactor,
+      height: MediaQuery.of(context).textScaleFactor > 1 ? 100 * MediaQuery.of(context).textScaleFactor : 100,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: Card(
