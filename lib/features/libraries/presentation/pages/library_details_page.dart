@@ -152,7 +152,11 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
           LibraryDetailsStatsTab(libraryTableModel: widget.libraryTableModel),
           LibraryDetailsNewTab(libraryTableModel: widget.libraryTableModel),
           Placeholder(),
-          Placeholder(),
+          Center(
+            child: SingleChildScrollView(
+              child: const Text(LocaleKeys.feature_not_yet_available_snackbar_message).tr(),
+            ),
+          ),
         ],
       ),
     );
