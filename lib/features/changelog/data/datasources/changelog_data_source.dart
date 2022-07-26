@@ -1,6 +1,50 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.15",
+      "date": "July 26, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added the Libraries & Library Details pages",
+        },
+        {
+          "type": "new",
+          "detail": "Added Settings quick action",
+          "additional": "Long press the app icon to view and select a quick action",
+        },
+        {
+          "type": "improvement",
+          "detail": "Card heights will now scale for devices using larger font sizes",
+        },
+        {
+          "type": "improvement",
+          "detail": "Update current default page to History",
+        },
+        {
+          "type": "improvement",
+          "detail": "Darken poster card background",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add device details to data dump",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Catalan",
+          "additional": "Thanks @dtalens",
+        },
+        {
+          "type": "fix",
+          "detail": "Calculation for largest time on graphs was incorrect",
+        },
+        {
+          "type": "fix",
+          "detail": "User card tap splash was only affecting background",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.14",
       "date": "June 25, 2022",
       "changes": [
@@ -37,8 +81,7 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail":
-              "History filter items would not reset when active server was changed",
+          "detail": "History filter items would not reset when active server was changed",
         },
       ],
     },
@@ -57,8 +100,7 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail":
-              "Multiple options can now be selected for each history filter type",
+          "detail": "Multiple options can now be selected for each history filter type",
         },
         {
           "type": "improvement",
@@ -88,8 +130,7 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail":
-              "Fix history filter icon from indicating a selection is active after server is changed",
+          "detail": "Fix history filter icon from indicating a selection is active after server is changed",
         },
       ],
     },
@@ -159,8 +200,7 @@ Map changelog = {
         {
           "type": "new",
           "detail": "Added Users page",
-          "additional":
-              "This new Users page features various UI/UX improvements",
+          "additional": "This new Users page features various UI/UX improvements",
         },
         {
           "type": "improvement",
@@ -172,15 +212,12 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail":
-              "Fade out indicators on announcement cards when marked as read",
+          "detail": "Fade out indicators on announcement cards when marked as read",
         },
         {
           "type": "improvement",
-          "detail":
-              "New translations for French, Czech, Norwegian Bokmål, Chinese (Simplified), and Swedish",
-          "additional":
-              "Thanks @NathanBnm, David Nedvěd, @aunefyren, @FaintGhost & @blackisle, and Johan Qvist",
+          "detail": "New translations for French, Czech, Norwegian Bokmål, Chinese (Simplified), and Swedish",
+          "additional": "Thanks @NathanBnm, David Nedvěd, @aunefyren, @FaintGhost & @blackisle, and Johan Qvist",
         },
       ],
     },
@@ -205,8 +242,7 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail":
-              "Tuned Inner Drawer to look better across a variety of screen sizes",
+          "detail": "Tuned Inner Drawer to look better across a variety of screen sizes",
         },
         {
           "type": "improvement",
@@ -249,13 +285,11 @@ Map changelog = {
       "changes": [
         {
           "type": "new",
-          "detail":
-              "Added an Inner Drawer that supports swipe gestures to open/close",
+          "detail": "Added an Inner Drawer that supports swipe gestures to open/close",
         },
         {
           "type": "new",
-          "detail":
-              "Added a Server Selector to the Inner Drawer when more than one server are registered",
+          "detail": "Added a Server Selector to the Inner Drawer when more than one server are registered",
         },
         {
           "type": "new",
@@ -269,8 +303,7 @@ Map changelog = {
       "changes": [
         {
           "type": "fix",
-          "detail":
-              "Selecting Chinese (Simplified) or Norwegian Bokmål would lock up app",
+          "detail": "Selecting Chinese (Simplified) or Norwegian Bokmål would lock up app",
         }
       ],
     },
@@ -280,8 +313,7 @@ Map changelog = {
       "changes": [
         {
           "type": "new",
-          "detail":
-              "Translations are now implemented, check the Help Translate page to assist with translating",
+          "detail": "Translations are now implemented, check the Help Translate page to assist with translating",
         },
         {
           "type": "improvement",
@@ -301,18 +333,15 @@ Map changelog = {
       "changes": [
         {
           "type": "important",
-          "detail":
-              "Version 3 is a work in progress being re-written from the ground up",
+          "detail": "Version 3 is a work in progress being re-written from the ground up",
         },
         {
           "type": "important",
-          "detail":
-              "Check the 'How To Test' page on how to submit feedback or bugs",
+          "detail": "Check the 'How To Test' page on how to submit feedback or bugs",
         },
         {
           "type": "important",
-          "detail":
-              "Donations cannot be tested in the alpha, they will always fail to load",
+          "detail": "Donations cannot be tested in the alpha, they will always fail to load",
         },
         {
           "type": "new",
