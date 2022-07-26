@@ -12,7 +12,7 @@ class UserHistoryFetched extends UserHistoryEvent {
   final bool? grouping;
   final bool? includeActivity;
   final String? user;
-  final int? userId;
+  final int userId;
   final int? ratingKey;
   final int? parentRatingKey;
   final int? grandparentRatingKey;
@@ -36,7 +36,7 @@ class UserHistoryFetched extends UserHistoryEvent {
     this.grouping,
     this.includeActivity,
     this.user,
-    this.userId,
+    required this.userId,
     this.ratingKey,
     this.parentRatingKey,
     this.grandparentRatingKey,
