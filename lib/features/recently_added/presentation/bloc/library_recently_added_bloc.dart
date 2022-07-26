@@ -111,7 +111,7 @@ class LibraryRecentlyAddedBloc extends Bloc<LibraryRecentlyAddedEvent, LibraryRe
   }) async {
     await failureOrRecentlyAdded.fold(
       (failure) async {
-        logging.error('RecentlyAdded :: Failed to fetch recently added for Library ID ${event.sectionId} [$failure]');
+        logging.error('Libraries :: Failed to fetch recently added for Library ID ${event.sectionId} [$failure]');
 
         return emit(
           state.copyWith(
@@ -193,7 +193,7 @@ class LibraryRecentlyAddedBloc extends Bloc<LibraryRecentlyAddedEvent, LibraryRe
       await failureOrImageUrl.fold(
         (failure) async {
           logging.error(
-            'RecentlyAdded :: Failed to fetch image url for ${recentItem.fullTitle} [$failure]',
+            'Libraries :: Failed to fetch recently added image url for ${recentItem.fullTitle} [$failure]',
           );
 
           recentlyAddedWithImages.add(recentItem);
