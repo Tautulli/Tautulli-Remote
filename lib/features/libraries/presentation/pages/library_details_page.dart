@@ -4,11 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tautulli_remote/features/libraries/presentation/widgets/library_details_history_tab.dart';
 
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/widgets/sliver_tabbed_details.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
+import '../../../history/presentation/bloc/library_history_bloc.dart';
 import '../../../recently_added/presentation/bloc/library_recently_added_bloc.dart';
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -29,6 +31,9 @@ class LibraryDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => di.sl<LibraryHistoryBloc>(),
+        ),
         BlocProvider(
           create: (context) => di.sl<LibraryRecentlyAddedBloc>(),
         ),
@@ -63,16 +68,24 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
     final settingsState = settingsBloc.state as SettingsSuccess;
     final tautulliId = settingsState.appSettings.activeServer.tautulliId;
 
-    context.read<LibraryStatisticsBloc>().add(
-          LibraryStatisticsFetched(
+    context.read<LibraryHistoryBloc>().add(
+          LibraryHistoryFetched(
             tautulliId: tautulliId,
-            sectionId: widget.libraryTableModel.sectionId ?? 0,
+            sectionId: widget.libraryTableModel.sectionId!,
             settingsBloc: settingsBloc,
           ),
         );
 
     context.read<LibraryRecentlyAddedBloc>().add(
           LibraryRecentlyAddedFetched(
+            tautulliId: tautulliId,
+            sectionId: widget.libraryTableModel.sectionId ?? 0,
+            settingsBloc: settingsBloc,
+          ),
+        );
+
+    context.read<LibraryStatisticsBloc>().add(
+          LibraryStatisticsFetched(
             tautulliId: tautulliId,
             sectionId: widget.libraryTableModel.sectionId ?? 0,
             settingsBloc: settingsBloc,
@@ -151,7 +164,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
         tabChildren: [
           LibraryDetailsStatsTab(libraryTableModel: widget.libraryTableModel),
           LibraryDetailsNewTab(libraryTableModel: widget.libraryTableModel),
-          Placeholder(),
+          LibraryDetailsHistoryTab(libraryTableModel: widget.libraryTableModel),
           Center(
             child: SingleChildScrollView(
               child: const Text(LocaleKeys.feature_not_yet_available_snackbar_message).tr(),
