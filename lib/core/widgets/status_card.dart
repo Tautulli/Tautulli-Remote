@@ -18,7 +18,7 @@ class StatusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
+      height: 100 * MediaQuery.of(context).textScaleFactor,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

@@ -155,22 +155,16 @@ class TautulliRemoteState extends State<TautulliRemote> {
       title: 'Tautulli Remote',
       theme: ThemeHelper.tautulli(),
       builder: (context, child) {
-        final MediaQueryData data = MediaQuery.of(context);
-        return MediaQuery(
-          data: data.copyWith(
-            textScaleFactor: data.textScaleFactor < 1.15 ? data.textScaleFactor : 1.15,
-          ),
-          child: BlocBuilder<SettingsBloc, SettingsState>(
-            builder: (context, state) {
-              if (state is SettingsSuccess) {
-                return child!;
-              }
+        return BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            if (state is SettingsSuccess) {
+              return child!;
+            }
 
-              return const Scaffold(
-                body: SettingsNotLoaded(),
-              );
-            },
-          ),
+            return const Scaffold(
+              body: SettingsNotLoaded(),
+            );
+          },
         );
       },
       routes: {

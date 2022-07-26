@@ -62,7 +62,7 @@ class _UserCardState extends State<UserCard> {
         return ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: SizedBox(
-            height: 100,
+            height: 100 * MediaQuery.of(context).textScaleFactor,
             child: Stack(
               children: [
                 AnimatedSwitcher(

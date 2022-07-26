@@ -18,7 +18,7 @@ class IconCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
+      height: 100 * MediaQuery.of(context).textScaleFactor,
       child: Card(
         color: background != null ? Colors.transparent : null,
         child: Stack(
