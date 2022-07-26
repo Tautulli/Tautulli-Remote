@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 
+import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
@@ -37,6 +39,7 @@ class LibrariesView extends StatefulWidget {
 }
 
 class _LibrariesViewState extends State<LibrariesView> {
+  final QuickActions quickActions = const QuickActions();
   final _scrollController = ScrollController();
   late LibrariesBloc _librariesBloc;
   late SettingsBloc _settingsBloc;
@@ -47,6 +50,7 @@ class _LibrariesViewState extends State<LibrariesView> {
   @override
   void initState() {
     super.initState();
+    initalizeQuickActions(context, quickActions);
 
     _scrollController.addListener(_onScroll);
     _librariesBloc = context.read<LibrariesBloc>();

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 
+import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
@@ -13,6 +15,7 @@ import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../settings/presentation/pages/settings_page.dart';
 import '../../../users/presentation/bloc/users_bloc.dart';
 import '../bloc/history_bloc.dart';
 import '../widgets/history_card.dart';
@@ -47,6 +50,7 @@ class HistoryView extends StatefulWidget {
 }
 
 class _HistoryViewState extends State<HistoryView> {
+  final QuickActions quickActions = const QuickActions();
   final _scrollController = ScrollController();
   late HistoryBloc _historyBloc;
   late UsersBloc _usersBloc;
@@ -64,6 +68,7 @@ class _HistoryViewState extends State<HistoryView> {
   @override
   void initState() {
     super.initState();
+    initalizeQuickActions(context, quickActions);
 
     _scrollController.addListener(_onScroll);
     _historyBloc = context.read<HistoryBloc>();
@@ -111,8 +116,7 @@ class _HistoryViewState extends State<HistoryView> {
       // Listen for active server change and run a fresh user fetch if it does
       listenWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer !=
-              current.appSettings.activeServer) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
             return true;
           }
         }
@@ -158,8 +162,7 @@ class _HistoryViewState extends State<HistoryView> {
         body: BlocBuilder<HistoryBloc, HistoryState>(
           builder: (context, state) {
             return PageBody(
-              loading:
-                  state.status == BlocStatus.initial && !state.hasReachedMax,
+              loading: state.status == BlocStatus.initial && !state.hasReachedMax,
               child: ThemedRefreshIndicator(
                 onRefresh: () {
                   _historyBloc.add(
@@ -202,8 +205,7 @@ class _HistoryViewState extends State<HistoryView> {
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax ||
-                              state.status == BlocStatus.initial
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial
                           ? state.history.length
                           : state.history.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
@@ -309,12 +311,8 @@ class _HistoryViewState extends State<HistoryView> {
                 child: PopupMenuButton(
                   enabled: state.status == BlocStatus.success,
                   icon: FaIcon(
-                    state.status == BlocStatus.failure
-                        ? FontAwesomeIcons.userSlash
-                        : FontAwesomeIcons.solidUser,
-                    color: (_userId != -1 && _userId != null)
-                        ? Theme.of(context).colorScheme.secondary
-                        : null,
+                    state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
+                    color: (_userId != -1 && _userId != null) ? Theme.of(context).colorScheme.secondary : null,
                     size: 20,
                   ),
                   tooltip: LocaleKeys.select_user_title.tr(),
@@ -353,11 +351,7 @@ class _HistoryViewState extends State<HistoryView> {
                                       ? LocaleKeys.hidden_message.tr()
                                       : user.friendlyName ?? '',
                                   style: TextStyle(
-                                    color: _userId == user.userId!
-                                        ? Theme.of(context)
-                                            .colorScheme
-                                            .secondary
-                                        : null,
+                                    color: _userId == user.userId! ? Theme.of(context).colorScheme.secondary : null,
                                   ),
                                 );
                               },
@@ -395,9 +389,7 @@ class _HistoryViewState extends State<HistoryView> {
             child: PopupMenuButton(
               icon: FaIcon(
                 FontAwesomeIcons.filter,
-                color: _filterOptionSelected()
-                    ? Theme.of(context).colorScheme.secondary
-                    : null,
+                color: _filterOptionSelected() ? Theme.of(context).colorScheme.secondary : null,
                 size: 20,
               ),
               tooltip: LocaleKeys.filter_history_title.tr(),

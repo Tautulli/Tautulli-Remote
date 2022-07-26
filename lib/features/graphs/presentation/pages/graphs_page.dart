@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 
+import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/types/tautulli_types.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
@@ -40,6 +42,7 @@ class GraphsView extends StatefulWidget {
 }
 
 class _GraphsViewState extends State<GraphsView> {
+  final QuickActions quickActions = const QuickActions();
   late String _tautulliId;
   late GraphYAxis _yAxis;
   late int _timeRange;
@@ -49,6 +52,7 @@ class _GraphsViewState extends State<GraphsView> {
   @override
   void initState() {
     super.initState();
+    initalizeQuickActions(context, quickActions);
 
     _graphsBloc = context.read<GraphsBloc>();
     _settingsBloc = context.read<SettingsBloc>();
@@ -83,8 +87,7 @@ class _GraphsViewState extends State<GraphsView> {
     return BlocListener<SettingsBloc, SettingsState>(
       listenWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer !=
-              current.appSettings.activeServer) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
             return true;
           }
         }
@@ -212,9 +215,7 @@ class _GraphsViewState extends State<GraphsView> {
           return PopupMenuButton(
             tooltip: LocaleKeys.y_axis_title.tr(),
             icon: FaIcon(
-              _yAxis == GraphYAxis.plays
-                  ? FontAwesomeIcons.hashtag
-                  : FontAwesomeIcons.solidClock,
+              _yAxis == GraphYAxis.plays ? FontAwesomeIcons.hashtag : FontAwesomeIcons.solidClock,
               size: 20,
             ),
             onSelected: (GraphYAxis value) {
@@ -243,17 +244,13 @@ class _GraphsViewState extends State<GraphsView> {
                       FaIcon(
                         FontAwesomeIcons.hashtag,
                         size: 20,
-                        color: _yAxis == GraphYAxis.plays
-                            ? Theme.of(context).colorScheme.secondary
-                            : null,
+                        color: _yAxis == GraphYAxis.plays ? Theme.of(context).colorScheme.secondary : null,
                       ),
                       const Gap(8),
                       Text(
                         LocaleKeys.play_count_title,
                         style: TextStyle(
-                          color: _yAxis == GraphYAxis.plays
-                              ? Theme.of(context).colorScheme.secondary
-                              : null,
+                          color: _yAxis == GraphYAxis.plays ? Theme.of(context).colorScheme.secondary : null,
                         ),
                       ).tr(),
                     ],
@@ -266,17 +263,13 @@ class _GraphsViewState extends State<GraphsView> {
                       FaIcon(
                         FontAwesomeIcons.solidClock,
                         size: 20,
-                        color: _yAxis == GraphYAxis.time
-                            ? Theme.of(context).colorScheme.secondary
-                            : null,
+                        color: _yAxis == GraphYAxis.time ? Theme.of(context).colorScheme.secondary : null,
                       ),
                       const Gap(8),
                       Text(
                         LocaleKeys.play_time_title,
                         style: TextStyle(
-                          color: _yAxis == GraphYAxis.time
-                              ? Theme.of(context).colorScheme.secondary
-                              : null,
+                          color: _yAxis == GraphYAxis.time ? Theme.of(context).colorScheme.secondary : null,
                         ),
                       ).tr(),
                     ],
@@ -349,9 +342,7 @@ class _GraphsViewState extends State<GraphsView> {
                         child: Text(
                           '7 ${LocaleKeys.days_title.tr()}',
                           style: TextStyle(
-                            color: _timeRange == 7
-                                ? Theme.of(context).colorScheme.secondary
-                                : null,
+                            color: _timeRange == 7 ? Theme.of(context).colorScheme.secondary : null,
                           ),
                         ),
                       ),
@@ -360,9 +351,7 @@ class _GraphsViewState extends State<GraphsView> {
                         child: Text(
                           '14 ${LocaleKeys.days_title.tr()}',
                           style: TextStyle(
-                            color: _timeRange == 14
-                                ? Theme.of(context).colorScheme.secondary
-                                : null,
+                            color: _timeRange == 14 ? Theme.of(context).colorScheme.secondary : null,
                           ),
                         ),
                       ),
@@ -371,9 +360,7 @@ class _GraphsViewState extends State<GraphsView> {
                         child: Text(
                           '30 ${LocaleKeys.days_title.tr()}',
                           style: TextStyle(
-                            color: _timeRange == 30
-                                ? Theme.of(context).colorScheme.secondary
-                                : null,
+                            color: _timeRange == 30 ? Theme.of(context).colorScheme.secondary : null,
                           ),
                         ),
                       ),
@@ -382,9 +369,7 @@ class _GraphsViewState extends State<GraphsView> {
                         child: Text(
                           'Custom',
                           style: TextStyle(
-                            color: ![7, 14, 30].contains(_timeRange)
-                                ? Theme.of(context).colorScheme.secondary
-                                : null,
+                            color: ![7, 14, 30].contains(_timeRange) ? Theme.of(context).colorScheme.secondary : null,
                           ),
                         ),
                       ),

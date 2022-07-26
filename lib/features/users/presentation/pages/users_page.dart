@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 
+import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
@@ -40,6 +42,7 @@ class UsersView extends StatefulWidget {
 }
 
 class _UsersViewState extends State<UsersView> {
+  final QuickActions quickActions = const QuickActions();
   final _scrollController = ScrollController();
   late String _orderColumn;
   late String _orderDir;
@@ -50,6 +53,8 @@ class _UsersViewState extends State<UsersView> {
   @override
   void initState() {
     super.initState();
+    initalizeQuickActions(context, quickActions);
+
     _scrollController.addListener(_onScroll);
     _usersTableBloc = context.read<UsersTableBloc>();
     _settingsBloc = context.read<SettingsBloc>();
@@ -77,8 +82,7 @@ class _UsersViewState extends State<UsersView> {
       // Listen for active server change and run a fresh user fetch if it does
       listenWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer !=
-              current.appSettings.activeServer) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
             return true;
           }
         }
@@ -103,8 +107,7 @@ class _UsersViewState extends State<UsersView> {
         body: BlocBuilder<UsersTableBloc, UsersTableState>(
           builder: (context, state) {
             return PageBody(
-              loading:
-                  state.status == BlocStatus.initial && !state.hasReachedMax,
+              loading: state.status == BlocStatus.initial && !state.hasReachedMax,
               child: ThemedRefreshIndicator(
                 onRefresh: () {
                   context.read<UsersTableBloc>().add(
@@ -141,8 +144,7 @@ class _UsersViewState extends State<UsersView> {
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax ||
-                              state.status == BlocStatus.initial
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial
                           ? state.users.length
                           : state.users.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
@@ -265,9 +267,8 @@ class _UsersViewState extends State<UsersView> {
               ),
               const PopupMenuDivider(),
               PopupMenuItem(
-                value: _orderColumn == 'friendly_name' && _orderDir == 'asc'
-                    ? 'friendly_name|desc'
-                    : 'friendly_name|asc',
+                value:
+                    _orderColumn == 'friendly_name' && _orderDir == 'asc' ? 'friendly_name|desc' : 'friendly_name|asc',
                 child: Row(
                   children: [
                     _orderColumn == 'friendly_name' && _orderDir == 'asc'
@@ -287,9 +288,7 @@ class _UsersViewState extends State<UsersView> {
                 ),
               ),
               PopupMenuItem(
-                value: _orderColumn == 'last_seen' && _orderDir == 'desc'
-                    ? 'last_seen|asc'
-                    : 'last_seen|desc',
+                value: _orderColumn == 'last_seen' && _orderDir == 'desc' ? 'last_seen|asc' : 'last_seen|desc',
                 child: Row(
                   children: [
                     _orderColumn == 'last_seen' && _orderDir == 'desc'

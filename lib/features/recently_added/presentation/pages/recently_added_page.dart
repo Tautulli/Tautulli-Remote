@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 
+import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/types/media_type.dart';
@@ -39,6 +41,7 @@ class RecentlyAddedView extends StatefulWidget {
 }
 
 class _RecentlyAddedViewState extends State<RecentlyAddedView> {
+  final QuickActions quickActions = const QuickActions();
   final _scrollController = ScrollController();
   late RecentlyAddedBloc _recentlyAddedBloc;
   late SettingsBloc _settingsBloc;
@@ -48,6 +51,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
   @override
   void initState() {
     super.initState();
+    initalizeQuickActions(context, quickActions);
 
     _scrollController.addListener(_onScroll);
     _recentlyAddedBloc = context.read<RecentlyAddedBloc>();
@@ -89,8 +93,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
         body: BlocBuilder<RecentlyAddedBloc, RecentlyAddedState>(
           builder: (context, state) {
             return PageBody(
-              loading:
-                  state.status == BlocStatus.initial && !state.hasReachedMax,
+              loading: state.status == BlocStatus.initial && !state.hasReachedMax,
               child: ThemedRefreshIndicator(
                 onRefresh: () {
                   _recentlyAddedBloc.add(
@@ -126,8 +129,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax ||
-                              state.status == BlocStatus.initial
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial
                           ? state.recentlyAdded.length
                           : state.recentlyAdded.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
@@ -202,9 +204,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
           builder: (context, state) {
             return FaIcon(
               FontAwesomeIcons.filter,
-              color: _mediaType != null
-                  ? Theme.of(context).colorScheme.secondary
-                  : null,
+              color: _mediaType != null ? Theme.of(context).colorScheme.secondary : null,
               size: 20,
             );
           },
@@ -253,9 +253,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
               child: Text(
                 'All',
                 style: TextStyle(
-                  color: _mediaType == null
-                      ? Theme.of(context).colorScheme.secondary
-                      : null,
+                  color: _mediaType == null ? Theme.of(context).colorScheme.secondary : null,
                 ),
               ),
             ),
@@ -264,9 +262,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
               child: Text(
                 'Movies',
                 style: TextStyle(
-                  color: _mediaType == MediaType.movie
-                      ? Theme.of(context).colorScheme.secondary
-                      : null,
+                  color: _mediaType == MediaType.movie ? Theme.of(context).colorScheme.secondary : null,
                 ),
               ),
             ),
@@ -275,9 +271,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
               child: Text(
                 'TV Shows',
                 style: TextStyle(
-                  color: _mediaType == MediaType.show
-                      ? Theme.of(context).colorScheme.secondary
-                      : null,
+                  color: _mediaType == MediaType.show ? Theme.of(context).colorScheme.secondary : null,
                 ),
               ),
             ),
@@ -286,9 +280,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
               child: Text(
                 'Music',
                 style: TextStyle(
-                  color: _mediaType == MediaType.artist
-                      ? Theme.of(context).colorScheme.secondary
-                      : null,
+                  color: _mediaType == MediaType.artist ? Theme.of(context).colorScheme.secondary : null,
                 ),
               ),
             ),
@@ -297,9 +289,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
               child: Text(
                 'Videos',
                 style: TextStyle(
-                  color: _mediaType == MediaType.otherVideo
-                      ? Theme.of(context).colorScheme.secondary
-                      : null,
+                  color: _mediaType == MediaType.otherVideo ? Theme.of(context).colorScheme.secondary : null,
                 ),
               ),
             ),
