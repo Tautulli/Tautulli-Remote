@@ -9,11 +9,13 @@ import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/widgets/sliver_tabbed_details.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
+import '../../../recently_added/presentation/bloc/library_recently_added_bloc.dart';
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/library_table_model.dart';
 import '../bloc/library_statistics_bloc.dart';
 import '../widgets/library_details_icon.dart';
+import '../widgets/library_details_new_tab.dart';
 import '../widgets/library_details_stats_tab.dart';
 
 class LibraryDetailsPage extends StatelessWidget {
@@ -27,6 +29,9 @@ class LibraryDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => di.sl<LibraryRecentlyAddedBloc>(),
+        ),
         BlocProvider(
           create: (context) => di.sl<LibraryStatisticsBloc>(),
         ),
@@ -60,6 +65,14 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
 
     context.read<LibraryStatisticsBloc>().add(
           LibraryStatisticsFetched(
+            tautulliId: tautulliId,
+            sectionId: widget.libraryTableModel.sectionId ?? 0,
+            settingsBloc: settingsBloc,
+          ),
+        );
+
+    context.read<LibraryRecentlyAddedBloc>().add(
+          LibraryRecentlyAddedFetched(
             tautulliId: tautulliId,
             sectionId: widget.libraryTableModel.sectionId ?? 0,
             settingsBloc: settingsBloc,
@@ -137,7 +150,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
         ],
         tabChildren: [
           LibraryDetailsStatsTab(libraryTableModel: widget.libraryTableModel),
-          Placeholder(),
+          LibraryDetailsNewTab(libraryTableModel: widget.libraryTableModel),
           Placeholder(),
           Placeholder(),
         ],

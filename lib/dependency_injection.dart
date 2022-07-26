@@ -59,6 +59,7 @@ import 'features/recently_added/data/datasources/recently_added_data_source.dart
 import 'features/recently_added/data/repositories/recently_added_repository_impl.dart';
 import 'features/recently_added/domain/repositories/recently_added_repository.dart';
 import 'features/recently_added/domain/usecases/recently_added.dart';
+import 'features/recently_added/presentation/bloc/library_recently_added_bloc.dart';
 import 'features/recently_added/presentation/bloc/recently_added_bloc.dart';
 import 'features/settings/data/datasources/settings_data_source.dart';
 import 'features/settings/data/repositories/settings_repository_impl.dart';
@@ -482,6 +483,13 @@ Future<void> init() async {
 
   //! Features - Recently Added
   // Bloc
+  sl.registerFactory(
+    () => LibraryRecentlyAddedBloc(
+      recentlyAdded: sl(),
+      imageUrl: sl(),
+      logging: sl(),
+    ),
+  );
   sl.registerFactory(
     () => RecentlyAddedBloc(
       recentlyAdded: sl(),
