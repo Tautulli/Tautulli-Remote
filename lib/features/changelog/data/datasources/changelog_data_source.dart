@@ -1,6 +1,24 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.16",
+      "date": "July 27, 2022",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Added sorting to Libraries page",
+        },
+        {
+          "type": "fix",
+          "detail": "History tab for a library was fetching incorrect cached data",
+        },
+        {
+          "type": "fix",
+          "detail": "Libraries with no last streamed date would show 'unknown' instead of 'never'",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.15",
       "date": "July 26, 2022",
       "changes": [
