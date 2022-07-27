@@ -64,7 +64,7 @@ class _LibraryDetailsIconState extends State<LibraryDetailsIcon> {
           ),
           Center(
             child: Hero(
-              tag: ValueKey(widget.libraryTableModel.guid),
+              tag: ValueKey(widget.libraryTableModel.sectionId),
               child: LibraryIcon(library: widget.libraryTableModel),
             ),
           ),

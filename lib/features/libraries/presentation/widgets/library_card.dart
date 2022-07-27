@@ -62,7 +62,7 @@ class LibraryCard extends StatelessWidget {
         ],
       ),
       icon: Hero(
-        tag: ValueKey(library.guid),
+        tag: ValueKey(library.sectionId),
         child: LibraryIcon(library: library),
       ),
       details: LibraryCardDetails(library: library),
