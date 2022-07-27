@@ -47,7 +47,7 @@ class LibraryHistoryBloc extends Bloc<LibraryHistoryEvent, LibraryHistoryState> 
     LibraryHistoryFetched event,
     Emitter<LibraryHistoryState> emit,
   ) async {
-    final cacheKey = '${event.tautulliId}:${event.userId}';
+    final cacheKey = '${event.tautulliId}:${event.sectionId}';
 
     if (!libraryHistoryCache.containsKey(cacheKey)) {
       libraryHistoryCache[cacheKey] = [];
@@ -72,6 +72,7 @@ class LibraryHistoryBloc extends Bloc<LibraryHistoryEvent, LibraryHistoryState> 
           state.copyWith(
             status: BlocStatus.success,
             history: libraryHistoryCache[cacheKey],
+            hasReachedMax: libraryHistoryCache[cacheKey]!.length < length,
           ),
         );
       }
@@ -81,7 +82,7 @@ class LibraryHistoryBloc extends Bloc<LibraryHistoryEvent, LibraryHistoryState> 
         grouping: event.grouping,
         includeActivity: event.includeActivity,
         user: event.user,
-        userId: event.userId == -1 ? null : event.userId,
+        userId: event.userId,
         ratingKey: event.ratingKey,
         parentRatingKey: event.parentRatingKey,
         grandparentRatingKey: event.grandparentRatingKey,
@@ -116,7 +117,7 @@ class LibraryHistoryBloc extends Bloc<LibraryHistoryEvent, LibraryHistoryState> 
         grouping: event.grouping,
         includeActivity: event.includeActivity,
         user: event.user,
-        userId: event.userId == -1 ? null : event.userId,
+        userId: event.userId,
         ratingKey: event.ratingKey,
         parentRatingKey: event.parentRatingKey,
         grandparentRatingKey: event.grandparentRatingKey,
