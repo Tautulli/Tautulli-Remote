@@ -6,15 +6,14 @@ import '../connection_handler.dart';
 abstract class GetStreamTypeByTop10Platforms {
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
   });
 }
 
-class GetStreamTypeByTop10PlatformsImpl
-    implements GetStreamTypeByTop10Platforms {
+class GetStreamTypeByTop10PlatformsImpl implements GetStreamTypeByTop10Platforms {
   final ConnectionHandler connectionHandler;
 
   GetStreamTypeByTop10PlatformsImpl(this.connectionHandler);
@@ -22,7 +21,7 @@ class GetStreamTypeByTop10PlatformsImpl
   @override
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,

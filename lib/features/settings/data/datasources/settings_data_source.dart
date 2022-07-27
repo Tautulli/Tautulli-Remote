@@ -10,7 +10,7 @@ import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/local_storage/local_storage.dart';
 import '../../../../core/package_information/package_information.dart';
-import '../../../../core/types/graph_y_axis.dart';
+import '../../../../core/types/play_metric_type.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
 import '../models/connection_address_model.dart';
@@ -91,8 +91,8 @@ abstract class SettingsDataSource {
   Future<bool> setGraphTipsShown(bool value);
 
   // Graph Y Axis
-  Future<GraphYAxis> getGraphYAxis();
-  Future<bool> setGraphYAxis(GraphYAxis value);
+  Future<PlayMetricType> getGraphYAxis();
+  Future<bool> setGraphYAxis(PlayMetricType value);
 
   // Last App Version
   Future<String> getLastAppVersion();
@@ -396,16 +396,16 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Graph Y Axis
   @override
-  Future<GraphYAxis> getGraphYAxis() async {
+  Future<PlayMetricType> getGraphYAxis() async {
     String timeRangeString = localStorage.getString(graphYAxis) ?? 'plays';
 
-    if (timeRangeString == 'duration') return Future.value(GraphYAxis.time);
+    if (timeRangeString == 'duration') return Future.value(PlayMetricType.time);
 
-    return Future.value(GraphYAxis.plays);
+    return Future.value(PlayMetricType.plays);
   }
 
   @override
-  Future<bool> setGraphYAxis(GraphYAxis value) async {
+  Future<bool> setGraphYAxis(PlayMetricType value) async {
     return localStorage.setString(graphYAxis, value.apiValue());
   }
 

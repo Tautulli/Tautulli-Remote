@@ -7,7 +7,7 @@ import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/network_info/network_info.dart';
-import '../../../../core/types/graph_y_axis.dart';
+import '../../../../core/types/play_metric_type.dart';
 import '../../domain/repositories/settings_repository.dart';
 import '../datasources/settings_data_source.dart';
 import '../models/connection_address_model.dart';
@@ -240,12 +240,12 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Graph Y Axis
   @override
-  Future<GraphYAxis> getGraphYAxis() async {
+  Future<PlayMetricType> getGraphYAxis() async {
     return await dataSource.getGraphYAxis();
   }
 
   @override
-  Future<bool> setGraphYAxis(GraphYAxis value) async {
+  Future<bool> setGraphYAxis(PlayMetricType value) async {
     return await dataSource.setGraphYAxis(value);
   }
 

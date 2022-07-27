@@ -8,7 +8,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/types/graph_type.dart';
-import '../../../../core/types/graph_y_axis.dart';
+import '../../../../core/types/play_metric_type.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/graph_data_model.dart';
@@ -19,7 +19,7 @@ part 'graphs_event.dart';
 part 'graphs_state.dart';
 
 String? tautulliIdCache;
-GraphYAxis? yAxisCache;
+PlayMetricType? yAxisCache;
 int? timeRangeCache;
 Map<GraphType, GraphModel> graphsCache = Map.of(defaultGraphs);
 
@@ -79,7 +79,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
     required this.logging,
   }) : super(
           GraphsState(
-            yAxis: yAxisCache ?? GraphYAxis.plays,
+            yAxis: yAxisCache ?? PlayMetricType.plays,
             timeRange: timeRangeCache ?? 30,
             graphs: graphsCache,
           ),

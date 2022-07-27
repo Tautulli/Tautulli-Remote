@@ -1,9 +1,9 @@
 export 'graph_series_type.dart';
-export 'graph_y_axis.dart';
 export 'image_fallback.dart';
 export 'loading_state.dart';
 export 'location.dart';
 export 'media_type.dart';
+export 'play_metric_type.dart';
 export 'playback_state.dart';
 export 'protocol.dart';
 export 'stream_decision.dart';

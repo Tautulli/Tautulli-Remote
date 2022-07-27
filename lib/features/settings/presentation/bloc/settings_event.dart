@@ -153,7 +153,7 @@ class SettingsUpdateGraphTipsShown extends SettingsEvent {
 }
 
 class SettingsUpdateGraphYAxis extends SettingsEvent {
-  final GraphYAxis graphYAxis;
+  final PlayMetricType graphYAxis;
 
   const SettingsUpdateGraphYAxis(this.graphYAxis);
 

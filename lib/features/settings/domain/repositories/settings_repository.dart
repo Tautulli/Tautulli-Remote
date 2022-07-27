@@ -5,7 +5,7 @@ import '../../../../core/api/tautulli/models/register_device_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/types/graph_y_axis.dart';
+import '../../../../core/types/play_metric_type.dart';
 import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';
 
@@ -86,8 +86,8 @@ abstract class SettingsRepository {
   Future<bool> setGraphTipsShown(bool value);
 
   // Graph Y Axis
-  Future<GraphYAxis> getGraphYAxis();
-  Future<bool> setGraphYAxis(GraphYAxis value);
+  Future<PlayMetricType> getGraphYAxis();
+  Future<bool> setGraphYAxis(PlayMetricType value);
 
   // Last App Version
   Future<String> getLastAppVersion();

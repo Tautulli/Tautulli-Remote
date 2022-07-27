@@ -9,7 +9,7 @@ import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/graph_helper.dart';
 import '../../../../core/helpers/string_helper.dart';
 import '../../../../core/types/graph_type.dart';
-import '../../../../core/types/graph_y_axis.dart';
+import '../../../../core/types/play_metric_type.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -18,7 +18,7 @@ import '../../data/models/graph_data_model.dart';
 import '../../data/models/graph_series_data_model.dart';
 
 class BarChartGraph extends StatelessWidget {
-  final GraphYAxis yAxis;
+  final PlayMetricType yAxis;
   final GraphType graphType;
   final GraphDataModel graphData;
   final bool? isVertical;
@@ -33,8 +33,7 @@ class BarChartGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SettingsSuccess settingsState =
-        context.read<SettingsBloc>().state as SettingsSuccess;
+    final SettingsSuccess settingsState = context.read<SettingsBloc>().state as SettingsSuccess;
 
     final ChartDataModel chartData = GraphHelper.buildBarChartDataModel(
       yAxis: yAxis,
@@ -59,7 +58,7 @@ class BarChartGraph extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(right: 4),
                   child: Text(
-                    yAxis == GraphYAxis.time
+                    yAxis == PlayMetricType.time
                         ? GraphHelper.graphDuration(
                             value.toInt(),
                             useDays: false,
@@ -92,11 +91,9 @@ class BarChartGraph extends StatelessWidget {
                 } else if (graphType == GraphType.playsByDayOfWeek) {
                   text = graphData.categories[value.toInt()].substring(0, 3);
                 } else if (graphType == GraphType.playsPerMonth) {
-                  final categoryItems =
-                      graphData.categories[value.toInt()].split(' ');
+                  final categoryItems = graphData.categories[value.toInt()].split(' ');
 
-                  text =
-                      '${categoryItems[0]} \'${categoryItems[1].substring(2)}   ';
+                  text = '${categoryItems[0]} \'${categoryItems[1].substring(2)}   ';
                 } else if ([
                   GraphType.playsByTop10Platforms,
                   GraphType.playsByTop10Users,
@@ -106,8 +103,7 @@ class BarChartGraph extends StatelessWidget {
                   if (graphData.categories[value.toInt()].length <= 6) {
                     text = '${graphData.categories[value.toInt()]}   ';
                   } else {
-                    text =
-                        '${graphData.categories[value.toInt()].substring(0, 5)}...  ';
+                    text = '${graphData.categories[value.toInt()].substring(0, 5)}...  ';
                   }
                 } else {
                   text = graphData.categories[value.toInt()];
@@ -161,10 +157,8 @@ class BarChartGraph extends StatelessWidget {
         gridData: FlGridData(
           horizontalInterval: chartData.horizontalLineStep,
           verticalInterval: chartData.verticalLineStep,
-          checkToShowHorizontalLine: (value) =>
-              value % chartData.horizontalLineStep == 0,
-          checkToShowVerticalLine: (value) =>
-              value % chartData.verticalLineStep == 0,
+          checkToShowHorizontalLine: (value) => value % chartData.horizontalLineStep == 0,
+          checkToShowVerticalLine: (value) => value % chartData.verticalLineStep == 0,
           drawVerticalLine: true,
           getDrawingVerticalLine: (value) => FlLine(
             color: Colors.white.withOpacity(0.03),
@@ -183,8 +177,7 @@ class BarChartGraph extends StatelessWidget {
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               List<GraphSeriesDataModel> validItems = List.from(
                 graphData.seriesDataList.where(
-                  (seriesDataModel) =>
-                      seriesDataModel.seriesData[groupIndex] > 0,
+                  (seriesDataModel) => seriesDataModel.seriesData[groupIndex] > 0,
                 ),
               );
 
@@ -217,7 +210,7 @@ class BarChartGraph extends StatelessWidget {
               }
 
               for (var i = 0; i < validItems.length; i++) {
-                if (yAxis == GraphYAxis.plays) {
+                if (yAxis == PlayMetricType.plays) {
                   textSpanList.add(
                     TextSpan(
                       text:
@@ -228,7 +221,7 @@ class BarChartGraph extends StatelessWidget {
                     ),
                   );
                 }
-                if (yAxis == GraphYAxis.time) {
+                if (yAxis == PlayMetricType.time) {
                   textSpanList.add(
                     TextSpan(
                       text:
@@ -256,8 +249,7 @@ class BarChartGraph extends StatelessWidget {
           ),
           touchCallback: (event, touchResponse) async {
             if (event is FlLongPressStart) {
-              if (await di.sl<DeviceInfo>().platform == 'ios' &&
-                  await di.sl<DeviceInfo>().version < 10) {
+              if (await di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
                 HapticFeedback.vibrate();
               } else {
                 HapticFeedback.heavyImpact();
@@ -266,13 +258,11 @@ class BarChartGraph extends StatelessWidget {
               lastTouchedIndex = touchResponse?.spot?.touchedBarGroupIndex;
             }
             if (event is FlLongPressMoveUpdate) {
-              if (touchResponse?.spot?.touchedBarGroupIndex !=
-                  lastTouchedIndex) {
+              if (touchResponse?.spot?.touchedBarGroupIndex != lastTouchedIndex) {
                 lastTouchedIndex = touchResponse?.spot?.touchedBarGroupIndex;
 
                 if (touchResponse?.spot != null) {
-                  if (await di.sl<DeviceInfo>().platform == 'ios' &&
-                      await di.sl<DeviceInfo>().version < 10) {
+                  if (await di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
                     HapticFeedback.vibrate();
                   } else {
                     HapticFeedback.selectionClick();

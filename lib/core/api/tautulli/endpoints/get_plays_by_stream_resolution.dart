@@ -6,7 +6,7 @@ import '../connection_handler.dart';
 abstract class GetPlaysByStreamResolution {
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -21,7 +21,7 @@ class GetPlaysByStreamResolutionImpl implements GetPlaysByStreamResolution {
   @override
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,

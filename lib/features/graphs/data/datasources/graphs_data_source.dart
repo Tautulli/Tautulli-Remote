@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/api/tautulli/tautulli_api.dart';
-import '../../../../core/types/graph_y_axis.dart';
+import '../../../../core/types/play_metric_type.dart';
 import '../models/graph_data_model.dart';
 
 abstract class GraphsDataSource {
   Future<Tuple2<GraphDataModel, bool>> getPlaysByDate({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -15,7 +15,7 @@ abstract class GraphsDataSource {
 
   Future<Tuple2<GraphDataModel, bool>> getPlaysByDayOfWeek({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -23,7 +23,7 @@ abstract class GraphsDataSource {
 
   Future<Tuple2<GraphDataModel, bool>> getPlaysByHourOfDay({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -31,7 +31,7 @@ abstract class GraphsDataSource {
 
   Future<Tuple2<GraphDataModel, bool>> getPlaysBySourceResolution({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -39,7 +39,7 @@ abstract class GraphsDataSource {
 
   Future<Tuple2<GraphDataModel, bool>> getPlaysByStreamResolution({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -47,7 +47,7 @@ abstract class GraphsDataSource {
 
   Future<Tuple2<GraphDataModel, bool>> getPlaysByStreamType({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -55,7 +55,7 @@ abstract class GraphsDataSource {
 
   Future<Tuple2<GraphDataModel, bool>> getPlaysByTop10Platforms({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -63,7 +63,7 @@ abstract class GraphsDataSource {
 
   Future<Tuple2<GraphDataModel, bool>> getPlaysPerMonth({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -71,7 +71,7 @@ abstract class GraphsDataSource {
 
   Future<Tuple2<GraphDataModel, bool>> getPlaysByTop10Users({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -79,7 +79,7 @@ abstract class GraphsDataSource {
 
   Future<Tuple2<GraphDataModel, bool>> getStreamTypeByTop10Platforms({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -87,7 +87,7 @@ abstract class GraphsDataSource {
 
   Future<Tuple2<GraphDataModel, bool>> getStreamTypeByTop10Users({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -124,7 +124,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   @override
   Future<Tuple2<GraphDataModel, bool>> getPlaysByDate({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -137,8 +137,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
       grouping: grouping,
     );
 
-    final GraphDataModel graphDataModel =
-        GraphDataModel.fromJson(result.value1['response']['data']);
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
     return Tuple2(graphDataModel, result.value2);
   }
@@ -146,7 +145,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   @override
   Future<Tuple2<GraphDataModel, bool>> getPlaysByDayOfWeek({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -159,8 +158,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
       grouping: grouping,
     );
 
-    final GraphDataModel graphDataModel =
-        GraphDataModel.fromJson(result.value1['response']['data']);
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
     return Tuple2(graphDataModel, result.value2);
   }
@@ -168,7 +166,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   @override
   Future<Tuple2<GraphDataModel, bool>> getPlaysByHourOfDay({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -181,8 +179,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
       grouping: grouping,
     );
 
-    final GraphDataModel graphDataModel =
-        GraphDataModel.fromJson(result.value1['response']['data']);
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
     return Tuple2(graphDataModel, result.value2);
   }
@@ -190,7 +187,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   @override
   Future<Tuple2<GraphDataModel, bool>> getPlaysBySourceResolution({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -203,8 +200,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
       grouping: grouping,
     );
 
-    final GraphDataModel graphDataModel =
-        GraphDataModel.fromJson(result.value1['response']['data']);
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
     return Tuple2(graphDataModel, result.value2);
   }
@@ -212,7 +208,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   @override
   Future<Tuple2<GraphDataModel, bool>> getPlaysByStreamResolution({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -225,8 +221,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
       grouping: grouping,
     );
 
-    final GraphDataModel graphDataModel =
-        GraphDataModel.fromJson(result.value1['response']['data']);
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
     return Tuple2(graphDataModel, result.value2);
   }
@@ -234,7 +229,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   @override
   Future<Tuple2<GraphDataModel, bool>> getPlaysByStreamType({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -247,8 +242,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
       grouping: grouping,
     );
 
-    final GraphDataModel graphDataModel =
-        GraphDataModel.fromJson(result.value1['response']['data']);
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
     return Tuple2(graphDataModel, result.value2);
   }
@@ -256,7 +250,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   @override
   Future<Tuple2<GraphDataModel, bool>> getPlaysPerMonth({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -269,8 +263,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
       grouping: grouping,
     );
 
-    final GraphDataModel graphDataModel =
-        GraphDataModel.fromJson(result.value1['response']['data']);
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
     return Tuple2(graphDataModel, result.value2);
   }
@@ -278,7 +271,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   @override
   Future<Tuple2<GraphDataModel, bool>> getPlaysByTop10Platforms({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -291,8 +284,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
       grouping: grouping,
     );
 
-    final GraphDataModel graphDataModel =
-        GraphDataModel.fromJson(result.value1['response']['data']);
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
     return Tuple2(graphDataModel, result.value2);
   }
@@ -300,7 +292,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   @override
   Future<Tuple2<GraphDataModel, bool>> getPlaysByTop10Users({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -313,8 +305,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
       grouping: grouping,
     );
 
-    final GraphDataModel graphDataModel =
-        GraphDataModel.fromJson(result.value1['response']['data']);
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
     return Tuple2(graphDataModel, result.value2);
   }
@@ -322,7 +313,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   @override
   Future<Tuple2<GraphDataModel, bool>> getStreamTypeByTop10Platforms({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -335,8 +326,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
       grouping: grouping,
     );
 
-    final GraphDataModel graphDataModel =
-        GraphDataModel.fromJson(result.value1['response']['data']);
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
     return Tuple2(graphDataModel, result.value2);
   }
@@ -344,7 +334,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
   @override
   Future<Tuple2<GraphDataModel, bool>> getStreamTypeByTop10Users({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -357,8 +347,7 @@ class GraphsDataSourceImpl implements GraphsDataSource {
       grouping: grouping,
     );
 
-    final GraphDataModel graphDataModel =
-        GraphDataModel.fromJson(result.value1['response']['data']);
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
     return Tuple2(graphDataModel, result.value2);
   }

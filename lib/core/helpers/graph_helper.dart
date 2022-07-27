@@ -12,7 +12,7 @@ import 'color_palette_helper.dart';
 
 class GraphHelper {
   static ChartDataModel buildBarChartDataModel({
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required GraphDataModel graphData,
     required double textScaleFactor,
   }) {
@@ -27,7 +27,7 @@ class GraphHelper {
 
     // Calculate Horizontal Line Step
     late double horizontalLineStep;
-    if (yAxis == GraphYAxis.time) {
+    if (yAxis == PlayMetricType.time) {
       List<double> bins = [1800, 3600, 10800, 21600];
 
       late double durationBin;
@@ -64,9 +64,8 @@ class GraphHelper {
     }
     final numberOfLines = (largestValue / horizontalLineStep).ceilToDouble();
 
-    if (yAxis == GraphYAxis.plays) {
-      longestYValue =
-          (horizontalLineStep * numberOfLines).toInt().toString().length;
+    if (yAxis == PlayMetricType.plays) {
+      longestYValue = (horizontalLineStep * numberOfLines).toInt().toString().length;
     } else {
       for (int i = 1; i < numberOfLines + 1; i++) {
         final int durationCharacterLength = GraphHelper.graphDuration(
@@ -102,8 +101,7 @@ class GraphHelper {
     double verticalLineStep = (graphData.categories.length / 7).ceilToDouble();
 
     // Calculate Max Y Lines
-    double maxYLines =
-        (maxYValue / horizontalLineStep).ceilToDouble() * horizontalLineStep;
+    double maxYLines = (maxYValue / horizontalLineStep).ceilToDouble() * horizontalLineStep;
 
     return ChartDataModel(
       horizontalLineStep: horizontalLineStep,
@@ -255,7 +253,7 @@ class GraphHelper {
   }
 
   static ChartDataModel buildLineChartDataModel({
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required GraphDataModel graphData,
     required double textScaleFactor,
   }) {
@@ -268,7 +266,7 @@ class GraphHelper {
 
     // Calculate Horizontal Line Step
     late double horizontalLineStep;
-    if (yAxis == GraphYAxis.time) {
+    if (yAxis == PlayMetricType.time) {
       List<double> bins = [1800, 3600, 10800, 21600];
 
       late double durationBin;
@@ -297,17 +295,15 @@ class GraphHelper {
 
     int largestValue = 0;
     for (GraphSeriesDataModel seriesDataModel in graphData.seriesDataList) {
-      final int largestDataPoint =
-          seriesDataModel.seriesData.cast<int>().reduce(max);
+      final int largestDataPoint = seriesDataModel.seriesData.cast<int>().reduce(max);
       if (largestDataPoint > largestValue) {
         largestValue = largestDataPoint;
       }
     }
     final numberOfLines = (largestValue / horizontalLineStep).ceilToDouble();
 
-    if (yAxis == GraphYAxis.plays) {
-      longestYValue =
-          (horizontalLineStep * numberOfLines).toInt().toString().length;
+    if (yAxis == PlayMetricType.plays) {
+      longestYValue = (horizontalLineStep * numberOfLines).toInt().toString().length;
     } else {
       for (int i = 1; i < numberOfLines + 1; i++) {
         final int durationCharacterLength = GraphHelper.graphDuration(
@@ -343,8 +339,7 @@ class GraphHelper {
     double verticalLineStep = (graphData.categories.length / 7).ceilToDouble();
 
     // Calculate Max Y Lines
-    double maxYLines =
-        (maxYValue / horizontalLineStep).ceilToDouble() * horizontalLineStep;
+    double maxYLines = (maxYValue / horizontalLineStep).ceilToDouble() * horizontalLineStep;
 
     return ChartDataModel(
       horizontalLineStep: horizontalLineStep,
@@ -379,11 +374,9 @@ class GraphHelper {
           isCurved: true,
           preventCurveOverShooting: true,
           spots: spotListMap[seriesType],
-          color: [GraphSeriesType.tv, GraphSeriesType.directPlay]
-                  .contains(seriesType)
+          color: [GraphSeriesType.tv, GraphSeriesType.directPlay].contains(seriesType)
               ? PlexColorPalette.gamboge
-              : [GraphSeriesType.music, GraphSeriesType.transcode]
-                      .contains(seriesType)
+              : [GraphSeriesType.music, GraphSeriesType.transcode].contains(seriesType)
                   ? PlexColorPalette.cinnabar
                   : [GraphSeriesType.live].contains(seriesType)
                       ? PlexColorPalette.curiousBlue

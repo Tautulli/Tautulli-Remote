@@ -1,9 +1,9 @@
-enum GraphYAxis {
+enum PlayMetricType {
   plays('plays'),
   time('duration');
 
   final String value;
-  const GraphYAxis(this.value);
+  const PlayMetricType(this.value);
 
   String apiValue() => value;
 }

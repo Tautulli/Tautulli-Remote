@@ -16,7 +16,7 @@ import 'line_chart_graph.dart';
 
 class GraphCard extends StatelessWidget {
   final GraphChartType graphChartType;
-  final GraphYAxis yAxis;
+  final PlayMetricType yAxis;
   final GraphType graphType;
   final GraphModel graph;
   final bool? isVertical;

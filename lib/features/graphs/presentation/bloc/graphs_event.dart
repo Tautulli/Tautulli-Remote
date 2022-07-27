@@ -9,7 +9,7 @@ abstract class GraphsEvent extends Equatable {
 
 class GraphsFetched extends GraphsEvent {
   final String tautulliId;
-  final GraphYAxis yAxis;
+  final PlayMetricType yAxis;
   final int timeRange;
   final int? userId;
   final bool? grouping;

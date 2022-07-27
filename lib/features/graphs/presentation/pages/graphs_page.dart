@@ -44,7 +44,7 @@ class GraphsView extends StatefulWidget {
 class _GraphsViewState extends State<GraphsView> {
   final QuickActions quickActions = const QuickActions();
   late String _tautulliId;
-  late GraphYAxis _yAxis;
+  late PlayMetricType _yAxis;
   late int _timeRange;
   late GraphsBloc _graphsBloc;
   late SettingsBloc _settingsBloc;
@@ -215,10 +215,10 @@ class _GraphsViewState extends State<GraphsView> {
           return PopupMenuButton(
             tooltip: LocaleKeys.y_axis_title.tr(),
             icon: FaIcon(
-              _yAxis == GraphYAxis.plays ? FontAwesomeIcons.hashtag : FontAwesomeIcons.solidClock,
+              _yAxis == PlayMetricType.plays ? FontAwesomeIcons.hashtag : FontAwesomeIcons.solidClock,
               size: 20,
             ),
-            onSelected: (GraphYAxis value) {
+            onSelected: (PlayMetricType value) {
               _yAxis = value;
 
               _settingsBloc.add(
@@ -238,38 +238,38 @@ class _GraphsViewState extends State<GraphsView> {
             itemBuilder: (context) {
               return [
                 PopupMenuItem(
-                  value: GraphYAxis.plays,
+                  value: PlayMetricType.plays,
                   child: Row(
                     children: [
                       FaIcon(
                         FontAwesomeIcons.hashtag,
                         size: 20,
-                        color: _yAxis == GraphYAxis.plays ? Theme.of(context).colorScheme.secondary : null,
+                        color: _yAxis == PlayMetricType.plays ? Theme.of(context).colorScheme.secondary : null,
                       ),
                       const Gap(8),
                       Text(
                         LocaleKeys.play_count_title,
                         style: TextStyle(
-                          color: _yAxis == GraphYAxis.plays ? Theme.of(context).colorScheme.secondary : null,
+                          color: _yAxis == PlayMetricType.plays ? Theme.of(context).colorScheme.secondary : null,
                         ),
                       ).tr(),
                     ],
                   ),
                 ),
                 PopupMenuItem(
-                  value: GraphYAxis.time,
+                  value: PlayMetricType.time,
                   child: Row(
                     children: [
                       FaIcon(
                         FontAwesomeIcons.solidClock,
                         size: 20,
-                        color: _yAxis == GraphYAxis.time ? Theme.of(context).colorScheme.secondary : null,
+                        color: _yAxis == PlayMetricType.time ? Theme.of(context).colorScheme.secondary : null,
                       ),
                       const Gap(8),
                       Text(
                         LocaleKeys.play_time_title,
                         style: TextStyle(
-                          color: _yAxis == GraphYAxis.time ? Theme.of(context).colorScheme.secondary : null,
+                          color: _yAxis == PlayMetricType.time ? Theme.of(context).colorScheme.secondary : null,
                         ),
                       ).tr(),
                     ],

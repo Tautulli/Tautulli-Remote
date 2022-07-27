@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/types/graph_chart_type.dart';
 import '../../../../core/types/graph_type.dart';
-import '../../../../core/types/graph_y_axis.dart';
+import '../../../../core/types/play_metric_type.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../bloc/graphs_bloc.dart';
 import 'graph_card.dart';
@@ -23,7 +23,7 @@ class StreamTypeGraphsTab extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           children: [
             GraphHeading(
-              text: state.yAxis == GraphYAxis.plays
+              text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.daily_play_count_by_stream_type_title.tr()
                   : LocaleKeys.daily_play_time_by_stream_type_title.tr(),
             ),
@@ -35,7 +35,7 @@ class StreamTypeGraphsTab extends StatelessWidget {
             ),
             const Gap(18),
             GraphHeading(
-              text: state.yAxis == GraphYAxis.plays
+              text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_source_resolution.tr()
                   : LocaleKeys.play_time_by_source_resolution.tr(),
             ),
@@ -47,7 +47,7 @@ class StreamTypeGraphsTab extends StatelessWidget {
             ),
             const Gap(18),
             GraphHeading(
-              text: state.yAxis == GraphYAxis.plays
+              text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_stream_resolution.tr()
                   : LocaleKeys.play_time_by_stream_resolution.tr(),
             ),
@@ -59,7 +59,7 @@ class StreamTypeGraphsTab extends StatelessWidget {
             ),
             const Gap(18),
             GraphHeading(
-              text: state.yAxis == GraphYAxis.plays
+              text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_platform_stream_type.tr()
                   : LocaleKeys.play_time_by_platform_stream_type.tr(),
             ),
@@ -71,7 +71,7 @@ class StreamTypeGraphsTab extends StatelessWidget {
             ),
             const Gap(18),
             GraphHeading(
-              text: state.yAxis == GraphYAxis.plays
+              text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_user_stream_type.tr()
                   : LocaleKeys.play_time_by_user_stream_type.tr(),
             ),

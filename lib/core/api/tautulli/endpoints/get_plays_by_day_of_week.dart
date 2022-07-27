@@ -6,7 +6,7 @@ import '../connection_handler.dart';
 abstract class GetPlaysByDayOfWeek {
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     required int timeRange,
     int? userId,
     bool? grouping,
@@ -22,7 +22,7 @@ class GetPlaysByDayOfWeekImpl implements GetPlaysByDayOfWeek {
   Future<Tuple2<dynamic, bool>> call({
     required String tautulliId,
     required int timeRange,
-    required GraphYAxis yAxis,
+    required PlayMetricType yAxis,
     int? userId,
     bool? grouping,
   }) {

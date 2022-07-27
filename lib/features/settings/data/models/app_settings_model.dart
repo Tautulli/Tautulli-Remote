@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/types/graph_y_axis.dart';
+import '../../../../core/types/play_metric_type.dart';
 
 class AppSettingsModel extends Equatable {
   final ServerModel activeServer;
   final bool doubleBackToExit;
   final int graphTimeRange;
   final bool graphTipsShown;
-  final GraphYAxis graphYAxis;
+  final PlayMetricType graphYAxis;
   final String librariesSort;
   final bool maskSensitiveInfo;
   final bool oneSignalBannerDismissed;
@@ -41,7 +41,7 @@ class AppSettingsModel extends Equatable {
     bool? doubleBackToExit,
     int? graphTimeRange,
     bool? graphTipsShown,
-    GraphYAxis? graphYAxis,
+    PlayMetricType? graphYAxis,
     String? librariesSort,
     bool? maskSensitiveInfo,
     bool? oneSignalBannerDismissed,

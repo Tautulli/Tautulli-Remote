@@ -12,7 +12,7 @@ import '../../data/models/chart_data_model.dart';
 import '../../data/models/graph_data_model.dart';
 
 class LineChartGraph extends StatelessWidget {
-  final GraphYAxis yAxis;
+  final PlayMetricType yAxis;
   final GraphDataModel graphData;
 
   const LineChartGraph({
@@ -45,7 +45,7 @@ class LineChartGraph extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(right: 4),
                   child: Text(
-                    yAxis == GraphYAxis.time
+                    yAxis == PlayMetricType.time
                         ? GraphHelper.graphDuration(
                             value.toInt(),
                             useDays: false,
@@ -80,8 +80,7 @@ class LineChartGraph extends StatelessWidget {
                   child: RotationTransition(
                     turns: const AlwaysStoppedAnimation(-40 / 360),
                     child: Text(
-                      GraphHelper.graphDate(
-                          graphData.categories[value.toInt()]),
+                      GraphHelper.graphDate(graphData.categories[value.toInt()]),
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 12,
@@ -111,10 +110,8 @@ class LineChartGraph extends StatelessWidget {
         gridData: FlGridData(
           horizontalInterval: chartData.horizontalLineStep,
           verticalInterval: chartData.verticalLineStep,
-          checkToShowHorizontalLine: (value) =>
-              value % chartData.horizontalLineStep == 0,
-          checkToShowVerticalLine: (value) =>
-              value % chartData.verticalLineStep == 0,
+          checkToShowHorizontalLine: (value) => value % chartData.horizontalLineStep == 0,
+          checkToShowVerticalLine: (value) => value % chartData.verticalLineStep == 0,
           drawVerticalLine: true,
           getDrawingVerticalLine: (value) => FlLine(
             color: Colors.white.withOpacity(0.03),
@@ -149,7 +146,7 @@ class LineChartGraph extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
-                    if (yAxis == GraphYAxis.plays)
+                    if (yAxis == PlayMetricType.plays)
                       TextSpan(
                         text:
                             '${StringHelper.mapSeriesTypeToString(graphData.seriesDataList[index].seriesType)}: ${touchedSpots[index].y.toStringAsFixed(0)}',
@@ -157,7 +154,7 @@ class LineChartGraph extends StatelessWidget {
                           color: touchedSpots[index].bar.color,
                         ),
                       ),
-                    if (yAxis == GraphYAxis.time)
+                    if (yAxis == PlayMetricType.time)
                       TextSpan(
                         text:
                             '${StringHelper.mapSeriesTypeToString(graphData.seriesDataList[index].seriesType)}: ${GraphHelper.graphDuration(touchedSpots[index].y.toInt())}',
@@ -188,8 +185,7 @@ class LineChartGraph extends StatelessWidget {
           },
           touchCallback: (event, touchResponse) async {
             if (event is FlLongPressStart) {
-              if (await di.sl<DeviceInfo>().platform == 'ios' &&
-                  await di.sl<DeviceInfo>().version < 10) {
+              if (await di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
                 HapticFeedback.vibrate();
               } else {
                 HapticFeedback.heavyImpact();
@@ -198,13 +194,11 @@ class LineChartGraph extends StatelessWidget {
               lastTouchedIndex = touchResponse?.lineBarSpots?[0].spotIndex;
             }
             if (event is FlLongPressMoveUpdate) {
-              if (touchResponse?.lineBarSpots?[0].spotIndex !=
-                  lastTouchedIndex) {
+              if (touchResponse?.lineBarSpots?[0].spotIndex != lastTouchedIndex) {
                 lastTouchedIndex = touchResponse?.lineBarSpots?[0].spotIndex;
 
                 if (touchResponse?.lineBarSpots?[0] != null) {
-                  if (await di.sl<DeviceInfo>().platform == 'ios' &&
-                      await di.sl<DeviceInfo>().version < 10) {
+                  if (await di.sl<DeviceInfo>().platform == 'ios' && await di.sl<DeviceInfo>().version < 10) {
                     HapticFeedback.vibrate();
                   } else {
                     HapticFeedback.selectionClick();

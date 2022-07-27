@@ -5,7 +5,7 @@ import '../../../../core/api/tautulli/models/register_device_model.dart';
 import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/types/graph_y_axis.dart';
+import '../../../../core/types/play_metric_type.dart';
 import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';
 import '../repositories/settings_repository.dart';
@@ -224,12 +224,12 @@ class Settings {
   /// Returns the initial type of graph y axis to use.
   ///
   /// If no value is stored returns `GraphYAxis.plays`.
-  Future<GraphYAxis> getGraphYAxis() async {
+  Future<PlayMetricType> getGraphYAxis() async {
     return await repository.getGraphYAxis();
   }
 
   /// Sets the initial y axis to be used by the graphs.
-  Future<bool> setGraphYAxis(GraphYAxis value) async {
+  Future<bool> setGraphYAxis(PlayMetricType value) async {
     return await repository.setGraphYAxis(value);
   }
 

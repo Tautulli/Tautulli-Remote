@@ -97,7 +97,7 @@ class Cast {
         return (value as String?);
       case bool:
         return (value as bool) ? "1" : "0";
-      case GraphYAxis:
+      case PlayMetricType:
       case MediaType:
       case SectionType:
       case StreamDecision:

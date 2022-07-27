@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/types/graph_chart_type.dart';
 import '../../../../core/types/graph_type.dart';
-import '../../../../core/types/graph_y_axis.dart';
+import '../../../../core/types/play_metric_type.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../bloc/graphs_bloc.dart';
 import 'graph_card.dart';
@@ -23,7 +23,7 @@ class MediaTypeGraphsTab extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           children: [
             GraphHeading(
-              text: state.yAxis == GraphYAxis.plays
+              text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.daily_play_count_by_media_type_title.tr()
                   : LocaleKeys.daily_play_time_by_media_type_title.tr(),
             ),
@@ -35,7 +35,7 @@ class MediaTypeGraphsTab extends StatelessWidget {
             ),
             const Gap(18),
             GraphHeading(
-              text: state.yAxis == GraphYAxis.plays
+              text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_day_of_the_week.tr()
                   : LocaleKeys.play_time_by_day_of_the_week.tr(),
             ),
@@ -47,7 +47,7 @@ class MediaTypeGraphsTab extends StatelessWidget {
             ),
             const Gap(18),
             GraphHeading(
-              text: state.yAxis == GraphYAxis.plays
+              text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_hour_of_the_day.tr()
                   : LocaleKeys.play_time_by_hour_of_the_day.tr(),
             ),
@@ -60,7 +60,7 @@ class MediaTypeGraphsTab extends StatelessWidget {
             ),
             const Gap(18),
             GraphHeading(
-              text: state.yAxis == GraphYAxis.plays
+              text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_top_10_platforms.tr()
                   : LocaleKeys.play_time_by_top_10_platforms.tr(),
             ),
@@ -72,7 +72,7 @@ class MediaTypeGraphsTab extends StatelessWidget {
             ),
             const Gap(18),
             GraphHeading(
-              text: state.yAxis == GraphYAxis.plays
+              text: state.yAxis == PlayMetricType.plays
                   ? LocaleKeys.play_count_by_top_10_users.tr()
                   : LocaleKeys.play_time_by_top_10_users.tr(),
             ),
