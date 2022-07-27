@@ -19,8 +19,7 @@ abstract class SettingsRepository {
     String tautulliId,
   );
 
-  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>>
-      getTautulliSettings(String tautulliId);
+  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>> getTautulliSettings(String tautulliId);
 
   Future<Either<Failure, Tuple2<RegisterDeviceModel, bool>>> registerDevice({
     required String connectionProtocol,
@@ -98,6 +97,10 @@ abstract class SettingsRepository {
   Future<int> getLastReadAnnouncementId();
   Future<bool> setLastReadAnnouncementId(int value);
 
+  // Libraries Sort
+  Future<String> getLibrariesSort();
+  Future<bool> setLibrariesSort(String value);
+
   // Mask Sensitive Info
   Future<bool> getMaskSensitiveInfo();
   Future<bool> setMaskSensitiveInfo(bool value);
@@ -122,7 +125,7 @@ abstract class SettingsRepository {
   Future<int> getServerTimeout();
   Future<bool> setServerTimeout(int value);
 
-  // User Sort
+  // Users Sort
   Future<String> getUsersSort();
   Future<bool> setUsersSort(String value);
 

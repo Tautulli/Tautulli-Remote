@@ -73,6 +73,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateGraphYAxis>(
       (event, emit) => _onSettingsUpdateGraphYAxis(event, emit),
     );
+    on<SettingsUpdateLibrariesSort>(
+      (event, emit) => _onSettingsUpdateLibrariesSort(event, emit),
+    );
     on<SettingsUpdateMaskSensitiveInfo>(
       (event, emit) => _onSettingsUpdateMaskSensitiveInfo(event, emit),
     );
@@ -117,14 +120,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async {
     SettingsSuccess currentState = state as SettingsSuccess;
 
-    final ConnectionAddressModel primaryConnectionAddress =
-        ConnectionAddressModel.fromConnectionAddress(
+    final ConnectionAddressModel primaryConnectionAddress = ConnectionAddressModel.fromConnectionAddress(
       primary: true,
       connectionAddress: event.primaryConnectionAddress,
     );
 
-    ConnectionAddressModel secondaryConnectionAddress =
-        const ConnectionAddressModel(primary: false);
+    ConnectionAddressModel secondaryConnectionAddress = const ConnectionAddressModel(primary: false);
     if (isNotBlank(event.secondaryConnectionAddress)) {
       secondaryConnectionAddress = ConnectionAddressModel.fromConnectionAddress(
         primary: false,
@@ -138,13 +139,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       plexIdentifier: event.plexIdentifier,
       tautulliId: event.tautulliId,
       primaryConnectionAddress: primaryConnectionAddress.address!,
-      primaryConnectionProtocol:
-          primaryConnectionAddress.protocol?.toShortString() ?? 'http',
+      primaryConnectionProtocol: primaryConnectionAddress.protocol?.toShortString() ?? 'http',
       primaryConnectionDomain: primaryConnectionAddress.domain!,
       primaryConnectionPath: primaryConnectionAddress.path,
       secondaryConnectionAddress: secondaryConnectionAddress.address,
-      secondaryConnectionProtocol:
-          secondaryConnectionAddress.protocol?.toShortString(),
+      secondaryConnectionProtocol: secondaryConnectionAddress.protocol?.toShortString(),
       secondaryConnectionDomain: secondaryConnectionAddress.domain,
       secondaryConnectionPath: secondaryConnectionAddress.path,
       deviceToken: event.deviceToken,
@@ -215,9 +214,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     List<ServerModel> updatedList = [...currentState.serverList];
 
-    List<CustomHeaderModel> customHeaders = [
-      ...updatedList[index].customHeaders
-    ];
+    List<CustomHeaderModel> customHeaders = [...updatedList[index].customHeaders];
 
     customHeaders.removeWhere((header) => header.key == event.title);
 
@@ -318,8 +315,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
       final AppSettingsModel appSettings = AppSettingsModel(
         activeServer: activeServerId != ''
-            ? serverList
-                .firstWhere((server) => server.tautulliId == activeServerId)
+            ? serverList.firstWhere((server) => server.tautulliId == activeServerId)
             : serverList.isNotEmpty
                 ? serverList.first
                 : blankServer,
@@ -327,6 +323,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         graphTimeRange: await settings.getGraphTimeRange(),
         graphTipsShown: await settings.getGraphTipsShown(),
         graphYAxis: await settings.getGraphYAxis(),
+        librariesSort: await settings.getLibrariesSort(),
         maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
         oneSignalBannerDismissed: await settings.getOneSignalBannerDismissed(),
         oneSignalConsented: await settings.getOneSignalConsented(),
@@ -373,8 +370,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     emit(
       currentState.copyWith(
-        appSettings:
-            currentState.appSettings.copyWith(activeServer: event.activeServer),
+        appSettings: currentState.appSettings.copyWith(activeServer: event.activeServer),
       ),
     );
   }
@@ -385,8 +381,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async {
     final currentState = state as SettingsSuccess;
 
-    final ConnectionAddressModel connectionAddress =
-        ConnectionAddressModel.fromConnectionAddress(
+    final ConnectionAddressModel connectionAddress = ConnectionAddressModel.fromConnectionAddress(
       primary: event.primary,
       connectionAddress: event.connectionAddress,
     );
@@ -412,8 +407,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } else {
       updatedList[index] = currentState.serverList[index].copyWith(
         secondaryConnectionAddress: connectionAddress.address,
-        secondaryConnectionProtocol:
-            connectionAddress.protocol?.toShortString(),
+        secondaryConnectionProtocol: connectionAddress.protocol?.toShortString(),
         secondaryConnectionDomain: connectionAddress.domain,
         secondaryConnectionPath: connectionAddress.path,
       );
@@ -437,9 +431,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     List<ServerModel> updatedList = [...currentState.serverList];
 
-    List<CustomHeaderModel> customHeaders = [
-      ...updatedList[index].customHeaders
-    ];
+    List<CustomHeaderModel> customHeaders = [...updatedList[index].customHeaders];
 
     if (event.basicAuth) {
       final currentIndex = customHeaders.indexWhere(
@@ -479,8 +471,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         );
 
         if (event.previousTitle != event.title) {
-          loggingMessage =
-              "Settings :: Replaced '${event.previousTitle}' header with '${event.title}'";
+          loggingMessage = "Settings :: Replaced '${event.previousTitle}' header with '${event.title}'";
         } else {
           loggingMessage = "Settings :: Updated '${event.title}' header'";
         }
@@ -541,8 +532,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     emit(
       currentState.copyWith(
-        appSettings: currentState.appSettings
-            .copyWith(doubleBackToExit: event.doubleBackToExit),
+        appSettings: currentState.appSettings.copyWith(doubleBackToExit: event.doubleBackToExit),
       ),
     );
   }
@@ -560,8 +550,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     emit(
       currentState.copyWith(
-        appSettings: currentState.appSettings
-            .copyWith(graphTimeRange: event.graphTimeRange),
+        appSettings: currentState.appSettings.copyWith(graphTimeRange: event.graphTimeRange),
       ),
     );
   }
@@ -579,8 +568,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     emit(
       currentState.copyWith(
-        appSettings: currentState.appSettings
-            .copyWith(graphTipsShown: event.graphTipsShown),
+        appSettings: currentState.appSettings.copyWith(graphTipsShown: event.graphTipsShown),
       ),
     );
   }
@@ -598,8 +586,27 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     emit(
       currentState.copyWith(
-        appSettings:
-            currentState.appSettings.copyWith(graphYAxis: event.graphYAxis),
+        appSettings: currentState.appSettings.copyWith(graphYAxis: event.graphYAxis),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateLibrariesSort(
+    SettingsUpdateLibrariesSort event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setLibrariesSort(event.librariesSort);
+    logging.info(
+      'Settings :: Libraries Sort set to ${event.librariesSort}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          librariesSort: event.librariesSort,
+        ),
       ),
     );
   }
@@ -617,8 +624,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     emit(
       currentState.copyWith(
-        appSettings: currentState.appSettings
-            .copyWith(maskSensitiveInfo: event.maskSensitiveInfo),
+        appSettings: currentState.appSettings.copyWith(maskSensitiveInfo: event.maskSensitiveInfo),
       ),
     );
   }
@@ -635,8 +641,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     emit(
       currentState.copyWith(
-        appSettings: currentState.appSettings
-            .copyWith(oneSignalConsented: event.consented),
+        appSettings: currentState.appSettings.copyWith(oneSignalConsented: event.consented),
       ),
     );
   }
@@ -656,8 +661,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     emit(
       currentState.copyWith(
-        appSettings: currentState.appSettings
-            .copyWith(oneSignalBannerDismissed: event.dismiss),
+        appSettings: currentState.appSettings.copyWith(oneSignalBannerDismissed: event.dismiss),
       ),
     );
   }
@@ -741,14 +745,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       "Settings :: Updating server details for '${event.plexName}'",
     );
 
-    final ConnectionAddressModel primaryConnectionAddress =
-        ConnectionAddressModel.fromConnectionAddress(
+    final ConnectionAddressModel primaryConnectionAddress = ConnectionAddressModel.fromConnectionAddress(
       primary: true,
       connectionAddress: event.primaryConnectionAddress,
     );
 
-    final ConnectionAddressModel secondaryConnectionAddress =
-        ConnectionAddressModel.fromConnectionAddress(
+    final ConnectionAddressModel secondaryConnectionAddress = ConnectionAddressModel.fromConnectionAddress(
       primary: false,
       connectionAddress: event.secondaryConnectionAddress,
     );
@@ -763,14 +765,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       id: event.id,
       sortIndex: event.sortIndex,
       primaryConnectionAddress: primaryConnectionAddress.address,
-      primaryConnectionProtocol:
-          primaryConnectionAddress.protocol?.toShortString(),
+      primaryConnectionProtocol: primaryConnectionAddress.protocol?.toShortString(),
       primaryConnectionDomain: primaryConnectionAddress.domain,
       primaryConnectionPath: primaryConnectionAddress.path,
       secondaryConnectionAddress: secondaryConnectionAddress.address,
-      secondaryConnectionProtocol: secondaryConnectionAddress.protocol != null
-          ? secondaryConnectionAddress.protocol!.toShortString()
-          : '',
+      secondaryConnectionProtocol:
+          secondaryConnectionAddress.protocol != null ? secondaryConnectionAddress.protocol!.toShortString() : '',
       secondaryConnectionDomain: secondaryConnectionAddress.domain,
       secondaryConnectionPath: secondaryConnectionAddress.path,
       deviceToken: event.deviceToken,

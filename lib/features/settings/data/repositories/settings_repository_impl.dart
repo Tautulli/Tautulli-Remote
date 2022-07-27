@@ -60,8 +60,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>>
-      getTautulliSettings(String tautulliId) async {
+  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>> getTautulliSettings(String tautulliId) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await dataSource.getTautulliSettings(tautulliId);
@@ -272,6 +271,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setLastReadAnnouncementId(value);
   }
 
+  // Libraries Sort
+  @override
+  Future<String> getLibrariesSort() async {
+    return await dataSource.getLibrariesSort();
+  }
+
+  @override
+  Future<bool> setLibrariesSort(String value) async {
+    return await dataSource.setLibrariesSort(value);
+  }
+
   // Mask Sensitive Info
   @override
   Future<bool> getMaskSensitiveInfo() async {
@@ -338,7 +348,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setServerTimeout(value);
   }
 
-  // User Sort
+  // Users Sort
   @override
   Future<String> getUsersSort() async {
     return await dataSource.getUsersSort();

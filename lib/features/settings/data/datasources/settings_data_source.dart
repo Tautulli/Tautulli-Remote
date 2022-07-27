@@ -102,6 +102,10 @@ abstract class SettingsDataSource {
   Future<int> getLastReadAnnouncementId();
   Future<bool> setLastReadAnnouncementId(int value);
 
+  // Libraries Sort
+  Future<String> getLibrariesSort();
+  Future<bool> setLibrariesSort(String value);
+
   // Mask Sensitive Info
   Future<bool> getMaskSensitiveInfo();
   Future<bool> setMaskSensitiveInfo(bool value);
@@ -143,6 +147,7 @@ const graphTipsShown = 'graphTipsShown';
 const graphYAxis = 'graphYAxis';
 const lastAppVersion = 'lastAppVersion';
 const lastReadAnnouncementId = 'lastReadAnnouncementId';
+const librariesSort = 'librariesSort';
 const maskSensitiveInfo = 'maskSensitiveInfo';
 const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
 const oneSignalConsented = 'oneSignalConsented';
@@ -351,8 +356,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   @override
   Future<bool> setCustomCertHashList(List<int> certHashList) {
-    final List<String> stringList =
-        certHashList.map((i) => i.toString()).toList();
+    final List<String> stringList = certHashList.map((i) => i.toString()).toList();
 
     return localStorage.setStringList(customCertHashList, stringList);
   }
@@ -425,6 +429,19 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setLastReadAnnouncementId(int value) {
     return localStorage.setInt(lastReadAnnouncementId, value);
+  }
+
+  // Libraries Sort
+  @override
+  Future<String> getLibrariesSort() async {
+    return Future.value(
+      localStorage.getString(librariesSort) ?? 'section_name|asc',
+    );
+  }
+
+  @override
+  Future<bool> setLibrariesSort(String value) {
+    return localStorage.setString(librariesSort, value);
   }
 
   // Mask Sensitive Info

@@ -9,6 +9,7 @@ class AppSettingsModel extends Equatable {
   final int graphTimeRange;
   final bool graphTipsShown;
   final GraphYAxis graphYAxis;
+  final String librariesSort;
   final bool maskSensitiveInfo;
   final bool oneSignalBannerDismissed;
   final bool oneSignalConsented;
@@ -24,6 +25,7 @@ class AppSettingsModel extends Equatable {
     required this.graphTimeRange,
     required this.graphTipsShown,
     required this.graphYAxis,
+    required this.librariesSort,
     required this.maskSensitiveInfo,
     required this.oneSignalBannerDismissed,
     required this.oneSignalConsented,
@@ -40,6 +42,7 @@ class AppSettingsModel extends Equatable {
     int? graphTimeRange,
     bool? graphTipsShown,
     GraphYAxis? graphYAxis,
+    String? librariesSort,
     bool? maskSensitiveInfo,
     bool? oneSignalBannerDismissed,
     bool? oneSignalConsented,
@@ -55,9 +58,9 @@ class AppSettingsModel extends Equatable {
       graphTimeRange: graphTimeRange ?? this.graphTimeRange,
       graphTipsShown: graphTipsShown ?? this.graphTipsShown,
       graphYAxis: graphYAxis ?? this.graphYAxis,
+      librariesSort: librariesSort ?? this.librariesSort,
       maskSensitiveInfo: maskSensitiveInfo ?? this.maskSensitiveInfo,
-      oneSignalBannerDismissed:
-          oneSignalBannerDismissed ?? this.oneSignalBannerDismissed,
+      oneSignalBannerDismissed: oneSignalBannerDismissed ?? this.oneSignalBannerDismissed,
       oneSignalConsented: oneSignalConsented ?? this.oneSignalConsented,
       refreshRate: refreshRate ?? this.refreshRate,
       secret: secret ?? this.secret,
@@ -74,6 +77,7 @@ class AppSettingsModel extends Equatable {
       'Graph Time Range': graphTimeRange.toString(),
       'Graph Tips Shown': graphTipsShown.toString(),
       'Graph Y Axis': graphYAxis.toString(),
+      'Libraries Sort': librariesSort.toString(),
       'Mask Sensitive Info': maskSensitiveInfo.toString(),
       'OneSignal Banner Dismissed': oneSignalBannerDismissed.toString(),
       'OneSignal Privacy Accepted': oneSignalConsented.toString(),

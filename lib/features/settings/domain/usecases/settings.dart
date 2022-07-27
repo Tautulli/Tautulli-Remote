@@ -35,8 +35,7 @@ class Settings {
 
   /// Returns `TautulliGeneralSettingsModel` as well as a bool to indicate the
   /// active connection address.
-  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>>
-      getTautulliSettings(String tautulliId) async {
+  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>> getTautulliSettings(String tautulliId) async {
     return await repository.getTautulliSettings(tautulliId);
   }
 
@@ -261,6 +260,20 @@ class Settings {
   /// Sets the last read announcement ID.
   Future<bool> setLastReadAnnouncementId(int value) async {
     return await repository.setLastReadAnnouncementId(value);
+  }
+
+  /// Returns the order_column and order_dir for Libraries.
+  ///
+  /// Items are returned in a string connected by a `|`.
+  ///
+  /// If no value is stored returns `section_name|asc`.
+  Future<String> getLibrariesSort() async {
+    return await repository.getLibrariesSort();
+  }
+
+  /// Sets the libraries sort.
+  Future<bool> setLibrariesSort(String value) async {
+    return await repository.setLibrariesSort(value);
   }
 
   /// Returns if the app should mask sensitive info.

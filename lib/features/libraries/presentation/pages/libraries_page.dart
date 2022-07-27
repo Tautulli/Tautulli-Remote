@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quick_actions/quick_actions.dart';
 
@@ -59,8 +60,9 @@ class _LibrariesViewState extends State<LibrariesView> {
 
     _tautulliId = settingsState.appSettings.activeServer.tautulliId;
 
-    _orderColumn = _librariesBloc.state.orderColumn;
-    _orderDir = _librariesBloc.state.orderDir;
+    final librariesSort = settingsState.appSettings.librariesSort.split('|');
+    _orderColumn = librariesSort[0];
+    _orderDir = librariesSort[1];
 
     _librariesBloc.add(
       LibrariesFetched(
@@ -100,6 +102,7 @@ class _LibrariesViewState extends State<LibrariesView> {
       },
       child: ScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.libraries_title).tr(),
+        actions: _appBarActions(),
         body: BlocBuilder<LibrariesBloc, LibrariesState>(
           builder: (context, state) {
             return PageBody(
@@ -205,5 +208,193 @@ class _LibrariesViewState extends State<LibrariesView> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
     return currentScroll >= (maxScroll * 0.9);
+  }
+
+  List<Widget> _appBarActions() {
+    return [
+      Theme(
+        data: Theme.of(context).copyWith(
+          dividerTheme: DividerThemeData(
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
+        ),
+        child: PopupMenuButton(
+          icon: _currentSortIcon(),
+          tooltip: 'Sort libraries',
+          onSelected: (value) {
+            if (value != null) {
+              value as String;
+              List<String> values = value.split('|');
+
+              setState(() {
+                _orderColumn = values[0];
+                _orderDir = values[1];
+              });
+
+              _settingsBloc.add(SettingsUpdateLibrariesSort(value));
+              _librariesBloc.add(
+                LibrariesFetched(
+                  tautulliId: _tautulliId,
+                  orderColumn: _orderColumn,
+                  orderDir: _orderDir,
+                  freshFetch: true,
+                  settingsBloc: _settingsBloc,
+                ),
+              );
+            }
+          },
+          itemBuilder: (context) {
+            return <PopupMenuEntry<dynamic>>[
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    _currentSortIcon(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        _currentSortName(),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const PopupMenuDivider(),
+              PopupMenuItem(
+                value: _orderColumn == 'section_name' && _orderDir == 'asc' ? 'section_name|desc' : 'section_name|asc',
+                child: Row(
+                  children: [
+                    _orderColumn == 'section_name' && _orderDir == 'asc'
+                        ? const FaIcon(
+                            FontAwesomeIcons.arrowDownZA,
+                            size: 20,
+                          )
+                        : const FaIcon(
+                            FontAwesomeIcons.arrowDownAZ,
+                            size: 20,
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: const Text(LocaleKeys.name_title).tr(),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: _orderColumn == 'count' && _orderDir == 'desc' ? 'count|asc' : 'count|desc',
+                child: Row(
+                  children: [
+                    _orderColumn == 'count' && _orderDir == 'desc'
+                        ? const FaIcon(
+                            FontAwesomeIcons.arrowDown19,
+                            size: 20,
+                          )
+                        : const FaIcon(
+                            FontAwesomeIcons.arrowDown91,
+                            size: 20,
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: const Text('Count'),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: _orderColumn == 'duration' && _orderDir == 'desc' ? 'duration|asc' : 'duration|desc',
+                child: Row(
+                  children: [
+                    _orderColumn == 'duration' && _orderDir == 'desc'
+                        ? const FaIcon(
+                            FontAwesomeIcons.arrowDown19,
+                            size: 20,
+                          )
+                        : const FaIcon(
+                            FontAwesomeIcons.arrowDown91,
+                            size: 20,
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: const Text('Time'),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: _orderColumn == 'plays' && _orderDir == 'desc' ? 'plays|asc' : 'plays|desc',
+                child: Row(
+                  children: [
+                    _orderColumn == 'plays' && _orderDir == 'desc'
+                        ? const FaIcon(
+                            FontAwesomeIcons.arrowDown19,
+                            size: 20,
+                          )
+                        : const FaIcon(
+                            FontAwesomeIcons.arrowDown91,
+                            size: 20,
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: const Text('Plays'),
+                    ),
+                  ],
+                ),
+              ),
+            ];
+          },
+        ),
+      ),
+    ];
+  }
+
+  FaIcon _currentSortIcon({Color? color}) {
+    if (_orderColumn == 'section_name') {
+      if (_orderDir == 'asc') {
+        return FaIcon(
+          FontAwesomeIcons.arrowDownAZ,
+          size: 20,
+          color: color,
+        );
+      } else {
+        return FaIcon(
+          FontAwesomeIcons.arrowDownZA,
+          size: 20,
+          color: color,
+        );
+      }
+    } else {
+      if (_orderDir == 'asc') {
+        return FaIcon(
+          FontAwesomeIcons.arrowDown19,
+          size: 20,
+          color: color,
+        );
+      } else {
+        return FaIcon(
+          FontAwesomeIcons.arrowDown91,
+          size: 20,
+          color: color,
+        );
+      }
+    }
+  }
+
+  String _currentSortName() {
+    switch (_orderColumn) {
+      case ('section_name'):
+        return LocaleKeys.name_title.tr();
+      case ('count'):
+        return 'Count';
+      case ('duration'):
+        return 'Time';
+      case ('plays'):
+        return 'Plays';
+      default:
+        return 'Unknown';
+    }
   }
 }

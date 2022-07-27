@@ -161,6 +161,15 @@ class SettingsUpdateGraphYAxis extends SettingsEvent {
   List<Object> get props => [graphYAxis];
 }
 
+class SettingsUpdateLibrariesSort extends SettingsEvent {
+  final String librariesSort;
+
+  const SettingsUpdateLibrariesSort(this.librariesSort);
+
+  @override
+  List<Object> get props => [librariesSort];
+}
+
 class SettingsUpdateMaskSensitiveInfo extends SettingsEvent {
   final bool maskSensitiveInfo;
 
