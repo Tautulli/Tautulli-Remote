@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tautulli_remote/features/libraries/presentation/widgets/library_details_history_tab.dart';
 
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/widgets/sliver_tabbed_details.dart';
@@ -16,6 +15,7 @@ import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/library_table_model.dart';
 import '../bloc/library_statistics_bloc.dart';
+import '../widgets/library_details_history_tab.dart';
 import '../widgets/library_details_icon.dart';
 import '../widgets/library_details_new_tab.dart';
 import '../widgets/library_details_stats_tab.dart';
@@ -137,7 +137,9 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
               TextSpan(text: LocaleKeys.last_streamed_title.tr()),
               const TextSpan(text: ' '),
               TextSpan(
-                text: TimeHelper.moment(widget.libraryTableModel.lastAccessed),
+                text: widget.libraryTableModel.lastAccessed != null
+                    ? TimeHelper.moment(widget.libraryTableModel.lastAccessed)
+                    : LocaleKeys.never.tr(),
                 style: TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,
