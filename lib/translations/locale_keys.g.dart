@@ -138,6 +138,7 @@ abstract class  LocaleKeys {
   static const integer_larger_than_1_message = 'integer_larger_than_1_message';
   static const language_title = 'language_title';
   static const last_streamed_title = 'last_streamed_title';
+  static const last_watched_title = 'last_watched_title';
   static const learn_more_button = 'learn_more_button';
   static const libraries_title = 'libraries_title';
   static const live_title = 'live_title';
@@ -159,6 +160,7 @@ abstract class  LocaleKeys {
   static const mins = 'mins';
   static const month = 'month';
   static const more_title = 'more_title';
+  static const most_concurrent_title = 'most_concurrent_title';
   static const movies_title = 'movies_title';
   static const music_title = 'music_title';
   static const name_title = 'name_title';
@@ -216,6 +218,9 @@ abstract class  LocaleKeys {
   static const player_stats_title = 'player_stats_title';
   static const play_time_title = 'play_time_title';
   static const plays_title = 'plays_title';
+  static const popular_movies_title = 'popular_movies_title';
+  static const popular_music_title = 'popular_music_title';
+  static const popular_tv_title = 'popular_tv_title';
   static const primary_connection_title = 'primary_connection_title';
   static const product_title = 'product_title';
   static const progress_title = 'progress_title';
@@ -278,6 +283,11 @@ abstract class  LocaleKeys {
   static const time_title = 'time_title';
   static const time_range_title = 'time_range_title';
   static const tips_title = 'tips_title';
+  static const top_libraries_title = 'top_libraries_title';
+  static const top_movies_title = 'top_movies_title';
+  static const top_music_title = 'top_music_title';
+  static const top_tv_title = 'top_tv_title';
+  static const top_users_title = 'top_users_title';
   static const total_play_count_for_last_12_months_title = 'total_play_count_for_last_12_months_title';
   static const total_play_time_for_last_12_months_title = 'total_play_time_for_last_12_months_title';
   static const tracks_title = 'tracks_title';
