@@ -64,14 +64,12 @@ class _UserDetailsStatsTabState extends State<UserDetailsStatsTab> {
             return Future.value();
           },
           child: PageBody(
-            loading: state.playerStatsStatus == BlocStatus.initial ||
-                state.watchTimeStatsStatus == BlocStatus.initial,
+            loading: state.playerStatsStatus == BlocStatus.initial || state.watchTimeStatsStatus == BlocStatus.initial,
             child: BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, settingsState) {
                 settingsState as SettingsSuccess;
 
-                if (state.watchTimeStatsStatus == BlocStatus.failure &&
-                    state.playerStatsStatus == BlocStatus.failure) {
+                if (state.watchTimeStatsStatus == BlocStatus.failure && state.playerStatsStatus == BlocStatus.failure) {
                   return StatusPage(
                     scrollable: true,
                     message: state.message ?? 'Unknown failure.',
@@ -104,8 +102,7 @@ List<Widget> _buildUserStatList({
   List<Widget> statList = [];
 
   if (state.watchTimeStatsStatus != BlocStatus.initial ||
-      (state.watchTimeStatsStatus == BlocStatus.initial &&
-          state.watchTimeStatsList.isNotEmpty)) {
+      (state.watchTimeStatsStatus == BlocStatus.initial && state.watchTimeStatsList.isNotEmpty)) {
     statList.add(
       Padding(
         padding: const EdgeInsets.fromLTRB(4, 0, 8, 8),
@@ -178,8 +175,7 @@ List<Widget> _buildUserStatList({
   }
 
   if (state.playerStatsStatus != BlocStatus.initial ||
-      (state.playerStatsStatus == BlocStatus.initial &&
-          state.playerStatsList.isNotEmpty)) {
+      (state.playerStatsStatus == BlocStatus.initial && state.playerStatsList.isNotEmpty)) {
     statList.add(
       Padding(
         padding: const EdgeInsets.fromLTRB(4, 8, 8, 8),
@@ -215,18 +211,15 @@ List<Widget> _buildUserStatList({
 
           statList.add(
             IconCard(
-              background: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+              background: DecoratedBox(
+                position: DecorationPosition.foreground,
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.6),
+                ),
                 child: DecoratedBox(
-                  position: DecorationPosition.foreground,
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.6),
-                  ),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: TautulliColorPalette.mapPlatformToColor(
-                        playerStat.platformName!,
-                      ),
+                    color: TautulliColorPalette.mapPlatformToColor(
+                      playerStat.platformName!,
                     ),
                   ),
                 ),
@@ -239,9 +232,7 @@ List<Widget> _buildUserStatList({
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    sensitive
-                        ? LocaleKeys.hidden_message.tr()
-                        : playerStat.playerName!,
+                    sensitive ? LocaleKeys.hidden_message.tr() : playerStat.playerName!,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 16),
                   ),
@@ -329,17 +320,11 @@ RichText _timeRichText({
           _timeTextSpan(
             '${durationMap['min'].toString()} ${LocaleKeys.mins.tr()}',
           ),
-        if (durationMap['day']! < 1 &&
-            durationMap['hour']! < 1 &&
-            durationMap['min']! < 1 &&
-            durationMap['sec']! > 0)
+        if (durationMap['day']! < 1 && durationMap['hour']! < 1 && durationMap['min']! < 1 && durationMap['sec']! > 0)
           _timeTextSpan(
             '${durationMap['sec'].toString()} ${LocaleKeys.secs.tr()}',
           ),
-        if (durationMap['day']! < 1 &&
-            durationMap['hour']! < 1 &&
-            durationMap['min']! < 1 &&
-            durationMap['sec']! < 1)
+        if (durationMap['day']! < 1 && durationMap['hour']! < 1 && durationMap['min']! < 1 && durationMap['sec']! < 1)
           _timeTextSpan('0 ${LocaleKeys.min.tr()}'),
       ],
     ),
