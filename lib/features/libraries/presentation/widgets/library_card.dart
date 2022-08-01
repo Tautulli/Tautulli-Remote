@@ -9,15 +9,16 @@ import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/library_table_model.dart';
 import '../pages/library_details_page.dart';
-import 'library_card_details.dart';
 import 'library_icon.dart';
 
 class LibraryCard extends StatelessWidget {
   final LibraryTableModel library;
+  final Widget details;
 
   const LibraryCard({
     super.key,
     required this.library,
+    required this.details,
   });
 
   @override
@@ -65,7 +66,7 @@ class LibraryCard extends StatelessWidget {
         tag: ValueKey(library.sectionId),
         child: LibraryIcon(library: library),
       ),
-      details: LibraryCardDetails(library: library),
+      details: details,
       onTap: () async {
         await Navigator.of(context).push(
           MaterialPageRoute(

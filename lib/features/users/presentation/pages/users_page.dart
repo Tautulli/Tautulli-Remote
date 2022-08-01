@@ -19,6 +19,7 @@ import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/users_table_bloc.dart';
 import '../widgets/user_card.dart';
+import '../widgets/user_details.dart';
 
 class UsersPage extends StatelessWidget {
   const UsersPage({super.key});
@@ -171,6 +172,7 @@ class _UsersViewState extends State<UsersView> {
                         return UserCard(
                           key: ValueKey(state.users[index].userId!),
                           user: state.users[index],
+                          details: UserDetails(user: state.users[index]),
                         );
                       },
                     );

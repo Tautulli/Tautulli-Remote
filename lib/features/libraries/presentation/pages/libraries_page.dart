@@ -17,6 +17,7 @@ import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/libraries_bloc.dart';
 import '../widgets/library_card.dart';
+import '../widgets/library_card_details.dart';
 
 class LibrariesPage extends StatelessWidget {
   const LibrariesPage({super.key});
@@ -169,7 +170,10 @@ class _LibrariesViewState extends State<LibrariesView> {
 
                         final library = state.libraries[index];
 
-                        return LibraryCard(library: library);
+                        return LibraryCard(
+                          library: library,
+                          details: LibraryCardDetails(library: library),
+                        );
                       },
                     );
                   },

@@ -15,6 +15,7 @@ import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/data/models/user_table_model.dart';
 import '../../../users/presentation/widgets/user_card.dart';
+import '../../../users/presentation/widgets/user_details.dart';
 import '../../data/models/library_table_model.dart';
 import '../../data/models/library_watch_time_stat_model.dart';
 import '../bloc/library_statistics_bloc.dart';
@@ -205,17 +206,22 @@ class _LibraryDetailsStatsTabState extends State<LibraryDetailsStatsTab> {
           for (int i = 0; i < state.userStatsList.length; i++) {
             final userStat = state.userStatsList[i];
 
+            final user = UserTableModel(
+              friendlyName: userStat.friendlyName,
+              plays: userStat.totalPlays,
+              duration: userStat.totalTime,
+              userId: userStat.userId,
+              userThumb: userStat.userThumb,
+              username: userStat.username,
+            );
+
             statList.add(
               UserCard(
-                showLastStreamed: false,
                 fetchUser: true,
-                user: UserTableModel(
-                  friendlyName: userStat.friendlyName,
-                  plays: userStat.totalPlays,
-                  duration: userStat.totalTime,
-                  userId: userStat.userId,
-                  userThumb: userStat.userThumb,
-                  username: userStat.username,
+                user: user,
+                details: UserDetails(
+                  user: user,
+                  showLastStreamed: false,
                 ),
               ),
             );

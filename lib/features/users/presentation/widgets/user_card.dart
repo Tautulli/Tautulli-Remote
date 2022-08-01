@@ -6,20 +6,19 @@ import 'package:palette_generator/palette_generator.dart';
 import '../../data/models/user_model.dart';
 import '../../data/models/user_table_model.dart';
 import '../pages/user_details_page.dart';
-import 'user_details.dart';
 import 'user_icon.dart';
 
 Map<String, Color?> backgroundColorCache = {};
 
 class UserCard extends StatefulWidget {
   final UserTableModel user;
-  final bool showLastStreamed;
+  final Widget details;
   final bool fetchUser;
 
   const UserCard({
     super.key,
     required this.user,
-    this.showLastStreamed = true,
+    required this.details,
     this.fetchUser = false,
   });
 
@@ -77,10 +76,7 @@ class _UserCardState extends State<UserCard> {
                       UserIcon(user: user),
                       const Gap(8),
                       Expanded(
-                        child: UserDetails(
-                          showLastStreamed: widget.showLastStreamed,
-                          user: widget.user,
-                        ),
+                        child: widget.details,
                       ),
                     ],
                   ),
