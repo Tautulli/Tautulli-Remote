@@ -619,6 +619,7 @@ static const Map<String,dynamic> en = {
   "top_libraries_title": "Top Libraries",
   "top_movies_title": "Top Movies",
   "top_music_title": "Top Music",
+  "top_platforms_title": "Top Platforms",
   "top_tv_title": "Top TV",
   "top_users_title": "Top Users",
   "total_play_count_for_last_12_months_title": "Total Play Count for Last 12 Months",

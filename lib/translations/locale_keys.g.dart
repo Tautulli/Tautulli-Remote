@@ -286,6 +286,7 @@ abstract class  LocaleKeys {
   static const top_libraries_title = 'top_libraries_title';
   static const top_movies_title = 'top_movies_title';
   static const top_music_title = 'top_music_title';
+  static const top_platforms_title = 'top_platforms_title';
   static const top_tv_title = 'top_tv_title';
   static const top_users_title = 'top_users_title';
   static const total_play_count_for_last_12_months_title = 'total_play_count_for_last_12_months_title';
