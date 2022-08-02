@@ -85,6 +85,7 @@
     "server_registration_exit_dialog_content": "Minden eddig megadott adat törlésre fog kerülni.",
     "server_registration_exit_dialog_title": "Biztos vagy benne, hogy kilépsz?",
     "settings_title": "Beállítások",
+    "statistics_empty_message": "Nem találtam statisztikai adatokat.",
     "statistics_title": "Statisztikák",
     "status_title": "Állapot",
     "stream_type_title": "Közvetítés típusa",

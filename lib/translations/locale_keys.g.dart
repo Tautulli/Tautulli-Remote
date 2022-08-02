@@ -278,6 +278,7 @@ abstract class  LocaleKeys {
   static const slower_title = 'slower_title';
   static const sort_users_title = 'sort_users_title';
   static const started_title = 'started_title';
+  static const statistics_empty_message = 'statistics_empty_message';
   static const statistics_title = 'statistics_title';
   static const stats_title = 'stats_title';
   static const status_title = 'status_title';
