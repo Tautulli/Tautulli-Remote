@@ -617,6 +617,7 @@ static const Map<String,dynamic> en = {
   "step_title": "Step",
   "stream_type_title": "Stream Type",
   "streamed_title": "Streamed",
+  "streams_title": "Streams",
   "tautulli_remote_logs_title": "Tautulli Remote Logs",
   "terms_of_use_title": "Terms of Use",
   "time_title": "Time",

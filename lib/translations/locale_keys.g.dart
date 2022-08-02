@@ -284,6 +284,7 @@ abstract class  LocaleKeys {
   static const step_title = 'step_title';
   static const stream_type_title = 'stream_type_title';
   static const streamed_title = 'streamed_title';
+  static const streams_title = 'streams_title';
   static const tautulli_remote_logs_title = 'tautulli_remote_logs_title';
   static const terms_of_use_title = 'terms_of_use_title';
   static const time_title = 'time_title';
