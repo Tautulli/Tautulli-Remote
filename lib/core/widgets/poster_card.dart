@@ -73,7 +73,7 @@ class PosterCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Poster(mediaType: mediaType, uri: uri),
-                        const Gap(4),
+                        const Gap(8),
                         Expanded(child: details),
                       ],
                     ),
