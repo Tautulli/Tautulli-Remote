@@ -69,7 +69,7 @@ class LibrariesDataSourceImpl implements LibrariesDataSource {
         library = library.copyWith(sectionType: SectionType.live);
       }
 
-      if (library.guid != null && library.guid!.startsWith('com.plexapp.agents.none')) {
+      if (library.libraryThumb == '/:/resources/video.png') {
         library = library.copyWith(sectionType: SectionType.video);
       }
 
