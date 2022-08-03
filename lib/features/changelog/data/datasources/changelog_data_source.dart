@@ -1,6 +1,20 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.17",
+      "date": "August 03, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added the Statistics page",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added additional padding between poster and details on Poster Cards",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.16",
       "date": "July 27, 2022",
       "changes": [
