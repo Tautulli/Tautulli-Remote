@@ -225,7 +225,7 @@ class Cast {
       case ('plays'):
         return PlayMetricType.plays;
       case ('duration'):
-        return PlayMetricType.unknown;
+        return PlayMetricType.time;
       default:
         di.sl<Logging>().warning(
               'Utilities :: Failed to cast $value to PlayMetricType',
