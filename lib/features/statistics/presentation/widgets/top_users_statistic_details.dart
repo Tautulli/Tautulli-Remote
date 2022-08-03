@@ -26,6 +26,8 @@ class TopUsersStatisticDetails extends StatelessWidget {
               state.appSettings.maskSensitiveInfo
                   ? LocaleKeys.hidden_message.tr()
                   : statData.friendlyName ?? 'name missing',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,

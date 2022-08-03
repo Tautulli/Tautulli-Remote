@@ -21,6 +21,8 @@ class TopLibrariesStatisticDetails extends StatelessWidget {
       children: [
         Text(
           statData.sectionName ?? '',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,

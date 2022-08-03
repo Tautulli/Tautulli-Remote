@@ -21,6 +21,8 @@ class TopPlatformsStatisticDetails extends StatelessWidget {
       children: [
         Text(
           statData.platform ?? '',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,

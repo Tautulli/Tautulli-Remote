@@ -23,6 +23,8 @@ class LastWatchedStatisticDetails extends StatelessWidget {
       children: [
         Text(
           statData.title ?? '',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
@@ -36,6 +38,8 @@ class LastWatchedStatisticDetails extends StatelessWidget {
               state.appSettings.maskSensitiveInfo
                   ? LocaleKeys.hidden_message.tr()
                   : statData.friendlyName ?? 'name missing',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             );
           },
         ),
