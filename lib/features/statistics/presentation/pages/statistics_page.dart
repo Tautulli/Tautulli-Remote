@@ -528,6 +528,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                   thumb: statData.thumb,
                   backgroundUri: statData.posterUri,
                   lastAccessed: statData.lastPlay,
+                  isActive: true,
                 ),
                 details: TopLibrariesStatisticDetails(statData: statData),
               ),
