@@ -26,6 +26,7 @@ import 'features/recently_added/presentation/pages/recently_added_page.dart';
 import 'features/settings/domain/usecases/settings.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
+import 'features/statistics/presentation/pages/statistics_page.dart';
 import 'features/translation/presentation/pages/help_translate_page.dart';
 import 'features/users/presentation/pages/users_page.dart';
 import 'features/wizard/presentation/pages/wizard_page.dart';
@@ -178,6 +179,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
         OneSignalDataPrivacyPage.routeName: (_) => const OneSignalDataPrivacyPage(),
         RecentlyAddedPage.routeName: (_) => const RecentlyAddedPage(),
         SettingsPage.routeName: (_) => const SettingsPage(),
+        StatisticsPage.routeName: (_) => const StatisticsPage(),
         UsersPage.routeName: (_) => const UsersPage(),
         WizardPage.routeName: (_) => const WizardPage(),
       },

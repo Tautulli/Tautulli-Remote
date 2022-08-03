@@ -350,6 +350,30 @@ class Settings {
     return await repository.setServerTimeout(value);
   }
 
+  /// Returns the number of days to use for statistics.
+  ///
+  /// If no value is stored returns `30`.
+  Future<int> getStatisticsTimeRange() async {
+    return await repository.getStatisticsTimeRange();
+  }
+
+  /// Sets the number of days to use for statistics.
+  Future<bool> setStatisticsTimeRange(int value) async {
+    return await repository.setStatisticsTimeRange(value);
+  }
+
+  /// Returns the `PlayMetricType` to use for statistics.
+  ///
+  /// If no value is stored returns `PlayMetricType.plays`.
+  Future<PlayMetricType> getStatisticsStatType() async {
+    return await repository.getStatisticsStatType();
+  }
+
+  /// Sets the `PlayMetricType` to use for statistics.
+  Future<bool> setStatisticsStatType(PlayMetricType value) async {
+    return await repository.setStatisticsStatType(value);
+  }
+
   /// Returns the order_column and order_dir for Users.
   ///
   /// Items are returned in a string connected by a `|`.

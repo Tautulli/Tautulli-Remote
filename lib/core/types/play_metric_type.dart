@@ -1,6 +1,7 @@
 enum PlayMetricType {
   plays('plays'),
-  time('duration');
+  time('duration'),
+  unknown('unknown');
 
   final String value;
   const PlayMetricType(this.value);

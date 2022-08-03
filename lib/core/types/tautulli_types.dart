@@ -6,6 +6,7 @@ export 'media_type.dart';
 export 'play_metric_type.dart';
 export 'playback_state.dart';
 export 'protocol.dart';
+export 'stat_id_type.dart';
 export 'stream_decision.dart';
 export 'subtitle_decision.dart';
 export 'video_dynamic_range.dart';

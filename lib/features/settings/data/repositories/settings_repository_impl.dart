@@ -8,6 +8,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/network_info/network_info.dart';
 import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/utilities/cast.dart';
 import '../../domain/repositories/settings_repository.dart';
 import '../datasources/settings_data_source.dart';
 import '../models/connection_address_model.dart';
@@ -346,6 +347,32 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<bool> setServerTimeout(int value) async {
     return await dataSource.setServerTimeout(value);
+  }
+
+  // Statistics Stat Type
+  @override
+  Future<PlayMetricType> getStatisticsStatType() async {
+    return Future.value(
+      Cast.castStringToPlayMetricType(
+        await dataSource.getStatisticsStatType(),
+      ),
+    );
+  }
+
+  @override
+  Future<bool> setStatisticsStatType(PlayMetricType value) async {
+    return await dataSource.setStatisticsStatType(value);
+  }
+
+  // Statistics Time Range
+  @override
+  Future<int> getStatisticsTimeRange() async {
+    return await dataSource.getStatisticsTimeRange();
+  }
+
+  @override
+  Future<bool> setStatisticsTimeRange(int value) async {
+    return await dataSource.setStatisticsTimeRange(value);
   }
 
   // Users Sort

@@ -125,6 +125,14 @@ abstract class SettingsRepository {
   Future<int> getServerTimeout();
   Future<bool> setServerTimeout(int value);
 
+  // Statistics Stats Type
+  Future<PlayMetricType> getStatisticsStatType();
+  Future<bool> setStatisticsStatType(PlayMetricType value);
+
+  // Statistics Time Range
+  Future<int> getStatisticsTimeRange();
+  Future<bool> setStatisticsTimeRange(int value);
+
   // Users Sort
   Future<String> getUsersSort();
   Future<bool> setUsersSort(String value);

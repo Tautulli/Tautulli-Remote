@@ -70,6 +70,11 @@ import 'features/settings/presentation/bloc/clear_tautulli_image_cache_bloc.dart
 import 'features/settings/presentation/bloc/register_device_bloc.dart';
 import 'features/settings/presentation/bloc/registration_headers_bloc.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
+import 'features/statistics/data/datasources/statistics_data_source.dart';
+import 'features/statistics/data/repositories/statistics_repository_impl.dart';
+import 'features/statistics/domain/repositories/statistics_repository.dart';
+import 'features/statistics/domain/usecases/statistics.dart';
+import 'features/statistics/presentation/bloc/statistics_bloc.dart';
 import 'features/translation/presentation/bloc/translation_bloc.dart';
 import 'features/users/data/datasources/users_data_source.dart';
 import 'features/users/data/repositories/users_repository_impl.dart';
@@ -99,6 +104,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.GetHistory>(
     () => tautulli_api.GetHistoryImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetHomeStats>(
+    () => tautulli_api.GetHomeStatsImpl(sl()),
   );
   sl.registerLazySingleton<tautulli_api.GetLibrariesTable>(
     () => tautulli_api.GetLibrariesTableImpl(sl()),
@@ -590,6 +598,38 @@ Future<void> init() async {
       getServerInfoApi: sl(),
       getSettingsApi: sl(),
       registerDeviceApi: sl(),
+    ),
+  );
+
+  //! Features - Statistics
+  // Bloc
+  sl.registerFactory(
+    () => StatisticsBloc(
+      statistics: sl(),
+      imageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => Statistics(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<StatisticsRepository>(
+    () => StatisticsRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<StatisticsDataSource>(
+    () => StatisticsDataSourceImpl(
+      getHomeStatsApi: sl(),
     ),
   );
 

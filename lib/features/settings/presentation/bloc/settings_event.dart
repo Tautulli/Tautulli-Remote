@@ -308,6 +308,24 @@ class SettingsUpdateServerTimeout extends SettingsEvent {
   List<Object> get props => [timeout];
 }
 
+class SettingsUpdateStatisticsStatType extends SettingsEvent {
+  final PlayMetricType statisticsStatType;
+
+  const SettingsUpdateStatisticsStatType(this.statisticsStatType);
+
+  @override
+  List<Object> get props => [statisticsStatType];
+}
+
+class SettingsUpdateStatisticsTimeRange extends SettingsEvent {
+  final int statisticsTimeRange;
+
+  const SettingsUpdateStatisticsTimeRange(this.statisticsTimeRange);
+
+  @override
+  List<Object> get props => [statisticsTimeRange];
+}
+
 class SettingsUpdateUsersSort extends SettingsEvent {
   final String usersSort;
 

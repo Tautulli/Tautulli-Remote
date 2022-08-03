@@ -16,6 +16,8 @@ class AppSettingsModel extends Equatable {
   final int refreshRate;
   final bool secret;
   final int serverTimeout;
+  final PlayMetricType statisticsStatType;
+  final int statisticsTimeRange;
   final String usersSort;
   final bool wizardComplete;
 
@@ -32,6 +34,8 @@ class AppSettingsModel extends Equatable {
     required this.refreshRate,
     required this.secret,
     required this.serverTimeout,
+    required this.statisticsStatType,
+    required this.statisticsTimeRange,
     required this.usersSort,
     required this.wizardComplete,
   });
@@ -49,6 +53,8 @@ class AppSettingsModel extends Equatable {
     int? refreshRate,
     bool? secret,
     int? serverTimeout,
+    PlayMetricType? statisticsStatType,
+    int? statisticsTimeRange,
     String? usersSort,
     bool? wizardComplete,
   }) {
@@ -65,6 +71,8 @@ class AppSettingsModel extends Equatable {
       refreshRate: refreshRate ?? this.refreshRate,
       secret: secret ?? this.secret,
       serverTimeout: serverTimeout ?? this.serverTimeout,
+      statisticsStatType: statisticsStatType ?? this.statisticsStatType,
+      statisticsTimeRange: statisticsTimeRange ?? this.statisticsTimeRange,
       usersSort: usersSort ?? this.usersSort,
       wizardComplete: wizardComplete ?? this.wizardComplete,
     );
@@ -83,6 +91,8 @@ class AppSettingsModel extends Equatable {
       'OneSignal Privacy Accepted': oneSignalConsented.toString(),
       'Refresh Rate': refreshRate.toString(),
       'Server Timeout': serverTimeout.toString(),
+      'Statistics Stat Type': statisticsStatType.toString(),
+      'Statistics Time Range': statisticsTimeRange.toString(),
       'Users Sort': usersSort,
       'Wizard Complete': wizardComplete.toString(),
     };
@@ -101,6 +111,8 @@ class AppSettingsModel extends Equatable {
         refreshRate,
         secret,
         serverTimeout,
+        statisticsStatType,
+        statisticsTimeRange,
         usersSort,
         wizardComplete,
       ];

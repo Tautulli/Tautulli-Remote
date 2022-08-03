@@ -100,6 +100,7 @@ class Cast {
       case PlayMetricType:
       case MediaType:
       case SectionType:
+      case StatIdType:
       case StreamDecision:
       case ImageFallback:
         return value.apiValue();
@@ -214,6 +215,25 @@ class Cast {
     }
   }
 
+  /// Casts `String` to a `PlayMetricType`.
+  ///
+  /// Returns `PlayMetricType.unknown` if no match is found.
+  static PlayMetricType? castStringToPlayMetricType(String? value) {
+    switch (value) {
+      case (null):
+        return null;
+      case ('plays'):
+        return PlayMetricType.plays;
+      case ('duration'):
+        return PlayMetricType.unknown;
+      default:
+        di.sl<Logging>().warning(
+              'Utilities :: Failed to cast $value to PlayMetricType',
+            );
+        return PlayMetricType.unknown;
+    }
+  }
+
   /// Casts `String` to a `SectionType`.
   ///
   /// Returns `SectionType.unknown` if no match is found.
@@ -234,6 +254,43 @@ class Cast {
               'Utilities :: Failed to cast $value to SectionType',
             );
         return SectionType.unknown;
+    }
+  }
+
+  /// Casts `String` to a `StatIdType`.
+  ///
+  /// Returns `StatIdType.unknown` if no match is found.
+  static StatIdType? castStringToStatIdType(String? value) {
+    switch (value) {
+      case (null):
+        return null;
+      case ('last_watched'):
+        return StatIdType.lastWatched;
+      case ('most_concurrent'):
+        return StatIdType.mostConcurrent;
+      case ('popular_movies'):
+        return StatIdType.popularMovies;
+      case ('popular_music'):
+        return StatIdType.popularMusic;
+      case ('popular_tv'):
+        return StatIdType.popularTv;
+      case ('top_libraries'):
+        return StatIdType.topLibraries;
+      case ('top_movies'):
+        return StatIdType.topMovies;
+      case ('top_music'):
+        return StatIdType.topMusic;
+      case ('top_platforms'):
+        return StatIdType.topPlatforms;
+      case ('top_tv'):
+        return StatIdType.topTv;
+      case ('top_users'):
+        return StatIdType.topUsers;
+      default:
+        di.sl<Logging>().warning(
+              'Utilities :: Failed to cast $value to StatIdType',
+            );
+        return StatIdType.unknown;
     }
   }
 

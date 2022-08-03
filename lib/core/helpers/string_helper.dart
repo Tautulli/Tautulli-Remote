@@ -42,6 +42,35 @@ class StringHelper {
     }
   }
 
+  static String mapStatIdTypeToString(StatIdType? statIdType) {
+    switch (statIdType) {
+      case (StatIdType.lastWatched):
+        return LocaleKeys.recently_watched_title.tr();
+      case (StatIdType.mostConcurrent):
+        return LocaleKeys.most_concurrent_streams_title.tr();
+      case (StatIdType.popularMovies):
+        return LocaleKeys.most_popular_movies_title.tr();
+      case (StatIdType.popularMusic):
+        return LocaleKeys.most_popular_artists_title.tr();
+      case (StatIdType.popularTv):
+        return LocaleKeys.most_popular_tv_shows_title.tr();
+      case (StatIdType.topLibraries):
+        return LocaleKeys.most_active_libraries_title.tr();
+      case (StatIdType.topMovies):
+        return LocaleKeys.most_watched_movies_title.tr();
+      case (StatIdType.topMusic):
+        return LocaleKeys.most_played_artists_title.tr();
+      case (StatIdType.topPlatforms):
+        return LocaleKeys.most_active_platforms_title.tr();
+      case (StatIdType.topTv):
+        return LocaleKeys.most_watched_tv_shows_title.tr();
+      case (StatIdType.topUsers):
+        return LocaleKeys.most_active_users_title.tr();
+      default:
+        return 'Unknown';
+    }
+  }
+
   static String mapStreamDecisionToString(StreamDecision? streamDecision) {
     switch (streamDecision) {
       case (StreamDecision.copy):

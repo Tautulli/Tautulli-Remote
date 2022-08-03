@@ -106,6 +106,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateServerTimeout>(
       (event, emit) => _onSettingsUpdateServerTimeout(event, emit),
     );
+    on<SettingsUpdateStatisticsStatType>(
+      (event, emit) => _onSettingsUpdateStatisticsStatType(event, emit),
+    );
+    on<SettingsUpdateStatisticsTimeRange>(
+      (event, emit) => _onSettingsUpdateStatisticsTimeRange(event, emit),
+    );
     on<SettingsUpdateUsersSort>(
       (event, emit) => _onSettingsUpdateUsersSort(event, emit),
     );
@@ -327,9 +333,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
         oneSignalBannerDismissed: await settings.getOneSignalBannerDismissed(),
         oneSignalConsented: await settings.getOneSignalConsented(),
+        refreshRate: await settings.getRefreshRate(),
         secret: await settings.getSecret(),
         serverTimeout: await settings.getServerTimeout(),
-        refreshRate: await settings.getRefreshRate(),
+        statisticsStatType: await settings.getStatisticsStatType(),
+        statisticsTimeRange: await settings.getStatisticsTimeRange(),
         usersSort: await settings.getUsersSort(),
         wizardComplete: await settings.getWizardComplete(),
       );
@@ -935,6 +943,42 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         SettingsUpdateServerPlexAndTautulliInfo(serverModel: updatedServer),
       );
     }
+  }
+
+  void _onSettingsUpdateStatisticsStatType(
+    SettingsUpdateStatisticsStatType event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setStatisticsStatType(event.statisticsStatType);
+    logging.info(
+      'Settings :: Statistics Stat Type set to ${event.statisticsStatType}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(statisticsStatType: event.statisticsStatType),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateStatisticsTimeRange(
+    SettingsUpdateStatisticsTimeRange event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setStatisticsTimeRange(event.statisticsTimeRange);
+    logging.info(
+      'Settings :: Statistics Time Range set to ${event.statisticsTimeRange}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(statisticsTimeRange: event.statisticsTimeRange),
+      ),
+    );
   }
 
   void _onSettingsUpdateUsersSort(

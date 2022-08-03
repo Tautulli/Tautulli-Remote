@@ -130,6 +130,14 @@ abstract class SettingsDataSource {
   Future<int> getServerTimeout();
   Future<bool> setServerTimeout(int value);
 
+  // Statistics Stats Type
+  Future<String> getStatisticsStatType();
+  Future<bool> setStatisticsStatType(PlayMetricType value);
+
+  // Statistics Time Range
+  Future<int> getStatisticsTimeRange();
+  Future<bool> setStatisticsTimeRange(int value);
+
   // Users Sort
   Future<String> getUsersSort();
   Future<bool> setUsersSort(String value);
@@ -154,6 +162,8 @@ const oneSignalConsented = 'oneSignalConsented';
 const refreshRate = 'refreshRate';
 const secret = 'secret';
 const serverTimeout = 'serverTimeout';
+const statisticsStatType = 'statisticsStatsType';
+const statisticsTimeRange = 'statisticsTimeRange';
 const usersSort = 'usersSort';
 const wizardComplete = 'wizardComplete';
 
@@ -512,6 +522,30 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setServerTimeout(int value) {
     return localStorage.setInt(serverTimeout, value);
+  }
+
+  // Statistics Stat Type
+  @override
+  Future<String> getStatisticsStatType() async {
+    return Future.value(
+      localStorage.getString(statisticsStatType) ?? 'plays',
+    );
+  }
+
+  @override
+  Future<bool> setStatisticsStatType(PlayMetricType value) {
+    return localStorage.setString(statisticsStatType, value.apiValue());
+  }
+
+  // Statistics Time Range
+  @override
+  Future<int> getStatisticsTimeRange() async {
+    return Future.value(localStorage.getInt(statisticsTimeRange) ?? 30);
+  }
+
+  @override
+  Future<bool> setStatisticsTimeRange(int value) async {
+    return localStorage.setInt(statisticsTimeRange, value);
   }
 
   // Users Sort
