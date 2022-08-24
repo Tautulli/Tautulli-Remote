@@ -2,8 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../../../core/widgets/permission_setting_dialog.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/pages/onesignal_data_privacy.dart';
 import '../../../settings/presentation/widgets/list_tiles/checkbox_settings_list_tile.dart';
@@ -71,8 +73,7 @@ class WizardOneSignal extends StatelessWidget {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               fullscreenDialog: true,
-                              builder: (context) =>
-                                  const OneSignalDataPrivacyPage(
+                              builder: (context) => const OneSignalDataPrivacyPage(
                                 showToggle: false,
                               ),
                             ),
@@ -93,10 +94,20 @@ class WizardOneSignal extends StatelessWidget {
                           ),
                           title: LocaleKeys.wizard_onesignal_allow_title.tr(),
                           value: state.oneSignalAllowed,
-                          onChanged: (_) {
-                            context.read<WizardBloc>().add(
-                                  WizardToggleOneSignal(),
-                                );
+                          onChanged: (_) async {
+                            if (await Permission.notification.request().isGranted) {
+                              context.read<WizardBloc>().add(
+                                    WizardToggleOneSignal(),
+                                  );
+                            } else {
+                              await showDialog(
+                                context: context,
+                                builder: (context) => PermissionSettingDialog(
+                                  title: LocaleKeys.notification_permission_dialog_title.tr(),
+                                  content: LocaleKeys.notification_permission_dialog_content.tr(),
+                                ),
+                              );
+                            }
                           },
                         ),
                       ),
