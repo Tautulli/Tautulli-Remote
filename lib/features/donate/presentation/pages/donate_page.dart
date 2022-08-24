@@ -160,9 +160,7 @@ class _DonateViewState extends State<DonateView> {
                                 title: LocaleKeys.donate_cone_title.tr(),
                                 subtitle: '1.99 USD',
                                 onTap: () => _buyProduct(
-                                  _offerings!
-                                      .getOffering('default')!
-                                      .getPackage('ice_cream')!,
+                                  _offerings!.getOffering('default')!.getPackage('ice_cream')!,
                                 ),
                               ),
                               CustomListTile(
@@ -172,9 +170,7 @@ class _DonateViewState extends State<DonateView> {
                                 title: LocaleKeys.donate_slice_title.tr(),
                                 subtitle: '2.99 USD',
                                 onTap: () => _buyProduct(
-                                  _offerings!
-                                      .getOffering('default')!
-                                      .getPackage('pizza')!,
+                                  _offerings!.getOffering('default')!.getPackage('pizza')!,
                                 ),
                               ),
                               CustomListTile(
@@ -184,9 +180,7 @@ class _DonateViewState extends State<DonateView> {
                                 title: LocaleKeys.donate_burger_title.tr(),
                                 subtitle: '4.99 USD',
                                 onTap: () => _buyProduct(
-                                  _offerings!
-                                      .getOffering('default')!
-                                      .getPackage('hamburger')!,
+                                  _offerings!.getOffering('default')!.getPackage('hamburger')!,
                                 ),
                               ),
                               CustomListTile(
@@ -197,9 +191,7 @@ class _DonateViewState extends State<DonateView> {
                                 title: LocaleKeys.donate_meal_title.tr(),
                                 subtitle: '9.99 USD',
                                 onTap: () => _buyProduct(
-                                  _offerings!
-                                      .getOffering('default')!
-                                      .getPackage('meal')!,
+                                  _offerings!.getOffering('default')!.getPackage('meal')!,
                                 ),
                               ),
                             ],
@@ -211,65 +203,53 @@ class _DonateViewState extends State<DonateView> {
                               CustomListTile(
                                 leading: FaIcon(
                                   FontAwesomeIcons.circleDollarToSlot,
-                                  color: _purchaserInfo!.activeSubscriptions
-                                          .contains('subscription_tier_1')
+                                  color: _purchaserInfo!.activeSubscriptions.contains('subscription_tier_1')
                                       ? Colors.green
                                       : Theme.of(context).iconTheme.color,
                                 ),
                                 title: LocaleKeys.donate_tip_jar_title.tr(),
                                 subtitle: '0.99 USD/${LocaleKeys.month.tr()}',
                                 onTap: () => _buyProduct(
-                                  _offerings!
-                                      .getOffering('default')!
-                                      .getPackage('subscription_tier_1')!,
+                                  _offerings!.getOffering('default')!.getPackage('subscription_tier_1')!,
                                 ),
                               ),
                               CustomListTile(
                                 leading: FaIcon(
                                   FontAwesomeIcons.circleDollarToSlot,
-                                  color: _purchaserInfo!.activeSubscriptions
-                                          .contains('subscription_tier_2')
+                                  color: _purchaserInfo!.activeSubscriptions.contains('subscription_tier_2')
                                       ? Colors.green
                                       : Theme.of(context).iconTheme.color,
                                 ),
                                 title: LocaleKeys.donate_big_tip_title.tr(),
                                 subtitle: '1.99 USD/${LocaleKeys.month.tr()}',
                                 onTap: () => _buyProduct(
-                                  _offerings!
-                                      .getOffering('default')!
-                                      .getPackage('subscription_tier_2')!,
+                                  _offerings!.getOffering('default')!.getPackage('subscription_tier_2')!,
                                 ),
                               ),
                               CustomListTile(
                                 leading: FaIcon(
                                   FontAwesomeIcons.circleDollarToSlot,
-                                  color: _purchaserInfo!.activeSubscriptions
-                                          .contains('subscription_tier_3')
+                                  color: _purchaserInfo!.activeSubscriptions.contains('subscription_tier_3')
                                       ? Colors.green
                                       : Theme.of(context).iconTheme.color,
                                 ),
                                 title: LocaleKeys.donate_supporter_title.tr(),
                                 subtitle: '4.99 USD/${LocaleKeys.month.tr()}',
                                 onTap: () => _buyProduct(
-                                  _offerings!
-                                      .getOffering('default')!
-                                      .getPackage('subscription_tier_3')!,
+                                  _offerings!.getOffering('default')!.getPackage('subscription_tier_3')!,
                                 ),
                               ),
                               CustomListTile(
                                 leading: FaIcon(
                                   FontAwesomeIcons.circleDollarToSlot,
-                                  color: _purchaserInfo!.activeSubscriptions
-                                          .contains('subscription_tier_4')
+                                  color: _purchaserInfo!.activeSubscriptions.contains('subscription_tier_4')
                                       ? Colors.green
                                       : Theme.of(context).iconTheme.color,
                                 ),
                                 title: LocaleKeys.donate_patron_title.tr(),
                                 subtitle: '9.99 USD/${LocaleKeys.month.tr()}',
                                 onTap: () => _buyProduct(
-                                  _offerings!
-                                      .getOffering('default')!
-                                      .getPackage('subscription_tier_4')!,
+                                  _offerings!.getOffering('default')!.getPackage('subscription_tier_4')!,
                                 ),
                               ),
                             ],
@@ -285,28 +265,23 @@ class _DonateViewState extends State<DonateView> {
                                 ).tr(),
                                 onPressed: () async {
                                   try {
-                                    PurchaserInfo restoredInfo =
-                                        await Purchases.restoreTransactions();
+                                    PurchaserInfo restoredInfo = await Purchases.restoreTransactions();
                                     setState(() {
                                       _purchaserInfo = restoredInfo;
                                     });
-                                    ScaffoldMessenger.of(context)
-                                        .hideCurrentSnackBar();
+                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: const Text(
-                                          LocaleKeys
-                                              .donate_restored_snackbar_message,
+                                          LocaleKeys.donate_restored_snackbar_message,
                                         ).tr(),
                                       ),
                                     );
                                   } on PlatformException catch (_) {
-                                    ScaffoldMessenger.of(context)
-                                        .hideCurrentSnackBar();
+                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        backgroundColor:
-                                            Theme.of(context).colorScheme.error,
+                                        backgroundColor: Theme.of(context).colorScheme.error,
                                         content: const Text(
                                           LocaleKeys.error_snackbar_message,
                                         ).tr(),
@@ -317,52 +292,43 @@ class _DonateViewState extends State<DonateView> {
                               ),
                             ],
                           ),
-                          if (Platform.isIOS) const Gap(8),
+                          const Gap(8),
                           if (Platform.isIOS)
                             Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      launchUrlString(
-                                        mode: LaunchMode.externalApplication,
-                                        'https://tautulli.com/tautulli_remote_ios_terms_and_conditions',
-                                      );
-                                    },
-                                    child: Text(
-                                      LocaleKeys.terms_of_use_title,
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2!
-                                            .color,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ).tr(),
+                              child: GestureDetector(
+                                onTap: () {
+                                  launchUrlString(
+                                    mode: LaunchMode.externalApplication,
+                                    'https://tautulli.com/tautulli_remote_ios_terms_and_conditions',
+                                  );
+                                },
+                                child: Text(
+                                  LocaleKeys.terms_of_use_title,
+                                  style: TextStyle(
+                                    color: Theme.of(context).textTheme.subtitle2!.color,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                  const Gap(4),
-                                  GestureDetector(
-                                    onTap: () {
-                                      launchUrlString(
-                                        mode: LaunchMode.externalApplication,
-                                        'https://tautulli.com/tautulli_remote_privacy',
-                                      );
-                                    },
-                                    child: Text(
-                                      LocaleKeys.privacy_policy_title,
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2!
-                                            .color,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ).tr(),
-                                  ),
-                                ],
+                                ).tr(),
                               ),
                             ),
+                          if (Platform.isIOS) const Gap(4),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                launchUrlString(
+                                  mode: LaunchMode.externalApplication,
+                                  'https://tautulli.com/tautulli_remote_privacy',
+                                );
+                              },
+                              child: Text(
+                                LocaleKeys.privacy_policy_title,
+                                style: TextStyle(
+                                  color: Theme.of(context).textTheme.subtitle2!.color,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ).tr(),
+                            ),
+                          ),
                         ],
                       )
                     : StatusPage(
