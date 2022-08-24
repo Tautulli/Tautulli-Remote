@@ -1,3 +1,4 @@
+import 'package:android_id/android_id.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -183,7 +184,10 @@ Future<void> init() async {
 
   //! Core - Device Info
   sl.registerLazySingleton<DeviceInfo>(
-    () => DeviceInfoImpl(sl()),
+    () => DeviceInfoImpl(
+      androidId: sl(),
+      deviceInfoPlugin: sl(),
+    ),
   );
 
   //! Core - Local Storage
@@ -218,6 +222,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => Connectivity());
   sl.registerLazySingleton(() => DeviceInfoPlugin());
+  sl.registerLazySingleton(() => const AndroidId());
 
   //! Features - Announcements
   // Bloc
