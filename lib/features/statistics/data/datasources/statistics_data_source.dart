@@ -48,15 +48,31 @@ class StatisticsDataSourceImpl implements StatisticsDataSource {
 
     List<StatisticModel> statisticModelList = [];
 
-    for (Map<String, dynamic> statGroup in result.value1['response']['data']) {
+    dynamic responseData = result.value1['response']['data'];
+
+    if (responseData is Iterable) {
+      for (Map<String, dynamic> statGroup in responseData) {
+        List<StatisticDataModel> statList = [];
+        for (Map<String, dynamic> data in statGroup['rows']) {
+          statList.add(StatisticDataModel.fromJson(data));
+        }
+
+        statisticModelList.add(
+          StatisticModel(
+            statIdType: Cast.castStringToStatIdType(statGroup['stat_id'])!,
+            stats: statList,
+          ),
+        );
+      }
+    } else {
       List<StatisticDataModel> statList = [];
-      for (Map<String, dynamic> data in statGroup['rows']) {
+      for (Map<String, dynamic> data in responseData['rows']) {
         statList.add(StatisticDataModel.fromJson(data));
       }
 
       statisticModelList.add(
         StatisticModel(
-          statIdType: Cast.castStringToStatIdType(statGroup['stat_id'])!,
+          statIdType: Cast.castStringToStatIdType(responseData['stat_id'])!,
           stats: statList,
         ),
       );
