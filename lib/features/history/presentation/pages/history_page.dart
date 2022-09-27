@@ -15,7 +15,6 @@ import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../settings/presentation/pages/settings_page.dart';
 import '../../../users/presentation/bloc/users_bloc.dart';
 import '../bloc/history_bloc.dart';
 import '../widgets/history_card.dart';
