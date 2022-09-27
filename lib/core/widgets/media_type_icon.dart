@@ -18,7 +18,7 @@ class MediaTypeIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final icon = IconHelper.mapMediaTypeToIcon(mediaType);
 
-    FaIcon _buildMediaIcon(double size) {
+    FaIcon buildMediaIcon(double size) {
       return FaIcon(
         icon,
         size: size,
@@ -30,18 +30,18 @@ class MediaTypeIcon extends StatelessWidget {
       case (MediaType.episode):
       case (MediaType.season):
       case (MediaType.show):
-        return _buildMediaIcon(14);
+        return buildMediaIcon(14);
       case (MediaType.track):
       case (MediaType.album):
-        return _buildMediaIcon(16);
+        return buildMediaIcon(16);
       case (MediaType.movie):
       case (MediaType.photo):
-        return _buildMediaIcon(18);
+        return buildMediaIcon(18);
       case (MediaType.clip):
       case (MediaType.collection):
       case (MediaType.playlist):
       default:
-        return _buildMediaIcon(17);
+        return buildMediaIcon(17);
     }
   }
 }
