@@ -8,6 +8,10 @@ Map changelog = {
           "type": "new",
           "detail": "Added individual statistics pages",
         },
+        {
+          "type": "improvement",
+          "detail": "Added Slovene language",
+        },
       ],
     },
     {
