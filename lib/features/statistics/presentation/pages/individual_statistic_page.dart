@@ -66,7 +66,6 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
     _scrollController.addListener(_onScroll);
     _statisticsBloc = context.read<StatisticsBloc>();
     _settingsBloc = context.read<SettingsBloc>();
-    final settingsState = _settingsBloc.state as SettingsSuccess;
   }
 
   @override
@@ -98,20 +97,12 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                     message: state.message,
                     suggestion: state.suggestion,
                     onTap: () {
-                      // _historyBloc.add(
-                      //   HistoryFetched(
-                      //     tautulliId: _tautulliId,
-                      //     userId: _userId,
-                      //     movieMediaType: _movieMediaType,
-                      //     episodeMediaType: _episodeMediaType,
-                      //     trackMediaType: _trackMediaType,
-                      //     liveMediaType: _liveMediaType,
-                      //     directPlayDecision: _directPlayDecision,
-                      //     directStreamDecision: _directStreamDecision,
-                      //     transcodeDecision: _transcodeDecision,
-                      //     settingsBloc: _settingsBloc,
-                      //   ),
-                      // );
+                      _statisticsBloc.add(
+                        StatisticsFetchMore(
+                          statIdType: widget.statIdType,
+                          settingsBloc: _settingsBloc,
+                        ),
+                      );
                     },
                   );
                 }

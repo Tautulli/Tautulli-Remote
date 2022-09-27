@@ -146,6 +146,12 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
   ) async {
     if (hasReachedMaxCache.containsKey(event.statIdType) && hasReachedMaxCache[event.statIdType]!) return;
 
+    emit(
+      state.copyWith(
+        status: BlocStatus.initial,
+      ),
+    );
+
     final failureOrStatistics = await statistics.getStatistics(
       tautulliId: tautulliIdCache!,
       statsType: statsTypeCache,
