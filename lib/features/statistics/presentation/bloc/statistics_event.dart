@@ -25,3 +25,16 @@ class StatisticsFetched extends StatisticsEvent {
   @override
   List<Object> get props => [tautulliId, timeRange, statsType, freshFetch, settingsBloc];
 }
+
+class StatisticsFetchMore extends StatisticsEvent {
+  final StatIdType statIdType;
+  final SettingsBloc settingsBloc;
+
+  const StatisticsFetchMore({
+    required this.statIdType,
+    required this.settingsBloc,
+  });
+
+  @override
+  List<Object> get props => [statIdType, settingsBloc];
+}

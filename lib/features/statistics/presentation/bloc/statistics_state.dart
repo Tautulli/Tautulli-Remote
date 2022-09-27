@@ -3,6 +3,7 @@ part of 'statistics_bloc.dart';
 class StatisticsState extends Equatable {
   final BlocStatus status;
   final List<StatisticModel> statList;
+  final Map<StatIdType, bool> hasReachedMaxMap;
   final PlayMetricType statsType;
   final int timeRange;
   final Failure? failure;
@@ -12,6 +13,7 @@ class StatisticsState extends Equatable {
   const StatisticsState({
     this.status = BlocStatus.initial,
     this.statList = const [],
+    this.hasReachedMaxMap = const {},
     this.statsType = PlayMetricType.plays,
     this.timeRange = 30,
     this.failure,
@@ -22,6 +24,7 @@ class StatisticsState extends Equatable {
   StatisticsState copyWith({
     BlocStatus? status,
     List<StatisticModel>? statList,
+    Map<StatIdType, bool>? hasReachedMaxMap,
     PlayMetricType? statsType,
     int? timeRange,
     Failure? failure,
@@ -31,6 +34,7 @@ class StatisticsState extends Equatable {
     return StatisticsState(
       status: status ?? this.status,
       statList: statList ?? this.statList,
+      hasReachedMaxMap: hasReachedMaxMap ?? this.hasReachedMaxMap,
       statsType: statsType ?? this.statsType,
       timeRange: timeRange ?? this.timeRange,
       failure: failure ?? this.failure,
@@ -40,5 +44,5 @@ class StatisticsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, statList, statsType, timeRange];
+  List<Object> get props => [status, statList, hasReachedMaxMap, statsType, timeRange];
 }

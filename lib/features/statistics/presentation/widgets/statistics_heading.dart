@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
 
 import '../../../../core/helpers/string_helper.dart';
 import '../../../../core/widgets/heading.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/statistic_model.dart';
 
 class StatisticsHeading extends StatelessWidget {
@@ -34,9 +37,16 @@ class StatisticsHeading extends StatelessWidget {
                   ),
                 ),
                 if (onTap != null)
-                  const FaIcon(
-                    FontAwesomeIcons.angleRight,
-                    size: 18,
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(LocaleKeys.more_title).tr(),
+                      const Gap(4),
+                      const FaIcon(
+                        FontAwesomeIcons.angleRight,
+                        size: 16,
+                      ),
+                    ],
                   ),
               ],
             ),

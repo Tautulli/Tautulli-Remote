@@ -385,15 +385,18 @@ class _StatisticsViewState extends State<StatisticsView> {
             padding: EdgeInsets.only(top: i == 0 ? 0 : 12, bottom: 6),
             child: StatisticsHeading(
               stat: stat,
-              // onTap: stat.stats.length > displayCount
-              //     ? () {
-              //         Navigator.of(context).push(
-              //           MaterialPageRoute(
-              //             builder: (context) => IndividualStatisticPage(stat: stat),
-              //           ),
-              //         );
-              //       }
-              //     : null,
+              onTap: stat.stats.length > displayCount
+                  ? () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider.value(
+                            value: _statisticsBloc,
+                            child: IndividualStatisticPage(statIdType: stat.statIdType),
+                          ),
+                        ),
+                      );
+                    }
+                  : null,
             ),
           ),
         );
