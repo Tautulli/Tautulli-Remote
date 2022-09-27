@@ -58,7 +58,7 @@ class LibraryCard extends StatelessWidget {
               sigmaX: 25,
               sigmaY: 25,
             ),
-            child: const SizedBox(),
+            child: Container(color: Colors.transparent),
           ),
         ],
       ),
