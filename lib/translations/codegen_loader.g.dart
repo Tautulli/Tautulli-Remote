@@ -1827,6 +1827,7 @@ static const Map<String,dynamic> sk = {
   "wizard_welcome_text_3": "Pred pokračovaním v sprievodcovi nastavením skontrolujte, či je Tautulli aktuálne spustený a prístupný z tohto zariadenia.",
   "y_axis_title": "Osa Y"
 };
+static const Map<String,dynamic> sl = {};
 static const Map<String,dynamic> sv = {
   "about_legalese": "Licensierad enligt GNU General Public License v3.0",
   "about_title": "Om",
@@ -2192,5 +2193,5 @@ static const Map<String,dynamic> zh = {
   "wizard_welcome_text_2": "Tautulli Remote 允许您通过连接到现有的 Tautulli 服务器来查看您的 Plex 服务器活动、历史记录、统计数据等。",
   "wizard_welcome_text_3": "在继续设置向导之前，请确保 Tautulli 当前正在运行并可从此设备访问。"
 };
-static const Map<String, Map<String,dynamic>> mapLocales = {"ca": ca, "cs": cs, "da": da, "de": de, "el": el, "en": en, "es": es, "fr": fr, "hu": hu, "it": it, "nb": nb, "nl": nl, "pt_BR": pt_BR, "pt_PT": pt_PT, "ru": ru, "sk": sk, "sv": sv, "zh": zh};
+static const Map<String, Map<String,dynamic>> mapLocales = {"ca": ca, "cs": cs, "da": da, "de": de, "el": el, "en": en, "es": es, "fr": fr, "hu": hu, "it": it, "nb": nb, "nl": nl, "pt_BR": pt_BR, "pt_PT": pt_PT, "ru": ru, "sk": sk, "sl": sl, "sv": sv, "zh": zh};
 }

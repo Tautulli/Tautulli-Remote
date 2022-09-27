@@ -1,6 +1,16 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.18",
+      "date": "September 27, 2022",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added individual statistics pages",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.17",
       "date": "August 03, 2022",
       "changes": [
