@@ -301,9 +301,9 @@ class _LibrariesViewState extends State<LibrariesView> {
                             FontAwesomeIcons.arrowDown91,
                             size: 20,
                           ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: const Text('Count'),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 5),
+                      child: Text('Count'),
                     ),
                   ],
                 ),
@@ -321,9 +321,9 @@ class _LibrariesViewState extends State<LibrariesView> {
                             FontAwesomeIcons.arrowDown91,
                             size: 20,
                           ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: const Text('Time'),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 5),
+                      child: Text('Time'),
                     ),
                   ],
                 ),
@@ -341,9 +341,9 @@ class _LibrariesViewState extends State<LibrariesView> {
                             FontAwesomeIcons.arrowDown91,
                             size: 20,
                           ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: const Text('Plays'),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 5),
+                      child: Text('Plays'),
                     ),
                   ],
                 ),
