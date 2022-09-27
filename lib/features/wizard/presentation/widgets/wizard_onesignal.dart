@@ -64,7 +64,7 @@ class WizardOneSignal extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).cardTheme.color,
+                          backgroundColor: Theme.of(context).cardTheme.color,
                         ),
                         child: const Text(
                           LocaleKeys.view_onesignal_privacy_button,

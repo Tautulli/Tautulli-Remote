@@ -87,16 +87,13 @@ class HistoryBottomSheet extends StatelessWidget {
                                       imageUrl: history.posterUri!.toString(),
                                       httpHeaders: {
                                         for (CustomHeaderModel headerModel
-                                            in state.appSettings.activeServer
-                                                .customHeaders)
+                                            in state.appSettings.activeServer.customHeaders)
                                           headerModel.key: headerModel.value,
                                       },
-                                      placeholder: (context, url) =>
-                                          Image.asset(
+                                      placeholder: (context, url) => Image.asset(
                                         'assets/images/poster_fallback.png',
                                       ),
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(
+                                      errorWidget: (context, url, error) => Image.asset(
                                         'assets/images/poster_fallback.png',
                                       ),
                                       fit: BoxFit.fill,
@@ -116,8 +113,7 @@ class HistoryBottomSheet extends StatelessWidget {
                                         sigmaY: 25,
                                       ),
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           const Padding(
                                             padding: EdgeInsets.only(
@@ -208,7 +204,7 @@ class HistoryBottomSheet extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: PlexColorPalette.curiousBlue,
+                              backgroundColor: PlexColorPalette.curiousBlue,
                             ),
                             onPressed: null,
                             child: const Text(LocaleKeys.view_media_title).tr(),

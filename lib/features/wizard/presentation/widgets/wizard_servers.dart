@@ -60,7 +60,7 @@ class WizardServers extends StatelessWidget {
                 const Gap(6),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).cardTheme.color,
+                    backgroundColor: Theme.of(context).cardTheme.color,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -112,8 +112,7 @@ class WizardServers extends StatelessWidget {
 
                   return WizardStepper(
                     leftAction: const WizardExitButton(),
-                    rightAction: settingsState.serverList.isEmpty &&
-                            !wizardState.serversSkipped
+                    rightAction: settingsState.serverList.isEmpty && !wizardState.serversSkipped
                         ? const WizardSkipButton(skipType: SkipType.servers)
                         : const WizardNextButton(),
                   );

@@ -22,8 +22,7 @@ class ThemeHelper {
       bannerTheme: const MaterialBannerThemeData(
         elevation: 1,
       ),
-      cardColor: TautulliColorPalette
-          .gunmetal, //Flutter's 'About Licenses' page uses the cardColor
+      cardColor: TautulliColorPalette.gunmetal, //Flutter's 'About Licenses' page uses the cardColor
       cardTheme: const CardTheme(
         margin: EdgeInsets.all(0),
         elevation: 0,
@@ -61,8 +60,8 @@ class ThemeHelper {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          primary: PlexColorPalette.gamboge,
-          onPrimary: Colors.white,
+          backgroundColor: PlexColorPalette.gamboge,
+          foregroundColor: Colors.white,
           textStyle: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -114,7 +113,7 @@ class ThemeHelper {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          primary: PlexColorPalette.gamboge,
+          foregroundColor: PlexColorPalette.gamboge,
           side: const BorderSide(
             color: PlexColorPalette.gamboge,
           ),
@@ -173,7 +172,7 @@ class ThemeHelper {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          primary: TautulliColorPalette.notWhite,
+          foregroundColor: TautulliColorPalette.notWhite,
           textStyle: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
