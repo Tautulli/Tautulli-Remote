@@ -1283,6 +1283,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
+  vs_scrollbar:
+    dependency: "direct main"
+    description:
+      name: vs_scrollbar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   watcher:
     dependency: transitive
     description:

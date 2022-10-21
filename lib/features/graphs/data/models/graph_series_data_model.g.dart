@@ -16,7 +16,7 @@ GraphSeriesDataModel _$GraphSeriesDataModelFromJson(
 Map<String, dynamic> _$GraphSeriesDataModelToJson(
         GraphSeriesDataModel instance) =>
     <String, dynamic>{
-      'name': _$GraphSeriesTypeEnumMap[instance.seriesType],
+      'name': _$GraphSeriesTypeEnumMap[instance.seriesType]!,
       'data': instance.seriesData,
     };
 

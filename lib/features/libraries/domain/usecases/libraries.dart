@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../../core/types/section_type.dart';
+import '../../data/models/library_media_info_model.dart';
 import '../../data/models/library_table_model.dart';
 import '../../data/models/library_user_stat_model.dart';
 import '../../data/models/library_watch_time_stat_model.dart';
@@ -29,6 +31,33 @@ class Libraries {
       start: start,
       length: length,
       search: search,
+    );
+  }
+
+  /// Returns a list of `LibraryMediaInfoModel` for the library with the provided `sectionId`.
+  Future<Either<Failure, Tuple2<List<LibraryMediaInfoModel>, bool>>> getLibraryMediaInfo({
+    required String tautulliId,
+    required int sectionId,
+    int? ratingKey,
+    SectionType? sectionType,
+    String? orderColumn,
+    String? orderDir,
+    int? start,
+    int? length,
+    String? search,
+    bool? refresh,
+  }) async {
+    return await repository.getLibraryMediaInfo(
+      tautulliId: tautulliId,
+      sectionId: sectionId,
+      ratingKey: ratingKey,
+      sectionType: sectionType,
+      orderColumn: orderColumn,
+      orderDir: orderDir,
+      start: start,
+      length: length,
+      search: search,
+      refresh: refresh,
     );
   }
 

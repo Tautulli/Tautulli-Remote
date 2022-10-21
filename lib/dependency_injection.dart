@@ -45,6 +45,7 @@ import 'features/libraries/data/repositories/libraries_repository_impl.dart';
 import 'features/libraries/domain/repositories/libraries_repository.dart';
 import 'features/libraries/domain/usecases/libraries.dart';
 import 'features/libraries/presentation/bloc/libraries_bloc.dart';
+import 'features/libraries/presentation/bloc/library_media_bloc.dart';
 import 'features/libraries/presentation/bloc/library_statistics_bloc.dart';
 import 'features/logging/data/datasources/logging_data_source.dart';
 import 'features/logging/data/repositories/logging_repository_impl.dart';
@@ -111,6 +112,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.GetLibrariesTable>(
     () => tautulli_api.GetLibrariesTableImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetLibraryMediaInfo>(
+    () => tautulli_api.GetLibraryMediaInfoImpl(sl()),
   );
   sl.registerLazySingleton<tautulli_api.GetLibraryUserStats>(
     () => tautulli_api.GetLibraryUserStatsImpl(sl()),
@@ -405,6 +409,13 @@ Future<void> init() async {
     ),
   );
   sl.registerFactory(
+    () => LibraryMediaBloc(
+      libraries: sl(),
+      imageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+  sl.registerFactory(
     () => LibraryStatisticsBloc(
       libraries: sl(),
       logging: sl(),
@@ -430,6 +441,7 @@ Future<void> init() async {
   sl.registerLazySingleton<LibrariesDataSource>(
     () => LibrariesDataSourceImpl(
       getLibrariesTableApi: sl(),
+      getLibraryMediaInfoApi: sl(),
       getLibraryUserStatsApi: sl(),
       getLibraryWatchTimeStatsApi: sl(),
     ),

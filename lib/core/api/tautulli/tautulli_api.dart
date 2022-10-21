@@ -6,6 +6,7 @@ export 'endpoints/get_geo_ip_lookup.dart';
 export 'endpoints/get_history.dart';
 export 'endpoints/get_home_stats.dart';
 export 'endpoints/get_libraries_table.dart';
+export 'endpoints/get_library_media_info.dart';
 export 'endpoints/get_library_user_stats.dart';
 export 'endpoints/get_library_watch_time_stats.dart';
 export 'endpoints/get_plays_by_date.dart';

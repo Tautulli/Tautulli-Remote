@@ -22,7 +22,7 @@ Map<String, dynamic> _$AnnouncementModelToJson(AnnouncementModel instance) =>
       'body': instance.body,
       'date': instance.date,
       'id': instance.id,
-      'platform': _$DevicePlatformEnumMap[instance.platform],
+      'platform': _$DevicePlatformEnumMap[instance.platform]!,
       'title': instance.title,
     };
 

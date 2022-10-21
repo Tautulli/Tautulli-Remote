@@ -14,9 +14,11 @@ import '../../../recently_added/presentation/bloc/library_recently_added_bloc.da
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/library_table_model.dart';
+import '../bloc/library_media_bloc.dart';
 import '../bloc/library_statistics_bloc.dart';
 import '../widgets/library_details_history_tab.dart';
 import '../widgets/library_details_icon.dart';
+import '../widgets/library_details_media_tab.dart';
 import '../widgets/library_details_new_tab.dart';
 import '../widgets/library_details_stats_tab.dart';
 
@@ -39,6 +41,9 @@ class LibraryDetailsPage extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => di.sl<LibraryStatisticsBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<LibraryMediaBloc>(),
         ),
       ],
       child: LibraryDetailsView(
@@ -88,6 +93,15 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
           LibraryStatisticsFetched(
             tautulliId: tautulliId,
             sectionId: widget.libraryTableModel.sectionId ?? 0,
+            settingsBloc: settingsBloc,
+          ),
+        );
+
+    context.read<LibraryMediaBloc>().add(
+          LibraryMediaFetched(
+            tautulliId: tautulliId,
+            sectionId: widget.libraryTableModel.sectionId ?? 0,
+            orderDir: 'asc',
             settingsBloc: settingsBloc,
           ),
         );
@@ -167,11 +181,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
           LibraryDetailsStatsTab(libraryTableModel: widget.libraryTableModel),
           LibraryDetailsNewTab(libraryTableModel: widget.libraryTableModel),
           LibraryDetailsHistoryTab(libraryTableModel: widget.libraryTableModel),
-          Center(
-            child: SingleChildScrollView(
-              child: const Text(LocaleKeys.feature_not_yet_available_snackbar_message).tr(),
-            ),
-          ),
+          LibraryDetailsMediaTab(libraryTableModel: widget.libraryTableModel),
         ],
       ),
     );
