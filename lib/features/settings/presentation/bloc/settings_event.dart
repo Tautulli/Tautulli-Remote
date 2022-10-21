@@ -170,6 +170,15 @@ class SettingsUpdateLibrariesSort extends SettingsEvent {
   List<Object> get props => [librariesSort];
 }
 
+class SettingsUpdateLibraryMediaFullRefresh extends SettingsEvent {
+  final bool libraryMediaFullRefresh;
+
+  const SettingsUpdateLibraryMediaFullRefresh(this.libraryMediaFullRefresh);
+
+  @override
+  List<Object> get props => [libraryMediaFullRefresh];
+}
+
 class SettingsUpdateMaskSensitiveInfo extends SettingsEvent {
   final bool maskSensitiveInfo;
 

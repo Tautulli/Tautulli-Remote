@@ -276,6 +276,18 @@ class Settings {
     return await repository.setLibrariesSort(value);
   }
 
+  /// Returns if refreshing library media should do a full refresh.
+  ///
+  /// If no value is stored returns `true`.
+  Future<bool> getLibraryMediaFullRefresh() async {
+    return await repository.getLibraryMediaFullRefresh();
+  }
+
+  /// Sets if refreshing library media should do a full refresh.
+  Future<bool> setLibraryMediaFullRefresh(bool value) async {
+    return await repository.setLibraryMediaFullRefresh(value);
+  }
+
   /// Returns if the app should mask sensitive info.
   ///
   /// If no value is stored returns `false`.

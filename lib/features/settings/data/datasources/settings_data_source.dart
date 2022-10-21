@@ -106,6 +106,10 @@ abstract class SettingsDataSource {
   Future<String> getLibrariesSort();
   Future<bool> setLibrariesSort(String value);
 
+  // Library Media Full Refresh
+  Future<bool> getLibraryMediaFullRefresh();
+  Future<bool> setLibraryMediaFullRefresh(bool value);
+
   // Mask Sensitive Info
   Future<bool> getMaskSensitiveInfo();
   Future<bool> setMaskSensitiveInfo(bool value);
@@ -155,6 +159,7 @@ const graphTipsShown = 'graphTipsShown';
 const graphYAxis = 'graphYAxis';
 const lastAppVersion = 'lastAppVersion';
 const lastReadAnnouncementId = 'lastReadAnnouncementId';
+const libraryMediaFullRefresh = 'libraryMediaFullRefresh';
 const librariesSort = 'librariesSort';
 const maskSensitiveInfo = 'maskSensitiveInfo';
 const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
@@ -452,6 +457,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setLibrariesSort(String value) {
     return localStorage.setString(librariesSort, value);
+  }
+
+  // Library Media Full Refresh
+  @override
+  Future<bool> getLibraryMediaFullRefresh() async {
+    return Future.value(localStorage.getBool(libraryMediaFullRefresh) ?? true);
+  }
+
+  @override
+  Future<bool> setLibraryMediaFullRefresh(bool value) {
+    return localStorage.setBool(libraryMediaFullRefresh, value);
   }
 
   // Mask Sensitive Info

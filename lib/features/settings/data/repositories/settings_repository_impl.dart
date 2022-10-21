@@ -283,6 +283,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setLibrariesSort(value);
   }
 
+  // Library Media Full Refresh
+  @override
+  Future<bool> getLibraryMediaFullRefresh() async {
+    return await dataSource.getLibraryMediaFullRefresh();
+  }
+
+  @override
+  Future<bool> setLibraryMediaFullRefresh(bool value) async {
+    return await dataSource.setLibraryMediaFullRefresh(value);
+  }
+
   // Mask Sensitive Info
   @override
   Future<bool> getMaskSensitiveInfo() async {

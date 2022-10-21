@@ -101,6 +101,10 @@ abstract class SettingsRepository {
   Future<String> getLibrariesSort();
   Future<bool> setLibrariesSort(String value);
 
+  // Library Media Full Refresh
+  Future<bool> getLibraryMediaFullRefresh();
+  Future<bool> setLibraryMediaFullRefresh(bool value);
+
   // Mask Sensitive Info
   Future<bool> getMaskSensitiveInfo();
   Future<bool> setMaskSensitiveInfo(bool value);

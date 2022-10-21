@@ -62,6 +62,27 @@ class AdvancedGroup extends StatelessWidget {
             );
           },
         ),
+        BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            state as SettingsSuccess;
+            final libraryMediaFullRefresh = state.appSettings.libraryMediaFullRefresh;
+
+            return CheckboxSettingsListTile(
+              subtitleIsTwoLines: true,
+              leading: const FaIcon(FontAwesomeIcons.arrowRotateRight),
+              title: 'Library Media Full Refresh',
+              subtitle: 'Fetch the latest media from Plex on refresh',
+              value: libraryMediaFullRefresh,
+              onChanged: (value) {
+                if (value != null) {
+                  context.read<SettingsBloc>().add(
+                        SettingsUpdateLibraryMediaFullRefresh(value),
+                      );
+                }
+              },
+            );
+          },
+        ),
         CustomListTile(
           leading: const FaIcon(FontAwesomeIcons.language),
           title: LocaleKeys.language_title.tr(),

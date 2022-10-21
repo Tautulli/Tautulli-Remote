@@ -10,6 +10,7 @@ class AppSettingsModel extends Equatable {
   final bool graphTipsShown;
   final PlayMetricType graphYAxis;
   final String librariesSort;
+  final bool libraryMediaFullRefresh;
   final bool maskSensitiveInfo;
   final bool oneSignalBannerDismissed;
   final bool oneSignalConsented;
@@ -28,6 +29,7 @@ class AppSettingsModel extends Equatable {
     required this.graphTipsShown,
     required this.graphYAxis,
     required this.librariesSort,
+    required this.libraryMediaFullRefresh,
     required this.maskSensitiveInfo,
     required this.oneSignalBannerDismissed,
     required this.oneSignalConsented,
@@ -47,6 +49,7 @@ class AppSettingsModel extends Equatable {
     bool? graphTipsShown,
     PlayMetricType? graphYAxis,
     String? librariesSort,
+    bool? libraryMediaFullRefresh,
     bool? maskSensitiveInfo,
     bool? oneSignalBannerDismissed,
     bool? oneSignalConsented,
@@ -65,6 +68,7 @@ class AppSettingsModel extends Equatable {
       graphTipsShown: graphTipsShown ?? this.graphTipsShown,
       graphYAxis: graphYAxis ?? this.graphYAxis,
       librariesSort: librariesSort ?? this.librariesSort,
+      libraryMediaFullRefresh: libraryMediaFullRefresh ?? this.libraryMediaFullRefresh,
       maskSensitiveInfo: maskSensitiveInfo ?? this.maskSensitiveInfo,
       oneSignalBannerDismissed: oneSignalBannerDismissed ?? this.oneSignalBannerDismissed,
       oneSignalConsented: oneSignalConsented ?? this.oneSignalConsented,
@@ -86,6 +90,7 @@ class AppSettingsModel extends Equatable {
       'Graph Tips Shown': graphTipsShown.toString(),
       'Graph Y Axis': graphYAxis.toString(),
       'Libraries Sort': librariesSort.toString(),
+      'Library Media Full Refresh': libraryMediaFullRefresh.toString(),
       'Mask Sensitive Info': maskSensitiveInfo.toString(),
       'OneSignal Banner Dismissed': oneSignalBannerDismissed.toString(),
       'OneSignal Privacy Accepted': oneSignalConsented.toString(),
@@ -105,6 +110,8 @@ class AppSettingsModel extends Equatable {
         graphTimeRange,
         graphTipsShown,
         graphYAxis,
+        librariesSort,
+        libraryMediaFullRefresh,
         maskSensitiveInfo,
         oneSignalBannerDismissed,
         oneSignalConsented,

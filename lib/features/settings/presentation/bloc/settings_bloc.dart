@@ -76,6 +76,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateLibrariesSort>(
       (event, emit) => _onSettingsUpdateLibrariesSort(event, emit),
     );
+    on<SettingsUpdateLibraryMediaFullRefresh>(
+      (event, emit) => _onSettingsUpdateLibraryMediaFullRefresh(event, emit),
+    );
     on<SettingsUpdateMaskSensitiveInfo>(
       (event, emit) => _onSettingsUpdateMaskSensitiveInfo(event, emit),
     );
@@ -330,6 +333,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         graphTipsShown: await settings.getGraphTipsShown(),
         graphYAxis: await settings.getGraphYAxis(),
         librariesSort: await settings.getLibrariesSort(),
+        libraryMediaFullRefresh: await settings.getLibraryMediaFullRefresh(),
         maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
         oneSignalBannerDismissed: await settings.getOneSignalBannerDismissed(),
         oneSignalConsented: await settings.getOneSignalConsented(),
@@ -615,6 +619,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         appSettings: currentState.appSettings.copyWith(
           librariesSort: event.librariesSort,
         ),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateLibraryMediaFullRefresh(
+    SettingsUpdateLibraryMediaFullRefresh event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setLibraryMediaFullRefresh(event.libraryMediaFullRefresh);
+    logging.info(
+      'Settings :: Library Media Full Refresh set to ${event.libraryMediaFullRefresh}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(libraryMediaFullRefresh: event.libraryMediaFullRefresh),
       ),
     );
   }
