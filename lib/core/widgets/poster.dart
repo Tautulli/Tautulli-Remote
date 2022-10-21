@@ -51,12 +51,13 @@ class _PosterRegular extends StatelessWidget {
             return CachedNetworkImage(
               imageUrl: uri.toString(),
               httpHeaders: {
-                for (CustomHeaderModel headerModel
-                    in state.appSettings.activeServer.customHeaders)
+                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
                   headerModel.key: headerModel.value,
               },
-              placeholder: (context, url) =>
-                  Image.asset('assets/images/poster_fallback.png'),
+              placeholder: (context, url) => Image.asset(
+                'assets/images/poster_fallback.png',
+                fit: BoxFit.cover,
+              ),
               fit: BoxFit.cover,
             );
           },
@@ -96,14 +97,11 @@ class _PosterSquare extends StatelessWidget {
                         child: CachedNetworkImage(
                           imageUrl: uri.toString(),
                           httpHeaders: {
-                            for (CustomHeaderModel headerModel
-                                in state.appSettings.activeServer.customHeaders)
+                            for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
                               headerModel.key: headerModel.value,
                           },
-                          placeholder: (context, url) =>
-                              Image.asset('assets/images/poster_fallback.png'),
-                          errorWidget: (context, url, error) =>
-                              Image.asset('assets/images/poster_fallback.png'),
+                          placeholder: (context, url) => Image.asset('assets/images/poster_fallback.png'),
+                          errorWidget: (context, url, error) => Image.asset('assets/images/poster_fallback.png'),
                           fit: BoxFit.fill,
                         ),
                       );
@@ -122,14 +120,11 @@ class _PosterSquare extends StatelessWidget {
                         child: CachedNetworkImage(
                           imageUrl: uri.toString(),
                           httpHeaders: {
-                            for (CustomHeaderModel headerModel
-                                in state.appSettings.activeServer.customHeaders)
+                            for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
                               headerModel.key: headerModel.value,
                           },
-                          placeholder: (context, url) =>
-                              Image.asset('assets/images/cover_fallback.png'),
-                          errorWidget: (context, url, error) =>
-                              Image.asset('assets/images/cover_fallback.png'),
+                          placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
+                          errorWidget: (context, url, error) => Image.asset('assets/images/cover_fallback.png'),
                           fit: BoxFit.contain,
                         ),
                       ),
