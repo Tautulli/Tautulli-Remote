@@ -100,8 +100,8 @@ class _PosterSquare extends StatelessWidget {
                             for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
                               headerModel.key: headerModel.value,
                           },
-                          placeholder: (context, url) => Image.asset('assets/images/poster_fallback.png'),
-                          errorWidget: (context, url, error) => Image.asset('assets/images/poster_fallback.png'),
+                          placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
+                          errorWidget: (context, url, error) => Image.asset('assets/images/cover_fallback.png'),
                           fit: BoxFit.fill,
                         ),
                       );
