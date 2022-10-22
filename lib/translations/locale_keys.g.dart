@@ -141,6 +141,9 @@ abstract class  LocaleKeys {
   static const recently_watched_title = 'recently_watched_title';
   static const learn_more_button = 'learn_more_button';
   static const libraries_title = 'libraries_title';
+  static const library_media_full_refresh_title = 'library_media_full_refresh_title';
+  static const library_media_full_refresh_snackbar_message = 'library_media_full_refresh_snackbar_message';
+  static const library_media_full_refresh_subtitle = 'library_media_full_refresh_subtitle';
   static const live_title = 'live_title';
   static const live_tv_title = 'live_tv_title';
   static const location_lookup_failed_message = 'location_lookup_failed_message';

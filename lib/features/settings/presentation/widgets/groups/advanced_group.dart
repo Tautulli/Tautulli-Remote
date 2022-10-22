@@ -70,8 +70,8 @@ class AdvancedGroup extends StatelessWidget {
             return CheckboxSettingsListTile(
               subtitleIsTwoLines: true,
               leading: const FaIcon(FontAwesomeIcons.arrowRotateRight),
-              title: 'Library Media Full Refresh',
-              subtitle: 'Fetch the latest media from Plex on refresh',
+              title: LocaleKeys.library_media_full_refresh_title.tr(),
+              subtitle: LocaleKeys.library_media_full_refresh_subtitle.tr(),
               value: libraryMediaFullRefresh,
               onChanged: (value) {
                 if (value != null) {
