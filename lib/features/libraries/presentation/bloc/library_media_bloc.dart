@@ -34,7 +34,9 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
     LibraryMediaFetched event,
     Emitter<LibraryMediaState> emit,
   ) async {
-    if (libraryMediaInfoCache.containsKey('${event.tautulliId}:${event.sectionId}')) {
+    if (event.refresh == false &&
+        event.fullRefresh == false &&
+        libraryMediaInfoCache.containsKey('${event.tautulliId}:${event.sectionId}')) {
       return emit(
         state.copyWith(
           status: BlocStatus.success,
@@ -43,22 +45,34 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
       );
     }
 
+    if (event.refresh == true || event.fullRefresh == true) {
+      emit(
+        state.copyWith(
+          status: BlocStatus.initial,
+        ),
+      );
+    }
+
+    if (event.fullRefresh == true) {
+      logging.info('Library Media :: Performing a library media full refresh for ${event.sectionId}');
+    }
+
     final failureOrLibraryMedia = await libraries.getLibraryMediaInfo(
       tautulliId: event.tautulliId,
       sectionId: event.sectionId,
       ratingKey: event.ratingKey,
       sectionType: event.sectionType,
       orderColumn: event.orderColumn,
-      orderDir: event.orderDir,
+      orderDir: 'asc',
       start: event.start,
       length: length,
       search: event.search,
-      refresh: event.refresh,
+      refresh: event.fullRefresh,
     );
 
     await failureOrLibraryMedia.fold(
       (failure) async {
-        print('FAILURE');
+        logging.error('Library Media :: Failed to fetch library media for ${event.sectionId} [$failure]');
 
         return emit(
           state.copyWith(
@@ -70,7 +84,6 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
         );
       },
       (libraryMedia) async {
-        print('SUCCESS');
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
             tautulliId: event.tautulliId,

@@ -16,6 +16,7 @@ class LibraryMediaFetched extends LibraryMediaEvent {
   final int? length;
   final String? search;
   final bool? refresh;
+  final bool? fullRefresh;
   final SettingsBloc settingsBloc;
 
   LibraryMediaFetched({
@@ -29,6 +30,7 @@ class LibraryMediaFetched extends LibraryMediaEvent {
     this.length,
     this.search,
     this.refresh,
+    this.fullRefresh,
     required this.settingsBloc,
   });
 

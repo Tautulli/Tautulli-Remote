@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:vs_scrollbar/vs_scrollbar.dart';
 
 import '../../../../core/pages/status_page.dart';
@@ -7,6 +9,7 @@ import '../../../../core/types/bloc_status.dart';
 import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../media/presentation/widgets/media_list_poster.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/library_table_model.dart';
@@ -27,6 +30,7 @@ class LibraryDetailsMediaTab extends StatefulWidget {
 class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
   late SettingsBloc _settingsBloc;
   late String _tautulliId;
+  late bool _libraryMediaFullRefresh;
 
   @override
   void initState() {
@@ -36,6 +40,7 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
     _tautulliId = settingsState.appSettings.activeServer.tautulliId;
+    _libraryMediaFullRefresh = settingsState.appSettings.libraryMediaFullRefresh;
   }
 
   @override
@@ -44,14 +49,35 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
       builder: (context, state) {
         return ThemedRefreshIndicator(
           onRefresh: () {
-            // context.read<LibraryStatisticsBloc>().add(
-            //       LibraryStatisticsFetched(
-            //         tautulliId: _tautulliId,
-            //         sectionId: widget.libraryTableModel.sectionId!,
-            //         settingsBloc: _settingsBloc,
-            //         freshFetch: true,
-            //       ),
-            //     );
+            context.read<LibraryMediaBloc>().add(
+                  LibraryMediaFetched(
+                    tautulliId: _tautulliId,
+                    sectionId: widget.libraryTableModel.sectionId!,
+                    refresh: true,
+                    fullRefresh: _libraryMediaFullRefresh,
+                    settingsBloc: _settingsBloc,
+                  ),
+                );
+
+            if (_libraryMediaFullRefresh) {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text(
+                    LocaleKeys.library_media_full_refresh_snackbar_message,
+                  ).tr(),
+                  action: SnackBarAction(
+                    label: LocaleKeys.learn_more_button.tr(),
+                    onPressed: () async {
+                      await launchUrlString(
+                        mode: LaunchMode.externalApplication,
+                        'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#library_refresh',
+                      );
+                    },
+                  ),
+                ),
+              );
+            }
 
             return Future.value();
           },

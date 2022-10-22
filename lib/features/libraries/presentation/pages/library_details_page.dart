@@ -101,7 +101,8 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
           LibraryMediaFetched(
             tautulliId: tautulliId,
             sectionId: widget.libraryTableModel.sectionId ?? 0,
-            orderDir: 'asc',
+            refresh: false,
+            fullRefresh: false,
             settingsBloc: settingsBloc,
           ),
         );
