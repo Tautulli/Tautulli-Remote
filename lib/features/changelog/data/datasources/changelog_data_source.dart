@@ -1,6 +1,17 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.19",
+      "date": "Nov xx, 2022",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "New translations for Slovenian",
+          "additional": "Thanks @mitchoklemen",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.18",
       "date": "September 27, 2022",
       "changes": [

@@ -27,6 +27,13 @@ class LibraryCard extends StatelessWidget {
       background: Stack(
         children: [
           Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+              ),
+            ),
+          ),
+          Positioned.fill(
             child: BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, state) {
                 state as SettingsSuccess;
@@ -42,9 +49,16 @@ class LibraryCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.4),
                     ),
-                    child: Image(
-                      image: imageProvider,
-                      fit: BoxFit.fill,
+                    child: ImageFiltered(
+                      imageFilter: ImageFilter.blur(
+                        sigmaX: 25,
+                        sigmaY: 25,
+                        tileMode: TileMode.decal,
+                      ),
+                      child: Image(
+                        image: imageProvider,
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                   placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
@@ -52,13 +66,6 @@ class LibraryCard extends StatelessWidget {
                 );
               },
             ),
-          ),
-          BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: 25,
-              sigmaY: 25,
-            ),
-            child: Container(color: Colors.transparent),
           ),
         ],
       ),

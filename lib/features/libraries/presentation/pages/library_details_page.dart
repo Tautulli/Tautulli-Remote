@@ -112,37 +112,31 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SliverTabbedDetails(
-        background: Stack(
-          children: [
-            Positioned.fill(
-              child: BlocBuilder<SettingsBloc, SettingsState>(
-                builder: (context, state) {
-                  state as SettingsSuccess;
+        background: BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            state as SettingsSuccess;
 
-                  return CachedNetworkImage(
-                    imageUrl: widget.libraryTableModel.backgroundUri.toString(),
-                    httpHeaders: {
-                      for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                        headerModel.key: headerModel.value,
-                    },
-                    imageBuilder: (context, imageProvider) => Image(
-                      image: imageProvider,
-                      fit: BoxFit.fill,
-                    ),
-                    placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
-                    errorWidget: (context, url, error) => Image.asset('assets/images/art_fallback.png'),
-                  );
-                },
+            return CachedNetworkImage(
+              imageUrl: widget.libraryTableModel.backgroundUri.toString(),
+              httpHeaders: {
+                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                  headerModel.key: headerModel.value,
+              },
+              imageBuilder: (context, imageProvider) => ImageFiltered(
+                imageFilter: ImageFilter.blur(
+                  sigmaX: 25,
+                  sigmaY: 25,
+                  tileMode: TileMode.decal,
+                ),
+                child: Image(
+                  image: imageProvider,
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
-            BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 25,
-                sigmaY: 25,
-              ),
-              child: const SizedBox(),
-            ),
-          ],
+              placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
+              errorWidget: (context, url, error) => Image.asset('assets/images/art_fallback.png'),
+            );
+          },
         ),
         icon: LibraryDetailsIcon(libraryTableModel: widget.libraryTableModel),
         title: widget.libraryTableModel.sectionName ?? '',

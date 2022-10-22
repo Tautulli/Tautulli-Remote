@@ -50,9 +50,16 @@ class PosterCard extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: Colors.black.withOpacity(0.4),
                           ),
-                          child: Image(
-                            image: imageProvider,
-                            fit: BoxFit.fill,
+                          child: ImageFiltered(
+                            imageFilter: ImageFilter.blur(
+                              sigmaX: 25,
+                              sigmaY: 25,
+                              tileMode: TileMode.decal,
+                            ),
+                            child: Image(
+                              image: imageProvider,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
                         placeholder: (context, url) => Image.asset('assets/images/poster_fallback.png'),
@@ -62,21 +69,15 @@ class PosterCard extends StatelessWidget {
                   ),
                 ),
               Positioned.fill(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 25,
-                    sigmaY: 25,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Poster(mediaType: mediaType, uri: uri),
-                        const Gap(8),
-                        Expanded(child: details),
-                      ],
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Poster(mediaType: mediaType, uri: uri),
+                      const Gap(8),
+                      Expanded(child: details),
+                    ],
                   ),
                 ),
               ),

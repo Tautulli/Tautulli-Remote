@@ -74,6 +74,13 @@ class HistoryBottomSheet extends StatelessWidget {
                           children: [
                             //* Background
                             Positioned.fill(
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).cardColor,
+                                ),
+                              ),
+                            ),
+                            Positioned.fill(
                               child: BlocBuilder<SettingsBloc, SettingsState>(
                                 builder: (context, state) {
                                   state as SettingsSuccess;
@@ -83,20 +90,27 @@ class HistoryBottomSheet extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       color: Colors.black.withOpacity(0.2),
                                     ),
-                                    child: CachedNetworkImage(
-                                      imageUrl: history.posterUri!.toString(),
-                                      httpHeaders: {
-                                        for (CustomHeaderModel headerModel
-                                            in state.appSettings.activeServer.customHeaders)
-                                          headerModel.key: headerModel.value,
-                                      },
-                                      placeholder: (context, url) => Image.asset(
-                                        'assets/images/poster_fallback.png',
+                                    child: ImageFiltered(
+                                      imageFilter: ImageFilter.blur(
+                                        sigmaX: 25,
+                                        sigmaY: 25,
+                                        tileMode: TileMode.decal,
                                       ),
-                                      errorWidget: (context, url, error) => Image.asset(
-                                        'assets/images/poster_fallback.png',
+                                      child: CachedNetworkImage(
+                                        imageUrl: history.posterUri!.toString(),
+                                        httpHeaders: {
+                                          for (CustomHeaderModel headerModel
+                                              in state.appSettings.activeServer.customHeaders)
+                                            headerModel.key: headerModel.value,
+                                        },
+                                        placeholder: (context, url) => Image.asset(
+                                          'assets/images/poster_fallback.png',
+                                        ),
+                                        errorWidget: (context, url, error) => Image.asset(
+                                          'assets/images/poster_fallback.png',
+                                        ),
+                                        fit: BoxFit.fill,
                                       ),
-                                      fit: BoxFit.fill,
                                     ),
                                   );
                                 },
@@ -107,37 +121,31 @@ class HistoryBottomSheet extends StatelessWidget {
                               child: Stack(
                                 children: [
                                   Positioned.fill(
-                                    child: BackdropFilter(
-                                      filter: ImageFilter.blur(
-                                        sigmaX: 25,
-                                        sigmaY: 25,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          const Padding(
-                                            padding: EdgeInsets.only(
-                                              top: 4,
-                                              bottom: 2,
-                                            ),
-                                            child: Center(
-                                              child: GesturePill(),
-                                            ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.only(
+                                            top: 4,
+                                            bottom: 2,
                                           ),
-                                          Expanded(
-                                            child: Row(
-                                              children: [
-                                                const Gap(100),
-                                                Expanded(
-                                                  child: HistoryBottomSheetInfo(
-                                                    history: history,
-                                                  ),
+                                          child: Center(
+                                            child: GesturePill(),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Row(
+                                            children: [
+                                              const Gap(100),
+                                              Expanded(
+                                                child: HistoryBottomSheetInfo(
+                                                  history: history,
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],

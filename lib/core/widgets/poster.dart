@@ -94,39 +94,40 @@ class _PosterSquare extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.2),
                         ),
-                        child: CachedNetworkImage(
-                          imageUrl: uri.toString(),
-                          httpHeaders: {
-                            for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                              headerModel.key: headerModel.value,
-                          },
-                          placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
-                          errorWidget: (context, url, error) => Image.asset('assets/images/cover_fallback.png'),
-                          fit: BoxFit.fill,
+                        child: ImageFiltered(
+                          imageFilter: ImageFilter.blur(
+                            sigmaX: 25,
+                            sigmaY: 25,
+                            tileMode: TileMode.decal,
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl: uri.toString(),
+                            httpHeaders: {
+                              for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                                headerModel.key: headerModel.value,
+                            },
+                            placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
+                            errorWidget: (context, url, error) => Image.asset('assets/images/cover_fallback.png'),
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       );
                     },
                   ),
                 ),
                 Positioned.fill(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(
-                      sigmaX: 25,
-                      sigmaY: 25,
-                    ),
-                    child: Center(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: CachedNetworkImage(
-                          imageUrl: uri.toString(),
-                          httpHeaders: {
-                            for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                              headerModel.key: headerModel.value,
-                          },
-                          placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
-                          errorWidget: (context, url, error) => Image.asset('assets/images/cover_fallback.png'),
-                          fit: BoxFit.contain,
-                        ),
+                  child: Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: CachedNetworkImage(
+                        imageUrl: uri.toString(),
+                        httpHeaders: {
+                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                            headerModel.key: headerModel.value,
+                        },
+                        placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
+                        errorWidget: (context, url, error) => Image.asset('assets/images/cover_fallback.png'),
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ),
