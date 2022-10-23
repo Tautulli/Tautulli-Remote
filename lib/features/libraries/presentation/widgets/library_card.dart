@@ -61,8 +61,28 @@ class LibraryCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
-                  errorWidget: (context, url, error) => Image.asset('assets/images/art_fallback.png'),
+                  placeholder: (context, url) => ImageFiltered(
+                    imageFilter: ImageFilter.blur(
+                      sigmaX: 25,
+                      sigmaY: 25,
+                      tileMode: TileMode.decal,
+                    ),
+                    child: Image.asset(
+                      'assets/images/art_fallback.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => ImageFiltered(
+                    imageFilter: ImageFilter.blur(
+                      sigmaX: 25,
+                      sigmaY: 25,
+                      tileMode: TileMode.decal,
+                    ),
+                    child: Image.asset(
+                      'assets/images/art_fallback.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 );
               },
             ),
