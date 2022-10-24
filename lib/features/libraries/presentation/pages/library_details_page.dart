@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/time_helper.dart';
-import '../../../../core/widgets/sliver_tabbed_details.dart';
+import '../../../../core/pages/sliver_tabbed_icon_details_page.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../history/presentation/bloc/library_history_bloc.dart';
@@ -111,7 +111,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SliverTabbedDetails(
+      body: SliverTabbedIconDetailsPage(
         background: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;

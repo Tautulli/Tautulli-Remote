@@ -7,7 +7,7 @@ import '../../translations/locale_keys.g.dart';
 
 const double _expandedHeight = 196;
 
-class SliverTabbedDetails extends StatefulWidget {
+class SliverTabbedIconDetailsPage extends StatefulWidget {
   final bool sensitive;
   final Widget? background;
   final Widget? icon;
@@ -16,7 +16,7 @@ class SliverTabbedDetails extends StatefulWidget {
   final List<Widget> tabs;
   final List<Widget> tabChildren;
 
-  const SliverTabbedDetails({
+  const SliverTabbedIconDetailsPage({
     super.key,
     this.sensitive = false,
     this.background,
@@ -28,10 +28,10 @@ class SliverTabbedDetails extends StatefulWidget {
   });
 
   @override
-  State<SliverTabbedDetails> createState() => _SliverTabbedDetailsState();
+  State<SliverTabbedIconDetailsPage> createState() => _SliverTabbedIconDetailsStatePage();
 }
 
-class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
+class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPage> {
   final ScrollController _scrollController = ScrollController();
   double titleOpacity = 0;
   double radius = 16;
@@ -56,17 +56,14 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
                   pinned: true,
                   expandedHeight: _expandedHeight,
                   title: Opacity(
                     opacity: titleOpacity,
                     child: Text(
-                      widget.sensitive
-                          ? LocaleKeys.hidden_message.tr()
-                          : widget.title,
+                      widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title,
                     ),
                   ),
                   flexibleSpace: FlexibleSpaceBar(
@@ -96,9 +93,7 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
                                     height: 60,
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .background,
+                                      color: Theme.of(context).colorScheme.background,
                                     ),
                                   ),
                                 ),
@@ -117,13 +112,10 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
                                 child: Opacity(
                                   opacity: detailsOpacity,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        widget.sensitive
-                                            ? LocaleKeys.hidden_message.tr()
-                                            : widget.title,
+                                        widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title,
                                         style: const TextStyle(
                                           fontSize: 18,
                                         ),
@@ -166,8 +158,7 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(
-                            top:
-                                NestedScrollView.sliverOverlapAbsorberHandleFor(
+                            top: NestedScrollView.sliverOverlapAbsorberHandleFor(
                               context,
                             ).layoutExtent!,
                           ),
@@ -186,10 +177,8 @@ class _SliverTabbedDetailsState extends State<SliverTabbedDetails> {
   }
 
   void _onScroll() {
-    double progress =
-        (_scrollController.offset) / (_expandedHeight - 46 - kToolbarHeight);
-    double progressDelayed = (_scrollController.offset - 50) /
-        (_expandedHeight - 50 - kToolbarHeight - 50);
+    double progress = (_scrollController.offset) / (_expandedHeight - 46 - kToolbarHeight);
+    double progressDelayed = (_scrollController.offset - 50) / (_expandedHeight - 50 - kToolbarHeight - 50);
 
     // Using easeInSine calculation from https://easings.net/#easeInSine
     if (progress <= 1) {

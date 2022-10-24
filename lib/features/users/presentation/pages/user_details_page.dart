@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../../../core/helpers/time_helper.dart';
+import '../../../../core/pages/sliver_tabbed_icon_details_page.dart';
 import '../../../../core/types/bloc_status.dart';
-import '../../../../core/widgets/sliver_tabbed_details.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../history/presentation/bloc/user_history_bloc.dart';
@@ -119,7 +119,7 @@ class _UserDetailsViewState extends State<UserDetailsView> {
         builder: (context, settingsState) {
           settingsState as SettingsSuccess;
 
-          return SliverTabbedDetails(
+          return SliverTabbedIconDetailsPage(
             sensitive: settingsState.appSettings.maskSensitiveInfo,
             background: widget.backgroundColor != null
                 ? DecoratedBox(
