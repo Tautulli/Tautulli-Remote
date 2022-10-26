@@ -2524,7 +2524,8 @@ static const Map<String,dynamic> zh = {
   "wizard_skip_dialog_title": "您确定要跳过吗？",
   "wizard_welcome_text_1": "欢迎！",
   "wizard_welcome_text_2": "Tautulli Remote 允许您通过连接到现有的 Tautulli 服务器来查看您的 Plex 服务器活动、历史记录、统计数据等。",
-  "wizard_welcome_text_3": "在继续设置向导之前，请确保 Tautulli 当前正在运行并可从此设备访问。"
+  "wizard_welcome_text_3": "在继续设置向导之前，请确保 Tautulli 当前正在运行并可从此设备访问。",
+  "added_title": "添加"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ca": ca, "cs": cs, "da": da, "de": de, "el": el, "en": en, "es": es, "fr": fr, "hu": hu, "it": it, "nb": nb, "nl": nl, "pt_BR": pt_BR, "pt_PT": pt_PT, "ru": ru, "sk": sk, "sl": sl, "sv": sv, "zh": zh};
 }
