@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/pages/sliver_tabbed_icon_details_page.dart';
+import '../../../../core/types/section_type.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../history/presentation/bloc/library_history_bloc.dart';
@@ -162,21 +163,25 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
           Tab(
             text: LocaleKeys.stats_title.tr(),
           ),
-          Tab(
-            text: LocaleKeys.new_title.tr(),
-          ),
+          if (widget.libraryTableModel.sectionType != SectionType.live)
+            Tab(
+              text: LocaleKeys.new_title.tr(),
+            ),
           Tab(
             text: LocaleKeys.history_title.tr(),
           ),
-          Tab(
-            text: LocaleKeys.media_title.tr(),
-          ),
+          if (widget.libraryTableModel.sectionType != SectionType.live)
+            Tab(
+              text: LocaleKeys.media_title.tr(),
+            ),
         ],
         tabChildren: [
           LibraryDetailsStatsTab(libraryTableModel: widget.libraryTableModel),
-          LibraryDetailsNewTab(libraryTableModel: widget.libraryTableModel),
+          if (widget.libraryTableModel.sectionType != SectionType.live)
+            LibraryDetailsNewTab(libraryTableModel: widget.libraryTableModel),
           LibraryDetailsHistoryTab(libraryTableModel: widget.libraryTableModel),
-          LibraryDetailsMediaTab(libraryTableModel: widget.libraryTableModel),
+          if (widget.libraryTableModel.sectionType != SectionType.live)
+            LibraryDetailsMediaTab(libraryTableModel: widget.libraryTableModel),
         ],
       ),
     );
