@@ -166,6 +166,8 @@ class Cast {
         return null;
       case ('album'):
         return MediaType.album;
+      case ('artist'):
+        return MediaType.artist;
       case ('clip'):
         return MediaType.clip;
       case ('collection'):
