@@ -163,13 +163,14 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
           Tab(
             text: LocaleKeys.stats_title.tr(),
           ),
-          if (widget.libraryTableModel.sectionType != SectionType.live)
+          if (![SectionType.live, SectionType.photo].contains(widget.libraryTableModel.sectionType))
             Tab(
               text: LocaleKeys.new_title.tr(),
             ),
-          Tab(
-            text: LocaleKeys.history_title.tr(),
-          ),
+          if (widget.libraryTableModel.sectionType != SectionType.photo)
+            Tab(
+              text: LocaleKeys.history_title.tr(),
+            ),
           if (widget.libraryTableModel.sectionType != SectionType.live)
             Tab(
               text: LocaleKeys.media_title.tr(),
@@ -177,9 +178,10 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
         ],
         tabChildren: [
           LibraryDetailsStatsTab(libraryTableModel: widget.libraryTableModel),
-          if (widget.libraryTableModel.sectionType != SectionType.live)
+          if (![SectionType.live, SectionType.photo].contains(widget.libraryTableModel.sectionType))
             LibraryDetailsNewTab(libraryTableModel: widget.libraryTableModel),
-          LibraryDetailsHistoryTab(libraryTableModel: widget.libraryTableModel),
+          if (widget.libraryTableModel.sectionType != SectionType.photo)
+            LibraryDetailsHistoryTab(libraryTableModel: widget.libraryTableModel),
           if (widget.libraryTableModel.sectionType != SectionType.live)
             LibraryDetailsMediaTab(libraryTableModel: widget.libraryTableModel),
         ],
