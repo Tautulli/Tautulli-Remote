@@ -17,6 +17,7 @@ part 'user_history_event.dart';
 part 'user_history_state.dart';
 
 Map<String, List<HistoryModel>> userHistoryCache = {};
+Map<String, bool> hasReachedMaxCache = {};
 
 const throttleDuration = Duration(milliseconds: 100);
 const length = 25;
@@ -52,6 +53,9 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
     if (!userHistoryCache.containsKey(cacheKey)) {
       userHistoryCache[cacheKey] = [];
     }
+    if (!hasReachedMaxCache.containsKey(cacheKey)) {
+      hasReachedMaxCache[cacheKey] = false;
+    }
 
     if (event.freshFetch) {
       emit(
@@ -63,6 +67,8 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
       userHistoryCache[cacheKey] = [];
     }
 
+    if (hasReachedMaxCache[cacheKey] == true) return;
+
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to History tab
       if (userHistoryCache[cacheKey]!.isNotEmpty) {
@@ -70,8 +76,7 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
           state.copyWith(
             status: BlocStatus.success,
             history: userHistoryCache[cacheKey],
-            hasReachedMax:
-                userHistoryCache[cacheKey]!.length < length || userHistoryCache[cacheKey]!.length % length == 0,
+            hasReachedMax: hasReachedMaxCache[cacheKey],
           ),
         );
       }
@@ -181,6 +186,7 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
         );
 
         userHistoryCache[cacheKey] = userHistoryCache[cacheKey]! + historyListWithUris;
+        hasReachedMaxCache[cacheKey] = history.value1.length < length;
 
         return emit(
           state.copyWith(
