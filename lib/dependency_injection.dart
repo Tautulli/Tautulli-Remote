@@ -53,6 +53,11 @@ import 'features/logging/domain/repositories/logging_repository.dart';
 import 'features/logging/domain/usecases/logging.dart';
 import 'features/logging/presentation/bloc/logging_bloc.dart';
 import 'features/logging/presentation/bloc/logging_export_bloc.dart';
+import 'features/media/data/datasources/media_data_source.dart';
+import 'features/media/data/repositories/media_repository_impl.dart';
+import 'features/media/domain/repositories/media_repository.dart';
+import 'features/media/domain/usecases/media.dart';
+import 'features/media/presentation/bloc/metadata_bloc.dart';
 import 'features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import 'features/onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -101,6 +106,9 @@ Future<void> init() async {
   sl.registerLazySingleton<tautulli_api.DeleteImageCache>(
     () => tautulli_api.DeleteImageCacheImpl(sl()),
   );
+  sl.registerLazySingleton<tautulli_api.GetChildrenMetadata>(
+    () => tautulli_api.GetChildrenMetadataImpl(sl()),
+  );
   sl.registerLazySingleton<tautulli_api.GetGeoIpLookup>(
     () => tautulli_api.GetGeoIpLookupImpl(sl()),
   );
@@ -121,6 +129,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.GetLibraryWatchTimeStats>(
     () => tautulli_api.GetLibraryWatchTimeStatsImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetMetadata>(
+    () => tautulli_api.GetMetadataImpl(sl()),
   );
   sl.registerLazySingleton<tautulli_api.GetPlaysByDate>(
     () => tautulli_api.GetPlaysByDateImpl(sl()),
@@ -477,6 +488,37 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<LoggingDataSource>(
     () => LoggingDataSourceImpl(),
+  );
+
+  //! Features - Media
+  // Bloc
+  sl.registerFactory(
+    () => MetadataBloc(
+      media: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => Media(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<MediaRepository>(
+    () => MediaRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<MediaDataSource>(
+    () => MediaDataSourceImpl(
+      getMetadataApi: sl(),
+    ),
   );
 
   //! Features - OneSignal
