@@ -7,6 +7,7 @@ enum MediaType {
   movie('movie'),
   otherVideo('other_video'),
   photo('photo'),
+  photoAlbum('photo_album'),
   playlist('playlist'),
   season('season'),
   show('show'),
