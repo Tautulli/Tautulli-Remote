@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -7,6 +8,7 @@ import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../history/presentation/bloc/user_history_bloc.dart';
 import '../../../history/presentation/widgets/history_card.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -74,6 +76,13 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
                     scrollable: true,
                     message: state.message ?? 'Unknown failure.',
                     suggestion: state.suggestion,
+                  );
+                }
+
+                if (state.history.isEmpty) {
+                  return StatusPage(
+                    scrollable: true,
+                    message: LocaleKeys.history_empty_message.tr(),
                   );
                 }
 
