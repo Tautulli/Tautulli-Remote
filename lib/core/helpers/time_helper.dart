@@ -10,10 +10,8 @@ class TimeHelper {
     bool dateOnly = false,
     bool timeOnly = false,
   }) {
-    final String parsedDateFormat =
-        dateFormat != null ? _parseDateFormat(dateFormat) : 'y-MM-dd';
-    final String parsedTimeFormat =
-        timeFormat != null ? _parseTimeFormat(timeFormat) : 'HH:mm';
+    final String parsedDateFormat = dateFormat != null ? _parseDateFormat(dateFormat) : 'y-MM-dd';
+    final String parsedTimeFormat = timeFormat != null ? _parseTimeFormat(timeFormat) : 'HH:mm';
 
     return DateFormat(
       '${!timeOnly ? parsedDateFormat : ""} ${!dateOnly ? parsedTimeFormat : ""}',
@@ -34,13 +32,11 @@ class TimeHelper {
     int progressPercent,
     String? timeFormat,
   ) {
-    Duration time = Duration(
-        milliseconds: (duration * (1 - (progressPercent / 100))).round());
+    Duration time = Duration(milliseconds: (duration * (1 - (progressPercent / 100))).round());
 
     DateTime eta = DateTime.now().add(time);
 
-    final String parsedTimeFormat =
-        timeFormat != null ? _parseTimeFormat(timeFormat) : 'HH:mm';
+    final String parsedTimeFormat = timeFormat != null ? _parseTimeFormat(timeFormat) : 'HH:mm';
 
     return DateFormat("'ETA: '$parsedTimeFormat").format(eta);
   }
@@ -58,11 +54,9 @@ class TimeHelper {
     int timeSinceEpochInMilliseconds, {
     String? dateFormat,
   }) {
-    DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(timeSinceEpochInMilliseconds);
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeSinceEpochInMilliseconds);
 
-    final String parsedDateFormat =
-        dateFormat != null ? _parseDateFormat(dateFormat) : 'y-MM-dd';
+    final String parsedDateFormat = dateFormat != null ? _parseDateFormat(dateFormat) : 'y-MM-dd';
 
     return DateFormat(parsedDateFormat).format(dateTime).trim();
   }
@@ -71,11 +65,9 @@ class TimeHelper {
     int timeSinceEpochInMilliseconds, {
     String? timeFormat,
   }) {
-    DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(timeSinceEpochInMilliseconds);
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeSinceEpochInMilliseconds);
 
-    final String parsedTimeFormat =
-        timeFormat != null ? '$_parseTimeFormat(timeFormat):ss' : 'HH:mm:ss';
+    final String parsedTimeFormat = timeFormat != null ? '$_parseTimeFormat(timeFormat):ss' : 'HH:mm:ss';
 
     return DateFormat(parsedTimeFormat).format(dateTime).trim();
   }
@@ -93,13 +85,25 @@ class TimeHelper {
     String minutes = '';
     String seconds = '';
     if (duration.inMinutes > 59) {
-      hours = '${duration.inHours.toString()} hours ';
+      if (duration.inHours == 1) {
+        hours = '${duration.inHours.toString()} hour ';
+      } else {
+        hours = '${duration.inHours.toString()} hours ';
+      }
     }
     if (duration.inMinutes > 0) {
-      minutes = '${duration.inMinutes.remainder(60).toString()} minutes ';
+      if (duration.inMinutes == 1) {
+        minutes = '${duration.inMinutes.remainder(60).toString()} minute ';
+      } else {
+        minutes = '${duration.inMinutes.remainder(60).toString()} minutes ';
+      }
     }
     if (duration.inMinutes < 1) {
-      seconds = '${duration.inSeconds.toString()} seconds';
+      if (duration.inSeconds == 1) {
+        seconds = '${duration.inSeconds.toString()} second';
+      } else {
+        seconds = '${duration.inSeconds.toString()} seconds';
+      }
     }
 
     return '$hours$minutes$seconds';
@@ -109,8 +113,7 @@ class TimeHelper {
   ///
   /// Example: `1h, 6m` or `10m, 5s`.
   static String timeLeft(int duration, int progressPercent) {
-    Duration time = Duration(
-        milliseconds: (duration * (1 - (progressPercent / 100))).round());
+    Duration time = Duration(milliseconds: (duration * (1 - (progressPercent / 100))).round());
 
     if (time.inMinutes < 1) {
       return prettyDuration(
