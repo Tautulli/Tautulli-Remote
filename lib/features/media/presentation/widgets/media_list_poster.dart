@@ -43,77 +43,45 @@ class MediaListPoster extends StatelessWidget {
                 ),
               ),
             ),
-          //TODO
-          //  //* Gradient layer to make text visible
-          // Positioned.fill(
-          //   child: DecoratedBox(
-          //     decoration: BoxDecoration(
-          //       gradient: LinearGradient(
-          //         begin: Alignment.topCenter,
-          //         end: Alignment.bottomCenter,
-          //         colors: const [
-          //           Colors.transparent,
-          //           Colors.black,
-          //         ],
-          //         stops: [
-          //           [
-          //             MediaType.album,
-          //             MediaType.artist,
-          //             MediaType.track,
-          //             MediaType.playlist,
-          //             MediaType.photo,
-          //             MediaType.photoAlbum,
-          //           ].contains(mediaType)
-          //               ? 0.7
-          //               : 0.8,
-          //           1,
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          // Positioned(
-          //   bottom: 0,
-          //   left: 0,
-          //   right: 0,
-          //   child: Padding(
-          //     padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
-          //     child: Text(
-          //       libraryMediaInfoModel.title ?? '',
-          //       maxLines: 1,
-          //       overflow: TextOverflow.ellipsis,
-          //     ),
-          //   ),
-          // ),
-          Padding(
-            padding: const EdgeInsets.all(4),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        color: Colors.black54,
-                        width: constraints.maxWidth,
-                        height: 20,
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 6),
-                            child: Text(
-                              libraryMediaInfoModel.title ?? '',
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+          //* Gradient layer to make text visible
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: const [
+                    Colors.transparent,
+                    Colors.black,
                   ],
-                );
-              },
+                  stops: [
+                    [
+                      MediaType.album,
+                      MediaType.artist,
+                      MediaType.track,
+                      MediaType.playlist,
+                      MediaType.photo,
+                      MediaType.photoAlbum,
+                    ].contains(mediaType)
+                        ? 0.7
+                        : 0.8,
+                    1,
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
+              child: Text(
+                libraryMediaInfoModel.title ?? '',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
           Positioned.fill(
