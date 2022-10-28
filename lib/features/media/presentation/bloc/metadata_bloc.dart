@@ -5,6 +5,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/media_model.dart';
 import '../../domain/usecases/media.dart';
 
@@ -69,6 +70,13 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
         );
       },
       (metadata) {
+        event.settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: event.tautulliId,
+            primaryActive: metadata.value2,
+          ),
+        );
+
         metadataCache[cacheKey] = metadata.value1;
 
         return emit(

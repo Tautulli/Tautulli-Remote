@@ -49,6 +49,7 @@ class _MediaDetailsTabState extends State<MediaDetailsTab> {
                     tautulliId: _tautulliId,
                     ratingKey: widget.ratingKey,
                     freshFetch: true,
+                    settingsBloc: _settingsBloc,
                   ),
                 );
 
