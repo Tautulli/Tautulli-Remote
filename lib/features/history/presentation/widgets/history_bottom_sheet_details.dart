@@ -22,8 +22,7 @@ class HistoryBottomSheetDetails extends StatefulWidget {
   });
 
   @override
-  State<HistoryBottomSheetDetails> createState() =>
-      _HistoryBottomSheetDetailsState();
+  State<HistoryBottomSheetDetails> createState() => _HistoryBottomSheetDetailsState();
 }
 
 class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
@@ -101,25 +100,21 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
                               : widget.history.ipAddress ?? '',
                         ),
                       ),
-                      if (widget.history.ipAddress != null &&
-                          IpAddressHelper.isPublic(widget.history.ipAddress!))
+                      if (widget.history.ipAddress != null && IpAddressHelper.isPublic(widget.history.ipAddress!))
                         _ItemRow(
                           title: LocaleKeys.location_title.tr(),
                           item: BlocBuilder<GeoIpBloc, GeoIpState>(
                             builder: (context, geoIpState) {
-                              GeoIpModel? geoIpItem =
-                                  geoIpState.geoIpMap[widget.history.ipAddress];
+                              GeoIpModel? geoIpItem = geoIpState.geoIpMap[widget.history.ipAddress];
                               String? city = geoIpItem?.city;
                               String? region = geoIpItem?.region;
                               String? code = geoIpItem?.code;
 
                               if (settingsState.appSettings.maskSensitiveInfo) {
                                 return Text(LocaleKeys.hidden_message.tr());
-                              } else if (geoIpState.status ==
-                                  BlocStatus.success) {
+                              } else if (geoIpState.status == BlocStatus.success) {
                                 return Text('$city, $region $code');
-                              } else if (geoIpState.status ==
-                                  BlocStatus.success) {
+                              } else if (geoIpState.status == BlocStatus.success) {
                                 return const Text(
                                   LocaleKeys.location_lookup_failed_message,
                                 ).tr();
@@ -144,8 +139,7 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
                         item: Text(
                           TimeHelper.cleanDateTime(
                             widget.history.date!,
-                            dateFormat: settingsState
-                                .appSettings.activeServer.dateFormat,
+                            dateFormat: settingsState.appSettings.activeServer.dateFormat,
                             dateOnly: true,
                           ),
                         ),
@@ -155,8 +149,7 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
                         item: Text(
                           TimeHelper.cleanDateTime(
                             widget.history.started!,
-                            timeFormat: settingsState
-                                .appSettings.activeServer.timeFormat,
+                            timeFormat: settingsState.appSettings.activeServer.timeFormat,
                             timeOnly: true,
                           ),
                         ),
@@ -166,8 +159,7 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
                         item: Text(
                           TimeHelper.cleanDateTime(
                             widget.history.stopped!,
-                            timeFormat: settingsState
-                                .appSettings.activeServer.timeFormat,
+                            timeFormat: settingsState.appSettings.activeServer.timeFormat,
                             timeOnly: true,
                           ),
                         ),
@@ -216,6 +208,7 @@ class _ItemRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(
+        //TODO: Use CrossAxisAlignment.baseline when it won't break IntrinsicHeight
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
