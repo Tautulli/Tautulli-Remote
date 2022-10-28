@@ -24,6 +24,7 @@
     "days_title": "Dagen",
     "default_title": "Standaard",
     "delete_button": "Verwijder",
+    "details_title": "Details",
     "device_token_edit_snackbar_message": "Device tokens kunnen niet worden bewerkt",
     "device_token_title": "Device Token",
     "device_token_validation": "Moet 32 karakters lang zijn (momenteel: {})",

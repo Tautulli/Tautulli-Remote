@@ -14,6 +14,7 @@
     "custom_title": "Egyedi",
     "days": "nap",
     "days_title": "nap",
+    "details_title": "Részletek",
     "device_token_edit_snackbar_message": "Az eszköz tokenek nem szerkeszthetőek",
     "device_token_title": "Eszköz token",
     "direct_play_title": "Közvetlen lejátszás",

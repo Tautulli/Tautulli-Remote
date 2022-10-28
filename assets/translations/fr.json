@@ -40,6 +40,7 @@
     "days_title": "Jours",
     "default_title": "Par défaut",
     "delete_button": "SUPPRIMER",
+    "details_title": "Informations",
     "device_token_edit_snackbar_message": "Les jetons d'appareil ne peuvent pas être modifiés",
     "device_token_title": "Jeton de l'appareil",
     "device_token_validation": "Doit contenir 32 caractères (actuellement : {})",

@@ -20,6 +20,7 @@
     "days": "giorni",
     "days_title": "Giorni",
     "default_title": "Predefinito",
+    "details_title": "Dettagli",
     "device_token_edit_snackbar_message": "I token dispositivo non possono essere modificati",
     "device_token_title": "Token Dispositivo",
     "device_token_validation": "Deve essere lungo 32 caratteri (attualmente: {})",

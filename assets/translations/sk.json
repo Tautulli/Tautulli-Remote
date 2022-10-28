@@ -23,6 +23,7 @@
     "days_title": "Dní",
     "default_title": "Predvolené",
     "delete_button": "VYMAZAŤ",
+    "details_title": "Podrobnosti",
     "device_token_edit_snackbar_message": "Tokeny zariadenia nemožno upravovať",
     "device_token_title": "Token zariadenia",
     "device_token_validation": "Musí mať 32 znakov (aktuálna hodnota: {})",

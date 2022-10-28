@@ -37,6 +37,7 @@
     "days_title": "Tagen",
     "default_title": "Standard",
     "delete_button": "Löschen",
+    "details_title": "Einzelheiten",
     "device_token_edit_snackbar_message": "Geräte-Token können nicht bearbeitet werden",
     "device_token_title": "Gerätetoken",
     "device_token_validation": "Muss 32 Zeichen lang sein (aktuell: {})",

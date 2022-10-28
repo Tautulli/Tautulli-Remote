@@ -24,6 +24,7 @@
     "days_title": "Dagar",
     "default_title": "Standard",
     "delete_button": "RADERA",
+    "details_title": "Detaljer",
     "device_token_edit_snackbar_message": "Enhetstoken kan inte redigeras",
     "device_token_title": "Enhetstoken",
     "device_token_validation": "Måste vara 32 tecken långt (nuvarande: {})",

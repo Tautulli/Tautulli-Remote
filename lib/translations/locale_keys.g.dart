@@ -18,7 +18,9 @@ abstract class  LocaleKeys {
   static const announcements_title = 'announcements_title';
   static const app_logs_title = 'app_logs_title';
   static const artists_title = 'artists_title';
+  static const audio_title = 'audio_title';
   static const basic_authentication_title = 'basic_authentication_title';
+  static const bitrate_title = 'bitrate_title';
   static const bugs_and_feature_requests_title = 'bugs_and_feature_requests_title';
   static const cancel_button = 'cancel_button';
   static const cannot_be_blank_message = 'cannot_be_blank_message';
@@ -40,6 +42,7 @@ abstract class  LocaleKeys {
   static const close_button = 'close_button';
   static const connection_details_title = 'connection_details_title';
   static const contact_support_button = 'contact_support_button';
+  static const container_title = 'container_title';
   static const copied_to_clipboard_snackbar_message = 'copied_to_clipboard_snackbar_message';
   static const custom_time_range_dialog_content = 'custom_time_range_dialog_content';
   static const custom_time_range_title = 'custom_time_range_title';
@@ -58,12 +61,14 @@ abstract class  LocaleKeys {
   static const days_title = 'days_title';
   static const default_title = 'default_title';
   static const delete_button = 'delete_button';
+  static const details_title = 'details_title';
   static const device_token_edit_snackbar_message = 'device_token_edit_snackbar_message';
   static const decision_title = 'decision_title';
   static const device_token_title = 'device_token_title';
   static const device_token_validation = 'device_token_validation';
   static const direct_play_title = 'direct_play_title';
   static const direct_stream_title = 'direct_stream_title';
+  static const directed_by_title = 'directed_by_title';
   static const disabled_title = 'disabled_title';
   static const discard_button = 'discard_button';
   static const discord_title = 'discord_title';
@@ -118,6 +123,7 @@ abstract class  LocaleKeys {
   static const feature_not_yet_available_snackbar_message = 'feature_not_yet_available_snackbar_message';
   static const filter_history_title = 'filter_history_title';
   static const filter_recently_added_title = 'filter_recently_added_title';
+  static const genres_title = 'genres_title';
   static const global_stats_title = 'global_stats_title';
   static const go_to_settings_button = 'go_to_settings_button';
   static const graphs_tips_dialog_content = 'graphs_tips_dialog_content';
@@ -238,12 +244,14 @@ abstract class  LocaleKeys {
   static const privacy_policy_title = 'privacy_policy_title';
   static const published_title = 'published_title';
   static const quit_button = 'quit_button';
+  static const rated_title = 'rated_title';
   static const reddit_title = 'reddit_title';
   static const recently_added_empty_message = 'recently_added_empty_message';
   static const recently_added_title = 'recently_added_title';
   static const register_a_tautulli_server_button = 'register_a_tautulli_server_button';
   static const register_server_button = 'register_server_button';
   static const request_a_new_language_title = 'request_a_new_language_title';
+  static const runtime_title = 'runtime_title';
   static const save_button = 'save_button';
   static const scan_qr_code_button = 'scan_qr_code_button';
   static const search_history_title = 'search_history_title';
@@ -280,6 +288,7 @@ abstract class  LocaleKeys {
   static const slow_title = 'slow_title';
   static const slower_title = 'slower_title';
   static const sort_users_title = 'sort_users_title';
+  static const starring_title = 'starring_title';
   static const started_title = 'started_title';
   static const statistics_empty_message = 'statistics_empty_message';
   static const statistics_title = 'statistics_title';
@@ -290,6 +299,8 @@ abstract class  LocaleKeys {
   static const stream_type_title = 'stream_type_title';
   static const streamed_title = 'streamed_title';
   static const streams_title = 'streams_title';
+  static const studio_title = 'studio_title';
+  static const taken_title = 'taken_title';
   static const tautulli_remote_logs_title = 'tautulli_remote_logs_title';
   static const terms_of_use_title = 'terms_of_use_title';
   static const time_title = 'time_title';
@@ -309,6 +320,7 @@ abstract class  LocaleKeys {
   static const username_title = 'username_title';
   static const users_title = 'users_title';
   static const users_empty_message = 'users_empty_message';
+  static const video_title = 'video_title';
   static const videos_title = 'videos_title';
   static const view_media_title = 'view_media_title';
   static const view_onesignal_privacy_button = 'view_onesignal_privacy_button';
@@ -332,6 +344,7 @@ abstract class  LocaleKeys {
   static const wizard_welcome_text_1 = 'wizard_welcome_text_1';
   static const wizard_welcome_text_2 = 'wizard_welcome_text_2';
   static const wizard_welcome_text_3 = 'wizard_welcome_text_3';
+  static const written_by_title = 'written_by_title';
   static const y_axis_title = 'y_axis_title';
 
 }

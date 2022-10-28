@@ -18,6 +18,7 @@
     "days": "dias",
     "days_title": "Dias",
     "delete_button": "EXCLUIR",
+    "details_title": "Detalhes",
     "device_token_edit_snackbar_message": "Os tokens do dispositivo não podem ser editados",
     "device_token_validation": "Deve ter 32 caracteres (atual: {})",
     "direct_play_title": "Reprodução Direta",
