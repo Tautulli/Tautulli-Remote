@@ -122,6 +122,7 @@ const _$MediaTypeEnumMap = {
   MediaType.movie: 'movie',
   MediaType.otherVideo: 'otherVideo',
   MediaType.photo: 'photo',
+  MediaType.photoAlbum: 'photoAlbum',
   MediaType.playlist: 'playlist',
   MediaType.season: 'season',
   MediaType.show: 'show',
