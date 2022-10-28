@@ -63,8 +63,6 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
       userHistoryCache[cacheKey] = [];
     }
 
-    if (state.hasReachedMax) return;
-
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to History tab
       if (userHistoryCache[cacheKey]!.isNotEmpty) {
@@ -72,6 +70,8 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
           state.copyWith(
             status: BlocStatus.success,
             history: userHistoryCache[cacheKey],
+            hasReachedMax:
+                userHistoryCache[cacheKey]!.length < length || userHistoryCache[cacheKey]!.length % length == 0,
           ),
         );
       }
