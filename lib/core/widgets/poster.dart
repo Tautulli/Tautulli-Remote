@@ -11,25 +11,41 @@ import '../types/media_type.dart';
 class Poster extends StatelessWidget {
   final MediaType? mediaType;
   final Uri? uri;
+  final Object? heroTag;
+  final bool heroEnabled;
 
   const Poster({
     super.key,
     required this.mediaType,
     required this.uri,
+    this.heroTag,
+    this.heroEnabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    if ([
-      MediaType.album,
-      MediaType.artist,
-      MediaType.track,
-      MediaType.playlist,
-    ].contains(mediaType)) {
-      return _PosterSquare(uri);
-    }
+    return HeroMode(
+      enabled: true,
+      child: Hero(
+        tag: heroTag ?? UniqueKey(),
+        child: Builder(
+          builder: (context) {
+            if ([
+              MediaType.album,
+              MediaType.artist,
+              MediaType.track,
+              MediaType.playlist,
+              MediaType.photo,
+              MediaType.photoAlbum,
+            ].contains(mediaType)) {
+              return _PosterSquare(uri);
+            }
 
-    return _PosterRegular(uri);
+            return _PosterRegular(uri);
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -115,8 +131,9 @@ class _PosterSquare extends StatelessWidget {
                     },
                   ),
                 ),
-                Positioned.fill(
-                  child: Center(
+                Center(
+                  child: AspectRatio(
+                    aspectRatio: 1,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: CachedNetworkImage(
@@ -127,7 +144,7 @@ class _PosterSquare extends StatelessWidget {
                         },
                         placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
                         errorWidget: (context, url, error) => Image.asset('assets/images/cover_fallback.png'),
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
