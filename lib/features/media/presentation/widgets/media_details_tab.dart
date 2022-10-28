@@ -7,12 +7,36 @@ import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/metadata_bloc.dart';
 import 'media_details_tab_details.dart';
 import 'media_details_tab_summary.dart';
 
-class MediaDetailsTab extends StatelessWidget {
-  const MediaDetailsTab({super.key});
+class MediaDetailsTab extends StatefulWidget {
+  final int ratingKey;
+
+  const MediaDetailsTab({
+    super.key,
+    required this.ratingKey,
+  });
+
+  @override
+  State<MediaDetailsTab> createState() => _MediaDetailsTabState();
+}
+
+class _MediaDetailsTabState extends State<MediaDetailsTab> {
+  late SettingsBloc _settingsBloc;
+  late String _tautulliId;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _settingsBloc = context.read<SettingsBloc>();
+    final settingsState = _settingsBloc.state as SettingsSuccess;
+
+    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +44,28 @@ class MediaDetailsTab extends StatelessWidget {
       builder: (context, state) {
         return ThemedRefreshIndicator(
           onRefresh: () {
-            //TODO
+            context.read<MetadataBloc>().add(
+                  MetadataFetched(
+                    tautulliId: _tautulliId,
+                    ratingKey: widget.ratingKey,
+                    freshFetch: true,
+                  ),
+                );
+
             return Future.value();
           },
           child: PageBody(
             loading: state.status == BlocStatus.initial,
             child: Builder(builder: (context) {
-              if (state.status == BlocStatus.success) {
+              if (state.status == BlocStatus.failure) {
+                return StatusPage(
+                  scrollable: true,
+                  message: state.message ?? '',
+                  suggestion: state.suggestion ?? '',
+                );
+              }
+
+              if (state.metadata != null) {
                 return ListView(
                   padding: const EdgeInsets.all(8.0),
                   children: [
@@ -35,14 +74,6 @@ class MediaDetailsTab extends StatelessWidget {
                     const Gap(8),
                     MediaDetailsTabDetails(metadata: state.metadata),
                   ],
-                );
-              }
-
-              if (state.status == BlocStatus.failure) {
-                return StatusPage(
-                  scrollable: true,
-                  message: state.message ?? '',
-                  suggestion: state.suggestion ?? '',
                 );
               }
 

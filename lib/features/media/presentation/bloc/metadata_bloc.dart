@@ -32,6 +32,15 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
   ) async {
     final String cacheKey = '${event.tautulliId}:${event.ratingKey}';
 
+    if (event.freshFetch) {
+      emit(
+        state.copyWith(
+          status: BlocStatus.initial,
+        ),
+      );
+      metadataCache.remove(cacheKey);
+    }
+
     if (metadataCache.containsKey(cacheKey)) {
       return emit(
         state.copyWith(

@@ -143,7 +143,7 @@ class _MediaViewState extends State<MediaView> {
             ),
         ],
         tabChildren: [
-          const MediaDetailsTab(),
+          MediaDetailsTab(ratingKey: widget.ratingKey),
           if (![MediaType.photo, MediaType.photoAlbum].contains(widget.mediaType)) Placeholder(),
         ],
       ),
