@@ -11,12 +11,14 @@ class HistoryCard extends StatefulWidget {
   final HistoryModel history;
   final bool showUser;
   final bool viewUserEnabled;
+  final bool viewMediaEnabled;
 
   const HistoryCard({
     super.key,
     required this.history,
     this.showUser = true,
     this.viewUserEnabled = true,
+    this.viewMediaEnabled = true,
   });
 
   @override
@@ -54,6 +56,7 @@ class _HistoryCardState extends State<HistoryCard> {
             child: HistoryBottomSheet(
               history: widget.history,
               viewUserEnabled: widget.viewUserEnabled,
+              viewMediaEnabled: widget.viewMediaEnabled,
             ),
           );
         },

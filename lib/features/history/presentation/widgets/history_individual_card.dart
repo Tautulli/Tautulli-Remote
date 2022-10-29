@@ -114,6 +114,7 @@ class HistoryIndividualCard extends StatelessWidget {
                         child: HistoryBottomSheet(
                           history: history,
                           viewUserEnabled: true,
+                          viewMediaEnabled: false,
                         ),
                       );
                     },

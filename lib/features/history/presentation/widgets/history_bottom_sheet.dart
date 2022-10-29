@@ -7,9 +7,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/gesture_pill.dart';
 import '../../../../core/widgets/poster.dart';
 import '../../../../translations/locale_keys.g.dart';
+import '../../../media/presentation/pages/media_page.dart';
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/data/models/user_model.dart';
@@ -21,11 +23,13 @@ import 'history_bottom_sheet_info.dart';
 class HistoryBottomSheet extends StatelessWidget {
   final HistoryModel history;
   final bool viewUserEnabled;
+  final bool viewMediaEnabled;
 
   const HistoryBottomSheet({
     super.key,
     required this.history,
     this.viewUserEnabled = true,
+    this.viewMediaEnabled = true,
   });
 
   @override
@@ -214,7 +218,30 @@ class HistoryBottomSheet extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: PlexColorPalette.curiousBlue,
                             ),
-                            onPressed: null,
+                            onPressed: viewMediaEnabled
+                                ? () {
+                                    final user = UserModel(
+                                      friendlyName: history.friendlyName,
+                                      userId: history.userId,
+                                    );
+
+                                    Navigator.of(context).pop();
+
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => MediaPage(
+                                          mediaType: history.mediaType!,
+                                          title: history.title,
+                                          subtitle: _buildSubtitle(history),
+                                          itemDetail: _buildItemDetail(history),
+                                          ratingKey: history.ratingKey!,
+                                          posterUri: history.posterUri,
+                                          live: history.live ?? false,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                : null,
                             child: const Text(LocaleKeys.view_media_title).tr(),
                           ),
                         ),
@@ -228,5 +255,43 @@ class HistoryBottomSheet extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Text? _buildSubtitle(HistoryModel model) {
+    if ([MediaType.season, MediaType.episode].contains(model.mediaType)) {
+      return Text(
+        model.title ?? '',
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      );
+    }
+
+    if (model.mediaType == MediaType.track) {
+      return Text(
+        model.grandparentTitle ?? '',
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      );
+    }
+
+    if ([
+          MediaType.movie,
+          MediaType.show,
+        ].contains(model.mediaType) &&
+        model.year != null) {
+      return Text(model.year.toString());
+    }
+
+    return null;
+  }
+
+  Text? _buildItemDetail(HistoryModel model) {
+    if (model.mediaType == MediaType.track) return Text(model.parentTitle ?? '');
+
+    if (model.mediaType == MediaType.episode && model.parentMediaIndex != null && model.mediaIndex != null) {
+      return Text('S${model.parentMediaIndex} • E${model.mediaIndex}');
+    }
+
+    return null;
   }
 }

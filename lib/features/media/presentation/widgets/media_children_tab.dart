@@ -110,29 +110,6 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                               },
                             );
                           },
-                          // children: state.children != null
-                          //     ? state.children!.map((item) {
-                          //         return MediaListTrack(
-                          //           title: item.title,
-                          //           mediaIndex: item.mediaIndex,
-                          //           thumbUri: item.imageUri,
-                          //           onTap: () async {
-                          //             await Navigator.of(context).push(
-                          //               MaterialPageRoute(
-                          //                 builder: (context) => MediaPage(
-                          //                   mediaType: item.mediaType ?? MediaType.unknown,
-                          //                   posterUri: widget.parentPosterUri,
-                          //                   title: _buildTitle(item),
-                          //                   subtitle: _buildSubtitle(item),
-                          //                   itemDetail: _buildItemDetail(item),
-                          //                   ratingKey: item.ratingKey!,
-                          //                 ),
-                          //               ),
-                          //             );
-                          //           },
-                          //         );
-                          //       }).toList()
-                          //     : [],
                         );
                       }
 
@@ -233,9 +210,10 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
     if (model.mediaType == MediaType.album) return Text(model.parentTitle ?? '');
 
     if ([
-      MediaType.movie,
-      MediaType.show,
-    ].contains(model.mediaType)) {
+          MediaType.movie,
+          MediaType.show,
+        ].contains(model.mediaType) &&
+        model.year != null) {
       return Text(model.year.toString());
     }
 

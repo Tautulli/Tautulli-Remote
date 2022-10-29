@@ -151,9 +151,10 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
 
   Text? _buildSubtitle(LibraryMediaInfoModel model) {
     if ([
-      MediaType.movie,
-      MediaType.show,
-    ].contains(model.mediaType)) {
+          MediaType.movie,
+          MediaType.show,
+        ].contains(model.mediaType) &&
+        model.year != null) {
       return Text(model.year.toString());
     }
 
