@@ -127,24 +127,29 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                                   ),
                                 ),
                               ),
-                              Positioned(
-                                top: _expandedHeight - 118,
-                                left: 116,
-                                child: Opacity(
-                                  opacity: detailsOpacity,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title ?? '',
-                                        style: const TextStyle(
-                                          fontSize: 18,
+                              Positioned.fill(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: _expandedHeight - 118,
+                                    left: 116,
+                                  ),
+                                  child: Opacity(
+                                    opacity: detailsOpacity,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title ?? '',
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      if (widget.subtitle != null) widget.subtitle!,
-                                      if (widget.itemDetail != null) widget.itemDetail!,
-                                    ],
+                                        if (widget.subtitle != null) widget.subtitle!,
+                                        if (widget.itemDetail != null) widget.itemDetail!,
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
