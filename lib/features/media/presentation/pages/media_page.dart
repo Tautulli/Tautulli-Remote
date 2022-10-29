@@ -22,6 +22,7 @@ import 'sliver_tabbed_poster_details_page.dart';
 class MediaPage extends StatelessWidget {
   final MediaType mediaType;
   final Uri? posterUri;
+  final Uri? backgroundOverrideUri;
   final String? title;
   final Widget? subtitle;
   final Widget? itemDetail;
@@ -32,6 +33,7 @@ class MediaPage extends StatelessWidget {
     super.key,
     required this.mediaType,
     this.posterUri,
+    this.backgroundOverrideUri,
     this.title,
     this.subtitle,
     this.itemDetail,
@@ -56,6 +58,7 @@ class MediaPage extends StatelessWidget {
       child: MediaView(
         mediaType: mediaType,
         posterUri: posterUri,
+        backgroundOverrideUri: backgroundOverrideUri,
         title: title,
         subtitle: subtitle,
         itemDetail: itemDetail,
@@ -69,6 +72,7 @@ class MediaPage extends StatelessWidget {
 class MediaView extends StatefulWidget {
   final MediaType mediaType;
   final Uri? posterUri;
+  final Uri? backgroundOverrideUri;
   final String? title;
   final Widget? subtitle;
   final Widget? itemDetail;
@@ -79,6 +83,7 @@ class MediaView extends StatefulWidget {
     super.key,
     required this.mediaType,
     this.posterUri,
+    this.backgroundOverrideUri,
     this.title,
     this.subtitle,
     this.itemDetail,
@@ -141,7 +146,9 @@ class _MediaViewState extends State<MediaView> {
             state as SettingsSuccess;
 
             return CachedNetworkImage(
-              imageUrl: widget.posterUri.toString(),
+              imageUrl: widget.backgroundOverrideUri != null
+                  ? widget.backgroundOverrideUri.toString()
+                  : widget.posterUri.toString(),
               httpHeaders: {
                 for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
                   headerModel.key: headerModel.value,

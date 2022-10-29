@@ -142,6 +142,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                               builder: (context) => MediaPage(
                                                 mediaType: item.mediaType ?? MediaType.unknown,
                                                 posterUri: widget.parentPosterUri,
+                                                backgroundOverrideUri: item.imageUri,
                                                 title: _buildTitle(item),
                                                 subtitle: _buildSubtitle(item),
                                                 itemDetail: _buildItemDetail(item),
