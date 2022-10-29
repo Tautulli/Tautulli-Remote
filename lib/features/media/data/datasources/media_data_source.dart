@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/api/tautulli/tautulli_api.dart';
+import '../../../../core/types/media_type.dart';
 import '../models/media_model.dart';
 
 abstract class MediaDataSource {
@@ -54,6 +53,11 @@ class MediaDataSourceImpl implements MediaDataSource {
         result.value1['response']['data']['children_list'].map<MediaModel>((childItem) {
       return MediaModel.fromJson(childItem);
     }).toList();
+
+    // Do not include the "All episodes" season Tautulli returns
+    if (childrenList[0].mediaType == MediaType.unknown) {
+      childrenList.removeAt(0);
+    }
 
     return Tuple2(childrenList, result.value2);
   }
