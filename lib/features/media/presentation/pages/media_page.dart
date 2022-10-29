@@ -26,6 +26,7 @@ class MediaPage extends StatelessWidget {
   final Widget? subtitle;
   final Widget? itemDetail;
   final int ratingKey;
+  final bool live;
 
   const MediaPage({
     super.key,
@@ -35,6 +36,7 @@ class MediaPage extends StatelessWidget {
     this.subtitle,
     this.itemDetail,
     required this.ratingKey,
+    this.live = false,
   });
 
   @override
@@ -58,6 +60,7 @@ class MediaPage extends StatelessWidget {
         subtitle: subtitle,
         itemDetail: itemDetail,
         ratingKey: ratingKey,
+        live: live,
       ),
     );
   }
@@ -70,6 +73,7 @@ class MediaView extends StatefulWidget {
   final Widget? subtitle;
   final Widget? itemDetail;
   final int ratingKey;
+  final bool live;
 
   const MediaView({
     super.key,
@@ -79,6 +83,7 @@ class MediaView extends StatefulWidget {
     this.subtitle,
     this.itemDetail,
     required this.ratingKey,
+    this.live = false,
   });
 
   @override
@@ -173,7 +178,7 @@ class _MediaViewState extends State<MediaView> {
         subtitle: widget.subtitle,
         itemDetail: widget.itemDetail,
         tabs: [
-          Tab(child: const Text(LocaleKeys.details_title).tr()),
+          if (!widget.live) Tab(child: const Text(LocaleKeys.details_title).tr()),
           if (widget.mediaType == MediaType.show)
             Tab(
               child: const Text(LocaleKeys.seasons_title).tr(),
@@ -194,7 +199,7 @@ class _MediaViewState extends State<MediaView> {
             Tab(child: const Text(LocaleKeys.history_title).tr()),
         ],
         tabChildren: [
-          MediaDetailsTab(ratingKey: widget.ratingKey),
+          if (!widget.live) MediaDetailsTab(ratingKey: widget.ratingKey),
           if ([
             MediaType.show,
             MediaType.season,
