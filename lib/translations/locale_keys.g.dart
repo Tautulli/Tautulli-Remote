@@ -96,6 +96,7 @@ abstract class  LocaleKeys {
   static const duration_title = 'duration_title';
   static const enter_an_integer_message = 'enter_an_integer_message';
   static const enter_time_range_in_days_message = 'enter_time_range_in_days_message';
+  static const episode_title = 'episode_title';
   static const episodes_title = 'episodes_title';
   static const error_message_bad_api_response = 'error_message_bad_api_response';
   static const error_message_certificate_expired = 'error_message_certificate_expired';

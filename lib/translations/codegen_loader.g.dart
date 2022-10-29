@@ -436,6 +436,7 @@ static const Map<String,dynamic> en = {
   "duration_title": "Duration",
   "enter_an_integer_message": "Please enter an integer",
   "enter_time_range_in_days_message": "Enter a time range in days",
+  "episode_title": "Episode",
   "episodes_title": "Episodes",
   "error_message_bad_api_response": "Bad API Response",
   "error_message_certificate_expired": "TLS/SSL Certificate is Expired",
