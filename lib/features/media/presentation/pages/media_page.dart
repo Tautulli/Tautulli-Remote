@@ -114,6 +114,8 @@ class _MediaViewState extends State<MediaView> {
     if ([
       MediaType.show,
       MediaType.artist,
+      MediaType.album,
+      MediaType.season,
     ].contains(widget.mediaType)) {
       context.read<ChildrenMetadataBloc>().add(
             ChildrenMetadataFetched(
@@ -180,15 +182,24 @@ class _MediaViewState extends State<MediaView> {
             Tab(
               child: const Text(LocaleKeys.albums_title).tr(),
             ),
+          if (widget.mediaType == MediaType.season)
+            Tab(
+              child: const Text(LocaleKeys.episodes_title).tr(),
+            ),
           if (![MediaType.photo, MediaType.photoAlbum].contains(widget.mediaType))
             Tab(child: const Text(LocaleKeys.history_title).tr()),
         ],
         tabChildren: [
           MediaDetailsTab(ratingKey: widget.ratingKey),
-          if ([MediaType.show, MediaType.artist].contains(widget.mediaType))
+          if ([
+            MediaType.show,
+            MediaType.artist,
+            MediaType.season,
+          ].contains(widget.mediaType))
             MediaChildrenTab(
               ratingKey: widget.ratingKey,
               mediaType: widget.mediaType,
+              parentPosterUri: widget.posterUri,
             ),
           if (![MediaType.photo, MediaType.photoAlbum].contains(widget.mediaType))
             MediaHistoryTab(

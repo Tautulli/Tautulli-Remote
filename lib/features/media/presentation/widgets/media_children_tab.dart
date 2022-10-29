@@ -12,15 +12,18 @@ import '../../data/models/media_model.dart';
 import '../bloc/children_metadata_bloc.dart';
 import '../pages/media_page.dart';
 import 'media_list_poster.dart';
+import 'media_list_thumbnail.dart';
 
 class MediaChildrenTab extends StatefulWidget {
   final int ratingKey;
   final MediaType mediaType;
+  final Uri? parentPosterUri;
 
   const MediaChildrenTab({
     super.key,
     required this.ratingKey,
     required this.mediaType,
+    required this.parentPosterUri,
   });
 
   @override
@@ -77,7 +80,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                     context: context,
                     removeTop: true,
                     child: GridView.count(
-                      crossAxisCount: 3,
+                      crossAxisCount: widget.mediaType == MediaType.season ? 2 : 3,
                       childAspectRatio: [
                         MediaType.album,
                         MediaType.artist,
@@ -86,11 +89,38 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                         MediaType.track,
                       ].contains(widget.mediaType)
                           ? 1
-                          : 2 / 3,
+                          : widget.mediaType == MediaType.season
+                              ? 3 / 2
+                              : 2 / 3,
                       children: state.children != null
-                          ? state.children!
-                              .map(
-                                (item) => Padding(
+                          ? state.children!.map(
+                              (item) {
+                                if (item.mediaType == MediaType.episode) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(4),
+                                    child: MediaListThumbnail(
+                                      title: item.title,
+                                      mediaIndex: item.mediaIndex,
+                                      thumbUri: item.imageUri,
+                                      onTap: () async {
+                                        await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => MediaPage(
+                                              mediaType: item.mediaType ?? MediaType.unknown,
+                                              posterUri: widget.parentPosterUri,
+                                              title: _buildTitle(item),
+                                              subtitle: _buildSubtitle(item),
+                                              itemDetail: _buildItemDetail(item),
+                                              ratingKey: item.ratingKey!,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                }
+
+                                return Padding(
                                   padding: const EdgeInsets.all(4),
                                   child: MediaListPoster(
                                     mediaType: item.mediaType,
@@ -98,8 +128,6 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                     year: item.year,
                                     ratingKey: item.ratingKey,
                                     posterUri: item.imageUri,
-                                    squarePosterFitCover:
-                                        [MediaType.photo, MediaType.photoAlbum].contains(item.mediaType),
                                     onTap: () async {
                                       if (item.mediaType == MediaType.photoAlbum) {
                                       } else {
@@ -118,9 +146,9 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                       }
                                     },
                                   ),
-                                ),
-                              )
-                              .toList()
+                                );
+                              },
+                            ).toList()
                           : [],
                     ),
                   ),
@@ -136,11 +164,13 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
   String? _buildTitle(MediaModel model) {
     if (model.mediaType == MediaType.season) return model.parentTitle;
 
+    if (model.mediaType == MediaType.episode) return model.grandparentTitle;
+
     return model.title;
   }
 
   Text? _buildSubtitle(MediaModel model) {
-    if (model.mediaType == MediaType.season) return Text(model.title ?? '');
+    if ([MediaType.season, MediaType.episode].contains(model.mediaType)) return Text(model.title ?? '');
 
     if (model.mediaType == MediaType.album) return Text(model.parentTitle ?? '');
 
@@ -156,6 +186,8 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
 
   Text? _buildItemDetail(MediaModel model) {
     if (model.mediaType == MediaType.album) return Text(model.year.toString());
+
+    if (model.mediaType == MediaType.episode) return Text('S${model.parentMediaIndex} • E${model.mediaIndex}');
 
     return null;
   }

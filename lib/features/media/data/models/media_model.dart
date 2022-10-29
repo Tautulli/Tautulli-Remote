@@ -42,7 +42,7 @@ class MediaModel extends Equatable {
   final String? libraryName;
   @JsonKey(name: 'live', fromJson: Cast.castToBool)
   final bool? live;
-  @JsonKey(name: 'mediaIndex', fromJson: Cast.castToInt)
+  @JsonKey(name: 'media_index', fromJson: Cast.castToInt)
   final int? mediaIndex;
   @JsonKey(name: 'media_info', fromJson: mediaInfoModelFromJson)
   final MediaInfoModel? mediaInfo;
