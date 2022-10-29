@@ -80,7 +80,7 @@ class PosterCard extends StatelessWidget {
                             tileMode: TileMode.decal,
                           ),
                           child: Image.asset(
-                            'assets/images/poster_fallback.png',
+                            'assets/images/poster_error.png',
                             fit: BoxFit.cover,
                           ),
                         ),

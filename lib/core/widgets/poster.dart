@@ -70,10 +70,8 @@ class _PosterRegular extends StatelessWidget {
                 for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
                   headerModel.key: headerModel.value,
               },
-              placeholder: (context, url) => Image.asset(
-                'assets/images/poster_fallback.png',
-                fit: BoxFit.cover,
-              ),
+              placeholder: (context, url) => Image.asset('assets/images/poster_fallback.png', fit: BoxFit.cover),
+              errorWidget: (context, url, error) => Image.asset('assets/images/poster_error.png', fit: BoxFit.cover),
               fit: BoxFit.cover,
             );
           },
@@ -123,7 +121,7 @@ class _PosterSquare extends StatelessWidget {
                                 headerModel.key: headerModel.value,
                             },
                             placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
-                            errorWidget: (context, url, error) => Image.asset('assets/images/cover_fallback.png'),
+                            errorWidget: (context, url, error) => Image.asset('assets/images/cover_error.png'),
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -143,7 +141,7 @@ class _PosterSquare extends StatelessWidget {
                             headerModel.key: headerModel.value,
                         },
                         placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
-                        errorWidget: (context, url, error) => Image.asset('assets/images/cover_fallback.png'),
+                        errorWidget: (context, url, error) => Image.asset('assets/images/cover_error.png'),
                         fit: BoxFit.cover,
                       ),
                     ),

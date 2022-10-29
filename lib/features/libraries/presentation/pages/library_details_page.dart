@@ -135,7 +135,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
                 ),
               ),
               placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
-              errorWidget: (context, url, error) => Image.asset('assets/images/art_fallback.png'),
+              errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
             );
           },
         ),

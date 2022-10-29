@@ -107,7 +107,7 @@ class HistoryBottomSheet extends StatelessWidget {
                                           'assets/images/poster_fallback.png',
                                         ),
                                         errorWidget: (context, url, error) => Image.asset(
-                                          'assets/images/poster_fallback.png',
+                                          'assets/images/poster_error.png',
                                         ),
                                         fit: BoxFit.fill,
                                       ),

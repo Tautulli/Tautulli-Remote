@@ -79,7 +79,7 @@ class LibraryCard extends StatelessWidget {
                       tileMode: TileMode.decal,
                     ),
                     child: Image.asset(
-                      'assets/images/art_fallback.png',
+                      'assets/images/art_error.png',
                       fit: BoxFit.cover,
                     ),
                   ),
