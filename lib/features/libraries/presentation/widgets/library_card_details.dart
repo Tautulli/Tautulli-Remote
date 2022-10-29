@@ -33,7 +33,7 @@ class LibraryCardDetails extends StatelessWidget {
         if (library.sectionType == SectionType.photo) _photoMediaCount(),
         if (library.sectionType == SectionType.show) _showMediaCount(),
         if (library.sectionType == SectionType.video) _videoMediaCount(),
-        _playsAndDuration(),
+        if (library.sectionType != SectionType.photo) _playsAndDuration(),
       ],
     );
   }

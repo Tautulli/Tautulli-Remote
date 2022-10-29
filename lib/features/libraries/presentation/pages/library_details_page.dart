@@ -141,24 +141,26 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
         ),
         icon: LibraryDetailsIcon(libraryTableModel: widget.libraryTableModel),
         title: widget.libraryTableModel.sectionName ?? '',
-        subtitle: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(text: LocaleKeys.last_streamed_title.tr()),
-              const TextSpan(text: ' '),
-              TextSpan(
-                text: widget.libraryTableModel.lastAccessed != null
-                    ? TimeHelper.moment(widget.libraryTableModel.lastAccessed)
-                    : LocaleKeys.never.tr(),
-                style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 13,
-                  color: Colors.grey[200],
+        subtitle: widget.libraryTableModel.sectionType == SectionType.photo
+            ? const Text('')
+            : RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(text: LocaleKeys.last_streamed_title.tr()),
+                    const TextSpan(text: ' '),
+                    TextSpan(
+                      text: widget.libraryTableModel.lastAccessed != null
+                          ? TimeHelper.moment(widget.libraryTableModel.lastAccessed)
+                          : LocaleKeys.never.tr(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 13,
+                        color: Colors.grey[200],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
         tabs: [
           Tab(
             text: LocaleKeys.stats_title.tr(),
