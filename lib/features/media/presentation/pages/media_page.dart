@@ -12,7 +12,9 @@ import '../../../../translations/locale_keys.g.dart';
 import '../../../history/presentation/bloc/individual_history_bloc.dart';
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../bloc/children_metadata_bloc.dart';
 import '../bloc/metadata_bloc.dart';
+import '../widgets/media_children_tab.dart';
 import '../widgets/media_details_tab.dart';
 import '../widgets/media_history_tab.dart';
 import 'sliver_tabbed_poster_details_page.dart';
@@ -41,6 +43,9 @@ class MediaPage extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => di.sl<MetadataBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<ChildrenMetadataBloc>(),
         ),
         BlocProvider(
           create: (context) => di.sl<IndividualHistoryBloc>(),
@@ -105,6 +110,19 @@ class _MediaViewState extends State<MediaView> {
             settingsBloc: settingsBloc,
           ),
         );
+
+    if ([
+      MediaType.show,
+      MediaType.artist,
+    ].contains(widget.mediaType)) {
+      context.read<ChildrenMetadataBloc>().add(
+            ChildrenMetadataFetched(
+              tautulliId: tautulliId,
+              ratingKey: widget.ratingKey,
+              settingsBloc: settingsBloc,
+            ),
+          );
+    }
   }
 
   @override
@@ -153,16 +171,25 @@ class _MediaViewState extends State<MediaView> {
         subtitle: widget.subtitle,
         itemDetail: widget.itemDetail,
         tabs: [
-          Tab(
-            child: const Text(LocaleKeys.details_title).tr(),
-          ),
-          if (![MediaType.photo, MediaType.photoAlbum].contains(widget.mediaType))
+          Tab(child: const Text(LocaleKeys.details_title).tr()),
+          if (widget.mediaType == MediaType.show)
             Tab(
-              child: const Text(LocaleKeys.history_title).tr(),
+              child: const Text(LocaleKeys.seasons_title).tr(),
             ),
+          if (widget.mediaType == MediaType.artist)
+            Tab(
+              child: const Text(LocaleKeys.albums_title).tr(),
+            ),
+          if (![MediaType.photo, MediaType.photoAlbum].contains(widget.mediaType))
+            Tab(child: const Text(LocaleKeys.history_title).tr()),
         ],
         tabChildren: [
           MediaDetailsTab(ratingKey: widget.ratingKey),
+          if ([MediaType.show, MediaType.artist].contains(widget.mediaType))
+            MediaChildrenTab(
+              ratingKey: widget.ratingKey,
+              mediaType: widget.mediaType,
+            ),
           if (![MediaType.photo, MediaType.photoAlbum].contains(widget.mediaType))
             MediaHistoryTab(
               ratingKey: widget.ratingKey,
