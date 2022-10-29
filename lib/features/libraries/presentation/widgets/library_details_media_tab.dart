@@ -115,7 +115,9 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
                               padding: const EdgeInsets.all(4),
                               child: MediaListPoster(
                                 mediaType: item.mediaType,
-                                libraryMediaInfoModel: item,
+                                title: item.title,
+                                ratingKey: item.ratingKey,
+                                posterUri: item.posterUri,
                                 squarePosterFitCover: [MediaType.photo, MediaType.photoAlbum].contains(item.mediaType),
                                 onTap: () async {
                                   if (item.mediaType == MediaType.photoAlbum) {

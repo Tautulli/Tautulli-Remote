@@ -3,18 +3,23 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/poster.dart';
-import '../../../libraries/data/models/library_media_info_model.dart';
 
 class MediaListPoster extends StatelessWidget {
-  final LibraryMediaInfoModel libraryMediaInfoModel;
+  final String? title;
+  final int? year;
+  final int? ratingKey;
   final MediaType? mediaType;
+  final Uri? posterUri;
   final Function()? onTap;
   final bool squarePosterFitCover;
 
   const MediaListPoster({
     super.key,
+    this.title,
+    this.year,
+    this.ratingKey,
     required this.mediaType,
-    required this.libraryMediaInfoModel,
+    this.posterUri,
     this.onTap,
     this.squarePosterFitCover = false,
   });
@@ -27,9 +32,9 @@ class MediaListPoster extends StatelessWidget {
         children: [
           Positioned.fill(
             child: Poster(
-              heroTag: libraryMediaInfoModel.ratingKey,
+              heroTag: ratingKey,
               mediaType: mediaType,
-              uri: Uri.tryParse(libraryMediaInfoModel.posterUri.toString()),
+              uri: Uri.tryParse(posterUri.toString()),
             ),
           ),
           if (mediaType == MediaType.photoAlbum)
@@ -55,16 +60,17 @@ class MediaListPoster extends StatelessWidget {
                     Colors.black,
                   ],
                   stops: [
-                    [
-                      MediaType.album,
-                      MediaType.artist,
-                      MediaType.track,
-                      MediaType.playlist,
-                      MediaType.photo,
-                      MediaType.photoAlbum,
-                    ].contains(mediaType)
-                        ? 0.7
-                        : 0.8,
+                    mediaType == MediaType.album && year != null
+                        ? 0.5
+                        : [
+                            MediaType.artist,
+                            MediaType.track,
+                            MediaType.playlist,
+                            MediaType.photo,
+                            MediaType.photoAlbum,
+                          ].contains(mediaType)
+                            ? 0.7
+                            : 0.8,
                     1,
                   ],
                 ),
@@ -77,10 +83,21 @@ class MediaListPoster extends StatelessWidget {
             right: 0,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
-              child: Text(
-                libraryMediaInfoModel.title ?? '',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (year != null && mediaType == MediaType.album)
+                    Text(
+                      year.toString(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  Text(
+                    title ?? '',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
             ),
           ),
