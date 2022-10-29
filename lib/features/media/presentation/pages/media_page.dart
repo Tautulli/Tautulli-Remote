@@ -178,13 +178,17 @@ class _MediaViewState extends State<MediaView> {
             Tab(
               child: const Text(LocaleKeys.seasons_title).tr(),
             ),
+          if (widget.mediaType == MediaType.season)
+            Tab(
+              child: const Text(LocaleKeys.episodes_title).tr(),
+            ),
           if (widget.mediaType == MediaType.artist)
             Tab(
               child: const Text(LocaleKeys.albums_title).tr(),
             ),
-          if (widget.mediaType == MediaType.season)
+          if (widget.mediaType == MediaType.album)
             Tab(
-              child: const Text(LocaleKeys.episodes_title).tr(),
+              child: const Text(LocaleKeys.tracks_title).tr(),
             ),
           if (![MediaType.photo, MediaType.photoAlbum].contains(widget.mediaType))
             Tab(child: const Text(LocaleKeys.history_title).tr()),
@@ -193,8 +197,9 @@ class _MediaViewState extends State<MediaView> {
           MediaDetailsTab(ratingKey: widget.ratingKey),
           if ([
             MediaType.show,
-            MediaType.artist,
             MediaType.season,
+            MediaType.artist,
+            MediaType.album,
           ].contains(widget.mediaType))
             MediaChildrenTab(
               ratingKey: widget.ratingKey,

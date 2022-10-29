@@ -115,7 +115,7 @@ class MediaDetailsTabDetails extends StatelessWidget {
                           '${metadata!.mediaInfo!.videoResolution!.toUpperCase()} (${metadata!.mediaInfo!.videoCodec!.toUpperCase()})',
                         ),
                       ),
-                    if (metadata!.mediaInfo?.audioChannelLayout != null && isNotBlank(metadata!.mediaInfo?.videoCodec))
+                    if (metadata!.mediaInfo?.audioChannelLayout != null && isNotBlank(metadata!.mediaInfo?.audioCodec))
                       _ItemRow(
                         title: LocaleKeys.audio_title.tr(),
                         item: Text(
