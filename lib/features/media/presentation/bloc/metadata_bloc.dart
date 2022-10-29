@@ -21,9 +21,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
   MetadataBloc({
     required this.media,
     required this.logging,
-  }) : super(
-          const MetadataState(),
-        ) {
+  }) : super(const MetadataState()) {
     on<MetadataFetched>(_onMetadataFetched);
   }
 

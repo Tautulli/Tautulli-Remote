@@ -58,6 +58,7 @@ import 'features/media/data/datasources/media_data_source.dart';
 import 'features/media/data/repositories/media_repository_impl.dart';
 import 'features/media/domain/repositories/media_repository.dart';
 import 'features/media/domain/usecases/media.dart';
+import 'features/media/presentation/bloc/children_metadata_bloc.dart';
 import 'features/media/presentation/bloc/metadata_bloc.dart';
 import 'features/onesignal/data/datasources/onesignal_data_source.dart';
 import 'features/onesignal/presentation/bloc/onesignal_health_bloc.dart';
@@ -500,6 +501,13 @@ Future<void> init() async {
   //! Features - Media
   // Bloc
   sl.registerFactory(
+    () => ChildrenMetadataBloc(
+      media: sl(),
+      imageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+  sl.registerFactory(
     () => MetadataBloc(
       media: sl(),
       logging: sl(),
@@ -525,6 +533,7 @@ Future<void> init() async {
   sl.registerLazySingleton<MediaDataSource>(
     () => MediaDataSourceImpl(
       getMetadataApi: sl(),
+      getChildrenMetadataApi: sl(),
     ),
   );
 

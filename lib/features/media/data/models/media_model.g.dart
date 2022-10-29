@@ -7,29 +7,29 @@ part of 'media_model.dart';
 // **************************************************************************
 
 MediaModel _$MediaModelFromJson(Map<String, dynamic> json) => MediaModel(
-      actors: MediaModel.stringListfromList(json['actors'] as List),
+      actors: MediaModel.stringListfromList(json['actors'] as List?),
       addedAt: MediaModel.dateTimeFromEpochSeconds(json['added_at'] as String?),
       audienceRating: Cast.castToDouble(json['audience_rating']),
-      collections: MediaModel.stringListfromList(json['collections'] as List),
+      collections: MediaModel.stringListfromList(json['collections'] as List?),
       contentRating: Cast.castToString(json['content_rating']),
-      directors: MediaModel.stringListfromList(json['directors'] as List),
+      directors: MediaModel.stringListfromList(json['directors'] as List?),
       duration:
           MediaModel.durationFromMilliseconds(json['duration'] as String?),
       fullTitle: Cast.castToString(json['full_title']),
-      genres: MediaModel.stringListfromList(json['genres'] as List),
+      genres: MediaModel.stringListfromList(json['genres'] as List?),
       grandparentRatingKey: Cast.castToInt(json['grandparent_rating_key']),
       grandparentThumb: Cast.castToString(json['grandparent_thumb']),
       grandparentTitle: Cast.castToString(json['grandparent_title']),
       imageUri: json['imageUri'] == null
           ? null
           : Uri.parse(json['imageUri'] as String),
-      labels: MediaModel.stringListfromList(json['labels'] as List),
+      labels: MediaModel.stringListfromList(json['labels'] as List?),
       lastViewedAt: MediaModel.dateTimeFromEpochSeconds(
           json['last_viewed_at'] as String?),
       libraryName: Cast.castToString(json['library_name']),
       live: Cast.castToBool(json['live']),
       mediaIndex: Cast.castToInt(json['mediaIndex']),
-      mediaInfo: MediaModel.mediaInfoModelFromJson(json['media_info'] as List),
+      mediaInfo: MediaModel.mediaInfoModelFromJson(json['media_info'] as List?),
       mediaType: Cast.castStringToMediaType(json['media_type'] as String?),
       originalTitle: Cast.castToString(json['original_tital']),
       originallyAvailableAt: MediaModel.dateTimeFromString(
@@ -51,7 +51,7 @@ MediaModel _$MediaModelFromJson(Map<String, dynamic> json) => MediaModel(
       updatedAt:
           MediaModel.dateTimeFromEpochSeconds(json['updated_at'] as String?),
       userRating: Cast.castToDouble(json['user_rating']),
-      writers: MediaModel.stringListfromList(json['writers'] as List),
+      writers: MediaModel.stringListfromList(json['writers'] as List?),
       year: Cast.castToInt(json['year']),
     );
 

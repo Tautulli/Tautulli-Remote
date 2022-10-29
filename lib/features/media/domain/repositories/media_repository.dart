@@ -8,4 +8,8 @@ abstract class MediaRepository {
     required String tautulliId,
     required int ratingKey,
   });
+  Future<Either<Failure, Tuple2<List<MediaModel>, bool>>> getChildrenMetadata({
+    required String tautulliId,
+    required int ratingKey,
+  });
 }

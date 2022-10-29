@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/api/tautulli/tautulli_api.dart';
@@ -8,13 +10,19 @@ abstract class MediaDataSource {
     required String tautulliId,
     required int ratingKey,
   });
+  Future<Tuple2<List<MediaModel>, bool>> getChildrenMetadata({
+    required String tautulliId,
+    required int ratingKey,
+  });
 }
 
 class MediaDataSourceImpl implements MediaDataSource {
   final GetMetadata getMetadataApi;
+  final GetChildrenMetadata getChildrenMetadataApi;
 
   MediaDataSourceImpl({
     required this.getMetadataApi,
+    required this.getChildrenMetadataApi,
   });
 
   @override
@@ -30,5 +38,23 @@ class MediaDataSourceImpl implements MediaDataSource {
     final metadata = MediaModel.fromJson(result.value1['response']['data']);
 
     return Tuple2(metadata, result.value2);
+  }
+
+  @override
+  Future<Tuple2<List<MediaModel>, bool>> getChildrenMetadata({
+    required String tautulliId,
+    required int ratingKey,
+  }) async {
+    final result = await getChildrenMetadataApi(
+      tautulliId: tautulliId,
+      ratingKey: ratingKey,
+    );
+
+    final List<MediaModel> childrenList =
+        result.value1['response']['data']['children_list'].map<MediaModel>((childItem) {
+      return MediaModel.fromJson(childItem);
+    }).toList();
+
+    return Tuple2(childrenList, result.value2);
   }
 }

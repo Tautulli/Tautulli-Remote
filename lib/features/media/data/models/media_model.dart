@@ -245,13 +245,15 @@ class MediaModel extends Equatable {
     return Duration(milliseconds: intMilliseconds);
   }
 
-  static MediaInfoModel? mediaInfoModelFromJson(List mediaInfoList) {
-    if (mediaInfoList.isEmpty) return null;
+  static MediaInfoModel? mediaInfoModelFromJson(List? mediaInfoList) {
+    if (mediaInfoList == null || mediaInfoList.isEmpty) return null;
 
     return MediaInfoModel.fromJson(mediaInfoList[0]);
   }
 
-  static List<String> stringListfromList(List list) {
+  static List<String>? stringListfromList(List? list) {
+    if (list == null || list.isEmpty) return null;
+
     return list.map((item) => item.toString()).toList();
   }
 
