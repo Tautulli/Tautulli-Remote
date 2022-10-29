@@ -45,7 +45,7 @@ MediaModel _$MediaModelFromJson(Map<String, dynamic> json) => MediaModel(
       sortTitle: Cast.castToString(json['sort_title']),
       studio: Cast.castToString(json['studio']),
       summary: Cast.castToString(json['summary']),
-      tagline: Cast.castToString(json['tagline']),
+      tagline: MediaModel.cleanTagline(json['tagline']),
       thumb: Cast.castToString(json['thumb']),
       title: Cast.castToString(json['title']),
       updatedAt:
