@@ -33,6 +33,7 @@ import 'features/history/data/repositories/history_repository_impl.dart';
 import 'features/history/domain/repositories/history_repository.dart';
 import 'features/history/domain/usecases/history.dart';
 import 'features/history/presentation/bloc/history_bloc.dart';
+import 'features/history/presentation/bloc/individual_history_bloc.dart';
 import 'features/history/presentation/bloc/library_history_bloc.dart';
 import 'features/history/presentation/bloc/search_history_bloc.dart';
 import 'features/history/presentation/bloc/user_history_bloc.dart';
@@ -347,6 +348,12 @@ Future<void> init() async {
     () => HistoryBloc(
       history: sl(),
       imageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => IndividualHistoryBloc(
+      history: sl(),
       logging: sl(),
     ),
   );

@@ -4,19 +4,21 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tautulli_remote/translations/locale_keys.g.dart';
 
 import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/poster.dart';
 import '../../../../dependency_injection.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
+import '../../../history/presentation/bloc/individual_history_bloc.dart';
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../bloc/metadata_bloc.dart';
 import '../widgets/media_details_tab.dart';
+import '../widgets/media_history_tab.dart';
 import 'sliver_tabbed_poster_details_page.dart';
 
 class MediaPage extends StatelessWidget {
-  final MediaType? mediaType;
+  final MediaType mediaType;
   final Uri? posterUri;
   final String? title;
   final Widget? subtitle;
@@ -25,7 +27,7 @@ class MediaPage extends StatelessWidget {
 
   const MediaPage({
     super.key,
-    this.mediaType,
+    required this.mediaType,
     this.posterUri,
     this.title,
     this.subtitle,
@@ -35,8 +37,15 @@ class MediaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => di.sl<MetadataBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => di.sl<MetadataBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<IndividualHistoryBloc>(),
+        ),
+      ],
       child: MediaView(
         mediaType: mediaType,
         posterUri: posterUri,
@@ -50,7 +59,7 @@ class MediaPage extends StatelessWidget {
 }
 
 class MediaView extends StatefulWidget {
-  final MediaType? mediaType;
+  final MediaType mediaType;
   final Uri? posterUri;
   final String? title;
   final Widget? subtitle;
@@ -59,7 +68,7 @@ class MediaView extends StatefulWidget {
 
   const MediaView({
     super.key,
-    this.mediaType,
+    required this.mediaType,
     this.posterUri,
     this.title,
     this.subtitle,
@@ -84,6 +93,16 @@ class _MediaViewState extends State<MediaView> {
           MetadataFetched(
             tautulliId: tautulliId,
             ratingKey: widget.ratingKey,
+            settingsBloc: settingsBloc,
+          ),
+        );
+
+    context.read<IndividualHistoryBloc>().add(
+          IndividualHistoryFetched(
+            tautulliId: tautulliId,
+            ratingKey: widget.ratingKey,
+            mediaType: widget.mediaType,
+            settingsBloc: settingsBloc,
           ),
         );
   }
@@ -144,7 +163,12 @@ class _MediaViewState extends State<MediaView> {
         ],
         tabChildren: [
           MediaDetailsTab(ratingKey: widget.ratingKey),
-          if (![MediaType.photo, MediaType.photoAlbum].contains(widget.mediaType)) Placeholder(),
+          if (![MediaType.photo, MediaType.photoAlbum].contains(widget.mediaType))
+            MediaHistoryTab(
+              ratingKey: widget.ratingKey,
+              mediaType: widget.mediaType,
+              posterUri: widget.posterUri,
+            ),
         ],
       ),
     );

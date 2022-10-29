@@ -123,7 +123,7 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
                                     await Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => MediaPage(
-                                          mediaType: item.mediaType,
+                                          mediaType: item.mediaType ?? MediaType.unknown,
                                           posterUri: item.posterUri,
                                           title: item.title,
                                           subtitle: _buildSubtitle(item),

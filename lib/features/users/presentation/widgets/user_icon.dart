@@ -14,17 +14,19 @@ enum UserIconSize {
 class UserIcon extends StatelessWidget {
   final UserModel user;
   final UserIconSize size;
+  final bool disableHero;
 
   const UserIcon({
     super.key,
     required this.user,
     this.size = UserIconSize.normal,
+    this.disableHero = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: ValueKey('${user.userId!}:${user.friendlyName}'),
+      tag: disableHero ? UniqueKey() : ValueKey('${user.userId!}:${user.friendlyName}'),
       child: SizedBox(
         height: size == UserIconSize.normal ? 60 : 80,
         width: size == UserIconSize.normal ? 60 : 80,
