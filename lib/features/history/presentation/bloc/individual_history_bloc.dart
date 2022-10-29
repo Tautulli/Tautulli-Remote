@@ -65,8 +65,6 @@ class IndividualHistoryBloc extends Bloc<IndividualHistoryEvent, IndividualHisto
       individualHistoryCache[cacheKey] = [];
     }
 
-    if (hasReachedMaxCache[cacheKey] == true) return;
-
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to History tab
       if (individualHistoryCache[cacheKey]!.isNotEmpty) {
