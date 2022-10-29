@@ -9,8 +9,8 @@ part 'media_info_model.g.dart';
 class MediaInfoModel extends Equatable {
   @JsonKey(name: 'aspect_ratio', fromJson: Cast.castToDouble)
   final double? aspectRatio;
-  @JsonKey(name: 'audio_channel_layout', fromJson: Cast.castToDouble)
-  final double? audioChannelLayout;
+  @JsonKey(name: 'audio_channel_layout', fromJson: Cast.castToString)
+  final String? audioChannelLayout;
   @JsonKey(name: 'audio_channels', fromJson: Cast.castToInt)
   final int? audioChannels;
   @JsonKey(name: 'audio_codec', fromJson: Cast.castToString)
@@ -70,7 +70,7 @@ class MediaInfoModel extends Equatable {
 
   MediaInfoModel copyWith({
     double? aspectRatio,
-    double? audioChannelLayout,
+    String? audioChannelLayout,
     int? audioChannels,
     String? audioCodec,
     String? audioProfile,

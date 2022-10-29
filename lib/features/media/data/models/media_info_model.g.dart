@@ -9,7 +9,7 @@ part of 'media_info_model.dart';
 MediaInfoModel _$MediaInfoModelFromJson(Map<String, dynamic> json) =>
     MediaInfoModel(
       aspectRatio: Cast.castToDouble(json['aspect_ratio']),
-      audioChannelLayout: Cast.castToDouble(json['audio_channel_layout']),
+      audioChannelLayout: Cast.castToString(json['audio_channel_layout']),
       audioChannels: Cast.castToInt(json['audio_channels']),
       audioCodec: Cast.castToString(json['audio_codec']),
       audioProfile: Cast.castToString(json['audio_profile']),
