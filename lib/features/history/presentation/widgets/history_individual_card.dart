@@ -59,15 +59,26 @@ class HistoryIndividualCard extends StatelessWidget {
                                   state.appSettings.maskSensitiveInfo
                                       ? LocaleKeys.hidden_message.tr()
                                       : history.friendlyName ?? '',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                                 if ([
                                   MediaType.episode,
                                   MediaType.track,
                                 ].contains(history.mediaType))
-                                  Text(history.title ?? ''),
+                                  Text(
+                                    history.title ?? '',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 if ([MediaType.episode].contains(history.mediaType))
                                   Text('S${history.parentMediaIndex} • E${history.mediaIndex}'),
-                                if ([MediaType.track].contains(history.mediaType)) Text(history.parentTitle ?? ''),
+                                if ([MediaType.track].contains(history.mediaType))
+                                  Text(
+                                    history.parentTitle ?? '',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 Text(
                                   TimeHelper.cleanDateTime(
                                     history.date!,
