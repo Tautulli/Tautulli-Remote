@@ -1,23 +1,25 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:quiver/strings.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../core/helpers/asset_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/string_helper.dart';
+import '../../../../core/types/media_type.dart';
 import '../../../../core/types/stat_id_type.dart';
 import '../../../../core/widgets/bottom_loader.dart';
 import '../../../../core/widgets/icon_card.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/poster_card.dart';
-import '../../../../translations/locale_keys.g.dart';
 import '../../../libraries/data/models/library_table_model.dart';
 import '../../../libraries/presentation/widgets/library_card.dart';
+import '../../../media/presentation/pages/media_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/data/models/user_table_model.dart';
 import '../../../users/presentation/widgets/user_card.dart';
+import '../../data/models/statistic_data_model.dart';
 import '../../data/models/statistic_model.dart';
 import '../bloc/statistics_bloc.dart';
 import '../widgets/last_watched_statistic_detials.dart';
@@ -153,13 +155,20 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: TopStatisticDetails(statData: statData),
-                onTap: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text(
-                        LocaleKeys.feature_not_yet_available_snackbar_message,
-                      ).tr(),
+                onTap: () async {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MediaPage(
+                        mediaType: statData.mediaType! == MediaType.episode
+                            ? MediaType.show
+                            : statData.mediaType! == MediaType.track
+                                ? MediaType.artist
+                                : statData.mediaType!,
+                        title: statData.title,
+                        subtitle: _buildSubtitle(statData),
+                        ratingKey: statData.ratingKey!,
+                        posterUri: statData.posterUri,
+                      ),
                     ),
                   );
                 },
@@ -175,13 +184,20 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: PopularStatisticDetails(statData: statData),
-                onTap: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text(
-                        LocaleKeys.feature_not_yet_available_snackbar_message,
-                      ).tr(),
+                onTap: () async {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MediaPage(
+                        mediaType: statData.mediaType! == MediaType.episode
+                            ? MediaType.show
+                            : statData.mediaType! == MediaType.track
+                                ? MediaType.artist
+                                : statData.mediaType!,
+                        title: statData.title,
+                        subtitle: _buildSubtitle(statData),
+                        ratingKey: statData.ratingKey!,
+                        posterUri: statData.posterUri,
+                      ),
                     ),
                   );
                 },
@@ -195,13 +211,17 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: LastWatchedStatisticDetails(statData: statData),
-                onTap: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text(
-                        LocaleKeys.feature_not_yet_available_snackbar_message,
-                      ).tr(),
+                onTap: () async {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MediaPage(
+                        mediaType: statData.mediaType!,
+                        title: isNotBlank(statData.grandparentTitle) ? statData.grandparentTitle : statData.title,
+                        subtitle: _buildSubtitle(statData),
+                        itemDetail: _buildItemDetail(statData),
+                        ratingKey: statData.ratingKey!,
+                        posterUri: statData.posterUri,
+                      ),
                     ),
                   );
                 },
@@ -276,5 +296,27 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
       default: //TODO: Remove when Dart stops thinking default is needed even when all enum types are accounted for
         return [];
     }
+  }
+
+  Text? _buildSubtitle(StatisticDataModel model) {
+    if ([MediaType.season, MediaType.episode].contains(model.mediaType)) return Text(model.grandchildTitle ?? '');
+
+    if ([
+          MediaType.movie,
+          MediaType.show,
+        ].contains(model.mediaType) &&
+        model.year != null) {
+      return Text(model.year.toString());
+    }
+
+    return null;
+  }
+
+  Text? _buildItemDetail(StatisticDataModel model) {
+    if (model.mediaType == MediaType.album) return Text(model.year.toString());
+
+    if (model.mediaType == MediaType.episode) return Text('S${model.parentMediaIndex} • E${model.mediaIndex}');
+
+    return null;
   }
 }

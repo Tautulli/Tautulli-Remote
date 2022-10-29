@@ -24,6 +24,7 @@ import '../../../../translations/locale_keys.g.dart';
 import '../../../graphs/presentation/widgets/custom_time_range_dialog.dart';
 import '../../../libraries/data/models/library_table_model.dart';
 import '../../../libraries/presentation/widgets/library_card.dart';
+import '../../../media/presentation/pages/media_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/data/models/user_table_model.dart';
 import '../../../users/presentation/widgets/user_card.dart';
@@ -415,13 +416,20 @@ class _StatisticsViewState extends State<StatisticsView> {
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: TopStatisticDetails(statData: statData),
-                onTap: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text(
-                        LocaleKeys.feature_not_yet_available_snackbar_message,
-                      ).tr(),
+                onTap: () async {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MediaPage(
+                        mediaType: statData.mediaType! == MediaType.episode
+                            ? MediaType.show
+                            : statData.mediaType! == MediaType.track
+                                ? MediaType.artist
+                                : statData.mediaType!,
+                        title: statData.title,
+                        subtitle: _buildSubtitle(statData),
+                        ratingKey: statData.ratingKey!,
+                        posterUri: statData.posterUri,
+                      ),
                     ),
                   );
                 },
@@ -439,13 +447,20 @@ class _StatisticsViewState extends State<StatisticsView> {
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: PopularStatisticDetails(statData: statData),
-                onTap: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text(
-                        LocaleKeys.feature_not_yet_available_snackbar_message,
-                      ).tr(),
+                onTap: () async {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MediaPage(
+                        mediaType: statData.mediaType! == MediaType.episode
+                            ? MediaType.show
+                            : statData.mediaType! == MediaType.track
+                                ? MediaType.artist
+                                : statData.mediaType!,
+                        title: statData.title,
+                        subtitle: _buildSubtitle(statData),
+                        ratingKey: statData.ratingKey!,
+                        posterUri: statData.posterUri,
+                      ),
                     ),
                   );
                 },
@@ -459,13 +474,17 @@ class _StatisticsViewState extends State<StatisticsView> {
                 mediaType: statData.mediaType,
                 uri: statData.posterUri,
                 details: LastWatchedStatisticDetails(statData: statData),
-                onTap: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text(
-                        LocaleKeys.feature_not_yet_available_snackbar_message,
-                      ).tr(),
+                onTap: () async {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MediaPage(
+                        mediaType: statData.mediaType!,
+                        title: statData.grandparentTitle,
+                        subtitle: _buildSubtitle(statData),
+                        itemDetail: _buildItemDetail(statData),
+                        ratingKey: statData.ratingKey!,
+                        posterUri: statData.posterUri,
+                      ),
                     ),
                   );
                 },
@@ -544,5 +563,27 @@ class _StatisticsViewState extends State<StatisticsView> {
     }
 
     return widgetList;
+  }
+
+  Text? _buildSubtitle(StatisticDataModel model) {
+    if ([MediaType.season, MediaType.episode].contains(model.mediaType)) return Text(model.grandchildTitle ?? '');
+
+    if ([
+          MediaType.movie,
+          MediaType.show,
+        ].contains(model.mediaType) &&
+        model.year != null) {
+      return Text(model.year.toString());
+    }
+
+    return null;
+  }
+
+  Text? _buildItemDetail(StatisticDataModel model) {
+    if (model.mediaType == MediaType.album) return Text(model.year.toString());
+
+    if (model.mediaType == MediaType.episode) return Text('S${model.parentMediaIndex} • E${model.mediaIndex}');
+
+    return null;
   }
 }
