@@ -244,8 +244,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
             if (isNotBlank(value)) {
               context.read<SearchHistoryBloc>().add(
                     SearchHistoryFetched(
-                      tautulliId:
-                          settingsState.appSettings.activeServer.tautulliId,
+                      tautulliId: settingsState.appSettings.activeServer.tautulliId,
                       userId: _userId,
                       movieMediaType: _movieMediaType,
                       episodeMediaType: _episodeMediaType,
@@ -276,12 +275,8 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                 child: PopupMenuButton(
                   enabled: state.status == BlocStatus.success,
                   icon: FaIcon(
-                    state.status == BlocStatus.failure
-                        ? FontAwesomeIcons.userSlash
-                        : FontAwesomeIcons.solidUser,
-                    color: (_userId != -1 && _userId != null)
-                        ? Theme.of(context).colorScheme.secondary
-                        : null,
+                    state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
+                    color: (_userId != -1 && _userId != null) ? Theme.of(context).colorScheme.secondary : null,
                     size: 20,
                   ),
                   tooltip: LocaleKeys.select_user_title.tr(),
@@ -308,6 +303,11 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                       );
                     }
                   },
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    ),
+                  ),
                   itemBuilder: (context) {
                     return state.users
                         .map(
@@ -322,11 +322,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                                       ? LocaleKeys.hidden_message.tr()
                                       : user.friendlyName ?? '',
                                   style: TextStyle(
-                                    color: _userId == user.userId!
-                                        ? Theme.of(context)
-                                            .colorScheme
-                                            .secondary
-                                        : null,
+                                    color: _userId == user.userId! ? Theme.of(context).colorScheme.secondary : null,
                                   ),
                                 );
                               },
@@ -364,12 +360,15 @@ class _HistorySearchViewState extends State<HistorySearchView> {
             child: PopupMenuButton(
               icon: FaIcon(
                 FontAwesomeIcons.filter,
-                color: _filterOptionSelected()
-                    ? Theme.of(context).colorScheme.secondary
-                    : null,
+                color: _filterOptionSelected() ? Theme.of(context).colorScheme.secondary : null,
                 size: 20,
               ),
               tooltip: LocaleKeys.filter_history_title.tr(),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                ),
+              ),
               itemBuilder: _filterOptions,
             ),
           );

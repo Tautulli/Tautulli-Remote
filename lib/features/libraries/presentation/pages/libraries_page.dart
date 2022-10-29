@@ -247,6 +247,11 @@ class _LibrariesViewState extends State<LibrariesView> {
               );
             }
           },
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(12),
+            ),
+          ),
           itemBuilder: (context) {
             return <PopupMenuEntry<dynamic>>[
               PopupMenuItem(

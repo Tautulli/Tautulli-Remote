@@ -153,6 +153,11 @@ class _LoggingViewState extends State<LoggingView> {
                       LoggingSetLevel(value),
                     );
               },
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                ),
+              ),
               itemBuilder: (context) {
                 return [
                   PopupMenuItem(
@@ -240,6 +245,11 @@ class _LoggingViewState extends State<LoggingView> {
             );
           }
         },
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
         itemBuilder: (context) => [
           PopupMenuItem(
             value: 'export',

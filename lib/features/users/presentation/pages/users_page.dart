@@ -247,6 +247,11 @@ class _UsersViewState extends State<UsersView> {
               );
             }
           },
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(12),
+            ),
+          ),
           itemBuilder: (context) {
             return <PopupMenuEntry<dynamic>>[
               PopupMenuItem(

@@ -246,6 +246,11 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
             );
           }
         },
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
         itemBuilder: (context) {
           return [
             PopupMenuItem(

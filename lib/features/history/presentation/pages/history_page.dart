@@ -336,6 +336,11 @@ class _HistoryViewState extends State<HistoryView> {
                       ),
                     );
                   },
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    ),
+                  ),
                   itemBuilder: (context) {
                     return state.users
                         .map(
@@ -392,6 +397,11 @@ class _HistoryViewState extends State<HistoryView> {
                 size: 20,
               ),
               tooltip: LocaleKeys.filter_history_title.tr(),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                ),
+              ),
               itemBuilder: _filterOptions,
             ),
           );

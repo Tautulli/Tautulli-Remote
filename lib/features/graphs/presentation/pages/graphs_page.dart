@@ -235,6 +235,11 @@ class _GraphsViewState extends State<GraphsView> {
                 ),
               );
             },
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
+              ),
+            ),
             itemBuilder: (context) {
               return [
                 PopupMenuItem(
@@ -335,6 +340,11 @@ class _GraphsViewState extends State<GraphsView> {
                       }
                     }
                   },
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    ),
+                  ),
                   itemBuilder: (context) {
                     return [
                       PopupMenuItem(
