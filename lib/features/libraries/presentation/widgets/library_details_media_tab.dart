@@ -118,7 +118,6 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
                                 title: item.title,
                                 ratingKey: item.ratingKey,
                                 posterUri: item.posterUri,
-                                squarePosterFitCover: [MediaType.photo, MediaType.photoAlbum].contains(item.mediaType),
                                 onTap: () async {
                                   if (item.mediaType == MediaType.photoAlbum) {
                                   } else {

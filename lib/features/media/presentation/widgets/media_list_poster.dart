@@ -11,7 +11,6 @@ class MediaListPoster extends StatelessWidget {
   final MediaType? mediaType;
   final Uri? posterUri;
   final Function()? onTap;
-  final bool squarePosterFitCover;
 
   const MediaListPoster({
     super.key,
@@ -21,7 +20,6 @@ class MediaListPoster extends StatelessWidget {
     required this.mediaType,
     this.posterUri,
     this.onTap,
-    this.squarePosterFitCover = false,
   });
 
   @override
