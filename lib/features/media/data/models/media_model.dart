@@ -74,7 +74,7 @@ class MediaModel extends Equatable {
   final String? studio;
   @JsonKey(name: 'summary', fromJson: Cast.castToString)
   final String? summary;
-  @JsonKey(name: 'tagline', fromJson: cleanTagline)
+  @JsonKey(name: 'tagline', fromJson: Cast.castToString)
   final String? tagline;
   @JsonKey(name: 'thumb', fromJson: Cast.castToString)
   final String? thumb;
@@ -221,19 +221,6 @@ class MediaModel extends Equatable {
   factory MediaModel.fromJson(Map<String, dynamic> json) => _$MediaModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$MediaModelToJson(this);
-
-  static String? cleanTagline(dynamic value) {
-    final String? tagline = Cast.castToString(value);
-
-    final exp = RegExp(r'\((?:.(?!\())+$');
-    final match = exp.firstMatch(tagline ?? '');
-
-    if (match != null && tagline != null) {
-      return tagline.replaceAll(match[0].toString(), '');
-    } else {
-      return tagline;
-    }
-  }
 
   static DateTime? dateTimeFromEpochSeconds(String? secondsSinceEpoch) {
     if (secondsSinceEpoch == null) return null;
