@@ -28,14 +28,6 @@ class MediaDetailsTabDetails extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(0, 4, 0, 8),
                 child: Column(
                   children: [
-                    if ([MediaType.photo, MediaType.clip].contains(metadata!.mediaType) &&
-                        metadata!.originallyAvailableAt != null)
-                      _ItemRow(
-                        title: LocaleKeys.taken_title.tr(),
-                        item: Text(
-                          DateFormat('yMMMMd').format(metadata!.originallyAvailableAt!),
-                        ),
-                      ),
                     if (isNotBlank(metadata!.studio))
                       _ItemRow(
                         title: LocaleKeys.studio_title.tr(),
@@ -45,7 +37,9 @@ class MediaDetailsTabDetails extends StatelessWidget {
                       ),
                     if (metadata!.originallyAvailableAt != null)
                       _ItemRow(
-                        title: LocaleKeys.aired_title.tr(),
+                        title: [MediaType.photo, MediaType.clip].contains(metadata!.mediaType)
+                            ? LocaleKeys.taken_title.tr()
+                            : LocaleKeys.aired_title.tr(),
                         item: Text(
                           DateFormat('yMMMMd').format(metadata!.originallyAvailableAt!),
                         ),
