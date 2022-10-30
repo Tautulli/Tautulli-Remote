@@ -146,6 +146,7 @@ class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPag
                     ),
                   ),
                   bottom: TabBar(
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 8),
                     tabs: widget.tabs,
                   ),
                 ),

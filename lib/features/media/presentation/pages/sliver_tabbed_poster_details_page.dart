@@ -208,6 +208,7 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                         ),
                       ),
                       bottom: TabBar(
+                        labelPadding: const EdgeInsets.symmetric(horizontal: 8),
                         tabs: widget.tabs,
                       ),
                     ),
