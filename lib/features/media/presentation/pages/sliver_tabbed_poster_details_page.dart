@@ -145,40 +145,47 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                                     ),
                                   ),
                                   Positioned.fill(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: _expandedHeight - 118,
-                                        left: 116,
-                                        right: 8,
-                                      ),
-                                      child: Opacity(
-                                        opacity: detailsOpacity,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title ?? '',
-                                              style: const TextStyle(
-                                                fontSize: 18,
-                                              ),
-                                              maxLines: doubleOverflow ? 1 : 2,
-                                              overflow: TextOverflow.ellipsis,
+                                    child: LayoutBuilder(
+                                      builder: (context, constraints) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                            top: constraints.maxHeight - 97,
+                                            left: 116,
+                                            right: 8,
+                                          ),
+                                          child: Opacity(
+                                            opacity: detailsOpacity,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  widget.sensitive
+                                                      ? LocaleKeys.hidden_message.tr()
+                                                      : widget.title ?? '',
+                                                  style: const TextStyle(
+                                                    fontSize: 18,
+                                                  ),
+                                                  maxLines: doubleOverflow ? 1 : 2,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                                if (widget.subtitle != null)
+                                                  Text(
+                                                    widget.subtitle!,
+                                                    maxLines: 2,
+                                                  ),
+                                                if (widget.itemDetail != null)
+                                                  Text(
+                                                    widget.itemDetail!,
+                                                    maxLines: tpTitle.didExceedMaxLines || tpSubtitle.didExceedMaxLines
+                                                        ? 1
+                                                        : 2,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                              ],
                                             ),
-                                            if (widget.subtitle != null)
-                                              Text(
-                                                widget.subtitle!,
-                                                maxLines: 2,
-                                              ),
-                                            if (widget.itemDetail != null)
-                                              Text(
-                                                widget.itemDetail!,
-                                                maxLines:
-                                                    tpTitle.didExceedMaxLines || tpSubtitle.didExceedMaxLines ? 1 : 2,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                          ],
-                                        ),
-                                      ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ],
