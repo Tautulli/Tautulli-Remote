@@ -149,6 +149,7 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                                       padding: const EdgeInsets.only(
                                         top: _expandedHeight - 118,
                                         left: 116,
+                                        right: 8,
                                       ),
                                       child: Opacity(
                                         opacity: detailsOpacity,
