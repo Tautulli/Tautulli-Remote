@@ -43,6 +43,13 @@ class MediaDetailsTabDetails extends StatelessWidget {
                           metadata!.studio!,
                         ),
                       ),
+                    if (metadata!.originallyAvailableAt != null)
+                      _ItemRow(
+                        title: LocaleKeys.aired_title.tr(),
+                        item: Text(
+                          DateFormat('yMMMMd').format(metadata!.originallyAvailableAt!),
+                        ),
+                      ),
                     if (metadata!.duration != null)
                       _ItemRow(
                         title: LocaleKeys.runtime_title.tr(),

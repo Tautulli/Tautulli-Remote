@@ -350,6 +350,7 @@ static const Map<String,dynamic> en = {
   "add_custom_http_header_button": "Add Custom HTTP Header",
   "added_title": "Added",
   "advanced_title": "Advanced",
+  "aired_title": "Aired",
   "albums_title": "Albums",
   "all_title": "All",
   "all_time_title": "All Time",

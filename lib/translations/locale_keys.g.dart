@@ -10,6 +10,7 @@ abstract class  LocaleKeys {
   static const add_custom_http_header_button = 'add_custom_http_header_button';
   static const added_title = 'added_title';
   static const advanced_title = 'advanced_title';
+  static const aired_title = 'aired_title';
   static const albums_title = 'albums_title';
   static const all_title = 'all_title';
   static const all_time_title = 'all_time_title';
