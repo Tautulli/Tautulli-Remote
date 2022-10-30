@@ -2184,7 +2184,33 @@ static const Map<String,dynamic> sl = {
   "wizard_welcome_text_3": "Preden nadaljujete s čarovnikom za nastavitev, se prepričajte, da se Tautulli trenutno izvaja in je dostopen iz te naprave.",
   "y_axis_title": "Os Y"
 };
-static const Map<String,dynamic> sq = {};
+static const Map<String,dynamic> sq = {
+  "about_title": "Rreth nesh",
+  "about_legalese": "E liçensuar nga LPP Liçensa Publike e Përgjithshme V3.0",
+  "accepted_title": "E pranuar",
+  "active_connection_content": "Kjo është adresa aktuale e lidhjes që po përdoret nga Tautulli ne Distancë",
+  "active_connection_title": "Lidhje aktive",
+  "add_custom_http_header_button": "Shto një kokë HTTP-je si të duash",
+  "added_title": "U shtua",
+  "advanced_title": "Të përparuarat",
+  "albums_title": "Albumet",
+  "all_title": "Të gjitha",
+  "all_time_title": "E gjithë kohës",
+  "all_users_title": "Të gjithë përdoruesit",
+  "announcements_load_failed_message": "Njoftimet nuk u ngarkuan.",
+  "announcements_title": "Fletë rrufe",
+  "app_logs_title": "Loget e aplikacionit",
+  "artists_title": "Artistët",
+  "audio_title": "Zëri",
+  "basic_authentication_title": "Autentifikimi bazë",
+  "bitrate_title": "Shpejtësia e biteve",
+  "bugs_and_feature_requests_title": "Kërkesat e gabimeve/veçorive",
+  "certificate_verification_failed_content": "Çertifikata e këtij serveri nuk mund të njihej e ka mundësi të jetë e firmosur vetë. Do t'a besosh këtë certifikatë?",
+  "certificate_verification_failed_title": "Deshtoi verifikimi i certifikatës",
+  "cannot_be_blank_message": "S'mund të lihet bosh",
+  "activity_refresh_rate_title": "Vlera e Freskimit të Aktiviteteve",
+  "cancel_button": "ANULOJE"
+};
 static const Map<String,dynamic> sv = {
   "about_legalese": "Licensierad enligt GNU General Public License v3.0",
   "about_title": "Om",
