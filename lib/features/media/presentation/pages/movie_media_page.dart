@@ -95,6 +95,7 @@ class MovieMediaView extends StatelessWidget {
           MediaHistoryTab(
             ratingKey: media.ratingKey ?? 0,
             mediaType: media.mediaType ?? MediaType.unknown,
+            parentPosterUri: media.imageUri,
           ),
         ],
       ),

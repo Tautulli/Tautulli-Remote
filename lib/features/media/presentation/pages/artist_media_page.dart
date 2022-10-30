@@ -102,6 +102,7 @@ class ArtistMediaView extends StatelessWidget {
           MediaHistoryTab(
             ratingKey: media.ratingKey!,
             mediaType: media.mediaType!,
+            parentPosterUri: media.imageUri,
           ),
         ],
       ),

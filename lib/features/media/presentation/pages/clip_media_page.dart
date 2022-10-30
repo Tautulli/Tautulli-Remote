@@ -90,11 +90,12 @@ class ClipMediaView extends StatelessWidget {
         ],
         tabChildren: [
           MediaDetailsTab(
-            ratingKey: media.ratingKey ?? 0,
+            ratingKey: media.ratingKey!,
           ),
           MediaHistoryTab(
-            ratingKey: media.ratingKey ?? 0,
-            mediaType: media.mediaType ?? MediaType.unknown,
+            ratingKey: media.ratingKey!,
+            mediaType: media.mediaType!,
+            parentPosterUri: media.imageUri,
           ),
         ],
       ),

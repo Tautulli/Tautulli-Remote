@@ -17,13 +17,13 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 class MediaHistoryTab extends StatefulWidget {
   final int ratingKey;
   final MediaType mediaType;
-  final Uri? posterUri;
+  final Uri? parentPosterUri;
 
   const MediaHistoryTab({
     super.key,
     required this.ratingKey,
     required this.mediaType,
-    this.posterUri,
+    required this.parentPosterUri,
   });
 
   @override
@@ -90,7 +90,6 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
                   );
                 }
 
-                //TODO: Update to individual card style
                 return ListView.separated(
                   padding: const EdgeInsets.all(8),
                   itemCount: state.hasReachedMax || state.status == BlocStatus.initial
@@ -120,9 +119,7 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
                     final history = state.history[index];
 
                     return HistoryIndividualCard(
-                      history: history.copyWith(
-                        posterUri: widget.posterUri,
-                      ),
+                      history: history.copyWith(posterUri: widget.parentPosterUri),
                     );
                   },
                 );
