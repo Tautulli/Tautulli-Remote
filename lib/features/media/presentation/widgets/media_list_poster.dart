@@ -36,13 +36,58 @@ class MediaListPoster extends StatelessWidget {
             ),
           ),
           if (mediaType == MediaType.photoAlbum)
-            const Positioned(
+            Positioned(
               top: 4,
               right: 4,
-              child: Opacity(
-                opacity: 0.8,
-                child: FaIcon(
-                  FontAwesomeIcons.solidFolderOpen,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 25,
+                      height: 25,
+                      color: Colors.black54,
+                    ),
+                    const Positioned.fill(
+                      child: Center(
+                        child: Opacity(
+                          opacity: 0.8,
+                          child: FaIcon(
+                            FontAwesomeIcons.solidFolderOpen,
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          if (mediaType == MediaType.clip)
+            Positioned(
+              top: 4,
+              right: 4,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 25,
+                      height: 25,
+                      color: Colors.black54,
+                    ),
+                    const Positioned.fill(
+                      child: Center(
+                        child: Opacity(
+                          opacity: 0.8,
+                          child: FaIcon(
+                            FontAwesomeIcons.video,
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
