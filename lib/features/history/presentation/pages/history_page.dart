@@ -236,7 +236,10 @@ class _HistoryViewState extends State<HistoryView> {
 
                         final history = state.history[index];
 
-                        return HistoryCard(history: history);
+                        return HistoryCard(
+                          history: history,
+                          viewMediaEnabled: history.live != true,
+                        );
                       },
                     );
                   },

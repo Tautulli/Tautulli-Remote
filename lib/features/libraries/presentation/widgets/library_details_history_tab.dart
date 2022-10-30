@@ -106,6 +106,7 @@ class _LibraryDetailsHistoryTabState extends State<LibraryDetailsHistoryTab> {
 
                     return HistoryCard(
                       history: history,
+                      viewMediaEnabled: history.live != true,
                     );
                   },
                 );
