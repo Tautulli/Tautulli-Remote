@@ -162,9 +162,10 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
                 ),
               ),
         tabs: [
-          Tab(
-            text: LocaleKeys.stats_title.tr(),
-          ),
+          if (widget.libraryTableModel.sectionType != SectionType.photo)
+            Tab(
+              text: LocaleKeys.stats_title.tr(),
+            ),
           if (![SectionType.live, SectionType.photo].contains(widget.libraryTableModel.sectionType))
             Tab(
               text: LocaleKeys.new_title.tr(),
@@ -179,7 +180,8 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
             ),
         ],
         tabChildren: [
-          LibraryDetailsStatsTab(libraryTableModel: widget.libraryTableModel),
+          if (widget.libraryTableModel.sectionType != SectionType.photo)
+            LibraryDetailsStatsTab(libraryTableModel: widget.libraryTableModel),
           if (![SectionType.live, SectionType.photo].contains(widget.libraryTableModel.sectionType))
             LibraryDetailsNewTab(libraryTableModel: widget.libraryTableModel),
           if (widget.libraryTableModel.sectionType != SectionType.photo)
