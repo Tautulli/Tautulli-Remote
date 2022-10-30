@@ -106,6 +106,15 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                                       child: widget.background,
                                     ),
                                   ),
+                                  // Covers the thin line between TabBar and the background color
+                                  Positioned(
+                                    bottom: 0,
+                                    child: Container(
+                                      height: 5,
+                                      width: MediaQuery.of(context).size.width,
+                                      color: Theme.of(context).colorScheme.background,
+                                    ),
+                                  ),
                                   Positioned.fill(
                                     child: Opacity(
                                       opacity: backgroundCoverOpacity,

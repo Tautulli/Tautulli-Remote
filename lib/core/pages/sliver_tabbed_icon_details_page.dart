@@ -82,6 +82,15 @@ class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPag
                                   child: widget.background,
                                 ),
                               ),
+                              // Covers the thin line between TabBar and the background color
+                              Positioned(
+                                bottom: 0,
+                                child: Container(
+                                  height: 5,
+                                  width: MediaQuery.of(context).size.width,
+                                  color: Theme.of(context).colorScheme.background,
+                                ),
+                              ),
                               Positioned(
                                 bottom: 0,
                                 child: ClipRRect(
