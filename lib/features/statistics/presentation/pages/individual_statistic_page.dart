@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:quiver/strings.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../core/helpers/asset_helper.dart';
@@ -15,11 +14,11 @@ import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../libraries/data/models/library_table_model.dart';
 import '../../../libraries/presentation/widgets/library_card.dart';
+import '../../../media/data/models/media_model.dart';
 import '../../../media/presentation/pages/media_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/data/models/user_table_model.dart';
 import '../../../users/presentation/widgets/user_card.dart';
-import '../../data/models/statistic_data_model.dart';
 import '../../data/models/statistic_model.dart';
 import '../bloc/statistics_bloc.dart';
 import '../widgets/last_watched_statistic_detials.dart';
@@ -149,32 +148,58 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
       case (StatIdType.topTv):
       case (StatIdType.topMovies):
       case (StatIdType.topMusic):
-        return stat.stats
-            .map(
-              (statData) => PosterCard(
-                mediaType: statData.mediaType,
-                uri: statData.posterUri,
-                details: TopStatisticDetails(statData: statData),
-                onTap: () async {
-                  await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => MediaPage(
-                        mediaType: statData.mediaType! == MediaType.episode
-                            ? MediaType.show
-                            : statData.mediaType! == MediaType.track
-                                ? MediaType.artist
-                                : statData.mediaType!,
-                        title: statData.title,
-                        subtitle: _buildSubtitle(statData),
-                        ratingKey: statData.ratingKey!,
-                        posterUri: statData.posterUri,
-                      ),
+        return stat.stats.map(
+          (statData) {
+            late MediaType? mediaType;
+            switch (statData.mediaType) {
+              case MediaType.album:
+                mediaType = MediaType.artist;
+                break;
+              case MediaType.episode:
+                mediaType = MediaType.show;
+                break;
+              case MediaType.season:
+                mediaType = MediaType.show;
+                break;
+              case MediaType.track:
+                mediaType = MediaType.artist;
+                break;
+              default:
+                mediaType = statData.mediaType;
+                break;
+            }
+
+            final media = MediaModel(
+              grandparentRatingKey: statData.grandparentRatingKey,
+              grandparentTitle: statData.grandparentTitle,
+              imageUri: statData.posterUri,
+              // live: statData.live,
+              mediaIndex: statData.mediaIndex,
+              mediaType: mediaType,
+              parentMediaIndex: statData.parentMediaIndex,
+              // parentRatingKey: statData.parentRatingKey,
+              // parentTitle: statData.parentTitle,
+              ratingKey: statData.ratingKey,
+              title: statData.title,
+              year: statData.year,
+            );
+
+            return PosterCard(
+              mediaType: statData.mediaType,
+              uri: statData.posterUri,
+              details: TopStatisticDetails(statData: statData),
+              onTap: () async {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MediaPage(
+                      media: media,
                     ),
-                  );
-                },
-              ),
-            )
-            .toList();
+                  ),
+                );
+              },
+            );
+          },
+        ).toList();
       case (StatIdType.popularTv):
       case (StatIdType.popularMovies):
       case (StatIdType.popularMusic):
@@ -187,17 +212,45 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => MediaPage(
-                        mediaType: statData.mediaType! == MediaType.episode
-                            ? MediaType.show
-                            : statData.mediaType! == MediaType.track
-                                ? MediaType.artist
-                                : statData.mediaType!,
-                        title: statData.title,
-                        subtitle: _buildSubtitle(statData),
-                        ratingKey: statData.ratingKey!,
-                        posterUri: statData.posterUri,
-                      ),
+                      builder: (context) {
+                        late MediaType? mediaType;
+                        switch (statData.mediaType) {
+                          case MediaType.album:
+                            mediaType = MediaType.artist;
+                            break;
+                          case MediaType.episode:
+                            mediaType = MediaType.show;
+                            break;
+                          case MediaType.season:
+                            mediaType = MediaType.show;
+                            break;
+                          case MediaType.track:
+                            mediaType = MediaType.artist;
+                            break;
+                          default:
+                            mediaType = statData.mediaType;
+                            break;
+                        }
+
+                        final media = MediaModel(
+                          grandparentRatingKey: statData.grandparentRatingKey,
+                          grandparentTitle: statData.grandparentTitle,
+                          imageUri: statData.posterUri,
+                          // live: statData.live,
+                          mediaIndex: statData.mediaIndex,
+                          mediaType: mediaType,
+                          parentMediaIndex: statData.parentMediaIndex,
+                          // parentRatingKey: statData.parentRatingKey,
+                          // parentTitle: statData.parentTitle,
+                          ratingKey: statData.ratingKey,
+                          title: statData.title,
+                          year: statData.year,
+                        );
+
+                        return MediaPage(
+                          media: media,
+                        );
+                      },
                     ),
                   );
                 },
@@ -214,14 +267,26 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => MediaPage(
-                        mediaType: statData.mediaType!,
-                        title: isNotBlank(statData.grandparentTitle) ? statData.grandparentTitle : statData.title,
-                        subtitle: _buildSubtitle(statData),
-                        itemDetail: _buildItemDetail(statData),
-                        ratingKey: statData.ratingKey!,
-                        posterUri: statData.posterUri,
-                      ),
+                      builder: (context) {
+                        final media = MediaModel(
+                          grandparentRatingKey: statData.grandparentRatingKey,
+                          grandparentTitle: statData.grandparentTitle,
+                          imageUri: statData.posterUri,
+                          // live: statData.live,
+                          mediaIndex: statData.mediaIndex,
+                          mediaType: statData.mediaType,
+                          parentMediaIndex: statData.parentMediaIndex,
+                          // parentRatingKey: statData.parentRatingKey,
+                          // parentTitle: statData.parentTitle,
+                          ratingKey: statData.ratingKey,
+                          title: statData.title,
+                          year: statData.year,
+                        );
+
+                        return MediaPage(
+                          media: media,
+                        );
+                      },
                     ),
                   );
                 },
@@ -296,27 +361,5 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
       default: //TODO: Remove when Dart stops thinking default is needed even when all enum types are accounted for
         return [];
     }
-  }
-
-  Text? _buildSubtitle(StatisticDataModel model) {
-    if ([MediaType.season, MediaType.episode].contains(model.mediaType)) return Text(model.grandchildTitle ?? '');
-
-    if ([
-          MediaType.movie,
-          MediaType.show,
-        ].contains(model.mediaType) &&
-        model.year != null) {
-      return Text(model.year.toString());
-    }
-
-    return null;
-  }
-
-  Text? _buildItemDetail(StatisticDataModel model) {
-    if (model.mediaType == MediaType.album) return Text(model.year.toString());
-
-    if (model.mediaType == MediaType.episode) return Text('S${model.parentMediaIndex} • E${model.mediaIndex}');
-
-    return null;
   }
 }

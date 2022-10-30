@@ -9,7 +9,6 @@ import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/media_model.dart';
 import '../bloc/children_metadata_bloc.dart';
 import '../pages/media_page.dart';
 import 'media_list_poster.dart';
@@ -98,12 +97,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                 await Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => MediaPage(
-                                      mediaType: track.mediaType ?? MediaType.unknown,
-                                      posterUri: widget.parentPosterUri,
-                                      title: _buildTitle(track),
-                                      subtitle: _buildSubtitle(track),
-                                      itemDetail: _buildItemDetail(track),
-                                      ratingKey: track.ratingKey!,
+                                      media: track,
                                     ),
                                   ),
                                 );
@@ -129,7 +123,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                         children: state.children != null
                             ? state.children!.map(
                                 (item) {
-                                  if (item.mediaType == MediaType.episode) {
+                                  if ([MediaType.episode].contains(item.mediaType)) {
                                     return Padding(
                                       padding: const EdgeInsets.all(4),
                                       child: MediaListThumbnail(
@@ -140,13 +134,8 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                           await Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) => MediaPage(
-                                                mediaType: item.mediaType ?? MediaType.unknown,
-                                                posterUri: widget.parentPosterUri,
-                                                backgroundOverrideUri: item.imageUri,
-                                                title: _buildTitle(item),
-                                                subtitle: _buildSubtitle(item),
-                                                itemDetail: _buildItemDetail(item),
-                                                ratingKey: item.ratingKey!,
+                                                media: item,
+                                                parentPosterUri: widget.parentPosterUri,
                                               ),
                                             ),
                                           );
@@ -165,16 +154,18 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                       posterUri: item.imageUri,
                                       onTap: () async {
                                         if (item.mediaType == MediaType.photoAlbum) {
+                                          await Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) => MediaPage(
+                                                media: item,
+                                              ),
+                                            ),
+                                          );
                                         } else {
                                           await Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) => MediaPage(
-                                                mediaType: item.mediaType ?? MediaType.unknown,
-                                                posterUri: item.imageUri,
-                                                title: _buildTitle(item),
-                                                subtitle: _buildSubtitle(item),
-                                                itemDetail: _buildItemDetail(item),
-                                                ratingKey: item.ratingKey!,
+                                                media: item,
                                               ),
                                             ),
                                           );
@@ -195,37 +186,5 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
         );
       },
     );
-  }
-
-  String? _buildTitle(MediaModel model) {
-    if (model.mediaType == MediaType.season) return model.parentTitle;
-
-    if (model.mediaType == MediaType.episode) return model.grandparentTitle;
-
-    return model.title;
-  }
-
-  Text? _buildSubtitle(MediaModel model) {
-    if ([MediaType.season, MediaType.episode].contains(model.mediaType)) return Text(model.title ?? '');
-
-    if (model.mediaType == MediaType.album) return Text(model.parentTitle ?? '');
-
-    if ([
-          MediaType.movie,
-          MediaType.show,
-        ].contains(model.mediaType) &&
-        model.year != null) {
-      return Text(model.year.toString());
-    }
-
-    return null;
-  }
-
-  Text? _buildItemDetail(MediaModel model) {
-    if (model.mediaType == MediaType.album) return Text(model.year.toString());
-
-    if (model.mediaType == MediaType.episode) return Text('S${model.parentMediaIndex} • E${model.mediaIndex}');
-
-    return null;
   }
 }

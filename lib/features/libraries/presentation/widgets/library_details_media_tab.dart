@@ -11,10 +11,10 @@ import '../../../../core/types/section_type.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../translations/locale_keys.g.dart';
+import '../../../media/data/models/media_model.dart';
 import '../../../media/presentation/pages/media_page.dart';
 import '../../../media/presentation/widgets/media_list_poster.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../data/models/library_media_info_model.dart';
 import '../../data/models/library_table_model.dart';
 import '../bloc/library_media_bloc.dart';
 
@@ -119,16 +119,35 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
                                 ratingKey: item.ratingKey,
                                 posterUri: item.posterUri,
                                 onTap: () async {
+                                  final media = MediaModel(
+                                    grandparentRatingKey: item.grandparentRatingKey,
+                                    // grandparentTitle: item.grandparentTitle,
+                                    imageUri: item.posterUri,
+                                    // live: item.live,
+                                    mediaIndex: item.mediaIndex,
+                                    mediaType: item.mediaType,
+                                    parentMediaIndex: item.parentMediaIndex,
+                                    parentRatingKey: item.parentRatingKey,
+                                    parentTitle: widget.libraryTableModel.sectionName,
+                                    ratingKey: item.ratingKey,
+                                    title: item.title,
+                                    year: item.year,
+                                  );
+
                                   if (item.mediaType == MediaType.photoAlbum) {
+                                    await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => MediaPage(
+                                          media: media,
+                                        ),
+                                      ),
+                                    );
                                   } else {
                                     await Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => MediaPage(
-                                          mediaType: item.mediaType ?? MediaType.unknown,
-                                          posterUri: item.posterUri,
-                                          title: item.title,
-                                          subtitle: _buildSubtitle(item),
-                                          ratingKey: item.ratingKey!,
+                                          media: media,
+                                          disableAppBarActions: item.mediaType == MediaType.photo,
                                         ),
                                       ),
                                     );
@@ -147,21 +166,5 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
         );
       },
     );
-  }
-
-  Text? _buildSubtitle(LibraryMediaInfoModel model) {
-    if ([
-          MediaType.movie,
-          MediaType.show,
-        ].contains(model.mediaType) &&
-        model.year != null) {
-      return Text(model.year.toString());
-    }
-
-    if (model.mediaType == MediaType.photo) {
-      return Text(widget.libraryTableModel.sectionName ?? '');
-    }
-
-    return null;
   }
 }

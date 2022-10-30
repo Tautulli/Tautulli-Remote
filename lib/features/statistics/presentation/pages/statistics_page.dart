@@ -24,6 +24,7 @@ import '../../../../translations/locale_keys.g.dart';
 import '../../../graphs/presentation/widgets/custom_time_range_dialog.dart';
 import '../../../libraries/data/models/library_table_model.dart';
 import '../../../libraries/presentation/widgets/library_card.dart';
+import '../../../media/data/models/media_model.dart';
 import '../../../media/presentation/pages/media_page.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../../users/data/models/user_table_model.dart';
@@ -203,6 +204,11 @@ class _StatisticsViewState extends State<StatisticsView> {
             ),
           );
         },
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
         itemBuilder: (context) {
           return [
             PopupMenuItem(
@@ -303,6 +309,11 @@ class _StatisticsViewState extends State<StatisticsView> {
                   }
                 }
               },
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                ),
+              ),
               itemBuilder: (context) {
                 return [
                   PopupMenuItem(
@@ -406,6 +417,40 @@ class _StatisticsViewState extends State<StatisticsView> {
         for (var j = 0; j < displayCount; j++) {
           final StatisticDataModel statData = stat.stats[j];
 
+          late MediaType? mediaType;
+          switch (statData.mediaType) {
+            case MediaType.album:
+              mediaType = MediaType.artist;
+              break;
+            case MediaType.episode:
+              mediaType = MediaType.show;
+              break;
+            case MediaType.season:
+              mediaType = MediaType.show;
+              break;
+            case MediaType.track:
+              mediaType = MediaType.artist;
+              break;
+            default:
+              mediaType = statData.mediaType;
+              break;
+          }
+
+          final media = MediaModel(
+            grandparentRatingKey: statData.grandparentRatingKey,
+            grandparentTitle: statData.grandparentTitle,
+            imageUri: statData.posterUri,
+            // live: statData.live,
+            mediaIndex: statData.mediaIndex,
+            mediaType: mediaType,
+            parentMediaIndex: statData.parentMediaIndex,
+            // parentRatingKey: statData.parentRatingKey,
+            // parentTitle: statData.parentTitle,
+            ratingKey: statData.ratingKey,
+            title: statData.title,
+            year: statData.year,
+          );
+
           if ([
             StatIdType.topTv,
             StatIdType.topMovies,
@@ -420,15 +465,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => MediaPage(
-                        mediaType: statData.mediaType! == MediaType.episode
-                            ? MediaType.show
-                            : statData.mediaType! == MediaType.track
-                                ? MediaType.artist
-                                : statData.mediaType!,
-                        title: statData.title,
-                        subtitle: _buildSubtitle(statData),
-                        ratingKey: statData.ratingKey!,
-                        posterUri: statData.posterUri,
+                        media: media,
                       ),
                     ),
                   );
@@ -451,15 +488,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => MediaPage(
-                        mediaType: statData.mediaType! == MediaType.episode
-                            ? MediaType.show
-                            : statData.mediaType! == MediaType.track
-                                ? MediaType.artist
-                                : statData.mediaType!,
-                        title: statData.title,
-                        subtitle: _buildSubtitle(statData),
-                        ratingKey: statData.ratingKey!,
-                        posterUri: statData.posterUri,
+                        media: media,
                       ),
                     ),
                   );
@@ -478,12 +507,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => MediaPage(
-                        mediaType: statData.mediaType!,
-                        title: statData.grandparentTitle,
-                        subtitle: _buildSubtitle(statData),
-                        itemDetail: _buildItemDetail(statData),
-                        ratingKey: statData.ratingKey!,
-                        posterUri: statData.posterUri,
+                        media: media.copyWith(mediaType: statData.mediaType),
                       ),
                     ),
                   );
@@ -563,27 +587,5 @@ class _StatisticsViewState extends State<StatisticsView> {
     }
 
     return widgetList;
-  }
-
-  Text? _buildSubtitle(StatisticDataModel model) {
-    if ([MediaType.season, MediaType.episode].contains(model.mediaType)) return Text(model.grandchildTitle ?? '');
-
-    if ([
-          MediaType.movie,
-          MediaType.show,
-        ].contains(model.mediaType) &&
-        model.year != null) {
-      return Text(model.year.toString());
-    }
-
-    return null;
-  }
-
-  Text? _buildItemDetail(StatisticDataModel model) {
-    if (model.mediaType == MediaType.album) return Text(model.year.toString());
-
-    if (model.mediaType == MediaType.episode) return Text('S${model.parentMediaIndex} • E${model.mediaIndex}');
-
-    return null;
   }
 }
