@@ -31,7 +31,13 @@ class MediaListTrack extends StatelessWidget {
                     children: [
                       if (mediaIndex != null) Text('$mediaIndex.'),
                       const Gap(2),
-                      Text(title ?? ''),
+                      Expanded(
+                        child: Text(
+                          title ?? '',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                 ),
