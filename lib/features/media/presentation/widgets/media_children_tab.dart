@@ -90,9 +90,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                             final track = state.children?[index];
 
                             return MediaListTrack(
-                              title: track!.title,
-                              mediaIndex: track.mediaIndex,
-                              thumbUri: track.imageUri,
+                              track: track!,
                               onTap: () async {
                                 await Navigator.of(context).push(
                                   MaterialPageRoute(

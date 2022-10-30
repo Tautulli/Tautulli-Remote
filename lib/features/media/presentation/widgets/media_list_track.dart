@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/helpers/time_helper.dart';
+import '../../data/models/media_model.dart';
+
 class MediaListTrack extends StatelessWidget {
-  final String? title;
-  final int? mediaIndex;
-  final Uri? thumbUri;
+  final MediaModel track;
   final Function()? onTap;
 
   const MediaListTrack({
     super.key,
-    this.title,
-    this.mediaIndex,
-    this.thumbUri,
+    required this.track,
     this.onTap,
   });
 
@@ -29,14 +28,17 @@ class MediaListTrack extends StatelessWidget {
                   padding: const EdgeInsets.all(8),
                   child: Row(
                     children: [
-                      if (mediaIndex != null) Text('$mediaIndex.'),
-                      const Gap(2),
+                      if (track.mediaIndex != null) Text('${track.mediaIndex}.'),
+                      if (track.mediaIndex != null) const Gap(2),
                       Expanded(
                         child: Text(
-                          title ?? '',
+                          track.title ?? '',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
+                      ),
+                      Text(
+                        TimeHelper.hourMinSec(track.duration ?? Duration.zero),
                       ),
                     ],
                   ),
