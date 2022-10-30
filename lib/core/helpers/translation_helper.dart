@@ -15,6 +15,7 @@ class TranslationHelper {
       const Locale('it'),
       const Locale('nb'),
       const Locale('nl'),
+      const Locale('pl'),
       const Locale('pt', 'BR'),
       const Locale('pt', 'PT'),
       const Locale('ru'),
@@ -51,6 +52,8 @@ class TranslationHelper {
       return 'Bokmål';
     } else if (locale.languageCode == 'nl') {
       return 'Nederlands';
+    } else if (locale.languageCode == 'pl') {
+      return 'Polski';
     } else if (locale.languageCode == 'pt') {
       if (locale.countryCode == 'BR') {
         return 'Português (Brasil)';
@@ -100,6 +103,8 @@ class TranslationHelper {
       return 'Norwegian Bokmål';
     } else if (locale.languageCode == 'nl') {
       return 'Dutch';
+    } else if (locale.languageCode == 'pl') {
+      return 'Polish';
     } else if (locale.languageCode == 'pt') {
       if (locale.countryCode == 'BR') {
         return 'Portuguese (Brazil)';
