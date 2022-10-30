@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:quiver/strings.dart';
 
 import '../../../../core/api/tautulli/tautulli_api.dart';
 import '../../../../core/types/media_type.dart';
@@ -51,7 +52,16 @@ class MediaDataSourceImpl implements MediaDataSource {
 
     final List<MediaModel> childrenList =
         result.value1['response']['data']['children_list'].map<MediaModel>((childItem) {
-      return MediaModel.fromJson(childItem);
+      final mediaModel = MediaModel.fromJson(childItem);
+
+      // Insert parent title for photos when missing
+      if ([MediaType.photo, MediaType.clip].contains(mediaModel.mediaType) &&
+          isBlank(mediaModel.parentTitle) &&
+          isNotBlank(result.value1['response']['data']['title'])) {
+        return mediaModel.copyWith(parentTitle: result.value1['response']['data']['title']);
+      } else {
+        return mediaModel;
+      }
     }).toList();
 
     // Do not include the "All episodes" season Tautulli returns
