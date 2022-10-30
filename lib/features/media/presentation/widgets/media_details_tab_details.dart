@@ -28,6 +28,14 @@ class MediaDetailsTabDetails extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(0, 4, 0, 8),
                 child: Column(
                   children: [
+                    if ([MediaType.photo, MediaType.clip].contains(metadata!.mediaType) &&
+                        metadata!.originallyAvailableAt != null)
+                      _ItemRow(
+                        title: LocaleKeys.taken_title.tr(),
+                        item: Text(
+                          DateFormat('yMMMMd').format(metadata!.originallyAvailableAt!),
+                        ),
+                      ),
                     if (isNotBlank(metadata!.studio))
                       _ItemRow(
                         title: LocaleKeys.studio_title.tr(),
@@ -85,26 +93,12 @@ class MediaDetailsTabDetails extends StatelessWidget {
                               : metadata!.actors!.join(', '),
                         ),
                       ),
-                    if (metadata!.mediaType == MediaType.photo && metadata!.originallyAvailableAt != null)
-                      _ItemRow(
-                        title: LocaleKeys.taken_title.tr(),
-                        item: Text(
-                          DateFormat('yMMMMd').format(metadata!.originallyAvailableAt!),
-                        ),
-                      ),
                     const Gap(16),
                     if (isNotBlank(metadata!.mediaInfo?.container))
                       _ItemRow(
                         title: LocaleKeys.container_title.tr(),
                         item: Text(
                           metadata!.mediaInfo!.container!.toUpperCase(),
-                        ),
-                      ),
-                    if (metadata!.mediaInfo?.bitrate != null)
-                      _ItemRow(
-                        title: LocaleKeys.bitrate_title.tr(),
-                        item: Text(
-                          DataUnitHelper.bitrate(metadata!.mediaInfo!.bitrate!),
                         ),
                       ),
                     if (isNotBlank(metadata!.mediaInfo?.videoFullResolution) &&
@@ -120,6 +114,13 @@ class MediaDetailsTabDetails extends StatelessWidget {
                         title: LocaleKeys.audio_title.tr(),
                         item: Text(
                           '${metadata!.mediaInfo!.audioChannelLayout} (${metadata!.mediaInfo!.audioCodec!.toUpperCase()})',
+                        ),
+                      ),
+                    if (metadata!.mediaInfo?.bitrate != null)
+                      _ItemRow(
+                        title: LocaleKeys.bitrate_title.tr(),
+                        item: Text(
+                          DataUnitHelper.bitrate(metadata!.mediaInfo!.bitrate!),
                         ),
                       ),
                   ],
