@@ -329,6 +329,7 @@ abstract class  LocaleKeys {
   static const view_user_title = 'view_user_title';
   static const password_title = 'password_title';
   static const qr_code_scan_error_snackbar_message = 'qr_code_scan_error_snackbar_message';
+  static const view_on_plex_title = 'view_on_plex_title';
   static const wiki_title = 'wiki_title';
   static const wizard_closing_announcements = 'wizard_closing_announcements';
   static const wizard_closing_notifications = 'wizard_closing_notifications';

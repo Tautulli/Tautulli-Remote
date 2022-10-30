@@ -669,6 +669,7 @@ static const Map<String,dynamic> en = {
   "view_user_title": "View User",
   "password_title": "Password",
   "qr_code_scan_error_snackbar_message": "Error scanning QR code",
+  "view_on_plex_title": "View On Plex",
   "wiki_title": "Wiki",
   "wizard_closing_announcements": "Keep an eye on the Announcements page to receive important messages regarding the app.",
   "wizard_closing_notifications": "Remember to configure Tautulli Remote as a notification agent in Tautulli under Settings > Notification Agents.",
