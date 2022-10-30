@@ -11,6 +11,7 @@ import 'core/device_info/device_info.dart';
 import 'core/local_storage/local_storage.dart';
 import 'core/manage_cache/manage_cache.dart';
 import 'core/network_info/network_info.dart';
+import 'core/open_in_plex/open_in_plex.dart';
 import 'core/package_information/package_information.dart';
 import 'core/qr_code_scanner/qr_code_scanner.dart';
 import 'features/announcements/data/datasources/announcements_data_source.dart';
@@ -220,6 +221,11 @@ Future<void> init() async {
   //! Core - Network Info
   sl.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(sl()),
+  );
+
+  //! Core - Open In Plex
+  sl.registerLazySingleton<OpenInPlex>(
+    () => OpenInPlexImpl(),
   );
 
   //! Core - Package Information

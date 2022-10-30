@@ -14,8 +14,8 @@ class SliverTabbedPosterDetailsPage extends StatefulWidget {
   final List<Widget>? appBarActions;
   final Poster? poster;
   final String? title;
-  final Widget? subtitle;
-  final Widget? itemDetail;
+  final String? subtitle;
+  final String? itemDetail;
   final List<Widget> tabs;
   final List<Widget> tabChildren;
 
@@ -51,155 +51,178 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: widget.tabs.length,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        child: NestedScrollView(
-          controller: _scrollController,
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverOverlapAbsorber(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: SliverAppBar(
-                  pinned: true,
-                  expandedHeight: _expandedHeight,
-                  title: Opacity(
-                    opacity: titleOpacity,
-                    child: Text(
-                      widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title ?? '',
-                    ),
-                  ),
-                  actions: widget.appBarActions,
-                  flexibleSpace: FlexibleSpaceBar(
-                    collapseMode: CollapseMode.pin,
-                    background: Column(
-                      children: [
-                        Expanded(
-                          child: Stack(
-                            children: [
-                              Positioned.fill(
-                                child: DecoratedBox(
-                                  position: DecorationPosition.foreground,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.6),
-                                  ),
-                                  child: widget.background,
-                                ),
-                              ),
-                              Positioned.fill(
-                                child: Opacity(
-                                  opacity: backgroundCoverOpacity,
-                                  child: DecoratedBox(
-                                    position: DecorationPosition.foreground,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).colorScheme.background,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final tpTitle = TextPainter(
+          text: TextSpan(text: widget.title ?? ''),
+          maxLines: 1,
+          textDirection: Directionality.of(context),
+        );
+        final tpSubtitle = TextPainter(
+          text: TextSpan(text: widget.subtitle ?? ''),
+          maxLines: 1,
+          textDirection: Directionality.of(context),
+        );
+        tpTitle.layout(maxWidth: constraints.maxWidth);
+        tpSubtitle.layout(maxWidth: constraints.maxWidth);
+
+        final bool doubleOverflow = tpTitle.didExceedMaxLines && tpSubtitle.didExceedMaxLines;
+
+        return DefaultTabController(
+          length: widget.tabs.length,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            child: NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverOverlapAbsorber(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                    sliver: SliverAppBar(
+                      pinned: true,
+                      expandedHeight: _expandedHeight,
+                      title: Opacity(
+                        opacity: titleOpacity,
+                        child: Text(
+                          widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title ?? '',
+                        ),
+                      ),
+                      actions: widget.appBarActions,
+                      flexibleSpace: FlexibleSpaceBar(
+                        collapseMode: CollapseMode.pin,
+                        background: Column(
+                          children: [
+                            Expanded(
+                              child: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: DecoratedBox(
+                                      position: DecorationPosition.foreground,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.6),
+                                      ),
+                                      child: widget.background,
                                     ),
                                   ),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(radius),
-                                    topRight: Radius.circular(radius),
-                                  ),
-                                  child: Container(
-                                    height: 100,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).colorScheme.background,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 8,
-                                bottom: 10,
-                                child: Opacity(
-                                  opacity: detailsOpacity,
-                                  child: SizedBox(
-                                    height: 150,
-                                    child: widget.poster,
-                                  ),
-                                ),
-                              ),
-                              Positioned.fill(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: _expandedHeight - 118,
-                                    left: 116,
-                                  ),
-                                  child: Opacity(
-                                    opacity: detailsOpacity,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title ?? '',
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
+                                  Positioned.fill(
+                                    child: Opacity(
+                                      opacity: backgroundCoverOpacity,
+                                      child: DecoratedBox(
+                                        position: DecorationPosition.foreground,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).colorScheme.background,
                                         ),
-                                        if (widget.subtitle != null) widget.subtitle!,
-                                        if (widget.itemDetail != null) widget.itemDetail!,
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  Positioned(
+                                    bottom: 0,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(radius),
+                                        topRight: Radius.circular(radius),
+                                      ),
+                                      child: Container(
+                                        height: 100,
+                                        width: MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).colorScheme.background,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 8,
+                                    bottom: 10,
+                                    child: Opacity(
+                                      opacity: detailsOpacity,
+                                      child: SizedBox(
+                                        height: 150,
+                                        child: widget.poster,
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned.fill(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: _expandedHeight - 118,
+                                        left: 116,
+                                      ),
+                                      child: Opacity(
+                                        opacity: detailsOpacity,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title ?? '',
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                              maxLines: doubleOverflow ? 1 : 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            if (widget.subtitle != null)
+                                              Text(
+                                                widget.subtitle!,
+                                                maxLines: 2,
+                                              ),
+                                            if (widget.itemDetail != null) Text(widget.itemDetail!),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                            Container(
+                              height: 46,
+                              color: Theme.of(context).colorScheme.background,
+                            ),
+                          ],
                         ),
-                        Container(
-                          height: 46,
-                          color: Theme.of(context).colorScheme.background,
-                        ),
-                      ],
+                      ),
+                      bottom: TabBar(
+                        tabs: widget.tabs,
+                      ),
                     ),
                   ),
-                  bottom: TabBar(
-                    tabs: widget.tabs,
-                  ),
-                ),
-              ),
-            ];
-          },
-          body: TabBarView(
-            children: widget.tabChildren.map(
-              (tabSliver) {
-                return MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: Builder(
-                    key: PageStorageKey(ObjectKey(tabSliver)),
-                    builder: (context) {
-                      return DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.background,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            top: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                              context,
-                            ).layoutExtent!,
-                          ),
-                          child: tabSliver,
-                        ),
-                      );
-                    },
-                  ),
-                );
+                ];
               },
-            ).toList(),
+              body: TabBarView(
+                children: widget.tabChildren.map(
+                  (tabSliver) {
+                    return MediaQuery.removePadding(
+                      context: context,
+                      removeTop: true,
+                      child: Builder(
+                        key: PageStorageKey(ObjectKey(tabSliver)),
+                        builder: (context) {
+                          return DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.background,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                top: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                  context,
+                                ).layoutExtent!,
+                              ),
+                              child: tabSliver,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ).toList(),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

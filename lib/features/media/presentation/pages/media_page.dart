@@ -1,44 +1,34 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/types/media_type.dart';
-import '../../../../core/widgets/poster.dart';
 import '../../../../dependency_injection.dart' as di;
-import '../../../../translations/locale_keys.g.dart';
 import '../../../history/presentation/bloc/individual_history_bloc.dart';
-import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../data/models/media_model.dart';
 import '../bloc/children_metadata_bloc.dart';
 import '../bloc/metadata_bloc.dart';
-import '../widgets/media_children_tab.dart';
-import '../widgets/media_details_tab.dart';
-import '../widgets/media_history_tab.dart';
-import 'sliver_tabbed_poster_details_page.dart';
+import 'album_media_page.dart';
+import 'artist_media_page.dart';
+import 'clip_media_page.dart';
+import 'episode_media_page.dart';
+import 'movie_media_page.dart';
+import 'photo_album_media_page.dart';
+import 'photo_media_page.dart';
+import 'season_media_page.dart';
+import 'show_media_page.dart';
+import 'track_media_page.dart';
 
 class MediaPage extends StatelessWidget {
-  final MediaType mediaType;
-  final Uri? posterUri;
-  final Uri? backgroundOverrideUri;
-  final String? title;
-  final Widget? subtitle;
-  final Widget? itemDetail;
-  final int ratingKey;
-  final bool live;
+  final MediaModel media;
+  final Uri? parentPosterUri;
+  final bool disableAppBarActions;
 
   const MediaPage({
     super.key,
-    required this.mediaType,
-    this.posterUri,
-    this.backgroundOverrideUri,
-    this.title,
-    this.subtitle,
-    this.itemDetail,
-    required this.ratingKey,
-    this.live = false,
+    required this.media,
+    this.parentPosterUri,
+    this.disableAppBarActions = false,
   });
 
   @override
@@ -56,39 +46,24 @@ class MediaPage extends StatelessWidget {
         ),
       ],
       child: MediaView(
-        mediaType: mediaType,
-        posterUri: posterUri,
-        backgroundOverrideUri: backgroundOverrideUri,
-        title: title,
-        subtitle: subtitle,
-        itemDetail: itemDetail,
-        ratingKey: ratingKey,
-        live: live,
+        media: media,
+        parentPosterUri: parentPosterUri,
+        disableAppBarActions: disableAppBarActions,
       ),
     );
   }
 }
 
 class MediaView extends StatefulWidget {
-  final MediaType mediaType;
-  final Uri? posterUri;
-  final Uri? backgroundOverrideUri;
-  final String? title;
-  final Widget? subtitle;
-  final Widget? itemDetail;
-  final int ratingKey;
-  final bool live;
+  final MediaModel media;
+  final Uri? parentPosterUri;
+  final bool disableAppBarActions;
 
   const MediaView({
     super.key,
-    required this.mediaType,
-    this.posterUri,
-    this.backgroundOverrideUri,
-    this.title,
-    this.subtitle,
-    this.itemDetail,
-    required this.ratingKey,
-    this.live = false,
+    required this.media,
+    this.parentPosterUri,
+    this.disableAppBarActions = false,
   });
 
   @override
@@ -96,6 +71,8 @@ class MediaView extends StatefulWidget {
 }
 
 class _MediaViewState extends State<MediaView> {
+  late String _plexIdentifier;
+
   @override
   void initState() {
     super.initState();
@@ -103,11 +80,12 @@ class _MediaViewState extends State<MediaView> {
     final settingsBloc = context.read<SettingsBloc>();
     final settingsState = settingsBloc.state as SettingsSuccess;
     final tautulliId = settingsState.appSettings.activeServer.tautulliId;
+    _plexIdentifier = settingsState.appSettings.activeServer.plexIdentifier;
 
     context.read<MetadataBloc>().add(
           MetadataFetched(
             tautulliId: tautulliId,
-            ratingKey: widget.ratingKey,
+            ratingKey: widget.media.ratingKey!,
             settingsBloc: settingsBloc,
           ),
         );
@@ -115,8 +93,8 @@ class _MediaViewState extends State<MediaView> {
     context.read<IndividualHistoryBloc>().add(
           IndividualHistoryFetched(
             tautulliId: tautulliId,
-            ratingKey: widget.ratingKey,
-            mediaType: widget.mediaType,
+            ratingKey: widget.media.ratingKey!,
+            mediaType: widget.media.mediaType!,
             settingsBloc: settingsBloc,
           ),
         );
@@ -126,11 +104,12 @@ class _MediaViewState extends State<MediaView> {
       MediaType.artist,
       MediaType.album,
       MediaType.season,
-    ].contains(widget.mediaType)) {
+      MediaType.photoAlbum,
+    ].contains(widget.media.mediaType!)) {
       context.read<ChildrenMetadataBloc>().add(
             ChildrenMetadataFetched(
               tautulliId: tautulliId,
-              ratingKey: widget.ratingKey,
+              ratingKey: widget.media.ratingKey!,
               settingsBloc: settingsBloc,
             ),
           );
@@ -139,93 +118,61 @@ class _MediaViewState extends State<MediaView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SliverTabbedPosterDetailsPage(
-        background: BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            state as SettingsSuccess;
-
-            return CachedNetworkImage(
-              imageUrl: widget.backgroundOverrideUri != null
-                  ? widget.backgroundOverrideUri.toString()
-                  : widget.posterUri.toString(),
-              httpHeaders: {
-                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                  headerModel.key: headerModel.value,
-              },
-              imageBuilder: (context, imageProvider) => ImageFiltered(
-                imageFilter: ImageFilter.blur(
-                  sigmaX: 25,
-                  sigmaY: 25,
-                  tileMode: TileMode.decal,
-                ),
-                child: Image(
-                  image: imageProvider,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              placeholder: (context, url) => Image.asset('assets/images/art_fallback.png'),
-              errorWidget: (context, url, error) => Image.asset('assets/images/art_error.png'),
-            );
-          },
-        ),
-        appBarActions: [
-          PopupMenuButton(
-            itemBuilder: (context) {
-              return [];
-            },
-          )
-        ],
-        poster: Poster(
-          heroTag: widget.ratingKey,
-          mediaType: widget.mediaType,
-          uri: widget.posterUri,
-        ),
-        title: widget.title,
-        subtitle: widget.subtitle,
-        itemDetail: widget.itemDetail,
-        tabs: [
-          if (!widget.live) Tab(child: const Text(LocaleKeys.details_title).tr()),
-          if (widget.mediaType == MediaType.show)
-            Tab(
-              child: const Text(LocaleKeys.seasons_title).tr(),
-            ),
-          if (widget.mediaType == MediaType.season)
-            Tab(
-              child: const Text(LocaleKeys.episodes_title).tr(),
-            ),
-          if (widget.mediaType == MediaType.artist)
-            Tab(
-              child: const Text(LocaleKeys.albums_title).tr(),
-            ),
-          if (widget.mediaType == MediaType.album)
-            Tab(
-              child: const Text(LocaleKeys.tracks_title).tr(),
-            ),
-          if (![MediaType.photo, MediaType.photoAlbum].contains(widget.mediaType))
-            Tab(child: const Text(LocaleKeys.history_title).tr()),
-        ],
-        tabChildren: [
-          if (!widget.live) MediaDetailsTab(ratingKey: widget.ratingKey),
-          if ([
-            MediaType.show,
-            MediaType.season,
-            MediaType.artist,
-            MediaType.album,
-          ].contains(widget.mediaType))
-            MediaChildrenTab(
-              ratingKey: widget.ratingKey,
-              mediaType: widget.mediaType,
-              parentPosterUri: widget.posterUri,
-            ),
-          if (![MediaType.photo, MediaType.photoAlbum].contains(widget.mediaType))
-            MediaHistoryTab(
-              ratingKey: widget.ratingKey,
-              mediaType: widget.mediaType,
-              posterUri: widget.posterUri,
-            ),
-        ],
-      ),
-    );
+    switch (widget.media.mediaType) {
+      case MediaType.album:
+        return AlbumMediaPage(
+          media: widget.media,
+          plexIdentifier: _plexIdentifier,
+        );
+      case MediaType.artist:
+        return ArtistMediaPage(
+          media: widget.media,
+          plexIdentifier: _plexIdentifier,
+        );
+      case MediaType.clip:
+        return ClipMediaPage(
+          media: widget.media,
+          plexIdentifier: _plexIdentifier,
+        );
+      case MediaType.episode:
+        return EpisodeMediaPage(
+          media: widget.media,
+          parentPosterUri: widget.parentPosterUri,
+          plexIdentifier: _plexIdentifier,
+        );
+      case MediaType.photo:
+        return PhotoMediaPage(
+          media: widget.media,
+          plexIdentifier: _plexIdentifier,
+          disableAppBarActions: widget.disableAppBarActions,
+        );
+      case MediaType.photoAlbum:
+        return PhotoAlbumMediaPage(
+          media: widget.media,
+          plexIdentifier: _plexIdentifier,
+        );
+      case MediaType.season:
+        return SeasonMediaPage(
+          media: widget.media,
+          plexIdentifier: _plexIdentifier,
+        );
+      case MediaType.show:
+        return ShowMediaPage(
+          media: widget.media,
+          plexIdentifier: _plexIdentifier,
+        );
+      case MediaType.track:
+        return TrackMediaPage(
+          media: widget.media,
+          plexIdentifier: _plexIdentifier,
+        );
+      case MediaType.movie:
+      case MediaType.otherVideo:
+      default:
+        return MovieMediaPage(
+          media: widget.media,
+          plexIdentifier: _plexIdentifier,
+        );
+    }
   }
 }
