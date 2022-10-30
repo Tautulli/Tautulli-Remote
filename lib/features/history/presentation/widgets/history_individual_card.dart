@@ -52,7 +52,7 @@ class HistoryIndividualCard extends StatelessWidget {
                             state as SettingsSuccess;
 
                             return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
@@ -71,7 +71,9 @@ class HistoryIndividualCard extends StatelessWidget {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                if ([MediaType.episode].contains(history.mediaType))
+                                if ([MediaType.episode].contains(history.mediaType) &&
+                                    history.parentMediaIndex != null &&
+                                    history.mediaIndex != null)
                                   Text('S${history.parentMediaIndex} • E${history.mediaIndex}'),
                                 if ([MediaType.track].contains(history.mediaType))
                                   Text(
