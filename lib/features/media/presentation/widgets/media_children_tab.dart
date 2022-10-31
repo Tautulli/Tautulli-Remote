@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:vs_scrollbar/vs_scrollbar.dart';
 
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -76,111 +75,109 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                   );
                 }
 
-                return VsScrollbar(
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    child: Builder(builder: (context) {
-                      if (widget.mediaType == MediaType.album) {
-                        return ListView.separated(
-                          itemCount: state.children?.length ?? 0,
-                          padding: const EdgeInsets.all(4),
-                          separatorBuilder: (context, index) => const Gap(8),
-                          itemBuilder: (context, index) {
-                            final track = state.children?[index];
+                return MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: Builder(builder: (context) {
+                    if (widget.mediaType == MediaType.album) {
+                      return ListView.separated(
+                        itemCount: state.children?.length ?? 0,
+                        padding: const EdgeInsets.all(4),
+                        separatorBuilder: (context, index) => const Gap(8),
+                        itemBuilder: (context, index) {
+                          final track = state.children?[index];
 
-                            return MediaListTrack(
-                              track: track!,
-                              onTap: () async {
-                                await Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => MediaPage(
-                                      disableAncestryNavigation: true,
-                                      media: track,
-                                    ),
+                          return MediaListTrack(
+                            track: track!,
+                            onTap: () async {
+                              await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => MediaPage(
+                                    disableAncestryNavigation: true,
+                                    media: track,
                                   ),
-                                );
-                              },
-                            );
-                          },
-                        );
-                      }
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    }
 
-                      return GridView.count(
-                        crossAxisCount: widget.mediaType == MediaType.season ? 2 : 3,
-                        childAspectRatio: [
-                          MediaType.album,
-                          MediaType.artist,
-                          MediaType.photo,
-                          MediaType.photoAlbum,
-                          MediaType.track,
-                        ].contains(widget.mediaType)
-                            ? 1
-                            : widget.mediaType == MediaType.season
-                                ? 3 / 2
-                                : 2 / 3,
-                        children: state.children != null
-                            ? state.children!.map(
-                                (item) {
-                                  if ([MediaType.episode].contains(item.mediaType)) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(4),
-                                      child: MediaListThumbnail(
-                                        title: item.title,
-                                        mediaIndex: item.mediaIndex,
-                                        thumbUri: item.imageUri,
-                                        onTap: () async {
-                                          await Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) => MediaPage(
-                                                disableAncestryNavigation: true,
-                                                media: item,
-                                                parentPosterUri: widget.parentPosterUri,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  }
-
+                    return GridView.count(
+                      crossAxisCount: widget.mediaType == MediaType.season ? 2 : 3,
+                      childAspectRatio: [
+                        MediaType.album,
+                        MediaType.artist,
+                        MediaType.photo,
+                        MediaType.photoAlbum,
+                        MediaType.track,
+                      ].contains(widget.mediaType)
+                          ? 1
+                          : widget.mediaType == MediaType.season
+                              ? 3 / 2
+                              : 2 / 3,
+                      children: state.children != null
+                          ? state.children!.map(
+                              (item) {
+                                if ([MediaType.episode].contains(item.mediaType)) {
                                   return Padding(
                                     padding: const EdgeInsets.all(4),
-                                    child: MediaListPoster(
-                                      mediaType: item.mediaType,
+                                    child: MediaListThumbnail(
                                       title: item.title,
-                                      year: item.year,
-                                      ratingKey: item.ratingKey,
-                                      posterUri: item.imageUri,
+                                      mediaIndex: item.mediaIndex,
+                                      thumbUri: item.imageUri,
                                       onTap: () async {
-                                        if (item.mediaType == MediaType.photoAlbum) {
-                                          await Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) => MediaPage(
-                                                disableAncestryNavigation: true,
-                                                media: item,
-                                              ),
+                                        await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => MediaPage(
+                                              disableAncestryNavigation: true,
+                                              media: item,
+                                              parentPosterUri: widget.parentPosterUri,
                                             ),
-                                          );
-                                        } else {
-                                          await Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) => MediaPage(
-                                                disableAncestryNavigation: true,
-                                                media: item,
-                                              ),
-                                            ),
-                                          );
-                                        }
+                                          ),
+                                        );
                                       },
                                     ),
                                   );
-                                },
-                              ).toList()
-                            : [],
-                      );
-                    }),
-                  ),
+                                }
+
+                                return Padding(
+                                  padding: const EdgeInsets.all(4),
+                                  child: MediaListPoster(
+                                    mediaType: item.mediaType,
+                                    title: item.title,
+                                    year: item.year,
+                                    ratingKey: item.ratingKey,
+                                    posterUri: item.imageUri,
+                                    onTap: () async {
+                                      if (item.mediaType == MediaType.photoAlbum) {
+                                        await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => MediaPage(
+                                              disableAncestryNavigation: true,
+                                              media: item,
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => MediaPage(
+                                              disableAncestryNavigation: true,
+                                              media: item,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                );
+                              },
+                            ).toList()
+                          : [],
+                    );
+                  }),
                 );
               },
             ),
