@@ -63,10 +63,8 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
           maxLines: 1,
           textDirection: Directionality.of(context),
         );
-        tpTitle.layout(maxWidth: constraints.maxWidth - 124);
-        tpSubtitle.layout(maxWidth: constraints.maxWidth - 124);
-
-        final bool doubleOverflow = tpTitle.didExceedMaxLines && tpSubtitle.didExceedMaxLines;
+        tpTitle.layout(maxWidth: constraints.maxWidth - 127);
+        tpSubtitle.layout(maxWidth: constraints.maxWidth - 127);
 
         return DefaultTabController(
           length: widget.tabs.length,
@@ -174,7 +172,8 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                                                   style: const TextStyle(
                                                     fontSize: 18,
                                                   ),
-                                                  maxLines: doubleOverflow ? 1 : 2,
+                                                  maxLines:
+                                                      tpTitle.didExceedMaxLines && tpSubtitle.didExceedMaxLines ? 1 : 2,
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                                 if (widget.subtitle != null)
