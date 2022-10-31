@@ -127,7 +127,11 @@ abstract class  LocaleKeys {
   static const filter_recently_added_title = 'filter_recently_added_title';
   static const genres_title = 'genres_title';
   static const global_stats_title = 'global_stats_title';
+  static const go_to_album_title = 'go_to_album_title';
+  static const go_to_artist_title = 'go_to_artist_title';
+  static const go_to_season_title = 'go_to_season_title';
   static const go_to_settings_button = 'go_to_settings_button';
+  static const go_to_show_title = 'go_to_show_title';
   static const graphs_tips_dialog_content = 'graphs_tips_dialog_content';
   static const graphs_title = 'graphs_title';
   static const header_key_title = 'header_key_title';
