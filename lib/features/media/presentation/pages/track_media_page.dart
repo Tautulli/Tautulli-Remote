@@ -6,24 +6,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/open_in_plex/open_in_plex.dart';
+import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/poster.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/media_model.dart';
+import '../bloc/metadata_bloc.dart';
 import '../widgets/media_details_tab.dart';
 import '../widgets/media_history_tab.dart';
+import 'media_page.dart';
 import 'sliver_tabbed_poster_details_page.dart';
 
 class TrackMediaPage extends StatelessWidget {
   final MediaModel media;
   final String plexIdentifier;
+  final bool disableAncestryNavigation;
 
   const TrackMediaPage({
     super.key,
     required this.media,
     required this.plexIdentifier,
+    this.disableAncestryNavigation = false,
   });
 
   @override
@@ -31,6 +36,7 @@ class TrackMediaPage extends StatelessWidget {
     return TrackMediaView(
       media: media,
       plexIdentifier: plexIdentifier,
+      disableAncestryNavigation: disableAncestryNavigation,
     );
   }
 }
@@ -38,11 +44,13 @@ class TrackMediaPage extends StatelessWidget {
 class TrackMediaView extends StatelessWidget {
   final MediaModel media;
   final String plexIdentifier;
+  final bool disableAncestryNavigation;
 
   const TrackMediaView({
     super.key,
     required this.media,
     required this.plexIdentifier,
+    this.disableAncestryNavigation = false,
   });
 
   @override
@@ -104,24 +112,71 @@ class TrackMediaView extends StatelessWidget {
 
   List<Widget> _appBarActions() {
     return [
-      PopupMenuButton(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          ),
-        ),
-        itemBuilder: (context) {
-          return [
-            PopupMenuItem(
-              child: const Text(LocaleKeys.view_on_plex_title).tr(),
-              onTap: () async {
-                await di.sl<OpenInPlex>().open(
-                      plexIdentifier: plexIdentifier,
-                      ratingKey: media.parentRatingKey!,
-                    );
-              },
+      BlocBuilder<MetadataBloc, MetadataState>(
+        builder: (context, state) {
+          return PopupMenuButton(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
+              ),
             ),
-          ];
+            onSelected: (value) async {
+              if (value == MediaType.artist) {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MediaPage(
+                      media: media.copyWith(
+                        title: state.metadata!.grandparentTitle,
+                        mediaType: MediaType.artist,
+                        ratingKey: state.metadata!.grandparentRatingKey,
+                        imageUri: state.metadata!.grandparentImageUri,
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              if (value == MediaType.album) {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MediaPage(
+                      media: media.copyWith(
+                        parentTitle: state.metadata!.grandparentTitle,
+                        title: state.metadata!.parentTitle,
+                        mediaType: MediaType.album,
+                        ratingKey: state.metadata!.parentRatingKey,
+                        imageUri: state.metadata!.parentImageUri,
+                        year: state.metadata!.year,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  enabled: !disableAncestryNavigation,
+                  value: MediaType.artist,
+                  child: const Text(LocaleKeys.go_to_artist_title).tr(),
+                ),
+                PopupMenuItem(
+                  enabled: !disableAncestryNavigation,
+                  value: MediaType.album,
+                  child: const Text(LocaleKeys.go_to_album_title).tr(),
+                ),
+                PopupMenuItem(
+                  child: const Text(LocaleKeys.view_on_plex_title).tr(),
+                  onTap: () async {
+                    await di.sl<OpenInPlex>().open(
+                          plexIdentifier: plexIdentifier,
+                          ratingKey: media.parentRatingKey!,
+                        );
+                  },
+                ),
+              ];
+            },
+          );
         },
       ),
     ];

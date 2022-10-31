@@ -43,9 +43,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
   }) : super(
           RecentlyAddedState(
             mediaType: mediaTypeCache,
-            recentlyAdded: tautulliIdCache != null
-                ? recentlyAddedCache[tautulliIdCache]!
-                : [],
+            recentlyAdded: tautulliIdCache != null ? recentlyAddedCache[tautulliIdCache]! : [],
             hasReachedMax: hasReachedMaxCache,
           ),
         ) {
@@ -129,20 +127,16 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
   void _emitFailureOrRecentlyAdded({
     required RecentlyAddedFetched event,
     required Emitter<RecentlyAddedState> emit,
-    required Either<Failure, Tuple2<List<RecentlyAddedModel>, bool>>
-        failureOrRecentlyAdded,
+    required Either<Failure, Tuple2<List<RecentlyAddedModel>, bool>> failureOrRecentlyAdded,
   }) async {
     await failureOrRecentlyAdded.fold(
       (failure) async {
-        logging.error(
-            'RecentlyAdded :: Failed to fetch recently added [$failure]');
+        logging.error('RecentlyAdded :: Failed to fetch recently added [$failure]');
 
         return emit(
           state.copyWith(
             status: BlocStatus.failure,
-            recentlyAdded: event.freshFetch
-                ? recentlyAddedCache[event.tautulliId]
-                : state.recentlyAdded,
+            recentlyAdded: event.freshFetch ? recentlyAddedCache[event.tautulliId] : state.recentlyAdded,
             failure: failure,
             message: FailureHelper.mapFailureToMessage(failure),
             suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -158,14 +152,12 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         );
 
         // Add posters to recently added models
-        List<RecentlyAddedModel> recentlyAddedListWithUris =
-            await _recentlyAddedModelsWithPosterUris(
+        List<RecentlyAddedModel> recentlyAddedListWithUris = await _recentlyAddedModelsWithPosterUris(
           recentlyAddedList: recentlyAdded.value1,
           settingsBloc: event.settingsBloc,
         );
 
-        recentlyAddedCache[event.tautulliId] =
-            recentlyAddedCache[event.tautulliId]! + recentlyAddedListWithUris;
+        recentlyAddedCache[event.tautulliId] = recentlyAddedCache[event.tautulliId]! + recentlyAddedListWithUris;
         hasReachedMaxCache = recentlyAddedListWithUris.length < count;
 
         return emit(
@@ -186,45 +178,33 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
     List<RecentlyAddedModel> recentlyAddedWithImages = [];
 
     for (RecentlyAddedModel recentItem in recentlyAddedList) {
-      //* Fetch and assign image URLs
-      String? posterImg;
-      int? posterRatingKey;
+      Uri? posterUri;
+      Uri? parentPosterUri;
+      Uri? grandparentPosterUri;
 
-      // Assign values for poster URL
-      switch (recentItem.mediaType) {
-        case (MediaType.movie):
-          posterImg = recentItem.thumb;
-          posterRatingKey = recentItem.ratingKey;
-          break;
-        case (MediaType.episode):
-          posterImg = recentItem.grandparentThumb;
-          posterRatingKey = recentItem.grandparentRatingKey;
-          break;
-        case (MediaType.season):
-          posterImg = recentItem.thumb;
-          posterRatingKey = recentItem.ratingKey;
-          break;
-        case (MediaType.track):
-          posterImg = recentItem.thumb;
-          posterRatingKey = recentItem.parentRatingKey;
-          break;
-        default:
-          posterRatingKey = recentItem.ratingKey;
-      }
-
-      final failureOrImageUrl = await imageUrl.getImageUrl(
+      final failureOrPosterUrl = await imageUrl.getImageUrl(
         tautulliId: tautulliIdCache!,
-        img: posterImg,
-        ratingKey: posterRatingKey,
+        img: recentItem.thumb,
+        ratingKey: recentItem.ratingKey,
       );
 
-      await failureOrImageUrl.fold(
+      final failureOrParentPosterUrl = await imageUrl.getImageUrl(
+        tautulliId: tautulliIdCache!,
+        img: recentItem.parentThumb,
+        ratingKey: recentItem.parentRatingKey,
+      );
+
+      final failureOrGrandparentPosterUrl = await imageUrl.getImageUrl(
+        tautulliId: tautulliIdCache!,
+        img: recentItem.grandparentThumb,
+        ratingKey: recentItem.grandparentRatingKey,
+      );
+
+      await failureOrPosterUrl.fold(
         (failure) async {
           logging.error(
             'RecentlyAdded :: Failed to fetch image url for ${recentItem.fullTitle} [$failure]',
           );
-
-          recentlyAddedWithImages.add(recentItem);
         },
         (imageUri) async {
           settingsBloc.add(
@@ -234,12 +214,52 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
             ),
           );
 
-          recentlyAddedWithImages.add(
-            recentItem.copyWith(
-              posterUri: imageUri.value1,
-            ),
+          posterUri = imageUri.value1;
+        },
+      );
+
+      await failureOrParentPosterUrl.fold(
+        (failure) async {
+          logging.error(
+            'RecentlyAdded :: Failed to fetch parent image url for ${recentItem.fullTitle} [$failure]',
           );
         },
+        (imageUri) async {
+          settingsBloc.add(
+            SettingsUpdatePrimaryActive(
+              tautulliId: tautulliIdCache!,
+              primaryActive: imageUri.value2,
+            ),
+          );
+
+          parentPosterUri = imageUri.value1;
+        },
+      );
+
+      await failureOrGrandparentPosterUrl.fold(
+        (failure) async {
+          logging.error(
+            'RecentlyAdded :: Failed to fetch grandparent image url for ${recentItem.fullTitle} [$failure]',
+          );
+        },
+        (imageUri) async {
+          settingsBloc.add(
+            SettingsUpdatePrimaryActive(
+              tautulliId: tautulliIdCache!,
+              primaryActive: imageUri.value2,
+            ),
+          );
+
+          grandparentPosterUri = imageUri.value1;
+        },
+      );
+
+      recentlyAddedWithImages.add(
+        recentItem.copyWith(
+          posterUri: posterUri,
+          parentPosterUri: parentPosterUri,
+          grandparentPosterUri: grandparentPosterUri,
+        ),
       );
     }
 

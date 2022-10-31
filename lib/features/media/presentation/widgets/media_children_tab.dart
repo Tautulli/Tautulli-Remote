@@ -95,6 +95,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                 await Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => MediaPage(
+                                      disableAncestryNavigation: true,
                                       media: track,
                                     ),
                                   ),
@@ -132,6 +133,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                           await Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) => MediaPage(
+                                                disableAncestryNavigation: true,
                                                 media: item,
                                                 parentPosterUri: widget.parentPosterUri,
                                               ),
@@ -155,6 +157,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                           await Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) => MediaPage(
+                                                disableAncestryNavigation: true,
                                                 media: item,
                                               ),
                                             ),
@@ -163,6 +166,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                           await Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) => MediaPage(
+                                                disableAncestryNavigation: true,
                                                 media: item,
                                               ),
                                             ),

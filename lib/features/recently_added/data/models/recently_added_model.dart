@@ -30,6 +30,7 @@ class RecentlyAddedModel extends Equatable {
   final String? fullTitle;
   @JsonKey(name: 'genres', fromJson: stringListfromList)
   final List<String>? genres;
+  final Uri? grandparentPosterUri;
   @JsonKey(name: 'grandparent_rating_key', fromJson: Cast.castToInt)
   final int? grandparentRatingKey;
   @JsonKey(name: 'grandparent_thumb', fromJson: Cast.castToString)
@@ -56,6 +57,7 @@ class RecentlyAddedModel extends Equatable {
   final DateTime? originallyAvailableAt;
   @JsonKey(name: 'parent_media_index', fromJson: Cast.castToInt)
   final int? parentMediaIndex;
+  final Uri? parentPosterUri;
   @JsonKey(name: 'parent_rating_key', fromJson: Cast.castToInt)
   final int? parentRatingKey;
   @JsonKey(name: 'parent_thumb', fromJson: Cast.castToString)
@@ -104,6 +106,7 @@ class RecentlyAddedModel extends Equatable {
     this.duration,
     this.fullTitle,
     this.genres,
+    this.grandparentPosterUri,
     this.grandparentRatingKey,
     this.grandparentThumb,
     this.grandparentTitle,
@@ -117,6 +120,7 @@ class RecentlyAddedModel extends Equatable {
     this.originalTitle,
     this.originallyAvailableAt,
     this.parentMediaIndex,
+    this.parentPosterUri,
     this.parentRatingKey,
     this.parentThumb,
     this.parentTitle,
@@ -149,6 +153,7 @@ class RecentlyAddedModel extends Equatable {
     final Duration? duration,
     final String? fullTitle,
     final List<String>? genres,
+    final Uri? grandparentPosterUri,
     final int? grandparentRatingKey,
     final String? grandparentThumb,
     final String? grandparentTitle,
@@ -162,6 +167,7 @@ class RecentlyAddedModel extends Equatable {
     final String? originalTitle,
     final DateTime? originallyAvailableAt,
     final int? parentMediaIndex,
+    final Uri? parentPosterUri,
     final int? parentRatingKey,
     final String? parentThumb,
     final String? parentTitle,
@@ -193,6 +199,7 @@ class RecentlyAddedModel extends Equatable {
       duration: duration ?? this.duration,
       fullTitle: fullTitle ?? this.fullTitle,
       genres: genres ?? this.genres,
+      grandparentPosterUri: grandparentPosterUri ?? this.grandparentPosterUri,
       grandparentRatingKey: grandparentRatingKey ?? this.grandparentRatingKey,
       grandparentThumb: grandparentThumb ?? this.grandparentThumb,
       grandparentTitle: grandparentTitle ?? this.grandparentTitle,
@@ -204,9 +211,9 @@ class RecentlyAddedModel extends Equatable {
       mediaIndex: mediaIndex ?? this.mediaIndex,
       mediaType: mediaType ?? this.mediaType,
       originalTitle: originalTitle ?? this.originalTitle,
-      originallyAvailableAt:
-          originallyAvailableAt ?? this.originallyAvailableAt,
+      originallyAvailableAt: originallyAvailableAt ?? this.originallyAvailableAt,
       parentMediaIndex: parentMediaIndex ?? this.parentMediaIndex,
+      parentPosterUri: parentPosterUri ?? this.parentPosterUri,
       parentRatingKey: parentRatingKey ?? this.parentRatingKey,
       parentThumb: parentThumb ?? this.parentThumb,
       parentTitle: parentTitle ?? this.parentTitle,
@@ -228,8 +235,7 @@ class RecentlyAddedModel extends Equatable {
     );
   }
 
-  factory RecentlyAddedModel.fromJson(Map<String, dynamic> json) =>
-      _$RecentlyAddedModelFromJson(json);
+  factory RecentlyAddedModel.fromJson(Map<String, dynamic> json) => _$RecentlyAddedModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$RecentlyAddedModelToJson(this);
 
@@ -270,6 +276,7 @@ class RecentlyAddedModel extends Equatable {
         duration,
         fullTitle,
         genres,
+        grandparentPosterUri,
         grandparentRatingKey,
         grandparentThumb,
         grandparentTitle,
@@ -283,6 +290,7 @@ class RecentlyAddedModel extends Equatable {
         originalTitle,
         originallyAvailableAt,
         parentMediaIndex,
+        parentPosterUri,
         parentRatingKey,
         parentThumb,
         parentTitle,

@@ -22,6 +22,9 @@ RecentlyAddedModel _$RecentlyAddedModelFromJson(Map<String, dynamic> json) =>
           RecentlyAddedModel.durationFromJson(json['duration'] as String?),
       fullTitle: Cast.castToString(json['full_title']),
       genres: RecentlyAddedModel.stringListfromList(json['genres'] as List?),
+      grandparentPosterUri: json['grandparentPosterUri'] == null
+          ? null
+          : Uri.parse(json['grandparentPosterUri'] as String),
       grandparentRatingKey: Cast.castToInt(json['grandparent_rating_key']),
       grandparentThumb: Cast.castToString(json['grandparent_thumb']),
       grandparentTitle: Cast.castToString(json['grandparent_title']),
@@ -37,6 +40,9 @@ RecentlyAddedModel _$RecentlyAddedModelFromJson(Map<String, dynamic> json) =>
       originallyAvailableAt: RecentlyAddedModel.dateTimeFromString(
           json['originally_available_at'] as String?),
       parentMediaIndex: Cast.castToInt(json['parent_media_index']),
+      parentPosterUri: json['parentPosterUri'] == null
+          ? null
+          : Uri.parse(json['parentPosterUri'] as String),
       parentRatingKey: Cast.castToInt(json['parent_rating_key']),
       parentThumb: Cast.castToString(json['parent_thumb']),
       parentTitle: Cast.castToString(json['parent_title']),
@@ -73,6 +79,7 @@ Map<String, dynamic> _$RecentlyAddedModelToJson(RecentlyAddedModel instance) =>
       'duration': instance.duration?.inMicroseconds,
       'full_title': instance.fullTitle,
       'genres': instance.genres,
+      'grandparentPosterUri': instance.grandparentPosterUri?.toString(),
       'grandparent_rating_key': instance.grandparentRatingKey,
       'grandparent_thumb': instance.grandparentThumb,
       'grandparent_title': instance.grandparentTitle,
@@ -87,6 +94,7 @@ Map<String, dynamic> _$RecentlyAddedModelToJson(RecentlyAddedModel instance) =>
       'originally_available_at':
           instance.originallyAvailableAt?.toIso8601String(),
       'parent_media_index': instance.parentMediaIndex,
+      'parentPosterUri': instance.parentPosterUri?.toString(),
       'parent_rating_key': instance.parentRatingKey,
       'parent_thumb': instance.parentThumb,
       'parent_title': instance.parentTitle,

@@ -23,12 +23,14 @@ class MediaPage extends StatelessWidget {
   final MediaModel media;
   final Uri? parentPosterUri;
   final bool disableAppBarActions;
+  final bool disableAncestryNavigation;
 
   const MediaPage({
     super.key,
     required this.media,
     this.parentPosterUri,
     this.disableAppBarActions = false,
+    this.disableAncestryNavigation = false,
   });
 
   @override
@@ -49,6 +51,7 @@ class MediaPage extends StatelessWidget {
         media: media,
         parentPosterUri: parentPosterUri,
         disableAppBarActions: disableAppBarActions,
+        disableAncestryNavigation: disableAncestryNavigation,
       ),
     );
   }
@@ -58,12 +61,14 @@ class MediaView extends StatefulWidget {
   final MediaModel media;
   final Uri? parentPosterUri;
   final bool disableAppBarActions;
+  final bool disableAncestryNavigation;
 
   const MediaView({
     super.key,
     required this.media,
     this.parentPosterUri,
     this.disableAppBarActions = false,
+    this.disableAncestryNavigation = false,
   });
 
   @override
@@ -121,6 +126,7 @@ class _MediaViewState extends State<MediaView> {
     switch (widget.media.mediaType) {
       case MediaType.album:
         return AlbumMediaPage(
+          disableAncestryNavigation: widget.disableAncestryNavigation,
           media: widget.media,
           plexIdentifier: _plexIdentifier,
         );
@@ -136,6 +142,7 @@ class _MediaViewState extends State<MediaView> {
         );
       case MediaType.episode:
         return EpisodeMediaPage(
+          disableAncestryNavigation: widget.disableAncestryNavigation,
           media: widget.media,
           parentPosterUri: widget.parentPosterUri,
           plexIdentifier: _plexIdentifier,
@@ -153,6 +160,7 @@ class _MediaViewState extends State<MediaView> {
         );
       case MediaType.season:
         return SeasonMediaPage(
+          disableAncestryNavigation: widget.disableAncestryNavigation,
           media: widget.media,
           plexIdentifier: _plexIdentifier,
         );
@@ -163,6 +171,7 @@ class _MediaViewState extends State<MediaView> {
         );
       case MediaType.track:
         return TrackMediaPage(
+          disableAncestryNavigation: widget.disableAncestryNavigation,
           media: widget.media,
           plexIdentifier: _plexIdentifier,
         );

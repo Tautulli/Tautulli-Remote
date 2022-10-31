@@ -6,25 +6,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/open_in_plex/open_in_plex.dart';
+import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/poster.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/media_model.dart';
+import '../bloc/metadata_bloc.dart';
 import '../widgets/media_children_tab.dart';
 import '../widgets/media_details_tab.dart';
 import '../widgets/media_history_tab.dart';
+import 'media_page.dart';
 import 'sliver_tabbed_poster_details_page.dart';
 
 class SeasonMediaPage extends StatelessWidget {
   final MediaModel media;
   final String plexIdentifier;
+  final bool disableAncestryNavigation;
 
   const SeasonMediaPage({
     super.key,
     required this.media,
     required this.plexIdentifier,
+    this.disableAncestryNavigation = false,
   });
 
   @override
@@ -32,6 +37,7 @@ class SeasonMediaPage extends StatelessWidget {
     return SeasonMediaView(
       media: media,
       plexIdentifier: plexIdentifier,
+      disableAncestryNavigation: disableAncestryNavigation,
     );
   }
 }
@@ -39,11 +45,13 @@ class SeasonMediaPage extends StatelessWidget {
 class SeasonMediaView extends StatelessWidget {
   final MediaModel media;
   final String plexIdentifier;
+  final bool disableAncestryNavigation;
 
   const SeasonMediaView({
     super.key,
     required this.media,
     required this.plexIdentifier,
+    this.disableAncestryNavigation = false,
   });
 
   @override
@@ -112,24 +120,49 @@ class SeasonMediaView extends StatelessWidget {
 
   List<Widget> _appBarActions() {
     return [
-      PopupMenuButton(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          ),
-        ),
-        itemBuilder: (context) {
-          return [
-            PopupMenuItem(
-              child: const Text(LocaleKeys.view_on_plex_title).tr(),
-              onTap: () async {
-                await di.sl<OpenInPlex>().open(
-                      plexIdentifier: plexIdentifier,
-                      ratingKey: media.ratingKey!,
-                    );
-              },
+      BlocBuilder<MetadataBloc, MetadataState>(
+        builder: (context, state) {
+          return PopupMenuButton(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
+              ),
             ),
-          ];
+            onSelected: (value) async {
+              if (value == MediaType.show) {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MediaPage(
+                      media: media.copyWith(
+                        title: state.metadata!.parentTitle,
+                        mediaType: MediaType.show,
+                        ratingKey: state.metadata!.parentRatingKey,
+                        imageUri: state.metadata!.parentImageUri,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  enabled: !disableAncestryNavigation,
+                  value: MediaType.show,
+                  child: const Text(LocaleKeys.go_to_show_title).tr(),
+                ),
+                PopupMenuItem(
+                  child: const Text(LocaleKeys.view_on_plex_title).tr(),
+                  onTap: () async {
+                    await di.sl<OpenInPlex>().open(
+                          plexIdentifier: plexIdentifier,
+                          ratingKey: media.ratingKey!,
+                        );
+                  },
+                ),
+              ];
+            },
+          );
         },
       ),
     ];

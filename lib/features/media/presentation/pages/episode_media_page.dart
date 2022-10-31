@@ -6,34 +6,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/open_in_plex/open_in_plex.dart';
+import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/poster.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/media_model.dart';
+import '../bloc/metadata_bloc.dart';
 import '../widgets/media_details_tab.dart';
 import '../widgets/media_history_tab.dart';
+import 'media_page.dart';
 import 'sliver_tabbed_poster_details_page.dart';
 
 class EpisodeMediaPage extends StatelessWidget {
   final MediaModel media;
   final Uri? parentPosterUri;
   final String plexIdentifier;
+  final bool disableAncestryNavigation;
 
   const EpisodeMediaPage({
     super.key,
     required this.media,
     this.parentPosterUri,
     required this.plexIdentifier,
+    this.disableAncestryNavigation = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    print(disableAncestryNavigation);
     return EpisodeMediaView(
       media: media,
       parentPosterUri: parentPosterUri,
       plexIdentifier: plexIdentifier,
+      disableAncestryNavigation: disableAncestryNavigation,
     );
   }
 }
@@ -42,12 +49,14 @@ class EpisodeMediaView extends StatelessWidget {
   final MediaModel media;
   final Uri? parentPosterUri;
   final String plexIdentifier;
+  final bool disableAncestryNavigation;
 
   const EpisodeMediaView({
     super.key,
     required this.media,
     this.parentPosterUri,
     required this.plexIdentifier,
+    this.disableAncestryNavigation = false,
   });
 
   @override
@@ -80,7 +89,7 @@ class EpisodeMediaView extends StatelessWidget {
             );
           },
         ),
-        appBarActions: _appBarActions(),
+        appBarActions: _appBarActions(context),
         poster: Poster(
           heroTag: media.ratingKey,
           mediaType: media.mediaType,
@@ -109,26 +118,72 @@ class EpisodeMediaView extends StatelessWidget {
     );
   }
 
-  List<Widget> _appBarActions() {
+  List<Widget> _appBarActions(BuildContext context) {
     return [
-      PopupMenuButton(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          ),
-        ),
-        itemBuilder: (context) {
-          return [
-            PopupMenuItem(
-              child: const Text(LocaleKeys.view_on_plex_title).tr(),
-              onTap: () async {
-                await di.sl<OpenInPlex>().open(
-                      plexIdentifier: plexIdentifier,
-                      ratingKey: media.ratingKey!,
-                    );
-              },
+      BlocBuilder<MetadataBloc, MetadataState>(
+        builder: (context, state) {
+          return PopupMenuButton(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
+              ),
             ),
-          ];
+            onSelected: (value) async {
+              if (value == MediaType.show) {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MediaPage(
+                      media: media.copyWith(
+                        title: state.metadata!.grandparentTitle,
+                        mediaType: MediaType.show,
+                        ratingKey: state.metadata!.grandparentRatingKey,
+                        imageUri: state.metadata!.grandparentImageUri,
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              if (value == MediaType.season) {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MediaPage(
+                      media: media.copyWith(
+                        parentTitle: state.metadata!.grandparentTitle,
+                        title: state.metadata!.parentTitle,
+                        mediaType: MediaType.season,
+                        ratingKey: state.metadata!.parentRatingKey,
+                        imageUri: state.metadata!.parentImageUri,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  enabled: !disableAncestryNavigation,
+                  value: MediaType.show,
+                  child: const Text(LocaleKeys.go_to_show_title).tr(),
+                ),
+                PopupMenuItem(
+                  enabled: !disableAncestryNavigation,
+                  value: MediaType.season,
+                  child: const Text(LocaleKeys.go_to_season_title).tr(),
+                ),
+                PopupMenuItem(
+                  child: const Text(LocaleKeys.view_on_plex_title).tr(),
+                  onTap: () async {
+                    await di.sl<OpenInPlex>().open(
+                          plexIdentifier: plexIdentifier,
+                          ratingKey: media.ratingKey!,
+                        );
+                  },
+                ),
+              ];
+            },
+          );
         },
       ),
     ];

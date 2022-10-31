@@ -20,6 +20,9 @@ MediaModel _$MediaModelFromJson(Map<String, dynamic> json) => MediaModel(
       grandparentRatingKey: Cast.castToInt(json['grandparent_rating_key']),
       grandparentThumb: Cast.castToString(json['grandparent_thumb']),
       grandparentTitle: Cast.castToString(json['grandparent_title']),
+      grandparentImageUri: json['grandparentImageUri'] == null
+          ? null
+          : Uri.parse(json['grandparentImageUri'] as String),
       imageUri: json['imageUri'] == null
           ? null
           : Uri.parse(json['imageUri'] as String),
@@ -34,6 +37,9 @@ MediaModel _$MediaModelFromJson(Map<String, dynamic> json) => MediaModel(
       originalTitle: Cast.castToString(json['original_tital']),
       originallyAvailableAt: MediaModel.dateTimeFromString(
           json['originally_available_at'] as String?),
+      parentImageUri: json['parentImageUri'] == null
+          ? null
+          : Uri.parse(json['parentImageUri'] as String),
       parentMediaIndex: Cast.castToInt(json['parent_media_index']),
       parentRatingKey: Cast.castToInt(json['parent_rating_key']),
       parentThumb: Cast.castToString(json['parent_thumb']),
@@ -69,6 +75,7 @@ Map<String, dynamic> _$MediaModelToJson(MediaModel instance) =>
       'grandparent_rating_key': instance.grandparentRatingKey,
       'grandparent_thumb': instance.grandparentThumb,
       'grandparent_title': instance.grandparentTitle,
+      'grandparentImageUri': instance.grandparentImageUri?.toString(),
       'imageUri': instance.imageUri?.toString(),
       'labels': instance.labels,
       'last_viewed_at': instance.lastViewedAt?.toIso8601String(),
@@ -80,6 +87,7 @@ Map<String, dynamic> _$MediaModelToJson(MediaModel instance) =>
       'original_tital': instance.originalTitle,
       'originally_available_at':
           instance.originallyAvailableAt?.toIso8601String(),
+      'parentImageUri': instance.parentImageUri?.toString(),
       'parent_media_index': instance.parentMediaIndex,
       'parent_rating_key': instance.parentRatingKey,
       'parent_thumb': instance.parentThumb,

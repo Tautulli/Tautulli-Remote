@@ -33,6 +33,7 @@ class MediaModel extends Equatable {
   final String? grandparentThumb;
   @JsonKey(name: 'grandparent_title', fromJson: Cast.castToString)
   final String? grandparentTitle;
+  final Uri? grandparentImageUri;
   final Uri? imageUri;
   @JsonKey(name: 'labels', fromJson: stringListfromList)
   final List<String>? labels;
@@ -52,6 +53,7 @@ class MediaModel extends Equatable {
   final String? originalTitle;
   @JsonKey(name: 'originally_available_at', fromJson: dateTimeFromString)
   final DateTime? originallyAvailableAt;
+  final Uri? parentImageUri;
   @JsonKey(name: 'parent_media_index', fromJson: Cast.castToInt)
   final int? parentMediaIndex;
   @JsonKey(name: 'parent_rating_key', fromJson: Cast.castToInt)
@@ -102,6 +104,7 @@ class MediaModel extends Equatable {
     this.grandparentRatingKey,
     this.grandparentThumb,
     this.grandparentTitle,
+    this.grandparentImageUri,
     this.imageUri,
     this.labels,
     this.lastViewedAt,
@@ -112,6 +115,7 @@ class MediaModel extends Equatable {
     this.mediaType,
     this.originalTitle,
     this.originallyAvailableAt,
+    this.parentImageUri,
     this.parentMediaIndex,
     this.parentRatingKey,
     this.parentThumb,
@@ -145,6 +149,7 @@ class MediaModel extends Equatable {
     final int? grandparentRatingKey,
     final String? grandparentThumb,
     final String? grandparentTitle,
+    final Uri? grandparentImageUri,
     final Uri? imageUri,
     final List<String>? labels,
     final DateTime? lastViewedAt,
@@ -155,6 +160,7 @@ class MediaModel extends Equatable {
     final MediaType? mediaType,
     final String? originalTitle,
     final DateTime? originallyAvailableAt,
+    final Uri? parentImageUri,
     final int? parentMediaIndex,
     final int? parentRatingKey,
     final String? parentThumb,
@@ -187,6 +193,7 @@ class MediaModel extends Equatable {
       grandparentRatingKey: grandparentRatingKey ?? this.grandparentRatingKey,
       grandparentThumb: grandparentThumb ?? this.grandparentThumb,
       grandparentTitle: grandparentTitle ?? this.grandparentTitle,
+      grandparentImageUri: grandparentImageUri ?? this.grandparentImageUri,
       imageUri: imageUri ?? this.imageUri,
       labels: labels ?? this.labels,
       lastViewedAt: lastViewedAt ?? this.lastViewedAt,
@@ -197,6 +204,7 @@ class MediaModel extends Equatable {
       mediaType: mediaType ?? this.mediaType,
       originalTitle: originalTitle ?? this.originalTitle,
       originallyAvailableAt: originallyAvailableAt ?? this.originallyAvailableAt,
+      parentImageUri: parentImageUri ?? this.parentImageUri,
       parentMediaIndex: parentMediaIndex ?? this.parentMediaIndex,
       parentRatingKey: parentRatingKey ?? this.parentRatingKey,
       parentThumb: parentThumb ?? this.parentThumb,
@@ -271,6 +279,7 @@ class MediaModel extends Equatable {
         grandparentRatingKey,
         grandparentThumb,
         grandparentTitle,
+        grandparentImageUri,
         imageUri,
         labels,
         lastViewedAt,
@@ -281,6 +290,7 @@ class MediaModel extends Equatable {
         mediaType,
         originalTitle,
         originallyAvailableAt,
+        parentImageUri,
         parentMediaIndex,
         parentRatingKey,
         parentThumb,
