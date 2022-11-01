@@ -51,7 +51,6 @@
     "daily_play_time_by_media_type_title": "Daily Play Time by Media Type",
     "daily_play_count_by_stream_type_title": "Daily Play Count by Stream Type",
     "daily_play_time_by_stream_type_title": "Daily Play Time by Stream Type",
-    "data_dump_subtitle": "App status and settings",
     "data_dump_title": "Data Dump",
     "data_dump_warning_line_1": "WARNING: This page includes sensitive data.",
     "data_dump_warning_line_2": "Be cautious when sharing.",

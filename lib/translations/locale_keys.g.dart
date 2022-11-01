@@ -53,7 +53,6 @@ abstract class  LocaleKeys {
   static const daily_play_time_by_media_type_title = 'daily_play_time_by_media_type_title';
   static const daily_play_count_by_stream_type_title = 'daily_play_count_by_stream_type_title';
   static const daily_play_time_by_stream_type_title = 'daily_play_time_by_stream_type_title';
-  static const data_dump_subtitle = 'data_dump_subtitle';
   static const data_dump_title = 'data_dump_title';
   static const data_dump_warning_line_1 = 'data_dump_warning_line_1';
   static const data_dump_warning_line_2 = 'data_dump_warning_line_2';

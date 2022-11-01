@@ -7,6 +7,7 @@ import '../../../../../core/package_information/package_information.dart';
 import '../../../../../core/widgets/custom_list_tile.dart';
 import '../../../../../core/widgets/list_tile_group.dart';
 import '../../../../../translations/locale_keys.g.dart';
+import '../../pages/data_dump.dart';
 
 class MoreGroup extends StatelessWidget {
   const MoreGroup({super.key});
@@ -39,6 +40,18 @@ class MoreGroup extends StatelessWidget {
           title: LocaleKeys.help_translate_title.tr(),
           onTap: () {
             Navigator.of(context).pushNamed('/help_translate');
+          },
+        ),
+        CustomListTile(
+          leading: const FaIcon(FontAwesomeIcons.faucet),
+          title: LocaleKeys.data_dump_title.tr(),
+          onTap: () async {
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (context) => const DataDumpPage(),
+              ),
+            );
           },
         ),
         CustomListTile(
