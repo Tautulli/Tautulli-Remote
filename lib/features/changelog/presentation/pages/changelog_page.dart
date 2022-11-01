@@ -49,17 +49,29 @@ class ChangelogView extends StatelessWidget {
         ],
       ),
       body: PageBody(
-        child: ListView.builder(
+        child: ListView(
           padding: const EdgeInsets.all(8.0),
-          itemCount: changelog['data'].length,
-          itemBuilder: (context, index) {
-            return ChangelogItem(
-              changelog['data'][index],
-              bottomPadding: index < changelog['data'].length - 1,
-            );
-          },
+          children: [
+            // const ChangelogNotice(),
+            ..._buildChangelogEntries(changelog['data']),
+          ],
         ),
       ),
     );
   }
+}
+
+List<Widget> _buildChangelogEntries(List<Map<String, dynamic>> data) {
+  List<Widget> entries = [];
+
+  for (int i = 0; i < data.length; i++) {
+    entries.add(
+      ChangelogItem(
+        data[i],
+        bottomPadding: i < data.length - 1,
+      ),
+    );
+  }
+
+  return entries;
 }
