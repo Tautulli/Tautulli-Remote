@@ -28,7 +28,6 @@
     "copied_to_clipboard_snackbar_message": "复制到剪贴板",
     "custom_http_headers_title": "HTTP 自定义报文头",
     "custom_title": "自定义",
-    "data_dump_subtitle": "应用状态和设定",
     "data_dump_title": "数据转储",
     "data_dump_warning_line_1": "警告：该页面包含敏感数据。",
     "data_dump_warning_line_2": "请谨慎分享。",
