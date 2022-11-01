@@ -58,10 +58,10 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
             return PageBody(
               child: ListView.separated(
                 padding: const EdgeInsets.all(8),
-                itemCount: state.announcementList.length,
+                itemCount: state.filteredList.length,
                 separatorBuilder: (context, index) => const Gap(8),
                 itemBuilder: (context, index) {
-                  final announcement = state.announcementList[index];
+                  final announcement = state.filteredList[index];
                   return Card(
                     child: AnnouncementCard(
                       announcement: announcement,
