@@ -83,13 +83,14 @@ class HistoryModel extends Equatable {
   final String? thumb;
   @JsonKey(name: 'title', fromJson: Cast.castToString)
   final String? title;
-  @JsonKey(
-      name: 'transcode_decision', fromJson: Cast.castStringToStreamDecision)
+  @JsonKey(name: 'transcode_decision', fromJson: Cast.castStringToStreamDecision)
   final StreamDecision? transcodeDecision;
   @JsonKey(name: 'user', fromJson: Cast.castToString)
   final String? user;
   @JsonKey(name: 'user_id', fromJson: Cast.castToInt)
   final int? userId;
+  @JsonKey(name: 'user_thumb', fromJson: Cast.castToString)
+  final String? userThumb;
   @JsonKey(name: 'watched_status', fromJson: watchedStatusFromDouble)
   final WatchedStatus? watchedStatus;
   @JsonKey(name: 'year', fromJson: Cast.castToInt)
@@ -137,6 +138,7 @@ class HistoryModel extends Equatable {
     this.transcodeDecision,
     this.user,
     this.userId,
+    this.userThumb,
     this.watchedStatus,
     this.year,
   });
@@ -183,6 +185,7 @@ class HistoryModel extends Equatable {
     final StreamDecision? transcodeDecision,
     final String? user,
     final int? userId,
+    final String? userThumb,
     final WatchedStatus? watchedStatus,
     final int? year,
   }) {
@@ -203,8 +206,7 @@ class HistoryModel extends Equatable {
       machineId: machineId ?? this.machineId,
       mediaIndex: mediaIndex ?? this.mediaIndex,
       mediaType: mediaType ?? this.mediaType,
-      originallyAvailableAt:
-          originallyAvailableAt ?? this.originallyAvailableAt,
+      originallyAvailableAt: originallyAvailableAt ?? this.originallyAvailableAt,
       originalTitle: originalTitle ?? this.originalTitle,
       parentMediaIndex: parentMediaIndex ?? this.parentMediaIndex,
       parentRatingKey: parentRatingKey ?? this.parentRatingKey,
@@ -229,13 +231,13 @@ class HistoryModel extends Equatable {
       transcodeDecision: transcodeDecision ?? this.transcodeDecision,
       user: user ?? this.user,
       userId: userId ?? this.userId,
+      userThumb: userThumb ?? this.userThumb,
       watchedStatus: watchedStatus ?? this.watchedStatus,
       year: year ?? this.year,
     );
   }
 
-  factory HistoryModel.fromJson(Map<String, dynamic> json) =>
-      _$HistoryModelFromJson(json);
+  factory HistoryModel.fromJson(Map<String, dynamic> json) => _$HistoryModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$HistoryModelToJson(this);
 
@@ -312,6 +314,7 @@ class HistoryModel extends Equatable {
         transcodeDecision,
         user,
         userId,
+        userThumb,
         watchedStatus,
         year,
       ];

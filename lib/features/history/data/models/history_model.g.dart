@@ -53,6 +53,7 @@ HistoryModel _$HistoryModelFromJson(Map<String, dynamic> json) => HistoryModel(
           json['transcode_decision'] as String?),
       user: Cast.castToString(json['user']),
       userId: Cast.castToInt(json['user_id']),
+      userThumb: Cast.castToString(json['user_thumb']),
       watchedStatus:
           HistoryModel.watchedStatusFromDouble(json['watched_status'] as num),
       year: Cast.castToInt(json['year']),
@@ -102,6 +103,7 @@ Map<String, dynamic> _$HistoryModelToJson(HistoryModel instance) =>
       'transcode_decision': _$StreamDecisionEnumMap[instance.transcodeDecision],
       'user': instance.user,
       'user_id': instance.userId,
+      'user_thumb': instance.userThumb,
       'watched_status': _$WatchedStatusEnumMap[instance.watchedStatus],
       'year': instance.year,
     };

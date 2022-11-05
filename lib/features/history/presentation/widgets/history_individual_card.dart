@@ -43,6 +43,7 @@ class HistoryIndividualCard extends StatelessWidget {
                         disableHero: true,
                         user: UserModel(
                           userId: history.userId,
+                          userThumb: history.userThumb,
                         ),
                       ),
                       const Gap(8),
