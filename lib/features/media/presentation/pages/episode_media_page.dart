@@ -35,7 +35,6 @@ class EpisodeMediaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(disableAncestryNavigation);
     return EpisodeMediaView(
       media: media,
       parentPosterUri: parentPosterUri,
