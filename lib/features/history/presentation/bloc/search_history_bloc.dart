@@ -177,8 +177,7 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
         );
 
         // Add posters to history models
-        List<HistoryModel> historyListWithUris =
-            await _historyModelsWithPosterUris(
+        List<HistoryModel> historyListWithUris = await _historyModelsWithPosterUris(
           tautulliId: event.tautulliId,
           historyList: history.value1,
           settingsBloc: event.settingsBloc,
@@ -206,6 +205,7 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
       final failureOrImageUrl = await imageUrl.getImageUrl(
         tautulliId: tautulliId,
         img: history.thumb,
+        ratingKey: history.ratingKey,
       );
 
       await failureOrImageUrl.fold(

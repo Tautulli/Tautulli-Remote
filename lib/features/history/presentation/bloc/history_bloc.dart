@@ -48,8 +48,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     required this.logging,
   }) : super(
           HistoryState(
-            history:
-                tautulliIdCache != null ? historyCache[tautulliIdCache]! : [],
+            history: tautulliIdCache != null ? historyCache[tautulliIdCache]! : [],
             userId: userIdCache,
             movieMediaType: movieMediaTypeCache ?? false,
             episodeMediaType: episodeMediaTypeCache ?? false,
@@ -199,9 +198,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         return emit(
           state.copyWith(
             status: BlocStatus.failure,
-            history: event.freshFetch
-                ? historyCache[event.tautulliId]
-                : state.history,
+            history: event.freshFetch ? historyCache[event.tautulliId] : state.history,
             failure: failure,
             message: FailureHelper.mapFailureToMessage(failure),
             suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -217,14 +214,12 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         );
 
         // Add posters to history models
-        List<HistoryModel> historyListWithUris =
-            await _historyModelsWithPosterUris(
+        List<HistoryModel> historyListWithUris = await _historyModelsWithPosterUris(
           historyList: history.value1,
           settingsBloc: event.settingsBloc,
         );
 
-        historyCache[event.tautulliId] =
-            historyCache[event.tautulliId]! + historyListWithUris;
+        historyCache[event.tautulliId] = historyCache[event.tautulliId]! + historyListWithUris;
         hasReachedMaxCache = historyListWithUris.length < length;
 
         return emit(
@@ -248,6 +243,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       final failureOrImageUrl = await imageUrl.getImageUrl(
         tautulliId: tautulliIdCache!,
         img: history.thumb,
+        ratingKey: history.ratingKey,
       );
 
       await failureOrImageUrl.fold(

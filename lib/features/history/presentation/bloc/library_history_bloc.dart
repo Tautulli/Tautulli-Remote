@@ -205,6 +205,7 @@ class LibraryHistoryBloc extends Bloc<LibraryHistoryEvent, LibraryHistoryState> 
       final failureOrImageUrl = await imageUrl.getImageUrl(
         tautulliId: tautulliId,
         img: history.thumb,
+        ratingKey: history.ratingKey,
       );
 
       await failureOrImageUrl.fold(

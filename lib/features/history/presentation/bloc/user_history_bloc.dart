@@ -210,6 +210,7 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
       final failureOrImageUrl = await imageUrl.getImageUrl(
         tautulliId: tautulliId,
         img: history.thumb,
+        ratingKey: history.ratingKey,
       );
 
       await failureOrImageUrl.fold(
