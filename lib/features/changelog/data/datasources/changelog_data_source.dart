@@ -2,12 +2,57 @@ Map changelog = {
   "data": [
     {
       "version": "v3.0.0-alpha.19",
-      "date": "Nov xx, 2022",
+      "date": "Nov 7, 2022",
       "changes": [
         {
+          "type": "important",
+          "detail": "Tautulli v2.10.5 or higher is needed to avoid some image loading issues with media details",
+        },
+        {
+          "type": "new",
+          "detail":
+              "Media details can now be viewed and loaded from various source items (library, history, recently added, statistics)",
+        },
+        {
+          "type": "new",
+          "detail": "Added setting to disable library media full refresh",
+        },
+        {
           "type": "improvement",
-          "detail": "New translations for Slovenian",
-          "additional": "Thanks @mitchoklemen",
+          "detail": "Adjust placeholder and error images",
+        },
+        {
+          "type": "improvement",
+          "detail": "Popup menu border radius now matches the rest of the app",
+        },
+        {
+          "type": "improvement",
+          "detail": "Tab bar spacing should allow for more narrow screens without cutting off the tab labels",
+        },
+        {
+          "type": "improvement",
+          "detail": "Moved data dump page under More section in settings",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added Albanian, Polish, and Slovanian languages",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Albanian, Norwegian Bokmål, Polish, and Slovenian",
+          "additional": "Thanks @TheFili, drzordz, and @mitchoklemen",
+        },
+        {
+          "type": "fix",
+          "detail": "Blurred background will no longer flicker when scrolling off screen",
+        },
+        {
+          "type": "fix",
+          "detail": "Detail page views will no longer have a thin line between the expanded section and tab bar",
+        },
+        {
+          "type": "fix",
+          "detail": "Announcements will now filter based on their intended operating system",
         },
       ],
     },
