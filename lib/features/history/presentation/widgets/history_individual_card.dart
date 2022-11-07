@@ -24,7 +24,7 @@ class HistoryIndividualCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double height = [MediaType.movie, MediaType.otherVideo].contains(history.mediaType) ? 50 : 100;
+    final double height = [MediaType.movie, MediaType.otherVideo].contains(history.mediaType) ? 60 : 100;
 
     return SizedBox(
       height: MediaQuery.of(context).textScaleFactor > 1 ? height * MediaQuery.of(context).textScaleFactor : height,
@@ -35,7 +35,7 @@ class HistoryIndividualCard extends StatelessWidget {
             children: [
               Positioned.fill(
                 child: Padding(
-                  padding: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
