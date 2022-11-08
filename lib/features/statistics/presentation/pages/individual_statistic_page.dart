@@ -352,13 +352,13 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                   thumb: statData.thumb,
                   backgroundUri: statData.posterUri,
                   lastAccessed: statData.lastPlay,
+                  isActive: true,
                 ),
                 details: TopLibrariesStatisticDetails(statData: statData),
               ),
             )
             .toList();
       case (StatIdType.unknown):
-      default: //TODO: Remove when Dart stops thinking default is needed even when all enum types are accounted for
         return [];
     }
   }
