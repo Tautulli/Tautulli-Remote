@@ -250,17 +250,20 @@ class RecentlyAddedModel extends Equatable {
     return DateTime.tryParse(date);
   }
 
-  static DateTime? dateTimeFromEpochSeconds(String? secondsSinceEpoch) {
+  static DateTime? dateTimeFromEpochSeconds(String? secondsSinceEpochString) {
+    final secondsSinceEpoch = Cast.castToInt(secondsSinceEpochString);
+
     if (secondsSinceEpoch == null) return null;
 
-    return DateTime.fromMillisecondsSinceEpoch(
-      (int.tryParse(secondsSinceEpoch) ?? 0) * 1000,
-    );
+    return DateTime.fromMillisecondsSinceEpoch((secondsSinceEpoch) * 1000);
   }
 
-  static Duration? durationFromJson(String? seconds) {
+  static Duration? durationFromJson(String? secondsString) {
+    final seconds = Cast.castToInt(secondsString);
+
     if (seconds == null) return null;
-    return Duration(seconds: int.tryParse(seconds) ?? 0);
+
+    return Duration(seconds: seconds);
   }
 
   @override

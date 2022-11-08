@@ -102,13 +102,12 @@ class LibraryMediaInfoModel extends Equatable {
 
   Map<String, dynamic> toJson() => _$LibraryMediaInfoModelToJson(this);
 
-  static DateTime? dateTimeFromStringEpochSeconds(String? secondsSinceEpoch) {
+  static DateTime? dateTimeFromStringEpochSeconds(String? secondsSinceEpochString) {
+    final secondsSinceEpoch = Cast.castToInt(secondsSinceEpochString);
+
     if (secondsSinceEpoch == null) return null;
-    try {
-      return DateTime.fromMillisecondsSinceEpoch(int.parse(secondsSinceEpoch) * 1000);
-    } catch (e) {
-      return null;
-    }
+
+    return DateTime.fromMillisecondsSinceEpoch(secondsSinceEpoch * 1000);
   }
 
   static DateTime? dateTimeFromEpochSeconds(int? secondsSinceEpoch) {

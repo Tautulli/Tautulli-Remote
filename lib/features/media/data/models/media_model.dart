@@ -244,13 +244,12 @@ class MediaModel extends Equatable {
     return DateTime.tryParse(date);
   }
 
-  static Duration? durationFromMilliseconds(String? milliseconds) {
+  static Duration? durationFromMilliseconds(String? millisecondsString) {
+    final milliseconds = Cast.castToInt(millisecondsString);
+
     if (milliseconds == null) return null;
 
-    final intMilliseconds = int.tryParse(milliseconds);
-    if (intMilliseconds == null) return null;
-
-    return Duration(milliseconds: intMilliseconds);
+    return Duration(milliseconds: milliseconds);
   }
 
   static MediaInfoModel? mediaInfoModelFromJson(List? mediaInfoList) {

@@ -177,13 +177,11 @@ class StatisticDataModel extends Equatable {
   Map<String, dynamic> toJson() => _$StatisticDataModelToJson(this);
 
   static DateTime? dateTimeFromEpochSeconds(dynamic secondsSinceEpoch) {
-    if (secondsSinceEpoch == null) return null;
+    final secondsSinceEpochInt = Cast.castToInt(secondsSinceEpoch);
 
-    if (secondsSinceEpoch.runtimeType == String) {
-      return DateTime.fromMillisecondsSinceEpoch(int.parse(secondsSinceEpoch) * 1000);
-    }
+    if (secondsSinceEpochInt == null) return null;
 
-    return DateTime.fromMillisecondsSinceEpoch(secondsSinceEpoch * 1000);
+    return DateTime.fromMillisecondsSinceEpoch(secondsSinceEpochInt * 1000);
   }
 
   static Duration? durationFromJson(int? seconds) {
