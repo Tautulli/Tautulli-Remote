@@ -1,4 +1,12 @@
 {
     "history_title": "Histórico",
-    "recently_added_title": "Adicionado Recentemente"
+    "recently_added_title": "Adicionado Recentemente",
+    "wizard_closing_support": "Para obter ajuda com problemas ou fornecer feedback, visite as ligações de Ajuda e Suporte nas Configurações.",
+    "wizard_quit_dialog_title": "Tem certeza de que deseja sair do Assistente de Configuração?",
+    "wizard_onesignal_text_2": "Se quiser receber notificações nesta app, por favor revise e aceite a privacidade de dados do OneSignal abaixo.",
+    "wizard_skip_dialog_title": "Tem certeza que deseja pular?",
+    "wizard_closing_translate": "O Tautulli Remote suporta vários idiomas, ajude a traduzir em Configurações > Ajudar a Traduzir.",
+    "wizard_closing_announcements": "Fique de olho na página Anúncios para receber mensagens importantes sobre a app.",
+    "wizard_closing_notifications": "Lembre-se de configurar Tautulli Remote como um agente de notificação no Tautulli, em Configurações> Agentes de Notificação.",
+    "wizard_onesignal_text_1": "Tautulli usa o OneSignal para enviar notificações push para Tautulli Remote. O conteúdo dessas notificações pode ser criptografado."
 }
