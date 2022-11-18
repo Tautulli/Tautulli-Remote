@@ -189,5 +189,6 @@
     "settings_language_title": "Idioma",
     "settings_alert_ios_local_network_permission_content_1": "Para se conectar a um servidor local, o Tautulli Remote precisa da permissão de rede local.",
     "settings_clear_cache_title": "Limpar Cache de Imagem",
-    "settings_clear_cache_dialog_content": "Tem certeza de que deseja limpar o cache?"
+    "settings_clear_cache_dialog_content": "Tem certeza de que deseja limpar o cache?",
+    "wizard_closing_title": "Mais alguns detalhes"
 }
