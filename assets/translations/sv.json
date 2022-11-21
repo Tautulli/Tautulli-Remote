@@ -351,5 +351,9 @@
     "settings_language_title": "Språk",
     "button_go_to_settings": "GÅ TILL INSTÄLLNINGAR",
     "settings_header_input_password": "Lösenord",
-    "settings_header_input_username": "Användarnamn"
+    "settings_header_input_username": "Användarnamn",
+    "privacy_text_block_1": "Tautulli Remote stödjer %end-to-end kryptering%",
+    "privacy_text_block_2": "%OneSignal% används för att skicka notifikationer från Tautulli. Inga personuppgifter samlas in av OneSignal. Läs %OneSignals integritetspolicy% för mer info.",
+    "button_help": "HJÄLP",
+    "settings_validation_blank": "Kan inte lämnas blank"
 }
