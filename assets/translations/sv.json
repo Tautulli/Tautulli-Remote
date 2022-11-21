@@ -164,5 +164,9 @@
     "wizard_welcome_text_1": "Välkommen!",
     "wizard_welcome_text_2": "Med Tautulli Remote kan du se din Plex-serveraktivitet, historik, statistik och mycket mer genom att ansluta till din befintliga Tautulli-server.",
     "wizard_welcome_text_3": "Kontrollera att Tautulli för närvarande körs och är tillgängligt från den här enheten innan du fortsätter med installationsguiden.",
-    "y_axis_title": "Y-axel"
+    "y_axis_title": "Y-axel",
+    "bitrate_title": "Bithastighet",
+    "active_connection_title": "Aktiv anslutning",
+    "clear_app_image_cache_dialog_content": "Är du säker du vill rensa lokal bild cache?",
+    "aired_title": "Sändes"
 }
