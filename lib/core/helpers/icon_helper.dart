@@ -46,14 +46,14 @@ class IconHelper {
     }
   }
 
-  static IconData mapTranscodeDecisionToIcon(String transcodeDecision) {
+  static IconData mapTranscodeDecisionToIcon(StreamDecision? transcodeDecision) {
     switch (transcodeDecision) {
-      case ('transcode'):
+      case (StreamDecision.transcode):
         return FontAwesomeIcons.server;
-      case ('copy'):
+      case (StreamDecision.copy):
         return FontAwesomeIcons.barsStaggered;
-      case ('direct play'):
-        return FontAwesomeIcons.circlePlay;
+      case (StreamDecision.directPlay):
+        return FontAwesomeIcons.solidCirclePlay;
       default:
         return FontAwesomeIcons.circleQuestion;
     }

@@ -99,7 +99,7 @@ class TautulliColorPalette {
   /// Returns a given [Color] for the provided platform.
   ///
   /// Unknown platforms default to Plex's `Gamboge` orange.
-  static Color mapPlatformToColor(String platform) {
+  static Color mapPlatformToColor(String? platform) {
     switch (platform) {
       case 'alexa':
         return const Color.fromRGBO(0, 202, 255, 1.0);

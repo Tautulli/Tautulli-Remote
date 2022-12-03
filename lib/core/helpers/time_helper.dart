@@ -28,11 +28,13 @@ class TimeHelper {
   }
 
   static String eta(
-    int duration,
-    int progressPercent,
+    Duration? duration,
+    int? progressPercent,
     String? timeFormat,
   ) {
-    Duration time = Duration(milliseconds: (duration * (1 - (progressPercent / 100))).round());
+    Duration time = Duration(
+      milliseconds: ((duration?.inMilliseconds ?? 0) * (1 - ((progressPercent ?? 0) / 100))).round(),
+    );
 
     DateTime eta = DateTime.now().add(time);
 
@@ -112,8 +114,10 @@ class TimeHelper {
   /// Returns a cleaner version of [Duration].
   ///
   /// Example: `1h, 6m` or `10m, 5s`.
-  static String timeLeft(int duration, int progressPercent) {
-    Duration time = Duration(milliseconds: (duration * (1 - (progressPercent / 100))).round());
+  static String timeLeft(Duration? duration, int? progressPercent) {
+    Duration time = Duration(
+      milliseconds: ((duration?.inMilliseconds ?? 0) * (1 - ((progressPercent ?? 0) / 100))).round(),
+    );
 
     if (time.inMinutes < 1) {
       return prettyDuration(
