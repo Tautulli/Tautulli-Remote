@@ -86,7 +86,7 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
           title: title,
           actions: actions,
         ),
-        body: PageBody(
+        body: SafeArea(
           child: DoubleBackToExit(
             innerDrawerKey: innerDrawerKey,
             child: body,
@@ -130,17 +130,24 @@ class _AppDrawer extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // DrawerTile(
-                          //   selected: route?.settings.name == '/activity',
-                          //   leading: const FaIcon(
-                          //     FontAwesomeIcons.tv,
-                          //   ),
-                          //   title: const Text('Activity'),
-                          //   onTap: () {},
-                          // ),
                           DrawerTile(
-                            //TODO: Change default route once activity exists
-                            selected: route?.settings.name == '/history' || route?.settings.name == '/',
+                            selected: route?.settings.name == '/activity' || route?.settings.name == '/',
+                            leading: const FaIcon(
+                              FontAwesomeIcons.tv,
+                            ),
+                            title: const Text(LocaleKeys.activity_title).tr(),
+                            onTap: () {
+                              if (route?.settings.name != '/activity') {
+                                Navigator.of(context).pushReplacementNamed(
+                                  '/activity',
+                                );
+                              } else {
+                                innerDrawerKey.currentState!.close();
+                              }
+                            },
+                          ),
+                          DrawerTile(
+                            selected: route?.settings.name == '/history',
                             leading: const FaIcon(
                               FontAwesomeIcons.clockRotateLeft,
                             ),

@@ -14,6 +14,11 @@ import 'core/network_info/network_info.dart';
 import 'core/open_in_plex/open_in_plex.dart';
 import 'core/package_information/package_information.dart';
 import 'core/qr_code_scanner/qr_code_scanner.dart';
+import 'features/activity/data/datasources/activity_data_source.dart';
+import 'features/activity/data/repositories/activity_repository_impl.dart';
+import 'features/activity/domain/repositories/activity_repository.dart';
+import 'features/activity/domain/usecases/activity.dart';
+import 'features/activity/presentation/bloc/activity_bloc.dart';
 import 'features/announcements/data/datasources/announcements_data_source.dart';
 import 'features/announcements/data/repositories/announcements_repository_impl.dart';
 import 'features/announcements/domain/repositories/announcements_repository.dart';
@@ -108,6 +113,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<tautulli_api.DeleteImageCache>(
     () => tautulli_api.DeleteImageCacheImpl(sl()),
+  );
+  sl.registerLazySingleton<tautulli_api.GetActivity>(
+    () => tautulli_api.GetActivityImpl(sl()),
   );
   sl.registerLazySingleton<tautulli_api.GetChildrenMetadata>(
     () => tautulli_api.GetChildrenMetadataImpl(sl()),
@@ -246,6 +254,38 @@ Future<void> init() async {
   sl.registerLazySingleton(() => Connectivity());
   sl.registerLazySingleton(() => DeviceInfoPlugin());
   sl.registerLazySingleton(() => const AndroidId());
+
+  //! Features - Activity
+  // Bloc
+  sl.registerFactory(
+    () => ActivityBloc(
+      activity: sl(),
+      imageUrl: sl(),
+      logging: sl(),
+    ),
+  );
+
+  // Use case
+  sl.registerLazySingleton(
+    () => Activity(
+      repository: sl(),
+    ),
+  );
+
+  // Repository
+  sl.registerLazySingleton<ActivityRepository>(
+    () => ActivityRepositoryImpl(
+      dataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<ActivityDataSource>(
+    () => ActivityDataSourceImpl(
+      getActivityApi: sl(),
+    ),
+  );
 
   //! Features - Announcements
   // Bloc

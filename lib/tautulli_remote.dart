@@ -10,6 +10,7 @@ import 'core/helpers/color_palette_helper.dart';
 import 'core/helpers/theme_helper.dart';
 import 'core/widgets/settings_not_loaded.dart';
 import 'dependency_injection.dart' as di;
+import 'features/activity/presentation/pages/activity_page.dart';
 import 'features/announcements/presentation/bloc/announcements_bloc.dart';
 import 'features/announcements/presentation/pages/announcements_page.dart';
 import 'features/changelog/presentation/pages/changelog_page.dart';
@@ -169,6 +170,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
         );
       },
       routes: {
+        ActivityPage.routeName: (_) => const ActivityPage(),
         AnnouncementsPage.routeName: (_) => const AnnouncementsPage(),
         ChangelogPage.routeName: (_) => const ChangelogPage(),
         DonatePage.routeName: (_) => const DonatePage(),
@@ -184,7 +186,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
         WizardPage.routeName: (_) => const WizardPage(),
       },
       initialRoute: widget.initialRoute,
-      home: const HistoryPage(),
+      //TODO: Handle no servers configured
+      home: const ActivityPage(),
     );
   }
 }

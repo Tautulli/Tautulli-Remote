@@ -2,6 +2,7 @@ export 'call_tautulli.dart';
 export 'connection_handler.dart';
 //  Endpoints
 export 'endpoints/delete_image_cache.dart';
+export 'endpoints/get_activity.dart';
 export 'endpoints/get_children_metadata.dart';
 export 'endpoints/get_geo_ip_lookup.dart';
 export 'endpoints/get_history.dart';
