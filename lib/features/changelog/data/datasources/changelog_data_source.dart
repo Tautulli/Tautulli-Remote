@@ -1,6 +1,27 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.20",
+      "date": "Dec 3, 2022",
+      "changes": [
+        {
+          "type": "important",
+          "detail":
+              "This is an abnormally limited alpha release as I do not expect to have time this year to develop it further, I will continue development in the new year",
+        },
+        {
+          "type": "new",
+          "detail": "Activity page will show cards for current activity items",
+          "additional": "None of the available Activity settings will have any effect at this time",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Portuguese (Portugal) and Swedish",
+          "additional": "Thanks @SantosSi, jacobnil, and @velcropaste",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.19",
       "date": "Nov 7, 2022",
       "changes": [
@@ -35,7 +56,7 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "Added Albanian, Polish, and Slovanian languages",
+          "detail": "Added Albanian and Polish languages",
         },
         {
           "type": "improvement",
