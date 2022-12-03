@@ -305,6 +305,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setMaskSensitiveInfo(value);
   }
 
+  // Multiserver Activity
+  @override
+  Future<bool> getMultiserverActivity() async {
+    return await dataSource.getMultiserverActivity();
+  }
+
+  @override
+  Future<bool> setMultiserverActivity(bool value) async {
+    return await dataSource.setMultiserverActivity(value);
+  }
+
   // OneSignal Banner Dismissed
   @override
   Future<bool> getOneSignalBannerDismissed() async {

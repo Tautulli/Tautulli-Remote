@@ -12,6 +12,7 @@ class AppSettingsModel extends Equatable {
   final String librariesSort;
   final bool libraryMediaFullRefresh;
   final bool maskSensitiveInfo;
+  final bool multiserverActivity;
   final bool oneSignalBannerDismissed;
   final bool oneSignalConsented;
   final int refreshRate;
@@ -31,6 +32,7 @@ class AppSettingsModel extends Equatable {
     required this.librariesSort,
     required this.libraryMediaFullRefresh,
     required this.maskSensitiveInfo,
+    required this.multiserverActivity,
     required this.oneSignalBannerDismissed,
     required this.oneSignalConsented,
     required this.refreshRate,
@@ -51,6 +53,7 @@ class AppSettingsModel extends Equatable {
     String? librariesSort,
     bool? libraryMediaFullRefresh,
     bool? maskSensitiveInfo,
+    bool? multiserverActivity,
     bool? oneSignalBannerDismissed,
     bool? oneSignalConsented,
     int? refreshRate,
@@ -70,6 +73,7 @@ class AppSettingsModel extends Equatable {
       librariesSort: librariesSort ?? this.librariesSort,
       libraryMediaFullRefresh: libraryMediaFullRefresh ?? this.libraryMediaFullRefresh,
       maskSensitiveInfo: maskSensitiveInfo ?? this.maskSensitiveInfo,
+      multiserverActivity: multiserverActivity ?? this.multiserverActivity,
       oneSignalBannerDismissed: oneSignalBannerDismissed ?? this.oneSignalBannerDismissed,
       oneSignalConsented: oneSignalConsented ?? this.oneSignalConsented,
       refreshRate: refreshRate ?? this.refreshRate,
@@ -92,6 +96,7 @@ class AppSettingsModel extends Equatable {
       'Libraries Sort': librariesSort.toString(),
       'Library Media Full Refresh': libraryMediaFullRefresh.toString(),
       'Mask Sensitive Info': maskSensitiveInfo.toString(),
+      'Multiserver Activity': multiserverActivity.toString(),
       'OneSignal Banner Dismissed': oneSignalBannerDismissed.toString(),
       'OneSignal Privacy Accepted': oneSignalConsented.toString(),
       'Refresh Rate': refreshRate.toString(),
@@ -113,6 +118,7 @@ class AppSettingsModel extends Equatable {
         librariesSort,
         libraryMediaFullRefresh,
         maskSensitiveInfo,
+        multiserverActivity,
         oneSignalBannerDismissed,
         oneSignalConsented,
         refreshRate,

@@ -109,6 +109,10 @@ abstract class SettingsRepository {
   Future<bool> getMaskSensitiveInfo();
   Future<bool> setMaskSensitiveInfo(bool value);
 
+  // Multiserver Activity
+  Future<bool> getMultiserverActivity();
+  Future<bool> setMultiserverActivity(bool value);
+
   // OneSignal Banner Dismissed
   Future<bool> getOneSignalBannerDismissed();
   Future<bool> setOneSignalBannerDismissed(bool value);

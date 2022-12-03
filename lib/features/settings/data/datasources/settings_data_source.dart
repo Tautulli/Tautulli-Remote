@@ -114,6 +114,10 @@ abstract class SettingsDataSource {
   Future<bool> getMaskSensitiveInfo();
   Future<bool> setMaskSensitiveInfo(bool value);
 
+  // Multiserver Activity
+  Future<bool> getMultiserverActivity();
+  Future<bool> setMultiserverActivity(bool value);
+
   // OneSignal Banner Dismissed
   Future<bool> getOneSignalBannerDismissed();
   Future<bool> setOneSignalBannerDismissed(bool value);
@@ -162,6 +166,7 @@ const lastReadAnnouncementId = 'lastReadAnnouncementId';
 const libraryMediaFullRefresh = 'libraryMediaFullRefresh';
 const librariesSort = 'librariesSort';
 const maskSensitiveInfo = 'maskSensitiveInfo';
+const multiserverActivity = 'multiserverActivity';
 const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
 const oneSignalConsented = 'oneSignalConsented';
 const refreshRate = 'refreshRate';
@@ -479,6 +484,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setMaskSensitiveInfo(bool value) {
     return localStorage.setBool(maskSensitiveInfo, value);
+  }
+
+  // Multiserver Activity
+  @override
+  Future<bool> getMultiserverActivity() async {
+    return Future.value(localStorage.getBool(multiserverActivity) ?? false);
+  }
+
+  @override
+  Future<bool> setMultiserverActivity(bool value) {
+    return localStorage.setBool(multiserverActivity, value);
   }
 
   // OneSignal Banner Dismissed

@@ -300,6 +300,18 @@ class Settings {
     return await repository.setMaskSensitiveInfo(value);
   }
 
+  /// Returns if the activity page should display activity from all servers.
+  ///
+  /// If no value is stored returns `false`.
+  Future<bool> getMultiserverActivity() async {
+    return await repository.getMultiserverActivity();
+  }
+
+  /// Sets if the activity page should display activity from all servers.
+  Future<bool> setMultiserverActivity(bool value) async {
+    return await repository.setMultiserverActivity(value);
+  }
+
   /// Returns if the OneSignal Banner has been dismissed when determining if
   /// it should be displayed.
   ///

@@ -82,6 +82,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateMaskSensitiveInfo>(
       (event, emit) => _onSettingsUpdateMaskSensitiveInfo(event, emit),
     );
+    on<SettingsUpdateMultiserverActivity>(
+      (event, emit) => _onSettingsUpdateMultiserverActivity(event, emit),
+    );
     on<SettingsUpdateOneSignalConsented>(
       (event, emit) => _onSettingsUpdateOneSignalConsented(event, emit),
     );
@@ -335,6 +338,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         librariesSort: await settings.getLibrariesSort(),
         libraryMediaFullRefresh: await settings.getLibraryMediaFullRefresh(),
         maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
+        multiserverActivity: await settings.getMultiserverActivity(),
         oneSignalBannerDismissed: await settings.getOneSignalBannerDismissed(),
         oneSignalConsented: await settings.getOneSignalConsented(),
         refreshRate: await settings.getRefreshRate(),
@@ -655,6 +659,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(
       currentState.copyWith(
         appSettings: currentState.appSettings.copyWith(maskSensitiveInfo: event.maskSensitiveInfo),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateMultiserverActivity(
+    SettingsUpdateMultiserverActivity event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setMultiserverActivity(event.multiserverActivity);
+    logging.info(
+      'Settings :: Multiserver Activity set to ${event.multiserverActivity}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(multiserverActivity: event.multiserverActivity),
       ),
     );
   }

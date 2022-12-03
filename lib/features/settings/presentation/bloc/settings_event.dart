@@ -188,6 +188,15 @@ class SettingsUpdateMaskSensitiveInfo extends SettingsEvent {
   List<Object> get props => [maskSensitiveInfo];
 }
 
+class SettingsUpdateMultiserverActivity extends SettingsEvent {
+  final bool multiserverActivity;
+
+  const SettingsUpdateMultiserverActivity(this.multiserverActivity);
+
+  @override
+  List<Object> get props => [multiserverActivity];
+}
+
 class SettingsUpdateOneSignalBannerDismiss extends SettingsEvent {
   final bool dismiss;
 

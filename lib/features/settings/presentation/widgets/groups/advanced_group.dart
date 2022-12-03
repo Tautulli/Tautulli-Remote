@@ -65,6 +65,27 @@ class AdvancedGroup extends StatelessWidget {
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
+            final multiserverActivity = state.appSettings.multiserverActivity;
+
+            return CheckboxSettingsListTile(
+              subtitleIsTwoLines: true,
+              leading: const FaIcon(FontAwesomeIcons.barsStaggered),
+              title: LocaleKeys.multiserver_activity_page_title.tr(),
+              subtitle: LocaleKeys.multiserver_activity_page_subtitle.tr(),
+              value: multiserverActivity,
+              onChanged: (value) {
+                if (value != null) {
+                  context.read<SettingsBloc>().add(
+                        SettingsUpdateMultiserverActivity(value),
+                      );
+                }
+              },
+            );
+          },
+        ),
+        BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            state as SettingsSuccess;
             final libraryMediaFullRefresh = state.appSettings.libraryMediaFullRefresh;
 
             return CheckboxSettingsListTile(
