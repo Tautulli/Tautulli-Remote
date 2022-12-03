@@ -529,6 +529,8 @@ static const Map<String,dynamic> en = {
   "most_watched_tv_shows_title": "Most Watched TV Shows",
   "most_active_users_title": "Most Active Users",
   "movies_title": "Movies",
+  "multiserver_activity_page_subtitle": "Display activity from all servers simultaneously",
+  "multiserver_activity_page_title": "Multiserver Activity Page",
   "music_title": "Music",
   "name_title": "Name",
   "never": "never",
