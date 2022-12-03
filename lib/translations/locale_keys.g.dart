@@ -6,7 +6,9 @@ abstract class  LocaleKeys {
   static const accepted_title = 'accepted_title';
   static const active_connection_content = 'active_connection_content';
   static const active_connection_title = 'active_connection_title';
+  static const activity_empty_message = 'activity_empty_message';
   static const activity_refresh_rate_title = 'activity_refresh_rate_title';
+  static const activity_title = 'activity_title';
   static const add_custom_http_header_button = 'add_custom_http_header_button';
   static const added_title = 'added_title';
   static const advanced_title = 'advanced_title';
@@ -303,6 +305,7 @@ abstract class  LocaleKeys {
   static const step_title = 'step_title';
   static const stream_type_title = 'stream_type_title';
   static const streamed_title = 'streamed_title';
+  static const stream_title = 'stream_title';
   static const streams_title = 'streams_title';
   static const studio_title = 'studio_title';
   static const taken_title = 'taken_title';
