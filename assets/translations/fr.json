@@ -254,5 +254,16 @@
     "wizard_welcome_text_1": "Bienvenue !",
     "wizard_welcome_text_2": "Tautulli Remote vous permet de consulter l'activité de votre serveur Plex ainsi que l'historique, les statistiques et bien plus en vous connectant à votre serveur Tautulli existant.",
     "wizard_welcome_text_3": "Assurez-vous que Tautulli actuellement est en cours d'exécution et qu'il est accessible depuis cet appareil avant de poursuivre avec l'assistant d'installation.",
-    "y_axis_title": "Axe Y"
+    "y_axis_title": "Axe Y",
+    "all_users_title": "Tous les utilisateurs",
+    "filter_history_title": "Filtrer l'historique",
+    "episode_title": "Episode",
+    "clear_app_image_cache_dialog_content": "Voulez-vous vraiment supprimer les images en cache ?",
+    "aired_title": "En direct",
+    "container_title": "Conteneur",
+    "audio_title": "Audio",
+    "bitrate_title": "Débit",
+    "date_title": "Date",
+    "artists_title": "Artistes",
+    "activity_empty_message": "Rien à afficher."
 }
