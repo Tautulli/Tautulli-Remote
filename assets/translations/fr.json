@@ -258,12 +258,13 @@
     "all_users_title": "Tous les utilisateurs",
     "filter_history_title": "Filtrer l'historique",
     "episode_title": "Episode",
-    "clear_app_image_cache_dialog_content": "Voulez-vous vraiment supprimer les images en cache ?",
+    "clear_app_image_cache_dialog_content": "Voulez-vous vraiment effacer le cache de l'image locale?",
     "aired_title": "En direct",
     "container_title": "Conteneur",
     "audio_title": "Audio",
     "bitrate_title": "Débit",
     "date_title": "Date",
     "artists_title": "Artistes",
-    "activity_empty_message": "Rien à afficher."
+    "activity_empty_message": "Rien en cours de lecture.",
+    "most_watched_tv_shows_title": "Emissions TV les plus vues"
 }
