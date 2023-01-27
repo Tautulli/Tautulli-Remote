@@ -21,7 +21,7 @@ class ServerDeviceTokenListTile extends StatelessWidget {
       sensitive: true,
       leading: FaIcon(
         FontAwesomeIcons.key,
-        color: Theme.of(context).textTheme.subtitle2!.color,
+        color: Theme.of(context).textTheme.titleSmall!.color,
       ),
       title: LocaleKeys.device_token_title.tr(),
       subtitle: deviceToken,

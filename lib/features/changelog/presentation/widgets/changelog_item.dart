@@ -63,10 +63,7 @@ class ChangelogItem extends StatelessWidget {
                                     Text(
                                       change['additional'],
                                       style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2!
-                                            .color,
+                                        color: Theme.of(context).textTheme.titleSmall!.color,
                                         fontSize: 13,
                                         fontStyle: FontStyle.italic,
                                       ),

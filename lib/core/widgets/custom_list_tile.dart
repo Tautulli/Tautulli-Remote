@@ -50,19 +50,17 @@ class CustomListTile extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: inactive
                   ? TextStyle(
-                      color: Theme.of(context).textTheme.subtitle2!.color,
+                      color: Theme.of(context).textTheme.titleSmall!.color,
                     )
                   : null,
             ),
             subtitle: subtitle != null
                 ? Text(
-                    sensitive &&
-                            state is SettingsSuccess &&
-                            state.appSettings.maskSensitiveInfo
+                    sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo
                         ? LocaleKeys.hidden_message.tr()
                         : subtitle!,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.subtitle2,
+                    style: Theme.of(context).textTheme.titleSmall,
                   )
                 : null,
             trailing: trailing,

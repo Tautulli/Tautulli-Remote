@@ -26,12 +26,10 @@ class ServerSecondaryConnectionListTile extends StatelessWidget {
       sensitive: true,
       leading: FaIcon(
         FontAwesomeIcons.networkWired,
-        color: inactive ? Theme.of(context).textTheme.subtitle2!.color : null,
+        color: inactive ? Theme.of(context).textTheme.titleSmall!.color : null,
       ),
       title: LocaleKeys.secondary_connection_title.tr(),
-      subtitle: inactive
-          ? LocaleKeys.not_configured_message.tr()
-          : server.secondaryConnectionAddress,
+      subtitle: inactive ? LocaleKeys.not_configured_message.tr() : server.secondaryConnectionAddress,
       trailing: server.primaryActive != true
           ? const SizedBox(
               width: 35,

@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +14,6 @@ import '../database/data/models/server_model.dart';
 import 'double_back_to_exit.dart';
 import 'drawer_icon_button.dart';
 import 'drawer_tile.dart';
-import 'page_body.dart';
 import 'tautulli_logo_title.dart';
 
 class ScaffoldWithInnerDrawer extends StatelessWidget {
@@ -70,10 +69,14 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
           leading: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
             builder: (context, state) {
               return IconButton(
-                icon: Badge(
-                  animationDuration: const Duration(milliseconds: 400),
-                  badgeColor: Theme.of(context).colorScheme.secondary,
-                  position: BadgePosition.topEnd(top: 1, end: -2),
+                icon: badges.Badge(
+                  badgeAnimation: const badges.BadgeAnimation.fade(
+                    animationDuration: Duration(milliseconds: 400),
+                  ),
+                  badgeStyle: badges.BadgeStyle(
+                    badgeColor: Theme.of(context).colorScheme.secondary,
+                  ),
+                  position: badges.BadgePosition.topEnd(top: 1, end: -2),
                   showBadge: state is AnnouncementsSuccess && state.unread,
                   child: const Icon(Icons.menu),
                 ),
@@ -401,7 +404,7 @@ class _SettingsGroup extends StatelessWidget {
           Divider(
             indent: 8,
             endIndent: 8,
-            color: Theme.of(context).textTheme.subtitle2!.color,
+            color: Theme.of(context).textTheme.titleSmall!.color,
           ),
           DrawerTile(
             selected: route?.settings.name == '/announcements',
@@ -476,7 +479,7 @@ class _SettingsGroup extends StatelessWidget {
             height: 0,
             indent: 8,
             endIndent: 8,
-            color: Theme.of(context).textTheme.subtitle2!.color,
+            color: Theme.of(context).textTheme.titleSmall!.color,
           ),
           const Gap(4),
           Expanded(
@@ -485,10 +488,14 @@ class _SettingsGroup extends StatelessWidget {
               children: [
                 BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
                   builder: (context, state) {
-                    return Badge(
-                      animationDuration: Duration.zero,
-                      badgeColor: Theme.of(context).colorScheme.secondary,
-                      position: BadgePosition.topEnd(top: 9, end: 7),
+                    return badges.Badge(
+                      badgeAnimation: const badges.BadgeAnimation.fade(
+                        animationDuration: Duration.zero,
+                      ),
+                      badgeStyle: badges.BadgeStyle(
+                        badgeColor: Theme.of(context).colorScheme.secondary,
+                      ),
+                      position: badges.BadgePosition.topEnd(top: 9, end: 7),
                       showBadge: state is AnnouncementsSuccess && state.unread,
                       child: DrawerIconButton(
                         selected: route?.settings.name == '/announcements',

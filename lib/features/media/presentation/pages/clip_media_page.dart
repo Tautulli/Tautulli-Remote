@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/open_in_plex/open_in_plex.dart';
-import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/poster.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
@@ -14,7 +13,6 @@ import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/media_model.dart';
 import '../widgets/media_details_tab.dart';
-import '../widgets/media_history_tab.dart';
 import 'sliver_tabbed_poster_details_page.dart';
 
 class ClipMediaPage extends StatelessWidget {

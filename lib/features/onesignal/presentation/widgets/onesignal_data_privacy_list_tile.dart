@@ -39,7 +39,7 @@ class OneSignalDataPrivacyListTile extends StatelessWidget {
                         text: '${LocaleKeys.not_accepted_title.tr()} X',
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
-                          color: Theme.of(context).errorColor,
+                          color: Theme.of(context).colorScheme.error,
                         ),
                       ),
                     if (state is OneSignalPrivacySuccess)
@@ -68,10 +68,8 @@ class OneSignalDataPrivacyListTile extends StatelessWidget {
                   await showDialog(
                     context: context,
                     builder: (context) => PermissionSettingDialog(
-                      title:
-                          LocaleKeys.notification_permission_dialog_title.tr(),
-                      content: LocaleKeys.notification_permission_dialog_content
-                          .tr(),
+                      title: LocaleKeys.notification_permission_dialog_title.tr(),
+                      content: LocaleKeys.notification_permission_dialog_content.tr(),
                     ),
                   );
                 }

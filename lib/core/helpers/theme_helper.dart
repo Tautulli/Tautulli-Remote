@@ -185,43 +185,43 @@ class ThemeHelper {
       ),
       textTheme: GoogleFonts.openSansTextTheme(
         ThemeData.dark().textTheme.copyWith(
-              bodyText1: const TextStyle(
+              bodyLarge: const TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
-              bodyText2: const TextStyle(
+              bodyMedium: const TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
-              button: const TextStyle(
+              labelLarge: const TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
-              caption: const TextStyle(
+              bodySmall: const TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
-              headline1: const TextStyle(
+              displayLarge: const TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
-              headline2: const TextStyle(
+              displayMedium: const TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
-              headline3: const TextStyle(
+              displaySmall: const TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
-              headline4: const TextStyle(
+              headlineMedium: const TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
-              headline5: const TextStyle(
+              headlineSmall: const TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
-              headline6: const TextStyle(
+              titleLarge: const TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
-              overline: const TextStyle(
+              labelSmall: const TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
-              subtitle1: const TextStyle(
+              titleMedium: const TextStyle(
                 color: TautulliColorPalette.notWhite,
               ),
-              subtitle2: const TextStyle(
+              titleSmall: const TextStyle(
                 color: TautulliColorPalette.smoke,
               ),
             ),

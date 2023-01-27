@@ -83,7 +83,7 @@ class WizardServers extends StatelessWidget {
                   },
                 ),
                 Divider(
-                  color: Theme.of(context).textTheme.subtitle2!.color,
+                  color: Theme.of(context).textTheme.titleSmall!.color,
                 ),
                 const ServersGroup(isWizard: true),
                 BlocBuilder<SettingsBloc, SettingsState>(

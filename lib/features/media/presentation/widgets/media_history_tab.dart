@@ -51,7 +51,7 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
   Widget build(BuildContext context) {
     // Only attach scrollController if it's currently null
     if (_scrollController == null) {
-      _scrollController = PrimaryScrollController.of(context)!;
+      _scrollController = PrimaryScrollController.of(context);
       _scrollController!.addListener(_onScroll);
     }
 

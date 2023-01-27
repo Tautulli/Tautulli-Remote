@@ -57,8 +57,7 @@ class AnnouncementCard extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 4),
                         child: AnimatedOpacity(
                           duration: const Duration(milliseconds: 400),
-                          opacity:
-                              announcement.id > lastReadAnnouncementId ? 1 : 0,
+                          opacity: announcement.id > lastReadAnnouncementId ? 1 : 0,
                           child: FaIcon(
                             FontAwesomeIcons.solidCircle,
                             size: 10,
@@ -82,7 +81,7 @@ class AnnouncementCard extends StatelessWidget {
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: 13,
-                        color: Theme.of(context).textTheme.subtitle2!.color,
+                        color: Theme.of(context).textTheme.titleSmall!.color,
                       ),
                     ),
                   ),

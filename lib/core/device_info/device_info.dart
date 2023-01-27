@@ -60,7 +60,7 @@ class DeviceInfoImpl implements DeviceInfo {
   Future<num> get version async {
     if (Platform.isAndroid) {
       final androidInfo = await deviceInfoPlugin.androidInfo;
-      return num.parse(androidInfo.version.release!);
+      return num.parse(androidInfo.version.release);
     } else {
       final iosInfo = await deviceInfoPlugin.iosInfo;
       return num.parse(iosInfo.systemVersion!);

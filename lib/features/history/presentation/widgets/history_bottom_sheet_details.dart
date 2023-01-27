@@ -208,7 +208,10 @@ class _ItemRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(
-        //TODO: Use CrossAxisAlignment.baseline when it won't break IntrinsicHeight
+        // CrossAxisAlignment.baseline can't actually calculate any intrinsics sizes here because baseline metrics are
+        // only available after layout (and the intrinsics are explicitly not doing a full layout).
+
+        // As a result we cannot precisely align the bottom of the text inside an IntrinsicHeight.
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(

@@ -54,7 +54,7 @@ class DonateView extends StatefulWidget {
 }
 
 class _DonateViewState extends State<DonateView> {
-  PurchaserInfo? _purchaserInfo;
+  CustomerInfo? _customerInfo;
   Offerings? _offerings;
 
   @override
@@ -66,38 +66,38 @@ class _DonateViewState extends State<DonateView> {
   Future<void> _initialize() async {
     await Purchases.setDebugLogsEnabled(false);
     // Update to app-specific api keys
-    await Purchases.setup('WsDdfMkeAPioBSKeFnrlusHzuWOeAOLv');
+    await Purchases.configure(PurchasesConfiguration('WsDdfMkeAPioBSKeFnrlusHzuWOeAOLv'));
 
-    PurchaserInfo purchaserInfo;
+    CustomerInfo customerInfo;
     Offerings offerings;
 
-    purchaserInfo = await Purchases.getPurchaserInfo();
+    customerInfo = await Purchases.getCustomerInfo();
     offerings = await Purchases.getOfferings();
 
     if (!mounted) return;
 
     setState(() {
-      _purchaserInfo = purchaserInfo;
+      _customerInfo = customerInfo;
       _offerings = offerings;
     });
   }
 
   void _buyProduct(Package package) async {
     try {
-      if (_purchaserInfo!.activeSubscriptions.isNotEmpty) {
-        String activeSku = _purchaserInfo!.activeSubscriptions[0];
-        _purchaserInfo = await Purchases.purchasePackage(
+      if (_customerInfo!.activeSubscriptions.isNotEmpty) {
+        String activeSku = _customerInfo!.activeSubscriptions[0];
+        _customerInfo = await Purchases.purchasePackage(
           package,
           upgradeInfo: UpgradeInfo(activeSku),
         );
         setState(() {
-          _purchaserInfo!.activeSubscriptions.remove(activeSku);
+          _customerInfo!.activeSubscriptions.remove(activeSku);
         });
       } else {
-        _purchaserInfo = await Purchases.purchasePackage(package);
+        _customerInfo = await Purchases.purchasePackage(package);
       }
       setState(() {
-        _purchaserInfo!.activeSubscriptions.add(package.identifier);
+        _customerInfo!.activeSubscriptions.add(package.identifier);
       });
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -203,7 +203,7 @@ class _DonateViewState extends State<DonateView> {
                               CustomListTile(
                                 leading: FaIcon(
                                   FontAwesomeIcons.circleDollarToSlot,
-                                  color: _purchaserInfo!.activeSubscriptions.contains('subscription_tier_1')
+                                  color: _customerInfo!.activeSubscriptions.contains('subscription_tier_1')
                                       ? Colors.green
                                       : Theme.of(context).iconTheme.color,
                                 ),
@@ -216,7 +216,7 @@ class _DonateViewState extends State<DonateView> {
                               CustomListTile(
                                 leading: FaIcon(
                                   FontAwesomeIcons.circleDollarToSlot,
-                                  color: _purchaserInfo!.activeSubscriptions.contains('subscription_tier_2')
+                                  color: _customerInfo!.activeSubscriptions.contains('subscription_tier_2')
                                       ? Colors.green
                                       : Theme.of(context).iconTheme.color,
                                 ),
@@ -229,7 +229,7 @@ class _DonateViewState extends State<DonateView> {
                               CustomListTile(
                                 leading: FaIcon(
                                   FontAwesomeIcons.circleDollarToSlot,
-                                  color: _purchaserInfo!.activeSubscriptions.contains('subscription_tier_3')
+                                  color: _customerInfo!.activeSubscriptions.contains('subscription_tier_3')
                                       ? Colors.green
                                       : Theme.of(context).iconTheme.color,
                                 ),
@@ -242,7 +242,7 @@ class _DonateViewState extends State<DonateView> {
                               CustomListTile(
                                 leading: FaIcon(
                                   FontAwesomeIcons.circleDollarToSlot,
-                                  color: _purchaserInfo!.activeSubscriptions.contains('subscription_tier_4')
+                                  color: _customerInfo!.activeSubscriptions.contains('subscription_tier_4')
                                       ? Colors.green
                                       : Theme.of(context).iconTheme.color,
                                 ),
@@ -261,13 +261,13 @@ class _DonateViewState extends State<DonateView> {
                               TextButton(
                                 child: Text(
                                   LocaleKeys.donate_restore_button,
-                                  style: Theme.of(context).textTheme.subtitle2,
+                                  style: Theme.of(context).textTheme.titleSmall,
                                 ).tr(),
                                 onPressed: () async {
                                   try {
-                                    PurchaserInfo restoredInfo = await Purchases.restoreTransactions();
+                                    CustomerInfo restoredInfo = await Purchases.restorePurchases();
                                     setState(() {
-                                      _purchaserInfo = restoredInfo;
+                                      _customerInfo = restoredInfo;
                                     });
                                     ScaffoldMessenger.of(context).hideCurrentSnackBar();
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -305,7 +305,7 @@ class _DonateViewState extends State<DonateView> {
                                 child: Text(
                                   LocaleKeys.terms_of_use_title,
                                   style: TextStyle(
-                                    color: Theme.of(context).textTheme.subtitle2!.color,
+                                    color: Theme.of(context).textTheme.titleSmall!.color,
                                     decoration: TextDecoration.underline,
                                   ),
                                 ).tr(),
@@ -323,7 +323,7 @@ class _DonateViewState extends State<DonateView> {
                               child: Text(
                                 LocaleKeys.privacy_policy_title,
                                 style: TextStyle(
-                                  color: Theme.of(context).textTheme.subtitle2!.color,
+                                  color: Theme.of(context).textTheme.titleSmall!.color,
                                   decoration: TextDecoration.underline,
                                 ),
                               ).tr(),
@@ -417,7 +417,7 @@ class _DonateViewState extends State<DonateView> {
     //                               CustomListTile(
     //                                 leading: FaIcon(
     //                                   FontAwesomeIcons.donate,
-    //                                   color: _purchaserInfo!.activeSubscriptions
+    //                                   color: _customerInfo!.activeSubscriptions
     //                                           .contains('subscription_tier_1')
     //                                       ? Colors.green
     //                                       : Theme.of(context).iconTheme.color,
@@ -434,7 +434,7 @@ class _DonateViewState extends State<DonateView> {
     //                               CustomListTile(
     //                                 leading: FaIcon(
     //                                   FontAwesomeIcons.donate,
-    //                                   color: _purchaserInfo!.activeSubscriptions
+    //                                   color: _customerInfo!.activeSubscriptions
     //                                           .contains('subscription_tier_2')
     //                                       ? Colors.green
     //                                       : Theme.of(context).iconTheme.color,
@@ -451,7 +451,7 @@ class _DonateViewState extends State<DonateView> {
     //                               CustomListTile(
     //                                 leading: FaIcon(
     //                                   FontAwesomeIcons.donate,
-    //                                   color: _purchaserInfo!.activeSubscriptions
+    //                                   color: _customerInfo!.activeSubscriptions
     //                                           .contains('subscription_tier_3')
     //                                       ? Colors.green
     //                                       : Theme.of(context).iconTheme.color,
@@ -469,7 +469,7 @@ class _DonateViewState extends State<DonateView> {
     //                               CustomListTile(
     //                                 leading: FaIcon(
     //                                   FontAwesomeIcons.donate,
-    //                                   color: _purchaserInfo!.activeSubscriptions
+    //                                   color: _customerInfo!.activeSubscriptions
     //                                           .contains('subscription_tier_4')
     //                                       ? Colors.green
     //                                       : Theme.of(context).iconTheme.color,
@@ -501,7 +501,7 @@ class _DonateViewState extends State<DonateView> {
     //                                         await Purchases
     //                                             .restoreTransactions();
     //                                     setState(() {
-    //                                       _purchaserInfo = restoredInfo;
+    //                                       _customerInfo = restoredInfo;
     //                                     });
     //                                     ScaffoldMessenger.of(context)
     //                                         .hideCurrentSnackBar();

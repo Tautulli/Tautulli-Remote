@@ -210,7 +210,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                 icon: FaIcon(
                   FontAwesomeIcons.xmark,
                   color: isNotEmpty(_textController.text)
-                      ? Theme.of(context).textTheme.subtitle2!.color!
+                      ? Theme.of(context).textTheme.titleSmall!.color!
                       : Colors.transparent,
                   size: 20,
                 ),

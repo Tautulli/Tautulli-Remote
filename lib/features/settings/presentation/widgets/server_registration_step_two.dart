@@ -22,8 +22,7 @@ class ServerRegistrationStepTwo extends StatefulWidget {
   });
 
   @override
-  State<ServerRegistrationStepTwo> createState() =>
-      ServerRegistrationStepTwoState();
+  State<ServerRegistrationStepTwo> createState() => ServerRegistrationStepTwoState();
 }
 
 class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
@@ -58,7 +57,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      backgroundColor: Theme.of(context).errorColor,
+                      backgroundColor: Theme.of(context).colorScheme.error,
                       content: const Text(
                         LocaleKeys.qr_code_scan_error_snackbar_message,
                       ).tr(),
@@ -70,7 +69,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
           ),
           Text(
             'or',
-            style: Theme.of(context).textTheme.subtitle2,
+            style: Theme.of(context).textTheme.titleSmall,
           ),
           const Gap(4),
         ],
@@ -85,8 +84,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
             focusNode: _primaryFocus,
             autocorrect: false,
             decoration: InputDecoration(
-              labelText:
-                  '${LocaleKeys.primary_connection_address_title.tr()}${!_primaryValid ? '*' : ''}',
+              labelText: '${LocaleKeys.primary_connection_address_title.tr()}${!_primaryValid ? '*' : ''}',
               labelStyle: TextStyle(
                 color: _primaryValid
                     ? Theme.of(context).inputDecorationTheme.labelStyle!.color
@@ -97,11 +95,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                     ? Theme.of(context).colorScheme.error
                     : _primaryFocus.hasFocus
                         ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context)
-                            .inputDecorationTheme
-                            .enabledBorder!
-                            .borderSide
-                            .color,
+                        : Theme.of(context).inputDecorationTheme.enabledBorder!.borderSide.color,
               ),
             ),
             onTap: () {
@@ -120,9 +114,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                 setState(() {
                   _primaryValid = false;
                 });
-                return LocaleKeys
-                    .server_connection_address_dialog_primary_validation
-                    .tr();
+                return LocaleKeys.server_connection_address_dialog_primary_validation.tr();
               }
               setState(() {
                 _primaryValid = true;
@@ -136,8 +128,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
             focusNode: _secondaryFocus,
             autocorrect: false,
             decoration: InputDecoration(
-              labelText:
-                  '${LocaleKeys.secondary_connection_address_title.tr()}${!_secondaryValid ? '*' : ''}',
+              labelText: '${LocaleKeys.secondary_connection_address_title.tr()}${!_secondaryValid ? '*' : ''}',
               labelStyle: TextStyle(
                 color: _secondaryValid
                     ? Theme.of(context).inputDecorationTheme.labelStyle!.color
@@ -148,11 +139,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                     ? Theme.of(context).colorScheme.error
                     : _secondaryFocus.hasFocus
                         ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context)
-                            .inputDecorationTheme
-                            .enabledBorder!
-                            .borderSide
-                            .color,
+                        : Theme.of(context).inputDecorationTheme.enabledBorder!.borderSide.color,
               ),
               suffixIcon: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
@@ -174,13 +161,11 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 const Text(
-                                  LocaleKeys
-                                      .secondary_connection_address_explanation_one,
+                                  LocaleKeys.secondary_connection_address_explanation_one,
                                 ).tr(),
                                 const Gap(8),
                                 const Text(
-                                  LocaleKeys
-                                      .secondary_connection_address_explanation_two,
+                                  LocaleKeys.secondary_connection_address_explanation_two,
                                 ).tr(),
                               ],
                             ),
@@ -216,9 +201,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                 setState(() {
                   _secondaryValid = false;
                 });
-                return LocaleKeys
-                    .server_connection_address_dialog_secondary_validation
-                    .tr();
+                return LocaleKeys.server_connection_address_dialog_secondary_validation.tr();
               }
               setState(() {
                 _secondaryValid = true;
@@ -232,8 +215,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
             focusNode: _tokenFocus,
             autocorrect: false,
             decoration: InputDecoration(
-              labelText:
-                  '${LocaleKeys.device_token_title.tr()}${!_tokenValid ? '*' : ''}',
+              labelText: '${LocaleKeys.device_token_title.tr()}${!_tokenValid ? '*' : ''}',
               labelStyle: TextStyle(
                 color: _tokenValid
                     ? Theme.of(context).inputDecorationTheme.labelStyle!.color
@@ -244,11 +226,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                     ? Theme.of(context).colorScheme.error
                     : _tokenFocus.hasFocus
                         ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context)
-                            .inputDecorationTheme
-                            .enabledBorder!
-                            .borderSide
-                            .color,
+                        : Theme.of(context).inputDecorationTheme.enabledBorder!.borderSide.color,
               ),
             ),
             onTap: () {
@@ -261,8 +239,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                 setState(() {
                   _tokenValid = false;
                 });
-                return LocaleKeys.device_token_validation
-                    .tr(args: [value.length.toString()]);
+                return LocaleKeys.device_token_validation.tr(args: [value.length.toString()]);
               }
               setState(() {
                 _tokenValid = true;

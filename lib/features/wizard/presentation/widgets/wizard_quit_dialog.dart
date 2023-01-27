@@ -21,12 +21,10 @@ class WizardQuitDialog extends StatelessWidget {
         ),
         TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).errorColor,
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
           onPressed: () {
-            context
-                .read<SettingsBloc>()
-                .add(const SettingsUpdateWizardComplete(true));
+            context.read<SettingsBloc>().add(const SettingsUpdateWizardComplete(true));
 
             Navigator.of(context).pop(true);
           },

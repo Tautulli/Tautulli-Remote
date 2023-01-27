@@ -50,12 +50,10 @@ class CustomHeaderListTile extends StatelessWidget {
                 : null,
             title: Text(title),
             subtitle: Text(
-              sensitive &&
-                      state is SettingsSuccess &&
-                      state.appSettings.maskSensitiveInfo
+              sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo
                   ? LocaleKeys.hidden_message
                   : subtitle,
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context).textTheme.titleSmall,
             ).tr(),
             trailing: GestureDetector(
               child: const SizedBox(
@@ -95,14 +93,11 @@ class CustomHeaderListTile extends StatelessWidget {
               },
             ),
             onTap: () async {
-              final bool isBasicAuth =
-                  title == 'Authorization' && subtitle.startsWith('Basic ');
+              final bool isBasicAuth = title == 'Authorization' && subtitle.startsWith('Basic ');
 
               if (isBasicAuth) {
                 try {
-                  final List<String> creds = utf8
-                      .decode(base64Decode(subtitle.substring(6)))
-                      .split(':');
+                  final List<String> creds = utf8.decode(base64Decode(subtitle.substring(6))).split(':');
 
                   await showDialog(
                     context: context,

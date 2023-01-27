@@ -44,7 +44,7 @@ class CheckboxSettingsListTile extends StatelessWidget {
                 subtitle!,
                 overflow: subtitleIsTwoLines ? null : TextOverflow.ellipsis,
                 maxLines: subtitleIsTwoLines ? 2 : 1,
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.titleSmall,
               )
             : null,
         value: value,

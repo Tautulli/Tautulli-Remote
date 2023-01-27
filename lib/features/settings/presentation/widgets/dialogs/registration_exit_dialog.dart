@@ -12,8 +12,7 @@ class RegistrationExitDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text(LocaleKeys.server_registration_exit_dialog_title).tr(),
-      content:
-          const Text(LocaleKeys.server_registration_exit_dialog_content).tr(),
+      content: const Text(LocaleKeys.server_registration_exit_dialog_content).tr(),
       actions: [
         TextButton(
           child: const Text(LocaleKeys.cancel_button).tr(),
@@ -23,7 +22,7 @@ class RegistrationExitDialog extends StatelessWidget {
         ),
         TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).errorColor,
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
           onPressed: () {
             context.read<RegistrationHeadersBloc>().add(

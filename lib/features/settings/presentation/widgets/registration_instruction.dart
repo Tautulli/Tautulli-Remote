@@ -44,7 +44,7 @@ class RegistrationInstruction extends StatelessWidget {
                   '(${LocaleKeys.optional.tr()})',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Theme.of(context).textTheme.subtitle2!.color,
+                    color: Theme.of(context).textTheme.titleSmall!.color,
                   ),
                 ),
             ],

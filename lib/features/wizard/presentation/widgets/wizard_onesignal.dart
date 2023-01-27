@@ -58,7 +58,7 @@ class WizardOneSignal extends StatelessWidget {
                     ),
                     const Gap(8),
                     Divider(
-                      color: Theme.of(context).textTheme.subtitle2!.color,
+                      color: Theme.of(context).textTheme.titleSmall!.color,
                     ),
                     SizedBox(
                       width: double.infinity,

@@ -83,7 +83,7 @@ class MovieMediaView extends StatelessWidget {
           uri: media.imageUri,
         ),
         title: media.title,
-        subtitle: media.year != null ? media.year.toString() : null,
+        subtitle: media.year?.toString(),
         tabs: [
           Tab(child: const Text(LocaleKeys.details_title).tr()),
           Tab(child: const Text(LocaleKeys.history_title).tr()),

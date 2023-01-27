@@ -164,7 +164,7 @@ class _DataDumpRow extends StatelessWidget {
           children: children,
         ),
         Divider(
-          color: Theme.of(context).textTheme.subtitle2!.color,
+          color: Theme.of(context).textTheme.titleSmall!.color,
         ),
       ],
     );
@@ -425,9 +425,7 @@ class _AnnouncementsDumpGroup extends StatelessWidget {
                   const Gap(16),
                   Expanded(
                     child: Text(
-                      (state.announcementList.length -
-                              state.filteredList.length)
-                          .toString(),
+                      (state.announcementList.length - state.filteredList.length).toString(),
                       textAlign: TextAlign.end,
                     ),
                   ),
