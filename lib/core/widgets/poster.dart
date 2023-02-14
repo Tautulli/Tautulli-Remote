@@ -80,16 +80,20 @@ class _PosterRegular extends StatelessWidget {
 
             return Stack(
               children: [
-                CachedNetworkImage(
-                  imageUrl: uri.toString(),
-                  httpHeaders: {
-                    for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                      headerModel.key: headerModel.value,
-                  },
-                  placeholder: (context, url) => Image.asset('assets/images/poster_fallback.png', fit: BoxFit.cover),
-                  errorWidget: (context, url, error) =>
-                      Image.asset('assets/images/poster_error.png', fit: BoxFit.cover),
-                  fit: BoxFit.cover,
+                Positioned.fill(
+                  child: CachedNetworkImage(
+                    imageUrl: uri.toString(),
+                    httpHeaders: {
+                      for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                        headerModel.key: headerModel.value,
+                    },
+                    placeholder: (context, url) => Image.asset('assets/images/poster_fallback.png', fit: BoxFit.cover),
+                    errorWidget: (context, url, error) => Image.asset(
+                      'assets/images/poster_error.png',
+                      fit: BoxFit.cover,
+                    ),
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 if (activityState != null && activityState != PlaybackState.playing)
                   _PosterState(activityState: activityState!),
