@@ -224,6 +224,7 @@ class _UsersViewState extends State<UsersView> {
         ),
         child: PopupMenuButton(
           icon: _currentSortIcon(),
+          color: Theme.of(context).colorScheme.primary,
           tooltip: LocaleKeys.sort_users_title.tr(),
           onSelected: (value) {
             if (value != null) {
@@ -322,6 +323,8 @@ class _UsersViewState extends State<UsersView> {
   }
 
   FaIcon _currentSortIcon({Color? color}) {
+    color ??= Theme.of(context).colorScheme.tertiary;
+
     if (_orderColumn == 'friendly_name') {
       if (_orderDir == 'asc') {
         return FaIcon(

@@ -197,6 +197,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
   List<Widget> _appBarActions() {
     return [
       PopupMenuButton(
+        color: Theme.of(context).colorScheme.primary,
         tooltip: LocaleKeys.filter_recently_added_title.tr(),
         // Use BlocBuilder to update the state of the icon when server is
         // changed without closing the inner drawer.
@@ -204,7 +205,8 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
           builder: (context, state) {
             return FaIcon(
               FontAwesomeIcons.filter,
-              color: _mediaType != null ? Theme.of(context).colorScheme.secondary : null,
+              color:
+                  _mediaType != null ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.tertiary,
               size: 20,
             );
           },

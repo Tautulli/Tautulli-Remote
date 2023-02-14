@@ -213,9 +213,11 @@ class _GraphsViewState extends State<GraphsView> {
       BlocBuilder<GraphsBloc, GraphsState>(
         builder: (context, state) {
           return PopupMenuButton(
+            color: Theme.of(context).colorScheme.primary,
             tooltip: LocaleKeys.y_axis_title.tr(),
             icon: FaIcon(
               _yAxis == PlayMetricType.plays ? FontAwesomeIcons.hashtag : FontAwesomeIcons.solidClock,
+              color: Theme.of(context).colorScheme.tertiary,
               size: 20,
             ),
             onSelected: (PlayMetricType value) {
@@ -291,9 +293,11 @@ class _GraphsViewState extends State<GraphsView> {
             children: [
               Center(
                 child: PopupMenuButton(
+                  color: Theme.of(context).colorScheme.primary,
                   tooltip: LocaleKeys.time_range_title.tr(),
-                  icon: const FaIcon(
+                  icon: FaIcon(
                     FontAwesomeIcons.solidCalendarDays,
+                    color: Theme.of(context).colorScheme.tertiary,
                     size: 20,
                   ),
                   onSelected: (int value) async {

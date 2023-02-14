@@ -141,6 +141,7 @@ class _LoggingViewState extends State<LoggingView> {
         builder: (context, state) {
           if (state is LoggingSuccess) {
             return PopupMenuButton(
+              color: Theme.of(context).colorScheme.primary,
               icon: FaIcon(
                 FontAwesomeIcons.filter,
                 size: 22,
@@ -219,15 +220,21 @@ class _LoggingViewState extends State<LoggingView> {
               },
             );
           }
-          return const IconButton(
+          return IconButton(
             icon: FaIcon(
               FontAwesomeIcons.filter,
+              color: Theme.of(context).colorScheme.tertiary,
             ),
             onPressed: null,
           );
         },
       ),
       PopupMenuButton(
+        icon: Icon(
+          Icons.more_vert,
+          color: Theme.of(context).colorScheme.tertiary,
+        ),
+        color: Theme.of(context).colorScheme.primary,
         onSelected: (value) async {
           final loggingBloc = context.read<LoggingBloc>();
 

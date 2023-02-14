@@ -225,6 +225,7 @@ class _LibrariesViewState extends State<LibrariesView> {
         child: PopupMenuButton(
           icon: _currentSortIcon(),
           tooltip: 'Sort libraries',
+          color: Theme.of(context).colorScheme.primary,
           onSelected: (value) {
             if (value != null) {
               value as String;
@@ -361,6 +362,8 @@ class _LibrariesViewState extends State<LibrariesView> {
   }
 
   FaIcon _currentSortIcon({Color? color}) {
+    color ??= Theme.of(context).colorScheme.tertiary;
+
     if (_orderColumn == 'section_name') {
       if (_orderDir == 'asc') {
         return FaIcon(

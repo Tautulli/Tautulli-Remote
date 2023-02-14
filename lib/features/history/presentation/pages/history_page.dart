@@ -314,10 +314,13 @@ class _HistoryViewState extends State<HistoryView> {
                   enabled: state.status == BlocStatus.success,
                   icon: FaIcon(
                     state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
-                    color: (_userId != -1 && _userId != null) ? Theme.of(context).colorScheme.secondary : null,
+                    color: (_userId != -1 && _userId != null)
+                        ? Theme.of(context).colorScheme.secondary
+                        : Theme.of(context).colorScheme.tertiary,
                     size: 20,
                   ),
                   tooltip: LocaleKeys.select_user_title.tr(),
+                  color: Theme.of(context).colorScheme.primary,
                   onSelected: (value) {
                     setState(() {
                       _userId = value as int;
@@ -396,10 +399,13 @@ class _HistoryViewState extends State<HistoryView> {
             child: PopupMenuButton(
               icon: FaIcon(
                 FontAwesomeIcons.filter,
-                color: _filterOptionSelected() ? Theme.of(context).colorScheme.secondary : null,
+                color: _filterOptionSelected()
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).colorScheme.tertiary,
                 size: 20,
               ),
               tooltip: LocaleKeys.filter_history_title.tr(),
+              color: Theme.of(context).colorScheme.primary,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(12),

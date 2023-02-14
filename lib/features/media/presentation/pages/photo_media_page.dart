@@ -79,7 +79,7 @@ class PhotoMediaView extends StatelessWidget {
             );
           },
         ),
-        appBarActions: _appBarActions(),
+        appBarActions: _appBarActions(context),
         poster: Poster(
           heroTag: media.ratingKey,
           mediaType: media.mediaType,
@@ -99,9 +99,14 @@ class PhotoMediaView extends StatelessWidget {
     );
   }
 
-  List<Widget> _appBarActions() {
+  List<Widget> _appBarActions(BuildContext context) {
     return [
       PopupMenuButton(
+        icon: Icon(
+          Icons.more_vert,
+          color: Theme.of(context).colorScheme.tertiary,
+        ),
+        color: Theme.of(context).colorScheme.primary,
         enabled: !disableAppBarActions,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(

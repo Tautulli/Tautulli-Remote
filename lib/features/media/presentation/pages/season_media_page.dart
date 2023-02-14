@@ -123,6 +123,11 @@ class SeasonMediaView extends StatelessWidget {
       BlocBuilder<MetadataBloc, MetadataState>(
         builder: (context, state) {
           return PopupMenuButton(
+            icon: Icon(
+              Icons.more_vert,
+              color: Theme.of(context).colorScheme.tertiary,
+            ),
+            color: Theme.of(context).colorScheme.primary,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(12),

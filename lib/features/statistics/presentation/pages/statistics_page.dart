@@ -180,9 +180,11 @@ class _StatisticsViewState extends State<StatisticsView> {
   List<Widget> _appBarActions() {
     return [
       PopupMenuButton(
+        color: Theme.of(context).colorScheme.primary,
         tooltip: 'Stats Type',
         icon: FaIcon(
           _statsType == PlayMetricType.plays ? FontAwesomeIcons.hashtag : FontAwesomeIcons.solidClock,
+          color: Theme.of(context).colorScheme.tertiary,
           size: 20,
         ),
         onSelected: (PlayMetricType value) {
@@ -256,9 +258,11 @@ class _StatisticsViewState extends State<StatisticsView> {
         children: [
           Center(
             child: PopupMenuButton(
+              color: Theme.of(context).colorScheme.primary,
               tooltip: LocaleKeys.time_range_title.tr(),
-              icon: const FaIcon(
+              icon: FaIcon(
                 FontAwesomeIcons.solidCalendarDays,
+                color: Theme.of(context).colorScheme.tertiary,
                 size: 20,
               ),
               onSelected: (int value) async {
