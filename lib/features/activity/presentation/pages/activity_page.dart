@@ -242,12 +242,10 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
     final double screenWidth = MediaQuery.of(context).size.width;
     List<Widget> activityServerList = [];
 
-    //TODO: Do something if empty
     if (serverActivityModelList.isNotEmpty) {
       for (ServerActivityModel serverActivityModel in serverActivityModelList) {
         List<Widget> serverActivityList = [];
         if (serverActivityModel.status == BlocStatus.failure) {
-          //TODO: Status card
           serverActivityList.add(
             StatusCard(
               isFailure: true,
