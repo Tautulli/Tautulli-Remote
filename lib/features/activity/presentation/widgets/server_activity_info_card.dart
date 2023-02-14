@@ -22,7 +22,10 @@ class ServerActivityInfoCard extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Row(
           children: [
-            const FaIcon(FontAwesomeIcons.circleInfo),
+            const FaIcon(
+              FontAwesomeIcons.circleInfo,
+              size: 22,
+            ),
             const Gap(8),
             Expanded(
               child: Column(
