@@ -8,20 +8,35 @@ abstract class ActivityEvent extends Equatable {
 }
 
 class ActivityFetched extends ActivityEvent {
-  final String tautulliId;
-  final int? sessionKey;
-  final String? sessionId;
+  final List<ServerModel> serverList;
+  final bool multiserver;
+  final String activeServerId;
   final SettingsBloc settingsBloc;
-  final bool freshFetch;
 
   const ActivityFetched({
-    required this.tautulliId,
-    this.sessionKey,
-    this.sessionId,
+    required this.serverList,
+    required this.multiserver,
+    required this.activeServerId,
     required this.settingsBloc,
-    this.freshFetch = false,
   });
 
   @override
-  List<Object> get props => [tautulliId, settingsBloc, freshFetch];
+  List<Object> get props => [serverList, activeServerId, multiserver, settingsBloc];
+}
+
+class ActivityLoadServer extends ActivityEvent {
+  final String tautulliId;
+  final String serverName;
+  final Either<Failure, Tuple2<List<ActivityModel>, bool>> failureOrActivity;
+  final SettingsBloc settingsBloc;
+
+  const ActivityLoadServer({
+    required this.tautulliId,
+    required this.serverName,
+    required this.failureOrActivity,
+    required this.settingsBloc,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, serverName, failureOrActivity, settingsBloc];
 }

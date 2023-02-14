@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -16,9 +18,8 @@ import '../../domain/usecases/activity.dart';
 part 'activity_event.dart';
 part 'activity_state.dart';
 
-// Map<String, List<ActivityModel>> activityCache = {};
 List<ServerActivityModel> serverActivityListCache = [];
-String? tautulliIdCache;
+String? activeServerIdCache;
 
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   final Activity activity;
@@ -35,51 +36,164 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           ),
         ) {
     on<ActivityFetched>(_onActivityFetched);
+    on<ActivityLoadServer>(_onActivityLoadServer);
   }
 
   Future<void> _onActivityFetched(
     ActivityFetched event,
     Emitter<ActivityState> emit,
   ) async {
-    final bool serverChange = tautulliIdCache != event.tautulliId;
+    if (event.serverList.isNotEmpty) {
+      _addNewServers(event.serverList);
 
-    if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
+      _removeOldServers(event.serverList);
+
+      _updateServerSortIndex(event.serverList);
+
+      serverActivityListCache.sort(
+        (a, b) => a.sortIndex.compareTo(b.sortIndex),
+      );
+
       emit(
         state.copyWith(
-          status: BlocStatus.initial,
-          serverActivityList: serverChange ? [] : null,
+          serverActivityList: [...serverActivityListCache],
         ),
       );
 
-      serverActivityListCache = [];
-    }
+      if (event.multiserver) {
+        for (ServerActivityModel serverActivityModel in serverActivityListCache) {
+          // Exclude servers already in the process of loading activity
+          if (serverActivityModel.status != BlocStatus.inProgress) {
+            // Set status to inProgress
+            final index = serverActivityListCache.indexWhere((e) => e.tautulliId == serverActivityModel.tautulliId);
+            serverActivityListCache[index] = serverActivityModel.copyWith(status: BlocStatus.inProgress);
 
-    tautulliIdCache = event.tautulliId;
+            emit(
+              state.copyWith(
+                serverActivityList: [...serverActivityListCache],
+              ),
+            );
 
-    final settingsState = event.settingsBloc.state as SettingsSuccess;
+            _loadServer(
+              serverActivityModel: serverActivityModel,
+              settingsBloc: event.settingsBloc,
+            );
+          }
+        }
+      } else {
+        // Set active server
+        final ServerModel activeServer = event.serverList.firstWhere(
+          (server) => server.tautulliId == event.activeServerId,
+        );
+        final activeServerIndex = serverActivityListCache.indexWhere(
+          (server) => server.tautulliId == activeServer.tautulliId,
+        );
 
-    final server = settingsState.appSettings.activeServer;
-    final tautulliId = server.tautulliId;
+        // Clear activityList if active server was changed
+        if (activeServerIdCache != activeServer.tautulliId) {
+          serverActivityListCache[activeServerIndex] =
+              serverActivityListCache[activeServerIndex].copyWith(activityList: []);
 
-    tautulliIdCache = tautulliId;
+          activeServerIdCache = activeServer.tautulliId;
+        }
 
-    final failureOrActivity = await activity.getActivity(
-      tautulliId: tautulliId,
-      // sessionKey: event.sessionKey,
-      // sessionId: event.sessionId,
-    );
+        // Update status to inProgress
+        serverActivityListCache[activeServerIndex] =
+            serverActivityListCache[activeServerIndex].copyWith(status: BlocStatus.inProgress);
 
-    await failureOrActivity.fold(
-      (failure) async {
-        logging.error('Activity :: Failed to fetch activity for ${event.tautulliId} [$failure]');
-
-        return emit(
+        emit(
           state.copyWith(
-            status: BlocStatus.failure,
-            failure: failure,
-            message: FailureHelper.mapFailureToMessage(failure),
-            suggestion: FailureHelper.mapFailureToSuggestion(failure),
+            serverActivityList: [...serverActivityListCache],
           ),
+        );
+
+        _loadServer(
+          serverActivityModel: serverActivityListCache[activeServerIndex],
+          settingsBloc: event.settingsBloc,
+        );
+      }
+    }
+  }
+
+  void _addNewServers(List<ServerModel> serverList) {
+    for (ServerModel server in serverList) {
+      final bool serverExistsInCache =
+          serverActivityListCache.indexWhere((e) => e.tautulliId == server.tautulliId) != -1 ? true : false;
+
+      if (!serverExistsInCache) {
+        serverActivityListCache.add(
+          ServerActivityModel(
+            sortIndex: server.sortIndex,
+            serverName: server.plexName,
+            tautulliId: server.tautulliId,
+            status: BlocStatus.initial,
+            activityList: const [],
+            copyCount: 0,
+            directPlayCount: 0,
+            transcodeCount: 0,
+            lanBandwidth: 0,
+            wanBandwidth: 0,
+          ),
+        );
+      }
+    }
+  }
+
+  void _removeOldServers(List<ServerModel> serverList) {
+    for (ServerActivityModel serverActivityModel in serverActivityListCache) {
+      final bool serverExistsInServerList =
+          serverList.indexWhere((server) => server.tautulliId == serverActivityModel.tautulliId) != -1 ? true : false;
+
+      if (!serverExistsInServerList) {
+        serverActivityListCache.remove(serverActivityModel);
+      }
+    }
+  }
+
+  void _updateServerSortIndex(List<ServerModel> serverList) {
+    for (ServerActivityModel serverActivityModel in serverActivityListCache) {
+      final int serverIndex = serverActivityListCache.indexOf(serverActivityModel);
+      final int sortIndex =
+          serverList.firstWhere((server) => server.tautulliId == serverActivityModel.tautulliId).sortIndex;
+
+      serverActivityListCache[serverIndex] = serverActivityListCache[serverIndex].copyWith(sortIndex: sortIndex);
+    }
+  }
+
+  void _loadServer({
+    required ServerActivityModel serverActivityModel,
+    required SettingsBloc settingsBloc,
+  }) {
+    activity
+        .getActivity(
+          tautulliId: serverActivityModel.tautulliId,
+        )
+        .then(
+          (failureOrActivity) => add(
+            ActivityLoadServer(
+              tautulliId: serverActivityModel.tautulliId,
+              serverName: serverActivityModel.serverName,
+              failureOrActivity: failureOrActivity,
+              settingsBloc: settingsBloc,
+            ),
+          ),
+        );
+  }
+
+  Future<void> _onActivityLoadServer(
+    ActivityLoadServer event,
+    Emitter<ActivityState> emit,
+  ) async {
+    final int index = serverActivityListCache.indexWhere((server) => server.tautulliId == event.tautulliId);
+
+    await event.failureOrActivity.fold(
+      (failure) async {
+        serverActivityListCache[index] = serverActivityListCache[index].copyWith(
+          status: BlocStatus.failure,
+          activityList: [],
+          failure: failure,
+          failureMessage: FailureHelper.mapFailureToMessage(failure),
+          failureSuggestion: FailureHelper.mapFailureToSuggestion(failure),
         );
       },
       (activity) async {
@@ -93,68 +207,52 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         // Add posters to activity models
         List<ActivityModel> activityListWithUris = await _activityModelsWithPosterUris(
           activityList: activity.value1,
+          tautulliId: event.tautulliId,
           settingsBloc: event.settingsBloc,
         );
 
-        // activityCache[tautulliId] = activityListWithUris;
-        final serverCacheIndex = serverActivityListCache.indexWhere((server) => server.tautulliId == tautulliId);
+        int copyCount = 0;
+        int directPlayCount = 0;
+        int transcodeCount = 0;
+        int lanBandwidth = 0;
+        int wanBandwidth = 0;
 
-        if (serverCacheIndex > -1) {
-          serverActivityListCache[serverCacheIndex] = serverActivityListCache[serverCacheIndex].copyWith(
-            activityList: activityListWithUris,
-          );
-        } else {
-          int copyCount = 0;
-          int directPlayCount = 0;
-          int transcodeCount = 0;
-          int lanBandwidth = 0;
-          int wanBandwidth = 0;
+        for (int i = 0; i < activityListWithUris.length; i++) {
+          if (activityListWithUris[i].transcodeDecision == StreamDecision.directPlay) directPlayCount += 1;
+          if (activityListWithUris[i].transcodeDecision == StreamDecision.copy) copyCount += 1;
+          if (activityListWithUris[i].transcodeDecision == StreamDecision.transcode) transcodeCount += 1;
 
-          for (int i = 0; i < activityListWithUris.length; i++) {
-            if (activityListWithUris[i].transcodeDecision == StreamDecision.directPlay) directPlayCount += 1;
-            if (activityListWithUris[i].transcodeDecision == StreamDecision.copy) copyCount += 1;
-            if (activityListWithUris[i].transcodeDecision == StreamDecision.transcode) transcodeCount += 1;
-
-            if (activityListWithUris[i].bandwidth != null) {
-              if (activityListWithUris[i].location == Location.lan) {
-                lanBandwidth += activityListWithUris[i].bandwidth!;
-              } else {
-                wanBandwidth += activityListWithUris[i].bandwidth!;
-              }
+          if (activityListWithUris[i].bandwidth != null) {
+            if (activityListWithUris[i].location == Location.lan) {
+              lanBandwidth += activityListWithUris[i].bandwidth!;
+            } else {
+              wanBandwidth += activityListWithUris[i].bandwidth!;
             }
           }
-
-          serverActivityListCache.add(
-            ServerActivityModel(
-              sortIndex: server.sortIndex,
-              serverName: server.plexName,
-              tautulliId: tautulliId,
-              activityList: activityListWithUris,
-              copyCount: copyCount,
-              directPlayCount: directPlayCount,
-              transcodeCount: transcodeCount,
-              lanBandwidth: lanBandwidth,
-              wanBandwidth: wanBandwidth,
-            ),
-          );
         }
 
-        serverActivityListCache.sort(
-          (a, b) => a.sortIndex.compareTo(b.sortIndex),
-        );
-
-        return emit(
-          state.copyWith(
-            status: BlocStatus.success,
-            serverActivityList: serverActivityListCache,
-          ),
+        serverActivityListCache[index] = serverActivityListCache[index].copyWith(
+          status: BlocStatus.success,
+          activityList: activityListWithUris,
+          copyCount: copyCount,
+          directPlayCount: directPlayCount,
+          transcodeCount: transcodeCount,
+          lanBandwidth: lanBandwidth,
+          wanBandwidth: wanBandwidth,
         );
       },
+    );
+
+    emit(
+      state.copyWith(
+        serverActivityList: [...serverActivityListCache],
+      ),
     );
   }
 
   Future<List<ActivityModel>> _activityModelsWithPosterUris({
     required List<ActivityModel> activityList,
+    required String tautulliId,
     required SettingsBloc settingsBloc,
   }) async {
     List<ActivityModel> activityWithImages = [];
@@ -166,7 +264,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
       if (activity.thumb != null || activity.ratingKey != null) {
         final failureOrImageUrl = await imageUrl.getImageUrl(
-          tautulliId: tautulliIdCache!,
+          tautulliId: tautulliId,
           img: activity.thumb,
           ratingKey: activity.ratingKey,
         );
@@ -180,7 +278,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           (imageUriTuple) async {
             settingsBloc.add(
               SettingsUpdatePrimaryActive(
-                tautulliId: tautulliIdCache!,
+                tautulliId: tautulliId,
                 primaryActive: imageUriTuple.value2,
               ),
             );
@@ -192,7 +290,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
       if (activity.parentThumb != null || activity.parentRatingKey != null) {
         final failureOrParentImageUrl = await imageUrl.getImageUrl(
-          tautulliId: tautulliIdCache!,
+          tautulliId: tautulliId,
           img: activity.parentThumb,
           ratingKey: activity.parentRatingKey,
         );
@@ -206,7 +304,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           (imageUriTuple) async {
             settingsBloc.add(
               SettingsUpdatePrimaryActive(
-                tautulliId: tautulliIdCache!,
+                tautulliId: tautulliId,
                 primaryActive: imageUriTuple.value2,
               ),
             );
@@ -218,7 +316,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
       if (activity.grandparentThumb != null || activity.grandparentRatingKey != null) {
         final failureOrGrandparentImageUrl = await imageUrl.getImageUrl(
-          tautulliId: tautulliIdCache!,
+          tautulliId: tautulliId,
           img: activity.grandparentThumb,
           ratingKey: activity.grandparentRatingKey,
         );
@@ -232,7 +330,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           (imageUriTuple) async {
             settingsBloc.add(
               SettingsUpdatePrimaryActive(
-                tautulliId: tautulliIdCache!,
+                tautulliId: tautulliId,
                 primaryActive: imageUriTuple.value2,
               ),
             );

@@ -88,7 +88,7 @@ class _BandwidthInfo extends StatelessWidget {
     }
 
     return Text(
-      '${DataUnitHelper.bitrate(totalBandwidth)} (${bandwidthBreakdowns.join(', ')})',
+      '${DataUnitHelper.bitrate(totalBandwidth)} ${bandwidthBreakdowns.isNotEmpty ? '(${bandwidthBreakdowns.join(', ')})' : ''}',
     );
   }
 }

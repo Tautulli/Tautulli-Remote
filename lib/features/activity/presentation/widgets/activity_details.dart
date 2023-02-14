@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/types/media_type.dart';
@@ -23,7 +22,6 @@ class ActivityDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    inspect(activity);
     return Column(
       children: [
         Expanded(
@@ -70,11 +68,15 @@ class ActivityDetails extends StatelessWidget {
               builder: (context, state) {
                 state as SettingsSuccess;
 
-                return Text(
-                  state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : activity.friendlyName ?? '',
+                return Expanded(
+                  child: Text(
+                    state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : activity.friendlyName ?? '',
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 );
               },
             ),
+            const Gap(4),
             TimeLeft(activity: activity),
           ],
         ),
