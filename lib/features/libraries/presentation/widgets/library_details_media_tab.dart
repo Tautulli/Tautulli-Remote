@@ -48,6 +48,8 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return BlocBuilder<LibraryMediaBloc, LibraryMediaState>(
       builder: (context, state) {
         return ThemedRefreshIndicator(
@@ -101,7 +103,11 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
                     context: context,
                     removeTop: true,
                     child: GridView.count(
-                      crossAxisCount: 3,
+                      crossAxisCount: screenWidth > 1000
+                          ? 9
+                          : screenWidth > 580
+                              ? 6
+                              : 3,
                       childAspectRatio: [
                         SectionType.artist,
                         SectionType.playlist,

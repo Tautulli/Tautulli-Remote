@@ -48,6 +48,8 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return BlocBuilder<ChildrenMetadataBloc, ChildrenMetadataState>(
       builder: (context, state) {
         return ThemedRefreshIndicator(
@@ -104,8 +106,28 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                       );
                     }
 
+                    late int crossAxistCount;
+
+                    if (widget.mediaType == MediaType.season) {
+                      if (screenWidth > 1000) {
+                        crossAxistCount = 6;
+                      } else if (screenWidth > 580) {
+                        crossAxistCount = 4;
+                      } else {
+                        crossAxistCount = 2;
+                      }
+                    } else {
+                      if (screenWidth > 1000) {
+                        crossAxistCount = 9;
+                      } else if (screenWidth > 580) {
+                        crossAxistCount = 6;
+                      } else {
+                        crossAxistCount = 3;
+                      }
+                    }
+
                     return GridView.count(
-                      crossAxisCount: widget.mediaType == MediaType.season ? 2 : 3,
+                      crossAxisCount: crossAxistCount,
                       childAspectRatio: [
                         MediaType.album,
                         MediaType.artist,
