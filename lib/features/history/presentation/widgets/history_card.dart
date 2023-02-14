@@ -49,6 +49,7 @@ class _HistoryCardState extends State<HistoryCard> {
           maxWidth: 500,
         ),
         backgroundColor: Colors.transparent,
+        elevation: 0,
         isScrollControlled: true,
         builder: (context) {
           return BlocProvider.value(

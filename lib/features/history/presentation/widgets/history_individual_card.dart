@@ -110,6 +110,7 @@ class HistoryIndividualCard extends StatelessWidget {
                       maxWidth: 500,
                     ),
                     backgroundColor: Colors.transparent,
+                    elevation: 0,
                     isScrollControlled: true,
                     builder: (context) {
                       return BlocProvider.value(
