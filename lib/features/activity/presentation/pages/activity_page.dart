@@ -41,7 +41,7 @@ class ActivityView extends StatefulWidget {
   State<ActivityView> createState() => _ActivityViewState();
 }
 
-class _ActivityViewState extends State<ActivityView> {
+class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver {
   late ActivityBloc _activityBloc;
   late SettingsBloc _settingsBloc;
   late List<ServerModel> _serverList;
@@ -68,6 +68,33 @@ class _ActivityViewState extends State<ActivityView> {
         settingsBloc: _settingsBloc,
       ),
     );
+
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  // Take action if the app is paused or resumed
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      context.read<ActivityBloc>().add(ActivityAutoRefreshStop());
+    }
+    if (state == AppLifecycleState.resumed) {
+      _activityBloc.add(
+        ActivityFetched(
+          serverList: _serverList,
+          multiserver: _multiserver,
+          activeServerId: _activeServerId,
+          settingsBloc: _settingsBloc,
+        ),
+      );
+    }
   }
 
   @override

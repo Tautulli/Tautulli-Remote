@@ -262,6 +262,7 @@ Future<void> init() async {
       activity: sl(),
       imageUrl: sl(),
       logging: sl(),
+      settings: sl(),
     ),
   );
 

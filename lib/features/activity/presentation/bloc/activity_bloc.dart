@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -10,6 +12,7 @@ import '../../../../core/types/location.dart';
 import '../../../../core/types/stream_decision.dart';
 import '../../../image_url/domain/usecases/image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
+import '../../../settings/domain/usecases/settings.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/activity_model.dart';
 import '../../data/models/server_activity_model.dart';
@@ -19,17 +22,24 @@ part 'activity_event.dart';
 part 'activity_state.dart';
 
 List<ServerActivityModel> serverActivityListCache = [];
+late List<ServerModel> serverListCache;
+late bool multiserverCache;
 String? activeServerIdCache;
+late SettingsBloc settingsBlocCache;
 
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   final Activity activity;
   final ImageUrl imageUrl;
   final Logging logging;
+  final Settings settings;
+
+  Timer? _timer;
 
   ActivityBloc({
     required this.activity,
     required this.imageUrl,
     required this.logging,
+    required this.settings,
   }) : super(
           ActivityState(
             serverActivityList: serverActivityListCache,
@@ -37,6 +47,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         ) {
     on<ActivityFetched>(_onActivityFetched);
     on<ActivityLoadServer>(_onActivityLoadServer);
+    on<ActivityAutoRefreshStart>(_onActivityAutoRefreshStart);
+    on<ActivityAutoRefreshStop>(_onActivityAutoRefreshStop);
   }
 
   Future<void> _onActivityFetched(
@@ -44,7 +56,13 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     Emitter<ActivityState> emit,
   ) async {
     if (event.serverList.isNotEmpty) {
+      serverListCache = event.serverList;
+      multiserverCache = event.multiserver;
+      settingsBlocCache = event.settingsBloc;
+
       _addNewServers(event.serverList);
+
+      _verifyActiveServerId(event.serverList, event.activeServerId);
 
       _removeOldServers(event.serverList);
 
@@ -81,21 +99,9 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
           }
         }
       } else {
-        // Set active server
-        final ServerModel activeServer = event.serverList.firstWhere(
-          (server) => server.tautulliId == event.activeServerId,
-        );
         final activeServerIndex = serverActivityListCache.indexWhere(
-          (server) => server.tautulliId == activeServer.tautulliId,
+          (server) => server.tautulliId == activeServerIdCache,
         );
-
-        // Clear activityList if active server was changed
-        if (activeServerIdCache != activeServer.tautulliId) {
-          serverActivityListCache[activeServerIndex] =
-              serverActivityListCache[activeServerIndex].copyWith(activityList: []);
-
-          activeServerIdCache = activeServer.tautulliId;
-        }
 
         // Update status to inProgress
         serverActivityListCache[activeServerIndex] =
@@ -113,6 +119,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         );
       }
     }
+
+    add(ActivityAutoRefreshStart());
   }
 
   void _addNewServers(List<ServerModel> serverList) {
@@ -137,6 +145,26 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         );
       }
     }
+  }
+
+  void _verifyActiveServerId(List<ServerModel> serverList, String activeServerId) {
+    // Set active server
+    final ServerModel activeServer = serverList.firstWhere(
+      (server) => server.tautulliId == activeServerId,
+    );
+    // Set active server if null
+    activeServerIdCache ??= activeServer.tautulliId;
+
+    final activeServerIndex = serverActivityListCache.indexWhere(
+      (server) => server.tautulliId == activeServer.tautulliId,
+    );
+    // Clear activityList if active server was changed
+    if (activeServerIdCache != activeServer.tautulliId) {
+      serverActivityListCache[activeServerIndex] =
+          serverActivityListCache[activeServerIndex].copyWith(activityList: []);
+    }
+
+    activeServerIdCache = activeServer.tautulliId;
   }
 
   void _removeOldServers(List<ServerModel> serverList) {
@@ -248,6 +276,35 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         serverActivityList: [...serverActivityListCache],
       ),
     );
+  }
+
+  Future<void> _onActivityAutoRefreshStart(
+    ActivityAutoRefreshStart event,
+    Emitter<ActivityState> emit,
+  ) async {
+    _timer?.cancel();
+
+    final refreshRate = await settings.getRefreshRate();
+
+    if (refreshRate > 0 && _timer != null && _timer!.isActive) {
+      _timer = Timer.periodic(Duration(seconds: refreshRate), (timer) {
+        add(
+          ActivityFetched(
+            serverList: serverListCache,
+            multiserver: multiserverCache,
+            activeServerId: activeServerIdCache!,
+            settingsBloc: settingsBlocCache,
+          ),
+        );
+      });
+    }
+  }
+
+  Future<void> _onActivityAutoRefreshStop(
+    ActivityAutoRefreshStop event,
+    Emitter<ActivityState> emit,
+  ) async {
+    _timer?.cancel();
   }
 
   Future<List<ActivityModel>> _activityModelsWithPosterUris({

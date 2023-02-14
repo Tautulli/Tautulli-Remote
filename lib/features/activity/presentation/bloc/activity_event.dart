@@ -40,3 +40,7 @@ class ActivityLoadServer extends ActivityEvent {
   @override
   List<Object> get props => [tautulliId, serverName, failureOrActivity, settingsBloc];
 }
+
+class ActivityAutoRefreshStart extends ActivityEvent {}
+
+class ActivityAutoRefreshStop extends ActivityEvent {}
