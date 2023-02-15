@@ -5,12 +5,15 @@ import '../../../../core/types/location.dart';
 import '../../../../core/types/media_type.dart';
 import '../../../../core/types/playback_state.dart';
 import '../../../../core/types/stream_decision.dart';
+import '../../../../core/types/subtitle_decision.dart';
 import '../../../../core/utilities/cast.dart';
 
 part 'activity_model.g.dart';
 
 @JsonSerializable()
 class ActivityModel extends Equatable {
+  @JsonKey(name: 'audio_channel_layout', fromJson: Cast.castToString)
+  final String? audioChannelLayout;
   @JsonKey(name: 'audio_codec', fromJson: Cast.castToString)
   final String? audioCodec;
   @JsonKey(name: 'audio_decision', fromJson: Cast.castStringToStreamDecision)
@@ -34,6 +37,8 @@ class ActivityModel extends Equatable {
   final String? grandparentThumb;
   @JsonKey(name: 'grandparent_title', fromJson: Cast.castToString)
   final String? grandparentTitle;
+  @JsonKey(name: 'height', fromJson: Cast.castToInt)
+  final int? height;
   final Uri? imageUri;
   @JsonKey(name: 'ip_address', fromJson: Cast.castToString)
   final String? ipAddress;
@@ -49,6 +54,10 @@ class ActivityModel extends Equatable {
   final MediaType? mediaType;
   @JsonKey(name: 'optimized_version', fromJson: Cast.castToBool)
   final bool? optimizedVersion;
+  @JsonKey(name: 'optimized_version_profile', fromJson: Cast.castToString)
+  final String? optimizedVersionProfile;
+  @JsonKey(name: 'optimized_version_title', fromJson: Cast.castToString)
+  final String? optimizedVersionTitle;
   @JsonKey(name: 'originally_available_at', fromJson: dateTimeFromString)
   final DateTime? originallyAvailableAt;
   final Uri? parentImageUri;
@@ -70,6 +79,8 @@ class ActivityModel extends Equatable {
   final String? product;
   @JsonKey(name: 'progress_percent', fromJson: Cast.castToInt)
   final int? progressPercent;
+  @JsonKey(name: 'quality_profile', fromJson: Cast.castToString)
+  final String? qualityProfile;
   @JsonKey(name: 'rating_key', fromJson: Cast.castToInt)
   final int? ratingKey;
   @JsonKey(name: 'relay', fromJson: Cast.castToBool)
@@ -82,20 +93,32 @@ class ActivityModel extends Equatable {
   final int? sessionKey;
   @JsonKey(name: 'state', fromJson: Cast.castStringToPlaybackState)
   final PlaybackState? state;
+  @JsonKey(name: 'stream_audio_channel_layout', fromJson: Cast.castToString)
+  final String? streamAudioChannelLayout;
   @JsonKey(name: 'stream_audio_codec', fromJson: Cast.castToString)
   final String? streamAudioCodec;
   @JsonKey(name: 'stream_audio_decision', fromJson: Cast.castStringToStreamDecision)
   final StreamDecision? streamAudioDecision;
+  @JsonKey(name: 'stream_bitrate', fromJson: Cast.castToInt)
+  final int? streamBitrate;
   @JsonKey(name: 'stream_container', fromJson: Cast.castToString)
   final String? streamContainer;
   @JsonKey(name: 'stream_container_decision', fromJson: Cast.castStringToStreamDecision)
   final StreamDecision? streamContainerDecision;
+  @JsonKey(name: 'stream_subtitle_codec', fromJson: Cast.castToString)
+  final String? streamSubtitleCodec;
+  @JsonKey(name: 'stream_subtitle_decision', fromJson: Cast.castStringToSubtitleDecision)
+  final SubtitleDecision? streamSubtitleDecision;
   @JsonKey(name: 'stream_video_codec', fromJson: Cast.castToString)
   final String? streamVideoCodec;
   @JsonKey(name: 'stream_video_decision', fromJson: Cast.castStringToStreamDecision)
   final StreamDecision? streamVideoDecision;
   @JsonKey(name: 'stream_video_dynamic_range', fromJson: Cast.castToString)
   final String? streamVideoDynamicRange;
+  @JsonKey(name: 'stream_video_full_resolution', fromJson: Cast.castToString)
+  final String? streamVideoFullResolution;
+  @JsonKey(name: 'subtitle_codec', fromJson: Cast.castToString)
+  final String? subtitleCodec;
   @JsonKey(name: 'subtitles', fromJson: Cast.castToBool)
   final bool? subtitles;
   @JsonKey(name: 'throttled', fromJson: Cast.castToBool)
@@ -126,12 +149,17 @@ class ActivityModel extends Equatable {
   final StreamDecision? videoDecision;
   @JsonKey(name: 'video_dynamic_range', fromJson: Cast.castToString)
   final String? videoDynamicRange;
+  @JsonKey(name: 'video_full_resolution', fromJson: Cast.castToString)
+  final String? videoFullResolution;
   @JsonKey(name: 'view_offset', fromJson: Cast.castToInt)
   final int? viewOffset;
+  @JsonKey(name: 'width', fromJson: Cast.castToInt)
+  final int? width;
   @JsonKey(name: 'year', fromJson: Cast.castToInt)
   final int? year;
 
   const ActivityModel({
+    this.audioChannelLayout,
     this.audioCodec,
     this.audioDecision,
     this.bandwidth,
@@ -144,6 +172,7 @@ class ActivityModel extends Equatable {
     this.grandparentRatingKey,
     this.grandparentThumb,
     this.grandparentTitle,
+    this.height,
     this.imageUri,
     this.ipAddress,
     this.live,
@@ -152,6 +181,8 @@ class ActivityModel extends Equatable {
     this.mediaIndex,
     this.mediaType,
     this.optimizedVersion,
+    this.optimizedVersionProfile,
+    this.optimizedVersionTitle,
     this.originallyAvailableAt,
     this.parentImageUri,
     this.parentMediaIndex,
@@ -163,19 +194,26 @@ class ActivityModel extends Equatable {
     this.player,
     this.product,
     this.progressPercent,
+    this.qualityProfile,
     this.ratingKey,
     this.relay,
     this.secure,
     this.sessionId,
     this.sessionKey,
     this.state,
+    this.streamAudioChannelLayout,
     this.streamAudioCodec,
     this.streamAudioDecision,
+    this.streamBitrate,
     this.streamContainer,
     this.streamContainerDecision,
+    this.streamSubtitleCodec,
+    this.streamSubtitleDecision,
     this.streamVideoCodec,
     this.streamVideoDecision,
     this.streamVideoDynamicRange,
+    this.streamVideoFullResolution,
+    this.subtitleCodec,
     this.subtitles,
     this.throttled,
     this.thumb,
@@ -191,11 +229,14 @@ class ActivityModel extends Equatable {
     this.videoCodec,
     this.videoDecision,
     this.videoDynamicRange,
+    this.videoFullResolution,
     this.viewOffset,
+    this.width,
     this.year,
   });
 
   ActivityModel copyWith({
+    final String? audioChannelLayout,
     final String? audioCodec,
     final StreamDecision? audioDecision,
     final int? bandwidth,
@@ -208,6 +249,7 @@ class ActivityModel extends Equatable {
     final int? grandparentRatingKey,
     final String? grandparentThumb,
     final String? grandparentTitle,
+    final int? height,
     final Uri? imageUri,
     final String? ipAddress,
     final bool? live,
@@ -216,6 +258,8 @@ class ActivityModel extends Equatable {
     final int? mediaIndex,
     final MediaType? mediaType,
     final bool? optimizedVersion,
+    final String? optimizedVersionProfile,
+    final String? optimizedVersionTitle,
     final DateTime? originallyAvailableAt,
     final Uri? parentImageUri,
     final int? parentMediaIndex,
@@ -227,19 +271,26 @@ class ActivityModel extends Equatable {
     final String? player,
     final String? product,
     final int? progressPercent,
+    final String? qualityProfile,
     final int? ratingKey,
     final bool? relay,
     final bool? secure,
     final String? sessionId,
     final int? sessionKey,
     final PlaybackState? state,
+    final String? streamAudioChannelLayout,
     final String? streamAudioCodec,
     final StreamDecision? streamAudioDecision,
+    final int? streamBitrate,
     final String? streamContainer,
     final StreamDecision? streamContainerDecision,
+    final String? streamSubtitleCodec,
+    final SubtitleDecision? streamSubtitleDecision,
     final String? streamVideoCodec,
     final StreamDecision? streamVideoDecision,
     final String? streamVideoDynamicRange,
+    final String? streamVideoVideoFullResolution,
+    final String? subtitleCodec,
     final bool? subtitles,
     final bool? throttled,
     final String? thumb,
@@ -255,10 +306,13 @@ class ActivityModel extends Equatable {
     final String? videoCodec,
     final StreamDecision? videoDecision,
     final String? videoDynamicRange,
+    final String? videoFullResolution,
     final int? viewOffset,
+    final int? width,
     final int? year,
   }) {
     return ActivityModel(
+      audioChannelLayout: audioChannelLayout ?? this.audioChannelLayout,
       audioCodec: audioCodec ?? this.audioCodec,
       audioDecision: audioDecision ?? this.audioDecision,
       bandwidth: bandwidth ?? this.bandwidth,
@@ -271,6 +325,7 @@ class ActivityModel extends Equatable {
       grandparentRatingKey: grandparentRatingKey ?? this.grandparentRatingKey,
       grandparentThumb: grandparentThumb ?? this.grandparentThumb,
       grandparentTitle: grandparentTitle ?? this.grandparentTitle,
+      height: height ?? this.height,
       imageUri: imageUri ?? this.imageUri,
       ipAddress: ipAddress ?? this.ipAddress,
       live: live ?? this.live,
@@ -279,6 +334,8 @@ class ActivityModel extends Equatable {
       mediaIndex: mediaIndex ?? this.mediaIndex,
       mediaType: mediaType ?? this.mediaType,
       optimizedVersion: optimizedVersion ?? this.optimizedVersion,
+      optimizedVersionProfile: optimizedVersionProfile ?? this.optimizedVersionProfile,
+      optimizedVersionTitle: optimizedVersionTitle ?? this.optimizedVersionTitle,
       originallyAvailableAt: originallyAvailableAt ?? this.originallyAvailableAt,
       parentImageUri: parentImageUri ?? this.parentImageUri,
       parentMediaIndex: parentMediaIndex ?? this.parentMediaIndex,
@@ -290,19 +347,26 @@ class ActivityModel extends Equatable {
       player: player ?? this.player,
       product: product ?? this.product,
       progressPercent: progressPercent ?? this.progressPercent,
+      qualityProfile: qualityProfile ?? this.qualityProfile,
       ratingKey: ratingKey ?? this.ratingKey,
       relay: relay ?? this.relay,
       secure: secure ?? this.secure,
       sessionId: sessionId ?? this.sessionId,
       sessionKey: sessionKey ?? this.sessionKey,
       state: state ?? this.state,
+      streamAudioChannelLayout: streamAudioChannelLayout ?? this.streamAudioChannelLayout,
       streamAudioCodec: streamAudioCodec ?? this.streamAudioCodec,
       streamAudioDecision: streamAudioDecision ?? this.streamAudioDecision,
+      streamBitrate: streamBitrate ?? this.streamBitrate,
       streamContainer: streamContainer ?? this.streamContainer,
       streamContainerDecision: streamContainerDecision ?? this.streamContainerDecision,
+      streamSubtitleCodec: streamSubtitleCodec ?? this.streamSubtitleCodec,
+      streamSubtitleDecision: streamSubtitleDecision ?? this.streamSubtitleDecision,
       streamVideoCodec: streamVideoCodec ?? this.streamVideoCodec,
       streamVideoDecision: streamVideoDecision ?? this.streamVideoDecision,
       streamVideoDynamicRange: streamVideoDynamicRange ?? this.streamVideoDynamicRange,
+      streamVideoFullResolution: streamVideoFullResolution ?? this.streamVideoFullResolution,
+      subtitleCodec: subtitleCodec ?? this.subtitleCodec,
       subtitles: subtitles ?? this.subtitles,
       throttled: throttled ?? this.throttled,
       thumb: thumb ?? this.thumb,
@@ -318,7 +382,9 @@ class ActivityModel extends Equatable {
       videoCodec: videoCodec ?? this.videoCodec,
       videoDecision: videoDecision ?? this.videoDecision,
       videoDynamicRange: videoDynamicRange ?? this.videoDynamicRange,
+      videoFullResolution: videoFullResolution ?? this.videoFullResolution,
       viewOffset: viewOffset ?? this.viewOffset,
+      width: width ?? this.width,
       year: year ?? this.year,
     );
   }
@@ -342,6 +408,7 @@ class ActivityModel extends Equatable {
 
   @override
   List<Object?> get props => [
+        audioChannelLayout,
         audioCodec,
         audioDecision,
         bandwidth,
@@ -354,6 +421,7 @@ class ActivityModel extends Equatable {
         grandparentRatingKey,
         grandparentThumb,
         grandparentTitle,
+        height,
         imageUri,
         ipAddress,
         live,
@@ -362,6 +430,8 @@ class ActivityModel extends Equatable {
         mediaIndex,
         mediaType,
         optimizedVersion,
+        optimizedVersionProfile,
+        optimizedVersionTitle,
         originallyAvailableAt,
         parentImageUri,
         parentMediaIndex,
@@ -373,19 +443,26 @@ class ActivityModel extends Equatable {
         player,
         product,
         progressPercent,
+        qualityProfile,
         ratingKey,
         relay,
         secure,
         sessionId,
         sessionKey,
         state,
+        streamAudioChannelLayout,
         streamAudioCodec,
         streamAudioDecision,
+        streamBitrate,
         streamContainer,
         streamContainerDecision,
+        streamSubtitleCodec,
+        streamSubtitleDecision,
         streamVideoCodec,
         streamVideoDecision,
         streamVideoDynamicRange,
+        streamVideoFullResolution,
+        subtitleCodec,
         subtitles,
         throttled,
         thumb,
@@ -401,7 +478,9 @@ class ActivityModel extends Equatable {
         videoCodec,
         videoDecision,
         videoDynamicRange,
+        videoFullResolution,
         viewOffset,
+        width,
         year,
       ];
 }

@@ -8,6 +8,7 @@ part of 'activity_model.dart';
 
 ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
     ActivityModel(
+      audioChannelLayout: Cast.castToString(json['audio_channel_layout']),
       audioCodec: Cast.castToString(json['audio_codec']),
       audioDecision:
           Cast.castStringToStreamDecision(json['audio_decision'] as String?),
@@ -24,6 +25,7 @@ ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
       grandparentRatingKey: Cast.castToInt(json['grandparent_rating_key']),
       grandparentThumb: Cast.castToString(json['grandparent_thumb']),
       grandparentTitle: Cast.castToString(json['grandparent_title']),
+      height: Cast.castToInt(json['height']),
       imageUri: json['imageUri'] == null
           ? null
           : Uri.parse(json['imageUri'] as String),
@@ -34,6 +36,9 @@ ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
       mediaIndex: Cast.castToInt(json['media_index']),
       mediaType: Cast.castStringToMediaType(json['media_type'] as String?),
       optimizedVersion: Cast.castToBool(json['optimized_version']),
+      optimizedVersionProfile:
+          Cast.castToString(json['optimized_version_profile']),
+      optimizedVersionTitle: Cast.castToString(json['optimized_version_title']),
       originallyAvailableAt: ActivityModel.dateTimeFromString(
           json['originally_available_at'] as String?),
       parentImageUri: json['parentImageUri'] == null
@@ -48,23 +53,33 @@ ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
       player: Cast.castToString(json['player']),
       product: Cast.castToString(json['product']),
       progressPercent: Cast.castToInt(json['progress_percent']),
+      qualityProfile: Cast.castToString(json['quality_profile']),
       ratingKey: Cast.castToInt(json['rating_key']),
       relay: Cast.castToBool(json['relay']),
       secure: Cast.castToBool(json['secure']),
       sessionId: Cast.castToString(json['session_id']),
       sessionKey: Cast.castToInt(json['session_key']),
       state: Cast.castStringToPlaybackState(json['state'] as String?),
+      streamAudioChannelLayout:
+          Cast.castToString(json['stream_audio_channel_layout']),
       streamAudioCodec: Cast.castToString(json['stream_audio_codec']),
       streamAudioDecision: Cast.castStringToStreamDecision(
           json['stream_audio_decision'] as String?),
+      streamBitrate: Cast.castToInt(json['stream_bitrate']),
       streamContainer: Cast.castToString(json['stream_container']),
       streamContainerDecision: Cast.castStringToStreamDecision(
           json['stream_container_decision'] as String?),
+      streamSubtitleCodec: Cast.castToString(json['stream_subtitle_codec']),
+      streamSubtitleDecision: Cast.castStringToSubtitleDecision(
+          json['stream_subtitle_decision'] as String?),
       streamVideoCodec: Cast.castToString(json['stream_video_codec']),
       streamVideoDecision: Cast.castStringToStreamDecision(
           json['stream_video_decision'] as String?),
       streamVideoDynamicRange:
           Cast.castToString(json['stream_video_dynamic_range']),
+      streamVideoFullResolution:
+          Cast.castToString(json['stream_video_full_resolution']),
+      subtitleCodec: Cast.castToString(json['subtitle_codec']),
       subtitles: Cast.castToBool(json['subtitles']),
       throttled: Cast.castToBool(json['throttled']),
       thumb: Cast.castToString(json['thumb']),
@@ -82,12 +97,15 @@ ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
       videoDecision:
           Cast.castStringToStreamDecision(json['video_decision'] as String?),
       videoDynamicRange: Cast.castToString(json['video_dynamic_range']),
+      videoFullResolution: Cast.castToString(json['video_full_resolution']),
       viewOffset: Cast.castToInt(json['view_offset']),
+      width: Cast.castToInt(json['width']),
       year: Cast.castToInt(json['year']),
     );
 
 Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
     <String, dynamic>{
+      'audio_channel_layout': instance.audioChannelLayout,
       'audio_codec': instance.audioCodec,
       'audio_decision': _$StreamDecisionEnumMap[instance.audioDecision],
       'bandwidth': instance.bandwidth,
@@ -100,6 +118,7 @@ Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
       'grandparent_rating_key': instance.grandparentRatingKey,
       'grandparent_thumb': instance.grandparentThumb,
       'grandparent_title': instance.grandparentTitle,
+      'height': instance.height,
       'imageUri': instance.imageUri?.toString(),
       'ip_address': instance.ipAddress,
       'live': instance.live,
@@ -108,6 +127,8 @@ Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
       'media_index': instance.mediaIndex,
       'media_type': _$MediaTypeEnumMap[instance.mediaType],
       'optimized_version': instance.optimizedVersion,
+      'optimized_version_profile': instance.optimizedVersionProfile,
+      'optimized_version_title': instance.optimizedVersionTitle,
       'originally_available_at':
           instance.originallyAvailableAt?.toIso8601String(),
       'parentImageUri': instance.parentImageUri?.toString(),
@@ -120,22 +141,30 @@ Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
       'player': instance.player,
       'product': instance.product,
       'progress_percent': instance.progressPercent,
+      'quality_profile': instance.qualityProfile,
       'rating_key': instance.ratingKey,
       'relay': instance.relay,
       'secure': instance.secure,
       'session_id': instance.sessionId,
       'session_key': instance.sessionKey,
       'state': _$PlaybackStateEnumMap[instance.state],
+      'stream_audio_channel_layout': instance.streamAudioChannelLayout,
       'stream_audio_codec': instance.streamAudioCodec,
       'stream_audio_decision':
           _$StreamDecisionEnumMap[instance.streamAudioDecision],
+      'stream_bitrate': instance.streamBitrate,
       'stream_container': instance.streamContainer,
       'stream_container_decision':
           _$StreamDecisionEnumMap[instance.streamContainerDecision],
+      'stream_subtitle_codec': instance.streamSubtitleCodec,
+      'stream_subtitle_decision':
+          _$SubtitleDecisionEnumMap[instance.streamSubtitleDecision],
       'stream_video_codec': instance.streamVideoCodec,
       'stream_video_decision':
           _$StreamDecisionEnumMap[instance.streamVideoDecision],
       'stream_video_dynamic_range': instance.streamVideoDynamicRange,
+      'stream_video_full_resolution': instance.streamVideoFullResolution,
+      'subtitle_codec': instance.subtitleCodec,
       'subtitles': instance.subtitles,
       'throttled': instance.throttled,
       'thumb': instance.thumb,
@@ -151,7 +180,9 @@ Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
       'video_codec': instance.videoCodec,
       'video_decision': _$StreamDecisionEnumMap[instance.videoDecision],
       'video_dynamic_range': instance.videoDynamicRange,
+      'video_full_resolution': instance.videoFullResolution,
       'view_offset': instance.viewOffset,
+      'width': instance.width,
       'year': instance.year,
     };
 
@@ -192,4 +223,11 @@ const _$PlaybackStateEnumMap = {
   PlaybackState.paused: 'paused',
   PlaybackState.playing: 'playing',
   PlaybackState.unknown: 'unknown',
+};
+
+const _$SubtitleDecisionEnumMap = {
+  SubtitleDecision.burn: 'burn',
+  SubtitleDecision.copy: 'copy',
+  SubtitleDecision.transcode: 'transcode',
+  SubtitleDecision.unknown: 'unknown',
 };
