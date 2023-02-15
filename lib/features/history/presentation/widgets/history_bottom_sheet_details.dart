@@ -114,7 +114,7 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
                                 return Text(LocaleKeys.hidden_message.tr());
                               } else if (geoIpState.status == BlocStatus.success) {
                                 return Text('$city, $region $code');
-                              } else if (geoIpState.status == BlocStatus.success) {
+                              } else if (geoIpState.status == BlocStatus.failure) {
                                 return const Text(
                                   LocaleKeys.location_lookup_failed_message,
                                 ).tr();
