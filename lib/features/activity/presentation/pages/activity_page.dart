@@ -196,7 +196,6 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
           serverActivityWidgets.add(
             ActivityCard(
               activity: activityModel,
-              onTap: () {},
             ),
           );
         }
@@ -264,7 +263,6 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
             serverActivityList.add(
               ActivityCard(
                 activity: activityModel,
-                onTap: () {},
               ),
             );
           }

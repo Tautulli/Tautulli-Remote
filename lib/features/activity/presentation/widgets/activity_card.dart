@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import '../bloc/activity_bloc.dart';
+import 'activity_bottom_sheet.dart';
 
 import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/poster.dart';
@@ -13,26 +15,37 @@ import '../../data/models/activity_model.dart';
 import 'activity_details.dart';
 import 'progress_bar.dart';
 
-class ActivityCard extends StatelessWidget {
+class ActivityCard extends StatefulWidget {
   final ActivityModel activity;
-  final Function()? onTap;
 
   const ActivityCard({
     super.key,
     required this.activity,
-    this.onTap,
   });
+
+  @override
+  State<ActivityCard> createState() => _ActivityCardState();
+}
+
+class _ActivityCardState extends State<ActivityCard> {
+  late ActivityBloc _activityBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _activityBloc = context.read<ActivityBloc>();
+  }
 
   @override
   Widget build(BuildContext context) {
     late Uri? posterUri;
 
-    switch (activity.mediaType) {
+    switch (widget.activity.mediaType) {
       case (MediaType.episode):
-        posterUri = activity.grandparentImageUri;
+        posterUri = widget.activity.grandparentImageUri;
         break;
       default:
-        posterUri = activity.imageUri;
+        posterUri = widget.activity.imageUri;
     }
 
     return SizedBox(
@@ -42,7 +55,7 @@ class ActivityCard extends StatelessWidget {
         child: Card(
           child: Stack(
             children: [
-              if (activity.imageUri != null)
+              if (widget.activity.imageUri != null)
                 Positioned.fill(
                   child: BlocBuilder<SettingsBloc, SettingsState>(
                     builder: (context, state) {
@@ -107,14 +120,14 @@ class ActivityCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Poster(
-                              mediaType: activity.mediaType,
+                              mediaType: widget.activity.mediaType,
                               uri: posterUri,
-                              activityState: activity.state,
+                              activityState: widget.activity.state,
                             ),
                             const Gap(8),
                             Expanded(
                               child: ActivityDetails(
-                                activity: activity,
+                                activity: widget.activity,
                               ),
                             ),
                           ],
@@ -122,8 +135,8 @@ class ActivityCard extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(6, 0, 6, 4),
-                      child: ProgressBar(activity: activity),
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: ProgressBar(activity: widget.activity),
                     ),
                   ],
                 ),
@@ -132,7 +145,23 @@ class ActivityCard extends StatelessWidget {
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: onTap,
+                    onTap: () => showModalBottomSheet(
+                      context: context,
+                      constraints: const BoxConstraints(
+                        maxWidth: 500,
+                      ),
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      isScrollControlled: true,
+                      builder: (context) {
+                        return BlocProvider.value(
+                          value: _activityBloc,
+                          child: ActivityBottomSheet(
+                            activity: widget.activity,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
