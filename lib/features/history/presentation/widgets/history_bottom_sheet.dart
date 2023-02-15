@@ -138,15 +138,14 @@ class HistoryBottomSheet extends StatelessWidget {
                                           ),
                                         ),
                                         Expanded(
-                                          child: Row(
-                                            children: [
-                                              const Gap(100),
-                                              Expanded(
-                                                child: HistoryBottomSheetInfo(
-                                                  history: history,
-                                                ),
-                                              ),
-                                            ],
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 100,
+                                              right: 8,
+                                            ),
+                                            child: HistoryBottomSheetInfo(
+                                              history: history,
+                                            ),
                                           ),
                                         ),
                                       ],
