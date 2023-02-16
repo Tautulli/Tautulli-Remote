@@ -16,6 +16,7 @@ class Poster extends StatelessWidget {
   final PlaybackState? activityState;
   final Object? heroTag;
   final bool heroEnabled;
+  final bool opaqueBackground;
 
   const Poster({
     super.key,
@@ -24,6 +25,7 @@ class Poster extends StatelessWidget {
     this.activityState,
     this.heroTag,
     this.heroEnabled = true,
+    this.opaqueBackground = false,
   });
 
   @override
@@ -45,6 +47,7 @@ class Poster extends StatelessWidget {
               return _PosterSquare(
                 uri: uri,
                 activityState: activityState,
+                opaqueBackground: opaqueBackground,
               );
             }
 
@@ -109,10 +112,12 @@ class _PosterRegular extends StatelessWidget {
 class _PosterSquare extends StatelessWidget {
   final Uri? uri;
   final PlaybackState? activityState;
+  final bool? opaqueBackground;
 
   const _PosterSquare({
     required this.uri,
     this.activityState,
+    this.opaqueBackground,
   });
 
   @override
@@ -127,6 +132,7 @@ class _PosterSquare extends StatelessWidget {
 
             return Stack(
               children: [
+                if (opaqueBackground == true) Positioned.fill(child: Container(color: Colors.grey[900])),
                 Positioned.fill(
                   child: BlocBuilder<SettingsBloc, SettingsState>(
                     builder: (context, state) {
