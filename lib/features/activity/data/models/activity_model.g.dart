@@ -81,6 +81,7 @@ ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
           Cast.castToString(json['stream_video_full_resolution']),
       subtitleCodec: Cast.castToString(json['subtitle_codec']),
       subtitles: Cast.castToBool(json['subtitles']),
+      subType: Cast.castToString(json['sub_type']),
       throttled: Cast.castToBool(json['throttled']),
       thumb: Cast.castToString(json['thumb']),
       title: Cast.castToString(json['title']),
@@ -166,6 +167,7 @@ Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
       'stream_video_full_resolution': instance.streamVideoFullResolution,
       'subtitle_codec': instance.subtitleCodec,
       'subtitles': instance.subtitles,
+      'sub_type': instance.subType,
       'throttled': instance.throttled,
       'thumb': instance.thumb,
       'title': instance.title,
@@ -229,5 +231,6 @@ const _$SubtitleDecisionEnumMap = {
   SubtitleDecision.burn: 'burn',
   SubtitleDecision.copy: 'copy',
   SubtitleDecision.transcode: 'transcode',
+  SubtitleDecision.none: 'none',
   SubtitleDecision.unknown: 'unknown',
 };

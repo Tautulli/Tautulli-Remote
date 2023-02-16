@@ -121,6 +121,8 @@ class ActivityModel extends Equatable {
   final String? subtitleCodec;
   @JsonKey(name: 'subtitles', fromJson: Cast.castToBool)
   final bool? subtitles;
+  @JsonKey(name: 'sub_type', fromJson: Cast.castToString)
+  final String? subType;
   @JsonKey(name: 'throttled', fromJson: Cast.castToBool)
   final bool? throttled;
   @JsonKey(name: 'thumb', fromJson: Cast.castToString)
@@ -215,6 +217,7 @@ class ActivityModel extends Equatable {
     this.streamVideoFullResolution,
     this.subtitleCodec,
     this.subtitles,
+    this.subType,
     this.throttled,
     this.thumb,
     this.title,
@@ -292,6 +295,7 @@ class ActivityModel extends Equatable {
     final String? streamVideoVideoFullResolution,
     final String? subtitleCodec,
     final bool? subtitles,
+    final String? subType,
     final bool? throttled,
     final String? thumb,
     final String? title,
@@ -368,6 +372,7 @@ class ActivityModel extends Equatable {
       streamVideoFullResolution: streamVideoFullResolution ?? this.streamVideoFullResolution,
       subtitleCodec: subtitleCodec ?? this.subtitleCodec,
       subtitles: subtitles ?? this.subtitles,
+      subType: subType ?? this.subType,
       throttled: throttled ?? this.throttled,
       thumb: thumb ?? this.thumb,
       title: title ?? this.title,
@@ -464,6 +469,7 @@ class ActivityModel extends Equatable {
         streamVideoFullResolution,
         subtitleCodec,
         subtitles,
+        subType,
         throttled,
         thumb,
         title,
