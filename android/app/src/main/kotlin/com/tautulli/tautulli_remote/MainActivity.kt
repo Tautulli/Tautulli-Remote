@@ -1,4 +1,4 @@
-package com.tautulli.tautulli_remote_alpha
+package com.tautulli.tautulli_remote
 
 import io.flutter.embedding.android.FlutterActivity
 

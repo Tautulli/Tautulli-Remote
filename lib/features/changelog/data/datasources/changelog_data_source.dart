@@ -1,43 +1,6 @@
 Map changelog = {
   "data": [
     {
-      "version": "v3.0.0-alpha.21",
-      "date": "Feb 16, 2023",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Multiactivity support has been added, it can be enabled under Advanced in Settings",
-          "additional":
-              "As a reminder, this allows you to view the activity for all servers in Tautulli Remote on a single page",
-        },
-        {
-          "type": "new",
-          "detail": "Activity refresh rate will now work",
-        },
-        {
-          "type": "improvement",
-          "detail": "Up to three activity cards will be displayed horizontally if the screen width is large enough",
-        },
-        {
-          "type": "improvement",
-          "detail": "More library and media posters will display horizontally on wider screens",
-        },
-        {
-          "type": "improvement",
-          "detail": "Various tiny styling adjustments",
-        },
-        {
-          "type": "improvement",
-          "detail": "New translations for Chinese (Simplified), French, and Polish",
-          "additional": "Thanks @amorphobia, @Owautrip, @slundi, drzordz, and RafalHo",
-        },
-        {
-          "type": "fix",
-          "detail": "Posters for clip items will now fill the full poster area",
-        },
-      ],
-    },
-    {
       "version": "v3.0.0-alpha.20",
       "date": "Dec 3, 2022",
       "changes": [

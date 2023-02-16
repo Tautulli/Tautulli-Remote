@@ -1,4 +1,4 @@
-package com.tautulli.tautulli_remote_alpha
+package com.tautulli.tautulli_remote
 
 import android.content.Context 
 import android.content.Intent
@@ -189,7 +189,7 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
     }
 
     companion object {
-        private const val CHANNEL_ID = "tautulli_remote_alpha"
+        private const val CHANNEL_ID = "tautulli_remote"
         private const val LOG_TAG = "NotificationExtender"
     }
 }
