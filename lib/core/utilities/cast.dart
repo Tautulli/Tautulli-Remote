@@ -311,6 +311,8 @@ class Cast {
         return StreamDecision.directPlay;
       case ('transcode'):
         return StreamDecision.transcode;
+      case (''):
+        return StreamDecision.none;
       default:
         di.sl<Logging>().warning(
               'Utilities :: Failed to cast $value to StreamDecision',
@@ -332,6 +334,8 @@ class Cast {
         return SubtitleDecision.copy;
       case ('transcode'):
         return SubtitleDecision.transcode;
+      case (''):
+        return SubtitleDecision.none;
       default:
         di.sl<Logging>().warning(
               'Utilities :: Failed to cast $value to SubtitleDecision',
