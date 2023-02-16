@@ -112,6 +112,7 @@ abstract class  LocaleKeys {
   static const error_message_invalid_api_key = 'error_message_invalid_api_key';
   static const error_message_server = 'error_message_server';
   static const error_message_server_version = 'error_message_server_version';
+  static const error_message_terminate_stream_failed = 'error_message_terminate_stream_failed';
   static const error_snackbar_message = 'error_snackbar_message';
   static const error_suggestion_authorization_required = 'error_suggestion_authorization_required';
   static const error_suggestion_bad_api_response = 'error_suggestion_bad_api_response';
@@ -123,6 +124,7 @@ abstract class  LocaleKeys {
   static const error_suggestion_invalid_api_key = 'error_suggestion_invalid_api_key';
   static const error_suggestion_plex_connection = 'error_suggestion_plex_connection';
   static const error_suggestion_server_version = 'error_suggestion_server_version';
+  static const error_suggestion_terminate_stream_failed = 'error_suggestion_terminate_stream_failed';
   static const failure_title = 'failure_title';
   static const fast_title = 'fast_title';
   static const faster_title = 'faster_title';
@@ -321,6 +323,12 @@ abstract class  LocaleKeys {
   static const subtitle_title = 'subtitle_title';
   static const taken_title = 'taken_title';
   static const tautulli_remote_logs_title = 'tautulli_remote_logs_title';
+  static const terminate_button = 'terminate_button';
+  static const terminate_title = 'terminate_title';
+  static const terminate_message_title = 'terminate_message_title';
+  static const terminate_stream_dialog_default_message = 'terminate_stream_dialog_default_message';
+  static const terminate_stream_dialog_title = 'terminate_stream_dialog_title';
+  static const termination_request_sent_message = 'termination_request_sent_message';
   static const terms_of_use_title = 'terms_of_use_title';
   static const throttled_title = 'throttled_title';
   static const time_title = 'time_title';
@@ -334,6 +342,7 @@ abstract class  LocaleKeys {
   static const trust_button = 'trust_button';
   static const tv_title = 'tv_title';
   static const tv_shows_title = 'tv_shows_title';
+  static const unknown_title = 'unknown_title';
   static const user_stats_empty_message = 'user_stats_empty_message';
   static const user_stats_title = 'user_stats_title';
   static const user_title = 'user_title';

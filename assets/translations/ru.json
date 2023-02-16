@@ -43,6 +43,8 @@
     "speed_title": "Скорость",
     "statistics_title": "Статистика",
     "stream_type_title": "Тип потока",
+    "terminate_button": "ПРЕРВАТЬ",
+    "termination_request_sent_message": "Запрос о прерывании направлен в Plex",
     "throttled_title": "Замедленный",
     "time_range_title": "Временной промежуток",
     "transcode_title": "Перекодирование",
