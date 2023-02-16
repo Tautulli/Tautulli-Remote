@@ -59,7 +59,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.tautulli.tautulli_remote"
+        applicationId "com.tautulli.tautulli_remote_alpha"
         minSdkVersion 24
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
