@@ -77,7 +77,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                         title: LocaleKeys.quality_title.tr(),
                         item: Builder(
                           builder: (context) {
-                            late String formattedBitrate;
+                            String formattedBitrate = '';
                             late String finalText;
 
                             if (widget.activity.mediaType != MediaType.photo &&
@@ -186,7 +186,6 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                     MediaType.movie,
                                     MediaType.episode,
                                     MediaType.clip,
-                                    MediaType.photo,
                                   ].contains(widget.activity.mediaType) &&
                                   widget.activity.streamVideoDecision != null) {
                                 if (widget.activity.videoDynamicRange != 'SDR') {
@@ -417,8 +416,18 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                         ),
                       _ItemRow(
                         title: LocaleKeys.bandwidth_title.tr(),
-                        item: Text(
-                          DataUnitHelper.bitrate(widget.activity.bandwidth ?? 0),
+                        item: Builder(
+                          builder: (context) {
+                            if (widget.activity.mediaType != MediaType.photo) {
+                              return Text(
+                                DataUnitHelper.bitrate(
+                                  widget.activity.bandwidth ?? 0,
+                                ),
+                              );
+                            }
+
+                            return const Text(LocaleKeys.unknown_title).tr();
+                          },
                         ),
                       ),
                     ],
