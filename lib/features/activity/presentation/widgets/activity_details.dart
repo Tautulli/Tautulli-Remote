@@ -55,7 +55,7 @@ class ActivityDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   PlatformIcon(platformName: activity.platformName),
-                  StreamIcons(activity: activity),
+                  if (activity.mediaType != MediaType.photo) StreamIcons(activity: activity),
                 ],
               ),
             ],
@@ -78,6 +78,7 @@ class ActivityDetails extends StatelessWidget {
             ),
             const Gap(4),
             TimeLeft(activity: activity),
+            if (activity.mediaType == MediaType.photo) StreamIcons(activity: activity),
           ],
         ),
       ],
@@ -142,6 +143,10 @@ class _Subtitle extends StatelessWidget {
       case (MediaType.movie):
         lines = 1;
         text = activity.year.toString();
+        break;
+      case (MediaType.clip):
+        lines = 1;
+        text = '(${activity.subType})';
         break;
       default:
         lines = 1;
