@@ -20,7 +20,7 @@ class ActivityBottomSheetInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleRow(activity),
-        if (activity.mediaType == MediaType.episode || activity.mediaType == MediaType.track) SubtitleRow(activity),
+        if ([MediaType.episode, MediaType.track, MediaType.clip].contains(activity.mediaType)) SubtitleRow(activity),
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
@@ -97,6 +97,10 @@ class SubtitleRow extends StatelessWidget {
       case (MediaType.movie):
         lines = 1;
         text = activity.year.toString();
+        break;
+      case (MediaType.clip):
+        lines = 1;
+        text = '(${activity.subType})';
         break;
       default:
         lines = 1;
