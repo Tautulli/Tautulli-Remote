@@ -33,7 +33,7 @@ class WizardFinishButton extends StatelessWidget {
                   );
             }
 
-            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacementNamed('/activity');
           },
         );
       },
