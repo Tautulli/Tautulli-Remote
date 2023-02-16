@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:159358117861:android:4b8cc97ee56a82b547310c",
         "android_client_info": {
-          "package_name": "com.tautulli.tautulli_remote"
+          "package_name": "com.tautulli.tautulli_remote_alpha"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "159358117861-8ic3dfb1f64viklm1p0qhvv5lcnhb9no.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.tautulli.tautulli_remote",
+            "package_name": "com.tautulli.tautulli_remote_alpha",
             "certificate_hash": "e8271c1712e54419f8e170668b0c3a6fb4bb888a"
           }
         },

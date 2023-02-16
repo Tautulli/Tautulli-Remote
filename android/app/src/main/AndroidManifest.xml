@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tautulli.tautulli_remote">
+    package="com.tautulli.tautulli_remote_alpha">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -22,7 +22,7 @@
     </queries>
     <application
         android:name="${applicationName}"
-        android:label="Tautulli Remote"
+        android:label="Tautulli Remote Alpha"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -58,6 +58,6 @@
             android:value="2" />
 
         <meta-data android:name="com.onesignal.NotificationServiceExtension"
-            android:value="com.tautulli.tautulli_remote.NotificationServiceExtension" />
+            android:value="com.tautulli.tautulli_remote_alpha.NotificationServiceExtension" />
     </application>
 </manifest>
