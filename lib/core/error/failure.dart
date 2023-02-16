@@ -54,6 +54,9 @@ class ServerVersionFailure extends Failure {}
 // /// Unable to connect to a provided address.
 // class SocketFailure extends Failure {}
 
+/// Failed to terminate a stream
+class TerminateStreamFailure extends Failure {}
+
 // /// Time to connect to a server exceeded.
 // class TimeoutFailure extends Failure {}
 

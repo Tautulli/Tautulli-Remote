@@ -13,10 +13,8 @@ import '../requirements/tautulli_version.dart';
 
 //* Error Messages
 String badApiResponseMessage = LocaleKeys.error_message_bad_api_response.tr();
-String certificateExpiredMessage =
-    LocaleKeys.error_message_certificate_expired.tr();
-String certificateVerificationMessage =
-    LocaleKeys.error_message_certificate_verification.tr();
+String certificateExpiredMessage = LocaleKeys.error_message_certificate_expired.tr();
+String certificateVerificationMessage = LocaleKeys.error_message_certificate_verification.tr();
 String connectionMessage = LocaleKeys.error_message_connection.tr();
 String dataBaseInitMessage = LocaleKeys.error_message_database_init.tr();
 String genericMessage = LocaleKeys.error_message_generic.tr();
@@ -29,29 +27,23 @@ String serverVersionMessage = LocaleKeys.error_message_server_version.tr();
 // const String socketMessage = 'Failed to connect to Connection Address.';
 // const String timeoutMessage = 'Connection to server timed out.';
 // const String tlsMessage = 'Failed to establish TLS/SSL connection.';
+String terminateStreamMessage = LocaleKeys.error_message_terminate_stream_failed.tr();
 
 //* Error Suggestions
-String authorizationRequiredSuggestion =
-    LocaleKeys.error_suggestion_authorization_required.tr();
-String badApiResponseSuggestion =
-    LocaleKeys.error_suggestion_bad_api_response.tr();
-String certificateExpiredSuggestion =
-    LocaleKeys.error_suggestion_certificate_expired.tr();
-String certificateVerificationSuggestion =
-    LocaleKeys.error_suggestion_certificate_verification.tr();
-String checkConnectionAddressSuggestion =
-    LocaleKeys.error_suggestion_check_connection_address.tr();
-String checkServerSettingsSuggestion =
-    LocaleKeys.error_suggestion_check_server_settings.tr();
+String authorizationRequiredSuggestion = LocaleKeys.error_suggestion_authorization_required.tr();
+String badApiResponseSuggestion = LocaleKeys.error_suggestion_bad_api_response.tr();
+String certificateExpiredSuggestion = LocaleKeys.error_suggestion_certificate_expired.tr();
+String certificateVerificationSuggestion = LocaleKeys.error_suggestion_certificate_verification.tr();
+String checkConnectionAddressSuggestion = LocaleKeys.error_suggestion_check_connection_address.tr();
+String checkServerSettingsSuggestion = LocaleKeys.error_suggestion_check_server_settings.tr();
 String genericSuggestion = LocaleKeys.error_suggestion_generic.tr();
 // const String missingServerSuggestion =
 //     'Please register with a Tautulli server.';
-String invalidApiKeySuggestion =
-    LocaleKeys.error_suggestion_invalid_api_key.tr();
-String plexConnectionSuggestion =
-    LocaleKeys.error_suggestion_plex_connection.tr();
-String serverVersionSuggestion = LocaleKeys.error_suggestion_server_version
-    .tr(args: [MinimumVersion.tautulliServer.toString()]);
+String invalidApiKeySuggestion = LocaleKeys.error_suggestion_invalid_api_key.tr();
+String plexConnectionSuggestion = LocaleKeys.error_suggestion_plex_connection.tr();
+String serverVersionSuggestion =
+    LocaleKeys.error_suggestion_server_version.tr(args: [MinimumVersion.tautulliServer.toString()]);
+String terminateStreamSuggestion = LocaleKeys.error_suggestion_terminate_stream_failed.tr();
 
 class FailureHelper {
   /// Map `Exception` to corresponding `Failure`.
@@ -79,6 +71,8 @@ class FailureHelper {
         exception = AuthorizationRequiredException;
       } else if (responseString.contains('"message":"Invalid apikey"')) {
         exception = InvalidApiKeyException;
+      } else if (responseString.contains('"message":"Failed to terminate session')) {
+        exception = TerminateStreamException;
       } else {
         if (isNotBlank(responseString) && responseString != 'null') {
           di.sl<Logging>().error(
@@ -118,6 +112,8 @@ class FailureHelper {
       //   return SettingsFailure();
       // case (SocketException):
       //   return SocketFailure();
+      case (TerminateStreamException):
+        return TerminateStreamFailure();
       // case (TimeoutException):
       //   return TimeoutFailure();
       // case (TlsException):
@@ -161,6 +157,8 @@ class FailureHelper {
       //   return settingsMessage;
       // case (SocketFailure):
       //   return socketMessage;
+      case (TerminateStreamFailure):
+        return terminateStreamMessage;
       // case (TimeoutFailure):
       //   return timeoutMessage;
       // case (TlsFailure):
@@ -202,6 +200,8 @@ class FailureHelper {
       //   return checkServerSettingsSuggestion;
       // case (SocketFailure):
       //   return checkConnectionAddressSuggestion;
+      case (TerminateStreamFailure):
+        return terminateStreamSuggestion;
       // case (TimeoutFailure):
       //   return plexConnectionSuggestion;
       // case (TlsFailure):

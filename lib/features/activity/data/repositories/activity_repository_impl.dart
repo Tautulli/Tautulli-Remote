@@ -39,4 +39,30 @@ class ActivityRepositoryImpl implements ActivityRepository {
       return Left(ConnectionFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Tuple2<void, bool>>> terminateStream({
+    required String tautulliId,
+    required String? sessionId,
+    required int? sessionKey,
+    String? message,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.terminateStream(
+          tautulliId: tautulliId,
+          sessionId: sessionId,
+          sessionKey: sessionKey,
+          message: message,
+        );
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
 }

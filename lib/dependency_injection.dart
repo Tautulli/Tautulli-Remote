@@ -19,6 +19,7 @@ import 'features/activity/data/repositories/activity_repository_impl.dart';
 import 'features/activity/domain/repositories/activity_repository.dart';
 import 'features/activity/domain/usecases/activity.dart';
 import 'features/activity/presentation/bloc/activity_bloc.dart';
+import 'features/activity/presentation/bloc/terminate_stream_bloc.dart';
 import 'features/announcements/data/datasources/announcements_data_source.dart';
 import 'features/announcements/data/repositories/announcements_repository_impl.dart';
 import 'features/announcements/domain/repositories/announcements_repository.dart';
@@ -207,6 +208,9 @@ Future<void> init() async {
   sl.registerLazySingleton<tautulli_api.RegisterDevice>(
     () => tautulli_api.RegisterDeviceImpl(sl()),
   );
+  sl.registerLazySingleton<tautulli_api.TerminateSession>(
+    () => tautulli_api.TerminateSessionImpl(sl()),
+  );
 
   //! Core - Device Info
   sl.registerLazySingleton<DeviceInfo>(
@@ -265,6 +269,12 @@ Future<void> init() async {
       settings: sl(),
     ),
   );
+  sl.registerFactory(
+    () => TerminateStreamBloc(
+      activity: sl(),
+      logging: sl(),
+    ),
+  );
 
   // Use case
   sl.registerLazySingleton(
@@ -285,6 +295,7 @@ Future<void> init() async {
   sl.registerLazySingleton<ActivityDataSource>(
     () => ActivityDataSourceImpl(
       getActivityApi: sl(),
+      terminateStreamApi: sl(),
     ),
   );
 

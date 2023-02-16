@@ -9,4 +9,11 @@ abstract class ActivityRepository {
     int? sessionKey,
     String? sessionId,
   });
+
+  Future<Either<Failure, Tuple2<void, bool>>> terminateStream({
+    required String tautulliId,
+    required String? sessionId,
+    required int? sessionKey,
+    String? message,
+  });
 }

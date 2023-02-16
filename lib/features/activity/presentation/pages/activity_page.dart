@@ -196,6 +196,7 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
           serverActivityWidgets.add(
             ActivityCard(
               activity: activityModel,
+              server: _serverList.firstWhere((server) => server.tautulliId == firstServer.tautulliId),
             ),
           );
         }
@@ -263,6 +264,7 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
             serverActivityList.add(
               ActivityCard(
                 activity: activityModel,
+                server: _serverList.firstWhere((server) => server.tautulliId == serverActivityModel.tautulliId),
               ),
             );
           }

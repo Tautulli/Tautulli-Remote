@@ -33,3 +33,4 @@ export 'endpoints/get_user_watch_time_stats.dart';
 export 'endpoints/get_users_table.dart';
 export 'endpoints/pms_image_proxy.dart';
 export 'endpoints/register_device.dart';
+export 'endpoints/terminate_session.dart';

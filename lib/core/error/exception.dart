@@ -37,3 +37,6 @@ class ServerVersionException implements Exception {}
 
 // /// Throw when required settings are missing.
 // class SettingsException implements Exception {}
+
+/// Throw when a stream fails to terminate
+class TerminateStreamException implements Exception {}

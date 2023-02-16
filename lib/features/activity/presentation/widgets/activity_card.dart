@@ -4,23 +4,28 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import '../bloc/activity_bloc.dart';
-import 'activity_bottom_sheet.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/poster.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../settings/data/models/custom_header_model.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/activity_model.dart';
+import '../bloc/activity_bloc.dart';
+import '../bloc/terminate_stream_bloc.dart';
+import 'activity_bottom_sheet.dart';
 import 'activity_details.dart';
 import 'progress_bar.dart';
 
 class ActivityCard extends StatefulWidget {
   final ActivityModel activity;
+  final ServerModel server;
 
   const ActivityCard({
     super.key,
     required this.activity,
+    required this.server,
   });
 
   @override
@@ -156,8 +161,12 @@ class _ActivityCardState extends State<ActivityCard> {
                       builder: (context) {
                         return BlocProvider.value(
                           value: _activityBloc,
-                          child: ActivityBottomSheet(
-                            activity: widget.activity,
+                          child: BlocProvider(
+                            create: (context) => di.sl<TerminateStreamBloc>(),
+                            child: ActivityBottomSheet(
+                              activity: widget.activity,
+                              server: widget.server,
+                            ),
                           ),
                         );
                       },

@@ -20,4 +20,18 @@ class Activity {
       sessionId: sessionId,
     );
   }
+
+  Future<Either<Failure, Tuple2<void, bool>>> terminateStream({
+    required String tautulliId,
+    required String? sessionId,
+    required int? sessionKey,
+    String? message,
+  }) async {
+    return await repository.terminateStream(
+      tautulliId: tautulliId,
+      sessionId: sessionId,
+      sessionKey: sessionKey,
+      message: message,
+    );
+  }
 }

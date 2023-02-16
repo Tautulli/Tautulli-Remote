@@ -9,13 +9,22 @@ abstract class ActivityDataSource {
     int? sessionKey,
     String? sessionId,
   });
+
+  Future<Tuple2<void, bool>> terminateStream({
+    required String tautulliId,
+    required String? sessionId,
+    required int? sessionKey,
+    String? message,
+  });
 }
 
 class ActivityDataSourceImpl implements ActivityDataSource {
   final GetActivity getActivityApi;
+  final TerminateSession terminateStreamApi;
 
   ActivityDataSourceImpl({
     required this.getActivityApi,
+    required this.terminateStreamApi,
   });
 
   @override
@@ -35,5 +44,22 @@ class ActivityDataSourceImpl implements ActivityDataSource {
         .toList();
 
     return Tuple2(activityList, result.value2);
+  }
+
+  @override
+  Future<Tuple2<void, bool>> terminateStream({
+    required String tautulliId,
+    required String? sessionId,
+    required int? sessionKey,
+    String? message,
+  }) async {
+    final result = await terminateStreamApi(
+      tautulliId: tautulliId,
+      sessionId: sessionId,
+      sessionKey: sessionKey,
+      message: message,
+    );
+
+    return Tuple2(null, result.value2);
   }
 }

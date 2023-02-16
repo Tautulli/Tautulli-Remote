@@ -216,6 +216,8 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
     await event.failureOrActivity.fold(
       (failure) async {
+        logging.error('Activity :: Failed to fetch activity for ${event.serverName} [$failure]');
+
         serverActivityListCache[index] = serverActivityListCache[index].copyWith(
           status: BlocStatus.failure,
           activityList: [],
@@ -286,7 +288,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
 
     final refreshRate = await settings.getRefreshRate();
 
-    if (refreshRate > 0 && _timer != null && _timer!.isActive) {
+    if (refreshRate > 0) {
       _timer = Timer.periodic(Duration(seconds: refreshRate), (timer) {
         add(
           ActivityFetched(
