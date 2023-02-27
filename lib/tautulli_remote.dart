@@ -64,7 +64,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
   Future<void> initalizeOneSignal() async {
     if (!mounted) return;
 
-    // await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    // Enabling console logs for users to troubleshoot OneSignal issues
+    await OneSignal.shared.setLogLevel(OSLogLevel.error, OSLogLevel.none);
 
     await OneSignal.shared.setLocationShared(false);
 
