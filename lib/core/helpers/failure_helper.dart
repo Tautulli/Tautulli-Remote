@@ -25,7 +25,7 @@ String serverMessage = LocaleKeys.error_message_server.tr();
 String serverVersionMessage = LocaleKeys.error_message_server_version.tr();
 // const String settingsMessage = 'Required settings are missing.';
 // const String socketMessage = 'Failed to connect to Connection Address.';
-// const String timeoutMessage = 'Connection to server timed out.';
+const String timeoutMessage = 'Connection to server timed out.';
 // const String tlsMessage = 'Failed to establish TLS/SSL connection.';
 String terminateStreamMessage = LocaleKeys.error_message_terminate_stream_failed.tr();
 
@@ -114,8 +114,8 @@ class FailureHelper {
       //   return SocketFailure();
       case (TerminateStreamException):
         return TerminateStreamFailure();
-      // case (TimeoutException):
-      //   return TimeoutFailure();
+      case (TimeoutException):
+        return TimeoutFailure();
       // case (TlsException):
       //   return TlsFailure();
       default:
@@ -159,8 +159,8 @@ class FailureHelper {
       //   return socketMessage;
       case (TerminateStreamFailure):
         return terminateStreamMessage;
-      // case (TimeoutFailure):
-      //   return timeoutMessage;
+      case (TimeoutFailure):
+        return timeoutMessage;
       // case (TlsFailure):
       //   return tlsMessage;
       case (GenericFailure):
@@ -202,8 +202,8 @@ class FailureHelper {
       //   return checkConnectionAddressSuggestion;
       case (TerminateStreamFailure):
         return terminateStreamSuggestion;
-      // case (TimeoutFailure):
-      //   return plexConnectionSuggestion;
+      case (TimeoutFailure):
+        return plexConnectionSuggestion;
       // case (TlsFailure):
       //   return checkConnectionAddressSuggestion;
       case (GenericFailure):

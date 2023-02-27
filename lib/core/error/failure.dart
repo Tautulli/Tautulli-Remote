@@ -57,8 +57,8 @@ class ServerVersionFailure extends Failure {}
 /// Failed to terminate a stream
 class TerminateStreamFailure extends Failure {}
 
-// /// Time to connect to a server exceeded.
-// class TimeoutFailure extends Failure {}
+/// Time to connect to a server exceeded.
+class TimeoutFailure extends Failure {}
 
 // /// A failure in TLS/SSL connection.
 // class TlsFailure extends Failure {}
