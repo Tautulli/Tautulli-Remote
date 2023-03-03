@@ -6,7 +6,7 @@ import 'package:quiver/strings.dart';
 import '../../../../translations/locale_keys.g.dart';
 
 class CustomTimeRangeDialog extends StatelessWidget {
-  const CustomTimeRangeDialog({Key? key}) : super(key: key);
+  const CustomTimeRangeDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +80,7 @@ class CustomTimeRangeDialog extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            if (formKey.currentState != null &&
-                formKey.currentState!.validate()) {
+            if (formKey.currentState != null && formKey.currentState!.validate()) {
               Navigator.of(context).pop(int.parse(textController.value.text));
             }
           },

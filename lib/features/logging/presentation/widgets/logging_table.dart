@@ -9,8 +9,8 @@ class LoggingTable extends StatelessWidget {
 
   const LoggingTable(
     this.logs, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,7 @@ class LoggingTable extends StatelessWidget {
             itemBuilder: (context, index) {
               return LoggingTableRow(
                 logs[index],
-                backgroundColor: (index % 2 == 0)
-                    ? Theme.of(context).colorScheme.primary
-                    : Colors.transparent,
+                backgroundColor: (index % 2 == 0) ? Theme.of(context).colorScheme.primary : Colors.transparent,
               );
             },
           ),

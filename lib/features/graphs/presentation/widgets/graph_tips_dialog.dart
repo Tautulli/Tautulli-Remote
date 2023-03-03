@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../translations/locale_keys.g.dart';
 
 class GraphTipsDialog extends StatelessWidget {
-  const GraphTipsDialog({Key? key}) : super(key: key);
+  const GraphTipsDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
