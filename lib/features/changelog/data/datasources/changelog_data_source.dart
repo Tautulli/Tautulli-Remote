@@ -1,6 +1,29 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.22",
+      "date": "Mar 3, 2023",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Added ETA to activity bottom sheet",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Media and user pages will load correctly when selecting an item on multiactivity that is not the active server",
+        },
+        {
+          "type": "fix",
+          "detail": "Media page appbar title will now correctly displays the currently viewed item",
+        },
+        {
+          "type": "fix",
+          "detail": "Activity page will now load when setup wizard completes",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.21",
       "date": "Feb 16, 2023",
       "changes": [
