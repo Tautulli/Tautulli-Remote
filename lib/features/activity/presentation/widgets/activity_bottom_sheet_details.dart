@@ -474,6 +474,7 @@ class _ItemRow extends StatelessWidget {
                     fontSize: 13,
                     color: Colors.grey[500],
                   ),
+                  textAlign: TextAlign.end,
                 ),
               ],
             ),
