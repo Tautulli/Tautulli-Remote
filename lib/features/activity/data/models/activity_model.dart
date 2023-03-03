@@ -292,7 +292,7 @@ class ActivityModel extends Equatable {
     final String? streamVideoCodec,
     final StreamDecision? streamVideoDecision,
     final String? streamVideoDynamicRange,
-    final String? streamVideoVideoFullResolution,
+    final String? streamVideoFullResolution,
     final String? subtitleCodec,
     final bool? subtitles,
     final String? subType,

@@ -192,6 +192,7 @@ const _$StreamDecisionEnumMap = {
   StreamDecision.copy: 'copy',
   StreamDecision.directPlay: 'directPlay',
   StreamDecision.transcode: 'transcode',
+  StreamDecision.none: 'none',
   StreamDecision.unknown: 'unknown',
 };
 
