@@ -90,8 +90,9 @@ class TrackMediaView extends StatelessWidget {
           mediaType: media.mediaType,
           uri: media.imageUri,
         ),
-        title: media.title,
-        subtitle: media.grandparentTitle,
+        pageTitle: media.title,
+        itemTitle: media.title,
+        itemSubtitle: media.grandparentTitle,
         itemDetail: media.parentTitle,
         tabs: [
           Tab(child: const Text(LocaleKeys.details_title).tr()),

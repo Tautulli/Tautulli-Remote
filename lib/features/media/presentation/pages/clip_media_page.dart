@@ -81,8 +81,9 @@ class ClipMediaView extends StatelessWidget {
           mediaType: media.mediaType,
           uri: media.imageUri,
         ),
-        title: media.title,
-        subtitle: media.parentTitle ?? '',
+        pageTitle: media.title,
+        itemTitle: media.title,
+        itemSubtitle: media.parentTitle ?? '',
         tabs: [
           Tab(child: const Text(LocaleKeys.details_title).tr()),
         ],

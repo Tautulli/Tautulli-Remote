@@ -81,7 +81,8 @@ class PhotoAlbumMediaView extends StatelessWidget {
           mediaType: media.mediaType,
           uri: media.imageUri,
         ),
-        title: media.title,
+        pageTitle: media.title,
+        itemTitle: media.title,
         tabs: [
           Tab(
             child: const Text(LocaleKeys.media_title).tr(),

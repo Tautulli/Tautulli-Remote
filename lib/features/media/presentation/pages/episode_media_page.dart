@@ -95,8 +95,9 @@ class EpisodeMediaView extends StatelessWidget {
           mediaType: media.mediaType,
           uri: parentPosterUri ?? media.imageUri,
         ),
-        title: media.grandparentTitle,
-        subtitle: media.title ?? '',
+        pageTitle: media.title,
+        itemTitle: media.grandparentTitle,
+        itemSubtitle: media.title ?? '',
         itemDetail: media.parentMediaIndex != null && media.mediaIndex != null
             ? 'S${media.parentMediaIndex} • E${media.mediaIndex}'
             : null,

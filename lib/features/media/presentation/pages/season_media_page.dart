@@ -91,8 +91,9 @@ class SeasonMediaView extends StatelessWidget {
           mediaType: media.mediaType,
           uri: media.imageUri,
         ),
-        title: media.parentTitle,
-        subtitle: media.title,
+        pageTitle: media.title,
+        itemTitle: media.parentTitle,
+        itemSubtitle: media.title,
         tabs: [
           Tab(child: const Text(LocaleKeys.details_title).tr()),
           Tab(

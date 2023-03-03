@@ -91,8 +91,9 @@ class AlbumMediaView extends StatelessWidget {
           mediaType: media.mediaType,
           uri: media.imageUri,
         ),
-        title: media.title,
-        subtitle: media.parentTitle ?? '',
+        pageTitle: media.title,
+        itemTitle: media.title,
+        itemSubtitle: media.parentTitle ?? '',
         itemDetail: media.year.toString(),
         tabs: [
           Tab(child: const Text(LocaleKeys.details_title).tr()),

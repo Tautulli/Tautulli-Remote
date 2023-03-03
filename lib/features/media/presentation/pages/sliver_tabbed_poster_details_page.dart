@@ -13,8 +13,9 @@ class SliverTabbedPosterDetailsPage extends StatefulWidget {
   final Widget? background;
   final List<Widget>? appBarActions;
   final Poster? poster;
-  final String? title;
-  final String? subtitle;
+  final String? pageTitle;
+  final String? itemTitle;
+  final String? itemSubtitle;
   final String? itemDetail;
   final List<Widget> tabs;
   final List<Widget> tabChildren;
@@ -25,8 +26,9 @@ class SliverTabbedPosterDetailsPage extends StatefulWidget {
     this.background,
     this.appBarActions,
     this.poster,
-    required this.title,
-    this.subtitle,
+    required this.pageTitle,
+    required this.itemTitle,
+    this.itemSubtitle,
     this.itemDetail,
     required this.tabs,
     required this.tabChildren,
@@ -53,18 +55,18 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final tpTitle = TextPainter(
-          text: TextSpan(text: widget.title ?? ''),
+        final tpItemTitle = TextPainter(
+          text: TextSpan(text: widget.itemTitle ?? ''),
           maxLines: 1,
           textDirection: Directionality.of(context),
         );
-        final tpSubtitle = TextPainter(
-          text: TextSpan(text: widget.subtitle ?? ''),
+        final tpItemSubtitle = TextPainter(
+          text: TextSpan(text: widget.itemSubtitle ?? ''),
           maxLines: 1,
           textDirection: Directionality.of(context),
         );
-        tpTitle.layout(maxWidth: constraints.maxWidth - 127);
-        tpSubtitle.layout(maxWidth: constraints.maxWidth - 127);
+        tpItemTitle.layout(maxWidth: constraints.maxWidth - 127);
+        tpItemSubtitle.layout(maxWidth: constraints.maxWidth - 127);
 
         return DefaultTabController(
           length: widget.tabs.length,
@@ -84,7 +86,7 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                       title: Opacity(
                         opacity: titleOpacity,
                         child: Text(
-                          widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.title ?? '',
+                          widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.pageTitle ?? '',
                         ),
                       ),
                       actions: widget.appBarActions,
@@ -168,23 +170,26 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                                                 Text(
                                                   widget.sensitive
                                                       ? LocaleKeys.hidden_message.tr()
-                                                      : widget.title ?? '',
+                                                      : widget.itemTitle ?? '',
                                                   style: const TextStyle(
                                                     fontSize: 18,
                                                   ),
                                                   maxLines:
-                                                      tpTitle.didExceedMaxLines && tpSubtitle.didExceedMaxLines ? 1 : 2,
+                                                      tpItemTitle.didExceedMaxLines && tpItemSubtitle.didExceedMaxLines
+                                                          ? 1
+                                                          : 2,
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
-                                                if (widget.subtitle != null)
+                                                if (widget.itemSubtitle != null)
                                                   Text(
-                                                    widget.subtitle!,
+                                                    widget.itemSubtitle!,
                                                     maxLines: 2,
                                                   ),
                                                 if (widget.itemDetail != null)
                                                   Text(
                                                     widget.itemDetail!,
-                                                    maxLines: tpTitle.didExceedMaxLines || tpSubtitle.didExceedMaxLines
+                                                    maxLines: tpItemTitle.didExceedMaxLines ||
+                                                            tpItemSubtitle.didExceedMaxLines
                                                         ? 1
                                                         : 2,
                                                     overflow: TextOverflow.ellipsis,

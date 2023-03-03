@@ -83,8 +83,9 @@ class ShowMediaView extends StatelessWidget {
           mediaType: media.mediaType,
           uri: media.imageUri,
         ),
-        title: media.title,
-        subtitle: media.year?.toString(),
+        pageTitle: media.title,
+        itemTitle: media.title,
+        itemSubtitle: media.year?.toString(),
         tabs: [
           Tab(child: const Text(LocaleKeys.details_title).tr()),
           Tab(
