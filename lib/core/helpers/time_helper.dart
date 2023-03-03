@@ -40,7 +40,7 @@ class TimeHelper {
 
     final String parsedTimeFormat = timeFormat != null ? _parseTimeFormat(timeFormat) : 'HH:mm';
 
-    return DateFormat("'ETA: '$parsedTimeFormat").format(eta);
+    return DateFormat(parsedTimeFormat).format(eta);
   }
 
   /// Converts a [Duration] to a `hh:mm:ss` format.

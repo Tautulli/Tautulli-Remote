@@ -123,6 +123,7 @@
     "error_suggestion_plex_connection": "Check your Connection Address for errors and make sure Tautulli can communicate with Plex.",
     "error_suggestion_server_version": "Please update the Tautulli server to v{} or greater",
     "error_suggestion_terminate_stream_failed": "This stream may no longer be active",
+    "eta_title": "ETA",
     "failure_title": "Failure",
     "fast_title": "Fast",
     "faster_title": "Faster",

@@ -125,6 +125,7 @@ abstract class  LocaleKeys {
   static const error_suggestion_plex_connection = 'error_suggestion_plex_connection';
   static const error_suggestion_server_version = 'error_suggestion_server_version';
   static const error_suggestion_terminate_stream_failed = 'error_suggestion_terminate_stream_failed';
+  static const eta_title = 'eta_title';
   static const failure_title = 'failure_title';
   static const fast_title = 'fast_title';
   static const faster_title = 'faster_title';

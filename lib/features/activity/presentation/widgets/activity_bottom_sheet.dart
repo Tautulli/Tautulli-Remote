@@ -27,6 +27,7 @@ import 'activity_bottom_sheet_details.dart';
 import 'activity_bottom_sheet_info.dart';
 import 'progress_bar.dart';
 import 'terminate_stream_dialog.dart';
+import 'time_eta.dart';
 import 'time_total.dart';
 
 class ActivityBottomSheet extends StatefulWidget {
@@ -234,6 +235,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                               right: 8,
                                             ),
                                             child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
                                                 BlocBuilder<SettingsBloc, SettingsState>(
                                                   builder: (context, state) {
@@ -256,9 +258,18 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                                     activity.duration != null &&
                                                     activity.viewOffset != null &&
                                                     activity.duration != null)
-                                                  TimeTotal(
-                                                    viewOffset: activity.viewOffset!,
-                                                    duration: activity.duration!,
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: [
+                                                      TimeEta(
+                                                        server: widget.server,
+                                                        activity: activity,
+                                                      ),
+                                                      TimeTotal(
+                                                        viewOffset: activity.viewOffset!,
+                                                        duration: activity.duration!,
+                                                      ),
+                                                    ],
                                                   ),
                                                 if (activity.live == true)
                                                   Text(
