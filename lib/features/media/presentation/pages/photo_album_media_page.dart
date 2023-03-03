@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/open_in_plex/open_in_plex.dart';
 import '../../../../core/widgets/poster.dart';
 import '../../../../dependency_injection.dart' as di;
@@ -16,32 +17,32 @@ import '../widgets/media_children_tab.dart';
 import 'sliver_tabbed_poster_details_page.dart';
 
 class PhotoAlbumMediaPage extends StatelessWidget {
+  final ServerModel server;
   final MediaModel media;
-  final String plexIdentifier;
 
   const PhotoAlbumMediaPage({
     super.key,
+    required this.server,
     required this.media,
-    required this.plexIdentifier,
   });
 
   @override
   Widget build(BuildContext context) {
     return PhotoAlbumMediaView(
+      server: server,
       media: media,
-      plexIdentifier: plexIdentifier,
     );
   }
 }
 
 class PhotoAlbumMediaView extends StatelessWidget {
+  final ServerModel server;
   final MediaModel media;
-  final String plexIdentifier;
 
   const PhotoAlbumMediaView({
     super.key,
+    required this.server,
     required this.media,
-    required this.plexIdentifier,
   });
 
   @override
@@ -88,6 +89,7 @@ class PhotoAlbumMediaView extends StatelessWidget {
         ],
         tabChildren: [
           MediaChildrenTab(
+            server: server,
             ratingKey: media.ratingKey!,
             mediaType: media.mediaType!,
             parentPosterUri: media.imageUri,
@@ -116,7 +118,7 @@ class PhotoAlbumMediaView extends StatelessWidget {
               child: const Text(LocaleKeys.view_on_plex_title).tr(),
               onTap: () async {
                 await di.sl<OpenInPlex>().open(
-                      plexIdentifier: plexIdentifier,
+                      plexIdentifier: server.plexIdentifier,
                       ratingKey: media.ratingKey!,
                       useLegacy: true,
                     );

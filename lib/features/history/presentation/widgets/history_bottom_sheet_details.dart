@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/ip_address_helper.dart';
 import '../../../../core/helpers/string_helper.dart';
 import '../../../../core/helpers/time_helper.dart';
@@ -14,10 +15,12 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/history_model.dart';
 
 class HistoryBottomSheetDetails extends StatefulWidget {
+  final ServerModel server;
   final HistoryModel history;
 
   const HistoryBottomSheetDetails({
     super.key,
+    required this.server,
     required this.history,
   });
 
@@ -30,15 +33,12 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
   void initState() {
     super.initState();
 
-    final settingsBloc = context.read<SettingsBloc>();
-    final settingsState = settingsBloc.state as SettingsSuccess;
-
     if (widget.history.ipAddress != null) {
       context.read<GeoIpBloc>().add(
             GeoIpFetched(
-              tautulliId: settingsState.appSettings.activeServer.tautulliId,
+              tautulliId: widget.server.tautulliId,
               ipAddress: widget.history.ipAddress!,
-              settingsBloc: settingsBloc,
+              settingsBloc: context.read<SettingsBloc>(),
             ),
           );
     }

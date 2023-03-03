@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/types/media_type.dart';
@@ -15,12 +16,14 @@ import 'media_list_thumbnail.dart';
 import 'media_list_track.dart';
 
 class MediaChildrenTab extends StatefulWidget {
+  final ServerModel server;
   final int ratingKey;
   final MediaType mediaType;
   final Uri? parentPosterUri;
 
   const MediaChildrenTab({
     super.key,
+    required this.server,
     required this.ratingKey,
     required this.mediaType,
     required this.parentPosterUri,
@@ -33,7 +36,6 @@ class MediaChildrenTab extends StatefulWidget {
 class _MediaChildrenTabState extends State<MediaChildrenTab> {
   late ChildrenMetadataBloc _childrenMetadataBloc;
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
 
   @override
   void initState() {
@@ -41,9 +43,6 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
 
     _childrenMetadataBloc = context.read<ChildrenMetadataBloc>();
     _settingsBloc = context.read<SettingsBloc>();
-    final settingsState = _settingsBloc.state as SettingsSuccess;
-
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
   }
 
   @override
@@ -56,7 +55,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
           onRefresh: () {
             _childrenMetadataBloc.add(
               ChildrenMetadataFetched(
-                tautulliId: _tautulliId,
+                tautulliId: widget.server.tautulliId,
                 ratingKey: widget.ratingKey,
                 freshFetch: true,
                 settingsBloc: _settingsBloc,
@@ -95,6 +94,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                               await Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => MediaPage(
+                                    server: widget.server,
                                     disableAncestryNavigation: true,
                                     media: track,
                                   ),
@@ -153,6 +153,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                         await Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) => MediaPage(
+                                              server: widget.server,
                                               disableAncestryNavigation: true,
                                               media: item,
                                               parentPosterUri: widget.parentPosterUri,
@@ -177,6 +178,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                         await Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) => MediaPage(
+                                              server: widget.server,
                                               disableAncestryNavigation: true,
                                               media: item,
                                             ),
@@ -186,6 +188,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
                                         await Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) => MediaPage(
+                                              server: widget.server,
                                               disableAncestryNavigation: true,
                                               media: item,
                                             ),

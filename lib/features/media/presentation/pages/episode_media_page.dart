@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/open_in_plex/open_in_plex.dart';
 import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/poster.dart';
@@ -20,41 +21,41 @@ import 'media_page.dart';
 import 'sliver_tabbed_poster_details_page.dart';
 
 class EpisodeMediaPage extends StatelessWidget {
+  final ServerModel server;
   final MediaModel media;
   final Uri? parentPosterUri;
-  final String plexIdentifier;
   final bool disableAncestryNavigation;
 
   const EpisodeMediaPage({
     super.key,
+    required this.server,
     required this.media,
     this.parentPosterUri,
-    required this.plexIdentifier,
     this.disableAncestryNavigation = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return EpisodeMediaView(
+      server: server,
       media: media,
       parentPosterUri: parentPosterUri,
-      plexIdentifier: plexIdentifier,
       disableAncestryNavigation: disableAncestryNavigation,
     );
   }
 }
 
 class EpisodeMediaView extends StatelessWidget {
+  final ServerModel server;
   final MediaModel media;
   final Uri? parentPosterUri;
-  final String plexIdentifier;
   final bool disableAncestryNavigation;
 
   const EpisodeMediaView({
     super.key,
+    required this.server,
     required this.media,
     this.parentPosterUri,
-    required this.plexIdentifier,
     this.disableAncestryNavigation = false,
   });
 
@@ -105,9 +106,11 @@ class EpisodeMediaView extends StatelessWidget {
         ],
         tabChildren: [
           MediaDetailsTab(
+            server: server,
             ratingKey: media.ratingKey!,
           ),
           MediaHistoryTab(
+            server: server,
             ratingKey: media.ratingKey!,
             mediaType: media.mediaType!,
             parentPosterUri: media.imageUri,
@@ -137,6 +140,7 @@ class EpisodeMediaView extends StatelessWidget {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => MediaPage(
+                      server: server,
                       media: media.copyWith(
                         title: state.metadata!.grandparentTitle,
                         mediaType: MediaType.show,
@@ -152,6 +156,7 @@ class EpisodeMediaView extends StatelessWidget {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => MediaPage(
+                      server: server,
                       media: media.copyWith(
                         parentTitle: state.metadata!.grandparentTitle,
                         title: state.metadata!.parentTitle,
@@ -180,7 +185,7 @@ class EpisodeMediaView extends StatelessWidget {
                   child: const Text(LocaleKeys.view_on_plex_title).tr(),
                   onTap: () async {
                     await di.sl<OpenInPlex>().open(
-                          plexIdentifier: plexIdentifier,
+                          plexIdentifier: server.plexIdentifier,
                           ratingKey: media.ratingKey!,
                         );
                   },

@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quick_actions/quick_actions.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -49,7 +50,7 @@ class _UsersViewState extends State<UsersView> {
   late String _orderDir;
   late UsersTableBloc _usersTableBloc;
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
+  late ServerModel _server;
 
   @override
   void initState() {
@@ -61,7 +62,7 @@ class _UsersViewState extends State<UsersView> {
     _settingsBloc = context.read<SettingsBloc>();
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
+    _server = settingsState.appSettings.activeServer;
 
     final usersSort = settingsState.appSettings.usersSort.split('|');
     _orderColumn = usersSort[0];
@@ -69,7 +70,7 @@ class _UsersViewState extends State<UsersView> {
 
     context.read<UsersTableBloc>().add(
           UsersTableFetched(
-            tautulliId: _tautulliId,
+            tautulliId: _server.tautulliId,
             orderColumn: _orderColumn,
             orderDir: _orderDir,
             settingsBloc: _settingsBloc,
@@ -91,10 +92,10 @@ class _UsersViewState extends State<UsersView> {
       },
       listener: (ctx, state) {
         if (state is SettingsSuccess) {
-          _tautulliId = state.appSettings.activeServer.tautulliId;
+          _server = state.appSettings.activeServer;
           context.read<UsersTableBloc>().add(
                 UsersTableFetched(
-                  tautulliId: _tautulliId,
+                  tautulliId: _server.tautulliId,
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
                   settingsBloc: _settingsBloc,
@@ -113,7 +114,7 @@ class _UsersViewState extends State<UsersView> {
                 onRefresh: () {
                   context.read<UsersTableBloc>().add(
                         UsersTableFetched(
-                          tautulliId: _tautulliId,
+                          tautulliId: _server.tautulliId,
                           orderColumn: _orderColumn,
                           orderDir: _orderDir,
                           freshFetch: true,
@@ -159,7 +160,7 @@ class _UsersViewState extends State<UsersView> {
                             onTap: () {
                               context.read<UsersTableBloc>().add(
                                     UsersTableFetched(
-                                      tautulliId: _tautulliId,
+                                      tautulliId: _server.tautulliId,
                                       orderColumn: _orderColumn,
                                       orderDir: _orderDir,
                                       settingsBloc: _settingsBloc,
@@ -171,6 +172,7 @@ class _UsersViewState extends State<UsersView> {
 
                         return UserCard(
                           key: ValueKey(state.users[index].userId!),
+                          server: _server,
                           user: state.users[index],
                           details: UserDetails(user: state.users[index]),
                         );
@@ -198,7 +200,7 @@ class _UsersViewState extends State<UsersView> {
     if (_isBottom) {
       _usersTableBloc.add(
         UsersTableFetched(
-          tautulliId: _tautulliId,
+          tautulliId: _server.tautulliId,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
           settingsBloc: _settingsBloc,
@@ -239,7 +241,7 @@ class _UsersViewState extends State<UsersView> {
               _settingsBloc.add(SettingsUpdateUsersSort(value));
               _usersTableBloc.add(
                 UsersTableFetched(
-                  tautulliId: _tautulliId,
+                  tautulliId: _server.tautulliId,
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
                   freshFetch: true,

@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
@@ -43,11 +44,10 @@ class _HistorySearchViewState extends State<HistorySearchView> {
   final TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   bool _hasContent = false;
-
   final _scrollController = ScrollController();
+  late ServerModel _server;
   late SearchHistoryBloc _searchHistoryBloc;
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
   int? _userId;
   bool _movieMediaType = false;
   bool _episodeMediaType = false;
@@ -66,7 +66,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
     _settingsBloc = context.read<SettingsBloc>();
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
+    _server = settingsState.appSettings.activeServer;
   }
 
   @override
@@ -118,7 +118,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                         onTap: () {
                           _searchHistoryBloc.add(
                             SearchHistoryFetched(
-                              tautulliId: _tautulliId,
+                              tautulliId: _server.tautulliId,
                               userId: _userId,
                               movieMediaType: _movieMediaType,
                               episodeMediaType: _episodeMediaType,
@@ -136,7 +136,10 @@ class _HistorySearchViewState extends State<HistorySearchView> {
 
                     final history = searchState.history[index];
 
-                    return HistoryCard(history: history);
+                    return HistoryCard(
+                      server: _server,
+                      history: history,
+                    );
                   },
                 );
               },
@@ -159,7 +162,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
     if (_isBottom) {
       _searchHistoryBloc.add(
         SearchHistoryFetched(
-          tautulliId: _tautulliId,
+          tautulliId: _server.tautulliId,
           userId: _userId,
           movieMediaType: _movieMediaType,
           episodeMediaType: _episodeMediaType,
@@ -291,7 +294,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                     if (isNotBlank(_textController.text)) {
                       _searchHistoryBloc.add(
                         SearchHistoryFetched(
-                          tautulliId: _tautulliId,
+                          tautulliId: _server.tautulliId,
                           userId: _userId,
                           movieMediaType: _movieMediaType,
                           episodeMediaType: _episodeMediaType,
@@ -625,7 +628,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
     if (isNotBlank(_textController.text)) {
       _searchHistoryBloc.add(
         SearchHistoryFetched(
-          tautulliId: _tautulliId,
+          tautulliId: _server.tautulliId,
           userId: _userId,
           movieMediaType: _movieMediaType,
           episodeMediaType: _episodeMediaType,

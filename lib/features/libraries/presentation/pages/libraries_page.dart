@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quick_actions/quick_actions.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -45,7 +46,7 @@ class _LibrariesViewState extends State<LibrariesView> {
   final _scrollController = ScrollController();
   late LibrariesBloc _librariesBloc;
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
+  late ServerModel _server;
   late String _orderColumn;
   late String _orderDir;
 
@@ -59,7 +60,7 @@ class _LibrariesViewState extends State<LibrariesView> {
     _settingsBloc = context.read<SettingsBloc>();
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
+    _server = settingsState.appSettings.activeServer;
 
     final librariesSort = settingsState.appSettings.librariesSort.split('|');
     _orderColumn = librariesSort[0];
@@ -67,7 +68,7 @@ class _LibrariesViewState extends State<LibrariesView> {
 
     _librariesBloc.add(
       LibrariesFetched(
-        tautulliId: _tautulliId,
+        tautulliId: _server.tautulliId,
         orderColumn: _orderColumn,
         orderDir: _orderDir,
         settingsBloc: _settingsBloc,
@@ -89,11 +90,11 @@ class _LibrariesViewState extends State<LibrariesView> {
       },
       listener: (context, state) {
         if (state is SettingsSuccess) {
-          _tautulliId = state.appSettings.activeServer.tautulliId;
+          _server = state.appSettings.activeServer;
 
           _librariesBloc.add(
             LibrariesFetched(
-              tautulliId: _tautulliId,
+              tautulliId: _server.tautulliId,
               orderColumn: _orderColumn,
               orderDir: _orderDir,
               settingsBloc: _settingsBloc,
@@ -112,7 +113,7 @@ class _LibrariesViewState extends State<LibrariesView> {
                 onRefresh: () {
                   _librariesBloc.add(
                     LibrariesFetched(
-                      tautulliId: _tautulliId,
+                      tautulliId: _server.tautulliId,
                       orderColumn: _orderColumn,
                       orderDir: _orderDir,
                       freshFetch: true,
@@ -158,7 +159,7 @@ class _LibrariesViewState extends State<LibrariesView> {
                             onTap: () {
                               _librariesBloc.add(
                                 LibrariesFetched(
-                                  tautulliId: _tautulliId,
+                                  tautulliId: _server.tautulliId,
                                   orderColumn: _orderColumn,
                                   orderDir: _orderDir,
                                   settingsBloc: _settingsBloc,
@@ -198,7 +199,7 @@ class _LibrariesViewState extends State<LibrariesView> {
     if (_isBottom) {
       _librariesBloc.add(
         LibrariesFetched(
-          tautulliId: _tautulliId,
+          tautulliId: _server.tautulliId,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
           settingsBloc: _settingsBloc,
@@ -239,7 +240,7 @@ class _LibrariesViewState extends State<LibrariesView> {
               _settingsBloc.add(SettingsUpdateLibrariesSort(value));
               _librariesBloc.add(
                 LibrariesFetched(
-                  tautulliId: _tautulliId,
+                  tautulliId: _server.tautulliId,
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
                   freshFetch: true,

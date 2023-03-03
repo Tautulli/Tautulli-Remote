@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:vs_scrollbar/vs_scrollbar.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/types/media_type.dart';
@@ -19,10 +20,12 @@ import '../../data/models/library_table_model.dart';
 import '../bloc/library_media_bloc.dart';
 
 class LibraryDetailsMediaTab extends StatefulWidget {
+  final ServerModel server;
   final LibraryTableModel libraryTableModel;
 
   const LibraryDetailsMediaTab({
     super.key,
+    required this.server,
     required this.libraryTableModel,
   });
 
@@ -32,7 +35,6 @@ class LibraryDetailsMediaTab extends StatefulWidget {
 
 class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
   late bool _libraryMediaFullRefresh;
 
   @override
@@ -42,7 +44,6 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
     _settingsBloc = context.read<SettingsBloc>();
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
     _libraryMediaFullRefresh = settingsState.appSettings.libraryMediaFullRefresh;
   }
 
@@ -56,7 +57,7 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
           onRefresh: () {
             context.read<LibraryMediaBloc>().add(
                   LibraryMediaFetched(
-                    tautulliId: _tautulliId,
+                    tautulliId: widget.server.tautulliId,
                     sectionId: widget.libraryTableModel.sectionId!,
                     refresh: true,
                     fullRefresh: _libraryMediaFullRefresh,
@@ -144,6 +145,7 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
                                     await Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => MediaPage(
+                                          server: widget.server,
                                           media: media,
                                         ),
                                       ),
@@ -152,6 +154,7 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
                                     await Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => MediaPage(
+                                          server: widget.server,
                                           media: media,
                                           disableAppBarActions: item.mediaType == MediaType.photo,
                                         ),

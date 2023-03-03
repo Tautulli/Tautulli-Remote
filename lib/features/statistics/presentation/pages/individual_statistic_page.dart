@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/asset_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/string_helper.dart';
@@ -30,24 +31,31 @@ import '../widgets/top_statistic_details.dart';
 import '../widgets/top_users_statistic_details.dart';
 
 class IndividualStatisticPage extends StatelessWidget {
+  final ServerModel server;
   final StatIdType statIdType;
 
   const IndividualStatisticPage({
     super.key,
+    required this.server,
     required this.statIdType,
   });
 
   @override
   Widget build(BuildContext context) {
-    return IndividualStatisticView(statIdType: statIdType);
+    return IndividualStatisticView(
+      server: server,
+      statIdType: statIdType,
+    );
   }
 }
 
 class IndividualStatisticView extends StatefulWidget {
+  final ServerModel server;
   final StatIdType statIdType;
 
   const IndividualStatisticView({
     super.key,
+    required this.server,
     required this.statIdType,
   });
 
@@ -192,6 +200,7 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => MediaPage(
+                      server: widget.server,
                       media: media,
                     ),
                   ),
@@ -248,6 +257,7 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                         );
 
                         return MediaPage(
+                          server: widget.server,
                           media: media,
                         );
                       },
@@ -284,6 +294,7 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                         );
 
                         return MediaPage(
+                          server: widget.server,
                           media: media,
                         );
                       },
@@ -297,6 +308,7 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
         return stat.stats
             .map(
               (statData) => UserCard(
+                server: widget.server,
                 user: UserTableModel(
                   userId: statData.userId,
                   lastSeen: statData.lastPlay,

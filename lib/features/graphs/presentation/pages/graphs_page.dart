@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quick_actions/quick_actions.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/types/tautulli_types.dart';
 import '../../../../core/widgets/page_body.dart';
@@ -43,7 +44,7 @@ class GraphsView extends StatefulWidget {
 
 class _GraphsViewState extends State<GraphsView> {
   final QuickActions quickActions = const QuickActions();
-  late String _tautulliId;
+  late ServerModel _server;
   late PlayMetricType _yAxis;
   late int _timeRange;
   late GraphsBloc _graphsBloc;
@@ -58,13 +59,13 @@ class _GraphsViewState extends State<GraphsView> {
     _settingsBloc = context.read<SettingsBloc>();
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
+    _server = settingsState.appSettings.activeServer;
     _yAxis = settingsState.appSettings.graphYAxis;
     _timeRange = settingsState.appSettings.graphTimeRange;
 
     _graphsBloc.add(
       GraphsFetched(
-        tautulliId: _tautulliId,
+        tautulliId: _server.tautulliId,
         yAxis: _yAxis,
         timeRange: _timeRange,
         settingsBloc: _settingsBloc,
@@ -95,11 +96,11 @@ class _GraphsViewState extends State<GraphsView> {
       },
       listener: (ctx, state) {
         if (state is SettingsSuccess) {
-          _tautulliId = state.appSettings.activeServer.tautulliId;
+          _server = state.appSettings.activeServer;
 
           _graphsBloc.add(
             GraphsFetched(
-              tautulliId: _tautulliId,
+              tautulliId: _server.tautulliId,
               yAxis: _yAxis,
               timeRange: _timeRange,
               settingsBloc: _settingsBloc,
@@ -123,7 +124,7 @@ class _GraphsViewState extends State<GraphsView> {
                         onRefresh: () {
                           _graphsBloc.add(
                             GraphsFetched(
-                              tautulliId: _tautulliId,
+                              tautulliId: _server.tautulliId,
                               yAxis: _yAxis,
                               timeRange: _timeRange,
                               freshFetch: true,
@@ -139,7 +140,7 @@ class _GraphsViewState extends State<GraphsView> {
                         onRefresh: () {
                           _graphsBloc.add(
                             GraphsFetched(
-                              tautulliId: _tautulliId,
+                              tautulliId: _server.tautulliId,
                               yAxis: _yAxis,
                               timeRange: _timeRange,
                               freshFetch: true,
@@ -155,7 +156,7 @@ class _GraphsViewState extends State<GraphsView> {
                         onRefresh: () {
                           _graphsBloc.add(
                             GraphsFetched(
-                              tautulliId: _tautulliId,
+                              tautulliId: _server.tautulliId,
                               yAxis: _yAxis,
                               timeRange: _timeRange,
                               freshFetch: true,
@@ -229,7 +230,7 @@ class _GraphsViewState extends State<GraphsView> {
 
               _graphsBloc.add(
                 GraphsFetched(
-                  tautulliId: _tautulliId,
+                  tautulliId: _server.tautulliId,
                   yAxis: _yAxis,
                   timeRange: _timeRange,
                   freshFetch: true,
@@ -311,7 +312,7 @@ class _GraphsViewState extends State<GraphsView> {
 
                         _graphsBloc.add(
                           GraphsFetched(
-                            tautulliId: _tautulliId,
+                            tautulliId: _server.tautulliId,
                             yAxis: _yAxis,
                             timeRange: _timeRange,
                             freshFetch: true,
@@ -334,7 +335,7 @@ class _GraphsViewState extends State<GraphsView> {
 
                         _graphsBloc.add(
                           GraphsFetched(
-                            tautulliId: _tautulliId,
+                            tautulliId: _server.tautulliId,
                             yAxis: _yAxis,
                             timeRange: _timeRange,
                             freshFetch: true,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/types/media_type.dart';
@@ -15,12 +16,14 @@ import '../../../history/presentation/widgets/history_individual_card.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
 
 class MediaHistoryTab extends StatefulWidget {
+  final ServerModel server;
   final int ratingKey;
   final MediaType mediaType;
   final Uri? parentPosterUri;
 
   const MediaHistoryTab({
     super.key,
+    required this.server,
     required this.ratingKey,
     required this.mediaType,
     required this.parentPosterUri,
@@ -34,7 +37,6 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
   ScrollController? _scrollController;
   late IndividualHistoryBloc _individualHistoryBloc;
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
 
   @override
   void initState() {
@@ -42,9 +44,6 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
 
     _individualHistoryBloc = context.read<IndividualHistoryBloc>();
     _settingsBloc = context.read<SettingsBloc>();
-    final settingsState = _settingsBloc.state as SettingsSuccess;
-
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
   }
 
   @override
@@ -61,7 +60,7 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
           onRefresh: () {
             _individualHistoryBloc.add(
               IndividualHistoryFetched(
-                tautulliId: _tautulliId,
+                tautulliId: widget.server.tautulliId,
                 ratingKey: widget.ratingKey,
                 mediaType: widget.mediaType,
                 freshFetch: true,
@@ -106,7 +105,7 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
                         onTap: () {
                           _individualHistoryBloc.add(
                             IndividualHistoryFetched(
-                              tautulliId: _tautulliId,
+                              tautulliId: widget.server.tautulliId,
                               ratingKey: widget.ratingKey,
                               mediaType: widget.mediaType,
                               settingsBloc: _settingsBloc,
@@ -119,6 +118,7 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
                     final history = state.history[index];
 
                     return HistoryIndividualCard(
+                      server: widget.server,
                       history: history.copyWith(posterUri: widget.parentPosterUri),
                     );
                   },
@@ -141,7 +141,7 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
     if (_isBottom) {
       _individualHistoryBloc.add(
         IndividualHistoryFetched(
-          tautulliId: _tautulliId,
+          tautulliId: widget.server.tautulliId,
           ratingKey: widget.ratingKey,
           mediaType: widget.mediaType,
           settingsBloc: _settingsBloc,

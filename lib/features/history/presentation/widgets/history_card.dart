@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/widgets/poster_card.dart';
 import '../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import '../../data/models/history_model.dart';
@@ -8,6 +9,7 @@ import 'history_bottom_sheet.dart';
 import 'history_card_details.dart';
 
 class HistoryCard extends StatefulWidget {
+  final ServerModel server;
   final HistoryModel history;
   final bool showUser;
   final bool viewUserEnabled;
@@ -15,6 +17,7 @@ class HistoryCard extends StatefulWidget {
 
   const HistoryCard({
     super.key,
+    required this.server,
     required this.history,
     this.showUser = true,
     this.viewUserEnabled = true,
@@ -55,6 +58,7 @@ class _HistoryCardState extends State<HistoryCard> {
           return BlocProvider.value(
             value: _geoIpBloc,
             child: HistoryBottomSheet(
+              server: widget.server,
               history: widget.history,
               viewUserEnabled: widget.viewUserEnabled,
               viewMediaEnabled: widget.viewMediaEnabled,

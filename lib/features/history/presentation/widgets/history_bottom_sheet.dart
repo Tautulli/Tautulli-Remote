@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/gesture_pill.dart';
 import '../../../../core/widgets/poster.dart';
@@ -21,12 +22,14 @@ import 'history_bottom_sheet_details.dart';
 import 'history_bottom_sheet_info.dart';
 
 class HistoryBottomSheet extends StatelessWidget {
+  final ServerModel server;
   final HistoryModel history;
   final bool viewUserEnabled;
   final bool viewMediaEnabled;
 
   const HistoryBottomSheet({
     super.key,
+    required this.server,
     required this.history,
     this.viewUserEnabled = true,
     this.viewMediaEnabled = true,
@@ -183,7 +186,10 @@ class HistoryBottomSheet extends StatelessWidget {
                 child: Column(
                   children: [
                     Expanded(
-                      child: HistoryBottomSheetDetails(history: history),
+                      child: HistoryBottomSheetDetails(
+                        server: server,
+                        history: history,
+                      ),
                     ),
                     Row(
                       children: [
@@ -201,6 +207,7 @@ class HistoryBottomSheet extends StatelessWidget {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => UserDetailsPage(
+                                          server: server,
                                           user: user,
                                           fetchUser: true,
                                         ),
@@ -239,6 +246,7 @@ class HistoryBottomSheet extends StatelessWidget {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => MediaPage(
+                                          server: server,
                                           media: media,
                                         ),
                                       ),

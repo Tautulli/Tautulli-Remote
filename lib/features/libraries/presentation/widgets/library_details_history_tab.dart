@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
@@ -13,10 +14,12 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/library_table_model.dart';
 
 class LibraryDetailsHistoryTab extends StatefulWidget {
+  final ServerModel server;
   final LibraryTableModel libraryTableModel;
 
   const LibraryDetailsHistoryTab({
     super.key,
+    required this.server,
     required this.libraryTableModel,
   });
 
@@ -28,16 +31,12 @@ class _LibraryDetailsHistoryTabState extends State<LibraryDetailsHistoryTab> {
   ScrollController? _scrollController;
   late LibraryHistoryBloc _libraryHistoryBloc;
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
 
   @override
   void initState() {
     super.initState();
     _libraryHistoryBloc = context.read<LibraryHistoryBloc>();
     _settingsBloc = context.read<SettingsBloc>();
-    final settingsState = _settingsBloc.state as SettingsSuccess;
-
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
   }
 
   @override
@@ -54,7 +53,7 @@ class _LibraryDetailsHistoryTabState extends State<LibraryDetailsHistoryTab> {
           onRefresh: () {
             _libraryHistoryBloc.add(
               LibraryHistoryFetched(
-                tautulliId: _tautulliId,
+                tautulliId: widget.server.tautulliId,
                 sectionId: widget.libraryTableModel.sectionId!,
                 settingsBloc: _settingsBloc,
                 freshFetch: true,
@@ -93,7 +92,7 @@ class _LibraryDetailsHistoryTabState extends State<LibraryDetailsHistoryTab> {
                         onTap: () {
                           _libraryHistoryBloc.add(
                             LibraryHistoryFetched(
-                              tautulliId: _tautulliId,
+                              tautulliId: widget.server.tautulliId,
                               sectionId: widget.libraryTableModel.sectionId!,
                               settingsBloc: _settingsBloc,
                             ),
@@ -105,6 +104,7 @@ class _LibraryDetailsHistoryTabState extends State<LibraryDetailsHistoryTab> {
                     final history = state.history[index];
 
                     return HistoryCard(
+                      server: widget.server,
                       history: history,
                       viewMediaEnabled: history.live != true,
                     );
@@ -128,7 +128,7 @@ class _LibraryDetailsHistoryTabState extends State<LibraryDetailsHistoryTab> {
     if (_isBottom) {
       _libraryHistoryBloc.add(
         LibraryHistoryFetched(
-          tautulliId: _tautulliId,
+          tautulliId: widget.server.tautulliId,
           sectionId: widget.libraryTableModel.sectionId!,
           settingsBloc: _settingsBloc,
         ),

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -21,10 +22,12 @@ import '../../data/models/library_watch_time_stat_model.dart';
 import '../bloc/library_statistics_bloc.dart';
 
 class LibraryDetailsStatsTab extends StatefulWidget {
+  final ServerModel server;
   final LibraryTableModel libraryTableModel;
 
   const LibraryDetailsStatsTab({
     super.key,
+    required this.server,
     required this.libraryTableModel,
   });
 
@@ -34,16 +37,12 @@ class LibraryDetailsStatsTab extends StatefulWidget {
 
 class _LibraryDetailsStatsTabState extends State<LibraryDetailsStatsTab> {
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
 
   @override
   void initState() {
     super.initState();
 
     _settingsBloc = context.read<SettingsBloc>();
-    final settingsState = _settingsBloc.state as SettingsSuccess;
-
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
   }
 
   @override
@@ -54,7 +53,7 @@ class _LibraryDetailsStatsTabState extends State<LibraryDetailsStatsTab> {
           onRefresh: () {
             context.read<LibraryStatisticsBloc>().add(
                   LibraryStatisticsFetched(
-                    tautulliId: _tautulliId,
+                    tautulliId: widget.server.tautulliId,
                     sectionId: widget.libraryTableModel.sectionId!,
                     settingsBloc: _settingsBloc,
                     freshFetch: true,
@@ -217,6 +216,7 @@ class _LibraryDetailsStatsTabState extends State<LibraryDetailsStatsTab> {
 
             statList.add(
               UserCard(
+                server: widget.server,
                 fetchUser: true,
                 user: user,
                 details: UserDetails(

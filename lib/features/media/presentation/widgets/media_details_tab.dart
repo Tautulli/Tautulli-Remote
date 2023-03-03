@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/page_body.dart';
@@ -13,10 +14,12 @@ import 'media_details_tab_details.dart';
 import 'media_details_tab_summary.dart';
 
 class MediaDetailsTab extends StatefulWidget {
+  final ServerModel server;
   final int ratingKey;
 
   const MediaDetailsTab({
     super.key,
+    required this.server,
     required this.ratingKey,
   });
 
@@ -26,16 +29,12 @@ class MediaDetailsTab extends StatefulWidget {
 
 class _MediaDetailsTabState extends State<MediaDetailsTab> {
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
 
   @override
   void initState() {
     super.initState();
 
     _settingsBloc = context.read<SettingsBloc>();
-    final settingsState = _settingsBloc.state as SettingsSuccess;
-
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
   }
 
   @override
@@ -46,7 +45,7 @@ class _MediaDetailsTabState extends State<MediaDetailsTab> {
           onRefresh: () {
             context.read<MetadataBloc>().add(
                   MetadataFetched(
-                    tautulliId: _tautulliId,
+                    tautulliId: widget.server.tautulliId,
                     ratingKey: widget.ratingKey,
                     freshFetch: true,
                     settingsBloc: _settingsBloc,

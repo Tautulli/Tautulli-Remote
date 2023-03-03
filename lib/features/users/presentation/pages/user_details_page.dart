@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:palette_generator/palette_generator.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/pages/sliver_tabbed_icon_details_page.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -19,12 +20,14 @@ import '../widgets/user_details_stats_tab.dart';
 import '../widgets/user_icon.dart';
 
 class UserDetailsPage extends StatelessWidget {
+  final ServerModel server;
   final UserModel user;
   final Color? backgroundColor;
   final bool fetchUser;
 
   const UserDetailsPage({
     super.key,
+    required this.server,
     required this.user,
     this.backgroundColor,
     this.fetchUser = false,
@@ -45,6 +48,7 @@ class UserDetailsPage extends StatelessWidget {
         ),
       ],
       child: UserDetailsView(
+        server: server,
         user: user,
         backgroundColor: backgroundColor,
         fetchUser: fetchUser,
@@ -54,12 +58,14 @@ class UserDetailsPage extends StatelessWidget {
 }
 
 class UserDetailsView extends StatefulWidget {
+  final ServerModel server;
   final UserModel user;
   final Color? backgroundColor;
   final bool fetchUser;
 
   const UserDetailsView({
     super.key,
+    required this.server,
     required this.user,
     this.backgroundColor,
     this.fetchUser = false,
@@ -73,7 +79,6 @@ class _UserDetailsViewState extends State<UserDetailsView> {
   late Future getColorFuture;
   late bool hasNetworkImage;
   late UserHistoryBloc _userHistoryBloc;
-  late String _tautulliId;
 
   @override
   void initState() {
@@ -82,14 +87,12 @@ class _UserDetailsViewState extends State<UserDetailsView> {
     getColorFuture = _getColor(widget.user.userThumb);
 
     final settingsBloc = context.read<SettingsBloc>();
-    final settingsState = settingsBloc.state as SettingsSuccess;
     _userHistoryBloc = context.read<UserHistoryBloc>();
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
 
     if (widget.fetchUser) {
       context.read<UserIndividualBloc>().add(
             UserIndividualFetched(
-              tautulliId: settingsState.appSettings.activeServer.tautulliId,
+              tautulliId: widget.server.tautulliId,
               userId: widget.user.userId!,
               settingsBloc: settingsBloc,
             ),
@@ -98,14 +101,14 @@ class _UserDetailsViewState extends State<UserDetailsView> {
 
     _userHistoryBloc.add(
       UserHistoryFetched(
-        tautulliId: _tautulliId,
+        tautulliId: widget.server.tautulliId,
         userId: widget.user.userId!,
         settingsBloc: settingsBloc,
       ),
     );
     context.read<UserStatisticsBloc>().add(
           UserStatisticsFetched(
-            tautulliId: _tautulliId,
+            tautulliId: widget.server.tautulliId,
             userId: widget.user.userId!,
             settingsBloc: settingsBloc,
           ),
@@ -193,8 +196,14 @@ class _UserDetailsViewState extends State<UserDetailsView> {
               Tab(text: LocaleKeys.history_title.tr()),
             ],
             tabChildren: [
-              UserDetailsStatsTab(user: widget.user),
-              UserDetailsHistoryTab(user: widget.user),
+              UserDetailsStatsTab(
+                server: widget.server,
+                user: widget.user,
+              ),
+              UserDetailsHistoryTab(
+                server: widget.server,
+                user: widget.user,
+              ),
             ],
           );
         },

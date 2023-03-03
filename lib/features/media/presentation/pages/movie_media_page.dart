@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/open_in_plex/open_in_plex.dart';
 import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/poster.dart';
@@ -18,32 +19,32 @@ import '../widgets/media_history_tab.dart';
 import 'sliver_tabbed_poster_details_page.dart';
 
 class MovieMediaPage extends StatelessWidget {
+  final ServerModel server;
   final MediaModel media;
-  final String plexIdentifier;
 
   const MovieMediaPage({
     super.key,
+    required this.server,
     required this.media,
-    required this.plexIdentifier,
   });
 
   @override
   Widget build(BuildContext context) {
     return MovieMediaView(
+      server: server,
       media: media,
-      plexIdentifier: plexIdentifier,
     );
   }
 }
 
 class MovieMediaView extends StatelessWidget {
+  final ServerModel server;
   final MediaModel media;
-  final String plexIdentifier;
 
   const MovieMediaView({
     super.key,
+    required this.server,
     required this.media,
-    required this.plexIdentifier,
   });
 
   @override
@@ -90,9 +91,11 @@ class MovieMediaView extends StatelessWidget {
         ],
         tabChildren: [
           MediaDetailsTab(
+            server: server,
             ratingKey: media.ratingKey ?? 0,
           ),
           MediaHistoryTab(
+            server: server,
             ratingKey: media.ratingKey ?? 0,
             mediaType: media.mediaType ?? MediaType.unknown,
             parentPosterUri: media.imageUri,
@@ -121,7 +124,7 @@ class MovieMediaView extends StatelessWidget {
               child: const Text(LocaleKeys.view_on_plex_title).tr(),
               onTap: () async {
                 await di.sl<OpenInPlex>().open(
-                      plexIdentifier: plexIdentifier,
+                      plexIdentifier: server.plexIdentifier,
                       ratingKey: media.ratingKey!,
                     );
               },

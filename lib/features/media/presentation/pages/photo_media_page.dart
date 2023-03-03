@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/open_in_plex/open_in_plex.dart';
 import '../../../../core/widgets/poster.dart';
 import '../../../../dependency_injection.dart' as di;
@@ -16,36 +17,36 @@ import '../widgets/media_details_tab.dart';
 import 'sliver_tabbed_poster_details_page.dart';
 
 class PhotoMediaPage extends StatelessWidget {
+  final ServerModel server;
   final MediaModel media;
-  final String plexIdentifier;
   final bool disableAppBarActions;
 
   const PhotoMediaPage({
     super.key,
+    required this.server,
     required this.media,
-    required this.plexIdentifier,
     this.disableAppBarActions = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return PhotoMediaView(
+      server: server,
       media: media,
-      plexIdentifier: plexIdentifier,
       disableAppBarActions: disableAppBarActions,
     );
   }
 }
 
 class PhotoMediaView extends StatelessWidget {
+  final ServerModel server;
   final MediaModel media;
-  final String plexIdentifier;
   final bool disableAppBarActions;
 
   const PhotoMediaView({
     super.key,
+    required this.server,
     required this.media,
-    required this.plexIdentifier,
     this.disableAppBarActions = false,
   });
 
@@ -92,6 +93,7 @@ class PhotoMediaView extends StatelessWidget {
         ],
         tabChildren: [
           MediaDetailsTab(
+            server: server,
             ratingKey: media.ratingKey!,
           ),
         ],
@@ -119,7 +121,7 @@ class PhotoMediaView extends StatelessWidget {
               child: const Text(LocaleKeys.view_on_plex_title).tr(),
               onTap: () async {
                 await di.sl<OpenInPlex>().open(
-                      plexIdentifier: plexIdentifier,
+                      plexIdentifier: server.plexIdentifier,
                       ratingKey: media.parentRatingKey!,
                       useLegacy: true,
                     );

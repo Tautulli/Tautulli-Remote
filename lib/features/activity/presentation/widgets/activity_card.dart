@@ -19,13 +19,13 @@ import 'activity_details.dart';
 import 'progress_bar.dart';
 
 class ActivityCard extends StatefulWidget {
-  final ActivityModel activity;
   final ServerModel server;
+  final ActivityModel activity;
 
   const ActivityCard({
     super.key,
-    required this.activity,
     required this.server,
+    required this.activity,
   });
 
   @override
@@ -164,8 +164,8 @@ class _ActivityCardState extends State<ActivityCard> {
                           child: BlocProvider(
                             create: (context) => di.sl<TerminateStreamBloc>(),
                             child: ActivityBottomSheet(
-                              activity: widget.activity,
                               server: widget.server,
+                              activity: widget.activity,
                             ),
                           ),
                         );

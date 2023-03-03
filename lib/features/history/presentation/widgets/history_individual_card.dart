@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/icon_helper.dart';
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/types/media_type.dart';
@@ -15,10 +16,12 @@ import '../../data/models/history_model.dart';
 import 'history_bottom_sheet.dart';
 
 class HistoryIndividualCard extends StatelessWidget {
+  final ServerModel server;
   final HistoryModel history;
 
   const HistoryIndividualCard({
     super.key,
+    required this.server,
     required this.history,
   });
 
@@ -116,6 +119,7 @@ class HistoryIndividualCard extends StatelessWidget {
                       return BlocProvider.value(
                         value: context.read<GeoIpBloc>(),
                         child: HistoryBottomSheet(
+                          server: server,
                           history: history,
                           viewUserEnabled: true,
                           viewMediaEnabled: false,

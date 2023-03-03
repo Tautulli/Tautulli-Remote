@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/pages/sliver_tabbed_icon_details_page.dart';
 import '../../../../core/types/section_type.dart';
@@ -67,16 +68,18 @@ class LibraryDetailsView extends StatefulWidget {
 }
 
 class _LibraryDetailsViewState extends State<LibraryDetailsView> {
+  late ServerModel server;
+
   @override
   void initState() {
     super.initState();
     final settingsBloc = context.read<SettingsBloc>();
     final settingsState = settingsBloc.state as SettingsSuccess;
-    final tautulliId = settingsState.appSettings.activeServer.tautulliId;
+    server = settingsState.appSettings.activeServer;
 
     context.read<LibraryHistoryBloc>().add(
           LibraryHistoryFetched(
-            tautulliId: tautulliId,
+            tautulliId: server.tautulliId,
             sectionId: widget.libraryTableModel.sectionId!,
             settingsBloc: settingsBloc,
           ),
@@ -84,7 +87,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
 
     context.read<LibraryRecentlyAddedBloc>().add(
           LibraryRecentlyAddedFetched(
-            tautulliId: tautulliId,
+            tautulliId: server.tautulliId,
             sectionId: widget.libraryTableModel.sectionId ?? 0,
             settingsBloc: settingsBloc,
           ),
@@ -92,7 +95,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
 
     context.read<LibraryStatisticsBloc>().add(
           LibraryStatisticsFetched(
-            tautulliId: tautulliId,
+            tautulliId: server.tautulliId,
             sectionId: widget.libraryTableModel.sectionId ?? 0,
             settingsBloc: settingsBloc,
           ),
@@ -100,7 +103,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
 
     context.read<LibraryMediaBloc>().add(
           LibraryMediaFetched(
-            tautulliId: tautulliId,
+            tautulliId: server.tautulliId,
             sectionId: widget.libraryTableModel.sectionId ?? 0,
             refresh: false,
             fullRefresh: false,
@@ -181,13 +184,25 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
         ],
         tabChildren: [
           if (widget.libraryTableModel.sectionType != SectionType.photo)
-            LibraryDetailsStatsTab(libraryTableModel: widget.libraryTableModel),
+            LibraryDetailsStatsTab(
+              server: server,
+              libraryTableModel: widget.libraryTableModel,
+            ),
           if (![SectionType.live, SectionType.photo].contains(widget.libraryTableModel.sectionType))
-            LibraryDetailsNewTab(libraryTableModel: widget.libraryTableModel),
+            LibraryDetailsNewTab(
+              server: server,
+              libraryTableModel: widget.libraryTableModel,
+            ),
           if (widget.libraryTableModel.sectionType != SectionType.photo)
-            LibraryDetailsHistoryTab(libraryTableModel: widget.libraryTableModel),
+            LibraryDetailsHistoryTab(
+              server: server,
+              libraryTableModel: widget.libraryTableModel,
+            ),
           if (widget.libraryTableModel.sectionType != SectionType.live)
-            LibraryDetailsMediaTab(libraryTableModel: widget.libraryTableModel),
+            LibraryDetailsMediaTab(
+              server: server,
+              libraryTableModel: widget.libraryTableModel,
+            ),
         ],
       ),
     );

@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/asset_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/time_helper.dart';
@@ -21,10 +22,12 @@ import '../../data/models/user_watch_time_stat_model.dart';
 import '../bloc/user_statistics_bloc.dart';
 
 class UserDetailsStatsTab extends StatefulWidget {
+  final ServerModel server;
   final UserModel user;
 
   const UserDetailsStatsTab({
     super.key,
+    required this.server,
     required this.user,
   });
 
@@ -34,16 +37,12 @@ class UserDetailsStatsTab extends StatefulWidget {
 
 class _UserDetailsStatsTabState extends State<UserDetailsStatsTab> {
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
 
   @override
   void initState() {
     super.initState();
 
     _settingsBloc = context.read<SettingsBloc>();
-    final settingsState = _settingsBloc.state as SettingsSuccess;
-
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
   }
 
   @override
@@ -54,7 +53,7 @@ class _UserDetailsStatsTabState extends State<UserDetailsStatsTab> {
           onRefresh: () {
             context.read<UserStatisticsBloc>().add(
                   UserStatisticsFetched(
-                    tautulliId: _tautulliId,
+                    tautulliId: widget.server.tautulliId,
                     userId: widget.user.userId!,
                     settingsBloc: _settingsBloc,
                     freshFetch: true,

@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quick_actions/quick_actions.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -45,7 +46,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
   final _scrollController = ScrollController();
   late RecentlyAddedBloc _recentlyAddedBloc;
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
+  late ServerModel _server;
   MediaType? _mediaType;
 
   @override
@@ -56,14 +57,12 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
     _scrollController.addListener(_onScroll);
     _recentlyAddedBloc = context.read<RecentlyAddedBloc>();
     _settingsBloc = context.read<SettingsBloc>();
-    final settingsState = _settingsBloc.state as SettingsSuccess;
 
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
     _mediaType = _recentlyAddedBloc.state.mediaType;
 
     _recentlyAddedBloc.add(
       RecentlyAddedFetched(
-        tautulliId: _tautulliId,
+        tautulliId: _server.tautulliId,
         mediaType: _mediaType,
         settingsBloc: _settingsBloc,
       ),
@@ -75,12 +74,12 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
     return BlocListener<SettingsBloc, SettingsState>(
       listener: (context, state) {
         if (state is SettingsSuccess) {
-          _tautulliId = state.appSettings.activeServer.tautulliId;
+          _server = state.appSettings.activeServer;
           _mediaType = null;
 
           _recentlyAddedBloc.add(
             RecentlyAddedFetched(
-              tautulliId: _tautulliId,
+              tautulliId: _server.tautulliId,
               mediaType: _mediaType,
               settingsBloc: _settingsBloc,
             ),
@@ -98,7 +97,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
                 onRefresh: () {
                   _recentlyAddedBloc.add(
                     RecentlyAddedFetched(
-                      tautulliId: _tautulliId,
+                      tautulliId: _server.tautulliId,
                       mediaType: _mediaType,
                       freshFetch: true,
                       settingsBloc: _settingsBloc,
@@ -143,7 +142,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
                             onTap: () {
                               _recentlyAddedBloc.add(
                                 RecentlyAddedFetched(
-                                  tautulliId: _tautulliId,
+                                  tautulliId: _server.tautulliId,
                                   mediaType: _mediaType,
                                   settingsBloc: _settingsBloc,
                                 ),
@@ -154,7 +153,10 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
 
                         final recentlyAdded = state.recentlyAdded[index];
 
-                        return RecentlyAddedCard(recentlyAdded: recentlyAdded);
+                        return RecentlyAddedCard(
+                          server: _server,
+                          recentlyAdded: recentlyAdded,
+                        );
                       },
                     );
                   },
@@ -179,7 +181,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
     if (_isBottom) {
       _recentlyAddedBloc.add(
         RecentlyAddedFetched(
-          tautulliId: _tautulliId,
+          tautulliId: _server.tautulliId,
           mediaType: _mediaType,
           settingsBloc: _settingsBloc,
         ),
@@ -240,7 +242,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
           if (changed) {
             _recentlyAddedBloc.add(
               RecentlyAddedFetched(
-                tautulliId: _tautulliId,
+                tautulliId: _server.tautulliId,
                 mediaType: _mediaType,
                 freshFetch: true,
                 settingsBloc: _settingsBloc,

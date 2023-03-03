@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/types/media_type.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../history/presentation/bloc/individual_history_bloc.dart';
@@ -20,6 +21,7 @@ import 'show_media_page.dart';
 import 'track_media_page.dart';
 
 class MediaPage extends StatelessWidget {
+  final ServerModel server;
   final MediaModel media;
   final Uri? parentPosterUri;
   final bool disableAppBarActions;
@@ -27,6 +29,7 @@ class MediaPage extends StatelessWidget {
 
   const MediaPage({
     super.key,
+    required this.server,
     required this.media,
     this.parentPosterUri,
     this.disableAppBarActions = false,
@@ -48,6 +51,7 @@ class MediaPage extends StatelessWidget {
         ),
       ],
       child: MediaView(
+        server: server,
         media: media,
         parentPosterUri: parentPosterUri,
         disableAppBarActions: disableAppBarActions,
@@ -58,6 +62,7 @@ class MediaPage extends StatelessWidget {
 }
 
 class MediaView extends StatefulWidget {
+  final ServerModel server;
   final MediaModel media;
   final Uri? parentPosterUri;
   final bool disableAppBarActions;
@@ -65,6 +70,7 @@ class MediaView extends StatefulWidget {
 
   const MediaView({
     super.key,
+    required this.server,
     required this.media,
     this.parentPosterUri,
     this.disableAppBarActions = false,
@@ -76,20 +82,15 @@ class MediaView extends StatefulWidget {
 }
 
 class _MediaViewState extends State<MediaView> {
-  late String _plexIdentifier;
-
   @override
   void initState() {
     super.initState();
 
     final settingsBloc = context.read<SettingsBloc>();
-    final settingsState = settingsBloc.state as SettingsSuccess;
-    final tautulliId = settingsState.appSettings.activeServer.tautulliId;
-    _plexIdentifier = settingsState.appSettings.activeServer.plexIdentifier;
 
     context.read<MetadataBloc>().add(
           MetadataFetched(
-            tautulliId: tautulliId,
+            tautulliId: widget.server.tautulliId,
             ratingKey: widget.media.ratingKey!,
             settingsBloc: settingsBloc,
           ),
@@ -97,7 +98,7 @@ class _MediaViewState extends State<MediaView> {
 
     context.read<IndividualHistoryBloc>().add(
           IndividualHistoryFetched(
-            tautulliId: tautulliId,
+            tautulliId: widget.server.tautulliId,
             ratingKey: widget.media.ratingKey!,
             mediaType: widget.media.mediaType!,
             settingsBloc: settingsBloc,
@@ -113,7 +114,7 @@ class _MediaViewState extends State<MediaView> {
     ].contains(widget.media.mediaType!)) {
       context.read<ChildrenMetadataBloc>().add(
             ChildrenMetadataFetched(
-              tautulliId: tautulliId,
+              tautulliId: widget.server.tautulliId,
               ratingKey: widget.media.ratingKey!,
               settingsBloc: settingsBloc,
             ),
@@ -126,61 +127,61 @@ class _MediaViewState extends State<MediaView> {
     switch (widget.media.mediaType) {
       case MediaType.album:
         return AlbumMediaPage(
+          server: widget.server,
           disableAncestryNavigation: widget.disableAncestryNavigation,
           media: widget.media,
-          plexIdentifier: _plexIdentifier,
         );
       case MediaType.artist:
         return ArtistMediaPage(
+          server: widget.server,
           media: widget.media,
-          plexIdentifier: _plexIdentifier,
         );
       case MediaType.clip:
         return ClipMediaPage(
+          server: widget.server,
           media: widget.media,
-          plexIdentifier: _plexIdentifier,
         );
       case MediaType.episode:
         return EpisodeMediaPage(
+          server: widget.server,
           disableAncestryNavigation: widget.disableAncestryNavigation,
           media: widget.media,
           parentPosterUri: widget.parentPosterUri,
-          plexIdentifier: _plexIdentifier,
         );
       case MediaType.photo:
         return PhotoMediaPage(
+          server: widget.server,
           media: widget.media,
-          plexIdentifier: _plexIdentifier,
           disableAppBarActions: widget.disableAppBarActions,
         );
       case MediaType.photoAlbum:
         return PhotoAlbumMediaPage(
+          server: widget.server,
           media: widget.media,
-          plexIdentifier: _plexIdentifier,
         );
       case MediaType.season:
         return SeasonMediaPage(
+          server: widget.server,
           disableAncestryNavigation: widget.disableAncestryNavigation,
           media: widget.media,
-          plexIdentifier: _plexIdentifier,
         );
       case MediaType.show:
         return ShowMediaPage(
+          server: widget.server,
           media: widget.media,
-          plexIdentifier: _plexIdentifier,
         );
       case MediaType.track:
         return TrackMediaPage(
+          server: widget.server,
           disableAncestryNavigation: widget.disableAncestryNavigation,
           media: widget.media,
-          plexIdentifier: _plexIdentifier,
         );
       case MediaType.movie:
       case MediaType.otherVideo:
       default:
         return MovieMediaPage(
+          server: widget.server,
           media: widget.media,
-          plexIdentifier: _plexIdentifier,
         );
     }
   }

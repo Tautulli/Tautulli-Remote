@@ -30,13 +30,13 @@ import 'terminate_stream_dialog.dart';
 import 'time_total.dart';
 
 class ActivityBottomSheet extends StatefulWidget {
-  final ActivityModel activity;
   final ServerModel server;
+  final ActivityModel activity;
 
   const ActivityBottomSheet({
     super.key,
-    required this.activity,
     required this.server,
+    required this.activity,
   });
 
   @override
@@ -328,6 +328,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => UserDetailsPage(
+                                      server: widget.server,
                                       user: user,
                                       fetchUser: true,
                                     ),
@@ -372,6 +373,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => MediaPage(
+                                          server: widget.server,
                                           media: media,
                                         ),
                                       ),

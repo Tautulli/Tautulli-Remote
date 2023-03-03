@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quick_actions/quick_actions.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -51,10 +52,10 @@ class HistoryView extends StatefulWidget {
 class _HistoryViewState extends State<HistoryView> {
   final QuickActions quickActions = const QuickActions();
   final _scrollController = ScrollController();
+  late ServerModel _server;
   late HistoryBloc _historyBloc;
   late UsersBloc _usersBloc;
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
   late int? _userId;
   late bool _movieMediaType;
   late bool _episodeMediaType;
@@ -75,7 +76,7 @@ class _HistoryViewState extends State<HistoryView> {
     _settingsBloc = context.read<SettingsBloc>();
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
+    _server = settingsState.appSettings.activeServer;
 
     _userId = _historyBloc.state.userId ?? -1;
     _movieMediaType = _historyBloc.state.movieMediaType;
@@ -88,7 +89,7 @@ class _HistoryViewState extends State<HistoryView> {
 
     _historyBloc.add(
       HistoryFetched(
-        tautulliId: _tautulliId,
+        tautulliId: _server.tautulliId,
         userId: _userId,
         movieMediaType: _movieMediaType,
         episodeMediaType: _episodeMediaType,
@@ -103,7 +104,7 @@ class _HistoryViewState extends State<HistoryView> {
 
     _usersBloc.add(
       UsersFetched(
-        tautulliId: _tautulliId,
+        tautulliId: _server.tautulliId,
         settingsBloc: _settingsBloc,
       ),
     );
@@ -123,7 +124,7 @@ class _HistoryViewState extends State<HistoryView> {
       },
       listener: (ctx, state) {
         if (state is SettingsSuccess) {
-          _tautulliId = state.appSettings.activeServer.tautulliId;
+          _server = state.appSettings.activeServer;
           _userId = null;
           _movieMediaType = false;
           _episodeMediaType = false;
@@ -135,7 +136,7 @@ class _HistoryViewState extends State<HistoryView> {
 
           _historyBloc.add(
             HistoryFetched(
-              tautulliId: _tautulliId,
+              tautulliId: _server.tautulliId,
               userId: _userId,
               movieMediaType: _movieMediaType,
               episodeMediaType: _episodeMediaType,
@@ -149,7 +150,7 @@ class _HistoryViewState extends State<HistoryView> {
           );
           _usersBloc.add(
             UsersFetched(
-              tautulliId: _tautulliId,
+              tautulliId: _server.tautulliId,
               settingsBloc: _settingsBloc,
             ),
           );
@@ -166,7 +167,7 @@ class _HistoryViewState extends State<HistoryView> {
                 onRefresh: () {
                   _historyBloc.add(
                     HistoryFetched(
-                      tautulliId: _tautulliId,
+                      tautulliId: _server.tautulliId,
                       userId: _userId,
                       movieMediaType: _movieMediaType,
                       episodeMediaType: _episodeMediaType,
@@ -218,7 +219,7 @@ class _HistoryViewState extends State<HistoryView> {
                             onTap: () {
                               _historyBloc.add(
                                 HistoryFetched(
-                                  tautulliId: _tautulliId,
+                                  tautulliId: _server.tautulliId,
                                   userId: _userId,
                                   movieMediaType: _movieMediaType,
                                   episodeMediaType: _episodeMediaType,
@@ -237,6 +238,7 @@ class _HistoryViewState extends State<HistoryView> {
                         final history = state.history[index];
 
                         return HistoryCard(
+                          server: _server,
                           history: history,
                           viewMediaEnabled: history.live != true,
                         );
@@ -264,7 +266,7 @@ class _HistoryViewState extends State<HistoryView> {
     if (_isBottom) {
       _historyBloc.add(
         HistoryFetched(
-          tautulliId: _tautulliId,
+          tautulliId: _server.tautulliId,
           userId: _userId,
           movieMediaType: _movieMediaType,
           episodeMediaType: _episodeMediaType,
@@ -328,7 +330,7 @@ class _HistoryViewState extends State<HistoryView> {
 
                     _historyBloc.add(
                       HistoryFetched(
-                        tautulliId: _tautulliId,
+                        tautulliId: _server.tautulliId,
                         userId: _userId,
                         movieMediaType: _movieMediaType,
                         episodeMediaType: _episodeMediaType,
@@ -660,7 +662,7 @@ class _HistoryViewState extends State<HistoryView> {
     valueNotifier.value = value;
     _historyBloc.add(
       HistoryFetched(
-        tautulliId: _tautulliId,
+        tautulliId: _server.tautulliId,
         userId: _userId,
         movieMediaType: _movieMediaType,
         episodeMediaType: _episodeMediaType,

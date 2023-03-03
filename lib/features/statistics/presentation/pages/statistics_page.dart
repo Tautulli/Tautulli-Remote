@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/asset_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/quick_actions_helper.dart';
@@ -65,7 +66,7 @@ class StatisticsView extends StatefulWidget {
 
 class _StatisticsViewState extends State<StatisticsView> {
   final QuickActions quickActions = const QuickActions();
-  late String _tautulliId;
+  late ServerModel _server;
   late PlayMetricType _statsType;
   late int _timeRange;
   late StatisticsBloc _statisticsBloc;
@@ -80,13 +81,13 @@ class _StatisticsViewState extends State<StatisticsView> {
     _settingsBloc = context.read<SettingsBloc>();
     final settingsState = _settingsBloc.state as SettingsSuccess;
 
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
+    _server = settingsState.appSettings.activeServer;
     _statsType = settingsState.appSettings.statisticsStatType;
     _timeRange = settingsState.appSettings.statisticsTimeRange;
 
     _statisticsBloc.add(
       StatisticsFetched(
-        tautulliId: _tautulliId,
+        tautulliId: _server.tautulliId,
         timeRange: _timeRange,
         statsType: _statsType,
         settingsBloc: _settingsBloc,
@@ -107,11 +108,11 @@ class _StatisticsViewState extends State<StatisticsView> {
       },
       listener: (ctx, state) {
         if (state is SettingsSuccess) {
-          _tautulliId = state.appSettings.activeServer.tautulliId;
+          _server = state.appSettings.activeServer;
 
           _statisticsBloc.add(
             StatisticsFetched(
-              tautulliId: _tautulliId,
+              tautulliId: _server.tautulliId,
               timeRange: _timeRange,
               statsType: _statsType,
               freshFetch: true,
@@ -133,7 +134,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                 onRefresh: () {
                   _statisticsBloc.add(
                     StatisticsFetched(
-                      tautulliId: _tautulliId,
+                      tautulliId: _server.tautulliId,
                       timeRange: _timeRange,
                       statsType: _statsType,
                       freshFetch: true,
@@ -198,7 +199,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
           _statisticsBloc.add(
             StatisticsFetched(
-              tautulliId: _tautulliId,
+              tautulliId: _server.tautulliId,
               timeRange: _timeRange,
               statsType: _statsType,
               freshFetch: true,
@@ -278,7 +279,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
                     _statisticsBloc.add(
                       StatisticsFetched(
-                        tautulliId: _tautulliId,
+                        tautulliId: _server.tautulliId,
                         timeRange: _timeRange,
                         statsType: _statsType,
                         freshFetch: true,
@@ -303,7 +304,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
                     _statisticsBloc.add(
                       StatisticsFetched(
-                        tautulliId: _tautulliId,
+                        tautulliId: _server.tautulliId,
                         timeRange: _timeRange,
                         statsType: _statsType,
                         freshFetch: true,
@@ -407,7 +408,10 @@ class _StatisticsViewState extends State<StatisticsView> {
                         MaterialPageRoute(
                           builder: (context) => BlocProvider.value(
                             value: _statisticsBloc,
-                            child: IndividualStatisticPage(statIdType: stat.statIdType),
+                            child: IndividualStatisticPage(
+                              server: _server,
+                              statIdType: stat.statIdType,
+                            ),
                           ),
                         ),
                       );
@@ -469,6 +473,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => MediaPage(
+                        server: _server,
                         media: media,
                       ),
                     ),
@@ -492,6 +497,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => MediaPage(
+                        server: _server,
                         media: media,
                       ),
                     ),
@@ -511,6 +517,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => MediaPage(
+                        server: _server,
                         media: media.copyWith(mediaType: statData.mediaType),
                       ),
                     ),
@@ -523,6 +530,7 @@ class _StatisticsViewState extends State<StatisticsView> {
           if (stat.statIdType == StatIdType.topUsers) {
             widgetList.add(
               UserCard(
+                server: _server,
                 user: UserTableModel(
                   userId: statData.userId,
                   lastSeen: statData.lastPlay,

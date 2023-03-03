@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/page_body.dart';
@@ -14,10 +15,12 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/library_table_model.dart';
 
 class LibraryDetailsNewTab extends StatefulWidget {
+  final ServerModel server;
   final LibraryTableModel libraryTableModel;
 
   const LibraryDetailsNewTab({
     super.key,
+    required this.server,
     required this.libraryTableModel,
   });
 
@@ -27,16 +30,12 @@ class LibraryDetailsNewTab extends StatefulWidget {
 
 class _LibraryDetailsNewTabState extends State<LibraryDetailsNewTab> {
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
 
   @override
   void initState() {
     super.initState();
 
     _settingsBloc = context.read<SettingsBloc>();
-    final settingsState = _settingsBloc.state as SettingsSuccess;
-
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
   }
 
   @override
@@ -47,7 +46,7 @@ class _LibraryDetailsNewTabState extends State<LibraryDetailsNewTab> {
           onRefresh: () {
             context.read<LibraryRecentlyAddedBloc>().add(
                   LibraryRecentlyAddedFetched(
-                    tautulliId: _tautulliId,
+                    tautulliId: widget.server.tautulliId,
                     sectionId: widget.libraryTableModel.sectionId!,
                     settingsBloc: _settingsBloc,
                     freshFetch: true,
@@ -84,7 +83,10 @@ class _LibraryDetailsNewTabState extends State<LibraryDetailsNewTab> {
                   itemBuilder: (context, index) {
                     final recentlyAdded = state.recentlyAdded[index];
 
-                    return RecentlyAddedCard(recentlyAdded: recentlyAdded);
+                    return RecentlyAddedCard(
+                      server: widget.server,
+                      recentlyAdded: recentlyAdded,
+                    );
                   },
                 );
               },

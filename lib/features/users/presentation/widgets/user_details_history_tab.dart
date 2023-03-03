@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
@@ -15,10 +16,12 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_model.dart';
 
 class UserDetailsHistoryTab extends StatefulWidget {
+  final ServerModel server;
   final UserModel user;
 
   const UserDetailsHistoryTab({
     super.key,
+    required this.server,
     required this.user,
   });
 
@@ -30,16 +33,12 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
   ScrollController? _scrollController;
   late UserHistoryBloc _userHistoryBloc;
   late SettingsBloc _settingsBloc;
-  late String _tautulliId;
 
   @override
   void initState() {
     super.initState();
     _userHistoryBloc = context.read<UserHistoryBloc>();
     _settingsBloc = context.read<SettingsBloc>();
-    final settingsState = _settingsBloc.state as SettingsSuccess;
-
-    _tautulliId = settingsState.appSettings.activeServer.tautulliId;
   }
 
   @override
@@ -56,7 +55,7 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
           onRefresh: () {
             _userHistoryBloc.add(
               UserHistoryFetched(
-                tautulliId: _tautulliId,
+                tautulliId: widget.server.tautulliId,
                 userId: widget.user.userId!,
                 settingsBloc: _settingsBloc,
                 freshFetch: true,
@@ -102,7 +101,7 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
                         onTap: () {
                           _userHistoryBloc.add(
                             UserHistoryFetched(
-                              tautulliId: _tautulliId,
+                              tautulliId: widget.server.tautulliId,
                               userId: widget.user.userId!,
                               settingsBloc: _settingsBloc,
                             ),
@@ -114,6 +113,7 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
                     final history = state.history[index];
 
                     return HistoryCard(
+                      server: widget.server,
                       history: history,
                       showUser: false,
                       viewUserEnabled: false,
@@ -138,7 +138,7 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
     if (_isBottom) {
       _userHistoryBloc.add(
         UserHistoryFetched(
-          tautulliId: _tautulliId,
+          tautulliId: widget.server.tautulliId,
           userId: widget.user.userId!,
           settingsBloc: _settingsBloc,
         ),

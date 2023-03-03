@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/open_in_plex/open_in_plex.dart';
 import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/poster.dart';
@@ -21,36 +22,36 @@ import 'media_page.dart';
 import 'sliver_tabbed_poster_details_page.dart';
 
 class AlbumMediaPage extends StatelessWidget {
+  final ServerModel server;
   final MediaModel media;
-  final String plexIdentifier;
   final bool disableAncestryNavigation;
 
   const AlbumMediaPage({
     super.key,
+    required this.server,
     required this.media,
-    required this.plexIdentifier,
     this.disableAncestryNavigation = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return AlbumMediaView(
+      server: server,
       media: media,
-      plexIdentifier: plexIdentifier,
       disableAncestryNavigation: disableAncestryNavigation,
     );
   }
 }
 
 class AlbumMediaView extends StatelessWidget {
+  final ServerModel server;
   final MediaModel media;
-  final String plexIdentifier;
   final bool disableAncestryNavigation;
 
   const AlbumMediaView({
     super.key,
+    required this.server,
     required this.media,
-    required this.plexIdentifier,
     this.disableAncestryNavigation = false,
   });
 
@@ -102,14 +103,17 @@ class AlbumMediaView extends StatelessWidget {
         ],
         tabChildren: [
           MediaDetailsTab(
+            server: server,
             ratingKey: media.ratingKey!,
           ),
           MediaChildrenTab(
+            server: server,
             ratingKey: media.ratingKey!,
             mediaType: media.mediaType!,
             parentPosterUri: media.imageUri,
           ),
           MediaHistoryTab(
+            server: server,
             ratingKey: media.ratingKey!,
             mediaType: media.mediaType!,
             parentPosterUri: media.imageUri,
@@ -139,6 +143,7 @@ class AlbumMediaView extends StatelessWidget {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => MediaPage(
+                      server: server,
                       media: media.copyWith(
                         title: state.metadata!.parentTitle,
                         mediaType: MediaType.artist,
@@ -161,7 +166,7 @@ class AlbumMediaView extends StatelessWidget {
                   child: const Text(LocaleKeys.view_on_plex_title).tr(),
                   onTap: () async {
                     await di.sl<OpenInPlex>().open(
-                          plexIdentifier: plexIdentifier,
+                          plexIdentifier: server.plexIdentifier,
                           ratingKey: media.ratingKey!,
                         );
                   },

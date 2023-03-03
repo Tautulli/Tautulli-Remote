@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:palette_generator/palette_generator.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../data/models/user_model.dart';
 import '../../data/models/user_table_model.dart';
 import '../pages/user_details_page.dart';
@@ -11,12 +12,14 @@ import 'user_icon.dart';
 Map<String, Color?> backgroundColorCache = {};
 
 class UserCard extends StatefulWidget {
+  final ServerModel server;
   final UserTableModel user;
   final Widget details;
   final bool fetchUser;
 
   const UserCard({
     super.key,
+    required this.server,
     required this.user,
     required this.details,
     this.fetchUser = false,
@@ -89,6 +92,7 @@ class _UserCardState extends State<UserCard> {
                         MaterialPageRoute(
                           builder: (context) {
                             return UserDetailsPage(
+                              server: widget.server,
                               user: user,
                               backgroundColor: color,
                               fetchUser: widget.fetchUser,
