@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
-import 'package:tautulli_remote/core/helpers/data_unit_helper.dart';
-import 'package:tautulli_remote/core/types/tautulli_types.dart';
 
+import '../../../../core/helpers/data_unit_helper.dart';
 import '../../../../core/helpers/ip_address_helper.dart';
 import '../../../../core/helpers/string_helper.dart';
 import '../../../../core/types/bloc_status.dart';
+import '../../../../core/types/tautulli_types.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../geo_ip/data/models/geo_ip_model.dart';
 import '../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
