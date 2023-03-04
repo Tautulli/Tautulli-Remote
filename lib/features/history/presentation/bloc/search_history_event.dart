@@ -8,7 +8,7 @@ abstract class SearchHistoryEvent extends Equatable {
 }
 
 class SearchHistoryFetched extends SearchHistoryEvent {
-  final String tautulliId;
+  final ServerModel server;
   final bool? grouping;
   final bool? includeActivity;
   final String? user;
@@ -37,7 +37,7 @@ class SearchHistoryFetched extends SearchHistoryEvent {
   final SettingsBloc settingsBloc;
 
   const SearchHistoryFetched({
-    required this.tautulliId,
+    required this.server,
     this.grouping,
     this.includeActivity,
     this.user,
@@ -68,7 +68,7 @@ class SearchHistoryFetched extends SearchHistoryEvent {
 
   @override
   List<Object> get props => [
-        tautulliId,
+        server,
         movieMediaType,
         episodeMediaType,
         trackMediaType,

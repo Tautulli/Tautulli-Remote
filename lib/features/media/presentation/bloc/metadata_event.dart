@@ -8,18 +8,18 @@ abstract class MetadataEvent extends Equatable {
 }
 
 class MetadataFetched extends MetadataEvent {
-  final String tautulliId;
+  final ServerModel server;
   final int ratingKey;
   final bool freshFetch;
   final SettingsBloc settingsBloc;
 
   const MetadataFetched({
-    required this.tautulliId,
+    required this.server,
     required this.ratingKey,
     this.freshFetch = false,
     required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [tautulliId, ratingKey, freshFetch, settingsBloc];
+  List<Object> get props => [server, ratingKey, freshFetch, settingsBloc];
 }

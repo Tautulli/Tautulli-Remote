@@ -79,7 +79,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
 
     context.read<LibraryHistoryBloc>().add(
           LibraryHistoryFetched(
-            tautulliId: server.tautulliId,
+            server: server,
             sectionId: widget.libraryTableModel.sectionId!,
             settingsBloc: settingsBloc,
           ),
@@ -95,7 +95,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
 
     context.read<LibraryStatisticsBloc>().add(
           LibraryStatisticsFetched(
-            tautulliId: server.tautulliId,
+            server: server,
             sectionId: widget.libraryTableModel.sectionId ?? 0,
             settingsBloc: settingsBloc,
           ),
@@ -103,7 +103,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
 
     context.read<LibraryMediaBloc>().add(
           LibraryMediaFetched(
-            tautulliId: server.tautulliId,
+            server: server,
             sectionId: widget.libraryTableModel.sectionId ?? 0,
             refresh: false,
             fullRefresh: false,

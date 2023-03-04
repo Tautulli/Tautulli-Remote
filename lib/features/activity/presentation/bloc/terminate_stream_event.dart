@@ -8,14 +8,14 @@ abstract class TerminateStreamEvent extends Equatable {
 }
 
 class TerminateStreamStarted extends TerminateStreamEvent {
-  final String tautulliId;
+  final ServerModel server;
   final String? sessionId;
   final int? sessionKey;
   final String? message;
   final SettingsBloc settingsBloc;
 
   const TerminateStreamStarted({
-    required this.tautulliId,
+    required this.server,
     required this.sessionId,
     required this.sessionKey,
     this.message,
@@ -23,5 +23,5 @@ class TerminateStreamStarted extends TerminateStreamEvent {
   });
 
   @override
-  List<Object> get props => [tautulliId, settingsBloc];
+  List<Object> get props => [server, settingsBloc];
 }

@@ -90,7 +90,7 @@ class _MediaViewState extends State<MediaView> {
 
     context.read<MetadataBloc>().add(
           MetadataFetched(
-            tautulliId: widget.server.tautulliId,
+            server: widget.server,
             ratingKey: widget.media.ratingKey!,
             settingsBloc: settingsBloc,
           ),
@@ -98,7 +98,7 @@ class _MediaViewState extends State<MediaView> {
 
     context.read<IndividualHistoryBloc>().add(
           IndividualHistoryFetched(
-            tautulliId: widget.server.tautulliId,
+            server: widget.server,
             ratingKey: widget.media.ratingKey!,
             mediaType: widget.media.mediaType!,
             settingsBloc: settingsBloc,
@@ -114,7 +114,7 @@ class _MediaViewState extends State<MediaView> {
     ].contains(widget.media.mediaType!)) {
       context.read<ChildrenMetadataBloc>().add(
             ChildrenMetadataFetched(
-              tautulliId: widget.server.tautulliId,
+              server: widget.server,
               ratingKey: widget.media.ratingKey!,
               settingsBloc: settingsBloc,
             ),

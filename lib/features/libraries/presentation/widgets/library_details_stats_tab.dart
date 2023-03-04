@@ -53,7 +53,7 @@ class _LibraryDetailsStatsTabState extends State<LibraryDetailsStatsTab> {
           onRefresh: () {
             context.read<LibraryStatisticsBloc>().add(
                   LibraryStatisticsFetched(
-                    tautulliId: widget.server.tautulliId,
+                    server: widget.server,
                     sectionId: widget.libraryTableModel.sectionId!,
                     settingsBloc: _settingsBloc,
                     freshFetch: true,

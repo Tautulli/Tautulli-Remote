@@ -39,8 +39,8 @@ class InvalidApiKeyFailure extends Failure {}
 // /// Error parsing JSON.
 // class JsonDecodeFailure extends Failure {}
 
-// /// No servers are configured.
-// class MissingServerFailure extends Failure {}
+/// No servers are configured.
+class MissingServerFailure extends Failure {}
 
 // Server has provided an undesired response.
 class ServerFailure extends Failure {}

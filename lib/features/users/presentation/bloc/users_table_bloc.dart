@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stream_transform/stream_transform.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -51,10 +52,23 @@ class UsersTableBloc extends Bloc<UsersTableEvent, UsersTableState> {
     UsersTableFetched event,
     Emitter<UsersTableState> emit,
   ) async {
-    final bool serverChange = tautulliIdCache != event.tautulliId;
+    if (event.server.id == null) {
+      Failure failure = MissingServerFailure();
 
-    if (!usersCache.containsKey(event.tautulliId)) {
-      usersCache[event.tautulliId] = [];
+      return emit(
+        state.copyWith(
+          status: BlocStatus.failure,
+          failure: failure,
+          message: FailureHelper.mapFailureToMessage(failure),
+          suggestion: FailureHelper.mapFailureToSuggestion(failure),
+        ),
+      );
+    }
+
+    final bool serverChange = tautulliIdCache != event.server.tautulliId;
+
+    if (!usersCache.containsKey(event.server.tautulliId)) {
+      usersCache[event.server.tautulliId] = [];
     }
 
     if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
@@ -65,17 +79,17 @@ class UsersTableBloc extends Bloc<UsersTableEvent, UsersTableState> {
           hasReachedMax: false,
         ),
       );
-      usersCache[event.tautulliId] = [];
+      usersCache[event.server.tautulliId] = [];
       hasReachedMaxCache = false;
     }
 
-    tautulliIdCache = event.tautulliId;
+    tautulliIdCache = event.server.tautulliId;
 
     if (state.hasReachedMax) return;
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to Users page
-      if (usersCache[event.tautulliId]!.isNotEmpty) {
+      if (usersCache[event.server.tautulliId]!.isNotEmpty) {
         return emit(
           state.copyWith(
             status: BlocStatus.success,
@@ -84,7 +98,7 @@ class UsersTableBloc extends Bloc<UsersTableEvent, UsersTableState> {
       }
 
       final failureOrUsersTable = await users.getUsersTable(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         orderDir: event.orderDir,
         orderColumn: event.orderColumn,
         length: length,
@@ -103,11 +117,11 @@ class UsersTableBloc extends Bloc<UsersTableEvent, UsersTableState> {
       );
 
       final failureOrUsersTable = await users.getUsersTable(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         orderDir: event.orderDir,
         orderColumn: event.orderColumn,
         length: length,
-        start: usersCache[event.tautulliId]!.length,
+        start: usersCache[event.server.tautulliId]!.length,
       );
 
       return _emitFailureOrUsersTable(
@@ -121,8 +135,7 @@ class UsersTableBloc extends Bloc<UsersTableEvent, UsersTableState> {
   void _emitFailureOrUsersTable({
     required UsersTableFetched event,
     required Emitter<UsersTableState> emit,
-    required Either<Failure, Tuple2<List<UserTableModel>, bool>>
-        failureOrUsersTable,
+    required Either<Failure, Tuple2<List<UserTableModel>, bool>> failureOrUsersTable,
   }) {
     failureOrUsersTable.fold(
       (failure) {
@@ -131,8 +144,7 @@ class UsersTableBloc extends Bloc<UsersTableEvent, UsersTableState> {
         return emit(
           state.copyWith(
             status: BlocStatus.failure,
-            users:
-                event.freshFetch ? usersCache[event.tautulliId] : state.users,
+            users: event.freshFetch ? usersCache[event.server.tautulliId] : state.users,
             failure: failure,
             message: FailureHelper.mapFailureToMessage(failure),
             suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -142,19 +154,18 @@ class UsersTableBloc extends Bloc<UsersTableEvent, UsersTableState> {
       (usersTable) {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: usersTable.value2,
           ),
         );
 
-        usersCache[event.tautulliId] =
-            usersCache[event.tautulliId]! + usersTable.value1;
+        usersCache[event.server.tautulliId] = usersCache[event.server.tautulliId]! + usersTable.value1;
         hasReachedMaxCache = usersTable.value1.length < length;
 
         return emit(
           state.copyWith(
             status: BlocStatus.success,
-            users: usersCache[event.tautulliId],
+            users: usersCache[event.server.tautulliId],
             hasReachedMax: hasReachedMaxCache,
           ),
         );

@@ -118,7 +118,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                         onTap: () {
                           _searchHistoryBloc.add(
                             SearchHistoryFetched(
-                              tautulliId: _server.tautulliId,
+                              server: _server,
                               userId: _userId,
                               movieMediaType: _movieMediaType,
                               episodeMediaType: _episodeMediaType,
@@ -162,7 +162,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
     if (_isBottom) {
       _searchHistoryBloc.add(
         SearchHistoryFetched(
-          tautulliId: _server.tautulliId,
+          server: _server,
           userId: _userId,
           movieMediaType: _movieMediaType,
           episodeMediaType: _episodeMediaType,
@@ -247,7 +247,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
             if (isNotBlank(value)) {
               context.read<SearchHistoryBloc>().add(
                     SearchHistoryFetched(
-                      tautulliId: settingsState.appSettings.activeServer.tautulliId,
+                      server: settingsState.appSettings.activeServer,
                       userId: _userId,
                       movieMediaType: _movieMediaType,
                       episodeMediaType: _episodeMediaType,
@@ -294,7 +294,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                     if (isNotBlank(_textController.text)) {
                       _searchHistoryBloc.add(
                         SearchHistoryFetched(
-                          tautulliId: _server.tautulliId,
+                          server: _server,
                           userId: _userId,
                           movieMediaType: _movieMediaType,
                           episodeMediaType: _episodeMediaType,
@@ -628,7 +628,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
     if (isNotBlank(_textController.text)) {
       _searchHistoryBloc.add(
         SearchHistoryFetched(
-          tautulliId: _server.tautulliId,
+          server: _server,
           userId: _userId,
           movieMediaType: _movieMediaType,
           episodeMediaType: _episodeMediaType,

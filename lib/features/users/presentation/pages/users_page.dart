@@ -70,7 +70,7 @@ class _UsersViewState extends State<UsersView> {
 
     context.read<UsersTableBloc>().add(
           UsersTableFetched(
-            tautulliId: _server.tautulliId,
+            server: _server,
             orderColumn: _orderColumn,
             orderDir: _orderDir,
             settingsBloc: _settingsBloc,
@@ -95,7 +95,7 @@ class _UsersViewState extends State<UsersView> {
           _server = state.appSettings.activeServer;
           context.read<UsersTableBloc>().add(
                 UsersTableFetched(
-                  tautulliId: _server.tautulliId,
+                  server: _server,
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
                   settingsBloc: _settingsBloc,
@@ -105,7 +105,7 @@ class _UsersViewState extends State<UsersView> {
       },
       child: ScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.users_title).tr(),
-        actions: _appBarActions(),
+        actions: _server.id != null ? _appBarActions() : [],
         body: BlocBuilder<UsersTableBloc, UsersTableState>(
           builder: (context, state) {
             return PageBody(
@@ -114,7 +114,7 @@ class _UsersViewState extends State<UsersView> {
                 onRefresh: () {
                   context.read<UsersTableBloc>().add(
                         UsersTableFetched(
-                          tautulliId: _server.tautulliId,
+                          server: _server,
                           orderColumn: _orderColumn,
                           orderDir: _orderDir,
                           freshFetch: true,
@@ -160,7 +160,7 @@ class _UsersViewState extends State<UsersView> {
                             onTap: () {
                               context.read<UsersTableBloc>().add(
                                     UsersTableFetched(
-                                      tautulliId: _server.tautulliId,
+                                      server: _server,
                                       orderColumn: _orderColumn,
                                       orderDir: _orderDir,
                                       settingsBloc: _settingsBloc,
@@ -200,7 +200,7 @@ class _UsersViewState extends State<UsersView> {
     if (_isBottom) {
       _usersTableBloc.add(
         UsersTableFetched(
-          tautulliId: _server.tautulliId,
+          server: _server,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
           settingsBloc: _settingsBloc,
@@ -241,7 +241,7 @@ class _UsersViewState extends State<UsersView> {
               _settingsBloc.add(SettingsUpdateUsersSort(value));
               _usersTableBloc.add(
                 UsersTableFetched(
-                  tautulliId: _server.tautulliId,
+                  server: _server,
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
                   freshFetch: true,

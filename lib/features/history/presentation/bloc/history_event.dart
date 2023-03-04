@@ -8,7 +8,7 @@ abstract class HistoryEvent extends Equatable {
 }
 
 class HistoryFetched extends HistoryEvent {
-  final String tautulliId;
+  final ServerModel server;
   final bool? grouping;
   final bool? includeActivity;
   final String? user;
@@ -37,7 +37,7 @@ class HistoryFetched extends HistoryEvent {
   final SettingsBloc settingsBloc;
 
   const HistoryFetched({
-    required this.tautulliId,
+    required this.server,
     this.grouping,
     this.includeActivity,
     this.user,
@@ -68,7 +68,7 @@ class HistoryFetched extends HistoryEvent {
 
   @override
   List<Object> get props => [
-        tautulliId,
+        server,
         movieMediaType,
         episodeMediaType,
         trackMediaType,

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -36,14 +37,13 @@ class GeoIpBloc extends Bloc<GeoIpEvent, GeoIpState> {
     );
 
     final failureOrGeoIp = await geoIp.lookup(
-      tautulliId: event.tautulliId,
+      tautulliId: event.server.tautulliId,
       ipAddress: event.ipAddress,
     );
 
     failureOrGeoIp.fold(
       (failure) {
-        logging
-            .error('GeoIP :: Failed to lookup ${event.ipAddress} [$failure]');
+        logging.error('GeoIP :: Failed to lookup ${event.ipAddress} [$failure]');
 
         return emit(
           state.copyWith(status: BlocStatus.failure),
@@ -52,7 +52,7 @@ class GeoIpBloc extends Bloc<GeoIpEvent, GeoIpState> {
       (geoIp) {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: geoIp.value2,
           ),
         );

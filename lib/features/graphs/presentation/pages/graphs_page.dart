@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quick_actions/quick_actions.dart';
+import 'package:tautulli_remote/core/pages/status_page.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/quick_actions_helper.dart';
@@ -65,7 +66,7 @@ class _GraphsViewState extends State<GraphsView> {
 
     _graphsBloc.add(
       GraphsFetched(
-        tautulliId: _server.tautulliId,
+        server: _server,
         yAxis: _yAxis,
         timeRange: _timeRange,
         settingsBloc: _settingsBloc,
@@ -100,7 +101,7 @@ class _GraphsViewState extends State<GraphsView> {
 
           _graphsBloc.add(
             GraphsFetched(
-              tautulliId: _server.tautulliId,
+              server: _server,
               yAxis: _yAxis,
               timeRange: _timeRange,
               settingsBloc: _settingsBloc,
@@ -110,97 +111,109 @@ class _GraphsViewState extends State<GraphsView> {
       },
       child: ScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.graphs_title).tr(),
-        actions: _appBarActions(),
+        actions: _server.id != null ? _appBarActions() : [],
         body: PageBody(
-          child: DefaultTabController(
-            length: 3,
-            child: Column(
-              children: [
-                Expanded(
-                  child: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      ThemedRefreshIndicator(
-                        onRefresh: () {
-                          _graphsBloc.add(
-                            GraphsFetched(
-                              tautulliId: _server.tautulliId,
-                              yAxis: _yAxis,
-                              timeRange: _timeRange,
-                              freshFetch: true,
-                              settingsBloc: _settingsBloc,
-                            ),
-                          );
+          child: BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              state as SettingsSuccess;
+              if (state.serverList.isEmpty) {
+                return StatusPage(
+                  message: LocaleKeys.error_message_no_servers.tr(),
+                  suggestion: LocaleKeys.error_suggestion_register_server.tr(),
+                );
+              }
 
-                          return Future.value();
-                        },
-                        child: const MediaTypeGraphsTab(),
-                      ),
-                      ThemedRefreshIndicator(
-                        onRefresh: () {
-                          _graphsBloc.add(
-                            GraphsFetched(
-                              tautulliId: _server.tautulliId,
-                              yAxis: _yAxis,
-                              timeRange: _timeRange,
-                              freshFetch: true,
-                              settingsBloc: _settingsBloc,
-                            ),
-                          );
+              return DefaultTabController(
+                length: 3,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          ThemedRefreshIndicator(
+                            onRefresh: () {
+                              _graphsBloc.add(
+                                GraphsFetched(
+                                  server: _server,
+                                  yAxis: _yAxis,
+                                  timeRange: _timeRange,
+                                  freshFetch: true,
+                                  settingsBloc: _settingsBloc,
+                                ),
+                              );
 
-                          return Future.value();
-                        },
-                        child: const StreamTypeGraphsTab(),
-                      ),
-                      ThemedRefreshIndicator(
-                        onRefresh: () {
-                          _graphsBloc.add(
-                            GraphsFetched(
-                              tautulliId: _server.tautulliId,
-                              yAxis: _yAxis,
-                              timeRange: _timeRange,
-                              freshFetch: true,
-                              settingsBloc: _settingsBloc,
-                            ),
-                          );
+                              return Future.value();
+                            },
+                            child: const MediaTypeGraphsTab(),
+                          ),
+                          ThemedRefreshIndicator(
+                            onRefresh: () {
+                              _graphsBloc.add(
+                                GraphsFetched(
+                                  server: _server,
+                                  yAxis: _yAxis,
+                                  timeRange: _timeRange,
+                                  freshFetch: true,
+                                  settingsBloc: _settingsBloc,
+                                ),
+                              );
 
-                          return Future.value();
-                        },
-                        child: const PlayTotalsGraphsTab(),
+                              return Future.value();
+                            },
+                            child: const StreamTypeGraphsTab(),
+                          ),
+                          ThemedRefreshIndicator(
+                            onRefresh: () {
+                              _graphsBloc.add(
+                                GraphsFetched(
+                                  server: _server,
+                                  yAxis: _yAxis,
+                                  timeRange: _timeRange,
+                                  freshFetch: true,
+                                  settingsBloc: _settingsBloc,
+                                ),
+                              );
+
+                              return Future.value();
+                            },
+                            child: const PlayTotalsGraphsTab(),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                TabBar(
-                  tabs: [
-                    Tab(
-                      child: const Text(
-                        LocaleKeys.media_type_title,
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ).tr(),
                     ),
-                    Tab(
-                      child: const Text(
-                        LocaleKeys.stream_type_title,
-                        style: TextStyle(
-                          fontSize: 14,
+                    TabBar(
+                      tabs: [
+                        Tab(
+                          child: const Text(
+                            LocaleKeys.media_type_title,
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ).tr(),
                         ),
-                      ).tr(),
-                    ),
-                    Tab(
-                      child: const Text(
-                        LocaleKeys.play_totals_title,
-                        style: TextStyle(
-                          fontSize: 14,
+                        Tab(
+                          child: const Text(
+                            LocaleKeys.stream_type_title,
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ).tr(),
                         ),
-                      ).tr(),
+                        Tab(
+                          child: const Text(
+                            LocaleKeys.play_totals_title,
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ).tr(),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),
@@ -230,7 +243,7 @@ class _GraphsViewState extends State<GraphsView> {
 
               _graphsBloc.add(
                 GraphsFetched(
-                  tautulliId: _server.tautulliId,
+                  server: _server,
                   yAxis: _yAxis,
                   timeRange: _timeRange,
                   freshFetch: true,
@@ -312,7 +325,7 @@ class _GraphsViewState extends State<GraphsView> {
 
                         _graphsBloc.add(
                           GraphsFetched(
-                            tautulliId: _server.tautulliId,
+                            server: _server,
                             yAxis: _yAxis,
                             timeRange: _timeRange,
                             freshFetch: true,
@@ -335,7 +348,7 @@ class _GraphsViewState extends State<GraphsView> {
 
                         _graphsBloc.add(
                           GraphsFetched(
-                            tautulliId: _server.tautulliId,
+                            server: _server,
                             yAxis: _yAxis,
                             timeRange: _timeRange,
                             freshFetch: true,

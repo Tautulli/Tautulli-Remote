@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stream_transform/stream_transform.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -70,10 +71,23 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     HistoryFetched event,
     Emitter<HistoryState> emit,
   ) async {
-    final bool serverChange = tautulliIdCache != event.tautulliId;
+    if (event.server.id == null) {
+      Failure failure = MissingServerFailure();
 
-    if (!historyCache.containsKey(event.tautulliId)) {
-      historyCache[event.tautulliId] = [];
+      return emit(
+        state.copyWith(
+          status: BlocStatus.failure,
+          failure: failure,
+          message: FailureHelper.mapFailureToMessage(failure),
+          suggestion: FailureHelper.mapFailureToSuggestion(failure),
+        ),
+      );
+    }
+
+    final bool serverChange = tautulliIdCache != event.server.tautulliId;
+
+    if (!historyCache.containsKey(event.server.tautulliId)) {
+      historyCache[event.server.tautulliId] = [];
     }
 
     if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
@@ -84,11 +98,11 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           hasReachedMax: false,
         ),
       );
-      historyCache[event.tautulliId] = [];
+      historyCache[event.server.tautulliId] = [];
       hasReachedMaxCache = false;
     }
 
-    tautulliIdCache = event.tautulliId;
+    tautulliIdCache = event.server.tautulliId;
     userIdCache = event.userId;
     movieMediaTypeCache = event.movieMediaType;
     episodeMediaTypeCache = event.episodeMediaType;
@@ -113,7 +127,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to History page
-      if (historyCache[event.tautulliId]!.isNotEmpty) {
+      if (historyCache[event.server.tautulliId]!.isNotEmpty) {
         return emit(
           state.copyWith(
             status: BlocStatus.success,
@@ -122,7 +136,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       }
 
       final failureOrHistory = await history.getHistory(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         grouping: event.grouping,
         includeActivity: event.includeActivity,
         user: event.user,
@@ -156,7 +170,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       );
 
       final failureOrHistory = await history.getHistory(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         grouping: event.grouping,
         includeActivity: event.includeActivity,
         user: event.user,
@@ -173,7 +187,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         guid: event.guid,
         orderColumn: event.orderColumn,
         orderDir: event.orderDir,
-        start: historyCache[event.tautulliId]!.length,
+        start: historyCache[event.server.tautulliId]!.length,
         length: length,
         search: event.search,
       );
@@ -198,7 +212,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         return emit(
           state.copyWith(
             status: BlocStatus.failure,
-            history: event.freshFetch ? historyCache[event.tautulliId] : state.history,
+            history: event.freshFetch ? historyCache[event.server.tautulliId] : state.history,
             failure: failure,
             message: FailureHelper.mapFailureToMessage(failure),
             suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -208,7 +222,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       (history) async {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: history.value2,
           ),
         );
@@ -219,13 +233,13 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           settingsBloc: event.settingsBloc,
         );
 
-        historyCache[event.tautulliId] = historyCache[event.tautulliId]! + historyListWithUris;
+        historyCache[event.server.tautulliId] = historyCache[event.server.tautulliId]! + historyListWithUris;
         hasReachedMaxCache = historyListWithUris.length < length;
 
         return emit(
           state.copyWith(
             status: BlocStatus.success,
-            history: historyCache[event.tautulliId],
+            history: historyCache[event.server.tautulliId],
             hasReachedMax: hasReachedMaxCache,
           ),
         );

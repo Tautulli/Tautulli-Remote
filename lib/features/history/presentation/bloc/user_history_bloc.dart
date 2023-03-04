@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stream_transform/stream_transform.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -48,7 +49,7 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
     UserHistoryFetched event,
     Emitter<UserHistoryState> emit,
   ) async {
-    final cacheKey = '${event.tautulliId}:${event.userId}';
+    final cacheKey = '${event.server.tautulliId}:${event.userId}';
 
     if (!userHistoryCache.containsKey(cacheKey)) {
       userHistoryCache[cacheKey] = [];
@@ -82,7 +83,7 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
       }
 
       final failureOrHistory = await history.getHistory(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         grouping: event.grouping,
         includeActivity: event.includeActivity,
         user: event.user,
@@ -117,7 +118,7 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
       );
 
       final failureOrHistory = await history.getHistory(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         grouping: event.grouping,
         includeActivity: event.includeActivity,
         user: event.user,
@@ -173,14 +174,14 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
       (history) async {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: history.value2,
           ),
         );
 
         // Add posters to history models
         List<HistoryModel> historyListWithUris = await _historyModelsWithPosterUris(
-          tautulliId: event.tautulliId,
+          tautulliId: event.server.tautulliId,
           historyList: history.value1,
           settingsBloc: event.settingsBloc,
         );

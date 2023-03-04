@@ -8,7 +8,7 @@ abstract class UsersTableEvent extends Equatable {
 }
 
 class UsersTableFetched extends UsersTableEvent {
-  final String tautulliId;
+  final ServerModel server;
   final bool? grouping;
   final String? orderColumn;
   final String? orderDir;
@@ -19,7 +19,7 @@ class UsersTableFetched extends UsersTableEvent {
   final SettingsBloc settingsBloc;
 
   const UsersTableFetched({
-    required this.tautulliId,
+    required this.server,
     this.grouping,
     this.orderColumn,
     this.orderDir,
@@ -31,5 +31,5 @@ class UsersTableFetched extends UsersTableEvent {
   });
 
   @override
-  List<Object> get props => [tautulliId, freshFetch, settingsBloc];
+  List<Object> get props => [server, freshFetch, settingsBloc];
 }

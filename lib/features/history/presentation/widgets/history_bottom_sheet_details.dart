@@ -36,7 +36,7 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
     if (widget.history.ipAddress != null) {
       context.read<GeoIpBloc>().add(
             GeoIpFetched(
-              tautulliId: widget.server.tautulliId,
+              server: widget.server,
               ipAddress: widget.history.ipAddress!,
               settingsBloc: context.read<SettingsBloc>(),
             ),

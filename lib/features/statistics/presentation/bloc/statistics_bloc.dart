@@ -3,6 +3,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stream_transform/stream_transform.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -59,10 +60,23 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     StatisticsFetched event,
     Emitter<StatisticsState> emit,
   ) async {
-    final bool serverChange = tautulliIdCache != event.tautulliId;
+    if (event.server.id == null) {
+      Failure failure = MissingServerFailure();
 
-    if (!statCache.containsKey(event.tautulliId)) {
-      statCache[event.tautulliId] = [];
+      return emit(
+        state.copyWith(
+          status: BlocStatus.failure,
+          failure: failure,
+          message: FailureHelper.mapFailureToMessage(failure),
+          suggestion: FailureHelper.mapFailureToSuggestion(failure),
+        ),
+      );
+    }
+
+    final bool serverChange = tautulliIdCache != event.server.tautulliId;
+
+    if (!statCache.containsKey(event.server.tautulliId)) {
+      statCache[event.server.tautulliId] = [];
     }
 
     if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
@@ -73,19 +87,19 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           hasReachedMaxMap: {},
         ),
       );
-      statCache[event.tautulliId] = [];
+      statCache[event.server.tautulliId] = [];
       statsTypeCache = null;
       timeRangeCache = null;
       hasReachedMaxCache = {};
     }
 
-    tautulliIdCache = event.tautulliId;
+    tautulliIdCache = event.server.tautulliId;
     statsTypeCache = event.statsType;
     timeRangeCache = event.timeRange;
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to History page
-      if (statCache[event.tautulliId]!.isNotEmpty) {
+      if (statCache[event.server.tautulliId]!.isNotEmpty) {
         return emit(
           state.copyWith(
             status: BlocStatus.success,
@@ -94,7 +108,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
       }
 
       final failureOrStatistics = await statistics.getStatistics(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         statsType: event.statsType,
         timeRange: event.timeRange,
       );
@@ -106,7 +120,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           return emit(
             state.copyWith(
               status: BlocStatus.failure,
-              statList: event.freshFetch ? statCache[event.tautulliId] : state.statList,
+              statList: event.freshFetch ? statCache[event.server.tautulliId] : state.statList,
               failure: failure,
               message: FailureHelper.mapFailureToMessage(failure),
               suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -116,7 +130,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
         (statistics) async {
           event.settingsBloc.add(
             SettingsUpdatePrimaryActive(
-              tautulliId: event.tautulliId,
+              tautulliId: event.server.tautulliId,
               primaryActive: statistics.value2,
             ),
           );
@@ -127,12 +141,12 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
             settingsBloc: event.settingsBloc,
           );
 
-          statCache[event.tautulliId] = statListWithUris;
+          statCache[event.server.tautulliId] = statListWithUris;
 
           return emit(
             state.copyWith(
               status: BlocStatus.success,
-              statList: statCache[event.tautulliId],
+              statList: statCache[event.server.tautulliId],
             ),
           );
         },

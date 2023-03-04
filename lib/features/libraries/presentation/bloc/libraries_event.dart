@@ -6,7 +6,7 @@ abstract class LibrariesEvent extends Equatable {
 }
 
 class LibrariesFetched extends LibrariesEvent {
-  final String tautulliId;
+  final ServerModel server;
   final bool? grouping;
   final String? orderColumn;
   final String? orderDir;
@@ -17,7 +17,7 @@ class LibrariesFetched extends LibrariesEvent {
   final SettingsBloc settingsBloc;
 
   LibrariesFetched({
-    required this.tautulliId,
+    required this.server,
     this.grouping,
     this.orderColumn,
     this.orderDir,
@@ -29,5 +29,5 @@ class LibrariesFetched extends LibrariesEvent {
   });
 
   @override
-  List<Object> get props => [tautulliId, freshFetch, settingsBloc];
+  List<Object> get props => [server, freshFetch, settingsBloc];
 }

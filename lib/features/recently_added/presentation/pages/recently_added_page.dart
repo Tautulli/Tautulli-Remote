@@ -57,12 +57,15 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
     _scrollController.addListener(_onScroll);
     _recentlyAddedBloc = context.read<RecentlyAddedBloc>();
     _settingsBloc = context.read<SettingsBloc>();
+    final settingsState = _settingsBloc.state as SettingsSuccess;
+
+    _server = settingsState.appSettings.activeServer;
 
     _mediaType = _recentlyAddedBloc.state.mediaType;
 
     _recentlyAddedBloc.add(
       RecentlyAddedFetched(
-        tautulliId: _server.tautulliId,
+        server: _server,
         mediaType: _mediaType,
         settingsBloc: _settingsBloc,
       ),
@@ -79,7 +82,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
 
           _recentlyAddedBloc.add(
             RecentlyAddedFetched(
-              tautulliId: _server.tautulliId,
+              server: _server,
               mediaType: _mediaType,
               settingsBloc: _settingsBloc,
             ),
@@ -88,7 +91,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
       },
       child: ScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.recently_added_title).tr(),
-        actions: _appBarActions(),
+        actions: _server.id != null ? _appBarActions() : [],
         body: BlocBuilder<RecentlyAddedBloc, RecentlyAddedState>(
           builder: (context, state) {
             return PageBody(
@@ -97,7 +100,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
                 onRefresh: () {
                   _recentlyAddedBloc.add(
                     RecentlyAddedFetched(
-                      tautulliId: _server.tautulliId,
+                      server: _server,
                       mediaType: _mediaType,
                       freshFetch: true,
                       settingsBloc: _settingsBloc,
@@ -142,7 +145,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
                             onTap: () {
                               _recentlyAddedBloc.add(
                                 RecentlyAddedFetched(
-                                  tautulliId: _server.tautulliId,
+                                  server: _server,
                                   mediaType: _mediaType,
                                   settingsBloc: _settingsBloc,
                                 ),
@@ -181,7 +184,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
     if (_isBottom) {
       _recentlyAddedBloc.add(
         RecentlyAddedFetched(
-          tautulliId: _server.tautulliId,
+          server: _server,
           mediaType: _mediaType,
           settingsBloc: _settingsBloc,
         ),
@@ -242,7 +245,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
           if (changed) {
             _recentlyAddedBloc.add(
               RecentlyAddedFetched(
-                tautulliId: _server.tautulliId,
+                server: _server,
                 mediaType: _mediaType,
                 freshFetch: true,
                 settingsBloc: _settingsBloc,

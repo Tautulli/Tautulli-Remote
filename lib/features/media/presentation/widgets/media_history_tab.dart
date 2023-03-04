@@ -60,7 +60,7 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
           onRefresh: () {
             _individualHistoryBloc.add(
               IndividualHistoryFetched(
-                tautulliId: widget.server.tautulliId,
+                server: widget.server,
                 ratingKey: widget.ratingKey,
                 mediaType: widget.mediaType,
                 freshFetch: true,
@@ -105,7 +105,7 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
                         onTap: () {
                           _individualHistoryBloc.add(
                             IndividualHistoryFetched(
-                              tautulliId: widget.server.tautulliId,
+                              server: widget.server,
                               ratingKey: widget.ratingKey,
                               mediaType: widget.mediaType,
                               settingsBloc: _settingsBloc,
@@ -141,7 +141,7 @@ class _MediaHistoryTabState extends State<MediaHistoryTab> {
     if (_isBottom) {
       _individualHistoryBloc.add(
         IndividualHistoryFetched(
-          tautulliId: widget.server.tautulliId,
+          server: widget.server,
           ratingKey: widget.ratingKey,
           mediaType: widget.mediaType,
           settingsBloc: _settingsBloc,

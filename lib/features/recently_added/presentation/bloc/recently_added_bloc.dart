@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stream_transform/stream_transform.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -57,10 +58,23 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
     RecentlyAddedFetched event,
     Emitter<RecentlyAddedState> emit,
   ) async {
-    final bool serverChange = tautulliIdCache != event.tautulliId;
+    if (event.server.id == null) {
+      Failure failure = MissingServerFailure();
 
-    if (!recentlyAddedCache.containsKey(event.tautulliId)) {
-      recentlyAddedCache[event.tautulliId] = [];
+      return emit(
+        state.copyWith(
+          status: BlocStatus.failure,
+          failure: failure,
+          message: FailureHelper.mapFailureToMessage(failure),
+          suggestion: FailureHelper.mapFailureToSuggestion(failure),
+        ),
+      );
+    }
+
+    final bool serverChange = tautulliIdCache != event.server.tautulliId;
+
+    if (!recentlyAddedCache.containsKey(event.server.tautulliId)) {
+      recentlyAddedCache[event.server.tautulliId] = [];
     }
 
     if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
@@ -71,18 +85,18 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           hasReachedMax: false,
         ),
       );
-      recentlyAddedCache[event.tautulliId] = [];
+      recentlyAddedCache[event.server.tautulliId] = [];
       hasReachedMaxCache = false;
     }
 
-    tautulliIdCache = event.tautulliId;
+    tautulliIdCache = event.server.tautulliId;
     mediaTypeCache = event.mediaType;
 
     if (state.hasReachedMax) return;
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to Recently Added page
-      if (recentlyAddedCache[event.tautulliId]!.isNotEmpty) {
+      if (recentlyAddedCache[event.server.tautulliId]!.isNotEmpty) {
         return emit(
           state.copyWith(
             status: BlocStatus.success,
@@ -90,7 +104,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         );
       }
       final failureOrRecentlyAdded = await recentlyAdded.getRecentlyAdded(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         count: event.mediaType == null ? 50 : count,
         mediaType: event.mediaType,
         sectionId: event.sectionId,
@@ -109,11 +123,11 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
       );
 
       final failureOrRecentlyAdded = await recentlyAdded.getRecentlyAdded(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         count: count,
         mediaType: event.mediaType,
         sectionId: event.sectionId,
-        start: recentlyAddedCache[event.tautulliId]!.length,
+        start: recentlyAddedCache[event.server.tautulliId]!.length,
       );
 
       return _emitFailureOrRecentlyAdded(
@@ -136,7 +150,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
         return emit(
           state.copyWith(
             status: BlocStatus.failure,
-            recentlyAdded: event.freshFetch ? recentlyAddedCache[event.tautulliId] : state.recentlyAdded,
+            recentlyAdded: event.freshFetch ? recentlyAddedCache[event.server.tautulliId] : state.recentlyAdded,
             failure: failure,
             message: FailureHelper.mapFailureToMessage(failure),
             suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -146,7 +160,7 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
       (recentlyAdded) async {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: recentlyAdded.value2,
           ),
         );
@@ -157,13 +171,14 @@ class RecentlyAddedBloc extends Bloc<RecentlyAddedEvent, RecentlyAddedState> {
           settingsBloc: event.settingsBloc,
         );
 
-        recentlyAddedCache[event.tautulliId] = recentlyAddedCache[event.tautulliId]! + recentlyAddedListWithUris;
+        recentlyAddedCache[event.server.tautulliId] =
+            recentlyAddedCache[event.server.tautulliId]! + recentlyAddedListWithUris;
         hasReachedMaxCache = recentlyAddedListWithUris.length < count;
 
         return emit(
           state.copyWith(
             status: BlocStatus.success,
-            recentlyAdded: recentlyAddedCache[event.tautulliId],
+            recentlyAdded: recentlyAddedCache[event.server.tautulliId],
             hasReachedMax: event.mediaType == null ? true : hasReachedMaxCache,
           ),
         );

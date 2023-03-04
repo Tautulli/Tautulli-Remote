@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -92,237 +93,239 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
     GraphsFetched event,
     Emitter<GraphsState> emit,
   ) async {
-    final bool serverChange = tautulliIdCache != event.tautulliId;
+    if (event.server.id != null) {
+      final bool serverChange = tautulliIdCache != event.server.tautulliId;
 
-    if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
-      for (GraphType graphType in graphsCache.keys) {
-        graphsCache[graphType] = graphsCache[graphType]!.copyWith(
-          status: BlocStatus.initial,
+      if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
+        for (GraphType graphType in graphsCache.keys) {
+          graphsCache[graphType] = graphsCache[graphType]!.copyWith(
+            status: BlocStatus.initial,
+          );
+        }
+
+        emit(
+          state.copyWith(
+            yAxis: yAxisCache,
+            timeRange: timeRangeCache,
+            graphs: Map.of(graphsCache),
+          ),
         );
       }
 
-      emit(
-        state.copyWith(
-          yAxis: yAxisCache,
-          timeRange: timeRangeCache,
-          graphs: Map.of(graphsCache),
-        ),
-      );
+      graphsCache = defaultGraphs;
+      tautulliIdCache = event.server.tautulliId;
+      yAxisCache = event.yAxis;
+      timeRangeCache = event.timeRange;
+
+      graphs
+          .getPlaysByDate(
+            tautulliId: event.server.tautulliId,
+            yAxis: event.yAxis,
+            timeRange: event.timeRange,
+            userId: event.userId,
+            grouping: event.grouping,
+          )
+          .then(
+            (failureOrGetPlaysByDate) => add(
+              GraphsEmit(
+                graphType: GraphType.playsByDate,
+                failureOrGraph: failureOrGetPlaysByDate,
+                server: event.server,
+                settingsBloc: event.settingsBloc,
+              ),
+            ),
+          );
+
+      graphs
+          .getPlaysByDayOfWeek(
+            tautulliId: event.server.tautulliId,
+            yAxis: event.yAxis,
+            timeRange: event.timeRange,
+            userId: event.userId,
+            grouping: event.grouping,
+          )
+          .then(
+            (failureOrGetPlaysByDayOfWeek) => add(
+              GraphsEmit(
+                graphType: GraphType.playsByDayOfWeek,
+                failureOrGraph: failureOrGetPlaysByDayOfWeek,
+                server: event.server,
+                settingsBloc: event.settingsBloc,
+              ),
+            ),
+          );
+
+      graphs
+          .getPlaysByHourOfDay(
+            tautulliId: event.server.tautulliId,
+            yAxis: event.yAxis,
+            timeRange: event.timeRange,
+            userId: event.userId,
+            grouping: event.grouping,
+          )
+          .then(
+            (failureOrGetPlaysByHourOfDay) => add(
+              GraphsEmit(
+                graphType: GraphType.playsByHourOfDay,
+                failureOrGraph: failureOrGetPlaysByHourOfDay,
+                server: event.server,
+                settingsBloc: event.settingsBloc,
+              ),
+            ),
+          );
+
+      graphs
+          .getPlaysBySourceResolution(
+            tautulliId: event.server.tautulliId,
+            yAxis: event.yAxis,
+            timeRange: event.timeRange,
+            userId: event.userId,
+            grouping: event.grouping,
+          )
+          .then(
+            (failureOrGetPlaysBySourceResolution) => add(
+              GraphsEmit(
+                graphType: GraphType.playsBySourceResolution,
+                failureOrGraph: failureOrGetPlaysBySourceResolution,
+                server: event.server,
+                settingsBloc: event.settingsBloc,
+              ),
+            ),
+          );
+
+      graphs
+          .getPlaysByStreamResolution(
+            tautulliId: event.server.tautulliId,
+            yAxis: event.yAxis,
+            timeRange: event.timeRange,
+            userId: event.userId,
+            grouping: event.grouping,
+          )
+          .then(
+            (failureOrGetPlaysByStreamResolution) => add(
+              GraphsEmit(
+                graphType: GraphType.playsByStreamResolution,
+                failureOrGraph: failureOrGetPlaysByStreamResolution,
+                server: event.server,
+                settingsBloc: event.settingsBloc,
+              ),
+            ),
+          );
+
+      graphs
+          .getPlaysByStreamType(
+            tautulliId: event.server.tautulliId,
+            yAxis: event.yAxis,
+            timeRange: event.timeRange,
+            userId: event.userId,
+            grouping: event.grouping,
+          )
+          .then(
+            (failureOrGetPlaysByStreamType) => add(
+              GraphsEmit(
+                graphType: GraphType.playsByStreamType,
+                failureOrGraph: failureOrGetPlaysByStreamType,
+                server: event.server,
+                settingsBloc: event.settingsBloc,
+              ),
+            ),
+          );
+
+      graphs
+          .getPlaysPerMonth(
+            tautulliId: event.server.tautulliId,
+            yAxis: event.yAxis,
+            timeRange: 12,
+            userId: event.userId,
+            grouping: event.grouping,
+          )
+          .then(
+            (failureOrGetPlaysPerMonth) => add(
+              GraphsEmit(
+                graphType: GraphType.playsPerMonth,
+                failureOrGraph: failureOrGetPlaysPerMonth,
+                server: event.server,
+                settingsBloc: event.settingsBloc,
+              ),
+            ),
+          );
+
+      graphs
+          .getPlaysByTop10Platforms(
+            tautulliId: event.server.tautulliId,
+            yAxis: event.yAxis,
+            timeRange: event.timeRange,
+            userId: event.userId,
+            grouping: event.grouping,
+          )
+          .then(
+            (failureOrGetPlaysByTop10Platforms) => add(
+              GraphsEmit(
+                graphType: GraphType.playsByTop10Platforms,
+                failureOrGraph: failureOrGetPlaysByTop10Platforms,
+                server: event.server,
+                settingsBloc: event.settingsBloc,
+              ),
+            ),
+          );
+
+      graphs
+          .getPlaysByTop10Users(
+            tautulliId: event.server.tautulliId,
+            yAxis: event.yAxis,
+            timeRange: event.timeRange,
+            userId: event.userId,
+            grouping: event.grouping,
+          )
+          .then(
+            (failureOrGetPlaysByTop10Users) => add(
+              GraphsEmit(
+                graphType: GraphType.playsByTop10Users,
+                failureOrGraph: failureOrGetPlaysByTop10Users,
+                server: event.server,
+                settingsBloc: event.settingsBloc,
+              ),
+            ),
+          );
+
+      graphs
+          .getStreamTypeByTop10Platforms(
+            tautulliId: event.server.tautulliId,
+            yAxis: event.yAxis,
+            timeRange: event.timeRange,
+            userId: event.userId,
+            grouping: event.grouping,
+          )
+          .then(
+            (failureOrGetStreamTypeByTop10Platforms) => add(
+              GraphsEmit(
+                graphType: GraphType.streamTypeByTop10Platforms,
+                failureOrGraph: failureOrGetStreamTypeByTop10Platforms,
+                server: event.server,
+                settingsBloc: event.settingsBloc,
+              ),
+            ),
+          );
+
+      graphs
+          .getStreamTypeByTop10Users(
+            tautulliId: event.server.tautulliId,
+            yAxis: event.yAxis,
+            timeRange: event.timeRange,
+            userId: event.userId,
+            grouping: event.grouping,
+          )
+          .then(
+            (failureOrGetStreamTypeByTop10Users) => add(
+              GraphsEmit(
+                graphType: GraphType.streamTypeByTop10Users,
+                failureOrGraph: failureOrGetStreamTypeByTop10Users,
+                server: event.server,
+                settingsBloc: event.settingsBloc,
+              ),
+            ),
+          );
     }
-
-    graphsCache = defaultGraphs;
-    tautulliIdCache = event.tautulliId;
-    yAxisCache = event.yAxis;
-    timeRangeCache = event.timeRange;
-
-    graphs
-        .getPlaysByDate(
-          tautulliId: event.tautulliId,
-          yAxis: event.yAxis,
-          timeRange: event.timeRange,
-          userId: event.userId,
-          grouping: event.grouping,
-        )
-        .then(
-          (failureOrGetPlaysByDate) => add(
-            GraphsEmit(
-              graphType: GraphType.playsByDate,
-              failureOrGraph: failureOrGetPlaysByDate,
-              tautulliId: event.tautulliId,
-              settingsBloc: event.settingsBloc,
-            ),
-          ),
-        );
-
-    graphs
-        .getPlaysByDayOfWeek(
-          tautulliId: event.tautulliId,
-          yAxis: event.yAxis,
-          timeRange: event.timeRange,
-          userId: event.userId,
-          grouping: event.grouping,
-        )
-        .then(
-          (failureOrGetPlaysByDayOfWeek) => add(
-            GraphsEmit(
-              graphType: GraphType.playsByDayOfWeek,
-              failureOrGraph: failureOrGetPlaysByDayOfWeek,
-              tautulliId: event.tautulliId,
-              settingsBloc: event.settingsBloc,
-            ),
-          ),
-        );
-
-    graphs
-        .getPlaysByHourOfDay(
-          tautulliId: event.tautulliId,
-          yAxis: event.yAxis,
-          timeRange: event.timeRange,
-          userId: event.userId,
-          grouping: event.grouping,
-        )
-        .then(
-          (failureOrGetPlaysByHourOfDay) => add(
-            GraphsEmit(
-              graphType: GraphType.playsByHourOfDay,
-              failureOrGraph: failureOrGetPlaysByHourOfDay,
-              tautulliId: event.tautulliId,
-              settingsBloc: event.settingsBloc,
-            ),
-          ),
-        );
-
-    graphs
-        .getPlaysBySourceResolution(
-          tautulliId: event.tautulliId,
-          yAxis: event.yAxis,
-          timeRange: event.timeRange,
-          userId: event.userId,
-          grouping: event.grouping,
-        )
-        .then(
-          (failureOrGetPlaysBySourceResolution) => add(
-            GraphsEmit(
-              graphType: GraphType.playsBySourceResolution,
-              failureOrGraph: failureOrGetPlaysBySourceResolution,
-              tautulliId: event.tautulliId,
-              settingsBloc: event.settingsBloc,
-            ),
-          ),
-        );
-
-    graphs
-        .getPlaysByStreamResolution(
-          tautulliId: event.tautulliId,
-          yAxis: event.yAxis,
-          timeRange: event.timeRange,
-          userId: event.userId,
-          grouping: event.grouping,
-        )
-        .then(
-          (failureOrGetPlaysByStreamResolution) => add(
-            GraphsEmit(
-              graphType: GraphType.playsByStreamResolution,
-              failureOrGraph: failureOrGetPlaysByStreamResolution,
-              tautulliId: event.tautulliId,
-              settingsBloc: event.settingsBloc,
-            ),
-          ),
-        );
-
-    graphs
-        .getPlaysByStreamType(
-          tautulliId: event.tautulliId,
-          yAxis: event.yAxis,
-          timeRange: event.timeRange,
-          userId: event.userId,
-          grouping: event.grouping,
-        )
-        .then(
-          (failureOrGetPlaysByStreamType) => add(
-            GraphsEmit(
-              graphType: GraphType.playsByStreamType,
-              failureOrGraph: failureOrGetPlaysByStreamType,
-              tautulliId: event.tautulliId,
-              settingsBloc: event.settingsBloc,
-            ),
-          ),
-        );
-
-    graphs
-        .getPlaysPerMonth(
-          tautulliId: event.tautulliId,
-          yAxis: event.yAxis,
-          timeRange: 12,
-          userId: event.userId,
-          grouping: event.grouping,
-        )
-        .then(
-          (failureOrGetPlaysPerMonth) => add(
-            GraphsEmit(
-              graphType: GraphType.playsPerMonth,
-              failureOrGraph: failureOrGetPlaysPerMonth,
-              tautulliId: event.tautulliId,
-              settingsBloc: event.settingsBloc,
-            ),
-          ),
-        );
-
-    graphs
-        .getPlaysByTop10Platforms(
-          tautulliId: event.tautulliId,
-          yAxis: event.yAxis,
-          timeRange: event.timeRange,
-          userId: event.userId,
-          grouping: event.grouping,
-        )
-        .then(
-          (failureOrGetPlaysByTop10Platforms) => add(
-            GraphsEmit(
-              graphType: GraphType.playsByTop10Platforms,
-              failureOrGraph: failureOrGetPlaysByTop10Platforms,
-              tautulliId: event.tautulliId,
-              settingsBloc: event.settingsBloc,
-            ),
-          ),
-        );
-
-    graphs
-        .getPlaysByTop10Users(
-          tautulliId: event.tautulliId,
-          yAxis: event.yAxis,
-          timeRange: event.timeRange,
-          userId: event.userId,
-          grouping: event.grouping,
-        )
-        .then(
-          (failureOrGetPlaysByTop10Users) => add(
-            GraphsEmit(
-              graphType: GraphType.playsByTop10Users,
-              failureOrGraph: failureOrGetPlaysByTop10Users,
-              tautulliId: event.tautulliId,
-              settingsBloc: event.settingsBloc,
-            ),
-          ),
-        );
-
-    graphs
-        .getStreamTypeByTop10Platforms(
-          tautulliId: event.tautulliId,
-          yAxis: event.yAxis,
-          timeRange: event.timeRange,
-          userId: event.userId,
-          grouping: event.grouping,
-        )
-        .then(
-          (failureOrGetStreamTypeByTop10Platforms) => add(
-            GraphsEmit(
-              graphType: GraphType.streamTypeByTop10Platforms,
-              failureOrGraph: failureOrGetStreamTypeByTop10Platforms,
-              tautulliId: event.tautulliId,
-              settingsBloc: event.settingsBloc,
-            ),
-          ),
-        );
-
-    graphs
-        .getStreamTypeByTop10Users(
-          tautulliId: event.tautulliId,
-          yAxis: event.yAxis,
-          timeRange: event.timeRange,
-          userId: event.userId,
-          grouping: event.grouping,
-        )
-        .then(
-          (failureOrGetStreamTypeByTop10Users) => add(
-            GraphsEmit(
-              graphType: GraphType.streamTypeByTop10Users,
-              failureOrGraph: failureOrGetStreamTypeByTop10Users,
-              tautulliId: event.tautulliId,
-              settingsBloc: event.settingsBloc,
-            ),
-          ),
-        );
   }
 
   void _onGraphsEmit(
@@ -353,7 +356,7 @@ class GraphsBloc extends Bloc<GraphsEvent, GraphsState> {
       (playsByStreamType) {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: playsByStreamType.value2,
           ),
         );

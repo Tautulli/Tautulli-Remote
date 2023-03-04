@@ -8,7 +8,7 @@ abstract class RecentlyAddedEvent extends Equatable {
 }
 
 class RecentlyAddedFetched extends RecentlyAddedEvent {
-  final String tautulliId;
+  final ServerModel server;
   final MediaType? mediaType;
   final int? sectionId;
   final int? start;
@@ -16,7 +16,7 @@ class RecentlyAddedFetched extends RecentlyAddedEvent {
   final SettingsBloc settingsBloc;
 
   const RecentlyAddedFetched({
-    required this.tautulliId,
+    required this.server,
     this.mediaType,
     this.sectionId,
     this.start,
@@ -25,5 +25,5 @@ class RecentlyAddedFetched extends RecentlyAddedEvent {
   });
 
   @override
-  List<Object> get props => [tautulliId, freshFetch, settingsBloc];
+  List<Object> get props => [server, freshFetch, settingsBloc];
 }

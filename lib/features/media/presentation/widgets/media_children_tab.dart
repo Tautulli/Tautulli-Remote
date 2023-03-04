@@ -55,7 +55,7 @@ class _MediaChildrenTabState extends State<MediaChildrenTab> {
           onRefresh: () {
             _childrenMetadataBloc.add(
               ChildrenMetadataFetched(
-                tautulliId: widget.server.tautulliId,
+                server: widget.server,
                 ratingKey: widget.ratingKey,
                 freshFetch: true,
                 settingsBloc: _settingsBloc,

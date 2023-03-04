@@ -8,7 +8,7 @@ abstract class GraphsEvent extends Equatable {
 }
 
 class GraphsFetched extends GraphsEvent {
-  final String tautulliId;
+  final ServerModel server;
   final PlayMetricType yAxis;
   final int timeRange;
   final int? userId;
@@ -17,7 +17,7 @@ class GraphsFetched extends GraphsEvent {
   final SettingsBloc settingsBloc;
 
   const GraphsFetched({
-    required this.tautulliId,
+    required this.server,
     required this.yAxis,
     required this.timeRange,
     this.userId,
@@ -28,7 +28,7 @@ class GraphsFetched extends GraphsEvent {
 
   @override
   List<Object> get props => [
-        tautulliId,
+        server,
         yAxis,
         timeRange,
         freshFetch,
@@ -39,13 +39,13 @@ class GraphsFetched extends GraphsEvent {
 class GraphsEmit extends GraphsEvent {
   final GraphType graphType;
   final Either<Failure, Tuple2<GraphDataModel, bool>> failureOrGraph;
-  final String tautulliId;
+  final ServerModel server;
   final SettingsBloc settingsBloc;
 
   const GraphsEmit({
     required this.graphType,
     required this.failureOrGraph,
-    required this.tautulliId,
+    required this.server,
     required this.settingsBloc,
   });
 
@@ -53,7 +53,7 @@ class GraphsEmit extends GraphsEvent {
   List<Object> get props => [
         graphType,
         failureOrGraph,
-        tautulliId,
+        server,
         settingsBloc,
       ];
 }

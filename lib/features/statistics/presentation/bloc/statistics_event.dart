@@ -8,14 +8,14 @@ abstract class StatisticsEvent extends Equatable {
 }
 
 class StatisticsFetched extends StatisticsEvent {
-  final String tautulliId;
+  final ServerModel server;
   final int timeRange;
   final PlayMetricType statsType;
   final bool freshFetch;
   final SettingsBloc settingsBloc;
 
   const StatisticsFetched({
-    required this.tautulliId,
+    required this.server,
     required this.timeRange,
     required this.statsType,
     this.freshFetch = false,
@@ -23,7 +23,7 @@ class StatisticsFetched extends StatisticsEvent {
   });
 
   @override
-  List<Object> get props => [tautulliId, timeRange, statsType, freshFetch, settingsBloc];
+  List<Object> get props => [server, timeRange, statsType, freshFetch, settingsBloc];
 }
 
 class StatisticsFetchMore extends StatisticsEvent {

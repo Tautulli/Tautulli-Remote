@@ -92,7 +92,7 @@ class _UserDetailsViewState extends State<UserDetailsView> {
     if (widget.fetchUser) {
       context.read<UserIndividualBloc>().add(
             UserIndividualFetched(
-              tautulliId: widget.server.tautulliId,
+              server: widget.server,
               userId: widget.user.userId!,
               settingsBloc: settingsBloc,
             ),
@@ -101,14 +101,14 @@ class _UserDetailsViewState extends State<UserDetailsView> {
 
     _userHistoryBloc.add(
       UserHistoryFetched(
-        tautulliId: widget.server.tautulliId,
+        server: widget.server,
         userId: widget.user.userId!,
         settingsBloc: settingsBloc,
       ),
     );
     context.read<UserStatisticsBloc>().add(
           UserStatisticsFetched(
-            tautulliId: widget.server.tautulliId,
+            server: widget.server,
             userId: widget.user.userId!,
             settingsBloc: settingsBloc,
           ),

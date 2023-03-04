@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -32,7 +33,7 @@ class LibraryStatisticsBloc extends Bloc<LibraryStatisticsEvent, LibraryStatisti
     LibraryStatisticsFetched event,
     Emitter<LibraryStatisticsState> emit,
   ) async {
-    final String cacheKey = '${event.tautulliId}:${event.sectionId}';
+    final String cacheKey = '${event.server.tautulliId}:${event.sectionId}';
     final bool userStatsCached = _userStatsCache.containsKey(cacheKey);
     final bool watchTimeStatsCached = _watchTimeStatsCache.containsKey(cacheKey);
 
@@ -65,12 +66,12 @@ class LibraryStatisticsBloc extends Bloc<LibraryStatisticsEvent, LibraryStatisti
 
       // Fetch stats for user and yield as received
       final failureOrWatchTimeStats = await libraries.getLibraryWatchTimeStats(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         sectionId: event.sectionId,
       );
 
       final failureOrUserStats = await libraries.getLibraryUserStats(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         sectionId: event.sectionId,
       );
 
@@ -115,7 +116,7 @@ class LibraryStatisticsBloc extends Bloc<LibraryStatisticsEvent, LibraryStatisti
       (userStatList) {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: userStatList.value2,
           ),
         );
@@ -142,7 +143,7 @@ class LibraryStatisticsBloc extends Bloc<LibraryStatisticsEvent, LibraryStatisti
       (watchTimeStatList) {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: watchTimeStatList.value2,
           ),
         );

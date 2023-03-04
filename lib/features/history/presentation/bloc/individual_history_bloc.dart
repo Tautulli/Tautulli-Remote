@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stream_transform/stream_transform.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -46,7 +47,7 @@ class IndividualHistoryBloc extends Bloc<IndividualHistoryEvent, IndividualHisto
     IndividualHistoryFetched event,
     Emitter<IndividualHistoryState> emit,
   ) async {
-    final cacheKey = '${event.tautulliId}:${event.ratingKey}';
+    final cacheKey = '${event.server.tautulliId}:${event.ratingKey}';
 
     if (!individualHistoryCache.containsKey(cacheKey)) {
       individualHistoryCache[cacheKey] = [];
@@ -78,7 +79,7 @@ class IndividualHistoryBloc extends Bloc<IndividualHistoryEvent, IndividualHisto
       }
 
       final failureOrHistory = await history.getHistory(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         grouping: event.grouping,
         includeActivity: event.includeActivity,
         user: event.user,
@@ -129,7 +130,7 @@ class IndividualHistoryBloc extends Bloc<IndividualHistoryEvent, IndividualHisto
       );
 
       final failureOrHistory = await history.getHistory(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         grouping: event.grouping,
         includeActivity: event.includeActivity,
         user: event.user,
@@ -201,7 +202,7 @@ class IndividualHistoryBloc extends Bloc<IndividualHistoryEvent, IndividualHisto
       (history) async {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: history.value2,
           ),
         );

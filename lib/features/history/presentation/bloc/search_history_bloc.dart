@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:quiver/strings.dart';
 import 'package:stream_transform/stream_transform.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -85,7 +86,7 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
       );
 
       final failureOrHistory = await history.getHistory(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         grouping: event.grouping,
         includeActivity: event.includeActivity,
         user: event.user,
@@ -119,7 +120,7 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
       );
 
       final failureOrHistory = await history.getHistory(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         grouping: event.grouping,
         includeActivity: event.includeActivity,
         user: event.user,
@@ -171,14 +172,14 @@ class SearchHistoryBloc extends Bloc<SearchHistoryEvent, SearchHistoryState> {
       (history) async {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: history.value2,
           ),
         );
 
         // Add posters to history models
         List<HistoryModel> historyListWithUris = await _historyModelsWithPosterUris(
-          tautulliId: event.tautulliId,
+          tautulliId: event.server.tautulliId,
           historyList: history.value1,
           settingsBloc: event.settingsBloc,
         );

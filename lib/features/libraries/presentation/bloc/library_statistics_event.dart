@@ -8,18 +8,18 @@ abstract class LibraryStatisticsEvent extends Equatable {
 }
 
 class LibraryStatisticsFetched extends LibraryStatisticsEvent {
-  final String tautulliId;
+  final ServerModel server;
   final int sectionId;
   final bool freshFetch;
   final SettingsBloc settingsBloc;
 
   const LibraryStatisticsFetched({
-    required this.tautulliId,
+    required this.server,
     required this.sectionId,
     this.freshFetch = false,
     required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [tautulliId, sectionId, freshFetch, settingsBloc];
+  List<Object> get props => [server, sectionId, freshFetch, settingsBloc];
 }

@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/data_unit_helper.dart';
 import '../../../../core/helpers/ip_address_helper.dart';
 import '../../../../core/helpers/string_helper.dart';
@@ -17,10 +18,12 @@ import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/activity_model.dart';
 
 class ActivityBottomSheetDetails extends StatefulWidget {
+  final ServerModel server;
   final ActivityModel activity;
 
   const ActivityBottomSheetDetails({
     super.key,
+    required this.server,
     required this.activity,
   });
 
@@ -34,12 +37,11 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
     super.initState();
 
     final settingsBloc = context.read<SettingsBloc>();
-    final settingsState = settingsBloc.state as SettingsSuccess;
 
     if (widget.activity.ipAddress != null) {
       context.read<GeoIpBloc>().add(
             GeoIpFetched(
-              tautulliId: settingsState.appSettings.activeServer.tautulliId,
+              server: widget.server,
               ipAddress: widget.activity.ipAddress!,
               settingsBloc: settingsBloc,
             ),

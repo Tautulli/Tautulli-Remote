@@ -8,7 +8,7 @@ abstract class UserHistoryEvent extends Equatable {
 }
 
 class UserHistoryFetched extends UserHistoryEvent {
-  final String tautulliId;
+  final ServerModel server;
   final bool? grouping;
   final bool? includeActivity;
   final String? user;
@@ -32,7 +32,7 @@ class UserHistoryFetched extends UserHistoryEvent {
   final SettingsBloc settingsBloc;
 
   const UserHistoryFetched({
-    required this.tautulliId,
+    required this.server,
     this.grouping,
     this.includeActivity,
     this.user,
@@ -57,5 +57,5 @@ class UserHistoryFetched extends UserHistoryEvent {
   });
 
   @override
-  List<Object> get props => [tautulliId, freshFetch, settingsBloc];
+  List<Object> get props => [server, freshFetch, settingsBloc];
 }

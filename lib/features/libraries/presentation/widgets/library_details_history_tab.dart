@@ -53,7 +53,7 @@ class _LibraryDetailsHistoryTabState extends State<LibraryDetailsHistoryTab> {
           onRefresh: () {
             _libraryHistoryBloc.add(
               LibraryHistoryFetched(
-                tautulliId: widget.server.tautulliId,
+                server: widget.server,
                 sectionId: widget.libraryTableModel.sectionId!,
                 settingsBloc: _settingsBloc,
                 freshFetch: true,
@@ -92,7 +92,7 @@ class _LibraryDetailsHistoryTabState extends State<LibraryDetailsHistoryTab> {
                         onTap: () {
                           _libraryHistoryBloc.add(
                             LibraryHistoryFetched(
-                              tautulliId: widget.server.tautulliId,
+                              server: widget.server,
                               sectionId: widget.libraryTableModel.sectionId!,
                               settingsBloc: _settingsBloc,
                             ),
@@ -128,7 +128,7 @@ class _LibraryDetailsHistoryTabState extends State<LibraryDetailsHistoryTab> {
     if (_isBottom) {
       _libraryHistoryBloc.add(
         LibraryHistoryFetched(
-          tautulliId: widget.server.tautulliId,
+          server: widget.server,
           sectionId: widget.libraryTableModel.sectionId!,
           settingsBloc: _settingsBloc,
         ),

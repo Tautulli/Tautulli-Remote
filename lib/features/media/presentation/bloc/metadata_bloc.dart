@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -32,7 +33,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
     MetadataFetched event,
     Emitter<MetadataState> emit,
   ) async {
-    final String cacheKey = '${event.tautulliId}:${event.ratingKey}';
+    final String cacheKey = '${event.server.tautulliId}:${event.ratingKey}';
 
     if (event.freshFetch) {
       emit(
@@ -53,7 +54,7 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
     }
 
     final failureOrMetadata = await media.getMetadata(
-      tautulliId: event.tautulliId,
+      tautulliId: event.server.tautulliId,
       ratingKey: event.ratingKey,
     );
 
@@ -73,14 +74,14 @@ class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
       (metadata) async {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: metadata.value2,
           ),
         );
 
         // Add posters to children media models
         MediaModel metadataWithUris = await _mediaModelWithImageUris(
-          tautulliId: event.tautulliId,
+          tautulliId: event.server.tautulliId,
           metadata: metadata.value1,
           settingsBloc: event.settingsBloc,
         );

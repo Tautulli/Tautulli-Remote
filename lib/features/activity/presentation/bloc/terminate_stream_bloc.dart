@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -44,7 +45,7 @@ class TerminateStreamBloc extends Bloc<TerminateStreamEvent, TerminateStreamStat
     }
 
     final failureOrTerminateStream = await activity.terminateStream(
-      tautulliId: event.tautulliId,
+      tautulliId: event.server.tautulliId,
       sessionId: event.sessionId,
       sessionKey: event.sessionKey,
       message: event.message,
@@ -63,7 +64,7 @@ class TerminateStreamBloc extends Bloc<TerminateStreamEvent, TerminateStreamStat
       (terminateStream) async {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: terminateStream.value2,
           ),
         );

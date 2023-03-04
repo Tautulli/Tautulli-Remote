@@ -179,6 +179,14 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
     final double screenWidth = MediaQuery.of(context).size.width;
     List<Widget> serverActivityWidgets = [];
 
+    if (serverActivityModelList.isEmpty) {
+      return StatusPage(
+        scrollable: true,
+        message: LocaleKeys.error_message_no_servers.tr(),
+        suggestion: LocaleKeys.error_suggestion_register_server.tr(),
+      );
+    }
+
     if (serverActivityModelList.isNotEmpty) {
       final ServerActivityModel firstServer = serverActivityModelList.firstWhere(
         (server) => server.tautulliId == _activeServerId,

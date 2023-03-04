@@ -322,7 +322,10 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                   child: Column(
                     children: [
                       Expanded(
-                        child: ActivityBottomSheetDetails(activity: activity),
+                        child: ActivityBottomSheetDetails(
+                          server: widget.server,
+                          activity: activity,
+                        ),
                       ),
                       Row(
                         children: [
@@ -422,7 +425,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                         if (confirm) {
                                           context.read<TerminateStreamBloc>().add(
                                                 TerminateStreamStarted(
-                                                  tautulliId: widget.server.tautulliId,
+                                                  server: widget.server,
                                                   sessionId: activity.sessionId,
                                                   sessionKey: activity.sessionKey,
                                                   message: controller.text,

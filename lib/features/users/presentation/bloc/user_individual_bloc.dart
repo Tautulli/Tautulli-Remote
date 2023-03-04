@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -12,8 +13,7 @@ part 'user_individual_state.dart';
 
 Map<String, UserModel> userCache = {};
 
-class UserIndividualBloc
-    extends Bloc<UserIndividualEvent, UserIndividualState> {
+class UserIndividualBloc extends Bloc<UserIndividualEvent, UserIndividualState> {
   final Users users;
   final Logging logging;
 
@@ -32,11 +32,11 @@ class UserIndividualBloc
     UserIndividualFetched event,
     Emitter<UserIndividualState> emit,
   ) async {
-    if (userCache.containsKey('${event.tautulliId}:${event.userId}')) {
+    if (userCache.containsKey('${event.server.tautulliId}:${event.userId}')) {
       return emit(
         state.copyWith(
           status: BlocStatus.success,
-          user: userCache['${event.tautulliId}:${event.userId}'],
+          user: userCache['${event.server.tautulliId}:${event.userId}'],
         ),
       );
     }
@@ -48,7 +48,7 @@ class UserIndividualBloc
     );
 
     final failureOrUser = await users.getUser(
-      tautulliId: event.tautulliId,
+      tautulliId: event.server.tautulliId,
       userId: event.userId,
     );
 
@@ -67,12 +67,12 @@ class UserIndividualBloc
       (user) {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: user.value2,
           ),
         );
 
-        userCache['${event.tautulliId}:${event.userId}'] = user.value1;
+        userCache['${event.server.tautulliId}:${event.userId}'] = user.value1;
 
         return emit(
           state.copyWith(

@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stream_transform/stream_transform.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -58,10 +59,23 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
     LibrariesFetched event,
     Emitter<LibrariesState> emit,
   ) async {
-    final bool serverChange = tautulliIdCache != event.tautulliId;
+    if (event.server.id == null) {
+      Failure failure = MissingServerFailure();
 
-    if (!librariesCache.containsKey(event.tautulliId)) {
-      librariesCache[event.tautulliId] = [];
+      return emit(
+        state.copyWith(
+          status: BlocStatus.failure,
+          failure: failure,
+          message: FailureHelper.mapFailureToMessage(failure),
+          suggestion: FailureHelper.mapFailureToSuggestion(failure),
+        ),
+      );
+    }
+
+    final bool serverChange = tautulliIdCache != event.server.tautulliId;
+
+    if (!librariesCache.containsKey(event.server.tautulliId)) {
+      librariesCache[event.server.tautulliId] = [];
     }
 
     if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
@@ -72,11 +86,11 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
           hasReachedMax: false,
         ),
       );
-      librariesCache[event.tautulliId] = [];
+      librariesCache[event.server.tautulliId] = [];
       hasReachedMaxCache = false;
     }
 
-    tautulliIdCache = event.tautulliId;
+    tautulliIdCache = event.server.tautulliId;
     orderColumnCache = event.orderColumn;
     orderDirCache = event.orderDir;
 
@@ -84,7 +98,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
 
     if (state.status == BlocStatus.initial) {
       // Prevent triggering initial fetch when navigating back to History page
-      if (librariesCache[event.tautulliId]!.isNotEmpty) {
+      if (librariesCache[event.server.tautulliId]!.isNotEmpty) {
         return emit(
           state.copyWith(
             status: BlocStatus.success,
@@ -93,7 +107,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
       }
 
       final failureOrLibraries = await libraries.getLibrariesTable(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         grouping: event.grouping,
         length: length,
         orderColumn: event.orderColumn,
@@ -115,13 +129,13 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
       );
 
       final failureOrLibraries = await libraries.getLibrariesTable(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         grouping: event.grouping,
         length: length,
         orderColumn: event.orderColumn,
         orderDir: event.orderDir,
         search: event.search,
-        start: librariesCache[event.tautulliId]!.length,
+        start: librariesCache[event.server.tautulliId]!.length,
       );
 
       return _emitFailureOrLibraries(
@@ -144,7 +158,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
         return emit(
           state.copyWith(
             status: BlocStatus.failure,
-            libraries: event.freshFetch ? librariesCache[event.tautulliId] : state.libraries,
+            libraries: event.freshFetch ? librariesCache[event.server.tautulliId] : state.libraries,
             failure: failure,
             message: FailureHelper.mapFailureToMessage(failure),
             suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -154,7 +168,7 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
       (libraries) async {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: libraries.value2,
           ),
         );
@@ -165,13 +179,13 @@ class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
           settingsBloc: event.settingsBloc,
         );
 
-        librariesCache[event.tautulliId] = librariesCache[event.tautulliId]! + libraryListWithUris;
+        librariesCache[event.server.tautulliId] = librariesCache[event.server.tautulliId]! + libraryListWithUris;
         hasReachedMaxCache = libraryListWithUris.length < length;
 
         return emit(
           state.copyWith(
             status: BlocStatus.success,
-            libraries: librariesCache[event.tautulliId],
+            libraries: librariesCache[event.server.tautulliId],
             hasReachedMax: hasReachedMaxCache,
           ),
         );

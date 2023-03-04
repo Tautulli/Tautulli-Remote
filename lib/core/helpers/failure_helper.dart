@@ -20,7 +20,7 @@ String dataBaseInitMessage = LocaleKeys.error_message_database_init.tr();
 String genericMessage = LocaleKeys.error_message_generic.tr();
 String invalidApiKeyMessage = LocaleKeys.error_message_invalid_api_key.tr();
 //  String jsonMessage = 'Failed to parse response.';
-// const String missingServerMessage = 'No servers are configured.';
+String missingServerMessage = LocaleKeys.error_message_no_servers.tr();
 String serverMessage = LocaleKeys.error_message_server.tr();
 String serverVersionMessage = LocaleKeys.error_message_server_version.tr();
 // const String settingsMessage = 'Required settings are missing.';
@@ -37,8 +37,7 @@ String certificateVerificationSuggestion = LocaleKeys.error_suggestion_certifica
 String checkConnectionAddressSuggestion = LocaleKeys.error_suggestion_check_connection_address.tr();
 String checkServerSettingsSuggestion = LocaleKeys.error_suggestion_check_server_settings.tr();
 String genericSuggestion = LocaleKeys.error_suggestion_generic.tr();
-// const String missingServerSuggestion =
-//     'Please register with a Tautulli server.';
+String missingServerSuggestion = LocaleKeys.error_suggestion_register_server.tr();
 String invalidApiKeySuggestion = LocaleKeys.error_suggestion_invalid_api_key.tr();
 String plexConnectionSuggestion = LocaleKeys.error_suggestion_plex_connection.tr();
 String serverVersionSuggestion =
@@ -146,8 +145,8 @@ class FailureHelper {
         return invalidApiKeyMessage;
       // case (JsonDecodeFailure):
       //   return jsonMessage;
-      // case (MissingServerFailure):
-      //   return missingServerMessage;
+      case (MissingServerFailure):
+        return missingServerMessage;
       case (DioFailure):
       case (ServerFailure):
         return serverMessage;
@@ -189,8 +188,8 @@ class FailureHelper {
         return invalidApiKeySuggestion;
       // case (JsonDecodeFailure):
       //   return checkConnectionAddressSuggestion;
-      // case (MissingServerFailure):
-      //   return missingServerSuggestion;
+      case (MissingServerFailure):
+        return missingServerSuggestion;
       case (DioFailure):
       case (ServerFailure):
         return checkServerSettingsSuggestion;

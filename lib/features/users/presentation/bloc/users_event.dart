@@ -8,14 +8,14 @@ abstract class UsersEvent extends Equatable {
 }
 
 class UsersFetched extends UsersEvent {
-  final String tautulliId;
+  final ServerModel server;
   final SettingsBloc settingsBloc;
 
   const UsersFetched({
-    required this.tautulliId,
+    required this.server,
     required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [tautulliId, settingsBloc];
+  List<Object> get props => [server, settingsBloc];
 }

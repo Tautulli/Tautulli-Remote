@@ -45,7 +45,7 @@ class _MediaDetailsTabState extends State<MediaDetailsTab> {
           onRefresh: () {
             context.read<MetadataBloc>().add(
                   MetadataFetched(
-                    tautulliId: widget.server.tautulliId,
+                    server: widget.server,
                     ratingKey: widget.ratingKey,
                     freshFetch: true,
                     settingsBloc: _settingsBloc,

@@ -87,7 +87,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
     _statisticsBloc.add(
       StatisticsFetched(
-        tautulliId: _server.tautulliId,
+        server: _server,
         timeRange: _timeRange,
         statsType: _statsType,
         settingsBloc: _settingsBloc,
@@ -112,7 +112,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
           _statisticsBloc.add(
             StatisticsFetched(
-              tautulliId: _server.tautulliId,
+              server: _server,
               timeRange: _timeRange,
               statsType: _statsType,
               freshFetch: true,
@@ -123,7 +123,7 @@ class _StatisticsViewState extends State<StatisticsView> {
       },
       child: ScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.statistics_title).tr(),
-        actions: _appBarActions(),
+        actions: _server.id != null ? _appBarActions() : [],
         body: BlocBuilder<StatisticsBloc, StatisticsState>(
           builder: (context, state) {
             List<Widget> statsListWidgets = _buildStatListWidgets(state.statList);
@@ -134,7 +134,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                 onRefresh: () {
                   _statisticsBloc.add(
                     StatisticsFetched(
-                      tautulliId: _server.tautulliId,
+                      server: _server,
                       timeRange: _timeRange,
                       statsType: _statsType,
                       freshFetch: true,
@@ -199,7 +199,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
           _statisticsBloc.add(
             StatisticsFetched(
-              tautulliId: _server.tautulliId,
+              server: _server,
               timeRange: _timeRange,
               statsType: _statsType,
               freshFetch: true,
@@ -279,7 +279,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
                     _statisticsBloc.add(
                       StatisticsFetched(
-                        tautulliId: _server.tautulliId,
+                        server: _server,
                         timeRange: _timeRange,
                         statsType: _statsType,
                         freshFetch: true,
@@ -304,7 +304,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
                     _statisticsBloc.add(
                       StatisticsFetched(
-                        tautulliId: _server.tautulliId,
+                        server: _server,
                         timeRange: _timeRange,
                         statsType: _statsType,
                         freshFetch: true,

@@ -55,7 +55,7 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
           onRefresh: () {
             _userHistoryBloc.add(
               UserHistoryFetched(
-                tautulliId: widget.server.tautulliId,
+                server: widget.server,
                 userId: widget.user.userId!,
                 settingsBloc: _settingsBloc,
                 freshFetch: true,
@@ -101,7 +101,7 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
                         onTap: () {
                           _userHistoryBloc.add(
                             UserHistoryFetched(
-                              tautulliId: widget.server.tautulliId,
+                              server: widget.server,
                               userId: widget.user.userId!,
                               settingsBloc: _settingsBloc,
                             ),
@@ -138,7 +138,7 @@ class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
     if (_isBottom) {
       _userHistoryBloc.add(
         UserHistoryFetched(
-          tautulliId: widget.server.tautulliId,
+          server: widget.server,
           userId: widget.user.userId!,
           settingsBloc: _settingsBloc,
         ),

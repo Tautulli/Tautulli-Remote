@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -17,8 +18,7 @@ part 'user_statistics_state.dart';
 Map<String, List<UserPlayerStatModel>> _playerStatsCache = {};
 Map<String, List<UserWatchTimeStatModel>> _watchTimeStatsCache = {};
 
-class UserStatisticsBloc
-    extends Bloc<UserStatisticsEvent, UserStatisticsState> {
+class UserStatisticsBloc extends Bloc<UserStatisticsEvent, UserStatisticsState> {
   final Users users;
   final Logging logging;
 
@@ -33,10 +33,9 @@ class UserStatisticsBloc
     UserStatisticsFetched event,
     Emitter<UserStatisticsState> emit,
   ) async {
-    final String cacheKey = '${event.tautulliId}:${event.userId}';
+    final String cacheKey = '${event.server.tautulliId}:${event.userId}';
     final bool playerStatsCached = _playerStatsCache.containsKey(cacheKey);
-    final bool watchTimeStatsCached =
-        _watchTimeStatsCache.containsKey(cacheKey);
+    final bool watchTimeStatsCached = _watchTimeStatsCache.containsKey(cacheKey);
 
     // Check cached data, if exists yield that data
     if (playerStatsCached) {
@@ -68,12 +67,12 @@ class UserStatisticsBloc
 
       // Fetch stats for user and yield as received
       final failureOrWatchTimeStats = await users.getWatchTimeStats(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         userId: event.userId,
       );
 
       final failureOrPlayerStats = await users.getPlayerStats(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
         userId: event.userId,
       );
 
@@ -90,10 +89,8 @@ class UserStatisticsBloc
   void _fetchAndEmitStats({
     required UserStatisticsFetched event,
     required Emitter<UserStatisticsState> emit,
-    required Either<Failure, Tuple2<List<UserWatchTimeStatModel>, bool>>
-        failureOrWatchTimeStats,
-    required Either<Failure, Tuple2<List<UserPlayerStatModel>, bool>>
-        failureOrPlayerStats,
+    required Either<Failure, Tuple2<List<UserWatchTimeStatModel>, bool>> failureOrWatchTimeStats,
+    required Either<Failure, Tuple2<List<UserPlayerStatModel>, bool>> failureOrPlayerStats,
     required String cacheKey,
   }) {
     List<UserWatchTimeStatModel>? watchTimeStatsList;
@@ -120,7 +117,7 @@ class UserStatisticsBloc
       (watchTimeStatList) {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: watchTimeStatList.value2,
           ),
         );
@@ -147,7 +144,7 @@ class UserStatisticsBloc
       (playerStatList) {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: playerStatList.value2,
           ),
         );

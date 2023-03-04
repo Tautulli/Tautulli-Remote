@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -36,11 +37,11 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
   ) async {
     if (event.refresh == false &&
         event.fullRefresh == false &&
-        libraryMediaInfoCache.containsKey('${event.tautulliId}:${event.sectionId}')) {
+        libraryMediaInfoCache.containsKey('${event.server.tautulliId}:${event.sectionId}')) {
       return emit(
         state.copyWith(
           status: BlocStatus.success,
-          libraryItems: libraryMediaInfoCache['${event.tautulliId}:${event.sectionId}'],
+          libraryItems: libraryMediaInfoCache['${event.server.tautulliId}:${event.sectionId}'],
         ),
       );
     }
@@ -58,7 +59,7 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
     }
 
     final failureOrLibraryMedia = await libraries.getLibraryMediaInfo(
-      tautulliId: event.tautulliId,
+      tautulliId: event.server.tautulliId,
       sectionId: event.sectionId,
       ratingKey: event.ratingKey,
       sectionType: event.sectionType,
@@ -86,7 +87,7 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
       (libraryMedia) async {
         event.settingsBloc.add(
           SettingsUpdatePrimaryActive(
-            tautulliId: event.tautulliId,
+            tautulliId: event.server.tautulliId,
             primaryActive: libraryMedia.value2,
           ),
         );
@@ -94,16 +95,16 @@ class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
         // Add posters to library table models
         List<LibraryMediaInfoModel> libraryListWithUris = await _libraryMediaInfoModelsWithPosterUris(
           libraryMediaList: libraryMedia.value1,
-          tautulliId: event.tautulliId,
+          tautulliId: event.server.tautulliId,
           settingsBloc: event.settingsBloc,
         );
 
-        libraryMediaInfoCache['${event.tautulliId}:${event.sectionId}'] = libraryListWithUris;
+        libraryMediaInfoCache['${event.server.tautulliId}:${event.sectionId}'] = libraryListWithUris;
 
         return emit(
           state.copyWith(
             status: BlocStatus.success,
-            libraryItems: libraryMediaInfoCache['${event.tautulliId}:${event.sectionId}'],
+            libraryItems: libraryMediaInfoCache['${event.server.tautulliId}:${event.sectionId}'],
           ),
         );
       },

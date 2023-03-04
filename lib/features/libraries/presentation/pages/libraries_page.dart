@@ -68,7 +68,7 @@ class _LibrariesViewState extends State<LibrariesView> {
 
     _librariesBloc.add(
       LibrariesFetched(
-        tautulliId: _server.tautulliId,
+        server: _server,
         orderColumn: _orderColumn,
         orderDir: _orderDir,
         settingsBloc: _settingsBloc,
@@ -94,7 +94,7 @@ class _LibrariesViewState extends State<LibrariesView> {
 
           _librariesBloc.add(
             LibrariesFetched(
-              tautulliId: _server.tautulliId,
+              server: _server,
               orderColumn: _orderColumn,
               orderDir: _orderDir,
               settingsBloc: _settingsBloc,
@@ -104,7 +104,7 @@ class _LibrariesViewState extends State<LibrariesView> {
       },
       child: ScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.libraries_title).tr(),
-        actions: _appBarActions(),
+        actions: _server.id != null ? _appBarActions() : [],
         body: BlocBuilder<LibrariesBloc, LibrariesState>(
           builder: (context, state) {
             return PageBody(
@@ -113,7 +113,7 @@ class _LibrariesViewState extends State<LibrariesView> {
                 onRefresh: () {
                   _librariesBloc.add(
                     LibrariesFetched(
-                      tautulliId: _server.tautulliId,
+                      server: _server,
                       orderColumn: _orderColumn,
                       orderDir: _orderDir,
                       freshFetch: true,
@@ -159,7 +159,7 @@ class _LibrariesViewState extends State<LibrariesView> {
                             onTap: () {
                               _librariesBloc.add(
                                 LibrariesFetched(
-                                  tautulliId: _server.tautulliId,
+                                  server: _server,
                                   orderColumn: _orderColumn,
                                   orderDir: _orderDir,
                                   settingsBloc: _settingsBloc,
@@ -199,7 +199,7 @@ class _LibrariesViewState extends State<LibrariesView> {
     if (_isBottom) {
       _librariesBloc.add(
         LibrariesFetched(
-          tautulliId: _server.tautulliId,
+          server: _server,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
           settingsBloc: _settingsBloc,
@@ -240,7 +240,7 @@ class _LibrariesViewState extends State<LibrariesView> {
               _settingsBloc.add(SettingsUpdateLibrariesSort(value));
               _librariesBloc.add(
                 LibrariesFetched(
-                  tautulliId: _server.tautulliId,
+                  server: _server,
                   orderColumn: _orderColumn,
                   orderDir: _orderDir,
                   freshFetch: true,

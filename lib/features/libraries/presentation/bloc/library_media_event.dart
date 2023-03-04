@@ -6,7 +6,7 @@ abstract class LibraryMediaEvent extends Equatable {
 }
 
 class LibraryMediaFetched extends LibraryMediaEvent {
-  final String tautulliId;
+  final ServerModel server;
   final int sectionId;
   final int? ratingKey;
   final SectionType? sectionType;
@@ -20,7 +20,7 @@ class LibraryMediaFetched extends LibraryMediaEvent {
   final SettingsBloc settingsBloc;
 
   LibraryMediaFetched({
-    required this.tautulliId,
+    required this.server,
     required this.sectionId,
     this.ratingKey,
     this.sectionType,
@@ -35,5 +35,5 @@ class LibraryMediaFetched extends LibraryMediaEvent {
   });
 
   @override
-  List<Object> get props => [tautulliId, sectionId, settingsBloc];
+  List<Object> get props => [server, sectionId, settingsBloc];
 }

@@ -53,7 +53,7 @@ class _UserDetailsStatsTabState extends State<UserDetailsStatsTab> {
           onRefresh: () {
             context.read<UserStatisticsBloc>().add(
                   UserStatisticsFetched(
-                    tautulliId: widget.server.tautulliId,
+                    server: widget.server,
                     userId: widget.user.userId!,
                     settingsBloc: _settingsBloc,
                     freshFetch: true,

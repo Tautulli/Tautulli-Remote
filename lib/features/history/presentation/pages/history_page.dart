@@ -89,7 +89,7 @@ class _HistoryViewState extends State<HistoryView> {
 
     _historyBloc.add(
       HistoryFetched(
-        tautulliId: _server.tautulliId,
+        server: _server,
         userId: _userId,
         movieMediaType: _movieMediaType,
         episodeMediaType: _episodeMediaType,
@@ -104,7 +104,7 @@ class _HistoryViewState extends State<HistoryView> {
 
     _usersBloc.add(
       UsersFetched(
-        tautulliId: _server.tautulliId,
+        server: _server,
         settingsBloc: _settingsBloc,
       ),
     );
@@ -136,7 +136,7 @@ class _HistoryViewState extends State<HistoryView> {
 
           _historyBloc.add(
             HistoryFetched(
-              tautulliId: _server.tautulliId,
+              server: _server,
               userId: _userId,
               movieMediaType: _movieMediaType,
               episodeMediaType: _episodeMediaType,
@@ -150,7 +150,7 @@ class _HistoryViewState extends State<HistoryView> {
           );
           _usersBloc.add(
             UsersFetched(
-              tautulliId: _server.tautulliId,
+              server: _server,
               settingsBloc: _settingsBloc,
             ),
           );
@@ -158,7 +158,7 @@ class _HistoryViewState extends State<HistoryView> {
       },
       child: ScaffoldWithInnerDrawer(
         title: const Text(LocaleKeys.history_title).tr(),
-        actions: _appBarActions(),
+        actions: _server.id != null ? _appBarActions() : [],
         body: BlocBuilder<HistoryBloc, HistoryState>(
           builder: (context, state) {
             return PageBody(
@@ -167,7 +167,7 @@ class _HistoryViewState extends State<HistoryView> {
                 onRefresh: () {
                   _historyBloc.add(
                     HistoryFetched(
-                      tautulliId: _server.tautulliId,
+                      server: _server,
                       userId: _userId,
                       movieMediaType: _movieMediaType,
                       episodeMediaType: _episodeMediaType,
@@ -219,7 +219,7 @@ class _HistoryViewState extends State<HistoryView> {
                             onTap: () {
                               _historyBloc.add(
                                 HistoryFetched(
-                                  tautulliId: _server.tautulliId,
+                                  server: _server,
                                   userId: _userId,
                                   movieMediaType: _movieMediaType,
                                   episodeMediaType: _episodeMediaType,
@@ -266,7 +266,7 @@ class _HistoryViewState extends State<HistoryView> {
     if (_isBottom) {
       _historyBloc.add(
         HistoryFetched(
-          tautulliId: _server.tautulliId,
+          server: _server,
           userId: _userId,
           movieMediaType: _movieMediaType,
           episodeMediaType: _episodeMediaType,
@@ -330,7 +330,7 @@ class _HistoryViewState extends State<HistoryView> {
 
                     _historyBloc.add(
                       HistoryFetched(
-                        tautulliId: _server.tautulliId,
+                        server: _server,
                         userId: _userId,
                         movieMediaType: _movieMediaType,
                         episodeMediaType: _episodeMediaType,
@@ -662,7 +662,7 @@ class _HistoryViewState extends State<HistoryView> {
     valueNotifier.value = value;
     _historyBloc.add(
       HistoryFetched(
-        tautulliId: _server.tautulliId,
+        server: _server,
         userId: _userId,
         movieMediaType: _movieMediaType,
         episodeMediaType: _episodeMediaType,

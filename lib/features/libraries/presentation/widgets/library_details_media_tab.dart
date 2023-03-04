@@ -57,7 +57,7 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
           onRefresh: () {
             context.read<LibraryMediaBloc>().add(
                   LibraryMediaFetched(
-                    tautulliId: widget.server.tautulliId,
+                    server: widget.server,
                     sectionId: widget.libraryTableModel.sectionId!,
                     refresh: true,
                     fullRefresh: _libraryMediaFullRefresh,

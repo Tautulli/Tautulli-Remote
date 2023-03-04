@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/types/bloc_status.dart';
@@ -31,15 +32,15 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     UsersFetched event,
     Emitter<UsersState> emit,
   ) async {
-    if (usersCache.containsKey(event.tautulliId)) {
+    if (usersCache.containsKey(event.server.tautulliId)) {
       return emit(
         state.copyWith(
           status: BlocStatus.success,
-          users: usersCache[event.tautulliId],
+          users: usersCache[event.server.tautulliId],
         ),
       );
     } else {
-      usersCache[event.tautulliId] = [];
+      usersCache[event.server.tautulliId] = [];
 
       emit(
         state.copyWith(
@@ -49,7 +50,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       );
 
       final failureOrUsers = await users.getUserNames(
-        tautulliId: event.tautulliId,
+        tautulliId: event.server.tautulliId,
       );
 
       failureOrUsers.fold(
@@ -59,7 +60,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
           return emit(
             state.copyWith(
               status: BlocStatus.failure,
-              users: usersCache[event.tautulliId],
+              users: usersCache[event.server.tautulliId],
               failure: failure,
               message: FailureHelper.mapFailureToMessage(failure),
               suggestion: FailureHelper.mapFailureToSuggestion(failure),
@@ -69,7 +70,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         (users) {
           event.settingsBloc.add(
             SettingsUpdatePrimaryActive(
-              tautulliId: event.tautulliId,
+              tautulliId: event.server.tautulliId,
               primaryActive: users.value2,
             ),
           );
@@ -86,12 +87,12 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
             ),
           );
 
-          usersCache[event.tautulliId] = users.value1;
+          usersCache[event.server.tautulliId] = users.value1;
 
           return emit(
             state.copyWith(
               status: BlocStatus.success,
-              users: usersCache[event.tautulliId],
+              users: usersCache[event.server.tautulliId],
             ),
           );
         },

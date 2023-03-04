@@ -187,7 +187,6 @@ class TautulliRemoteState extends State<TautulliRemote> {
         WizardPage.routeName: (_) => const WizardPage(),
       },
       initialRoute: widget.initialRoute,
-      //TODO: Handle no servers configured
       home: const ActivityPage(),
     );
   }
