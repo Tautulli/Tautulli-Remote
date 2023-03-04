@@ -1011,10 +1011,10 @@ packages:
     dependency: "direct main"
     description:
       name: quick_actions
-      sha256: "4c0a83915649901a07f45327467c3b567097269b2b248fb39ecdc1a564f3ccfb"
+      sha256: dd675e83197391bd0a67c92f97747ddbc610b374846816994057272388e92de7
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   quick_actions_android:
     dependency: transitive
     description:

@@ -50,7 +50,7 @@ dependencies:
   percent_indicator: ^4.2.2
   permission_handler: ^10.2.0
   purchases_flutter: ^4.8.0
-  quick_actions: ^1.0.1
+  quick_actions: ^1.0.2
   quiver: ^3.2.1
   reorderables: ^0.6.0
   shared_preferences: ^2.0.17

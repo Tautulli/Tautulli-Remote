@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 
+import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
@@ -26,8 +28,21 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
-class SettingsView extends StatelessWidget {
+class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
+
+  @override
+  State<SettingsView> createState() => _SettingsViewState();
+}
+
+class _SettingsViewState extends State<SettingsView> {
+  final QuickActions quickActions = const QuickActions();
+
+  @override
+  void initState() {
+    super.initState();
+    initalizeQuickActions(context, quickActions);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +55,7 @@ class SettingsView extends StatelessWidget {
           BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
               if (state is SettingsSuccess &&
-                  (!state.appSettings.oneSignalBannerDismissed ||
-                      state.appSettings.oneSignalConsented)) {
+                  (!state.appSettings.oneSignalBannerDismissed || state.appSettings.oneSignalConsented)) {
                 return const SettingsAlertBanner();
               }
 

@@ -2,8 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:quick_actions/quick_actions.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/page_body.dart';
@@ -42,6 +44,7 @@ class ActivityView extends StatefulWidget {
 }
 
 class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver {
+  final QuickActions quickActions = const QuickActions();
   late ActivityBloc _activityBloc;
   late SettingsBloc _settingsBloc;
   late List<ServerModel> _serverList;
@@ -51,6 +54,7 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
   @override
   void initState() {
     super.initState();
+    initalizeQuickActions(context, quickActions);
 
     _activityBloc = context.read<ActivityBloc>();
     _settingsBloc = context.read<SettingsBloc>();
