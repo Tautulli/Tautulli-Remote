@@ -1,5 +1,9 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
+
+import '../../translations/locale_keys.g.dart';
+
 class TranslationHelper {
   static List<Locale> supportedLocales() {
     return [
@@ -73,8 +77,7 @@ class TranslationHelper {
     } else if (locale.languageCode == 'zh') {
       return '简体中文';
     } else {
-      return 'Unknown';
-      // return LocaleKeys.general_unknown.tr(); //TODO
+      return LocaleKeys.unknown_title.tr();
     }
   }
 
@@ -124,7 +127,7 @@ class TranslationHelper {
     } else if (locale.languageCode == 'zh') {
       return 'Chinese (Simplified)';
     } else {
-      return 'Unknown';
+      return LocaleKeys.unknown_title.tr();
     }
   }
 }
