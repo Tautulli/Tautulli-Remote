@@ -79,9 +79,8 @@ class IconHelper {
             size: size,
           ),
         );
-      case (null):
       case (WatchedStatus.low):
-      default: //TODO: Remove when Dart stops thinking default is needed even when all enum types are accounted for
+      default:
         return const FaIcon(
           FontAwesomeIcons.circle,
           color: color,
