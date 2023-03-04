@@ -1,6 +1,24 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.23",
+      "date": "Mar 4, 2023",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Added additional quick actions for activity, history, and recently added",
+        },
+        {
+          "type": "improvement",
+          "detail": "Display correct messaging on feature pages when no servers are configured",
+        },
+        {
+          "type": "improvement",
+          "detail": "Synced all pending translations from Tautulli Remote v2",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.22",
       "date": "Mar 3, 2023",
       "changes": [
