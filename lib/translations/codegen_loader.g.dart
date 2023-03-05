@@ -737,7 +737,7 @@ static const Map<String,dynamic> en = {
   "donate_burger_title": "Buy Me A Burger",
   "donate_cone_title": "Buy Me A Cone",
   "donate_heading_card_title": "Tautulli Remote is free and open source.",
-  "donate_heading_card_content": "However, any contributions you can make towards the app are appriciated!",
+  "donate_heading_card_content": "However, any contributions you can make towards the app are appreciated!",
   "donate_load_failed_message": "Failed to load donation items.",
   "donate_meal_title": "Buy Me A Meal",
   "donate_onetime_title": "One-Time Donations",
