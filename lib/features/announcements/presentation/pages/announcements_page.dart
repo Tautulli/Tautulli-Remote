@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 
+import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
@@ -29,9 +31,13 @@ class AnnouncementsPage extends StatefulWidget {
 }
 
 class _AnnouncementsPageState extends State<AnnouncementsPage> {
+  final QuickActions quickActions = const QuickActions();
+
   @override
   void initState() {
     super.initState();
+    initalizeQuickActions(context, quickActions);
+
     Future.delayed(const Duration(seconds: 2)).then(
       (_) {
         final announcementsBloc = context.read<AnnouncementsBloc>();

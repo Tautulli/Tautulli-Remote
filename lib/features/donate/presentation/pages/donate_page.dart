@@ -6,8 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/widgets/custom_list_tile.dart';
 import '../../../../core/widgets/list_tile_group.dart';
@@ -54,12 +56,15 @@ class DonateView extends StatefulWidget {
 }
 
 class _DonateViewState extends State<DonateView> {
+  final QuickActions quickActions = const QuickActions();
+
   CustomerInfo? _customerInfo;
   Offerings? _offerings;
 
   @override
   void initState() {
     super.initState();
+    initalizeQuickActions(context, quickActions);
     _initialize();
   }
 
