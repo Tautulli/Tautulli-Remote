@@ -13,7 +13,6 @@ import '../widgets/groups/app_settings_group.dart';
 import '../widgets/groups/help_and_support_group.dart';
 import '../widgets/groups/more_group.dart';
 import '../widgets/groups/servers_group.dart';
-import '../widgets/groups/testing_group.dart';
 import '../widgets/register_server_button.dart';
 import '../widgets/settings_alert_banner.dart';
 
@@ -66,8 +65,6 @@ class _SettingsViewState extends State<SettingsView> {
             child: ListView(
               padding: const EdgeInsets.all(8.0),
               children: const [
-                TestingGroup(),
-                Gap(8),
                 ServersGroup(),
                 Gap(8),
                 RegisterServerButton(),
