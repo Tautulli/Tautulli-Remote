@@ -1,6 +1,25 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.24",
+      "date": "Mar 5, 2023",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Removed page with testing directions",
+        },
+        {
+          "type": "fix",
+          "detail": "Quick actions will now work if the app is on the Announcements or Donate page",
+        },
+        {
+          "type": "fix",
+          "detail": "History and Recently Added quick action icons should now display correctly",
+          "additional": "You may need to reboot your device if the icons are still not displaying",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.23",
       "date": "Mar 4, 2023",
       "changes": [
