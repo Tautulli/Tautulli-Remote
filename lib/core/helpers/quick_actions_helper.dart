@@ -13,8 +13,6 @@ void initalizeQuickActions(BuildContext context, QuickActions quickActions) {
 
 void setupQuickActions(QuickActions quickActions) {
   quickActions.setShortcutItems(<ShortcutItem>[
-    // NOTE: This second action icon will only work on Android.
-    // In a real world project keep the same file name for both platforms.
     ShortcutItem(
       type: '/activity',
       localizedTitle: LocaleKeys.activity_title.tr(),
