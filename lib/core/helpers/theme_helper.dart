@@ -111,6 +111,17 @@ class ThemeHelper {
         iconColor: TautulliColorPalette.notWhite,
         tileColor: TautulliColorPalette.gunmetal,
       ),
+      navigationDrawerTheme: NavigationDrawerThemeData(
+        elevation: 0,
+        indicatorColor: HSLColor.fromColor(
+          TautulliColorPalette.gunmetal,
+        ).withLightness(0.25).toColor(),
+        labelTextStyle: MaterialStateProperty.resolveWith(
+          (states) => const TextStyle(
+            color: TautulliColorPalette.notWhite,
+          ),
+        ),
+      ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: PlexColorPalette.gamboge,

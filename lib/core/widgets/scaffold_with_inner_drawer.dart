@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,8 +13,6 @@ import '../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../translations/locale_keys.g.dart';
 import '../database/data/models/server_model.dart';
 import 'double_back_to_exit.dart';
-import 'drawer_icon_button.dart';
-import 'drawer_tile.dart';
 import 'tautulli_logo_title.dart';
 
 class ScaffoldWithInnerDrawer extends StatelessWidget {
@@ -63,7 +62,20 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
       onTapClose: true,
       swipeChild: true,
       offset: IDOffset.horizontal(calculateDrawerOffset()),
-      leftChild: _AppDrawer(innerDrawerKey: innerDrawerKey),
+      leftChild: Stack(
+        children: [
+          // Since the NavigationDrawer BorderRadius cannot be overwritten use stack to create a solid background to
+          // to hide these corners
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary),
+            ),
+          ),
+          Positioned.fill(
+            child: _AppDrawer(innerDrawerKey: innerDrawerKey),
+          ),
+        ],
+      ),
       scaffold: Scaffold(
         appBar: AppBar(
           leading: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
@@ -100,7 +112,7 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
   }
 }
 
-class _AppDrawer extends StatelessWidget {
+class _AppDrawer extends StatefulWidget {
   final GlobalKey<InnerDrawerState> innerDrawerKey;
 
   const _AppDrawer({
@@ -108,161 +120,252 @@ class _AppDrawer extends StatelessWidget {
   });
 
   @override
+  State<_AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<_AppDrawer> {
+  int screenIndex = -1;
+
+  @override
+  void initState() {
+    super.initState();
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      final route = ModalRoute.of(context);
+      if (route?.settings.name == '/activity' || route?.settings.name == '/') {
+        setState(() {
+          screenIndex = 0;
+        });
+      } else if (route?.settings.name == '/history') {
+        setState(() {
+          screenIndex = 1;
+        });
+      } else if (route?.settings.name == '/recent') {
+        setState(() {
+          screenIndex = 2;
+        });
+      } else if (route?.settings.name == '/libraries') {
+        setState(() {
+          screenIndex = 3;
+        });
+      } else if (route?.settings.name == '/users') {
+        setState(() {
+          screenIndex = 4;
+        });
+      } else if (route?.settings.name == '/statistics') {
+        setState(() {
+          screenIndex = 5;
+        });
+      } else if (route?.settings.name == '/graphs') {
+        setState(() {
+          screenIndex = 6;
+        });
+      } else if (route?.settings.name == '/announcements') {
+        setState(() {
+          screenIndex = 7;
+        });
+      } else if (route?.settings.name == '/donate') {
+        setState(() {
+          screenIndex = 8;
+        });
+      } else if (route?.settings.name == '/settings') {
+        setState(() {
+          screenIndex = 9;
+        });
+      }
+    });
+  }
+
+  void handleScreenChanged(int selectedScreen) {
+    if (selectedScreen != screenIndex) {
+      if (selectedScreen == 0) {
+        Navigator.of(context).pushReplacementNamed(
+          '/activity',
+        );
+      } else if (selectedScreen == 1) {
+        Navigator.of(context).pushReplacementNamed(
+          '/history',
+        );
+      } else if (selectedScreen == 2) {
+        Navigator.of(context).pushReplacementNamed(
+          '/recent',
+        );
+      } else if (selectedScreen == 3) {
+        Navigator.of(context).pushReplacementNamed(
+          '/libraries',
+        );
+      } else if (selectedScreen == 4) {
+        Navigator.of(context).pushReplacementNamed(
+          '/users',
+        );
+      } else if (selectedScreen == 5) {
+        Navigator.of(context).pushReplacementNamed(
+          '/statistics',
+        );
+      } else if (selectedScreen == 6) {
+        Navigator.of(context).pushReplacementNamed(
+          '/graphs',
+        );
+      } else if (selectedScreen == 7) {
+        Navigator.of(context).pushReplacementNamed(
+          '/announcements',
+        );
+      } else if (selectedScreen == 8) {
+        Navigator.of(context).pushReplacementNamed(
+          '/donate',
+        );
+      } else if (selectedScreen == 9) {
+        Navigator.of(context).pushReplacementNamed(
+          '/settings',
+        );
+      }
+    } else {
+      widget.innerDrawerKey.currentState!.close();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final route = ModalRoute.of(context);
     final double height = MediaQuery.of(context).size.height;
 
-    return Drawer(
-      child: SafeArea(
-        top: false,
-        child: Column(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return MediaQuery.removePadding(
+      context: context,
+      removeTop: true,
+      child: NavigationDrawer(
+        onDestinationSelected: handleScreenChanged,
+        selectedIndex: screenIndex,
+        children: [
+          Container(
+            height: MediaQuery.of(context).viewPadding.top,
+            color: Theme.of(context).scaffoldBackgroundColor,
+          ),
+          if (height > 500) const _Logo(),
+          const _ServerSelector(),
+          const Gap(4),
+          NavigationDrawerDestination(
+            icon: const SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.tv,
+                size: 20,
+              ),
+            ),
+            label: const Text(LocaleKeys.activity_title).tr(),
+          ),
+          NavigationDrawerDestination(
+            icon: const SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.clockRotateLeft,
+              ),
+            ),
+            label: const Text(LocaleKeys.history_title).tr(),
+          ),
+          NavigationDrawerDestination(
+            icon: const SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.clock,
+              ),
+            ),
+            label: const Text(LocaleKeys.recently_added_title).tr(),
+          ),
+          NavigationDrawerDestination(
+            icon: const SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.photoFilm,
+                size: 20,
+              ),
+            ),
+            label: const Text(LocaleKeys.libraries_title).tr(),
+          ),
+          NavigationDrawerDestination(
+            icon: const SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.users,
+                size: 20,
+              ),
+            ),
+            label: const Text(LocaleKeys.users_title).tr(),
+          ),
+          NavigationDrawerDestination(
+            icon: const SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.listOl,
+              ),
+            ),
+            label: const Text(LocaleKeys.statistics_title).tr(),
+          ),
+          NavigationDrawerDestination(
+            icon: const SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.chartColumn,
+              ),
+            ),
+            label: const Text(LocaleKeys.graphs_title).tr(),
+          ),
+          Divider(
+            indent: 8,
+            endIndent: 8,
+            color: Theme.of(context).textTheme.titleSmall!.color,
+          ),
+          NavigationDrawerDestination(
+            icon: const SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.bullhorn,
+              ),
+            ),
+            label: Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (height > 500) const _Logo(),
-                  if (height <= 500)
-                    SizedBox(
-                      height: MediaQuery.of(context).padding.top,
-                    ),
-                  const _ServerSelector(),
-                  const Gap(4),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          DrawerTile(
-                            selected: route?.settings.name == '/activity' || route?.settings.name == '/',
-                            leading: const FaIcon(
-                              FontAwesomeIcons.tv,
-                            ),
-                            title: const Text(LocaleKeys.activity_title).tr(),
-                            onTap: () {
-                              if (route?.settings.name != '/activity') {
-                                Navigator.of(context).pushReplacementNamed(
-                                  '/activity',
-                                );
-                              } else {
-                                innerDrawerKey.currentState!.close();
-                              }
-                            },
+                  const Text(LocaleKeys.announcements_title).tr(),
+                  BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
+                    builder: (context, state) {
+                      if (state is AnnouncementsSuccess && state.unread) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: FaIcon(
+                            FontAwesomeIcons.solidCircle,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
-                          DrawerTile(
-                            selected: route?.settings.name == '/history',
-                            leading: const FaIcon(
-                              FontAwesomeIcons.clockRotateLeft,
-                            ),
-                            title: const Text(LocaleKeys.history_title).tr(),
-                            onTap: () {
-                              if (route?.settings.name != '/history') {
-                                Navigator.of(context).pushReplacementNamed(
-                                  '/history',
-                                );
-                              } else {
-                                innerDrawerKey.currentState!.close();
-                              }
-                            },
-                          ),
-                          DrawerTile(
-                            selected: route?.settings.name == '/recent',
-                            leading: const FaIcon(
-                              FontAwesomeIcons.clock,
-                            ),
-                            title: const Text(LocaleKeys.recently_added_title).tr(),
-                            onTap: () {
-                              if (route?.settings.name != '/recent') {
-                                Navigator.of(context).pushReplacementNamed(
-                                  '/recent',
-                                );
-                              } else {
-                                innerDrawerKey.currentState!.close();
-                              }
-                            },
-                          ),
-                          DrawerTile(
-                            selected: route?.settings.name == '/libraries',
-                            leading: const FaIcon(
-                              FontAwesomeIcons.photoFilm,
-                            ),
-                            title: const Text(LocaleKeys.libraries_title).tr(),
-                            onTap: () {
-                              if (route?.settings.name != '/libraries') {
-                                Navigator.of(context).pushReplacementNamed(
-                                  '/libraries',
-                                );
-                              } else {
-                                innerDrawerKey.currentState!.close();
-                              }
-                            },
-                          ),
-                          DrawerTile(
-                            selected: route?.settings.name == '/users',
-                            leading: const FaIcon(
-                              FontAwesomeIcons.users,
-                            ),
-                            title: const Text(LocaleKeys.users_title).tr(),
-                            onTap: () {
-                              if (route?.settings.name != '/users') {
-                                Navigator.of(context).pushReplacementNamed(
-                                  '/users',
-                                );
-                              } else {
-                                innerDrawerKey.currentState!.close();
-                              }
-                            },
-                          ),
-                          DrawerTile(
-                            selected: route?.settings.name == '/statistics',
-                            leading: const FaIcon(
-                              FontAwesomeIcons.listOl,
-                            ),
-                            title: const Text(LocaleKeys.statistics_title).tr(),
-                            onTap: () {
-                              if (route?.settings.name != '/statistics') {
-                                Navigator.of(context).pushReplacementNamed(
-                                  '/statistics',
-                                );
-                              } else {
-                                innerDrawerKey.currentState!.close();
-                              }
-                            },
-                          ),
-                          DrawerTile(
-                            selected: route?.settings.name == '/graphs',
-                            leading: const FaIcon(
-                              FontAwesomeIcons.chartColumn,
-                            ),
-                            title: const Text(LocaleKeys.graphs_title).tr(),
-                            onTap: () {
-                              if (route?.settings.name != '/graphs') {
-                                Navigator.of(context).pushReplacementNamed(
-                                  '/graphs',
-                                );
-                              } else {
-                                innerDrawerKey.currentState!.close();
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                        );
+                      }
+                      return const SizedBox();
+                    },
                   ),
-                  _SettingsGroup(
-                    innerDrawerKey: innerDrawerKey,
-                    route: route,
-                    useListTiles: height > 500,
-                  ),
-                  const Gap(4),
                 ],
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.001,
+          ),
+          NavigationDrawerDestination(
+            icon: const SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.solidHeart,
+                color: Colors.red,
+              ),
             ),
-          ],
-        ),
+            label: const Text(LocaleKeys.donate_title).tr(),
+          ),
+          NavigationDrawerDestination(
+            icon: const SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.gears,
+                size: 21,
+              ),
+            ),
+            label: const Text(LocaleKeys.settings_title).tr(),
+          ),
+          const Gap(4),
+        ],
       ),
     );
   }
@@ -381,170 +484,6 @@ class __ServerSelectorState extends State<_ServerSelector> {
 
         return const SizedBox(height: 0, width: 0);
       },
-    );
-  }
-}
-
-class _SettingsGroup extends StatelessWidget {
-  final GlobalKey<InnerDrawerState> innerDrawerKey;
-  final ModalRoute<Object?>? route;
-  final bool useListTiles;
-
-  const _SettingsGroup({
-    required this.innerDrawerKey,
-    required this.route,
-    this.useListTiles = true,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    if (useListTiles) {
-      return Column(
-        children: [
-          Divider(
-            indent: 8,
-            endIndent: 8,
-            color: Theme.of(context).textTheme.titleSmall!.color,
-          ),
-          DrawerTile(
-            selected: route?.settings.name == '/announcements',
-            leading: const FaIcon(
-              FontAwesomeIcons.bullhorn,
-            ),
-            title: const Text(LocaleKeys.announcements_title).tr(),
-            trailing: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
-              builder: (context, state) {
-                if (state is AnnouncementsSuccess && state.unread) {
-                  return FaIcon(
-                    FontAwesomeIcons.solidCircle,
-                    size: 12,
-                    color: Theme.of(context).colorScheme.secondary,
-                  );
-                }
-
-                return const SizedBox(height: 0, width: 0);
-              },
-            ),
-            onTap: () {
-              if (route?.settings.name != '/announcements') {
-                Navigator.of(context).pushReplacementNamed(
-                  '/announcements',
-                );
-              } else {
-                innerDrawerKey.currentState!.close();
-              }
-            },
-          ),
-          DrawerTile(
-            selected: route?.settings.name == '/donate',
-            leading: const FaIcon(
-              FontAwesomeIcons.solidHeart,
-              color: Colors.red,
-            ),
-            title: const Text(LocaleKeys.donate_title).tr(),
-            onTap: () {
-              if (route?.settings.name != '/donate') {
-                Navigator.of(context).pushReplacementNamed(
-                  '/donate',
-                );
-              } else {
-                innerDrawerKey.currentState!.close();
-              }
-            },
-          ),
-          DrawerTile(
-            selected: route?.settings.name == '/settings',
-            leading: const FaIcon(
-              FontAwesomeIcons.gears,
-            ),
-            title: const Text(LocaleKeys.settings_title).tr(),
-            onTap: () {
-              if (route?.settings.name != '/settings') {
-                Navigator.of(context).pushReplacementNamed(
-                  '/settings',
-                );
-              } else {
-                innerDrawerKey.currentState!.close();
-              }
-            },
-          ),
-        ],
-      );
-    }
-
-    return IntrinsicHeight(
-      child: Column(
-        children: [
-          Divider(
-            height: 0,
-            indent: 8,
-            endIndent: 8,
-            color: Theme.of(context).textTheme.titleSmall!.color,
-          ),
-          const Gap(4),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
-                  builder: (context, state) {
-                    return badges.Badge(
-                      badgeAnimation: const badges.BadgeAnimation.fade(
-                        animationDuration: Duration.zero,
-                      ),
-                      badgeStyle: badges.BadgeStyle(
-                        badgeColor: Theme.of(context).colorScheme.secondary,
-                      ),
-                      position: badges.BadgePosition.topEnd(top: 9, end: 7),
-                      showBadge: state is AnnouncementsSuccess && state.unread,
-                      child: DrawerIconButton(
-                        selected: route?.settings.name == '/announcements',
-                        icon: const FaIcon(
-                          FontAwesomeIcons.bullhorn,
-                        ),
-                        onPressed: () {
-                          if (route?.settings.name != '/announcements') {
-                            Navigator.of(context).pushReplacementNamed('/announcements');
-                          } else {
-                            innerDrawerKey.currentState!.close();
-                          }
-                        },
-                      ),
-                    );
-                  },
-                ),
-                DrawerIconButton(
-                  selected: route?.settings.name == '/donate',
-                  icon: const FaIcon(
-                    FontAwesomeIcons.solidHeart,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    if (route?.settings.name != '/donate') {
-                      Navigator.of(context).pushReplacementNamed('/donate');
-                    } else {
-                      innerDrawerKey.currentState!.close();
-                    }
-                  },
-                ),
-                DrawerIconButton(
-                  selected: route?.settings.name == '/settings',
-                  icon: const FaIcon(
-                    FontAwesomeIcons.gears,
-                  ),
-                  onPressed: () {
-                    if (route?.settings.name != '/settings') {
-                      Navigator.of(context).pushReplacementNamed('/settings');
-                    } else {
-                      innerDrawerKey.currentState!.close();
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
