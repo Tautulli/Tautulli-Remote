@@ -13,7 +13,7 @@ class GraphTipsDialog extends StatelessWidget {
       content: const Text(LocaleKeys.graphs_tips_dialog_content).tr(),
       actions: [
         TextButton(
-          child: const Text(LocaleKeys.close_button).tr(),
+          child: const Text(LocaleKeys.close_title).tr(),
           onPressed: () {
             Navigator.of(context).pop();
           },

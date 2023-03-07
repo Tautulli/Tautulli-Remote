@@ -95,7 +95,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                   backgroundColor: Colors.green,
                   content: const Text(LocaleKeys.termination_request_sent_message).tr(),
                   action: SnackBarAction(
-                    label: LocaleKeys.learn_more_button.tr(),
+                    label: LocaleKeys.learn_more_title.tr(),
                     onPressed: () async {
                       await launchUrlString(
                         mode: LaunchMode.externalApplication,

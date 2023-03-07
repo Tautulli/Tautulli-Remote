@@ -73,7 +73,7 @@ class _LibraryDetailsMediaTabState extends State<LibraryDetailsMediaTab> {
                     LocaleKeys.library_media_full_refresh_snackbar_message,
                   ).tr(),
                   action: SnackBarAction(
-                    label: LocaleKeys.learn_more_button.tr(),
+                    label: LocaleKeys.learn_more_title.tr(),
                     onPressed: () async {
                       await launchUrlString(
                         mode: LaunchMode.externalApplication,

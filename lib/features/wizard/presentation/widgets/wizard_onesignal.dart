@@ -67,7 +67,7 @@ class WizardOneSignal extends StatelessWidget {
                           backgroundColor: Theme.of(context).cardTheme.color,
                         ),
                         child: const Text(
-                          LocaleKeys.view_onesignal_privacy_button,
+                          LocaleKeys.view_onesignal_privacy_title,
                         ).tr(),
                         onPressed: () {
                           Navigator.of(context).push(

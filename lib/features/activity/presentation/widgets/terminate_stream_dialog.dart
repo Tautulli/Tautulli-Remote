@@ -59,7 +59,7 @@ Future<bool> showTerminateSessionDialog({
             onPressed: () {
               Navigator.of(context).pop(false);
             },
-            child: const Text(LocaleKeys.cancel_button).tr(),
+            child: const Text(LocaleKeys.cancel_title).tr(),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -68,7 +68,7 @@ Future<bool> showTerminateSessionDialog({
             onPressed: () {
               Navigator.of(context).pop(true);
             },
-            child: const Text(LocaleKeys.terminate_button).tr(),
+            child: const Text(LocaleKeys.terminate_title).tr(),
           ),
         ],
       );

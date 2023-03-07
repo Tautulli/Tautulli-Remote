@@ -34,9 +34,8 @@ class SettingsAlertBanner extends StatelessWidget {
               ),
             ),
             buttonTwo: TextButton(
-              child: const Text(LocaleKeys.view_privacy_page_button).tr(),
-              onPressed: () =>
-                  Navigator.of(context).pushNamed('/onesignal_privacy'),
+              child: const Text(LocaleKeys.view_privacy_page_title).tr(),
+              onPressed: () => Navigator.of(context).pushNamed('/onesignal_privacy'),
             ),
           );
         }
@@ -52,7 +51,7 @@ class SettingsAlertBanner extends StatelessWidget {
                   LocaleKeys.onesignal_unreachable_content,
                 ).tr(),
                 buttonOne: TextButton(
-                  child: const Text(LocaleKeys.check_again_button).tr(),
+                  child: const Text(LocaleKeys.check_again_title).tr(),
                   onPressed: () => context.read<OneSignalHealthBloc>().add(
                         OneSignalHealthCheck(),
                       ),
@@ -70,7 +69,7 @@ class SettingsAlertBanner extends StatelessWidget {
                     title: subState.title,
                     message: Text(subState.message),
                     buttonOne: TextButton(
-                      child: const Text(LocaleKeys.learn_more_button).tr(),
+                      child: const Text(LocaleKeys.learn_more_title).tr(),
                       onPressed: () async {
                         await launchUrlString(
                           mode: LaunchMode.externalApplication,

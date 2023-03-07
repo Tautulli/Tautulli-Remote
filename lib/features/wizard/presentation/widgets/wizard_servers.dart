@@ -67,7 +67,7 @@ class WizardServers extends StatelessWidget {
                     children: [
                       const FaIcon(FontAwesomeIcons.language),
                       const Gap(8),
-                      const Text(LocaleKeys.change_language_button).tr(),
+                      const Text(LocaleKeys.change_language_title).tr(),
                     ],
                   ),
                   onPressed: () async {

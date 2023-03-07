@@ -21,7 +21,7 @@ class ClearLoggingDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text(LocaleKeys.cancel_button).tr(),
+          child: const Text(LocaleKeys.cancel_title).tr(),
         ),
         TextButton(
           onPressed: () {
@@ -31,7 +31,7 @@ class ClearLoggingDialog extends StatelessWidget {
           style: TextButton.styleFrom(
             backgroundColor: Colors.red,
           ),
-          child: const Text(LocaleKeys.clear_button).tr(),
+          child: const Text(LocaleKeys.clear_title).tr(),
         ),
       ],
     );

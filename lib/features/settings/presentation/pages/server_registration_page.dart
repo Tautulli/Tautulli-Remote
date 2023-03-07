@@ -45,15 +45,14 @@ class ServerRegistrationView extends StatelessWidget {
       appBar: AppBar(
         title: const Text(LocaleKeys.server_registration_title).tr(),
       ),
-      floatingActionButton:
-          BlocBuilder<RegistrationHeadersBloc, RegistrationHeadersState>(
+      floatingActionButton: BlocBuilder<RegistrationHeadersBloc, RegistrationHeadersState>(
         builder: (context, state) {
           return FloatingActionButton.extended(
             icon: const FaIcon(
               FontAwesomeIcons.pen,
               size: 20,
             ),
-            label: const Text(LocaleKeys.register_server_button).tr(),
+            label: const Text(LocaleKeys.register_server_title).tr(),
             onPressed: () {
               if (formKey.currentState!.validate()) {
                 context.read<RegisterDeviceBloc>().add(

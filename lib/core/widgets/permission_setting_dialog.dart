@@ -24,7 +24,7 @@ class PermissionSettingDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text(LocaleKeys.cancel_button).tr(),
+          child: const Text(LocaleKeys.cancel_title).tr(),
         ),
         TextButton(
           onPressed: () async {
@@ -36,7 +36,7 @@ class PermissionSettingDialog extends StatelessWidget {
               },
             );
           },
-          child: const Text(LocaleKeys.go_to_settings_button).tr(),
+          child: const Text(LocaleKeys.go_to_settings_title).tr(),
         ),
       ],
     );

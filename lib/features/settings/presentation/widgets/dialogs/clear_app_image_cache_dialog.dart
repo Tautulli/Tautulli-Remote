@@ -18,14 +18,14 @@ class ClearAppImageCacheDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop(false);
           },
-          child: const Text(LocaleKeys.cancel_button).tr(),
+          child: const Text(LocaleKeys.cancel_title).tr(),
         ),
         TextButton(
           onPressed: () {
             context.read<SettingsBloc>().add(SettingsClearCache());
             Navigator.of(context).pop(true);
           },
-          child: const Text(LocaleKeys.clear_button).tr(),
+          child: const Text(LocaleKeys.clear_title).tr(),
         ),
       ],
     );

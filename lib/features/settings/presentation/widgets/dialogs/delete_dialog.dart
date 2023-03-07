@@ -17,7 +17,7 @@ class DeleteDialog extends StatelessWidget {
       title: title,
       actions: [
         TextButton(
-          child: const Text(LocaleKeys.cancel_button).tr(),
+          child: const Text(LocaleKeys.cancel_title).tr(),
           onPressed: () {
             Navigator.of(context).pop(false);
           },
@@ -29,7 +29,7 @@ class DeleteDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop(true);
           },
-          child: const Text(LocaleKeys.delete_button).tr(),
+          child: const Text(LocaleKeys.delete_title).tr(),
         ),
       ],
     );

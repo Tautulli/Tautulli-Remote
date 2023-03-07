@@ -22,7 +22,7 @@ class ActiveConnectionIndicator extends StatelessWidget {
           content: const Text(LocaleKeys.active_connection_content).tr(),
           actions: [
             TextButton(
-              child: const Text(LocaleKeys.close_button).tr(),
+              child: const Text(LocaleKeys.close_title).tr(),
               onPressed: () {
                 Navigator.of(context).pop();
               },

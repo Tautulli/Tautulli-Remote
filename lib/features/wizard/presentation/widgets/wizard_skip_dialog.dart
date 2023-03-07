@@ -20,13 +20,13 @@ class WizardSkipDialog extends StatelessWidget {
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text(LocaleKeys.cancel_button).tr(),
+          child: const Text(LocaleKeys.cancel_title).tr(),
           onPressed: () {
             Navigator.of(context).pop(false);
           },
         ),
         TextButton(
-          child: const Text(LocaleKeys.skip_button).tr(),
+          child: const Text(LocaleKeys.skip_title).tr(),
           onPressed: () {
             Navigator.of(context).pop(true);
           },

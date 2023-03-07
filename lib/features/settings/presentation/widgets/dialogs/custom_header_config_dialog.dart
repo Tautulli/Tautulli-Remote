@@ -33,8 +33,7 @@ class CustomHeaderConfigDialog extends StatefulWidget {
   });
 
   @override
-  State<CustomHeaderConfigDialog> createState() =>
-      _CustomHeaderConfigDialogState();
+  State<CustomHeaderConfigDialog> createState() => _CustomHeaderConfigDialogState();
 }
 
 class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
@@ -122,11 +121,7 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
                       ? Theme.of(context).colorScheme.error
                       : _keyFocus.hasFocus
                           ? Theme.of(context).colorScheme.secondary
-                          : Theme.of(context)
-                              .inputDecorationTheme
-                              .enabledBorder!
-                              .borderSide
-                              .color,
+                          : Theme.of(context).inputDecorationTheme.enabledBorder!.borderSide.color,
                 ),
               ),
               onTap: () {
@@ -166,11 +161,7 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
                       ? Theme.of(context).colorScheme.error
                       : _valueFocus.hasFocus
                           ? Theme.of(context).colorScheme.secondary
-                          : Theme.of(context)
-                              .inputDecorationTheme
-                              .enabledBorder!
-                              .borderSide
-                              .color,
+                          : Theme.of(context).inputDecorationTheme.enabledBorder!.borderSide.color,
                 ),
               ),
               onTap: () {
@@ -196,13 +187,13 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
       ),
       actions: [
         TextButton(
-          child: const Text(LocaleKeys.cancel_button).tr(),
+          child: const Text(LocaleKeys.cancel_title).tr(),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         TextButton(
-          child: const Text(LocaleKeys.save_button).tr(),
+          child: const Text(LocaleKeys.save_title).tr(),
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               if (widget.forRegistration) {
@@ -210,8 +201,7 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
                       RegistrationHeadersUpdate(
                         title: _keyController.value.text.trim(),
                         subtitle: _valueController.value.text.trim(),
-                        basicAuth:
-                            widget.headerType == CustomHeaderType.basicAuth,
+                        basicAuth: widget.headerType == CustomHeaderType.basicAuth,
                         previousTitle: widget.existingKey,
                       ),
                     );
@@ -222,8 +212,7 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
                           tautulliId: widget.tautulliId!,
                           title: _keyController.value.text.trim(),
                           subtitle: _valueController.value.text.trim(),
-                          basicAuth:
-                              widget.headerType == CustomHeaderType.basicAuth,
+                          basicAuth: widget.headerType == CustomHeaderType.basicAuth,
                           previousTitle: widget.existingKey,
                         ),
                       );

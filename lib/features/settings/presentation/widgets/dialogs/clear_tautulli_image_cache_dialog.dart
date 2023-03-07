@@ -40,7 +40,7 @@ class ClearTautulliImageCacheDialog extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
-              child: const Text(LocaleKeys.cancel_button).tr(),
+              child: const Text(LocaleKeys.cancel_title).tr(),
             ),
             TextButton(
               style: TextButton.styleFrom(
@@ -55,7 +55,7 @@ class ClearTautulliImageCacheDialog extends StatelessWidget {
                     );
                 Navigator.of(context).pop(true);
               },
-              child: const Text(LocaleKeys.clear_button).tr(),
+              child: const Text(LocaleKeys.clear_title).tr(),
             ),
           ],
         );

@@ -32,9 +32,7 @@ class ServerConnectionAddressDialog extends StatelessWidget {
 
     return AlertDialog(
       title: Text(
-        primary
-            ? LocaleKeys.primary_connection_title
-            : LocaleKeys.secondary_connection_title,
+        primary ? LocaleKeys.primary_connection_title : LocaleKeys.secondary_connection_title,
       ).tr(),
       content: Form(
         key: formKey,
@@ -53,17 +51,10 @@ class ServerConnectionAddressDialog extends StatelessWidget {
               protocols: ['http', 'https'],
               requireProtocol: true,
             );
-            if ((primary && validUrl == false) ||
-                (!primary &&
-                    isNotBlank(controller.text) &&
-                    validUrl == false)) {
+            if ((primary && validUrl == false) || (!primary && isNotBlank(controller.text) && validUrl == false)) {
               return primary
-                  ? LocaleKeys
-                      .server_connection_address_dialog_primary_validation
-                      .tr()
-                  : LocaleKeys
-                      .server_connection_address_dialog_secondary_validation
-                      .tr();
+                  ? LocaleKeys.server_connection_address_dialog_primary_validation.tr()
+                  : LocaleKeys.server_connection_address_dialog_secondary_validation.tr();
             }
             return null;
           },
@@ -71,16 +62,15 @@ class ServerConnectionAddressDialog extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          child: const Text(LocaleKeys.close_button).tr(),
+          child: const Text(LocaleKeys.close_title).tr(),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         TextButton(
-          child: const Text(LocaleKeys.save_button).tr(),
+          child: const Text(LocaleKeys.save_title).tr(),
           onPressed: () {
-            if (formKey.currentState != null &&
-                formKey.currentState!.validate()) {
+            if (formKey.currentState != null && formKey.currentState!.validate()) {
               if (isEmpty(controller.text) && server.primaryActive != true) {
                 context.read<SettingsBloc>().add(
                       SettingsUpdatePrimaryActive(

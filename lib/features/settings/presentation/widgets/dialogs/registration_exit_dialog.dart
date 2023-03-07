@@ -15,7 +15,7 @@ class RegistrationExitDialog extends StatelessWidget {
       content: const Text(LocaleKeys.server_registration_exit_dialog_content).tr(),
       actions: [
         TextButton(
-          child: const Text(LocaleKeys.cancel_button).tr(),
+          child: const Text(LocaleKeys.cancel_title).tr(),
           onPressed: () {
             Navigator.of(context).pop(false);
           },
@@ -30,7 +30,7 @@ class RegistrationExitDialog extends StatelessWidget {
                 );
             Navigator.of(context).pop(true);
           },
-          child: const Text(LocaleKeys.discard_button).tr(),
+          child: const Text(LocaleKeys.discard_title).tr(),
         ),
       ],
     );

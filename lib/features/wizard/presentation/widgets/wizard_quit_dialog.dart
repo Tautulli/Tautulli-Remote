@@ -14,7 +14,7 @@ class WizardQuitDialog extends StatelessWidget {
       title: const Text(LocaleKeys.wizard_quit_dialog_title).tr(),
       actions: [
         TextButton(
-          child: const Text(LocaleKeys.cancel_button).tr(),
+          child: const Text(LocaleKeys.cancel_title).tr(),
           onPressed: () {
             Navigator.of(context).pop(false);
           },
@@ -28,7 +28,7 @@ class WizardQuitDialog extends StatelessWidget {
 
             Navigator.of(context).pop(true);
           },
-          child: const Text(LocaleKeys.quit_button).tr(),
+          child: const Text(LocaleKeys.quit_title).tr(),
         ),
       ],
     );

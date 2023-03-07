@@ -20,7 +20,7 @@ class RegistrationFailureDialog extends StatelessWidget {
       content: Text(FailureHelper.mapFailureToSuggestion(failure)),
       actions: [
         TextButton(
-          child: const Text(LocaleKeys.close_button).tr(),
+          child: const Text(LocaleKeys.close_title).tr(),
           onPressed: () {
             Navigator.of(context).pop();
           },

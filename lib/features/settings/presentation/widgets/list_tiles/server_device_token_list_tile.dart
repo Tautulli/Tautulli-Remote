@@ -34,7 +34,7 @@ class ServerDeviceTokenListTile extends StatelessWidget {
               LocaleKeys.device_token_edit_snackbar_message,
             ).tr(),
             action: SnackBarAction(
-              label: LocaleKeys.learn_more_button.tr(),
+              label: LocaleKeys.learn_more_title.tr(),
               onPressed: () async {
                 await launchUrlString(
                   mode: LaunchMode.externalApplication,

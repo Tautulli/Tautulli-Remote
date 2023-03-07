@@ -13,11 +13,10 @@ class CertificateFailureDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text(LocaleKeys.certificate_verification_failed_title).tr(),
-      content:
-          const Text(LocaleKeys.certificate_verification_failed_content).tr(),
+      content: const Text(LocaleKeys.certificate_verification_failed_content).tr(),
       actions: [
         TextButton(
-          child: const Text(LocaleKeys.no_button).tr(),
+          child: const Text(LocaleKeys.no_title).tr(),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -32,7 +31,7 @@ class CertificateFailureDialog extends StatelessWidget {
                   RegisterDeviceUnverifiedCert(context.read<SettingsBloc>()),
                 );
           },
-          child: const Text(LocaleKeys.trust_button).tr(),
+          child: const Text(LocaleKeys.trust_title).tr(),
         ),
       ],
     );

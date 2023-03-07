@@ -30,7 +30,7 @@ class SettingsNotLoaded extends StatelessWidget {
                   'https://tautulli.com/#support',
                 );
               },
-              child: const Text(LocaleKeys.contact_support_button).tr(),
+              child: const Text(LocaleKeys.contact_support_title).tr(),
             ),
           );
         }
@@ -43,7 +43,7 @@ class SettingsNotLoaded extends StatelessWidget {
                 'https://tautulli.com/#support',
               );
             },
-            child: const Text(LocaleKeys.contact_support_button).tr(),
+            child: const Text(LocaleKeys.contact_support_title).tr(),
           ),
         );
       },

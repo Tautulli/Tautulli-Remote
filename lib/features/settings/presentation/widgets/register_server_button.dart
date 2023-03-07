@@ -10,7 +10,7 @@ class RegisterServerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      child: const Text(LocaleKeys.register_a_tautulli_server_button).tr(),
+      child: const Text(LocaleKeys.register_a_tautulli_server_title).tr(),
       onPressed: () async {
         await Navigator.of(context).push(
           MaterialPageRoute(

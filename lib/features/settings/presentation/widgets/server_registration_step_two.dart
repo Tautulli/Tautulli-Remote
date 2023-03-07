@@ -45,7 +45,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              child: const Text(LocaleKeys.scan_qr_code_button).tr(),
+              child: const Text(LocaleKeys.scan_qr_code_title).tr(),
               onPressed: () async {
                 try {
                   final qrCodeScan = await di.sl<QrCodeScanner>().scan();
@@ -171,7 +171,7 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                             ),
                             actions: [
                               TextButton(
-                                child: const Text(LocaleKeys.close_button).tr(),
+                                child: const Text(LocaleKeys.close_title).tr(),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },

@@ -76,7 +76,7 @@ class CustomTimeRangeDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text(LocaleKeys.close_button).tr(),
+          child: const Text(LocaleKeys.close_title).tr(),
         ),
         TextButton(
           onPressed: () {
@@ -84,7 +84,7 @@ class CustomTimeRangeDialog extends StatelessWidget {
               Navigator.of(context).pop(int.parse(textController.value.text));
             }
           },
-          child: const Text(LocaleKeys.save_button).tr(),
+          child: const Text(LocaleKeys.save_title).tr(),
         ),
       ],
     );

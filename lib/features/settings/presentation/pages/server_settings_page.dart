@@ -78,8 +78,7 @@ class ServerSettingsView extends StatelessWidget {
               ),
             ],
           ),
-          body: BlocListener<ClearTautulliImageCacheBloc,
-              ClearTautulliImageCacheState>(
+          body: BlocListener<ClearTautulliImageCacheBloc, ClearTautulliImageCacheState>(
             listener: (context, state) {
               if (state.server != null) {
                 if (state.status == BlocStatus.success) {
@@ -87,8 +86,7 @@ class ServerSettingsView extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: const Text(
-                        LocaleKeys
-                            .clear_tautulli_image_cache_success_snackbar_message,
+                        LocaleKeys.clear_tautulli_image_cache_success_snackbar_message,
                       ).tr(args: [state.server!.plexName]),
                     ),
                   );
@@ -102,8 +100,7 @@ class ServerSettingsView extends StatelessWidget {
                     SnackBar(
                       backgroundColor: Theme.of(context).colorScheme.error,
                       content: const Text(
-                        LocaleKeys
-                            .clear_tautulli_image_cache_failure_snackbar_message,
+                        LocaleKeys.clear_tautulli_image_cache_failure_snackbar_message,
                       ).tr(args: [state.server!.plexName]),
                     ),
                   );
@@ -141,7 +138,7 @@ class ServerSettingsView extends StatelessWidget {
                   if (server.customHeaders.isNotEmpty) const Gap(8),
                   ElevatedButton(
                     child: const Text(
-                      LocaleKeys.add_custom_http_header_button,
+                      LocaleKeys.add_custom_http_header_title,
                     ).tr(),
                     onPressed: () async => await showDialog(
                       context: context,
@@ -162,8 +159,7 @@ class ServerSettingsView extends StatelessWidget {
                         title: LocaleKeys.clear_tautulli_image_cache_title.tr(
                           args: [server.plexName],
                         ),
-                        subtitle:
-                            LocaleKeys.clear_tautulli_image_cache_subtitle.tr(
+                        subtitle: LocaleKeys.clear_tautulli_image_cache_subtitle.tr(
                           args: [server.plexName],
                         ),
                         onTap: () async {
@@ -171,8 +167,7 @@ class ServerSettingsView extends StatelessWidget {
                             context: context,
                             builder: (_) {
                               return BlocProvider.value(
-                                value:
-                                    context.read<ClearTautulliImageCacheBloc>(),
+                                value: context.read<ClearTautulliImageCacheBloc>(),
                                 child: ClearTautulliImageCacheDialog(
                                   server: server,
                                 ),

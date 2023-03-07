@@ -265,7 +265,7 @@ class _DonateViewState extends State<DonateView> {
                             children: [
                               TextButton(
                                 child: Text(
-                                  LocaleKeys.donate_restore_button,
+                                  LocaleKeys.donate_restore_title,
                                   style: Theme.of(context).textTheme.titleSmall,
                                 ).tr(),
                                 onPressed: () async {
@@ -496,7 +496,7 @@ class _DonateViewState extends State<DonateView> {
     //                             children: [
     //                               TextButton(
     //                                 child: Text(
-    //                                   LocaleKeys.donate_restore_button,
+    //                                   LocaleKeys.donate_restore_title,
     //                                   style:
     //                                       Theme.of(context).textTheme.subtitle2,
     //                                 ).tr(),

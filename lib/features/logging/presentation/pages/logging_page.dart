@@ -78,7 +78,7 @@ class _LoggingViewState extends State<LoggingView> {
                       LocaleKeys.logs_exported_snackbar_message,
                     ).tr(),
                     action: SnackBarAction(
-                      label: LocaleKeys.how_to_access_logs_button.tr(),
+                      label: LocaleKeys.how_to_access_logs_title.tr(),
                       onPressed: () async {
                         await launchUrlString(
                           mode: LaunchMode.externalApplication,
