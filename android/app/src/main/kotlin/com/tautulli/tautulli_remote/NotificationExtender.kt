@@ -53,22 +53,27 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
             val priority: Int = jsonMessage.getInt("priority")
 
             //* Create an explicit intent
-            val intent = Intent(context, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+            val intent: Intent? = context.getPackageManager()
+                .getLaunchIntentForPackage(context.getPackageName())
+                ?.setPackage(null)
+                ?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+            
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(
+                context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
 
-            val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_stat_logo_flat)
-                .setContentTitle(subject)
-                .setContentText(body)
-                .setStyle(NotificationCompat.BigTextStyle().bigText(body))
-                .setColor(context.resources.getColor(R.color.amber))
-                .setPriority(priority)
+            val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, CHANNEL_ID).apply {
+                setSmallIcon(R.drawable.ic_stat_logo_flat)
+                setContentTitle(subject)
+                setContentText(body)
+                setStyle(NotificationCompat.BigTextStyle().bigText(body))
+                setColor(context.resources.getColor(R.color.amber))
+                setPriority(priority)
                 //* Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-
+                setContentIntent(pendingIntent)
+                setAutoCancel(true)
+            }
+                
             createNotificationChannel(context)
 
             with(NotificationManagerCompat.from(context)) {
