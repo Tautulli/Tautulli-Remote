@@ -180,6 +180,7 @@ class ThemeHelper {
         ),
         indicatorSize: TabBarIndicatorSize.label,
         labelColor: TautulliColorPalette.notWhite,
+        dividerColor: Colors.transparent,
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(

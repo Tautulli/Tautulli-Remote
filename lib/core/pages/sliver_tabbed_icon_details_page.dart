@@ -82,15 +82,6 @@ class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPag
                                   child: widget.background,
                                 ),
                               ),
-                              // Covers the thin line between TabBar and the background color
-                              Positioned(
-                                bottom: 0,
-                                child: Container(
-                                  height: 5,
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Theme.of(context).colorScheme.background,
-                                ),
-                              ),
                               Positioned(
                                 bottom: 0,
                                 child: ClipRRect(
@@ -146,6 +137,9 @@ class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPag
                     ),
                   ),
                   bottom: TabBar(
+                    // TabBarTheme does not appear to be applying divider color
+                    //TODO: Check if TabBarTheme is actually applying
+                    dividerColor: Colors.transparent,
                     labelPadding: const EdgeInsets.symmetric(horizontal: 8),
                     tabs: widget.tabs,
                   ),

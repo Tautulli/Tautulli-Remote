@@ -183,6 +183,9 @@ class _GraphsViewState extends State<GraphsView> {
                       ),
                     ),
                     TabBar(
+                      // TabBarTheme does not appear to be applying divider color
+                      //TODO: Check if TabBarTheme is actually applying
+                      dividerColor: Colors.transparent,
                       tabs: [
                         Tab(
                           child: const Text(
