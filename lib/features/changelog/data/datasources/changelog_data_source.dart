@@ -1,6 +1,30 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.0-alpha.25",
+      "date": "Mar 7, 2023",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Updated the Inner Drawer to use the new Flutter navigation drawer style",
+        },
+        {
+          "type": "improvement",
+          "detail": "Removed the divider on the tabbed detail pages",
+        },
+        {
+          "type": "improvement",
+          "detail": "Buttons will no longer all be upper case",
+          "additional":
+              "This style change decision had the unfortunate consequence of removing many of the existing translations for button text",
+        },
+        {
+          "type": "fix",
+          "detail": "Notifications now display correctly and open the app when tapped",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0-alpha.24",
       "date": "Mar 5, 2023",
       "changes": [
