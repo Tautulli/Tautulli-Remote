@@ -214,6 +214,15 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
         }
 
         final int streamCount = firstServer.copyCount + firstServer.directPlayCount + firstServer.transcodeCount;
+        late int crossAxisCount;
+
+        if (screenWidth > 1000) {
+          crossAxisCount = 3;
+        } else if (screenWidth > 580) {
+          crossAxisCount = 2;
+        } else {
+          crossAxisCount = 1;
+        }
 
         return CustomScrollView(
           slivers: [
@@ -227,14 +236,10 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
               sliver: SliverGrid.count(
-                crossAxisCount: screenWidth > 1000
-                    ? 3
-                    : screenWidth > 580
-                        ? 2
-                        : 1,
-                childAspectRatio: MediaQuery.of(context).textScaleFactor > 1
-                    ? 2 / (0.85 * MediaQuery.of(context).textScaleFactor)
-                    : 2 / 0.85,
+                crossAxisCount: crossAxisCount,
+                childAspectRatio:
+                    (2 * MediaQuery.of(context).size.width / (360 * 0.85 * MediaQuery.of(context).textScaleFactor)) /
+                        crossAxisCount,
                 mainAxisSpacing: 4,
                 crossAxisSpacing: 4,
                 children: serverActivityWidgets,
@@ -284,6 +289,15 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
 
         final int streamCount =
             serverActivityModel.copyCount + serverActivityModel.directPlayCount + serverActivityModel.transcodeCount;
+        late int crossAxisCount;
+
+        if (screenWidth > 1000) {
+          crossAxisCount = 3;
+        } else if (screenWidth > 580) {
+          crossAxisCount = 2;
+        } else {
+          crossAxisCount = 1;
+        }
 
         activityServerList.add(
           SliverPadding(
@@ -304,14 +318,11 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
                     GridView.count(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      crossAxisCount: screenWidth > 1000
-                          ? 3
-                          : screenWidth > 580
-                              ? 2
-                              : 1,
-                      childAspectRatio: MediaQuery.of(context).textScaleFactor > 1
-                          ? 2 / (0.85 * MediaQuery.of(context).textScaleFactor)
-                          : 2 / 0.85,
+                      crossAxisCount: crossAxisCount,
+                      childAspectRatio: (2 *
+                              MediaQuery.of(context).size.width /
+                              (360 * 0.85 * MediaQuery.of(context).textScaleFactor)) /
+                          crossAxisCount,
                       mainAxisSpacing: 4,
                       crossAxisSpacing: 4,
                       children: serverActivityList,
