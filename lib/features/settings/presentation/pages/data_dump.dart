@@ -334,7 +334,7 @@ class _OneSignalStatus extends StatelessWidget {
                       const Gap(16),
                       Expanded(
                         child: Text(
-                          state.state.hasNotificationPermission.toString(),
+                          state.hasNotificationPermission.toString(),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -345,7 +345,7 @@ class _OneSignalStatus extends StatelessWidget {
                       const _DataDumpRowHeading('Push Disabled'),
                       const Gap(16),
                       Text(
-                        state.state.pushDisabled.toString(),
+                        state.isPushDisabled.toString(),
                       ),
                     ],
                   ),
@@ -354,7 +354,7 @@ class _OneSignalStatus extends StatelessWidget {
                       const _DataDumpRowHeading('Subscribed'),
                       const Gap(16),
                       Text(
-                        state.state.subscribed.toString(),
+                        state.isSubscribed.toString(),
                       ),
                     ],
                   ),
@@ -364,7 +364,7 @@ class _OneSignalStatus extends StatelessWidget {
                       const Gap(16),
                       Expanded(
                         child: Text(
-                          state.state.userId ?? '',
+                          state.userId,
                           textAlign: TextAlign.end,
                         ),
                       ),

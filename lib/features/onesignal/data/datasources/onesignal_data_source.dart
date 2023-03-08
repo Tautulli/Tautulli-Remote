@@ -14,6 +14,12 @@ abstract class OneSignalDataSource {
   /// Returns `true` if the user has granted consent to the OneSignal SDK.
   Future<bool> get hasConsented;
 
+  /// Returns `true` if the OneSignal SDK shows user has granted notification permission.
+  Future<bool> get hasNotificationPermission;
+
+  /// Checks if he OneSignal SDK has push notifications disabled.
+  Future<bool> get isPushDisabled;
+
   /// Checks if `https://onesignal.com` is reachable.
   Future<bool> get isReachable;
 
@@ -56,6 +62,16 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
   }
 
   @override
+  Future<bool> get hasNotificationPermission async {
+    final state = await OneSignal.shared.getDeviceState();
+    if (state != null) {
+      return state.hasNotificationPermission;
+    } else {
+      return false;
+    }
+  }
+
+  @override
   Future<bool> get isReachable async {
     if (await networkInfo.isConnected) {
       final response = await client.head(Uri.parse('https://onesignal.com'));
@@ -70,7 +86,17 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
   Future<bool> get isSubscribed async {
     final state = await OneSignal.shared.getDeviceState();
     if (state != null) {
-      return state.subscribed;
+      return state.pushToken != null && state.userId != null && state.pushDisabled == false;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> get isPushDisabled async {
+    final state = await OneSignal.shared.getDeviceState();
+    if (state != null) {
+      return state.pushDisabled;
     } else {
       return false;
     }
