@@ -250,9 +250,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
       connectionDomain: connectionDomain,
       connectionPath: connectionPath,
       deviceToken: deviceToken,
-      //TODO: Remove alphaApp string on release
-      deviceId: '$deviceId-alphaApp',
-      deviceName: '$deviceName - alphaApp',
+      deviceId: deviceId,
+      deviceName: deviceName,
       onesignalId: oneSignalId,
       platform: platform,
       version: version,
