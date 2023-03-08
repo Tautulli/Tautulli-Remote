@@ -10,10 +10,17 @@ class ActiveConnectionIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: FaIcon(
-        FontAwesomeIcons.solidCircle,
-        color: Theme.of(context).colorScheme.secondary,
-        size: 12,
+      child: Container(
+        width: 35,
+        height: 35,
+        color: Colors.transparent,
+        child: Center(
+          child: FaIcon(
+            FontAwesomeIcons.solidCircle,
+            color: Theme.of(context).colorScheme.secondary,
+            size: 12,
+          ),
+        ),
       ),
       onTap: () async => await showDialog(
         context: context,

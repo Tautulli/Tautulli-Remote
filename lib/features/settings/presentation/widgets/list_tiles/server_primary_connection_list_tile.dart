@@ -24,14 +24,7 @@ class ServerPrimaryConnectionListTile extends StatelessWidget {
       leading: const FaIcon(FontAwesomeIcons.networkWired),
       title: LocaleKeys.primary_connection_title.tr(),
       subtitle: server.primaryConnectionAddress,
-      trailing: server.primaryActive == true
-          ? const SizedBox(
-              width: 35,
-              child: Center(
-                child: ActiveConnectionIndicator(),
-              ),
-            )
-          : null,
+      trailing: server.primaryActive == true ? const ActiveConnectionIndicator() : null,
       onTap: () async {
         await showDialog(
           context: context,
