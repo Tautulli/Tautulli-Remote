@@ -30,14 +30,7 @@ class ServerSecondaryConnectionListTile extends StatelessWidget {
       ),
       title: LocaleKeys.secondary_connection_title.tr(),
       subtitle: inactive ? LocaleKeys.not_configured_message.tr() : server.secondaryConnectionAddress,
-      trailing: server.primaryActive != true
-          ? const SizedBox(
-              width: 35,
-              child: Center(
-                child: ActiveConnectionIndicator(),
-              ),
-            )
-          : null,
+      trailing: server.primaryActive != true ? const ActiveConnectionIndicator() : null,
       onTap: () {
         showDialog(
           context: context,
