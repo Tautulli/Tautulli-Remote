@@ -6,6 +6,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../../../dependency_injection.dart' as di;
+import '../../../../features/logging/domain/usecases/logging.dart';
 import '../../../../features/settings/data/models/connection_address_model.dart';
 import '../../../../features/settings/data/models/custom_header_model.dart';
 import '../../../error/exception.dart';
@@ -45,44 +47,49 @@ class DBProvider {
 
     return await openDatabase(
       path,
-      version: 7,
+      version: 8,
       onOpen: (db) async {},
       onCreate: (Database db, int version) async {
         var batch = db.batch();
-        _createTableServerV7(batch);
+        _createTableServerV8(batch);
         await batch.commit();
       },
       onUpgrade: (Database db, int oldVersion, int newVersion) async {
+        di.sl<Logging>().info('DB :: Upgrading DB');
+
         var batch = db.batch();
         if (oldVersion == 1) {
-          _updateTableServerV1toV7(batch);
+          _updateTableServerV1toV8(batch);
           await _addInitialIndexValue(db, batch);
         }
         if (oldVersion == 2) {
-          _updateTableServerV2toV7(batch);
+          _updateTableServerV2toV8(batch);
           await _addInitialIndexValue(db, batch);
         }
         if (oldVersion == 3) {
-          _updateTableServerV3toV7(batch);
+          _updateTableServerV3toV8(batch);
           await _addInitialIndexValue(db, batch);
         }
         if (oldVersion == 4) {
-          _updateTableServerV4toV7(batch);
+          _updateTableServerV4toV8(batch);
           await _addInitialIndexValue(db, batch);
         }
         if (oldVersion == 5) {
-          _updateTableServerV5toV7(batch);
+          _updateTableServerV5toV8(batch);
           await _addInitialIndexValue(db, batch);
         }
         if (oldVersion == 6) {
-          _updateTableServerV6toV7(batch);
+          _updateTableServerV6toV8(batch);
+        }
+        if (oldVersion == 7) {
+          await _refactorCustomHeaders(db, batch);
         }
         await batch.commit();
       },
     );
   }
 
-  void _createTableServerV7(Batch batch) {
+  void _createTableServerV8(Batch batch) {
     batch.execute('''CREATE TABLE servers(
                     id INTEGER PRIMARY KEY,
                     sort_index INTEGER,
@@ -107,7 +114,7 @@ class DBProvider {
                   )''');
   }
 
-  void _updateTableServerV1toV7(Batch batch) {
+  void _updateTableServerV1toV8(Batch batch) {
     batch.execute('ALTER TABLE servers ADD plex_pass INTEGER');
     batch.execute('ALTER TABLE servers ADD date_format TEXT');
     batch.execute('ALTER TABLE servers ADD time_format TEXT');
@@ -117,7 +124,7 @@ class DBProvider {
     batch.execute('ALTER TABLE servers ADD custom_headers TEXT');
   }
 
-  void _updateTableServerV2toV7(Batch batch) {
+  void _updateTableServerV2toV8(Batch batch) {
     batch.execute('ALTER TABLE servers ADD date_format TEXT');
     batch.execute('ALTER TABLE servers ADD time_format TEXT');
     batch.execute('ALTER TABLE servers ADD plex_identifier TEXT');
@@ -126,35 +133,70 @@ class DBProvider {
     batch.execute('ALTER TABLE servers ADD custom_headers TEXT');
   }
 
-  void _updateTableServerV3toV7(Batch batch) {
+  void _updateTableServerV3toV8(Batch batch) {
     batch.execute('ALTER TABLE servers ADD plex_identifier TEXT');
     batch.execute('ALTER TABLE servers ADD sort_index INTEGER');
     batch.execute('ALTER TABLE servers ADD onesignal_registered INTEGER');
     batch.execute('ALTER TABLE servers ADD custom_headers TEXT');
   }
 
-  void _updateTableServerV4toV7(Batch batch) {
+  void _updateTableServerV4toV8(Batch batch) {
     batch.execute('ALTER TABLE servers ADD sort_index INTEGER');
     batch.execute('ALTER TABLE servers ADD onesignal_registered INTEGER');
     batch.execute('ALTER TABLE servers ADD custom_headers TEXT');
   }
 
-  void _updateTableServerV5toV7(Batch batch) {
+  void _updateTableServerV5toV8(Batch batch) {
     batch.execute('ALTER TABLE servers ADD onesignal_registered INTEGER');
     batch.execute('ALTER TABLE servers ADD custom_headers TEXT');
   }
 
-  void _updateTableServerV6toV7(Batch batch) {
+  void _updateTableServerV6toV8(Batch batch) {
     batch.execute('ALTER TABLE servers ADD custom_headers TEXT');
   }
 
   // Adds an sort index value on databases prior to V6.
   Future<void> _addInitialIndexValue(Database db, Batch batch) async {
+    di.sl<Logging>().info('DB :: Adding server index values');
+
     var servers = await db.query('servers');
     for (var i = 0; i <= servers.length - 1; i++) {
       batch.update(
         'servers',
         {'sort_index': i},
+        where: 'id = ?',
+        whereArgs: [servers[i]['id']],
+      );
+    }
+  }
+
+  // Update headers to the new format used by Tautulli Remote v3.
+  Future<void> _refactorCustomHeaders(Database db, Batch batch) async {
+    di.sl<Logging>().info('DB :: Refactoring custom headers');
+
+    var servers = await db.query('servers');
+    for (var i = 0; i <= servers.length - 1; i++) {
+      final Map<String, dynamic> currentHeaders = await db.query(
+        'servers',
+        where: 'id = ?',
+        whereArgs: [servers[i]['id']],
+      ).then(
+        (value) => json.decode(
+          value.first['custom_headers'] as String,
+        ),
+      );
+
+      final List refactoredHeaders = [];
+      for (String key in currentHeaders.keys) {
+        refactoredHeaders.add({
+          'key': key,
+          'value': currentHeaders[key],
+        });
+      }
+
+      batch.update(
+        'servers',
+        {'custom_headers': json.encode(refactoredHeaders)},
         where: 'id = ?',
         whereArgs: [servers[i]['id']],
       );
@@ -251,35 +293,6 @@ class DBProvider {
     }
   }
 
-  // Future<String> getCustomHeadersByTautulliId(
-  //   String tautulliId,
-  // ) async {
-  //   final db = await database;
-  //   var result = await db!.query(
-  //     'servers',
-  //     columns: ['custom_headers'],
-  //     where: 'tautulli_id = ?',
-  //     whereArgs: [tautulliId],
-  //   );
-
-  //   return result.isNotEmpty ? result.first['custom_headers'] as String : '{}';
-  // }
-
-  // Future<ServerModel> getServer(int id) async {
-  //   final db = await database;
-  //   var result = await db!.query(
-  //     'servers',
-  //     where: 'id = ?',
-  //     whereArgs: [id],
-  //   );
-
-  //   if (result.isEmpty) {
-  //     throw ServerNotFoundException();
-  //   }
-
-  //   return ServerModel.fromJson(result.first);
-  // }
-
   Future<ServerModel?> getServerByTautulliId(String tautulliId) async {
     final db = await database;
     if (db != null) {
@@ -306,23 +319,15 @@ class DBProvider {
       final Map<String, String?> connectionAddressMap = {};
 
       if (connectionAddress.primary) {
-        connectionAddressMap['primary_connection_address'] =
-            connectionAddress.address;
-        connectionAddressMap['primary_connection_protocol'] =
-            connectionAddress.protocol?.toShortString();
-        connectionAddressMap['primary_connection_domain'] =
-            connectionAddress.domain;
-        connectionAddressMap['primary_connection_path'] =
-            connectionAddress.path;
+        connectionAddressMap['primary_connection_address'] = connectionAddress.address;
+        connectionAddressMap['primary_connection_protocol'] = connectionAddress.protocol?.toShortString();
+        connectionAddressMap['primary_connection_domain'] = connectionAddress.domain;
+        connectionAddressMap['primary_connection_path'] = connectionAddress.path;
       } else {
-        connectionAddressMap['secondary_connection_address'] =
-            connectionAddress.address;
-        connectionAddressMap['secondary_connection_protocol'] =
-            connectionAddress.protocol?.toShortString();
-        connectionAddressMap['secondary_connection_domain'] =
-            connectionAddress.domain;
-        connectionAddressMap['secondary_connection_path'] =
-            connectionAddress.path;
+        connectionAddressMap['secondary_connection_address'] = connectionAddress.address;
+        connectionAddressMap['secondary_connection_protocol'] = connectionAddress.protocol?.toShortString();
+        connectionAddressMap['secondary_connection_domain'] = connectionAddress.domain;
+        connectionAddressMap['secondary_connection_path'] = connectionAddress.path;
       }
 
       var result = await db.update(
@@ -385,8 +390,7 @@ class DBProvider {
   Future<int> updateServer(ServerModel server) async {
     final db = await database;
     if (db != null) {
-      var result = await db.update('servers', server.toJson(),
-          where: 'id = ?', whereArgs: [server.id]);
+      var result = await db.update('servers', server.toJson(), where: 'id = ?', whereArgs: [server.id]);
 
       return result;
     } else {
