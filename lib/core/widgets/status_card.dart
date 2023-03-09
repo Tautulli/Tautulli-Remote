@@ -26,6 +26,7 @@ class StatusCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RichText(
+                textAlign: TextAlign.center,
                 text: TextSpan(
                   children: [
                     if (isFailure)
@@ -50,6 +51,7 @@ class StatusCard extends StatelessWidget {
                   style: const TextStyle(
                     fontWeight: FontWeight.w300,
                   ),
+                  textAlign: TextAlign.center,
                 ),
             ],
           ),
