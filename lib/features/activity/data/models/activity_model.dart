@@ -135,6 +135,8 @@ class ActivityModel extends Equatable {
   final bool? transcodeHwDecoding;
   @JsonKey(name: 'transcode_hw_encoding', fromJson: Cast.castToBool)
   final bool? transcodeHwEncoding;
+  @JsonKey(name: 'transcode_max_offset_available', fromJson: Cast.castToInt)
+  final int? transcodeMaxOffsetAvailable;
   @JsonKey(name: 'transcode_progress', fromJson: Cast.castToInt)
   final int? transcodeProgress;
   @JsonKey(name: 'transcode_speed', fromJson: Cast.castToDouble)
@@ -224,6 +226,7 @@ class ActivityModel extends Equatable {
     this.transcodeDecision,
     this.transcodeHwDecoding,
     this.transcodeHwEncoding,
+    this.transcodeMaxOffsetAvailable,
     this.transcodeProgress,
     this.transcodeSpeed,
     this.transcodeThrottled,
@@ -302,6 +305,7 @@ class ActivityModel extends Equatable {
     final StreamDecision? transcodeDecision,
     final bool? transcodeHwDecoding,
     final bool? transcodeHwEncoding,
+    final int? transcodeMaxOffsetAvailable,
     final int? transcodeProgress,
     final double? transcodeSpeed,
     final bool? transcodeThrottled,
@@ -379,6 +383,7 @@ class ActivityModel extends Equatable {
       transcodeDecision: transcodeDecision ?? this.transcodeDecision,
       transcodeHwDecoding: transcodeHwDecoding ?? this.transcodeHwDecoding,
       transcodeHwEncoding: transcodeHwEncoding ?? this.transcodeHwEncoding,
+      transcodeMaxOffsetAvailable: transcodeMaxOffsetAvailable ?? this.transcodeMaxOffsetAvailable,
       transcodeProgress: transcodeProgress ?? this.transcodeProgress,
       transcodeSpeed: transcodeSpeed ?? this.transcodeSpeed,
       transcodeThrottled: transcodeThrottled ?? this.transcodeThrottled,
@@ -477,6 +482,7 @@ class ActivityModel extends Equatable {
         transcodeHwDecoding,
         transcodeHwEncoding,
         transcodeProgress,
+        transcodeMaxOffsetAvailable,
         transcodeSpeed,
         transcodeThrottled,
         userId,

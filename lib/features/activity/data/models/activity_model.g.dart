@@ -89,6 +89,8 @@ ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
           json['transcode_decision'] as String?),
       transcodeHwDecoding: Cast.castToBool(json['transcode_hw_decoding']),
       transcodeHwEncoding: Cast.castToBool(json['transcode_hw_encoding']),
+      transcodeMaxOffsetAvailable:
+          Cast.castToInt(json['transcode_max_offset_available']),
       transcodeProgress: Cast.castToInt(json['transcode_progress']),
       transcodeSpeed: Cast.castToDouble(json['transcode_speed']),
       transcodeThrottled: Cast.castToBool(json['transcode_trottled']),
@@ -174,6 +176,7 @@ Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
       'transcode_decision': _$StreamDecisionEnumMap[instance.transcodeDecision],
       'transcode_hw_decoding': instance.transcodeHwDecoding,
       'transcode_hw_encoding': instance.transcodeHwEncoding,
+      'transcode_max_offset_available': instance.transcodeMaxOffsetAvailable,
       'transcode_progress': instance.transcodeProgress,
       'transcode_speed': instance.transcodeSpeed,
       'transcode_trottled': instance.transcodeThrottled,

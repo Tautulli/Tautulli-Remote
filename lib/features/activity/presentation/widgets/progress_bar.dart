@@ -21,7 +21,21 @@ class ProgressBar extends StatelessWidget {
       transcodeProgress = 0;
       progressPercent = 100;
     } else {
-      transcodeProgress = activity.transcodeProgress ?? 0;
+      // This is a more accurate way to identify transcode progress as Plex does some weird stuff with transcodeProgress
+      // Only use transcodeProgress as a fall back
+      if (activity.transcodeMaxOffsetAvailable != null &&
+          activity.progressPercent != null &&
+          activity.duration != null) {
+        transcodeProgress =
+            (((activity.transcodeMaxOffsetAvailable! * 1000) / activity.duration!.inMilliseconds) * 100).floor();
+      } else {
+        if (activity.transcodeProgress != null && activity.transcodeProgress!.isNegative) {
+          transcodeProgress = activity.transcodeProgress! * -1;
+        } else {
+          transcodeProgress = activity.transcodeProgress ?? 0;
+        }
+      }
+
       progressPercent = activity.progressPercent ?? 0;
     }
 
