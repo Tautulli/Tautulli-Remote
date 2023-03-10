@@ -1,602 +1,1062 @@
 Map changelog = {
   "data": [
     {
-      "version": "v3.0.0-alpha.25",
-      "date": "Mar 7, 2023",
+      "version": "v3.0.0",
+      "date": "Mar 11, 2023",
+      "intro":
+          "After many months of work the initial release for Tautulli Remote v3 is finally here!\nThis is a complete rewrite of the app, so please review the \"note\" entries below for some important information.",
       "changes": [
         {
-          "type": "improvement",
-          "detail": "Updated the Inner Drawer to use the new Flutter navigation drawer style",
+          "type": "important",
+          "detail":
+              "Your servers have been migrated over from v2 but app settings (including OneSignal) will need to be updated",
         },
         {
-          "type": "improvement",
-          "detail": "Removed the divider on the tabbed detail pages",
+          "type": "important",
+          "detail": "Tautulli v2.10.5+ is recommended to avoid issues with loading some images",
+          "additional": "New servers being registered will require Tautulli 2.10.5 or higher",
         },
         {
-          "type": "improvement",
-          "detail": "Buttons will no longer all be upper case",
+          "type": "important",
+          "detail":
+              "Multiserver activity is now disabled by default and can be enabled under Settings > Advanced Settings",
           "additional":
-              "This style change decision had the unfortunate consequence of removing many of the existing translations for button text",
+              "As a reminder this allows you to view the activity for all your registered servers on a single page",
         },
         {
-          "type": "fix",
-          "detail": "Notifications now display correctly and open the app when tapped",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.24",
-      "date": "Mar 5, 2023",
-      "changes": [
-        {
-          "type": "improvement",
-          "detail": "Removed page with testing directions",
-        },
-        {
-          "type": "fix",
-          "detail": "Quick actions will now work if the app is on the Announcements or Donate page",
-        },
-        {
-          "type": "fix",
-          "detail": "History and Recently Added quick action icons should now display correctly",
-          "additional": "You may need to reboot your device if the icons are still not displaying",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.23",
-      "date": "Mar 4, 2023",
-      "changes": [
-        {
-          "type": "improvement",
-          "detail": "Added additional quick actions for activity, history, and recently added",
-        },
-        {
-          "type": "improvement",
-          "detail": "Display correct messaging on feature pages when no servers are configured",
-        },
-        {
-          "type": "improvement",
-          "detail": "Synced all pending translations from Tautulli Remote v2",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.22",
-      "date": "Mar 3, 2023",
-      "changes": [
-        {
-          "type": "improvement",
-          "detail": "Added ETA to activity bottom sheet",
-        },
-        {
-          "type": "fix",
+          "type": "important",
           "detail":
-              "Media and user pages will load correctly when selecting an item on multiactivity that is not the active server",
-        },
-        {
-          "type": "fix",
-          "detail": "Media page appbar title will now correctly displays the currently viewed item",
-        },
-        {
-          "type": "fix",
-          "detail": "Activity page will now load when setup wizard completes",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.21",
-      "date": "Feb 16, 2023",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Multiactivity support has been added, it can be enabled under Advanced in Settings",
+              "Some existing translation work was lost due to the app changes, go to Settings > Help Translate to learn how you can contribute",
           "additional":
-              "As a reminder, this allows you to view the activity for all servers in Tautulli Remote on a single page",
+              "Thank you to all those who have provided translations so far, you are too many to list in a single update but I will keep calling you out directly in future updates",
         },
         {
           "type": "new",
-          "detail": "Activity refresh rate will now work",
+          "detail":
+              "The app has had an entire visual overhaul, improving look, usability, and bringing it in more line with Material Design 3",
+          "additional": "I am investigating a more native look for Apple devices",
+        },
+        {
+          "type": "new",
+          "detail": "Landscape mode is now supported",
+        },
+        {
+          "type": "new",
+          "detail":
+              "You can long press the app icon to select a quick actions and jump to activity, history, recently added, or settings",
+        },
+        {
+          "type": "new",
+          "detail": "The multiserver selector has been moved to the inner drawer",
+        },
+        {
+          "type": "new",
+          "detail": "The activity page will display multiple cards in a row on larger screens",
+        },
+        {
+          "type": "new",
+          "detail": "The history page now has a search feature",
+        },
+        {
+          "type": "new",
+          "detail":
+              "A new data dump page has been added under the More section of Settings to assist with troubleshooting",
+        },
+        {
+          "type": "new",
+          "detail":
+              "There is now the ability to clear the Tautulli server image cache under the server's settings page",
+        },
+        {
+          "type": "new",
+          "detail": "The library media full refresh action can now be disabled under Settings > Advanced",
         },
         {
           "type": "improvement",
-          "detail": "Up to three activity cards will be displayed horizontally if the screen width is large enough",
+          "detail": "The following languages have been added: Albanian, Chinese, Norwegian Bokmål, Polish, Slovak",
         },
         {
           "type": "improvement",
-          "detail": "More library and media posters will display horizontally on wider screens",
+          "detail": "The activity page now displays more summary information for active streams",
         },
         {
           "type": "improvement",
-          "detail": "Various tiny styling adjustments",
+          "detail": "The history page has improved filter options",
         },
         {
           "type": "improvement",
-          "detail": "New translations for Chinese (Simplified), French, and Polish",
-          "additional": "Thanks @amorphobia, @Owautrip, @slundi, drzordz, and RafalHo",
+          "detail": "The selected \"stats type\" on the statistics page is now saved",
+        },
+        {
+          "type": "improvement",
+          "detail": "Card heights will scale based on the system font size",
+          "additional":
+              "This will make more data visible at larger font sizes, but will have diminishing returns. If you are directly impacted by this please reach out so we can work to improve the behavior.",
+        },
+        {
+          "type": "improvement",
+          "detail": "Donate page items will display in local currency",
+        },
+        {
+          "type": "improvement",
+          "detail": "OneSignal debug logging is available for more in depth troubleshooting",
+          "additional": "This logging needs to be accessed with Logcat (Android) or Xcode (iOS)",
         },
         {
           "type": "fix",
-          "detail": "Posters for clip items will now fill the full poster area",
+          "detail": "Activity items now correctly display HDR for HDR10 and DV content",
         },
       ],
     },
     {
-      "version": "v3.0.0-alpha.20",
-      "date": "Dec 3, 2022",
+      "version": "v2.13.3",
+      "date": "March 24, 2022",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Update to Flutter 2.10.3",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix missing loading indicator on Activity page",
+        },
+      ],
+    },
+    {
+      "version": "v2.13.2",
+      "date": "October 31, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Announcements can now target Android or iOS specifically",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added transcode decision to history details",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Danish, French, German, Hungarian, and Slovak",
+          "additional": "Thanks @starscream10, @NathanBnm, @iophobia, @MaddionMax, and @johny106",
+        },
+        {
+          "type": "fix",
+          "detail": "Activity details would break when some expected data was missing",
+        },
+      ],
+    },
+    {
+      "version": "v2.13.1",
+      "date": "October 12, 2021",
+      "changes": [
+        {
+          "type": "fix",
+          "detail": "Would fail to update OneSignal information without custom headers",
+        },
+      ],
+    },
+    {
+      "version": "v2.13.0",
+      "date": "September 30, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added support for custom HTTP headers",
+          "additional": "Use the prebuilt Basic Auth header or set your own custom ones.",
+        },
+        {
+          "type": "new",
+          "detail": "Added Slovak language",
+        },
+        {
+          "type": "improvement",
+          "detail": "Updated Flutter and packages",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Catalan, Danish, Hungarian, Italian, Russian, and Slovak",
+          "additional": "Thanks @dtalens, @ThomasCSR, @MaddionMax, @janus158, @barbuddah, and @johny106",
+        },
+        {
+          "type": "fix",
+          "detail": "Long track names could overflow",
+        },
+        {
+          "type": "fix",
+          "detail": "Refresh Rate setting would say 'Default' instead of 'Disabled'.",
+        },
+      ],
+    },
+    {
+      "version": "v2.12.3",
+      "date": "September 5, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "The iOS app no longer requires the app tracking permission",
+          "additional": "Existing users can safely disable this permission.",
+        },
+      ],
+    },
+    {
+      "version": "v2.12.2",
+      "date": "September 2, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added Czech and Russian languages",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Czech, Portuguese (Brazil), and Russian",
+          "additional": "Thanks @karelkryda, @neitzke, and @barbuddah",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add support for null safe code",
+        },
+        {
+          "type": "fix",
+          "detail": "Android notifications would fail when an Image Type was set in Tautulli",
+        },
+      ],
+    },
+    {
+      "version": "v2.12.1",
+      "date": "August 31, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "The app drawer has been changed into a new inner drawer, swipe right to easily reveal the drawer",
+        },
+        {
+          "type": "new",
+          "detail": "Added Catalan and Danish languages",
+        },
+        {
+          "type": "improvement",
+          "detail": "Network images are now cached, this cache can be cleared under Advanced Settings",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "New translations for Catalan, Danish, Dutch, French, German, Hungarian, Italian, Portuguese (Brazil), Portuguese (Portugal), and Swedish",
+          "additional":
+              "Thanks @dtalens, @Tntdruid, @raoul-m, @bninot, @NathanBnm, @TautulliPiece, @MaddionMax, @janus158, @taduo, @Bllstc, and @bittin",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added a quit button to the setup Wizard",
+        },
+        {
+          "type": "fix",
+          "detail": "Enabling iOS notifications now requires the tracking permission",
+          "additional": "This change was requested by Apple, there has been no change to the data collected",
+        },
+        {
+          "type": "fix",
+          "detail": "iOS notifications would wait to timeout before displaying",
+        },
+        {
+          "type": "fix",
+          "detail": "Unencrypted iOS notifications were incorrect",
+        },
+        {
+          "type": "fix",
+          "detail": "Fixed history details buttons being clipped on some devices",
+        },
+        {
+          "type": "fix",
+          "detail": "Registration update could send a blank OneSignal Device ID after app version update",
+        },
+      ],
+    },
+    {
+      "version": "v2.11.2",
+      "date": "July 30, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "New translations for Dutch, Portuguese (Brazil), Spanish, and German",
+          "additional": "Thanks @Zucht, @RubenKremer, @neitzke, @CMBoii, @granjerox, and @Jerome2103",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added splash screen for iOS",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add advanced setting to change app language rather than rely only on the system setting",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add option to change app language from the setup wizard",
+        },
+        {
+          "type": "improvement",
+          "detail": "Moved Double Tap to Exit (Android) and Mask Sensitive Info under new Advanced Settings menu",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix Swedish translations not working",
+        },
+        {
+          "type": "fix",
+          "detail": "Live TV history would display null for missing episode/season number",
+        },
+        {
+          "type": "fix",
+          "detail": "Read more/less text for summaries was flipped",
+        },
+      ],
+    },
+    {
+      "version": "v2.11.1",
+      "date": "July 17, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "New translations for Dutch",
+          "additional": "Thanks @Zucht",
+        },
+        {
+          "type": "improvement",
+          "detail": "Change display name to 'Tautulli' on iOS",
+        },
+        {
+          "type": "fix",
+          "detail": "Fixed translations not loading",
+        },
+        {
+          "type": "fix",
+          "detail": "OS font size could cause issues with text layout",
+        },
+      ],
+    },
+    {
+      "version": "v2.11.0",
+      "date": "July 15, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "The Android app is moving to stable, beta testing will continue as part of the Tautulli Remote development cycle",
+        },
+        {
+          "type": "new",
+          "detail": "iOS support is here, the iOS app is now in beta",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for French, German, Swedish, and Spanish",
+          "additional": "Thanks @NathanBnm, @Jerome2013, and @ferrangar",
+        },
+        {
+          "type": "fix",
+          "detail": "Resolve issue where app could display black screen on resume",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "'Buy Me A Slice' donation level has been reduced on Android to 2.99 USD to match Apple restrictions",
+        },
+        {
+          "type": "fix",
+          "detail": "Adjust how the changelog is triggered on starting a new app version (to support iOS)",
+        },
+      ],
+    },
+    {
+      "version": "v2.10.0",
+      "date": "June 16, 2021",
       "changes": [
         {
           "type": "important",
           "detail":
-              "This is an abnormally limited alpha release as I do not expect to have time this year to develop it further, I will continue development in the new year",
+              "Due to a OneSignal SDK change please re-accept the OneSignal Data Privacy, no other action is required",
         },
         {
           "type": "new",
-          "detail": "Activity page will show cards for current activity items",
-          "additional": "None of the available Activity settings will have any effect at this time",
+          "detail": "There is now a Startup Wizard to improve the setup experience for new users",
+        },
+        {
+          "type": "new",
+          "detail": "Localization has been added, help translate under Settings > Help Translate",
         },
         {
           "type": "improvement",
-          "detail": "New translations for Portuguese (Portugal) and Swedish",
-          "additional": "Thanks @SantosSi, jacobnil, and @velcropaste",
+          "detail":
+              "Servers added before OneSignal registration is complete will automatically send Tautulli the OneSignal Device ID once registered",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Adding Tautulli servers has been visually adjusted and exposes the Secondary Connection Address setting",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added a terminate stream button to the activity details bottom sheet",
+        },
+        {
+          "type": "improvement",
+          "detail": "Store the OneSignal consent state locally to prevent future issues with OneSignal SDK changes",
+        },
+        {
+          "type": "improvement",
+          "detail": "Flutter upgraded to 2.2.1",
+        },
+        {
+          "type": "improvement",
+          "detail": "Various UI styling adjustments",
+        },
+        {
+          "type": "fix",
+          "detail": "TLS v1.3 is now supported",
         },
       ],
     },
     {
-      "version": "v3.0.0-alpha.19",
-      "date": "Nov 7, 2022",
+      "version": "v2.9.0",
+      "date": "May 3, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Graphs are here! Check them out on the new graphs page",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Updated donation backend and added recurring donation options, special thanks to those who have donated",
+        },
+        {
+          "type": "fix",
+          "detail": "Fixed 'View on Plex' action for photos, clips, and tracks",
+        },
+        {
+          "type": "fix",
+          "detail": "Fixed 'View on Plex' action not opening Plex app on Android 11+",
+        },
+      ],
+    },
+    {
+      "version": "v2.8.0",
+      "date": "April 4, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Library details page now has tabs for Stats and New (recently added), the page style has been updated to match user and media details",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added transcode decision filter to history page",
+        },
+        {
+          "type": "improvement",
+          "detail": "The summary on media info pages is now expandable",
+        },
+        {
+          "type": "improvement",
+          "detail": "Users page sort is now saved",
+        },
+        {
+          "type": "improvement",
+          "detail": "Updated the Microsoft Edge platform icon",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added Alexa platform icon and color",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjust how images are fetched for track items",
+        },
+        {
+          "type": "improvement",
+          "detail": "Various small performance improvements",
+        },
+      ],
+    },
+    {
+      "version": "v2.7.0",
+      "date": "March 29, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Servers can now be reordered when using Multiserver, long press a server on the settings page to move it",
+        },
+        {
+          "type": "improvement",
+          "detail": "The OneSignal banner in settings can now be dismissed",
+        },
+        {
+          "type": "improvement",
+          "detail": "Updated the settings page floating action button",
+        },
+        {
+          "type": "improvement",
+          "detail": "Settings behavior has been revamped behind the scenes",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix activity errors from missing bandwidth information",
+        },
+      ],
+    },
+    {
+      "version": "v2.6.2",
+      "date": "March 26, 2021",
+      "changes": [
+        {
+          "type": "fix",
+          "detail": "Fix activity not passing last seen to user details page",
+        },
+      ],
+    },
+    {
+      "version": "v2.6.1",
+      "date": "March 26, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Adjust how user details page decides to fetch missing user information",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjust user cache behavior to prevent extra API calls",
+        },
+        {
+          "type": "improvement",
+          "detail": "Make sure user cache items are unique per server",
+        },
+      ],
+    },
+    {
+      "version": "v2.6.0",
+      "date": "March 25, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "History details are now available, tap on any history item to view the full history details",
+        },
+        {
+          "type": "new",
+          "detail": "User details have been added, view stats and history for individual users",
+        },
+        {
+          "type": "new",
+          "detail": "Jump to user details from activity and history details",
+        },
+        {
+          "type": "new",
+          "detail": "Bandwidth information has been added to the activity page",
+        },
+        {
+          "type": "new",
+          "detail":
+              "Add support for an upcoming Tautulli setting to set the type of notification displayed by Tautulli Remote",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjust method for detecting public IP addresses",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix image flickering with activity and history detail bottom sheets",
+        },
+      ],
+    },
+    {
+      "version": "v2.5.0",
+      "date": "March 20, 2021",
       "changes": [
         {
           "type": "important",
-          "detail": "Tautulli v2.10.5 or higher is needed to avoid some image loading issues with media details",
-        },
-        {
-          "type": "new",
           "detail":
-              "Media details can now be viewed and loaded from various source items (library, history, recently added, statistics)",
+              "This update requires that you consent to the OneSignal Data Privacy again to receive notifications, you do not need to re-register with Tautulli",
         },
         {
           "type": "new",
-          "detail": "Added setting to disable library media full refresh",
+          "detail": "Upgraded to Flutter 2, please report any issues through the Settings > Help & Support page",
         },
         {
           "type": "improvement",
-          "detail": "Adjust placeholder and error images",
+          "detail": "Library cards will now show a custom icon if one is set in Tautulli",
         },
         {
           "type": "improvement",
-          "detail": "Popup menu border radius now matches the rest of the app",
+          "detail": "Connection address active/passive icons now update in UI immediately on failover",
         },
         {
           "type": "improvement",
-          "detail": "Tab bar spacing should allow for more narrow screens without cutting off the tab labels",
+          "detail": "Adjust concurrent icon color from white to Tautulli Not White",
         },
         {
           "type": "improvement",
-          "detail": "Moved data dump page under More section in settings",
-        },
-        {
-          "type": "improvement",
-          "detail": "Added Albanian and Polish languages",
-        },
-        {
-          "type": "improvement",
-          "detail": "New translations for Albanian, Norwegian Bokmål, Polish, and Slovenian",
-          "additional": "Thanks @TheFili, drzordz, and @mitchoklemen",
-        },
-        {
-          "type": "fix",
-          "detail": "Blurred background will no longer flicker when scrolling off screen",
-        },
-        {
-          "type": "fix",
-          "detail": "Detail page views will no longer have a thin line between the expanded section and tab bar",
-        },
-        {
-          "type": "fix",
-          "detail": "Announcements will now filter based on their intended operating system",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.18",
-      "date": "September 27, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Added individual statistics pages",
-        },
-        {
-          "type": "improvement",
-          "detail": "Added Slovene language",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.17",
-      "date": "August 03, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Added the Statistics page",
-        },
-        {
-          "type": "improvement",
-          "detail": "Added additional padding between poster and details on Poster Cards",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.16",
-      "date": "July 27, 2022",
-      "changes": [
-        {
-          "type": "improvement",
-          "detail": "Added sorting to Libraries page",
-        },
-        {
-          "type": "fix",
-          "detail": "History tab for a library was fetching incorrect cached data",
-        },
-        {
-          "type": "fix",
-          "detail": "Libraries with no last streamed date would show 'unknown' instead of 'never'",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.15",
-      "date": "July 26, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Added the Libraries & Library Details pages",
-        },
-        {
-          "type": "new",
-          "detail": "Added Settings quick action",
-          "additional": "Long press the app icon to view and select a quick action",
-        },
-        {
-          "type": "improvement",
-          "detail": "Card heights will now scale for devices using larger font sizes",
-        },
-        {
-          "type": "improvement",
-          "detail": "Update current default page to History",
-        },
-        {
-          "type": "improvement",
-          "detail": "Darken poster card background",
-        },
-        {
-          "type": "improvement",
-          "detail": "Add device details to data dump",
-        },
-        {
-          "type": "improvement",
-          "detail": "New translations for Catalan",
-          "additional": "Thanks @dtalens",
-        },
-        {
-          "type": "fix",
-          "detail": "Calculation for largest time on graphs was incorrect",
-        },
-        {
-          "type": "fix",
-          "detail": "User card tap splash was only affecting background",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.14",
-      "date": "June 25, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Added the Graphs page",
-        },
-        {
-          "type": "improvement",
-          "detail": "New translations for Norwegian Bokmål",
-          "additional": "Thanks @aunefyren",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.13",
-      "date": "June 12, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Added the Recently Added page",
-        },
-        {
-          "type": "improvement",
-          "detail": "Make sure all URLs launch in external application",
-        },
-        {
-          "type": "fix",
-          "detail": "Notification decryption was not working in the alpha",
-        },
-        {
-          "type": "fix",
-          "detail": "Activity Refresh Rate would cause settings not to load",
-        },
-        {
-          "type": "fix",
-          "detail": "History filter items would not reset when active server was changed",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.12",
-      "date": "June 08, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Added the ability to search history",
-        },
-        {
-          "type": "new",
-          "detail": "Added setting to clear Tautulli server image cache",
-          "additional": "This can be found on each server's settings page",
-        },
-        {
-          "type": "improvement",
-          "detail": "Multiple options can now be selected for each history filter type",
-        },
-        {
-          "type": "improvement",
-          "detail": "Reduced the size of the History appbar action icons",
-        },
-        {
-          "type": "fix",
-          "detail": "Make sure URLs launch to external browser",
-        },
-        {
-          "type": "fix",
-          "detail": "Fix dialog content clipping",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.11",
-      "date": "May 31, 2022",
-      "changes": [
-        {
-          "type": "improvement",
-          "detail": "Small adjustment to history details styling",
-        },
-        {
-          "type": "fix",
-          "detail": "Fix images not loading for manually trusted certs",
-        },
-        {
-          "type": "fix",
-          "detail": "Fix history filter icon from indicating a selection is active after server is changed",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.10",
-      "date": "May 30, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Added History page & details",
-        },
-        {
-          "type": "improvement",
-          "detail": "The history tab for User Details is now available",
-        },
-        {
-          "type": "improvement",
-          "detail": "Use 'time' instead of 'duration' for total play time",
-        },
-        {
-          "type": "improvement",
-          "detail": "Adjusted user details styling",
-        },
-        {
-          "type": "improvement",
-          "detail": "New translations for Norwegian Bokmål and French",
-          "additional": "Thanks @aunefyren and @NathanBnm",
-        },
-        {
-          "type": "fix",
-          "detail": "Fix wizard closing page not being able to scroll",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.9",
-      "date": "May 17, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Added Users Details page with user stats",
-          "additional": "User history will be added in a future update",
-        },
-        {
-          "type": "improvement",
-          "detail": "Implement Material Design 3",
-        },
-        {
-          "type": "improvement",
-          "detail": "Upgrade to Flutter 3",
-        },
-        {
-          "type": "improvement",
-          "detail": "Upgrade dependencies",
-        },
-        {
-          "type": "improvement",
-          "detail": "New translations for French",
-          "additional": "Thanks @NathanBnm",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.8",
-      "date": "May 6, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Added Users page",
-          "additional": "This new Users page features various UI/UX improvements",
-        },
-        {
-          "type": "improvement",
-          "detail": "Use the stretch animation for overscroll on Android",
-        },
-        {
-          "type": "improvement",
-          "detail": "Add visual indicator for current page in inner drawer",
-        },
-        {
-          "type": "improvement",
-          "detail": "Fade out indicators on announcement cards when marked as read",
-        },
-        {
-          "type": "improvement",
-          "detail": "New translations for French, Czech, Norwegian Bokmål, Chinese (Simplified), and Swedish",
-          "additional": "Thanks @NathanBnm, David Nedvěd, @aunefyren, @FaintGhost & @blackisle, and Johan Qvist",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.7",
-      "date": "March 25, 2022",
-      "changes": [
-        {
-          "type": "fix",
-          "detail": "Manually trusting a certificate would fail",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.6",
-      "date": "March 23, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Added Setup Wizard",
-          "additional": "Please clear app data and launch the app to test",
-        },
-        {
-          "type": "improvement",
-          "detail": "Tuned Inner Drawer to look better across a variety of screen sizes",
-        },
-        {
-          "type": "improvement",
-          "detail": "Fixed issue with how old translations were moved over",
-        },
-        {
-          "type": "improvement",
-          "detail": "New translations for French and German",
-          "additional": "Thanks @NathanBnm and @strausmann",
-        },
-        {
-          "type": "fix",
-          "detail":
-              "Server Selector would not correctly display the active server after adding servers for the first time",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.5",
-      "date": "March 11, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Added Announcements page",
-        },
-        {
-          "type": "improvement",
-          "detail": "Show changelog on start after app update",
-        },
-        {
-          "type": "improvement",
-          "detail": "Added Donate page to Inner Drawer",
-          "additional": "Donate page still won't work properly during Alpha",
-        },
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.4",
-      "date": "March 9, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Added an Inner Drawer that supports swipe gestures to open/close",
-        },
-        {
-          "type": "new",
-          "detail": "Added a Server Selector to the Inner Drawer when more than one server are registered",
-        },
-        {
-          "type": "new",
-          "detail": "Removed the locked portrait mode orientation",
-        }
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.3",
-      "date": "March 8, 2022",
-      "changes": [
-        {
-          "type": "fix",
-          "detail": "Selecting Chinese (Simplified) or Norwegian Bokmål would lock up app",
-        }
-      ],
-    },
-    {
-      "version": "v3.0.0-alpha.2",
-      "date": "March 8, 2022",
-      "changes": [
-        {
-          "type": "new",
-          "detail": "Translations are now implemented, check the Help Translate page to assist with translating",
+          "detail": "Change announcements icon from a bell to a bullhorn",
         },
         {
           "type": "improvement",
           "detail":
-              "Consenting to OneSignal data privacy will check for notification permission on Android as well as iOS",
+              "If Tautulli Remote is not registered with OneSignal set OneSignal ID to onesignal-disabled when registering with Tautulli",
+        },
+        {
+          "type": "improvement",
+          "detail": "Make classes extending Equatable immutable",
+        },
+        {
+          "type": "fix",
+          "detail": "Catch if data is missing on users page to prevent failure to load",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fix potential for incorrect server to be called when using multiserver and going to a media item page from activity",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix images sometimes being incorrect for TV and music statistics",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix single statistic page being incorrect if stat type was set to duration",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix connection failover not triggering custom cert trust prompt",
+        },
+      ]
+    },
+    {
+      "version": "v2.4.5",
+      "date": "March 15, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Add support for the upcoming Most Active Libraries statistic",
+        },
+        {
+          "type": "improvement",
+          "detail": "Activity ETA now uses the Time Format from Tautulli",
+        },
+      ]
+    },
+    {
+      "version": "v2.4.4",
+      "date": "March 12, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Enable Double Tap To Exit to require pressing back twice to exit the app",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix an issue where a success would be emitted after a failure for a failed QR scan",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix images not loading for manually trusted certs (ex. self-signed certs)",
+        },
+      ]
+    },
+    {
+      "version": "v2.4.3",
+      "date": "March 10, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "QR code scanner now fails when scanning bad QR codes and barcodes",
+        },
+        {
+          "type": "improvement",
+          "detail": "Long titles on announcement cards now wrap correctly",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix incorrect values displayed for 15 and 30 sec server timeouts on Settings page",
+        },
+      ]
+    },
+    {
+      "version": "v2.4.2",
+      "date": "March 9, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail":
+              "Fall back to empty strings for various activity properties, this should help prevent bad data from preventing the loading of activity details",
+        },
+      ]
+    },
+    {
+      "version": "v2.4.1",
+      "date": "March 9, 2021",
+      "changes": [
+        {
+          "type": "fix",
+          "detail": "Fix unknown activity bandwidth breaking activity details bottom sheet",
+        },
+      ]
+    },
+    {
+      "version": "v2.4.0",
+      "date": "March 8, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added ability to trust self-signed certs and certs that fail to authenticate",
+        },
+        {
+          "type": "improvement",
+          "detail": "Added 15 sec and 30 sec server timeout options",
+        },
+      ]
+    },
+    {
+      "version": "v2.3.2",
+      "date": "March 8, 2021",
+      "changes": [
+        {
+          "type": "fix",
+          "detail": "Fix failure mapping for ServerVersionException",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix incorrect Support Wiki link",
+        },
+      ]
+    },
+    {
+      "version": "v2.3.1",
+      "date": "March 8, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Add Bugs/Feature Requests section to Help & Support",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix failure mapping for ServerException",
+        },
+      ]
+    },
+    {
+      "version": "v2.3.0",
+      "date": "March 1, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added announcements page, allows for announcements to be shared without an app update",
+        },
+        {
+          "type": "improvement",
+          "detail": "Use square poster for playlist items",
+        },
+        {
+          "type": "improvement",
+          "detail": "In-app links are now set to the new wiki (pending wiki update)",
+        },
+        {
+          "type": "fix",
+          "detail": "Fix failure mapping for SocketException",
+        },
+      ]
+    },
+    {
+      "version": "v2.2.4",
+      "date": "February 23, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "When synced item has multiple rating keys use the first one to load poster",
+        },
+        {
+          "type": "fix",
+          "detail":
+              "Fix issues with playlists identifying incorrectly by switching to use syncMediaType before mediaType",
+        },
+      ]
+    },
+    {
+      "version": "v2.2.3",
+      "date": "February 23, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Allow synced items to be deleted, swipe left on a synced item to access the delete button",
+        },
+        {
+          "type": "new",
+          "detail":
+              "Added pull to refresh on library media info tab, this triggers a full refresh of the library in Tautulli",
+        },
+        {
+          "type": "new",
+          "detail": "Add link to open Tautulli server in a web browser under the Server Settings page",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjust albums to be 3 across on media item page albums tab",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add a user filter to synced items page",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add additional customization to PosterCard widget",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add fallback to media item page to use metadata poster url if one isn't provided",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjust icons for links that navigate outside of the Tautulli Remote",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add support to override the connection timeout to Tautulli for specific use cases",
+        },
+        {
+          "type": "improvement",
+          "detail": "Cleaned up various code elements, no changes to functionality",
+        },
+        {
+          "type": "fix",
+          "detail": "Correctly display collections and playlists on synced items page",
+        },
+        {
+          "type": "fix",
+          "detail": "Correctly display collections and playlists on media item page",
+        },
+      ]
+    },
+    {
+      "version": "v2.2.2",
+      "date": "February 20, 2021",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "Show generic 'Unknown error' in Activity StatusCard when there is no failure mapping",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add logging when an exception has no failure mapping",
+        },
+        {
+          "type": "improvement",
+          "detail": "Add Failure mapping for HandshakeException",
+        },
+        {
+          "type": "fix",
+          "detail": "Make sure Activity StatusCards take up the full width",
+        },
+      ]
+    },
+    {
+      "version": "v2.2.1",
+      "date": "February 18, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Library detail pages now use tabs and show history",
+        },
+        {
+          "type": "improvement",
+          "detail": "Multiserver headers will now 'stick' to the top when scrolling on the Activity Page",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjusted layout of changelog change type tags",
+        },
+        {
+          "type": "improvement",
+          "detail": "Libraries page sort icons now use alpha and numeric icons",
         },
         {
           "type": "improvement",
           "detail":
-              "When re-registering an existing server a message is now displayed to show that the entry was updated",
+              "Do not set refresh to true when calling get_library_media_info (should speed up the time to load library items)",
         },
-      ],
+        {
+          "type": "improvement",
+          "detail": "Move off deprecated FlatButton and RaisedButton to TextButton and ElevatedButton respectively",
+        },
+        {
+          "type": "improvement",
+          "detail": "Rename history_users to users_list and move from the history to users function",
+        },
+        {
+          "type": "improvement",
+          "detail": "Remove dependency on a custom modalBottomSheet",
+        },
+        {
+          "type": "fix",
+          "detail": "Adjust icon card behavior so the Concurrent Streams icon is not all one color",
+        },
+      ]
     },
     {
-      "version": "v3.0.0-alpha.1",
-      "date": "Feb 13, 2022",
+      "version": "v2.2.0",
+      "date": "February 17, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added an in-app changelog that displays on first start of a new app version",
+        },
+        {
+          "type": "new",
+          "detail": "Setting to mask sensitive info in the UI (useful for sharing screenshots)",
+        },
+        {
+          "type": "improvement",
+          "detail": "Move the logs page link out of the appbar on Help & Support",
+        },
+        {
+          "type": "fix",
+          "detail": "Change Kbps to kbps on media info page details tab",
+        },
+        {
+          "type": "fix",
+          "detail": "Prevent failure when sorting albums that have no year",
+        },
+      ]
+    },
+    {
+      "version": "v2.1.5",
+      "date": "February 15, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail":
+              "Libraries are now displayed as a grid of posters/art (photo libraries distinguish between photo, photo album, and video clip)",
+        },
+        {
+          "type": "new",
+          "detail": "Photos now have a media info page",
+        },
+        {
+          "type": "new",
+          "detail": "Additional file details added to the media info details tab",
+        },
+        {
+          "type": "improvement",
+          "detail": "Libraries load all their items at once",
+        },
+        {
+          "type": "improvement",
+          "detail": "Logging has been overhauled across the app",
+        },
+      ]
+    },
+    {
+      "version": "v2.1.4",
+      "date": "February 11, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Jump directly to an item in the Plex app from the media info page",
+        },
+      ]
+    },
+    {
+      "version": "v2.1.3",
+      "date": "February 11, 2021",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Jump to a parent media info page for shows and music",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjust sorting of information on media info page details tab",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjust settings alert banner behavior",
+        },
+        {
+          "type": "improvement",
+          "detail": "Refactor API code",
+        },
+      ]
+    },
+    {
+      "version": "v2.1.2",
+      "date": "February 9, 2021",
       "changes": [
         {
           "type": "important",
-          "detail": "Version 3 is a work in progress being re-written from the ground up",
+          "detail": "Minimum Tautulli version bumped to 2.6.6",
         },
         {
-          "type": "important",
-          "detail": "Check the 'How To Test' page on how to submit feedback or bugs",
+          "type": "fix",
+          "detail": "Fix behavior for loading synced items media details",
         },
         {
-          "type": "important",
-          "detail": "Donations cannot be tested in the alpha, they will always fail to load",
+          "type": "fix",
+          "detail": "Fix issue where resuming app with activity details open could result in black screen",
         },
+      ]
+    },
+    {
+      "version": "v2.1.1",
+      "date": "February 5, 2021",
+      "changes": [
         {
           "type": "new",
-          "detail": "Core settings and related functions/pages have been added",
+          "detail": "View media details for synced items",
         },
+        {
+          "type": "fix",
+          "detail": "Media item history rows no longer cut off early on some screen sizes",
+        },
+        {
+          "type": "fix",
+          "detail": "Hide the activity details 'View Media' button for photos",
+        },
+        {
+          "type": "fix",
+          "detail": "Properly handle viewing photo albums",
+        },
+        {
+          "type": "fix",
+          "detail": "Do not allow Live TV to be selected in Libraries",
+        },
+      ]
+    },
+    {
+      "version": "v2.1.0",
+      "date": "February 5, 2021",
+      "changes": [
         {
           "type": "new",
           "detail":
-              "A new data dump page for testing had been added to view current app, server, and OneSignal information",
+              "You can now view media details. Navigate through your libraries directly or tap on select items to view media details, seasons/episodes/albums/tracks, as well as unique history for each item.",
         },
-      ],
+      ]
+    },
+    {
+      "version": "v2.0.1",
+      "date": "October 23, 2020",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Use Tautulli server time/date format settings",
+        },
+      ]
+    },
+    {
+      "version": "v2.0.0",
+      "date": "October 18, 2020",
+      "changes": [
+        {
+          "type": "",
+          "detail": "Initial release",
+        },
+      ]
     },
   ]
 };
