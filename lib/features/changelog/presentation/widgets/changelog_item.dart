@@ -41,6 +41,14 @@ class ChangelogItem extends StatelessWidget {
                 ],
               ),
               const Divider(),
+              if (release['intro'] != null)
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(release['intro']),
+                    const Divider(),
+                  ],
+                ),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,

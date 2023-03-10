@@ -49,12 +49,14 @@ class ChangelogView extends StatelessWidget {
         ],
       ),
       body: PageBody(
-        child: ListView(
-          padding: const EdgeInsets.all(8.0),
-          children: [
-            // const ChangelogNotice(),
-            ..._buildChangelogEntries(changelog['data']),
-          ],
+        child: Scrollbar(
+          child: ListView(
+            padding: const EdgeInsets.all(8.0),
+            children: [
+              // const ChangelogNotice(),
+              ..._buildChangelogEntries(changelog['data']),
+            ],
+          ),
         ),
       ),
     );
