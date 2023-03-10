@@ -1,189 +1,175 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
-import 'package:quiver/strings.dart';
 
-import '../../../../core/database/data/models/custom_header_model.dart';
-import '../../../../core/database/domain/entities/server.dart';
+import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/connection_address_helper.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
-import '../../domain/usecases/register_device.dart';
+import '../../data/models/connection_address_model.dart';
+import '../../data/models/custom_header_model.dart';
 import '../../domain/usecases/settings.dart';
 import 'settings_bloc.dart';
 
 part 'register_device_event.dart';
 part 'register_device_state.dart';
 
-String primaryConnectionAddressCache;
-String secondaryConnectionAddressCache;
-String deviceTokenCache;
-List<CustomHeaderModel> headersCache = [];
+String? primaryConnectionAddressCache;
+String? secondaryConnectionAddressCache;
+String? deviceTokenCache;
+List<CustomHeaderModel> customHeadersCache = [];
 
-class RegisterDeviceBloc
-    extends Bloc<RegisterDeviceEvent, RegisterDeviceState> {
-  final RegisterDevice registerDevice;
-  final Settings settings;
-  final OneSignalDataSource onesignal;
+class RegisterDeviceBloc extends Bloc<RegisterDeviceEvent, RegisterDeviceState> {
   final Logging logging;
+  final Settings settings;
 
   RegisterDeviceBloc({
-    @required this.registerDevice,
-    @required this.settings,
-    @required this.onesignal,
-    @required this.logging,
-  }) : super(RegisterDeviceInitial());
-
-  @override
-  Stream<RegisterDeviceState> mapEventToState(
-    RegisterDeviceEvent event,
-  ) async* {
-    if (event is RegisterDeviceStarted) {
-      yield* _mapRegisterDeviceStartedToState(
-        primaryConnectionAddress: event.primaryConnectionAddress,
-        secondaryConnectionAddress: event.secondaryConnectionAddress,
-        deviceToken: event.deviceToken,
-        headers: event.headers,
-        settingsBloc: event.settingsBloc,
-      );
-    }
-    if (event is RegisterDeviceUnverifiedCert) {
-      yield RegisterDeviceInProgress();
-
-      yield* _failureOrRegisterDevice(
-        primaryConnectionAddressCache,
-        secondaryConnectionAddressCache,
-        deviceTokenCache,
-        event.settingsBloc,
-        headers: headersCache,
-        trustCert: true,
-      );
-    }
-  }
-
-  Stream<RegisterDeviceState> _mapRegisterDeviceStartedToState({
-    @required String primaryConnectionAddress,
-    String secondaryConnectionAddress,
-    @required String deviceToken,
-    List<CustomHeaderModel> headers,
-    @required SettingsBloc settingsBloc,
-  }) async* {
-    yield RegisterDeviceInProgress();
-
-    primaryConnectionAddressCache = primaryConnectionAddress.trim();
-    secondaryConnectionAddressCache = secondaryConnectionAddress != null
-        ? secondaryConnectionAddress.trim()
-        : '';
-    deviceTokenCache = deviceToken.trim();
-    headersCache = headers;
-
-    yield* _failureOrRegisterDevice(
-      primaryConnectionAddressCache,
-      secondaryConnectionAddressCache,
-      deviceTokenCache,
-      settingsBloc,
-      headers: headersCache,
+    required this.logging,
+    required this.settings,
+  }) : super(RegisterDeviceInitial()) {
+    on<RegisterDeviceStarted>(
+      (event, emit) => _onRegisterDeviceStarted(event, emit),
+    );
+    on<RegisterDeviceUnverifiedCert>(
+      (event, emit) => _onRegisterDeviceUnverifiedCert(event, emit),
     );
   }
 
-  Stream<RegisterDeviceState> _failureOrRegisterDevice(
-    String primaryConnectionAddress,
-    String secondaryConnectionAddress,
-    String deviceToken,
-    SettingsBloc settingsBloc, {
-    List<CustomHeaderModel> headers,
-    bool trustCert = false,
-  }) async* {
-    final primaryConnectionMap =
-        ConnectionAddressHelper.parse(primaryConnectionAddress);
-    final primaryConnectionProtocol = primaryConnectionMap['protocol'];
-    final primaryConnectionDomain = primaryConnectionMap['domain'];
-    final primaryConnectionPath = primaryConnectionMap['path'];
+  void _onRegisterDeviceStarted(
+    RegisterDeviceStarted event,
+    Emitter<RegisterDeviceState> emit,
+  ) async {
+    primaryConnectionAddressCache = event.primaryConnectionAddress.trim();
+    secondaryConnectionAddressCache = event.secondaryConnectionAddress.trim();
+    deviceTokenCache = event.deviceToken.trim();
+    customHeadersCache = event.headers;
 
-    final onesignalRegistered = isNotEmpty(await onesignal.userId);
+    emit(
+      RegisterDeviceInProgress(),
+    );
 
-    final failureOrRegistered = await registerDevice(
-      connectionProtocol: primaryConnectionProtocol,
-      connectionDomain: primaryConnectionDomain,
-      connectionPath: primaryConnectionPath,
-      deviceToken: deviceToken,
-      headers: headers,
+    await _callRegisterDevice(
+      emit: emit,
+      trustCert: false,
+      settingsBloc: event.settingsBloc,
+    );
+  }
+
+  void _onRegisterDeviceUnverifiedCert(
+    RegisterDeviceUnverifiedCert event,
+    Emitter<RegisterDeviceState> emit,
+  ) async {
+    emit(
+      RegisterDeviceInProgress(),
+    );
+
+    await _callRegisterDevice(
+      emit: emit,
+      trustCert: true,
+      settingsBloc: event.settingsBloc,
+    );
+  }
+
+  Future<void> _callRegisterDevice({
+    required Emitter<RegisterDeviceState> emit,
+    required bool trustCert,
+    required SettingsBloc settingsBloc,
+  }) async {
+    final primaryConnectionAddress = ConnectionAddressModel.fromConnectionAddress(
+      primary: true,
+      connectionAddress: primaryConnectionAddressCache!,
+    );
+
+    final failureOrResult = await settings.registerDevice(
+      connectionProtocol: primaryConnectionAddress.protocol!.toShortString(),
+      connectionDomain: primaryConnectionAddress.domain!,
+      connectionPath: primaryConnectionAddress.path ?? '',
+      deviceToken: deviceTokenCache!,
+      customHeaders: customHeadersCache,
       trustCert: trustCert,
     );
 
-    yield* failureOrRegistered.fold(
-      (failure) async* {
+    await failureOrResult.fold(
+      (failure) {
         logging.error(
-          'RegisterDevice: Failed to register device [$failure]',
+          'RegisterDevice :: Failed to register device [$failure]',
         );
 
-        yield RegisterDeviceFailure(failure: failure);
+        emit(
+          RegisterDeviceFailure(failure),
+        );
       },
-      (registeredData) async* {
-        final Server existingServer =
-            await settings.getServerByTautulliId(registeredData['server_id']);
+      (result) async {
+        final registerResults = result.value1;
+        final bool oneSignalRegistered = await di.sl<OneSignalDataSource>().userId != 'onesignal-disabled';
 
-        bool plexPass;
-        switch (registeredData['pms_plexpass']) {
-          case (0):
-            plexPass = false;
-            break;
-          case (1):
-            plexPass = true;
-            break;
-        }
+        try {
+          if (registerResults.serverId != null) {
+            final existingServer = await settings.getServerByTautulliId(
+              registerResults.serverId!,
+            );
 
-        if (existingServer == null) {
-          settingsBloc.add(
-            SettingsAddServer(
-              primaryConnectionAddress: primaryConnectionAddress,
-              secondaryConnectionAddress: secondaryConnectionAddress,
-              deviceToken: deviceToken,
-              tautulliId: registeredData['server_id'],
-              plexName: registeredData['pms_name'],
-              plexIdentifier: registeredData['pms_identifier'],
-              plexPass: plexPass,
-              onesignalRegistered: onesignalRegistered,
-              headers: headers,
-            ),
+            if (existingServer == null) {
+              settingsBloc.add(
+                SettingsAddServer(
+                  primaryConnectionAddress: primaryConnectionAddressCache!,
+                  secondaryConnectionAddress: secondaryConnectionAddressCache,
+                  deviceToken: deviceTokenCache!,
+                  tautulliId: registerResults.serverId!,
+                  plexName: registerResults.pmsName!,
+                  plexIdentifier: registerResults.pmsIdentifier!,
+                  plexPass: registerResults.pmsPlexpass!,
+                  oneSignalRegistered: oneSignalRegistered,
+                  customHeaders: customHeadersCache,
+                ),
+              );
+
+              emit(
+                RegisterDeviceSuccess(
+                  serverName: registerResults.pmsName!,
+                  isUpdate: false,
+                ),
+              );
+            } else {
+              settingsBloc.add(
+                SettingsUpdateServer(
+                  id: existingServer.id!,
+                  sortIndex: existingServer.sortIndex,
+                  primaryConnectionAddress: primaryConnectionAddressCache!,
+                  secondaryConnectionAddress: secondaryConnectionAddressCache ?? '',
+                  deviceToken: deviceTokenCache!,
+                  tautulliId: registerResults.serverId!,
+                  plexName: registerResults.pmsName!,
+                  plexIdentifier: registerResults.pmsIdentifier!,
+                  plexPass: registerResults.pmsPlexpass!,
+                  oneSignalRegistered: oneSignalRegistered,
+                  customHeaders: customHeadersCache,
+                  dateFormat: existingServer.dateFormat,
+                  timeFormat: existingServer.timeFormat,
+                ),
+              );
+            }
+            emit(
+              RegisterDeviceSuccess(
+                serverName: registerResults.pmsName!,
+                isUpdate: true,
+              ),
+            );
+            settings.setRegistrationUpdateNeeded(false);
+          } else {
+            throw BadApiResponseException();
+          }
+        } catch (e) {
+          final failure = FailureHelper.castToFailure(e);
+
+          logging.error(
+            'RegisterDevice :: Failed to properly save server [$failure]',
           );
 
-          logging.info(
-            'RegisterDevice: Successfully registered ${registeredData['pms_name']}',
+          emit(
+            RegisterDeviceFailure(failure),
           );
-
-          yield RegisterDeviceSuccess();
-        } else {
-          settingsBloc.add(
-            SettingsUpdateServer(
-              id: existingServer.id,
-              sortIndex: existingServer.sortIndex,
-              primaryConnectionAddress: primaryConnectionAddress,
-              secondaryConnectionAddress:
-                  existingServer.secondaryConnectionAddress,
-              deviceToken: deviceToken,
-              tautulliId: registeredData['server_id'],
-              plexName: registeredData['pms_name'],
-              plexIdentifier: registeredData['pms_identifier'],
-              plexPass: plexPass,
-              dateFormat: existingServer.dateFormat,
-              timeFormat: existingServer.timeFormat,
-              onesignalRegistered: onesignalRegistered,
-              headers: headers,
-            ),
-          );
-
-          logging.info(
-            'RegisterDevice: Successfully updated information for ${registeredData['pms_name']}',
-          );
-
-          yield RegisterDeviceSuccess();
         }
       },
     );

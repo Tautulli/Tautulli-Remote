@@ -1,209 +1,127 @@
-// @dart=2.9
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
-import '../../../../core/database/data/models/custom_header_model.dart';
-import '../../../../core/database/domain/entities/server.dart';
+import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/pages/status_page.dart';
+import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
-import '../../../../core/widgets/error_message.dart';
-import '../../../../core/widgets/inherited_headers.dart';
-import '../../../../core/widgets/poster_card.dart';
-import '../../../../injection_container.dart' as di;
+import '../../../../core/widgets/page_body.dart';
+import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../translations/locale_keys.g.dart';
-import '../../../history/presentation/bloc/history_individual_bloc.dart';
-import '../../../history/presentation/widgets/history_details.dart';
-import '../../../history/presentation/widgets/history_modal_bottom_sheet.dart';
+import '../../../history/presentation/bloc/user_history_bloc.dart';
+import '../../../history/presentation/widgets/history_card.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/user_table.dart';
+import '../../data/models/user_model.dart';
 
-class UserDetailsHistoryTab extends StatelessWidget {
-  final UserTable user;
+class UserDetailsHistoryTab extends StatefulWidget {
+  final ServerModel server;
+  final UserModel user;
 
   const UserDetailsHistoryTab({
-    Key key,
-    @required this.user,
-  }) : super(key: key);
+    super.key,
+    required this.server,
+    required this.user,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => di.sl<HistoryIndividualBloc>(),
-      child: UserDetailsHistoryTabContent(
-        user: user,
-      ),
-    );
-  }
+  State<UserDetailsHistoryTab> createState() => _UserDetailsHistoryTabState();
 }
 
-class UserDetailsHistoryTabContent extends StatefulWidget {
-  final UserTable user;
-
-  UserDetailsHistoryTabContent({
-    Key key,
-    @required this.user,
-  }) : super(key: key);
-
-  @override
-  _UserDetailsHistoryTabContentState createState() =>
-      _UserDetailsHistoryTabContentState();
-}
-
-class _UserDetailsHistoryTabContentState
-    extends State<UserDetailsHistoryTabContent> {
-  final _scrollController = ScrollController();
-  final _scrollThreshold = 200.0;
-  SettingsBloc _settingsBloc;
-  HistoryIndividualBloc _historyIndividualBloc;
-  String _tautulliId;
-  bool _maskSensitiveInfo;
-  Map<String, String> headerMap = {};
+class _UserDetailsHistoryTabState extends State<UserDetailsHistoryTab> {
+  ScrollController? _scrollController;
+  late UserHistoryBloc _userHistoryBloc;
+  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    _userHistoryBloc = context.read<UserHistoryBloc>();
     _settingsBloc = context.read<SettingsBloc>();
-    _historyIndividualBloc = context.read<HistoryIndividualBloc>();
-
-    final settingsState = _settingsBloc.state;
-
-    if (settingsState is SettingsLoadSuccess) {
-      String lastSelectedServer;
-
-      _maskSensitiveInfo = settingsState.maskSensitiveInfo;
-
-      if (settingsState.lastSelectedServer != null) {
-        for (Server server in settingsState.serverList) {
-          if (server.tautulliId == settingsState.lastSelectedServer) {
-            lastSelectedServer = settingsState.lastSelectedServer;
-
-            for (CustomHeaderModel header in server.customHeaders) {
-              headerMap[header.key] = header.value;
-            }
-
-            break;
-          }
-        }
-      }
-
-      if (lastSelectedServer != null) {
-        setState(() {
-          _tautulliId = lastSelectedServer;
-        });
-      } else if (settingsState.serverList.isNotEmpty) {
-        setState(() {
-          _tautulliId = settingsState.serverList[0].tautulliId;
-          for (CustomHeaderModel header
-              in settingsState.serverList[0].customHeaders) {
-            headerMap[header.key] = header.value;
-          }
-        });
-      } else {
-        _tautulliId = null;
-      }
-
-      _historyIndividualBloc.add(
-        HistoryIndividualFetch(
-          tautulliId: _tautulliId,
-          userId: widget.user.userId,
-          getImages: true,
-          settingsBloc: _settingsBloc,
-        ),
-      );
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HistoryIndividualBloc, HistoryIndividualState>(
+    // Only attach scrollController if it's currently null
+    if (_scrollController == null) {
+      _scrollController = PrimaryScrollController.of(context);
+      _scrollController!.addListener(_onScroll);
+    }
+
+    return BlocBuilder<UserHistoryBloc, UserHistoryState>(
       builder: (context, state) {
-        if (state is HistoryIndividualFailure) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ErrorMessage(
-                failure: state.failure,
-                message: state.message,
-                suggestion: state.suggestion,
+        return ThemedRefreshIndicator(
+          onRefresh: () {
+            _userHistoryBloc.add(
+              UserHistoryFetched(
+                server: widget.server,
+                userId: widget.user.userId!,
+                settingsBloc: _settingsBloc,
+                freshFetch: true,
               ),
-            ],
-          );
-        }
-        if (state is HistoryIndividualSuccess) {
-          final SettingsLoadSuccess settingsState = _settingsBloc.state;
-          final server = settingsState.serverList.firstWhere(
-            (server) => server.tautulliId == _tautulliId,
-          );
+            );
 
-          return state.list.isEmpty
-              ? Center(
-                  child: const Text(LocaleKeys.history_empty).tr(),
-                )
-              : InheritedHeaders(
-                  headerMap: headerMap,
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    child: Scrollbar(
-                      child: ListView.builder(
-                        itemCount: state.hasReachedMax
-                            ? state.list.length
-                            : state.list.length + 1,
-                        controller: _scrollController,
-                        itemBuilder: (context, index) {
-                          final SettingsLoadSuccess settingsState =
-                              _settingsBloc.state;
+            return Future.value();
+          },
+          child: PageBody(
+            loading: state.status == BlocStatus.initial,
+            child: BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, settingsState) {
+                settingsState as SettingsSuccess;
 
-                          return index >= state.list.length
-                              ? BottomLoader()
-                              : GestureDetector(
-                                  onTap: () {
-                                    return showModalBottomSheet(
-                                      context: context,
-                                      barrierColor: Colors.black87,
-                                      backgroundColor: Colors.transparent,
-                                      isScrollControlled: true,
-                                      builder: (context) => BlocBuilder<
-                                          SettingsBloc, SettingsState>(
-                                        builder: (context, settingsState) {
-                                          return HistoryModalBottomSheet(
-                                            item: state.list[index],
-                                            server: server,
-                                            maskSensitiveInfo: settingsState
-                                                    is SettingsLoadSuccess
-                                                ? settingsState
-                                                    .maskSensitiveInfo
-                                                : false,
-                                            disableUserButton: true,
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  child: PosterCard(
-                                    item: state.list[index],
-                                    details: HistoryDetails(
-                                      historyItem: state.list[index],
-                                      server:
-                                          settingsState.serverList.firstWhere(
-                                        (server) =>
-                                            server.tautulliId == _tautulliId,
-                                      ),
-                                      maskSensitiveInfo: _maskSensitiveInfo,
-                                    ),
-                                  ),
-                                );
+                if (state.status == BlocStatus.failure) {
+                  return StatusPage(
+                    scrollable: true,
+                    message: state.message ?? 'Unknown failure.',
+                    suggestion: state.suggestion,
+                  );
+                }
+
+                if (state.history.isEmpty) {
+                  return StatusPage(
+                    scrollable: true,
+                    message: LocaleKeys.history_empty_message.tr(),
+                  );
+                }
+
+                return ListView.separated(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: state.hasReachedMax || state.status == BlocStatus.initial
+                      ? state.history.length
+                      : state.history.length + 1,
+                  separatorBuilder: (context, index) => const Gap(8),
+                  itemBuilder: (context, index) {
+                    if (index >= state.history.length) {
+                      return BottomLoader(
+                        status: state.status,
+                        failure: state.failure,
+                        message: state.message,
+                        suggestion: state.suggestion,
+                        onTap: () {
+                          _userHistoryBloc.add(
+                            UserHistoryFetched(
+                              server: widget.server,
+                              userId: widget.user.userId!,
+                              settingsBloc: _settingsBloc,
+                            ),
+                          );
                         },
-                      ),
-                    ),
-                  ),
+                      );
+                    }
+
+                    final history = state.history[index];
+
+                    return HistoryCard(
+                      server: widget.server,
+                      history: history,
+                      showUser: false,
+                      viewUserEnabled: false,
+                    );
+                  },
                 );
-        }
-        return Center(
-          child: CircularProgressIndicator(
-            color: Theme.of(context).accentColor,
+              },
+            ),
           ),
         );
       },
@@ -212,22 +130,26 @@ class _UserDetailsHistoryTabContentState
 
   @override
   void dispose() {
+    _scrollController!.removeListener(_onScroll);
     super.dispose();
-    _scrollController.dispose();
   }
 
   void _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll <= _scrollThreshold) {
-      _historyIndividualBloc.add(
-        HistoryIndividualFetch(
-          tautulliId: _tautulliId,
-          userId: widget.user.userId,
-          getImages: true,
+    if (_isBottom) {
+      _userHistoryBloc.add(
+        UserHistoryFetched(
+          server: widget.server,
+          userId: widget.user.userId!,
           settingsBloc: _settingsBloc,
         ),
       );
     }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController!.hasClients) return false;
+    final maxScroll = _scrollController!.position.maxScrollExtent;
+    final currentScroll = _scrollController!.offset;
+    return currentScroll >= (maxScroll * 0.95);
   }
 }

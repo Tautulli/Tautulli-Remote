@@ -1,68 +1,40 @@
-// @dart=2.9
-
 part of 'statistics_bloc.dart';
 
 abstract class StatisticsEvent extends Equatable {
   const StatisticsEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
-class StatisticsFetch extends StatisticsEvent {
-  final String tautulliId;
-  final int grouping;
+class StatisticsFetched extends StatisticsEvent {
+  final ServerModel server;
   final int timeRange;
-  final String statsType;
-  final int statsStart;
-  final int statsCount;
-  final String statId;
+  final PlayMetricType statsType;
+  final bool freshFetch;
   final SettingsBloc settingsBloc;
 
-  StatisticsFetch({
-    @required this.tautulliId,
-    this.grouping,
-    this.timeRange,
-    this.statsType,
-    this.statsStart,
-    this.statsCount,
-    this.statId,
-    @required this.settingsBloc,
+  const StatisticsFetched({
+    required this.server,
+    required this.timeRange,
+    required this.statsType,
+    this.freshFetch = false,
+    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [
-        tautulliId,
-        grouping,
-        timeRange,
-        statsType,
-        statsCount,
-        settingsBloc,
-      ];
+  List<Object> get props => [server, timeRange, statsType, freshFetch, settingsBloc];
 }
 
-class StatisticsFilter extends StatisticsEvent {
-  final String tautulliId;
-  final int grouping;
-  final int timeRange;
-  final String statsType;
-  final int statsStart;
-  final int statsCount;
-  final String statId;
+class StatisticsFetchMore extends StatisticsEvent {
+  final StatIdType statIdType;
+  final SettingsBloc settingsBloc;
 
-  StatisticsFilter({
-    @required this.tautulliId,
-    this.grouping,
-    this.timeRange,
-    this.statsType,
-    this.statsStart,
-    this.statsCount,
-    this.statId,
+  const StatisticsFetchMore({
+    required this.statIdType,
+    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [
-        tautulliId,
-        grouping,
-        timeRange,
-        statsType,
-        statsCount,
-      ];
+  List<Object> get props => [statIdType, settingsBloc];
 }

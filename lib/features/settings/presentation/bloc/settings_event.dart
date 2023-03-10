@@ -1,15 +1,7 @@
-// @dart=2.9
-
 part of 'settings_bloc.dart';
 
 abstract class SettingsEvent extends Equatable {
   const SettingsEvent();
-}
-
-class SettingsLoad extends SettingsEvent {
-  final SettingsBloc settingsBloc;
-
-  SettingsLoad({@required this.settingsBloc});
 
   @override
   List<Object> get props => [];
@@ -17,38 +9,241 @@ class SettingsLoad extends SettingsEvent {
 
 class SettingsAddServer extends SettingsEvent {
   final String primaryConnectionAddress;
-  final String secondaryConnectionAddress;
+  final String? secondaryConnectionAddress;
   final String deviceToken;
   final String tautulliId;
   final String plexName;
   final String plexIdentifier;
   final bool plexPass;
-  final bool onesignalRegistered;
-  List<CustomHeaderModel> headers;
+  final bool oneSignalRegistered;
+  final List<CustomHeaderModel>? customHeaders;
 
-  SettingsAddServer({
-    @required this.primaryConnectionAddress,
+  const SettingsAddServer({
+    required this.primaryConnectionAddress,
     this.secondaryConnectionAddress,
-    @required this.deviceToken,
-    @required this.tautulliId,
-    @required this.plexName,
-    @required this.plexIdentifier,
-    @required this.plexPass,
-    this.onesignalRegistered,
-    this.headers,
+    required this.deviceToken,
+    required this.tautulliId,
+    required this.plexName,
+    required this.plexIdentifier,
+    required this.plexPass,
+    required this.oneSignalRegistered,
+    this.customHeaders,
   });
 
   @override
   List<Object> get props => [
         primaryConnectionAddress,
-        secondaryConnectionAddress,
         deviceToken,
         tautulliId,
         plexName,
         plexPass,
-        onesignalRegistered,
-        headers,
+        oneSignalRegistered,
       ];
+}
+
+class SettingsClearCache extends SettingsEvent {}
+
+class SettingsDeleteCustomHeader extends SettingsEvent {
+  final String tautulliId;
+  final String title;
+
+  const SettingsDeleteCustomHeader({
+    required this.tautulliId,
+    required this.title,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, title];
+}
+
+class SettingsDeleteServer extends SettingsEvent {
+  final int id;
+  final String plexName;
+
+  const SettingsDeleteServer({
+    required this.id,
+    required this.plexName,
+  });
+
+  @override
+  List<Object> get props => [id, plexName];
+}
+
+class SettingsLoad extends SettingsEvent {
+  final bool updateServerInfo;
+
+  const SettingsLoad({
+    this.updateServerInfo = true,
+  });
+
+  @override
+  List<Object> get props => [updateServerInfo];
+}
+
+class SettingsUpdateActiveServer extends SettingsEvent {
+  final ServerModel activeServer;
+
+  const SettingsUpdateActiveServer({
+    required this.activeServer,
+  });
+
+  @override
+  List<Object> get props => [activeServer];
+}
+
+class SettingsUpdateConnectionInfo extends SettingsEvent {
+  final bool primary;
+  final String connectionAddress;
+  final ServerModel server;
+
+  const SettingsUpdateConnectionInfo({
+    required this.primary,
+    required this.connectionAddress,
+    required this.server,
+  });
+
+  @override
+  List<Object> get props => [primary, connectionAddress, server];
+}
+
+class SettingsUpdateCustomHeaders extends SettingsEvent {
+  final String tautulliId;
+  final String title;
+  final String subtitle;
+  final bool basicAuth;
+  final String? previousTitle;
+
+  const SettingsUpdateCustomHeaders({
+    required this.tautulliId,
+    required this.title,
+    required this.subtitle,
+    required this.basicAuth,
+    this.previousTitle,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, title, subtitle, basicAuth];
+}
+
+class SettingsUpdateDoubleBackToExit extends SettingsEvent {
+  final bool doubleBackToExit;
+
+  const SettingsUpdateDoubleBackToExit(this.doubleBackToExit);
+
+  @override
+  List<Object> get props => [doubleBackToExit];
+}
+
+class SettingsUpdateGraphTimeRange extends SettingsEvent {
+  final int graphTimeRange;
+
+  const SettingsUpdateGraphTimeRange(this.graphTimeRange);
+
+  @override
+  List<Object> get props => [graphTimeRange];
+}
+
+class SettingsUpdateGraphTipsShown extends SettingsEvent {
+  final bool graphTipsShown;
+
+  const SettingsUpdateGraphTipsShown(this.graphTipsShown);
+
+  @override
+  List<Object> get props => [graphTipsShown];
+}
+
+class SettingsUpdateGraphYAxis extends SettingsEvent {
+  final PlayMetricType graphYAxis;
+
+  const SettingsUpdateGraphYAxis(this.graphYAxis);
+
+  @override
+  List<Object> get props => [graphYAxis];
+}
+
+class SettingsUpdateLibrariesSort extends SettingsEvent {
+  final String librariesSort;
+
+  const SettingsUpdateLibrariesSort(this.librariesSort);
+
+  @override
+  List<Object> get props => [librariesSort];
+}
+
+class SettingsUpdateLibraryMediaFullRefresh extends SettingsEvent {
+  final bool libraryMediaFullRefresh;
+
+  const SettingsUpdateLibraryMediaFullRefresh(this.libraryMediaFullRefresh);
+
+  @override
+  List<Object> get props => [libraryMediaFullRefresh];
+}
+
+class SettingsUpdateMaskSensitiveInfo extends SettingsEvent {
+  final bool maskSensitiveInfo;
+
+  const SettingsUpdateMaskSensitiveInfo(this.maskSensitiveInfo);
+
+  @override
+  List<Object> get props => [maskSensitiveInfo];
+}
+
+class SettingsUpdateMultiserverActivity extends SettingsEvent {
+  final bool multiserverActivity;
+
+  const SettingsUpdateMultiserverActivity(this.multiserverActivity);
+
+  @override
+  List<Object> get props => [multiserverActivity];
+}
+
+class SettingsUpdateOneSignalBannerDismiss extends SettingsEvent {
+  final bool dismiss;
+
+  const SettingsUpdateOneSignalBannerDismiss(this.dismiss);
+
+  @override
+  List<Object> get props => [dismiss];
+}
+
+class SettingsUpdateOneSignalConsented extends SettingsEvent {
+  final bool consented;
+
+  const SettingsUpdateOneSignalConsented(this.consented);
+
+  @override
+  List<Object> get props => [consented];
+}
+
+class SettingsUpdatePrimaryActive extends SettingsEvent {
+  final String tautulliId;
+  final bool primaryActive;
+
+  const SettingsUpdatePrimaryActive({
+    required this.tautulliId,
+    required this.primaryActive,
+  });
+
+  @override
+  List<Object> get props => [tautulliId, primaryActive];
+}
+
+class SettingsUpdateRefreshRate extends SettingsEvent {
+  final int refreshRate;
+
+  const SettingsUpdateRefreshRate(this.refreshRate);
+
+  @override
+  List<Object> get props => [refreshRate];
+}
+
+class SettingsUpdateSecret extends SettingsEvent {
+  final bool secret;
+
+  const SettingsUpdateSecret(this.secret);
+
+  @override
+  List<Object> get props => [secret];
 }
 
 class SettingsUpdateServer extends SettingsEvent {
@@ -61,25 +256,25 @@ class SettingsUpdateServer extends SettingsEvent {
   final String plexName;
   final String plexIdentifier;
   final bool plexPass;
-  final String dateFormat;
-  final String timeFormat;
-  final bool onesignalRegistered;
-  final List<CustomHeaderModel> headers;
+  final String? dateFormat;
+  final String? timeFormat;
+  final bool oneSignalRegistered;
+  final List<CustomHeaderModel>? customHeaders;
 
-  SettingsUpdateServer({
-    @required this.id,
-    @required this.sortIndex,
-    @required this.primaryConnectionAddress,
-    @required this.secondaryConnectionAddress,
-    @required this.deviceToken,
-    @required this.tautulliId,
-    @required this.plexName,
-    @required this.plexIdentifier,
-    @required this.plexPass,
-    @required this.dateFormat,
-    @required this.timeFormat,
-    this.onesignalRegistered,
-    this.headers,
+  const SettingsUpdateServer({
+    required this.id,
+    required this.sortIndex,
+    required this.primaryConnectionAddress,
+    required this.secondaryConnectionAddress,
+    required this.deviceToken,
+    required this.tautulliId,
+    required this.plexName,
+    required this.plexIdentifier,
+    required this.plexPass,
+    this.dateFormat,
+    this.timeFormat,
+    required this.oneSignalRegistered,
+    this.customHeaders,
   });
 
   @override
@@ -92,97 +287,30 @@ class SettingsUpdateServer extends SettingsEvent {
         tautulliId,
         plexName,
         plexPass,
-        dateFormat,
-        timeFormat,
-        onesignalRegistered,
-        headers,
+        oneSignalRegistered,
       ];
 }
 
-class SettingsUpdatePrimaryConnection extends SettingsEvent {
-  final int id;
-  final String primaryConnectionAddress;
-  final String plexName;
+class SettingsUpdateServerPlexAndTautulliInfo extends SettingsEvent {
+  final ServerModel serverModel;
 
-  SettingsUpdatePrimaryConnection({
-    @required this.id,
-    @required this.primaryConnectionAddress,
-    @required this.plexName,
+  const SettingsUpdateServerPlexAndTautulliInfo({
+    required this.serverModel,
   });
 
   @override
-  List<Object> get props => [id, primaryConnectionAddress, plexName];
+  List<Object> get props => [serverModel];
 }
 
-class SettingsUpdateSecondaryConnection extends SettingsEvent {
-  final int id;
-  final String secondaryConnectionAddress;
-  final String plexName;
-
-  SettingsUpdateSecondaryConnection({
-    @required this.id,
-    @required this.secondaryConnectionAddress,
-    @required this.plexName,
-  });
-
-  @override
-  List<Object> get props => [id, secondaryConnectionAddress, plexName];
-}
-
-class SettingsUpdatePrimaryActive extends SettingsEvent {
-  final String tautulliId;
-  final bool primaryActive;
-
-  SettingsUpdatePrimaryActive({
-    @required this.tautulliId,
-    @required this.primaryActive,
-  });
-
-  @override
-  List<Object> get props => [tautulliId, primaryActive];
-}
-
-class SettingsAddCustomHeader extends SettingsEvent {
-  final String tautulliId;
-  final String key;
-  final String value;
-  final bool basicAuth;
-  final String previousKey;
-
-  SettingsAddCustomHeader({
-    @required this.tautulliId,
-    @required this.key,
-    @required this.value,
-    this.basicAuth = false,
-    this.previousKey,
-  });
-
-  @override
-  List<Object> get props => [tautulliId, key, value, basicAuth, previousKey];
-}
-
-class SettingsRemoveCustomHeader extends SettingsEvent {
-  final String tautulliId;
-  final String key;
-
-  SettingsRemoveCustomHeader({
-    @required this.tautulliId,
-    @required this.key,
-  });
-
-  @override
-  List<Object> get props => [tautulliId, key];
-}
-
-class SettingsUpdateSortIndex extends SettingsEvent {
+class SettingsUpdateServerSort extends SettingsEvent {
   final int serverId;
   final int oldIndex;
   final int newIndex;
 
-  SettingsUpdateSortIndex({
-    @required this.serverId,
-    @required this.oldIndex,
-    @required this.newIndex,
+  const SettingsUpdateServerSort({
+    required this.serverId,
+    required this.oldIndex,
+    required this.newIndex,
   });
 
   @override
@@ -192,125 +320,44 @@ class SettingsUpdateSortIndex extends SettingsEvent {
 class SettingsUpdateServerTimeout extends SettingsEvent {
   final int timeout;
 
-  SettingsUpdateServerTimeout({@required this.timeout});
+  const SettingsUpdateServerTimeout(this.timeout);
 
   @override
   List<Object> get props => [timeout];
 }
 
-class SettingsUpdateRefreshRate extends SettingsEvent {
-  final int refreshRate;
+class SettingsUpdateStatisticsStatType extends SettingsEvent {
+  final PlayMetricType statisticsStatType;
 
-  SettingsUpdateRefreshRate({@required this.refreshRate});
+  const SettingsUpdateStatisticsStatType(this.statisticsStatType);
 
   @override
-  List<Object> get props => [refreshRate];
+  List<Object> get props => [statisticsStatType];
 }
 
-class SettingsUpdateDoubleTapToExit extends SettingsEvent {
-  final bool value;
+class SettingsUpdateStatisticsTimeRange extends SettingsEvent {
+  final int statisticsTimeRange;
 
-  SettingsUpdateDoubleTapToExit({@required this.value});
-
-  @override
-  List<Object> get props => [value];
-}
-
-class SettingsUpdateMaskSensitiveInfo extends SettingsEvent {
-  final bool value;
-
-  SettingsUpdateMaskSensitiveInfo({@required this.value});
+  const SettingsUpdateStatisticsTimeRange(this.statisticsTimeRange);
 
   @override
-  List<Object> get props => [value];
-}
-
-class SettingsUpdateLastSelectedServer extends SettingsEvent {
-  final String tautulliId;
-
-  SettingsUpdateLastSelectedServer({@required this.tautulliId});
-
-  @override
-  List<Object> get props => [tautulliId];
-}
-
-class SettingsUpdateStatsType extends SettingsEvent {
-  final String statsType;
-
-  SettingsUpdateStatsType({@required this.statsType});
-
-  @override
-  List<Object> get props => [statsType];
-}
-
-class SettingsUpdateYAxis extends SettingsEvent {
-  final String yAxis;
-
-  SettingsUpdateYAxis({@required this.yAxis});
-
-  @override
-  List<Object> get props => [yAxis];
+  List<Object> get props => [statisticsTimeRange];
 }
 
 class SettingsUpdateUsersSort extends SettingsEvent {
   final String usersSort;
 
-  SettingsUpdateUsersSort({@required this.usersSort});
+  const SettingsUpdateUsersSort(this.usersSort);
 
   @override
   List<Object> get props => [usersSort];
 }
 
-class SettingsUpdateOneSignalBannerDismiss extends SettingsEvent {
-  final bool dismiss;
+class SettingsUpdateWizardComplete extends SettingsEvent {
+  final bool wizardComplete;
 
-  SettingsUpdateOneSignalBannerDismiss(this.dismiss);
-
-  @override
-  List<Object> get props => [dismiss];
-}
-
-class SettingsUpdateLastAppVersion extends SettingsEvent {
-  @override
-  List<Object> get props => [];
-}
-
-class SettingsUpdateWizardCompleteStatus extends SettingsEvent {
-  final bool complete;
-
-  SettingsUpdateWizardCompleteStatus(this.complete);
+  const SettingsUpdateWizardComplete(this.wizardComplete);
 
   @override
-  List<Object> get props => [complete];
-}
-
-class SettingsUpdateIosLocalNetworkPermissionPrompted extends SettingsEvent {
-  final bool prompted;
-
-  SettingsUpdateIosLocalNetworkPermissionPrompted(this.prompted);
-
-  @override
-  List<Object> get props => [prompted];
-}
-
-class SettingsUpdateGraphTipsShown extends SettingsEvent {
-  final bool shown;
-
-  SettingsUpdateGraphTipsShown(this.shown);
-
-  @override
-  List<Object> get props => [shown];
-}
-
-class SettingsDeleteServer extends SettingsEvent {
-  final int id;
-  final String plexName;
-
-  SettingsDeleteServer({
-    @required this.id,
-    @required this.plexName,
-  });
-
-  @override
-  List<Object> get props => [id, plexName];
+  List<Object> get props => [wizardComplete];
 }

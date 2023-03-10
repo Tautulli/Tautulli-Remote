@@ -1,40 +1,36 @@
-// @dart=2.9
-
 part of 'library_media_bloc.dart';
 
-abstract class LibraryMediaState extends Equatable {
-  const LibraryMediaState();
+class LibraryMediaState extends Equatable {
+  final BlocStatus status;
+  final List<LibraryMediaInfoModel> libraryItems;
+  final Failure? failure;
+  final String? message;
+  final String? suggestion;
 
-  @override
-  List<Object> get props => [];
-}
-
-class LibraryMediaInitial extends LibraryMediaState {}
-
-class LibraryMediaInProgress extends LibraryMediaState {}
-
-class LibraryMediaSuccess extends LibraryMediaState {
-  final List<LibraryMedia> libraryMediaList;
-
-  LibraryMediaSuccess({
-    @required this.libraryMediaList,
+  const LibraryMediaState({
+    this.status = BlocStatus.initial,
+    this.libraryItems = const [],
+    this.failure,
+    this.message,
+    this.suggestion,
   });
 
+  LibraryMediaState copyWith({
+    BlocStatus? status,
+    List<LibraryMediaInfoModel>? libraryItems,
+    Failure? failure,
+    String? message,
+    String? suggestion,
+  }) {
+    return LibraryMediaState(
+      status: status ?? this.status,
+      libraryItems: libraryItems ?? this.libraryItems,
+      failure: failure ?? this.failure,
+      message: message ?? this.message,
+      suggestion: suggestion ?? this.suggestion,
+    );
+  }
+
   @override
-  List<Object> get props => [libraryMediaList];
-}
-
-class LibraryMediaFailure extends LibraryMediaState {
-  final Failure failure;
-  final String message;
-  final String suggestion;
-
-  LibraryMediaFailure({
-    @required this.failure,
-    @required this.message,
-    @required this.suggestion,
-  });
-
-  @override
-  List<Object> get props => [failure, message, suggestion];
+  List<Object> get props => [status, libraryItems];
 }

@@ -1,79 +1,116 @@
-// @dart=2.9
-
 import 'dart:convert';
 
-import 'package:meta/meta.dart';
-import 'package:validators/sanitizers.dart';
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-import '../../domain/entities/server.dart';
-import 'custom_header_model.dart';
+import '../../../../features/settings/data/models/custom_header_model.dart';
+import '../../../utilities/cast.dart';
 
-class ServerModel extends Server {
-  ServerModel({
-    int id,
-    int sortIndex,
-    @required String plexName,
-    @required String plexIdentifier,
-    @required String tautulliId,
-    @required String primaryConnectionAddress,
-    @required String primaryConnectionProtocol,
-    @required String primaryConnectionDomain,
-    @required String primaryConnectionPath,
-    String secondaryConnectionAddress,
-    String secondaryConnectionProtocol,
-    String secondaryConnectionDomain,
-    String secondaryConnectionPath,
-    @required String deviceToken,
-    @required bool primaryActive,
-    @required bool onesignalRegistered,
-    @required bool plexPass,
-    String dateFormat,
-    String timeFormat,
-    List<CustomHeaderModel> customHeaders,
-  }) : super(
-          id: id,
-          sortIndex: sortIndex,
-          plexName: plexName,
-          plexIdentifier: plexIdentifier,
-          tautulliId: tautulliId,
-          primaryConnectionAddress: primaryConnectionAddress,
-          primaryConnectionProtocol: primaryConnectionProtocol,
-          primaryConnectionDomain: primaryConnectionDomain,
-          primaryConnectionPath: primaryConnectionPath,
-          secondaryConnectionAddress: secondaryConnectionAddress,
-          secondaryConnectionProtocol: secondaryConnectionProtocol,
-          secondaryConnectionDomain: secondaryConnectionDomain,
-          secondaryConnectionPath: secondaryConnectionPath,
-          deviceToken: deviceToken,
-          primaryActive: primaryActive,
-          onesignalRegistered: onesignalRegistered,
-          plexPass: plexPass,
-          dateFormat: dateFormat,
-          timeFormat: timeFormat,
-          customHeaders: customHeaders,
-        );
+part 'server_model.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class ServerModel extends Equatable {
+  @JsonKey(name: 'id')
+  final int? id;
+  @JsonKey(name: 'sort_index')
+  final int sortIndex;
+  @JsonKey(name: 'plex_name')
+  final String plexName;
+  @JsonKey(name: 'plex_identifier')
+  final String plexIdentifier;
+  @JsonKey(name: 'tautulli_id')
+  final String tautulliId;
+  @JsonKey(name: 'primary_connection_address')
+  final String primaryConnectionAddress;
+  @JsonKey(name: 'primary_connection_protocol')
+  final String primaryConnectionProtocol;
+  @JsonKey(name: 'primary_connection_domain')
+  final String primaryConnectionDomain;
+  @JsonKey(name: 'primary_connection_path')
+  final String? primaryConnectionPath;
+  @JsonKey(name: 'secondary_connection_address')
+  final String? secondaryConnectionAddress;
+  @JsonKey(name: 'secondary_connection_protocol')
+  final String? secondaryConnectionProtocol;
+  @JsonKey(name: 'secondary_connection_domain')
+  final String? secondaryConnectionDomain;
+  @JsonKey(name: 'secondary_connection_path')
+  final String? secondaryConnectionPath;
+  @JsonKey(name: 'device_token')
+  final String deviceToken;
+  @JsonKey(
+    name: 'primary_active',
+    fromJson: Cast.castToBool,
+    toJson: Cast.castToInt,
+  )
+  final bool? primaryActive;
+  @JsonKey(
+    name: 'onesignal_registered',
+    fromJson: Cast.castToBool,
+    toJson: Cast.castToInt,
+  )
+  final bool? oneSignalRegistered;
+  @JsonKey(
+    name: 'plex_pass',
+    fromJson: Cast.castToBool,
+    toJson: Cast.castToInt,
+  )
+  final bool? plexPass;
+  @JsonKey(name: 'date_format')
+  final String? dateFormat;
+  @JsonKey(name: 'time_format')
+  final String? timeFormat;
+  @JsonKey(
+    name: 'custom_headers',
+    fromJson: _customHeadersFromJson,
+    toJson: _customHeadersToJson,
+  )
+  final List<CustomHeaderModel> customHeaders;
+
+  const ServerModel({
+    this.id,
+    required this.sortIndex,
+    required this.plexName,
+    required this.plexIdentifier,
+    required this.tautulliId,
+    required this.primaryConnectionAddress,
+    required this.primaryConnectionProtocol,
+    required this.primaryConnectionDomain,
+    this.primaryConnectionPath,
+    this.secondaryConnectionAddress,
+    this.secondaryConnectionProtocol,
+    this.secondaryConnectionDomain,
+    this.secondaryConnectionPath,
+    required this.deviceToken,
+    required this.primaryActive,
+    required this.oneSignalRegistered,
+    required this.plexPass,
+    this.dateFormat,
+    this.timeFormat,
+    required this.customHeaders,
+  });
 
   ServerModel copyWith({
-    int id,
-    int sortIndex,
-    String plexName,
-    String plexIdentifier,
-    String tautulliId,
-    String primaryConnectionAddress,
-    String primaryConnectionProtocol,
-    String primaryConnectionDomain,
-    String primaryConnectionPath,
-    String secondaryConnectionAddress,
-    String secondaryConnectionProtocol,
-    String secondaryConnectionDomain,
-    String secondaryConnectionPath,
-    String deviceToken,
-    bool primaryActive,
-    bool onesignalRegistered,
-    bool plexPass,
-    String dateFormat,
-    String timeFormat,
-    List<CustomHeaderModel> customHeaders,
+    int? id,
+    int? sortIndex,
+    String? plexName,
+    String? plexIdentifier,
+    String? tautulliId,
+    String? primaryConnectionAddress,
+    String? primaryConnectionProtocol,
+    String? primaryConnectionDomain,
+    String? primaryConnectionPath,
+    String? secondaryConnectionAddress,
+    String? secondaryConnectionProtocol,
+    String? secondaryConnectionDomain,
+    String? secondaryConnectionPath,
+    String? deviceToken,
+    bool? primaryActive,
+    bool? oneSignalRegistered,
+    bool? plexPass,
+    String? dateFormat,
+    String? timeFormat,
+    List<CustomHeaderModel>? customHeaders,
   }) {
     return ServerModel(
       id: id ?? this.id,
@@ -99,7 +136,7 @@ class ServerModel extends Server {
           secondaryConnectionPath ?? this.secondaryConnectionPath,
       deviceToken: deviceToken ?? this.deviceToken,
       primaryActive: primaryActive ?? this.primaryActive,
-      onesignalRegistered: onesignalRegistered ?? this.onesignalRegistered,
+      oneSignalRegistered: oneSignalRegistered ?? this.oneSignalRegistered,
       plexPass: plexPass ?? this.plexPass,
       dateFormat: dateFormat ?? this.dateFormat,
       timeFormat: timeFormat ?? this.timeFormat,
@@ -107,112 +144,56 @@ class ServerModel extends Server {
     );
   }
 
-  // Create Settings from JSON data
-  factory ServerModel.fromJson(Map<String, dynamic> serverJson) {
-    bool primaryActiveBool = toBoolean(serverJson['primary_active'].toString());
-    bool onesignalRegisteredBool =
-        toBoolean(serverJson['onesignal_registered'].toString());
-    bool plexPass = toBoolean(serverJson['plex_plexpass'].toString());
+  @override
+  List<Object?> get props => [
+        id,
+        sortIndex,
+        plexName,
+        plexIdentifier,
+        tautulliId,
+        primaryConnectionAddress,
+        primaryConnectionProtocol,
+        primaryConnectionDomain,
+        primaryConnectionPath,
+        secondaryConnectionAddress,
+        secondaryConnectionProtocol,
+        secondaryConnectionDomain,
+        secondaryConnectionPath,
+        deviceToken,
+        primaryActive,
+        oneSignalRegistered,
+        plexPass,
+        dateFormat,
+        timeFormat,
+        customHeaders,
+      ];
 
-    Map<String, dynamic> decodedCustomHeaders =
-        serverJson['custom_headers'] != null
-            ? json.decode(
-                serverJson['custom_headers'],
-              )
-            : {};
+  factory ServerModel.fromJson(Map<String, dynamic> json) =>
+      _$ServerModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ServerModelToJson(this);
+
+  static List<CustomHeaderModel> _customHeadersFromJson(
+    String jsonEncodedHeaders,
+  ) {
+    final List decodedHeaders = jsonDecode(jsonEncodedHeaders);
+
     List<CustomHeaderModel> customHeaderList = [];
-    decodedCustomHeaders.forEach((key, value) {
-      customHeaderList.add(CustomHeaderModel(
-        key: key,
-        value: value,
-      ));
-    });
 
-    return ServerModel(
-      id: serverJson['id'],
-      sortIndex: serverJson['sort_index'],
-      plexName: serverJson['plex_name'],
-      plexIdentifier: serverJson['plex_identifier'],
-      tautulliId: serverJson['tautulli_id'],
-      primaryConnectionAddress: serverJson['primary_connection_address'],
-      primaryConnectionProtocol: serverJson['primary_connection_protocol'],
-      primaryConnectionDomain: serverJson['primary_connection_domain'],
-      primaryConnectionPath: serverJson['primary_connection_path'],
-      secondaryConnectionAddress: serverJson['secondary_connection_address'],
-      secondaryConnectionProtocol: serverJson['secondary_connection_protocol'],
-      secondaryConnectionDomain: serverJson['secondary_connection_domain'],
-      secondaryConnectionPath: serverJson['secondary_connection_path'],
-      deviceToken: serverJson['device_token'],
-      primaryActive: primaryActiveBool,
-      onesignalRegistered: onesignalRegisteredBool,
-      plexPass: plexPass,
-      dateFormat: serverJson['date_format'],
-      timeFormat: serverJson['time_format'],
-      customHeaders: customHeaderList,
-    );
+    for (Map<String, dynamic> header in decodedHeaders) {
+      customHeaderList.add(
+        CustomHeaderModel(key: header['key'], value: header['value']),
+      );
+    }
+
+    return customHeaderList;
   }
 
-  // Convert Settings to JSON to make it easier when we store it in the database
-  Map<String, dynamic> toJson() {
-    int primaryActiveInt;
-    int onesignalRegisteredInt;
-    int plexPassInt;
-    Map<String, dynamic> customHeaderMap = {};
+  static String _customHeadersToJson(
+    List<CustomHeaderModel> headers,
+  ) {
+    final jsonMappedHeaders = headers.map((header) => header.toJson()).toList();
 
-    switch (primaryActive) {
-      case (false):
-        primaryActiveInt = 0;
-        break;
-      case (true):
-        primaryActiveInt = 1;
-        break;
-    }
-
-    switch (onesignalRegistered) {
-      case (false):
-        onesignalRegisteredInt = 0;
-        break;
-      case (true):
-        onesignalRegisteredInt = 1;
-        break;
-    }
-
-    switch (plexPass) {
-      case (false):
-        plexPassInt = 0;
-        break;
-      case (true):
-        plexPassInt = 1;
-        break;
-    }
-
-    if (customHeaders != null && customHeaders.isNotEmpty) {
-      customHeaders.forEach((customHeader) {
-        customHeaderMap['${customHeader.key}'] = '${customHeader.value}';
-      });
-    }
-
-    return {
-      'id': id,
-      'sort_index': sortIndex,
-      'plex_name': plexName,
-      'plex_identifier': plexIdentifier,
-      'tautulli_id': tautulliId,
-      'primary_connection_address': primaryConnectionAddress,
-      'primary_connection_protocol': primaryConnectionProtocol,
-      'primary_connection_domain': primaryConnectionDomain,
-      'primary_connection_path': primaryConnectionPath,
-      'secondary_connection_address': secondaryConnectionAddress,
-      'secondary_connection_protocol': secondaryConnectionProtocol,
-      'secondary_connection_domain': secondaryConnectionDomain,
-      'secondary_connection_path': secondaryConnectionPath,
-      'device_token': deviceToken,
-      'primary_active': primaryActiveInt,
-      'onesignal_registered': onesignalRegisteredInt,
-      'plex_pass': plexPassInt,
-      'date_format': dateFormat,
-      'time_format': timeFormat,
-      'custom_headers': json.encode(customHeaderMap),
-    };
+    return jsonEncode(jsonMappedHeaders);
   }
 }

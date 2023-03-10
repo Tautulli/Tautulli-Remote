@@ -1,368 +1,621 @@
-// @dart=2.9
+import 'package:dartz/dartz.dart';
 
-import 'package:meta/meta.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
-import '../../domain/entities/plex_server_info.dart';
-import '../../domain/entities/tautulli_settings_general.dart';
-import '../../presentation/bloc/settings_bloc.dart';
-import '../models/plex_server_info_model.dart';
-import '../models/tautulli_settings_general_model.dart';
+import '../../../../core/api/tautulli/models/plex_info_model.dart';
+import '../../../../core/api/tautulli/models/register_device_model.dart';
+import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
+import '../../../../core/api/tautulli/tautulli_api.dart';
+import '../../../../core/database/data/datasources/database.dart';
+import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/device_info/device_info.dart';
+import '../../../../core/error/exception.dart';
+import '../../../../core/local_storage/local_storage.dart';
+import '../../../../core/package_information/package_information.dart';
+import '../../../../core/types/play_metric_type.dart';
+import '../../../../dependency_injection.dart' as di;
+import '../../../onesignal/data/datasources/onesignal_data_source.dart';
+import '../models/connection_address_model.dart';
+import '../models/custom_header_model.dart';
 
 abstract class SettingsDataSource {
-  Future<PlexServerInfo> getPlexServerInfo({
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
+  //* API Calls
+  Future<Tuple2<bool, bool>> deleteImageCache(String tautulliId);
+
+  Future<Tuple2<PlexInfoModel, bool>> getPlexInfo(String tautulliId);
+
+  Future<Tuple2<TautulliGeneralSettingsModel, bool>> getTautulliSettings(
+    String tautulliId,
+  );
+
+  Future<Tuple2<RegisterDeviceModel, bool>> registerDevice({
+    required String connectionProtocol,
+    required String connectionDomain,
+    required String connectionPath,
+    required String deviceToken,
+    List<CustomHeaderModel>? customHeaders,
+    bool trustCert,
   });
 
-  Future<Map<String, dynamic>> getTautulliSettings({
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
+  //* Database Interactions
+  Future<int> addServer(ServerModel server);
+
+  Future<void> deleteServer(int id);
+
+  Future<List<ServerModel>> getAllServers();
+
+  Future<ServerModel?> getServerByTautulliId(String tautulliId);
+
+  Future<List<ServerModel>?> getAllServersWithoutOnesignalRegistered();
+
+  Future<int> updateConnectionInfo({
+    required int id,
+    required ConnectionAddressModel connectionAddress,
   });
 
-  Future<int> getServerTimeout();
+  Future<int> updateCustomHeaders({
+    required String tautulliId,
+    required List<CustomHeaderModel> headers,
+  });
 
-  Future<bool> setServerTimeout(int value);
+  Future<int> updatePrimaryActive({
+    required String tautulliId,
+    required bool primaryActive,
+  });
 
-  Future<int> getRefreshRate();
+  Future<int> updateServer(ServerModel server);
 
-  Future<bool> setRefreshRate(int value);
+  Future<void> updateServerSort({
+    required int serverId,
+    required int oldIndex,
+    required int newIndex,
+  });
 
-  Future<bool> getDoubleTapToExit();
+  //* Store & Retrive Values
+  // Active Server ID
+  Future<String> getActiveServerId();
+  Future<bool> setActiveServerId(String value);
 
-  Future<bool> setDoubleTapToExit(bool value);
-
-  Future<bool> setMaskSensitiveInfo(bool value);
-
-  Future<bool> getMaskSensitiveInfo();
-
-  Future<String> getLastSelectedServer();
-
-  Future<bool> setLastSelectedServer(String tautulliId);
-
-  Future<String> getStatsType();
-
-  Future<bool> setStatsType(String statsType);
-
-  Future<String> getYAxis();
-
-  Future<bool> setYAxis(String yAxis);
-
-  Future<String> getUsersSort();
-
-  Future<bool> setUsersSort(String usersSort);
-
-  Future<bool> getOneSignalBannerDismissed();
-
-  Future<bool> setOneSignalBannerDismissed(bool value);
-
-  Future<bool> getOneSignalConsented();
-
-  Future<bool> setOneSignalConsented(bool value);
-
-  Future<String> getLastAppVersion();
-
-  Future<bool> setLastAppVersion(String lastAppVersion);
-
-  Future<int> getLastReadAnnouncementId();
-
-  Future<bool> setLastReadAnnouncementId(int value);
-
-  Future<bool> getWizardCompleteStatus();
-
-  Future<bool> setWizardCompleteStatus(bool value);
-
+  // Custom Cert Hash List
   Future<List<int>> getCustomCertHashList();
-
   Future<bool> setCustomCertHashList(List<int> certHashList);
 
-  Future<bool> getIosLocalNetworkPermissionPrompted();
+  // Double Back To Exit
+  Future<bool> getDoubleBackToExit();
+  Future<bool> setDoubleBackToExit(bool value);
 
-  Future<bool> setIosLocalNetworkPermissionPrompted(bool value);
+  // Graph Time Range
+  Future<int> getGraphTimeRange();
+  Future<bool> setGraphTimeRange(int value);
 
+  // Graph Tips Shown
   Future<bool> getGraphTipsShown();
-
   Future<bool> setGraphTipsShown(bool value);
 
-  Future<bool> getIosNotificationPermissionDeclined();
+  // Graph Y Axis
+  Future<PlayMetricType> getGraphYAxis();
+  Future<bool> setGraphYAxis(PlayMetricType value);
 
-  Future<bool> setIosNotificationPermissionDeclined(bool value);
+  // Last App Version
+  Future<String> getLastAppVersion();
+  Future<bool> setLastAppVersion(String value);
+
+  // Last Read Announcement ID
+  Future<int> getLastReadAnnouncementId();
+  Future<bool> setLastReadAnnouncementId(int value);
+
+  // Libraries Sort
+  Future<String> getLibrariesSort();
+  Future<bool> setLibrariesSort(String value);
+
+  // Library Media Full Refresh
+  Future<bool> getLibraryMediaFullRefresh();
+  Future<bool> setLibraryMediaFullRefresh(bool value);
+
+  // Mask Sensitive Info
+  Future<bool> getMaskSensitiveInfo();
+  Future<bool> setMaskSensitiveInfo(bool value);
+
+  // Multiserver Activity
+  Future<bool> getMultiserverActivity();
+  Future<bool> setMultiserverActivity(bool value);
+
+  // OneSignal Banner Dismissed
+  Future<bool> getOneSignalBannerDismissed();
+  Future<bool> setOneSignalBannerDismissed(bool value);
+
+  // OneSignal Consented
+  Future<bool> getOneSignalConsented();
+  Future<bool> setOneSignalConsented(bool value);
+
+  // Refresh Rate
+  Future<int> getRefreshRate();
+  Future<bool> setRefreshRate(int value);
+
+  // Registration Update Needed
+  Future<bool> getRegistrationUpdateNeeded();
+  Future<bool> setRegistrationUpdateNeeded(bool value);
+
+  // Secret
+  Future<bool> getSecret();
+  Future<bool> setSecret(bool value);
+
+  // Server Timeout
+  Future<int> getServerTimeout();
+  Future<bool> setServerTimeout(int value);
+
+  // Statistics Stats Type
+  Future<String> getStatisticsStatType();
+  Future<bool> setStatisticsStatType(PlayMetricType value);
+
+  // Statistics Time Range
+  Future<int> getStatisticsTimeRange();
+  Future<bool> setStatisticsTimeRange(int value);
+
+  // Users Sort
+  Future<String> getUsersSort();
+  Future<bool> setUsersSort(String value);
+
+  // Wizard Complete
+  Future<bool> getWizardComplete();
+  Future<bool> setWizardComplete(bool value);
 }
 
-const SETTINGS_SERVER_TIMEOUT = 'SETTINGS_SERVER_TIMEOUT';
-const SETTINGS_REFRESH_RATE = 'SETTINGS_REFRESH_RATE';
-const SETTINGS_DOUBLE_TAP_TO_EXIT = 'SETTINGS_DOUBLE_TAP_TO_EXIT';
-const SETTINGS_MASK_SENSITIVE_INFO = 'SETTINGS_MASK_SENSITIVE_INFO';
-const LAST_SELECTED_SERVER = 'LAST_SELECTED_SERVER';
-const STATS_TYPE = 'STATS_TYPE';
-const Y_AXIS = 'Y_AXIS';
-const USERS_SORT = 'USERS_SORT';
-const ONE_SIGNAL_BANNER_DISMISSED = 'ONE_SIGNAL_BANNER_DISMISSED';
-const ONE_SIGNAL_CONSENTED = 'ONE_SIGNAL_CONSENTED';
-const LAST_APP_VERSION = 'LAST_APP_VERSION';
-const LAST_READ_ANNOUNCEMENT_ID = 'LAST_READ_ANNOUNCEMENT_ID';
-const WIZARD_COMPLETE_STATUS = 'WIZARD_COMPLETE_STATUS';
-const CUSTOM_CERT_HASH_LIST = 'CUSTOM_CERT_HASH_LIST';
-const IOS_LOCAL_NETWORK_PERMISSION_PROMPTED =
-    'IOS_LOCAL_NETWORK_PERMISSION_PROMPTED';
-const GRAPH_TIPS_SHOWN = 'GRAPH_TIPS_SHOWN';
-const IOS_NOTIFICATION_PERMISSION_DECLINED =
-    'IOS_NOTIFICATION_PERMISSION_DECLINED';
+const activeServerId = 'activeServerId';
+const customCertHashList = 'customCertHashList';
+const doubleBackToExit = 'doubleTapToExit';
+const graphTimeRange = 'graphTimeRange';
+const graphTipsShown = 'graphTipsShown';
+const graphYAxis = 'graphYAxis';
+const lastAppVersion = 'lastAppVersion';
+const lastReadAnnouncementId = 'lastReadAnnouncementId';
+const libraryMediaFullRefresh = 'libraryMediaFullRefresh';
+const librariesSort = 'librariesSort';
+const maskSensitiveInfo = 'maskSensitiveInfo';
+const multiserverActivity = 'multiserverActivity';
+const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
+const oneSignalConsented = 'oneSignalConsented';
+const refreshRate = 'refreshRate';
+const registrationUpdateNeeded = 'registrationUpdateNeeded';
+const secret = 'secret';
+const serverTimeout = 'serverTimeout';
+const statisticsStatType = 'statisticsStatsType';
+const statisticsTimeRange = 'statisticsTimeRange';
+const usersSort = 'usersSort';
+const wizardComplete = 'wizardComplete';
 
 class SettingsDataSourceImpl implements SettingsDataSource {
-  final SharedPreferences sharedPreferences;
-  final tautulli_api.GetServerInfo apiGetServerInfo;
-  final tautulli_api.GetSettings apiGetSettings;
+  final DeviceInfo deviceInfo;
+  final LocalStorage localStorage;
+  final PackageInformation packageInfo;
+  final DeleteImageCache deleteImageCacheApi;
+  final GetServerInfo getServerInfoApi;
+  final GetSettings getSettingsApi;
+  final RegisterDevice registerDeviceApi;
 
   SettingsDataSourceImpl({
-    @required this.sharedPreferences,
-    @required this.apiGetServerInfo,
-    @required this.apiGetSettings,
+    required this.deviceInfo,
+    required this.localStorage,
+    required this.packageInfo,
+    required this.deleteImageCacheApi,
+    required this.getServerInfoApi,
+    required this.getSettingsApi,
+    required this.registerDeviceApi,
   });
 
+  //* API Calls
   @override
-  Future<PlexServerInfo> getPlexServerInfo({
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
-  }) async {
-    final plexServerInfoJson = await apiGetServerInfo(
-      tautulliId: tautulliId,
-      settingsBloc: settingsBloc,
+  Future<Tuple2<bool, bool>> deleteImageCache(String tautulliId) async {
+    final result = await deleteImageCacheApi(tautulliId: tautulliId);
+
+    final success = result.value1['response']['result'] == 'success';
+
+    return Tuple2(success, result.value2);
+  }
+
+  @override
+  Future<Tuple2<PlexInfoModel, bool>> getPlexInfo(String tautulliId) async {
+    final result = await getServerInfoApi(tautulliId: tautulliId);
+
+    final plexInfoModel = PlexInfoModel.fromJson(
+      result.value1['response']['data'],
     );
 
-    PlexServerInfo plexServerInfo =
-        PlexServerInfoModel.fromJson(plexServerInfoJson['response']['data']);
-
-    return plexServerInfo;
+    return Tuple2(plexInfoModel, result.value2);
   }
 
   @override
-  Future<Map<String, dynamic>> getTautulliSettings({
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
-  }) async {
-    final tautulliSettingsJson = await apiGetSettings(
-      tautulliId: tautulliId,
-      settingsBloc: settingsBloc,
+  Future<Tuple2<TautulliGeneralSettingsModel, bool>> getTautulliSettings(
+    String tautulliId,
+  ) async {
+    final result = await getSettingsApi(tautulliId: tautulliId);
+
+    final generalSettings = TautulliGeneralSettingsModel.fromJson(
+      result.value1['response']['data']['General'],
     );
 
-    TautulliSettingsGeneral tautulliSettingsGeneral =
-        TautulliSettingsGeneralModel.fromJson(
-            tautulliSettingsJson['response']['data']['General']);
-
-    return {
-      'general': tautulliSettingsGeneral,
-    };
+    return Tuple2(generalSettings, result.value2);
   }
 
   @override
-  Future<int> getServerTimeout() {
-    final value = sharedPreferences.getInt(SETTINGS_SERVER_TIMEOUT);
-    return Future.value(value);
+  Future<Tuple2<RegisterDeviceModel, bool>> registerDevice({
+    required String connectionProtocol,
+    required String connectionDomain,
+    required String connectionPath,
+    required String deviceToken,
+    List<CustomHeaderModel>? customHeaders,
+    bool trustCert = false,
+  }) async {
+    final String deviceId = await deviceInfo.uniqueId ?? 'unknown';
+    final String deviceName = await deviceInfo.model ?? 'unknown';
+    final String oneSignalId = await di.sl<OneSignalDataSource>().userId;
+    final String platform = await deviceInfo.platform;
+    final String version = await packageInfo.version;
+
+    final result = await registerDeviceApi(
+      connectionProtocol: connectionProtocol,
+      connectionDomain: connectionDomain,
+      connectionPath: connectionPath,
+      deviceToken: deviceToken,
+      deviceId: deviceId,
+      deviceName: deviceName,
+      onesignalId: oneSignalId,
+      platform: platform,
+      version: version,
+      customHeaders: customHeaders,
+      trustCert: trustCert,
+    );
+
+    final Map<String, dynamic> responseData = result.value1['response']['data'];
+
+    // If response data is missing tautulli_version throw ServerVersionException.
+    if (!responseData.containsKey('tautulli_version')) {
+      throw ServerVersionException();
+    }
+
+    return Tuple2(
+      RegisterDeviceModel.fromJson(responseData),
+      result.value2,
+    );
+  }
+
+  //* Database Interactions
+  @override
+  Future<int> addServer(ServerModel server) async {
+    return await DBProvider.db.addServer(server);
   }
 
   @override
-  Future<bool> setServerTimeout(int value) {
-    return sharedPreferences.setInt(SETTINGS_SERVER_TIMEOUT, value);
+  Future<void> deleteServer(int id) async {
+    return await DBProvider.db.deleteServer(id);
   }
 
   @override
-  Future<int> getRefreshRate() {
-    final value = sharedPreferences.getInt(SETTINGS_REFRESH_RATE);
-    return Future.value(value);
+  Future<List<ServerModel>> getAllServers() async {
+    return await DBProvider.db.getAllServers();
   }
 
   @override
-  Future<bool> setRefreshRate(int value) {
-    return sharedPreferences.setInt(SETTINGS_REFRESH_RATE, value);
+  Future<ServerModel?> getServerByTautulliId(String tautulliId) async {
+    return await DBProvider.db.getServerByTautulliId(tautulliId);
   }
 
   @override
-  Future<bool> getDoubleTapToExit() {
-    final value = sharedPreferences.getBool(SETTINGS_DOUBLE_TAP_TO_EXIT);
-    return Future.value(value);
+  Future<List<ServerModel>?> getAllServersWithoutOnesignalRegistered() async {
+    return await DBProvider.db.getAllServersWithoutOnesignalRegistered();
   }
 
   @override
-  Future<bool> setDoubleTapToExit(bool value) {
-    return sharedPreferences.setBool(SETTINGS_DOUBLE_TAP_TO_EXIT, value);
+  Future<int> updateConnectionInfo({
+    required int id,
+    required ConnectionAddressModel connectionAddress,
+  }) async {
+    return await DBProvider.db.updateConnectionInfo(
+      id: id,
+      connectionAddress: connectionAddress,
+    );
   }
 
   @override
-  Future<bool> getMaskSensitiveInfo() {
-    final value = sharedPreferences.getBool(SETTINGS_MASK_SENSITIVE_INFO);
-    return Future.value(value);
+  Future<int> updateCustomHeaders({
+    required String tautulliId,
+    required List<CustomHeaderModel> headers,
+  }) async {
+    return await DBProvider.db.updateCustomHeaders(
+      tautulliId: tautulliId,
+      headers: headers,
+    );
   }
 
   @override
-  Future<bool> setMaskSensitiveInfo(bool value) {
-    return sharedPreferences.setBool(SETTINGS_MASK_SENSITIVE_INFO, value);
+  Future<int> updatePrimaryActive({
+    required String tautulliId,
+    required bool primaryActive,
+  }) async {
+    return await DBProvider.db.updatePrimaryActive(
+      tautulliId: tautulliId,
+      primaryActive: primaryActive,
+    );
   }
 
   @override
-  Future<String> getLastSelectedServer() {
-    final value = sharedPreferences.getString(LAST_SELECTED_SERVER);
-    return Future.value(value);
+  Future<int> updateServer(ServerModel server) async {
+    return await DBProvider.db.updateServer(server);
   }
 
   @override
-  Future<bool> setLastSelectedServer(String tautulliId) {
-    return sharedPreferences.setString(LAST_SELECTED_SERVER, tautulliId);
+  Future<void> updateServerSort({
+    required int serverId,
+    required int oldIndex,
+    required int newIndex,
+  }) async {
+    return DBProvider.db.updateServerSort(
+      serverId: serverId,
+      oldIndex: oldIndex,
+      newIndex: newIndex,
+    );
+  }
+
+  //* Store & Retrive Values
+  // Active Server ID
+  @override
+  Future<String> getActiveServerId() {
+    return Future.value(localStorage.getString(activeServerId) ?? '');
   }
 
   @override
-  Future<String> getStatsType() {
-    final value = sharedPreferences.getString(STATS_TYPE);
-    return Future.value(value);
+  Future<bool> setActiveServerId(String value) {
+    return localStorage.setString(activeServerId, value);
   }
 
-  @override
-  Future<bool> setStatsType(String statsType) {
-    return sharedPreferences.setString(STATS_TYPE, statsType);
-  }
-
-  @override
-  Future<String> getYAxis() {
-    final value = sharedPreferences.getString(Y_AXIS);
-    return Future.value(value);
-  }
-
-  @override
-  Future<bool> setYAxis(String yAxis) {
-    return sharedPreferences.setString(Y_AXIS, yAxis);
-  }
-
-  @override
-  Future<String> getUsersSort() {
-    final value = sharedPreferences.getString(USERS_SORT);
-    return Future.value(value);
-  }
-
-  @override
-  Future<bool> setUsersSort(String usersSort) {
-    return sharedPreferences.setString(USERS_SORT, usersSort);
-  }
-
-  @override
-  Future<bool> getOneSignalBannerDismissed() {
-    final value = sharedPreferences.getBool(ONE_SIGNAL_BANNER_DISMISSED);
-    return Future.value(value);
-  }
-
-  @override
-  Future<bool> setOneSignalBannerDismissed(bool value) {
-    return sharedPreferences.setBool(ONE_SIGNAL_BANNER_DISMISSED, value);
-  }
-
-  @override
-  Future<bool> getOneSignalConsented() {
-    final value = sharedPreferences.getBool(ONE_SIGNAL_CONSENTED);
-    return Future.value(value);
-  }
-
-  @override
-  Future<bool> setOneSignalConsented(bool value) {
-    return sharedPreferences.setBool(ONE_SIGNAL_CONSENTED, value);
-  }
-
-  @override
-  Future<String> getLastAppVersion() {
-    final value = sharedPreferences.getString(LAST_APP_VERSION);
-    return Future.value(value);
-  }
-
-  @override
-  Future<bool> setLastAppVersion(String lastAppVersion) {
-    return sharedPreferences.setString(LAST_APP_VERSION, lastAppVersion);
-  }
-
-  @override
-  Future<int> getLastReadAnnouncementId() {
-    final value = sharedPreferences.getInt(LAST_READ_ANNOUNCEMENT_ID);
-    return Future.value(value);
-  }
-
-  @override
-  Future<bool> setLastReadAnnouncementId(int value) {
-    return sharedPreferences.setInt(LAST_READ_ANNOUNCEMENT_ID, value);
-  }
-
-  @override
-  Future<bool> getWizardCompleteStatus() {
-    final value = sharedPreferences.getBool(WIZARD_COMPLETE_STATUS);
-    return Future.value(value);
-  }
-
-  @override
-  Future<bool> setWizardCompleteStatus(bool value) {
-    return sharedPreferences.setBool(WIZARD_COMPLETE_STATUS, value);
-  }
-
+  // Custom Cert Hash List
   @override
   Future<List<int>> getCustomCertHashList() {
-    List<String> stringList = [];
+    List<String> stringList;
     List<int> intList = [];
-    try {
-      stringList = sharedPreferences.getStringList(CUSTOM_CERT_HASH_LIST);
-      intList = stringList.map((i) => int.parse(i)).toList();
-    } catch (_) {}
+
+    stringList = localStorage.getStringList(customCertHashList) ?? [];
+    intList = stringList.map((i) => int.parse(i)).toList();
 
     return Future.value(intList);
   }
 
   @override
   Future<bool> setCustomCertHashList(List<int> certHashList) {
-    final List<String> stringList =
-        certHashList.map((i) => i.toString()).toList();
+    final List<String> stringList = certHashList.map((i) => i.toString()).toList();
 
-    return sharedPreferences.setStringList(CUSTOM_CERT_HASH_LIST, stringList);
+    return localStorage.setStringList(customCertHashList, stringList);
+  }
+
+  // Double Back To Exit
+  @override
+  Future<bool> getDoubleBackToExit() async {
+    return Future.value(localStorage.getBool(doubleBackToExit) ?? false);
   }
 
   @override
-  Future<bool> getIosLocalNetworkPermissionPrompted() {
-    final value = sharedPreferences.getBool(
-      IOS_LOCAL_NETWORK_PERMISSION_PROMPTED,
+  Future<bool> setDoubleBackToExit(bool value) {
+    return localStorage.setBool(doubleBackToExit, value);
+  }
+
+  // Graphs Time Range
+  @override
+  Future<int> getGraphTimeRange() async {
+    return Future.value(localStorage.getInt(graphTimeRange) ?? 30);
+  }
+
+  @override
+  Future<bool> setGraphTimeRange(int value) async {
+    return localStorage.setInt(graphTimeRange, value);
+  }
+
+  // Graph Tips Shown
+  @override
+  Future<bool> getGraphTipsShown() async {
+    return Future.value(localStorage.getBool(graphTipsShown) ?? false);
+  }
+
+  @override
+  Future<bool> setGraphTipsShown(bool value) async {
+    return localStorage.setBool(graphTipsShown, value);
+  }
+
+  // Graph Y Axis
+  @override
+  Future<PlayMetricType> getGraphYAxis() async {
+    String timeRangeString = localStorage.getString(graphYAxis) ?? 'plays';
+
+    if (timeRangeString == 'duration') return Future.value(PlayMetricType.time);
+
+    return Future.value(PlayMetricType.plays);
+  }
+
+  @override
+  Future<bool> setGraphYAxis(PlayMetricType value) async {
+    return localStorage.setString(graphYAxis, value.apiValue());
+  }
+
+  // Last App Version
+  @override
+  Future<String> getLastAppVersion() async {
+    return Future.value(localStorage.getString(lastAppVersion) ?? '');
+  }
+
+  @override
+  Future<bool> setLastAppVersion(String value) {
+    return localStorage.setString(lastAppVersion, value);
+  }
+
+  // Last Read Announcement ID
+  @override
+  Future<int> getLastReadAnnouncementId() async {
+    return Future.value(localStorage.getInt(lastReadAnnouncementId) ?? 0);
+  }
+
+  @override
+  Future<bool> setLastReadAnnouncementId(int value) {
+    return localStorage.setInt(lastReadAnnouncementId, value);
+  }
+
+  // Libraries Sort
+  @override
+  Future<String> getLibrariesSort() async {
+    return Future.value(
+      localStorage.getString(librariesSort) ?? 'section_name|asc',
     );
-    return Future.value(value);
   }
 
   @override
-  Future<bool> setIosLocalNetworkPermissionPrompted(bool value) {
-    return sharedPreferences.setBool(
-      IOS_LOCAL_NETWORK_PERMISSION_PROMPTED,
-      value,
+  Future<bool> setLibrariesSort(String value) {
+    return localStorage.setString(librariesSort, value);
+  }
+
+  // Library Media Full Refresh
+  @override
+  Future<bool> getLibraryMediaFullRefresh() async {
+    return Future.value(localStorage.getBool(libraryMediaFullRefresh) ?? true);
+  }
+
+  @override
+  Future<bool> setLibraryMediaFullRefresh(bool value) {
+    return localStorage.setBool(libraryMediaFullRefresh, value);
+  }
+
+  // Mask Sensitive Info
+  @override
+  Future<bool> getMaskSensitiveInfo() async {
+    return Future.value(localStorage.getBool(maskSensitiveInfo) ?? false);
+  }
+
+  @override
+  Future<bool> setMaskSensitiveInfo(bool value) {
+    return localStorage.setBool(maskSensitiveInfo, value);
+  }
+
+  // Multiserver Activity
+  @override
+  Future<bool> getMultiserverActivity() async {
+    return Future.value(localStorage.getBool(multiserverActivity) ?? false);
+  }
+
+  @override
+  Future<bool> setMultiserverActivity(bool value) {
+    return localStorage.setBool(multiserverActivity, value);
+  }
+
+  // OneSignal Banner Dismissed
+  @override
+  Future<bool> getOneSignalBannerDismissed() async {
+    return Future.value(
+      localStorage.getBool(oneSignalBannerDismissed) ?? false,
     );
   }
 
   @override
-  Future<bool> getGraphTipsShown() {
-    final value = sharedPreferences.getBool(
-      GRAPH_TIPS_SHOWN,
-    );
-    return Future.value(value);
+  Future<bool> setOneSignalBannerDismissed(bool value) {
+    return localStorage.setBool(oneSignalBannerDismissed, value);
   }
 
+  // OneSignal Consented
   @override
-  Future<bool> setGraphTipsShown(bool value) {
-    return sharedPreferences.setBool(
-      GRAPH_TIPS_SHOWN,
-      value,
+  Future<bool> getOneSignalConsented() async {
+    return Future.value(
+      localStorage.getBool(oneSignalConsented) ?? false,
     );
   }
 
   @override
-  Future<bool> getIosNotificationPermissionDeclined() {
-    final value =
-        sharedPreferences.getBool(IOS_NOTIFICATION_PERMISSION_DECLINED);
-    return Future.value(value);
+  Future<bool> setOneSignalConsented(bool value) {
+    return localStorage.setBool(oneSignalConsented, value);
+  }
+
+  // Refresh Rate
+  @override
+  Future<int> getRefreshRate() async {
+    return Future.value(localStorage.getInt(refreshRate) ?? 0);
   }
 
   @override
-  Future<bool> setIosNotificationPermissionDeclined(bool value) {
-    return sharedPreferences.setBool(
-      IOS_NOTIFICATION_PERMISSION_DECLINED,
-      value,
+  Future<bool> setRefreshRate(int value) {
+    return localStorage.setInt(refreshRate, value);
+  }
+
+  // Registration Update Needed
+  @override
+  Future<bool> getRegistrationUpdateNeeded() async {
+    return Future.value(localStorage.getBool(registrationUpdateNeeded) ?? false);
+  }
+
+  @override
+  Future<bool> setRegistrationUpdateNeeded(bool value) {
+    return localStorage.setBool(registrationUpdateNeeded, value);
+  }
+
+  // Secret
+  @override
+  Future<bool> getSecret() async {
+    return Future.value(localStorage.getBool(secret) ?? false);
+  }
+
+  @override
+  Future<bool> setSecret(bool value) {
+    return localStorage.setBool(secret, value);
+  }
+
+  // Server Timeout
+  @override
+  Future<int> getServerTimeout() async {
+    return Future.value(localStorage.getInt(serverTimeout) ?? 15);
+  }
+
+  @override
+  Future<bool> setServerTimeout(int value) {
+    return localStorage.setInt(serverTimeout, value);
+  }
+
+  // Statistics Stat Type
+  @override
+  Future<String> getStatisticsStatType() async {
+    return Future.value(
+      localStorage.getString(statisticsStatType) ?? 'plays',
     );
+  }
+
+  @override
+  Future<bool> setStatisticsStatType(PlayMetricType value) {
+    return localStorage.setString(statisticsStatType, value.apiValue());
+  }
+
+  // Statistics Time Range
+  @override
+  Future<int> getStatisticsTimeRange() async {
+    return Future.value(localStorage.getInt(statisticsTimeRange) ?? 30);
+  }
+
+  @override
+  Future<bool> setStatisticsTimeRange(int value) async {
+    return localStorage.setInt(statisticsTimeRange, value);
+  }
+
+  // Users Sort
+  @override
+  Future<String> getUsersSort() async {
+    return Future.value(
+      localStorage.getString(usersSort) ?? 'friendly_name|asc',
+    );
+  }
+
+  @override
+  Future<bool> setUsersSort(String value) {
+    return localStorage.setString(usersSort, value);
+  }
+
+  // Wizard Complete
+  @override
+  Future<bool> getWizardComplete() async {
+    return Future.value(localStorage.getBool(wizardComplete) ?? false);
+  }
+
+  @override
+  Future<bool> setWizardComplete(bool value) {
+    return localStorage.setBool(wizardComplete, value);
   }
 }

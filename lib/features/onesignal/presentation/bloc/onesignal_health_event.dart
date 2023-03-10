@@ -1,13 +1,10 @@
-// @dart=2.9
-
 part of 'onesignal_health_bloc.dart';
 
-@immutable
 abstract class OneSignalHealthEvent extends Equatable {
   const OneSignalHealthEvent();
-}
 
-class OneSignalHealthCheck extends OneSignalHealthEvent {
   @override
   List<Object> get props => [];
 }
+
+class OneSignalHealthCheck extends OneSignalHealthEvent {}

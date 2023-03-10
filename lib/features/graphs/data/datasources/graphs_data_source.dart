@@ -1,494 +1,354 @@
-// @dart=2.9
+import 'package:dartz/dartz.dart';
 
-import 'package:meta/meta.dart';
-
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/graph_data.dart';
-import '../../domain/entities/series_data.dart';
+import '../../../../core/api/tautulli/tautulli_api.dart';
+import '../../../../core/types/play_metric_type.dart';
 import '../models/graph_data_model.dart';
-import '../models/series_data_model.dart';
 
 abstract class GraphsDataSource {
-  Future<GraphData> getPlaysByDate({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByDate({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   });
 
-  Future<GraphData> getPlaysByDayOfWeek({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByDayOfWeek({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   });
 
-  Future<GraphData> getPlaysByHourOfDay({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByHourOfDay({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   });
 
-  Future<GraphData> getPlaysBySourceResolution({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysBySourceResolution({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   });
 
-  Future<GraphData> getPlaysByStreamResolution({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByStreamResolution({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   });
 
-  Future<GraphData> getPlaysByStreamType({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByStreamType({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   });
 
-  Future<GraphData> getPlaysByTop10Platforms({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByTop10Platforms({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   });
 
-  Future<GraphData> getPlaysByTop10Users({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysPerMonth({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   });
 
-  Future<GraphData> getStreamTypeByTop10Platforms({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByTop10Users({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   });
 
-  Future<GraphData> getStreamTypeByTop10Users({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getStreamTypeByTop10Platforms({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   });
 
-  Future<GraphData> getPlaysPerMonth({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getStreamTypeByTop10Users({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   });
 }
 
 class GraphsDataSourceImpl implements GraphsDataSource {
-  final tautulli_api.GetPlaysByDate apiGetPlaysByDate;
-  final tautulli_api.GetPlaysByDayOfWeek apiGetPlaysByDayOfWeek;
-  final tautulli_api.GetPlaysByHourOfDay apiGetPlaysByHourOfDay;
-  final tautulli_api.GetPlaysBySourceResolution apiGetPlaysBySourceResolution;
-  final tautulli_api.GetPlaysByStreamResolution apiGetPlaysByStreamResolution;
-  final tautulli_api.GetPlaysByStreamType apiGetPlaysByStreamType;
-  final tautulli_api.GetPlaysByTop10Platforms apiGetPlaysByTop10Platforms;
-  final tautulli_api.GetPlaysByTop10Users apiGetPlaysByTop10Users;
-  final tautulli_api.GetStreamTypeByTop10Platforms
-      apiGetStreamTypeByTop10Platforms;
-  final tautulli_api.GetStreamTypeByTop10Users apiGetStreamTypeByTop10Users;
-  final tautulli_api.GetPlaysPerMonth apiGetPlaysPerMonth;
+  final GetPlaysByDate getPlaysByDateApi;
+  final GetPlaysByDayOfWeek getPlaysByDayOfWeekApi;
+  final GetPlaysByHourOfDay getPlaysByHourOfDayApi;
+  final GetPlaysBySourceResolution getPlaysBySourceResolutionApi;
+  final GetPlaysByStreamResolution getPlaysByStreamResolutionApi;
+  final GetPlaysByStreamType getPlaysByStreamTypeApi;
+  final GetPlaysByTop10Platforms getPlaysByTop10PlatformsApi;
+  final GetPlaysByTop10Users getPlaysByTop10UsersApi;
+  final GetPlaysPerMonth getPlaysPerMonthApi;
+  final GetStreamTypeByTop10Platforms getStreamTypeByTop10PlatformsApi;
+  final GetStreamTypeByTop10Users getStreamTypeByTop10UsersApi;
 
   GraphsDataSourceImpl({
-    @required this.apiGetPlaysByDate,
-    @required this.apiGetPlaysByDayOfWeek,
-    @required this.apiGetPlaysByHourOfDay,
-    @required this.apiGetPlaysBySourceResolution,
-    @required this.apiGetPlaysByStreamResolution,
-    @required this.apiGetPlaysByStreamType,
-    @required this.apiGetPlaysByTop10Platforms,
-    @required this.apiGetPlaysByTop10Users,
-    @required this.apiGetStreamTypeByTop10Platforms,
-    @required this.apiGetStreamTypeByTop10Users,
-    @required this.apiGetPlaysPerMonth,
+    required this.getPlaysByDateApi,
+    required this.getPlaysByDayOfWeekApi,
+    required this.getPlaysByHourOfDayApi,
+    required this.getPlaysBySourceResolutionApi,
+    required this.getPlaysByStreamResolutionApi,
+    required this.getPlaysByStreamTypeApi,
+    required this.getPlaysByTop10PlatformsApi,
+    required this.getPlaysByTop10UsersApi,
+    required this.getPlaysPerMonthApi,
+    required this.getStreamTypeByTop10PlatformsApi,
+    required this.getStreamTypeByTop10UsersApi,
   });
 
   @override
-  Future<GraphData> getPlaysByDate({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByDate({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
-    final playsByDateJson = await apiGetPlaysByDate(
+    final result = await getPlaysByDateApi(
       tautulliId: tautulliId,
-      timeRange: timeRange,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
-      settingsBloc: settingsBloc,
     );
 
-    List<String> categories = List<String>.from(
-      playsByDateJson['response']['data']['categories'],
-    );
-    List<SeriesData> seriesDataList = [];
-    playsByDateJson['response']['data']['series'].forEach((item) {
-      seriesDataList.add(SeriesDataModel.fromJson(item));
-    });
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
-    return GraphDataModel(
-      categories: categories,
-      seriesDataList: seriesDataList,
-    );
+    return Tuple2(graphDataModel, result.value2);
   }
 
   @override
-  Future<GraphData> getPlaysByDayOfWeek({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByDayOfWeek({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
-    final playsByDayOfWeekJson = await apiGetPlaysByDayOfWeek(
+    final result = await getPlaysByDayOfWeekApi(
       tautulliId: tautulliId,
-      timeRange: timeRange,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
-      settingsBloc: settingsBloc,
     );
 
-    List<String> categories = List<String>.from(
-      playsByDayOfWeekJson['response']['data']['categories'],
-    );
-    List<SeriesData> seriesDataList = [];
-    playsByDayOfWeekJson['response']['data']['series'].forEach((item) {
-      seriesDataList.add(SeriesDataModel.fromJson(item));
-    });
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
-    return GraphDataModel(
-      categories: categories,
-      seriesDataList: seriesDataList,
-    );
+    return Tuple2(graphDataModel, result.value2);
   }
 
   @override
-  Future<GraphData> getPlaysByHourOfDay({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByHourOfDay({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
-    final playsByHourOfDayJson = await apiGetPlaysByHourOfDay(
+    final result = await getPlaysByHourOfDayApi(
       tautulliId: tautulliId,
-      timeRange: timeRange,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
-      settingsBloc: settingsBloc,
     );
 
-    List<String> categories = List<String>.from(
-      playsByHourOfDayJson['response']['data']['categories'],
-    );
-    List<SeriesData> seriesDataList = [];
-    playsByHourOfDayJson['response']['data']['series'].forEach((item) {
-      seriesDataList.add(SeriesDataModel.fromJson(item));
-    });
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
-    return GraphDataModel(
-      categories: categories,
-      seriesDataList: seriesDataList,
-    );
+    return Tuple2(graphDataModel, result.value2);
   }
 
   @override
-  Future<GraphData> getPlaysBySourceResolution({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysBySourceResolution({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
-    final playsBySourceResolutionJson = await apiGetPlaysBySourceResolution(
+    final result = await getPlaysBySourceResolutionApi(
       tautulliId: tautulliId,
-      timeRange: timeRange,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
-      settingsBloc: settingsBloc,
     );
 
-    List<String> categories = List<String>.from(
-      playsBySourceResolutionJson['response']['data']['categories'],
-    );
-    List<SeriesData> seriesDataList = [];
-    playsBySourceResolutionJson['response']['data']['series'].forEach((item) {
-      seriesDataList.add(SeriesDataModel.fromJson(item));
-    });
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
-    return GraphDataModel(
-      categories: categories,
-      seriesDataList: seriesDataList,
-    );
+    return Tuple2(graphDataModel, result.value2);
   }
 
   @override
-  Future<GraphData> getPlaysByStreamResolution({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByStreamResolution({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
-    final playsByStreamResolutionJson = await apiGetPlaysByStreamResolution(
+    final result = await getPlaysByStreamResolutionApi(
       tautulliId: tautulliId,
-      timeRange: timeRange,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
-      settingsBloc: settingsBloc,
     );
 
-    List<String> categories = List<String>.from(
-      playsByStreamResolutionJson['response']['data']['categories'],
-    );
-    List<SeriesData> seriesDataList = [];
-    playsByStreamResolutionJson['response']['data']['series'].forEach((item) {
-      seriesDataList.add(SeriesDataModel.fromJson(item));
-    });
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
-    return GraphDataModel(
-      categories: categories,
-      seriesDataList: seriesDataList,
-    );
+    return Tuple2(graphDataModel, result.value2);
   }
 
   @override
-  Future<GraphData> getPlaysByStreamType({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByStreamType({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
-    final playsByStreamTypeJson = await apiGetPlaysByStreamType(
+    final result = await getPlaysByStreamTypeApi(
       tautulliId: tautulliId,
-      timeRange: timeRange,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
-      settingsBloc: settingsBloc,
     );
 
-    List<String> categories = List<String>.from(
-      playsByStreamTypeJson['response']['data']['categories'],
-    );
-    List<SeriesData> seriesDataList = [];
-    playsByStreamTypeJson['response']['data']['series'].forEach((item) {
-      seriesDataList.add(SeriesDataModel.fromJson(item));
-    });
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
-    return GraphDataModel(
-      categories: categories,
-      seriesDataList: seriesDataList,
-    );
+    return Tuple2(graphDataModel, result.value2);
   }
 
   @override
-  Future<GraphData> getPlaysByTop10Platforms({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysPerMonth({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
-    final playsByTop10PlatformsJson = await apiGetPlaysByTop10Platforms(
+    final result = await getPlaysPerMonthApi(
       tautulliId: tautulliId,
-      timeRange: timeRange,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
-      settingsBloc: settingsBloc,
     );
 
-    List<String> categories = List<String>.from(
-      playsByTop10PlatformsJson['response']['data']['categories'],
-    );
-    List<SeriesData> seriesDataList = [];
-    playsByTop10PlatformsJson['response']['data']['series'].forEach((item) {
-      seriesDataList.add(SeriesDataModel.fromJson(item));
-    });
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
-    return GraphDataModel(
-      categories: categories,
-      seriesDataList: seriesDataList,
-    );
+    return Tuple2(graphDataModel, result.value2);
   }
 
   @override
-  Future<GraphData> getPlaysByTop10Users({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByTop10Platforms({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
-    final playsByTop10UsersJson = await apiGetPlaysByTop10Users(
+    final result = await getPlaysByTop10PlatformsApi(
       tautulliId: tautulliId,
-      timeRange: timeRange,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
-      settingsBloc: settingsBloc,
     );
 
-    List<String> categories = List<String>.from(
-      playsByTop10UsersJson['response']['data']['categories'],
-    );
-    List<SeriesData> seriesDataList = [];
-    playsByTop10UsersJson['response']['data']['series'].forEach((item) {
-      seriesDataList.add(SeriesDataModel.fromJson(item));
-    });
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
-    return GraphDataModel(
-      categories: categories,
-      seriesDataList: seriesDataList,
-    );
+    return Tuple2(graphDataModel, result.value2);
   }
 
   @override
-  Future<GraphData> getStreamTypeByTop10Platforms({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getPlaysByTop10Users({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
-    final streamTypeByTop10PlatformsJson =
-        await apiGetStreamTypeByTop10Platforms(
+    final result = await getPlaysByTop10UsersApi(
       tautulliId: tautulliId,
-      timeRange: timeRange,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
-      settingsBloc: settingsBloc,
     );
 
-    List<String> categories = List<String>.from(
-      streamTypeByTop10PlatformsJson['response']['data']['categories'],
-    );
-    List<SeriesData> seriesDataList = [];
-    streamTypeByTop10PlatformsJson['response']['data']['series']
-        .forEach((item) {
-      seriesDataList.add(SeriesDataModel.fromJson(item));
-    });
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
-    return GraphDataModel(
-      categories: categories,
-      seriesDataList: seriesDataList,
-    );
+    return Tuple2(graphDataModel, result.value2);
   }
 
   @override
-  Future<GraphData> getStreamTypeByTop10Users({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getStreamTypeByTop10Platforms({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
-    final streamTypeByTop10UsersJson = await apiGetStreamTypeByTop10Users(
+    final result = await getStreamTypeByTop10PlatformsApi(
       tautulliId: tautulliId,
-      timeRange: timeRange,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
-      settingsBloc: settingsBloc,
     );
 
-    List<String> categories = List<String>.from(
-      streamTypeByTop10UsersJson['response']['data']['categories'],
-    );
-    List<SeriesData> seriesDataList = [];
-    streamTypeByTop10UsersJson['response']['data']['series'].forEach((item) {
-      seriesDataList.add(SeriesDataModel.fromJson(item));
-    });
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
-    return GraphDataModel(
-      categories: categories,
-      seriesDataList: seriesDataList,
-    );
+    return Tuple2(graphDataModel, result.value2);
   }
 
   @override
-  Future<GraphData> getPlaysPerMonth({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<GraphDataModel, bool>> getStreamTypeByTop10Users({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
-    final playsPerMonthJson = await apiGetPlaysPerMonth(
+    final result = await getStreamTypeByTop10UsersApi(
       tautulliId: tautulliId,
-      timeRange: timeRange,
       yAxis: yAxis,
+      timeRange: timeRange,
       userId: userId,
       grouping: grouping,
-      settingsBloc: settingsBloc,
     );
 
-    List<String> categories = List<String>.from(
-      playsPerMonthJson['response']['data']['categories'],
-    );
-    List<SeriesData> seriesDataList = [];
-    playsPerMonthJson['response']['data']['series'].forEach((item) {
-      seriesDataList.add(SeriesDataModel.fromJson(item));
-    });
+    final GraphDataModel graphDataModel = GraphDataModel.fromJson(result.value1['response']['data']);
 
-    return GraphDataModel(
-      categories: categories,
-      seriesDataList: seriesDataList,
-    );
+    return Tuple2(graphDataModel, result.value2);
   }
 }

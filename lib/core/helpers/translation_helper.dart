@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -19,12 +17,17 @@ class TranslationHelper {
       const Locale('fr'),
       const Locale('hu'),
       const Locale('it'),
+      const Locale('nb'),
       const Locale('nl'),
+      const Locale('pl'),
       const Locale('pt', 'BR'),
       const Locale('pt', 'PT'),
       const Locale('ru'),
       const Locale('sk'),
+      const Locale('sl'),
+      const Locale('sq'),
       const Locale('sv'),
+      const Locale('zh'),
     ];
   }
 
@@ -49,8 +52,12 @@ class TranslationHelper {
       return 'Magyar';
     } else if (locale.languageCode == 'it') {
       return 'Italiano';
+    } else if (locale.languageCode == 'nb') {
+      return 'Bokmål';
     } else if (locale.languageCode == 'nl') {
       return 'Nederlands';
+    } else if (locale.languageCode == 'pl') {
+      return 'Polski';
     } else if (locale.languageCode == 'pt') {
       if (locale.countryCode == 'BR') {
         return 'Português (Brasil)';
@@ -61,10 +68,66 @@ class TranslationHelper {
       return 'Русский';
     } else if (locale.languageCode == 'sk') {
       return 'Slovenčina';
+    } else if (locale.languageCode == 'sl') {
+      return 'Slovenščina';
+    } else if (locale.languageCode == 'sq') {
+      return 'Shqip';
     } else if (locale.languageCode == 'sv') {
       return 'Svenska';
+    } else if (locale.languageCode == 'zh') {
+      return '简体中文';
     } else {
-      return LocaleKeys.general_unknown.tr();
+      return LocaleKeys.unknown_title.tr();
+    }
+  }
+
+  static String localeToEnglishString(Locale locale) {
+    if (locale.languageCode == 'ca') {
+      return 'Catalan';
+    } else if (locale.languageCode == 'cs') {
+      return 'Czech';
+    } else if (locale.languageCode == 'da') {
+      return 'Danish';
+    } else if (locale.languageCode == 'de') {
+      return 'German';
+    } else if (locale.languageCode == 'el') {
+      return 'Greek';
+    } else if (locale.languageCode == 'en') {
+      return 'English';
+    } else if (locale.languageCode == 'es') {
+      return 'Spanish';
+    } else if (locale.languageCode == 'fr') {
+      return 'French';
+    } else if (locale.languageCode == 'hu') {
+      return 'Hungarian';
+    } else if (locale.languageCode == 'it') {
+      return 'Italian';
+    } else if (locale.languageCode == 'nb') {
+      return 'Norwegian Bokmål';
+    } else if (locale.languageCode == 'nl') {
+      return 'Dutch';
+    } else if (locale.languageCode == 'pl') {
+      return 'Polish';
+    } else if (locale.languageCode == 'pt') {
+      if (locale.countryCode == 'BR') {
+        return 'Portuguese (Brazil)';
+      } else {
+        return 'Portuguese (Portugal)';
+      }
+    } else if (locale.languageCode == 'ru') {
+      return 'Russian';
+    } else if (locale.languageCode == 'sk') {
+      return 'Slovak';
+    } else if (locale.languageCode == 'sl') {
+      return 'Slovene';
+    } else if (locale.languageCode == 'sq') {
+      return 'Albanian';
+    } else if (locale.languageCode == 'sv') {
+      return 'Swedish';
+    } else if (locale.languageCode == 'zh') {
+      return 'Chinese (Simplified)';
+    } else {
+      return LocaleKeys.unknown_title.tr();
     }
   }
 }

@@ -1,95 +1,108 @@
-// @dart=2.9
-
-import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../../../injection_container.dart' as di;
+import '../../../../translations/locale_keys.g.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/settings.dart';
-import '../../domain/entities/announcement.dart';
-import '../../domain/usecases/get_announcements.dart';
+import '../../data/models/announcement_model.dart';
+import '../../domain/usecases/announcements.dart';
 
 part 'announcements_event.dart';
 part 'announcements_state.dart';
 
 class AnnouncementsBloc extends Bloc<AnnouncementsEvent, AnnouncementsState> {
-  final GetAnnouncements getAnnouncements;
+  final Announcements announcements;
   final Logging logging;
+  final Settings settings;
 
   AnnouncementsBloc({
-    @required this.getAnnouncements,
-    @required this.logging,
-  }) : super(AnnouncementsInitial());
+    required this.announcements,
+    required this.logging,
+    required this.settings,
+  }) : super(AnnouncementsInitial()) {
+    on<AnnouncementsFetch>((event, emit) => _onAnnouncementsFetch(event, emit));
+    on<AnnouncementsMarkRead>(
+      (event, emit) => _onAnnouncementsMarkRead(event, emit),
+    );
+  }
 
-  @override
-  Stream<AnnouncementsState> mapEventToState(
-    AnnouncementsEvent event,
-  ) async* {
-    final currentState = state;
-    final readAnnouncementId =
-        await di.sl<Settings>().getLastReadAnnouncementId() ?? -1;
+  _onAnnouncementsFetch(
+    AnnouncementsFetch event,
+    Emitter<AnnouncementsState> emit,
+  ) async {
+    emit(
+      AnnouncementsInProgress(),
+    );
 
-    if (event is AnnouncementsFetch) {
-      yield AnnouncementsInProgress();
+    final lastReadAnnouncementId = await settings.getLastReadAnnouncementId();
 
-      final failureOrAnnouncements = await getAnnouncements();
+    final failureOrAnnouncements = await announcements.get();
 
-      yield* failureOrAnnouncements.fold(
-        (failure) async* {
-          logging.warning(
-            'Announcements: Failed to fetch announcements ($failure)',
-          );
-          yield AnnouncementsFailure(
+    failureOrAnnouncements.fold(
+      (failure) {
+        logging.warning(
+          'Announcements :: Failed to fetch announcements [$failure]',
+        );
+        emit(
+          AnnouncementsFailure(
             failure: failure,
-            message: 'Failed to load announcements.',
+            message: LocaleKeys.announcements_load_failed_message.tr(),
             suggestion: '',
+          ),
+        );
+      },
+      (announcementList) {
+        final filteredList = [...announcementList];
+
+        if (!Platform.isAndroid) {
+          filteredList.removeWhere(
+            (announcement) => announcement.platform == DevicePlatform.android,
           );
-        },
-        (announcementList) async* {
-          final isIos = Platform.isIOS;
-          int maxId = 0;
-          final List<Announcement> filteredAnnouncements = [];
-
-          for (Announcement announcement in announcementList) {
-            if (announcement.platform == null) {
-              filteredAnnouncements.add(announcement);
-            } else if (announcement.platform == 'ios' && isIos) {
-              filteredAnnouncements.add(announcement);
-            } else if (announcement.platform == 'android' && !isIos) {
-              filteredAnnouncements.add(announcement);
-            }
-          }
-
-          if (filteredAnnouncements.isNotEmpty) {
-            maxId = filteredAnnouncements.map<int>((a) => a.id).reduce(max);
-          }
-
-          yield AnnouncementsSuccess(
-            announcementList: filteredAnnouncements,
-            lastReadAnnouncementId: readAnnouncementId,
-            unread: maxId > readAnnouncementId,
-          );
-        },
-      );
-    }
-    if (event is AnnouncementsMarkRead) {
-      if (currentState is AnnouncementsSuccess) {
-        int maxId =
-            currentState.announcementList.map<int>((a) => a.id).reduce(max);
-
-        if (maxId > readAnnouncementId) {
-          await di.sl<Settings>().setLastReadAnnouncementId(maxId);
-          yield currentState.copyWith(
-            unread: false,
+        } else if (!Platform.isIOS) {
+          filteredList.removeWhere(
+            (announcement) => announcement.platform == DevicePlatform.ios,
           );
         }
-      }
+
+        int maxId = 0;
+        if (filteredList.isNotEmpty) {
+          maxId = filteredList.map((e) => e.id).reduce(max);
+        }
+
+        emit(
+          AnnouncementsSuccess(
+            announcementList: announcementList,
+            filteredList: filteredList,
+            lastReadAnnouncementId: lastReadAnnouncementId,
+            maxId: maxId,
+            unread: maxId > lastReadAnnouncementId,
+          ),
+        );
+      },
+    );
+  }
+
+  _onAnnouncementsMarkRead(
+    AnnouncementsMarkRead event,
+    Emitter<AnnouncementsState> emit,
+  ) async {
+    if (state is AnnouncementsSuccess) {
+      final currentState = state as AnnouncementsSuccess;
+
+      await settings.setLastReadAnnouncementId(currentState.maxId);
+      logging.info('Announcements :: Marked read');
+
+      emit(
+        currentState.copyWith(
+          lastReadAnnouncementId: currentState.maxId,
+          unread: false,
+        ),
+      );
     }
   }
 }

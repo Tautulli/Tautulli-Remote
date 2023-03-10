@@ -1,96 +1,93 @@
-// @dart=2.9
-
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
 import 'change_type_tag.dart';
 
 class ChangelogItem extends StatelessWidget {
   final Map release;
+  final bool bottomPadding;
 
-  const ChangelogItem({
-    @required this.release,
-    Key key,
-  }) : super(key: key);
+  const ChangelogItem(
+    this.release, {
+    super.key,
+    this.bottomPadding = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 8,
-        right: 8,
-        bottom: 30,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //* Heading
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
+      padding: EdgeInsets.only(bottom: bottomPadding ? 8 : 0),
+      child: Card(
+        margin: const EdgeInsets.all(0),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                release['version'],
-                style: const TextStyle(
-                  color: TautulliColorPalette.not_white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    release['version'],
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  Text(
+                    release['date'],
+                    style: GoogleFonts.openSans(fontWeight: FontWeight.w300),
+                  ),
+                ],
               ),
-              Text(
-                release['date'],
-                style: const TextStyle(
-                  color: Colors.grey,
+              const Divider(),
+              if (release['intro'] != null)
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(release['intro']),
+                    const Divider(),
+                  ],
                 ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: release['changes']
+                    .map<Widget>(
+                      (change) => Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ChangeTypeTag(change['type']),
+                            const Gap(8),
+                            Expanded(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(change['detail']),
+                                  if (change['additional'] != null)
+                                    Text(
+                                      change['additional'],
+                                      style: TextStyle(
+                                        color: Theme.of(context).textTheme.titleSmall!.color,
+                                        fontSize: 13,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
             ],
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 4),
-            child: Divider(
-              height: 0,
-              color: PlexColorPalette.gamboge,
-            ),
-          ),
-          //* Changes
-          Column(
-            children: release['changes'].map<Widget>((change) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Column(
-                        children: [
-                          ChangeTypeTag(change['type']),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(change['detail']),
-                          if (change['additional'] != null)
-                            Text(
-                              change['additional'],
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 13,
-                                fontStyle: FontStyle.italic,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
-        ],
+        ),
       ),
     );
   }

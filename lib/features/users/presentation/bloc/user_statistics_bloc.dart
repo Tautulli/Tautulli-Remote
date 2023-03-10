@@ -1,124 +1,170 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/types/bloc_status.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/user_statistic.dart';
-import '../../domain/usecases/get_user_player_stats.dart';
-import '../../domain/usecases/get_user_watch_time_stats.dart';
+import '../../data/models/user_player_stat_model.dart';
+import '../../data/models/user_watch_time_stat_model.dart';
+import '../../domain/usecases/users.dart';
 
 part 'user_statistics_event.dart';
 part 'user_statistics_state.dart';
 
-Map<String, List<UserStatistic>> _watchTimeStatsListCacheMap = {};
-Map<String, List<UserStatistic>> _playerStatsListCacheMap = {};
+Map<String, List<UserPlayerStatModel>> _playerStatsCache = {};
+Map<String, List<UserWatchTimeStatModel>> _watchTimeStatsCache = {};
 
-class UserStatisticsBloc
-    extends Bloc<UserStatisticsEvent, UserStatisticsState> {
-  final GetUserWatchTimeStats getUserWatchTimeStats;
-  final GetUserPlayerStats getUserPlayerStats;
+class UserStatisticsBloc extends Bloc<UserStatisticsEvent, UserStatisticsState> {
+  final Users users;
   final Logging logging;
 
   UserStatisticsBloc({
-    @required this.getUserWatchTimeStats,
-    @required this.getUserPlayerStats,
-    @required this.logging,
-  }) : super(UserStatisticsInitial());
+    required this.users,
+    required this.logging,
+  }) : super(const UserStatisticsState()) {
+    on<UserStatisticsFetched>(_onUserStatisticsFetched);
+  }
 
-  @override
-  Stream<UserStatisticsState> mapEventToState(
-    UserStatisticsEvent event,
-  ) async* {
-    if (event is UserStatisticsFetch) {
-      yield UserStatisticsInProgress();
+  _onUserStatisticsFetched(
+    UserStatisticsFetched event,
+    Emitter<UserStatisticsState> emit,
+  ) async {
+    final String cacheKey = '${event.server.tautulliId}:${event.userId}';
+    final bool playerStatsCached = _playerStatsCache.containsKey(cacheKey);
+    final bool watchTimeStatsCached = _watchTimeStatsCache.containsKey(cacheKey);
 
-      if (_watchTimeStatsListCacheMap
-              .containsKey('${event.tautulliId}:${event.userId}') &&
-          _playerStatsListCacheMap
-              .containsKey('${event.tautulliId}:${event.userId}') &&
-          _watchTimeStatsListCacheMap['${event.tautulliId}:${event.userId}']
-              .isNotEmpty) {
-        yield UserStatisticsSuccess(
-          watchTimeStatsList: _watchTimeStatsListCacheMap[
-              '${event.tautulliId}:${event.userId}'],
-          playerStatsList:
-              _playerStatsListCacheMap['${event.tautulliId}:${event.userId}'],
-        );
-      } else {
-        // Build out stat lists
-        List<UserStatistic> watchTimeStatsList = [];
-        bool watchTimeStatsFailed = false;
-        List<UserStatistic> playerStatsList = [];
-        bool playerStatsFailed = false;
-        Failure statFailure;
+    // Check cached data, if exists yield that data
+    if (playerStatsCached) {
+      emit(
+        state.copyWith(
+          playerStatsStatus: BlocStatus.success,
+          playerStatsList: _playerStatsCache[cacheKey],
+        ),
+      );
+    }
 
-        final failureOrUserWatchTimeStats = await getUserWatchTimeStats(
-          tautulliId: event.tautulliId,
-          userId: event.userId,
-          settingsBloc: event.settingsBloc,
-        );
+    if (watchTimeStatsCached) {
+      emit(
+        state.copyWith(
+          watchTimeStatsStatus: BlocStatus.success,
+          watchTimeStatsList: _watchTimeStatsCache[cacheKey],
+        ),
+      );
+    }
 
-        failureOrUserWatchTimeStats.fold(
-          (failure) {
-            watchTimeStatsFailed = true;
-            statFailure = failure;
-            logging.error(
-                'User Statistics: Failed to load watch time stats for user ID ${event.userId}');
-          },
-          (list) {
-            watchTimeStatsList = list;
-          },
-        );
+    // If fresh fetch or either stat isn't in cache fetch data from Tautulli
+    if (event.freshFetch || (!watchTimeStatsCached || !playerStatsCached)) {
+      emit(
+        state.copyWith(
+          watchTimeStatsStatus: BlocStatus.initial,
+          playerStatsStatus: BlocStatus.initial,
+        ),
+      );
 
-        final failureOrUserPlayerStats = await getUserPlayerStats(
-          tautulliId: event.tautulliId,
-          userId: event.userId,
-          settingsBloc: event.settingsBloc,
-        );
+      // Fetch stats for user and yield as received
+      final failureOrWatchTimeStats = await users.getWatchTimeStats(
+        tautulliId: event.server.tautulliId,
+        userId: event.userId,
+      );
 
-        failureOrUserPlayerStats.fold(
-          (failure) {
-            statFailure = failure;
-            playerStatsFailed = true;
-            logging.error(
-                'User Statistics: Failed to load player stats for user ID ${event.userId}');
-          },
-          (list) {
-            playerStatsList = list;
-          },
-        );
+      final failureOrPlayerStats = await users.getPlayerStats(
+        tautulliId: event.server.tautulliId,
+        userId: event.userId,
+      );
 
-        if (watchTimeStatsFailed && playerStatsFailed) {
-          // Yield UserStatisticsFailure if both stat fetches fail
-          yield UserStatisticsFailure(
-            failure: statFailure,
-            message: FailureMapperHelper.mapFailureToMessage(statFailure),
-            suggestion: FailureMapperHelper.mapFailureToSuggestion(statFailure),
-          );
-        } else {
-          _watchTimeStatsListCacheMap['${event.tautulliId}:${event.userId}'] =
-              watchTimeStatsList;
-          _playerStatsListCacheMap['${event.tautulliId}:${event.userId}'] =
-              playerStatsList;
-
-          yield UserStatisticsSuccess(
-            watchTimeStatsList: watchTimeStatsList,
-            playerStatsList: playerStatsList,
-          );
-        }
-      }
+      _fetchAndEmitStats(
+        event: event,
+        emit: emit,
+        failureOrWatchTimeStats: failureOrWatchTimeStats,
+        failureOrPlayerStats: failureOrPlayerStats,
+        cacheKey: cacheKey,
+      );
     }
   }
-}
 
-void clearCache() {
-  _watchTimeStatsListCacheMap = {};
-  _playerStatsListCacheMap = {};
+  void _fetchAndEmitStats({
+    required UserStatisticsFetched event,
+    required Emitter<UserStatisticsState> emit,
+    required Either<Failure, Tuple2<List<UserWatchTimeStatModel>, bool>> failureOrWatchTimeStats,
+    required Either<Failure, Tuple2<List<UserPlayerStatModel>, bool>> failureOrPlayerStats,
+    required String cacheKey,
+  }) {
+    List<UserWatchTimeStatModel>? watchTimeStatsList;
+    BlocStatus? watchTimeStatsStatus;
+    List<UserPlayerStatModel>? playerStatsList;
+    BlocStatus? playerStatsStatus;
+    Failure? failure;
+    String? message;
+    String? suggestion;
+
+    failureOrWatchTimeStats.fold(
+      (failure) {
+        logging.error(
+          'Users :: Failed to fetch global stats for user id: ${event.userId} [$failure]',
+        );
+
+        _watchTimeStatsCache.remove(cacheKey);
+        watchTimeStatsStatus = BlocStatus.failure;
+        watchTimeStatsList = [];
+        failure = failure;
+        message = FailureHelper.mapFailureToMessage(failure);
+        suggestion = FailureHelper.mapFailureToSuggestion(failure);
+      },
+      (watchTimeStatList) {
+        event.settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: event.server.tautulliId,
+            primaryActive: watchTimeStatList.value2,
+          ),
+        );
+
+        _watchTimeStatsCache[cacheKey] = watchTimeStatList.value1;
+        watchTimeStatsStatus = BlocStatus.success;
+        watchTimeStatsList = watchTimeStatList.value1;
+      },
+    );
+
+    failureOrPlayerStats.fold(
+      (failure) {
+        logging.error(
+          'Users :: Failed to fetch player stats for user id: ${event.userId} [$failure]',
+        );
+
+        _playerStatsCache.remove(cacheKey);
+        playerStatsStatus = BlocStatus.failure;
+        playerStatsList = [];
+        failure = failure;
+        message = FailureHelper.mapFailureToMessage(failure);
+        suggestion = FailureHelper.mapFailureToSuggestion(failure);
+      },
+      (playerStatList) {
+        event.settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: event.server.tautulliId,
+            primaryActive: playerStatList.value2,
+          ),
+        );
+
+        _playerStatsCache[cacheKey] = playerStatList.value1;
+        playerStatsStatus = BlocStatus.success;
+        playerStatsList = playerStatList.value1;
+      },
+    );
+
+    return emit(
+      state.copyWith(
+        watchTimeStatsStatus: watchTimeStatsStatus,
+        watchTimeStatsList: watchTimeStatsList,
+        playerStatsStatus: playerStatsStatus,
+        playerStatsList: playerStatsList,
+        failure: failure,
+        message: message,
+        suggestion: suggestion,
+      ),
+    );
+  }
 }

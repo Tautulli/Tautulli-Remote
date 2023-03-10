@@ -1,76 +1,112 @@
-// @dart=2.9
-
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
-import 'inherited_headers.dart';
-import 'poster_chooser.dart';
+import '../../features/settings/data/models/custom_header_model.dart';
+import '../../features/settings/presentation/bloc/settings_bloc.dart';
+import '../types/media_type.dart';
+import 'poster.dart';
 
 class PosterCard extends StatelessWidget {
-  final dynamic item;
+  final MediaType? mediaType;
+  final Uri? uri;
   final Widget details;
-  final Key heroTag;
-  final EdgeInsets cardMargin;
-  final BorderRadius borderRadius;
+  final Function()? onTap;
 
   const PosterCard({
-    Key key,
-    @required this.item,
-    @required this.details,
-    this.heroTag,
-    this.cardMargin,
-    this.borderRadius,
-  }) : super(key: key);
+    super.key,
+    this.mediaType,
+    this.uri,
+    required this.details,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, String> headerMap = InheritedHeaders.of(context) != null
-        ? InheritedHeaders.of(context).headerMap
-        : {};
-
-    return Card(
-      margin: cardMargin ?? const EdgeInsets.all(4.0),
+    return SizedBox(
+      height: MediaQuery.of(context).textScaleFactor > 1 ? 100 * MediaQuery.of(context).textScaleFactor : 100,
       child: ClipRRect(
-        borderRadius: borderRadius ?? BorderRadius.circular(4),
-        child: Container(
-          height: 100,
+        borderRadius: BorderRadius.circular(12),
+        child: Card(
           child: Stack(
             children: [
-              Positioned.fill(
-                child: ImageFiltered(
-                  imageFilter: ImageFilter.blur(
-                    sigmaX: 25,
-                    sigmaY: 25,
+              if (uri != null)
+                Positioned.fill(
+                  child: BlocBuilder<SettingsBloc, SettingsState>(
+                    builder: (context, state) {
+                      state as SettingsSuccess;
+
+                      return CachedNetworkImage(
+                        imageUrl: uri.toString(),
+                        httpHeaders: {
+                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                            headerModel.key: headerModel.value,
+                        },
+                        imageBuilder: (context, imageProvider) => DecoratedBox(
+                          position: DecorationPosition.foreground,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.4),
+                          ),
+                          child: ImageFiltered(
+                            imageFilter: ImageFilter.blur(
+                              sigmaX: 25,
+                              sigmaY: 25,
+                              tileMode: TileMode.decal,
+                            ),
+                            child: Image(
+                              image: imageProvider,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                        placeholder: (context, url) => ImageFiltered(
+                          imageFilter: ImageFilter.blur(
+                            sigmaX: 25,
+                            sigmaY: 25,
+                            tileMode: TileMode.decal,
+                          ),
+                          child: Image.asset(
+                            'assets/images/poster_fallback.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => ImageFiltered(
+                          imageFilter: ImageFilter.blur(
+                            sigmaX: 25,
+                            sigmaY: 25,
+                            tileMode: TileMode.decal,
+                          ),
+                          child: Image.asset(
+                            'assets/images/poster_error.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  child: Image(
-                    image: CachedNetworkImageProvider(
-                      item.posterUrl != null ? item.posterUrl : '',
-                      headers: headerMap,
-                    ),
-                    fit: BoxFit.cover,
+                ),
+              Positioned.fill(
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Poster(mediaType: mediaType, uri: uri),
+                      const Gap(8),
+                      Expanded(child: details),
+                    ],
                   ),
                 ),
               ),
-              Container(
-                color: Colors.black.withOpacity(0.4),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4),
-                child: Row(
-                  children: [
-                    Hero(
-                      tag: heroTag ?? UniqueKey(),
-                      child: PosterChooser(item: item),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 6),
-                        child: details,
-                      ),
-                    ),
-                  ],
+              Positioned.fill(
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: onTap,
+                  ),
                 ),
               ),
             ],

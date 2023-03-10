@@ -1,7 +1,6 @@
-// @dart=2.9
+import 'dart:io';
 
 import 'package:f_logs/model/flog/log.dart';
-import 'package:meta/meta.dart';
 
 import '../../domain/repositories/logging_repository.dart';
 import '../datasources/logging_data_source.dart';
@@ -9,26 +8,41 @@ import '../datasources/logging_data_source.dart';
 class LoggingRepositoryImpl implements LoggingRepository {
   final LoggingDataSource dataSource;
 
-  LoggingRepositoryImpl({@required this.dataSource});
+  LoggingRepositoryImpl({required this.dataSource});
 
   @override
-  debug(String text) {
+  void trace(String text) {
+    dataSource.trace(text);
+  }
+
+  @override
+  void debug(String text) {
     dataSource.debug(text);
   }
 
   @override
-  info(String text) {
+  void info(String text) {
     dataSource.info(text);
   }
 
   @override
-  warning(String text) {
+  void warning(String text) {
     dataSource.warning(text);
   }
 
   @override
-  error(String text) {
+  void error(String text) {
     dataSource.error(text);
+  }
+
+  @override
+  void severe(String text) {
+    dataSource.severe(text);
+  }
+
+  @override
+  void fatal(String text) {
+    dataSource.fatal(text);
   }
 
   @override
@@ -37,12 +51,12 @@ class LoggingRepositoryImpl implements LoggingRepository {
   }
 
   @override
-  clearLogs() {
-    dataSource.clearLogs();
+  Future<void> clearLogs() {
+    return dataSource.clearLogs();
   }
 
   @override
-  exportLogs() {
-    dataSource.exportLogs();
+  Future<File> exportLogs() {
+    return dataSource.exportLogs();
   }
 }

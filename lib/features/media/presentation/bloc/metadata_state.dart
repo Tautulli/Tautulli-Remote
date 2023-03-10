@@ -1,40 +1,36 @@
-// @dart=2.9
-
 part of 'metadata_bloc.dart';
 
-abstract class MetadataState extends Equatable {
-  const MetadataState();
+class MetadataState extends Equatable {
+  final BlocStatus status;
+  final MediaModel? metadata;
+  final Failure? failure;
+  final String? message;
+  final String? suggestion;
 
-  @override
-  List<Object> get props => [];
-}
-
-class MetadataInitial extends MetadataState {}
-
-class MetadataInProgress extends MetadataState {}
-
-class MetadataSuccess extends MetadataState {
-  final MetadataItem metadata;
-
-  MetadataSuccess({
-    @required this.metadata,
+  const MetadataState({
+    this.status = BlocStatus.initial,
+    this.metadata,
+    this.failure,
+    this.message,
+    this.suggestion,
   });
 
+  MetadataState copyWith({
+    BlocStatus? status,
+    MediaModel? metadata,
+    Failure? failure,
+    String? message,
+    String? suggestion,
+  }) {
+    return MetadataState(
+      status: status ?? this.status,
+      metadata: metadata ?? this.metadata,
+      failure: failure ?? this.failure,
+      message: message ?? this.message,
+      suggestion: suggestion ?? this.suggestion,
+    );
+  }
+
   @override
-  List<Object> get props => [metadata];
-}
-
-class MetadataFailure extends MetadataState {
-  final Failure failure;
-  final String message;
-  final String suggestion;
-
-  MetadataFailure({
-    @required this.failure,
-    @required this.message,
-    @required this.suggestion,
-  });
-
-  @override
-  List<Object> get props => [failure, message, suggestion];
+  List<Object> get props => [status];
 }

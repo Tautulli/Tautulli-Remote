@@ -1,72 +1,75 @@
-// @dart=2.9
+import 'package:dartz/dartz.dart';
 
-import 'package:meta/meta.dart';
-
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/history.dart';
+import '../../../../core/api/tautulli/endpoints/get_history.dart';
 import '../models/history_model.dart';
 
 abstract class HistoryDataSource {
-  Future<List> getHistory({
-    @required String tautulliId,
-    int grouping,
-    String user,
-    int userId,
-    int ratingKey,
-    int parentRatingKey,
-    int grandparentRatingKey,
-    String startDate,
-    int sectionId,
-    String mediaType,
-    String transcodeDecision,
-    String guid,
-    String orderColumn,
-    String orderDir,
-    int start,
-    int length,
-    String search,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<List<HistoryModel>, bool>> getHistory({
+    required String tautulliId,
+    bool? grouping,
+    bool? includeActivity,
+    String? user,
+    int? userId,
+    int? ratingKey,
+    int? parentRatingKey,
+    int? grandparentRatingKey,
+    DateTime? startDate,
+    DateTime? before,
+    DateTime? after,
+    int? sectionId,
+    String? mediaType,
+    String? transcodeDecision,
+    String? guid,
+    String? orderColumn,
+    String? orderDir,
+    int? start,
+    int? length,
+    String? search,
   });
 }
 
 class HistoryDataSourceImpl implements HistoryDataSource {
-  final tautulli_api.GetHistory apiGetHistory;
+  final GetHistory getHistoryApi;
 
   HistoryDataSourceImpl({
-    @required this.apiGetHistory,
+    required this.getHistoryApi,
   });
 
   @override
-  Future<List> getHistory({
-    @required String tautulliId,
-    int grouping,
-    String user,
-    int userId,
-    int ratingKey,
-    int parentRatingKey,
-    int grandparentRatingKey,
-    String startDate,
-    int sectionId,
-    String mediaType,
-    String transcodeDecision,
-    String guid,
-    String orderColumn,
-    String orderDir,
-    int start,
-    int length,
-    String search,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<List<HistoryModel>, bool>> getHistory({
+    required String tautulliId,
+    bool? grouping,
+    bool? includeActivity,
+    String? user,
+    int? userId,
+    int? ratingKey,
+    int? parentRatingKey,
+    int? grandparentRatingKey,
+    DateTime? startDate,
+    DateTime? before,
+    DateTime? after,
+    int? sectionId,
+    String? mediaType,
+    String? transcodeDecision,
+    String? guid,
+    String? orderColumn,
+    String? orderDir,
+    int? start,
+    int? length,
+    String? search,
   }) async {
-    final historyJson = await apiGetHistory(
+    final result = await getHistoryApi(
       tautulliId: tautulliId,
-      grouping: grouping,
+      grouping: grouping ?? true,
+      includeActivity: includeActivity ?? false,
       user: user,
       userId: userId,
       ratingKey: ratingKey,
       parentRatingKey: parentRatingKey,
       grandparentRatingKey: grandparentRatingKey,
       startDate: startDate,
+      before: before,
+      after: after,
       sectionId: sectionId,
       mediaType: mediaType,
       transcodeDecision: transcodeDecision,
@@ -76,14 +79,13 @@ class HistoryDataSourceImpl implements HistoryDataSource {
       start: start,
       length: length,
       search: search,
-      settingsBloc: settingsBloc,
     );
 
-    final List<History> historyList = [];
-    historyJson['response']['data']['data'].forEach((item) {
-      historyList.add(HistoryModel.fromJson(item));
-    });
+    final List<HistoryModel> historyList = result.value1['response']['data']
+            ['data']
+        .map<HistoryModel>((historyItem) => HistoryModel.fromJson(historyItem))
+        .toList();
 
-    return historyList;
+    return Tuple2(historyList, result.value2);
   }
 }

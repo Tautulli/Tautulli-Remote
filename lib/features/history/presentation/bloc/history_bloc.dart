@@ -1,338 +1,290 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:stream_transform/stream_transform.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
-import '../../../image_url/domain/usecases/get_image_url.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/types/bloc_status.dart';
+import '../../../image_url/domain/usecases/image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/history.dart';
-import '../../domain/usecases/get_history.dart';
+import '../../data/models/history_model.dart';
+import '../../domain/usecases/history.dart';
 
 part 'history_event.dart';
 part 'history_state.dart';
 
-List<History> _historyListCache;
-bool _hasReachedMaxCache;
-int _userIdCache;
-String _mediaTypeCache;
-String _transcodeDecisionCache;
-String _tautulliIdCache;
-SettingsBloc _settingsBlocCache;
+String? tautulliIdCache;
+int? userIdCache;
+bool? movieMediaTypeCache;
+bool? episodeMediaTypeCache;
+bool? trackMediaTypeCache;
+bool? liveMediaTypeCache;
+bool? directPlayDecisionCache;
+bool? directStreamDecisionCache;
+bool? transcodeDecisionCache;
+Map<String, List<HistoryModel>> historyCache = {};
+bool hasReachedMaxCache = false;
+
+const throttleDuration = Duration(milliseconds: 100);
+const length = 25;
+
+EventTransformer<E> throttleDroppable<E>(Duration duration) {
+  return (events, mapper) {
+    return droppable<E>().call(events.throttle(duration), mapper);
+  };
+}
 
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
-  final GetHistory getHistory;
-  final GetImageUrl getImageUrl;
+  final History history;
+  final ImageUrl imageUrl;
   final Logging logging;
 
   HistoryBloc({
-    @required this.getHistory,
-    @required this.getImageUrl,
-    @required this.logging,
-  }) : super(HistoryInitial(
-          userId: _userIdCache,
-          mediaType: _mediaTypeCache,
-          transcodeDecision: _transcodeDecisionCache,
-          tautulliId: _tautulliIdCache,
-        ));
-
-  @override
-  Stream<Transition<HistoryEvent, HistoryState>> transformEvents(
-    Stream<HistoryEvent> events,
-    transitionFn,
-  ) {
-    return super.transformEvents(
-      events.debounceTime(const Duration(milliseconds: 25)),
-      transitionFn,
+    required this.history,
+    required this.imageUrl,
+    required this.logging,
+  }) : super(
+          HistoryState(
+            history: tautulliIdCache != null ? historyCache[tautulliIdCache]! : [],
+            userId: userIdCache,
+            movieMediaType: movieMediaTypeCache ?? false,
+            episodeMediaType: episodeMediaTypeCache ?? false,
+            trackMediaType: trackMediaTypeCache ?? false,
+            liveMediaType: movieMediaTypeCache ?? false,
+            directPlayDecision: directPlayDecisionCache ?? false,
+            directStreamDecision: directStreamDecisionCache ?? false,
+            transcodeDecision: transcodeDecisionCache ?? false,
+            hasReachedMax: hasReachedMaxCache,
+          ),
+        ) {
+    on<HistoryFetched>(
+      _onHistoryFetched,
+      transformer: throttleDroppable(throttleDuration),
     );
   }
 
-  @override
-  Stream<HistoryState> mapEventToState(
-    HistoryEvent event,
-  ) async* {
-    final currentState = state;
+  Future<void> _onHistoryFetched(
+    HistoryFetched event,
+    Emitter<HistoryState> emit,
+  ) async {
+    if (event.server.id == null) {
+      Failure failure = MissingServerFailure();
 
-    if (event is HistoryFetch && !_hasReachedMax(currentState)) {
-      _userIdCache = event.userId;
-      _mediaTypeCache = event.mediaType;
-      _transcodeDecisionCache = event.transcodeDecision;
-
-      if (currentState is HistoryInitial) {
-        _settingsBlocCache = event.settingsBloc;
-
-        yield* _fetchInitial(
-          tautulliId: event.tautulliId,
-          userId: event.userId,
-          mediaType: event.mediaType != 'all' ? event.mediaType : null,
-          transcodeDecision:
-              event.transcodeDecision != 'all' ? event.transcodeDecision : null,
-          useCachedList: true,
-          settingsBloc: _settingsBlocCache,
-        );
-      }
-      if (currentState is HistorySuccess) {
-        yield* _fetchMore(
-          currentState: currentState,
-          tautulliId: event.tautulliId,
-          userId: event.userId,
-          mediaType: event.mediaType != 'all' ? event.mediaType : null,
-          transcodeDecision:
-              event.transcodeDecision != 'all' ? event.transcodeDecision : null,
-          start: event.start,
-          settingsBloc: _settingsBlocCache,
-        );
-      }
-
-      _tautulliIdCache = event.tautulliId;
+      return emit(
+        state.copyWith(
+          status: BlocStatus.failure,
+          failure: failure,
+          message: FailureHelper.mapFailureToMessage(failure),
+          suggestion: FailureHelper.mapFailureToSuggestion(failure),
+        ),
+      );
     }
-    if (event is HistoryFilter) {
-      yield HistoryInitial();
-      _userIdCache = event.userId;
-      _mediaTypeCache = event.mediaType;
-      _transcodeDecisionCache = event.transcodeDecision;
 
-      yield* _fetchInitial(
-        tautulliId: event.tautulliId,
-        userId: event.userId,
-        mediaType: event.mediaType != 'all' ? event.mediaType : null,
-        transcodeDecision:
-            event.transcodeDecision != 'all' ? event.transcodeDecision : null,
-        settingsBloc: _settingsBlocCache,
+    final bool serverChange = tautulliIdCache != event.server.tautulliId;
+
+    if (!historyCache.containsKey(event.server.tautulliId)) {
+      historyCache[event.server.tautulliId] = [];
+    }
+
+    if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
+      emit(
+        state.copyWith(
+          status: BlocStatus.initial,
+          history: serverChange ? [] : null,
+          hasReachedMax: false,
+        ),
+      );
+      historyCache[event.server.tautulliId] = [];
+      hasReachedMaxCache = false;
+    }
+
+    tautulliIdCache = event.server.tautulliId;
+    userIdCache = event.userId;
+    movieMediaTypeCache = event.movieMediaType;
+    episodeMediaTypeCache = event.episodeMediaType;
+    trackMediaTypeCache = event.trackMediaType;
+    liveMediaTypeCache = event.liveMediaType;
+    directPlayDecisionCache = event.directPlayDecision;
+    directStreamDecisionCache = event.directStreamDecision;
+    transcodeDecisionCache = event.transcodeDecision;
+
+    if (state.hasReachedMax) return;
+
+    final List<String> mediaTypes = [];
+    if (event.movieMediaType) mediaTypes.add('movie');
+    if (event.episodeMediaType) mediaTypes.add('episode');
+    if (event.trackMediaType) mediaTypes.add('track');
+    if (event.liveMediaType) mediaTypes.add('live');
+
+    final List<String> decisionTypes = [];
+    if (event.directPlayDecision) decisionTypes.add('direct play');
+    if (event.directStreamDecision) decisionTypes.add('copy');
+    if (event.transcodeDecision) decisionTypes.add('transcode');
+
+    if (state.status == BlocStatus.initial) {
+      // Prevent triggering initial fetch when navigating back to History page
+      if (historyCache[event.server.tautulliId]!.isNotEmpty) {
+        return emit(
+          state.copyWith(
+            status: BlocStatus.success,
+          ),
+        );
+      }
+
+      final failureOrHistory = await history.getHistory(
+        tautulliId: event.server.tautulliId,
+        grouping: event.grouping,
+        includeActivity: event.includeActivity,
+        user: event.user,
+        userId: event.userId == -1 ? null : event.userId,
+        ratingKey: event.ratingKey,
+        parentRatingKey: event.parentRatingKey,
+        grandparentRatingKey: event.grandparentRatingKey,
+        startDate: event.startDate,
+        before: event.before,
+        after: event.after,
+        sectionId: event.sectionId,
+        mediaType: mediaTypes.join(', '),
+        transcodeDecision: decisionTypes.join(', '),
+        guid: event.guid,
+        orderColumn: event.orderColumn,
+        orderDir: event.orderDir,
+        length: length,
+        search: event.search,
       );
 
-      _tautulliIdCache = event.tautulliId;
-    }
-  }
-
-  Stream<HistoryState> _fetchInitial({
-    @required String tautulliId,
-    int grouping,
-    String user,
-    int userId,
-    int ratingKey,
-    int parentRatingKey,
-    int grandparentRatingKey,
-    String startDate,
-    int sectionId,
-    String mediaType,
-    String transcodeDecision,
-    String guid,
-    String orderColumn,
-    String orderDir,
-    int start,
-    int length,
-    String search,
-    bool useCachedList = false,
-    @required SettingsBloc settingsBloc,
-  }) async* {
-    if (useCachedList &&
-        _historyListCache != null &&
-        _tautulliIdCache == tautulliId) {
-      yield HistorySuccess(
-        list: _historyListCache,
-        hasReachedMax: _hasReachedMaxCache ?? false,
+      return _emitFailureOrHistory(
+        event: event,
+        emit: emit,
+        failureOrHistory: failureOrHistory,
       );
     } else {
-      final failureOrHistory = await getHistory(
-        tautulliId: tautulliId,
-        grouping: grouping,
-        user: user,
-        userId: userId,
-        ratingKey: ratingKey,
-        parentRatingKey: parentRatingKey,
-        grandparentRatingKey: grandparentRatingKey,
-        startDate: startDate,
-        sectionId: sectionId,
-        mediaType: mediaType,
-        transcodeDecision: transcodeDecision,
-        guid: guid,
-        orderColumn: orderColumn,
-        orderDir: orderDir,
-        start: start,
-        length: length ?? 25,
-        search: search,
-        settingsBloc: settingsBloc,
+      // Make sure bottom loader loading indicator displays when
+      // attempting to fetch
+      emit(
+        state.copyWith(status: BlocStatus.success),
       );
 
-      yield* failureOrHistory.fold(
-        (failure) async* {
-          logging.error(
-            'History: Failed to load history',
-          );
+      final failureOrHistory = await history.getHistory(
+        tautulliId: event.server.tautulliId,
+        grouping: event.grouping,
+        includeActivity: event.includeActivity,
+        user: event.user,
+        userId: event.userId == -1 ? null : event.userId,
+        ratingKey: event.ratingKey,
+        parentRatingKey: event.parentRatingKey,
+        grandparentRatingKey: event.grandparentRatingKey,
+        startDate: event.startDate,
+        before: event.before,
+        after: event.after,
+        sectionId: event.sectionId,
+        mediaType: mediaTypes.join(', '),
+        transcodeDecision: decisionTypes.join(', '),
+        guid: event.guid,
+        orderColumn: event.orderColumn,
+        orderDir: event.orderDir,
+        start: historyCache[event.server.tautulliId]!.length,
+        length: length,
+        search: event.search,
+      );
 
-          yield HistoryFailure(
-            failure: failure,
-            message: FailureMapperHelper.mapFailureToMessage(failure),
-            suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
-          );
-        },
-        (list) async* {
-          List<History> updatedList = await _getImages(
-            list: list,
-            tautulliId: tautulliId,
-            settingsBloc: settingsBloc,
-          );
-
-          _historyListCache = updatedList;
-          _hasReachedMaxCache = updatedList.length < 25;
-
-          yield HistorySuccess(
-            list: updatedList,
-            hasReachedMax: updatedList.length < 25,
-          );
-        },
+      return _emitFailureOrHistory(
+        event: event,
+        emit: emit,
+        failureOrHistory: failureOrHistory,
       );
     }
   }
 
-  Stream<HistoryState> _fetchMore({
-    @required HistorySuccess currentState,
-    @required String tautulliId,
-    int grouping,
-    String user,
-    int userId,
-    int ratingKey,
-    int parentRatingKey,
-    int grandparentRatingKey,
-    String startDate,
-    int sectionId,
-    String mediaType,
-    String transcodeDecision,
-    String guid,
-    String orderColumn,
-    String orderDir,
-    int start,
-    int length,
-    String search,
-    @required SettingsBloc settingsBloc,
-  }) async* {
-    final failureOrHistory = await getHistory(
-      tautulliId: tautulliId,
-      grouping: grouping,
-      user: user,
-      userId: userId,
-      ratingKey: ratingKey,
-      parentRatingKey: parentRatingKey,
-      grandparentRatingKey: grandparentRatingKey,
-      startDate: startDate,
-      sectionId: sectionId,
-      mediaType: mediaType,
-      transcodeDecision: transcodeDecision,
-      guid: guid,
-      orderColumn: orderColumn,
-      orderDir: orderDir,
-      start: currentState.list.length,
-      length: length ?? 25,
-      search: search,
-      settingsBloc: settingsBloc,
-    );
-
-    yield* failureOrHistory.fold(
-      (failure) async* {
-        logging.error(
-          'History: Failed to load additional history',
-        );
-
-        yield HistoryFailure(
-          failure: failure,
-          message: FailureMapperHelper.mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
-        );
-      },
-      (list) async* {
-        if (list.isEmpty) {
-          yield currentState.copyWith(hasReachedMax: true);
-        } else {
-          List<History> updatedList = await _getImages(
-            list: list,
-            tautulliId: tautulliId,
-            settingsBloc: settingsBloc,
-          );
-
-          _historyListCache = currentState.list + list;
-          _hasReachedMaxCache = updatedList.length < 25;
-
-          yield HistorySuccess(
-            list: currentState.list + updatedList,
-            hasReachedMax: updatedList.length < 25,
-          );
-        }
-      },
-    );
-  }
-
-  Future<List<History>> _getImages({
-    @required List<History> list,
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
+  void _emitFailureOrHistory({
+    required HistoryFetched event,
+    required Emitter<HistoryState> emit,
+    required Either<Failure, Tuple2<List<HistoryModel>, bool>> failureOrHistory,
   }) async {
-    List<History> newList = [];
+    await failureOrHistory.fold(
+      (failure) async {
+        logging.error('History :: Failed to fetch history [$failure]');
 
-    for (History historyItem in list) {
-      //* Fetch and assign image URLs
-      String posterImg;
-      int posterRatingKey;
-      String posterFallback;
+        return emit(
+          state.copyWith(
+            status: BlocStatus.failure,
+            history: event.freshFetch ? historyCache[event.server.tautulliId] : state.history,
+            failure: failure,
+            message: FailureHelper.mapFailureToMessage(failure),
+            suggestion: FailureHelper.mapFailureToSuggestion(failure),
+          ),
+        );
+      },
+      (history) async {
+        event.settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: event.server.tautulliId,
+            primaryActive: history.value2,
+          ),
+        );
 
-      // Assign values for poster URL
-      switch (historyItem.mediaType) {
-        case ('movie'):
-        case ('clip'):
-          posterImg = historyItem.thumb;
-          posterRatingKey = historyItem.ratingKey;
-          posterFallback = 'poster';
-          break;
-        case ('episode'):
-          posterImg = historyItem.thumb;
-          posterRatingKey = historyItem.grandparentRatingKey;
-          posterFallback = 'poster';
-          break;
-        case ('track'):
-          posterImg = historyItem.thumb;
-          posterRatingKey = historyItem.ratingKey;
-          posterFallback = 'cover';
-          break;
-        default:
-          posterRatingKey = historyItem.ratingKey;
-      }
+        // Add posters to history models
+        List<HistoryModel> historyListWithUris = await _historyModelsWithPosterUris(
+          historyList: history.value1,
+          settingsBloc: event.settingsBloc,
+        );
 
-      // Attempt to get poster URL
-      final failureOrPosterUrl = await getImageUrl(
-        tautulliId: tautulliId,
-        img: posterImg,
-        ratingKey: posterRatingKey,
-        fallback: posterFallback,
-        settingsBloc: settingsBloc,
+        historyCache[event.server.tautulliId] = historyCache[event.server.tautulliId]! + historyListWithUris;
+        hasReachedMaxCache = historyListWithUris.length < length;
+
+        return emit(
+          state.copyWith(
+            status: BlocStatus.success,
+            history: historyCache[event.server.tautulliId],
+            hasReachedMax: hasReachedMaxCache,
+          ),
+        );
+      },
+    );
+  }
+
+  Future<List<HistoryModel>> _historyModelsWithPosterUris({
+    required List<HistoryModel> historyList,
+    required SettingsBloc settingsBloc,
+  }) async {
+    List<HistoryModel> historyWithImages = [];
+
+    for (HistoryModel history in historyList) {
+      final failureOrImageUrl = await imageUrl.getImageUrl(
+        tautulliId: tautulliIdCache!,
+        img: history.thumb,
+        ratingKey: history.ratingKey,
       );
-      failureOrPosterUrl.fold(
-        (failure) {
-          logging.warning(
-            'History: Failed to load poster for rating key $posterRatingKey',
+
+      await failureOrImageUrl.fold(
+        (failure) async {
+          logging.error(
+            'History :: Failed to fetch image url for ${history.id} [$failure]',
           );
+
+          historyWithImages.add(history);
         },
-        (url) {
-          newList.add(historyItem.copyWith(posterUrl: url));
+        (imageUri) async {
+          settingsBloc.add(
+            SettingsUpdatePrimaryActive(
+              tautulliId: tautulliIdCache!,
+              primaryActive: imageUri.value2,
+            ),
+          );
+
+          historyWithImages.add(
+            history.copyWith(
+              posterUri: imageUri.value1,
+            ),
+          );
         },
       );
     }
 
-    return newList;
+    return historyWithImages;
   }
-}
-
-bool _hasReachedMax(HistoryState state) =>
-    state is HistorySuccess && state.hasReachedMax;
-
-void clearCache() {
-  _historyListCache = null;
-  _userIdCache = null;
-  _mediaTypeCache = null;
-  _tautulliIdCache = null;
 }

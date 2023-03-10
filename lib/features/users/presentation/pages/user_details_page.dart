@@ -1,424 +1,231 @@
-// @dart=2.9
-
-import 'dart:ui';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-import '../../../../core/database/domain/entities/server.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/helpers/time_format_helper.dart';
-import '../../../../core/widgets/user_icon.dart';
-import '../../../../injection_container.dart' as di;
+import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/helpers/time_helper.dart';
+import '../../../../core/pages/sliver_tabbed_icon_details_page.dart';
+import '../../../../core/types/bloc_status.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
+import '../../../history/presentation/bloc/user_history_bloc.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/user_table.dart';
-import '../bloc/user_bloc.dart';
+import '../../data/models/user_model.dart';
+import '../bloc/user_individual_bloc.dart';
+import '../bloc/user_statistics_bloc.dart';
 import '../widgets/user_details_history_tab.dart';
 import '../widgets/user_details_stats_tab.dart';
+import '../widgets/user_icon.dart';
 
 class UserDetailsPage extends StatelessWidget {
-  final UserTable user;
-  final Color backgroundColor;
-  final Key heroTag;
-  final bool forceGetUser;
-  final String tautulliIdOverride;
+  final ServerModel server;
+  final UserModel user;
+  final Color? backgroundColor;
+  final bool fetchUser;
 
   const UserDetailsPage({
-    Key key,
-    @required this.user,
+    super.key,
+    required this.server,
+    required this.user,
     this.backgroundColor,
-    this.heroTag,
-    this.forceGetUser = false,
-    this.tautulliIdOverride,
-  }) : super(key: key);
+    this.fetchUser = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => di.sl<UserBloc>(),
-      child: UserDetailsPageContent(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => di.sl<UserIndividualBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<UserStatisticsBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<UserHistoryBloc>(),
+        ),
+      ],
+      child: UserDetailsView(
+        server: server,
         user: user,
         backgroundColor: backgroundColor,
-        heroTag: heroTag,
-        forceGetUser: forceGetUser,
-        tautulliIdOverride: tautulliIdOverride,
+        fetchUser: fetchUser,
       ),
     );
   }
 }
 
-class UserDetailsPageContent extends StatefulWidget {
-  final UserTable user;
-  final Color backgroundColor;
-  final Key heroTag;
-  final bool forceGetUser;
-  final String tautulliIdOverride;
+class UserDetailsView extends StatefulWidget {
+  final ServerModel server;
+  final UserModel user;
+  final Color? backgroundColor;
+  final bool fetchUser;
 
-  const UserDetailsPageContent({
-    Key key,
-    @required this.user,
-    @required this.backgroundColor,
-    @required this.heroTag,
-    @required this.forceGetUser,
-    @required this.tautulliIdOverride,
-  }) : super(key: key);
+  const UserDetailsView({
+    super.key,
+    required this.server,
+    required this.user,
+    this.backgroundColor,
+    this.fetchUser = false,
+  });
 
   @override
-  _UserDetailsPageContentState createState() => _UserDetailsPageContentState();
+  State<UserDetailsView> createState() => _UserDetailsViewState();
 }
 
-class _UserDetailsPageContentState extends State<UserDetailsPageContent> {
-  SettingsBloc _settingsBloc;
-  UserBloc _userBloc;
-  String _tautulliId;
-  bool _maskSensitiveInfo;
+class _UserDetailsViewState extends State<UserDetailsView> {
+  late Future getColorFuture;
+  late bool hasNetworkImage;
+  late UserHistoryBloc _userHistoryBloc;
 
   @override
   void initState() {
     super.initState();
-    _settingsBloc = context.read<SettingsBloc>();
-    _userBloc = context.read<UserBloc>();
+    hasNetworkImage = _hasNetworkImage(widget.user);
+    getColorFuture = _getColor(widget.user.userThumb);
 
-    final settingsState = _settingsBloc.state;
+    final settingsBloc = context.read<SettingsBloc>();
+    _userHistoryBloc = context.read<UserHistoryBloc>();
 
-    if (settingsState is SettingsLoadSuccess) {
-      String lastSelectedServer;
+    if (widget.fetchUser) {
+      context.read<UserIndividualBloc>().add(
+            UserIndividualFetched(
+              server: widget.server,
+              userId: widget.user.userId!,
+              settingsBloc: settingsBloc,
+            ),
+          );
+    }
 
-      _maskSensitiveInfo = settingsState.maskSensitiveInfo;
-
-      if (settingsState.lastSelectedServer != null) {
-        for (Server server in settingsState.serverList) {
-          if (server.tautulliId == settingsState.lastSelectedServer) {
-            lastSelectedServer = settingsState.lastSelectedServer;
-            break;
-          }
-        }
-      }
-
-      if (lastSelectedServer != null) {
-        setState(() {
-          _tautulliId = lastSelectedServer;
-        });
-      } else if (settingsState.serverList.isNotEmpty) {
-        setState(() {
-          _tautulliId = settingsState.serverList[0].tautulliId;
-        });
-      } else {
-        _tautulliId = null;
-      }
-
-      if (widget.forceGetUser) {
-        _userBloc.add(
-          UserFetch(
-            tautulliId: widget.tautulliIdOverride ?? _tautulliId,
-            userId: widget.user.userId,
-            settingsBloc: _settingsBloc,
+    _userHistoryBloc.add(
+      UserHistoryFetched(
+        server: widget.server,
+        userId: widget.user.userId!,
+        settingsBloc: settingsBloc,
+      ),
+    );
+    context.read<UserStatisticsBloc>().add(
+          UserStatisticsFetched(
+            server: widget.server,
+            userId: widget.user.userId!,
+            settingsBloc: settingsBloc,
           ),
         );
-      }
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    bool hasNetworkImage = widget.user.userThumb != null
-        ? widget.user.userThumb.startsWith('http')
-        : false;
-    Future getColorFuture = _getColor(hasNetworkImage, widget.user.userThumb);
-
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Stack(
-        children: [
-          //* Background image
-          ClipRect(
-            child: Container(
-              // Height is 185 to provide 10 pixels background to show
-              // behind the rounded corners
-              height: 195 +
-                  10 +
-                  MediaQuery.of(context).padding.top -
-                  AppBar().preferredSize.height,
-              width: MediaQuery.of(context).size.width,
-              child: Stack(
-                children: [
-                  widget.backgroundColor != null
-                      ? Container(
-                          color: widget.backgroundColor,
-                        )
-                      : widget.backgroundColor == null && hasNetworkImage
-                          ? FutureBuilder(
-                              future: getColorFuture,
-                              builder: (context, snapshot) {
-                                bool hasCustomColor =
-                                    snapshot.connectionState ==
-                                            ConnectionState.done &&
-                                        snapshot.data['color'] != null;
+      body: BlocBuilder<SettingsBloc, SettingsState>(
+        builder: (context, settingsState) {
+          settingsState as SettingsSuccess;
 
-                                return Container(
-                                  color: hasCustomColor
-                                      ? snapshot.data['color']
-                                      : null,
-                                );
-                              },
-                            )
-                          : BlocBuilder<UserBloc, UserState>(
-                              builder: (context, state) {
-                                if (state is UserSuccess) {
-                                  bool hasNetworkImage = state.user.userThumb !=
-                                          null
-                                      ? state.user.userThumb.startsWith('http')
-                                      : false;
-
-                                  if (hasNetworkImage) {
-                                    return FutureBuilder(
-                                      future: _getColor(
-                                        hasNetworkImage,
-                                        state.user.userThumb,
-                                      ),
-                                      builder: (context, snapshot) {
-                                        bool hasCustomColor =
-                                            snapshot.connectionState ==
-                                                    ConnectionState.done &&
-                                                snapshot.data['color'] != null;
-
-                                        return Container(
-                                          color: hasCustomColor
-                                              ? snapshot.data['color']
-                                              : null,
-                                        );
-                                      },
-                                    );
-                                  }
-                                }
-                                return const SizedBox(height: 0, width: 0);
-                              },
-                            ),
-                  Positioned.fill(
-                    child: Container(
-                      color: Colors.black.withOpacity(0.6),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          //* Main body
-          Column(
-            children: [
-              // Empty space for background to show
-              SizedBox(
-                height: 195 +
-                    MediaQuery.of(context).padding.top -
-                    AppBar().preferredSize.height,
-              ),
-              //* Content area
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
-                  child: DecoratedBox(
-                    decoration: const BoxDecoration(
-                      color: PlexColorPalette.shark,
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            //* Title section
-                            Expanded(
-                              child: Container(
-                                height: 60,
-                                // Make room for the poster
-                                padding: const EdgeInsets.only(
-                                  left: 107.0 + 8.0,
-                                  top: 4,
-                                  right: 4,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      _maskSensitiveInfo
-                                          ? '*${LocaleKeys.masked_info_user.tr()}*'
-                                          : widget.user.friendlyName,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 4),
-                                      child: !widget.forceGetUser
-                                          ? RichText(
-                                              text: TextSpan(
-                                                children: [
-                                                  TextSpan(
-                                                    text:
-                                                        '${LocaleKeys.general_details_streamed.tr()} ',
-                                                  ),
-                                                  TextSpan(
-                                                    text: widget.user
-                                                                .lastSeen !=
-                                                            null
-                                                        ? '${TimeFormatHelper.timeAgo(widget.user.lastSeen)}'
-                                                        : 'never',
-                                                    style: const TextStyle(
-                                                      color: PlexColorPalette
-                                                          .gamboge,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          : BlocBuilder<UserBloc, UserState>(
-                                              builder: (context, state) {
-                                                if (state is UserSuccess) {
-                                                  if (state.user.lastSeen !=
-                                                      null) {
-                                                    return RichText(
-                                                      text: TextSpan(
-                                                        children: [
-                                                          TextSpan(
-                                                            text:
-                                                                '${LocaleKeys.general_details_streamed.tr()} ',
-                                                          ),
-                                                          TextSpan(
-                                                            text: state.user
-                                                                        .lastSeen !=
-                                                                    null
-                                                                ? '${TimeFormatHelper.timeAgo(state.user.lastSeen)}'
-                                                                : LocaleKeys
-                                                                    .general_never
-                                                                    .tr(),
-                                                            style:
-                                                                const TextStyle(
-                                                              color:
-                                                                  PlexColorPalette
-                                                                      .gamboge,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }
-                                                }
-                                                return const SizedBox(
-                                                    height: 0, width: 0);
-                                              },
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Expanded(
-                          child: DefaultTabController(
-                            length: 2,
-                            child: Column(
-                              children: [
-                                TabBar(
-                                  indicatorSize: TabBarIndicatorSize.label,
-                                  tabs: [
-                                    Tab(
-                                      child: const Text(
-                                        LocaleKeys.general_details_tab_stats,
-                                      ).tr(),
-                                    ),
-                                    Tab(
-                                      child: const Text(
-                                        LocaleKeys.history_page_title,
-                                      ).tr(),
-                                    ),
-                                  ],
-                                ),
-                                Expanded(
-                                  child: TabBarView(
-                                    children: [
-                                      UserDetailsStatsTab(
-                                        user: widget.user,
-                                      ),
-                                      UserDetailsHistoryTab(
-                                        user: widget.user,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          //* UserIcon
-          Positioned(
-            top: 155 +
-                MediaQuery.of(context).padding.top -
-                AppBar().preferredSize.height,
-            left: 8,
-            child: !widget.forceGetUser || widget.user.userThumb != null
-                ? Hero(
-                    tag: widget.heroTag ?? UniqueKey(),
-                    child: UserIcon(
-                      user: widget.user,
-                      size: 100,
-                      maskSensitiveInfo: _maskSensitiveInfo,
+          return SliverTabbedIconDetailsPage(
+            sensitive: settingsState.appSettings.maskSensitiveInfo,
+            background: widget.backgroundColor != null
+                ? DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: widget.backgroundColor,
                     ),
                   )
-                : BlocBuilder<UserBloc, UserState>(
+                : BlocBuilder<UserIndividualBloc, UserIndividualState>(
                     builder: (context, state) {
-                      if (state is UserSuccess) {
-                        return Hero(
-                          tag: widget.heroTag ?? UniqueKey(),
-                          child: UserIcon(
-                            user: state.user,
-                            size: 100,
-                            maskSensitiveInfo: _maskSensitiveInfo,
-                          ),
-                        );
-                      }
-                      return const SizedBox(height: 0, width: 0);
+                      return FutureBuilder(
+                        future: hasNetworkImage && !widget.fetchUser ? getColorFuture : _getColor(state.user.userThumb),
+                        builder: (context, snapshot) {
+                          Color? color;
+
+                          if (snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
+                            color = snapshot.data as Color;
+                          }
+
+                          return DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: color,
+                            ),
+                          );
+                        },
+                      );
                     },
                   ),
-          ),
-        ],
+            icon: BlocBuilder<UserIndividualBloc, UserIndividualState>(
+              builder: (context, state) {
+                return UserIcon(
+                  user: widget.fetchUser && state.user.userId != null ? state.user : widget.user,
+                  size: UserIconSize.large,
+                );
+              },
+            ),
+            title: widget.user.friendlyName ?? 'name missing',
+            subtitle: BlocBuilder<UserIndividualBloc, UserIndividualState>(
+              builder: (context, state) {
+                return RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: LocaleKeys.streamed_title.tr(),
+                        style: const TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                      const TextSpan(
+                        text: ' ',
+                      ),
+                      TextSpan(
+                        text: widget.user.lastSeen != null && !widget.fetchUser
+                            ? TimeHelper.moment(widget.user.lastSeen)
+                            : widget.fetchUser && state.user.lastSeen != null
+                                ? TimeHelper.moment(state.user.lastSeen)
+                                : widget.fetchUser && state.status == BlocStatus.initial
+                                    ? ''
+                                    : LocaleKeys.never.tr(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: Colors.grey[200],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            tabs: [
+              Tab(text: LocaleKeys.stats_title.tr()),
+              Tab(text: LocaleKeys.history_title.tr()),
+            ],
+            tabChildren: [
+              UserDetailsStatsTab(
+                server: widget.server,
+                user: widget.user,
+              ),
+              UserDetailsHistoryTab(
+                server: widget.server,
+                user: widget.user,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-Future<Map<String, dynamic>> _getColor(bool hasUrl, String url) async {
-  if (hasUrl) {
-    NetworkImage userProfileImage = NetworkImage(url);
-    final palette = await PaletteGenerator.fromImageProvider(
-      NetworkImage(url),
-      maximumColorCount: 1,
-    );
-    return {
-      'image': userProfileImage,
-      'color': palette.colors.isNotEmpty ? palette.dominantColor.color : null,
-    };
+bool _hasNetworkImage(UserModel user) {
+  if (user.userThumb != null) {
+    return user.userThumb!.startsWith('http');
   }
-  return {
-    'image': null,
-    'color': PlexColorPalette.shark,
-  };
+  return false;
+}
+
+Future<Color?> _getColor(String? url) async {
+  if (url == null || !url.startsWith('http')) return null;
+
+  final palette = await PaletteGenerator.fromImageProvider(
+    CachedNetworkImageProvider(url),
+    maximumColorCount: 1,
+  );
+
+  return palette.dominantColor?.color;
 }

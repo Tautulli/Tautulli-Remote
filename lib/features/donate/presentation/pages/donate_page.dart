@@ -1,112 +1,124 @@
-// @dart=2.9
-
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:quick_actions/quick_actions.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/helpers/quick_actions_helper.dart';
+import '../../../../core/pages/status_page.dart';
+import '../../../../core/widgets/custom_list_tile.dart';
+import '../../../../core/widgets/list_tile_group.dart';
+import '../../../../core/widgets/page_body.dart';
+import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
 import '../../../../translations/locale_keys.g.dart';
-import '../widgets/donate_header.dart';
-
-PurchaserInfo _purchaserInfo;
+import '../widgets/donate_heading_card.dart';
 
 class DonatePage extends StatelessWidget {
-  const DonatePage({Key key}) : super(key: key);
+  final bool showDrawer;
+
+  const DonatePage({
+    super.key,
+    this.showDrawer = true,
+  });
 
   static const routeName = '/donate';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        title: Text(
-          LocaleKeys.donate_page_title.tr(),
+    if (showDrawer) {
+      return ScaffoldWithInnerDrawer(
+        title: const Text(LocaleKeys.donate_title).tr(),
+        body: const DonateView(),
+      );
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text(LocaleKeys.donate_title).tr(),
         ),
-      ),
-      body: const DonatePageContent(),
-    );
+        body: const PageBody(
+          child: DonateView(),
+        ),
+      );
+    }
   }
 }
 
-class DonatePageContent extends StatefulWidget {
-  const DonatePageContent({Key key}) : super(key: key);
+class DonateView extends StatefulWidget {
+  const DonateView({super.key});
 
   @override
-  _DonatePageContentState createState() => _DonatePageContentState();
+  State<DonateView> createState() => _DonateViewState();
 }
 
-class _DonatePageContentState extends State<DonatePageContent> {
-  Offerings _offerings;
+class _DonateViewState extends State<DonateView> {
+  final QuickActions quickActions = const QuickActions();
+
+  CustomerInfo? _customerInfo;
+  Offerings? _offerings;
 
   @override
   void initState() {
     super.initState();
+    initalizeQuickActions(context, quickActions);
     _initialize();
   }
 
-  void _initialize() async {
+  Future<void> _initialize() async {
     await Purchases.setDebugLogsEnabled(false);
-    await Purchases.setup('WsDdfMkeAPioBSKeFnrlusHzuWOeAOLv');
+    // Update to app-specific api keys
+    await Purchases.configure(PurchasesConfiguration('WsDdfMkeAPioBSKeFnrlusHzuWOeAOLv'));
 
-    PurchaserInfo purchaserInfo;
-    try {
-      purchaserInfo = await Purchases.getPurchaserInfo();
-    } on PlatformException catch (e) {
-      print(e);
-    }
-
+    CustomerInfo customerInfo;
     Offerings offerings;
-    try {
-      offerings = await Purchases.getOfferings();
-    } on PlatformException catch (e) {
-      print(e);
-    }
+
+    customerInfo = await Purchases.getCustomerInfo();
+    offerings = await Purchases.getOfferings();
+
     if (!mounted) return;
 
     setState(() {
-      _purchaserInfo = purchaserInfo;
+      _customerInfo = customerInfo;
       _offerings = offerings;
     });
   }
 
   void _buyProduct(Package package) async {
     try {
-      if (_purchaserInfo.activeSubscriptions.isNotEmpty) {
-        String activeSku = _purchaserInfo.activeSubscriptions[0];
-        _purchaserInfo = await Purchases.purchasePackage(
+      if (_customerInfo!.activeSubscriptions.isNotEmpty) {
+        String activeSku = _customerInfo!.activeSubscriptions[0];
+        _customerInfo = await Purchases.purchasePackage(
           package,
           upgradeInfo: UpgradeInfo(activeSku),
         );
         setState(() {
-          _purchaserInfo.activeSubscriptions.remove(activeSku);
+          _customerInfo!.activeSubscriptions.remove(activeSku);
         });
       } else {
-        _purchaserInfo = await Purchases.purchasePackage(package);
+        _customerInfo = await Purchases.purchasePackage(package);
       }
       setState(() {
-        _purchaserInfo.activeSubscriptions.add(package.identifier);
+        _customerInfo!.activeSubscriptions.add(package.identifier);
       });
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: PlexColorPalette.shark,
+          duration: const Duration(seconds: 6),
           content: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
+              const Padding(
+                padding: EdgeInsets.only(right: 8),
                 child: FaIcon(
                   FontAwesomeIcons.solidHeart,
-                  color: Colors.red[400],
+                  color: Colors.red,
                 ),
               ),
-              const Text(LocaleKeys.donate_thank_you_alert).tr(),
+              const Text(LocaleKeys.donate_thanks_snackbar_message).tr(),
             ],
           ),
         ),
@@ -119,8 +131,8 @@ class _DonatePageContentState extends State<DonatePageContent> {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Theme.of(context).errorColor,
-            content: const Text(LocaleKeys.donate_error_alert).tr(),
+            backgroundColor: Theme.of(context).colorScheme.error,
+            content: const Text(LocaleKeys.error_snackbar_message).tr(),
           ),
         );
       }
@@ -129,308 +141,473 @@ class _DonatePageContentState extends State<DonatePageContent> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          const Divider(
-            indent: 50,
-            endIndent: 50,
-            height: 50,
-            color: PlexColorPalette.gamboge,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Column(
-              children: [
-                const Text(
-                  LocaleKeys.donate_message_title,
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ).tr(),
-                const SizedBox(height: 8),
-                const Text(
-                  LocaleKeys.donate_message_body,
-                  style: TextStyle(fontSize: 16),
-                  textAlign: TextAlign.center,
-                ).tr(),
-              ],
-            ),
-          ),
-          const Divider(
-            indent: 50,
-            endIndent: 50,
-            height: 50,
-            color: PlexColorPalette.gamboge,
-          ),
+          const DonateHeadingCard(),
           Expanded(
             child: _offerings == null
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).accentColor,
-                    ),
+                ? const Center(
+                    child: CircularProgressIndicator(),
                   )
-                : _offerings.all.isNotEmpty
+                : _offerings!.all.isNotEmpty
                     ? ListView(
                         children: [
-                          DonateHeader(
-                            text: LocaleKeys.donate_one_time_heading.tr(),
-                          ),
-                          Card(
-                            child: ListTile(
-                              title: const Text(LocaleKeys.donate_cone).tr(),
-                              subtitle: const Text('\$1.99'),
-                              trailing: const FaIcon(
-                                FontAwesomeIcons.iceCream,
-                                color: TautulliColorPalette.not_white,
-                              ),
-                              onTap: () => _buyProduct(
-                                _offerings
-                                    .getOffering('default')
-                                    .getPackage('ice_cream'),
-                              ),
-                            ),
-                          ),
-                          Card(
-                            child: ListTile(
-                              title: const Text(LocaleKeys.donate_slice).tr(),
-                              subtitle: const Text('\$2.99'),
-                              trailing: const FaIcon(
-                                FontAwesomeIcons.pizzaSlice,
-                                color: TautulliColorPalette.not_white,
-                              ),
-                              onTap: () => _buyProduct(
-                                _offerings
-                                    .getOffering('default')
-                                    .getPackage('pizza'),
-                              ),
-                            ),
-                          ),
-                          Card(
-                            child: ListTile(
-                              title: const Text(LocaleKeys.donate_burger).tr(),
-                              subtitle: const Text('\$4.99'),
-                              trailing: const FaIcon(
-                                FontAwesomeIcons.hamburger,
-                                color: TautulliColorPalette.not_white,
-                              ),
-                              onTap: () => _buyProduct(
-                                _offerings
-                                    .getOffering('default')
-                                    .getPackage('hamburger'),
-                              ),
-                            ),
-                          ),
-                          Card(
-                            child: ListTile(
-                              title: const Text(LocaleKeys.donate_meal).tr(),
-                              subtitle: const Text('\$9.99'),
-                              trailing: const Icon(
-                                Icons.fastfood,
-                                color: TautulliColorPalette.not_white,
-                                size: 26,
-                              ),
-                              onTap: () => _buyProduct(
-                                _offerings
-                                    .getOffering('default')
-                                    .getPackage('meal'),
-                              ),
-                            ),
-                          ),
-                          const Divider(
-                            indent: 50,
-                            endIndent: 50,
-                            height: 50,
-                            color: PlexColorPalette.gamboge,
-                          ),
-                          DonateHeader(
-                            text: LocaleKeys.donate_recurring_heading.tr(),
-                          ),
-                          Card(
-                            child: ListTile(
-                              title: const Text(LocaleKeys.donate_tip_jar).tr(),
-                              subtitle: Text(
-                                '\$0.99/${LocaleKeys.donate_month.tr()}',
-                              ),
-                              trailing: FaIcon(
-                                FontAwesomeIcons.donate,
-                                color: _purchaserInfo.activeSubscriptions
-                                        .contains('subscription_tier_1')
-                                    ? PlexColorPalette.atlantis
-                                    : TautulliColorPalette.not_white,
-                                size: 26,
-                              ),
-                              onTap: () => _buyProduct(
-                                _offerings
-                                    .getOffering('default')
-                                    .getPackage('subscription_tier_1'),
-                              ),
-                            ),
-                          ),
-                          Card(
-                            child: ListTile(
-                              title: const Text(LocaleKeys.donate_big_tip).tr(),
-                              subtitle: Text(
-                                '\$1.99/${LocaleKeys.donate_month.tr()}',
-                              ),
-                              trailing: FaIcon(
-                                FontAwesomeIcons.donate,
-                                color: _purchaserInfo.activeSubscriptions
-                                        .contains('subscription_tier_2')
-                                    ? PlexColorPalette.atlantis
-                                    : TautulliColorPalette.not_white,
-                                size: 26,
-                              ),
-                              onTap: () => _buyProduct(
-                                _offerings
-                                    .getOffering('default')
-                                    .getPackage('subscription_tier_2'),
-                              ),
-                            ),
-                          ),
-                          Card(
-                            child: ListTile(
-                              title:
-                                  const Text(LocaleKeys.donate_supporter).tr(),
-                              subtitle: Text(
-                                '\$4.99/${LocaleKeys.donate_month.tr()}',
-                              ),
-                              trailing: FaIcon(
-                                FontAwesomeIcons.donate,
-                                color: _purchaserInfo.activeSubscriptions
-                                        .contains('subscription_tier_3')
-                                    ? PlexColorPalette.atlantis
-                                    : TautulliColorPalette.not_white,
-                                size: 26,
-                              ),
-                              onTap: () => _buyProduct(
-                                _offerings
-                                    .getOffering('default')
-                                    .getPackage('subscription_tier_3'),
-                              ),
-                            ),
-                          ),
-                          Card(
-                            child: ListTile(
-                              title: const Text(LocaleKeys.donate_patron).tr(),
-                              subtitle: Text(
-                                '\$9.99/${LocaleKeys.donate_month.tr()}',
-                              ),
-                              trailing: FaIcon(
-                                FontAwesomeIcons.donate,
-                                color: _purchaserInfo.activeSubscriptions
-                                        .contains('subscription_tier_4')
-                                    ? PlexColorPalette.atlantis
-                                    : TautulliColorPalette.not_white,
-                                size: 26,
-                              ),
-                              onTap: () => _buyProduct(
-                                _offerings
-                                    .getOffering('default')
-                                    .getPackage('subscription_tier_4'),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    try {
-                                      PurchaserInfo restoredInfo =
-                                          await Purchases.restoreTransactions();
-                                      setState(() {
-                                        _purchaserInfo = restoredInfo;
-                                      });
-                                      ScaffoldMessenger.of(context)
-                                          .hideCurrentSnackBar();
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          backgroundColor:
-                                              PlexColorPalette.shark,
-                                          content: Text('Donations restored.'),
-                                        ),
-                                      );
-                                    } on PlatformException catch (e) {
-                                      ScaffoldMessenger.of(context)
-                                          .hideCurrentSnackBar();
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          backgroundColor:
-                                              Theme.of(context).errorColor,
-                                          content: const Text(
-                                                  LocaleKeys.donate_error_alert)
-                                              .tr(),
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  child:
-                                      const Text('Manually Restore Donations'),
+                          ListTileGroup(
+                            heading: LocaleKeys.donate_onetime_title.tr(),
+                            listTiles: [
+                              CustomListTile(
+                                leading: const FaIcon(
+                                  FontAwesomeIcons.iceCream,
                                 ),
-                              ],
-                            ),
+                                title: LocaleKeys.donate_cone_title.tr(),
+                                subtitle: _offerings!
+                                    .getOffering('default')!
+                                    .getPackage('ice_cream')!
+                                    .storeProduct
+                                    .priceString,
+                                onTap: () => _buyProduct(
+                                  _offerings!.getOffering('default')!.getPackage('ice_cream')!,
+                                ),
+                              ),
+                              CustomListTile(
+                                leading: const FaIcon(
+                                  FontAwesomeIcons.pizzaSlice,
+                                ),
+                                title: LocaleKeys.donate_slice_title.tr(),
+                                subtitle:
+                                    _offerings!.getOffering('default')!.getPackage('pizza')!.storeProduct.priceString,
+                                onTap: () => _buyProduct(
+                                  _offerings!.getOffering('default')!.getPackage('pizza')!,
+                                ),
+                              ),
+                              CustomListTile(
+                                leading: const FaIcon(
+                                  FontAwesomeIcons.burger,
+                                ),
+                                title: LocaleKeys.donate_burger_title.tr(),
+                                subtitle: _offerings!
+                                    .getOffering('default')!
+                                    .getPackage('hamburger')!
+                                    .storeProduct
+                                    .priceString,
+                                onTap: () => _buyProduct(
+                                  _offerings!.getOffering('default')!.getPackage('hamburger')!,
+                                ),
+                              ),
+                              CustomListTile(
+                                leading: const Icon(
+                                  Icons.fastfood_rounded,
+                                  size: 26,
+                                ),
+                                title: LocaleKeys.donate_meal_title.tr(),
+                                subtitle:
+                                    _offerings!.getOffering('default')!.getPackage('meal')!.storeProduct.priceString,
+                                onTap: () => _buyProduct(
+                                  _offerings!.getOffering('default')!.getPackage('meal')!,
+                                ),
+                              ),
+                            ],
                           ),
+                          const Gap(8),
+                          ListTileGroup(
+                            heading: LocaleKeys.donate_recurring_title.tr(),
+                            listTiles: [
+                              CustomListTile(
+                                leading: FaIcon(
+                                  FontAwesomeIcons.circleDollarToSlot,
+                                  color: _customerInfo!.activeSubscriptions.contains('subscription_tier_1')
+                                      ? Colors.green
+                                      : Theme.of(context).iconTheme.color,
+                                ),
+                                title: LocaleKeys.donate_tip_jar_title.tr(),
+                                // subtitle: '0.99 USD/${LocaleKeys.month.tr()}',
+                                subtitle:
+                                    '${_offerings!.getOffering('default')!.getPackage('subscription_tier_1')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
+                                onTap: () => _buyProduct(
+                                  _offerings!.getOffering('default')!.getPackage('subscription_tier_1')!,
+                                ),
+                              ),
+                              CustomListTile(
+                                leading: FaIcon(
+                                  FontAwesomeIcons.circleDollarToSlot,
+                                  color: _customerInfo!.activeSubscriptions.contains('subscription_tier_2')
+                                      ? Colors.green
+                                      : Theme.of(context).iconTheme.color,
+                                ),
+                                title: LocaleKeys.donate_big_tip_title.tr(),
+                                subtitle:
+                                    '${_offerings!.getOffering('default')!.getPackage('subscription_tier_2')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
+                                onTap: () => _buyProduct(
+                                  _offerings!.getOffering('default')!.getPackage('subscription_tier_2')!,
+                                ),
+                              ),
+                              CustomListTile(
+                                leading: FaIcon(
+                                  FontAwesomeIcons.circleDollarToSlot,
+                                  color: _customerInfo!.activeSubscriptions.contains('subscription_tier_3')
+                                      ? Colors.green
+                                      : Theme.of(context).iconTheme.color,
+                                ),
+                                title: LocaleKeys.donate_supporter_title.tr(),
+                                subtitle:
+                                    '${_offerings!.getOffering('default')!.getPackage('subscription_tier_3')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
+                                onTap: () => _buyProduct(
+                                  _offerings!.getOffering('default')!.getPackage('subscription_tier_3')!,
+                                ),
+                              ),
+                              CustomListTile(
+                                leading: FaIcon(
+                                  FontAwesomeIcons.circleDollarToSlot,
+                                  color: _customerInfo!.activeSubscriptions.contains('subscription_tier_4')
+                                      ? Colors.green
+                                      : Theme.of(context).iconTheme.color,
+                                ),
+                                title: LocaleKeys.donate_patron_title.tr(),
+                                subtitle:
+                                    '${_offerings!.getOffering('default')!.getPackage('subscription_tier_4')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
+                                onTap: () => _buyProduct(
+                                  _offerings!.getOffering('default')!.getPackage('subscription_tier_4')!,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Gap(8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                child: Text(
+                                  LocaleKeys.donate_restore_title,
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ).tr(),
+                                onPressed: () async {
+                                  try {
+                                    CustomerInfo restoredInfo = await Purchases.restorePurchases();
+                                    setState(() {
+                                      _customerInfo = restoredInfo;
+                                    });
+                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: const Text(
+                                          LocaleKeys.donate_restored_snackbar_message,
+                                        ).tr(),
+                                      ),
+                                    );
+                                  } on PlatformException catch (_) {
+                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Theme.of(context).colorScheme.error,
+                                        content: const Text(
+                                          LocaleKeys.error_snackbar_message,
+                                        ).tr(),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                          const Gap(8),
                           if (Platform.isIOS)
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 8,
-                              ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        launch(
-                                          'https://tautulli.com/tautulli_remote_ios_terms_and_conditions',
-                                        );
-                                      },
-                                      child: const Text(
-                                        'Terms of Use',
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    GestureDetector(
-                                      onTap: () {
-                                        launch(
-                                          'https://tautulli.com/tautulli_remote_privacy',
-                                        );
-                                      },
-                                      child: const Text(
-                                        'Privacy Policy',
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                            Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  launchUrlString(
+                                    mode: LaunchMode.externalApplication,
+                                    'https://tautulli.com/tautulli_remote_ios_terms_and_conditions',
+                                  );
+                                },
+                                child: Text(
+                                  LocaleKeys.terms_of_use_title,
+                                  style: TextStyle(
+                                    color: Theme.of(context).textTheme.titleSmall!.color,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ).tr(),
                               ),
                             ),
+                          if (Platform.isIOS) const Gap(4),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                launchUrlString(
+                                  mode: LaunchMode.externalApplication,
+                                  'https://tautulli.com/tautulli_remote_privacy',
+                                );
+                              },
+                              child: Text(
+                                LocaleKeys.privacy_policy_title,
+                                style: TextStyle(
+                                  color: Theme.of(context).textTheme.titleSmall!.color,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ).tr(),
+                            ),
+                          ),
                         ],
                       )
-                    : const Text(
-                        'Failed to load donation items.',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                        textAlign: TextAlign.center,
+                    : StatusPage(
+                        message: LocaleKeys.donate_load_failed_message.tr(),
                       ),
           ),
         ],
       ),
     );
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     title: const Text(LocaleKeys.donate_title).tr(),
+    //   ),
+    //   body: PageBody(
+    //     child: Padding(
+    //       padding: const EdgeInsets.all(8.0),
+    //       child: Column(
+    //         children: [
+    //           const DonateHeadingCard(),
+    //           Expanded(
+    //             child: _offerings == null
+    //                 ? const Center(
+    //                     child: CircularProgressIndicator(),
+    //                   )
+    //                 : _offerings!.all.isNotEmpty
+    //                     ? ListView(
+    //                         children: [
+    //                           ListTileGroup(
+    //                             heading: LocaleKeys.donate_onetime_title.tr(),
+    //                             listTiles: [
+    //                               CustomListTile(
+    //                                 leading: const FaIcon(
+    //                                   FontAwesomeIcons.iceCream,
+    //                                 ),
+    //                                 title: LocaleKeys.donate_cone_title.tr(),
+    //                                 subtitle: '1.99 USD',
+    //                                 onTap: () => _buyProduct(
+    //                                   _offerings!
+    //                                       .getOffering('default')!
+    //                                       .getPackage('ice_cream')!,
+    //                                 ),
+    //                               ),
+    //                               CustomListTile(
+    //                                 leading: const FaIcon(
+    //                                   FontAwesomeIcons.pizzaSlice,
+    //                                 ),
+    //                                 title: LocaleKeys.donate_slice_title.tr(),
+    //                                 subtitle: '2.99 USD',
+    //                                 onTap: () => _buyProduct(
+    //                                   _offerings!
+    //                                       .getOffering('default')!
+    //                                       .getPackage('pizza')!,
+    //                                 ),
+    //                               ),
+    //                               CustomListTile(
+    //                                 leading: const FaIcon(
+    //                                   FontAwesomeIcons.hamburger,
+    //                                 ),
+    //                                 title: LocaleKeys.donate_burger_title.tr(),
+    //                                 subtitle: '4.99 USD',
+    //                                 onTap: () => _buyProduct(
+    //                                   _offerings!
+    //                                       .getOffering('default')!
+    //                                       .getPackage('hamburger')!,
+    //                                 ),
+    //                               ),
+    //                               CustomListTile(
+    //                                 leading: const Icon(
+    //                                   Icons.fastfood_rounded,
+    //                                   size: 26,
+    //                                 ),
+    //                                 title: LocaleKeys.donate_meal_title.tr(),
+    //                                 subtitle: '9.99 USD',
+    //                                 onTap: () => _buyProduct(
+    //                                   _offerings!
+    //                                       .getOffering('default')!
+    //                                       .getPackage('meal')!,
+    //                                 ),
+    //                               ),
+    //                             ],
+    //                           ),
+    //                           const Gap(8),
+    //                           ListTileGroup(
+    //                             heading: LocaleKeys.donate_recurring_title.tr(),
+    //                             listTiles: [
+    //                               CustomListTile(
+    //                                 leading: FaIcon(
+    //                                   FontAwesomeIcons.donate,
+    //                                   color: _customerInfo!.activeSubscriptions
+    //                                           .contains('subscription_tier_1')
+    //                                       ? Colors.green
+    //                                       : Theme.of(context).iconTheme.color,
+    //                                 ),
+    //                                 title: LocaleKeys.donate_tip_jar_title.tr(),
+    //                                 subtitle:
+    //                                     '0.99 USD/${LocaleKeys.month.tr()}',
+    //                                 onTap: () => _buyProduct(
+    //                                   _offerings!
+    //                                       .getOffering('default')!
+    //                                       .getPackage('subscription_tier_1')!,
+    //                                 ),
+    //                               ),
+    //                               CustomListTile(
+    //                                 leading: FaIcon(
+    //                                   FontAwesomeIcons.donate,
+    //                                   color: _customerInfo!.activeSubscriptions
+    //                                           .contains('subscription_tier_2')
+    //                                       ? Colors.green
+    //                                       : Theme.of(context).iconTheme.color,
+    //                                 ),
+    //                                 title: LocaleKeys.donate_big_tip_title.tr(),
+    //                                 subtitle:
+    //                                     '1.99 USD/${LocaleKeys.month.tr()}',
+    //                                 onTap: () => _buyProduct(
+    //                                   _offerings!
+    //                                       .getOffering('default')!
+    //                                       .getPackage('subscription_tier_2')!,
+    //                                 ),
+    //                               ),
+    //                               CustomListTile(
+    //                                 leading: FaIcon(
+    //                                   FontAwesomeIcons.donate,
+    //                                   color: _customerInfo!.activeSubscriptions
+    //                                           .contains('subscription_tier_3')
+    //                                       ? Colors.green
+    //                                       : Theme.of(context).iconTheme.color,
+    //                                 ),
+    //                                 title:
+    //                                     LocaleKeys.donate_supporter_title.tr(),
+    //                                 subtitle:
+    //                                     '4.99 USD/${LocaleKeys.month.tr()}',
+    //                                 onTap: () => _buyProduct(
+    //                                   _offerings!
+    //                                       .getOffering('default')!
+    //                                       .getPackage('subscription_tier_3')!,
+    //                                 ),
+    //                               ),
+    //                               CustomListTile(
+    //                                 leading: FaIcon(
+    //                                   FontAwesomeIcons.donate,
+    //                                   color: _customerInfo!.activeSubscriptions
+    //                                           .contains('subscription_tier_4')
+    //                                       ? Colors.green
+    //                                       : Theme.of(context).iconTheme.color,
+    //                                 ),
+    //                                 title: LocaleKeys.donate_patron_title.tr(),
+    //                                 subtitle:
+    //                                     '9.99 USD/${LocaleKeys.month.tr()}',
+    //                                 onTap: () => _buyProduct(
+    //                                   _offerings!
+    //                                       .getOffering('default')!
+    //                                       .getPackage('subscription_tier_4')!,
+    //                                 ),
+    //                               ),
+    //                             ],
+    //                           ),
+    //                           const Gap(8),
+    //                           Row(
+    //                             mainAxisAlignment: MainAxisAlignment.center,
+    //                             children: [
+    //                               TextButton(
+    //                                 child: Text(
+    //                                   LocaleKeys.donate_restore_title,
+    //                                   style:
+    //                                       Theme.of(context).textTheme.subtitle2,
+    //                                 ).tr(),
+    //                                 onPressed: () async {
+    //                                   try {
+    //                                     PurchaserInfo restoredInfo =
+    //                                         await Purchases
+    //                                             .restoreTransactions();
+    //                                     setState(() {
+    //                                       _customerInfo = restoredInfo;
+    //                                     });
+    //                                     ScaffoldMessenger.of(context)
+    //                                         .hideCurrentSnackBar();
+    //                                     ScaffoldMessenger.of(context)
+    //                                         .showSnackBar(
+    //                                       SnackBar(
+    //                                         content: const Text(
+    //                                           LocaleKeys
+    //                                               .donate_restored_snackbar_message,
+    //                                         ).tr(),
+    //                                       ),
+    //                                     );
+    //                                   } on PlatformException catch (_) {
+    //                                     ScaffoldMessenger.of(context)
+    //                                         .hideCurrentSnackBar();
+    //                                     ScaffoldMessenger.of(context)
+    //                                         .showSnackBar(
+    //                                       SnackBar(
+    //                                         backgroundColor: Theme.of(context)
+    //                                             .colorScheme
+    //                                             .error,
+    //                                         content: const Text(
+    //                                           LocaleKeys.error_snackbar_message,
+    //                                         ).tr(),
+    //                                       ),
+    //                                     );
+    //                                   }
+    //                                 },
+    //                               ),
+    //                             ],
+    //                           ),
+    //                           if (Platform.isIOS) const Gap(8),
+    //                           if (Platform.isIOS)
+    //                             Center(
+    //                               child: Column(
+    //                                 mainAxisSize: MainAxisSize.min,
+    //                                 children: [
+    //                                   GestureDetector(
+    //                                     onTap: () {
+    //                                       launch(
+    //                                         'https://tautulli.com/tautulli_remote_ios_terms_and_conditions',
+    //                                       );
+    //                                     },
+    //                                     child: Text(
+    //                                       LocaleKeys.terms_of_use_title,
+    //                                       style: TextStyle(
+    //                                         color: Theme.of(context)
+    //                                             .textTheme
+    //                                             .subtitle2!
+    //                                             .color,
+    //                                         decoration:
+    //                                             TextDecoration.underline,
+    //                                       ),
+    //                                     ).tr(),
+    //                                   ),
+    //                                   const Gap(4),
+    //                                   GestureDetector(
+    //                                     onTap: () {
+    //                                       launch(
+    //                                         'https://tautulli.com/tautulli_remote_privacy',
+    //                                       );
+    //                                     },
+    //                                     child: Text(
+    //                                       LocaleKeys.privacy_policy_title,
+    //                                       style: TextStyle(
+    //                                         color: Theme.of(context)
+    //                                             .textTheme
+    //                                             .subtitle2!
+    //                                             .color,
+    //                                         decoration:
+    //                                             TextDecoration.underline,
+    //                                       ),
+    //                                     ).tr(),
+    //                                   ),
+    //                                 ],
+    //                               ),
+    //                             ),
+    //                         ],
+    //                       )
+    //                     : StatusPage(
+    //                         message: LocaleKeys.donate_load_failed_message.tr(),
+    //                       ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }

@@ -1,5 +1,3 @@
-// @dart=2.9
-
 part of 'library_statistics_bloc.dart';
 
 abstract class LibraryStatisticsEvent extends Equatable {
@@ -9,17 +7,19 @@ abstract class LibraryStatisticsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LibraryStatisticsFetch extends LibraryStatisticsEvent {
-  final String tautulliId;
+class LibraryStatisticsFetched extends LibraryStatisticsEvent {
+  final ServerModel server;
   final int sectionId;
+  final bool freshFetch;
   final SettingsBloc settingsBloc;
 
-  LibraryStatisticsFetch({
-    @required this.tautulliId,
-    @required this.sectionId,
-    @required this.settingsBloc,
+  const LibraryStatisticsFetched({
+    required this.server,
+    required this.sectionId,
+    this.freshFetch = false,
+    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [tautulliId, sectionId, settingsBloc];
+  List<Object> get props => [server, sectionId, freshFetch, settingsBloc];
 }

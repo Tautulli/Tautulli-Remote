@@ -1,94 +1,78 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../logging/domain/usecases/logging.dart';
-import '../../../settings/domain/usecases/register_device.dart';
 import '../../../settings/domain/usecases/settings.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/datasources/onesignal_data_source.dart';
-import '../../../../injection_container.dart' as di;
 
 part 'onesignal_privacy_event.dart';
 part 'onesignal_privacy_state.dart';
 
 class OneSignalPrivacyBloc
     extends Bloc<OneSignalPrivacyEvent, OneSignalPrivacyState> {
+  final Logging logging;
   final OneSignalDataSource oneSignal;
   final Settings settings;
-  final RegisterDevice registerDevice;
-  final Logging logging;
 
   OneSignalPrivacyBloc({
-    @required this.oneSignal,
-    @required this.settings,
-    @required this.registerDevice,
-    @required this.logging,
-  }) : super(OneSignalPrivacyInitial());
-
-  @override
-  Stream<OneSignalPrivacyState> mapEventToState(
-    OneSignalPrivacyEvent event,
-  ) async* {
-    if (event is OneSignalPrivacyCheckConsent) {
-      yield* _mapOneSignalPrivacyCheckConsentToState();
-    }
-    if (event is OneSignalPrivacyGrantConsent) {
-      yield* _mapOneSignalPrivacyGrantConsentToState();
-    }
-    if (event is OneSignalPrivacyRevokeConsent) {
-      yield* _mapOneSignalPrivacyRevokeConsent();
-    }
+    required this.logging,
+    required this.oneSignal,
+    required this.settings,
+  }) : super(OneSignalPrivacyInitial()) {
+    on<OneSignalPrivacyCheck>(
+      (event, emit) => _onOneSignalPrivacyCheck(event, emit),
+    );
+    on<OneSignalPrivacyGrant>(
+      (event, emit) => _onOneSignalPrivacyGrant(event, emit),
+    );
+    on<OneSignalPrivacyRevoke>(
+      (event, emit) => _onOneSignalPrivacyRevoke(event, emit),
+    );
   }
 
-  Stream<OneSignalPrivacyState>
-      _mapOneSignalPrivacyCheckConsentToState() async* {
+  void _onOneSignalPrivacyCheck(
+    OneSignalPrivacyCheck event,
+    Emitter<OneSignalPrivacyState> emit,
+  ) async {
     if (await oneSignal.hasConsented) {
-      yield OneSignalPrivacyConsentSuccess();
+      emit(
+        OneSignalPrivacySuccess(),
+      );
     } else {
-      yield OneSignalPrivacyConsentFailure(
-        iosAppTrackingPermissionGranted:
-            await Permission.appTrackingTransparency.isGranted ?? false,
-        iosNotificationPermissionGranted:
-            await Permission.notification.isGranted ?? false,
-        iosNotificationPermissionDeclined:
-            await di.sl<Settings>().getIosNotificationPermissionDeclined() ??
-                false,
+      emit(
+        OneSignalPrivacyFailure(),
       );
     }
   }
 
-  Stream<OneSignalPrivacyState>
-      _mapOneSignalPrivacyGrantConsentToState() async* {
+  void _onOneSignalPrivacyGrant(
+    OneSignalPrivacyGrant event,
+    Emitter<OneSignalPrivacyState> emit,
+  ) async {
     await oneSignal.grantConsent(true);
     await oneSignal.disablePush(false);
-    await settings.setOneSignalConsented(true);
+    event.settingsBloc.add(const SettingsUpdateOneSignalConsented(true));
 
-    logging.info(
-      'OneSignal: Privacy consent accepted',
+    logging.info('OneSignal :: Data Privacy accepted');
+
+    emit(
+      OneSignalPrivacySuccess(),
     );
-    yield OneSignalPrivacyConsentSuccess();
   }
 
-  Stream<OneSignalPrivacyState> _mapOneSignalPrivacyRevokeConsent() async* {
+  void _onOneSignalPrivacyRevoke(
+    OneSignalPrivacyRevoke event,
+    Emitter<OneSignalPrivacyState> emit,
+  ) async {
     await oneSignal.disablePush(true);
     await oneSignal.grantConsent(false);
-    await settings.setOneSignalConsented(false);
+    event.settingsBloc.add(const SettingsUpdateOneSignalConsented(false));
 
-    logging.info(
-      'OneSignal: Privacy consent revoked',
-    );
-    yield OneSignalPrivacyConsentFailure(
-      iosAppTrackingPermissionGranted:
-          await Permission.appTrackingTransparency.isGranted,
-      iosNotificationPermissionGranted: await Permission.notification.isGranted,
-      iosNotificationPermissionDeclined:
-          await di.sl<Settings>().getIosNotificationPermissionDeclined() ??
-              false,
+    logging.info('OneSignal :: Data Privacy revoked');
+
+    emit(
+      OneSignalPrivacyFailure(),
     );
   }
 }

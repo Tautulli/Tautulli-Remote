@@ -1,34 +1,45 @@
-// @dart=2.9
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-import 'package:meta/meta.dart';
+part 'announcement_model.g.dart';
 
-import '../../domain/entities/announcement.dart';
+enum DevicePlatform {
+  all,
+  android,
+  ios,
+}
 
-class AnnouncementModel extends Announcement {
-  AnnouncementModel({
-    @required final int id,
-    @required final String date,
-    @required final String title,
-    @required final String body,
-    @required final String platform,
-    final String actionUrl,
-  }) : super(
-          id: id,
-          date: date,
-          body: body,
-          title: title,
-          platform: platform,
-          actionUrl: actionUrl,
-        );
+@JsonSerializable()
+class AnnouncementModel extends Equatable {
+  final String? actionUrl;
+  final String body;
+  final String date;
+  final int id;
+  @JsonKey(fromJson: castToPlatform)
+  final DevicePlatform platform;
+  final String title;
 
-  factory AnnouncementModel.fromJson(Map<String, dynamic> json) {
-    return AnnouncementModel(
-      id: json['id'],
-      date: json['date'],
-      actionUrl: json['actionUrl'],
-      body: json['body'],
-      title: json['title'],
-      platform: json['platform'],
-    );
+  const AnnouncementModel({
+    required this.actionUrl,
+    required this.body,
+    required this.date,
+    required this.id,
+    required this.platform,
+    required this.title,
+  });
+
+  factory AnnouncementModel.fromJson(Map<String, dynamic> json) =>
+      _$AnnouncementModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AnnouncementModelToJson(this);
+
+  static DevicePlatform castToPlatform(String? platform) {
+    if (platform == 'android') return DevicePlatform.android;
+    if (platform == 'ios') return DevicePlatform.ios;
+
+    return DevicePlatform.all;
   }
+
+  @override
+  List<Object> get props => [id];
 }

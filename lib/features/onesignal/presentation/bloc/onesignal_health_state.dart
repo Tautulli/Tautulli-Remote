@@ -1,26 +1,16 @@
-// @dart=2.9
-
 part of 'onesignal_health_bloc.dart';
 
-@immutable
-abstract class OneSignalHealthState extends Equatable {}
+abstract class OneSignalHealthState extends Equatable {
+  const OneSignalHealthState();
 
-class OneSignalHealthInitial extends OneSignalHealthState {
   @override
   List<Object> get props => [];
 }
 
-class OneSignalHealthInProgress extends OneSignalHealthState {
-  @override
-  List<Object> get props => [];
-}
+class OneSignalHealthInitial extends OneSignalHealthState {}
 
-class OneSignalHealthSuccess extends OneSignalHealthState {
-  @override
-  List<Object> get props => [];
-}
+class OneSignalHealthInProgress extends OneSignalHealthState {}
 
-class OneSignalHealthFailure extends OneSignalHealthState {
-  @override
-  List<Object> get props => [];
-}
+class OneSignalHealthSuccess extends OneSignalHealthState {}
+
+class OneSignalHealthFailure extends OneSignalHealthState {}

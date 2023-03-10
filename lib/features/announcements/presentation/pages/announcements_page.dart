@@ -1,83 +1,90 @@
-// @dart=2.9
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 
-import '../../../../core/widgets/error_message.dart';
+import '../../../../core/helpers/quick_actions_helper.dart';
+import '../../../../core/pages/status_page.dart';
+import '../../../../core/widgets/page_body.dart';
+import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../bloc/announcements_bloc.dart';
 import '../widgets/announcement_card.dart';
 
+class AnnouncementsView extends StatelessWidget {
+  const AnnouncementsView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const AnnouncementsPage();
+  }
+}
+
 class AnnouncementsPage extends StatefulWidget {
-  const AnnouncementsPage({Key key}) : super(key: key);
+  const AnnouncementsPage({super.key});
 
   static const routeName = '/announcements';
 
   @override
-  _AnnouncementsPageState createState() => _AnnouncementsPageState();
+  State<AnnouncementsPage> createState() => _AnnouncementsPageState();
 }
 
 class _AnnouncementsPageState extends State<AnnouncementsPage> {
+  final QuickActions quickActions = const QuickActions();
+
   @override
   void initState() {
     super.initState();
-    context.read<AnnouncementsBloc>().add(AnnouncementsMarkRead());
+    initalizeQuickActions(context, quickActions);
+
+    Future.delayed(const Duration(seconds: 2)).then(
+      (_) {
+        final announcementsBloc = context.read<AnnouncementsBloc>();
+
+        if (announcementsBloc.state is AnnouncementsSuccess) {
+          final currentState = announcementsBloc.state as AnnouncementsSuccess;
+          if (currentState.unread) {
+            context.read<AnnouncementsBloc>().add(
+                  AnnouncementsMarkRead(),
+                );
+          }
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        title: Text(
-          LocaleKeys.announcements_page_title.tr(),
-        ),
-      ),
+    return ScaffoldWithInnerDrawer(
+      title: const Text(LocaleKeys.announcements_title).tr(),
       body: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
         builder: (context, state) {
-          if (state is AnnouncementsInProgress) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Theme.of(context).accentColor,
+          if (state is AnnouncementsSuccess) {
+            return PageBody(
+              child: ListView.separated(
+                padding: const EdgeInsets.all(8),
+                itemCount: state.filteredList.length,
+                separatorBuilder: (context, index) => const Gap(8),
+                itemBuilder: (context, index) {
+                  final announcement = state.filteredList[index];
+                  return Card(
+                    child: AnnouncementCard(
+                      announcement: announcement,
+                      lastReadAnnouncementId: state.lastReadAnnouncementId,
+                    ),
+                  );
+                },
               ),
             );
           }
           if (state is AnnouncementsFailure) {
-            return Center(
-              child: ErrorMessage(
-                failure: state.failure,
-                message: state.message,
-                suggestion: state.suggestion,
-              ),
-            );
+            return StatusPage(message: state.message);
           }
-          if (state is AnnouncementsSuccess) {
-            if (state.announcementList.isNotEmpty) {
-              return ListView.builder(
-                itemCount: state.announcementList.length,
-                itemBuilder: (context, index) {
-                  final announcement = state.announcementList[index];
 
-                  return AnnouncementCard(
-                    announcement: announcement,
-                    lastReadAnnouncementId: state.lastReadAnnouncementId,
-                  );
-                },
-              );
-            } else {
-              return const Center(
-                child: Text(
-                  'No announcements found.',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                  ),
-                ),
-              );
-            }
-          }
-          return const SizedBox(height: 0, width: 0);
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         },
       ),
     );

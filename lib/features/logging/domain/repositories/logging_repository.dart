@@ -1,28 +1,25 @@
-// @dart=2.9
+import 'dart:io';
 
-import 'package:f_logs/f_logs.dart';
+import 'package:f_logs/model/flog/log.dart';
 
 abstract class LoggingRepository {
-  /// Logs `text` with the log level DEBUG.
-  dynamic debug(String text);
+  void trace(String text);
 
-  /// Logs `text` with the log level INFO.
-  dynamic info(String text);
+  void debug(String text);
 
-  /// Logs `text` with the log level WARNING.
-  dynamic warning(String text);
+  void info(String text);
 
-  /// Logs `text` with the log level DEBUG.
-  dynamic error(String text);
+  void warning(String text);
 
-  /// Returns a list of [Log] items.
-  /// 
-  /// Returns an empty list if there are no logs.
+  void error(String text);
+
+  void severe(String text);
+
+  void fatal(String text);
+
   Future<List<Log>> getAllLogs();
 
-  /// Clears all logs from database.
-  dynamic clearLogs();
+  Future<void> clearLogs();
 
-  /// Exports logs to storage;
-  dynamic exportLogs();
+  Future<File> exportLogs();
 }

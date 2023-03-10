@@ -1,325 +1,287 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:stream_transform/stream_transform.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
-import '../../../image_url/domain/usecases/get_image_url.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/types/bloc_status.dart';
+import '../../../../core/types/tautulli_types.dart';
+import '../../../image_url/domain/usecases/image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/statistics.dart';
-import '../../domain/usecases/get_statistics.dart';
+import '../../data/models/statistic_data_model.dart';
+import '../../data/models/statistic_model.dart';
+import '../../domain/usecases/statistics.dart';
 
 part 'statistics_event.dart';
 part 'statistics_state.dart';
 
-Map<String, List<Statistics>> _statisticsMapCache;
-Map<String, bool> _hasReachedMaxMapCache = {};
-bool _noStatsCache;
-String _statsTypeCache;
-int _timeRangeCache;
-String _tautulliIdCache;
-SettingsBloc _settingsBlocCache;
+String? tautulliIdCache;
+Map<String, List<StatisticModel>> statCache = {};
+Map<StatIdType, bool> hasReachedMaxCache = {};
+PlayMetricType? statsTypeCache;
+int? timeRangeCache;
+
+const throttleDuration = Duration(milliseconds: 100);
+const count = 20;
+
+EventTransformer<E> throttleDroppable<E>(Duration duration) {
+  return (events, mapper) {
+    return droppable<E>().call(events.throttle(duration), mapper);
+  };
+}
 
 class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
-  final GetStatistics getStatistics;
-  final GetImageUrl getImageUrl;
+  final Statistics statistics;
+  final ImageUrl imageUrl;
   final Logging logging;
 
   StatisticsBloc({
-    @required this.getStatistics,
-    @required this.getImageUrl,
-    @required this.logging,
-  }) : super(StatisticsInitial(
-          timeRange: _timeRangeCache,
-        ));
-
-  @override
-  Stream<StatisticsState> mapEventToState(
-    StatisticsEvent event,
-  ) async* {
-    final currentState = state;
-
-    if (event is StatisticsFetch) {
-      _settingsBlocCache = event.settingsBloc;
-
-      if (event.statId == null) {
-        _statsTypeCache = event.statsType;
-        _timeRangeCache = event.timeRange;
-
-        yield* _fetchInitial(
-          tautulliId: event.tautulliId,
-          grouping: event.grouping,
-          statsCount: event.statsCount,
-          statsType: event.statsType,
-          timeRange: event.timeRange > 0 ? event.timeRange : 30,
-          useCachedList: true,
-          settingsBloc: _settingsBlocCache,
-        );
-      } else {
-        if (!_hasReachedMax(currentState, event.statId)) {
-          yield* _fetchMore(
-            currentState: currentState,
-            statId: event.statId,
-            settingsBloc: _settingsBlocCache,
-          );
-        }
-      }
-
-      _tautulliIdCache = event.tautulliId;
-    }
-    if (event is StatisticsFilter) {
-      yield StatisticsInitial();
-      _timeRangeCache = event.timeRange;
-
-      yield* _fetchInitial(
-        tautulliId: event.tautulliId,
-        grouping: event.grouping,
-        statsCount: event.statsCount,
-        statsType: event.statsType,
-        timeRange: event.timeRange > 0 ? event.timeRange : 30,
-        settingsBloc: _settingsBlocCache,
-      );
-
-      _tautulliIdCache = event.tautulliId;
-    }
-  }
-
-  Stream<StatisticsState> _fetchInitial({
-    @required String tautulliId,
-    int grouping,
-    int timeRange,
-    String statsType,
-    int statsCount,
-    bool useCachedList = false,
-    @required SettingsBloc settingsBloc,
-  }) async* {
-    if (useCachedList &&
-        _statisticsMapCache != null &&
-        tautulliId == _tautulliIdCache) {
-      yield StatisticsSuccess(
-        map: _statisticsMapCache,
-        noStats: _noStatsCache,
-        hasReachedMaxMap: _hasReachedMaxMapCache,
-        lastUpdated: DateTime.now(),
-      );
-    } else {
-      final failureOrStatistics = await getStatistics(
-        tautulliId: tautulliId,
-        grouping: grouping,
-        statsCount: statsCount ?? 6,
-        statsType: statsType,
-        timeRange: timeRange,
-        settingsBloc: settingsBloc,
-      );
-
-      yield* failureOrStatistics.fold(
-        (failure) async* {
-          logging.error(
-            'Statistics: Failed to fetch statistics',
-          );
-
-          yield StatisticsFailure(
-            failure: failure,
-            message: FailureMapperHelper.mapFailureToMessage(failure),
-            suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
-          );
-        },
-        (map) async* {
-          // Check if all stats are empty and build hasReachedMaxMap
-          final List keys = map.keys.toList();
-          bool noStats = true;
-          for (String key in keys) {
-            if (map[key].isNotEmpty) {
-              noStats = false;
-              // break;
-            }
-
-            if (map[key].length < 6) {
-              _hasReachedMaxMapCache[key] = true;
-            } else {
-              _hasReachedMaxMapCache[key] = false;
-            }
-          }
-
-          _noStatsCache = noStats;
-
-          if (noStats) {
-            _statisticsMapCache = map;
-
-            yield StatisticsSuccess(
-              map: map,
-              noStats: noStats,
-              hasReachedMaxMap: _hasReachedMaxMapCache,
-              lastUpdated: DateTime.now(),
-            );
-          } else {
-            for (String key in map.keys.toList()) {
-              map[key] = await _getImages(
-                statId: key,
-                list: map[key],
-                tautulliId: tautulliId,
-                settingsBloc: settingsBloc,
-              );
-            }
-
-            _statisticsMapCache = map;
-
-            yield StatisticsSuccess(
-              map: map,
-              noStats: noStats,
-              hasReachedMaxMap: _hasReachedMaxMapCache,
-              lastUpdated: DateTime.now(),
-            );
-          }
-        },
-      );
-    }
-  }
-
-  Stream<StatisticsState> _fetchMore({
-    @required StatisticsSuccess currentState,
-    @required String statId,
-    @required SettingsBloc settingsBloc,
-  }) async* {
-    final failureOrStatistics = await getStatistics(
-      tautulliId: _tautulliIdCache,
-      statsCount: 25,
-      statsType: _statsTypeCache,
-      timeRange: _timeRangeCache,
-      statsStart: currentState.map[statId].length,
-      statId: statId,
-      settingsBloc: settingsBloc,
+    required this.statistics,
+    required this.imageUrl,
+    required this.logging,
+  }) : super(
+          StatisticsState(
+            statList: tautulliIdCache != null ? statCache[tautulliIdCache]! : [],
+            statsType: statsTypeCache ?? PlayMetricType.plays,
+            timeRange: timeRangeCache ?? 30,
+          ),
+        ) {
+    on<StatisticsFetched>(_onStatisticsFetched);
+    on<StatisticsFetchMore>(
+      _onStatisticsFetchMore,
+      transformer: throttleDroppable(throttleDuration),
     );
+  }
 
-    yield* failureOrStatistics.fold(
-      (failure) async* {
-        logging.error(
-          'Statistics: Failed to fetch additional statistics',
-        );
+  void _onStatisticsFetched(
+    StatisticsFetched event,
+    Emitter<StatisticsState> emit,
+  ) async {
+    if (event.server.id == null) {
+      Failure failure = MissingServerFailure();
 
-        yield StatisticsFailure(
+      return emit(
+        state.copyWith(
+          status: BlocStatus.failure,
           failure: failure,
-          message: FailureMapperHelper.mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
+          message: FailureHelper.mapFailureToMessage(failure),
+          suggestion: FailureHelper.mapFailureToSuggestion(failure),
+        ),
+      );
+    }
+
+    final bool serverChange = tautulliIdCache != event.server.tautulliId;
+
+    if (!statCache.containsKey(event.server.tautulliId)) {
+      statCache[event.server.tautulliId] = [];
+    }
+
+    if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
+      emit(
+        state.copyWith(
+          status: BlocStatus.initial,
+          statList: serverChange ? [] : null,
+          hasReachedMaxMap: {},
+        ),
+      );
+      statCache[event.server.tautulliId] = [];
+      statsTypeCache = null;
+      timeRangeCache = null;
+      hasReachedMaxCache = {};
+    }
+
+    tautulliIdCache = event.server.tautulliId;
+    statsTypeCache = event.statsType;
+    timeRangeCache = event.timeRange;
+
+    if (state.status == BlocStatus.initial) {
+      // Prevent triggering initial fetch when navigating back to History page
+      if (statCache[event.server.tautulliId]!.isNotEmpty) {
+        return emit(
+          state.copyWith(
+            status: BlocStatus.success,
+          ),
+        );
+      }
+
+      final failureOrStatistics = await statistics.getStatistics(
+        tautulliId: event.server.tautulliId,
+        statsType: event.statsType,
+        timeRange: event.timeRange,
+      );
+
+      await failureOrStatistics.fold(
+        (failure) async {
+          logging.error('Statistics :: Failed to fetch statistics [$failure]');
+
+          return emit(
+            state.copyWith(
+              status: BlocStatus.failure,
+              statList: event.freshFetch ? statCache[event.server.tautulliId] : state.statList,
+              failure: failure,
+              message: FailureHelper.mapFailureToMessage(failure),
+              suggestion: FailureHelper.mapFailureToSuggestion(failure),
+            ),
+          );
+        },
+        (statistics) async {
+          event.settingsBloc.add(
+            SettingsUpdatePrimaryActive(
+              tautulliId: event.server.tautulliId,
+              primaryActive: statistics.value2,
+            ),
+          );
+
+          // Add posters to statistic models
+          List<StatisticModel> statListWithUris = await _statisticModelsWithPosterUris(
+            statList: statistics.value1,
+            settingsBloc: event.settingsBloc,
+          );
+
+          statCache[event.server.tautulliId] = statListWithUris;
+
+          return emit(
+            state.copyWith(
+              status: BlocStatus.success,
+              statList: statCache[event.server.tautulliId],
+            ),
+          );
+        },
+      );
+    }
+  }
+
+  void _onStatisticsFetchMore(
+    StatisticsFetchMore event,
+    Emitter<StatisticsState> emit,
+  ) async {
+    if (hasReachedMaxCache.containsKey(event.statIdType) && hasReachedMaxCache[event.statIdType]!) return;
+
+    emit(
+      state.copyWith(
+        status: BlocStatus.initial,
+      ),
+    );
+
+    final failureOrStatistics = await statistics.getStatistics(
+      tautulliId: tautulliIdCache!,
+      statsType: statsTypeCache,
+      timeRange: timeRangeCache,
+      statId: event.statIdType,
+      statsCount: count,
+      statsStart: statCache[tautulliIdCache]!
+          .firstWhere((statisticModel) => statisticModel.statIdType == event.statIdType)
+          .stats
+          .length,
+    );
+
+    await failureOrStatistics.fold(
+      (failure) async {
+        logging.error('Statistics :: Failed to fetch more statistics for ${event.statIdType} [$failure]');
+
+        return emit(
+          state.copyWith(
+            status: BlocStatus.failure,
+            statList: [...statCache[tautulliIdCache]!],
+            failure: failure,
+            message: FailureHelper.mapFailureToMessage(failure),
+            suggestion: FailureHelper.mapFailureToSuggestion(failure),
+          ),
         );
       },
-      (map) async* {
-        if (map[statId].isEmpty) {
-          _hasReachedMaxMapCache[statId] = true;
-          yield currentState.copyWith(
-            hasReachedMaxMap: _hasReachedMaxMapCache,
-            lastUpdated: DateTime.now(),
-          );
-        } else {
-          map[statId] = await _getImages(
-            statId: statId,
-            list: map[statId],
-            tautulliId: _tautulliIdCache,
-            settingsBloc: settingsBloc,
-          );
+      (statistics) async {
+        event.settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: tautulliIdCache!,
+            primaryActive: statistics.value2,
+          ),
+        );
 
-          _statisticsMapCache[statId] = currentState.map[statId] + map[statId];
-          _hasReachedMaxMapCache[statId] = map[statId].length < 25;
+        // Add posters to statistic models
+        List<StatisticModel> statListWithUris = await _statisticModelsWithPosterUris(
+          statList: statistics.value1,
+          settingsBloc: event.settingsBloc,
+        );
 
-          yield StatisticsSuccess(
-            map: _statisticsMapCache,
-            noStats: _noStatsCache,
-            hasReachedMaxMap: _hasReachedMaxMapCache,
-            lastUpdated: DateTime.now(),
-          );
-        }
+        // Get StatisticModel index in statCache
+        final int index =
+            statCache[tautulliIdCache]!.indexWhere((statisticModel) => statisticModel.statIdType == event.statIdType);
+
+        // Get existing StatisticModel
+        StatisticModel statModel = statCache[tautulliIdCache]![index];
+
+        // Replace index with updated StatisticModel
+        statCache[tautulliIdCache]![index] = statModel.copyWith(
+          stats: statModel.stats + statListWithUris.first.stats,
+        );
+
+        hasReachedMaxCache[event.statIdType] = statListWithUris.first.stats.length < count;
+
+        return emit(
+          state.copyWith(
+            status: BlocStatus.success,
+            statList: [...statCache[tautulliIdCache]!],
+            hasReachedMaxMap: Map<StatIdType, bool>.from(hasReachedMaxCache),
+          ),
+        );
       },
     );
   }
 
-  Future<List<Statistics>> _getImages({
-    // @required Map<String, List<Statistics>> map,
-    @required String statId,
-    @required List<Statistics> list,
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
+  Future<List<StatisticModel>> _statisticModelsWithPosterUris({
+    required List<StatisticModel> statList,
+    required SettingsBloc settingsBloc,
   }) async {
-    List<Statistics> updatedList = [];
-    // for (String key in map.keys.toList()) {
-    if (list.isNotEmpty &&
-        !['top_platforms', 'top_users', 'most_concurrent'].contains(statId)) {
-      for (Statistics statistic in list) {
-        //* Fetch and assign image URLs
-        final String posterImg = statistic.statId == 'top_libraries'
-            ? statistic.art
-            : statistic.thumb;
-        final int posterRatingKey = statistic.mediaType == 'episode'
-            ? statistic.grandparentRatingKey
-            : statistic.ratingKey;
-        final String posterFallback =
-            statistic.mediaType == 'track' ? 'cover' : 'poster';
+    List<StatisticModel> statisticModelsWithImages = [];
 
-        String posterUrl;
-        String iconUrl;
+    for (StatisticModel stat in statList) {
+      List<StatisticDataModel> statisticDataModelList = [];
 
-        // Attempt to get poster URL
-        final failureOrPosterUrl = await getImageUrl(
-          tautulliId: tautulliId,
-          img: posterRatingKey == null ? posterImg : null,
-          ratingKey: posterRatingKey,
-          fallback: posterFallback,
-          settingsBloc: settingsBloc,
-        );
-        failureOrPosterUrl.fold(
-          (failure) {
-            logging.warning(
-              'Statistics: Failed to load poster for rating key $posterRatingKey',
-            );
-          },
-          (url) {
-            posterUrl = url;
-          },
-        );
+      for (StatisticDataModel statData in stat.stats) {
+        final int? ratingKey =
+            statData.mediaType == MediaType.episode ? statData.grandparentRatingKey : statData.ratingKey;
 
-        // If library stat and custom icon is set fetch the image url
-        if (statistic.statId == 'top_libraries' &&
-            statistic.thumb.contains('http')) {
-          final failureOrIconUrl = await getImageUrl(
-            tautulliId: tautulliId,
-            img: statistic.thumb,
-            settingsBloc: settingsBloc,
+        if ((statData.thumb == null && ratingKey == null)) {
+          statisticDataModelList.add(statData);
+        } else {
+          final failureOrImageUrl = await imageUrl.getImageUrl(
+            tautulliId: tautulliIdCache!,
+            img: statData.thumb,
+            ratingKey: ratingKey,
           );
 
-          failureOrIconUrl.fold(
-            (failure) {
-              logging.warning(
-                'Statistics: Failed to load icon for library ${statistic.sectionName}',
+          await failureOrImageUrl.fold(
+            (failure) async {
+              logging.error(
+                'Statistics :: Failed to fetch image url [$failure]',
               );
+
+              statisticDataModelList.add(statData);
             },
-            (url) {
-              iconUrl = url;
+            (imageUri) async {
+              settingsBloc.add(
+                SettingsUpdatePrimaryActive(
+                  tautulliId: tautulliIdCache!,
+                  primaryActive: imageUri.value2,
+                ),
+              );
+
+              statisticDataModelList.add(
+                statData.copyWith(
+                  posterUri: imageUri.value1,
+                ),
+              );
             },
           );
         }
-        updatedList.add(
-          statistic.copyWith(posterUrl: posterUrl, iconUrl: iconUrl),
-        );
       }
-    } else {
-      return list;
+
+      statisticModelsWithImages.add(stat.copyWith(stats: statisticDataModelList));
     }
-    // }
-    return updatedList;
+
+    return statisticModelsWithImages;
   }
-}
-
-bool _hasReachedMax(StatisticsState state, String statId) =>
-    state is StatisticsSuccess && state.hasReachedMaxMap[statId];
-
-void clearCache() {
-  _statisticsMapCache = null;
-  _noStatsCache = null;
-  _statsTypeCache = null;
-  _timeRangeCache = null;
-  _tautulliIdCache = null;
 }

@@ -1,179 +1,188 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
-import '../../../image_url/domain/usecases/get_image_url.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/types/bloc_status.dart';
+import '../../../image_url/domain/usecases/image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/metadata_item.dart';
-import '../../domain/usecases/get_metadata.dart';
+import '../../data/models/media_model.dart';
+import '../../domain/usecases/media.dart';
 
 part 'metadata_event.dart';
 part 'metadata_state.dart';
 
-String _tautulliIdCache;
-Map<int, MetadataItem> _metadataCache = {};
+Map<String, MediaModel> metadataCache = {};
 
 class MetadataBloc extends Bloc<MetadataEvent, MetadataState> {
-  final GetMetadata getMetadata;
-  final GetImageUrl getImageUrl;
+  final Media media;
+  final ImageUrl imageUrl;
   final Logging logging;
 
   MetadataBloc({
-    @required this.getMetadata,
-    @required this.getImageUrl,
-    @required this.logging,
-  }) : super(MetadataInitial());
+    required this.media,
+    required this.imageUrl,
+    required this.logging,
+  }) : super(const MetadataState()) {
+    on<MetadataFetched>(_onMetadataFetched);
+  }
 
-  @override
-  Stream<MetadataState> mapEventToState(
-    MetadataEvent event,
-  ) async* {
-    if (event is MetadataFetched) {
-      if (_tautulliIdCache == event.tautulliId &&
-          (_metadataCache.containsKey(event.ratingKey) ||
-              _metadataCache.containsKey(event.syncId))) {
-        MetadataItem cachedMetadata;
-        if (event.ratingKey != null) {
-          cachedMetadata = _metadataCache[event.ratingKey];
-        } else if (event.syncId != null) {
-          cachedMetadata = _metadataCache[event.syncId];
-        }
-        yield MetadataSuccess(metadata: cachedMetadata);
-      } else {
-        yield MetadataInProgress();
+  _onMetadataFetched(
+    MetadataFetched event,
+    Emitter<MetadataState> emit,
+  ) async {
+    final String cacheKey = '${event.server.tautulliId}:${event.ratingKey}';
 
-        final failureorMetadata = await getMetadata(
-          tautulliId: event.tautulliId,
-          ratingKey: event.ratingKey,
-          syncId: event.syncId,
+    if (event.freshFetch) {
+      emit(
+        state.copyWith(
+          status: BlocStatus.initial,
+        ),
+      );
+      metadataCache.remove(cacheKey);
+    }
+
+    if (metadataCache.containsKey(cacheKey)) {
+      return emit(
+        state.copyWith(
+          status: BlocStatus.success,
+          metadata: metadataCache[cacheKey],
+        ),
+      );
+    }
+
+    final failureOrMetadata = await media.getMetadata(
+      tautulliId: event.server.tautulliId,
+      ratingKey: event.ratingKey,
+    );
+
+    await failureOrMetadata.fold(
+      (failure) async {
+        logging.error('Metadata :: Failed to fetch metadata for ${event.ratingKey} [$failure]');
+
+        return emit(
+          state.copyWith(
+            status: BlocStatus.failure,
+            failure: failure,
+            message: FailureHelper.mapFailureToMessage(failure),
+            suggestion: FailureHelper.mapFailureToSuggestion(failure),
+          ),
+        );
+      },
+      (metadata) async {
+        event.settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: event.server.tautulliId,
+            primaryActive: metadata.value2,
+          ),
+        );
+
+        // Add posters to children media models
+        MediaModel metadataWithUris = await _mediaModelWithImageUris(
+          tautulliId: event.server.tautulliId,
+          metadata: metadata.value1,
           settingsBloc: event.settingsBloc,
         );
 
-        yield* failureorMetadata.fold(
-          (failure) async* {
-            logging.error(
-              'Metadata: Failed to fetch metadata for rating key ${event.ratingKey}',
-            );
+        metadataCache[cacheKey] = metadataWithUris;
 
-            yield MetadataFailure(
-              failure: failure,
-              message: FailureMapperHelper.mapFailureToMessage(failure),
-              suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
-            );
-          },
-          (metadata) async* {
-            MetadataItem updatedMetadata = await _getImages(
-              item: metadata,
-              tautulliId: event.tautulliId,
-              settingsBloc: event.settingsBloc,
-            );
-
-            if (event.ratingKey != null) {
-              _metadataCache[event.ratingKey] = updatedMetadata;
-            } else if (event.syncId != null) {
-              _metadataCache[event.syncId] = updatedMetadata;
-            }
-
-            yield MetadataSuccess(metadata: updatedMetadata);
-          },
+        return emit(
+          state.copyWith(
+            status: BlocStatus.success,
+            metadata: metadataWithUris,
+          ),
         );
-      }
-
-      _tautulliIdCache = event.tautulliId;
-    }
+      },
+    );
   }
 
-  Future<MetadataItem> _getImages({
-    @required MetadataItem item,
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
+  Future<MediaModel> _mediaModelWithImageUris({
+    required String tautulliId,
+    required MediaModel metadata,
+    required SettingsBloc settingsBloc,
   }) async {
-    //* Fetch and assign image URLs
-    String posterFallback;
-    String posterUrl;
-    String parentPosterUrl;
-    String grandparentPosterUrl;
+    Uri? imageUri;
+    Uri? parentImageUri;
+    Uri? grandparentImageUri;
 
-    // Assign values for posterFallback
-    switch (item.mediaType) {
-      case ('movie'):
-      case ('clip'):
-        posterFallback = 'poster';
-        break;
-      case ('episode'):
-        posterFallback = 'art';
-        break;
-      case ('track'):
-        posterFallback = 'cover';
-        break;
-    }
+    final failureOrImageUrl = await imageUrl.getImageUrl(
+      tautulliId: tautulliId,
+      img: metadata.thumb,
+      ratingKey: metadata.ratingKey,
+    );
 
-    // Attempt to get poster URL
-    final failureOrPosterUrl = await getImageUrl(
+    final failureOrParentImageUrl = await imageUrl.getImageUrl(
       tautulliId: tautulliId,
-      img: item.thumb,
-      fallback: posterFallback,
-      settingsBloc: settingsBloc,
+      img: metadata.parentThumb,
+      ratingKey: metadata.parentRatingKey,
     );
-    failureOrPosterUrl.fold(
-      (failure) {
-        logging.warning(
-          'Metadata: Failed to load poster for ${item.thumb}',
+
+    final failureOrGrandparentImageUrl = await imageUrl.getImageUrl(
+      tautulliId: tautulliId,
+      img: metadata.grandparentThumb,
+      ratingKey: metadata.grandparentRatingKey,
+    );
+
+    await failureOrImageUrl.fold(
+      (failure) async {
+        logging.error(
+          'Metadata :: Failed to fetch image url for ${metadata.title} [$failure]',
         );
       },
-      (url) {
-        posterUrl = url;
-      },
-    );
-    final failureOrParentPosterUrl = await getImageUrl(
-      tautulliId: tautulliId,
-      img: item.parentThumb,
-      fallback: posterFallback,
-      settingsBloc: settingsBloc,
-    );
-    failureOrParentPosterUrl.fold(
-      (failure) {
-        logging.warning(
-          'Metadata: Failed to load poster for ${item.parentThumb}',
+      (imageUriTuple) async {
+        settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: tautulliId,
+            primaryActive: imageUriTuple.value2,
+          ),
         );
-      },
-      (url) {
-        parentPosterUrl = url;
-      },
-    );
-    final failureOrGrandparentPosterUrl = await getImageUrl(
-      tautulliId: tautulliId,
-      img: item.grandparentThumb,
-      fallback: posterFallback,
-      settingsBloc: settingsBloc,
-    );
-    failureOrGrandparentPosterUrl.fold(
-      (failure) {
-        logging.warning(
-          'Metadata: Failed to load poster for ${item.grandparentThumb}',
-        );
-      },
-      (url) {
-        grandparentPosterUrl = url;
+
+        imageUri = imageUriTuple.value1;
       },
     );
 
-    return item.copyWith(
-      posterUrl: posterUrl,
-      parentPosterUrl: parentPosterUrl,
-      grandparentPosterUrl: grandparentPosterUrl,
+    await failureOrParentImageUrl.fold(
+      (failure) async {
+        logging.error(
+          'Metadata :: Failed to fetch parent image url for ${metadata.title} [$failure]',
+        );
+      },
+      (imageUriTuple) async {
+        settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: tautulliId,
+            primaryActive: imageUriTuple.value2,
+          ),
+        );
+
+        parentImageUri = imageUriTuple.value1;
+      },
+    );
+
+    await failureOrGrandparentImageUrl.fold(
+      (failure) async {
+        logging.error(
+          'Metadata :: Failed to fetch grandparent image url for ${metadata.title} [$failure]',
+        );
+      },
+      (imageUriTuple) async {
+        settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: tautulliId,
+            primaryActive: imageUriTuple.value2,
+          ),
+        );
+
+        grandparentImageUri = imageUriTuple.value1;
+      },
+    );
+
+    return metadata.copyWith(
+      imageUri: imageUri,
+      parentImageUri: parentImageUri,
+      grandparentImageUri: grandparentImageUri,
     );
   }
-}
-
-void clearCache() {
-  _metadataCache = {};
-  _tautulliIdCache = null;
 }

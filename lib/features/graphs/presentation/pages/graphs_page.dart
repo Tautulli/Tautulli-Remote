@@ -1,249 +1,223 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:validators/validators.dart';
+import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
+import 'package:tautulli_remote/core/pages/status_page.dart';
 
-import '../../../../core/database/domain/entities/server.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/widgets/inner_drawer_scaffold.dart';
-import '../../../../core/widgets/server_header.dart';
-import '../../../../injection_container.dart' as di;
+import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/helpers/quick_actions_helper.dart';
+import '../../../../core/types/tautulli_types.dart';
+import '../../../../core/widgets/page_body.dart';
+import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../bloc/media_type_graphs_bloc.dart';
-import '../bloc/play_totals_graphs_bloc.dart';
-import '../bloc/stream_type_graphs_bloc.dart';
+import '../bloc/graphs_bloc.dart';
+import '../widgets/custom_time_range_dialog.dart';
 import '../widgets/graph_tips_dialog.dart';
-import '../widgets/media_type_tab.dart';
-import '../widgets/play_totals_tab.dart';
-import '../widgets/stream_type_tab.dart';
+import '../widgets/media_type_graphs_tab.dart';
+import '../widgets/play_totals_graphs_tab.dart';
+import '../widgets/stream_type_graphs_tab.dart';
 
 class GraphsPage extends StatelessWidget {
-  const GraphsPage({Key key}) : super(key: key);
+  const GraphsPage({super.key});
 
   static const routeName = '/graphs';
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<MediaTypeGraphsBloc>(
-          create: (context) => di.sl<MediaTypeGraphsBloc>(),
-        ),
-        BlocProvider<StreamTypeGraphsBloc>(
-          create: (context) => di.sl<StreamTypeGraphsBloc>(),
-        ),
-        BlocProvider<PlayTotalsGraphsBloc>(
-          create: (context) => di.sl<PlayTotalsGraphsBloc>(),
-        ),
-      ],
-      child: _GraphsPageContent(),
+    return BlocProvider(
+      create: (context) => di.sl<GraphsBloc>(),
+      child: const GraphsView(),
     );
   }
 }
 
-class _GraphsPageContent extends StatefulWidget {
-  _GraphsPageContent({Key key}) : super(key: key);
+class GraphsView extends StatefulWidget {
+  const GraphsView({super.key});
 
   @override
-  __GraphsPageContentState createState() => __GraphsPageContentState();
+  State<GraphsView> createState() => _GraphsViewState();
 }
 
-class __GraphsPageContentState extends State<_GraphsPageContent> {
-  final GlobalKey _timeRangeKey = GlobalKey();
-  SettingsBloc _settingsBloc;
-  MediaTypeGraphsBloc _mediaTypeGraphsBloc;
-  StreamTypeGraphsBloc _streamTypeGraphsBloc;
-  PlayTotalsGraphsBloc _playTotalsGraphsBloc;
-  String _tautulliId;
-  int _timeRange;
-  String _yAxis;
+class _GraphsViewState extends State<GraphsView> {
+  final QuickActions quickActions = const QuickActions();
+  late ServerModel _server;
+  late PlayMetricType _yAxis;
+  late int _timeRange;
+  late GraphsBloc _graphsBloc;
+  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
+    initalizeQuickActions(context, quickActions);
+
+    _graphsBloc = context.read<GraphsBloc>();
     _settingsBloc = context.read<SettingsBloc>();
-    _mediaTypeGraphsBloc = context.read<MediaTypeGraphsBloc>();
-    _streamTypeGraphsBloc = context.read<StreamTypeGraphsBloc>();
-    _playTotalsGraphsBloc = context.read<PlayTotalsGraphsBloc>();
+    final settingsState = _settingsBloc.state as SettingsSuccess;
 
-    final mediaTypeGraphsState = _mediaTypeGraphsBloc.state;
-    final settingsState = _settingsBloc.state;
+    _server = settingsState.appSettings.activeServer;
+    _yAxis = settingsState.appSettings.graphYAxis;
+    _timeRange = settingsState.appSettings.graphTimeRange;
 
-    if (settingsState is SettingsLoadSuccess) {
-      String lastSelectedServer;
+    _graphsBloc.add(
+      GraphsFetched(
+        server: _server,
+        yAxis: _yAxis,
+        timeRange: _timeRange,
+        settingsBloc: _settingsBloc,
+      ),
+    );
 
-      if (settingsState.lastSelectedServer != null) {
-        for (Server server in settingsState.serverList) {
-          if (server.tautulliId == settingsState.lastSelectedServer) {
-            lastSelectedServer = settingsState.lastSelectedServer;
-            break;
-          }
-        }
-      }
-
-      if (lastSelectedServer != null) {
-        setState(() {
-          _tautulliId = lastSelectedServer;
-        });
-      } else if (settingsState.serverList.isNotEmpty) {
-        setState(() {
-          _tautulliId = settingsState.serverList[0].tautulliId;
-        });
-      } else {
-        setState(() {
-          _tautulliId = null;
-        });
-      }
-
-      if (mediaTypeGraphsState is MediaTypeGraphsInitial) {
-        _yAxis = settingsState.yAxis;
-        _timeRange = mediaTypeGraphsState.timeRange ?? 30;
-      }
-
-      if (!settingsState.graphTipsShown) {
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          return showDialog(
-            context: context,
-            builder: (context) => const GraphTipsDialog(),
-          );
-        });
-        _settingsBloc.add(SettingsUpdateGraphTipsShown(true));
-      }
+    if (!settingsState.appSettings.graphTipsShown) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        return showDialog(
+          context: context,
+          builder: (context) => const GraphTipsDialog(),
+        );
+      });
+      _settingsBloc.add(const SettingsUpdateGraphTipsShown(true));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return InnerDrawerScaffold(
-      title: Text(
-        LocaleKeys.graphs_page_title.tr(),
-      ),
-      actions: _appBarActions(),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (context, state) {
-                if (state is SettingsLoadSuccess) {
-                  if (state.serverList.length > 1) {
-                    return DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        value: _tautulliId,
-                        style: TextStyle(color: Theme.of(context).accentColor),
-                        items: state.serverList.map((server) {
-                          return DropdownMenuItem(
-                            child: ServerHeader(serverName: server.plexName),
-                            value: server.tautulliId,
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          if (value != _tautulliId) {
-                            setState(() {
-                              _tautulliId = value;
-                            });
-                            _settingsBloc.add(
-                              SettingsUpdateLastSelectedServer(
-                                tautulliId: _tautulliId,
-                              ),
-                            );
-                            _mediaTypeGraphsBloc.add(
-                              MediaTypeGraphsFetch(
-                                tautulliId: value,
-                                timeRange: _timeRange,
-                                yAxis: _yAxis,
-                                settingsBloc: _settingsBloc,
-                              ),
-                            );
-                            _streamTypeGraphsBloc.add(
-                              StreamTypeGraphsFetch(
-                                tautulliId: value,
-                                timeRange: _timeRange,
-                                yAxis: _yAxis,
-                                settingsBloc: _settingsBloc,
-                              ),
-                            );
-                            _playTotalsGraphsBloc.add(
-                              PlayTotalsGraphsFetch(
-                                tautulliId: value,
-                                // timeRange: _timeRange,
-                                yAxis: _yAxis,
-                                settingsBloc: _settingsBloc,
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    );
-                  }
-                }
-                return Container(height: 0, width: 0);
-              },
+    return BlocListener<SettingsBloc, SettingsState>(
+      listenWhen: (previous, current) {
+        if (previous is SettingsSuccess && current is SettingsSuccess) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
+            return true;
+          }
+        }
+        return false;
+      },
+      listener: (ctx, state) {
+        if (state is SettingsSuccess) {
+          _server = state.appSettings.activeServer;
+
+          _graphsBloc.add(
+            GraphsFetched(
+              server: _server,
+              yAxis: _yAxis,
+              timeRange: _timeRange,
+              settingsBloc: _settingsBloc,
             ),
-            DefaultTabController(
-              length: 3,
-              child: Expanded(
+          );
+        }
+      },
+      child: ScaffoldWithInnerDrawer(
+        title: const Text(LocaleKeys.graphs_title).tr(),
+        actions: _server.id != null ? _appBarActions() : [],
+        body: PageBody(
+          child: BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              state as SettingsSuccess;
+              if (state.serverList.isEmpty) {
+                return StatusPage(
+                  message: LocaleKeys.error_message_no_servers.tr(),
+                  suggestion: LocaleKeys.error_suggestion_register_server.tr(),
+                );
+              }
+
+              return DefaultTabController(
+                length: 3,
                 child: Column(
                   children: [
                     Expanded(
                       child: TabBarView(
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
-                          BlocProvider.value(
-                            value: _mediaTypeGraphsBloc,
-                            child: MediaTypeTab(
-                              tautulliId: _tautulliId,
-                              timeRange: _timeRange,
-                              yAxis: _yAxis,
-                            ),
+                          ThemedRefreshIndicator(
+                            onRefresh: () {
+                              _graphsBloc.add(
+                                GraphsFetched(
+                                  server: _server,
+                                  yAxis: _yAxis,
+                                  timeRange: _timeRange,
+                                  freshFetch: true,
+                                  settingsBloc: _settingsBloc,
+                                ),
+                              );
+
+                              return Future.value();
+                            },
+                            child: const MediaTypeGraphsTab(),
                           ),
-                          BlocProvider.value(
-                            value: _streamTypeGraphsBloc,
-                            child: StreamTypeTab(
-                              tautulliId: _tautulliId,
-                              timeRange: _timeRange,
-                              yAxis: _yAxis,
-                            ),
+                          ThemedRefreshIndicator(
+                            onRefresh: () {
+                              _graphsBloc.add(
+                                GraphsFetched(
+                                  server: _server,
+                                  yAxis: _yAxis,
+                                  timeRange: _timeRange,
+                                  freshFetch: true,
+                                  settingsBloc: _settingsBloc,
+                                ),
+                              );
+
+                              return Future.value();
+                            },
+                            child: const StreamTypeGraphsTab(),
                           ),
-                          BlocProvider.value(
-                            value: _playTotalsGraphsBloc,
-                            child: PlayTotalsTab(
-                              tautulliId: _tautulliId,
-                              // timeRange: _timeRange,
-                              yAxis: _yAxis,
-                            ),
+                          ThemedRefreshIndicator(
+                            onRefresh: () {
+                              _graphsBloc.add(
+                                GraphsFetched(
+                                  server: _server,
+                                  yAxis: _yAxis,
+                                  timeRange: _timeRange,
+                                  freshFetch: true,
+                                  settingsBloc: _settingsBloc,
+                                ),
+                              );
+
+                              return Future.value();
+                            },
+                            child: const PlayTotalsGraphsTab(),
                           ),
                         ],
                       ),
                     ),
                     TabBar(
-                      indicatorSize: TabBarIndicatorSize.label,
+                      // TabBarTheme does not appear to be applying divider color
+                      //TODO: Check if TabBarTheme is actually applying
+                      dividerColor: Colors.transparent,
                       tabs: [
                         Tab(
-                          child:
-                              const Text(LocaleKeys.graphs_media_type_tab).tr(),
+                          child: const Text(
+                            LocaleKeys.media_type_title,
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ).tr(),
                         ),
                         Tab(
-                          child: const Text(LocaleKeys.graphs_stream_type_tab)
-                              .tr(),
+                          child: const Text(
+                            LocaleKeys.stream_type_title,
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ).tr(),
                         ),
                         Tab(
-                          child: const Text(LocaleKeys.graphs_play_totals_tab)
-                              .tr(),
+                          child: const Text(
+                            LocaleKeys.play_totals_title,
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ).tr(),
                         ),
                       ],
                     ),
                   ],
                 ),
-              ),
-            ),
-          ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -251,304 +225,216 @@ class __GraphsPageContentState extends State<_GraphsPageContent> {
 
   List<Widget> _appBarActions() {
     return [
-      PopupMenuButton(
-        icon: FaIcon(
-          _yAxis == 'plays'
-              ? FontAwesomeIcons.playCircle
-              : FontAwesomeIcons.clock,
-          size: 20,
-          color: TautulliColorPalette.not_white,
-        ),
-        tooltip: LocaleKeys.general_tooltip_y_axis.tr(),
-        onSelected: (value) {
-          if (value != _yAxis) {
-            setState(() {
+      // Use BlocBuilder instead of setting _yAxis state to maintain current
+      // selected tab.
+      BlocBuilder<GraphsBloc, GraphsState>(
+        builder: (context, state) {
+          return PopupMenuButton(
+            color: Theme.of(context).colorScheme.primary,
+            tooltip: LocaleKeys.y_axis_title.tr(),
+            icon: FaIcon(
+              _yAxis == PlayMetricType.plays ? FontAwesomeIcons.hashtag : FontAwesomeIcons.solidClock,
+              color: Theme.of(context).colorScheme.tertiary,
+              size: 20,
+            ),
+            onSelected: (PlayMetricType value) {
               _yAxis = value;
-            });
-            _settingsBloc.add(SettingsUpdateYAxis(yAxis: _yAxis));
-            _mediaTypeGraphsBloc.add(
-              MediaTypeGraphsFetch(
-                tautulliId: _tautulliId,
-                timeRange: _timeRange,
-                yAxis: _yAxis,
-                settingsBloc: _settingsBloc,
-              ),
-            );
-            _streamTypeGraphsBloc.add(
-              StreamTypeGraphsFetch(
-                tautulliId: _tautulliId,
-                timeRange: _timeRange,
-                yAxis: _yAxis,
-                settingsBloc: _settingsBloc,
-              ),
-            );
-            _playTotalsGraphsBloc.add(
-              PlayTotalsGraphsFetch(
-                tautulliId: _tautulliId,
-                // timeRange: _timeRange,
-                yAxis: _yAxis,
-                settingsBloc: _settingsBloc,
-              ),
-            );
-          }
-        },
-        itemBuilder: (context) {
-          return [
-            PopupMenuItem(
-              child: Row(
-                children: [
-                  FaIcon(
-                    FontAwesomeIcons.playCircle,
-                    size: 20,
-                    color: _yAxis == 'plays'
-                        ? PlexColorPalette.gamboge
-                        : TautulliColorPalette.not_white,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: Text(
-                      LocaleKeys.general_filter_plays,
-                      style: TextStyle(
-                        color: _yAxis == 'plays'
-                            ? Theme.of(context).accentColor
-                            : TautulliColorPalette.not_white,
-                      ),
-                    ).tr(),
-                  ),
-                ],
-              ),
-              value: 'plays',
-            ),
-            PopupMenuItem(
-              child: Row(
-                children: [
-                  FaIcon(
-                    FontAwesomeIcons.clock,
-                    size: 20,
-                    color: _yAxis == 'duration'
-                        ? PlexColorPalette.gamboge
-                        : TautulliColorPalette.not_white,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: Text(
-                      LocaleKeys.general_filter_duration,
-                      style: TextStyle(
-                        color: _yAxis == 'duration'
-                            ? Theme.of(context).accentColor
-                            : TautulliColorPalette.not_white,
-                      ),
-                    ).tr(),
-                  ),
-                ],
-              ),
-              value: 'duration',
-            ),
-          ];
-        },
-      ),
-      Stack(
-        children: [
-          Center(
-            child: PopupMenuButton(
-              key: _timeRangeKey,
-              icon: const FaIcon(
-                FontAwesomeIcons.calendarAlt,
-                size: 20,
-                color: TautulliColorPalette.not_white,
-              ),
-              tooltip: LocaleKeys.general_tooltip_time_range.tr(),
-              onSelected: (value) {
-                if (_timeRange != value) {
-                  if (value > 0) {
-                    setState(() {
-                      _timeRange = value;
-                    });
-                    _mediaTypeGraphsBloc.add(
-                      MediaTypeGraphsFetch(
-                        tautulliId: _tautulliId,
-                        timeRange: _timeRange,
-                        yAxis: _yAxis,
-                        settingsBloc: _settingsBloc,
-                      ),
-                    );
-                    _streamTypeGraphsBloc.add(
-                      StreamTypeGraphsFetch(
-                        tautulliId: _tautulliId,
-                        timeRange: _timeRange,
-                        yAxis: _yAxis,
-                        settingsBloc: _settingsBloc,
-                      ),
-                    );
-                  } else {
-                    _buildCustomTimeRangeDialog();
-                  }
-                }
-              },
-              itemBuilder: (context) {
-                return [
-                  PopupMenuItem(
-                    child: Text(
-                      '7 ${LocaleKeys.general_filter_days.tr()}',
-                      style: TextStyle(
-                        color: _timeRange == 7
-                            ? Theme.of(context).accentColor
-                            : TautulliColorPalette.not_white,
-                      ),
-                    ),
-                    value: 7,
-                  ),
-                  PopupMenuItem(
-                    child: Text(
-                      '14 ${LocaleKeys.general_filter_days.tr()}',
-                      style: TextStyle(
-                        color: _timeRange == 14
-                            ? Theme.of(context).accentColor
-                            : TautulliColorPalette.not_white,
-                      ),
-                    ),
-                    value: 14,
-                  ),
-                  PopupMenuItem(
-                    child: Text(
-                      '30 ${LocaleKeys.general_filter_days.tr()}',
-                      style: TextStyle(
-                        color: _timeRange == 30
-                            ? Theme.of(context).accentColor
-                            : TautulliColorPalette.not_white,
-                      ),
-                    ),
-                    value: 30,
-                  ),
-                  PopupMenuItem(
-                    child: Text(
-                      [7, 14, 30].contains(_timeRange)
-                          ? LocaleKeys.general_filter_custom.tr()
-                          : '${LocaleKeys.general_filter_custom.tr()} ($_timeRange ${LocaleKeys.general_filter_days.tr()})',
-                      style: TextStyle(
-                        color: ![7, 14, 30].contains(_timeRange)
-                            ? Theme.of(context).accentColor
-                            : TautulliColorPalette.not_white,
-                      ),
-                    ),
-                    value: 0,
-                  ),
-                ];
-              },
-            ),
-          ),
-          Positioned(
-            right: 5,
-            top: 28,
-            child: GestureDetector(
-              onTap: () {
-                dynamic state = _timeRangeKey.currentState;
-                state.showButtonMenu();
-              },
-              child: Container(
-                height: 18,
-                width: 18,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: PlexColorPalette.gamboge,
+
+              _settingsBloc.add(
+                SettingsUpdateGraphYAxis(_yAxis),
+              );
+
+              _graphsBloc.add(
+                GraphsFetched(
+                  server: _server,
+                  yAxis: _yAxis,
+                  timeRange: _timeRange,
+                  freshFetch: true,
+                  settingsBloc: _settingsBloc,
                 ),
-                child: Center(
-                  child: Text(
-                    _timeRange > 99 ? '99+' : _timeRange.toString(),
-                    style: TextStyle(
-                      fontSize: _timeRange > 99 ? 9 : 10,
-                      fontWeight: FontWeight.w600,
-                    ),
+              );
+            },
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
+              ),
+            ),
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  value: PlayMetricType.plays,
+                  child: Row(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.hashtag,
+                        size: 20,
+                        color: _yAxis == PlayMetricType.plays ? Theme.of(context).colorScheme.secondary : null,
+                      ),
+                      const Gap(8),
+                      Text(
+                        LocaleKeys.play_count_title,
+                        style: TextStyle(
+                          color: _yAxis == PlayMetricType.plays ? Theme.of(context).colorScheme.secondary : null,
+                        ),
+                      ).tr(),
+                    ],
                   ),
                 ),
-              ),
-            ),
-          ),
-        ],
+                PopupMenuItem(
+                  value: PlayMetricType.time,
+                  child: Row(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.solidClock,
+                        size: 20,
+                        color: _yAxis == PlayMetricType.time ? Theme.of(context).colorScheme.secondary : null,
+                      ),
+                      const Gap(8),
+                      Text(
+                        LocaleKeys.play_time_title,
+                        style: TextStyle(
+                          color: _yAxis == PlayMetricType.time ? Theme.of(context).colorScheme.secondary : null,
+                        ),
+                      ).tr(),
+                    ],
+                  ),
+                ),
+              ];
+            },
+          );
+        },
       ),
-    ];
-  }
-
-  Future _buildCustomTimeRangeDialog() {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        final _customTimeRangeFormKey = GlobalKey<FormState>();
-
-        return AlertDialog(
-          title: const Text(LocaleKeys.general_time_range_dialog_title).tr(),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+      BlocBuilder<GraphsBloc, GraphsState>(
+        builder: (context, state) {
+          return Stack(
             children: [
-              Form(
-                key: _customTimeRangeFormKey,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText:
-                        LocaleKeys.general_time_range_dialog_hint_text.tr(),
+              Center(
+                child: PopupMenuButton(
+                  color: Theme.of(context).colorScheme.primary,
+                  tooltip: LocaleKeys.time_range_title.tr(),
+                  icon: FaIcon(
+                    FontAwesomeIcons.solidCalendarDays,
+                    color: Theme.of(context).colorScheme.tertiary,
+                    size: 20,
                   ),
-                  validator: (value) {
-                    if (!isNumeric(value)) {
-                      return LocaleKeys
-                          .general_time_range_dialog_validator_integer;
-                    } else if (int.tryParse(value) < 2) {
-                      return LocaleKeys
-                          .general_time_range_dialog_validator_larger_1;
+                  onSelected: (int value) async {
+                    if (value > 0) {
+                      if (value != _timeRange) {
+                        _timeRange = value;
+
+                        _settingsBloc.add(
+                          SettingsUpdateGraphTimeRange(_timeRange),
+                        );
+
+                        _graphsBloc.add(
+                          GraphsFetched(
+                            server: _server,
+                            yAxis: _yAxis,
+                            timeRange: _timeRange,
+                            freshFetch: true,
+                            settingsBloc: _settingsBloc,
+                          ),
+                        );
+                      }
+                    } else {
+                      final int timeRange = await showDialog(
+                        context: context,
+                        builder: (context) => const CustomTimeRangeDialog(),
+                      );
+
+                      if (timeRange != _timeRange) {
+                        _timeRange = timeRange;
+
+                        _settingsBloc.add(
+                          SettingsUpdateGraphTimeRange(_timeRange),
+                        );
+
+                        _graphsBloc.add(
+                          GraphsFetched(
+                            server: _server,
+                            yAxis: _yAxis,
+                            timeRange: _timeRange,
+                            freshFetch: true,
+                            settingsBloc: _settingsBloc,
+                          ),
+                        );
+                      }
                     }
-
-                    setState(() {
-                      _timeRange = int.parse(value);
-                    });
-
-                    return null;
+                  },
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    ),
+                  ),
+                  itemBuilder: (context) {
+                    return [
+                      PopupMenuItem(
+                        value: 7,
+                        child: Text(
+                          '7 ${LocaleKeys.days_title.tr()}',
+                          style: TextStyle(
+                            color: _timeRange == 7 ? Theme.of(context).colorScheme.secondary : null,
+                          ),
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 14,
+                        child: Text(
+                          '14 ${LocaleKeys.days_title.tr()}',
+                          style: TextStyle(
+                            color: _timeRange == 14 ? Theme.of(context).colorScheme.secondary : null,
+                          ),
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 30,
+                        child: Text(
+                          '30 ${LocaleKeys.days_title.tr()}',
+                          style: TextStyle(
+                            color: _timeRange == 30 ? Theme.of(context).colorScheme.secondary : null,
+                          ),
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: -1,
+                        child: Text(
+                          'Custom',
+                          style: TextStyle(
+                            color: ![7, 14, 30].contains(_timeRange) ? Theme.of(context).colorScheme.secondary : null,
+                          ),
+                        ),
+                      ),
+                    ];
                   },
                 ),
               ),
-              const SizedBox(height: 16),
-              const Text(
-                LocaleKeys.general_time_range_dialog_notice,
-                style: TextStyle(
-                  color: Colors.grey,
+              Positioned(
+                bottom: 10,
+                right: 10,
+                child: IgnorePointer(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      height: 18,
+                      width: 18,
+                      color: Theme.of(context).colorScheme.secondary,
+                      child: Center(
+                        child: Text(
+                          _timeRange < 100 ? _timeRange.toString() : '99+',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: _timeRange < 100 ? 10 : 8,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ).tr(),
+              ),
             ],
-          ),
-          actions: [
-            TextButton(
-              child: const Text(LocaleKeys.button_close).tr(),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text(LocaleKeys.button_save).tr(),
-              onPressed: () {
-                if (_customTimeRangeFormKey.currentState.validate()) {
-                  _mediaTypeGraphsBloc.add(
-                    MediaTypeGraphsFetch(
-                      tautulliId: _tautulliId,
-                      timeRange: _timeRange,
-                      yAxis: _yAxis,
-                      settingsBloc: _settingsBloc,
-                    ),
-                  );
-                  _streamTypeGraphsBloc.add(
-                    StreamTypeGraphsFetch(
-                      tautulliId: _tautulliId,
-                      timeRange: _timeRange,
-                      yAxis: _yAxis,
-                      settingsBloc: _settingsBloc,
-                    ),
-                  );
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
+          );
+        },
+      ),
+    ];
   }
 }

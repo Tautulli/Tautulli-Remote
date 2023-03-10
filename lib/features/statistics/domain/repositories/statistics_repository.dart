@@ -1,21 +1,17 @@
-// @dart=2.9
-
 import 'package:dartz/dartz.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../entities/statistics.dart';
+import '../../../../core/types/tautulli_types.dart';
+import '../../data/models/statistic_model.dart';
 
 abstract class StatisticsRepository {
-  Future<Either<Failure, Map<String, List<Statistics>>>> getStatistics({
-    @required String tautulliId,
-    int grouping,
-    int timeRange,
-    String statsType,
-    int statsStart,
-    int statsCount,
-    String statId,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<List<StatisticModel>, bool>>> getStatistics({
+    required String tautulliId,
+    bool? grouping,
+    int? timeRange,
+    PlayMetricType? statsType,
+    int? statsStart,
+    int? statsCount,
+    StatIdType? statId,
   });
 }

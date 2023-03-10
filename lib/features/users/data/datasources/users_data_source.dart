@@ -1,92 +1,146 @@
-// @dart=2.9
+import 'package:dartz/dartz.dart';
 
-import 'package:meta/meta.dart';
-
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/user.dart';
-import '../../domain/entities/user_table.dart';
+import '../../../../core/api/tautulli/tautulli_api.dart';
 import '../models/user_model.dart';
+import '../models/user_player_stat_model.dart';
 import '../models/user_table_model.dart';
+import '../models/user_watch_time_stat_model.dart';
 
 abstract class UsersDataSource {
-  Future<UserTable> getUser({
-    @required String tautulliId,
-    @required int userId,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<List<UserPlayerStatModel>, bool>> getPlayerStats({
+    required String tautulliId,
+    required int userId,
+    bool? grouping,
   });
-  Future<List> getUserNames({
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
+
+  Future<Tuple2<List<UserWatchTimeStatModel>, bool>> getWatchTimeStats({
+    required String tautulliId,
+    required int userId,
+    bool? grouping,
+    String? queryDays,
   });
-  Future<List> getUsersTable({
-    @required String tautulliId,
-    int grouping,
-    String orderColumn,
-    String orderDir,
-    int start,
-    int length,
-    String search,
-    @required SettingsBloc settingsBloc,
+
+  Future<Tuple2<UserModel, bool>> getUser({
+    required String tautulliId,
+    required int userId,
+    bool? includeLastSeen,
+  });
+
+  Future<Tuple2<List<UserModel>, bool>> getUserNames({
+    required String tautulliId,
+  });
+
+  Future<Tuple2<List<UserTableModel>, bool>> getUsersTable({
+    required String tautulliId,
+    bool? grouping,
+    String? orderColumn,
+    String? orderDir,
+    int? start,
+    int? length,
+    String? search,
   });
 }
 
 class UsersDataSourceImpl implements UsersDataSource {
-  final tautulli_api.GetUser apiGetUser;
-  final tautulli_api.GetUserNames apiGetUserNames;
-  final tautulli_api.GetUsersTable apiGetUsersTable;
+  final GetUser getUserApi;
+  final GetUserPlayerStats getUserPlayerStats;
+  final GetUserWatchTimeStats getUserWatchTimeStats;
+  final GetUserNames getUserNamesApi;
+  final GetUsersTable getUsersTableApi;
 
   UsersDataSourceImpl({
-    @required this.apiGetUser,
-    @required this.apiGetUserNames,
-    @required this.apiGetUsersTable,
+    required this.getUserApi,
+    required this.getUserPlayerStats,
+    required this.getUserWatchTimeStats,
+    required this.getUserNamesApi,
+    required this.getUsersTableApi,
   });
 
   @override
-  Future<UserTable> getUser({
-    @required String tautulliId,
-    @required int userId,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<List<UserPlayerStatModel>, bool>> getPlayerStats({
+    required String tautulliId,
+    required int userId,
+    bool? grouping,
   }) async {
-    final userJson = await apiGetUser(
+    final result = await getUserPlayerStats(
       tautulliId: tautulliId,
       userId: userId,
-      settingsBloc: settingsBloc,
+      grouping: grouping,
     );
 
-    return UserTableModel.fromJson(userJson['response']['data']);
+    final List<UserPlayerStatModel> playerStatList = result.value1['response']['data']
+        .map<UserPlayerStatModel>((playerStat) => UserPlayerStatModel.fromJson(playerStat))
+        .toList();
+
+    return Tuple2(playerStatList, result.value2);
   }
 
   @override
-  Future<List> getUserNames({
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<List<UserWatchTimeStatModel>, bool>> getWatchTimeStats({
+    required String tautulliId,
+    required int userId,
+    bool? grouping,
+    String? queryDays,
   }) async {
-    final usersJson = await apiGetUserNames(
+    final result = await getUserWatchTimeStats(
       tautulliId: tautulliId,
-      settingsBloc: settingsBloc,
+      userId: userId,
+      grouping: grouping,
+      queryDays: queryDays,
     );
 
-    final List<User> usersList = [];
-    usersJson['response']['data'].forEach((item) {
-      usersList.add(UserModel.fromJson(item));
-    });
+    final List<UserWatchTimeStatModel> watchTimeStatList = result.value1['response']['data']
+        .map<UserWatchTimeStatModel>((watchTimeStat) => UserWatchTimeStatModel.fromJson(watchTimeStat))
+        .toList();
 
-    return usersList;
+    return Tuple2(watchTimeStatList, result.value2);
   }
 
   @override
-  Future<List> getUsersTable({
-    @required String tautulliId,
-    int grouping,
-    String orderColumn,
-    String orderDir,
-    int start,
-    int length,
-    String search,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<UserModel, bool>> getUser({
+    required String tautulliId,
+    required int userId,
+    bool? includeLastSeen,
   }) async {
-    final usersTableJson = await apiGetUsersTable(
+    final result = await getUserApi(
+      tautulliId: tautulliId,
+      userId: userId,
+      includeLastSeen: includeLastSeen,
+    );
+
+    return Tuple2(
+      UserModel.fromJson(
+        result.value1['response']['data'],
+      ),
+      result.value2,
+    );
+  }
+
+  @override
+  Future<Tuple2<List<UserModel>, bool>> getUserNames({
+    required String tautulliId,
+  }) async {
+    final result = await getUserNamesApi(
+      tautulliId: tautulliId,
+    );
+
+    final List<UserModel> userList =
+        result.value1['response']['data'].map<UserModel>((user) => UserModel.fromJson(user)).toList();
+
+    return Tuple2(userList, result.value2);
+  }
+
+  @override
+  Future<Tuple2<List<UserTableModel>, bool>> getUsersTable({
+    required String tautulliId,
+    bool? grouping,
+    String? orderColumn,
+    String? orderDir,
+    int? start,
+    int? length,
+    String? search,
+  }) async {
+    final result = await getUsersTableApi(
       tautulliId: tautulliId,
       grouping: grouping,
       orderColumn: orderColumn,
@@ -94,14 +148,12 @@ class UsersDataSourceImpl implements UsersDataSource {
       start: start,
       length: length,
       search: search,
-      settingsBloc: settingsBloc,
     );
 
-    final List<UserTable> usersTableList = [];
-    usersTableJson['response']['data']['data'].forEach((item) {
-      usersTableList.add(UserTableModel.fromJson(item));
-    });
+    final List<UserTableModel> userTableList = result.value1['response']['data']['data']
+        .map<UserTableModel>((userTable) => UserTableModel.fromJson(userTable))
+        .toList();
 
-    return usersTableList;
+    return Tuple2(userTableList, result.value2);
   }
 }

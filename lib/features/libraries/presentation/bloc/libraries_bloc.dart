@@ -1,173 +1,264 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:stream_transform/stream_transform.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
-import '../../../image_url/domain/usecases/get_image_url.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/types/bloc_status.dart';
+import '../../../image_url/domain/usecases/image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/library.dart';
-import '../../domain/usecases/get_libraries_table.dart';
+import '../../data/models/library_table_model.dart';
+import '../../domain/usecases/libraries.dart';
 
 part 'libraries_event.dart';
 part 'libraries_state.dart';
 
-List<Library> _librariesListCache;
-String _orderColumnCache;
-String _orderDirCache;
-String _tautulliIdCache;
-SettingsBloc _settingsBlocCache;
+String? tautulliIdCache;
+String? orderColumnCache;
+String? orderDirCache;
+Map<String, List<LibraryTableModel>> librariesCache = {};
+bool hasReachedMaxCache = false;
+
+const throttleDuration = Duration(milliseconds: 100);
+const length = 25;
+
+EventTransformer<E> throttleDroppable<E>(Duration duration) {
+  return (events, mapper) {
+    return droppable<E>().call(events.throttle(duration), mapper);
+  };
+}
 
 class LibrariesBloc extends Bloc<LibrariesEvent, LibrariesState> {
-  final GetLibrariesTable getLibrariesTable;
-  final GetImageUrl getImageUrl;
+  final Libraries libraries;
+  final ImageUrl imageUrl;
   final Logging logging;
 
   LibrariesBloc({
-    @required this.getLibrariesTable,
-    @required this.getImageUrl,
-    @required this.logging,
-  }) : super(LibrariesInitial(
-          orderColumn: _orderColumnCache,
-          orderDir: _orderDirCache,
-        ));
-
-  @override
-  Stream<LibrariesState> mapEventToState(
-    LibrariesEvent event,
-  ) async* {
-    if (event is LibrariesFetch) {
-      _orderColumnCache = event.orderColumn;
-      _orderDirCache = event.orderDir;
-      _settingsBlocCache = event.settingsBloc;
-
-      yield* _fetchLibraries(
-        tautulliId: event.tautulliId,
-        orderColumn: event.orderColumn,
-        orderDir: event.orderDir,
-        useCachedList: true,
-        settingsBloc: _settingsBlocCache,
-      );
-
-      _tautulliIdCache = event.tautulliId;
-    }
-    if (event is LibrariesFilter) {
-      _orderColumnCache = event.orderColumn;
-      _orderDirCache = event.orderDir;
-
-      yield LibrariesInitial();
-      yield* _fetchLibraries(
-        tautulliId: event.tautulliId,
-        orderColumn: event.orderColumn,
-        orderDir: event.orderDir,
-        settingsBloc: _settingsBlocCache,
-      );
-
-      _tautulliIdCache = event.tautulliId;
-    }
+    required this.libraries,
+    required this.imageUrl,
+    required this.logging,
+  }) : super(
+          LibrariesState(
+            libraries: tautulliIdCache != null ? librariesCache[tautulliIdCache]! : [],
+            orderColumn: orderColumnCache ?? 'section_name',
+            orderDir: orderDirCache ?? 'asc',
+            hasReachedMax: hasReachedMaxCache,
+          ),
+        ) {
+    on<LibrariesFetched>(
+      _onLibrariesFetched,
+      transformer: throttleDroppable(throttleDuration),
+    );
   }
 
-  Stream<LibrariesState> _fetchLibraries({
-    @required String tautulliId,
-    String orderColumn,
-    String orderDir,
-    bool useCachedList = false,
-    @required SettingsBloc settingsBloc,
-  }) async* {
-    if (useCachedList &&
-        _librariesListCache != null &&
-        _tautulliIdCache == tautulliId) {
-      yield LibrariesSuccess(
-        librariesList: _librariesListCache,
-      );
-    }
-    final failureOrLibraries = await getLibrariesTable(
-      tautulliId: tautulliId,
-      orderColumn: orderColumn,
-      orderDir: orderDir,
-      settingsBloc: settingsBloc,
-    );
+  void _onLibrariesFetched(
+    LibrariesFetched event,
+    Emitter<LibrariesState> emit,
+  ) async {
+    if (event.server.id == null) {
+      Failure failure = MissingServerFailure();
 
-    yield* failureOrLibraries.fold(
-      (failure) async* {
-        logging.error(
-          'Libraries: Failed to load libraries',
-        );
-
-        yield LibrariesFailure(
+      return emit(
+        state.copyWith(
+          status: BlocStatus.failure,
           failure: failure,
-          message: FailureMapperHelper.mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
+          message: FailureHelper.mapFailureToMessage(failure),
+          suggestion: FailureHelper.mapFailureToSuggestion(failure),
+        ),
+      );
+    }
+
+    final bool serverChange = tautulliIdCache != event.server.tautulliId;
+
+    if (!librariesCache.containsKey(event.server.tautulliId)) {
+      librariesCache[event.server.tautulliId] = [];
+    }
+
+    if (event.freshFetch || (tautulliIdCache != null && serverChange)) {
+      emit(
+        state.copyWith(
+          status: BlocStatus.initial,
+          libraries: serverChange ? [] : null,
+          hasReachedMax: false,
+        ),
+      );
+      librariesCache[event.server.tautulliId] = [];
+      hasReachedMaxCache = false;
+    }
+
+    tautulliIdCache = event.server.tautulliId;
+    orderColumnCache = event.orderColumn;
+    orderDirCache = event.orderDir;
+
+    if (state.hasReachedMax) return;
+
+    if (state.status == BlocStatus.initial) {
+      // Prevent triggering initial fetch when navigating back to History page
+      if (librariesCache[event.server.tautulliId]!.isNotEmpty) {
+        return emit(
+          state.copyWith(
+            status: BlocStatus.success,
+          ),
+        );
+      }
+
+      final failureOrLibraries = await libraries.getLibrariesTable(
+        tautulliId: event.server.tautulliId,
+        grouping: event.grouping,
+        length: length,
+        orderColumn: event.orderColumn,
+        orderDir: event.orderDir,
+        search: event.search,
+        start: event.start,
+      );
+
+      return _emitFailureOrLibraries(
+        event: event,
+        emit: emit,
+        failureOrLibraries: failureOrLibraries,
+      );
+    } else {
+      // Make sure bottom loader loading indicator displays when
+      // attempting to fetch
+      emit(
+        state.copyWith(status: BlocStatus.success),
+      );
+
+      final failureOrLibraries = await libraries.getLibrariesTable(
+        tautulliId: event.server.tautulliId,
+        grouping: event.grouping,
+        length: length,
+        orderColumn: event.orderColumn,
+        orderDir: event.orderDir,
+        search: event.search,
+        start: librariesCache[event.server.tautulliId]!.length,
+      );
+
+      return _emitFailureOrLibraries(
+        event: event,
+        emit: emit,
+        failureOrLibraries: failureOrLibraries,
+      );
+    }
+  }
+
+  void _emitFailureOrLibraries({
+    required LibrariesFetched event,
+    required Emitter<LibrariesState> emit,
+    required Either<Failure, Tuple2<List<LibraryTableModel>, bool>> failureOrLibraries,
+  }) async {
+    await failureOrLibraries.fold(
+      (failure) async {
+        logging.error('Libraries :: Failed to fetch history [$failure]');
+
+        return emit(
+          state.copyWith(
+            status: BlocStatus.failure,
+            libraries: event.freshFetch ? librariesCache[event.server.tautulliId] : state.libraries,
+            failure: failure,
+            message: FailureHelper.mapFailureToMessage(failure),
+            suggestion: FailureHelper.mapFailureToSuggestion(failure),
+          ),
         );
       },
-      (librariesList) async* {
-        List<Library> updatedList = [];
+      (libraries) async {
+        event.settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: event.server.tautulliId,
+            primaryActive: libraries.value2,
+          ),
+        );
 
-        for (Library library in librariesList) {
-          String backgroundUrl;
-          String iconUrl;
+        // Add posters to library table models
+        List<LibraryTableModel> libraryListWithUris = await _libraryTableModelsWithPosterUris(
+          libraryList: libraries.value1,
+          settingsBloc: event.settingsBloc,
+        );
 
-          final backgroundImageUrlOrFailure = await getImageUrl(
-            tautulliId: tautulliId,
-            img: library.libraryArt,
-            width: 500,
-            height: 280,
-            settingsBloc: settingsBloc,
-          );
+        librariesCache[event.server.tautulliId] = librariesCache[event.server.tautulliId]! + libraryListWithUris;
+        hasReachedMaxCache = libraryListWithUris.length < length;
 
-          backgroundImageUrlOrFailure.fold(
-            (failure) {
-              logging.warning(
-                'Activity: Failed to load art for library ${library.sectionName}',
-              );
-            },
-            (url) {
-              backgroundUrl = url;
-            },
-          );
-
-          if (library.libraryThumb.contains('http')) {
-            final iconImageUrlOrFailure = await getImageUrl(
-              tautulliId: tautulliId,
-              img: library.libraryThumb,
-              settingsBloc: settingsBloc,
-            );
-
-            iconImageUrlOrFailure.fold(
-              (failure) {
-                logging.warning(
-                  'Activity: Failed to load icon for library ${library.sectionName}',
-                );
-              },
-              (url) {
-                iconUrl = url;
-              },
-            );
-          }
-          updatedList.add(library.copyWith(
-            backgroundUrl: backgroundUrl,
-            iconUrl: iconUrl,
-          ));
-        }
-
-        _librariesListCache = updatedList;
-
-        yield LibrariesSuccess(
-          librariesList: updatedList,
+        return emit(
+          state.copyWith(
+            status: BlocStatus.success,
+            libraries: librariesCache[event.server.tautulliId],
+            hasReachedMax: hasReachedMaxCache,
+          ),
         );
       },
     );
   }
-}
 
-void clearCache() {
-  _librariesListCache = null;
-  _orderColumnCache = null;
-  _orderDirCache = null;
-  _tautulliIdCache = null;
+  Future<List<LibraryTableModel>> _libraryTableModelsWithPosterUris({
+    required List<LibraryTableModel> libraryList,
+    required SettingsBloc settingsBloc,
+  }) async {
+    List<LibraryTableModel> libraryTablesWithImages = [];
+
+    for (LibraryTableModel library in libraryList) {
+      Uri? iconUri;
+      Uri? backgroundUri;
+
+      if (library.libraryThumb != null && library.libraryThumb!.startsWith('http')) {
+        final failureOrIconUrl = await imageUrl.getImageUrl(
+          tautulliId: tautulliIdCache!,
+          img: library.libraryThumb,
+        );
+
+        await failureOrIconUrl.fold(
+          (failure) async {
+            logging.error(
+              'Libraries :: Failed to fetch icon url for ${library.sectionName} [$failure]',
+            );
+          },
+          (uri) async {
+            settingsBloc.add(
+              SettingsUpdatePrimaryActive(
+                tautulliId: tautulliIdCache!,
+                primaryActive: uri.value2,
+              ),
+            );
+
+            iconUri = uri.value1;
+          },
+        );
+      }
+
+      final failureOrBackgroundUrl = await imageUrl.getImageUrl(
+        tautulliId: tautulliIdCache!,
+        img: library.thumb ?? library.libraryThumb,
+      );
+
+      await failureOrBackgroundUrl.fold(
+        (failure) async {
+          logging.error(
+            'Libraries :: Failed to fetch background url for ${library.sectionName} [$failure]',
+          );
+        },
+        (uri) async {
+          settingsBloc.add(
+            SettingsUpdatePrimaryActive(
+              tautulliId: tautulliIdCache!,
+              primaryActive: uri.value2,
+            ),
+          );
+
+          backgroundUri = uri.value1;
+        },
+      );
+
+      libraryTablesWithImages.add(
+        library.copyWith(
+          iconUri: iconUri,
+          backgroundUri: backgroundUri,
+        ),
+      );
+    }
+
+    return libraryTablesWithImages;
+  }
 }

@@ -1,81 +1,47 @@
-// @dart=2.9
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../helpers/color_palette_helper.dart';
-import '../helpers/icon_mapper_helper.dart';
+import '../helpers/icon_helper.dart';
+import '../types/media_type.dart';
 
 class MediaTypeIcon extends StatelessWidget {
-  final String mediaType;
-  final Color iconColor;
+  final MediaType? mediaType;
+  final Color? iconColor;
 
-  const MediaTypeIcon({Key key, @required this.mediaType, this.iconColor})
-      : super(key: key);
+  const MediaTypeIcon({
+    super.key,
+    required this.mediaType,
+    this.iconColor,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return _mapMediaTypeToIconWidget(mediaType, iconColor);
-  }
-}
+    final icon = IconHelper.mapMediaTypeToIcon(mediaType);
 
-FaIcon _mapMediaTypeToIconWidget(
-  String mediaType,
-  Color iconColor,
-) {
-  final icon = IconMapperHelper.mapMediaTypeToIcon(mediaType);
+    FaIcon buildMediaIcon(double size) {
+      return FaIcon(
+        icon,
+        size: size,
+        color: iconColor,
+      );
+    }
 
-  switch (mediaType) {
-    case ('movie'):
-      return FaIcon(
-        icon,
-        size: 18,
-        color: iconColor ?? TautulliColorPalette.not_white,
-      );
-    case ('episode'):
-    case ('season'):
-    case ('show'):
-      return FaIcon(
-        icon,
-        size: 14,
-        color: iconColor ?? TautulliColorPalette.not_white,
-      );
-    case ('track'):
-    case ('album'):
-      return FaIcon(
-        icon,
-        size: 16,
-        color: iconColor ?? TautulliColorPalette.not_white,
-      );
-    case ('photo'):
-      return FaIcon(
-        icon,
-        size: 18,
-        color: iconColor ?? TautulliColorPalette.not_white,
-      );
-    case ('clip'):
-      return FaIcon(
-        icon,
-        size: 17,
-        color: iconColor ?? TautulliColorPalette.not_white,
-      );
-    case ('collection'):
-      return FaIcon(
-        icon,
-        size: 17,
-        color: iconColor ?? TautulliColorPalette.not_white,
-      );
-    case ('playlist'):
-      return FaIcon(
-        icon,
-        size: 17,
-        color: iconColor ?? TautulliColorPalette.not_white,
-      );
-    default:
-      return FaIcon(
-        icon,
-        size: 17,
-        color: iconColor ?? TautulliColorPalette.not_white,
-      );
+    switch (mediaType) {
+      case (MediaType.episode):
+      case (MediaType.season):
+      case (MediaType.show):
+        return buildMediaIcon(14);
+      case (MediaType.track):
+      case (MediaType.album):
+        return buildMediaIcon(16);
+      case (MediaType.movie):
+      case (MediaType.photo):
+        return buildMediaIcon(18);
+      case (MediaType.clip):
+      case (MediaType.collection):
+      case (MediaType.playlist):
+      default:
+        return buildMediaIcon(17);
+    }
   }
 }

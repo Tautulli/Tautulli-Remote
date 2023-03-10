@@ -1,285 +1,206 @@
-// @dart=2.9
-
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 
-import '../../../../core/database/domain/entities/server.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/helpers/quick_actions_helper.dart';
+import '../../../../core/pages/status_page.dart';
+import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
-import '../../../../core/widgets/error_message.dart';
-import '../../../../core/widgets/inner_drawer_scaffold.dart';
-import '../../../../core/widgets/server_header.dart';
-import '../../../../core/widgets/user_card.dart';
-import '../../../../injection_container.dart' as di;
+import '../../../../core/widgets/page_body.dart';
+import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../bloc/users_bloc.dart';
+import '../bloc/users_table_bloc.dart';
+import '../widgets/user_card.dart';
 import '../widgets/user_details.dart';
-import '../widgets/user_error_button.dart';
 
 class UsersPage extends StatelessWidget {
-  const UsersPage({Key key}) : super(key: key);
+  const UsersPage({super.key});
 
   static const routeName = '/users';
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<UsersBloc>(
-      create: (context) => di.sl<UsersBloc>(),
-      child: const UsersPageContent(),
+    return BlocProvider(
+      create: (context) => di.sl<UsersTableBloc>(),
+      child: const UsersView(),
     );
   }
 }
 
-class UsersPageContent extends StatefulWidget {
-  const UsersPageContent({Key key}) : super(key: key);
+class UsersView extends StatefulWidget {
+  const UsersView({super.key});
 
   @override
-  _UsersPageContentState createState() => _UsersPageContentState();
+  State<UsersView> createState() => _UsersViewState();
 }
 
-class _UsersPageContentState extends State<UsersPageContent> {
+class _UsersViewState extends State<UsersView> {
+  final QuickActions quickActions = const QuickActions();
   final _scrollController = ScrollController();
-  final _scrollThreshold = 200.0;
-  Completer<void> _refreshCompleter;
-  SettingsBloc _settingsBloc;
-  UsersBloc _usersBloc;
-  String _tautulliId;
-  String _orderColumn;
-  String _orderDir;
-  bool _maskSensitiveInfo;
+  late String _orderColumn;
+  late String _orderDir;
+  late UsersTableBloc _usersTableBloc;
+  late SettingsBloc _settingsBloc;
+  late ServerModel _server;
 
   @override
   void initState() {
     super.initState();
+    initalizeQuickActions(context, quickActions);
+
     _scrollController.addListener(_onScroll);
-    _refreshCompleter = Completer<void>();
+    _usersTableBloc = context.read<UsersTableBloc>();
     _settingsBloc = context.read<SettingsBloc>();
-    _usersBloc = context.read<UsersBloc>();
+    final settingsState = _settingsBloc.state as SettingsSuccess;
 
-    final usersState = _usersBloc.state;
-    final settingState = _settingsBloc.state;
+    _server = settingsState.appSettings.activeServer;
 
-    if (settingState is SettingsLoadSuccess) {
-      String lastSelectedServer;
+    final usersSort = settingsState.appSettings.usersSort.split('|');
+    _orderColumn = usersSort[0];
+    _orderDir = usersSort[1];
 
-      _maskSensitiveInfo = settingState.maskSensitiveInfo;
-
-      if (settingState.lastSelectedServer != null) {
-        for (Server server in settingState.serverList) {
-          if (server.tautulliId == settingState.lastSelectedServer) {
-            lastSelectedServer = settingState.lastSelectedServer;
-            break;
-          }
-        }
-      }
-
-      if (lastSelectedServer != null) {
-        setState(() {
-          _tautulliId = lastSelectedServer;
-        });
-      } else if (settingState.serverList.isNotEmpty) {
-        setState(() {
-          _tautulliId = settingState.serverList[0].tautulliId;
-        });
-      } else {
-        _tautulliId = null;
-      }
-
-      if (usersState is UsersInitial) {
-        final usersSort = settingState.usersSort.split('|');
-        _orderColumn = usersSort[0];
-        _orderDir = usersSort[1];
-      }
-
-      _usersBloc.add(
-        UsersFetch(
-          tautulliId: _tautulliId,
-          orderColumn: _orderColumn,
-          orderDir: _orderDir,
-          settingsBloc: _settingsBloc,
-        ),
-      );
-    }
+    context.read<UsersTableBloc>().add(
+          UsersTableFetched(
+            server: _server,
+            orderColumn: _orderColumn,
+            orderDir: _orderDir,
+            settingsBloc: _settingsBloc,
+          ),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
-    return InnerDrawerScaffold(
-      title: Text(
-        LocaleKeys.users_page_title.tr(),
-      ),
-      actions: _appBarActions(),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return Container(
-            height: constraints.maxHeight,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BlocBuilder<SettingsBloc, SettingsState>(
-                  builder: (context, state) {
-                    if (state is SettingsLoadSuccess) {
-                      if (state.serverList.length > 1) {
-                        return DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            value: _tautulliId,
-                            style: TextStyle(
-                              color: Theme.of(context).accentColor,
-                            ),
-                            items: state.serverList.map((server) {
-                              return DropdownMenuItem(
-                                child:
-                                    ServerHeader(serverName: server.plexName),
-                                value: server.tautulliId,
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              if (value != _tautulliId) {
-                                setState(() {
-                                  _tautulliId = value;
-                                  _settingsBloc.add(
-                                    SettingsUpdateLastSelectedServer(
-                                        tautulliId: _tautulliId),
-                                  );
-                                  _usersBloc.add(
-                                    UsersFilter(
-                                      tautulliId: _tautulliId,
-                                      orderColumn: _orderColumn,
-                                      orderDir: _orderDir,
-                                    ),
-                                  );
-                                });
-                              }
-                            },
-                          ),
-                        );
-                      }
-                    }
-                    return Container(height: 0, width: 0);
-                  },
+    return BlocListener<SettingsBloc, SettingsState>(
+      // Listen for active server change and run a fresh user fetch if it does
+      listenWhen: (previous, current) {
+        if (previous is SettingsSuccess && current is SettingsSuccess) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
+            return true;
+          }
+        }
+        return false;
+      },
+      listener: (ctx, state) {
+        if (state is SettingsSuccess) {
+          _server = state.appSettings.activeServer;
+          context.read<UsersTableBloc>().add(
+                UsersTableFetched(
+                  server: _server,
+                  orderColumn: _orderColumn,
+                  orderDir: _orderDir,
+                  settingsBloc: _settingsBloc,
                 ),
-                BlocConsumer<UsersBloc, UsersState>(
-                  listener: (context, state) {
-                    if (state is UsersSuccess) {
-                      _refreshCompleter?.complete();
-                      _refreshCompleter = Completer();
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is UsersSuccess) {
-                      if (state.list.isNotEmpty) {
-                        return Expanded(
-                          child: RefreshIndicator(
-                            color: Theme.of(context).accentColor,
-                            onRefresh: () {
-                              _usersBloc.add(
-                                UsersFilter(
-                                  tautulliId: _tautulliId,
-                                  orderColumn: _orderColumn,
-                                  orderDir: _orderDir,
-                                ),
-                              );
-                              return _refreshCompleter.future;
-                            },
-                            child: Scrollbar(
-                              child: ListView.builder(
-                                itemCount: state.hasReachedMax
-                                    ? state.list.length
-                                    : state.list.length + 1,
-                                controller: _scrollController,
-                                itemBuilder: (context, index) {
-                                  return index >= state.list.length
-                                      ? BottomLoader()
-                                      : UserCard(
-                                          user: state.list[index],
-                                          details: UsersDetails(
-                                            user: state.list[index],
-                                            maskSensitiveInfo:
-                                                _maskSensitiveInfo,
-                                          ),
-                                          maskSensitiveInfo: _maskSensitiveInfo,
-                                        );
-                                },
-                              ),
-                            ),
-                          ),
-                        );
-                      } else {
-                        return Expanded(
-                          child: Center(
-                            child: const Text(
-                              LocaleKeys.users_empty,
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                              ),
-                            ).tr(),
-                          ),
-                        );
-                      }
-                    }
-                    if (state is UsersFailure) {
-                      return Expanded(
-                        child: Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Center(
-                                child: ErrorMessage(
-                                  failure: state.failure,
-                                  message: state.message,
-                                  suggestion: state.suggestion,
-                                ),
-                              ),
-                              UserErrorButton(
-                                completer: _refreshCompleter,
-                                failure: state.failure,
-                                usersEvent: UsersFilter(
-                                  tautulliId: _tautulliId,
-                                  orderColumn: _orderColumn,
-                                  orderDir: _orderDir,
-                                ),
-                              ),
-                            ],
-                          ),
+              );
+        }
+      },
+      child: ScaffoldWithInnerDrawer(
+        title: const Text(LocaleKeys.users_title).tr(),
+        actions: _server.id != null ? _appBarActions() : [],
+        body: BlocBuilder<UsersTableBloc, UsersTableState>(
+          builder: (context, state) {
+            return PageBody(
+              loading: state.status == BlocStatus.initial && !state.hasReachedMax,
+              child: ThemedRefreshIndicator(
+                onRefresh: () {
+                  context.read<UsersTableBloc>().add(
+                        UsersTableFetched(
+                          server: _server,
+                          orderColumn: _orderColumn,
+                          orderDir: _orderDir,
+                          freshFetch: true,
+                          settingsBloc: _settingsBloc,
                         ),
                       );
+
+                  return Future.value(null);
+                },
+                child: Builder(
+                  builder: (context) {
+                    if (state.users.isEmpty) {
+                      if (state.status == BlocStatus.failure) {
+                        return StatusPage(
+                          scrollable: true,
+                          message: state.message ?? '',
+                          suggestion: state.suggestion ?? '',
+                        );
+                      }
+                      if (state.status == BlocStatus.success) {
+                        return StatusPage(
+                          scrollable: true,
+                          message: LocaleKeys.users_empty_message.tr(),
+                        );
+                      }
                     }
-                    return Expanded(
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).accentColor,
-                        ),
-                      ),
+
+                    return ListView.separated(
+                      controller: _scrollController,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(8),
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial
+                          ? state.users.length
+                          : state.users.length + 1,
+                      separatorBuilder: (context, index) => const Gap(8),
+                      itemBuilder: (context, index) {
+                        if (index >= state.users.length) {
+                          return BottomLoader(
+                            status: state.status,
+                            failure: state.failure,
+                            message: state.message,
+                            suggestion: state.suggestion,
+                            onTap: () {
+                              context.read<UsersTableBloc>().add(
+                                    UsersTableFetched(
+                                      server: _server,
+                                      orderColumn: _orderColumn,
+                                      orderDir: _orderDir,
+                                      settingsBloc: _settingsBloc,
+                                    ),
+                                  );
+                            },
+                          );
+                        }
+
+                        return UserCard(
+                          key: ValueKey(state.users[index].userId!),
+                          server: _server,
+                          user: state.users[index],
+                          details: UserDetails(user: state.users[index]),
+                        );
+                      },
                     );
                   },
                 ),
-              ],
-            ),
-          );
-        },
+              ),
+            );
+          },
+        ),
       ),
     );
   }
 
   @override
   void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
     super.dispose();
-    _scrollController.dispose();
   }
 
   void _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll <= _scrollThreshold) {
-      _usersBloc.add(
-        UsersFetch(
-          tautulliId: _tautulliId,
+    if (_isBottom) {
+      _usersTableBloc.add(
+        UsersTableFetched(
+          server: _server,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
           settingsBloc: _settingsBloc,
@@ -288,143 +209,166 @@ class _UsersPageContentState extends State<UsersPageContent> {
     }
   }
 
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
+  }
+
   List<Widget> _appBarActions() {
     return [
-      PopupMenuButton(
-        icon: _currentSortIcon(),
-        tooltip: LocaleKeys.general_tooltip_sort_users.tr(),
-        onSelected: (value) {
-          List<String> values = value.split('|');
+      Theme(
+        data: Theme.of(context).copyWith(
+          dividerTheme: DividerThemeData(
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
+        ),
+        child: PopupMenuButton(
+          icon: _currentSortIcon(),
+          color: Theme.of(context).colorScheme.primary,
+          tooltip: LocaleKeys.sort_users_title.tr(),
+          onSelected: (value) {
+            if (value != null) {
+              value as String;
+              List<String> values = value.split('|');
 
-          setState(() {
-            _orderColumn = values[0];
-            _orderDir = values[1];
-          });
-          _settingsBloc.add(SettingsUpdateUsersSort(usersSort: value));
-          _usersBloc.add(
-            UsersFilter(
-              tautulliId: _tautulliId,
-              orderColumn: _orderColumn,
-              orderDir: _orderDir,
+              setState(() {
+                _orderColumn = values[0];
+                _orderDir = values[1];
+              });
+
+              _settingsBloc.add(SettingsUpdateUsersSort(value));
+              _usersTableBloc.add(
+                UsersTableFetched(
+                  server: _server,
+                  orderColumn: _orderColumn,
+                  orderDir: _orderDir,
+                  freshFetch: true,
+                  settingsBloc: _settingsBloc,
+                ),
+              );
+            }
+          },
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(12),
             ),
-          );
-        },
-        itemBuilder: (context) {
-          return <PopupMenuEntry<dynamic>>[
-            PopupMenuItem(
-              child: Row(
-                children: [
-                  _currentSortIcon(color: PlexColorPalette.gamboge),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: Text(
-                      _currentSortName(),
-                      style: const TextStyle(color: PlexColorPalette.gamboge),
+          ),
+          itemBuilder: (context) {
+            return <PopupMenuEntry<dynamic>>[
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    _currentSortIcon(
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const PopupMenuDivider(),
-            PopupMenuItem(
-              child: Row(
-                children: [
-                  _orderColumn == 'friendly_name' && _orderDir == 'asc'
-                      ? const FaIcon(
-                          FontAwesomeIcons.sortAlphaDownAlt,
-                          color: TautulliColorPalette.not_white,
-                          size: 20,
-                        )
-                      : const FaIcon(
-                          FontAwesomeIcons.sortAlphaDown,
-                          color: TautulliColorPalette.not_white,
-                          size: 20,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        _currentSortName(),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Text(LocaleKeys.general_filter_name).tr(),
-                  ),
-                ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              value: _orderColumn == 'friendly_name' && _orderDir == 'asc'
-                  ? 'friendly_name|desc'
-                  : 'friendly_name|asc',
-            ),
-            PopupMenuItem(
-              child: Row(
-                children: [
-                  _orderColumn == 'last_seen' && _orderDir == 'desc'
-                      ? const FaIcon(
-                          FontAwesomeIcons.sortNumericDownAlt,
-                          color: TautulliColorPalette.not_white,
-                          size: 20,
-                        )
-                      : const FaIcon(
-                          FontAwesomeIcons.sortNumericDown,
-                          color: TautulliColorPalette.not_white,
-                          size: 20,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Text(
-                      LocaleKeys.general_filter_last_streamed,
-                    ).tr(),
-                  ),
-                ],
+              const PopupMenuDivider(),
+              PopupMenuItem(
+                value:
+                    _orderColumn == 'friendly_name' && _orderDir == 'asc' ? 'friendly_name|desc' : 'friendly_name|asc',
+                child: Row(
+                  children: [
+                    _orderColumn == 'friendly_name' && _orderDir == 'asc'
+                        ? const FaIcon(
+                            FontAwesomeIcons.arrowDownZA,
+                            size: 20,
+                          )
+                        : const FaIcon(
+                            FontAwesomeIcons.arrowDownAZ,
+                            size: 20,
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: const Text(LocaleKeys.name_title).tr(),
+                    ),
+                  ],
+                ),
               ),
-              value: _orderColumn == 'last_seen' && _orderDir == 'desc'
-                  ? 'last_seen|asc'
-                  : 'last_seen|desc',
-            ),
-          ];
-        },
-      ),
+              PopupMenuItem(
+                value: _orderColumn == 'last_seen' && _orderDir == 'desc' ? 'last_seen|asc' : 'last_seen|desc',
+                child: Row(
+                  children: [
+                    _orderColumn == 'last_seen' && _orderDir == 'desc'
+                        ? const FaIcon(
+                            FontAwesomeIcons.arrowDown91,
+                            size: 20,
+                          )
+                        : const FaIcon(
+                            FontAwesomeIcons.arrowDown19,
+                            size: 20,
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: const Text(LocaleKeys.last_streamed_title).tr(),
+                    ),
+                  ],
+                ),
+              ),
+            ];
+          },
+        ),
+      )
     ];
   }
 
-  FaIcon _currentSortIcon({Color color}) {
+  FaIcon _currentSortIcon({Color? color}) {
+    color ??= Theme.of(context).colorScheme.tertiary;
+
     if (_orderColumn == 'friendly_name') {
       if (_orderDir == 'asc') {
         return FaIcon(
-          FontAwesomeIcons.sortAlphaDown,
+          FontAwesomeIcons.arrowDownAZ,
           size: 20,
-          color: color ?? TautulliColorPalette.not_white,
+          color: color,
         );
       } else {
         return FaIcon(
-          FontAwesomeIcons.sortAlphaDownAlt,
+          FontAwesomeIcons.arrowDownZA,
           size: 20,
-          color: color ?? TautulliColorPalette.not_white,
+          color: color,
         );
       }
     }
     if (_orderColumn == 'last_seen') {
       if (_orderDir == 'asc') {
         return FaIcon(
-          FontAwesomeIcons.sortNumericDownAlt,
+          FontAwesomeIcons.arrowDown91,
           size: 20,
-          color: color ?? TautulliColorPalette.not_white,
+          color: color,
         );
       } else {
         return FaIcon(
-          FontAwesomeIcons.sortNumericDown,
+          FontAwesomeIcons.arrowDown19,
           size: 20,
-          color: color ?? TautulliColorPalette.not_white,
+          color: color,
         );
       }
     }
 
-    return const FaIcon(FontAwesomeIcons.questionCircle);
+    return const FaIcon(FontAwesomeIcons.circleQuestion);
   }
 
   String _currentSortName() {
     switch (_orderColumn) {
       case ('friendly_name'):
-        return LocaleKeys.general_filter_name.tr();
+        return LocaleKeys.name_title.tr();
       case ('last_seen'):
-        return LocaleKeys.general_filter_last_streamed.tr();
+        return LocaleKeys.last_streamed_title.tr();
       default:
-        return LocaleKeys.general_unknown.tr();
+        return 'Unknown';
     }
   }
 }

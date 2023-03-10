@@ -1,42 +1,33 @@
-// @dart=2.9
-
 part of 'libraries_bloc.dart';
 
 abstract class LibrariesEvent extends Equatable {
-  const LibrariesEvent();
-
   @override
   List<Object> get props => [];
 }
 
-class LibrariesFetch extends LibrariesEvent {
-  final String tautulliId;
-  final String orderColumn;
-  final String orderDir;
+class LibrariesFetched extends LibrariesEvent {
+  final ServerModel server;
+  final bool? grouping;
+  final String? orderColumn;
+  final String? orderDir;
+  final int? start;
+  final int? length;
+  final String? search;
+  final bool freshFetch;
   final SettingsBloc settingsBloc;
 
-  LibrariesFetch({
-    @required this.tautulliId,
-    @required this.orderColumn,
-    @required this.orderDir,
-    @required this.settingsBloc,
+  LibrariesFetched({
+    required this.server,
+    this.grouping,
+    this.orderColumn,
+    this.orderDir,
+    this.start,
+    this.length,
+    this.search,
+    this.freshFetch = false,
+    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [tautulliId, orderColumn, orderDir, settingsBloc];
-}
-
-class LibrariesFilter extends LibrariesEvent {
-  final String tautulliId;
-  final String orderColumn;
-  final String orderDir;
-
-  LibrariesFilter({
-    @required this.tautulliId,
-    @required this.orderColumn,
-    @required this.orderDir,
-  });
-
-  @override
-  List<Object> get props => [tautulliId, orderColumn, orderDir];
+  List<Object> get props => [server, freshFetch, settingsBloc];
 }

@@ -1,42 +1,44 @@
-// @dart=2.9
-
 part of 'library_statistics_bloc.dart';
 
-abstract class LibraryStatisticsState extends Equatable {
-  const LibraryStatisticsState();
+class LibraryStatisticsState extends Equatable {
+  final BlocStatus watchTimeStatsStatus;
+  final BlocStatus userStatsStatus;
+  final List<LibraryWatchTimeStatModel> watchTimeStatsList;
+  final List<LibraryUserStatModel> userStatsList;
+  final Failure? failure;
+  final String? message;
+  final String? suggestion;
 
-  @override
-  List<Object> get props => [];
-}
-
-class LibraryStatisticsInitial extends LibraryStatisticsState {}
-
-class LibraryStatisticsInProgress extends LibraryStatisticsState {}
-
-class LibraryStatisticsSuccess extends LibraryStatisticsState {
-  final List<LibraryStatistic> watchTimeStatsList;
-  final List<LibraryStatistic> userStatsList;
-
-  LibraryStatisticsSuccess({
-    @required this.watchTimeStatsList,
-    @required this.userStatsList,
+  const LibraryStatisticsState({
+    this.watchTimeStatsStatus = BlocStatus.initial,
+    this.userStatsStatus = BlocStatus.initial,
+    this.watchTimeStatsList = const [],
+    this.userStatsList = const [],
+    this.failure,
+    this.message,
+    this.suggestion,
   });
 
+  LibraryStatisticsState copyWith({
+    BlocStatus? watchTimeStatsStatus,
+    BlocStatus? userStatsStatus,
+    List<LibraryWatchTimeStatModel>? watchTimeStatsList,
+    List<LibraryUserStatModel>? userStatsList,
+    Failure? failure,
+    String? message,
+    String? suggestion,
+  }) {
+    return LibraryStatisticsState(
+      watchTimeStatsStatus: watchTimeStatsStatus ?? this.watchTimeStatsStatus,
+      userStatsStatus: userStatsStatus ?? this.userStatsStatus,
+      watchTimeStatsList: watchTimeStatsList ?? this.watchTimeStatsList,
+      userStatsList: userStatsList ?? this.userStatsList,
+      failure: failure ?? this.failure,
+      message: message ?? this.message,
+      suggestion: suggestion ?? this.suggestion,
+    );
+  }
+
   @override
-  List<Object> get props => [watchTimeStatsList, userStatsList];
-}
-
-class LibraryStatisticsFailure extends LibraryStatisticsState {
-  final Failure failure;
-  final String message;
-  final String suggestion;
-
-  LibraryStatisticsFailure({
-    @required this.failure,
-    @required this.message,
-    @required this.suggestion,
-  });
-
-  @override
-  List<Object> get props => [failure, message, suggestion];
+  List<Object> get props => [watchTimeStatsStatus, userStatsStatus, watchTimeStatsList, userStatsList];
 }

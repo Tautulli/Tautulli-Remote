@@ -1,64 +1,67 @@
-// @dart=2.9
-
 import 'package:equatable/equatable.dart';
 
 abstract class Failure extends Equatable {
-  // Failure([List properties = const <dynamic>[]]) : super(properties);
   @override
   List<Object> get props => [];
 }
 
-// General failures
-/// No servers are configured.
-class MissingServerFailure extends Failure {}
+/// A 401 response containing 'Authorization Required' was returned. Typically,
+/// from missing basic authentication headers.
+class AuthorizationRequiredFailure extends Failure {}
 
-/// Server provides an undesired response.
-class ServerFailure extends Failure {}
+/// The API response is missing required information.
+class BadApiResponseFailure extends Failure {}
+
+/// The TSL/SSL certificate is expired.
+class CertificateExpiredFailure extends Failure {}
+
+/// A failure in verifying the TSL/SSL certificate.
+class CertificateVerificationFailure extends Failure {}
+
+// /// Connection details are missing.
+// class ConnectionDetailsFailure extends Failure {}
 
 /// Device is not connected to a network.
 class ConnectionFailure extends Failure {}
 
-/// Scanning QR code fails to return a proper address and device token.
-class QRScanFailure extends Failure {}
+/// Error initalizing the database.
+class DatabaseInitFailure extends Failure {}
 
-/// Required settings are missing.
-class SettingsFailure extends Failure {}
+/// Error thrown by the dio HTTP client.
+class DioFailure extends Failure {}
 
-/// Unable to connect to a provided address.
-class SocketFailure extends Failure {}
+/// A catch-all Failure.
+class GenericFailure extends Failure {}
 
-/// A failure in TLS/SSL connection.
-class TlsFailure extends Failure {}
+/// Tautulli has responded with the error 'Invalid apikey'.
+class InvalidApiKeyFailure extends Failure {}
 
-/// The TSL/SSL certificate is expired
-class CertificateExpiredFailure extends Failure {}
+// /// Error parsing JSON.
+// class JsonDecodeFailure extends Failure {}
 
-/// A failure in verifying the TSL/SSL certificate
-class CertificateVerificationFailure extends Failure {}
+/// No servers are configured.
+class MissingServerFailure extends Failure {}
 
-/// URL provided is improperly formatted.
-class UrlFormatFailure extends Failure {}
-
-/// Time to connect to a server exceeded.
-class TimeoutFailure extends Failure {}
-
-/// A json.decode() failed.
-class JsonDecodeFailure extends Failure {}
+// Server has provided an undesired response.
+class ServerFailure extends Failure {}
 
 /// Server min version is not met.
 class ServerVersionFailure extends Failure {}
 
-/// The terminate session API call returned false.
-class TerminateFailure extends Failure {}
+// /// Required settings are missing.
+// class SettingsFailure extends Failure {}
 
-/// The delete synced item API call returned false.
-class DeleteSyncedFailure extends Failure {}
+// /// Unable to connect to a provided address.
+// class SocketFailure extends Failure {}
 
-/// The get metadata API call returned an empty result.
-class MetadataEmptyFailure extends Failure {}
+/// Failed to terminate a stream
+class TerminateStreamFailure extends Failure {}
 
-/// The get library media info API call returned an empty result.
-class LibraryMediaInfoEmptyFailure extends Failure {}
+/// Time to connect to a server exceeded.
+class TimeoutFailure extends Failure {}
 
-/// A catch-all Failure.
-class UnknownFailure extends Failure {}
+// /// A failure in TLS/SSL connection.
+// class TlsFailure extends Failure {}
+
+// /// URL provided is improperly formatted.
+// class UrlFormatFailure extends Failure {}

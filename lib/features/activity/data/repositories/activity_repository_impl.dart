@@ -1,43 +1,65 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:dartz/dartz.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
-import '../../../../core/network/network_info.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/activity.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/network_info/network_info.dart';
 import '../../domain/repositories/activity_repository.dart';
 import '../datasources/activity_data_source.dart';
+import '../models/activity_model.dart';
 
 class ActivityRepositoryImpl implements ActivityRepository {
   final ActivityDataSource dataSource;
   final NetworkInfo networkInfo;
 
   ActivityRepositoryImpl({
-    @required this.dataSource,
-    @required this.networkInfo,
+    required this.dataSource,
+    required this.networkInfo,
   });
 
   @override
-  Future<Either<Failure, List<ActivityItem>>> getActivity({
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<List<ActivityModel>, bool>>> getActivity({
+    required String tautulliId,
+    int? sessionKey,
+    String? sessionId,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final activity = await dataSource.getActivity(
+        final result = await dataSource.getActivity(
           tautulliId: tautulliId,
-          settingsBloc: settingsBloc,
+          sessionKey: sessionKey,
+          sessionId: sessionId,
         );
-        return Right(activity);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Tuple2<void, bool>>> terminateStream({
+    required String tautulliId,
+    required String? sessionId,
+    required int? sessionKey,
+    String? message,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.terminateStream(
+          tautulliId: tautulliId,
+          sessionId: sessionId,
+          sessionKey: sessionKey,
+          message: message,
+        );
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
       }
     } else {
       return Left(ConnectionFailure());

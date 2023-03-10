@@ -1,40 +1,26 @@
-// @dart=2.9
+import 'package:dio/dio.dart';
 
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
-
-import '../../../../core/error/exception.dart';
-import '../../domain/entities/announcement.dart';
 import '../models/announcement_model.dart';
 
 abstract class AnnouncementsDataSource {
-  Future<List<Announcement>> getAnnouncements();
+  Future<List<AnnouncementModel>> getAnnouncements();
 }
 
 class AnnouncementsDataSourceImpl implements AnnouncementsDataSource {
-  final http.Client client;
-
-  AnnouncementsDataSourceImpl({@required this.client});
-
   @override
-  Future<List<Announcement>> getAnnouncements() async {
-    final response = await client.get(
-      Uri.parse('https://tautulli.com/news/tautulli-remote-announcements.json'),
-      headers: {'Content-Type': 'application/json'},
+  Future<List<AnnouncementModel>> getAnnouncements() async {
+    Dio dio = Dio();
+
+    final response = await dio.get(
+      'https://tautulli.com/news/tautulli-remote-announcements.json',
+      options: Options(
+        headers: {'Content-Type': 'application/json'},
+      ),
     );
 
-    List responseJson;
+    List<AnnouncementModel> announcementList = [];
 
-    try {
-      responseJson = json.decode(response.body);
-    } catch (_) {
-      throw JsonDecodeException();
-    }
-
-    List<Announcement> announcementList = [];
-    for (Map<String, dynamic> announcement in responseJson) {
+    for (Map<String, dynamic> announcement in response.data) {
       announcementList.add(AnnouncementModel.fromJson(announcement));
     }
 
