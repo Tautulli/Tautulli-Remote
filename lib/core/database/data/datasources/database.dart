@@ -82,7 +82,10 @@ class DBProvider {
           _updateTableServerV6toV8(batch);
         }
         if (oldVersion == 7) {
+          // Database version 8 marks the start of app version 3.
+          // Therefore we need to update a few things for a smooth migration.
           await _refactorCustomHeaders(db, batch);
+          await _setOneSignalRegisteredToFalse(db, batch);
         }
         await batch.commit();
       },
@@ -197,6 +200,20 @@ class DBProvider {
       batch.update(
         'servers',
         {'custom_headers': json.encode(refactoredHeaders)},
+        where: 'id = ?',
+        whereArgs: [servers[i]['id']],
+      );
+    }
+  }
+
+  Future<void> _setOneSignalRegisteredToFalse(Database db, Batch batch) async {
+    di.sl<Logging>().info('DB :: Setting OneSignal registered to false');
+
+    var servers = await db.query('servers');
+    for (var i = 0; i <= servers.length - 1; i++) {
+      batch.update(
+        'servers',
+        {'onesignal_registered': 0},
         where: 'id = ?',
         whereArgs: [servers[i]['id']],
       );
@@ -390,7 +407,12 @@ class DBProvider {
   Future<int> updateServer(ServerModel server) async {
     final db = await database;
     if (db != null) {
-      var result = await db.update('servers', server.toJson(), where: 'id = ?', whereArgs: [server.id]);
+      var result = await db.update(
+        'servers',
+        server.toJson(),
+        where: 'id = ?',
+        whereArgs: [server.id],
+      );
 
       return result;
     } else {
