@@ -53,6 +53,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
     super.initState();
     initalizeOneSignal();
     initalizeFLogConfiguration();
+    checkIfRegistrationUpdateNeeded();
 
     context.read<OneSignalPrivacyBloc>().add(OneSignalPrivacyCheck());
     // Delay OneSignalSubCheck on app start to avoid calling OSDeviceState
@@ -95,7 +96,6 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
         if (changes.to.userId != null) {
           final serversWithoutOneSignal = await di.sl<Settings>().getAllServersWithoutOnesignalRegistered();
-
           if (serversWithoutOneSignal != null && serversWithoutOneSignal.isNotEmpty) {
             di.sl<Logging>().info(
                   'OneSignal :: OneSignal registration changed, updating server registration',
@@ -118,6 +118,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
                   di.sl<Logging>().info(
                         'OneSignal :: Updated registration for ${server.plexName} with OneSignal ID',
                       );
+
+                  di.sl<Settings>().setRegistrationUpdateNeeded(false);
                 },
               );
             }
@@ -125,7 +127,15 @@ class TautulliRemoteState extends State<TautulliRemote> {
         }
       }
     });
+  }
 
+  void initalizeFLogConfiguration() {
+    FLog.applyConfigurations(
+      LogsConfig()..activeLogLevel = LogLevel.ALL,
+    );
+  }
+
+  Future<void> checkIfRegistrationUpdateNeeded() async {
     if (await di.sl<Settings>().getRegistrationUpdateNeeded()) {
       final servers = await di.sl<Settings>().getAllServers();
 
@@ -144,24 +154,18 @@ class TautulliRemoteState extends State<TautulliRemote> {
                   );
             },
             (results) {
-              di.sl<Settings>().updateServer(
-                    server.copyWith(oneSignalRegistered: true),
-                  );
+              di.sl<Settings>().updateServer(server);
 
               di.sl<Logging>().info(
                     'Settings :: Updated registration for ${server.plexName} with new app version',
                   );
+
+              di.sl<Settings>().setRegistrationUpdateNeeded(false);
             },
           );
         }
       }
     }
-  }
-
-  void initalizeFLogConfiguration() {
-    FLog.applyConfigurations(
-      LogsConfig()..activeLogLevel = LogLevel.ALL,
-    );
   }
 
   Future<dartz.Either<Failure, dartz.Tuple2<RegisterDeviceModel, bool>>> updateServerRegistration(
