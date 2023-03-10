@@ -1,126 +1,169 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/types/bloc_status.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/library_statistic.dart';
-import '../../domain/usecases/get_library_user_stats.dart';
-import '../../domain/usecases/get_library_watch_time_stats.dart';
+import '../../data/models/library_user_stat_model.dart';
+import '../../data/models/library_watch_time_stat_model.dart';
+import '../../domain/usecases/libraries.dart';
 
 part 'library_statistics_event.dart';
 part 'library_statistics_state.dart';
 
-Map<String, List<LibraryStatistic>> _watchTimeStatsListCacheMap = {};
-Map<String, List<LibraryStatistic>> _userStatsListCacheMap = {};
+Map<String, List<LibraryWatchTimeStatModel>> _watchTimeStatsCache = {};
+Map<String, List<LibraryUserStatModel>> _userStatsCache = {};
 
-class LibraryStatisticsBloc
-    extends Bloc<LibraryStatisticsEvent, LibraryStatisticsState> {
-  final GetLibraryWatchTimeStats getLibraryWatchTimeStats;
-  final GetLibraryUserStats getLibraryUserStats;
+class LibraryStatisticsBloc extends Bloc<LibraryStatisticsEvent, LibraryStatisticsState> {
+  final Libraries libraries;
   final Logging logging;
 
   LibraryStatisticsBloc({
-    @required this.getLibraryWatchTimeStats,
-    @required this.getLibraryUserStats,
-    @required this.logging,
-  }) : super(LibraryStatisticsInitial());
+    required this.libraries,
+    required this.logging,
+  }) : super(const LibraryStatisticsState()) {
+    on<LibraryStatisticsFetched>(_onLibraryStatisticsFetched);
+  }
 
-  @override
-  Stream<LibraryStatisticsState> mapEventToState(
-    LibraryStatisticsEvent event,
-  ) async* {
-    if (event is LibraryStatisticsFetch) {
-      yield LibraryStatisticsInProgress();
+  void _onLibraryStatisticsFetched(
+    LibraryStatisticsFetched event,
+    Emitter<LibraryStatisticsState> emit,
+  ) async {
+    final String cacheKey = '${event.server.tautulliId}:${event.sectionId}';
+    final bool userStatsCached = _userStatsCache.containsKey(cacheKey);
+    final bool watchTimeStatsCached = _watchTimeStatsCache.containsKey(cacheKey);
 
-      if (_watchTimeStatsListCacheMap
-              .containsKey('${event.tautulliId}:${event.sectionId}') &&
-          _userStatsListCacheMap
-              .containsKey('${event.tautulliId}:${event.sectionId}') &&
-          _watchTimeStatsListCacheMap['${event.tautulliId}:${event.sectionId}']
-              .isNotEmpty) {
-        yield LibraryStatisticsSuccess(
-          watchTimeStatsList: _watchTimeStatsListCacheMap[
-              '${event.tautulliId}:${event.sectionId}'],
-          userStatsList:
-              _userStatsListCacheMap['${event.tautulliId}:${event.sectionId}'],
-        );
-      } else {
-        // Build out stat lists
-        List<LibraryStatistic> watchTimeStatsList = [];
-        bool watchTimeStatsFailed = false;
-        List<LibraryStatistic> userStatsList = [];
-        bool userStatsFailed = false;
-        Failure statFailure;
+    // Check cached data, if exists yield that data
+    if (userStatsCached) {
+      emit(
+        state.copyWith(
+          userStatsStatus: BlocStatus.success,
+          userStatsList: _userStatsCache[cacheKey],
+        ),
+      );
+    }
+    if (watchTimeStatsCached) {
+      emit(
+        state.copyWith(
+          watchTimeStatsStatus: BlocStatus.success,
+          watchTimeStatsList: _watchTimeStatsCache[cacheKey],
+        ),
+      );
+    }
 
-        final failureOrLibraryWatchTimeStats = await getLibraryWatchTimeStats(
-          tautulliId: event.tautulliId,
-          sectionId: event.sectionId,
-          settingsBloc: event.settingsBloc,
-        );
+    // If fresh fetch or either stat isn't in cache fetch data from Tautulli
+    if (event.freshFetch || (!watchTimeStatsCached || !userStatsCached)) {
+      emit(
+        state.copyWith(
+          watchTimeStatsStatus: BlocStatus.initial,
+          userStatsStatus: BlocStatus.initial,
+        ),
+      );
 
-        failureOrLibraryWatchTimeStats.fold(
-          (failure) {
-            watchTimeStatsFailed = true;
-            statFailure = failure;
-            logging.error(
-              'Library Statistics: Failed to load watch time stats for section ID ${event.sectionId}',
-            );
-          },
-          (list) {
-            watchTimeStatsList = list;
-          },
-        );
+      // Fetch stats for user and yield as received
+      final failureOrWatchTimeStats = await libraries.getLibraryWatchTimeStats(
+        tautulliId: event.server.tautulliId,
+        sectionId: event.sectionId,
+      );
 
-        final failureOrLibraryUserStats = await getLibraryUserStats(
-          tautulliId: event.tautulliId,
-          sectionId: event.sectionId,
-          settingsBloc: event.settingsBloc,
-        );
+      final failureOrUserStats = await libraries.getLibraryUserStats(
+        tautulliId: event.server.tautulliId,
+        sectionId: event.sectionId,
+      );
 
-        failureOrLibraryUserStats.fold(
-          (failure) {
-            statFailure = failure;
-            userStatsFailed = true;
-            logging.error(
-              'Library Statistics: Failed to load user stats for section ID ${event.sectionId}',
-            );
-          },
-          (list) {
-            userStatsList = list;
-          },
-        );
-
-        if (watchTimeStatsFailed && userStatsFailed) {
-          // Yield UserStatisticsFailure if both stat fetches fail
-          yield LibraryStatisticsFailure(
-            failure: statFailure,
-            message: FailureMapperHelper.mapFailureToMessage(statFailure),
-            suggestion: FailureMapperHelper.mapFailureToSuggestion(statFailure),
-          );
-        } else {
-          _watchTimeStatsListCacheMap[
-              '${event.tautulliId}:${event.sectionId}'] = watchTimeStatsList;
-          _userStatsListCacheMap['${event.tautulliId}:${event.sectionId}'] =
-              userStatsList;
-
-          yield LibraryStatisticsSuccess(
-            watchTimeStatsList: watchTimeStatsList,
-            userStatsList: userStatsList,
-          );
-        }
-      }
+      _fetchAndEmitStats(
+        event: event,
+        emit: emit,
+        failureOrWatchTimeStats: failureOrWatchTimeStats,
+        failureOrUserStats: failureOrUserStats,
+        cacheKey: cacheKey,
+      );
     }
   }
-}
 
-void clearCache() {
-  _watchTimeStatsListCacheMap = {};
-  _userStatsListCacheMap = {};
+  void _fetchAndEmitStats({
+    required LibraryStatisticsFetched event,
+    required Emitter<LibraryStatisticsState> emit,
+    required Either<Failure, Tuple2<List<LibraryUserStatModel>, bool>> failureOrUserStats,
+    required Either<Failure, Tuple2<List<LibraryWatchTimeStatModel>, bool>> failureOrWatchTimeStats,
+    required String cacheKey,
+  }) {
+    List<LibraryUserStatModel>? userStatsList;
+    BlocStatus? userStatsStatus;
+    List<LibraryWatchTimeStatModel>? watchTimeStatsList;
+    BlocStatus? watchTimeStatsStatus;
+    Failure? failure;
+    String? message;
+    String? suggestion;
+
+    failureOrUserStats.fold(
+      (failure) {
+        logging.error(
+          'Libraries :: Failed to fetch user stats for library id: ${event.sectionId} [$failure]',
+        );
+
+        _userStatsCache.remove(cacheKey);
+        userStatsStatus = BlocStatus.failure;
+        userStatsList = [];
+        failure = failure;
+        message = FailureHelper.mapFailureToMessage(failure);
+        suggestion = FailureHelper.mapFailureToSuggestion(failure);
+      },
+      (userStatList) {
+        event.settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: event.server.tautulliId,
+            primaryActive: userStatList.value2,
+          ),
+        );
+
+        _userStatsCache[cacheKey] = userStatList.value1;
+        userStatsStatus = BlocStatus.success;
+        userStatsList = userStatList.value1;
+      },
+    );
+
+    failureOrWatchTimeStats.fold(
+      (failure) {
+        logging.error(
+          'Libraries :: Failed to fetch library stats for library id: ${event.sectionId} [$failure]',
+        );
+
+        _watchTimeStatsCache.remove(cacheKey);
+        watchTimeStatsStatus = BlocStatus.failure;
+        watchTimeStatsList = [];
+        failure = failure;
+        message = FailureHelper.mapFailureToMessage(failure);
+        suggestion = FailureHelper.mapFailureToSuggestion(failure);
+      },
+      (watchTimeStatList) {
+        event.settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: event.server.tautulliId,
+            primaryActive: watchTimeStatList.value2,
+          ),
+        );
+
+        _watchTimeStatsCache[cacheKey] = watchTimeStatList.value1;
+        watchTimeStatsStatus = BlocStatus.success;
+        watchTimeStatsList = watchTimeStatList.value1;
+      },
+    );
+
+    return emit(
+      state.copyWith(
+        userStatsStatus: userStatsStatus,
+        userStatsList: userStatsList,
+        watchTimeStatsStatus: watchTimeStatsStatus,
+        watchTimeStatsList: watchTimeStatsList,
+        failure: failure,
+        message: message,
+        suggestion: suggestion,
+      ),
+    );
+  }
 }

@@ -1,405 +1,432 @@
-// @dart=2.9
-
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
-import 'package:meta/meta.dart';
 
-import '../../../../core/database/data/datasources/database.dart';
-import '../../../../core/database/data/models/custom_header_model.dart';
+import '../../../../core/api/tautulli/models/plex_info_model.dart';
+import '../../../../core/api/tautulli/models/register_device_model.dart';
+import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
-import '../../../../core/network/network_info.dart';
-import '../../domain/entities/plex_server_info.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/network_info/network_info.dart';
+import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/utilities/cast.dart';
 import '../../domain/repositories/settings_repository.dart';
-import '../../presentation/bloc/settings_bloc.dart';
 import '../datasources/settings_data_source.dart';
+import '../models/connection_address_model.dart';
+import '../models/custom_header_model.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
   final SettingsDataSource dataSource;
   final NetworkInfo networkInfo;
 
   SettingsRepositoryImpl({
-    @required this.dataSource,
-    @required this.networkInfo,
+    required this.dataSource,
+    required this.networkInfo,
   });
 
+  //* API Calls
   @override
-  Future addServer({
-    @required ServerModel server,
+  Future<Either<Failure, Tuple2<bool, bool>>> deleteImageCache(
+    String tautulliId,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.deleteImageCache(tautulliId);
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Tuple2<PlexInfoModel, bool>>> getPlexInfo(
+    String tautulliId,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.getPlexInfo(tautulliId);
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>> getTautulliSettings(String tautulliId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.getTautulliSettings(tautulliId);
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Tuple2<RegisterDeviceModel, bool>>> registerDevice({
+    required String connectionProtocol,
+    required String connectionDomain,
+    required String connectionPath,
+    required String deviceToken,
+    List<CustomHeaderModel>? customHeaders,
+    bool trustCert = false,
   }) async {
-    return await DBProvider.db.addServer(server);
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await dataSource.registerDevice(
+          connectionProtocol: connectionProtocol,
+          connectionDomain: connectionDomain,
+          connectionPath: connectionPath,
+          deviceToken: deviceToken,
+          customHeaders: customHeaders,
+          trustCert: trustCert,
+        );
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  //* Database Interactions
+  @override
+  Future<int> addServer(ServerModel server) async {
+    return await dataSource.addServer(server);
   }
 
   @override
-  Future deleteServer(int id) async {
-    return await DBProvider.db.deleteServer(id);
-  }
-
-  @override
-  Future updateServer(ServerModel server) async {
-    return await DBProvider.db.updateServer(server);
-  }
-
-  @override
-  Future updateServerById({
-    @required ServerModel server,
-  }) async {
-    return await DBProvider.db.updateServerById(server);
-  }
-
-  @override
-  Future updateServerSort({
-    @required int serverId,
-    @required int oldIndex,
-    @required int newIndex,
-  }) async {
-    return await DBProvider.db.updateServerSort(
-      serverId,
-      oldIndex,
-      newIndex,
-    );
+  Future<void> deleteServer(int id) async {
+    return await dataSource.deleteServer(id);
   }
 
   @override
   Future<List<ServerModel>> getAllServers() async {
-    List<ServerModel> settingsList = await DBProvider.db.getAllServers();
-
-    return settingsList;
+    return await dataSource.getAllServers();
   }
 
   @override
-  Future<List<ServerModel>> getAllServersWithoutOnesignalRegistered() async {
-    List<ServerModel> settingsList =
-        await DBProvider.db.getAllServersWithoutOnesignalRegistered();
-
-    return settingsList;
+  Future<ServerModel?> getServerByTautulliId(String tautulliId) async {
+    return await dataSource.getServerByTautulliId(tautulliId);
   }
 
   @override
-  Future<ServerModel> getServer(int id) async {
-    final settings = await DBProvider.db.getServer(id);
-
-    return settings;
+  Future<List<ServerModel>?> getAllServersWithoutOnesignalRegistered() async {
+    return await dataSource.getAllServersWithoutOnesignalRegistered();
   }
 
   @override
-  Future getServerByTautulliId(String tautulliId) async {
-    return await DBProvider.db.getServerByTautulliId(tautulliId);
-  }
-
-  @override
-  Future getCustomHeadersByTautulliId(String tautulliId) async {
-    final String encodedHeaders =
-        await DBProvider.db.getCustomHeadersByTautulliId(tautulliId) ?? '{}';
-    final Map<String, dynamic> decodedHeaders = json.decode(encodedHeaders);
-
-    final List<CustomHeaderModel> customHeaderList = [];
-
-    decodedHeaders.forEach((key, value) {
-      customHeaderList.add(
-        CustomHeaderModel(
-          key: key,
-          value: value,
-        ),
-      );
-    });
-
-    return customHeaderList;
-  }
-
-  @override
-  Future updatePrimaryConnection({
-    @required int id,
-    @required Map<String, String> primaryConnectionInfo,
+  Future<int> updateConnectionInfo({
+    required int id,
+    required ConnectionAddressModel connectionAddress,
   }) async {
-    return await DBProvider.db.updateConnection(
+    return await dataSource.updateConnectionInfo(
       id: id,
-      dbConnectionAddressMap: primaryConnectionInfo,
+      connectionAddress: connectionAddress,
     );
   }
 
   @override
-  Future updateSecondaryConnection({
-    @required int id,
-    @required Map<String, String> secondaryConnectionInfo,
+  Future<int> updateCustomHeaders({
+    required String tautulliId,
+    required List<CustomHeaderModel> headers,
   }) async {
-    return await DBProvider.db.updateConnection(
-      id: id,
-      dbConnectionAddressMap: secondaryConnectionInfo,
-    );
-  }
-
-  @override
-  Future updatePrimaryActive({
-    @required String tautulliId,
-    @required bool primaryActive,
-  }) async {
-    int value;
-
-    switch (primaryActive) {
-      case (false):
-        value = 0;
-        break;
-      case (true):
-        value = 1;
-        break;
-    }
-
-    return await DBProvider.db.updatePrimaryActive(
+    return await dataSource.updateCustomHeaders(
       tautulliId: tautulliId,
-      primaryActive: value,
+      headers: headers,
     );
   }
 
   @override
-  Future updateCustomHeaders({
-    @required String tautulliId,
-    @required List<CustomHeaderModel> customHeaders,
+  Future<int> updatePrimaryActive({
+    required String tautulliId,
+    required bool primaryActive,
   }) async {
-    Map<String, String> customHeaderMap = {};
-    customHeaders.forEach((customHeader) {
-      customHeaderMap['${customHeader.key}'] = '${customHeader.value}';
-    });
-
-    return await DBProvider.db.updateCustomHeaders(
+    return await dataSource.updatePrimaryActive(
       tautulliId: tautulliId,
-      encodedCustomHeaders: json.encode(customHeaderMap),
+      primaryActive: primaryActive,
     );
   }
 
   @override
-  Future<Either<Failure, PlexServerInfo>> getPlexServerInfo({
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
+  Future<int> updateServer(ServerModel server) async {
+    return await dataSource.updateServer(server);
+  }
+
+  @override
+  Future<void> updateServerSort({
+    required int serverId,
+    required int oldIndex,
+    required int newIndex,
   }) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final plexServerInfo = await dataSource.getPlexServerInfo(
-          tautulliId: tautulliId,
-          settingsBloc: settingsBloc,
-        );
-        return Right(plexServerInfo);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
-      }
-    } else {
-      return Left(ConnectionFailure());
-    }
+    return await dataSource.updateServerSort(
+      serverId: serverId,
+      oldIndex: oldIndex,
+      newIndex: newIndex,
+    );
+  }
+
+  //* Store & Retrive Values
+  // Custom Cert Hash List
+  @override
+  Future<String> getActiveServerId() async {
+    return await dataSource.getActiveServerId();
   }
 
   @override
-  Future<Either<Failure, Map<String, dynamic>>> getTautulliSettings({
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
-  }) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final tautulliSettingsMap = await dataSource.getTautulliSettings(
-          tautulliId: tautulliId,
-          settingsBloc: settingsBloc,
-        );
-        return Right(tautulliSettingsMap);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
-      }
-    } else {
-      return Left(ConnectionFailure());
-    }
+  Future<bool> setActiveServerId(String value) async {
+    return await dataSource.setActiveServerId(value);
   }
 
-  @override
-  Future<int> getServerTimeout() async {
-    final serverTimeout = await dataSource.getServerTimeout();
-    return serverTimeout;
-  }
-
-  @override
-  Future<bool> setServerTimeout(int value) async {
-    return dataSource.setServerTimeout(value);
-  }
-
-  @override
-  Future<int> getRefreshRate() async {
-    final refreshRate = await dataSource.getRefreshRate();
-    return refreshRate;
-  }
-
-  @override
-  Future<bool> setRefreshRate(int value) async {
-    return dataSource.setRefreshRate(value);
-  }
-
-  @override
-  Future<bool> getDoubleTapToExit() async {
-    final doubleTapToExit = await dataSource.getDoubleTapToExit();
-    return doubleTapToExit;
-  }
-
-  @override
-  Future<bool> setDoubleTapToExit(bool value) async {
-    return dataSource.setDoubleTapToExit(value);
-  }
-
-  @override
-  Future<bool> getMaskSensitiveInfo() async {
-    final maskSensitiveInfo = await dataSource.getMaskSensitiveInfo();
-    return maskSensitiveInfo;
-  }
-
-  @override
-  Future<bool> setMaskSensitiveInfo(bool value) async {
-    return dataSource.setMaskSensitiveInfo(value);
-  }
-
-  @override
-  Future<String> getLastSelectedServer() async {
-    final lastSelectedServer = await dataSource.getLastSelectedServer();
-    return lastSelectedServer;
-  }
-
-  @override
-  Future<bool> setLastSelectedServer(String tautulliId) async {
-    return dataSource.setLastSelectedServer(tautulliId);
-  }
-
-  @override
-  Future<String> getStatsType() async {
-    final statsType = await dataSource.getStatsType();
-    return statsType;
-  }
-
-  @override
-  Future<bool> setStatsType(String statsType) async {
-    return dataSource.setStatsType(statsType);
-  }
-
-  @override
-  Future<String> getYAxis() async {
-    final yAxis = await dataSource.getYAxis();
-    return yAxis;
-  }
-
-  @override
-  Future<bool> setYAxis(String yAxis) async {
-    return dataSource.setYAxis(yAxis);
-  }
-
-  @override
-  Future<String> getUsersSort() async {
-    final usersSort = await dataSource.getUsersSort();
-    return usersSort;
-  }
-
-  @override
-  Future<bool> setUsersSort(String usersSort) async {
-    return dataSource.setUsersSort(usersSort);
-  }
-
-  @override
-  Future<bool> getOneSignalBannerDismissed() async {
-    final oneSignalBannerDismissed =
-        await dataSource.getOneSignalBannerDismissed();
-    return oneSignalBannerDismissed;
-  }
-
-  @override
-  Future<bool> setOneSignalBannerDismissed(bool value) async {
-    return dataSource.setOneSignalBannerDismissed(value);
-  }
-
-  @override
-  Future<bool> getOneSignalConsented() async {
-    final oneSignalConsented = await dataSource.getOneSignalConsented();
-    return oneSignalConsented;
-  }
-
-  @override
-  Future<bool> setOneSignalConsented(bool value) async {
-    return dataSource.setOneSignalConsented(value);
-  }
-
-  @override
-  Future<String> getLastAppVersion() async {
-    final lastAppVersion = await dataSource.getLastAppVersion();
-    return lastAppVersion;
-  }
-
-  @override
-  Future<bool> setLastAppVersion(String lastAppVersion) async {
-    return dataSource.setLastAppVersion(lastAppVersion);
-  }
-
-  @override
-  Future<int> getLastReadAnnouncementId() async {
-    final refreshRate = await dataSource.getLastReadAnnouncementId();
-    return refreshRate;
-  }
-
-  @override
-  Future<bool> setLastReadAnnouncementId(int value) async {
-    return dataSource.setLastReadAnnouncementId(value);
-  }
-
-  @override
-  Future<bool> getWizardCompleteStatus() async {
-    final wizardCompleteStatus = await dataSource.getWizardCompleteStatus();
-    return wizardCompleteStatus;
-  }
-
-  @override
-  Future<bool> setWizardCompleteStatus(bool value) async {
-    return dataSource.setWizardCompleteStatus(value);
-  }
-
+  // Custom Cert Hash List
   @override
   Future<List<int>> getCustomCertHashList() async {
-    final certHashList = await dataSource.getCustomCertHashList();
-    return certHashList;
+    return await dataSource.getCustomCertHashList();
   }
 
   @override
   Future<bool> setCustomCertHashList(List<int> certHashList) async {
-    return dataSource.setCustomCertHashList(certHashList);
+    return await dataSource.setCustomCertHashList(certHashList);
+  }
+
+  // Double Back To Exit
+  @override
+  Future<bool> getDoubleBackToExit() async {
+    return await dataSource.getDoubleBackToExit();
   }
 
   @override
-  Future<bool> getIosLocalNetworkPermissionPrompted() async {
-    final iOSLocalNetworkPermissionPrompted =
-        await dataSource.getIosLocalNetworkPermissionPrompted();
-    return iOSLocalNetworkPermissionPrompted;
+  Future<bool> setDoubleBackToExit(bool value) async {
+    return await dataSource.setDoubleBackToExit(value);
+  }
+
+  // Graphs Time Range
+  @override
+  Future<int> getGraphTimeRange() async {
+    return await dataSource.getGraphTimeRange();
   }
 
   @override
-  Future<bool> setIosLocalNetworkPermissionPrompted(bool value) async {
-    return dataSource.setIosLocalNetworkPermissionPrompted(value);
+  Future<bool> setGraphTimeRange(int value) async {
+    return await dataSource.setGraphTimeRange(value);
   }
 
+  // Graph Tips Shown
   @override
   Future<bool> getGraphTipsShown() async {
-    final graphTipsShown = await dataSource.getGraphTipsShown();
-    return graphTipsShown;
+    return await dataSource.getGraphTipsShown();
   }
 
   @override
   Future<bool> setGraphTipsShown(bool value) async {
-    return dataSource.setGraphTipsShown(value);
+    return await dataSource.setGraphTipsShown(value);
+  }
+
+  // Graph Y Axis
+  @override
+  Future<PlayMetricType> getGraphYAxis() async {
+    return await dataSource.getGraphYAxis();
   }
 
   @override
-  Future<bool> getIosNotificationPermissionDeclined() async {
-    final iosNotificationPermissionDeclined =
-        await dataSource.getIosNotificationPermissionDeclined();
-    return iosNotificationPermissionDeclined;
+  Future<bool> setGraphYAxis(PlayMetricType value) async {
+    return await dataSource.setGraphYAxis(value);
+  }
+
+  // Last App Version
+  @override
+  Future<String> getLastAppVersion() async {
+    return await dataSource.getLastAppVersion();
   }
 
   @override
-  Future<bool> setIosNotificationPermissionDeclined(bool value) async {
-    return dataSource.setIosNotificationPermissionDeclined(value);
+  Future<bool> setLastAppVersion(String value) async {
+    return await dataSource.setLastAppVersion(value);
+  }
+
+  // Last Read Announcement ID
+  @override
+  Future<int> getLastReadAnnouncementId() async {
+    return await dataSource.getLastReadAnnouncementId();
+  }
+
+  @override
+  Future<bool> setLastReadAnnouncementId(int value) async {
+    return await dataSource.setLastReadAnnouncementId(value);
+  }
+
+  // Libraries Sort
+  @override
+  Future<String> getLibrariesSort() async {
+    return await dataSource.getLibrariesSort();
+  }
+
+  @override
+  Future<bool> setLibrariesSort(String value) async {
+    return await dataSource.setLibrariesSort(value);
+  }
+
+  // Library Media Full Refresh
+  @override
+  Future<bool> getLibraryMediaFullRefresh() async {
+    return await dataSource.getLibraryMediaFullRefresh();
+  }
+
+  @override
+  Future<bool> setLibraryMediaFullRefresh(bool value) async {
+    return await dataSource.setLibraryMediaFullRefresh(value);
+  }
+
+  // Mask Sensitive Info
+  @override
+  Future<bool> getMaskSensitiveInfo() async {
+    return await dataSource.getMaskSensitiveInfo();
+  }
+
+  @override
+  Future<bool> setMaskSensitiveInfo(bool value) async {
+    return await dataSource.setMaskSensitiveInfo(value);
+  }
+
+  // Multiserver Activity
+  @override
+  Future<bool> getMultiserverActivity() async {
+    return await dataSource.getMultiserverActivity();
+  }
+
+  @override
+  Future<bool> setMultiserverActivity(bool value) async {
+    return await dataSource.setMultiserverActivity(value);
+  }
+
+  // OneSignal Banner Dismissed
+  @override
+  Future<bool> getOneSignalBannerDismissed() async {
+    return await dataSource.getOneSignalBannerDismissed();
+  }
+
+  @override
+  Future<bool> setOneSignalBannerDismissed(bool value) async {
+    return await dataSource.setOneSignalBannerDismissed(value);
+  }
+
+  // OneSignal Consented
+  @override
+  Future<bool> getOneSignalConsented() async {
+    return await dataSource.getOneSignalConsented();
+  }
+
+  @override
+  Future<bool> setOneSignalConsented(bool value) async {
+    return await dataSource.setOneSignalConsented(value);
+  }
+
+  // Refresh Rate
+  @override
+  Future<int> getRefreshRate() async {
+    return await dataSource.getRefreshRate();
+  }
+
+  @override
+  Future<bool> setRefreshRate(int value) async {
+    return await dataSource.setRefreshRate(value);
+  }
+
+  // Refresh Rate
+  @override
+  Future<bool> getRegistrationUpdateNeeded() async {
+    return await dataSource.getRegistrationUpdateNeeded();
+  }
+
+  @override
+  Future<bool> setRegistrationUpdateNeeded(bool value) async {
+    return await dataSource.setRegistrationUpdateNeeded(value);
+  }
+
+  // Secret
+  @override
+  Future<bool> getSecret() async {
+    return await dataSource.getSecret();
+  }
+
+  @override
+  Future<bool> setSecret(bool value) async {
+    return await dataSource.setSecret(value);
+  }
+
+  // Server Timeout
+  @override
+  Future<int> getServerTimeout() async {
+    return await dataSource.getServerTimeout();
+  }
+
+  @override
+  Future<bool> setServerTimeout(int value) async {
+    return await dataSource.setServerTimeout(value);
+  }
+
+  // Statistics Stat Type
+  @override
+  Future<PlayMetricType> getStatisticsStatType() async {
+    return Future.value(
+      Cast.castStringToPlayMetricType(
+        await dataSource.getStatisticsStatType(),
+      ),
+    );
+  }
+
+  @override
+  Future<bool> setStatisticsStatType(PlayMetricType value) async {
+    return await dataSource.setStatisticsStatType(value);
+  }
+
+  // Statistics Time Range
+  @override
+  Future<int> getStatisticsTimeRange() async {
+    return await dataSource.getStatisticsTimeRange();
+  }
+
+  @override
+  Future<bool> setStatisticsTimeRange(int value) async {
+    return await dataSource.setStatisticsTimeRange(value);
+  }
+
+  // Users Sort
+  @override
+  Future<String> getUsersSort() async {
+    return await dataSource.getUsersSort();
+  }
+
+  @override
+  Future<bool> setUsersSort(String value) async {
+    return await dataSource.setUsersSort(value);
+  }
+
+  // Wizard Complete
+  @override
+  Future<bool> getWizardComplete() async {
+    return await dataSource.getWizardComplete();
+  }
+
+  @override
+  Future<bool> setWizardComplete(bool value) async {
+    return await dataSource.setWizardComplete(value);
   }
 }

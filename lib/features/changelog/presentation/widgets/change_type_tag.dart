@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/color_palette_helper.dart';
@@ -7,7 +5,10 @@ import '../../../../core/helpers/color_palette_helper.dart';
 class ChangeTypeTag extends StatelessWidget {
   final String type;
 
-  const ChangeTypeTag(this.type, {Key key}) : super(key: key);
+  const ChangeTypeTag(
+    this.type, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +26,11 @@ class ChangeTypeTag extends StatelessWidget {
         break;
       case 'improvement':
         text = 'IMPR';
-        color = PlexColorPalette.curious_blue;
+        color = PlexColorPalette.curiousBlue;
         break;
       case 'fix':
         text = 'FIX';
-        color = Colors.green[600];
+        color = Colors.green[600]!;
         break;
       default:
         text = '';
@@ -38,7 +39,7 @@ class ChangeTypeTag extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 2),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(2),
+        borderRadius: BorderRadius.circular(6),
         child: Container(
           width: 40,
           decoration: BoxDecoration(

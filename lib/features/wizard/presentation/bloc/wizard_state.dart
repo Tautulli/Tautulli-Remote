@@ -1,5 +1,3 @@
-// @dart=2.9
-
 part of 'wizard_bloc.dart';
 
 abstract class WizardState extends Equatable {
@@ -9,47 +7,43 @@ abstract class WizardState extends Equatable {
   List<Object> get props => [];
 }
 
-class WizardLoaded extends WizardState {
-  final WizardStage wizardStage;
-  final bool onesignalAccepted;
-  // final bool onesignalPermissionRejected;
-  // final bool iosAppTrackingPermission;
-  // final bool iosNotificationPermission;
+class WizardInitial extends WizardState {
+  final int activeStep;
+  final bool oneSignalSkipped;
+  final bool oneSignalAllowed;
+  final int stepCount;
+  final bool serversSkipped;
 
-  WizardLoaded({
-    @required this.wizardStage,
-    this.onesignalAccepted = false,
-    // this.onesignalPermissionRejected = false,
-    // this.iosAppTrackingPermission = false,
-    // this.iosNotificationPermission = false,
+  const WizardInitial({
+    required this.activeStep,
+    required this.oneSignalSkipped,
+    required this.oneSignalAllowed,
+    required this.stepCount,
+    required this.serversSkipped,
   });
 
-  WizardLoaded copyWith({
-    WizardStage wizardStage,
-    bool gettingStartedAccepted,
-    bool onesignalAccepted,
-    // bool onesignalPermissionRejected,
-    // bool iosAppTrackingPermission,
-    // bool iosNotificationPermission,
+  WizardInitial copyWith({
+    final int? activeStep,
+    final bool? oneSignalSkipped,
+    final bool? oneSignalAllowed,
+    final int? stepCount,
+    final bool? serversSkipped,
   }) {
-    return WizardLoaded(
-      wizardStage: wizardStage ?? this.wizardStage,
-      onesignalAccepted: onesignalAccepted ?? this.onesignalAccepted,
-      // onesignalPermissionRejected:
-      //     onesignalPermissionRejected ?? this.onesignalPermissionRejected,
-      // iosAppTrackingPermission:
-      //     iosAppTrackingPermission ?? this.iosAppTrackingPermission,
-      // iosNotificationPermission:
-      //     iosNotificationPermission ?? this.iosNotificationPermission,
+    return WizardInitial(
+      activeStep: activeStep ?? this.activeStep,
+      oneSignalSkipped: oneSignalSkipped ?? this.oneSignalSkipped,
+      oneSignalAllowed: oneSignalAllowed ?? this.oneSignalAllowed,
+      stepCount: stepCount ?? this.stepCount,
+      serversSkipped: serversSkipped ?? this.serversSkipped,
     );
   }
 
   @override
   List<Object> get props => [
-        wizardStage,
-        onesignalAccepted,
-        // onesignalPermissionRejected,
-        // iosAppTrackingPermission,
-        // iosNotificationPermission,
+        activeStep,
+        oneSignalSkipped,
+        oneSignalAllowed,
+        stepCount,
+        serversSkipped,
       ];
 }

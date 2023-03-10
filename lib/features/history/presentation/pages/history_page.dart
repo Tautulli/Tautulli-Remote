@@ -1,32 +1,28 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 
-import '../../../../core/database/data/models/custom_header_model.dart';
-import '../../../../core/database/domain/entities/server.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/helpers/quick_actions_helper.dart';
+import '../../../../core/pages/status_page.dart';
+import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
-import '../../../../core/widgets/error_message.dart';
-import '../../../../core/widgets/inherited_headers.dart';
-import '../../../../core/widgets/inner_drawer_scaffold.dart';
-import '../../../../core/widgets/poster_card.dart';
-import '../../../../core/widgets/server_header.dart';
-import '../../../../injection_container.dart' as di;
+import '../../../../core/widgets/page_body.dart';
+import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../users/presentation/bloc/users_list_bloc.dart';
+import '../../../users/presentation/bloc/users_bloc.dart';
 import '../bloc/history_bloc.dart';
-import '../widgets/history_details.dart';
-import '../widgets/history_error_button.dart';
-import '../widgets/history_modal_bottom_sheet.dart';
+import '../widgets/history_card.dart';
+import 'history_search_page.dart';
 
 class HistoryPage extends StatelessWidget {
-  const HistoryPage({Key key}) : super(key: key);
+  const HistoryPage({super.key});
 
   static const routeName = '/history';
 
@@ -34,334 +30,250 @@ class HistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<HistoryBloc>(
-          create: (_) => di.sl<HistoryBloc>(),
+        BlocProvider(
+          create: (context) => di.sl<HistoryBloc>(),
         ),
-        BlocProvider<UsersListBloc>(
-          create: (_) => di.sl<UsersListBloc>(),
+        BlocProvider(
+          create: (context) => di.sl<UsersBloc>(),
         ),
       ],
-      child: const HistoryPageContent(),
+      child: const HistoryView(),
     );
   }
 }
 
-class HistoryPageContent extends StatefulWidget {
-  const HistoryPageContent({Key key}) : super(key: key);
+class HistoryView extends StatefulWidget {
+  const HistoryView({super.key});
 
   @override
-  _HistoryPageContentState createState() => _HistoryPageContentState();
+  State<HistoryView> createState() => _HistoryViewState();
 }
 
-class _HistoryPageContentState extends State<HistoryPageContent> {
+class _HistoryViewState extends State<HistoryView> {
+  final QuickActions quickActions = const QuickActions();
   final _scrollController = ScrollController();
-  final _scrollThreshold = 200.0;
-  Completer<void> _refreshCompleter;
-  SettingsBloc _settingsBloc;
-  HistoryBloc _historyBloc;
-  UsersListBloc _usersListBloc;
-  String _tautulliId;
-  int _userId;
-  String _mediaType;
-  String _transcodeDecision;
-  bool _maskSensitiveInfo;
-  Map<String, String> headerMap = {};
+  late ServerModel _server;
+  late HistoryBloc _historyBloc;
+  late UsersBloc _usersBloc;
+  late SettingsBloc _settingsBloc;
+  late int? _userId;
+  late bool _movieMediaType;
+  late bool _episodeMediaType;
+  late bool _trackMediaType;
+  late bool _liveMediaType;
+  late bool _directPlayDecision;
+  late bool _directStreamDecision;
+  late bool _transcodeDecision;
 
   @override
   void initState() {
     super.initState();
+    initalizeQuickActions(context, quickActions);
+
     _scrollController.addListener(_onScroll);
-    _refreshCompleter = Completer<void>();
-    _settingsBloc = context.read<SettingsBloc>();
     _historyBloc = context.read<HistoryBloc>();
-    _usersListBloc = context.read<UsersListBloc>();
+    _usersBloc = context.read<UsersBloc>();
+    _settingsBloc = context.read<SettingsBloc>();
+    final settingsState = _settingsBloc.state as SettingsSuccess;
 
-    final historyState = _historyBloc.state;
-    final settingsState = _settingsBloc.state;
+    _server = settingsState.appSettings.activeServer;
 
-    if (settingsState is SettingsLoadSuccess) {
-      String lastSelectedServer;
+    _userId = _historyBloc.state.userId ?? -1;
+    _movieMediaType = _historyBloc.state.movieMediaType;
+    _episodeMediaType = _historyBloc.state.episodeMediaType;
+    _trackMediaType = _historyBloc.state.trackMediaType;
+    _liveMediaType = _historyBloc.state.liveMediaType;
+    _directPlayDecision = _historyBloc.state.directPlayDecision;
+    _directStreamDecision = _historyBloc.state.directStreamDecision;
+    _transcodeDecision = _historyBloc.state.transcodeDecision;
 
-      _maskSensitiveInfo = settingsState.maskSensitiveInfo;
+    _historyBloc.add(
+      HistoryFetched(
+        server: _server,
+        userId: _userId,
+        movieMediaType: _movieMediaType,
+        episodeMediaType: _episodeMediaType,
+        trackMediaType: _trackMediaType,
+        liveMediaType: _liveMediaType,
+        directPlayDecision: _directPlayDecision,
+        directStreamDecision: _directStreamDecision,
+        transcodeDecision: _transcodeDecision,
+        settingsBloc: _settingsBloc,
+      ),
+    );
 
-      if (settingsState.lastSelectedServer != null) {
-        for (Server server in settingsState.serverList) {
-          if (server.tautulliId == settingsState.lastSelectedServer) {
-            lastSelectedServer = settingsState.lastSelectedServer;
-
-            for (CustomHeaderModel header in server.customHeaders) {
-              headerMap[header.key] = header.value;
-            }
-
-            break;
-          }
-        }
-      }
-
-      if (lastSelectedServer != null) {
-        setState(() {
-          _tautulliId = lastSelectedServer;
-        });
-      } else if (settingsState.serverList.isNotEmpty) {
-        setState(() {
-          _tautulliId = settingsState.serverList[0].tautulliId;
-          for (CustomHeaderModel header
-              in settingsState.serverList[0].customHeaders) {
-            headerMap[header.key] = header.value;
-          }
-        });
-      } else {
-        setState(() {
-          _tautulliId = null;
-        });
-      }
-
-      if (historyState is HistoryInitial) {
-        if (historyState.tautulliId == _tautulliId) {
-          _userId = historyState.userId;
-        } else {
-          _userId = null;
-        }
-        _mediaType = historyState.mediaType ?? 'all';
-        _transcodeDecision = historyState.transcodeDecision ?? 'all';
-      }
-
-      _usersListBloc.add(
-        UsersListFetch(
-          tautulliId: _tautulliId,
-          settingsBloc: _settingsBloc,
-        ),
-      );
-
-      _historyBloc.add(
-        HistoryFetch(
-          tautulliId: _tautulliId,
-          userId: _userId,
-          mediaType: _mediaType,
-          transcodeDecision: _transcodeDecision,
-          settingsBloc: _settingsBloc,
-        ),
-      );
-    }
+    _usersBloc.add(
+      UsersFetched(
+        server: _server,
+        settingsBloc: _settingsBloc,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return InnerDrawerScaffold(
-      title: Text(
-        LocaleKeys.history_page_title.tr(),
-      ),
-      actions: _appBarActions(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BlocBuilder<SettingsBloc, SettingsState>(
-            builder: (context, state) {
-              if (state is SettingsLoadSuccess) {
-                if (state.serverList.length > 1) {
-                  return DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                      value: _tautulliId,
-                      style: TextStyle(color: Theme.of(context).accentColor),
-                      items: state.serverList.map((server) {
-                        return DropdownMenuItem(
-                          child: ServerHeader(serverName: server.plexName),
-                          value: server.tautulliId,
+    return BlocListener<SettingsBloc, SettingsState>(
+      // Listen for active server change and run a fresh user fetch if it does
+      listenWhen: (previous, current) {
+        if (previous is SettingsSuccess && current is SettingsSuccess) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
+            return true;
+          }
+        }
+        return false;
+      },
+      listener: (ctx, state) {
+        if (state is SettingsSuccess) {
+          _server = state.appSettings.activeServer;
+          _userId = null;
+          _movieMediaType = false;
+          _episodeMediaType = false;
+          _trackMediaType = false;
+          _liveMediaType = false;
+          _directPlayDecision = false;
+          _directStreamDecision = false;
+          _transcodeDecision = false;
+
+          _historyBloc.add(
+            HistoryFetched(
+              server: _server,
+              userId: _userId,
+              movieMediaType: _movieMediaType,
+              episodeMediaType: _episodeMediaType,
+              trackMediaType: _trackMediaType,
+              liveMediaType: _liveMediaType,
+              directPlayDecision: _directPlayDecision,
+              directStreamDecision: _directStreamDecision,
+              transcodeDecision: _transcodeDecision,
+              settingsBloc: _settingsBloc,
+            ),
+          );
+          _usersBloc.add(
+            UsersFetched(
+              server: _server,
+              settingsBloc: _settingsBloc,
+            ),
+          );
+        }
+      },
+      child: ScaffoldWithInnerDrawer(
+        title: const Text(LocaleKeys.history_title).tr(),
+        actions: _server.id != null ? _appBarActions() : [],
+        body: BlocBuilder<HistoryBloc, HistoryState>(
+          builder: (context, state) {
+            return PageBody(
+              loading: state.status == BlocStatus.initial && !state.hasReachedMax,
+              child: ThemedRefreshIndicator(
+                onRefresh: () {
+                  _historyBloc.add(
+                    HistoryFetched(
+                      server: _server,
+                      userId: _userId,
+                      movieMediaType: _movieMediaType,
+                      episodeMediaType: _episodeMediaType,
+                      trackMediaType: _trackMediaType,
+                      liveMediaType: _liveMediaType,
+                      directPlayDecision: _directPlayDecision,
+                      directStreamDecision: _directStreamDecision,
+                      transcodeDecision: _transcodeDecision,
+                      freshFetch: true,
+                      settingsBloc: _settingsBloc,
+                    ),
+                  );
+
+                  return Future.value(null);
+                },
+                child: Builder(
+                  builder: (context) {
+                    if (state.history.isEmpty) {
+                      if (state.status == BlocStatus.failure) {
+                        return StatusPage(
+                          scrollable: true,
+                          message: state.message ?? '',
+                          suggestion: state.suggestion ?? '',
                         );
-                      }).toList(),
-                      onChanged: (value) {
-                        if (value != _tautulliId) {
-                          final server = state.serverList.firstWhere(
-                              (server) => server.tautulliId == value);
-                          Map<String, String> newHeaderMap = {};
-                          for (CustomHeaderModel header
-                              in server.customHeaders) {
-                            newHeaderMap[header.key] = header.value;
-                          }
+                      }
+                      if (state.status == BlocStatus.success) {
+                        return StatusPage(
+                          scrollable: true,
+                          message: LocaleKeys.history_empty_message.tr(),
+                        );
+                      }
+                    }
 
-                          setState(() {
-                            _tautulliId = value;
-                            _userId = null;
-                            headerMap = newHeaderMap;
-                          });
-                          _settingsBloc.add(
-                            SettingsUpdateLastSelectedServer(
-                              tautulliId: _tautulliId,
-                            ),
-                          );
-                          _historyBloc.add(
-                            HistoryFilter(
-                              tautulliId: value,
-                              mediaType: _mediaType,
-                              transcodeDecision: _transcodeDecision,
-                            ),
-                          );
-                          _usersListBloc.add(
-                            UsersListFetch(
-                              tautulliId: _tautulliId,
-                              settingsBloc: _settingsBloc,
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  );
-                }
-              }
-              return Container(height: 0, width: 0);
-            },
-          ),
-          BlocConsumer<HistoryBloc, HistoryState>(
-            listener: (context, state) {
-              if (state is HistorySuccess) {
-                _refreshCompleter?.complete();
-                _refreshCompleter = Completer();
-              }
-            },
-            builder: (context, state) {
-              if (state is HistorySuccess) {
-                final SettingsLoadSuccess settingsState = _settingsBloc.state;
-                final server = settingsState.serverList.firstWhere(
-                  (server) => server.tautulliId == _tautulliId,
-                );
-
-                if (state.list.isNotEmpty) {
-                  return InheritedHeaders(
-                    headerMap: headerMap,
-                    child: Expanded(
-                      child: RefreshIndicator(
-                        color: Theme.of(context).accentColor,
-                        onRefresh: () {
-                          _historyBloc.add(
-                            HistoryFilter(
-                              tautulliId: _tautulliId,
-                              userId: _userId,
-                              mediaType: _mediaType,
-                              transcodeDecision: _transcodeDecision,
-                            ),
-                          );
-                          return _refreshCompleter.future;
-                        },
-                        child: Scrollbar(
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return index >= state.list.length
-                                  ? BottomLoader()
-                                  : GestureDetector(
-                                      onTap: () {
-                                        return showModalBottomSheet(
-                                          context: context,
-                                          barrierColor: Colors.black87,
-                                          backgroundColor: Colors.transparent,
-                                          isScrollControlled: true,
-                                          builder: (context) => BlocBuilder<
-                                              SettingsBloc, SettingsState>(
-                                            builder: (context, settingsState) {
-                                              return HistoryModalBottomSheet(
-                                                item: state.list[index],
-                                                server: server,
-                                                maskSensitiveInfo: settingsState
-                                                        is SettingsLoadSuccess
-                                                    ? settingsState
-                                                        .maskSensitiveInfo
-                                                    : false,
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      },
-                                      child: PosterCard(
-                                        item: state.list[index],
-                                        details: HistoryDetails(
-                                          historyItem: state.list[index],
-                                          server: server,
-                                          maskSensitiveInfo: _maskSensitiveInfo,
-                                        ),
-                                      ),
-                                    );
-                            },
-                            itemCount: state.hasReachedMax
-                                ? state.list.length
-                                : state.list.length + 1,
-                            controller: _scrollController,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  return Expanded(
-                    child: Center(
-                      child: Text(
-                        _mediaType != null || _transcodeDecision != null
-                            ? LocaleKeys.history_filter_empty
-                            : LocaleKeys.history_empty,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                        ),
-                      ).tr(),
-                    ),
-                  );
-                }
-              }
-              if (state is HistoryFailure) {
-                return Expanded(
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Center(
-                          child: ErrorMessage(
+                    return ListView.separated(
+                      controller: _scrollController,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(8),
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial
+                          ? state.history.length
+                          : state.history.length + 1,
+                      separatorBuilder: (context, index) => const Gap(8),
+                      itemBuilder: (context, index) {
+                        if (index >= state.history.length) {
+                          return BottomLoader(
+                            status: state.status,
                             failure: state.failure,
                             message: state.message,
                             suggestion: state.suggestion,
-                          ),
-                        ),
-                        HistoryErrorButton(
-                          completer: _refreshCompleter,
-                          failure: state.failure,
-                          historyEvent: HistoryFilter(
-                            tautulliId: _tautulliId,
-                            userId: _userId,
-                            mediaType: _mediaType,
-                            transcodeDecision: _transcodeDecision,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-              return Expanded(
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: Theme.of(context).accentColor,
-                  ),
+                            onTap: () {
+                              _historyBloc.add(
+                                HistoryFetched(
+                                  server: _server,
+                                  userId: _userId,
+                                  movieMediaType: _movieMediaType,
+                                  episodeMediaType: _episodeMediaType,
+                                  trackMediaType: _trackMediaType,
+                                  liveMediaType: _liveMediaType,
+                                  directPlayDecision: _directPlayDecision,
+                                  directStreamDecision: _directStreamDecision,
+                                  transcodeDecision: _transcodeDecision,
+                                  settingsBloc: _settingsBloc,
+                                ),
+                              );
+                            },
+                          );
+                        }
+
+                        final history = state.history[index];
+
+                        return HistoryCard(
+                          server: _server,
+                          history: history,
+                          viewMediaEnabled: history.live != true,
+                        );
+                      },
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-        ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
 
   @override
   void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
     super.dispose();
-    _scrollController.dispose();
   }
 
   void _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll <= _scrollThreshold) {
+    if (_isBottom) {
       _historyBloc.add(
-        HistoryFetch(
-          tautulliId: _tautulliId,
+        HistoryFetched(
+          server: _server,
           userId: _userId,
-          mediaType: _mediaType,
+          movieMediaType: _movieMediaType,
+          episodeMediaType: _episodeMediaType,
+          trackMediaType: _trackMediaType,
+          liveMediaType: _liveMediaType,
+          directPlayDecision: _directPlayDecision,
+          directStreamDecision: _directStreamDecision,
           transcodeDecision: _transcodeDecision,
           settingsBloc: _settingsBloc,
         ),
@@ -369,251 +281,399 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
     }
   }
 
-  List<Widget> _appBarActions() {
-    ValueNotifier<String> _selectedMediaType = ValueNotifier(_mediaType);
-    ValueNotifier<String> _selectedTranscodeType =
-        ValueNotifier(_transcodeDecision);
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
+  }
 
+  List<Widget> _appBarActions() {
     return [
-      //* Users dropdown
-      BlocBuilder<UsersListBloc, UsersListState>(
-        builder: (context, state) {
-          if (state is UsersListSuccess) {
-            return PopupMenuButton(
-              tooltip: LocaleKeys.general_filter_users.tr(),
-              icon: FaIcon(
-                FontAwesomeIcons.userAlt,
-                size: 20,
-                color: _userId != null
-                    ? Theme.of(context).accentColor
-                    : TautulliColorPalette.not_white,
+      IconButton(
+        tooltip: LocaleKeys.search_history_title.tr(),
+        icon: const FaIcon(
+          FontAwesomeIcons.magnifyingGlass,
+          size: 20,
+        ),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => BlocProvider.value(
+                value: context.read<UsersBloc>(),
+                child: const HistorySearchPage(),
               ),
-              onSelected: (value) {
-                setState(() {
-                  if (value == -1) {
-                    _userId = null;
-                  } else {
-                    _userId = value;
-                  }
-                  _historyBloc.add(
-                    HistoryFilter(
-                      tautulliId: _tautulliId,
-                      userId: _userId,
-                      mediaType: _mediaType,
-                      transcodeDecision: _transcodeDecision,
-                    ),
-                  );
-                });
-              },
-              itemBuilder: (context) {
-                return state.usersList
-                    .map(
-                      (user) => PopupMenuItem(
-                        child: Text(
-                          _maskSensitiveInfo
-                              ? '*${LocaleKeys.masked_info_user.tr()}*'
-                              : user.friendlyName,
-                          style: TextStyle(
-                            color: _userId == user.userId
-                                ? Theme.of(context).accentColor
-                                : TautulliColorPalette.not_white,
-                          ),
-                        ),
-                        value: user.userId,
-                      ),
-                    )
-                    .toList();
-              },
-            );
-          }
-          if (state is UsersListInProgress) {
-            return Center(
-              child: Stack(
-                children: [
-                  IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.userAlt,
-                      size: 20,
-                    ),
-                    color: Theme.of(context).disabledColor,
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: PlexColorPalette.shark,
-                          content: const Text(
-                            LocaleKeys.general_filter_users_loading,
-                          ).tr(),
-                        ),
-                      );
-                    },
-                  ),
-                  Positioned(
-                    right: 5,
-                    top: 25,
-                    child: SizedBox(
-                      height: 13,
-                      width: 13,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 1,
-                        color: Theme.of(context).accentColor,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-          return IconButton(
-            icon: const FaIcon(FontAwesomeIcons.userAlt),
-            color: Theme.of(context).disabledColor,
-            onPressed: () {
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: PlexColorPalette.shark,
-                  content: const Text(
-                    LocaleKeys.general_filter_users_failed,
-                  ).tr(),
-                ),
-              );
-            },
+            ),
           );
         },
       ),
-      //* Filter dropdown
-      PopupMenuButton(
-        icon: FaIcon(
-          FontAwesomeIcons.filter,
-          size: 20,
-          color: _mediaType != 'all' || _transcodeDecision != 'all'
-              ? Theme.of(context).accentColor
-              : TautulliColorPalette.not_white,
-        ),
-        tooltip: LocaleKeys.general_filter_history.tr(),
-        itemBuilder: (context) {
-          List mediaTypes = [
-            'all',
-            'movie',
-            'episode',
-            'track',
-            'live',
-          ];
-          List transcodeTypes = [
-            'all',
-            'direct play',
-            'copy',
-            'transcode',
-          ];
-          return List.generate(
-            10,
-            (index) {
-              if (index < 5 || index > 5) {
-                return PopupMenuItem(
-                  value:
-                      index < 5 ? mediaTypes[index] : transcodeTypes[index - 6],
-                  child: AnimatedBuilder(
-                    child: Text(index < 5
-                        ? mediaTypes[index]
-                        : transcodeTypes[index - 6]),
-                    animation:
-                        index < 5 ? _selectedMediaType : _selectedTranscodeType,
-                    builder: (context, child) {
-                      if (index < 5) {
-                        return RadioListTile<String>(
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 0),
-                          value: mediaTypes[index],
-                          groupValue: _selectedMediaType.value,
-                          title: Text(
-                            _mediaTypeToTitle(mediaTypes[index]),
-                          ),
-                          onChanged: (value) {
-                            if (_mediaType != value) {
-                              _selectedMediaType.value = value;
-                              setState(() {
-                                _mediaType = value;
-                              });
-                              _historyBloc.add(
-                                HistoryFilter(
-                                  tautulliId: _tautulliId,
-                                  userId: _userId,
-                                  mediaType: _mediaType,
-                                  transcodeDecision: _transcodeDecision,
-                                ),
-                              );
-                            }
-                          },
-                        );
-                      }
-                      return RadioListTile<String>(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 0),
-                        value: transcodeTypes[index - 6],
-                        groupValue: _selectedTranscodeType.value,
-                        title: Text(
-                          _transcodeDecisionToTitle(transcodeTypes[index - 6]),
-                        ),
-                        onChanged: (value) {
-                          if (_transcodeDecision != value) {
-                            _selectedTranscodeType.value = value;
-                            setState(() {
-                              _transcodeDecision = value;
-                            });
-                            _historyBloc.add(
-                              HistoryFilter(
-                                tautulliId: _tautulliId,
-                                userId: _userId,
-                                mediaType: _mediaType,
-                                transcodeDecision: _transcodeDecision,
-                              ),
-                            );
-                          }
-                        },
-                      );
-                    },
+      BlocBuilder<UsersBloc, UsersState>(
+        builder: (context, state) {
+          return Stack(
+            children: [
+              Center(
+                child: PopupMenuButton(
+                  enabled: state.status == BlocStatus.success,
+                  icon: FaIcon(
+                    state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
+                    color: (_userId != -1 && _userId != null)
+                        ? Theme.of(context).colorScheme.secondary
+                        : Theme.of(context).colorScheme.tertiary,
+                    size: 20,
                   ),
-                );
-              }
-              return const PopupMenuDivider();
-            },
+                  tooltip: LocaleKeys.select_user_title.tr(),
+                  color: Theme.of(context).colorScheme.primary,
+                  onSelected: (value) {
+                    setState(() {
+                      _userId = value as int;
+                    });
+
+                    _historyBloc.add(
+                      HistoryFetched(
+                        server: _server,
+                        userId: _userId,
+                        movieMediaType: _movieMediaType,
+                        episodeMediaType: _episodeMediaType,
+                        trackMediaType: _trackMediaType,
+                        liveMediaType: _liveMediaType,
+                        directPlayDecision: _directPlayDecision,
+                        directStreamDecision: _directStreamDecision,
+                        transcodeDecision: _transcodeDecision,
+                        freshFetch: true,
+                        settingsBloc: _settingsBloc,
+                      ),
+                    );
+                  },
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    ),
+                  ),
+                  itemBuilder: (context) {
+                    return state.users
+                        .map(
+                          (user) => PopupMenuItem(
+                            value: user.userId,
+                            child: BlocBuilder<SettingsBloc, SettingsState>(
+                              builder: (context, state) {
+                                state as SettingsSuccess;
+
+                                return Text(
+                                  state.appSettings.maskSensitiveInfo
+                                      ? LocaleKeys.hidden_message.tr()
+                                      : user.friendlyName ?? '',
+                                  style: TextStyle(
+                                    color: _userId == user.userId! ? Theme.of(context).colorScheme.secondary : null,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        )
+                        .toList();
+                  },
+                ),
+              ),
+              if (state.status == BlocStatus.initial)
+                const Positioned(
+                  bottom: 12,
+                  right: 10,
+                  child: SizedBox(
+                    height: 12,
+                    width: 12,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                ),
+            ],
+          );
+        },
+      ),
+      // Wrapped in BlocBuilder to update the filter icon state when the server
+      // is changed.
+      BlocBuilder<UsersBloc, UsersState>(
+        builder: (context, state) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              dividerTheme: DividerThemeData(
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+            child: PopupMenuButton(
+              icon: FaIcon(
+                FontAwesomeIcons.filter,
+                color: _filterOptionSelected()
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).colorScheme.tertiary,
+                size: 20,
+              ),
+              tooltip: LocaleKeys.filter_history_title.tr(),
+              color: Theme.of(context).colorScheme.primary,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                ),
+              ),
+              itemBuilder: _filterOptions,
+            ),
           );
         },
       ),
     ];
   }
-}
 
-String _mediaTypeToTitle(String mediaType) {
-  switch (mediaType) {
-    case ('all'):
-      return LocaleKeys.general_all.tr();
-    case ('movie'):
-      return LocaleKeys.general_movies.tr();
-    case ('episode'):
-      return LocaleKeys.general_tv_shows.tr();
-    case ('track'):
-      return LocaleKeys.general_music.tr();
-    case ('other_video'):
-      return LocaleKeys.general_videos.tr();
-    case ('live'):
-      return LocaleKeys.general_live_tv.tr();
-    default:
-      return '';
+  bool _filterOptionSelected() {
+    return _movieMediaType ||
+        _episodeMediaType ||
+        _trackMediaType ||
+        _liveMediaType ||
+        _directPlayDecision ||
+        _directStreamDecision ||
+        _transcodeDecision;
   }
-}
 
-String _transcodeDecisionToTitle(String decision) {
-  switch (decision) {
-    case ('all'):
-      return LocaleKeys.general_all.tr();
-    case ('direct play'):
-      return LocaleKeys.media_details_direct_play.tr();
-    case ('copy'):
-      return LocaleKeys.media_details_direct_stream.tr();
-    case ('transcode'):
-      return LocaleKeys.media_details_transcode.tr();
-    default:
-      return '';
+  List<PopupMenuEntry<Object?>> _filterOptions(BuildContext context) {
+    ValueNotifier<bool> movieMediaTypeNotifier = ValueNotifier(_movieMediaType);
+    ValueNotifier<bool> episodeMediaTypeNotifier = ValueNotifier(
+      _episodeMediaType,
+    );
+    ValueNotifier<bool> trackMediaTypeNotifier = ValueNotifier(_trackMediaType);
+    ValueNotifier<bool> liveMediaTypeNotifier = ValueNotifier(_liveMediaType);
+    ValueNotifier<bool> directPlayDecisionNotifier = ValueNotifier(
+      _directPlayDecision,
+    );
+    ValueNotifier<bool> directStreamDecisionNotifier = ValueNotifier(
+      _directStreamDecision,
+    );
+    ValueNotifier<bool> transcodeDecisionNotifier = ValueNotifier(
+      _transcodeDecision,
+    );
+
+    return [
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: movieMediaTypeNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(LocaleKeys.movies_title.tr()),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _movieMediaType,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _movieMediaType = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: movieMediaTypeNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: episodeMediaTypeNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(LocaleKeys.tv_shows_title.tr()),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _episodeMediaType,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _episodeMediaType = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: episodeMediaTypeNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: trackMediaTypeNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(LocaleKeys.music_title.tr()),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _trackMediaType,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _trackMediaType = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: trackMediaTypeNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: liveMediaTypeNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(LocaleKeys.live_tv_title.tr()),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _liveMediaType,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _liveMediaType = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: liveMediaTypeNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+      const PopupMenuDivider(),
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: directPlayDecisionNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(
+              LocaleKeys.direct_play_title.tr(),
+            ),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _directPlayDecision,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _directPlayDecision = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: directPlayDecisionNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: directStreamDecisionNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(
+              LocaleKeys.direct_stream_title.tr(),
+            ),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _directStreamDecision,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _directStreamDecision = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: directStreamDecisionNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+      PopupMenuItem(
+        padding: const EdgeInsets.all(0),
+        child: AnimatedBuilder(
+          animation: transcodeDecisionNotifier,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Text(
+              LocaleKeys.transcode_title.tr(),
+            ),
+          ),
+          builder: (context, child) {
+            return CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              value: _transcodeDecision,
+              title: child,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _transcodeDecision = value;
+                  });
+                  _filterChanged(
+                    valueNotifier: transcodeDecisionNotifier,
+                    value: value,
+                  );
+                }
+              },
+            );
+          },
+        ),
+      ),
+    ];
+  }
+
+  void _filterChanged({
+    required ValueNotifier<bool> valueNotifier,
+    required bool value,
+  }) {
+    valueNotifier.value = value;
+    _historyBloc.add(
+      HistoryFetched(
+        server: _server,
+        userId: _userId,
+        movieMediaType: _movieMediaType,
+        episodeMediaType: _episodeMediaType,
+        trackMediaType: _trackMediaType,
+        liveMediaType: _liveMediaType,
+        directPlayDecision: _directPlayDecision,
+        directStreamDecision: _directStreamDecision,
+        transcodeDecision: _transcodeDecision,
+        freshFetch: true,
+        settingsBloc: _settingsBloc,
+      ),
+    );
   }
 }

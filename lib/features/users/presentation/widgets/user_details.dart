@@ -1,144 +1,212 @@
-// @dart=2.9
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/helpers/time_format_helper.dart';
+import '../../../../core/helpers/time_helper.dart';
 import '../../../../translations/locale_keys.g.dart';
-import '../../domain/entities/user_table.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../data/models/user_table_model.dart';
 
-class UsersDetails extends StatelessWidget {
-  final UserTable user;
-  final bool maskSensitiveInfo;
+class UserDetails extends StatelessWidget {
+  final UserTableModel user;
+  final bool showLastStreamed;
 
-  const UsersDetails({
-    Key key,
-    @required this.user,
-    @required this.maskSensitiveInfo,
-  }) : super(key: key);
+  const UserDetails({
+    super.key,
+    required this.user,
+    this.showLastStreamed = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          maskSensitiveInfo
-              ? '*${LocaleKeys.masked_info_user.tr()}*'
-              : user.friendlyName ?? '',
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: 18),
-        ),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: '${LocaleKeys.general_details_streamed.tr()} ',
+        BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            state as SettingsSuccess;
+
+            return Text(
+              state.appSettings.maskSensitiveInfo
+                  ? LocaleKeys.hidden_message.tr()
+                  : user.friendlyName ?? 'name missing',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
               ),
-              TextSpan(
-                text: user.lastSeen != null
-                    ? '${TimeFormatHelper.timeAgo(user.lastSeen)}'
-                    : LocaleKeys.general_never.tr(),
-                style: const TextStyle(
-                  color: PlexColorPalette.gamboge,
+            );
+          },
+        ),
+        if (showLastStreamed)
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: LocaleKeys.streamed_title.tr(),
                 ),
-              ),
-            ],
+                const TextSpan(
+                  text: ' ',
+                ),
+                TextSpan(
+                  text: user.lastSeen != null ? TimeHelper.moment(user.lastSeen) : LocaleKeys.never.tr(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 13,
+                    color: Colors.grey[200],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
         _playsAndDuration(),
       ],
     );
   }
 
-  RichText _playsAndDuration() {
-    Map<String, int> durationMap = TimeFormatHelper.durationMap(
+  Widget _playsAndDuration() {
+    Map<String, int> durationMap = TimeHelper.durationMap(
       Duration(seconds: user.duration ?? 0),
     );
 
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: '${LocaleKeys.general_details_plays.tr()} ',
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: LocaleKeys.plays_title.tr(),
+                  ),
+                  const TextSpan(
+                    text: ' ',
+                  ),
+                  TextSpan(
+                    text: user.plays.toString(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 13,
+                      color: Colors.grey[200],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const Gap(6),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RichText(
+                text: TextSpan(
+                  children: [
+                    if (durationMap['day']! > 1 ||
+                        durationMap['hour']! > 1 ||
+                        durationMap['min']! > 1 ||
+                        durationMap['sec']! > 1)
+                      TextSpan(
+                        text: '${LocaleKeys.time_title.tr()} ',
+                      ),
+                    if (durationMap['day']! > 0)
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: durationMap['day'].toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 13,
+                              color: Colors.grey[200],
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' days ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 13,
+                              color: Colors.grey[200],
+                            ),
+                          ),
+                        ],
+                      ),
+                    if (durationMap['hour']! > 0)
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: durationMap['hour'].toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 13,
+                              color: Colors.grey[200],
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' hrs ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 13,
+                              color: Colors.grey[200],
+                            ),
+                          ),
+                        ],
+                      ),
+                    if (durationMap['min']! > 0)
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: durationMap['min'].toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 13,
+                              color: Colors.grey[200],
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' mins',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 13,
+                              color: Colors.grey[200],
+                            ),
+                          ),
+                        ],
+                      ),
+                    if (durationMap['day']! < 1 &&
+                        durationMap['hour']! < 1 &&
+                        durationMap['min']! < 1 &&
+                        durationMap['sec']! > 0)
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: durationMap['sec'].toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 13,
+                              color: Colors.grey[200],
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' secs',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 13,
+                              color: Colors.grey[200],
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          TextSpan(
-            text: user.plays.toString(),
-            style: const TextStyle(
-              color: PlexColorPalette.gamboge,
-            ),
-          ),
-          const TextSpan(text: '   '),
-          if (durationMap['day'] > 1 ||
-              durationMap['hour'] > 1 ||
-              durationMap['min'] > 1 ||
-              durationMap['sec'] > 1)
-            TextSpan(
-              text: '${LocaleKeys.general_details_duration.tr()} ',
-            ),
-          if (durationMap['day'] > 0)
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: durationMap['day'].toString(),
-                  style: const TextStyle(
-                    color: PlexColorPalette.gamboge,
-                  ),
-                ),
-                TextSpan(
-                  text: ' ${LocaleKeys.general_details_days.tr()} ',
-                ),
-              ],
-            ),
-          if (durationMap['hour'] > 0)
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: durationMap['hour'].toString(),
-                  style: const TextStyle(
-                    color: PlexColorPalette.gamboge,
-                  ),
-                ),
-                TextSpan(
-                  text: ' ${LocaleKeys.general_details_hrs.tr()} ',
-                ),
-              ],
-            ),
-          if (durationMap['min'] > 0)
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: durationMap['min'].toString(),
-                  style: const TextStyle(
-                    color: PlexColorPalette.gamboge,
-                  ),
-                ),
-                TextSpan(
-                  text: ' ${LocaleKeys.general_details_mins.tr()}',
-                ),
-              ],
-            ),
-          if (durationMap['day'] < 1 &&
-              durationMap['hour'] < 1 &&
-              durationMap['min'] < 1 &&
-              durationMap['sec'] > 0)
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: durationMap['sec'].toString(),
-                  style: const TextStyle(
-                    color: PlexColorPalette.gamboge,
-                  ),
-                ),
-                TextSpan(
-                  text: ' ${LocaleKeys.general_details_secs.tr()}',
-                ),
-              ],
-            ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

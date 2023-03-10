@@ -1,25 +1,28 @@
-// @dart=2.9
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/helpers/time_format_helper.dart';
-import '../../../../translations/locale_keys.g.dart';
+import '../../../../core/helpers/time_helper.dart';
+import '../../data/models/activity_model.dart';
 
 class TimeLeft extends StatelessWidget {
-  final int duration;
-  final int progressPercent;
+  final ActivityModel activity;
 
   const TimeLeft({
-    Key key,
-    @required this.duration,
-    @required this.progressPercent,
-  }) : super(key: key);
+    super.key,
+    required this.activity,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      '${TimeFormatHelper.timeLeft(duration, progressPercent)} ${LocaleKeys.activity_time_left.tr()}',
-    );
+    if (activity.live == true && activity.channelCallSign != null) {
+      return Text(activity.channelCallSign!);
+    }
+
+    if (activity.duration != null) {
+      return Text(
+        '${TimeHelper.timeLeft(activity.duration, activity.progressPercent)} left',
+      );
+    }
+
+    return const SizedBox();
   }
 }

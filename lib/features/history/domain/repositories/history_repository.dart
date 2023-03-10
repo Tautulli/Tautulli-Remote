@@ -1,31 +1,29 @@
-// @dart=2.9
-
 import 'package:dartz/dartz.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../entities/history.dart';
+import '../../data/models/history_model.dart';
 
 abstract class HistoryRepository {
-  Future<Either<Failure, List<History>>> getHistory({
-    @required String tautulliId,
-    int grouping,
-    String user,
-    int userId,
-    int ratingKey,
-    int parentRatingKey,
-    int grandparentRatingKey,
-    String startDate,
-    int sectionId,
-    String mediaType,
-    String transcodeDecision,
-    String guid,
-    String orderColumn,
-    String orderDir,
-    int start,
-    int length,
-    String search,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<List<HistoryModel>, bool>>> getHistory({
+    required String tautulliId,
+    bool? grouping,
+    bool? includeActivity,
+    String? user,
+    int? userId,
+    int? ratingKey,
+    int? parentRatingKey,
+    int? grandparentRatingKey,
+    DateTime? startDate,
+    DateTime? before,
+    DateTime? after,
+    int? sectionId,
+    String? mediaType,
+    String? transcodeDecision,
+    String? guid,
+    String? orderColumn,
+    String? orderDir,
+    int? start,
+    int? length,
+    String? search,
   });
 }

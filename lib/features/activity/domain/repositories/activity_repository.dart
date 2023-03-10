@@ -1,15 +1,19 @@
-// @dart=2.9
-
 import 'package:dartz/dartz.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../entities/activity.dart';
+import '../../data/models/activity_model.dart';
 
 abstract class ActivityRepository {
-  Future<Either<Failure, List<ActivityItem>>> getActivity({
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<List<ActivityModel>, bool>>> getActivity({
+    required String tautulliId,
+    int? sessionKey,
+    String? sessionId,
+  });
+
+  Future<Either<Failure, Tuple2<void, bool>>> terminateStream({
+    required String tautulliId,
+    required String? sessionId,
+    required int? sessionKey,
+    String? message,
   });
 }

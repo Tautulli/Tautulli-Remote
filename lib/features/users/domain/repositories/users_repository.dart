@@ -1,31 +1,44 @@
-// @dart=2.9
-
 import 'package:dartz/dartz.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../entities/user.dart';
-import '../entities/user_table.dart';
+import '../../data/models/user_model.dart';
+import '../../data/models/user_player_stat_model.dart';
+import '../../data/models/user_table_model.dart';
+import '../../data/models/user_watch_time_stat_model.dart';
 
 abstract class UsersRepository {
-  Future<Either<Failure, UserTable>> getUser({
-    @required String tautulliId,
-    @required int userId,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<List<UserPlayerStatModel>, bool>>>
+      getPlayerStats({
+    required String tautulliId,
+    required int userId,
+    bool? grouping,
   });
-  Future<Either<Failure, List<User>>> getUserNames({
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
+
+  Future<Either<Failure, Tuple2<List<UserWatchTimeStatModel>, bool>>>
+      getWatchTimeStats({
+    required String tautulliId,
+    required int userId,
+    bool? grouping,
+    String? queryDays,
   });
-  Future<Either<Failure, List<UserTable>>> getUsersTable({
-    @required String tautulliId,
-    int grouping,
-    String orderColumn,
-    String orderDir,
-    int start,
-    int length,
-    String search,
-    @required SettingsBloc settingsBloc,
+
+  Future<Either<Failure, Tuple2<UserModel, bool>>> getUser({
+    required String tautulliId,
+    required int userId,
+    bool? includeLastSeen,
+  });
+
+  Future<Either<Failure, Tuple2<List<UserModel>, bool>>> getUserNames({
+    required String tautulliId,
+  });
+
+  Future<Either<Failure, Tuple2<List<UserTableModel>, bool>>> getUsersTable({
+    required String tautulliId,
+    bool? grouping,
+    String? orderColumn,
+    String? orderDir,
+    int? start,
+    int? length,
+    String? search,
   });
 }

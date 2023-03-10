@@ -1,5 +1,3 @@
-// @dart=2.9
-
 part of 'onesignal_privacy_bloc.dart';
 
 abstract class OneSignalPrivacyEvent extends Equatable {
@@ -9,8 +7,26 @@ abstract class OneSignalPrivacyEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class OneSignalPrivacyCheckConsent extends OneSignalPrivacyEvent {}
+class OneSignalPrivacyCheck extends OneSignalPrivacyEvent {}
 
-class OneSignalPrivacyGrantConsent extends OneSignalPrivacyEvent {}
+class OneSignalPrivacyGrant extends OneSignalPrivacyEvent {
+  final SettingsBloc settingsBloc;
 
-class OneSignalPrivacyRevokeConsent extends OneSignalPrivacyEvent {}
+  const OneSignalPrivacyGrant({
+    required this.settingsBloc,
+  });
+
+  @override
+  List<Object> get props => [settingsBloc];
+}
+
+class OneSignalPrivacyRevoke extends OneSignalPrivacyEvent {
+  final SettingsBloc settingsBloc;
+
+  const OneSignalPrivacyRevoke({
+    required this.settingsBloc,
+  });
+
+  @override
+  List<Object> get props => [settingsBloc];
+}

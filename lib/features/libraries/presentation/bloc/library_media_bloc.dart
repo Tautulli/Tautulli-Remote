@@ -1,216 +1,158 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
-import '../../../image_url/domain/usecases/get_image_url.dart';
-import '../../../libraries/domain/entities/library_media.dart';
-import '../../../libraries/domain/usecases/get_library_media_info.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/types/bloc_status.dart';
+import '../../../../core/types/section_type.dart';
+import '../../../image_url/domain/usecases/image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../data/models/library_media_info_model.dart';
+import '../../domain/usecases/libraries.dart';
 
 part 'library_media_event.dart';
 part 'library_media_state.dart';
 
-String _tautulliIdCache;
-Map<int, List<LibraryMedia>> _libraryMediaListCache = {};
-SettingsBloc _settingsBlocCache;
+Map<String, List<LibraryMediaInfoModel>> libraryMediaInfoCache = {};
+const length = 100000000000;
 
 class LibraryMediaBloc extends Bloc<LibraryMediaEvent, LibraryMediaState> {
-  final GetLibraryMediaInfo getLibraryMediaInfo;
-  final GetImageUrl getImageUrl;
+  final Libraries libraries;
+  final ImageUrl imageUrl;
   final Logging logging;
 
   LibraryMediaBloc({
-    @required this.getLibraryMediaInfo,
-    @required this.getImageUrl,
-    @required this.logging,
-  }) : super(LibraryMediaInitial());
-
-  @override
-  Stream<Transition<LibraryMediaEvent, LibraryMediaState>> transformEvents(
-    Stream<LibraryMediaEvent> events,
-    transitionFn,
-  ) {
-    return super.transformEvents(
-      events.debounceTime(const Duration(milliseconds: 25)),
-      transitionFn,
-    );
+    required this.libraries,
+    required this.imageUrl,
+    required this.logging,
+  }) : super(const LibraryMediaState()) {
+    on<LibraryMediaFetched>(_onLibraryMediaFetched);
   }
 
-  @override
-  Stream<LibraryMediaState> mapEventToState(
-    LibraryMediaEvent event,
-  ) async* {
-    if (event is LibraryMediaFetched) {
-      _settingsBlocCache = event.settingsBloc;
-
-      if (_tautulliIdCache == event.tautulliId &&
-          (_libraryMediaListCache.containsKey(event.ratingKey) ||
-              _libraryMediaListCache.containsKey(event.sectionId))) {
-        List<LibraryMedia> cachedList = [];
-        if (event.ratingKey != null) {
-          cachedList = _libraryMediaListCache[event.ratingKey];
-        } else if (event.sectionId != null) {
-          cachedList = _libraryMediaListCache[event.sectionId];
-        }
-        yield LibraryMediaSuccess(
-          libraryMediaList: cachedList,
-        );
-      } else {
-        yield LibraryMediaInProgress();
-
-        yield* _fetchLibraryMedia(
-          tautulliId: event.tautulliId,
-          sectionId: event.sectionId,
-          ratingKey: event.ratingKey,
-          refresh: false,
-          settingsBloc: _settingsBlocCache,
-        );
-
-        _tautulliIdCache = event.tautulliId;
-      }
-    }
-    if (event is LibraryMediaFullRefresh) {
-      yield LibraryMediaInProgress();
-
-      yield* _fetchLibraryMedia(
-        tautulliId: event.tautulliId,
-        sectionId: event.sectionId,
-        ratingKey: event.ratingKey,
-        refresh: true,
-        timeoutOverride: 10,
-        settingsBloc: _settingsBlocCache,
+  void _onLibraryMediaFetched(
+    LibraryMediaFetched event,
+    Emitter<LibraryMediaState> emit,
+  ) async {
+    if (event.refresh == false &&
+        event.fullRefresh == false &&
+        libraryMediaInfoCache.containsKey('${event.server.tautulliId}:${event.sectionId}')) {
+      return emit(
+        state.copyWith(
+          status: BlocStatus.success,
+          libraryItems: libraryMediaInfoCache['${event.server.tautulliId}:${event.sectionId}'],
+        ),
       );
-
-      _tautulliIdCache = event.tautulliId;
     }
-  }
 
-  Stream<LibraryMediaState> _fetchLibraryMedia({
-    @required String tautulliId,
-    @required int ratingKey,
-    @required int sectionId,
-    @required bool refresh,
-    int timeoutOverride,
-    @required SettingsBloc settingsBloc,
-  }) async* {
-    final failureOrLibraryMediaList = await getLibraryMediaInfo(
-      tautulliId: tautulliId,
-      ratingKey: ratingKey,
-      sectionId: sectionId,
-      length: 100000000000,
-      refresh: refresh,
-      timeoutOverride: timeoutOverride,
-      settingsBloc: settingsBloc,
+    if (event.refresh == true || event.fullRefresh == true) {
+      emit(
+        state.copyWith(
+          status: BlocStatus.initial,
+        ),
+      );
+    }
+
+    if (event.fullRefresh == true) {
+      logging.info('Library Media :: Performing a library media full refresh for ${event.sectionId}');
+    }
+
+    final failureOrLibraryMedia = await libraries.getLibraryMediaInfo(
+      tautulliId: event.server.tautulliId,
+      sectionId: event.sectionId,
+      ratingKey: event.ratingKey,
+      sectionType: event.sectionType,
+      orderColumn: event.orderColumn,
+      orderDir: 'asc',
+      start: event.start,
+      length: length,
+      search: event.search,
+      refresh: event.fullRefresh,
     );
 
-    yield* failureOrLibraryMediaList.fold(
-      (failure) async* {
-        logging.error(
-          'LibraryMedia: Failed to load items for Section ID $sectionId',
-        );
+    await failureOrLibraryMedia.fold(
+      (failure) async {
+        logging.error('Library Media :: Failed to fetch library media for ${event.sectionId} [$failure]');
 
-        yield LibraryMediaFailure(
-          failure: failure,
-          message: FailureMapperHelper.mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
+        return emit(
+          state.copyWith(
+            status: BlocStatus.failure,
+            failure: failure,
+            message: FailureHelper.mapFailureToMessage(failure),
+            suggestion: FailureHelper.mapFailureToSuggestion(failure),
+          ),
         );
       },
-      (libraryMediaList) async* {
-        final String mediaType = libraryMediaList.first.mediaType;
-
-        await _sortList(
-          mediaType: mediaType,
-          libraryMediaList: libraryMediaList,
+      (libraryMedia) async {
+        event.settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: event.server.tautulliId,
+            primaryActive: libraryMedia.value2,
+          ),
         );
 
-        List<LibraryMedia> updatedList = await _getImages(
-          list: libraryMediaList,
+        // Add posters to library table models
+        List<LibraryMediaInfoModel> libraryListWithUris = await _libraryMediaInfoModelsWithPosterUris(
+          libraryMediaList: libraryMedia.value1,
+          tautulliId: event.server.tautulliId,
+          settingsBloc: event.settingsBloc,
+        );
+
+        libraryMediaInfoCache['${event.server.tautulliId}:${event.sectionId}'] = libraryListWithUris;
+
+        return emit(
+          state.copyWith(
+            status: BlocStatus.success,
+            libraryItems: libraryMediaInfoCache['${event.server.tautulliId}:${event.sectionId}'],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<List<LibraryMediaInfoModel>> _libraryMediaInfoModelsWithPosterUris({
+    required List<LibraryMediaInfoModel> libraryMediaList,
+    required String tautulliId,
+    required SettingsBloc settingsBloc,
+  }) async {
+    List<LibraryMediaInfoModel> libraryMediaWithImages = [];
+
+    for (LibraryMediaInfoModel libraryMedia in libraryMediaList) {
+      Uri? posterUri;
+
+      if (libraryMedia.thumb != null) {
+        final failureOrIconUrl = await imageUrl.getImageUrl(
           tautulliId: tautulliId,
-          settingsBloc: settingsBloc,
+          img: libraryMedia.thumb,
         );
 
-        if (ratingKey != null) {
-          _libraryMediaListCache[ratingKey] = updatedList;
-        } else if (sectionId != null) {
-          _libraryMediaListCache[sectionId] = updatedList;
-        }
+        await failureOrIconUrl.fold(
+          (failure) async {
+            logging.error(
+              'Library Media :: Failed to fetch poster url for ${libraryMedia.ratingKey} [$failure]',
+            );
+          },
+          (uri) async {
+            settingsBloc.add(
+              SettingsUpdatePrimaryActive(
+                tautulliId: tautulliId,
+                primaryActive: uri.value2,
+              ),
+            );
 
-        yield LibraryMediaSuccess(
-          libraryMediaList: updatedList,
+            posterUri = uri.value1;
+          },
         );
-      },
-    );
-  }
-
-  Future<void> _sortList({
-    @required String mediaType,
-    @required List<LibraryMedia> libraryMediaList,
-  }) async {
-    // Sort by year if album leave sort alone if movie/show/artist
-    // and by mediaIndex for everything else
-    if (mediaType == 'album') {
-      libraryMediaList.sort((a, b) => b.year.compareTo(a.year));
-    } else if (!['movie', 'show', 'artist'].contains(mediaType)) {
-      libraryMediaList.sort((a, b) => a.mediaIndex.compareTo(b.mediaIndex));
-    }
-  }
-
-  Future<List<LibraryMedia>> _getImages({
-    @required List<LibraryMedia> list,
-    @required String tautulliId,
-    @required SettingsBloc settingsBloc,
-  }) async {
-    List<LibraryMedia> updatedList = [];
-
-    for (LibraryMedia libraryMediaItem in list) {
-      //* Fetch and assign image URLs
-      String posterFallback;
-
-      // Assign values for posterFallback
-      switch (libraryMediaItem.mediaType) {
-        case ('movie'):
-        case ('clip'):
-          posterFallback = 'poster';
-          break;
-        case ('episode'):
-          posterFallback = 'poster';
-          break;
-        case ('track'):
-          posterFallback = 'cover';
-          break;
       }
 
-      // Attempt to get poster URL
-      final failureOrPosterUrl = await getImageUrl(
-        tautulliId: tautulliId,
-        img: libraryMediaItem.thumb,
-        fallback: posterFallback,
-        settingsBloc: settingsBloc,
-      );
-      failureOrPosterUrl.fold(
-        (failure) {
-          logging.warning(
-            'LibraryMedia: Failed to load poster for ${libraryMediaItem.title}',
-          );
-        },
-        (url) {
-          updatedList.add(libraryMediaItem.copyWith(posterUrl: url));
-        },
+      libraryMediaWithImages.add(
+        libraryMedia.copyWith(
+          posterUri: posterUri,
+        ),
       );
     }
-    return updatedList;
-  }
-}
 
-void clearCache() {
-  _tautulliIdCache = null;
-  _libraryMediaListCache = {};
+    return libraryMediaWithImages;
+  }
 }

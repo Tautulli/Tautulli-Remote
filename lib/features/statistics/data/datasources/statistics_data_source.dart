@@ -1,42 +1,42 @@
-// @dart=2.9
+import 'package:dartz/dartz.dart';
 
-import 'package:meta/meta.dart';
-
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/statistics.dart';
-import '../models/statistics_model.dart';
+import '../../../../core/api/tautulli/tautulli_api.dart';
+import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/types/stat_id_type.dart';
+import '../../../../core/utilities/cast.dart';
+import '../models/statistic_data_model.dart';
+import '../models/statistic_model.dart';
 
 abstract class StatisticsDataSource {
-  Future<Map<String, List<Statistics>>> getStatistics({
-    @required String tautulliId,
-    int grouping,
-    int timeRange,
-    String statsType,
-    int statsStart,
-    int statsCount,
-    String statId,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<List<StatisticModel>, bool>> getStatistics({
+    required String tautulliId,
+    bool? grouping,
+    int? timeRange,
+    PlayMetricType? statsType,
+    int? statsStart,
+    int? statsCount,
+    StatIdType? statId,
   });
 }
 
 class StatisticsDataSourceImpl implements StatisticsDataSource {
-  final tautulli_api.GetHomeStats apiGetHomeStats;
+  final GetHomeStats getHomeStatsApi;
 
-  StatisticsDataSourceImpl({@required this.apiGetHomeStats});
+  StatisticsDataSourceImpl({
+    required this.getHomeStatsApi,
+  });
 
   @override
-  Future<Map<String, List<Statistics>>> getStatistics({
-    @required String tautulliId,
-    int grouping,
-    int timeRange,
-    String statsType,
-    int statsStart,
-    int statsCount,
-    String statId,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<List<StatisticModel>, bool>> getStatistics({
+    required String tautulliId,
+    bool? grouping,
+    int? timeRange,
+    PlayMetricType? statsType,
+    int? statsStart,
+    int? statsCount,
+    StatIdType? statId,
   }) async {
-    final statisticsJson = await apiGetHomeStats(
+    final result = await getHomeStatsApi(
       tautulliId: tautulliId,
       grouping: grouping,
       timeRange: timeRange,
@@ -44,35 +44,43 @@ class StatisticsDataSourceImpl implements StatisticsDataSource {
       statsStart: statsStart,
       statsCount: statsCount,
       statId: statId,
-      settingsBloc: settingsBloc,
     );
 
-    Map<String, List<Statistics>> statisticsMap = {};
+    List<StatisticModel> statisticModelList = [];
 
-    if (statId == null) {
-      statisticsJson['response']['data'].forEach((statistic) {
-        statisticsMap[statistic['stat_id']] = [];
-        statistic['rows'].forEach((item) {
-          statisticsMap[statistic['stat_id']].add(
-            StatisticsModel.fromJson(
-              statId: statistic['stat_id'],
-              json: item,
-            ),
-          );
-        });
-      });
-    } else {
-      statisticsMap[statId] = [];
-      statisticsJson['response']['data']['rows'].forEach((item) {
-        statisticsMap[statId].add(
-          StatisticsModel.fromJson(
-            statId: statId,
-            json: item,
+    dynamic responseData = result.value1['response']['data'];
+
+    if (responseData is Iterable) {
+      for (Map<String, dynamic> statGroup in responseData) {
+        List<StatisticDataModel> statList = [];
+        for (Map<String, dynamic> data in statGroup['rows']) {
+          statList.add(StatisticDataModel.fromJson(data));
+        }
+
+        statisticModelList.add(
+          StatisticModel(
+            statIdType: Cast.castStringToStatIdType(statGroup['stat_id'])!,
+            stats: statList,
           ),
         );
-      });
+      }
+    } else {
+      List<StatisticDataModel> statList = [];
+      for (Map<String, dynamic> data in responseData['rows']) {
+        statList.add(StatisticDataModel.fromJson(data));
+      }
+
+      statisticModelList.add(
+        StatisticModel(
+          statIdType: Cast.castStringToStatIdType(responseData['stat_id'])!,
+          stats: statList,
+        ),
+      );
     }
 
-    return statisticsMap;
+    return Tuple2(
+      statisticModelList,
+      result.value2,
+    );
   }
 }

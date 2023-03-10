@@ -1,33 +1,38 @@
-// @dart=2.9
-
 import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
-import '../../../../core/network/network_info.dart';
+import '../../../../core/network_info/network_info.dart';
 import '../../../settings/domain/usecases/settings.dart';
 
-/// Containers getters and functions for various OneSignal data points.
 abstract class OneSignalDataSource {
+  /// Disables or enables push notifications
+  Future<void> disablePush(bool value);
+
+  /// Grants or revokes consent based on the provided boolean.
+  Future<void> grantConsent(bool value);
+
+  /// Returns `true` if the user has granted consent to the OneSignal SDK.
+  Future<bool> get hasConsented;
+
+  /// Returns `true` if the OneSignal SDK shows user has granted notification permission.
+  Future<bool> get hasNotificationPermission;
+
+  /// Checks if he OneSignal SDK has push notifications disabled.
+  Future<bool> get isPushDisabled;
+
   /// Checks if `https://onesignal.com` is reachable.
   Future<bool> get isReachable;
 
   /// Indicates if the user is subscribed to OneSignal.
   Future<bool> get isSubscribed;
 
+  /// Returns an `OSDeviceState` object, which contains the current device state
+  Future<OSDeviceState?> state();
+
   /// Provides the OneSignal User ID (AKA playerID).
   ///
-  /// Returns an empty string if an error is thrown.
+  /// Returns `'onesignal-disabled'` if an error is thrown.
   Future<String> get userId;
-
-  /// Returns `true` if the user has granted consent to the OneSignal SDK.
-  Future<bool> get hasConsented;
-
-  /// Grants or revokes consent based on the provided boolean.
-  Future<void> grantConsent(bool value);
-
-  /// Disables or enables push notifications
-  Future<void> disablePush(bool value);
 }
 
 class OneSignalDataSourceImpl implements OneSignalDataSource {
@@ -36,15 +41,40 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
   final Settings settings;
 
   OneSignalDataSourceImpl({
-    @required this.client,
-    @required this.networkInfo,
-    @required this.settings,
+    required this.client,
+    required this.networkInfo,
+    required this.settings,
   });
+
+  @override
+  Future<void> disablePush(bool value) async {
+    await OneSignal.shared.disablePush(value);
+  }
+
+  @override
+  Future<void> grantConsent(bool value) async {
+    await OneSignal.shared.consentGranted(value);
+  }
+
+  @override
+  Future<bool> get hasConsented async {
+    return await settings.getOneSignalConsented();
+  }
+
+  @override
+  Future<bool> get hasNotificationPermission async {
+    final state = await OneSignal.shared.getDeviceState();
+    if (state != null) {
+      return state.hasNotificationPermission;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Future<bool> get isReachable async {
     if (await networkInfo.isConnected) {
-      final response = await client.get(Uri.parse('https://onesignal.com'));
+      final response = await client.head(Uri.parse('https://onesignal.com'));
       if (response.statusCode == 200) {
         return true;
       }
@@ -54,38 +84,42 @@ class OneSignalDataSourceImpl implements OneSignalDataSource {
 
   @override
   Future<bool> get isSubscribed async {
-    try {
-      final status = await OneSignal.shared.getDeviceState();
-      final subscribed = status.subscribed;
-      return subscribed;
-    } catch (_) {
-      return null;
+    final state = await OneSignal.shared.getDeviceState();
+    if (state != null) {
+      return state.pushToken != null && state.userId != null && state.pushDisabled == false;
+    } else {
+      return false;
     }
+  }
+
+  @override
+  Future<bool> get isPushDisabled async {
+    final state = await OneSignal.shared.getDeviceState();
+    if (state != null) {
+      return state.pushDisabled;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  Future<OSDeviceState?> state() async {
+    return await OneSignal.shared.getDeviceState();
   }
 
   @override
   Future<String> get userId async {
     try {
-      final status = await OneSignal.shared.getDeviceState();
-      final userId = status.userId;
-      return userId;
+      final OSDeviceState? status = await OneSignal.shared.getDeviceState();
+      if (status != null) {
+        final String? userId = status.userId;
+        if (userId != null) {
+          return userId;
+        }
+      }
+      return 'onesignal-disabled';
     } catch (_) {
-      return '';
+      return 'onesignal-disabled';
     }
-  }
-
-  @override
-  Future<bool> get hasConsented async {
-    return await settings.getOneSignalConsented() ?? false;
-  }
-
-  @override
-  Future<void> grantConsent(bool value) async {
-    await OneSignal.shared.consentGranted(value);
-  }
-
-  @override
-  Future<void> disablePush(bool value) async {
-    await OneSignal.shared.disablePush(value);
   }
 }

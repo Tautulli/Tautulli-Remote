@@ -1,32 +1,59 @@
-// @dart=2.9
-
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../core/types/media_type.dart';
+import '../../data/models/activity_model.dart';
 
 class ProgressBar extends StatelessWidget {
-  final int progress;
-  final int transcodeProgress;
+  final ActivityModel activity;
 
-  ProgressBar({
-    this.progress,
-    this.transcodeProgress,
+  const ProgressBar({
+    super.key,
+    required this.activity,
   });
 
   @override
   Widget build(BuildContext context) {
+    late int transcodeProgress;
+    late int progressPercent;
+
+    if (activity.mediaType == MediaType.photo || activity.live == true) {
+      transcodeProgress = 0;
+      progressPercent = 100;
+    } else {
+      // This is a more accurate way to identify transcode progress as Plex does some weird stuff with transcodeProgress
+      // Only use transcodeProgress as a fall back
+      if (activity.transcodeMaxOffsetAvailable != null &&
+          activity.progressPercent != null &&
+          activity.duration != null) {
+        transcodeProgress =
+            (((activity.transcodeMaxOffsetAvailable! * 1000) / activity.duration!.inMilliseconds) * 100).floor();
+      } else {
+        if (activity.transcodeProgress != null && activity.transcodeProgress!.isNegative) {
+          transcodeProgress = activity.transcodeProgress! * -1;
+        } else {
+          transcodeProgress = activity.transcodeProgress ?? 0;
+        }
+      }
+
+      progressPercent = activity.progressPercent ?? 0;
+    }
+
     return Stack(
-      children: <Widget>[
-        LinearProgressIndicator(
-          backgroundColor: PlexColorPalette.shark.withOpacity(0.3),
-          valueColor: AlwaysStoppedAnimation(
-              PlexColorPalette.shuttle_gray.withOpacity(0.9)),
-          value: (transcodeProgress / 100).toDouble(),
+      children: [
+        LinearPercentIndicator(
+          lineHeight: 5,
+          backgroundColor: Colors.black26,
+          progressColor: Theme.of(context).textTheme.titleSmall!.color,
+          barRadius: const Radius.circular(4),
+          percent: ((transcodeProgress) / 100).toDouble(),
         ),
-        LinearProgressIndicator(
+        LinearPercentIndicator(
+          lineHeight: 5,
           backgroundColor: Colors.transparent,
-          valueColor: const AlwaysStoppedAnimation(PlexColorPalette.gamboge),
-          value: (progress / 100).toDouble(),
+          progressColor: Theme.of(context).colorScheme.secondary,
+          barRadius: const Radius.circular(4),
+          percent: ((activity.live != true ? (progressPercent) : 100) / 100).toDouble(),
         ),
       ],
     );

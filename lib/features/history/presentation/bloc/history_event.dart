@@ -1,5 +1,3 @@
-// @dart=2.9
-
 part of 'history_bloc.dart';
 
 abstract class HistoryEvent extends Equatable {
@@ -9,127 +7,76 @@ abstract class HistoryEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class HistoryFetch extends HistoryEvent {
-  final String tautulliId;
-  final int grouping;
-  final String user;
-  final int userId;
-  final int ratingKey;
-  final int parentRatingKey;
-  final int grandparentRatingKey;
-  final String startDate;
-  final int sectionId;
-  final String mediaType;
-  final String transcodeDecision;
-  final String guid;
-  final String orderColumn;
-  final String orderDir;
-  final int start;
-  final int length;
-  final String search;
+class HistoryFetched extends HistoryEvent {
+  final ServerModel server;
+  final bool? grouping;
+  final bool? includeActivity;
+  final String? user;
+  final int? userId;
+  final int? ratingKey;
+  final int? parentRatingKey;
+  final int? grandparentRatingKey;
+  final DateTime? startDate;
+  final DateTime? before;
+  final DateTime? after;
+  final int? sectionId;
+  final bool movieMediaType;
+  final bool episodeMediaType;
+  final bool trackMediaType;
+  final bool liveMediaType;
+  final bool directPlayDecision;
+  final bool directStreamDecision;
+  final bool transcodeDecision;
+  final String? guid;
+  final String? orderColumn;
+  final String? orderDir;
+  final int? start;
+  final int? length;
+  final String? search;
+  final bool freshFetch;
   final SettingsBloc settingsBloc;
 
-  HistoryFetch({
-    @required this.tautulliId,
+  const HistoryFetched({
+    required this.server,
     this.grouping,
+    this.includeActivity,
     this.user,
     this.userId,
     this.ratingKey,
     this.parentRatingKey,
     this.grandparentRatingKey,
     this.startDate,
+    this.before,
+    this.after,
     this.sectionId,
-    this.mediaType,
-    this.transcodeDecision,
+    required this.movieMediaType,
+    required this.episodeMediaType,
+    required this.trackMediaType,
+    required this.liveMediaType,
+    required this.directPlayDecision,
+    required this.directStreamDecision,
+    required this.transcodeDecision,
     this.guid,
     this.orderColumn,
     this.orderDir,
     this.start,
     this.length,
     this.search,
-    @required this.settingsBloc,
+    this.freshFetch = false,
+    required this.settingsBloc,
   });
 
   @override
   List<Object> get props => [
-        tautulliId,
-        grouping,
-        user,
-        userId,
-        ratingKey,
-        parentRatingKey,
-        grandparentRatingKey,
-        startDate,
-        sectionId,
-        mediaType,
+        server,
+        movieMediaType,
+        episodeMediaType,
+        trackMediaType,
+        liveMediaType,
+        directPlayDecision,
+        directStreamDecision,
         transcodeDecision,
-        guid,
-        orderColumn,
-        orderDir,
-        start,
-        length,
-        search,
-        settingsBloc,
-      ];
-}
-
-class HistoryFilter extends HistoryEvent {
-  final String tautulliId;
-  final int grouping;
-  final String user;
-  final int userId;
-  final int ratingKey;
-  final int parentRatingKey;
-  final int grandparentRatingKey;
-  final String startDate;
-  final int sectionId;
-  final String mediaType;
-  final String transcodeDecision;
-  final String guid;
-  final String orderColumn;
-  final String orderDir;
-  final int start;
-  final int length;
-  final String search;
-
-  HistoryFilter({
-    @required this.tautulliId,
-    this.grouping,
-    this.user,
-    this.userId,
-    this.ratingKey,
-    this.parentRatingKey,
-    this.grandparentRatingKey,
-    this.startDate,
-    this.sectionId,
-    this.mediaType,
-    this.transcodeDecision,
-    this.guid,
-    this.orderColumn,
-    this.orderDir,
-    this.start,
-    this.length,
-    this.search,
-  });
-
-  @override
-  List<Object> get props => [
-        tautulliId,
-        grouping,
-        user,
-        userId,
-        ratingKey,
-        parentRatingKey,
-        grandparentRatingKey,
-        startDate,
-        sectionId,
-        mediaType,
-        transcodeDecision,
-        guid,
-        orderColumn,
-        orderDir,
-        start,
-        length,
-        search,
+        freshFetch,
+        settingsBloc
       ];
 }

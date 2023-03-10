@@ -1,9 +1,10 @@
-// @dart=2.9
-
 part of 'register_device_bloc.dart';
 
 abstract class RegisterDeviceEvent extends Equatable {
   const RegisterDeviceEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class RegisterDeviceStarted extends RegisterDeviceEvent {
@@ -13,12 +14,12 @@ class RegisterDeviceStarted extends RegisterDeviceEvent {
   final List<CustomHeaderModel> headers;
   final SettingsBloc settingsBloc;
 
-  RegisterDeviceStarted({
-    @required this.primaryConnectionAddress,
-    this.secondaryConnectionAddress,
-    @required this.deviceToken,
-    this.headers = const [],
-    @required this.settingsBloc,
+  const RegisterDeviceStarted({
+    required this.primaryConnectionAddress,
+    required this.secondaryConnectionAddress,
+    required this.deviceToken,
+    required this.headers,
+    required this.settingsBloc,
   });
 
   @override
@@ -27,16 +28,15 @@ class RegisterDeviceStarted extends RegisterDeviceEvent {
         secondaryConnectionAddress,
         deviceToken,
         headers,
+        settingsBloc,
       ];
 }
 
 class RegisterDeviceUnverifiedCert extends RegisterDeviceEvent {
   final SettingsBloc settingsBloc;
 
-  RegisterDeviceUnverifiedCert({
-    @required this.settingsBloc,
-  });
+  const RegisterDeviceUnverifiedCert(this.settingsBloc);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [settingsBloc];
 }

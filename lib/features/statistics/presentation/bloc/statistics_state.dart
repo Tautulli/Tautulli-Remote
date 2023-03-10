@@ -1,62 +1,48 @@
-// @dart=2.9
-
 part of 'statistics_bloc.dart';
 
-abstract class StatisticsState extends Equatable {
-  const StatisticsState();
-}
-
-class StatisticsInitial extends StatisticsState {
+class StatisticsState extends Equatable {
+  final BlocStatus status;
+  final List<StatisticModel> statList;
+  final Map<StatIdType, bool> hasReachedMaxMap;
+  final PlayMetricType statsType;
   final int timeRange;
+  final Failure? failure;
+  final String? message;
+  final String? suggestion;
 
-  StatisticsInitial({this.timeRange});
-
-  @override
-  List<Object> get props => [timeRange];
-}
-
-class StatisticsSuccess extends StatisticsState {
-  final Map<String, List<Statistics>> map;
-  final bool noStats;
-  final Map<String, bool> hasReachedMaxMap;
-  final DateTime lastUpdated;
-
-  StatisticsSuccess({
-    @required this.map,
-    @required this.noStats,
-    @required this.hasReachedMaxMap,
-    @required this.lastUpdated,
+  const StatisticsState({
+    this.status = BlocStatus.initial,
+    this.statList = const [],
+    this.hasReachedMaxMap = const {},
+    this.statsType = PlayMetricType.plays,
+    this.timeRange = 30,
+    this.failure,
+    this.message,
+    this.suggestion,
   });
 
-  StatisticsSuccess copyWith({
-    Map<String, List<Statistics>> map,
-    bool noStats,
-    Map<String, bool> hasReachedMaxMap,
-    DateTime lastUpdated,
+  StatisticsState copyWith({
+    BlocStatus? status,
+    List<StatisticModel>? statList,
+    Map<StatIdType, bool>? hasReachedMaxMap,
+    PlayMetricType? statsType,
+    int? timeRange,
+    Failure? failure,
+    String? message,
+    String? suggestion,
   }) {
-    return StatisticsSuccess(
-      map: map ?? this.map,
-      noStats: noStats ?? this.noStats,
+    return StatisticsState(
+      status: status ?? this.status,
+      statList: statList ?? this.statList,
       hasReachedMaxMap: hasReachedMaxMap ?? this.hasReachedMaxMap,
-      lastUpdated: lastUpdated ?? this.lastUpdated,
+      statsType: statsType ?? this.statsType,
+      timeRange: timeRange ?? this.timeRange,
+      failure: failure ?? this.failure,
+      message: message ?? this.message,
+      suggestion: suggestion ?? this.suggestion,
     );
   }
 
   @override
-  List<Object> get props => [lastUpdated];
-}
-
-class StatisticsFailure extends StatisticsState {
-  final Failure failure;
-  final String message;
-  final String suggestion;
-
-  StatisticsFailure({
-    @required this.failure,
-    @required this.message,
-    @required this.suggestion,
-  });
-
-  @override
-  List<Object> get props => [failure, message, suggestion];
+  List<Object> get props => [status, statList, hasReachedMaxMap, statsType, timeRange];
 }

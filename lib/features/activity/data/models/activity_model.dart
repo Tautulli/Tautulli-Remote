@@ -1,470 +1,498 @@
-// @dart=2.9
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-import 'package:meta/meta.dart';
+import '../../../../core/types/location.dart';
+import '../../../../core/types/media_type.dart';
+import '../../../../core/types/playback_state.dart';
+import '../../../../core/types/stream_decision.dart';
+import '../../../../core/types/subtitle_decision.dart';
+import '../../../../core/utilities/cast.dart';
 
-import '../../../../core/helpers/value_helper.dart';
-import '../../domain/entities/activity.dart';
+part 'activity_model.g.dart';
 
-class ActivityItemModel extends ActivityItem {
-  ActivityItemModel({
-    @required final int sessionKey,
-    @required final String sessionId,
-    final String art, // Image path for background art
-    final String audioChannelLayout, // stereo, 5.1, etc
-    final String audioCodec, // Source media audio codec
-    final String bandwidth, // Streaming brain estimate for bandwidth
-    final String channelCallSign,
-    final String channelIdentifier,
-    final String container, // Source media container (MKV, etc)
-    final int duration, // Length of item in milliseconds
-    final String friendlyName, // Tautulli friendly name
-    final int grandparentRatingKey, // Used to get TV show poster
-    final String grandparentThumb,
-    final String grandparentTitle, // Show name
-    final int height,
-    final String ipAddress,
-    final int live, // 1 if live tv
-    final int local, // Public or Private IP
-    final String location, // lan, wan
-    final int mediaIndex, // Episode number
-    final String mediaType, // movie, episode,
-    final int optimizedVersion, // 1 if optimized version
-    final String optimizedVersionProfile,
-    final String optimizedVersionTitle,
-    final String originallyAvailableAt,
-    final int parentMediaIndex, // Season number
-    final int parentRatingKey, // Used to get album art
-    final String parentThumb,
-    final String parentTitle, // Album name
-    final String platformName, // Player platform (Chrome, etc)
-    final String player, // Name of the player (ex. PC name)
-    final String product, // Player product (Plex Media Player, etc)
-    final int progressPercent, // Percent watched
-    final String qualityProfile, // Streaming quality
-    final int ratingKey, // Used to get movie poster
-    final int relayed, // 1 if using Plex Relay
-    final int secure, // 1 if connection is secure
-    final int streamBitrate, // Streaming bitrate in kbps
-    final String
-        state, // Current state of the stream (paused/playing/buffering)
-    final String streamAudioChannelLayout, // stereo, 5.1, etc
-    final String streamAudioCodec, // Source media audio codec
-    final String streamAudioDecision, // transcode, copy, direct play
-    final String
-        streamContainer, // Stream media container, will be different than container if transcoding
-    final String streamContainerDecision, // Transcode or Direct Play
-    final String streamSubtitleDecision, // transcode, copy, burn
-    final String streamSubtitleCodec, // srt, ass, etc
-    final String streamVideoCodec, // h264, etc
-    final String streamVideoDecision, // transcode, copy, direct play
-    final String streamVideoDynamicRange, // SDR, HDR
-    final String streamVideoFullResolution, // 1080p, etc
-    final String subtitleCodec, // srt, ass, etc
-    final int subtitles, // 1 if subtitles are on
-    final String subType, // Used for clip type
-    final int syncedVersion, // 1 if is synced content
-    final String syncedVersionProfile,
-    final String thumb,
-    final String title, // Movie name or Episode name
-    final String transcodeDecision, // 'Transcode' if transcoding
-    final int transcodeHwEncoding, // 1 if true
-    final int transcodeHwDecoding, // 1 if true
-    final int transcodeThrottled, // 1 if throttling
-    final int transcodeProgress, // Percent transcoded
-    final double transcodeSpeed, // Value is x factor
-    final int userId,
-    final String username, // Plex username
-    final String userThumb,
-    final String videoCodec, // h264, etc
-    final String videoDynamicRange, // SDR, HDR
-    final String videoFullResolution, // 1080p, etc
-    final int viewOffset, // Time from begining of file in milliseconds
-    final int width,
-    final int year, // Release year
-    final String posterUrl,
-  }) : super(
-          sessionKey: sessionKey,
-          sessionId: sessionId,
-          art: art,
-          audioChannelLayout: audioChannelLayout,
-          audioCodec: audioCodec,
-          bandwidth: bandwidth,
-          channelCallSign: channelCallSign,
-          channelIdentifier: channelIdentifier,
-          container: container,
-          duration: duration,
-          friendlyName: friendlyName,
-          grandparentRatingKey: grandparentRatingKey,
-          grandparentThumb: grandparentThumb,
-          grandparentTitle: grandparentTitle,
-          height: height,
-          ipAddress: ipAddress,
-          live: live,
-          local: local,
-          location: location,
-          mediaIndex: mediaIndex,
-          mediaType: mediaType,
-          optimizedVersion: optimizedVersion,
-          optimizedVersionProfile: optimizedVersionProfile,
-          optimizedVersionTitle: optimizedVersionTitle,
-          originallyAvailableAt: originallyAvailableAt,
-          parentMediaIndex: parentMediaIndex,
-          parentRatingKey: parentRatingKey,
-          parentThumb: parentThumb,
-          parentTitle: parentTitle,
-          platformName: platformName,
-          player: player,
-          product: product,
-          progressPercent: progressPercent,
-          qualityProfile: qualityProfile,
-          ratingKey: ratingKey,
-          relayed: relayed,
-          secure: secure,
-          state: state,
-          streamAudioChannelLayout: streamAudioChannelLayout,
-          streamAudioCodec: streamAudioCodec,
-          streamAudioDecision: streamAudioDecision,
-          streamBitrate: streamBitrate,
-          streamContainer: streamContainer,
-          streamContainerDecision: streamContainerDecision,
-          streamSubtitleCodec: streamSubtitleCodec,
-          streamSubtitleDecision: streamSubtitleDecision,
-          streamVideoCodec: streamVideoCodec,
-          streamVideoDecision: streamVideoDecision,
-          streamVideoDynamicRange: streamVideoDynamicRange,
-          streamVideoFullResolution: streamVideoFullResolution,
-          subtitleCodec: subtitleCodec,
-          subtitles: subtitles,
-          subType: subType,
-          syncedVersion: syncedVersion,
-          syncedVersionProfile: syncedVersionProfile,
-          thumb: thumb,
-          title: title,
-          transcodeDecision: transcodeDecision,
-          transcodeHwDecoding: transcodeHwDecoding,
-          transcodeHwEncoding: transcodeHwEncoding,
-          transcodeProgress: transcodeProgress,
-          transcodeSpeed: transcodeSpeed,
-          transcodeThrottled: transcodeThrottled,
-          userId: userId,
-          username: username,
-          userThumb: userThumb,
-          videoCodec: videoCodec,
-          videoDynamicRange: videoDynamicRange,
-          videoFullResolution: videoFullResolution,
-          viewOffset: viewOffset,
-          width: width,
-          year: year,
-          posterUrl: posterUrl,
-        );
+@JsonSerializable()
+class ActivityModel extends Equatable {
+  @JsonKey(name: 'audio_channel_layout', fromJson: Cast.castToString)
+  final String? audioChannelLayout;
+  @JsonKey(name: 'audio_codec', fromJson: Cast.castToString)
+  final String? audioCodec;
+  @JsonKey(name: 'audio_decision', fromJson: Cast.castStringToStreamDecision)
+  final StreamDecision? audioDecision;
+  @JsonKey(name: 'bandwidth', fromJson: Cast.castToInt)
+  final int? bandwidth;
+  @JsonKey(name: 'channel_call_sign', fromJson: Cast.castToString)
+  final String? channelCallSign;
+  @JsonKey(name: 'container', fromJson: Cast.castToString)
+  final String? container;
+  @JsonKey(name: 'container_decision', fromJson: Cast.castStringToStreamDecision)
+  final StreamDecision? containerDecision;
+  @JsonKey(name: 'duration', fromJson: durationFromJson)
+  final Duration? duration;
+  @JsonKey(name: 'friendly_name', fromJson: Cast.castToString)
+  final String? friendlyName;
+  final Uri? grandparentImageUri;
+  @JsonKey(name: 'grandparent_rating_key', fromJson: Cast.castToInt)
+  final int? grandparentRatingKey;
+  @JsonKey(name: 'grandparent_thumb', fromJson: Cast.castToString)
+  final String? grandparentThumb;
+  @JsonKey(name: 'grandparent_title', fromJson: Cast.castToString)
+  final String? grandparentTitle;
+  @JsonKey(name: 'height', fromJson: Cast.castToInt)
+  final int? height;
+  final Uri? imageUri;
+  @JsonKey(name: 'ip_address', fromJson: Cast.castToString)
+  final String? ipAddress;
+  @JsonKey(name: 'live', fromJson: Cast.castToBool)
+  final bool? live;
+  @JsonKey(name: 'local', fromJson: Cast.castToBool)
+  final bool? local;
+  @JsonKey(name: 'location', fromJson: Cast.castStringToLocation)
+  final Location? location;
+  @JsonKey(name: 'media_index', fromJson: Cast.castToInt)
+  final int? mediaIndex;
+  @JsonKey(name: 'media_type', fromJson: Cast.castStringToMediaType)
+  final MediaType? mediaType;
+  @JsonKey(name: 'optimized_version', fromJson: Cast.castToBool)
+  final bool? optimizedVersion;
+  @JsonKey(name: 'optimized_version_profile', fromJson: Cast.castToString)
+  final String? optimizedVersionProfile;
+  @JsonKey(name: 'optimized_version_title', fromJson: Cast.castToString)
+  final String? optimizedVersionTitle;
+  @JsonKey(name: 'originally_available_at', fromJson: dateTimeFromString)
+  final DateTime? originallyAvailableAt;
+  final Uri? parentImageUri;
+  @JsonKey(name: 'parent_media_index', fromJson: Cast.castToInt)
+  final int? parentMediaIndex;
+  @JsonKey(name: 'parent_rating_key', fromJson: Cast.castToInt)
+  final int? parentRatingKey;
+  @JsonKey(name: 'parent_thumb', fromJson: Cast.castToString)
+  final String? parentThumb;
+  @JsonKey(name: 'parent_title', fromJson: Cast.castToString)
+  final String? parentTitle;
+  @JsonKey(name: 'platform', fromJson: Cast.castToString)
+  final String? platform;
+  @JsonKey(name: 'platform_name', fromJson: Cast.castToString)
+  final String? platformName;
+  @JsonKey(name: 'player', fromJson: Cast.castToString)
+  final String? player;
+  @JsonKey(name: 'product', fromJson: Cast.castToString)
+  final String? product;
+  @JsonKey(name: 'progress_percent', fromJson: Cast.castToInt)
+  final int? progressPercent;
+  @JsonKey(name: 'quality_profile', fromJson: Cast.castToString)
+  final String? qualityProfile;
+  @JsonKey(name: 'rating_key', fromJson: Cast.castToInt)
+  final int? ratingKey;
+  @JsonKey(name: 'relay', fromJson: Cast.castToBool)
+  final bool? relay;
+  @JsonKey(name: 'secure', fromJson: Cast.castToBool)
+  final bool? secure;
+  @JsonKey(name: 'session_id', fromJson: Cast.castToString)
+  final String? sessionId;
+  @JsonKey(name: 'session_key', fromJson: Cast.castToInt)
+  final int? sessionKey;
+  @JsonKey(name: 'state', fromJson: Cast.castStringToPlaybackState)
+  final PlaybackState? state;
+  @JsonKey(name: 'stream_audio_channel_layout', fromJson: Cast.castToString)
+  final String? streamAudioChannelLayout;
+  @JsonKey(name: 'stream_audio_codec', fromJson: Cast.castToString)
+  final String? streamAudioCodec;
+  @JsonKey(name: 'stream_audio_decision', fromJson: Cast.castStringToStreamDecision)
+  final StreamDecision? streamAudioDecision;
+  @JsonKey(name: 'stream_bitrate', fromJson: Cast.castToInt)
+  final int? streamBitrate;
+  @JsonKey(name: 'stream_container', fromJson: Cast.castToString)
+  final String? streamContainer;
+  @JsonKey(name: 'stream_container_decision', fromJson: Cast.castStringToStreamDecision)
+  final StreamDecision? streamContainerDecision;
+  @JsonKey(name: 'stream_subtitle_codec', fromJson: Cast.castToString)
+  final String? streamSubtitleCodec;
+  @JsonKey(name: 'stream_subtitle_decision', fromJson: Cast.castStringToSubtitleDecision)
+  final SubtitleDecision? streamSubtitleDecision;
+  @JsonKey(name: 'stream_video_codec', fromJson: Cast.castToString)
+  final String? streamVideoCodec;
+  @JsonKey(name: 'stream_video_decision', fromJson: Cast.castStringToStreamDecision)
+  final StreamDecision? streamVideoDecision;
+  @JsonKey(name: 'stream_video_dynamic_range', fromJson: Cast.castToString)
+  final String? streamVideoDynamicRange;
+  @JsonKey(name: 'stream_video_full_resolution', fromJson: Cast.castToString)
+  final String? streamVideoFullResolution;
+  @JsonKey(name: 'subtitle_codec', fromJson: Cast.castToString)
+  final String? subtitleCodec;
+  @JsonKey(name: 'subtitles', fromJson: Cast.castToBool)
+  final bool? subtitles;
+  @JsonKey(name: 'sub_type', fromJson: Cast.castToString)
+  final String? subType;
+  @JsonKey(name: 'throttled', fromJson: Cast.castToBool)
+  final bool? throttled;
+  @JsonKey(name: 'thumb', fromJson: Cast.castToString)
+  final String? thumb;
+  @JsonKey(name: 'title', fromJson: Cast.castToString)
+  final String? title;
+  @JsonKey(name: 'transcode_decision', fromJson: Cast.castStringToStreamDecision)
+  final StreamDecision? transcodeDecision;
+  @JsonKey(name: 'transcode_hw_decoding', fromJson: Cast.castToBool)
+  final bool? transcodeHwDecoding;
+  @JsonKey(name: 'transcode_hw_encoding', fromJson: Cast.castToBool)
+  final bool? transcodeHwEncoding;
+  @JsonKey(name: 'transcode_max_offset_available', fromJson: Cast.castToInt)
+  final int? transcodeMaxOffsetAvailable;
+  @JsonKey(name: 'transcode_progress', fromJson: Cast.castToInt)
+  final int? transcodeProgress;
+  @JsonKey(name: 'transcode_speed', fromJson: Cast.castToDouble)
+  final double? transcodeSpeed;
+  @JsonKey(name: 'transcode_trottled', fromJson: Cast.castToBool)
+  final bool? transcodeThrottled;
+  @JsonKey(name: 'user_id', fromJson: Cast.castToInt)
+  final int? userId;
+  @JsonKey(name: 'user_thumb', fromJson: Cast.castToString)
+  final String? userThumb;
+  @JsonKey(name: 'video_codec', fromJson: Cast.castToString)
+  final String? videoCodec;
+  @JsonKey(name: 'video_decision', fromJson: Cast.castStringToStreamDecision)
+  final StreamDecision? videoDecision;
+  @JsonKey(name: 'video_dynamic_range', fromJson: Cast.castToString)
+  final String? videoDynamicRange;
+  @JsonKey(name: 'video_full_resolution', fromJson: Cast.castToString)
+  final String? videoFullResolution;
+  @JsonKey(name: 'view_offset', fromJson: Cast.castToInt)
+  final int? viewOffset;
+  @JsonKey(name: 'width', fromJson: Cast.castToInt)
+  final int? width;
+  @JsonKey(name: 'year', fromJson: Cast.castToInt)
+  final int? year;
 
-  factory ActivityItemModel.fromJson(Map<String, dynamic> json) {
-    return ActivityItemModel(
-      sessionKey: ValueHelper.cast(
-        value: json['session_key'],
-        type: CastType.int,
-      ),
-      sessionId: ValueHelper.cast(
-        value: json['session_id'],
-        type: CastType.string,
-      ),
-      art: ValueHelper.cast(
-        value: json['art'],
-        type: CastType.string,
-      ),
-      audioChannelLayout: ValueHelper.cast(
-        value: json['audio_channel_layout'],
-        type: CastType.string,
-      ),
-      audioCodec: ValueHelper.cast(
-        value: json['audio_codec'],
-        type: CastType.string,
-      ),
-      bandwidth: ValueHelper.cast(
-        value: json['bandwidth'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      channelCallSign: ValueHelper.cast(
-        value: json['channel_call_sign'],
-        type: CastType.string,
-      ),
-      channelIdentifier: ValueHelper.cast(
-        value: json['channel_identifier'],
-        type: CastType.string,
-      ),
-      container: ValueHelper.cast(
-        value: json['container'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      duration: ValueHelper.cast(
-        value: json['duration'],
-        type: CastType.int,
-      ),
-      friendlyName: ValueHelper.cast(
-        value: json['friendly_name'],
-        type: CastType.string,
-      ),
-      grandparentRatingKey: ValueHelper.cast(
-        value: json['grandparent_rating_key'],
-        type: CastType.int,
-      ),
-      grandparentThumb: ValueHelper.cast(
-        value: json['grandparent_thumb'],
-        type: CastType.string,
-      ),
-      grandparentTitle: ValueHelper.cast(
-        value: json['grandparent_title'],
-        type: CastType.string,
-      ),
-      height: ValueHelper.cast(
-        value: json['height'],
-        type: CastType.int,
-      ),
-      ipAddress: ValueHelper.cast(
-        value: json['ip_address'],
-        type: CastType.string,
-      ),
-      live: ValueHelper.cast(
-        value: json['live'],
-        type: CastType.int,
-      ),
-      local: ValueHelper.cast(
-        value: json['local'],
-        type: CastType.int,
-      ),
-      location: ValueHelper.cast(
-        value: json['location'],
-        type: CastType.string,
-      ),
-      mediaIndex: ValueHelper.cast(
-        value: json['media_index'],
-        type: CastType.int,
-      ),
-      mediaType: ValueHelper.cast(
-        value: json['media_type'],
-        type: CastType.string,
-      ),
-      optimizedVersion: ValueHelper.cast(
-        value: json['optimized_version'],
-        type: CastType.int,
-      ),
-      optimizedVersionProfile: ValueHelper.cast(
-        value: json['optimized_version_profile'],
-        type: CastType.string,
-      ),
-      optimizedVersionTitle: ValueHelper.cast(
-        value: json['optimized_version_title'],
-        type: CastType.string,
-      ),
-      originallyAvailableAt: ValueHelper.cast(
-        value: json['originally_available_at'],
-        type: CastType.string,
-      ),
-      parentMediaIndex: ValueHelper.cast(
-        value: json['parent_media_index'],
-        type: CastType.int,
-      ),
-      parentRatingKey: ValueHelper.cast(
-        value: json['parent_rating_key'],
-        type: CastType.int,
-      ),
-      parentThumb: ValueHelper.cast(
-        value: json['parent_thumb'],
-        type: CastType.string,
-      ),
-      parentTitle: ValueHelper.cast(
-        value: json['parent_title'],
-        type: CastType.string,
-      ),
-      platformName: ValueHelper.cast(
-        value: json['platform_name'],
-        type: CastType.string,
-      ),
-      player: ValueHelper.cast(
-        value: json['player'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      product: ValueHelper.cast(
-        value: json['product'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      progressPercent: ValueHelper.cast(
-        value: json['progress_percent'],
-        type: CastType.int,
-      ),
-      qualityProfile: ValueHelper.cast(
-        value: json['quality_profile'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      ratingKey: ValueHelper.cast(
-        value: json['rating_key'],
-        type: CastType.int,
-      ),
-      relayed: ValueHelper.cast(
-        value: json['relayed'],
-        type: CastType.int,
-      ),
-      secure: ValueHelper.cast(
-        value: json['secure'],
-        type: CastType.int,
-      ),
-      state: ValueHelper.cast(
-        value: json['state'],
-        type: CastType.string,
-      ),
-      streamAudioChannelLayout: ValueHelper.cast(
-        value: json['stream_audio_channel_layout'],
-        type: CastType.string,
-      ),
-      streamAudioCodec: ValueHelper.cast(
-        value: json['stream_audio_codec'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      streamAudioDecision: ValueHelper.cast(
-        value: json['stream_audio_decision'],
-        type: CastType.string,
-      ),
-      streamBitrate: ValueHelper.cast(
-        value: json['stream_bitrate'],
-        type: CastType.int,
-      ),
-      streamContainer: ValueHelper.cast(
-        value: json['stream_container'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      streamContainerDecision: ValueHelper.cast(
-        value: json['stream_container_decision'],
-        type: CastType.string,
-      ),
-      streamSubtitleCodec: ValueHelper.cast(
-        value: json['stream_subtitle_codec'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      streamSubtitleDecision: ValueHelper.cast(
-        value: json['stream_subtitle_decision'],
-        type: CastType.string,
-      ),
-      streamVideoCodec: ValueHelper.cast(
-        value: json['stream_video_codec'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      streamVideoDecision: ValueHelper.cast(
-        value: json['stream_video_decision'],
-        type: CastType.string,
-      ),
-      streamVideoDynamicRange: ValueHelper.cast(
-        value: json['stream_video_dynamic_range'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      streamVideoFullResolution: ValueHelper.cast(
-        value: json['stream_video_full_resolution'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      subtitleCodec: ValueHelper.cast(
-        value: json['subtitle_codec'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      subtitles: ValueHelper.cast(
-        value: json['subtitles'],
-        type: CastType.int,
-      ),
-      subType: ValueHelper.cast(
-        value: json['sub_type'],
-        type: CastType.string,
-      ),
-      syncedVersion: ValueHelper.cast(
-        value: json['synced_version'],
-        type: CastType.int,
-      ),
-      syncedVersionProfile: ValueHelper.cast(
-        value: json['synced_version_profile'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      thumb: ValueHelper.cast(
-        value: json['thumb'],
-        type: CastType.string,
-      ),
-      title: ValueHelper.cast(
-        value: json['title'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      transcodeDecision: ValueHelper.cast(
-        value: json['transcode_decision'],
-        type: CastType.string,
-      ),
-      transcodeHwDecoding: ValueHelper.cast(
-        value: json['transcode_hw_decoding'],
-        type: CastType.int,
-      ),
-      transcodeHwEncoding: ValueHelper.cast(
-        value: json['transcode_hw_encoding'],
-        type: CastType.int,
-      ),
-      transcodeProgress: ValueHelper.cast(
-        value: json['transcode_progress'],
-        type: CastType.int,
-      ),
-      transcodeSpeed: ValueHelper.cast(
-        value: json['transcode_speed'],
-        type: CastType.double,
-      ),
-      transcodeThrottled: ValueHelper.cast(
-        value: json['transcode_throttled'],
-        type: CastType.int,
-      ),
-      userId: ValueHelper.cast(
-        value: json['user_id'],
-        type: CastType.int,
-      ),
-      username: ValueHelper.cast(
-        value: json['username'],
-        type: CastType.string,
-      ),
-      userThumb: ValueHelper.cast(
-        value: json['user_thumb'],
-        type: CastType.string,
-      ),
-      videoCodec: ValueHelper.cast(
-        value: json['video_codec'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      videoDynamicRange: ValueHelper.cast(
-        value: json['video_dynamic_range'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      videoFullResolution: ValueHelper.cast(
-        value: json['video_full_resolution'],
-        type: CastType.string,
-        nullEmptyString: false,
-      ),
-      viewOffset: ValueHelper.cast(
-        value: json['view_offset'],
-        type: CastType.int,
-      ),
-      width: ValueHelper.cast(
-        value: json['width'],
-        type: CastType.int,
-      ),
-      year: ValueHelper.cast(
-        value: json['year'],
-        type: CastType.int,
-      ),
+  const ActivityModel({
+    this.audioChannelLayout,
+    this.audioCodec,
+    this.audioDecision,
+    this.bandwidth,
+    this.channelCallSign,
+    this.container,
+    this.containerDecision,
+    this.duration,
+    this.friendlyName,
+    this.grandparentImageUri,
+    this.grandparentRatingKey,
+    this.grandparentThumb,
+    this.grandparentTitle,
+    this.height,
+    this.imageUri,
+    this.ipAddress,
+    this.live,
+    this.local,
+    this.location,
+    this.mediaIndex,
+    this.mediaType,
+    this.optimizedVersion,
+    this.optimizedVersionProfile,
+    this.optimizedVersionTitle,
+    this.originallyAvailableAt,
+    this.parentImageUri,
+    this.parentMediaIndex,
+    this.parentRatingKey,
+    this.parentThumb,
+    this.parentTitle,
+    this.platform,
+    this.platformName,
+    this.player,
+    this.product,
+    this.progressPercent,
+    this.qualityProfile,
+    this.ratingKey,
+    this.relay,
+    this.secure,
+    this.sessionId,
+    this.sessionKey,
+    this.state,
+    this.streamAudioChannelLayout,
+    this.streamAudioCodec,
+    this.streamAudioDecision,
+    this.streamBitrate,
+    this.streamContainer,
+    this.streamContainerDecision,
+    this.streamSubtitleCodec,
+    this.streamSubtitleDecision,
+    this.streamVideoCodec,
+    this.streamVideoDecision,
+    this.streamVideoDynamicRange,
+    this.streamVideoFullResolution,
+    this.subtitleCodec,
+    this.subtitles,
+    this.subType,
+    this.throttled,
+    this.thumb,
+    this.title,
+    this.transcodeDecision,
+    this.transcodeHwDecoding,
+    this.transcodeHwEncoding,
+    this.transcodeMaxOffsetAvailable,
+    this.transcodeProgress,
+    this.transcodeSpeed,
+    this.transcodeThrottled,
+    this.userId,
+    this.userThumb,
+    this.videoCodec,
+    this.videoDecision,
+    this.videoDynamicRange,
+    this.videoFullResolution,
+    this.viewOffset,
+    this.width,
+    this.year,
+  });
+
+  ActivityModel copyWith({
+    final String? audioChannelLayout,
+    final String? audioCodec,
+    final StreamDecision? audioDecision,
+    final int? bandwidth,
+    final String? channelCallSign,
+    final String? container,
+    final StreamDecision? containerDecision,
+    final Duration? duration,
+    final String? friendlyName,
+    final Uri? grandparentImageUri,
+    final int? grandparentRatingKey,
+    final String? grandparentThumb,
+    final String? grandparentTitle,
+    final int? height,
+    final Uri? imageUri,
+    final String? ipAddress,
+    final bool? live,
+    final bool? local,
+    final Location? location,
+    final int? mediaIndex,
+    final MediaType? mediaType,
+    final bool? optimizedVersion,
+    final String? optimizedVersionProfile,
+    final String? optimizedVersionTitle,
+    final DateTime? originallyAvailableAt,
+    final Uri? parentImageUri,
+    final int? parentMediaIndex,
+    final int? parentRatingKey,
+    final String? parentThumb,
+    final String? parentTitle,
+    final String? platform,
+    final String? platformName,
+    final String? player,
+    final String? product,
+    final int? progressPercent,
+    final String? qualityProfile,
+    final int? ratingKey,
+    final bool? relay,
+    final bool? secure,
+    final String? sessionId,
+    final int? sessionKey,
+    final PlaybackState? state,
+    final String? streamAudioChannelLayout,
+    final String? streamAudioCodec,
+    final StreamDecision? streamAudioDecision,
+    final int? streamBitrate,
+    final String? streamContainer,
+    final StreamDecision? streamContainerDecision,
+    final String? streamSubtitleCodec,
+    final SubtitleDecision? streamSubtitleDecision,
+    final String? streamVideoCodec,
+    final StreamDecision? streamVideoDecision,
+    final String? streamVideoDynamicRange,
+    final String? streamVideoFullResolution,
+    final String? subtitleCodec,
+    final bool? subtitles,
+    final String? subType,
+    final bool? throttled,
+    final String? thumb,
+    final String? title,
+    final StreamDecision? transcodeDecision,
+    final bool? transcodeHwDecoding,
+    final bool? transcodeHwEncoding,
+    final int? transcodeMaxOffsetAvailable,
+    final int? transcodeProgress,
+    final double? transcodeSpeed,
+    final bool? transcodeThrottled,
+    final int? userId,
+    final String? userThumb,
+    final String? videoCodec,
+    final StreamDecision? videoDecision,
+    final String? videoDynamicRange,
+    final String? videoFullResolution,
+    final int? viewOffset,
+    final int? width,
+    final int? year,
+  }) {
+    return ActivityModel(
+      audioChannelLayout: audioChannelLayout ?? this.audioChannelLayout,
+      audioCodec: audioCodec ?? this.audioCodec,
+      audioDecision: audioDecision ?? this.audioDecision,
+      bandwidth: bandwidth ?? this.bandwidth,
+      channelCallSign: channelCallSign ?? this.channelCallSign,
+      container: container ?? this.container,
+      containerDecision: containerDecision ?? this.containerDecision,
+      duration: duration ?? this.duration,
+      friendlyName: friendlyName ?? this.friendlyName,
+      grandparentImageUri: grandparentImageUri ?? this.grandparentImageUri,
+      grandparentRatingKey: grandparentRatingKey ?? this.grandparentRatingKey,
+      grandparentThumb: grandparentThumb ?? this.grandparentThumb,
+      grandparentTitle: grandparentTitle ?? this.grandparentTitle,
+      height: height ?? this.height,
+      imageUri: imageUri ?? this.imageUri,
+      ipAddress: ipAddress ?? this.ipAddress,
+      live: live ?? this.live,
+      local: local ?? this.local,
+      location: location ?? this.location,
+      mediaIndex: mediaIndex ?? this.mediaIndex,
+      mediaType: mediaType ?? this.mediaType,
+      optimizedVersion: optimizedVersion ?? this.optimizedVersion,
+      optimizedVersionProfile: optimizedVersionProfile ?? this.optimizedVersionProfile,
+      optimizedVersionTitle: optimizedVersionTitle ?? this.optimizedVersionTitle,
+      originallyAvailableAt: originallyAvailableAt ?? this.originallyAvailableAt,
+      parentImageUri: parentImageUri ?? this.parentImageUri,
+      parentMediaIndex: parentMediaIndex ?? this.parentMediaIndex,
+      parentRatingKey: parentRatingKey ?? this.parentRatingKey,
+      parentThumb: parentThumb ?? this.parentThumb,
+      parentTitle: parentTitle ?? this.parentTitle,
+      platform: platform ?? this.platform,
+      platformName: platformName ?? this.platformName,
+      player: player ?? this.player,
+      product: product ?? this.product,
+      progressPercent: progressPercent ?? this.progressPercent,
+      qualityProfile: qualityProfile ?? this.qualityProfile,
+      ratingKey: ratingKey ?? this.ratingKey,
+      relay: relay ?? this.relay,
+      secure: secure ?? this.secure,
+      sessionId: sessionId ?? this.sessionId,
+      sessionKey: sessionKey ?? this.sessionKey,
+      state: state ?? this.state,
+      streamAudioChannelLayout: streamAudioChannelLayout ?? this.streamAudioChannelLayout,
+      streamAudioCodec: streamAudioCodec ?? this.streamAudioCodec,
+      streamAudioDecision: streamAudioDecision ?? this.streamAudioDecision,
+      streamBitrate: streamBitrate ?? this.streamBitrate,
+      streamContainer: streamContainer ?? this.streamContainer,
+      streamContainerDecision: streamContainerDecision ?? this.streamContainerDecision,
+      streamSubtitleCodec: streamSubtitleCodec ?? this.streamSubtitleCodec,
+      streamSubtitleDecision: streamSubtitleDecision ?? this.streamSubtitleDecision,
+      streamVideoCodec: streamVideoCodec ?? this.streamVideoCodec,
+      streamVideoDecision: streamVideoDecision ?? this.streamVideoDecision,
+      streamVideoDynamicRange: streamVideoDynamicRange ?? this.streamVideoDynamicRange,
+      streamVideoFullResolution: streamVideoFullResolution ?? this.streamVideoFullResolution,
+      subtitleCodec: subtitleCodec ?? this.subtitleCodec,
+      subtitles: subtitles ?? this.subtitles,
+      subType: subType ?? this.subType,
+      throttled: throttled ?? this.throttled,
+      thumb: thumb ?? this.thumb,
+      title: title ?? this.title,
+      transcodeDecision: transcodeDecision ?? this.transcodeDecision,
+      transcodeHwDecoding: transcodeHwDecoding ?? this.transcodeHwDecoding,
+      transcodeHwEncoding: transcodeHwEncoding ?? this.transcodeHwEncoding,
+      transcodeMaxOffsetAvailable: transcodeMaxOffsetAvailable ?? this.transcodeMaxOffsetAvailable,
+      transcodeProgress: transcodeProgress ?? this.transcodeProgress,
+      transcodeSpeed: transcodeSpeed ?? this.transcodeSpeed,
+      transcodeThrottled: transcodeThrottled ?? this.transcodeThrottled,
+      userId: userId ?? this.userId,
+      userThumb: userThumb ?? this.userThumb,
+      videoCodec: videoCodec ?? this.videoCodec,
+      videoDecision: videoDecision ?? this.videoDecision,
+      videoDynamicRange: videoDynamicRange ?? this.videoDynamicRange,
+      videoFullResolution: videoFullResolution ?? this.videoFullResolution,
+      viewOffset: viewOffset ?? this.viewOffset,
+      width: width ?? this.width,
+      year: year ?? this.year,
     );
   }
+
+  factory ActivityModel.fromJson(Map<String, dynamic> json) => _$ActivityModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ActivityModelToJson(this);
+
+  static DateTime? dateTimeFromString(String? date) {
+    if (date == null) return null;
+    return DateTime.tryParse(date);
+  }
+
+  static Duration? durationFromJson(String? millisecondsString) {
+    final milliseconds = Cast.castToInt(millisecondsString);
+
+    if (milliseconds == null) return null;
+
+    return Duration(milliseconds: milliseconds);
+  }
+
+  @override
+  List<Object?> get props => [
+        audioChannelLayout,
+        audioCodec,
+        audioDecision,
+        bandwidth,
+        channelCallSign,
+        container,
+        containerDecision,
+        duration,
+        friendlyName,
+        grandparentImageUri,
+        grandparentRatingKey,
+        grandparentThumb,
+        grandparentTitle,
+        height,
+        imageUri,
+        ipAddress,
+        live,
+        local,
+        location,
+        mediaIndex,
+        mediaType,
+        optimizedVersion,
+        optimizedVersionProfile,
+        optimizedVersionTitle,
+        originallyAvailableAt,
+        parentImageUri,
+        parentMediaIndex,
+        parentRatingKey,
+        parentThumb,
+        parentTitle,
+        platform,
+        platformName,
+        player,
+        product,
+        progressPercent,
+        qualityProfile,
+        ratingKey,
+        relay,
+        secure,
+        sessionId,
+        sessionKey,
+        state,
+        streamAudioChannelLayout,
+        streamAudioCodec,
+        streamAudioDecision,
+        streamBitrate,
+        streamContainer,
+        streamContainerDecision,
+        streamSubtitleCodec,
+        streamSubtitleDecision,
+        streamVideoCodec,
+        streamVideoDecision,
+        streamVideoDynamicRange,
+        streamVideoFullResolution,
+        subtitleCodec,
+        subtitles,
+        subType,
+        throttled,
+        thumb,
+        title,
+        transcodeDecision,
+        transcodeHwDecoding,
+        transcodeHwEncoding,
+        transcodeProgress,
+        transcodeMaxOffsetAvailable,
+        transcodeSpeed,
+        transcodeThrottled,
+        userId,
+        userThumb,
+        videoCodec,
+        videoDecision,
+        videoDynamicRange,
+        videoFullResolution,
+        viewOffset,
+        width,
+        year,
+      ];
 }

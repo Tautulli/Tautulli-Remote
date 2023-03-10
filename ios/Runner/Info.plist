@@ -25,6 +25,7 @@
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>plex</string>
+			<string>http</string>
 			<string>https</string>
 		</array>
 		<key>LSRequiresIPhoneOS</key>
@@ -61,5 +62,7 @@
 		<false/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true/>
 	</dict>
 </plist>

@@ -1,209 +1,130 @@
-// @dart=2.9
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
-import '../../../../core/database/domain/entities/server.dart';
-import '../../../../core/helpers/icon_mapper_helper.dart';
-import '../../../../core/helpers/time_format_helper.dart';
-import '../../../../core/widgets/bottom_row_loader.dart';
-import '../../../../core/widgets/error_message.dart';
-import '../../../../injection_container.dart' as di;
+import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/pages/status_page.dart';
+import '../../../../core/types/bloc_status.dart';
+import '../../../../core/types/media_type.dart';
+import '../../../../core/widgets/bottom_loader.dart';
+import '../../../../core/widgets/page_body.dart';
+import '../../../../core/widgets/themed_refresh_indicator.dart';
 import '../../../../translations/locale_keys.g.dart';
-import '../../../history/domain/entities/history.dart';
-import '../../../history/presentation/bloc/history_individual_bloc.dart';
-import '../../../history/presentation/widgets/history_modal_bottom_sheet.dart';
+import '../../../history/presentation/bloc/individual_history_bloc.dart';
+import '../../../history/presentation/widgets/history_individual_card.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../../users/domain/entities/user_table.dart';
 
-class MediaHistoryTab extends StatelessWidget {
+class MediaHistoryTab extends StatefulWidget {
+  final ServerModel server;
   final int ratingKey;
-  final String mediaType;
-  final String imageUrl;
+  final MediaType mediaType;
+  final Uri? parentPosterUri;
 
   const MediaHistoryTab({
-    @required this.ratingKey,
-    @required this.mediaType,
-    @required this.imageUrl,
-    Key key,
-  }) : super(key: key);
+    super.key,
+    required this.server,
+    required this.ratingKey,
+    required this.mediaType,
+    required this.parentPosterUri,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => di.sl<HistoryIndividualBloc>(),
-      child: MediaHistoryTabContent(
-        ratingKey: ratingKey,
-        mediaType: mediaType,
-        imageUrl: imageUrl,
-      ),
-    );
-  }
+  State<MediaHistoryTab> createState() => _MediaHistoryTabState();
 }
 
-class MediaHistoryTabContent extends StatefulWidget {
-  final int ratingKey;
-  final String mediaType;
-  final String imageUrl;
-
-  const MediaHistoryTabContent({
-    @required this.ratingKey,
-    @required this.mediaType,
-    @required this.imageUrl,
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _MediaHistoryTabContentState createState() => _MediaHistoryTabContentState();
-}
-
-class _MediaHistoryTabContentState extends State<MediaHistoryTabContent> {
-  final _scrollController = ScrollController();
-  final _scrollThreshold = 200.0;
-  SettingsBloc _settingsBloc;
-  HistoryIndividualBloc _historyIndividualBloc;
-  String _tautulliId;
-  bool _maskSensitiveInfo;
+class _MediaHistoryTabState extends State<MediaHistoryTab> {
+  ScrollController? _scrollController;
+  late IndividualHistoryBloc _individualHistoryBloc;
+  late SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+
+    _individualHistoryBloc = context.read<IndividualHistoryBloc>();
     _settingsBloc = context.read<SettingsBloc>();
-    _historyIndividualBloc = context.read<HistoryIndividualBloc>();
-
-    final settingsState = _settingsBloc.state;
-
-    if (settingsState is SettingsLoadSuccess) {
-      String lastSelectedServer;
-
-      _maskSensitiveInfo = settingsState.maskSensitiveInfo;
-
-      if (settingsState.lastSelectedServer != null) {
-        for (Server server in settingsState.serverList) {
-          if (server.tautulliId == settingsState.lastSelectedServer) {
-            lastSelectedServer = settingsState.lastSelectedServer;
-            break;
-          }
-        }
-      }
-
-      if (lastSelectedServer != null) {
-        setState(() {
-          _tautulliId = lastSelectedServer;
-        });
-      } else if (settingsState.serverList.isNotEmpty) {
-        setState(() {
-          _tautulliId = settingsState.serverList[0].tautulliId;
-        });
-      } else {
-        _tautulliId = null;
-      }
-
-      _historyIndividualBloc.add(
-        HistoryIndividualFetch(
-          tautulliId: _tautulliId,
-          ratingKey: ['movie', 'episode', 'track'].contains(widget.mediaType)
-              ? widget.ratingKey
-              : null,
-          parentRatingKey: ['season', 'album'].contains(widget.mediaType)
-              ? widget.ratingKey
-              : null,
-          grandparentRatingKey: ['show', 'artist'].contains(widget.mediaType)
-              ? widget.ratingKey
-              : null,
-          settingsBloc: _settingsBloc,
-        ),
-      );
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HistoryIndividualBloc, HistoryIndividualState>(
-      builder: (context, state) {
-        if (state is HistoryIndividualFailure) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ErrorMessage(
-                failure: state.failure,
-                message: state.message,
-                suggestion: state.suggestion,
-              ),
-            ],
-          );
-        }
-        if (state is HistoryIndividualSuccess) {
-          return state.list.isEmpty
-              ? Center(
-                  child: const Text(LocaleKeys.history_empty).tr(),
-                )
-              : MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: Scrollbar(
-                    child: ListView.builder(
-                      itemCount: state.hasReachedMax
-                          ? state.list.length
-                          : state.list.length + 1,
-                      controller: _scrollController,
-                      itemBuilder: (context, index) {
-                        final SettingsLoadSuccess settingsState =
-                            _settingsBloc.state;
-                        final server = settingsState.serverList.firstWhere(
-                            (server) => server.tautulliId == _tautulliId);
+    // Only attach scrollController if it's currently null
+    if (_scrollController == null) {
+      _scrollController = PrimaryScrollController.of(context);
+      _scrollController!.addListener(_onScroll);
+    }
 
-                        return index >= state.list.length
-                            ? BottomRowLoader(
-                                index: index,
-                              )
-                            : GestureDetector(
-                                onTap: () {
-                                  return showModalBottomSheet(
-                                    context: context,
-                                    barrierColor: Colors.black87,
-                                    backgroundColor: Colors.transparent,
-                                    isScrollControlled: true,
-                                    builder: (context) => BlocBuilder<
-                                        SettingsBloc, SettingsState>(
-                                      builder: (context, settingsState) {
-                                        return HistoryModalBottomSheet(
-                                          item: state.list[index],
-                                          server: server,
-                                          imageUrlOverride: widget.imageUrl,
-                                          maskSensitiveInfo: settingsState
-                                                  is SettingsLoadSuccess
-                                              ? settingsState.maskSensitiveInfo
-                                              : false,
-                                          disableMediaButton: true,
-                                        );
-                                      },
-                                    ),
-                                  );
-                                },
-                                child: _HistoryRow(
-                                  index: index,
-                                  server: server,
-                                  history: state.list[index],
-                                  mediaType: widget.mediaType,
-                                  user: state.userTableList.firstWhere(
-                                    (user) =>
-                                        user.userId == state.list[index].userId,
-                                    orElse: () => null,
-                                  ),
-                                  maskSensitiveInfo: _maskSensitiveInfo,
-                                ),
-                              );
-                      },
-                    ),
-                  ),
+    return BlocBuilder<IndividualHistoryBloc, IndividualHistoryState>(
+      builder: (context, state) {
+        return ThemedRefreshIndicator(
+          onRefresh: () {
+            _individualHistoryBloc.add(
+              IndividualHistoryFetched(
+                server: widget.server,
+                ratingKey: widget.ratingKey,
+                mediaType: widget.mediaType,
+                freshFetch: true,
+                settingsBloc: _settingsBloc,
+              ),
+            );
+
+            return Future.value();
+          },
+          child: PageBody(
+            loading: state.status == BlocStatus.initial,
+            child: Builder(
+              builder: (context) {
+                if (state.status == BlocStatus.failure) {
+                  return StatusPage(
+                    scrollable: true,
+                    message: state.message ?? '',
+                    suggestion: state.suggestion ?? '',
+                  );
+                }
+
+                if (state.history.isEmpty) {
+                  return StatusPage(
+                    scrollable: true,
+                    message: LocaleKeys.history_empty_message.tr(),
+                  );
+                }
+
+                return ListView.separated(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: state.hasReachedMax || state.status == BlocStatus.initial
+                      ? state.history.length
+                      : state.history.length + 1,
+                  separatorBuilder: (context, index) => const Gap(8),
+                  itemBuilder: (context, index) {
+                    if (index >= state.history.length) {
+                      return BottomLoader(
+                        status: state.status,
+                        failure: state.failure,
+                        message: state.message,
+                        suggestion: state.suggestion,
+                        onTap: () {
+                          _individualHistoryBloc.add(
+                            IndividualHistoryFetched(
+                              server: widget.server,
+                              ratingKey: widget.ratingKey,
+                              mediaType: widget.mediaType,
+                              settingsBloc: _settingsBloc,
+                            ),
+                          );
+                        },
+                      );
+                    }
+
+                    final history = state.history[index];
+
+                    return HistoryIndividualCard(
+                      server: widget.server,
+                      history: history.copyWith(posterUri: widget.parentPosterUri),
+                    );
+                  },
                 );
-        }
-        return Center(
-          child: CircularProgressIndicator(
-            color: Theme.of(context).accentColor,
+              },
+            ),
           ),
         );
       },
@@ -212,141 +133,27 @@ class _MediaHistoryTabContentState extends State<MediaHistoryTabContent> {
 
   @override
   void dispose() {
+    _scrollController!.removeListener(_onScroll);
     super.dispose();
-    _scrollController.dispose();
   }
 
   void _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll <= _scrollThreshold) {
-      _historyIndividualBloc.add(
-        HistoryIndividualFetch(
-          tautulliId: _tautulliId,
-          ratingKey: ['movie', 'episode', 'track'].contains(widget.mediaType)
-              ? widget.ratingKey
-              : null,
-          parentRatingKey: ['season', 'album'].contains(widget.mediaType)
-              ? widget.ratingKey
-              : null,
-          grandparentRatingKey: ['show', 'artist'].contains(widget.mediaType)
-              ? widget.ratingKey
-              : null,
+    if (_isBottom) {
+      _individualHistoryBloc.add(
+        IndividualHistoryFetched(
+          server: widget.server,
+          ratingKey: widget.ratingKey,
+          mediaType: widget.mediaType,
           settingsBloc: _settingsBloc,
         ),
       );
     }
   }
-}
 
-class _HistoryRow extends StatelessWidget {
-  final int index;
-  final Server server;
-  final History history;
-  final UserTable user;
-  final String mediaType;
-  final bool maskSensitiveInfo;
-
-  const _HistoryRow({
-    @required this.index,
-    @required this.server,
-    @required this.history,
-    this.user,
-    @required this.mediaType,
-    @required this.maskSensitiveInfo,
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final bool hasNetworkImage =
-        user != null && user.userThumb.startsWith('http');
-
-    return Container(
-      decoration: BoxDecoration(
-        color: index % 2 == 0 ? Colors.black26 : null,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8.0,
-          vertical: 8.0,
-        ),
-        child: Row(
-          children: [
-            // User image
-            Container(
-              height: 45,
-              width: 45,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: hasNetworkImage && !maskSensitiveInfo
-                      ? NetworkImage(user.userThumb)
-                      : const AssetImage('assets/images/default_profile.png'),
-                ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(50.0),
-                ),
-                border: Border.all(
-                  color: hasNetworkImage && !maskSensitiveInfo
-                      ? Colors.transparent
-                      : const Color.fromRGBO(69, 69, 69, 1),
-                  width: 1,
-                ),
-              ),
-            ),
-            // History details
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(maskSensitiveInfo
-                              ? '*${LocaleKeys.masked_info_user}*'
-                              : history.friendlyName),
-                          if (['show', 'season', 'artist', 'album']
-                              .contains(mediaType))
-                            Text(
-                              history.title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          if (mediaType == 'show')
-                            Text(
-                                'S${history.parentMediaIndex} • E${history.mediaIndex}'),
-                          if (mediaType == 'artist') Text(history.parentTitle),
-                          if (mediaType == 'season')
-                            Text('Episode ${history.mediaIndex}'),
-                          Text(
-                            TimeFormatHelper.cleanDateTime(
-                              history.stopped,
-                              dateFormat: server.dateFormat,
-                              timeFormat: server.timeFormat,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  // Watched percent icon
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4),
-                    child: IconMapperHelper.mapWatchedStatusToIcon(
-                      history.watchedStatus,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  bool get _isBottom {
+    if (!_scrollController!.hasClients) return false;
+    final maxScroll = _scrollController!.position.maxScrollExtent;
+    final currentScroll = _scrollController!.offset;
+    return currentScroll >= (maxScroll * 0.95);
   }
 }

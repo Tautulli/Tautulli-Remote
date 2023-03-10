@@ -1,54 +1,48 @@
-// @dart=2.9
+import 'package:dartz/dartz.dart';
 
-import 'package:meta/meta.dart';
-
-import '../../../../core/api/tautulli_api/tautulli_api.dart' as tautulli_api;
-import '../../../settings/presentation/bloc/settings_bloc.dart';
+import '../../../../core/api/tautulli/endpoints/pms_image_proxy.dart';
+import '../../../../core/types/image_fallback.dart';
 
 abstract class ImageUrlDataSource {
-  Future<String> getImage({
-    @required String tautulliId,
-    String img,
-    int ratingKey,
-    int width,
-    int height,
-    int opacity,
-    int background,
-    int blur,
-    String fallback,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<Uri, bool>> call({
+    required String tautulliId,
+    String? img,
+    int? ratingKey,
+    int? width,
+    int? height,
+    int? opacity,
+    int? background,
+    int? blur,
+    String? imgFormat,
+    ImageFallback? imageFallback,
+    bool? refresh,
+    bool? returnHash,
   });
 }
 
 class ImageUrlDataSourceImpl implements ImageUrlDataSource {
-  final tautulli_api.PmsImageProxy apiPmsImageProxy;
+  final PmsImageProxy pmsImageProxy;
 
   ImageUrlDataSourceImpl({
-    @required this.apiPmsImageProxy,
-    String img,
-    int ratingKey,
-    int width,
-    int height,
-    int opacity,
-    int background,
-    int blur,
-    String fallback,
+    required this.pmsImageProxy,
   });
 
   @override
-  Future<String> getImage({
-    @required String tautulliId,
-    String img,
-    int ratingKey,
-    int width,
-    int height,
-    int opacity,
-    int background,
-    int blur,
-    String fallback,
-    @required SettingsBloc settingsBloc,
+  Future<Tuple2<Uri, bool>> call({
+    required String tautulliId,
+    String? img,
+    int? ratingKey,
+    int? width,
+    int? height,
+    int? opacity,
+    int? background,
+    int? blur,
+    String? imgFormat,
+    ImageFallback? imageFallback,
+    bool? refresh,
+    bool? returnHash,
   }) async {
-    final String url = await apiPmsImageProxy(
+    final result = await pmsImageProxy(
       tautulliId: tautulliId,
       img: img,
       ratingKey: ratingKey,
@@ -57,10 +51,12 @@ class ImageUrlDataSourceImpl implements ImageUrlDataSource {
       opacity: opacity,
       background: background,
       blur: blur,
-      fallback: fallback,
-      settingsBloc: settingsBloc,
+      imgFormat: imgFormat,
+      imageFallback: imageFallback,
+      refresh: refresh,
+      returnHash: returnHash,
     );
 
-    return url;
+    return Tuple2(result.value1, result.value2);
   }
 }

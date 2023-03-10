@@ -1,58 +1,36 @@
-// @dart=2.9
-
 part of 'users_bloc.dart';
 
-abstract class UsersState extends Equatable {
-  const UsersState();
+class UsersState extends Equatable {
+  final BlocStatus status;
+  final List<UserModel> users;
+  final Failure? failure;
+  final String? message;
+  final String? suggestion;
 
-  @override
-  List<Object> get props => [];
-}
-
-class UsersInitial extends UsersState {
-  final String orderColumn;
-  final String orderDir;
-
-  UsersInitial({this.orderColumn, this.orderDir});
-
-  @override
-  List<Object> get props => [orderColumn, orderDir];
-}
-
-class UsersSuccess extends UsersState {
-  final List<UserTable> list;
-  final bool hasReachedMax;
-
-  UsersSuccess({
-    @required this.list,
-    @required this.hasReachedMax,
+  const UsersState({
+    this.status = BlocStatus.initial,
+    this.users = const [],
+    this.failure,
+    this.message,
+    this.suggestion,
   });
 
-  UsersSuccess copyWith({
-    List<UserTable> list,
-    bool hasReachedMax,
+  UsersState copyWith({
+    BlocStatus? status,
+    List<UserModel>? users,
+    Failure? failure,
+    String? message,
+    String? suggestion,
   }) {
-    return UsersSuccess(
-      list: list ?? this.list,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+    return UsersState(
+      status: status ?? this.status,
+      users: users ?? this.users,
+      failure: failure ?? this.failure,
+      message: message ?? this.message,
+      suggestion: suggestion ?? this.suggestion,
     );
   }
 
   @override
-  List<Object> get props => [list, hasReachedMax];
-}
-
-class UsersFailure extends UsersState {
-  final Failure failure;
-  final String message;
-  final String suggestion;
-
-  UsersFailure({
-    @required this.failure,
-    @required this.message,
-    @required this.suggestion,
-  });
-
-  @override
-  List<Object> get props => [failure, message, suggestion];
+  List<Object> get props => [status, users];
 }

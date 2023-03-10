@@ -1,51 +1,63 @@
-// @dart=2.9
+import 'dart:io';
 
 import 'package:f_logs/f_logs.dart';
 
 abstract class LoggingDataSource {
-  /// Logs `text` to [FLog] plugin with the log level DEBUG.
-  dynamic debug(String text);
+  void trace(String text);
 
-  /// Logs `text` to [FLog] plugin with the log level INFO.
-  dynamic info(String text);
+  void debug(String text);
 
-  /// Logs `text` to [FLog] plugin with the log level WARNING.
-  dynamic warning(String text);
+  void info(String text);
 
-  /// Logs `text` to [FLog] plugin with the log level ERROR.
-  dynamic error(String text);
+  void warning(String text);
 
-  /// Returns a list of [Log] from [FLog] plugin.
-  /// 
-  /// Returns an empty list if there are no logs.
+  void error(String text);
+
+  void severe(String text);
+
+  void fatal(String text);
+
   Future<List<Log>> getAllLogs();
 
-  /// Calls [FLog] plugin to clear all logs from database.
-  dynamic clearLogs();
+  Future<void> clearLogs();
 
-  /// Calls [FLog] plugin to export the logs to storage.
-  dynamic exportLogs();
+  Future<File> exportLogs();
 }
 
 class LoggingDataSourceImpl implements LoggingDataSource {
   @override
-  debug(String text) {
+  void trace(String text) {
+    FLog.trace(text: text);
+  }
+
+  @override
+  void debug(String text) {
     FLog.debug(text: text);
   }
 
   @override
-  info(String text) {
+  void info(String text) {
     FLog.info(text: text);
   }
 
   @override
-  warning(String text) {
+  void warning(String text) {
     FLog.warning(text: text);
   }
 
   @override
-  error(String text) {
+  void error(String text) {
     FLog.error(text: text);
+  }
+
+  @override
+  void severe(String text) {
+    FLog.severe(text: text);
+  }
+
+  @override
+  void fatal(String text) {
+    FLog.fatal(text: text);
   }
 
   @override
@@ -54,12 +66,12 @@ class LoggingDataSourceImpl implements LoggingDataSource {
   }
 
   @override
-  clearLogs() {
-    FLog.clearLogs();
+  Future<void> clearLogs() {
+    return FLog.clearLogs();
   }
 
   @override
-  exportLogs() {
-    FLog.exportLogs();
+  Future<File> exportLogs() {
+    return FLog.exportLogs();
   }
 }

@@ -1,40 +1,36 @@
-// @dart=2.9
-
 part of 'children_metadata_bloc.dart';
 
-abstract class ChildrenMetadataState extends Equatable {
-  const ChildrenMetadataState();
+class ChildrenMetadataState extends Equatable {
+  final BlocStatus status;
+  final List<MediaModel>? children;
+  final Failure? failure;
+  final String? message;
+  final String? suggestion;
 
-  @override
-  List<Object> get props => [];
-}
-
-class ChildrenMetadataInitial extends ChildrenMetadataState {}
-
-class ChildrenMetadataInProgress extends ChildrenMetadataState {}
-
-class ChildrenMetadataSuccess extends ChildrenMetadataState {
-  final List<MetadataItem> childrenMetadataList;
-
-  ChildrenMetadataSuccess({
-    @required this.childrenMetadataList,
+  const ChildrenMetadataState({
+    this.status = BlocStatus.initial,
+    this.children,
+    this.failure,
+    this.message,
+    this.suggestion,
   });
 
+  ChildrenMetadataState copyWith({
+    BlocStatus? status,
+    List<MediaModel>? children,
+    Failure? failure,
+    String? message,
+    String? suggestion,
+  }) {
+    return ChildrenMetadataState(
+      status: status ?? this.status,
+      children: children ?? this.children,
+      failure: failure ?? this.failure,
+      message: message ?? this.message,
+      suggestion: suggestion ?? this.suggestion,
+    );
+  }
+
   @override
-  List<Object> get props => [childrenMetadataList];
-}
-
-class ChildrenMetadataFailure extends ChildrenMetadataState {
-  final Failure failure;
-  final String message;
-  final String suggestion;
-
-  ChildrenMetadataFailure({
-    @required this.failure,
-    @required this.message,
-    @required this.suggestion,
-  });
-
-  @override
-  List<Object> get props => [failure, message, suggestion];
+  List<Object> get props => [status];
 }

@@ -1,24 +1,25 @@
-// @dart=2.9
-
 part of 'metadata_bloc.dart';
 
 abstract class MetadataEvent extends Equatable {
   const MetadataEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class MetadataFetched extends MetadataEvent {
-  final String tautulliId;
+  final ServerModel server;
   final int ratingKey;
-  final int syncId;
+  final bool freshFetch;
   final SettingsBloc settingsBloc;
 
-  MetadataFetched({
-    @required this.tautulliId,
-    this.ratingKey,
-    this.syncId,
-    @required this.settingsBloc,
+  const MetadataFetched({
+    required this.server,
+    required this.ratingKey,
+    this.freshFetch = false,
+    required this.settingsBloc,
   });
 
   @override
-  List<Object> get props => [tautulliId, ratingKey, syncId, settingsBloc];
+  List<Object> get props => [server, ratingKey, freshFetch, settingsBloc];
 }

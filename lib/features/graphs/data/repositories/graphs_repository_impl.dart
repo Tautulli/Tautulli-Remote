@@ -1,49 +1,44 @@
-// @dart=2.9
-
 import 'package:dartz/dartz.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
-import '../../../../core/network/network_info.dart';
-import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/graph_data.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/network_info/network_info.dart';
+import '../../../../core/types/play_metric_type.dart';
 import '../../domain/repositories/graphs_repository.dart';
 import '../datasources/graphs_data_source.dart';
+import '../models/graph_data_model.dart';
 
 class GraphsRepositoryImpl implements GraphsRepository {
   final GraphsDataSource dataSource;
   final NetworkInfo networkInfo;
 
   GraphsRepositoryImpl({
-    @required this.dataSource,
-    @required this.networkInfo,
+    required this.dataSource,
+    required this.networkInfo,
   });
 
   @override
-  Future<Either<Failure, GraphData>> getPlaysByDate({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByDate({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final graphData = await dataSource.getPlaysByDate(
+        final result = await dataSource.getPlaysByDate(
           tautulliId: tautulliId,
-          timeRange: timeRange,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
-          settingsBloc: settingsBloc,
         );
-        return Right(graphData);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
       }
     } else {
       return Left(ConnectionFailure());
@@ -51,29 +46,27 @@ class GraphsRepositoryImpl implements GraphsRepository {
   }
 
   @override
-  Future<Either<Failure, GraphData>> getPlaysByDayOfWeek({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByDayOfWeek({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final graphData = await dataSource.getPlaysByDayOfWeek(
+        final result = await dataSource.getPlaysByDayOfWeek(
           tautulliId: tautulliId,
-          timeRange: timeRange,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
-          settingsBloc: settingsBloc,
         );
-        return Right(graphData);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
       }
     } else {
       return Left(ConnectionFailure());
@@ -81,29 +74,27 @@ class GraphsRepositoryImpl implements GraphsRepository {
   }
 
   @override
-  Future<Either<Failure, GraphData>> getPlaysByHourOfDay({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByHourOfDay({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final graphData = await dataSource.getPlaysByHourOfDay(
+        final result = await dataSource.getPlaysByHourOfDay(
           tautulliId: tautulliId,
-          timeRange: timeRange,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
-          settingsBloc: settingsBloc,
         );
-        return Right(graphData);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
       }
     } else {
       return Left(ConnectionFailure());
@@ -111,29 +102,27 @@ class GraphsRepositoryImpl implements GraphsRepository {
   }
 
   @override
-  Future<Either<Failure, GraphData>> getPlaysBySourceResolution({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysBySourceResolution({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final graphData = await dataSource.getPlaysBySourceResolution(
+        final result = await dataSource.getPlaysBySourceResolution(
           tautulliId: tautulliId,
-          timeRange: timeRange,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
-          settingsBloc: settingsBloc,
         );
-        return Right(graphData);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
       }
     } else {
       return Left(ConnectionFailure());
@@ -141,29 +130,27 @@ class GraphsRepositoryImpl implements GraphsRepository {
   }
 
   @override
-  Future<Either<Failure, GraphData>> getPlaysByStreamResolution({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByStreamResolution({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final graphData = await dataSource.getPlaysByStreamResolution(
+        final result = await dataSource.getPlaysByStreamResolution(
           tautulliId: tautulliId,
-          timeRange: timeRange,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
-          settingsBloc: settingsBloc,
         );
-        return Right(graphData);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
       }
     } else {
       return Left(ConnectionFailure());
@@ -171,29 +158,27 @@ class GraphsRepositoryImpl implements GraphsRepository {
   }
 
   @override
-  Future<Either<Failure, GraphData>> getPlaysByStreamType({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByStreamType({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final graphData = await dataSource.getPlaysByStreamType(
+        final result = await dataSource.getPlaysByStreamType(
           tautulliId: tautulliId,
-          timeRange: timeRange,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
-          settingsBloc: settingsBloc,
         );
-        return Right(graphData);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
       }
     } else {
       return Left(ConnectionFailure());
@@ -201,29 +186,27 @@ class GraphsRepositoryImpl implements GraphsRepository {
   }
 
   @override
-  Future<Either<Failure, GraphData>> getPlaysByTop10Platforms({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysPerMonth({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final graphData = await dataSource.getPlaysByTop10Platforms(
+        final result = await dataSource.getPlaysPerMonth(
           tautulliId: tautulliId,
-          timeRange: timeRange,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
-          settingsBloc: settingsBloc,
         );
-        return Right(graphData);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
       }
     } else {
       return Left(ConnectionFailure());
@@ -231,29 +214,27 @@ class GraphsRepositoryImpl implements GraphsRepository {
   }
 
   @override
-  Future<Either<Failure, GraphData>> getPlaysByTop10Users({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByTop10Platforms({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final graphData = await dataSource.getPlaysByTop10Users(
+        final result = await dataSource.getPlaysByTop10Platforms(
           tautulliId: tautulliId,
-          timeRange: timeRange,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
-          settingsBloc: settingsBloc,
         );
-        return Right(graphData);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
       }
     } else {
       return Left(ConnectionFailure());
@@ -261,29 +242,27 @@ class GraphsRepositoryImpl implements GraphsRepository {
   }
 
   @override
-  Future<Either<Failure, GraphData>> getStreamTypeByTop10Platforms({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getPlaysByTop10Users({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final graphData = await dataSource.getStreamTypeByTop10Platforms(
+        final result = await dataSource.getPlaysByTop10Users(
           tautulliId: tautulliId,
-          timeRange: timeRange,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
-          settingsBloc: settingsBloc,
         );
-        return Right(graphData);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
       }
     } else {
       return Left(ConnectionFailure());
@@ -291,29 +270,27 @@ class GraphsRepositoryImpl implements GraphsRepository {
   }
 
   @override
-  Future<Either<Failure, GraphData>> getStreamTypeByTop10Users({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getStreamTypeByTop10Platforms({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final graphData = await dataSource.getStreamTypeByTop10Users(
+        final result = await dataSource.getStreamTypeByTop10Platforms(
           tautulliId: tautulliId,
-          timeRange: timeRange,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
-          settingsBloc: settingsBloc,
         );
-        return Right(graphData);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
       }
     } else {
       return Left(ConnectionFailure());
@@ -321,29 +298,27 @@ class GraphsRepositoryImpl implements GraphsRepository {
   }
 
   @override
-  Future<Either<Failure, GraphData>> getPlaysPerMonth({
-    @required String tautulliId,
-    int timeRange,
-    String yAxis,
-    int userId,
-    int grouping,
-    @required SettingsBloc settingsBloc,
+  Future<Either<Failure, Tuple2<GraphDataModel, bool>>> getStreamTypeByTop10Users({
+    required String tautulliId,
+    required PlayMetricType yAxis,
+    required int timeRange,
+    int? userId,
+    bool? grouping,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final graphData = await dataSource.getPlaysPerMonth(
+        final result = await dataSource.getStreamTypeByTop10Users(
           tautulliId: tautulliId,
-          timeRange: timeRange,
           yAxis: yAxis,
+          timeRange: timeRange,
           userId: userId,
           grouping: grouping,
-          settingsBloc: settingsBloc,
         );
-        return Right(graphData);
-      } catch (exception) {
-        final Failure failure =
-            FailureMapperHelper.mapExceptionToFailure(exception);
-        return (Left(failure));
+
+        return Right(result);
+      } catch (e) {
+        final failure = FailureHelper.castToFailure(e);
+        return Left(failure);
       }
     } else {
       return Left(ConnectionFailure());

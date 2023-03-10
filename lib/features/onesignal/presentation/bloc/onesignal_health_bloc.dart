@@ -1,10 +1,5 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 import '../../../logging/domain/usecases/logging.dart';
 import '../../data/datasources/onesignal_data_source.dart';
@@ -14,28 +9,36 @@ part 'onesignal_health_state.dart';
 
 class OneSignalHealthBloc
     extends Bloc<OneSignalHealthEvent, OneSignalHealthState> {
-  final OneSignalDataSource oneSignal;
   final Logging logging;
+  final OneSignalDataSource oneSignal;
 
   OneSignalHealthBloc({
-    @required this.oneSignal,
-    @required this.logging,
-  }) : super(OneSignalHealthInitial());
+    required this.logging,
+    required this.oneSignal,
+  }) : super(OneSignalHealthInitial()) {
+    on<OneSignalHealthCheck>(
+      (event, emit) => _onOneSignalHeathCheck(event, emit),
+    );
+  }
 
-  @override
-  Stream<OneSignalHealthState> mapEventToState(
-    OneSignalHealthEvent event,
-  ) async* {
-    if (event is OneSignalHealthCheck) {
-      yield OneSignalHealthInProgress();
-      if (await oneSignal.isReachable) {
-        yield OneSignalHealthSuccess();
-      } else {
-        logging.warning(
-          'OneSignal: Failed to communicate with OneSignal',
-        );
-        yield OneSignalHealthFailure();
-      }
+  void _onOneSignalHeathCheck(
+    OneSignalHealthCheck event,
+    Emitter<OneSignalHealthState> emit,
+  ) async {
+    emit(
+      OneSignalHealthInProgress(),
+    );
+
+    if (await oneSignal.isReachable) {
+      emit(
+        OneSignalHealthSuccess(),
+      );
+    } else {
+      logging.warning('OneSignal :: Health check failed');
+
+      emit(
+        OneSignalHealthFailure(),
+      );
     }
   }
 }

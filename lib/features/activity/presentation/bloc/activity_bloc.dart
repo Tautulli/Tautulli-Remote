@@ -1,290 +1,413 @@
-// @dart=2.9
-
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
-import '../../../image_url/domain/usecases/get_image_url.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/types/bloc_status.dart';
+import '../../../../core/types/location.dart';
+import '../../../../core/types/stream_decision.dart';
+import '../../../image_url/domain/usecases/image_url.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/domain/usecases/settings.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/activity.dart';
-import '../../domain/usecases/get_activity.dart';
+import '../../data/models/activity_model.dart';
+import '../../data/models/server_activity_model.dart';
+import '../../domain/usecases/activity.dart';
 
 part 'activity_event.dart';
 part 'activity_state.dart';
 
-enum ActivityLoadingState {
-  initial,
-  inProgress,
-  success,
-  failure,
-}
-
-Map<String, Map<String, dynamic>> _activityMap = {};
-SettingsBloc _settingsBlocCache;
+List<ServerActivityModel> serverActivityListCache = [];
+late List<ServerModel> serverListCache;
+late bool multiserverCache;
+String? activeServerIdCache;
+late SettingsBloc settingsBlocCache;
 
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
-  final GetActivity getActivity;
-  final GetImageUrl getImageUrl;
-  final Settings settings;
+  final Activity activity;
+  final ImageUrl imageUrl;
   final Logging logging;
+  final Settings settings;
 
-  Timer _timer;
+  Timer? _timer;
 
   ActivityBloc({
-    @required GetActivity activity,
-    @required GetImageUrl imageUrl,
-    @required this.settings,
-    @required this.logging,
-  })  : assert(activity != null),
-        getActivity = activity,
-        getImageUrl = imageUrl,
-        super(ActivityInitial(
-          activityMap: _activityMap,
-        ));
+    required this.activity,
+    required this.imageUrl,
+    required this.logging,
+    required this.settings,
+  }) : super(
+          ActivityState(
+            serverActivityList: serverActivityListCache,
+          ),
+        ) {
+    on<ActivityFetched>(_onActivityFetched);
+    on<ActivityLoadServer>(_onActivityLoadServer);
+    on<ActivityAutoRefreshStart>(_onActivityAutoRefreshStart);
+    on<ActivityAutoRefreshStop>(_onActivityAutoRefreshStop);
+  }
 
-  @override
-  Stream<ActivityState> mapEventToState(
-    ActivityEvent event,
-  ) async* {
-    final currentState = state;
-    final serverList = await settings.getAllServers();
+  Future<void> _onActivityFetched(
+    ActivityFetched event,
+    Emitter<ActivityState> emit,
+  ) async {
+    if (event.serverList.isNotEmpty) {
+      serverListCache = event.serverList;
+      multiserverCache = event.multiserver;
+      settingsBlocCache = event.settingsBloc;
 
-    serverList.sort((a, b) => a.sortIndex.compareTo(b.sortIndex));
+      _addNewServers(event.serverList);
 
-    if (currentState is ActivityLoaded) {
-      Map<String, Map<String, dynamic>> updatedMap = {};
-      for (ServerModel server in serverList) {
-        updatedMap[server.tautulliId] =
-            currentState.activityMap[server.tautulliId];
-      }
+      _verifyActiveServerId(event.serverList, event.activeServerId);
 
-      _activityMap = updatedMap;
-    }
+      _removeOldServers(event.serverList);
 
-    // If configured server is not in _activityMap then add it
-    for (ServerModel server in serverList) {
-      if (!_activityMap.containsKey(server.tautulliId)) {
-        _activityMap[server.tautulliId] = {
-          'plex_name': server.plexName,
-          'loadingState': ActivityLoadingState.initial,
-          'activityList': <ActivityItem>[],
-          'failure': null,
-          'bandwidth': {
-            'lan': 0,
-            'wan': 0,
-          }
-        };
-      }
-    }
+      _updateServerSortIndex(event.serverList);
 
-    // Remove servers from _activityMap that are no longer configured
-    List toRemove = [];
-    for (String tautulliId in _activityMap.keys) {
-      int item =
-          serverList.indexWhere((server) => server.tautulliId == tautulliId);
-      if (item == -1) {
-        toRemove.add(tautulliId);
-      }
-    }
-    _activityMap.removeWhere((key, value) => toRemove.contains(key));
-
-    if (event is ActivityLoadAndRefresh) {
-      _settingsBlocCache = event.settingsBloc;
-
-      if (serverList.isNotEmpty) {
-        // Do not refresh servers that are still in the process of loading
-        serverList.removeWhere((server) =>
-            _activityMap[server.tautulliId]['loadingState'] ==
-            ActivityLoadingState.inProgress);
-
-        for (String key in _activityMap.keys.toList()) {
-          _activityMap[key]['loadingState'] = ActivityLoadingState.inProgress;
-        }
-        //TODO: Remove this commented code if confirmed to fix issue
-        // yield ActivityLoaded(
-        //   activityMap: _activityMap,
-        //   loadedAt: DateTime.now(),
-        // );
-        _loadServer(
-          serverList: serverList,
-          activityMap: _activityMap,
-          settingsBloc: _settingsBlocCache,
-        );
-      } else {
-        yield ActivityLoadFailure(
-          failure: MissingServerFailure(),
-          message:
-              FailureMapperHelper.mapFailureToMessage(MissingServerFailure()),
-          suggestion: FailureMapperHelper.mapFailureToSuggestion(
-              MissingServerFailure()),
-        );
-      }
-    }
-    if (event is ActivityLoadServer) {
-      yield* event.failureOrActivity.fold(
-        (failure) async* {
-          logging.error(
-            'Activity: Failed to load activity for ${event.plexName}. ${FailureMapperHelper.mapFailureToMessage(failure)}',
-          );
-
-          _activityMap[event.tautulliId] = {
-            'plex_name': event.plexName,
-            'loadingState': ActivityLoadingState.failure,
-            'activityList': <ActivityItem>[],
-            'failure': failure,
-            'bandwidth': {
-              'lan': 0,
-              'wan': 0,
-            }
-          };
-
-          yield ActivityLoaded(
-            activityMap: _activityMap,
-            loadedAt: DateTime.now(),
-          );
-        },
-        (list) async* {
-          List<ActivityItem> updatedList = [];
-          int lanBandwidth = 0;
-          int wanBandwidth = 0;
-
-          for (ActivityItem activityItem in list) {
-            //* Fetch and assign image URLs
-            String posterImg;
-            int posterRatingKey;
-            String posterFallback;
-
-            // Assign values for poster URL
-            switch (activityItem.mediaType) {
-              case ('movie'):
-                posterImg = activityItem.thumb;
-                posterRatingKey = activityItem.ratingKey;
-                if (activityItem.live == 0) {
-                  posterFallback = 'poster';
-                } else {
-                  posterFallback = 'poster-live';
-                }
-                break;
-              case ('episode'):
-                posterImg = activityItem.grandparentThumb;
-                posterRatingKey = activityItem.grandparentRatingKey;
-                if (activityItem.live == 0) {
-                  posterFallback = 'poster';
-                } else {
-                  posterFallback = 'poster-live';
-                }
-                break;
-              case ('track'):
-                posterImg = activityItem.thumb;
-                posterRatingKey = activityItem.parentRatingKey;
-                posterFallback = 'cover';
-                break;
-              case ('clip'):
-                posterImg = activityItem.thumb;
-                posterRatingKey = activityItem.ratingKey;
-                posterFallback = 'poster';
-                break;
-              default:
-                posterRatingKey = activityItem.ratingKey;
-            }
-
-            // Attempt to get poster URL
-            final failureOrPosterUrl = await getImageUrl(
-              tautulliId: event.tautulliId,
-              img: posterImg,
-              ratingKey: posterRatingKey,
-              fallback: posterFallback,
-              settingsBloc: _settingsBlocCache,
-            );
-            failureOrPosterUrl.fold(
-              (failure) {
-                logging.warning(
-                  'Activity: Failed to load poster for rating key $posterRatingKey',
-                );
-              },
-              (url) {
-                updatedList.add(activityItem.copyWith(posterUrl: url));
-              },
-            );
-
-            // Calculate bandwidth values
-            try {
-              if (['wan', 'cellular'].contains(activityItem.location)) {
-                wanBandwidth = wanBandwidth + int.parse(activityItem.bandwidth);
-              } else {
-                lanBandwidth = lanBandwidth + int.parse(activityItem.bandwidth);
-              }
-            } catch (_) {}
-          }
-
-          _activityMap[event.tautulliId] = {
-            'plex_name': event.plexName,
-            'loadingState': ActivityLoadingState.success,
-            'activityList': updatedList,
-            'failure': null,
-            'bandwidth': {
-              'lan': lanBandwidth,
-              'wan': wanBandwidth,
-            },
-          };
-          yield ActivityLoaded(
-            activityMap: _activityMap,
-            loadedAt: DateTime.now(),
-          );
-        },
+      serverActivityListCache.sort(
+        (a, b) => a.sortIndex.compareTo(b.sortIndex),
       );
-      add(ActivityAutoRefreshStart());
-    }
-    if (event is ActivityAutoRefreshStart) {
-      _timer?.cancel();
-      final refreshRate = await settings.getRefreshRate();
-      if (refreshRate != null && refreshRate > 0) {
-        _timer = Timer.periodic(Duration(seconds: refreshRate), (timer) {
-          add(ActivityLoadAndRefresh(settingsBloc: _settingsBlocCache));
-        });
+
+      emit(
+        state.copyWith(
+          serverActivityList: [...serverActivityListCache],
+        ),
+      );
+
+      if (event.multiserver) {
+        for (ServerActivityModel serverActivityModel in serverActivityListCache) {
+          // Exclude servers already in the process of loading activity
+          if (serverActivityModel.status != BlocStatus.inProgress) {
+            // Set status to inProgress
+            final index = serverActivityListCache.indexWhere((e) => e.tautulliId == serverActivityModel.tautulliId);
+            serverActivityListCache[index] = serverActivityModel.copyWith(status: BlocStatus.inProgress);
+
+            emit(
+              state.copyWith(
+                serverActivityList: [...serverActivityListCache],
+              ),
+            );
+
+            _loadServer(
+              serverActivityModel: serverActivityModel,
+              settingsBloc: event.settingsBloc,
+            );
+          }
+        }
+      } else {
+        final activeServerIndex = serverActivityListCache.indexWhere(
+          (server) => server.tautulliId == activeServerIdCache,
+        );
+
+        // Update status to inProgress
+        serverActivityListCache[activeServerIndex] =
+            serverActivityListCache[activeServerIndex].copyWith(status: BlocStatus.inProgress);
+
+        emit(
+          state.copyWith(
+            serverActivityList: [...serverActivityListCache],
+          ),
+        );
+
+        _loadServer(
+          serverActivityModel: serverActivityListCache[activeServerIndex],
+          settingsBloc: event.settingsBloc,
+        );
       }
     }
-    if (event is ActivityAutoRefreshStop) {
-      _timer?.cancel();
+
+    add(ActivityAutoRefreshStart());
+  }
+
+  void _addNewServers(List<ServerModel> serverList) {
+    for (ServerModel server in serverList) {
+      final bool serverExistsInCache =
+          serverActivityListCache.indexWhere((e) => e.tautulliId == server.tautulliId) != -1 ? true : false;
+
+      if (!serverExistsInCache) {
+        serverActivityListCache.add(
+          ServerActivityModel(
+            sortIndex: server.sortIndex,
+            serverName: server.plexName,
+            tautulliId: server.tautulliId,
+            status: BlocStatus.initial,
+            activityList: const [],
+            copyCount: 0,
+            directPlayCount: 0,
+            transcodeCount: 0,
+            lanBandwidth: 0,
+            wanBandwidth: 0,
+          ),
+        );
+      }
     }
   }
 
-  /// For each server in serverList add the [ActivityLoadServer] event with the current activityMap.
-  ///
-  /// This will allow for asynchronous loading of each server and will yield [ActivityLoaded] with the
-  /// servers data added to the activityMap.
+  void _verifyActiveServerId(List<ServerModel> serverList, String activeServerId) {
+    // Set active server
+    final ServerModel activeServer = serverList.firstWhere(
+      (server) => server.tautulliId == activeServerId,
+    );
+    // Set active server if null
+    activeServerIdCache ??= activeServer.tautulliId;
+
+    final activeServerIndex = serverActivityListCache.indexWhere(
+      (server) => server.tautulliId == activeServer.tautulliId,
+    );
+    // Clear activityList if active server was changed
+    if (activeServerIdCache != activeServer.tautulliId) {
+      serverActivityListCache[activeServerIndex] =
+          serverActivityListCache[activeServerIndex].copyWith(activityList: []);
+    }
+
+    activeServerIdCache = activeServer.tautulliId;
+  }
+
+  void _removeOldServers(List<ServerModel> serverList) {
+    for (ServerActivityModel serverActivityModel in serverActivityListCache) {
+      final bool serverExistsInServerList =
+          serverList.indexWhere((server) => server.tautulliId == serverActivityModel.tautulliId) != -1 ? true : false;
+
+      if (!serverExistsInServerList) {
+        serverActivityListCache.remove(serverActivityModel);
+      }
+    }
+  }
+
+  void _updateServerSortIndex(List<ServerModel> serverList) {
+    for (ServerActivityModel serverActivityModel in serverActivityListCache) {
+      final int serverIndex = serverActivityListCache.indexOf(serverActivityModel);
+      final int sortIndex =
+          serverList.firstWhere((server) => server.tautulliId == serverActivityModel.tautulliId).sortIndex;
+
+      serverActivityListCache[serverIndex] = serverActivityListCache[serverIndex].copyWith(sortIndex: sortIndex);
+    }
+  }
+
   void _loadServer({
-    @required List<ServerModel> serverList,
-    @required Map<String, Map<String, dynamic>> activityMap,
-    @required SettingsBloc settingsBloc,
+    required ServerActivityModel serverActivityModel,
+    required SettingsBloc settingsBloc,
   }) {
-    for (ServerModel server in serverList) {
-      getActivity(
-        tautulliId: server.tautulliId,
-        settingsBloc: settingsBloc,
-      ).then(
-        (failureOrActivity) => add(
-          ActivityLoadServer(
-            tautulliId: server.tautulliId,
-            plexName: server.plexName,
-            failureOrActivity: failureOrActivity,
+    activity
+        .getActivity(
+          tautulliId: serverActivityModel.tautulliId,
+        )
+        .then(
+          (failureOrActivity) => add(
+            ActivityLoadServer(
+              tautulliId: serverActivityModel.tautulliId,
+              serverName: serverActivityModel.serverName,
+              failureOrActivity: failureOrActivity,
+              settingsBloc: settingsBloc,
+            ),
           ),
+        );
+  }
+
+  Future<void> _onActivityLoadServer(
+    ActivityLoadServer event,
+    Emitter<ActivityState> emit,
+  ) async {
+    final int index = serverActivityListCache.indexWhere((server) => server.tautulliId == event.tautulliId);
+
+    await event.failureOrActivity.fold(
+      (failure) async {
+        logging.error('Activity :: Failed to fetch activity for ${event.serverName} [$failure]');
+
+        serverActivityListCache[index] = serverActivityListCache[index].copyWith(
+          status: BlocStatus.failure,
+          activityList: [],
+          failure: failure,
+          failureMessage: FailureHelper.mapFailureToMessage(failure),
+          failureSuggestion: FailureHelper.mapFailureToSuggestion(failure),
+        );
+      },
+      (activity) async {
+        event.settingsBloc.add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: event.tautulliId,
+            primaryActive: activity.value2,
+          ),
+        );
+
+        // Add posters to activity models
+        List<ActivityModel> activityListWithUris = await _activityModelsWithPosterUris(
+          activityList: activity.value1,
+          tautulliId: event.tautulliId,
+          settingsBloc: event.settingsBloc,
+        );
+
+        int copyCount = 0;
+        int directPlayCount = 0;
+        int transcodeCount = 0;
+        int lanBandwidth = 0;
+        int wanBandwidth = 0;
+
+        for (int i = 0; i < activityListWithUris.length; i++) {
+          if (activityListWithUris[i].transcodeDecision == StreamDecision.directPlay) directPlayCount += 1;
+          if (activityListWithUris[i].transcodeDecision == StreamDecision.copy) copyCount += 1;
+          if (activityListWithUris[i].transcodeDecision == StreamDecision.transcode) transcodeCount += 1;
+
+          if (activityListWithUris[i].bandwidth != null) {
+            if (activityListWithUris[i].location == Location.lan) {
+              lanBandwidth += activityListWithUris[i].bandwidth!;
+            } else {
+              wanBandwidth += activityListWithUris[i].bandwidth!;
+            }
+          }
+        }
+
+        serverActivityListCache[index] = serverActivityListCache[index].copyWith(
+          status: BlocStatus.success,
+          activityList: activityListWithUris,
+          copyCount: copyCount,
+          directPlayCount: directPlayCount,
+          transcodeCount: transcodeCount,
+          lanBandwidth: lanBandwidth,
+          wanBandwidth: wanBandwidth,
+        );
+      },
+    );
+
+    emit(
+      state.copyWith(
+        serverActivityList: [...serverActivityListCache],
+      ),
+    );
+  }
+
+  Future<void> _onActivityAutoRefreshStart(
+    ActivityAutoRefreshStart event,
+    Emitter<ActivityState> emit,
+  ) async {
+    _timer?.cancel();
+
+    final refreshRate = await settings.getRefreshRate();
+
+    if (refreshRate > 0) {
+      _timer = Timer.periodic(Duration(seconds: refreshRate), (timer) {
+        add(
+          ActivityFetched(
+            serverList: serverListCache,
+            multiserver: multiserverCache,
+            activeServerId: activeServerIdCache!,
+            settingsBloc: settingsBlocCache,
+          ),
+        );
+      });
+    }
+  }
+
+  Future<void> _onActivityAutoRefreshStop(
+    ActivityAutoRefreshStop event,
+    Emitter<ActivityState> emit,
+  ) async {
+    _timer?.cancel();
+  }
+
+  Future<List<ActivityModel>> _activityModelsWithPosterUris({
+    required List<ActivityModel> activityList,
+    required String tautulliId,
+    required SettingsBloc settingsBloc,
+  }) async {
+    List<ActivityModel> activityWithImages = [];
+
+    for (ActivityModel activity in activityList) {
+      Uri? imageUri;
+      Uri? parentImageUri;
+      Uri? grandparentImageUri;
+
+      if (activity.thumb != null || activity.ratingKey != null) {
+        final failureOrImageUrl = await imageUrl.getImageUrl(
+          tautulliId: tautulliId,
+          img: activity.thumb,
+          ratingKey: activity.ratingKey,
+        );
+
+        await failureOrImageUrl.fold(
+          (failure) async {
+            logging.error(
+              'Activity :: Failed to fetch image url for ${activity.title} [$failure]',
+            );
+          },
+          (imageUriTuple) async {
+            settingsBloc.add(
+              SettingsUpdatePrimaryActive(
+                tautulliId: tautulliId,
+                primaryActive: imageUriTuple.value2,
+              ),
+            );
+
+            imageUri = imageUriTuple.value1;
+          },
+        );
+      }
+
+      if (activity.parentThumb != null || activity.parentRatingKey != null) {
+        final failureOrParentImageUrl = await imageUrl.getImageUrl(
+          tautulliId: tautulliId,
+          img: activity.parentThumb,
+          ratingKey: activity.parentRatingKey,
+        );
+
+        await failureOrParentImageUrl.fold(
+          (failure) async {
+            logging.error(
+              'Activity :: Failed to fetch parent image url for ${activity.title} [$failure]',
+            );
+          },
+          (imageUriTuple) async {
+            settingsBloc.add(
+              SettingsUpdatePrimaryActive(
+                tautulliId: tautulliId,
+                primaryActive: imageUriTuple.value2,
+              ),
+            );
+
+            parentImageUri = imageUriTuple.value1;
+          },
+        );
+      }
+
+      if (activity.grandparentThumb != null || activity.grandparentRatingKey != null) {
+        final failureOrGrandparentImageUrl = await imageUrl.getImageUrl(
+          tautulliId: tautulliId,
+          img: activity.grandparentThumb,
+          ratingKey: activity.grandparentRatingKey,
+        );
+
+        await failureOrGrandparentImageUrl.fold(
+          (failure) async {
+            logging.error(
+              'Activity :: Failed to fetch grandparent image url for ${activity.title} [$failure]',
+            );
+          },
+          (imageUriTuple) async {
+            settingsBloc.add(
+              SettingsUpdatePrimaryActive(
+                tautulliId: tautulliId,
+                primaryActive: imageUriTuple.value2,
+              ),
+            );
+
+            grandparentImageUri = imageUriTuple.value1;
+          },
+        );
+      }
+
+      activityWithImages.add(
+        activity.copyWith(
+          imageUri: imageUri,
+          parentImageUri: parentImageUri,
+          grandparentImageUri: grandparentImageUri,
         ),
       );
     }
-  }
 
-  @override
-  Future<void> close() {
-    _timer?.cancel();
-    return super.close();
+    return activityWithImages;
   }
 }

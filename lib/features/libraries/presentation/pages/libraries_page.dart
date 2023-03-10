@@ -1,34 +1,27 @@
-// @dart=2.9
-
-import 'dart:async';
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 
-import '../../../../core/database/data/models/custom_header_model.dart';
-import '../../../../core/database/domain/entities/server.dart';
-import '../../../../core/helpers/asset_mapper_helper.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/widgets/error_message.dart';
-import '../../../../core/widgets/icon_card.dart';
-import '../../../../core/widgets/inherited_headers.dart';
-import '../../../../core/widgets/inner_drawer_scaffold.dart';
-import '../../../../core/widgets/server_header.dart';
-import '../../../../injection_container.dart' as di;
+import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/helpers/quick_actions_helper.dart';
+import '../../../../core/pages/status_page.dart';
+import '../../../../core/types/bloc_status.dart';
+import '../../../../core/widgets/bottom_loader.dart';
+import '../../../../core/widgets/page_body.dart';
+import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
+import '../../../../core/widgets/themed_refresh_indicator.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/library.dart';
 import '../bloc/libraries_bloc.dart';
-import '../widgets/libraries_error_button.dart';
-import '../widgets/library_details.dart';
-import 'library_details_page.dart';
+import '../widgets/library_card.dart';
+import '../widgets/library_card_details.dart';
 
 class LibrariesPage extends StatelessWidget {
-  const LibrariesPage({Key key}) : super(key: key);
+  const LibrariesPage({super.key});
 
   static const routeName = '/libraries';
 
@@ -36,80 +29,177 @@ class LibrariesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<LibrariesBloc>(),
-      child: const LibrariesPageContent(),
+      child: const LibrariesView(),
     );
   }
 }
 
-class LibrariesPageContent extends StatefulWidget {
-  const LibrariesPageContent({Key key}) : super(key: key);
+class LibrariesView extends StatefulWidget {
+  const LibrariesView({super.key});
 
   @override
-  _LibrariesPageContentState createState() => _LibrariesPageContentState();
+  State<LibrariesView> createState() => _LibrariesViewState();
 }
 
-class _LibrariesPageContentState extends State<LibrariesPageContent> {
-  Completer<void> _refreshCompleter;
-  SettingsBloc _settingsBloc;
-  LibrariesBloc _librariesBloc;
-  String _tautulliId;
-  String _orderColumn;
-  String _orderDir;
-  Map<String, String> headerMap = {};
+class _LibrariesViewState extends State<LibrariesView> {
+  final QuickActions quickActions = const QuickActions();
+  final _scrollController = ScrollController();
+  late LibrariesBloc _librariesBloc;
+  late SettingsBloc _settingsBloc;
+  late ServerModel _server;
+  late String _orderColumn;
+  late String _orderDir;
 
   @override
   void initState() {
     super.initState();
-    _refreshCompleter = Completer<void>();
-    _settingsBloc = context.read<SettingsBloc>();
+    initalizeQuickActions(context, quickActions);
+
+    _scrollController.addListener(_onScroll);
     _librariesBloc = context.read<LibrariesBloc>();
+    _settingsBloc = context.read<SettingsBloc>();
+    final settingsState = _settingsBloc.state as SettingsSuccess;
 
-    final librariesState = _librariesBloc.state;
-    final settingsState = _settingsBloc.state;
+    _server = settingsState.appSettings.activeServer;
 
-    if (settingsState is SettingsLoadSuccess) {
-      String lastSelectedServer;
+    final librariesSort = settingsState.appSettings.librariesSort.split('|');
+    _orderColumn = librariesSort[0];
+    _orderDir = librariesSort[1];
 
-      if (settingsState.lastSelectedServer != null) {
-        for (Server server in settingsState.serverList) {
-          if (server.tautulliId == settingsState.lastSelectedServer) {
-            lastSelectedServer = settingsState.lastSelectedServer;
+    _librariesBloc.add(
+      LibrariesFetched(
+        server: _server,
+        orderColumn: _orderColumn,
+        orderDir: _orderDir,
+        settingsBloc: _settingsBloc,
+      ),
+    );
+  }
 
-            for (CustomHeaderModel header in server.customHeaders) {
-              headerMap[header.key] = header.value;
-            }
-
-            break;
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<SettingsBloc, SettingsState>(
+      // Listen for active server change and run a fresh user fetch if it does
+      listenWhen: (previous, current) {
+        if (previous is SettingsSuccess && current is SettingsSuccess) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
+            return true;
           }
         }
-      }
+        return false;
+      },
+      listener: (context, state) {
+        if (state is SettingsSuccess) {
+          _server = state.appSettings.activeServer;
 
-      if (lastSelectedServer != null) {
-        setState(() {
-          _tautulliId = lastSelectedServer;
-        });
-      } else if (settingsState.serverList.isNotEmpty) {
-        setState(() {
-          _tautulliId = settingsState.serverList[0].tautulliId;
-          for (CustomHeaderModel header
-              in settingsState.serverList[0].customHeaders) {
-            headerMap[header.key] = header.value;
-          }
-        });
-      } else {
-        setState(() {
-          _tautulliId = null;
-        });
-      }
+          _librariesBloc.add(
+            LibrariesFetched(
+              server: _server,
+              orderColumn: _orderColumn,
+              orderDir: _orderDir,
+              settingsBloc: _settingsBloc,
+            ),
+          );
+        }
+      },
+      child: ScaffoldWithInnerDrawer(
+        title: const Text(LocaleKeys.libraries_title).tr(),
+        actions: _server.id != null ? _appBarActions() : [],
+        body: BlocBuilder<LibrariesBloc, LibrariesState>(
+          builder: (context, state) {
+            return PageBody(
+              loading: state.status == BlocStatus.initial && !state.hasReachedMax,
+              child: ThemedRefreshIndicator(
+                onRefresh: () {
+                  _librariesBloc.add(
+                    LibrariesFetched(
+                      server: _server,
+                      orderColumn: _orderColumn,
+                      orderDir: _orderDir,
+                      freshFetch: true,
+                      settingsBloc: _settingsBloc,
+                    ),
+                  );
 
-      if (librariesState is LibrariesInitial) {
-        _orderColumn = librariesState.orderColumn ?? 'section_name';
-        _orderDir = librariesState.orderDir ?? 'asc';
-      }
+                  return Future.value(null);
+                },
+                child: Builder(
+                  builder: (context) {
+                    if (state.libraries.isEmpty) {
+                      if (state.status == BlocStatus.failure) {
+                        return StatusPage(
+                          scrollable: true,
+                          message: state.message ?? '',
+                          suggestion: state.suggestion ?? '',
+                        );
+                      }
+                      if (state.status == BlocStatus.success) {
+                        return const StatusPage(
+                          scrollable: true,
+                          message: 'No libraries',
+                        );
+                      }
+                    }
 
+                    return ListView.separated(
+                      controller: _scrollController,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(8),
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial
+                          ? state.libraries.length
+                          : state.libraries.length + 1,
+                      separatorBuilder: (context, index) => const Gap(8),
+                      itemBuilder: (context, index) {
+                        if (index >= state.libraries.length) {
+                          return BottomLoader(
+                            status: state.status,
+                            failure: state.failure,
+                            message: state.message,
+                            suggestion: state.suggestion,
+                            onTap: () {
+                              _librariesBloc.add(
+                                LibrariesFetched(
+                                  server: _server,
+                                  orderColumn: _orderColumn,
+                                  orderDir: _orderDir,
+                                  settingsBloc: _settingsBloc,
+                                ),
+                              );
+                            },
+                          );
+                        }
+
+                        final library = state.libraries[index];
+
+                        return LibraryCard(
+                          library: library,
+                          details: LibraryCardDetails(library: library),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom) {
       _librariesBloc.add(
-        LibrariesFetch(
-          tautulliId: _tautulliId,
+        LibrariesFetched(
+          server: _server,
           orderColumn: _orderColumn,
           orderDir: _orderDir,
           settingsBloc: _settingsBloc,
@@ -118,361 +208,189 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return InnerDrawerScaffold(
-      title: Text(
-        LocaleKeys.libraries_page_title.tr(),
-      ),
-      actions: _appBarActions(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BlocBuilder<SettingsBloc, SettingsState>(
-            builder: (context, state) {
-              if (state is SettingsLoadSuccess) {
-                if (state.serverList.length > 1) {
-                  return DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                      value: _tautulliId,
-                      style: TextStyle(color: Theme.of(context).accentColor),
-                      items: state.serverList.map((server) {
-                        return DropdownMenuItem(
-                          child: ServerHeader(serverName: server.plexName),
-                          value: server.tautulliId,
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        if (value != _tautulliId) {
-                          final server = state.serverList.firstWhere(
-                              (server) => server.tautulliId == value);
-                          Map<String, String> newHeaderMap = {};
-                          for (CustomHeaderModel header
-                              in server.customHeaders) {
-                            newHeaderMap[header.key] = header.value;
-                          }
-
-                          setState(() {
-                            _tautulliId = value;
-                            headerMap = newHeaderMap;
-                          });
-                          _settingsBloc.add(
-                            SettingsUpdateLastSelectedServer(
-                                tautulliId: _tautulliId),
-                          );
-                          _librariesBloc.add(
-                            LibrariesFilter(
-                              tautulliId: value,
-                              orderColumn: _orderColumn,
-                              orderDir: _orderDir,
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  );
-                }
-              }
-              return Container(height: 0, width: 0);
-            },
-          ),
-          BlocConsumer<LibrariesBloc, LibrariesState>(
-            listener: (context, state) {
-              if (state is LibrariesSuccess) {
-                _refreshCompleter?.complete();
-                _refreshCompleter = Completer();
-              }
-            },
-            builder: (context, state) {
-              if (state is LibrariesSuccess) {
-                if (state.librariesList.isNotEmpty) {
-                  return InheritedHeaders(
-                    headerMap: headerMap,
-                    child: Expanded(
-                      child: RefreshIndicator(
-                        color: Theme.of(context).accentColor,
-                        onRefresh: () {
-                          _librariesBloc.add(
-                            LibrariesFilter(
-                              tautulliId: _tautulliId,
-                              orderColumn: _orderColumn,
-                              orderDir: _orderDir,
-                            ),
-                          );
-                          return _refreshCompleter.future;
-                        },
-                        child: Scrollbar(
-                          child: ListView.builder(
-                            itemCount: state.librariesList.length,
-                            itemBuilder: (context, index) {
-                              final heroTag = UniqueKey();
-
-                              Library library = state.librariesList[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  if (library.sectionType != 'live') {
-                                    return Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            LibraryDetailsPage(
-                                          library: library,
-                                          sectionType: library.sectionType,
-                                          heroTag: heroTag,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: IconCard(
-                                  localIconImagePath:
-                                      AssetMapperHelper.mapLibraryToPath(
-                                          library.sectionType),
-                                  iconImageUrl: library.iconUrl,
-                                  iconColor: TautulliColorPalette.not_white,
-                                  backgroundImage: library.sectionType != 'live'
-                                      ? Image(
-                                          image: CachedNetworkImageProvider(
-                                              library.backgroundUrl,
-                                              headers: headerMap),
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image.asset(
-                                          'assets/images/livetv_fallback.png',
-                                          fit: BoxFit.cover,
-                                        ),
-                                  details: LibraryDetails(library: library),
-                                  heroTag: heroTag,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  return Expanded(
-                    child: Center(
-                      child: const Text(
-                        LocaleKeys.libraries_empty,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                        ),
-                      ).tr(),
-                    ),
-                  );
-                }
-              }
-              if (state is LibrariesFailure) {
-                return Expanded(
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Center(
-                          child: ErrorMessage(
-                            failure: state.failure,
-                            message: state.message,
-                            suggestion: state.suggestion,
-                          ),
-                        ),
-                        LibrariesErrorButton(
-                          completer: _refreshCompleter,
-                          failure: state.failure,
-                          librariesEvent: LibrariesFilter(
-                            tautulliId: _tautulliId,
-                            orderColumn: _orderColumn,
-                            orderDir: _orderDir,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-              return Expanded(
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: Theme.of(context).accentColor,
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    );
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 
   List<Widget> _appBarActions() {
     return [
-      PopupMenuButton(
-        icon: _currentSortIcon(),
-        tooltip: LocaleKeys.general_tooltip_sort_libraries.tr(),
-        onSelected: (value) {
-          List<String> values = value.split('|');
+      Theme(
+        data: Theme.of(context).copyWith(
+          dividerTheme: DividerThemeData(
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
+        ),
+        child: PopupMenuButton(
+          icon: _currentSortIcon(),
+          tooltip: 'Sort libraries',
+          color: Theme.of(context).colorScheme.primary,
+          onSelected: (value) {
+            if (value != null) {
+              value as String;
+              List<String> values = value.split('|');
 
-          setState(() {
-            _orderColumn = values[0];
-            _orderDir = values[1];
-          });
-          _librariesBloc.add(
-            LibrariesFilter(
-              tautulliId: _tautulliId,
-              orderColumn: _orderColumn,
-              orderDir: _orderDir,
+              setState(() {
+                _orderColumn = values[0];
+                _orderDir = values[1];
+              });
+
+              _settingsBloc.add(SettingsUpdateLibrariesSort(value));
+              _librariesBloc.add(
+                LibrariesFetched(
+                  server: _server,
+                  orderColumn: _orderColumn,
+                  orderDir: _orderDir,
+                  freshFetch: true,
+                  settingsBloc: _settingsBloc,
+                ),
+              );
+            }
+          },
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(12),
             ),
-          );
-        },
-        itemBuilder: (context) {
-          return <PopupMenuEntry<dynamic>>[
-            PopupMenuItem(
-              child: Row(
-                children: [
-                  _currentSortIcon(color: PlexColorPalette.gamboge),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: Text(
-                      _currentSortName(),
-                      style: const TextStyle(color: PlexColorPalette.gamboge),
+          ),
+          itemBuilder: (context) {
+            return <PopupMenuEntry<dynamic>>[
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    _currentSortIcon(
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const PopupMenuDivider(),
-            PopupMenuItem(
-              child: Row(
-                children: [
-                  _orderColumn == 'section_name' && _orderDir == 'asc'
-                      ? const FaIcon(
-                          FontAwesomeIcons.sortAlphaDownAlt,
-                          color: TautulliColorPalette.not_white,
-                          size: 20,
-                        )
-                      : const FaIcon(
-                          FontAwesomeIcons.sortAlphaDown,
-                          color: TautulliColorPalette.not_white,
-                          size: 20,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        _currentSortName(),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Text(LocaleKeys.general_filter_name).tr(),
-                  ),
-                ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              value: _orderColumn == 'section_name' && _orderDir == 'asc'
-                  ? 'section_name|desc'
-                  : 'section_name|asc',
-            ),
-            PopupMenuItem(
-              child: Row(
-                children: [
-                  _orderColumn == 'count,parent_count,child_count' &&
-                          _orderDir == 'desc'
-                      ? const FaIcon(
-                          FontAwesomeIcons.sortNumericDown,
-                          color: TautulliColorPalette.not_white,
-                          size: 20,
-                        )
-                      : const FaIcon(
-                          FontAwesomeIcons.sortNumericDownAlt,
-                          color: TautulliColorPalette.not_white,
-                          size: 20,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Text(LocaleKeys.general_filter_count).tr(),
-                  ),
-                ],
+              const PopupMenuDivider(),
+              PopupMenuItem(
+                value: _orderColumn == 'section_name' && _orderDir == 'asc' ? 'section_name|desc' : 'section_name|asc',
+                child: Row(
+                  children: [
+                    _orderColumn == 'section_name' && _orderDir == 'asc'
+                        ? const FaIcon(
+                            FontAwesomeIcons.arrowDownZA,
+                            size: 20,
+                          )
+                        : const FaIcon(
+                            FontAwesomeIcons.arrowDownAZ,
+                            size: 20,
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: const Text(LocaleKeys.name_title).tr(),
+                    ),
+                  ],
+                ),
               ),
-              value: _orderColumn == 'count,parent_count,child_count' &&
-                      _orderDir == 'desc'
-                  ? 'count,parent_count,child_count|asc'
-                  : 'count,parent_count,child_count|desc',
-            ),
-            PopupMenuItem(
-              child: Row(
-                children: [
-                  _orderColumn == 'duration' && _orderDir == 'desc'
-                      ? const FaIcon(
-                          FontAwesomeIcons.sortNumericDown,
-                          color: TautulliColorPalette.not_white,
-                          size: 20,
-                        )
-                      : const FaIcon(
-                          FontAwesomeIcons.sortNumericDownAlt,
-                          color: TautulliColorPalette.not_white,
-                          size: 20,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Text(LocaleKeys.general_filter_duration).tr(),
-                  ),
-                ],
+              PopupMenuItem(
+                value: _orderColumn == 'count' && _orderDir == 'desc' ? 'count|asc' : 'count|desc',
+                child: Row(
+                  children: [
+                    _orderColumn == 'count' && _orderDir == 'desc'
+                        ? const FaIcon(
+                            FontAwesomeIcons.arrowDown19,
+                            size: 20,
+                          )
+                        : const FaIcon(
+                            FontAwesomeIcons.arrowDown91,
+                            size: 20,
+                          ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 5),
+                      child: Text('Count'),
+                    ),
+                  ],
+                ),
               ),
-              value: _orderColumn == 'duration' && _orderDir == 'desc'
-                  ? 'duration|asc'
-                  : 'duration|desc',
-            ),
-            PopupMenuItem(
-              child: Row(
-                children: [
-                  _orderColumn == 'plays' && _orderDir == 'desc'
-                      ? const FaIcon(
-                          FontAwesomeIcons.sortNumericDown,
-                          color: TautulliColorPalette.not_white,
-                          size: 20,
-                        )
-                      : const FaIcon(
-                          FontAwesomeIcons.sortNumericDownAlt,
-                          color: TautulliColorPalette.not_white,
-                          size: 20,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Text(LocaleKeys.general_filter_plays).tr(),
-                  ),
-                ],
+              PopupMenuItem(
+                value: _orderColumn == 'duration' && _orderDir == 'desc' ? 'duration|asc' : 'duration|desc',
+                child: Row(
+                  children: [
+                    _orderColumn == 'duration' && _orderDir == 'desc'
+                        ? const FaIcon(
+                            FontAwesomeIcons.arrowDown19,
+                            size: 20,
+                          )
+                        : const FaIcon(
+                            FontAwesomeIcons.arrowDown91,
+                            size: 20,
+                          ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 5),
+                      child: Text('Time'),
+                    ),
+                  ],
+                ),
               ),
-              value: _orderColumn == 'plays' && _orderDir == 'desc'
-                  ? 'plays|asc'
-                  : 'plays|desc',
-            ),
-          ];
-        },
+              PopupMenuItem(
+                value: _orderColumn == 'plays' && _orderDir == 'desc' ? 'plays|asc' : 'plays|desc',
+                child: Row(
+                  children: [
+                    _orderColumn == 'plays' && _orderDir == 'desc'
+                        ? const FaIcon(
+                            FontAwesomeIcons.arrowDown19,
+                            size: 20,
+                          )
+                        : const FaIcon(
+                            FontAwesomeIcons.arrowDown91,
+                            size: 20,
+                          ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 5),
+                      child: Text('Plays'),
+                    ),
+                  ],
+                ),
+              ),
+            ];
+          },
+        ),
       ),
     ];
   }
 
-  FaIcon _currentSortIcon({Color color}) {
+  FaIcon _currentSortIcon({Color? color}) {
+    color ??= Theme.of(context).colorScheme.tertiary;
+
     if (_orderColumn == 'section_name') {
       if (_orderDir == 'asc') {
         return FaIcon(
-          FontAwesomeIcons.sortAlphaDown,
+          FontAwesomeIcons.arrowDownAZ,
           size: 20,
-          color: color ?? TautulliColorPalette.not_white,
+          color: color,
         );
       } else {
         return FaIcon(
-          FontAwesomeIcons.sortAlphaDownAlt,
+          FontAwesomeIcons.arrowDownZA,
           size: 20,
-          color: color ?? TautulliColorPalette.not_white,
+          color: color,
         );
       }
     } else {
       if (_orderDir == 'asc') {
         return FaIcon(
-          FontAwesomeIcons.sortNumericDown,
+          FontAwesomeIcons.arrowDown19,
           size: 20,
-          color: color ?? TautulliColorPalette.not_white,
+          color: color,
         );
       } else {
         return FaIcon(
-          FontAwesomeIcons.sortNumericDownAlt,
+          FontAwesomeIcons.arrowDown91,
           size: 20,
-          color: color ?? TautulliColorPalette.not_white,
+          color: color,
         );
       }
     }
@@ -481,15 +399,15 @@ class _LibrariesPageContentState extends State<LibrariesPageContent> {
   String _currentSortName() {
     switch (_orderColumn) {
       case ('section_name'):
-        return LocaleKeys.general_filter_name.tr();
-      case ('count,parent_count,child_count'):
-        return LocaleKeys.general_filter_count.tr();
+        return LocaleKeys.name_title.tr();
+      case ('count'):
+        return 'Count';
       case ('duration'):
-        return LocaleKeys.general_filter_duration.tr();
+        return 'Time';
       case ('plays'):
-        return LocaleKeys.general_filter_name.tr();
+        return 'Plays';
       default:
-        return LocaleKeys.general_unknown.tr();
+        return 'Unknown';
     }
   }
 }

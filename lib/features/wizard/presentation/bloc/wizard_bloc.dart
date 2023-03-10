@@ -1,84 +1,95 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:permission_handler/permission_handler.dart';
-
-import '../../../../injection_container.dart' as di;
-import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
-import '../../../settings/domain/usecases/settings.dart';
 
 part 'wizard_event.dart';
 part 'wizard_state.dart';
 
-enum WizardStage {
-  servers,
-  oneSignal,
-  closing,
-}
-
-WizardStage currentWizardStage = WizardStage.servers;
-
 class WizardBloc extends Bloc<WizardEvent, WizardState> {
   WizardBloc()
       : super(
-          WizardLoaded(
-            wizardStage: WizardStage.servers,
+          const WizardInitial(
+            activeStep: 0,
+            oneSignalAllowed: false,
+            oneSignalSkipped: false,
+            stepCount: 3,
+            serversSkipped: false,
           ),
-        );
+        ) {
+    on<WizardNext>((event, emit) => _onWizardNext(event, emit));
+    on<WizardPrevious>((event, emit) => _onWizardPrevious(event, emit));
+    on<WizardSkipOneSignal>(
+      (event, emit) => _onWizardSkipOneSignal(event, emit),
+    );
+    on<WizardSkipServers>(
+      (event, emit) => _onWizardSkipServers(event, emit),
+    );
+    on<WizardToggleOneSignal>(
+      (event, emit) => _onWizardToggleOneSignal(event, emit),
+    );
+  }
 
-  @override
-  Stream<WizardState> mapEventToState(
-    WizardEvent event,
-  ) async* {
-    final currentState = state;
+  _onWizardNext(
+    WizardNext event,
+    Emitter<WizardState> emit,
+  ) {
+    final currentState = state as WizardInitial;
 
-    if (currentState is WizardLoaded) {
-      if (event is WizardUpdateStage) {
-        currentWizardStage = _UpdateStage(event.currentStage);
-        yield currentState.copyWith(
-          wizardStage: currentWizardStage,
-          // iosAppTrackingPermission:
-          //     await Permission.appTrackingTransparency.isGranted,
-          // iosNotificationPermission: await Permission.notification.isGranted,
-        );
-      }
-      if (event is WizardAcceptOneSignal) {
-        yield currentState.copyWith(
-          onesignalAccepted: event.accept,
-        );
-      }
-      // if (event is WizardRejectOneSignalPermission) {
-      //   await di.sl<Settings>().setIosNotificationPermissionDeclined(true);
-      //   yield currentState.copyWith(onesignalPermissionRejected: true);
-      // }
-      // if (event is WizardUpdateIosAppTrackingPermission) {
-      //   yield currentState.copyWith(
-      //     iosAppTrackingPermission:
-      //         await Permission.appTrackingTransparency.isGranted,
-      //   );
-      // }
-      // if (event is WizardUpdateIosNotificationPermission) {
-      //   yield currentState.copyWith(
-      //     iosNotificationPermission: await Permission.notification.isGranted,
-      //   );
-      // }
+    if (currentState.activeStep < currentState.stepCount - 1) {
+      emit(
+        currentState.copyWith(activeStep: currentState.activeStep + 1),
+      );
     }
   }
-}
 
-WizardStage _UpdateStage(WizardStage currentStage) {
-  switch (currentStage) {
-    case (WizardStage.servers):
-      return WizardStage.oneSignal;
-    case (WizardStage.oneSignal):
-      return WizardStage.closing;
-    case (WizardStage.closing):
-      return WizardStage.servers;
-    default:
-      return WizardStage.closing;
+  _onWizardPrevious(
+    WizardPrevious event,
+    Emitter<WizardState> emit,
+  ) {
+    final currentState = state as WizardInitial;
+
+    if (currentState.activeStep > 0) {
+      emit(
+        currentState.copyWith(activeStep: currentState.activeStep - 1),
+      );
+    }
+  }
+
+  _onWizardSkipOneSignal(
+    WizardSkipOneSignal event,
+    Emitter<WizardState> emit,
+  ) {
+    final currentState = state as WizardInitial;
+
+    emit(
+      currentState.copyWith(
+        activeStep: currentState.activeStep + 1,
+        oneSignalSkipped: true,
+      ),
+    );
+  }
+
+  _onWizardSkipServers(
+    WizardSkipServers event,
+    Emitter<WizardState> emit,
+  ) {
+    final currentState = state as WizardInitial;
+
+    emit(
+      currentState.copyWith(
+        activeStep: currentState.activeStep + 1,
+        serversSkipped: true,
+      ),
+    );
+  }
+
+  _onWizardToggleOneSignal(
+    WizardToggleOneSignal event,
+    Emitter<WizardState> emit,
+  ) {
+    final currentState = state as WizardInitial;
+
+    emit(
+      currentState.copyWith(oneSignalAllowed: !currentState.oneSignalAllowed),
+    );
   }
 }

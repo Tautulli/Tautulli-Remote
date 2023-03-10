@@ -1,624 +1,1058 @@
-// @dart=2.9
-
-import 'dart:async';
 import 'dart:convert';
-import 'dart:io' show Platform;
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../core/database/data/models/custom_header_model.dart';
+import '../../../../core/api/tautulli/models/plex_info_model.dart';
+import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dart';
 import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/connection_address_helper.dart';
+import '../../../../core/manage_cache/manage_cache.dart';
+import '../../../../core/types/play_metric_type.dart';
 import '../../../logging/domain/usecases/logging.dart';
-import '../../../onesignal/data/datasources/onesignal_data_source.dart';
-import '../../domain/entities/tautulli_settings_general.dart';
-import '../../domain/usecases/register_device.dart';
+import '../../data/models/app_settings_model.dart';
+import '../../data/models/connection_address_model.dart';
+import '../../data/models/custom_header_model.dart';
 import '../../domain/usecases/settings.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';
 
-SettingsBloc _settingsBlocCache;
+const ServerModel blankServer = ServerModel(
+  sortIndex: -1,
+  plexName: '',
+  plexIdentifier: '',
+  tautulliId: '',
+  primaryConnectionAddress: '',
+  primaryConnectionProtocol: '',
+  primaryConnectionDomain: '',
+  deviceToken: '',
+  primaryActive: true,
+  oneSignalRegistered: false,
+  plexPass: false,
+  customHeaders: [],
+);
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  final Settings settings;
-  final RegisterDevice registerDevice;
-  final OneSignalDataSource onesignal;
   final Logging logging;
+  final ManageCache manageCache;
+  final Settings settings;
 
   SettingsBloc({
-    @required this.settings,
-    @required this.registerDevice,
-    @required this.onesignal,
-    @required this.logging,
-  }) : super(SettingsInitial());
-
-  @override
-  Stream<SettingsState> mapEventToState(
-    SettingsEvent event,
-  ) async* {
-    final currentState = state;
-
-    if (event is SettingsLoad) {
-      _settingsBlocCache = event.settingsBloc;
-
-      yield SettingsLoadInProgress();
-      yield* _fetchAndYieldSettings();
-      yield* _checkForServerChanges(settingsBloc: _settingsBlocCache);
-    }
-    if (currentState is SettingsLoadSuccess) {
-      if (event is SettingsAddServer) {
-        logging.info(
-          'Settings: Saving server details for ${event.plexName}',
-        );
-
-        final primaryConnectionMap = ConnectionAddressHelper.parse(
-          event.primaryConnectionAddress,
-        );
-        final secondaryConnectionMap = ConnectionAddressHelper.parse(
-          event.secondaryConnectionAddress,
-        );
-        ServerModel server = ServerModel(
-          sortIndex: currentState.serverList.length,
-          primaryConnectionAddress: event.primaryConnectionAddress,
-          primaryConnectionProtocol: primaryConnectionMap['protocol'],
-          primaryConnectionDomain: primaryConnectionMap['domain'],
-          primaryConnectionPath: primaryConnectionMap['path'],
-          secondaryConnectionAddress: event.secondaryConnectionAddress,
-          secondaryConnectionProtocol: secondaryConnectionMap['protocol'],
-          secondaryConnectionDomain: secondaryConnectionMap['domain'],
-          secondaryConnectionPath: secondaryConnectionMap['path'],
-          deviceToken: event.deviceToken,
-          tautulliId: event.tautulliId,
-          plexName: event.plexName,
-          plexIdentifier: event.plexIdentifier,
-          primaryActive: true,
-          onesignalRegistered: event.onesignalRegistered,
-          plexPass: event.plexPass,
-          customHeaders: event.headers,
-        );
-
-        await settings.addServer(server: server);
-
-        // Fetch just added server in order to get DB ID
-        server = await settings.getServerByTautulliId(server.tautulliId);
-
-        // Use spreading to create an entirely new list so the bloc updates
-        List<ServerModel> updatedList = [...currentState.serverList];
-
-        updatedList.add(server);
-        if (updatedList.length > 1) {
-          updatedList.sort((a, b) => a.sortIndex.compareTo(b.sortIndex));
-        }
-
-        yield currentState.copyWith(serverList: updatedList);
-        yield* _checkForServerChanges(settingsBloc: _settingsBlocCache);
-      }
-      if (event is SettingsUpdateServer) {
-        logging.info(
-          'Settings: Updating server details for ${event.plexName}',
-        );
-
-        final primaryConnectionMap = ConnectionAddressHelper.parse(
-          event.primaryConnectionAddress,
-        );
-        final secondaryConnectionMap = ConnectionAddressHelper.parse(
-          event.secondaryConnectionAddress,
-        );
-
-        List<ServerModel> updatedList = [...currentState.serverList];
-
-        final int index = currentState.serverList.indexWhere(
-          (server) => server.id == event.id,
-        );
-
-        updatedList[index] = currentState.serverList[index].copyWith(
-          id: event.id,
-          sortIndex: event.sortIndex,
-          primaryConnectionAddress: event.primaryConnectionAddress,
-          primaryConnectionProtocol: primaryConnectionMap['protocol'],
-          primaryConnectionDomain: primaryConnectionMap['domain'],
-          primaryConnectionPath: primaryConnectionMap['path'],
-          secondaryConnectionAddress: event.secondaryConnectionAddress,
-          secondaryConnectionProtocol: secondaryConnectionMap['protocol'],
-          secondaryConnectionDomain: secondaryConnectionMap['domain'],
-          secondaryConnectionPath: secondaryConnectionMap['path'],
-          deviceToken: event.deviceToken,
-          tautulliId: event.tautulliId,
-          plexName: event.plexName,
-          plexIdentifier: event.plexIdentifier,
-          primaryActive: true,
-          onesignalRegistered: event.onesignalRegistered,
-          plexPass: event.plexPass,
-          dateFormat: event.dateFormat,
-          timeFormat: event.timeFormat,
-          customHeaders: event.headers,
-        );
-
-        await settings.updateServerById(
-          server: updatedList[index],
-        );
-
-        yield currentState.copyWith(serverList: updatedList);
-      }
-      if (event is SettingsDeleteServer) {
-        logging.info(
-          'Settings: Deleting server ${event.plexName}',
-        );
-
-        await settings.deleteServer(event.id);
-
-        // Use spreading to create an entirely new list so the bloc updates
-        List<ServerModel> updatedList = [...currentState.serverList];
-
-        final int index = updatedList.indexWhere(
-          (server) => server.id == event.id,
-        );
-        updatedList.removeAt(index);
-
-        yield currentState.copyWith(serverList: updatedList);
-      }
-      if (event is SettingsUpdatePrimaryConnection) {
-        logging.info(
-          'Settings: Updating primary connection address for ${event.plexName}',
-        );
-
-        final connectionMap = ConnectionAddressHelper.parse(
-          event.primaryConnectionAddress,
-        );
-
-        await settings.updatePrimaryConnection(
-          id: event.id,
-          primaryConnectionInfo: {
-            'primary_connection_address': event.primaryConnectionAddress,
-            'primary_connection_protocol': connectionMap['protocol'],
-            'primary_connection_domain': connectionMap['domain'],
-            'primary_connection_path': connectionMap['path'],
-          },
-        );
-
-        final int index = currentState.serverList.indexWhere(
-          (server) => server.id == event.id,
-        );
-
-        List<ServerModel> updatedList = [...currentState.serverList];
-
-        updatedList[index] = currentState.serverList[index].copyWith(
-          primaryConnectionAddress: event.primaryConnectionAddress,
-          primaryConnectionProtocol: connectionMap['protocol'],
-          primaryConnectionDomain: connectionMap['domain'],
-          primaryConnectionPath: connectionMap['path'],
-        );
-
-        yield currentState.copyWith(serverList: updatedList);
-      }
-      if (event is SettingsUpdateSecondaryConnection) {
-        logging.info(
-          'Settings: Updating secondary connection address for ${event.plexName}',
-        );
-
-        final connectionMap = ConnectionAddressHelper.parse(
-          event.secondaryConnectionAddress,
-        );
-
-        await settings.updateSecondaryConnection(
-          id: event.id,
-          secondaryConnectionInfo: {
-            'secondary_connection_address': event.secondaryConnectionAddress,
-            'secondary_connection_protocol': connectionMap['protocol'],
-            'secondary_connection_domain': connectionMap['domain'],
-            'secondary_connection_path': connectionMap['path'],
-          },
-        );
-
-        final int index = currentState.serverList.indexWhere(
-          (server) => server.id == event.id,
-        );
-
-        List<ServerModel> updatedList = [...currentState.serverList];
-
-        updatedList[index] = currentState.serverList[index].copyWith(
-          secondaryConnectionAddress: event.secondaryConnectionAddress,
-          secondaryConnectionProtocol: connectionMap['protocol'],
-          secondaryConnectionDomain: connectionMap['domain'],
-          secondaryConnectionPath: connectionMap['path'],
-        );
-
-        yield currentState.copyWith(serverList: updatedList);
-      }
-      if (event is SettingsUpdatePrimaryActive) {
-        await settings.updatePrimaryActive(
-          tautulliId: event.tautulliId,
-          primaryActive: event.primaryActive,
-        );
-
-        final int index = currentState.serverList.indexWhere(
-          (server) => server.tautulliId == event.tautulliId,
-        );
-
-        List<ServerModel> updatedList = [...currentState.serverList];
-
-        updatedList[index] = currentState.serverList[index].copyWith(
-          primaryActive: event.primaryActive,
-        );
-        yield currentState.copyWith(serverList: updatedList);
-      }
-      if (event is SettingsAddCustomHeader) {
-        final int index = currentState.serverList.indexWhere(
-          (server) => server.tautulliId == event.tautulliId,
-        );
-
-        List<ServerModel> updatedList = [...currentState.serverList];
-
-        List<CustomHeaderModel> customHeaders = [
-          ...updatedList[index].customHeaders
-        ];
-
-        if (event.basicAuth) {
-          final currentIndex = customHeaders.indexWhere(
-            (header) => header.key == 'Authorization',
-          );
-
-          final String base64Value =
-              base64Encode(utf8.encode('${event.key}:${event.value}'));
-
-          if (currentIndex == -1) {
-            customHeaders.add(
-              CustomHeaderModel(
-                key: 'Authorization',
-                value: 'Basic $base64Value',
-              ),
-            );
-          } else {
-            customHeaders[currentIndex] = CustomHeaderModel(
-              key: 'Authorization',
-              value: 'Basic $base64Value',
-            );
-          }
-        } else {
-          if (event.previousKey != null) {
-            final oldIndex = customHeaders.indexWhere(
-              (header) => header.key == event.previousKey,
-            );
-
-            customHeaders[oldIndex] = CustomHeaderModel(
-              key: event.key,
-              value: event.value,
-            );
-          } else {
-            final currentIndex = customHeaders.indexWhere(
-              (header) => header.key == event.key,
-            );
-
-            if (currentIndex == -1) {
-              customHeaders.add(
-                CustomHeaderModel(
-                  key: event.key,
-                  value: event.value,
-                ),
-              );
-            } else {
-              customHeaders[currentIndex] = CustomHeaderModel(
-                key: event.key,
-                value: event.value,
-              );
-            }
-          }
-        }
-
-        await settings.updateCustomHeaders(
-          tautulliId: event.tautulliId,
-          customHeaders: customHeaders,
-        );
-
-        updatedList[index] = currentState.serverList[index].copyWith(
-          customHeaders: customHeaders,
-        );
-        yield currentState.copyWith(serverList: updatedList);
-      }
-      if (event is SettingsRemoveCustomHeader) {
-        final int index = currentState.serverList.indexWhere(
-          (server) => server.tautulliId == event.tautulliId,
-        );
-
-        List<ServerModel> updatedList = [...currentState.serverList];
-
-        List<CustomHeaderModel> customHeaders = [
-          ...updatedList[index].customHeaders
-        ];
-
-        customHeaders.removeWhere((header) => header.key == event.key);
-
-        await settings.updateCustomHeaders(
-          tautulliId: event.tautulliId,
-          customHeaders: customHeaders,
-        );
-
-        updatedList[index] = currentState.serverList[index].copyWith(
-          customHeaders: customHeaders,
-        );
-        yield currentState.copyWith(serverList: updatedList);
-      }
-      if (event is SettingsUpdateSortIndex) {
-        List<ServerModel> updatedServerList = currentState.serverList;
-        ServerModel movedServer = updatedServerList.removeAt(event.oldIndex);
-        updatedServerList.insert(event.newIndex, movedServer);
-
-        yield currentState.copyWith(
-          serverList: updatedServerList,
-          sortChanged: '${movedServer.id}:${event.oldIndex}:${event.newIndex}',
-        );
-
-        await settings.updateServerSort(
-          serverId: movedServer.id,
-          oldIndex: event.oldIndex,
-          newIndex: event.newIndex,
-        );
-      }
-      if (event is SettingsUpdateServerTimeout) {
-        logging.info(
-          'Settings: Updating server timeout to ${event.timeout}s',
-        );
-
-        await settings.setServerTimeout(event.timeout);
-        yield currentState.copyWith(serverTimeout: event.timeout);
-      }
-      if (event is SettingsUpdateRefreshRate) {
-        final String refreshRateString =
-            event.refreshRate != 0 ? '${event.refreshRate}s' : 'disabled';
-
-        logging.info(
-          'Settings: Updating refresh rate to $refreshRateString',
-        );
-
-        await settings.setRefreshRate(event.refreshRate);
-        yield currentState.copyWith(refreshRate: event.refreshRate);
-      }
-      if (event is SettingsUpdateDoubleTapToExit) {
-        logging.info(
-          event.value
-              ? 'Settings: Double Tap To Exit enabled'
-              : 'Settings: Double Tap To Exit disabled',
-        );
-
-        await settings.setDoubleTapToExit(event.value);
-        yield currentState.copyWith(doubleTapToExit: event.value);
-      }
-      if (event is SettingsUpdateMaskSensitiveInfo) {
-        logging.info(
-          event.value
-              ? 'Settings: Mask Sensitive Info enabled'
-              : 'Settings: Mask Sensitive Info disabled',
-        );
-
-        await settings.setMaskSensitiveInfo(event.value);
-        yield currentState.copyWith(maskSensitiveInfo: event.value);
-      }
-      if (event is SettingsUpdateLastSelectedServer) {
-        await settings.setLastSelectedServer(event.tautulliId);
-        yield currentState.copyWith(lastSelectedServer: event.tautulliId);
-      }
-      if (event is SettingsUpdateStatsType) {
-        await settings.setStatsType(event.statsType);
-        yield currentState.copyWith(statsType: event.statsType);
-      }
-      if (event is SettingsUpdateYAxis) {
-        await settings.setYAxis(event.yAxis);
-        yield currentState.copyWith(yAxis: event.yAxis);
-      }
-      if (event is SettingsUpdateUsersSort) {
-        await settings.setUsersSort(event.usersSort);
-        yield currentState.copyWith(usersSort: event.usersSort);
-      }
-      if (event is SettingsUpdateOneSignalBannerDismiss) {
-        if (event.dismiss) {
-          logging.info('Settings: OneSignal banner dismissed');
-        }
-
-        await settings.setOneSignalBannerDismissed(event.dismiss);
-        yield currentState.copyWith(oneSignalBannerDismissed: event.dismiss);
-      }
-      if (event is SettingsUpdateLastAppVersion) {
-        PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        await settings.setLastAppVersion(packageInfo.version);
-      }
-      if (event is SettingsUpdateWizardCompleteStatus) {
-        await settings.setWizardCompleteStatus(event.complete);
-      }
-      if (event is SettingsUpdateIosLocalNetworkPermissionPrompted) {
-        if (event.prompted) {
-          logging.info('Settings: Prompted for iOS local network permission');
-        }
-        await settings.setIosLocalNetworkPermissionPrompted(event.prompted);
-        yield currentState.copyWith(
-          iosLocalNetworkPermissionPrompted: event.prompted,
-        );
-      }
-      if (event is SettingsUpdateGraphTipsShown) {
-        await settings.setGraphTipsShown(event.shown);
-        yield currentState.copyWith(graphTipsShown: event.shown);
-      }
-    }
-  }
-
-  Stream<SettingsState> _fetchAndYieldSettings() async* {
-    final serverList = await settings.getAllServers();
-    final serverTimeout = await settings.getServerTimeout();
-    final refreshRate = await settings.getRefreshRate();
-    final doubleTapToExit =
-        Platform.isAndroid ? await settings.getDoubleTapToExit() : false;
-    final maskSensitiveInfo = await settings.getMaskSensitiveInfo();
-    final lastSelectedServer = await settings.getLastSelectedServer();
-    final statsType = await settings.getStatsType();
-    final yAxis = await settings.getYAxis();
-    final usersSort = await settings.getUsersSort();
-    final oneSignalBannerDismissed =
-        await settings.getOneSignalBannerDismissed();
-    final iosLocalNetworkPermissionPrompted =
-        await settings.getIosLocalNetworkPermissionPrompted();
-    final graphTipsShown = await settings.getGraphTipsShown();
-
-    if (serverList.length > 1) {
-      serverList.sort((a, b) => a.sortIndex.compareTo(b.sortIndex));
-    }
-
-    yield SettingsLoadSuccess(
-      serverList: serverList,
-      serverTimeout: serverTimeout ?? 15,
-      refreshRate: refreshRate ?? 0,
-      doubleTapToExit: doubleTapToExit ?? false,
-      maskSensitiveInfo: maskSensitiveInfo ?? false,
-      lastSelectedServer: lastSelectedServer,
-      statsType: statsType ?? 'plays',
-      yAxis: yAxis ?? 'plays',
-      usersSort: usersSort ?? 'friendly_name|asc',
-      oneSignalBannerDismissed: oneSignalBannerDismissed ?? false,
-      iosLocalNetworkPermissionPrompted:
-          iosLocalNetworkPermissionPrompted ?? false,
-      graphTipsShown: graphTipsShown ?? false,
+    required this.logging,
+    required this.manageCache,
+    required this.settings,
+  }) : super(SettingsInitial()) {
+    on<SettingsAddServer>((event, emit) => _onSettingsAddServer(event, emit));
+    on<SettingsClearCache>((event, emit) => _onSettingsClearCache(event, emit));
+    on<SettingsDeleteCustomHeader>(
+      (event, emit) => _onSettingsDeleteCustomHeader(event, emit),
+    );
+    on<SettingsDeleteServer>(
+      (event, emit) => _onSettingsDeleteServer(event, emit),
+    );
+    on<SettingsLoad>((event, emit) => _onSettingsLoad(event, emit));
+    on<SettingsUpdateActiveServer>(
+      (event, emit) => _onSettingsUpdateActiveServer(event, emit),
+    );
+    on<SettingsUpdateConnectionInfo>(
+      (event, emit) => _onSettingsUpdateConnectionInfo(event, emit),
+    );
+    on<SettingsUpdateCustomHeaders>(
+      (event, emit) => _onSettingsUpdateCustomHeaders(event, emit),
+    );
+    on<SettingsUpdateDoubleBackToExit>(
+      (event, emit) => _onSettingsUpdateDoubleBackToExit(event, emit),
+    );
+    on<SettingsUpdateGraphTimeRange>(
+      (event, emit) => _onSettingsUpdateGraphTimeRange(event, emit),
+    );
+    on<SettingsUpdateGraphTipsShown>(
+      (event, emit) => _onSettingsUpdateGraphTipsShown(event, emit),
+    );
+    on<SettingsUpdateGraphYAxis>(
+      (event, emit) => _onSettingsUpdateGraphYAxis(event, emit),
+    );
+    on<SettingsUpdateLibrariesSort>(
+      (event, emit) => _onSettingsUpdateLibrariesSort(event, emit),
+    );
+    on<SettingsUpdateLibraryMediaFullRefresh>(
+      (event, emit) => _onSettingsUpdateLibraryMediaFullRefresh(event, emit),
+    );
+    on<SettingsUpdateMaskSensitiveInfo>(
+      (event, emit) => _onSettingsUpdateMaskSensitiveInfo(event, emit),
+    );
+    on<SettingsUpdateMultiserverActivity>(
+      (event, emit) => _onSettingsUpdateMultiserverActivity(event, emit),
+    );
+    on<SettingsUpdateOneSignalConsented>(
+      (event, emit) => _onSettingsUpdateOneSignalConsented(event, emit),
+    );
+    on<SettingsUpdateOneSignalBannerDismiss>(
+      (event, emit) => _onSettingsUpdateOneSignalBannerDismiss(event, emit),
+    );
+    on<SettingsUpdatePrimaryActive>(
+      (event, emit) => _onSettingsUpdatePrimaryActive(event, emit),
+    );
+    on<SettingsUpdateRefreshRate>(
+      (event, emit) => _onSettingsUpdateRefreshRate(event, emit),
+    );
+    on<SettingsUpdateSecret>(
+      (event, emit) => _onSettingsUpdateSecret(event, emit),
+    );
+    on<SettingsUpdateServer>(
+      (event, emit) => _onSettingsUpdateServer(event, emit),
+    );
+    on<SettingsUpdateServerPlexAndTautulliInfo>(
+      (event, emit) => _onSettingsUpdateServerPlexAndTautulliInfo(event, emit),
+    );
+    on<SettingsUpdateServerSort>(
+      (event, emit) => _onSettingsUpdateServerSort(event, emit),
+    );
+    on<SettingsUpdateServerTimeout>(
+      (event, emit) => _onSettingsUpdateServerTimeout(event, emit),
+    );
+    on<SettingsUpdateStatisticsStatType>(
+      (event, emit) => _onSettingsUpdateStatisticsStatType(event, emit),
+    );
+    on<SettingsUpdateStatisticsTimeRange>(
+      (event, emit) => _onSettingsUpdateStatisticsTimeRange(event, emit),
+    );
+    on<SettingsUpdateUsersSort>(
+      (event, emit) => _onSettingsUpdateUsersSort(event, emit),
+    );
+    on<SettingsUpdateWizardComplete>(
+      (event, emit) => _onSettingsUpdateWizardComplete(event, emit),
     );
   }
 
-  Stream<SettingsState> _checkForServerChanges({
-    @required SettingsBloc settingsBloc,
-  }) async* {
-    final serverList = await settings.getAllServers();
+  void _onSettingsAddServer(
+    SettingsAddServer event,
+    Emitter<SettingsState> emit,
+  ) async {
+    SettingsSuccess currentState = state as SettingsSuccess;
 
-    for (ServerModel server in serverList) {
-      await _serverInformation(
-        server: server,
-        settingsBloc: settingsBloc,
-      ).then((settingsMap) {
-        if (settingsMap['needsUpdate']) {
-          add(
-            SettingsUpdateServer(
-              id: server.id,
-              sortIndex: server.sortIndex,
-              primaryConnectionAddress: server.primaryConnectionAddress,
-              secondaryConnectionAddress: server.secondaryConnectionAddress,
-              deviceToken: server.deviceToken,
-              tautulliId: server.tautulliId,
-              plexName: settingsMap['pmsName'],
-              plexIdentifier: settingsMap['pmsIdentifier'],
-              plexPass: settingsMap['plexPass'],
-              dateFormat: settingsMap['dateFormat'],
-              timeFormat: settingsMap['timeFormat'],
-              onesignalRegistered: settingsMap['onesignalRegistered'],
+    final ConnectionAddressModel primaryConnectionAddress = ConnectionAddressModel.fromConnectionAddress(
+      primary: true,
+      connectionAddress: event.primaryConnectionAddress,
+    );
+
+    ConnectionAddressModel secondaryConnectionAddress = const ConnectionAddressModel(primary: false);
+    if (isNotBlank(event.secondaryConnectionAddress)) {
+      secondaryConnectionAddress = ConnectionAddressModel.fromConnectionAddress(
+        primary: false,
+        connectionAddress: event.secondaryConnectionAddress!,
+      );
+    }
+
+    ServerModel server = ServerModel(
+      sortIndex: currentState.serverList.length,
+      plexName: event.plexName,
+      plexIdentifier: event.plexIdentifier,
+      tautulliId: event.tautulliId,
+      primaryConnectionAddress: primaryConnectionAddress.address!,
+      primaryConnectionProtocol: primaryConnectionAddress.protocol?.toShortString() ?? 'http',
+      primaryConnectionDomain: primaryConnectionAddress.domain!,
+      primaryConnectionPath: primaryConnectionAddress.path,
+      secondaryConnectionAddress: secondaryConnectionAddress.address,
+      secondaryConnectionProtocol: secondaryConnectionAddress.protocol?.toShortString(),
+      secondaryConnectionDomain: secondaryConnectionAddress.domain,
+      secondaryConnectionPath: secondaryConnectionAddress.path,
+      deviceToken: event.deviceToken,
+      primaryActive: true,
+      oneSignalRegistered: event.oneSignalRegistered,
+      plexPass: event.plexPass,
+      customHeaders: event.customHeaders ?? [],
+    );
+
+    final serverId = await settings.addServer(server);
+
+    logging.info(
+      "Settings :: Added server '${event.plexName}'",
+    );
+
+    server = server.copyWith(id: serverId);
+
+    List<ServerModel> updatedList = [...currentState.serverList];
+
+    // If server list is empty when adding a new server set the sever to active
+    if (updatedList.isEmpty) {
+      await settings.setActiveServerId(server.tautulliId);
+      logging.debug("Settings :: Active server set to '${server.plexName}'");
+
+      currentState = currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          activeServer: server,
+        ),
+      );
+
+      emit(
+        currentState,
+      );
+    }
+
+    updatedList.add(server);
+
+    if (updatedList.length > 1) {
+      updatedList.sort((a, b) => a.sortIndex.compareTo(b.sortIndex));
+    }
+
+    emit(
+      currentState.copyWith(serverList: updatedList),
+    );
+
+    _updateServerInfo(server: server);
+  }
+
+  void _onSettingsClearCache(
+    SettingsClearCache event,
+    Emitter<SettingsState> emit,
+  ) async {
+    manageCache.clearCache();
+    logging.info(
+      'Settings :: App image cache cleared',
+    );
+  }
+
+  void _onSettingsDeleteCustomHeader(
+    SettingsDeleteCustomHeader event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    final int index = currentState.serverList.indexWhere(
+      (server) => server.tautulliId == event.tautulliId,
+    );
+
+    List<ServerModel> updatedList = [...currentState.serverList];
+
+    List<CustomHeaderModel> customHeaders = [...updatedList[index].customHeaders];
+
+    customHeaders.removeWhere((header) => header.key == event.title);
+
+    await settings.updateCustomHeaders(
+      tautulliId: event.tautulliId,
+      headers: customHeaders,
+    );
+
+    logging.info("Settings :: Removed '${event.title}' header");
+
+    updatedList[index] = currentState.serverList[index].copyWith(
+      customHeaders: customHeaders,
+    );
+    emit(
+      currentState.copyWith(serverList: updatedList),
+    );
+  }
+
+  void _onSettingsDeleteServer(
+    SettingsDeleteServer event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    List<ServerModel> updatedList = [...currentState.serverList];
+
+    final int index = updatedList.indexWhere(
+      (server) => server.id == event.id,
+    );
+    updatedList.removeAt(index);
+
+    // If server list is empty store empty string for activeServerId.
+
+    // Else if the active server is being removed set the first server in
+    // updatedList to be active.
+    if (updatedList.isEmpty) {
+      logging.debug(
+        'Settings :: Last server has been deleted, clearing active server',
+      );
+      await settings.setActiveServerId('');
+      emit(
+        currentState.copyWith(
+          appSettings: currentState.appSettings.copyWith(
+            activeServer: blankServer,
+          ),
+        ),
+      );
+    } else if (currentState.appSettings.activeServer.id == event.id) {
+      logging.debug(
+        "Settings :: Active server has been deleted, setting '${updatedList[0].plexName}' as active server",
+      );
+      await settings.setActiveServerId(updatedList[0].tautulliId);
+      emit(
+        currentState.copyWith(
+          appSettings: currentState.appSettings.copyWith(
+            activeServer: updatedList[0],
+          ),
+        ),
+      );
+    }
+
+    await settings.deleteServer(event.id);
+
+    logging.info("Settings :: Deleted server '${event.plexName}'");
+
+    // Delay item removal to avoid user noticing server page trying to display
+    // after server is removed from the list
+    //TODO: There has to be a better solution to this problem
+    await Future.delayed(const Duration(milliseconds: 180));
+
+    emit(
+      currentState.copyWith(serverList: updatedList),
+    );
+  }
+
+  void _onSettingsLoad(
+    SettingsLoad event,
+    Emitter<SettingsState> emit,
+  ) async {
+    emit(
+      SettingsInProgress(),
+    );
+
+    try {
+      // Fetch settings
+      final List<ServerModel> serverList = await settings.getAllServers();
+      String activeServerId = await settings.getActiveServerId();
+
+      // If active server ID is blank but server list isn't empty set the first
+      // server to be the active server.
+      if (activeServerId == '' && serverList.isNotEmpty) {
+        activeServerId = serverList.first.tautulliId;
+        await settings.setActiveServerId(activeServerId);
+        logging.debug(
+          "Settings :: No active server, setting '${serverList.first.plexName}' to active",
+        );
+      }
+
+      final AppSettingsModel appSettings = AppSettingsModel(
+        activeServer: activeServerId != ''
+            ? serverList.firstWhere((server) => server.tautulliId == activeServerId)
+            : serverList.isNotEmpty
+                ? serverList.first
+                : blankServer,
+        doubleBackToExit: await settings.getDoubleBackToExit(),
+        graphTimeRange: await settings.getGraphTimeRange(),
+        graphTipsShown: await settings.getGraphTipsShown(),
+        graphYAxis: await settings.getGraphYAxis(),
+        librariesSort: await settings.getLibrariesSort(),
+        libraryMediaFullRefresh: await settings.getLibraryMediaFullRefresh(),
+        maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
+        multiserverActivity: await settings.getMultiserverActivity(),
+        oneSignalBannerDismissed: await settings.getOneSignalBannerDismissed(),
+        oneSignalConsented: await settings.getOneSignalConsented(),
+        refreshRate: await settings.getRefreshRate(),
+        secret: await settings.getSecret(),
+        serverTimeout: await settings.getServerTimeout(),
+        statisticsStatType: await settings.getStatisticsStatType(),
+        statisticsTimeRange: await settings.getStatisticsTimeRange(),
+        usersSort: await settings.getUsersSort(),
+        wizardComplete: await settings.getWizardComplete(),
+      );
+
+      emit(
+        SettingsSuccess(
+          serverList: serverList,
+          appSettings: appSettings,
+        ),
+      );
+
+      if (event.updateServerInfo) {
+        for (ServerModel server in serverList) {
+          _updateServerInfo(server: server);
+        }
+      }
+    } catch (e) {
+      logging.info(
+        'Settings :: Failed to load settings [$e]',
+      );
+
+      emit(
+        SettingsFailure(),
+      );
+    }
+  }
+
+  void _onSettingsUpdateActiveServer(
+    SettingsUpdateActiveServer event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setActiveServerId(event.activeServer.tautulliId);
+    logging.debug(
+      "Settings :: Active server changed to '${event.activeServer.plexName}'",
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(activeServer: event.activeServer),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateConnectionInfo(
+    SettingsUpdateConnectionInfo event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    final ConnectionAddressModel connectionAddress = ConnectionAddressModel.fromConnectionAddress(
+      primary: event.primary,
+      connectionAddress: event.connectionAddress,
+    );
+
+    await settings.updateConnectionInfo(
+      id: event.server.id!,
+      connectionAddress: connectionAddress,
+    );
+
+    final int index = currentState.serverList.indexWhere(
+      (oldServer) => oldServer.id == event.server.id,
+    );
+
+    List<ServerModel> updatedList = [...currentState.serverList];
+
+    if (event.primary) {
+      updatedList[index] = currentState.serverList[index].copyWith(
+        primaryConnectionAddress: connectionAddress.address,
+        primaryConnectionProtocol: connectionAddress.protocol?.toShortString(),
+        primaryConnectionDomain: connectionAddress.domain,
+        primaryConnectionPath: connectionAddress.path,
+      );
+    } else {
+      updatedList[index] = currentState.serverList[index].copyWith(
+        secondaryConnectionAddress: connectionAddress.address,
+        secondaryConnectionProtocol: connectionAddress.protocol?.toShortString(),
+        secondaryConnectionDomain: connectionAddress.domain,
+        secondaryConnectionPath: connectionAddress.path,
+      );
+    }
+
+    emit(
+      currentState.copyWith(serverList: updatedList),
+    );
+  }
+
+  void _onSettingsUpdateCustomHeaders(
+    SettingsUpdateCustomHeaders event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+    String loggingMessage = 'Settings :: Header changed but logging missed it';
+
+    final int index = currentState.serverList.indexWhere(
+      (server) => server.tautulliId == event.tautulliId,
+    );
+
+    List<ServerModel> updatedList = [...currentState.serverList];
+
+    List<CustomHeaderModel> customHeaders = [...updatedList[index].customHeaders];
+
+    if (event.basicAuth) {
+      final currentIndex = customHeaders.indexWhere(
+        (header) => header.key == 'Authorization',
+      );
+
+      final String base64Value = base64Encode(
+        utf8.encode('${event.title}:${event.subtitle}'),
+      );
+
+      if (currentIndex == -1) {
+        customHeaders.add(
+          CustomHeaderModel(
+            key: 'Authorization',
+            value: 'Basic $base64Value',
+          ),
+        );
+
+        loggingMessage = "Settings :: Added 'Authorization' header";
+      } else {
+        customHeaders[currentIndex] = CustomHeaderModel(
+          key: 'Authorization',
+          value: 'Basic $base64Value',
+        );
+
+        loggingMessage = "Settings :: Updated 'Authorization' header";
+      }
+    } else {
+      if (event.previousTitle != null) {
+        final oldIndex = customHeaders.indexWhere(
+          (header) => header.key == event.previousTitle,
+        );
+
+        customHeaders[oldIndex] = CustomHeaderModel(
+          key: event.title,
+          value: event.subtitle,
+        );
+
+        if (event.previousTitle != event.title) {
+          loggingMessage = "Settings :: Replaced '${event.previousTitle}' header with '${event.title}'";
+        } else {
+          loggingMessage = "Settings :: Updated '${event.title}' header'";
+        }
+      } else {
+        // No previous title means a new header is being added. We need to
+        // check and make sure we don't end up with headers that have duplicate
+        // keys/titles
+        final currentIndex = customHeaders.indexWhere(
+          (header) => header.key == event.title,
+        );
+
+        if (currentIndex == -1) {
+          customHeaders.add(
+            CustomHeaderModel(
+              key: event.title,
+              value: event.subtitle,
             ),
           );
+
+          loggingMessage = "Settings :: Added '${event.title}' header";
+        } else {
+          customHeaders[currentIndex] = CustomHeaderModel(
+            key: event.title,
+            value: event.subtitle,
+          );
+
+          loggingMessage = "Settings :: Updated '${event.title}' header";
         }
-      });
+      }
+    }
+
+    await settings.updateCustomHeaders(
+      tautulliId: event.tautulliId,
+      headers: customHeaders,
+    );
+
+    logging.info(loggingMessage);
+
+    updatedList[index] = currentState.serverList[index].copyWith(
+      customHeaders: customHeaders,
+    );
+
+    emit(
+      currentState.copyWith(serverList: updatedList),
+    );
+  }
+
+  void _onSettingsUpdateDoubleBackToExit(
+    SettingsUpdateDoubleBackToExit event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setDoubleBackToExit(event.doubleBackToExit);
+    logging.info(
+      'Settings :: Double Back To Exit set to ${event.doubleBackToExit}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(doubleBackToExit: event.doubleBackToExit),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateGraphTimeRange(
+    SettingsUpdateGraphTimeRange event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setGraphTimeRange(event.graphTimeRange);
+    logging.info(
+      'Settings :: Graph Time Range set to ${event.graphTimeRange}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(graphTimeRange: event.graphTimeRange),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateGraphTipsShown(
+    SettingsUpdateGraphTipsShown event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setGraphTipsShown(event.graphTipsShown);
+    logging.info(
+      'Settings :: Graph Tips Shown set to ${event.graphTipsShown}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(graphTipsShown: event.graphTipsShown),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateGraphYAxis(
+    SettingsUpdateGraphYAxis event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setGraphYAxis(event.graphYAxis);
+    logging.info(
+      'Settings :: Graph Y Axis set to ${event.graphYAxis}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(graphYAxis: event.graphYAxis),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateLibrariesSort(
+    SettingsUpdateLibrariesSort event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setLibrariesSort(event.librariesSort);
+    logging.info(
+      'Settings :: Libraries Sort set to ${event.librariesSort}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          librariesSort: event.librariesSort,
+        ),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateLibraryMediaFullRefresh(
+    SettingsUpdateLibraryMediaFullRefresh event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setLibraryMediaFullRefresh(event.libraryMediaFullRefresh);
+    logging.info(
+      'Settings :: Library Media Full Refresh set to ${event.libraryMediaFullRefresh}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(libraryMediaFullRefresh: event.libraryMediaFullRefresh),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateMaskSensitiveInfo(
+    SettingsUpdateMaskSensitiveInfo event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setMaskSensitiveInfo(event.maskSensitiveInfo);
+    logging.info(
+      'Settings :: Mask Sensitive Info set to ${event.maskSensitiveInfo}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(maskSensitiveInfo: event.maskSensitiveInfo),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateMultiserverActivity(
+    SettingsUpdateMultiserverActivity event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setMultiserverActivity(event.multiserverActivity);
+    logging.info(
+      'Settings :: Multiserver Activity set to ${event.multiserverActivity}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(multiserverActivity: event.multiserverActivity),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateOneSignalConsented(
+    SettingsUpdateOneSignalConsented event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setOneSignalConsented(event.consented);
+
+    // Logging handled by OneSignalPrivacyBloc
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(oneSignalConsented: event.consented),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateOneSignalBannerDismiss(
+    SettingsUpdateOneSignalBannerDismiss event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setOneSignalBannerDismissed(event.dismiss);
+    if (event.dismiss) {
+      logging.info(
+        'Settings :: OneSignal Banner Dismissed',
+      );
+    }
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(oneSignalBannerDismissed: event.dismiss),
+      ),
+    );
+  }
+
+  void _onSettingsUpdatePrimaryActive(
+    SettingsUpdatePrimaryActive event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    final int index = currentState.serverList.indexWhere(
+      (oldServer) => oldServer.tautulliId == event.tautulliId,
+    );
+
+    // Only update primary active if new value is different
+    if (currentState.serverList[index].primaryActive != event.primaryActive) {
+      await settings.updatePrimaryActive(
+        tautulliId: event.tautulliId,
+        primaryActive: event.primaryActive,
+      );
+
+      List<ServerModel> updatedList = [...currentState.serverList];
+
+      updatedList[index] = currentState.serverList[index].copyWith(
+        primaryActive: event.primaryActive,
+      );
+
+      emit(
+        currentState.copyWith(serverList: updatedList),
+      );
     }
   }
 
-  Future<Map<String, dynamic>> _serverInformation({
-    @required ServerModel server,
-    @required SettingsBloc settingsBloc,
-  }) async {
-    Map<String, dynamic> settingsMap = {
-      'needsUpdate': false,
-      'plexPass': null,
-      'pmsName': null,
-      'pmsIdentifier': null,
-      'dateFormat': null,
-      'timeFormat': null,
-      'onesignalRegistered': server.onesignalRegistered,
-    };
+  void _onSettingsUpdateRefreshRate(
+    SettingsUpdateRefreshRate event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
 
-    // Check for changes to plexPass or pmsName
-    final failureOrPlexServerInfo = await settings.getPlexServerInfo(
-      tautulliId: server.tautulliId,
-      settingsBloc: settingsBloc,
+    await settings.setRefreshRate(event.refreshRate);
+    logging.info(
+      'Settings :: Activity Refresh Rate set to ${event.refreshRate}',
     );
-    failureOrPlexServerInfo.fold(
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          refreshRate: event.refreshRate,
+        ),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateSecret(
+    SettingsUpdateSecret event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setSecret(event.secret);
+    logging.info(
+      'What is a man? A miserable little pile of secrets.',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          secret: event.secret,
+        ),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateServer(
+    SettingsUpdateServer event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    logging.info(
+      "Settings :: Updating server details for '${event.plexName}'",
+    );
+
+    final ConnectionAddressModel primaryConnectionAddress = ConnectionAddressModel.fromConnectionAddress(
+      primary: true,
+      connectionAddress: event.primaryConnectionAddress,
+    );
+
+    final ConnectionAddressModel secondaryConnectionAddress = ConnectionAddressModel.fromConnectionAddress(
+      primary: false,
+      connectionAddress: event.secondaryConnectionAddress,
+    );
+
+    List<ServerModel> updatedList = [...currentState.serverList];
+
+    final int index = currentState.serverList.indexWhere(
+      (server) => server.id == event.id,
+    );
+
+    updatedList[index] = currentState.serverList[index].copyWith(
+      id: event.id,
+      sortIndex: event.sortIndex,
+      primaryConnectionAddress: primaryConnectionAddress.address,
+      primaryConnectionProtocol: primaryConnectionAddress.protocol?.toShortString(),
+      primaryConnectionDomain: primaryConnectionAddress.domain,
+      primaryConnectionPath: primaryConnectionAddress.path,
+      secondaryConnectionAddress: secondaryConnectionAddress.address,
+      secondaryConnectionProtocol:
+          secondaryConnectionAddress.protocol != null ? secondaryConnectionAddress.protocol!.toShortString() : '',
+      secondaryConnectionDomain: secondaryConnectionAddress.domain,
+      secondaryConnectionPath: secondaryConnectionAddress.path,
+      deviceToken: event.deviceToken,
+      tautulliId: event.tautulliId,
+      plexName: event.plexName,
+      plexIdentifier: event.plexIdentifier,
+      primaryActive: true,
+      oneSignalRegistered: event.oneSignalRegistered,
+      plexPass: event.plexPass,
+      dateFormat: event.dateFormat,
+      timeFormat: event.timeFormat,
+      customHeaders: event.customHeaders,
+    );
+
+    await settings.updateServer(updatedList[index]);
+
+    emit(
+      currentState.copyWith(serverList: updatedList),
+    );
+  }
+
+  void _onSettingsUpdateServerPlexAndTautulliInfo(
+    SettingsUpdateServerPlexAndTautulliInfo event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    List<ServerModel> updatedList = [...currentState.serverList];
+
+    final int index = currentState.serverList.indexWhere(
+      (server) => server.id == event.serverModel.id,
+    );
+
+    updatedList[index] = event.serverModel;
+
+    await settings.updateServer(event.serverModel);
+
+    emit(
+      currentState.copyWith(serverList: updatedList),
+    );
+  }
+
+  void _onSettingsUpdateServerSort(
+    SettingsUpdateServerSort event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    List<ServerModel> updatedServerList = [...currentState.serverList];
+    ServerModel movedServer = updatedServerList.removeAt(event.oldIndex);
+    updatedServerList.insert(event.newIndex, movedServer);
+
+    emit(
+      currentState.copyWith(serverList: updatedServerList),
+    );
+
+    await settings.updateServerSort(
+      serverId: event.serverId,
+      oldIndex: event.oldIndex,
+      newIndex: event.newIndex,
+    );
+
+    // Get Servers with updated sorts to keep state accurate
+    updatedServerList = await settings.getAllServers();
+    emit(
+      currentState.copyWith(serverList: updatedServerList),
+    );
+
+    logging.info('Settings :: Updated server sort');
+  }
+
+  void _onSettingsUpdateServerTimeout(
+    SettingsUpdateServerTimeout event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setServerTimeout(event.timeout);
+    logging.info(
+      'Settings :: Server Timeout set to ${event.timeout}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          serverTimeout: event.timeout,
+        ),
+      ),
+    );
+  }
+
+  void _updateServerInfo({
+    required ServerModel server,
+  }) async {
+    String? plexName;
+    String? plexIdentifier;
+    bool? plexPass;
+    String? dateFormat;
+    String? timeFormat;
+
+    final failureOrPlexInfo = await settings.getPlexInfo(server.tautulliId);
+    final failureOrTautulliSettings = await settings.getTautulliSettings(
+      server.tautulliId,
+    );
+
+    failureOrPlexInfo.fold(
       (failure) {
         logging.error(
-          'Settings: Failed to fetch Plex server info for ${server.tautulliId}',
+          'Settings: Failed to fetch updated Plex info for ${server.plexName}',
         );
       },
-      (plexServerInfo) {
-        settingsMap['pmsName'] = plexServerInfo.pmsName;
-        settingsMap['pmsIdentifier'] = plexServerInfo.pmsIdentifier;
-        switch (plexServerInfo.pmsPlexpass) {
-          case (0):
-            settingsMap['plexPass'] = false;
-            break;
-          case (1):
-            settingsMap['plexPass'] = true;
-            break;
-        }
+      (response) {
+        add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: server.tautulliId,
+            primaryActive: response.value2,
+          ),
+        );
 
-        if (server.plexName != plexServerInfo.pmsName ||
-            server.plexPass != settingsMap['plexPass'] ||
-            server.plexIdentifier != plexServerInfo.pmsIdentifier) {
-          settingsMap['needsUpdate'] = true;
-        }
+        final PlexInfoModel results = response.value1;
+
+        plexName = results.pmsName;
+        plexIdentifier = results.pmsIdentifier;
+        plexPass = results.pmsPlexpass;
       },
     );
 
-    // Check for changes to Tautulli Server settings
-    final failureOrTautulliSettings = await settings.getTautulliSettings(
-      tautulliId: server.tautulliId,
-      settingsBloc: settingsBloc,
-    );
     failureOrTautulliSettings.fold(
       (failure) {
         logging.error(
-          'Settings: Failed to fetch Tautulli settings for ${server.tautulliId}',
+          'Settings: Failed to fetch updated Tautulli Settings for ${server.plexName}',
         );
       },
-      (tautulliSettings) {
-        final TautulliSettingsGeneral generalSettings =
-            tautulliSettings['general'];
-        settingsMap['dateFormat'] = generalSettings.dateFormat;
-        settingsMap['timeFormat'] = generalSettings.timeFormat;
+      (response) {
+        add(
+          SettingsUpdatePrimaryActive(
+            tautulliId: server.tautulliId,
+            primaryActive: response.value2,
+          ),
+        );
 
-        if (server.dateFormat != settingsMap['dateFormat'] ||
-            server.timeFormat != settingsMap['timeFormat']) {
-          settingsMap['needsUpdate'] = true;
-        }
+        final TautulliGeneralSettingsModel results = response.value1;
+
+        dateFormat = results.dateFormat;
+        timeFormat = results.timeFormat;
       },
     );
 
-    // If OneSignal User ID exists but server flag is false trigger a device
-    // register and signal to update server flag
-    if (isNotEmpty(await onesignal.userId) && !server.onesignalRegistered) {
-      final failureOrRegisterDevice = await registerDevice(
-        connectionProtocol: server.primaryActive
-            ? server.primaryConnectionProtocol
-            : server.secondaryConnectionProtocol,
-        connectionDomain: server.primaryActive
-            ? server.primaryConnectionDomain
-            : server.secondaryConnectionDomain,
-        connectionPath: server.primaryActive
-            ? server.primaryConnectionPath
-            : server.secondaryConnectionPath,
-        deviceToken: server.deviceToken,
-        headers: server.customHeaders,
-        trustCert: false,
-      );
-      failureOrRegisterDevice.fold(
-        (failure) {
-          logging.error(
-            'Settings: Failed to update registration with OneSignal User ID for ${server.plexName}',
-          );
-        },
-        (registeredData) {
-          logging.info(
-            'Settings: Updating registration with OneSignal User ID for ${server.plexName}',
-          );
+    ServerModel updatedServer = server.copyWith(
+      plexName: plexName,
+      plexIdentifier: plexIdentifier,
+      plexPass: plexPass,
+      dateFormat: dateFormat,
+      timeFormat: timeFormat,
+    );
 
-          settingsMap['onesignalRegistered'] = true;
-          settingsMap['needsUpdate'] = true;
-        },
+    if (server != updatedServer) {
+      logging.info(
+        'Settings :: Updating Plex and Tautulli details for ${updatedServer.plexName}',
+      );
+      add(
+        SettingsUpdateServerPlexAndTautulliInfo(serverModel: updatedServer),
       );
     }
+  }
 
-    return settingsMap;
+  void _onSettingsUpdateStatisticsStatType(
+    SettingsUpdateStatisticsStatType event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setStatisticsStatType(event.statisticsStatType);
+    logging.info(
+      'Settings :: Statistics Stat Type set to ${event.statisticsStatType}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(statisticsStatType: event.statisticsStatType),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateStatisticsTimeRange(
+    SettingsUpdateStatisticsTimeRange event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setStatisticsTimeRange(event.statisticsTimeRange);
+    logging.info(
+      'Settings :: Statistics Time Range set to ${event.statisticsTimeRange}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(statisticsTimeRange: event.statisticsTimeRange),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateUsersSort(
+    SettingsUpdateUsersSort event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setUsersSort(event.usersSort);
+    logging.info(
+      'Settings :: Users Sort set to ${event.usersSort}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          usersSort: event.usersSort,
+        ),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateWizardComplete(
+    SettingsUpdateWizardComplete event,
+    Emitter<SettingsState> emit,
+  ) async {
+    await settings.setWizardComplete(event.wizardComplete);
+
+    logging.info(
+      'Settings :: Wizard complete',
+    );
   }
 }

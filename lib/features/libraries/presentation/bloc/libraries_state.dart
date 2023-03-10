@@ -1,49 +1,54 @@
-// @dart=2.9
-
 part of 'libraries_bloc.dart';
 
-abstract class LibrariesState extends Equatable {
-  const LibrariesState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class LibrariesInitial extends LibrariesState {
+class LibrariesState extends Equatable {
+  final BlocStatus status;
+  final List<LibraryTableModel> libraries;
   final String orderColumn;
   final String orderDir;
+  final Failure? failure;
+  final String? message;
+  final String? suggestion;
+  final bool hasReachedMax;
 
-  LibrariesInitial({
-    this.orderColumn,
-    this.orderDir,
+  const LibrariesState({
+    this.status = BlocStatus.initial,
+    this.libraries = const [],
+    this.orderColumn = 'section_name',
+    this.orderDir = 'asc',
+    this.failure,
+    this.message,
+    this.suggestion,
+    this.hasReachedMax = false,
   });
 
-  @override
-  List<Object> get props => [orderColumn, orderDir];
-}
-
-class LibrariesSuccess extends LibrariesState {
-  final List<Library> librariesList;
-
-  LibrariesSuccess({
-    @required this.librariesList,
-  });
-
-  @override
-  List<Object> get props => [librariesList];
-}
-
-class LibrariesFailure extends LibrariesState {
-  final Failure failure;
-  final String message;
-  final String suggestion;
-
-  LibrariesFailure({
-    @required this.failure,
-    @required this.message,
-    @required this.suggestion,
-  });
+  LibrariesState copyWith({
+    BlocStatus? status,
+    List<LibraryTableModel>? libraries,
+    String? orderColumn,
+    String? orderDir,
+    Failure? failure,
+    String? message,
+    String? suggestion,
+    bool? hasReachedMax,
+  }) {
+    return LibrariesState(
+      status: status ?? this.status,
+      libraries: libraries ?? this.libraries,
+      orderColumn: orderColumn ?? this.orderColumn,
+      orderDir: orderDir ?? this.orderDir,
+      failure: failure ?? this.failure,
+      message: message ?? this.message,
+      suggestion: suggestion ?? this.suggestion,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+    );
+  }
 
   @override
-  List<Object> get props => [failure, message, suggestion];
+  List<Object> get props => [
+        status,
+        libraries,
+        orderColumn,
+        orderDir,
+        hasReachedMax,
+      ];
 }

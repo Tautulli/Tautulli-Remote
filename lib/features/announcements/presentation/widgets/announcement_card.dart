@@ -1,11 +1,11 @@
-// @dart=2.9
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/announcement_model.dart';
 
 class AnnouncementCard extends StatelessWidget {
@@ -13,83 +13,87 @@ class AnnouncementCard extends StatelessWidget {
   final int lastReadAnnouncementId;
 
   const AnnouncementCard({
-    Key key,
-    @required this.announcement,
-    @required this.lastReadAnnouncementId,
-  }) : super(key: key);
+    super.key,
+    required this.announcement,
+    required this.lastReadAnnouncementId,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 0,
       child: InkWell(
-        customBorder:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        onTap: isNotEmpty(announcement.actionUrl)
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        onTap: isNotBlank(announcement.actionUrl)
             ? () async {
-                await launch(announcement.actionUrl);
+                launchUrlString(
+                  mode: LaunchMode.externalApplication,
+                  announcement.actionUrl!,
+                );
               }
             : null,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Stack(
+          padding: const EdgeInsets.all(16),
+          child: Column(
             children: [
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
                           announcement.title,
                           style: const TextStyle(
-                            fontSize: 18,
                             fontWeight: FontWeight.bold,
+                            fontSize: 15,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Text(
-                            announcement.date,
-                            style: const TextStyle(
-                              fontStyle: FontStyle.italic,
-                            ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4),
+                        child: AnimatedOpacity(
+                          duration: const Duration(milliseconds: 400),
+                          opacity: announcement.id > lastReadAnnouncementId ? 1 : 0,
+                          child: FaIcon(
+                            FontAwesomeIcons.solidCircle,
+                            size: 10,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
-                        Text(
-                          announcement.body,
-                          style: const TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  const Gap(4),
+                  Text(announcement.body),
+                ],
+              ),
+              const Gap(8),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${LocaleKeys.published_title.tr()}: ${announcement.date}',
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 13,
+                        color: Theme.of(context).textTheme.titleSmall!.color,
+                      ),
                     ),
                   ),
-                  if (isNotEmpty(announcement.actionUrl))
+                  if (announcement.actionUrl != null)
                     const Padding(
-                      padding: EdgeInsets.only(left: 4),
+                      padding: EdgeInsets.only(left: 8),
                       child: FaIcon(
-                        FontAwesomeIcons.externalLinkAlt,
-                        size: 20,
-                        color: TautulliColorPalette.not_white,
+                        FontAwesomeIcons.squareUpRight,
                       ),
                     ),
                 ],
               ),
-              if (announcement.id > lastReadAnnouncementId)
-                Positioned(
-                  right: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 4),
-                    child: Container(
-                      height: 13,
-                      width: 13,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: PlexColorPalette.gamboge.withOpacity(0.9),
-                      ),
-                    ),
-                  ),
-                ),
             ],
           ),
         ),

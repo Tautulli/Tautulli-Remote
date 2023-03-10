@@ -1,169 +1,137 @@
-// @dart=2.9
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
-import '../../../onesignal/presentation/bloc/onesignal_subscription_bloc.dart';
+import '../../../onesignal/presentation/bloc/onesignal_sub_bloc.dart';
 import '../bloc/settings_bloc.dart';
 
 class SettingsAlertBanner extends StatelessWidget {
-  const SettingsAlertBanner({Key key}) : super(key: key);
+  const SettingsAlertBanner({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final oneSignalPrivacyBloc = context.read<OneSignalPrivacyBloc>();
     final settingsBloc = context.read<SettingsBloc>();
 
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      builder: (context, state) {
-        if (state is SettingsLoadSuccess) {
-          return BlocBuilder<OneSignalHealthBloc, OneSignalHealthState>(
-            builder: (context, healthState) {
-              return BlocBuilder<OneSignalSubscriptionBloc,
-                  OneSignalSubscriptionState>(
-                builder: (context, subscriptionState) {
-                  // Display alert banner about consenting to privacy policy
-                  if (!state.oneSignalBannerDismissed &&
-                      oneSignalPrivacyBloc.state
-                          is OneSignalPrivacyConsentFailure) {
-                    if (subscriptionState is OneSignalSubscriptionFailure) {
-                      return _AlertBanner(
-                        title: subscriptionState.title,
-                        message: Text(
-                          subscriptionState.message,
-                        ),
-                        buttonOne: TextButton(
-                          child: const Text(LocaleKeys.button_dismiss).tr(),
-                          onPressed: () => settingsBloc.add(
-                            SettingsUpdateOneSignalBannerDismiss(true),
-                          ),
-                        ),
-                        buttonTwo: TextButton(
-                          child: const Text(LocaleKeys.button_view_privacy_page)
-                              .tr(),
-                          onPressed: () =>
-                              Navigator.of(context).pushNamed('/privacy'),
-                        ),
-                        backgroundColor: Colors.deepOrange[900],
-                      );
-                    }
-                  }
-                  // Display alert banner about failure to connect to onesignal.com
-                  if (oneSignalPrivacyBloc.state
-                          is OneSignalPrivacyConsentSuccess &&
-                      healthState is OneSignalHealthFailure) {
-                    return _AlertBanner(
-                      title: LocaleKeys
-                          .settings_alert_onesignal_connection_title
-                          .tr(),
-                      message: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            '• ${LocaleKeys.settings_alert_onesignal_connection_item_1.tr()}',
-                          ),
-                          Text(
-                            '• ${LocaleKeys.settings_alert_onesignal_connection_item_2.tr()}',
-                          ),
-                        ],
-                      ),
-                      buttonOne: TextButton(
-                        child: const Text(LocaleKeys.button_check_again).tr(),
-                        onPressed: () => context
-                            .read<OneSignalHealthBloc>()
-                            .add(OneSignalHealthCheck()),
-                      ),
-                    );
-                  }
-                  // Display alert banner about waiting to subscribe to OneSignal
-                  if (oneSignalPrivacyBloc.state
-                      is OneSignalPrivacyConsentSuccess) {
-                    if (subscriptionState is OneSignalSubscriptionFailure) {
-                      return _AlertBanner(
-                        title: subscriptionState.title,
-                        message: Text(
-                          subscriptionState.message,
-                        ),
-                        buttonOne: TextButton(
-                          child: const Text(LocaleKeys.button_learn_more).tr(),
-                          onPressed: () async {
-                            await launch(
-                              'https://github.com/Tautulli/Tautulli-Remote/wiki/OneSignal#registering',
-                            );
-                          },
-                        ),
-                        backgroundColor: Colors.deepOrange[800],
-                      );
-                    }
-                  }
-                  // Return no banner if above criteria are not met
-                  return Container(height: 0, width: 0);
-                },
-              );
-            },
+    return BlocBuilder<OneSignalPrivacyBloc, OneSignalPrivacyState>(
+      builder: (context, privacyState) {
+        // If OneSignal consent is false
+        if (privacyState is OneSignalPrivacyFailure) {
+          return _SettingsAlertBannerContent(
+            backgroundColor: Colors.deepOrange[900],
+            title: LocaleKeys.onesignal_data_privacy_not_accepted_title.tr(),
+            message: const Text(
+              LocaleKeys.onesignal_data_privacy_not_accepted_content,
+            ).tr(),
+            buttonOne: TextButton(
+              child: const Text(LocaleKeys.dismiss_buttom).tr(),
+              onPressed: () => settingsBloc.add(
+                const SettingsUpdateOneSignalBannerDismiss(true),
+              ),
+            ),
+            buttonTwo: TextButton(
+              child: const Text(LocaleKeys.view_privacy_page_title).tr(),
+              onPressed: () => Navigator.of(context).pushNamed('/onesignal_privacy'),
+            ),
           );
         }
-        return const SizedBox(height: 0, width: 0);
+
+        // If OneSignal consent is true
+        return BlocBuilder<OneSignalHealthBloc, OneSignalHealthState>(
+          builder: (context, healthState) {
+            // If OneSignal is not reachable
+            if (healthState is OneSignalHealthFailure) {
+              return _SettingsAlertBannerContent(
+                title: LocaleKeys.onesignal_unreachable_title.tr(),
+                message: const Text(
+                  LocaleKeys.onesignal_unreachable_content,
+                ).tr(),
+                buttonOne: TextButton(
+                  child: const Text(LocaleKeys.check_again_title).tr(),
+                  onPressed: () => context.read<OneSignalHealthBloc>().add(
+                        OneSignalHealthCheck(),
+                      ),
+                ),
+              );
+            }
+
+            // If OneSignal is reachable
+            return BlocBuilder<OneSignalSubBloc, OneSignalSubState>(
+              builder: (context, subState) {
+                // If OneSignal is not subscribed
+                if (subState is OneSignalSubFailure) {
+                  return _SettingsAlertBannerContent(
+                    backgroundColor: Colors.deepOrange[900],
+                    title: subState.title,
+                    message: Text(subState.message),
+                    buttonOne: TextButton(
+                      child: const Text(LocaleKeys.learn_more_title).tr(),
+                      onPressed: () async {
+                        await launchUrlString(
+                          mode: LaunchMode.externalApplication,
+                          'https://github.com/Tautulli/Tautulli-Remote/wiki/OneSignal#registering',
+                        );
+                      },
+                    ),
+                  );
+                }
+
+                // If OneSignal is Subscribed
+                // All checks passed do not display banner
+                return const SizedBox(height: 0, width: 0);
+              },
+            );
+          },
+        );
       },
     );
   }
 }
 
-class _AlertBanner extends StatelessWidget {
+class _SettingsAlertBannerContent extends StatelessWidget {
+  final Color? backgroundColor;
   final String title;
-  final Widget message;
-  final TextButton buttonOne;
-  final TextButton buttonTwo;
-  final Color backgroundColor;
+  final Widget? message;
+  final TextButton? buttonOne;
+  final TextButton? buttonTwo;
 
-  const _AlertBanner({
-    Key key,
-    this.title,
+  const _SettingsAlertBannerContent({
+    this.backgroundColor,
+    required this.title,
     this.message,
     this.buttonOne,
     this.buttonTwo,
-    this.backgroundColor,
-  }) : super(key: key);
+  }) : assert(buttonOne != null || buttonTwo != null);
 
   @override
   Widget build(BuildContext context) {
     return MaterialBanner(
-      backgroundColor:
-          backgroundColor != null ? backgroundColor : Colors.red[900],
-      padding: const EdgeInsets.only(
-        left: 16,
-        right: 16,
-        top: 16,
-      ),
       forceActionsBelow: true,
+      backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.error,
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       leading: const FaIcon(
-        FontAwesomeIcons.exclamationCircle,
-        color: TautulliColorPalette.not_white,
+        FontAwesomeIcons.triangleExclamation,
         size: 30,
       ),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          if (title != null)
-            Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
             ),
-          if (message != null) message,
+          ),
+          if (message != null) message!,
         ],
       ),
-      actions: <Widget>[
-        if (buttonOne != null) buttonOne,
-        if (buttonTwo != null) buttonTwo,
+      actions: [
+        if (buttonOne != null) buttonOne!,
+        if (buttonTwo != null) buttonTwo!,
       ],
     );
   }

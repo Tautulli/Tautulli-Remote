@@ -1,236 +1,102 @@
-// @dart=2.9
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
 
+import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/helpers/failure_mapper_helper.dart';
+import '../../../../core/helpers/failure_helper.dart';
+import '../../../../core/types/bloc_status.dart';
+import '../../../../translations/locale_keys.g.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
-import '../../domain/entities/user_table.dart';
-import '../../domain/usecases/get_users_table.dart';
-import 'user_bloc.dart' as user_bloc;
+import '../../data/models/user_model.dart';
+import '../../domain/usecases/users.dart';
 
 part 'users_event.dart';
 part 'users_state.dart';
 
-List<UserTable> _userTableListCache;
-String _orderColumnCache;
-String _orderDirCache;
-String _tautulliIdCache;
-bool _hasReachedMaxCache;
-SettingsBloc _settingsBlocCache;
+Map<String, List<UserModel>> usersCache = {};
 
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
-  final GetUsersTable getUsersTable;
+  final Users users;
   final Logging logging;
 
   UsersBloc({
-    @required this.getUsersTable,
-    @required this.logging,
-  }) : super(UsersInitial(
-          orderColumn: _orderColumnCache,
-          orderDir: _orderDirCache,
-        ));
-
-  @override
-  Stream<Transition<UsersEvent, UsersState>> transformEvents(
-    Stream<UsersEvent> events,
-    transitionFn,
-  ) {
-    return super.transformEvents(
-      events.debounceTime(const Duration(milliseconds: 30)),
-      transitionFn,
-    );
+    required this.users,
+    required this.logging,
+  }) : super(const UsersState(users: [])) {
+    on<UsersFetched>(_onUsersFetched);
   }
 
-  @override
-  Stream<UsersState> mapEventToState(
-    UsersEvent event,
-  ) async* {
-    final currentState = state;
-
-    if (event is UsersFetch && !_hasReachedMax(currentState)) {
-      _orderColumnCache = event.orderColumn;
-      _orderDirCache = event.orderDir;
-      _settingsBlocCache = event.settingsBloc;
-
-      if (currentState is UsersInitial) {
-        yield* _fetchInitial(
-          tautulliId: event.tautulliId,
-          grouping: event.grouping,
-          orderColumn: event.orderColumn,
-          orderDir: event.orderDir,
-          start: event.start,
-          length: event.length,
-          search: event.search,
-          useCachedList: true,
-          settingsBloc: _settingsBlocCache,
-        );
-      }
-      if (currentState is UsersSuccess) {
-        yield* _fetchMore(
-          currentState: currentState,
-          tautulliId: event.tautulliId,
-          grouping: event.grouping,
-          orderColumn: event.orderColumn,
-          orderDir: event.orderDir,
-          start: event.start,
-          length: event.length,
-          search: event.search,
-          settingsBloc: _settingsBlocCache,
-        );
-      }
-
-      _tautulliIdCache = event.tautulliId;
-    }
-    if (event is UsersFilter) {
-      yield UsersInitial();
-      _orderColumnCache = event.orderColumn;
-      _orderDirCache = event.orderDir;
-
-      yield* _fetchInitial(
-        tautulliId: event.tautulliId,
-        grouping: event.grouping,
-        orderColumn: event.orderColumn,
-        orderDir: event.orderDir,
-        start: event.start,
-        length: event.length,
-        search: event.search,
-        settingsBloc: _settingsBlocCache,
-      );
-
-      _tautulliIdCache = event.tautulliId;
-    }
-  }
-
-  Stream<UsersState> _fetchInitial({
-    @required String tautulliId,
-    int grouping,
-    String orderColumn,
-    String orderDir,
-    int start,
-    int length,
-    String search,
-    bool useCachedList = false,
-    @required SettingsBloc settingsBloc,
-  }) async* {
-    if (useCachedList &&
-        _userTableListCache != null &&
-        _tautulliIdCache == tautulliId) {
-      yield UsersSuccess(
-        list: _userTableListCache,
-        hasReachedMax: _hasReachedMaxCache,
+  Future<void> _onUsersFetched(
+    UsersFetched event,
+    Emitter<UsersState> emit,
+  ) async {
+    if (usersCache.containsKey(event.server.tautulliId)) {
+      return emit(
+        state.copyWith(
+          status: BlocStatus.success,
+          users: usersCache[event.server.tautulliId],
+        ),
       );
     } else {
-      final failureOrUsersList = await getUsersTable(
-        tautulliId: tautulliId,
-        grouping: grouping,
-        orderColumn: orderColumn,
-        orderDir: orderDir,
-        start: start,
-        length: length ?? 25,
-        search: search,
-        settingsBloc: settingsBloc,
+      usersCache[event.server.tautulliId] = [];
+
+      emit(
+        state.copyWith(
+          status: BlocStatus.initial,
+          users: const [],
+        ),
       );
 
-      yield* failureOrUsersList.fold(
-        (failure) async* {
-          logging.error(
-            'Users: Failed to fetch users',
-          );
+      final failureOrUsers = await users.getUserNames(
+        tautulliId: event.server.tautulliId,
+      );
 
-          yield UsersFailure(
-            failure: failure,
-            message: FailureMapperHelper.mapFailureToMessage(failure),
-            suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
+      failureOrUsers.fold(
+        (failure) {
+          logging.error('Users :: Failed to fetch users [$failure]');
+
+          return emit(
+            state.copyWith(
+              status: BlocStatus.failure,
+              users: usersCache[event.server.tautulliId],
+              failure: failure,
+              message: FailureHelper.mapFailureToMessage(failure),
+              suggestion: FailureHelper.mapFailureToSuggestion(failure),
+            ),
           );
         },
-        (list) async* {
-          _userTableListCache = list;
-          _hasReachedMaxCache = list.length < 25;
-
-          yield UsersSuccess(
-            list: list,
-            hasReachedMax: list.length < 25,
+        (users) {
+          event.settingsBloc.add(
+            SettingsUpdatePrimaryActive(
+              tautulliId: event.server.tautulliId,
+              primaryActive: users.value2,
+            ),
           );
 
-          list.forEach((user) {
-            user_bloc.userCache['$tautulliId-${user.userId}'] = user;
-          });
+          users.value1.sort(
+            ((a, b) => a.friendlyName!.compareTo(b.friendlyName!)),
+          );
+
+          users.value1.insert(
+            0,
+            UserModel(
+              userId: -1,
+              friendlyName: LocaleKeys.all_users_title.tr(),
+            ),
+          );
+
+          usersCache[event.server.tautulliId] = users.value1;
+
+          return emit(
+            state.copyWith(
+              status: BlocStatus.success,
+              users: usersCache[event.server.tautulliId],
+            ),
+          );
         },
       );
     }
   }
-
-  Stream<UsersState> _fetchMore({
-    @required UsersSuccess currentState,
-    @required String tautulliId,
-    int grouping,
-    String orderColumn,
-    String orderDir,
-    int start,
-    int length,
-    String search,
-    @required SettingsBloc settingsBloc,
-  }) async* {
-    final failureOrUsersList = await getUsersTable(
-      tautulliId: tautulliId,
-      grouping: grouping,
-      orderColumn: orderColumn,
-      orderDir: orderDir,
-      start: currentState.list.length,
-      length: length ?? 25,
-      search: search,
-      settingsBloc: settingsBloc,
-    );
-
-    yield* failureOrUsersList.fold(
-      (failure) async* {
-        logging.error(
-          'Users: Failed to fetch additional users',
-        );
-
-        yield UsersFailure(
-          failure: failure,
-          message: FailureMapperHelper.mapFailureToMessage(failure),
-          suggestion: FailureMapperHelper.mapFailureToSuggestion(failure),
-        );
-      },
-      (list) async* {
-        if (list.isEmpty) {
-          _hasReachedMaxCache = true;
-
-          yield currentState.copyWith(hasReachedMax: true);
-        } else {
-          _userTableListCache = currentState.list + list;
-          _hasReachedMaxCache = list.length < 25;
-
-          yield UsersSuccess(
-            list: currentState.list + list,
-            hasReachedMax: list.length < 25,
-          );
-
-          list.forEach((user) {
-            user_bloc.userCache['$tautulliId-${user.userId}'] = user;
-          });
-        }
-      },
-    );
-  }
-}
-
-bool _hasReachedMax(UsersState state) =>
-    state is UsersSuccess && state.hasReachedMax;
-
-void clearCache() {
-  _userTableListCache = null;
-  _orderColumnCache = null;
-  _orderDirCache = null;
-  _tautulliIdCache = null;
-  _hasReachedMaxCache = null;
 }

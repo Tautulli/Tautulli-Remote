@@ -1,100 +1,37 @@
-// @dart=2.9
-
 part of 'settings_bloc.dart';
 
 abstract class SettingsState extends Equatable {
   const SettingsState();
-}
 
-class SettingsInitial extends SettingsState {
   @override
   List<Object> get props => [];
 }
 
-class SettingsLoadInProgress extends SettingsState {
-  @override
-  List<Object> get props => [];
-}
+class SettingsInitial extends SettingsState {}
 
-class SettingsLoadSuccess extends SettingsState {
+class SettingsInProgress extends SettingsState {}
+
+class SettingsSuccess extends SettingsState {
   final List<ServerModel> serverList;
-  final int serverTimeout;
-  final int refreshRate;
-  final bool doubleTapToExit;
-  final bool maskSensitiveInfo;
-  final String lastSelectedServer;
-  final String statsType;
-  final String yAxis;
-  final String usersSort;
-  final bool oneSignalBannerDismissed;
-  final bool iosLocalNetworkPermissionPrompted;
-  final bool graphTipsShown;
-  final String sortChanged;
+  final AppSettingsModel appSettings;
 
-  SettingsLoadSuccess({
-    @required this.serverList,
-    @required this.serverTimeout,
-    @required this.refreshRate,
-    @required this.doubleTapToExit,
-    @required this.maskSensitiveInfo,
-    @required this.lastSelectedServer,
-    @required this.statsType,
-    @required this.yAxis,
-    @required this.usersSort,
-    @required this.oneSignalBannerDismissed,
-    @required this.iosLocalNetworkPermissionPrompted,
-    @required this.graphTipsShown,
-    this.sortChanged,
+  const SettingsSuccess({
+    required this.serverList,
+    required this.appSettings,
   });
 
-  SettingsLoadSuccess copyWith({
-    List<ServerModel> serverList,
-    int serverTimeout,
-    int refreshRate,
-    bool doubleTapToExit,
-    bool maskSensitiveInfo,
-    String lastSelectedServer,
-    String statsType,
-    String yAxis,
-    String usersSort,
-    bool oneSignalBannerDismissed,
-    bool iosLocalNetworkPermissionPrompted,
-    bool graphTipsShown,
-    String sortChanged,
+  SettingsSuccess copyWith({
+    final List<ServerModel>? serverList,
+    final AppSettingsModel? appSettings,
   }) {
-    return SettingsLoadSuccess(
+    return SettingsSuccess(
       serverList: serverList ?? this.serverList,
-      serverTimeout: serverTimeout ?? this.serverTimeout,
-      refreshRate: refreshRate ?? this.refreshRate,
-      doubleTapToExit: doubleTapToExit ?? this.doubleTapToExit,
-      maskSensitiveInfo: maskSensitiveInfo ?? this.maskSensitiveInfo,
-      lastSelectedServer: lastSelectedServer ?? this.lastSelectedServer,
-      statsType: statsType ?? this.statsType,
-      yAxis: yAxis ?? this.yAxis,
-      usersSort: usersSort ?? this.usersSort,
-      oneSignalBannerDismissed:
-          oneSignalBannerDismissed ?? this.oneSignalBannerDismissed,
-      iosLocalNetworkPermissionPrompted: iosLocalNetworkPermissionPrompted ??
-          this.iosLocalNetworkPermissionPrompted,
-      graphTipsShown: graphTipsShown ?? this.graphTipsShown,
-      sortChanged: sortChanged ?? this.sortChanged,
+      appSettings: appSettings ?? this.appSettings,
     );
   }
 
   @override
-  List<Object> get props => [
-        serverList,
-        serverTimeout,
-        refreshRate,
-        doubleTapToExit,
-        maskSensitiveInfo,
-        lastSelectedServer,
-        statsType,
-        yAxis,
-        usersSort,
-        oneSignalBannerDismissed,
-        iosLocalNetworkPermissionPrompted,
-        graphTipsShown,
-        sortChanged,
-      ];
+  List<Object> get props => [serverList, appSettings];
 }
+
+class SettingsFailure extends SettingsState {}
