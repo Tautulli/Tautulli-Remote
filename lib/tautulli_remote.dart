@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:f_logs/f_logs.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
+import 'core/api/tautulli/models/register_device_model.dart';
 import 'core/database/data/models/server_model.dart';
+import 'core/error/failure.dart';
 import 'core/helpers/color_palette_helper.dart';
 import 'core/helpers/theme_helper.dart';
 import 'core/widgets/settings_not_loaded.dart';
@@ -99,20 +102,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
                 );
 
             for (ServerModel server in serversWithoutOneSignal) {
-              String connectionProtocol =
-                  server.primaryActive! ? server.primaryConnectionProtocol : server.secondaryConnectionProtocol!;
-              String connectionDomain =
-                  server.primaryActive! ? server.primaryConnectionDomain : server.secondaryConnectionDomain!;
-              String? connectionPath =
-                  server.primaryActive! ? server.primaryConnectionPath : server.secondaryConnectionPath;
-
-              final failureOrRegisterDevice = await di.sl<Settings>().registerDevice(
-                    connectionProtocol: connectionProtocol,
-                    connectionDomain: connectionDomain,
-                    connectionPath: connectionPath ?? '',
-                    deviceToken: server.deviceToken,
-                    customHeaders: server.customHeaders,
-                  );
+              final failureOrRegisterDevice = await updateServerRegistration(server);
 
               failureOrRegisterDevice.fold(
                 (failure) {
@@ -135,12 +125,63 @@ class TautulliRemoteState extends State<TautulliRemote> {
         }
       }
     });
+
+    if (await di.sl<Settings>().getRegistrationUpdateNeeded()) {
+      final servers = await di.sl<Settings>().getAllServers();
+
+      if (servers.isNotEmpty) {
+        di.sl<Logging>().info(
+              'Settings :: App version changed, updating server registration',
+            );
+
+        for (ServerModel server in servers) {
+          final failureOrRegisterDevice = await updateServerRegistration(server);
+
+          failureOrRegisterDevice.fold(
+            (failure) {
+              di.sl<Logging>().error(
+                    'Settings :: Failed to update registration for ${server.plexName} with new app version',
+                  );
+            },
+            (results) {
+              di.sl<Settings>().updateServer(
+                    server.copyWith(oneSignalRegistered: true),
+                  );
+
+              di.sl<Logging>().info(
+                    'Settings :: Updated registration for ${server.plexName} with new app version',
+                  );
+            },
+          );
+        }
+      }
+    }
   }
 
   void initalizeFLogConfiguration() {
     FLog.applyConfigurations(
       LogsConfig()..activeLogLevel = LogLevel.ALL,
     );
+  }
+
+  Future<dartz.Either<Failure, dartz.Tuple2<RegisterDeviceModel, bool>>> updateServerRegistration(
+    ServerModel server,
+  ) async {
+    String connectionProtocol =
+        server.primaryActive! ? server.primaryConnectionProtocol : server.secondaryConnectionProtocol!;
+    String connectionDomain =
+        server.primaryActive! ? server.primaryConnectionDomain : server.secondaryConnectionDomain!;
+    String? connectionPath = server.primaryActive! ? server.primaryConnectionPath : server.secondaryConnectionPath;
+
+    final failureOrRegisterDevice = await di.sl<Settings>().registerDevice(
+          connectionProtocol: connectionProtocol,
+          connectionDomain: connectionDomain,
+          connectionPath: connectionPath ?? '',
+          deviceToken: server.deviceToken,
+          customHeaders: server.customHeaders,
+        );
+
+    return failureOrRegisterDevice;
   }
 
   @override

@@ -20,8 +20,7 @@ String? secondaryConnectionAddressCache;
 String? deviceTokenCache;
 List<CustomHeaderModel> customHeadersCache = [];
 
-class RegisterDeviceBloc
-    extends Bloc<RegisterDeviceEvent, RegisterDeviceState> {
+class RegisterDeviceBloc extends Bloc<RegisterDeviceEvent, RegisterDeviceState> {
   final Logging logging;
   final Settings settings;
 
@@ -77,8 +76,7 @@ class RegisterDeviceBloc
     required bool trustCert,
     required SettingsBloc settingsBloc,
   }) async {
-    final primaryConnectionAddress =
-        ConnectionAddressModel.fromConnectionAddress(
+    final primaryConnectionAddress = ConnectionAddressModel.fromConnectionAddress(
       primary: true,
       connectionAddress: primaryConnectionAddressCache!,
     );
@@ -104,8 +102,7 @@ class RegisterDeviceBloc
       },
       (result) async {
         final registerResults = result.value1;
-        final bool oneSignalRegistered =
-            await di.sl<OneSignalDataSource>().userId != 'onesignal-disabled';
+        final bool oneSignalRegistered = await di.sl<OneSignalDataSource>().userId != 'onesignal-disabled';
 
         try {
           if (registerResults.serverId != null) {
@@ -140,8 +137,7 @@ class RegisterDeviceBloc
                   id: existingServer.id!,
                   sortIndex: existingServer.sortIndex,
                   primaryConnectionAddress: primaryConnectionAddressCache!,
-                  secondaryConnectionAddress:
-                      secondaryConnectionAddressCache ?? '',
+                  secondaryConnectionAddress: secondaryConnectionAddressCache ?? '',
                   deviceToken: deviceTokenCache!,
                   tautulliId: registerResults.serverId!,
                   plexName: registerResults.pmsName!,
@@ -160,6 +156,7 @@ class RegisterDeviceBloc
                 isUpdate: true,
               ),
             );
+            settings.setRegistrationUpdateNeeded(false);
           } else {
             throw BadApiResponseException();
           }

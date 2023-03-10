@@ -45,8 +45,7 @@ void main() async {
   await di.init();
 
   // Override global HttpClient to check for trusted cert hashes on certificate failure.
-  final List<int> customCertHashList =
-      await di.sl<Settings>().getCustomCertHashList();
+  final List<int> customCertHashList = await di.sl<Settings>().getCustomCertHashList();
   HttpOverrides.global = MyHttpOverrides(customCertHashList);
 
   Future<String?> calculateInitialRoute() async {
@@ -70,6 +69,7 @@ void main() async {
 
     if (runningVersion != lastAppVersion) {
       await di.sl<Settings>().setLastAppVersion(runningVersion);
+      await di.sl<Settings>().setRegistrationUpdateNeeded(true);
       routeToReturn ??= '/changelog';
     }
 

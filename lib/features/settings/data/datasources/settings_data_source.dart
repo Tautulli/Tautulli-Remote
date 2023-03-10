@@ -130,6 +130,10 @@ abstract class SettingsDataSource {
   Future<int> getRefreshRate();
   Future<bool> setRefreshRate(int value);
 
+  // Registration Update Needed
+  Future<bool> getRegistrationUpdateNeeded();
+  Future<bool> setRegistrationUpdateNeeded(bool value);
+
   // Secret
   Future<bool> getSecret();
   Future<bool> setSecret(bool value);
@@ -170,6 +174,7 @@ const multiserverActivity = 'multiserverActivity';
 const oneSignalBannerDismissed = 'oneSignalBannerDismissed';
 const oneSignalConsented = 'oneSignalConsented';
 const refreshRate = 'refreshRate';
+const registrationUpdateNeeded = 'registrationUpdateNeeded';
 const secret = 'secret';
 const serverTimeout = 'serverTimeout';
 const statisticsStatType = 'statisticsStatsType';
@@ -531,6 +536,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setRefreshRate(int value) {
     return localStorage.setInt(refreshRate, value);
+  }
+
+  // Registration Update Needed
+  @override
+  Future<bool> getRegistrationUpdateNeeded() async {
+    return Future.value(localStorage.getBool(registrationUpdateNeeded) ?? false);
+  }
+
+  @override
+  Future<bool> setRegistrationUpdateNeeded(bool value) {
+    return localStorage.setBool(registrationUpdateNeeded, value);
   }
 
   // Secret

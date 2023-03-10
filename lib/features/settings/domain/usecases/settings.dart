@@ -352,6 +352,19 @@ class Settings {
     return await repository.setRefreshRate(value);
   }
 
+  /// Returns if a registation update is needed.
+  /// Typically the result of an app update where the server needs the new app version.
+  ///
+  /// If no value is stored returns `false`.
+  Future<bool> getRegistrationUpdateNeeded() async {
+    return await repository.getRegistrationUpdateNeeded();
+  }
+
+  /// Set if a registration update is needed.
+  Future<bool> setRegistrationUpdateNeeded(bool value) async {
+    return await repository.setRegistrationUpdateNeeded(value);
+  }
+
   /// What is a man? A miserable little pile of secrets.
   Future<bool> getSecret() async {
     return await repository.getSecret();

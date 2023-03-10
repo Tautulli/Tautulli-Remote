@@ -125,6 +125,10 @@ abstract class SettingsRepository {
   Future<int> getRefreshRate();
   Future<bool> setRefreshRate(int value);
 
+  // Registration Update Needed
+  Future<bool> getRegistrationUpdateNeeded();
+  Future<bool> setRegistrationUpdateNeeded(bool value);
+
   // Server Timeout
   Future<bool> getSecret();
   Future<bool> setSecret(bool value);

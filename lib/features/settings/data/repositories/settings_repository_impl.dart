@@ -349,6 +349,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setRefreshRate(value);
   }
 
+  // Refresh Rate
+  @override
+  Future<bool> getRegistrationUpdateNeeded() async {
+    return await dataSource.getRegistrationUpdateNeeded();
+  }
+
+  @override
+  Future<bool> setRegistrationUpdateNeeded(bool value) async {
+    return await dataSource.setRegistrationUpdateNeeded(value);
+  }
+
   // Secret
   @override
   Future<bool> getSecret() async {
