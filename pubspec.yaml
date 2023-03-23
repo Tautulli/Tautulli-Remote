@@ -19,7 +19,7 @@ dependencies:
   cupertino_icons: ^1.0.5
   dartz: ^0.10.1
   device_info_plus: ^8.0.0
-  dio: ^4.0.6
+  dio: ^5.0.3
   duration: ^3.0.12
   easy_localization: ^3.0.1
   equatable: ^2.0.5

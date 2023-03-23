@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 
 import '../../../dependency_injection.dart' as di;
 import '../../../features/logging/domain/usecases/logging.dart';
@@ -79,7 +79,7 @@ class CallTautulliImpl implements CallTautulli {
     // Otherwise return false.
     //
     // Return CertificationExpiredException if the certificate is not valid.
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
         (client) {
       client.badCertificateCallback = (
         X509Certificate cert,
