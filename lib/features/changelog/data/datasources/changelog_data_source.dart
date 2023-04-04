@@ -1,8 +1,27 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.1",
+      "date": "April 4, 2023",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "New translations for Catalan, French, and German",
+          "additional": "Thanks @dtalens, @c0nsideration, and lackmake",
+        },
+        {
+          "type": "fix",
+          "detail": "Using either Portuguese language no longer cause the app to break",
+        },
+        {
+          "type": "fix",
+          "detail": "Change customer header refactor process when upgrading from v2 to v3",
+        },
+      ],
+    },
+    {
       "version": "v3.0.0",
-      "date": "Mar 11, 2023",
+      "date": "March 11, 2023",
       "intro":
           "After many months of work the initial release for Tautulli Remote v3 is finally here!\nThis is a complete rewrite of the app, so please review the \"note\" entries below for some important information.",
       "changes": [
