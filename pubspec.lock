@@ -340,11 +340,12 @@ packages:
   easy_localization:
     dependency: "direct main"
     description:
-      name: easy_localization
-      sha256: "6a2e99fa0bfe5765bf4c6ca9b137d5de2c75593007178c5e4cd2ae985f870080"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
+      path: "."
+      ref: nullTranslationFix
+      resolved-ref: "1bce23bb4ff7dedd6beb25ccaf94a5645d5c7395"
+      url: "https://github.com/TheMeanCanEHdian/easy_localization.git"
+    source: git
+    version: "3.0.2-dev.5"
   easy_logger:
     dependency: transitive
     description:

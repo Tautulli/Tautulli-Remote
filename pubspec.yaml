@@ -21,7 +21,11 @@ dependencies:
   device_info_plus: ^8.0.0
   dio: ^5.0.3
   duration: ^3.0.12
-  easy_localization: ^3.0.1
+  # easy_localization: ^3.0.1
+  easy_localization:
+    git: 
+      url: https://github.com/TheMeanCanEHdian/easy_localization.git
+      ref: nullTranslationFix
   equatable: ^2.0.5
   f_logs: ^2.0.1
   filesize: ^2.0.1
