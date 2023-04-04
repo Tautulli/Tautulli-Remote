@@ -184,9 +184,16 @@ class DBProvider {
         where: 'id = ?',
         whereArgs: [servers[i]['id']],
       ).then(
-        (value) => json.decode(
-          value.first['custom_headers'] as String,
-        ),
+        (value) {
+          try {
+            return json.decode(
+              value.first['custom_headers'] as String,
+            );
+          } catch (e) {
+            di.sl<Logging>().error('DB :: Error parsing headers [$e]');
+            return {};
+          }
+        },
       );
 
       final List refactoredHeaders = [];
