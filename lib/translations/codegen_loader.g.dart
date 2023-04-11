@@ -131,7 +131,13 @@ class CodegenLoader extends AssetLoader{
   "contact_support_title": "Contacte de suport",
   "container_title": "Contenidor",
   "copied_to_clipboard_snackbar_message": "S'ha copiat al porta-retalls",
-  "custom_http_headers_title": "Capçaleres HTTP personalitzades"
+  "custom_http_headers_title": "Capçaleres HTTP personalitzades",
+  "about_legalese": "Amb Llicència Pública General de GNU v3.0",
+  "activity_empty_message": "Sense reproduccions.",
+  "daily_play_time_by_media_type_title": "Temps de reproducció diari per tipus de suport",
+  "daily_play_count_by_stream_type_title": "Recompte diari de reproduccions per tipus de reproducció",
+  "daily_play_time_by_stream_type_title": "Temps de reproducció diari per tipus de reproducció",
+  "data_dump_warning_line_1": "ADVERTIMENT: Aquesta pàgina inclou dades sensibles."
 };
 static const Map<String,dynamic> cs = {
   "about_legalese": "Licencováno pod GNU General Public License v3.0",
