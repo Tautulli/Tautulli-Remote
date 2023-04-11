@@ -84,18 +84,21 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
 
   // Take action if the app is paused or resumed
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
       context.read<ActivityBloc>().add(ActivityAutoRefreshStop());
     }
     if (state == AppLifecycleState.resumed) {
-      _activityBloc.add(
-        ActivityFetched(
-          serverList: _serverList,
-          multiserver: _multiserver,
-          activeServerId: _activeServerId,
-          settingsBloc: _settingsBloc,
+      // Adding a slight delay to work around issues when quick action is launched and the activity page is active
+      await Future.delayed(const Duration(milliseconds: 500)).then(
+        (_) => _activityBloc.add(
+          ActivityFetched(
+            serverList: _serverList,
+            multiserver: _multiserver,
+            activeServerId: _activeServerId,
+            settingsBloc: _settingsBloc,
+          ),
         ),
       );
     }
