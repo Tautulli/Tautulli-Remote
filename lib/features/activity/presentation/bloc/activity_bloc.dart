@@ -194,18 +194,34 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   }) {
     activity
         .getActivity(
-          tautulliId: serverActivityModel.tautulliId,
-        )
+      tautulliId: serverActivityModel.tautulliId,
+    )
         .then(
-          (failureOrActivity) => add(
+      (failureOrActivity) {
+        // When a quick action is used it is possible for the app to request activity before closing bloc and navigating
+        // to a new page. This cases a StateError which is caught and the status is set to success to avoid the server
+        // being stuck in inProgress
+        try {
+          add(
             ActivityLoadServer(
               tautulliId: serverActivityModel.tautulliId,
               serverName: serverActivityModel.serverName,
               failureOrActivity: failureOrActivity,
               settingsBloc: settingsBloc,
             ),
-          ),
-        );
+          );
+        } catch (_) {
+          final int index = serverActivityListCache.indexWhere(
+            (server) => server.tautulliId == serverActivityModel.tautulliId,
+          );
+
+          serverActivityListCache[index] = serverActivityListCache[index].copyWith(
+            status: BlocStatus.success,
+            activityList: [],
+          );
+        }
+      },
+    );
   }
 
   Future<void> _onActivityLoadServer(
