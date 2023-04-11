@@ -1,6 +1,21 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.2",
+      "date": "April 11, 2023",
+      "changes": [
+        {
+          "type": "improvement",
+          "detail": "New translations for Catalan",
+          "additional": "Thanks @dtalens",
+        },
+        {
+          "type": "fix",
+          "detail": "Using a quick action will no longer cause the activity page to be stuck in the loading state",
+        },
+      ],
+    },
+    {
       "version": "v3.0.1",
       "date": "April 4, 2023",
       "changes": [
@@ -11,11 +26,12 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Using either Portuguese language no longer cause the app to break",
+          "detail": "Using either Portuguese language options no longer causes the app to break",
         },
         {
           "type": "fix",
-          "detail": "Change customer header refactor process when upgrading from v2 to v3",
+          "detail":
+              "Custom header refactor process when upgrading from v2 to v3 will no longer cause the app to lock up for some users",
         },
       ],
     },
