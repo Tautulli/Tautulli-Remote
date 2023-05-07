@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:android_id/android_id.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:version/version.dart';
 
 abstract class DeviceInfo {
   /// The end-user-visible name for the device.
@@ -14,7 +15,7 @@ abstract class DeviceInfo {
   Future<String?> get uniqueId;
 
   /// The OS version of the device.
-  Future<num> get version;
+  Future<Version> get version;
 }
 
 class DeviceInfoImpl implements DeviceInfo {
@@ -57,13 +58,14 @@ class DeviceInfoImpl implements DeviceInfo {
   }
 
   @override
-  Future<num> get version async {
+  Future<Version> get version async {
     if (Platform.isAndroid) {
       final androidInfo = await deviceInfoPlugin.androidInfo;
-      return num.parse(androidInfo.version.release);
+      return Version.parse(androidInfo.version.release);
     } else {
       final iosInfo = await deviceInfoPlugin.iosInfo;
-      return num.parse(iosInfo.systemVersion!);
+      print(iosInfo.systemVersion);
+      return Version.parse(iosInfo.systemVersion!);
     }
   }
 }
