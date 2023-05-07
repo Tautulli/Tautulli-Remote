@@ -3,26 +3,14 @@ PODS:
     - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
-    - Reachability
+    - ReachabilitySwift
   - CryptoSwift (1.4.3)
   - device_info_plus (0.0.1):
     - Flutter
-  - Firebase/CoreOnly (8.11.0):
-    - FirebaseCore (= 8.11.0)
-  - firebase_core (1.12.0):
-    - Firebase/CoreOnly (= 8.11.0)
-    - Flutter
-  - FirebaseCore (8.11.0):
-    - FirebaseCoreDiagnostics (~> 8.0)
-    - GoogleUtilities/Environment (~> 7.7)
-    - GoogleUtilities/Logger (~> 7.7)
-  - FirebaseCoreDiagnostics (8.14.0):
-    - GoogleDataTransport (~> 9.1)
-    - GoogleUtilities/Environment (~> 7.7)
-    - GoogleUtilities/Logger (~> 7.7)
-    - nanopb (~> 2.30908.0)
   - Flutter (1.0.0)
   - flutter_barcode_scanner (2.0.0):
+    - Flutter
+  - flutter_native_splash (0.0.1):
     - Flutter
   - fluttertoast (0.0.2):
     - Flutter
@@ -30,42 +18,38 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - GoogleDataTransport (9.1.2):
-    - GoogleUtilities/Environment (~> 7.2)
-    - nanopb (~> 2.30908.0)
-    - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Environment (7.7.0):
-    - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.7.0):
-    - GoogleUtilities/Environment
-  - nanopb (2.30908.0):
-    - nanopb/decode (= 2.30908.0)
-    - nanopb/encode (= 2.30908.0)
-  - nanopb/decode (2.30908.0)
-  - nanopb/encode (2.30908.0)
-  - OneSignal (3.10.2)
-  - onesignal_flutter (3.3.0):
+  - onesignal_flutter (3.5.0):
     - Flutter
-    - OneSignalXCFramework (= 3.10.1)
-  - OneSignalXCFramework (3.10.1)
+    - OneSignalXCFramework (= 3.12.3)
+  - OneSignalXCFramework (3.12.3):
+    - OneSignalXCFramework/OneSignalCore (= 3.12.3)
+    - OneSignalXCFramework/OneSignalExtension (= 3.12.3)
+    - OneSignalXCFramework/OneSignalOutcomes (= 3.12.3)
+  - OneSignalXCFramework/OneSignalCore (3.12.3)
+  - OneSignalXCFramework/OneSignalExtension (3.12.3):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalOutcomes
+  - OneSignalXCFramework/OneSignalOutcomes (3.12.3):
+    - OneSignalXCFramework/OneSignalCore
   - package_info_plus (0.4.5):
     - Flutter
-  - path_provider_ios (0.0.1):
+  - path_provider_foundation (0.0.1):
     - Flutter
-  - "permission_handler (5.1.0+2)":
+    - FlutterMacOS
+  - permission_handler_apple (9.0.4):
     - Flutter
-  - PromisesObjC (2.0.0)
-  - Purchases (3.13.2):
-    - PurchasesCoreSwift (= 3.13.2)
-  - purchases_flutter (3.9.5):
+  - purchases_flutter (4.10.3):
     - Flutter
-    - PurchasesHybridCommon (= 1.11.2)
-  - PurchasesCoreSwift (3.13.2)
-  - PurchasesHybridCommon (1.11.2):
-    - Purchases (= 3.13.2)
-  - Reachability (3.2)
-  - shared_preferences_ios (0.0.1):
+    - PurchasesHybridCommon (= 4.13.4)
+  - PurchasesHybridCommon (4.13.4):
+    - RevenueCat (= 4.17.7)
+  - quick_actions_ios (0.0.1):
     - Flutter
+  - ReachabilitySwift (5.0.0)
+  - RevenueCat (4.17.7)
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
@@ -78,37 +62,29 @@ DEPENDENCIES:
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - CryptoSwift (~> 1.4.0)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
-  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - flutter_barcode_scanner (from `.symlinks/plugins/flutter_barcode_scanner/ios`)
+  - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - OneSignal (< 4.0, >= 3.4.3)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
+  - OneSignalXCFramework (< 4.0, >= 3.4.3)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
-  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
-  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
-  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+  - quick_actions_ios (from `.symlinks/plugins/quick_actions_ios/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
   trunk:
     - CryptoSwift
-    - Firebase
-    - FirebaseCore
-    - FirebaseCoreDiagnostics
     - FMDB
-    - GoogleDataTransport
-    - GoogleUtilities
-    - nanopb
-    - OneSignal
     - OneSignalXCFramework
-    - PromisesObjC
-    - Purchases
-    - PurchasesCoreSwift
     - PurchasesHybridCommon
-    - Reachability
+    - ReachabilitySwift
+    - RevenueCat
     - Toast
 
 EXTERNAL SOURCES:
@@ -118,26 +94,28 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
-  firebase_core:
-    :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
   flutter_barcode_scanner:
     :path: ".symlinks/plugins/flutter_barcode_scanner/ios"
+  flutter_native_splash:
+    :path: ".symlinks/plugins/flutter_native_splash/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
   onesignal_flutter:
     :path: ".symlinks/plugins/onesignal_flutter/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
-  path_provider_ios:
-    :path: ".symlinks/plugins/path_provider_ios/ios"
-  permission_handler:
-    :path: ".symlinks/plugins/permission_handler/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
   purchases_flutter:
     :path: ".symlinks/plugins/purchases_flutter/ios"
-  shared_preferences_ios:
-    :path: ".symlinks/plugins/shared_preferences_ios/ios"
+  quick_actions_ios:
+    :path: ".symlinks/plugins/quick_actions_ios/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher_ios:
@@ -145,37 +123,29 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   app_group_directory: 7bf9f8f9819ead554de29da7c25fb7a680d6a9a0
-  connectivity_plus: 5f0eb61093bec56935f21a1699dd2758bc895587
+  connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   CryptoSwift: a0799ee936271bd2253a006f1e4523df21845000
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
-  Firebase: 44dd9724c84df18b486639e874f31436eaa9a20c
-  firebase_core: 443bccfd6aa6b42f07be365b500773dc69db2d87
-  FirebaseCore: 2f4f85b453cc8fea4bb2b37e370007d2bcafe3f0
-  FirebaseCoreDiagnostics: fd0c8490f34287229c1d6c103d3a55f81ec85712
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_barcode_scanner: 7a1144744c28dc0c57a8de7218ffe5ec59a9e4bf
-  fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
+  flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
+  fluttertoast: eb263d302cc92e04176c053d2385237e9f43fad0
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
-  GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
-  nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  OneSignal: 29b555f5991109dc717f75d4440c565cab92511c
-  onesignal_flutter: a89207b9d7e97cc9d7d12bcfb4a25f62aedc445b
-  OneSignalXCFramework: fe027712118f2862ab193b72270487f11450ea63
+  onesignal_flutter: e01b19b76406d2f303edabe36da8dc747443d679
+  OneSignalXCFramework: 75844c29607ca95e6176f6f21257b4382c7fdbfb
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
-  path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
-  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
-  PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
-  Purchases: 03200de9288724e77de435000d1828601e6b8e00
-  purchases_flutter: cf2b742f12b7ffef6f618c7f1ba1961e652825b1
-  PurchasesCoreSwift: 2ea4b33e5cece5c8a0751594ef7c6cbfcbd747a9
-  PurchasesHybridCommon: 56ef42d85c3e930d49aff4ac5fa027373d2e1bb8
-  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
-  shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
+  path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
+  purchases_flutter: feb241b9dd91e8255e2d2d9d5b0266fa8427fe29
+  PurchasesHybridCommon: d8948a07502c3160fddb0e6ff1c06496222dcddf
+  quick_actions_ios: bb09d1c35b4a89f9dbb15487039fa1b983ca375e
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  RevenueCat: 15a06dbce1021474e6dc9b31b1fce43fe55fcaf2
+  shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
-  url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
+  url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
 
-PODFILE CHECKSUM: 03cb7ed4a753fa8827c35f1d45af35a4fbe9b447
+PODFILE CHECKSUM: 618ee76e85efaf404724566e6c7c1eddada363f1
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.12.1
