@@ -64,7 +64,6 @@ class DeviceInfoImpl implements DeviceInfo {
       return Version.parse(androidInfo.version.release);
     } else {
       final iosInfo = await deviceInfoPlugin.iosInfo;
-      print(iosInfo.systemVersion);
       return Version.parse(iosInfo.systemVersion!);
     }
   }
