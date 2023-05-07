@@ -243,11 +243,16 @@ class _DeviceDetails extends StatelessWidget {
           children: [
             const _DataDumpRowHeading('Unique ID'),
             const Gap(16),
-            FutureBuilder(
-              future: di.sl<DeviceInfo>().uniqueId,
-              builder: (context, snapshot) {
-                return Text(snapshot.data.toString());
-              },
+            Expanded(
+              child: FutureBuilder(
+                future: di.sl<DeviceInfo>().uniqueId,
+                builder: (context, snapshot) {
+                  return Text(
+                    snapshot.data.toString(),
+                    textAlign: TextAlign.end,
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -425,7 +430,9 @@ class _AnnouncementsDumpGroup extends StatelessWidget {
                   const Gap(16),
                   Expanded(
                     child: Text(
-                      (state.announcementList.length - state.filteredList.length).toString(),
+                      (state.announcementList.length -
+                              state.filteredList.length)
+                          .toString(),
                       textAlign: TextAlign.end,
                     ),
                   ),
