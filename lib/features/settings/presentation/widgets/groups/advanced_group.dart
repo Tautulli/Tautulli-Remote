@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,26 +23,27 @@ class AdvancedGroup extends StatelessWidget {
     return ListTileGroup(
       heading: LocaleKeys.settings_title.tr(),
       listTiles: [
-        BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            state as SettingsSuccess;
-            final doubleBackToExit = state.appSettings.doubleBackToExit;
+        if (Platform.isAndroid)
+          BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              state as SettingsSuccess;
+              final doubleBackToExit = state.appSettings.doubleBackToExit;
 
-            return CheckboxSettingsListTile(
-              leading: const FaIcon(FontAwesomeIcons.anglesLeft),
-              title: LocaleKeys.double_back_to_exit_title.tr(),
-              subtitle: LocaleKeys.double_back_to_exit_subtitle.tr(),
-              value: doubleBackToExit,
-              onChanged: (value) {
-                if (value != null) {
-                  context.read<SettingsBloc>().add(
-                        SettingsUpdateDoubleBackToExit(value),
-                      );
-                }
-              },
-            );
-          },
-        ),
+              return CheckboxSettingsListTile(
+                leading: const FaIcon(FontAwesomeIcons.anglesLeft),
+                title: LocaleKeys.double_back_to_exit_title.tr(),
+                subtitle: LocaleKeys.double_back_to_exit_subtitle.tr(),
+                value: doubleBackToExit,
+                onChanged: (value) {
+                  if (value != null) {
+                    context.read<SettingsBloc>().add(
+                          SettingsUpdateDoubleBackToExit(value),
+                        );
+                  }
+                },
+              );
+            },
+          ),
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
@@ -86,7 +89,8 @@ class AdvancedGroup extends StatelessWidget {
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
-            final libraryMediaFullRefresh = state.appSettings.libraryMediaFullRefresh;
+            final libraryMediaFullRefresh =
+                state.appSettings.libraryMediaFullRefresh;
 
             return CheckboxSettingsListTile(
               subtitleIsTwoLines: true,
