@@ -40,7 +40,10 @@ class HelpTranslateView extends StatelessWidget {
                 CustomListTile(
                   leading: WebsafeSvg.asset(
                     'assets/logos/weblate.svg',
-                    color: Theme.of(context).colorScheme.tertiary,
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.tertiary,
+                      BlendMode.srcIn,
+                    ),
                     height: 30,
                     width: 30,
                   ),

@@ -29,7 +29,8 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<InnerDrawerState> innerDrawerKey = GlobalKey<InnerDrawerState>();
+    final GlobalKey<InnerDrawerState> innerDrawerKey =
+        GlobalKey<InnerDrawerState>();
 
     double calculateDrawerOffset() {
       // Tested Virtual Devices Sizes
@@ -68,7 +69,8 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
           // to hide these corners
           Positioned.fill(
             child: DecoratedBox(
-              decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary),
+              decoration:
+                  BoxDecoration(color: Theme.of(context).colorScheme.primary),
             ),
           ),
           Positioned.fill(
@@ -424,7 +426,8 @@ class __ServerSelectorState extends State<_ServerSelector> {
         if (state is SettingsSuccess && state.serverList.length > 1) {
           List<ServerModel> nonActiveServers = [...state.serverList];
           nonActiveServers.removeWhere(
-            (server) => server.tautulliId == state.appSettings.activeServer.tautulliId,
+            (server) =>
+                server.tautulliId == state.appSettings.activeServer.tautulliId,
           );
 
           return ExpansionPanelList(
@@ -444,7 +447,10 @@ class __ServerSelectorState extends State<_ServerSelector> {
                   tileColor: Colors.transparent,
                   leading: WebsafeSvg.asset(
                     'assets/logos/logo_flat.svg',
-                    color: Theme.of(context).colorScheme.tertiary,
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.tertiary,
+                      BlendMode.srcIn,
+                    ),
                     height: 30,
                   ),
                   title: Text(

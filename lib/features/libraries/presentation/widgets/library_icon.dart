@@ -27,7 +27,10 @@ class LibraryIcon extends StatelessWidget {
             } else {
               return WebsafeSvg.asset(
                 AssetHelper.mapSectionTypeToPath(library.sectionType),
-                color: Theme.of(context).colorScheme.tertiary,
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.tertiary,
+                  BlendMode.srcIn,
+                ),
                 height: 50,
               );
             }

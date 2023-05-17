@@ -29,8 +29,12 @@ class ServerSecondaryConnectionListTile extends StatelessWidget {
         color: inactive ? Theme.of(context).textTheme.titleSmall!.color : null,
       ),
       title: LocaleKeys.secondary_connection_title.tr(),
-      subtitle: inactive ? LocaleKeys.not_configured_message.tr() : server.secondaryConnectionAddress,
-      trailing: server.primaryActive != true ? const ActiveConnectionIndicator() : null,
+      subtitle: inactive
+          ? LocaleKeys.not_configured_message.tr()
+          : server.secondaryConnectionAddress,
+      trailing: server.primaryActive != true
+          ? const ActiveConnectionIndicator()
+          : null,
       onTap: () {
         showDialog(
           context: context,
@@ -43,7 +47,7 @@ class ServerSecondaryConnectionListTile extends StatelessWidget {
       onLongPress: () {
         if (!inactive) {
           Clipboard.setData(
-            ClipboardData(text: server.secondaryConnectionAddress),
+            ClipboardData(text: server.secondaryConnectionAddress!),
           );
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(

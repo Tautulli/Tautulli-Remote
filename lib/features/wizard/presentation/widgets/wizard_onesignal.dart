@@ -73,7 +73,8 @@ class WizardOneSignal extends StatelessWidget {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               fullscreenDialog: true,
-                              builder: (context) => const OneSignalDataPrivacyPage(
+                              builder: (context) =>
+                                  const OneSignalDataPrivacyPage(
                                 showToggle: false,
                               ),
                             ),
@@ -89,13 +90,18 @@ class WizardOneSignal extends StatelessWidget {
                           titleIsTwoLines: true,
                           leading: WebsafeSvg.asset(
                             'assets/logos/onesignal.svg',
-                            color: Theme.of(context).colorScheme.tertiary,
+                            colorFilter: ColorFilter.mode(
+                              Theme.of(context).colorScheme.tertiary,
+                              BlendMode.srcIn,
+                            ),
                             height: 35,
                           ),
                           title: LocaleKeys.wizard_onesignal_allow_title.tr(),
                           value: state.oneSignalAllowed,
                           onChanged: (_) async {
-                            if (await Permission.notification.request().isGranted) {
+                            if (await Permission.notification
+                                .request()
+                                .isGranted) {
                               context.read<WizardBloc>().add(
                                     WizardToggleOneSignal(),
                                   );
@@ -103,8 +109,12 @@ class WizardOneSignal extends StatelessWidget {
                               await showDialog(
                                 context: context,
                                 builder: (context) => PermissionSettingDialog(
-                                  title: LocaleKeys.notification_permission_dialog_title.tr(),
-                                  content: LocaleKeys.notification_permission_dialog_content.tr(),
+                                  title: LocaleKeys
+                                      .notification_permission_dialog_title
+                                      .tr(),
+                                  content: LocaleKeys
+                                      .notification_permission_dialog_content
+                                      .tr(),
                                 ),
                               );
                             }

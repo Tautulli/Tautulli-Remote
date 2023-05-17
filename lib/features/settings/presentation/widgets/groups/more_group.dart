@@ -20,7 +20,10 @@ class MoreGroup extends StatelessWidget {
         CustomListTile(
           leading: WebsafeSvg.asset(
             'assets/logos/onesignal.svg',
-            color: Theme.of(context).colorScheme.tertiary,
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).colorScheme.tertiary,
+              BlendMode.srcIn,
+            ),
             height: 30,
           ),
           title: LocaleKeys.onesignal_data_privacy_title.tr(),

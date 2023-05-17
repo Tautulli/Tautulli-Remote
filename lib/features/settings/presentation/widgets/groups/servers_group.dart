@@ -60,7 +60,10 @@ class ServersGroup extends StatelessWidget {
                             sensitive: true,
                             leading: WebsafeSvg.asset(
                               'assets/logos/logo_flat.svg',
-                              color: Theme.of(context).colorScheme.tertiary,
+                              colorFilter: ColorFilter.mode(
+                                Theme.of(context).colorScheme.tertiary,
+                                BlendMode.srcIn,
+                              ),
                               height: 35,
                             ),
                             title: server.plexName,
