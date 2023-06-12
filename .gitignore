@@ -33,6 +33,9 @@
 # Android related
 **/android/key.properties
 
+# iOS related
+**/ios/Pods.build/
+
 # Web related
 lib/generated_plugin_registrant.dart
 
