@@ -111,7 +111,7 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
                                     if (notificationType == 2) {
                                         builder.setStyle(NotificationCompat.BigPictureStyle()
                                                 .bigPicture(resource)
-                                                .bigLargeIcon(null))
+                                                .bigLargeIcon(null as Bitmap?))
                                     }
                                     
                                      //* Send notification with image
