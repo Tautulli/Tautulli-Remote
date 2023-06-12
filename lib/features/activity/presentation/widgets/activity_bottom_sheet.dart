@@ -73,10 +73,13 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
               // Update activity to most recent data and if the item no longer exists close the bottom sheet
               try {
                 final activityList = state.serverActivityList
-                    .firstWhere((server) => server.tautulliId == widget.server.tautulliId)
+                    .firstWhere((server) =>
+                        server.tautulliId == widget.server.tautulliId)
                     .activityList;
                 final item = activityList.firstWhere(
-                  (item) => item.sessionId == activity.sessionId && item.sessionKey == activity.sessionKey,
+                  (item) =>
+                      item.sessionId == activity.sessionId &&
+                      item.sessionKey == activity.sessionKey,
                 );
                 activity = item;
               } catch (_) {
@@ -93,7 +96,9 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: Colors.green,
-                  content: const Text(LocaleKeys.termination_request_sent_message).tr(),
+                  content:
+                      const Text(LocaleKeys.termination_request_sent_message)
+                          .tr(),
                   action: SnackBarAction(
                     label: LocaleKeys.learn_more_title.tr(),
                     onPressed: () async {
@@ -128,7 +133,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                 onTap: () => Navigator.pop(context),
                 onVerticalDragDown: (_) {},
                 child: Container(
-                  height: MediaQueryData.fromWindow(window).padding.top,
+                  height: MediaQueryData.fromView(View.of(context)).padding.top,
                   color: Colors.transparent,
                 ),
               ),
@@ -185,13 +190,17 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                           imageUrl: posterUri.toString(),
                                           httpHeaders: {
                                             for (CustomHeaderModel headerModel
-                                                in state.appSettings.activeServer.customHeaders)
-                                              headerModel.key: headerModel.value,
+                                                in state.appSettings
+                                                    .activeServer.customHeaders)
+                                              headerModel.key:
+                                                  headerModel.value,
                                           },
-                                          placeholder: (context, url) => Image.asset(
+                                          placeholder: (context, url) =>
+                                              Image.asset(
                                             'assets/images/poster_fallback.png',
                                           ),
-                                          errorWidget: (context, url, error) => Image.asset(
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
                                             'assets/images/poster_error.png',
                                           ),
                                           fit: BoxFit.fill,
@@ -207,7 +216,8 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                   children: [
                                     Positioned.fill(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           const Padding(
                                             padding: EdgeInsets.only(
@@ -235,18 +245,26 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                               right: 8,
                                             ),
                                             child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
                                               children: [
-                                                BlocBuilder<SettingsBloc, SettingsState>(
+                                                BlocBuilder<SettingsBloc,
+                                                    SettingsState>(
                                                   builder: (context, state) {
                                                     state as SettingsSuccess;
 
                                                     return Expanded(
                                                       child: Text(
-                                                        state.appSettings.maskSensitiveInfo
-                                                            ? LocaleKeys.hidden_message.tr()
-                                                            : activity.friendlyName ?? '',
-                                                        overflow: TextOverflow.ellipsis,
+                                                        state.appSettings
+                                                                .maskSensitiveInfo
+                                                            ? LocaleKeys
+                                                                .hidden_message
+                                                                .tr()
+                                                            : activity
+                                                                    .friendlyName ??
+                                                                '',
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: const TextStyle(
                                                           fontSize: 13,
                                                         ),
@@ -256,18 +274,22 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                                 ),
                                                 if (activity.live != true &&
                                                     activity.duration != null &&
-                                                    activity.viewOffset != null &&
+                                                    activity.viewOffset !=
+                                                        null &&
                                                     activity.duration != null)
                                                   Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
                                                     children: [
                                                       TimeEta(
                                                         server: widget.server,
                                                         activity: activity,
                                                       ),
                                                       TimeTotal(
-                                                        viewOffset: activity.viewOffset!,
-                                                        duration: activity.duration!,
+                                                        viewOffset: activity
+                                                            .viewOffset!,
+                                                        duration:
+                                                            activity.duration!,
                                                       ),
                                                     ],
                                                   ),
@@ -282,8 +304,10 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.fromLTRB(0, 2, 0, 4),
-                                            child: ProgressBar(activity: activity),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 2, 0, 4),
+                                            child:
+                                                ProgressBar(activity: activity),
                                           ),
                                         ],
                                       ),
@@ -351,10 +375,12 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                               },
                               child: Builder(builder: (context) {
                                 if (MediaQuery.of(context).size.width < 350) {
-                                  return const FaIcon(FontAwesomeIcons.solidUser);
+                                  return const FaIcon(
+                                      FontAwesomeIcons.solidUser);
                                 }
 
-                                return const Text(LocaleKeys.view_user_title).tr();
+                                return const Text(LocaleKeys.view_user_title)
+                                    .tr();
                               }),
                             ),
                           ),
@@ -364,17 +390,21 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                 padding: const EdgeInsets.only(left: 8),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: PlexColorPalette.curiousBlue,
+                                    backgroundColor:
+                                        PlexColorPalette.curiousBlue,
                                   ),
                                   onPressed: () {
                                     final media = MediaModel(
-                                      grandparentRatingKey: activity.grandparentRatingKey,
-                                      grandparentTitle: activity.grandparentTitle,
+                                      grandparentRatingKey:
+                                          activity.grandparentRatingKey,
+                                      grandparentTitle:
+                                          activity.grandparentTitle,
                                       imageUri: posterUri,
                                       live: activity.live,
                                       mediaIndex: activity.mediaIndex,
                                       mediaType: activity.mediaType,
-                                      parentMediaIndex: activity.parentMediaIndex,
+                                      parentMediaIndex:
+                                          activity.parentMediaIndex,
                                       parentRatingKey: activity.parentRatingKey,
                                       parentTitle: activity.parentTitle,
                                       ratingKey: activity.ratingKey,
@@ -394,63 +424,86 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                     );
                                   },
                                   child: Builder(builder: (context) {
-                                    if (MediaQuery.of(context).size.width < 350) {
-                                      return const FaIcon(FontAwesomeIcons.photoFilm);
+                                    if (MediaQuery.of(context).size.width <
+                                        350) {
+                                      return const FaIcon(
+                                          FontAwesomeIcons.photoFilm);
                                     }
 
-                                    return const Text(LocaleKeys.view_media_title).tr();
+                                    return const Text(
+                                            LocaleKeys.view_media_title)
+                                        .tr();
                                   }),
                                 ),
                               ),
                             ),
-                          if (widget.server.plexPass == true && activity.mediaType != MediaType.photo)
+                          if (widget.server.plexPass == true &&
+                              activity.mediaType != MediaType.photo)
                             Expanded(
-                              child: BlocBuilder<TerminateStreamBloc, TerminateStreamState>(
+                              child: BlocBuilder<TerminateStreamBloc,
+                                  TerminateStreamState>(
                                 builder: (context, state) {
                                   return Padding(
                                     padding: const EdgeInsets.only(left: 8),
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Theme.of(context).colorScheme.error,
+                                        backgroundColor:
+                                            Theme.of(context).colorScheme.error,
                                       ),
                                       onPressed: () async {
-                                        final TextEditingController controller = TextEditingController();
+                                        final TextEditingController controller =
+                                            TextEditingController();
 
-                                        final bool confirm = await showTerminateSessionDialog(
+                                        final bool confirm =
+                                            await showTerminateSessionDialog(
                                           activity: activity,
                                           controller: controller,
                                           context: context,
                                         );
 
                                         if (confirm) {
-                                          context.read<TerminateStreamBloc>().add(
+                                          context
+                                              .read<TerminateStreamBloc>()
+                                              .add(
                                                 TerminateStreamStarted(
                                                   server: widget.server,
                                                   sessionId: activity.sessionId,
-                                                  sessionKey: activity.sessionKey,
+                                                  sessionKey:
+                                                      activity.sessionKey,
                                                   message: controller.text,
-                                                  settingsBloc: context.read<SettingsBloc>(),
+                                                  settingsBloc: context
+                                                      .read<SettingsBloc>(),
                                                 ),
                                               );
                                         }
                                       },
                                       child: Builder(
                                         builder: (context) {
-                                          if (state is TerminateStreamInProgress &&
-                                              state.sessionId == activity.sessionId &&
-                                              state.sessionKey == activity.sessionKey) {
+                                          if (state
+                                                  is TerminateStreamInProgress &&
+                                              state.sessionId ==
+                                                  activity.sessionId &&
+                                              state.sessionKey ==
+                                                  activity.sessionKey) {
                                             return const SizedBox(
                                               width: 18,
                                               height: 18,
-                                              child: CircularProgressIndicator(strokeWidth: 2),
+                                              child: CircularProgressIndicator(
+                                                  strokeWidth: 2),
                                             );
                                           }
 
-                                          if (MediaQuery.of(context).size.width < 350) {
-                                            return const FaIcon(FontAwesomeIcons.xmark);
+                                          if (MediaQuery.of(context)
+                                                  .size
+                                                  .width <
+                                              350) {
+                                            return const FaIcon(
+                                                FontAwesomeIcons.xmark);
                                           }
 
-                                          return const Text(LocaleKeys.terminate_title).tr();
+                                          return const Text(
+                                                  LocaleKeys.terminate_title)
+                                              .tr();
                                         },
                                       ),
                                     ),

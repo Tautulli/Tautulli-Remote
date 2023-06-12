@@ -69,9 +69,10 @@ class _DonateViewState extends State<DonateView> {
   }
 
   Future<void> _initialize() async {
-    await Purchases.setDebugLogsEnabled(false);
+    await Purchases.setLogLevel(LogLevel.error);
     // Update to app-specific api keys
-    await Purchases.configure(PurchasesConfiguration('WsDdfMkeAPioBSKeFnrlusHzuWOeAOLv'));
+    await Purchases.configure(
+        PurchasesConfiguration('WsDdfMkeAPioBSKeFnrlusHzuWOeAOLv'));
 
     CustomerInfo customerInfo;
     Offerings offerings;
@@ -168,7 +169,9 @@ class _DonateViewState extends State<DonateView> {
                                     .storeProduct
                                     .priceString,
                                 onTap: () => _buyProduct(
-                                  _offerings!.getOffering('default')!.getPackage('ice_cream')!,
+                                  _offerings!
+                                      .getOffering('default')!
+                                      .getPackage('ice_cream')!,
                                 ),
                               ),
                               CustomListTile(
@@ -176,10 +179,15 @@ class _DonateViewState extends State<DonateView> {
                                   FontAwesomeIcons.pizzaSlice,
                                 ),
                                 title: LocaleKeys.donate_slice_title.tr(),
-                                subtitle:
-                                    _offerings!.getOffering('default')!.getPackage('pizza')!.storeProduct.priceString,
+                                subtitle: _offerings!
+                                    .getOffering('default')!
+                                    .getPackage('pizza')!
+                                    .storeProduct
+                                    .priceString,
                                 onTap: () => _buyProduct(
-                                  _offerings!.getOffering('default')!.getPackage('pizza')!,
+                                  _offerings!
+                                      .getOffering('default')!
+                                      .getPackage('pizza')!,
                                 ),
                               ),
                               CustomListTile(
@@ -193,7 +201,9 @@ class _DonateViewState extends State<DonateView> {
                                     .storeProduct
                                     .priceString,
                                 onTap: () => _buyProduct(
-                                  _offerings!.getOffering('default')!.getPackage('hamburger')!,
+                                  _offerings!
+                                      .getOffering('default')!
+                                      .getPackage('hamburger')!,
                                 ),
                               ),
                               CustomListTile(
@@ -202,10 +212,15 @@ class _DonateViewState extends State<DonateView> {
                                   size: 26,
                                 ),
                                 title: LocaleKeys.donate_meal_title.tr(),
-                                subtitle:
-                                    _offerings!.getOffering('default')!.getPackage('meal')!.storeProduct.priceString,
+                                subtitle: _offerings!
+                                    .getOffering('default')!
+                                    .getPackage('meal')!
+                                    .storeProduct
+                                    .priceString,
                                 onTap: () => _buyProduct(
-                                  _offerings!.getOffering('default')!.getPackage('meal')!,
+                                  _offerings!
+                                      .getOffering('default')!
+                                      .getPackage('meal')!,
                                 ),
                               ),
                             ],
@@ -217,7 +232,8 @@ class _DonateViewState extends State<DonateView> {
                               CustomListTile(
                                 leading: FaIcon(
                                   FontAwesomeIcons.circleDollarToSlot,
-                                  color: _customerInfo!.activeSubscriptions.contains('subscription_tier_1')
+                                  color: _customerInfo!.activeSubscriptions
+                                          .contains('subscription_tier_1')
                                       ? Colors.green
                                       : Theme.of(context).iconTheme.color,
                                 ),
@@ -226,13 +242,16 @@ class _DonateViewState extends State<DonateView> {
                                 subtitle:
                                     '${_offerings!.getOffering('default')!.getPackage('subscription_tier_1')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
                                 onTap: () => _buyProduct(
-                                  _offerings!.getOffering('default')!.getPackage('subscription_tier_1')!,
+                                  _offerings!
+                                      .getOffering('default')!
+                                      .getPackage('subscription_tier_1')!,
                                 ),
                               ),
                               CustomListTile(
                                 leading: FaIcon(
                                   FontAwesomeIcons.circleDollarToSlot,
-                                  color: _customerInfo!.activeSubscriptions.contains('subscription_tier_2')
+                                  color: _customerInfo!.activeSubscriptions
+                                          .contains('subscription_tier_2')
                                       ? Colors.green
                                       : Theme.of(context).iconTheme.color,
                                 ),
@@ -240,13 +259,16 @@ class _DonateViewState extends State<DonateView> {
                                 subtitle:
                                     '${_offerings!.getOffering('default')!.getPackage('subscription_tier_2')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
                                 onTap: () => _buyProduct(
-                                  _offerings!.getOffering('default')!.getPackage('subscription_tier_2')!,
+                                  _offerings!
+                                      .getOffering('default')!
+                                      .getPackage('subscription_tier_2')!,
                                 ),
                               ),
                               CustomListTile(
                                 leading: FaIcon(
                                   FontAwesomeIcons.circleDollarToSlot,
-                                  color: _customerInfo!.activeSubscriptions.contains('subscription_tier_3')
+                                  color: _customerInfo!.activeSubscriptions
+                                          .contains('subscription_tier_3')
                                       ? Colors.green
                                       : Theme.of(context).iconTheme.color,
                                 ),
@@ -254,13 +276,16 @@ class _DonateViewState extends State<DonateView> {
                                 subtitle:
                                     '${_offerings!.getOffering('default')!.getPackage('subscription_tier_3')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
                                 onTap: () => _buyProduct(
-                                  _offerings!.getOffering('default')!.getPackage('subscription_tier_3')!,
+                                  _offerings!
+                                      .getOffering('default')!
+                                      .getPackage('subscription_tier_3')!,
                                 ),
                               ),
                               CustomListTile(
                                 leading: FaIcon(
                                   FontAwesomeIcons.circleDollarToSlot,
-                                  color: _customerInfo!.activeSubscriptions.contains('subscription_tier_4')
+                                  color: _customerInfo!.activeSubscriptions
+                                          .contains('subscription_tier_4')
                                       ? Colors.green
                                       : Theme.of(context).iconTheme.color,
                                 ),
@@ -268,7 +293,9 @@ class _DonateViewState extends State<DonateView> {
                                 subtitle:
                                     '${_offerings!.getOffering('default')!.getPackage('subscription_tier_4')!.storeProduct.priceString}/${LocaleKeys.month.tr()}',
                                 onTap: () => _buyProduct(
-                                  _offerings!.getOffering('default')!.getPackage('subscription_tier_4')!,
+                                  _offerings!
+                                      .getOffering('default')!
+                                      .getPackage('subscription_tier_4')!,
                                 ),
                               ),
                             ],
@@ -284,23 +311,28 @@ class _DonateViewState extends State<DonateView> {
                                 ).tr(),
                                 onPressed: () async {
                                   try {
-                                    CustomerInfo restoredInfo = await Purchases.restorePurchases();
+                                    CustomerInfo restoredInfo =
+                                        await Purchases.restorePurchases();
                                     setState(() {
                                       _customerInfo = restoredInfo;
                                     });
-                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                    ScaffoldMessenger.of(context)
+                                        .hideCurrentSnackBar();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: const Text(
-                                          LocaleKeys.donate_restored_snackbar_message,
+                                          LocaleKeys
+                                              .donate_restored_snackbar_message,
                                         ).tr(),
                                       ),
                                     );
                                   } on PlatformException catch (_) {
-                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                    ScaffoldMessenger.of(context)
+                                        .hideCurrentSnackBar();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        backgroundColor: Theme.of(context).colorScheme.error,
+                                        backgroundColor:
+                                            Theme.of(context).colorScheme.error,
                                         content: const Text(
                                           LocaleKeys.error_snackbar_message,
                                         ).tr(),
@@ -324,7 +356,10 @@ class _DonateViewState extends State<DonateView> {
                                 child: Text(
                                   LocaleKeys.terms_of_use_title,
                                   style: TextStyle(
-                                    color: Theme.of(context).textTheme.titleSmall!.color,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .color,
                                     decoration: TextDecoration.underline,
                                   ),
                                 ).tr(),
@@ -342,7 +377,10 @@ class _DonateViewState extends State<DonateView> {
                               child: Text(
                                 LocaleKeys.privacy_policy_title,
                                 style: TextStyle(
-                                  color: Theme.of(context).textTheme.titleSmall!.color,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .color,
                                   decoration: TextDecoration.underline,
                                 ),
                               ).tr(),

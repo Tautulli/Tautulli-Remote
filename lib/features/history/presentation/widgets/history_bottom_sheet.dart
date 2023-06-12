@@ -50,7 +50,7 @@ class HistoryBottomSheet extends StatelessWidget {
               onTap: () => Navigator.pop(context),
               onVerticalDragDown: (_) {},
               child: Container(
-                height: MediaQueryData.fromWindow(window).padding.top,
+                height: MediaQueryData.fromView(View.of(context)).padding.top,
                 color: Colors.transparent,
               ),
             ),
@@ -107,13 +107,16 @@ class HistoryBottomSheet extends StatelessWidget {
                                         imageUrl: history.posterUri.toString(),
                                         httpHeaders: {
                                           for (CustomHeaderModel headerModel
-                                              in state.appSettings.activeServer.customHeaders)
+                                              in state.appSettings.activeServer
+                                                  .customHeaders)
                                             headerModel.key: headerModel.value,
                                         },
-                                        placeholder: (context, url) => Image.asset(
+                                        placeholder: (context, url) =>
+                                            Image.asset(
                                           'assets/images/poster_fallback.png',
                                         ),
-                                        errorWidget: (context, url, error) => Image.asset(
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
                                           'assets/images/poster_error.png',
                                         ),
                                         fit: BoxFit.fill,
@@ -129,7 +132,8 @@ class HistoryBottomSheet extends StatelessWidget {
                                 children: [
                                   Positioned.fill(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         const Padding(
                                           padding: EdgeInsets.only(
@@ -227,13 +231,16 @@ class HistoryBottomSheet extends StatelessWidget {
                             onPressed: viewMediaEnabled
                                 ? () {
                                     final media = MediaModel(
-                                      grandparentRatingKey: history.grandparentRatingKey,
-                                      grandparentTitle: history.grandparentTitle,
+                                      grandparentRatingKey:
+                                          history.grandparentRatingKey,
+                                      grandparentTitle:
+                                          history.grandparentTitle,
                                       imageUri: history.posterUri,
                                       live: history.live,
                                       mediaIndex: history.mediaIndex,
                                       mediaType: history.mediaType,
-                                      parentMediaIndex: history.parentMediaIndex,
+                                      parentMediaIndex:
+                                          history.parentMediaIndex,
                                       parentRatingKey: history.parentRatingKey,
                                       parentTitle: history.parentTitle,
                                       ratingKey: history.ratingKey,
