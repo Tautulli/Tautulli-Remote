@@ -18,9 +18,9 @@ class ServerOpenInBrowserListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: ListTile(
-        leading: Column(
+        leading: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             SizedBox(
               width: 35,
               child: Center(

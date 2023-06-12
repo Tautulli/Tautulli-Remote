@@ -24,11 +24,11 @@ class BottomLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return status != BlocStatus.failure
-        ? SizedBox(
+        ? const SizedBox(
             height: 50,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 SizedBox(
                   height: 24,
                   width: 24,

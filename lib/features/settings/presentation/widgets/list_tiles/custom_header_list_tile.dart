@@ -36,9 +36,9 @@ class CustomHeaderListTile extends StatelessWidget {
         return Material(
           child: ListTile(
             leading: showLeading
-                ? Column(
+                ? const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       SizedBox(
                         width: 35,
                         child: Center(
@@ -50,7 +50,9 @@ class CustomHeaderListTile extends StatelessWidget {
                 : null,
             title: Text(title),
             subtitle: Text(
-              sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo
+              sensitive &&
+                      state is SettingsSuccess &&
+                      state.appSettings.maskSensitiveInfo
                   ? LocaleKeys.hidden_message
                   : subtitle,
               style: Theme.of(context).textTheme.titleSmall,
@@ -93,11 +95,14 @@ class CustomHeaderListTile extends StatelessWidget {
               },
             ),
             onTap: () async {
-              final bool isBasicAuth = title == 'Authorization' && subtitle.startsWith('Basic ');
+              final bool isBasicAuth =
+                  title == 'Authorization' && subtitle.startsWith('Basic ');
 
               if (isBasicAuth) {
                 try {
-                  final List<String> creds = utf8.decode(base64Decode(subtitle.substring(6))).split(':');
+                  final List<String> creds = utf8
+                      .decode(base64Decode(subtitle.substring(6)))
+                      .split(':');
 
                   await showDialog(
                     context: context,
