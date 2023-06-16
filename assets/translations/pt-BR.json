@@ -118,5 +118,6 @@
     "wizard_welcome_text_1": "Bem-vindo!",
     "wizard_welcome_text_2": "O Tautulli Remote permite que você visualize a atividade do servidor Plex, histórico, estatísticas e muito mais, conectando-se ao servidor Tautulli existente.",
     "wizard_welcome_text_3": "Certifique-se de que o Tautulli está atualmente em execução e acessível a partir deste dispositivo antes de continuar com o assistente de configuração.",
-    "y_axis_title": "Eixo Y"
+    "y_axis_title": "Eixo Y",
+    "artists_title": "Artistas"
 }
