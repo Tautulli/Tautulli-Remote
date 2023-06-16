@@ -63,7 +63,7 @@ class FailureHelper {
     }
 
     // Parse DioError responses to map to more specific errors
-    if (exception.runtimeType == DioError) {
+    if (exception.runtimeType == DioException) {
       final responseString = exception.response.toString();
 
       if (responseString.toLowerCase().contains('authorization required')) {
@@ -95,7 +95,7 @@ class FailureHelper {
       //   return ConnectionDetailsFailure();
       case (DatabaseInitException):
         return DatabaseInitFailure();
-      case (DioError):
+      case (DioException):
         return DioFailure();
       case (InvalidApiKeyException):
         return InvalidApiKeyFailure();

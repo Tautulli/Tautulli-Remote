@@ -373,7 +373,7 @@ class GraphHelper {
         LineChartBarData(
           isCurved: true,
           preventCurveOverShooting: true,
-          spots: spotListMap[seriesType],
+          spots: spotListMap[seriesType] ?? [],
           color: [GraphSeriesType.tv, GraphSeriesType.directPlay].contains(seriesType)
               ? PlexColorPalette.gamboge
               : [GraphSeriesType.music, GraphSeriesType.transcode].contains(seriesType)
@@ -381,7 +381,7 @@ class GraphHelper {
                   : [GraphSeriesType.live].contains(seriesType)
                       ? PlexColorPalette.curiousBlue
                       : TautulliColorPalette.notWhite,
-          dotData: FlDotData(
+          dotData: const FlDotData(
             show: false,
           ),
         ),

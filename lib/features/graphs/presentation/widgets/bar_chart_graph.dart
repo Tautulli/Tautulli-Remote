@@ -139,8 +139,8 @@ class BarChartGraph extends StatelessWidget {
               interval: chartData.verticalLineStep,
             ),
           ),
-          rightTitles: AxisTitles(),
-          topTitles: AxisTitles(),
+          rightTitles: const AxisTitles(),
+          topTitles: const AxisTitles(),
         ),
         borderData: FlBorderData(
           border: const Border(
@@ -163,7 +163,7 @@ class BarChartGraph extends StatelessWidget {
           getDrawingVerticalLine: (value) => FlLine(
             color: Colors.white.withOpacity(0.03),
           ),
-          getDrawingHorizontalLine: (value) => FlLine(
+          getDrawingHorizontalLine: (value) => const FlLine(
             strokeWidth: 1,
             color: Colors.white24,
           ),

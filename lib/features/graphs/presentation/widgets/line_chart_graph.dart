@@ -92,8 +92,8 @@ class LineChartGraph extends StatelessWidget {
               interval: chartData.verticalLineStep,
             ),
           ),
-          rightTitles: AxisTitles(),
-          topTitles: AxisTitles(),
+          rightTitles: const AxisTitles(),
+          topTitles: const AxisTitles(),
         ),
         borderData: FlBorderData(
           border: const Border(
@@ -116,7 +116,7 @@ class LineChartGraph extends StatelessWidget {
           getDrawingVerticalLine: (value) => FlLine(
             color: Colors.white.withOpacity(0.03),
           ),
-          getDrawingHorizontalLine: (value) => FlLine(
+          getDrawingHorizontalLine: (value) => const FlLine(
             strokeWidth: 1,
             color: Colors.white24,
           ),
@@ -171,11 +171,11 @@ class LineChartGraph extends StatelessWidget {
             return spotIndexes.map(
               (spotIndex) {
                 return TouchedSpotIndicatorData(
-                  FlLine(color: Colors.transparent, strokeWidth: 1.0),
+                  const FlLine(color: Colors.transparent, strokeWidth: 1.0),
                   FlDotData(
                     getDotPainter: (flSpot, _, data, __) => FlDotCirclePainter(
-                      color: barData.color,
-                      strokeColor: barData.color,
+                      color: barData.color!,
+                      strokeColor: barData.color!,
                       radius: 5,
                     ),
                   ),
@@ -208,7 +208,7 @@ class LineChartGraph extends StatelessWidget {
             }
           },
         ),
-        lineBarsData: lineBarsData,
+        lineBarsData: lineBarsData ?? [],
       ),
     );
   }

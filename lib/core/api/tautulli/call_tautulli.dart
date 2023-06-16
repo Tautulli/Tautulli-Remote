@@ -69,8 +69,7 @@ class CallTautulliImpl implements CallTautulli {
 
     //* Handle Custom Certs
     // Get list of custom cert hashes
-    List<int> customCertHashList =
-        await di.sl<Settings>().getCustomCertHashList();
+    List<int> customCertHashList = await di.sl<Settings>().getCustomCertHashList();
 
     // If the certificate is valid check if it has been previously approved
     // by the user. If so, return true.
@@ -79,35 +78,38 @@ class CallTautulliImpl implements CallTautulli {
     // Otherwise return false.
     //
     // Return CertificationExpiredException if the certificate is not valid.
-    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
-        (client) {
-      client.badCertificateCallback = (
-        X509Certificate cert,
-        String host,
-        int port,
-      ) {
-        int certHashCode = cert.pem.hashCode;
+    dio.httpClientAdapter = IOHttpClientAdapter(
+      createHttpClient: () {
+        final HttpClient client = HttpClient();
 
-        if (cert.endValidity.isAfter(DateTime.now())) {
-          if (customCertHashList.contains(certHashCode)) {
-            return true;
-          } else {
-            if (trustCert) {
-              di.sl<Logging>().info(
-                    'Settings :: New certificate added to trusted list',
-                  );
-              customCertHashList.add(certHashCode);
+        client.badCertificateCallback = (
+          X509Certificate cert,
+          String host,
+          int port,
+        ) {
+          int certHashCode = cert.pem.hashCode;
+
+          if (cert.endValidity.isAfter(DateTime.now())) {
+            if (customCertHashList.contains(certHashCode)) {
               return true;
+            } else {
+              if (trustCert) {
+                di.sl<Logging>().info(
+                      'Settings :: New certificate added to trusted list',
+                    );
+                customCertHashList.add(certHashCode);
+                return true;
+              }
             }
+          } else if (cert.endValidity.isBefore(DateTime.now())) {
+            throw CertificateExpiredException;
           }
-        } else if (cert.endValidity.isBefore(DateTime.now())) {
-          throw CertificateExpiredException;
-        }
 
-        return false;
-      };
-      return client;
-    };
+          return false;
+        };
+        return client;
+      },
+    );
 
     // Get timeout value from settings
     final timeout = await di.sl<Settings>().getServerTimeout();
