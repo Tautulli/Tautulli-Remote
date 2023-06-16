@@ -417,7 +417,8 @@ static const Map<String,dynamic> da = {
   "videos_title": "Videoer",
   "view_media_title": "Se medie",
   "view_user_title": "Se bruger",
-  "y_axis_title": "Y Akse"
+  "y_axis_title": "Y Akse",
+  "about_title": "Om"
 };
 static const Map<String,dynamic> de = {
   "about_legalese": "Lizenziert unter der GNU General Public License v3.0",
@@ -2661,7 +2662,8 @@ static const Map<String,dynamic> pt_BR = {
   "wizard_welcome_text_1": "Bem-vindo!",
   "wizard_welcome_text_2": "O Tautulli Remote permite que você visualize a atividade do servidor Plex, histórico, estatísticas e muito mais, conectando-se ao servidor Tautulli existente.",
   "wizard_welcome_text_3": "Certifique-se de que o Tautulli está atualmente em execução e acessível a partir deste dispositivo antes de continuar com o assistente de configuração.",
-  "y_axis_title": "Eixo Y"
+  "y_axis_title": "Eixo Y",
+  "artists_title": "Artistas"
 };
 static const Map<String,dynamic> pt_PT = {
   "about_legalese": "Licenciado sob a GNU General Public License v3.0",
