@@ -38,23 +38,29 @@ class WizardOneSignal extends StatelessWidget {
                       ),
                     ).tr(),
                     const Gap(8),
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            const Text(
-                              LocaleKeys.wizard_onesignal_text_1,
-                              textAlign: TextAlign.center,
-                            ).tr(),
-                            const Gap(8),
-                            const Text(
-                              LocaleKeys.wizard_onesignal_text_2,
-                              textAlign: TextAlign.center,
-                            ).tr(),
-                          ],
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  const Text(
+                                    LocaleKeys.wizard_onesignal_text_1,
+                                    textAlign: TextAlign.center,
+                                  ).tr(),
+                                  const Gap(8),
+                                  const Text(
+                                    LocaleKeys.wizard_onesignal_text_2,
+                                    textAlign: TextAlign.center,
+                                  ).tr(),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                     const Gap(8),
                     Divider(
