@@ -1,6 +1,25 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.3",
+      "date": "June 22, 2023",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "v3 now runs on iOS",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Danish and Portuguese (Brazil)",
+          "additional": "Thanks Tntdruid and brunogiroleti",
+        },
+        {
+          "type": "fix",
+          "detail": "Update gradle versions for Android.",
+        },
+      ],
+    },
+    {
       "version": "v3.0.2",
       "date": "April 11, 2023",
       "changes": [
@@ -11,7 +30,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Using a quick action will no longer cause the activity page to be stuck in the loading state",
+          "detail":
+              "Using a quick action will no longer cause the activity page to be stuck in the loading state",
         },
       ],
     },
@@ -26,7 +46,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Using either Portuguese language options no longer causes the app to break",
+          "detail":
+              "Using either Portuguese language options no longer causes the app to break",
         },
         {
           "type": "fix",
@@ -48,8 +69,10 @@ Map changelog = {
         },
         {
           "type": "important",
-          "detail": "Tautulli v2.10.5+ is recommended to avoid issues with loading some images",
-          "additional": "New servers being registered will require Tautulli 2.10.5 or higher",
+          "detail":
+              "Tautulli v2.10.5+ is recommended to avoid issues with loading some images",
+          "additional":
+              "New servers being registered will require Tautulli 2.10.5 or higher",
         },
         {
           "type": "important",
@@ -69,7 +92,8 @@ Map changelog = {
           "type": "new",
           "detail":
               "The app has had an entire visual overhaul, improving look, usability, and bringing it in more line with Material Design 3",
-          "additional": "I am investigating a more native look for Apple devices",
+          "additional":
+              "I am investigating a more native look for Apple devices",
         },
         {
           "type": "new",
@@ -82,11 +106,13 @@ Map changelog = {
         },
         {
           "type": "new",
-          "detail": "The multiserver selector has been moved to the inner drawer",
+          "detail":
+              "The multiserver selector has been moved to the inner drawer",
         },
         {
           "type": "new",
-          "detail": "The activity page will display multiple cards in a row on larger screens",
+          "detail":
+              "The activity page will display multiple cards in a row on larger screens",
         },
         {
           "type": "new",
@@ -104,15 +130,18 @@ Map changelog = {
         },
         {
           "type": "new",
-          "detail": "The library media full refresh action can now be disabled under Settings > Advanced",
+          "detail":
+              "The library media full refresh action can now be disabled under Settings > Advanced",
         },
         {
           "type": "improvement",
-          "detail": "The following languages have been added: Albanian, Chinese, Norwegian Bokmål, Polish, Slovak",
+          "detail":
+              "The following languages have been added: Albanian, Chinese, Norwegian Bokmål, Polish, Slovak",
         },
         {
           "type": "improvement",
-          "detail": "The activity page now displays more summary information for active streams",
+          "detail":
+              "The activity page now displays more summary information for active streams",
         },
         {
           "type": "improvement",
@@ -120,7 +149,8 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "The selected \"stats type\" on the statistics page is now saved",
+          "detail":
+              "The selected \"stats type\" on the statistics page is now saved",
         },
         {
           "type": "improvement",
@@ -134,12 +164,15 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "OneSignal debug logging is available for more in depth troubleshooting",
-          "additional": "This logging needs to be accessed with Logcat (Android) or Xcode (iOS)",
+          "detail":
+              "OneSignal debug logging is available for more in depth troubleshooting",
+          "additional":
+              "This logging needs to be accessed with Logcat (Android) or Xcode (iOS)",
         },
         {
           "type": "fix",
-          "detail": "Activity items now correctly display HDR for HDR10 and DV content",
+          "detail":
+              "Activity items now correctly display HDR for HDR10 and DV content",
         },
       ],
     },
@@ -171,12 +204,15 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "New translations for Danish, French, German, Hungarian, and Slovak",
-          "additional": "Thanks @starscream10, @NathanBnm, @iophobia, @MaddionMax, and @johny106",
+          "detail":
+              "New translations for Danish, French, German, Hungarian, and Slovak",
+          "additional":
+              "Thanks @starscream10, @NathanBnm, @iophobia, @MaddionMax, and @johny106",
         },
         {
           "type": "fix",
-          "detail": "Activity details would break when some expected data was missing",
+          "detail":
+              "Activity details would break when some expected data was missing",
         },
       ],
     },
@@ -186,7 +222,8 @@ Map changelog = {
       "changes": [
         {
           "type": "fix",
-          "detail": "Would fail to update OneSignal information without custom headers",
+          "detail":
+              "Would fail to update OneSignal information without custom headers",
         },
       ],
     },
@@ -197,7 +234,8 @@ Map changelog = {
         {
           "type": "new",
           "detail": "Added support for custom HTTP headers",
-          "additional": "Use the prebuilt Basic Auth header or set your own custom ones.",
+          "additional":
+              "Use the prebuilt Basic Auth header or set your own custom ones.",
         },
         {
           "type": "new",
@@ -209,8 +247,10 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "New translations for Catalan, Danish, Hungarian, Italian, Russian, and Slovak",
-          "additional": "Thanks @dtalens, @ThomasCSR, @MaddionMax, @janus158, @barbuddah, and @johny106",
+          "detail":
+              "New translations for Catalan, Danish, Hungarian, Italian, Russian, and Slovak",
+          "additional":
+              "Thanks @dtalens, @ThomasCSR, @MaddionMax, @janus158, @barbuddah, and @johny106",
         },
         {
           "type": "fix",
@@ -218,7 +258,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Refresh Rate setting would say 'Default' instead of 'Disabled'.",
+          "detail":
+              "Refresh Rate setting would say 'Default' instead of 'Disabled'.",
         },
       ],
     },
@@ -228,7 +269,8 @@ Map changelog = {
       "changes": [
         {
           "type": "improvement",
-          "detail": "The iOS app no longer requires the app tracking permission",
+          "detail":
+              "The iOS app no longer requires the app tracking permission",
           "additional": "Existing users can safely disable this permission.",
         },
       ],
@@ -243,7 +285,8 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "New translations for Czech, Portuguese (Brazil), and Russian",
+          "detail":
+              "New translations for Czech, Portuguese (Brazil), and Russian",
           "additional": "Thanks @karelkryda, @neitzke, and @barbuddah",
         },
         {
@@ -252,7 +295,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Android notifications would fail when an Image Type was set in Tautulli",
+          "detail":
+              "Android notifications would fail when an Image Type was set in Tautulli",
         },
       ],
     },
@@ -262,7 +306,8 @@ Map changelog = {
       "changes": [
         {
           "type": "new",
-          "detail": "The app drawer has been changed into a new inner drawer, swipe right to easily reveal the drawer",
+          "detail":
+              "The app drawer has been changed into a new inner drawer, swipe right to easily reveal the drawer",
         },
         {
           "type": "new",
@@ -270,7 +315,8 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "Network images are now cached, this cache can be cleared under Advanced Settings",
+          "detail":
+              "Network images are now cached, this cache can be cleared under Advanced Settings",
         },
         {
           "type": "improvement",
@@ -285,8 +331,10 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Enabling iOS notifications now requires the tracking permission",
-          "additional": "This change was requested by Apple, there has been no change to the data collected",
+          "detail":
+              "Enabling iOS notifications now requires the tracking permission",
+          "additional":
+              "This change was requested by Apple, there has been no change to the data collected",
         },
         {
           "type": "fix",
@@ -298,11 +346,13 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Fixed history details buttons being clipped on some devices",
+          "detail":
+              "Fixed history details buttons being clipped on some devices",
         },
         {
           "type": "fix",
-          "detail": "Registration update could send a blank OneSignal Device ID after app version update",
+          "detail":
+              "Registration update could send a blank OneSignal Device ID after app version update",
         },
       ],
     },
@@ -312,8 +362,10 @@ Map changelog = {
       "changes": [
         {
           "type": "improvement",
-          "detail": "New translations for Dutch, Portuguese (Brazil), Spanish, and German",
-          "additional": "Thanks @Zucht, @RubenKremer, @neitzke, @CMBoii, @granjerox, and @Jerome2103",
+          "detail":
+              "New translations for Dutch, Portuguese (Brazil), Spanish, and German",
+          "additional":
+              "Thanks @Zucht, @RubenKremer, @neitzke, @CMBoii, @granjerox, and @Jerome2103",
         },
         {
           "type": "improvement",
@@ -321,7 +373,8 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "Add advanced setting to change app language rather than rely only on the system setting",
+          "detail":
+              "Add advanced setting to change app language rather than rely only on the system setting",
         },
         {
           "type": "improvement",
@@ -329,7 +382,8 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "Moved Double Tap to Exit (Android) and Mask Sensitive Info under new Advanced Settings menu",
+          "detail":
+              "Moved Double Tap to Exit (Android) and Mask Sensitive Info under new Advanced Settings menu",
         },
         {
           "type": "fix",
@@ -337,7 +391,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Live TV history would display null for missing episode/season number",
+          "detail":
+              "Live TV history would display null for missing episode/season number",
         },
         {
           "type": "fix",
@@ -388,7 +443,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Resolve issue where app could display black screen on resume",
+          "detail":
+              "Resolve issue where app could display black screen on resume",
         },
         {
           "type": "fix",
@@ -397,7 +453,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Adjust how the changelog is triggered on starting a new app version (to support iOS)",
+          "detail":
+              "Adjust how the changelog is triggered on starting a new app version (to support iOS)",
         },
       ],
     },
@@ -412,11 +469,13 @@ Map changelog = {
         },
         {
           "type": "new",
-          "detail": "There is now a Startup Wizard to improve the setup experience for new users",
+          "detail":
+              "There is now a Startup Wizard to improve the setup experience for new users",
         },
         {
           "type": "new",
-          "detail": "Localization has been added, help translate under Settings > Help Translate",
+          "detail":
+              "Localization has been added, help translate under Settings > Help Translate",
         },
         {
           "type": "improvement",
@@ -430,11 +489,13 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "Added a terminate stream button to the activity details bottom sheet",
+          "detail":
+              "Added a terminate stream button to the activity details bottom sheet",
         },
         {
           "type": "improvement",
-          "detail": "Store the OneSignal consent state locally to prevent future issues with OneSignal SDK changes",
+          "detail":
+              "Store the OneSignal consent state locally to prevent future issues with OneSignal SDK changes",
         },
         {
           "type": "improvement",
@@ -469,7 +530,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Fixed 'View on Plex' action not opening Plex app on Android 11+",
+          "detail":
+              "Fixed 'View on Plex' action not opening Plex app on Android 11+",
         },
       ],
     },
@@ -555,7 +617,8 @@ Map changelog = {
       "changes": [
         {
           "type": "improvement",
-          "detail": "Adjust how user details page decides to fetch missing user information",
+          "detail":
+              "Adjust how user details page decides to fetch missing user information",
         },
         {
           "type": "improvement",
@@ -573,11 +636,13 @@ Map changelog = {
       "changes": [
         {
           "type": "new",
-          "detail": "History details are now available, tap on any history item to view the full history details",
+          "detail":
+              "History details are now available, tap on any history item to view the full history details",
         },
         {
           "type": "new",
-          "detail": "User details have been added, view stats and history for individual users",
+          "detail":
+              "User details have been added, view stats and history for individual users",
         },
         {
           "type": "new",
@@ -598,7 +663,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Fix image flickering with activity and history detail bottom sheets",
+          "detail":
+              "Fix image flickering with activity and history detail bottom sheets",
         },
       ],
     },
@@ -613,19 +679,23 @@ Map changelog = {
         },
         {
           "type": "new",
-          "detail": "Upgraded to Flutter 2, please report any issues through the Settings > Help & Support page",
+          "detail":
+              "Upgraded to Flutter 2, please report any issues through the Settings > Help & Support page",
         },
         {
           "type": "improvement",
-          "detail": "Library cards will now show a custom icon if one is set in Tautulli",
+          "detail":
+              "Library cards will now show a custom icon if one is set in Tautulli",
         },
         {
           "type": "improvement",
-          "detail": "Connection address active/passive icons now update in UI immediately on failover",
+          "detail":
+              "Connection address active/passive icons now update in UI immediately on failover",
         },
         {
           "type": "improvement",
-          "detail": "Adjust concurrent icon color from white to Tautulli Not White",
+          "detail":
+              "Adjust concurrent icon color from white to Tautulli Not White",
         },
         {
           "type": "improvement",
@@ -642,7 +712,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Catch if data is missing on users page to prevent failure to load",
+          "detail":
+              "Catch if data is missing on users page to prevent failure to load",
         },
         {
           "type": "fix",
@@ -651,15 +722,18 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Fix images sometimes being incorrect for TV and music statistics",
+          "detail":
+              "Fix images sometimes being incorrect for TV and music statistics",
         },
         {
           "type": "fix",
-          "detail": "Fix single statistic page being incorrect if stat type was set to duration",
+          "detail":
+              "Fix single statistic page being incorrect if stat type was set to duration",
         },
         {
           "type": "fix",
-          "detail": "Fix connection failover not triggering custom cert trust prompt",
+          "detail":
+              "Fix connection failover not triggering custom cert trust prompt",
         },
       ]
     },
@@ -669,7 +743,8 @@ Map changelog = {
       "changes": [
         {
           "type": "new",
-          "detail": "Add support for the upcoming Most Active Libraries statistic",
+          "detail":
+              "Add support for the upcoming Most Active Libraries statistic",
         },
         {
           "type": "improvement",
@@ -683,15 +758,18 @@ Map changelog = {
       "changes": [
         {
           "type": "new",
-          "detail": "Enable Double Tap To Exit to require pressing back twice to exit the app",
+          "detail":
+              "Enable Double Tap To Exit to require pressing back twice to exit the app",
         },
         {
           "type": "fix",
-          "detail": "Fix an issue where a success would be emitted after a failure for a failed QR scan",
+          "detail":
+              "Fix an issue where a success would be emitted after a failure for a failed QR scan",
         },
         {
           "type": "fix",
-          "detail": "Fix images not loading for manually trusted certs (ex. self-signed certs)",
+          "detail":
+              "Fix images not loading for manually trusted certs (ex. self-signed certs)",
         },
       ]
     },
@@ -701,7 +779,8 @@ Map changelog = {
       "changes": [
         {
           "type": "improvement",
-          "detail": "QR code scanner now fails when scanning bad QR codes and barcodes",
+          "detail":
+              "QR code scanner now fails when scanning bad QR codes and barcodes",
         },
         {
           "type": "improvement",
@@ -709,7 +788,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Fix incorrect values displayed for 15 and 30 sec server timeouts on Settings page",
+          "detail":
+              "Fix incorrect values displayed for 15 and 30 sec server timeouts on Settings page",
         },
       ]
     },
@@ -730,7 +810,8 @@ Map changelog = {
       "changes": [
         {
           "type": "fix",
-          "detail": "Fix unknown activity bandwidth breaking activity details bottom sheet",
+          "detail":
+              "Fix unknown activity bandwidth breaking activity details bottom sheet",
         },
       ]
     },
@@ -740,7 +821,8 @@ Map changelog = {
       "changes": [
         {
           "type": "new",
-          "detail": "Added ability to trust self-signed certs and certs that fail to authenticate",
+          "detail":
+              "Added ability to trust self-signed certs and certs that fail to authenticate",
         },
         {
           "type": "improvement",
@@ -782,7 +864,8 @@ Map changelog = {
       "changes": [
         {
           "type": "new",
-          "detail": "Added announcements page, allows for announcements to be shared without an app update",
+          "detail":
+              "Added announcements page, allows for announcements to be shared without an app update",
         },
         {
           "type": "improvement",
@@ -790,7 +873,8 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "In-app links are now set to the new wiki (pending wiki update)",
+          "detail":
+              "In-app links are now set to the new wiki (pending wiki update)",
         },
         {
           "type": "fix",
@@ -804,7 +888,8 @@ Map changelog = {
       "changes": [
         {
           "type": "improvement",
-          "detail": "When synced item has multiple rating keys use the first one to load poster",
+          "detail":
+              "When synced item has multiple rating keys use the first one to load poster",
         },
         {
           "type": "fix",
@@ -819,7 +904,8 @@ Map changelog = {
       "changes": [
         {
           "type": "new",
-          "detail": "Allow synced items to be deleted, swipe left on a synced item to access the delete button",
+          "detail":
+              "Allow synced items to be deleted, swipe left on a synced item to access the delete button",
         },
         {
           "type": "new",
@@ -828,11 +914,13 @@ Map changelog = {
         },
         {
           "type": "new",
-          "detail": "Add link to open Tautulli server in a web browser under the Server Settings page",
+          "detail":
+              "Add link to open Tautulli server in a web browser under the Server Settings page",
         },
         {
           "type": "improvement",
-          "detail": "Adjust albums to be 3 across on media item page albums tab",
+          "detail":
+              "Adjust albums to be 3 across on media item page albums tab",
         },
         {
           "type": "improvement",
@@ -844,27 +932,33 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "Add fallback to media item page to use metadata poster url if one isn't provided",
+          "detail":
+              "Add fallback to media item page to use metadata poster url if one isn't provided",
         },
         {
           "type": "improvement",
-          "detail": "Adjust icons for links that navigate outside of the Tautulli Remote",
+          "detail":
+              "Adjust icons for links that navigate outside of the Tautulli Remote",
         },
         {
           "type": "improvement",
-          "detail": "Add support to override the connection timeout to Tautulli for specific use cases",
+          "detail":
+              "Add support to override the connection timeout to Tautulli for specific use cases",
         },
         {
           "type": "improvement",
-          "detail": "Cleaned up various code elements, no changes to functionality",
+          "detail":
+              "Cleaned up various code elements, no changes to functionality",
         },
         {
           "type": "fix",
-          "detail": "Correctly display collections and playlists on synced items page",
+          "detail":
+              "Correctly display collections and playlists on synced items page",
         },
         {
           "type": "fix",
-          "detail": "Correctly display collections and playlists on media item page",
+          "detail":
+              "Correctly display collections and playlists on media item page",
         },
       ]
     },
@@ -874,7 +968,8 @@ Map changelog = {
       "changes": [
         {
           "type": "improvement",
-          "detail": "Show generic 'Unknown error' in Activity StatusCard when there is no failure mapping",
+          "detail":
+              "Show generic 'Unknown error' in Activity StatusCard when there is no failure mapping",
         },
         {
           "type": "improvement",
@@ -900,7 +995,8 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "Multiserver headers will now 'stick' to the top when scrolling on the Activity Page",
+          "detail":
+              "Multiserver headers will now 'stick' to the top when scrolling on the Activity Page",
         },
         {
           "type": "improvement",
@@ -917,11 +1013,13 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "Move off deprecated FlatButton and RaisedButton to TextButton and ElevatedButton respectively",
+          "detail":
+              "Move off deprecated FlatButton and RaisedButton to TextButton and ElevatedButton respectively",
         },
         {
           "type": "improvement",
-          "detail": "Rename history_users to users_list and move from the history to users function",
+          "detail":
+              "Rename history_users to users_list and move from the history to users function",
         },
         {
           "type": "improvement",
@@ -929,7 +1027,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Adjust icon card behavior so the Concurrent Streams icon is not all one color",
+          "detail":
+              "Adjust icon card behavior so the Concurrent Streams icon is not all one color",
         },
       ]
     },
@@ -939,15 +1038,18 @@ Map changelog = {
       "changes": [
         {
           "type": "new",
-          "detail": "Added an in-app changelog that displays on first start of a new app version",
+          "detail":
+              "Added an in-app changelog that displays on first start of a new app version",
         },
         {
           "type": "new",
-          "detail": "Setting to mask sensitive info in the UI (useful for sharing screenshots)",
+          "detail":
+              "Setting to mask sensitive info in the UI (useful for sharing screenshots)",
         },
         {
           "type": "improvement",
-          "detail": "Move the logs page link out of the appbar on Help & Support",
+          "detail":
+              "Move the logs page link out of the appbar on Help & Support",
         },
         {
           "type": "fix",
@@ -974,7 +1076,8 @@ Map changelog = {
         },
         {
           "type": "new",
-          "detail": "Additional file details added to the media info details tab",
+          "detail":
+              "Additional file details added to the media info details tab",
         },
         {
           "type": "improvement",
@@ -992,7 +1095,8 @@ Map changelog = {
       "changes": [
         {
           "type": "new",
-          "detail": "Jump directly to an item in the Plex app from the media info page",
+          "detail":
+              "Jump directly to an item in the Plex app from the media info page",
         },
       ]
     },
@@ -1006,7 +1110,8 @@ Map changelog = {
         },
         {
           "type": "improvement",
-          "detail": "Adjust sorting of information on media info page details tab",
+          "detail":
+              "Adjust sorting of information on media info page details tab",
         },
         {
           "type": "improvement",
@@ -1032,7 +1137,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Fix issue where resuming app with activity details open could result in black screen",
+          "detail":
+              "Fix issue where resuming app with activity details open could result in black screen",
         },
       ]
     },
@@ -1046,7 +1152,8 @@ Map changelog = {
         },
         {
           "type": "fix",
-          "detail": "Media item history rows no longer cut off early on some screen sizes",
+          "detail":
+              "Media item history rows no longer cut off early on some screen sizes",
         },
         {
           "type": "fix",
