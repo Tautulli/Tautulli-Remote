@@ -12,6 +12,7 @@ ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
       audioCodec: Cast.castToString(json['audio_codec']),
       audioDecision:
           Cast.castStringToStreamDecision(json['audio_decision'] as String?),
+      audioLanguage: Cast.castToString(json['audio_language']),
       bandwidth: Cast.castToInt(json['bandwidth']),
       channelCallSign: Cast.castToString(json['channel_call_sign']),
       container: Cast.castToString(json['container']),
@@ -80,6 +81,7 @@ ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
       streamVideoFullResolution:
           Cast.castToString(json['stream_video_full_resolution']),
       subtitleCodec: Cast.castToString(json['subtitle_codec']),
+      subtitleLanguage: Cast.castToString(json['subtitle_language']),
       subtitles: Cast.castToBool(json['subtitles']),
       subType: Cast.castToString(json['sub_type']),
       throttled: Cast.castToBool(json['throttled']),
@@ -111,6 +113,7 @@ Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
       'audio_channel_layout': instance.audioChannelLayout,
       'audio_codec': instance.audioCodec,
       'audio_decision': _$StreamDecisionEnumMap[instance.audioDecision],
+      'audio_language': instance.audioLanguage,
       'bandwidth': instance.bandwidth,
       'channel_call_sign': instance.channelCallSign,
       'container': instance.container,
@@ -168,6 +171,7 @@ Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
       'stream_video_dynamic_range': instance.streamVideoDynamicRange,
       'stream_video_full_resolution': instance.streamVideoFullResolution,
       'subtitle_codec': instance.subtitleCodec,
+      'subtitle_language': instance.subtitleLanguage,
       'subtitles': instance.subtitles,
       'sub_type': instance.subType,
       'throttled': instance.throttled,

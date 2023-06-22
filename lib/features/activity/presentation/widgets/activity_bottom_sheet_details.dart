@@ -267,7 +267,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                           if (widget.activity.audioChannelLayout != null)
                                             TextSpan(
                                               text:
-                                                  '${widget.activity.audioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.audioChannelLayout!.split("(")[0])}',
+                                                  '${widget.activity.audioLanguage} - ${widget.activity.audioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.audioChannelLayout!.split("(")[0])}',
                                             ),
                                           const WidgetSpan(
                                             child: Padding(
@@ -291,13 +291,13 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                               } else if (widget.activity.streamAudioDecision == StreamDecision.copy) {
                                 if (widget.activity.streamAudioChannelLayout != null) {
                                   return Text(
-                                    '${LocaleKeys.direct_stream_title.tr()} (${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])})',
+                                    '${widget.activity.audioLanguage} - ${LocaleKeys.direct_stream_title.tr()} (${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])})',
                                   );
                                 }
                               } else {
                                 if (widget.activity.streamAudioChannelLayout != null) {
                                   return Text(
-                                    '${LocaleKeys.direct_play_title.tr()} (${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])})',
+                                    '${widget.activity.audioLanguage} - ${LocaleKeys.direct_play_title.tr()} (${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])})',
                                   );
                                 }
                               }
@@ -321,7 +321,8 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text: widget.activity.subtitleCodec?.toUpperCase(),
+                                              text:
+                                                  '${widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()}',
                                             ),
                                             const WidgetSpan(
                                               child: Padding(
@@ -342,15 +343,15 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                   );
                                 } else if (widget.activity.streamSubtitleDecision == SubtitleDecision.copy) {
                                   return Text(
-                                    '${LocaleKeys.direct_stream_title.tr()} (${widget.activity.subtitleCodec?.toUpperCase()})',
+                                    '${LocaleKeys.direct_stream_title.tr()} (${widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()})',
                                   );
                                 } else if (widget.activity.streamSubtitleDecision == SubtitleDecision.burn) {
                                   return Text(
-                                    '${LocaleKeys.burn_title.tr()} (${widget.activity.subtitleCodec?.toUpperCase()})',
+                                    '${LocaleKeys.burn_title.tr()} (${widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()})',
                                   );
                                 } else {
                                   return Text(
-                                    '${LocaleKeys.direct_play_title.tr()} (${widget.activity.streamSubtitleCodec?.toUpperCase()})',
+                                    '${LocaleKeys.direct_play_title.tr()} (${widget.activity.subtitleLanguage} - ${widget.activity.streamSubtitleCodec?.toUpperCase()})',
                                   );
                                 }
                               } else {
