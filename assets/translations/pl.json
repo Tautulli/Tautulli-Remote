@@ -334,5 +334,10 @@
     "eta_title": "ETA",
     "go_to_settings_title": "Idź do ustawień",
     "learn_more_title": "Czytaj więcej",
-    "error_suggestion_terminate_stream_failed": "Ta transmisja może być już nieaktywna"
+    "error_suggestion_terminate_stream_failed": "Ta transmisja może być już nieaktywna",
+    "no_title": "Nie",
+    "none_title": "Brak",
+    "how_to_access_logs_title": "Jak dostać się do logów",
+    "onesignal_consent_switch_title": "Wyraź zgodę na politykę prywatności OneSignal",
+    "onesignal_data_privacy_title": "Prywatność danych OneSignal"
 }
