@@ -31,7 +31,7 @@ dependencies:
   flutter_barcode_scanner:
     git: https://github.com/TheMeanCanEHdian/flutter_barcode_scanner.git
   flutter_bloc: ^8.1.2
-  flutter_cache_manager: ^3.3.0
+  flutter_cache_manager: ^3.3.1
   flutter_inner_drawer:
     git: https://github.com/TheMeanCanEHdian/flutter_inner_drawer.git
   flutter_platform_widgets: ^3.3.2
