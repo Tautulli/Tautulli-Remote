@@ -71,5 +71,14 @@
     "videos_title": "Vídeos",
     "view_media_title": "Ver Media",
     "view_user_title": "Ver usuario",
-    "y_axis_title": "Eje Y"
+    "y_axis_title": "Eje Y",
+    "accepted_title": "Aceptado",
+    "active_connection_content": "Esta es la dirección de conexión actual que utiliza Tautulli Remote.",
+    "add_custom_http_header_title": "Agregar encabezado HTTP personalizado",
+    "added_title": "Agregado",
+    "advanced_title": "Avanzado",
+    "aired_title": "Emitido",
+    "albums_title": "Álbumes",
+    "all_time_title": "Todo el tiempo",
+    "about_title": "Acerca de"
 }

@@ -18,6 +18,8 @@ class ActivityModel extends Equatable {
   final String? audioCodec;
   @JsonKey(name: 'audio_decision', fromJson: Cast.castStringToStreamDecision)
   final StreamDecision? audioDecision;
+  @JsonKey(name: 'audio_language', fromJson: Cast.castToString)
+  final String? audioLanguage;
   @JsonKey(name: 'bandwidth', fromJson: Cast.castToInt)
   final int? bandwidth;
   @JsonKey(name: 'channel_call_sign', fromJson: Cast.castToString)
@@ -119,6 +121,8 @@ class ActivityModel extends Equatable {
   final String? streamVideoFullResolution;
   @JsonKey(name: 'subtitle_codec', fromJson: Cast.castToString)
   final String? subtitleCodec;
+  @JsonKey(name: 'subtitle_language', fromJson: Cast.castToString)
+  final String? subtitleLanguage;
   @JsonKey(name: 'subtitles', fromJson: Cast.castToBool)
   final bool? subtitles;
   @JsonKey(name: 'sub_type', fromJson: Cast.castToString)
@@ -166,6 +170,7 @@ class ActivityModel extends Equatable {
     this.audioChannelLayout,
     this.audioCodec,
     this.audioDecision,
+    this.audioLanguage,
     this.bandwidth,
     this.channelCallSign,
     this.container,
@@ -218,6 +223,7 @@ class ActivityModel extends Equatable {
     this.streamVideoDynamicRange,
     this.streamVideoFullResolution,
     this.subtitleCodec,
+    this.subtitleLanguage,
     this.subtitles,
     this.subType,
     this.throttled,
@@ -245,6 +251,7 @@ class ActivityModel extends Equatable {
     final String? audioChannelLayout,
     final String? audioCodec,
     final StreamDecision? audioDecision,
+    final String? audioLanguage,
     final int? bandwidth,
     final String? channelCallSign,
     final String? container,
@@ -297,6 +304,7 @@ class ActivityModel extends Equatable {
     final String? streamVideoDynamicRange,
     final String? streamVideoFullResolution,
     final String? subtitleCodec,
+    final String? subtitleLanguage,
     final bool? subtitles,
     final String? subType,
     final bool? throttled,
@@ -323,6 +331,7 @@ class ActivityModel extends Equatable {
       audioChannelLayout: audioChannelLayout ?? this.audioChannelLayout,
       audioCodec: audioCodec ?? this.audioCodec,
       audioDecision: audioDecision ?? this.audioDecision,
+      audioLanguage: audioLanguage ?? this.audioLanguage,
       bandwidth: bandwidth ?? this.bandwidth,
       channelCallSign: channelCallSign ?? this.channelCallSign,
       container: container ?? this.container,
@@ -375,6 +384,7 @@ class ActivityModel extends Equatable {
       streamVideoDynamicRange: streamVideoDynamicRange ?? this.streamVideoDynamicRange,
       streamVideoFullResolution: streamVideoFullResolution ?? this.streamVideoFullResolution,
       subtitleCodec: subtitleCodec ?? this.subtitleCodec,
+      subtitleLanguage: subtitleLanguage ?? this.subtitleLanguage,
       subtitles: subtitles ?? this.subtitles,
       subType: subType ?? this.subType,
       throttled: throttled ?? this.throttled,
@@ -421,6 +431,7 @@ class ActivityModel extends Equatable {
         audioChannelLayout,
         audioCodec,
         audioDecision,
+        audioLanguage,
         bandwidth,
         channelCallSign,
         container,
@@ -473,6 +484,7 @@ class ActivityModel extends Equatable {
         streamVideoDynamicRange,
         streamVideoFullResolution,
         subtitleCodec,
+        subtitleLanguage,
         subtitles,
         subType,
         throttled,
