@@ -344,6 +344,15 @@ class SettingsUpdateStatisticsTimeRange extends SettingsEvent {
   List<Object> get props => [statisticsTimeRange];
 }
 
+class SettingsUpdateUseAtkinsonHyperlegible extends SettingsEvent {
+  final bool useAtkinsonHyperlegible;
+
+  const SettingsUpdateUseAtkinsonHyperlegible(this.useAtkinsonHyperlegible);
+
+  @override
+  List<Object> get props => [useAtkinsonHyperlegible];
+}
+
 class SettingsUpdateUsersSort extends SettingsEvent {
   final String usersSort;
 

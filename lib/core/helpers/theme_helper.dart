@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'color_palette_helper.dart';
 
 class ThemeHelper {
-  static ThemeData tautulli() {
+  static ThemeData tautulli({String? fontName}) {
     return ThemeData(
       useMaterial3: true,
       appBarTheme: AppBarTheme(
@@ -22,7 +22,8 @@ class ThemeHelper {
       bannerTheme: const MaterialBannerThemeData(
         elevation: 1,
       ),
-      cardColor: TautulliColorPalette.gunmetal, //Flutter's 'About Licenses' page uses the cardColor
+      cardColor: TautulliColorPalette
+          .gunmetal, //Flutter's 'About Licenses' page uses the cardColor
       cardTheme: const CardTheme(
         margin: EdgeInsets.all(0),
         elevation: 0,
@@ -195,7 +196,8 @@ class ThemeHelper {
         selectionHandleColor: PlexColorPalette.gamboge,
         selectionColor: PlexColorPalette.gamboge,
       ),
-      textTheme: GoogleFonts.openSansTextTheme(
+      textTheme: GoogleFonts.getTextTheme(
+        fontName ?? 'Open Sans',
         ThemeData.dark().textTheme.copyWith(
               bodyLarge: const TextStyle(
                 color: TautulliColorPalette.notWhite,

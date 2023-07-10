@@ -150,6 +150,10 @@ abstract class SettingsDataSource {
   Future<int> getStatisticsTimeRange();
   Future<bool> setStatisticsTimeRange(int value);
 
+  // Use Atkinson Hyperlegible Font
+  bool getUseAtkinsonHyperlegible();
+  Future<bool> setUseAtkinsonHyperlegible(bool value);
+
   // Users Sort
   Future<String> getUsersSort();
   Future<bool> setUsersSort(String value);
@@ -179,6 +183,7 @@ const secret = 'secret';
 const serverTimeout = 'serverTimeout';
 const statisticsStatType = 'statisticsStatsType';
 const statisticsTimeRange = 'statisticsTimeRange';
+const useAtkinsonHyperlegible = 'userAtkinsonHyperlegible';
 const usersSort = 'usersSort';
 const wizardComplete = 'wizardComplete';
 
@@ -380,7 +385,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   @override
   Future<bool> setCustomCertHashList(List<int> certHashList) {
-    final List<String> stringList = certHashList.map((i) => i.toString()).toList();
+    final List<String> stringList =
+        certHashList.map((i) => i.toString()).toList();
 
     return localStorage.setStringList(customCertHashList, stringList);
   }
@@ -541,7 +547,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   // Registration Update Needed
   @override
   Future<bool> getRegistrationUpdateNeeded() async {
-    return Future.value(localStorage.getBool(registrationUpdateNeeded) ?? false);
+    return Future.value(
+        localStorage.getBool(registrationUpdateNeeded) ?? false);
   }
 
   @override
@@ -593,6 +600,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setStatisticsTimeRange(int value) async {
     return localStorage.setInt(statisticsTimeRange, value);
+  }
+
+  // Use Atkinson Hyperlegible Font
+  @override
+  bool getUseAtkinsonHyperlegible() {
+    return localStorage.getBool(useAtkinsonHyperlegible) ?? false;
+  }
+
+  @override
+  Future<bool> setUseAtkinsonHyperlegible(bool value) {
+    return localStorage.setBool(useAtkinsonHyperlegible, value);
   }
 
   // Users Sort

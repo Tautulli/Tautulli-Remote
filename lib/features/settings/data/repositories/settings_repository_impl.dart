@@ -61,7 +61,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>> getTautulliSettings(String tautulliId) async {
+  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>>
+      getTautulliSettings(String tautulliId) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await dataSource.getTautulliSettings(tautulliId);
@@ -406,6 +407,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<bool> setStatisticsTimeRange(int value) async {
     return await dataSource.setStatisticsTimeRange(value);
+  }
+
+  // Use Atkinson Hyperlegible Font
+  @override
+  bool getUseAtkinsonHyperlegible() {
+    return dataSource.getUseAtkinsonHyperlegible();
+  }
+
+  @override
+  Future<bool> setUseAtkinsonHyperlegible(bool value) async {
+    return await dataSource.setUseAtkinsonHyperlegible(value);
   }
 
   // Users Sort

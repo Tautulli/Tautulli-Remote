@@ -19,7 +19,8 @@ abstract class SettingsRepository {
     String tautulliId,
   );
 
-  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>> getTautulliSettings(String tautulliId);
+  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>>
+      getTautulliSettings(String tautulliId);
 
   Future<Either<Failure, Tuple2<RegisterDeviceModel, bool>>> registerDevice({
     required String connectionProtocol,
@@ -144,6 +145,10 @@ abstract class SettingsRepository {
   // Statistics Time Range
   Future<int> getStatisticsTimeRange();
   Future<bool> setStatisticsTimeRange(int value);
+
+  // Use Atkinson Hyperlegible Font
+  bool getUseAtkinsonHyperlegible();
+  Future<bool> setUseAtkinsonHyperlegible(bool value);
 
   // Users Sort
   Future<String> getUsersSort();

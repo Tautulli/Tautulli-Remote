@@ -35,7 +35,8 @@ class Settings {
 
   /// Returns `TautulliGeneralSettingsModel` as well as a bool to indicate the
   /// active connection address.
-  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>> getTautulliSettings(String tautulliId) async {
+  Future<Either<Failure, Tuple2<TautulliGeneralSettingsModel, bool>>>
+      getTautulliSettings(String tautulliId) async {
     return await repository.getTautulliSettings(tautulliId);
   }
 
@@ -409,6 +410,16 @@ class Settings {
   /// Sets the `PlayMetricType` to use for statistics.
   Future<bool> setStatisticsStatType(PlayMetricType value) async {
     return await repository.setStatisticsStatType(value);
+  }
+
+  /// Returns if the Atkinson Hyperlegible font should be used
+  bool getUseAtkinsonHyperlegible() {
+    return repository.getUseAtkinsonHyperlegible();
+  }
+
+  /// Sets if the Atkinson Hyperlegible font should be used
+  Future<bool> setUseAtkinsonHyperlegible(bool value) async {
+    return await repository.setUseAtkinsonHyperlegible(value);
   }
 
   /// Returns the order_column and order_dir for Users.

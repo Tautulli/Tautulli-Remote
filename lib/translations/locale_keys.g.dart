@@ -4,6 +4,7 @@ abstract class  LocaleKeys {
   static const about_legalese = 'about_legalese';
   static const about_title = 'about_title';
   static const accepted_title = 'accepted_title';
+  static const accessibility_title = 'accessibility_title';
   static const active_connection_content = 'active_connection_content';
   static const active_connection_title = 'active_connection_title';
   static const activity_empty_message = 'activity_empty_message';
@@ -345,6 +346,7 @@ abstract class  LocaleKeys {
   static const tv_title = 'tv_title';
   static const tv_shows_title = 'tv_shows_title';
   static const unknown_title = 'unknown_title';
+  static const use_atkinson_hyperlegibile_font_title = 'use_atkinson_hyperlegibile_font_title';
   static const user_stats_empty_message = 'user_stats_empty_message';
   static const user_stats_title = 'user_stats_title';
   static const user_title = 'user_title';

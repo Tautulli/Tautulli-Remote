@@ -82,11 +82,13 @@ class TautulliRemoteState extends State<TautulliRemote> {
       event.complete(event.notification);
     });
 
-    OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+    OneSignal.shared
+        .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
       // Will be called whenever a notification is opened/button pressed
     });
 
-    OneSignal.shared.setSubscriptionObserver((OSSubscriptionStateChanges changes) async {
+    OneSignal.shared
+        .setSubscriptionObserver((OSSubscriptionStateChanges changes) async {
       // Will be called whenever the subscription changes
 
       // Only trigger new checks when userId or pushToken move from null to a value
@@ -95,14 +97,17 @@ class TautulliRemoteState extends State<TautulliRemote> {
         context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
 
         if (changes.to.userId != null) {
-          final serversWithoutOneSignal = await di.sl<Settings>().getAllServersWithoutOnesignalRegistered();
-          if (serversWithoutOneSignal != null && serversWithoutOneSignal.isNotEmpty) {
+          final serversWithoutOneSignal =
+              await di.sl<Settings>().getAllServersWithoutOnesignalRegistered();
+          if (serversWithoutOneSignal != null &&
+              serversWithoutOneSignal.isNotEmpty) {
             di.sl<Logging>().info(
                   'OneSignal :: OneSignal registration changed, updating server registration',
                 );
 
             for (ServerModel server in serversWithoutOneSignal) {
-              final failureOrRegisterDevice = await updateServerRegistration(server);
+              final failureOrRegisterDevice =
+                  await updateServerRegistration(server);
 
               failureOrRegisterDevice.fold(
                 (failure) {
@@ -145,7 +150,8 @@ class TautulliRemoteState extends State<TautulliRemote> {
             );
 
         for (ServerModel server in servers) {
-          final failureOrRegisterDevice = await updateServerRegistration(server);
+          final failureOrRegisterDevice =
+              await updateServerRegistration(server);
 
           failureOrRegisterDevice.fold(
             (failure) {
@@ -168,14 +174,19 @@ class TautulliRemoteState extends State<TautulliRemote> {
     }
   }
 
-  Future<dartz.Either<Failure, dartz.Tuple2<RegisterDeviceModel, bool>>> updateServerRegistration(
+  Future<dartz.Either<Failure, dartz.Tuple2<RegisterDeviceModel, bool>>>
+      updateServerRegistration(
     ServerModel server,
   ) async {
-    String connectionProtocol =
-        server.primaryActive! ? server.primaryConnectionProtocol : server.secondaryConnectionProtocol!;
-    String connectionDomain =
-        server.primaryActive! ? server.primaryConnectionDomain : server.secondaryConnectionDomain!;
-    String? connectionPath = server.primaryActive! ? server.primaryConnectionPath : server.secondaryConnectionPath;
+    String connectionProtocol = server.primaryActive!
+        ? server.primaryConnectionProtocol
+        : server.secondaryConnectionProtocol!;
+    String connectionDomain = server.primaryActive!
+        ? server.primaryConnectionDomain
+        : server.secondaryConnectionDomain!;
+    String? connectionPath = server.primaryActive!
+        ? server.primaryConnectionPath
+        : server.secondaryConnectionPath;
 
     final failureOrRegisterDevice = await di.sl<Settings>().registerDevice(
           connectionProtocol: connectionProtocol,
@@ -196,43 +207,61 @@ class TautulliRemoteState extends State<TautulliRemote> {
       ),
     );
 
-    return MaterialApp(
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      title: 'Tautulli Remote',
-      theme: ThemeHelper.tautulli(),
-      builder: (context, child) {
-        return BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (context, state) {
-            if (state is SettingsSuccess) {
-              return child!;
-            }
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      buildWhen: (previous, current) {
+        if (previous is SettingsSuccess &&
+            current is SettingsSuccess &&
+            previous.appSettings.useAtkinsonHyperlegible !=
+                current.appSettings.useAtkinsonHyperlegible) {
+          return true;
+        }
+        return false;
+      },
+      builder: (context, state) {
+        return MaterialApp(
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          title: 'Tautulli Remote',
+          theme: ThemeHelper.tautulli(
+            fontName: di.sl<Settings>().getUseAtkinsonHyperlegible()
+                ? 'Atkinson Hyperlegible'
+                : null,
+          ),
+          builder: (context, child) {
+            return BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, state) {
+                if (state is SettingsSuccess) {
+                  return child!;
+                }
 
-            return const Scaffold(
-              body: SettingsNotLoaded(),
+                return const Scaffold(
+                  body: SettingsNotLoaded(),
+                );
+              },
             );
           },
+          routes: {
+            ActivityPage.routeName: (_) => const ActivityPage(),
+            AnnouncementsPage.routeName: (_) => const AnnouncementsPage(),
+            ChangelogPage.routeName: (_) => const ChangelogPage(),
+            DonatePage.routeName: (_) => const DonatePage(),
+            GraphsPage.routeName: (_) => const GraphsPage(),
+            HistoryPage.routeName: (_) => const HistoryPage(),
+            HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),
+            LibrariesPage.routeName: (_) => const LibrariesPage(),
+            OneSignalDataPrivacyPage.routeName: (_) =>
+                const OneSignalDataPrivacyPage(),
+            RecentlyAddedPage.routeName: (_) => const RecentlyAddedPage(),
+            SettingsPage.routeName: (_) => const SettingsPage(),
+            StatisticsPage.routeName: (_) => const StatisticsPage(),
+            UsersPage.routeName: (_) => const UsersPage(),
+            WizardPage.routeName: (_) => const WizardPage(),
+          },
+          initialRoute: widget.initialRoute,
+          home: const ActivityPage(),
         );
       },
-      routes: {
-        ActivityPage.routeName: (_) => const ActivityPage(),
-        AnnouncementsPage.routeName: (_) => const AnnouncementsPage(),
-        ChangelogPage.routeName: (_) => const ChangelogPage(),
-        DonatePage.routeName: (_) => const DonatePage(),
-        GraphsPage.routeName: (_) => const GraphsPage(),
-        HistoryPage.routeName: (_) => const HistoryPage(),
-        HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),
-        LibrariesPage.routeName: (_) => const LibrariesPage(),
-        OneSignalDataPrivacyPage.routeName: (_) => const OneSignalDataPrivacyPage(),
-        RecentlyAddedPage.routeName: (_) => const RecentlyAddedPage(),
-        SettingsPage.routeName: (_) => const SettingsPage(),
-        StatisticsPage.routeName: (_) => const StatisticsPage(),
-        UsersPage.routeName: (_) => const UsersPage(),
-        WizardPage.routeName: (_) => const WizardPage(),
-      },
-      initialRoute: widget.initialRoute,
-      home: const ActivityPage(),
     );
   }
 }
