@@ -339,5 +339,20 @@
     "none_title": "Brak",
     "how_to_access_logs_title": "Jak dostać się do logów",
     "onesignal_consent_switch_title": "Wyraź zgodę na politykę prywatności OneSignal",
-    "onesignal_data_privacy_title": "Prywatność danych OneSignal"
+    "onesignal_data_privacy_title": "Prywatność danych OneSignal",
+    "burn_title": "Wypalanie",
+    "onesignal_data_privacy_not_accepted_content": "Aby otrzymywać powiadomienia od Tautulli wymagana jest zgoda na prywatność danych OneSignal.",
+    "onesignal_data_privacy_not_accepted_title": "Prywatność danych OneSignal nie jest akceptowana",
+    "optimized_title": "Zoptymalizowany",
+    "plex_relay_message": "Ten stream używa Plex Relay",
+    "quality_title": "Jakość",
+    "reddit_title": "Reddit",
+    "save_title": "Zapisz",
+    "trust_title": "Zaufaj",
+    "subtitle_title": "Podtytuł",
+    "player_stats_title": "Statystyki Odtwarzacza",
+    "player_title": "Odtwarzacz",
+    "accessibility_title": "Dostępność",
+    "plays_title": "Odtworzenia",
+    "unknown_title": "Nieznane"
 }
