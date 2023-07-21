@@ -74,6 +74,10 @@ abstract class SettingsDataSource {
   Future<String> getActiveServerId();
   Future<bool> setActiveServerId(String value);
 
+  // App Update Available
+  bool getAppUpdateAvailable();
+  Future<bool> setAppUpdateAvailable(bool value);
+
   // Custom Cert Hash List
   Future<List<int>> getCustomCertHashList();
   Future<bool> setCustomCertHashList(List<int> certHashList);
@@ -164,6 +168,7 @@ abstract class SettingsDataSource {
 }
 
 const activeServerId = 'activeServerId';
+const appUpdateAvailable = 'appUpdateAvailable';
 const customCertHashList = 'customCertHashList';
 const doubleBackToExit = 'doubleTapToExit';
 const graphTimeRange = 'graphTimeRange';
@@ -369,6 +374,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setActiveServerId(String value) {
     return localStorage.setString(activeServerId, value);
+  }
+
+  // App Update Available
+  @override
+  bool getAppUpdateAvailable() {
+    return localStorage.getBool(appUpdateAvailable) ?? false;
+  }
+
+  @override
+  Future<bool> setAppUpdateAvailable(bool value) {
+    return localStorage.setBool(appUpdateAvailable, value);
   }
 
   // Custom Cert Hash List

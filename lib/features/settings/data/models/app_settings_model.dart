@@ -5,6 +5,7 @@ import '../../../../core/types/play_metric_type.dart';
 
 class AppSettingsModel extends Equatable {
   final ServerModel activeServer;
+  final bool appUpdateAvailable;
   final bool doubleBackToExit;
   final int graphTimeRange;
   final bool graphTipsShown;
@@ -26,6 +27,7 @@ class AppSettingsModel extends Equatable {
 
   const AppSettingsModel({
     required this.activeServer,
+    required this.appUpdateAvailable,
     required this.doubleBackToExit,
     required this.graphTimeRange,
     required this.graphTipsShown,
@@ -48,6 +50,7 @@ class AppSettingsModel extends Equatable {
 
   AppSettingsModel copyWith({
     ServerModel? activeServer,
+    bool? appUpdateAvailable,
     bool? doubleBackToExit,
     int? graphTimeRange,
     bool? graphTipsShown,
@@ -69,6 +72,7 @@ class AppSettingsModel extends Equatable {
   }) {
     return AppSettingsModel(
       activeServer: activeServer ?? this.activeServer,
+      appUpdateAvailable: appUpdateAvailable ?? this.appUpdateAvailable,
       doubleBackToExit: doubleBackToExit ?? this.doubleBackToExit,
       graphTimeRange: graphTimeRange ?? this.graphTimeRange,
       graphTipsShown: graphTipsShown ?? this.graphTipsShown,
@@ -96,6 +100,7 @@ class AppSettingsModel extends Equatable {
   Map<String, String> dump() {
     return {
       'Active Server': '${activeServer.plexName} (${activeServer.id})',
+      'App Update Available': appUpdateAvailable.toString(),
       'Double Back To Exit': doubleBackToExit.toString(),
       'Graph Time Range': graphTimeRange.toString(),
       'Graph Tips Shown': graphTipsShown.toString(),
@@ -119,6 +124,7 @@ class AppSettingsModel extends Equatable {
   @override
   List<Object> get props => [
         activeServer,
+        appUpdateAvailable,
         doubleBackToExit,
         graphTimeRange,
         graphTipsShown,

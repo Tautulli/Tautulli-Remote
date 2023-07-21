@@ -91,6 +91,17 @@ class SettingsUpdateActiveServer extends SettingsEvent {
   List<Object> get props => [activeServer];
 }
 
+class SettingsUpdateAppUpdateAvailable extends SettingsEvent {
+  final bool appUpdateAvailable;
+
+  const SettingsUpdateAppUpdateAvailable({
+    required this.appUpdateAvailable,
+  });
+
+  @override
+  List<Object> get props => [appUpdateAvailable];
+}
+
 class SettingsUpdateConnectionInfo extends SettingsEvent {
   final bool primary;
   final String connectionAddress;

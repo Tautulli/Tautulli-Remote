@@ -185,7 +185,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   //* Store & Retrive Values
-  // Custom Cert Hash List
+  // Active Server ID
   @override
   Future<String> getActiveServerId() async {
     return await dataSource.getActiveServerId();
@@ -194,6 +194,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<bool> setActiveServerId(String value) async {
     return await dataSource.setActiveServerId(value);
+  }
+
+  // App Update Available
+  @override
+  bool getAppUpdateAvailable() {
+    return dataSource.getAppUpdateAvailable();
+  }
+
+  @override
+  Future<bool> setAppUpdateAvailable(bool value) async {
+    return await dataSource.setAppUpdateAvailable(value);
   }
 
   // Custom Cert Hash List

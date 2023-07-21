@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  app_version_update:
+    dependency: "direct main"
+    description:
+      name: app_version_update
+      sha256: "08f3c2583947a7f90cc0d8494d624dc771e22ecbc5dd52fa8068a2d0a62b8f95"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   archive:
     dependency: transitive
     description:
@@ -1477,5 +1485,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.0.0 <4.0.0"
+  dart: ">=3.0.0 <3.7.12"
   flutter: ">=3.7.0"

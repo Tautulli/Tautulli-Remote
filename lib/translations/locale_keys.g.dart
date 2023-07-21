@@ -21,6 +21,7 @@ abstract class  LocaleKeys {
   static const announcements_load_failed_message = 'announcements_load_failed_message';
   static const announcements_title = 'announcements_title';
   static const app_logs_title = 'app_logs_title';
+  static const app_update_available_message = 'app_update_available_message';
   static const artists_title = 'artists_title';
   static const audio_title = 'audio_title';
   static const bandwidth_title = 'bandwidth_title';
@@ -346,6 +347,7 @@ abstract class  LocaleKeys {
   static const tv_title = 'tv_title';
   static const tv_shows_title = 'tv_shows_title';
   static const unknown_title = 'unknown_title';
+  static const update_title = 'update_title';
   static const use_atkinson_hyperlegibile_font_title = 'use_atkinson_hyperlegibile_font_title';
   static const user_stats_empty_message = 'user_stats_empty_message';
   static const user_stats_title = 'user_stats_title';

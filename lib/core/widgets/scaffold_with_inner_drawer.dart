@@ -81,21 +81,29 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
       scaffold: Scaffold(
         appBar: AppBar(
           leading: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
-            builder: (context, state) {
-              return IconButton(
-                icon: badges.Badge(
-                  badgeAnimation: const badges.BadgeAnimation.fade(
-                    animationDuration: Duration(milliseconds: 400),
-                  ),
-                  badgeStyle: badges.BadgeStyle(
-                    badgeColor: Theme.of(context).colorScheme.secondary,
-                  ),
-                  position: badges.BadgePosition.topEnd(top: 1, end: -2),
-                  showBadge: state is AnnouncementsSuccess && state.unread,
-                  child: const Icon(Icons.menu),
-                ),
-                onPressed: () {
-                  innerDrawerKey.currentState?.open();
+            builder: (context, announcementsState) {
+              return BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, settingsState) {
+                  settingsState as SettingsSuccess;
+
+                  return IconButton(
+                    icon: badges.Badge(
+                      badgeAnimation: const badges.BadgeAnimation.fade(
+                        animationDuration: Duration(milliseconds: 400),
+                      ),
+                      badgeStyle: badges.BadgeStyle(
+                        badgeColor: Theme.of(context).colorScheme.secondary,
+                      ),
+                      position: badges.BadgePosition.topEnd(top: 1, end: -2),
+                      showBadge: (announcementsState is AnnouncementsSuccess &&
+                              announcementsState.unread) ||
+                          settingsState.appSettings.appUpdateAvailable,
+                      child: const Icon(Icons.menu),
+                    ),
+                    onPressed: () {
+                      innerDrawerKey.currentState?.open();
+                    },
+                  );
                 },
               );
             },
@@ -364,7 +372,30 @@ class _AppDrawerState extends State<_AppDrawer> {
                 size: 21,
               ),
             ),
-            label: const Text(LocaleKeys.settings_title).tr(),
+            label: Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(LocaleKeys.settings_title).tr(),
+                  BlocBuilder<SettingsBloc, SettingsState>(
+                    builder: (context, state) {
+                      if (state is SettingsSuccess &&
+                          state.appSettings.appUpdateAvailable) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: FaIcon(
+                            FontAwesomeIcons.solidCircle,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        );
+                      }
+                      return const SizedBox();
+                    },
+                  ),
+                ],
+              ),
+            ),
           ),
           const Gap(4),
         ],

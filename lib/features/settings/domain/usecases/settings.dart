@@ -171,6 +171,18 @@ class Settings {
     return await repository.setActiveServerId(value);
   }
 
+  /// Returns if there is an available app update on the App Store or Play Store.
+  ///
+  /// If no value is stored returns `false`.
+  bool getAppUpdateAvailable() {
+    return repository.getAppUpdateAvailable();
+  }
+
+  /// Sets if there is an available app update on the App Store or Play Store.
+  Future<bool> setAppUpdateAvailable(bool value) async {
+    return await repository.setAppUpdateAvailable(value);
+  }
+
   /// Returns a list of user approved certificate hashes.
   ///
   /// Used for communicating with servers that could not be authenticated by

@@ -70,6 +70,10 @@ abstract class SettingsRepository {
   Future<String> getActiveServerId();
   Future<bool> setActiveServerId(String value);
 
+  // App Update Available
+  bool getAppUpdateAvailable();
+  Future<bool> setAppUpdateAvailable(bool value);
+
   // Custom Cert Hash List
   Future<List<int>> getCustomCertHashList();
   Future<bool> setCustomCertHashList(List<int> certHashList);

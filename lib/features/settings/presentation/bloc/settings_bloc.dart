@@ -55,6 +55,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateActiveServer>(
       (event, emit) => _onSettingsUpdateActiveServer(event, emit),
     );
+    on<SettingsUpdateAppUpdateAvailable>(
+      (event, emit) => _onSettingsUpdateAppUpdateAvailable(event, emit),
+    );
     on<SettingsUpdateConnectionInfo>(
       (event, emit) => _onSettingsUpdateConnectionInfo(event, emit),
     );
@@ -341,6 +344,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             : serverList.isNotEmpty
                 ? serverList.first
                 : blankServer,
+        appUpdateAvailable: await settings.getAppUpdateAvailable(),
         doubleBackToExit: await settings.getDoubleBackToExit(),
         graphTimeRange: await settings.getGraphTimeRange(),
         graphTipsShown: await settings.getGraphTipsShown(),
@@ -399,6 +403,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       currentState.copyWith(
         appSettings:
             currentState.appSettings.copyWith(activeServer: event.activeServer),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateAppUpdateAvailable(
+    SettingsUpdateAppUpdateAvailable event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setAppUpdateAvailable(event.appUpdateAvailable);
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings
+            .copyWith(appUpdateAvailable: event.appUpdateAvailable),
       ),
     );
   }

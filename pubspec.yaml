@@ -11,6 +11,7 @@ environment:
 dependencies:
   android_id: ^0.3.3
   app_group_directory: ^2.0.0
+  app_version_update: ^4.0.1
   badges: ^3.1.1
   bloc_concurrency: ^0.2.1
   cached_network_image: ^3.2.3

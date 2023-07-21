@@ -1,3 +1,4 @@
+import 'package:app_version_update/app_version_update.dart';
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:f_logs/f_logs.dart';
@@ -53,6 +54,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
     super.initState();
     initalizeOneSignal();
     initalizeFLogConfiguration();
+    checkforAppUpdate();
     checkIfRegistrationUpdateNeeded();
 
     context.read<OneSignalPrivacyBloc>().add(OneSignalPrivacyCheck());
@@ -137,6 +139,23 @@ class TautulliRemoteState extends State<TautulliRemote> {
   void initalizeFLogConfiguration() {
     FLog.applyConfigurations(
       LogsConfig()..activeLogLevel = LogLevel.ALL,
+    );
+  }
+
+  Future<void> checkforAppUpdate() async {
+    await AppVersionUpdate.checkForUpdates(
+      appleId: '1570909086',
+      playStoreId: 'com.tautulli.tautulli_remote',
+    ).then(
+      (data) async {
+        if (data.canUpdate != null) {
+          context.read<SettingsBloc>().add(
+                SettingsUpdateAppUpdateAvailable(
+                  appUpdateAvailable: data.canUpdate!,
+                ),
+              );
+        }
+      },
     );
   }
 

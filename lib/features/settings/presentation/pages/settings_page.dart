@@ -9,6 +9,7 @@ import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../bloc/settings_bloc.dart';
+import '../widgets/app_update_alert_banner.dart';
 import '../widgets/groups/app_settings_group.dart';
 import '../widgets/groups/help_and_support_group.dart';
 import '../widgets/groups/more_group.dart';
@@ -53,8 +54,20 @@ class _SettingsViewState extends State<SettingsView> {
         children: [
           BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
+              state as SettingsSuccess;
+
+              if (state.appSettings.appUpdateAvailable) {
+                return const AppUpdateAlertBanner();
+              }
+
+              return const SizedBox(height: 0, width: 0);
+            },
+          ),
+          BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
               if (state is SettingsSuccess &&
-                  (!state.appSettings.oneSignalBannerDismissed || state.appSettings.oneSignalConsented)) {
+                  (!state.appSettings.oneSignalBannerDismissed ||
+                      state.appSettings.oneSignalConsented)) {
                 return const SettingsAlertBanner();
               }
 
