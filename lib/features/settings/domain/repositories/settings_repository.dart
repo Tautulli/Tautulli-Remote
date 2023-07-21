@@ -67,7 +67,7 @@ abstract class SettingsRepository {
 
   //* Store & Retrive Values
   // Active Server ID
-  Future<String> getActiveServerId();
+  String getActiveServerId();
   Future<bool> setActiveServerId(String value);
 
   // App Update Available
@@ -75,79 +75,79 @@ abstract class SettingsRepository {
   Future<bool> setAppUpdateAvailable(bool value);
 
   // Custom Cert Hash List
-  Future<List<int>> getCustomCertHashList();
+  List<int> getCustomCertHashList();
   Future<bool> setCustomCertHashList(List<int> certHashList);
 
   // Double Back To Exit
-  Future<bool> getDoubleBackToExit();
+  bool getDoubleBackToExit();
   Future<bool> setDoubleBackToExit(bool value);
 
   // Graph Time Range
-  Future<int> getGraphTimeRange();
+  int getGraphTimeRange();
   Future<bool> setGraphTimeRange(int value);
 
   // Graph Tips Shown
-  Future<bool> getGraphTipsShown();
+  bool getGraphTipsShown();
   Future<bool> setGraphTipsShown(bool value);
 
   // Graph Y Axis
-  Future<PlayMetricType> getGraphYAxis();
+  PlayMetricType getGraphYAxis();
   Future<bool> setGraphYAxis(PlayMetricType value);
 
   // Last App Version
-  Future<String> getLastAppVersion();
+  String getLastAppVersion();
   Future<bool> setLastAppVersion(String value);
 
   // Last Read Announcement ID
-  Future<int> getLastReadAnnouncementId();
+  int getLastReadAnnouncementId();
   Future<bool> setLastReadAnnouncementId(int value);
 
   // Libraries Sort
-  Future<String> getLibrariesSort();
+  String getLibrariesSort();
   Future<bool> setLibrariesSort(String value);
 
   // Library Media Full Refresh
-  Future<bool> getLibraryMediaFullRefresh();
+  bool getLibraryMediaFullRefresh();
   Future<bool> setLibraryMediaFullRefresh(bool value);
 
   // Mask Sensitive Info
-  Future<bool> getMaskSensitiveInfo();
+  bool getMaskSensitiveInfo();
   Future<bool> setMaskSensitiveInfo(bool value);
 
   // Multiserver Activity
-  Future<bool> getMultiserverActivity();
+  bool getMultiserverActivity();
   Future<bool> setMultiserverActivity(bool value);
 
   // OneSignal Banner Dismissed
-  Future<bool> getOneSignalBannerDismissed();
+  bool getOneSignalBannerDismissed();
   Future<bool> setOneSignalBannerDismissed(bool value);
 
   // OneSignal Consented
-  Future<bool> getOneSignalConsented();
+  bool getOneSignalConsented();
   Future<bool> setOneSignalConsented(bool value);
 
   // Refresh Rate
-  Future<int> getRefreshRate();
+  int getRefreshRate();
   Future<bool> setRefreshRate(int value);
 
   // Registration Update Needed
-  Future<bool> getRegistrationUpdateNeeded();
+  bool getRegistrationUpdateNeeded();
   Future<bool> setRegistrationUpdateNeeded(bool value);
 
   // Server Timeout
-  Future<bool> getSecret();
+  bool getSecret();
   Future<bool> setSecret(bool value);
 
   // Server Timeout
-  Future<int> getServerTimeout();
+  int getServerTimeout();
   Future<bool> setServerTimeout(int value);
 
   // Statistics Stats Type
-  Future<PlayMetricType> getStatisticsStatType();
+  PlayMetricType getStatisticsStatType();
   Future<bool> setStatisticsStatType(PlayMetricType value);
 
   // Statistics Time Range
-  Future<int> getStatisticsTimeRange();
+  int getStatisticsTimeRange();
   Future<bool> setStatisticsTimeRange(int value);
 
   // Use Atkinson Hyperlegible Font
@@ -155,10 +155,10 @@ abstract class SettingsRepository {
   Future<bool> setUseAtkinsonHyperlegible(bool value);
 
   // Users Sort
-  Future<String> getUsersSort();
+  String getUsersSort();
   Future<bool> setUsersSort(String value);
 
   // Wizard Complete
-  Future<bool> getWizardComplete();
+  bool getWizardComplete();
   Future<bool> setWizardComplete(bool value);
 }

@@ -325,7 +325,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     try {
       // Fetch settings
       final List<ServerModel> serverList = await settings.getAllServers();
-      String activeServerId = await settings.getActiveServerId();
+      String activeServerId = settings.getActiveServerId();
 
       // If active server ID is blank but server list isn't empty set the first
       // server to be the active server.
@@ -344,25 +344,25 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             : serverList.isNotEmpty
                 ? serverList.first
                 : blankServer,
-        appUpdateAvailable: await settings.getAppUpdateAvailable(),
-        doubleBackToExit: await settings.getDoubleBackToExit(),
-        graphTimeRange: await settings.getGraphTimeRange(),
-        graphTipsShown: await settings.getGraphTipsShown(),
-        graphYAxis: await settings.getGraphYAxis(),
-        librariesSort: await settings.getLibrariesSort(),
-        libraryMediaFullRefresh: await settings.getLibraryMediaFullRefresh(),
-        maskSensitiveInfo: await settings.getMaskSensitiveInfo(),
-        multiserverActivity: await settings.getMultiserverActivity(),
-        oneSignalBannerDismissed: await settings.getOneSignalBannerDismissed(),
-        oneSignalConsented: await settings.getOneSignalConsented(),
-        refreshRate: await settings.getRefreshRate(),
-        secret: await settings.getSecret(),
-        serverTimeout: await settings.getServerTimeout(),
-        statisticsStatType: await settings.getStatisticsStatType(),
-        statisticsTimeRange: await settings.getStatisticsTimeRange(),
+        appUpdateAvailable: settings.getAppUpdateAvailable(),
+        doubleBackToExit: settings.getDoubleBackToExit(),
+        graphTimeRange: settings.getGraphTimeRange(),
+        graphTipsShown: settings.getGraphTipsShown(),
+        graphYAxis: settings.getGraphYAxis(),
+        librariesSort: settings.getLibrariesSort(),
+        libraryMediaFullRefresh: settings.getLibraryMediaFullRefresh(),
+        maskSensitiveInfo: settings.getMaskSensitiveInfo(),
+        multiserverActivity: settings.getMultiserverActivity(),
+        oneSignalBannerDismissed: settings.getOneSignalBannerDismissed(),
+        oneSignalConsented: settings.getOneSignalConsented(),
+        refreshRate: settings.getRefreshRate(),
+        secret: settings.getSecret(),
+        serverTimeout: settings.getServerTimeout(),
+        statisticsStatType: settings.getStatisticsStatType(),
+        statisticsTimeRange: settings.getStatisticsTimeRange(),
         useAtkinsonHyperlegible: settings.getUseAtkinsonHyperlegible(),
-        usersSort: await settings.getUsersSort(),
-        wizardComplete: await settings.getWizardComplete(),
+        usersSort: settings.getUsersSort(),
+        wizardComplete: settings.getWizardComplete(),
       );
 
       emit(

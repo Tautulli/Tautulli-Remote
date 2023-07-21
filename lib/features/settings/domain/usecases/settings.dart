@@ -162,8 +162,8 @@ class Settings {
   /// Returns the Server ID for the active server.
   ///
   /// If no value is stored returns an empty string.
-  Future<String> getActiveServerId() async {
-    return await repository.getActiveServerId();
+  String getActiveServerId() {
+    return repository.getActiveServerId();
   }
 
   /// Sets the active server ID.
@@ -189,8 +189,8 @@ class Settings {
   /// any of the built in trusted root certificates.
   ///
   /// If no value is stored returns an empty list.
-  Future<List<int>> getCustomCertHashList() async {
-    return await repository.getCustomCertHashList();
+  List<int> getCustomCertHashList() {
+    return repository.getCustomCertHashList();
   }
 
   /// Sets the list of approved custom cert hashes.
@@ -201,8 +201,8 @@ class Settings {
   /// Returns if exiting the app should require two sequential back actions.
   ///
   /// If no value is stored returns `false`.
-  Future<bool> getDoubleBackToExit() async {
-    return await repository.getDoubleBackToExit();
+  bool getDoubleBackToExit() {
+    return repository.getDoubleBackToExit();
   }
 
   /// Sets if exiting the app should require two sequential back actions.
@@ -213,8 +213,8 @@ class Settings {
   /// Returns the number of days to display for graphs.
   ///
   /// If no value is stored returns `30`.
-  Future<int> getGraphTimeRange() async {
-    return await repository.getGraphTimeRange();
+  int getGraphTimeRange() {
+    return repository.getGraphTimeRange();
   }
 
   /// Sets the number of days to display for graphs.
@@ -225,8 +225,8 @@ class Settings {
   /// Returns if the graph tips dialog has been shown.
   ///
   /// If no value is stored returns `false`.
-  Future<bool> getGraphTipsShown() async {
-    return await repository.getGraphTipsShown();
+  bool getGraphTipsShown() {
+    return repository.getGraphTipsShown();
   }
 
   /// Sets if the graph tips dialog has been shown.
@@ -237,8 +237,8 @@ class Settings {
   /// Returns the initial type of graph y axis to use.
   ///
   /// If no value is stored returns `GraphYAxis.plays`.
-  Future<PlayMetricType> getGraphYAxis() async {
-    return await repository.getGraphYAxis();
+  PlayMetricType getGraphYAxis() {
+    return repository.getGraphYAxis();
   }
 
   /// Sets the initial y axis to be used by the graphs.
@@ -251,8 +251,8 @@ class Settings {
   /// Used to determine if the changelog page should be displayed on start.
   ///
   /// If no value is stored returns ``.
-  Future<String> getLastAppVersion() async {
-    return await repository.getLastAppVersion();
+  String getLastAppVersion() {
+    return repository.getLastAppVersion();
   }
 
   /// Sets the last app version.
@@ -266,8 +266,8 @@ class Settings {
   /// unread.
   ///
   /// If no value is stored returns `0`.
-  Future<int> getLastReadAnnouncementId() async {
-    return await repository.getLastReadAnnouncementId();
+  int getLastReadAnnouncementId() {
+    return repository.getLastReadAnnouncementId();
   }
 
   /// Sets the last read announcement ID.
@@ -280,8 +280,8 @@ class Settings {
   /// Items are returned in a string connected by a `|`.
   ///
   /// If no value is stored returns `section_name|asc`.
-  Future<String> getLibrariesSort() async {
-    return await repository.getLibrariesSort();
+  String getLibrariesSort() {
+    return repository.getLibrariesSort();
   }
 
   /// Sets the libraries sort.
@@ -292,8 +292,8 @@ class Settings {
   /// Returns if refreshing library media should do a full refresh.
   ///
   /// If no value is stored returns `true`.
-  Future<bool> getLibraryMediaFullRefresh() async {
-    return await repository.getLibraryMediaFullRefresh();
+  bool getLibraryMediaFullRefresh() {
+    return repository.getLibraryMediaFullRefresh();
   }
 
   /// Sets if refreshing library media should do a full refresh.
@@ -304,8 +304,8 @@ class Settings {
   /// Returns if the app should mask sensitive info.
   ///
   /// If no value is stored returns `false`.
-  Future<bool> getMaskSensitiveInfo() async {
-    return await repository.getMaskSensitiveInfo();
+  bool getMaskSensitiveInfo() {
+    return repository.getMaskSensitiveInfo();
   }
 
   /// Sets if the app should mask sensitive info.
@@ -316,8 +316,8 @@ class Settings {
   /// Returns if the activity page should display activity from all servers.
   ///
   /// If no value is stored returns `false`.
-  Future<bool> getMultiserverActivity() async {
-    return await repository.getMultiserverActivity();
+  bool getMultiserverActivity() {
+    return repository.getMultiserverActivity();
   }
 
   /// Sets if the activity page should display activity from all servers.
@@ -329,8 +329,8 @@ class Settings {
   /// it should be displayed.
   ///
   /// If no value is stored returns `false`.
-  Future<bool> getOneSignalBannerDismissed() async {
-    return await repository.getOneSignalBannerDismissed();
+  bool getOneSignalBannerDismissed() {
+    return repository.getOneSignalBannerDismissed();
   }
 
   /// Sets if the OneSignal banner has been manually dismissed.
@@ -344,8 +344,8 @@ class Settings {
   /// consent status.
   ///
   /// If no value is stored returns `false`.
-  Future<bool> getOneSignalConsented() async {
-    return await repository.getOneSignalConsented();
+  bool getOneSignalConsented() {
+    return repository.getOneSignalConsented();
   }
 
   /// Sets if OneSignal data privacy has been consented to.
@@ -356,8 +356,8 @@ class Settings {
   /// Returns the refresh rate used for auto refreshing activity.
   ///
   /// If no value is stored returns `0`.
-  Future<int> getRefreshRate() async {
-    return await repository.getRefreshRate();
+  int getRefreshRate() {
+    return repository.getRefreshRate();
   }
 
   /// Set the refresh rate used when automatically updating the activity.
@@ -369,8 +369,8 @@ class Settings {
   /// Typically the result of an app update where the server needs the new app version.
   ///
   /// If no value is stored returns `false`.
-  Future<bool> getRegistrationUpdateNeeded() async {
-    return await repository.getRegistrationUpdateNeeded();
+  bool getRegistrationUpdateNeeded() {
+    return repository.getRegistrationUpdateNeeded();
   }
 
   /// Set if a registration update is needed.
@@ -379,8 +379,8 @@ class Settings {
   }
 
   /// What is a man? A miserable little pile of secrets.
-  Future<bool> getSecret() async {
-    return await repository.getSecret();
+  bool getSecret() {
+    return repository.getSecret();
   }
 
   /// It ain't no secret I didn't get these scars falling over in church.
@@ -391,8 +391,8 @@ class Settings {
   /// How long to wait in seconds before timing out the server connection.
   ///
   /// If no value is stored returns `15`.
-  Future<int> getServerTimeout() async {
-    return await repository.getServerTimeout();
+  int getServerTimeout() {
+    return repository.getServerTimeout();
   }
 
   /// Sets the time to wait in seconds before timing out the server connection.
@@ -403,8 +403,8 @@ class Settings {
   /// Returns the number of days to use for statistics.
   ///
   /// If no value is stored returns `30`.
-  Future<int> getStatisticsTimeRange() async {
-    return await repository.getStatisticsTimeRange();
+  int getStatisticsTimeRange() {
+    return repository.getStatisticsTimeRange();
   }
 
   /// Sets the number of days to use for statistics.
@@ -415,8 +415,8 @@ class Settings {
   /// Returns the `PlayMetricType` to use for statistics.
   ///
   /// If no value is stored returns `PlayMetricType.plays`.
-  Future<PlayMetricType> getStatisticsStatType() async {
-    return await repository.getStatisticsStatType();
+  PlayMetricType getStatisticsStatType() {
+    return repository.getStatisticsStatType();
   }
 
   /// Sets the `PlayMetricType` to use for statistics.
@@ -439,8 +439,8 @@ class Settings {
   /// Items are returned in a string connected by a `|`.
   ///
   /// If no value is stored returns `friendly_name|asc`.
-  Future<String> getUsersSort() async {
-    return await repository.getUsersSort();
+  String getUsersSort() {
+    return repository.getUsersSort();
   }
 
   /// Sets the users sort.
@@ -451,8 +451,8 @@ class Settings {
   /// Whether the wizard was exited early or fully completed.
   ///
   /// If no value is stored returns `false`.
-  Future<bool> getWizardComplete() async {
-    return await repository.getWizardComplete();
+  bool getWizardComplete() {
+    return repository.getWizardComplete();
   }
 
   /// Sets that the wizard has been exited or completed to prevent it from

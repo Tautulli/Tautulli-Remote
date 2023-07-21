@@ -39,7 +39,7 @@ class AnnouncementsBloc extends Bloc<AnnouncementsEvent, AnnouncementsState> {
       AnnouncementsInProgress(),
     );
 
-    final lastReadAnnouncementId = await settings.getLastReadAnnouncementId();
+    final lastReadAnnouncementId = settings.getLastReadAnnouncementId();
 
     final failureOrAnnouncements = await announcements.get();
 

@@ -69,7 +69,7 @@ class CallTautulliImpl implements CallTautulli {
 
     //* Handle Custom Certs
     // Get list of custom cert hashes
-    List<int> customCertHashList = await di.sl<Settings>().getCustomCertHashList();
+    List<int> customCertHashList = di.sl<Settings>().getCustomCertHashList();
 
     // If the certificate is valid check if it has been previously approved
     // by the user. If so, return true.
@@ -112,7 +112,7 @@ class CallTautulliImpl implements CallTautulli {
     );
 
     // Get timeout value from settings
-    final timeout = await di.sl<Settings>().getServerTimeout();
+    final timeout = di.sl<Settings>().getServerTimeout();
 
     Response response;
     try {

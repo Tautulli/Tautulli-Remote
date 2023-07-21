@@ -160,7 +160,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
   }
 
   Future<void> checkIfRegistrationUpdateNeeded() async {
-    if (await di.sl<Settings>().getRegistrationUpdateNeeded()) {
+    if (di.sl<Settings>().getRegistrationUpdateNeeded()) {
       final servers = await di.sl<Settings>().getAllServers();
 
       if (servers.isNotEmpty) {

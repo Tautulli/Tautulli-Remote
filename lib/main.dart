@@ -45,13 +45,14 @@ void main() async {
   await di.init();
 
   // Override global HttpClient to check for trusted cert hashes on certificate failure.
-  final List<int> customCertHashList = await di.sl<Settings>().getCustomCertHashList();
+  final List<int> customCertHashList =
+      di.sl<Settings>().getCustomCertHashList();
   HttpOverrides.global = MyHttpOverrides(customCertHashList);
 
   Future<String?> calculateInitialRoute() async {
     final runningVersion = await PackageInformationImpl().version;
-    final lastAppVersion = await di.sl<Settings>().getLastAppVersion();
-    final bool wizardComplete = await di.sl<Settings>().getWizardComplete();
+    final lastAppVersion = di.sl<Settings>().getLastAppVersion();
+    final bool wizardComplete = di.sl<Settings>().getWizardComplete();
 
     String? routeToReturn;
 

@@ -187,8 +187,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
   //* Store & Retrive Values
   // Active Server ID
   @override
-  Future<String> getActiveServerId() async {
-    return await dataSource.getActiveServerId();
+  String getActiveServerId() {
+    return dataSource.getActiveServerId();
   }
 
   @override
@@ -209,8 +209,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Custom Cert Hash List
   @override
-  Future<List<int>> getCustomCertHashList() async {
-    return await dataSource.getCustomCertHashList();
+  List<int> getCustomCertHashList() {
+    return dataSource.getCustomCertHashList();
   }
 
   @override
@@ -220,8 +220,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Double Back To Exit
   @override
-  Future<bool> getDoubleBackToExit() async {
-    return await dataSource.getDoubleBackToExit();
+  bool getDoubleBackToExit() {
+    return dataSource.getDoubleBackToExit();
   }
 
   @override
@@ -231,8 +231,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Graphs Time Range
   @override
-  Future<int> getGraphTimeRange() async {
-    return await dataSource.getGraphTimeRange();
+  int getGraphTimeRange() {
+    return dataSource.getGraphTimeRange();
   }
 
   @override
@@ -242,8 +242,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Graph Tips Shown
   @override
-  Future<bool> getGraphTipsShown() async {
-    return await dataSource.getGraphTipsShown();
+  bool getGraphTipsShown() {
+    return dataSource.getGraphTipsShown();
   }
 
   @override
@@ -253,8 +253,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Graph Y Axis
   @override
-  Future<PlayMetricType> getGraphYAxis() async {
-    return await dataSource.getGraphYAxis();
+  PlayMetricType getGraphYAxis() {
+    return dataSource.getGraphYAxis();
   }
 
   @override
@@ -264,8 +264,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Last App Version
   @override
-  Future<String> getLastAppVersion() async {
-    return await dataSource.getLastAppVersion();
+  String getLastAppVersion() {
+    return dataSource.getLastAppVersion();
   }
 
   @override
@@ -275,8 +275,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Last Read Announcement ID
   @override
-  Future<int> getLastReadAnnouncementId() async {
-    return await dataSource.getLastReadAnnouncementId();
+  int getLastReadAnnouncementId() {
+    return dataSource.getLastReadAnnouncementId();
   }
 
   @override
@@ -286,8 +286,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Libraries Sort
   @override
-  Future<String> getLibrariesSort() async {
-    return await dataSource.getLibrariesSort();
+  String getLibrariesSort() {
+    return dataSource.getLibrariesSort();
   }
 
   @override
@@ -297,8 +297,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Library Media Full Refresh
   @override
-  Future<bool> getLibraryMediaFullRefresh() async {
-    return await dataSource.getLibraryMediaFullRefresh();
+  bool getLibraryMediaFullRefresh() {
+    return dataSource.getLibraryMediaFullRefresh();
   }
 
   @override
@@ -308,8 +308,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Mask Sensitive Info
   @override
-  Future<bool> getMaskSensitiveInfo() async {
-    return await dataSource.getMaskSensitiveInfo();
+  bool getMaskSensitiveInfo() {
+    return dataSource.getMaskSensitiveInfo();
   }
 
   @override
@@ -319,8 +319,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Multiserver Activity
   @override
-  Future<bool> getMultiserverActivity() async {
-    return await dataSource.getMultiserverActivity();
+  bool getMultiserverActivity() {
+    return dataSource.getMultiserverActivity();
   }
 
   @override
@@ -330,8 +330,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // OneSignal Banner Dismissed
   @override
-  Future<bool> getOneSignalBannerDismissed() async {
-    return await dataSource.getOneSignalBannerDismissed();
+  bool getOneSignalBannerDismissed() {
+    return dataSource.getOneSignalBannerDismissed();
   }
 
   @override
@@ -341,8 +341,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // OneSignal Consented
   @override
-  Future<bool> getOneSignalConsented() async {
-    return await dataSource.getOneSignalConsented();
+  bool getOneSignalConsented() {
+    return dataSource.getOneSignalConsented();
   }
 
   @override
@@ -352,8 +352,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Refresh Rate
   @override
-  Future<int> getRefreshRate() async {
-    return await dataSource.getRefreshRate();
+  int getRefreshRate() {
+    return dataSource.getRefreshRate();
   }
 
   @override
@@ -363,8 +363,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Refresh Rate
   @override
-  Future<bool> getRegistrationUpdateNeeded() async {
-    return await dataSource.getRegistrationUpdateNeeded();
+  bool getRegistrationUpdateNeeded() {
+    return dataSource.getRegistrationUpdateNeeded();
   }
 
   @override
@@ -374,8 +374,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Secret
   @override
-  Future<bool> getSecret() async {
-    return await dataSource.getSecret();
+  bool getSecret() {
+    return dataSource.getSecret();
   }
 
   @override
@@ -385,8 +385,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Server Timeout
   @override
-  Future<int> getServerTimeout() async {
-    return await dataSource.getServerTimeout();
+  int getServerTimeout() {
+    return dataSource.getServerTimeout();
   }
 
   @override
@@ -396,12 +396,11 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Statistics Stat Type
   @override
-  Future<PlayMetricType> getStatisticsStatType() async {
-    return Future.value(
-      Cast.castStringToPlayMetricType(
-        await dataSource.getStatisticsStatType(),
-      ),
-    );
+  PlayMetricType getStatisticsStatType() {
+    return Cast.castStringToPlayMetricType(
+          dataSource.getStatisticsStatType(),
+        ) ??
+        PlayMetricType.unknown;
   }
 
   @override
@@ -411,8 +410,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Statistics Time Range
   @override
-  Future<int> getStatisticsTimeRange() async {
-    return await dataSource.getStatisticsTimeRange();
+  int getStatisticsTimeRange() {
+    return dataSource.getStatisticsTimeRange();
   }
 
   @override
@@ -433,8 +432,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Users Sort
   @override
-  Future<String> getUsersSort() async {
-    return await dataSource.getUsersSort();
+  String getUsersSort() {
+    return dataSource.getUsersSort();
   }
 
   @override
@@ -444,8 +443,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   // Wizard Complete
   @override
-  Future<bool> getWizardComplete() async {
-    return await dataSource.getWizardComplete();
+  bool getWizardComplete() {
+    return dataSource.getWizardComplete();
   }
 
   @override

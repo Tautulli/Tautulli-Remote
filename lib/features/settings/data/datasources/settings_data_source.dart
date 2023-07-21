@@ -71,7 +71,7 @@ abstract class SettingsDataSource {
 
   //* Store & Retrive Values
   // Active Server ID
-  Future<String> getActiveServerId();
+  String getActiveServerId();
   Future<bool> setActiveServerId(String value);
 
   // App Update Available
@@ -79,79 +79,79 @@ abstract class SettingsDataSource {
   Future<bool> setAppUpdateAvailable(bool value);
 
   // Custom Cert Hash List
-  Future<List<int>> getCustomCertHashList();
+  List<int> getCustomCertHashList();
   Future<bool> setCustomCertHashList(List<int> certHashList);
 
   // Double Back To Exit
-  Future<bool> getDoubleBackToExit();
+  bool getDoubleBackToExit();
   Future<bool> setDoubleBackToExit(bool value);
 
   // Graph Time Range
-  Future<int> getGraphTimeRange();
+  int getGraphTimeRange();
   Future<bool> setGraphTimeRange(int value);
 
   // Graph Tips Shown
-  Future<bool> getGraphTipsShown();
+  bool getGraphTipsShown();
   Future<bool> setGraphTipsShown(bool value);
 
   // Graph Y Axis
-  Future<PlayMetricType> getGraphYAxis();
+  PlayMetricType getGraphYAxis();
   Future<bool> setGraphYAxis(PlayMetricType value);
 
   // Last App Version
-  Future<String> getLastAppVersion();
+  String getLastAppVersion();
   Future<bool> setLastAppVersion(String value);
 
   // Last Read Announcement ID
-  Future<int> getLastReadAnnouncementId();
+  int getLastReadAnnouncementId();
   Future<bool> setLastReadAnnouncementId(int value);
 
   // Libraries Sort
-  Future<String> getLibrariesSort();
+  String getLibrariesSort();
   Future<bool> setLibrariesSort(String value);
 
   // Library Media Full Refresh
-  Future<bool> getLibraryMediaFullRefresh();
+  bool getLibraryMediaFullRefresh();
   Future<bool> setLibraryMediaFullRefresh(bool value);
 
   // Mask Sensitive Info
-  Future<bool> getMaskSensitiveInfo();
+  bool getMaskSensitiveInfo();
   Future<bool> setMaskSensitiveInfo(bool value);
 
   // Multiserver Activity
-  Future<bool> getMultiserverActivity();
+  bool getMultiserverActivity();
   Future<bool> setMultiserverActivity(bool value);
 
   // OneSignal Banner Dismissed
-  Future<bool> getOneSignalBannerDismissed();
+  bool getOneSignalBannerDismissed();
   Future<bool> setOneSignalBannerDismissed(bool value);
 
   // OneSignal Consented
-  Future<bool> getOneSignalConsented();
+  bool getOneSignalConsented();
   Future<bool> setOneSignalConsented(bool value);
 
   // Refresh Rate
-  Future<int> getRefreshRate();
+  int getRefreshRate();
   Future<bool> setRefreshRate(int value);
 
   // Registration Update Needed
-  Future<bool> getRegistrationUpdateNeeded();
+  bool getRegistrationUpdateNeeded();
   Future<bool> setRegistrationUpdateNeeded(bool value);
 
   // Secret
-  Future<bool> getSecret();
+  bool getSecret();
   Future<bool> setSecret(bool value);
 
   // Server Timeout
-  Future<int> getServerTimeout();
+  int getServerTimeout();
   Future<bool> setServerTimeout(int value);
 
   // Statistics Stats Type
-  Future<String> getStatisticsStatType();
+  String getStatisticsStatType();
   Future<bool> setStatisticsStatType(PlayMetricType value);
 
   // Statistics Time Range
-  Future<int> getStatisticsTimeRange();
+  int getStatisticsTimeRange();
   Future<bool> setStatisticsTimeRange(int value);
 
   // Use Atkinson Hyperlegible Font
@@ -159,11 +159,11 @@ abstract class SettingsDataSource {
   Future<bool> setUseAtkinsonHyperlegible(bool value);
 
   // Users Sort
-  Future<String> getUsersSort();
+  String getUsersSort();
   Future<bool> setUsersSort(String value);
 
   // Wizard Complete
-  Future<bool> getWizardComplete();
+  bool getWizardComplete();
   Future<bool> setWizardComplete(bool value);
 }
 
@@ -367,8 +367,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   //* Store & Retrive Values
   // Active Server ID
   @override
-  Future<String> getActiveServerId() {
-    return Future.value(localStorage.getString(activeServerId) ?? '');
+  String getActiveServerId() {
+    return localStorage.getString(activeServerId) ?? '';
   }
 
   @override
@@ -389,14 +389,14 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Custom Cert Hash List
   @override
-  Future<List<int>> getCustomCertHashList() {
+  List<int> getCustomCertHashList() {
     List<String> stringList;
     List<int> intList = [];
 
     stringList = localStorage.getStringList(customCertHashList) ?? [];
     intList = stringList.map((i) => int.parse(i)).toList();
 
-    return Future.value(intList);
+    return intList;
   }
 
   @override
@@ -409,8 +409,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Double Back To Exit
   @override
-  Future<bool> getDoubleBackToExit() async {
-    return Future.value(localStorage.getBool(doubleBackToExit) ?? false);
+  bool getDoubleBackToExit() {
+    return localStorage.getBool(doubleBackToExit) ?? false;
   }
 
   @override
@@ -420,8 +420,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Graphs Time Range
   @override
-  Future<int> getGraphTimeRange() async {
-    return Future.value(localStorage.getInt(graphTimeRange) ?? 30);
+  int getGraphTimeRange() {
+    return localStorage.getInt(graphTimeRange) ?? 30;
   }
 
   @override
@@ -431,8 +431,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Graph Tips Shown
   @override
-  Future<bool> getGraphTipsShown() async {
-    return Future.value(localStorage.getBool(graphTipsShown) ?? false);
+  bool getGraphTipsShown() {
+    return localStorage.getBool(graphTipsShown) ?? false;
   }
 
   @override
@@ -442,12 +442,12 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Graph Y Axis
   @override
-  Future<PlayMetricType> getGraphYAxis() async {
+  PlayMetricType getGraphYAxis() {
     String timeRangeString = localStorage.getString(graphYAxis) ?? 'plays';
 
-    if (timeRangeString == 'duration') return Future.value(PlayMetricType.time);
+    if (timeRangeString == 'duration') return PlayMetricType.time;
 
-    return Future.value(PlayMetricType.plays);
+    return PlayMetricType.plays;
   }
 
   @override
@@ -457,8 +457,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Last App Version
   @override
-  Future<String> getLastAppVersion() async {
-    return Future.value(localStorage.getString(lastAppVersion) ?? '');
+  String getLastAppVersion() {
+    return localStorage.getString(lastAppVersion) ?? '';
   }
 
   @override
@@ -468,8 +468,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Last Read Announcement ID
   @override
-  Future<int> getLastReadAnnouncementId() async {
-    return Future.value(localStorage.getInt(lastReadAnnouncementId) ?? 0);
+  int getLastReadAnnouncementId() {
+    return localStorage.getInt(lastReadAnnouncementId) ?? 0;
   }
 
   @override
@@ -479,10 +479,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Libraries Sort
   @override
-  Future<String> getLibrariesSort() async {
-    return Future.value(
-      localStorage.getString(librariesSort) ?? 'section_name|asc',
-    );
+  String getLibrariesSort() {
+    return localStorage.getString(librariesSort) ?? 'section_name|asc';
   }
 
   @override
@@ -492,8 +490,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Library Media Full Refresh
   @override
-  Future<bool> getLibraryMediaFullRefresh() async {
-    return Future.value(localStorage.getBool(libraryMediaFullRefresh) ?? true);
+  bool getLibraryMediaFullRefresh() {
+    return localStorage.getBool(libraryMediaFullRefresh) ?? true;
   }
 
   @override
@@ -503,8 +501,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Mask Sensitive Info
   @override
-  Future<bool> getMaskSensitiveInfo() async {
-    return Future.value(localStorage.getBool(maskSensitiveInfo) ?? false);
+  bool getMaskSensitiveInfo() {
+    return localStorage.getBool(maskSensitiveInfo) ?? false;
   }
 
   @override
@@ -514,8 +512,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Multiserver Activity
   @override
-  Future<bool> getMultiserverActivity() async {
-    return Future.value(localStorage.getBool(multiserverActivity) ?? false);
+  bool getMultiserverActivity() {
+    return localStorage.getBool(multiserverActivity) ?? false;
   }
 
   @override
@@ -525,10 +523,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // OneSignal Banner Dismissed
   @override
-  Future<bool> getOneSignalBannerDismissed() async {
-    return Future.value(
-      localStorage.getBool(oneSignalBannerDismissed) ?? false,
-    );
+  bool getOneSignalBannerDismissed() {
+    return localStorage.getBool(oneSignalBannerDismissed) ?? false;
   }
 
   @override
@@ -538,10 +534,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // OneSignal Consented
   @override
-  Future<bool> getOneSignalConsented() async {
-    return Future.value(
-      localStorage.getBool(oneSignalConsented) ?? false,
-    );
+  bool getOneSignalConsented() {
+    return localStorage.getBool(oneSignalConsented) ?? false;
   }
 
   @override
@@ -551,8 +545,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Refresh Rate
   @override
-  Future<int> getRefreshRate() async {
-    return Future.value(localStorage.getInt(refreshRate) ?? 0);
+  int getRefreshRate() {
+    return localStorage.getInt(refreshRate) ?? 0;
   }
 
   @override
@@ -562,9 +556,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Registration Update Needed
   @override
-  Future<bool> getRegistrationUpdateNeeded() async {
-    return Future.value(
-        localStorage.getBool(registrationUpdateNeeded) ?? false);
+  bool getRegistrationUpdateNeeded() {
+    return localStorage.getBool(registrationUpdateNeeded) ?? false;
   }
 
   @override
@@ -574,8 +567,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Secret
   @override
-  Future<bool> getSecret() async {
-    return Future.value(localStorage.getBool(secret) ?? false);
+  bool getSecret() {
+    return localStorage.getBool(secret) ?? false;
   }
 
   @override
@@ -585,8 +578,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Server Timeout
   @override
-  Future<int> getServerTimeout() async {
-    return Future.value(localStorage.getInt(serverTimeout) ?? 15);
+  int getServerTimeout() {
+    return localStorage.getInt(serverTimeout) ?? 15;
   }
 
   @override
@@ -596,10 +589,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Statistics Stat Type
   @override
-  Future<String> getStatisticsStatType() async {
-    return Future.value(
-      localStorage.getString(statisticsStatType) ?? 'plays',
-    );
+  String getStatisticsStatType() {
+    return localStorage.getString(statisticsStatType) ?? 'plays';
   }
 
   @override
@@ -609,8 +600,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Statistics Time Range
   @override
-  Future<int> getStatisticsTimeRange() async {
-    return Future.value(localStorage.getInt(statisticsTimeRange) ?? 30);
+  int getStatisticsTimeRange() {
+    return localStorage.getInt(statisticsTimeRange) ?? 30;
   }
 
   @override
@@ -631,10 +622,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Users Sort
   @override
-  Future<String> getUsersSort() async {
-    return Future.value(
-      localStorage.getString(usersSort) ?? 'friendly_name|asc',
-    );
+  String getUsersSort() {
+    return localStorage.getString(usersSort) ?? 'friendly_name|asc';
   }
 
   @override
@@ -644,8 +633,8 @@ class SettingsDataSourceImpl implements SettingsDataSource {
 
   // Wizard Complete
   @override
-  Future<bool> getWizardComplete() async {
-    return Future.value(localStorage.getBool(wizardComplete) ?? false);
+  bool getWizardComplete() {
+    return localStorage.getBool(wizardComplete) ?? false;
   }
 
   @override
