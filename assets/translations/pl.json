@@ -377,5 +377,7 @@
     "terminate_stream_dialog_default_message": "Właściciel serwera zakończył transmisję.",
     "scan_qr_code_title": "Zeskanuj kod QR",
     "shows_title": "Seriale",
-    "skip_title": "Pomiń"
+    "skip_title": "Pomiń",
+    "play_time_by_user_stream_type": "Czas odtwarzania według typu strumienia użytkownika",
+    "play_count_by_user_stream_type": "Liczba odtworzeń według typu strumienia użytkownika"
 }
