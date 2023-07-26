@@ -54,6 +54,7 @@ dependencies:
   purchases_flutter: ^5.0.0
   quick_actions: ^1.0.3
   quiver: ^3.2.1
+  rate_my_app: ^2.0.0
   reorderables: ^0.6.0
   shared_preferences: ^2.1.1
   simple_moment: ^1.1.1

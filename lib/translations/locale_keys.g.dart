@@ -97,6 +97,7 @@ abstract class  LocaleKeys {
   static const donate_thanks_snackbar_message = 'donate_thanks_snackbar_message';
   static const donate_tip_jar_title = 'donate_tip_jar_title';
   static const donate_title = 'donate_title';
+  static const dont_ask_again_message = 'dont_ask_again_message';
   static const double_back_to_exit_toast_message = 'double_back_to_exit_toast_message';
   static const double_back_to_exit_subtitle = 'double_back_to_exit_subtitle';
   static const double_back_to_exit_title = 'double_back_to_exit_title';
@@ -161,6 +162,7 @@ abstract class  LocaleKeys {
   static const integer_larger_than_1_message = 'integer_larger_than_1_message';
   static const language_title = 'language_title';
   static const last_streamed_title = 'last_streamed_title';
+  static const later_title = 'later_title';
   static const recently_watched_title = 'recently_watched_title';
   static const learn_more_title = 'learn_more_title';
   static const libraries_title = 'libraries_title';
@@ -267,13 +269,16 @@ abstract class  LocaleKeys {
   static const published_title = 'published_title';
   static const quality_title = 'quality_title';
   static const quit_title = 'quit_title';
+  static const rate_app_message = 'rate_app_message';
+  static const rate_app_title = 'rate_app_title';
   static const rated_title = 'rated_title';
-  static const reddit_title = 'reddit_title';
   static const recently_added_empty_message = 'recently_added_empty_message';
   static const recently_added_title = 'recently_added_title';
+  static const reddit_title = 'reddit_title';
   static const register_a_tautulli_server_title = 'register_a_tautulli_server_title';
   static const register_server_title = 'register_server_title';
   static const request_a_new_language_title = 'request_a_new_language_title';
+  static const review_title = 'review_title';
   static const runtime_title = 'runtime_title';
   static const save_title = 'save_title';
   static const scan_qr_code_title = 'scan_qr_code_title';

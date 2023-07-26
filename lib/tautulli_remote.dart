@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:tautulli_remote/core/rate_app/rate_app.dart';
 
 import 'core/api/tautulli/models/register_device_model.dart';
 import 'core/database/data/models/server_model.dart';
@@ -55,6 +56,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
     initalizeOneSignal();
     initalizeFLogConfiguration();
     checkforAppUpdate();
+    rateApp.init();
     checkIfRegistrationUpdateNeeded();
 
     context.read<OneSignalPrivacyBloc>().add(OneSignalPrivacyCheck());

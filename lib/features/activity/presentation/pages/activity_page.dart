@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:quick_actions/quick_actions.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
+import '../../../../core/rate_app/rate_app.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../core/widgets/scaffold_with_inner_drawer.dart';
@@ -43,7 +45,8 @@ class ActivityView extends StatefulWidget {
   State<ActivityView> createState() => _ActivityViewState();
 }
 
-class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver {
+class _ActivityViewState extends State<ActivityView>
+    with WidgetsBindingObserver {
   final QuickActions quickActions = const QuickActions();
   late ActivityBloc _activityBloc;
   late SettingsBloc _settingsBloc;
@@ -55,6 +58,47 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
   void initState() {
     super.initState();
     initalizeQuickActions(context, quickActions);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (rateApp.shouldOpenDialog) {
+        rateApp.showRateDialog(
+          context,
+          ignoreNativeDialog: true,
+          title: LocaleKeys.rate_app_title.tr(),
+          message: LocaleKeys.rate_app_message.tr(),
+          actionsBuilder: (context) => [
+            TextButton(
+              onPressed: () async {
+                await rateApp.callEvent(RateMyAppEventType.noButtonPressed);
+                Navigator.of(context).pop<RateMyAppDialogButton>(
+                  RateMyAppDialogButton.no,
+                );
+              },
+              child: const Text(LocaleKeys.dont_ask_again_message).tr(),
+            ),
+            TextButton(
+              onPressed: () async {
+                await rateApp.callEvent(RateMyAppEventType.laterButtonPressed);
+                Navigator.of(context).pop<RateMyAppDialogButton>(
+                  RateMyAppDialogButton.later,
+                );
+              },
+              child: const Text(LocaleKeys.later_title).tr(),
+            ),
+            TextButton(
+              onPressed: () async {
+                await rateApp.launchStore();
+                await rateApp.callEvent(RateMyAppEventType.rateButtonPressed);
+                Navigator.of(context).pop<RateMyAppDialogButton>(
+                  RateMyAppDialogButton.rate,
+                );
+              },
+              child: const Text(LocaleKeys.review_title).tr(),
+            ),
+          ],
+        );
+      }
+    });
 
     _activityBloc = context.read<ActivityBloc>();
     _settingsBloc = context.read<SettingsBloc>();
@@ -107,7 +151,8 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
       listenWhen: (previous, current) {
         // If active server is changed and multiserver is not set then trigger an ActivityFetched
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer != current.appSettings.activeServer &&
+          if (previous.appSettings.activeServer !=
+                  current.appSettings.activeServer &&
               !current.appSettings.multiserverActivity) {
             return true;
           }
@@ -148,7 +193,10 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
               child: PageBody(
                 loading: !_multiserver &&
                         state.serverActivityList.isNotEmpty &&
-                        state.serverActivityList.firstWhere((s) => s.tautulliId == _activeServerId).status ==
+                        state.serverActivityList
+                                .firstWhere(
+                                    (s) => s.tautulliId == _activeServerId)
+                                .status ==
                             BlocStatus.inProgress
                     ? true
                     : false,
@@ -188,7 +236,8 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
     }
 
     if (serverActivityModelList.isNotEmpty) {
-      final ServerActivityModel firstServer = serverActivityModelList.firstWhere(
+      final ServerActivityModel firstServer =
+          serverActivityModelList.firstWhere(
         (server) => server.tautulliId == _activeServerId,
       );
 
@@ -208,12 +257,15 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
           serverActivityWidgets.add(
             ActivityCard(
               activity: activityModel,
-              server: _serverList.firstWhere((server) => server.tautulliId == firstServer.tautulliId),
+              server: _serverList.firstWhere(
+                  (server) => server.tautulliId == firstServer.tautulliId),
             ),
           );
         }
 
-        final int streamCount = firstServer.copyCount + firstServer.directPlayCount + firstServer.transcodeCount;
+        final int streamCount = firstServer.copyCount +
+            firstServer.directPlayCount +
+            firstServer.transcodeCount;
         late int crossAxisCount;
 
         if (screenWidth > 1000) {
@@ -230,16 +282,18 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
               SliverPadding(
                 padding: const EdgeInsets.all(8),
                 sliver: SliverToBoxAdapter(
-                  child: ServerActivityInfoCard(serverActivity: serverActivityModelList[0]),
+                  child: ServerActivityInfoCard(
+                      serverActivity: serverActivityModelList[0]),
                 ),
               ),
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
               sliver: SliverGrid.count(
                 crossAxisCount: crossAxisCount,
-                childAspectRatio:
-                    (2 * MediaQuery.of(context).size.width / (360 * 0.85 * MediaQuery.of(context).textScaleFactor)) /
-                        crossAxisCount,
+                childAspectRatio: (2 *
+                        MediaQuery.of(context).size.width /
+                        (360 * 0.85 * MediaQuery.of(context).textScaleFactor)) /
+                    crossAxisCount,
                 mainAxisSpacing: 4,
                 crossAxisSpacing: 4,
                 children: serverActivityWidgets,
@@ -277,18 +331,21 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
             ),
           );
         } else {
-          for (ActivityModel activityModel in serverActivityModel.activityList) {
+          for (ActivityModel activityModel
+              in serverActivityModel.activityList) {
             serverActivityList.add(
               ActivityCard(
                 activity: activityModel,
-                server: _serverList.firstWhere((server) => server.tautulliId == serverActivityModel.tautulliId),
+                server: _serverList.firstWhere((server) =>
+                    server.tautulliId == serverActivityModel.tautulliId),
               ),
             );
           }
         }
 
-        final int streamCount =
-            serverActivityModel.copyCount + serverActivityModel.directPlayCount + serverActivityModel.transcodeCount;
+        final int streamCount = serverActivityModel.copyCount +
+            serverActivityModel.directPlayCount +
+            serverActivityModel.transcodeCount;
         late int crossAxisCount;
 
         if (screenWidth > 1000) {
@@ -313,7 +370,8 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
                     if (streamCount > 0)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 4),
-                        child: ServerActivityInfoCard(serverActivity: serverActivityModel),
+                        child: ServerActivityInfoCard(
+                            serverActivity: serverActivityModel),
                       ),
                     GridView.count(
                       physics: const NeverScrollableScrollPhysics(),
@@ -321,7 +379,9 @@ class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver
                       crossAxisCount: crossAxisCount,
                       childAspectRatio: (2 *
                               MediaQuery.of(context).size.width /
-                              (360 * 0.85 * MediaQuery.of(context).textScaleFactor)) /
+                              (360 *
+                                  0.85 *
+                                  MediaQuery.of(context).textScaleFactor)) /
                           crossAxisCount,
                       mainAxisSpacing: 4,
                       crossAxisSpacing: 4,
