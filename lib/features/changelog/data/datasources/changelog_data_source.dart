@@ -1,6 +1,44 @@
 Map changelog = {
   "data": [
     {
+      "version": "v3.0.4",
+      "date": "August 1, 2023",
+      "changes": [
+        {
+          "type": "new",
+          "detail": "Added the option to use Atkinson Hyperlegible font",
+          "additional":
+              "This is available under the new Accessibility section in Settings > Advanced",
+        },
+        {
+          "type": "new",
+          "detail":
+              "A banner is now displayed under Settings when there is an update available for Tautulli Remote",
+        },
+        {
+          "type": "new",
+          "detail": "Added a prompt to leave a review for Tautulli Remote",
+          "additional":
+              "In order to be prompted to leave a review you need to have v3.0.4+ installed for 30 days AND opened the app 60 times, selecting 'Later' will postpone for another 90 days and 30 opens, and selecting 'Don't ask again' does just that",
+        },
+        {
+          "type": "improvement",
+          "detail":
+              "Audio and subtitle languages are now displayed under activity details",
+        },
+        {
+          "type": "improvement",
+          "detail": "Adjusted content of the activity details buttons",
+        },
+        {
+          "type": "improvement",
+          "detail": "New translations for Dutch, Polish, and Spanish",
+          "additional":
+              "Thanks @zucht, Marek, @mateusz-bak, @Chefski, and @jab3",
+        },
+      ],
+    },
+    {
       "version": "v3.0.3",
       "date": "June 22, 2023",
       "changes": [
