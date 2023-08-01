@@ -6,16 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../features/announcements/presentation/bloc/announcements_bloc.dart';
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../translations/locale_keys.g.dart';
 import '../database/data/models/server_model.dart';
+import '../helpers/quick_actions_helper.dart';
 import 'double_back_to_exit.dart';
 import 'tautulli_logo_title.dart';
 
-class ScaffoldWithInnerDrawer extends StatelessWidget {
+class ScaffoldWithInnerDrawer extends StatefulWidget {
   final Widget title;
   final Widget body;
   final List<Widget>? actions;
@@ -26,6 +28,20 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
     required this.body,
     this.actions,
   });
+
+  @override
+  State<ScaffoldWithInnerDrawer> createState() =>
+      _ScaffoldWithInnerDrawerState();
+}
+
+class _ScaffoldWithInnerDrawerState extends State<ScaffoldWithInnerDrawer> {
+  final QuickActions quickActions = const QuickActions();
+
+  @override
+  void initState() {
+    super.initState();
+    initalizeQuickActions(context, quickActions);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,13 +124,13 @@ class ScaffoldWithInnerDrawer extends StatelessWidget {
               );
             },
           ),
-          title: title,
-          actions: actions,
+          title: widget.title,
+          actions: widget.actions,
         ),
         body: SafeArea(
           child: DoubleBackToExit(
             innerDrawerKey: innerDrawerKey,
-            child: body,
+            child: widget.body,
           ),
         ),
       ),

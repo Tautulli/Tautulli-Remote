@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:quick_actions/quick_actions.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/widgets/bottom_loader.dart';
@@ -42,7 +40,6 @@ class LibrariesView extends StatefulWidget {
 }
 
 class _LibrariesViewState extends State<LibrariesView> {
-  final QuickActions quickActions = const QuickActions();
   final _scrollController = ScrollController();
   late LibrariesBloc _librariesBloc;
   late SettingsBloc _settingsBloc;
@@ -53,7 +50,6 @@ class _LibrariesViewState extends State<LibrariesView> {
   @override
   void initState() {
     super.initState();
-    initalizeQuickActions(context, quickActions);
 
     _scrollController.addListener(_onScroll);
     _librariesBloc = context.read<LibrariesBloc>();
@@ -82,7 +78,8 @@ class _LibrariesViewState extends State<LibrariesView> {
       // Listen for active server change and run a fresh user fetch if it does
       listenWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
+          if (previous.appSettings.activeServer !=
+              current.appSettings.activeServer) {
             return true;
           }
         }
@@ -108,7 +105,8 @@ class _LibrariesViewState extends State<LibrariesView> {
         body: BlocBuilder<LibrariesBloc, LibrariesState>(
           builder: (context, state) {
             return PageBody(
-              loading: state.status == BlocStatus.initial && !state.hasReachedMax,
+              loading:
+                  state.status == BlocStatus.initial && !state.hasReachedMax,
               child: ThemedRefreshIndicator(
                 onRefresh: () {
                   _librariesBloc.add(
@@ -145,7 +143,8 @@ class _LibrariesViewState extends State<LibrariesView> {
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial
+                      itemCount: state.hasReachedMax ||
+                              state.status == BlocStatus.initial
                           ? state.libraries.length
                           : state.libraries.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
@@ -276,7 +275,9 @@ class _LibrariesViewState extends State<LibrariesView> {
               ),
               const PopupMenuDivider(),
               PopupMenuItem(
-                value: _orderColumn == 'section_name' && _orderDir == 'asc' ? 'section_name|desc' : 'section_name|asc',
+                value: _orderColumn == 'section_name' && _orderDir == 'asc'
+                    ? 'section_name|desc'
+                    : 'section_name|asc',
                 child: Row(
                   children: [
                     _orderColumn == 'section_name' && _orderDir == 'asc'
@@ -296,7 +297,9 @@ class _LibrariesViewState extends State<LibrariesView> {
                 ),
               ),
               PopupMenuItem(
-                value: _orderColumn == 'count' && _orderDir == 'desc' ? 'count|asc' : 'count|desc',
+                value: _orderColumn == 'count' && _orderDir == 'desc'
+                    ? 'count|asc'
+                    : 'count|desc',
                 child: Row(
                   children: [
                     _orderColumn == 'count' && _orderDir == 'desc'
@@ -316,7 +319,9 @@ class _LibrariesViewState extends State<LibrariesView> {
                 ),
               ),
               PopupMenuItem(
-                value: _orderColumn == 'duration' && _orderDir == 'desc' ? 'duration|asc' : 'duration|desc',
+                value: _orderColumn == 'duration' && _orderDir == 'desc'
+                    ? 'duration|asc'
+                    : 'duration|desc',
                 child: Row(
                   children: [
                     _orderColumn == 'duration' && _orderDir == 'desc'
@@ -336,7 +341,9 @@ class _LibrariesViewState extends State<LibrariesView> {
                 ),
               ),
               PopupMenuItem(
-                value: _orderColumn == 'plays' && _orderDir == 'desc' ? 'plays|asc' : 'plays|desc',
+                value: _orderColumn == 'plays' && _orderDir == 'desc'
+                    ? 'plays|asc'
+                    : 'plays|desc',
                 child: Row(
                   children: [
                     _orderColumn == 'plays' && _orderDir == 'desc'

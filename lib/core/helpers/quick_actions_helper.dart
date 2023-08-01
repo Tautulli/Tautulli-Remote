@@ -5,6 +5,7 @@ import 'package:quick_actions/quick_actions.dart';
 import '../../dependency_injection.dart' as di;
 import '../../features/logging/domain/usecases/logging.dart';
 import '../../translations/locale_keys.g.dart';
+import '../global_keys/global_keys.dart';
 
 void initalizeQuickActions(BuildContext context, QuickActions quickActions) {
   setupQuickActions(quickActions);
@@ -62,9 +63,11 @@ void handleQuickActions(BuildContext context, QuickActions quickActions) {
 
     if (route?.settings.name != shortcutType) {
       try {
-        Navigator.of(context).pushReplacementNamed(shortcutType);
+        navigatorKey.currentState?.pushReplacementNamed(shortcutType);
       } catch (e) {
-        di.sl<Logging>().error('QuickActions :: Failed to launch route $shortcutType [$e]');
+        di
+            .sl<Logging>()
+            .error('QuickActions :: Failed to launch route $shortcutType [$e]');
       }
     }
   });

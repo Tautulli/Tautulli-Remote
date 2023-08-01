@@ -5,13 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:quick_actions/quick_actions.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/asset_helper.dart';
 import '../../../../core/helpers/color_palette_helper.dart';
-import '../../../../core/helpers/quick_actions_helper.dart';
 import '../../../../core/pages/status_page.dart';
 import '../../../../core/types/bloc_status.dart';
 import '../../../../core/types/tautulli_types.dart';
@@ -65,7 +63,6 @@ class StatisticsView extends StatefulWidget {
 }
 
 class _StatisticsViewState extends State<StatisticsView> {
-  final QuickActions quickActions = const QuickActions();
   late ServerModel _server;
   late PlayMetricType _statsType;
   late int _timeRange;
@@ -75,7 +72,6 @@ class _StatisticsViewState extends State<StatisticsView> {
   @override
   void initState() {
     super.initState();
-    initalizeQuickActions(context, quickActions);
 
     _statisticsBloc = context.read<StatisticsBloc>();
     _settingsBloc = context.read<SettingsBloc>();
@@ -100,7 +96,8 @@ class _StatisticsViewState extends State<StatisticsView> {
     return BlocListener<SettingsBloc, SettingsState>(
       listenWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
+          if (previous.appSettings.activeServer !=
+              current.appSettings.activeServer) {
             return true;
           }
         }
@@ -126,7 +123,8 @@ class _StatisticsViewState extends State<StatisticsView> {
         actions: _server.id != null ? _appBarActions() : [],
         body: BlocBuilder<StatisticsBloc, StatisticsState>(
           builder: (context, state) {
-            List<Widget> statsListWidgets = _buildStatListWidgets(state.statList);
+            List<Widget> statsListWidgets =
+                _buildStatListWidgets(state.statList);
 
             return PageBody(
               loading: state.status == BlocStatus.initial,
@@ -184,7 +182,9 @@ class _StatisticsViewState extends State<StatisticsView> {
         color: Theme.of(context).colorScheme.primary,
         tooltip: 'Stats Type',
         icon: FaIcon(
-          _statsType == PlayMetricType.plays ? FontAwesomeIcons.hashtag : FontAwesomeIcons.solidClock,
+          _statsType == PlayMetricType.plays
+              ? FontAwesomeIcons.hashtag
+              : FontAwesomeIcons.solidClock,
           color: Theme.of(context).colorScheme.tertiary,
           size: 20,
         ),
@@ -221,13 +221,17 @@ class _StatisticsViewState extends State<StatisticsView> {
                   FaIcon(
                     FontAwesomeIcons.hashtag,
                     size: 20,
-                    color: _statsType == PlayMetricType.plays ? Theme.of(context).colorScheme.secondary : null,
+                    color: _statsType == PlayMetricType.plays
+                        ? Theme.of(context).colorScheme.secondary
+                        : null,
                   ),
                   const Gap(8),
                   Text(
                     LocaleKeys.play_count_title,
                     style: TextStyle(
-                      color: _statsType == PlayMetricType.plays ? Theme.of(context).colorScheme.secondary : null,
+                      color: _statsType == PlayMetricType.plays
+                          ? Theme.of(context).colorScheme.secondary
+                          : null,
                     ),
                   ).tr(),
                 ],
@@ -240,13 +244,17 @@ class _StatisticsViewState extends State<StatisticsView> {
                   FaIcon(
                     FontAwesomeIcons.solidClock,
                     size: 20,
-                    color: _statsType == PlayMetricType.time ? Theme.of(context).colorScheme.secondary : null,
+                    color: _statsType == PlayMetricType.time
+                        ? Theme.of(context).colorScheme.secondary
+                        : null,
                   ),
                   const Gap(8),
                   Text(
                     LocaleKeys.play_time_title,
                     style: TextStyle(
-                      color: _statsType == PlayMetricType.time ? Theme.of(context).colorScheme.secondary : null,
+                      color: _statsType == PlayMetricType.time
+                          ? Theme.of(context).colorScheme.secondary
+                          : null,
                     ),
                   ).tr(),
                 ],
@@ -326,7 +334,9 @@ class _StatisticsViewState extends State<StatisticsView> {
                     child: Text(
                       '7 ${LocaleKeys.days_title.tr()}',
                       style: TextStyle(
-                        color: _timeRange == 7 ? Theme.of(context).colorScheme.secondary : null,
+                        color: _timeRange == 7
+                            ? Theme.of(context).colorScheme.secondary
+                            : null,
                       ),
                     ),
                   ),
@@ -335,7 +345,9 @@ class _StatisticsViewState extends State<StatisticsView> {
                     child: Text(
                       '14 ${LocaleKeys.days_title.tr()}',
                       style: TextStyle(
-                        color: _timeRange == 14 ? Theme.of(context).colorScheme.secondary : null,
+                        color: _timeRange == 14
+                            ? Theme.of(context).colorScheme.secondary
+                            : null,
                       ),
                     ),
                   ),
@@ -344,7 +356,9 @@ class _StatisticsViewState extends State<StatisticsView> {
                     child: Text(
                       '30 ${LocaleKeys.days_title.tr()}',
                       style: TextStyle(
-                        color: _timeRange == 30 ? Theme.of(context).colorScheme.secondary : null,
+                        color: _timeRange == 30
+                            ? Theme.of(context).colorScheme.secondary
+                            : null,
                       ),
                     ),
                   ),
@@ -353,7 +367,9 @@ class _StatisticsViewState extends State<StatisticsView> {
                     child: Text(
                       'Custom',
                       style: TextStyle(
-                        color: ![7, 14, 30].contains(_timeRange) ? Theme.of(context).colorScheme.secondary : null,
+                        color: ![7, 14, 30].contains(_timeRange)
+                            ? Theme.of(context).colorScheme.secondary
+                            : null,
                       ),
                     ),
                   ),
