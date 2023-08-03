@@ -52,83 +52,80 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
             val subject: String = jsonMessage.getString("subject")
             val priority: Int = jsonMessage.getInt("priority")
 
-            //* Create an explicit intent
-            val intent: Intent? = context.getPackageManager()
-                .getLaunchIntentForPackage(context.getPackageName())
-                ?.setPackage(null)
-                ?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
-            
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(
-                context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
+            val mutableNotification: OSMutableNotification = notification.mutableCopy()
 
-            val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, CHANNEL_ID).apply {
-                setSmallIcon(R.drawable.ic_stat_logo_flat)
-                setContentTitle(subject)
-                setContentText(body)
-                setStyle(NotificationCompat.BigTextStyle().bigText(body))
-                setColor(context.resources.getColor(R.color.amber))
-                setPriority(priority)
-                //* Set the intent that will fire when the user taps the notification
-                setContentIntent(pendingIntent)
-                setAutoCancel(true)
-            }
-                
-            createNotificationChannel(context)
-
-            with(NotificationManagerCompat.from(context)) {
-                //* Create notification id
-                val tsLong: Long = System.currentTimeMillis()
-                val ts = tsLong.toString()
-                val tsTrunc: String = ts.substring(ts.length - 9)
-                val notificationId: Int = Integer.parseInt(tsTrunc)
-
-                // Fetch/add image and send notification if notification type is 1 or 2
-                if (notificationType != 0) {
-                    var posterThumb = jsonMessage.getString("poster_thumb")
-
-                    if (!posterThumb.isNullOrEmpty()) {
-                        var connectionAddress: String?
-                        if (serverInfoMap["primaryActive"] == "1") {
-                            connectionAddress = serverInfoMap["primaryConnectionAddress"]
-                        } else {
-                            connectionAddress = serverInfoMap["secondaryConnectionAddress"]
-                        }
-
-                        val urlString = if (notificationType == 1) {
-                            "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=$posterThumb&height=200"
-                        } else {
-                            "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=$posterThumb&width=1080"
-                        }
-
-                        GlideApp.with(context)
-                            .asBitmap()
-                            .load(urlString)
-                            .into(object : CustomTarget<Bitmap>() {
-                                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                                    builder.setLargeIcon(resource)
-
-                                    if (notificationType == 2) {
-                                        builder.setStyle(NotificationCompat.BigPictureStyle()
-                                                .bigPicture(resource)
-                                                .bigLargeIcon(null as Bitmap?))
-                                    }
-                                    
-                                     //* Send notification with image
-                                    notify(notificationId, builder.build())
-                                }
-
-                                override fun onLoadCleared(placeholder: Drawable?) {}
-                            })
-                    }
+            if (notificationType == 0) {
+                mutableNotification.setExtender { builder ->
+                    builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
+                    builder.setContentTitle(subject)
+                    builder.setContentText(body)
+                    builder.setStyle(NotificationCompat.BigTextStyle().bigText(body))
+                    builder.setColor(context.resources.getColor(R.color.amber))
+                    builder.setPriority(priority)
+                    builder
                 }
 
-                //* Send notification
-                notify(notificationId, builder.build())
+                // Send notification
+                notificationReceivedEvent.complete(mutableNotification)
             }
+            // Fetch/add image and send notification if notification type is 1 or 2 
+            else {
+                var posterThumb = jsonMessage.getString("poster_thumb")
 
-            //* Do not return original OneSignal notification
-            notificationReceivedEvent.complete(null)
+                if (!posterThumb.isNullOrEmpty()) {
+                    var connectionAddress: String?
+                    if (serverInfoMap["primaryActive"] == "1") {
+                        connectionAddress = serverInfoMap["primaryConnectionAddress"]
+                    } else {
+                        connectionAddress = serverInfoMap["secondaryConnectionAddress"]
+                    }
+
+                    val urlString = if (notificationType == 1) {
+                        "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=$posterThumb&height=200"
+                    } else {
+                        "$connectionAddress/api/v2?apikey=$deviceToken&cmd=pms_image_proxy&app=true&img=$posterThumb&width=1080"
+                    }
+
+                    GlideApp.with(context)
+                        .asBitmap()
+                        .load(urlString)
+                        .into(object : CustomTarget<Bitmap>() {
+                            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                                mutableNotification.setExtender { builder ->
+                                    builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
+                                    builder.setContentTitle(subject)
+                                    builder.setContentText(body)
+                                    builder.setStyle(NotificationCompat.BigTextStyle().bigText(body))
+                                    builder.setColor(context.resources.getColor(R.color.amber))
+                                    builder.setPriority(priority)
+                                    builder.setLargeIcon(resource)
+                                    builder
+                                }
+                                    
+                                if (notificationType == 2) {
+                                    mutableNotification.setExtender { builder ->
+                                        builder.setSmallIcon(R.drawable.ic_stat_logo_flat)
+                                        builder.setContentTitle(subject)
+                                        builder.setContentText(body)
+                                        builder.setStyle(NotificationCompat.BigTextStyle().bigText(body))
+                                        builder.setColor(context.resources.getColor(R.color.amber))
+                                        builder.setPriority(priority)
+                                        builder.setLargeIcon(resource)
+                                        builder.setStyle(NotificationCompat.BigPictureStyle()
+                                            .bigPicture(resource)
+                                            .bigLargeIcon(null as Bitmap?))
+                                        builder
+                                    }
+                                }
+                                
+                                //* Send notification with image
+                                notificationReceivedEvent.complete(mutableNotification)
+                            }
+
+                            override fun onLoadCleared(placeholder: Drawable?) {}
+                        })
+                }
+            }
         } catch (e: JSONException) {
             e.printStackTrace()
         }
