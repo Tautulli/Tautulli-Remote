@@ -273,6 +273,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  cryptography:
+    dependency: transitive
+    description:
+      name: cryptography
+      sha256: df156c5109286340817d21fa7b62f9140f17915077127dd70f8bd7a2a0997a35
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.0"
+  cryptography_flutter:
+    dependency: "direct main"
+    description:
+      name: cryptography_flutter
+      sha256: a66ce021e0b600688c2d51b0594cb156ee677ce9bfbc981b62219ad577dd302e
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
   csslib:
     dependency: transitive
     description:

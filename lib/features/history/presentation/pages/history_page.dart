@@ -20,7 +20,12 @@ import '../widgets/history_card.dart';
 import 'history_search_page.dart';
 
 class HistoryPage extends StatelessWidget {
-  const HistoryPage({super.key});
+  final bool refreshOnLoad;
+
+  const HistoryPage({
+    super.key,
+    this.refreshOnLoad = false,
+  });
 
   static const routeName = '/history';
 
@@ -35,13 +40,18 @@ class HistoryPage extends StatelessWidget {
           create: (context) => di.sl<UsersBloc>(),
         ),
       ],
-      child: const HistoryView(),
+      child: HistoryView(refreshOnLoad: refreshOnLoad),
     );
   }
 }
 
 class HistoryView extends StatefulWidget {
-  const HistoryView({super.key});
+  final bool refreshOnLoad;
+
+  const HistoryView({
+    super.key,
+    required this.refreshOnLoad,
+  });
 
   @override
   State<HistoryView> createState() => _HistoryViewState();
@@ -94,6 +104,7 @@ class _HistoryViewState extends State<HistoryView> {
         directPlayDecision: _directPlayDecision,
         directStreamDecision: _directStreamDecision,
         transcodeDecision: _transcodeDecision,
+        freshFetch: widget.refreshOnLoad,
         settingsBloc: _settingsBloc,
       ),
     );

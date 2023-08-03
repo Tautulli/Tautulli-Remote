@@ -19,7 +19,12 @@ import '../bloc/recently_added_bloc.dart';
 import '../widgets/recently_added_card.dart';
 
 class RecentlyAddedPage extends StatelessWidget {
-  const RecentlyAddedPage({super.key});
+  final bool refreshOnLoad;
+
+  const RecentlyAddedPage({
+    super.key,
+    this.refreshOnLoad = false,
+  });
 
   static const routeName = '/recent';
 
@@ -27,13 +32,18 @@ class RecentlyAddedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => di.sl<RecentlyAddedBloc>(),
-      child: const RecentlyAddedView(),
+      child: RecentlyAddedView(refreshOnLoad: refreshOnLoad),
     );
   }
 }
 
 class RecentlyAddedView extends StatefulWidget {
-  const RecentlyAddedView({super.key});
+  final bool refreshOnLoad;
+
+  const RecentlyAddedView({
+    super.key,
+    required this.refreshOnLoad,
+  });
 
   @override
   State<RecentlyAddedView> createState() => _RecentlyAddedViewState();
@@ -63,6 +73,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
       RecentlyAddedFetched(
         server: _server,
         mediaType: _mediaType,
+        freshFetch: widget.refreshOnLoad,
         settingsBloc: _settingsBloc,
       ),
     );

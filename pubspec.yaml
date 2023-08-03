@@ -17,6 +17,7 @@ dependencies:
   cached_network_image: ^3.2.3
   color: ^3.0.0
   connectivity_plus: ^4.0.0
+  cryptography_flutter: ^2.3.0
   cupertino_icons: ^1.0.5
   dartz: ^0.10.1
   device_info_plus: ^9.0.0

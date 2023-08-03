@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:tautulli_remote/core/helpers/notification_helper.dart';
 import 'package:tautulli_remote/core/rate_app/rate_app.dart';
 
 import 'core/api/tautulli/models/register_device_model.dart';
 import 'core/database/data/models/server_model.dart';
 import 'core/error/failure.dart';
+import 'core/global_keys/global_keys.dart';
 import 'core/helpers/color_palette_helper.dart';
 import 'core/helpers/theme_helper.dart';
 import 'core/widgets/settings_not_loaded.dart';
@@ -86,9 +88,41 @@ class TautulliRemoteState extends State<TautulliRemote> {
       event.complete(event.notification);
     });
 
-    OneSignal.shared
-        .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+    OneSignal.shared.setNotificationOpenedHandler(
+        (OSNotificationOpenedResult result) async {
       // Will be called whenever a notification is opened/button pressed
+
+      // Find the action type in the notification and open a page accordingly
+      final data = await NotificationHelper.extractAdditionalData(
+        result.notification.additionalData,
+      );
+
+      if (data != null) {
+        final action = data['action'];
+
+        switch (action) {
+          case ('watched'):
+            navigatorKey.currentState?.pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const HistoryPage(
+                  refreshOnLoad: true,
+                ),
+              ),
+            );
+            return;
+          case ('created'):
+            navigatorKey.currentState?.pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const RecentlyAddedPage(
+                  refreshOnLoad: true,
+                ),
+              ),
+            );
+            return;
+          default:
+            navigatorKey.currentState?.pushReplacementNamed('/activity');
+        }
+      }
     });
 
     OneSignal.shared
@@ -240,6 +274,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
       },
       builder: (context, state) {
         return MaterialApp(
+          navigatorKey: navigatorKey,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
