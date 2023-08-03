@@ -41,19 +41,36 @@ class NotificationService: UNNotificationServiceExtension {
                 bestAttemptContent.body = jsonMessage["body"] as! String
                 bestAttemptContent.title = jsonMessage["subject"] as! String
                 
-                // let notificationType = jsonMessage["notification_type"] as! Int
-                
-                // if notificationType != 0 {
-                //     var connectionAddress: String?
-                //     if serverInfoDict["primaryActive"]! == "1" {
-                //         connectionAddress = serverInfoDict["primaryConnectionAddress"]!
-                //     } else {
-                //         connectionAddress = serverInfoDict["secondaryConnectionAddress"]!
-                //     }
+                // Load image for notification
+                // Used information from https://medium.com/@lucasgoesvalle/custom-push-notification-with-image-and-interactions-on-ios-swift-4-ffdbde1f457
+                let notificationType = jsonMessage["notification_type"] as! Int
+                if notificationType != 0 {
+                    var connectionAddress: String?
+                    if serverInfoDict["primaryActive"]! == "1" {
+                        connectionAddress = serverInfoDict["primaryConnectionAddress"]!
+                    } else {
+                        connectionAddress = serverInfoDict["secondaryConnectionAddress"]!
+                    }
                     
-                //     let urlString = "\(connectionAddress!)/api/v2?apikey=\(deviceToken)&cmd=pms_image_proxy&app=true&img=\(jsonMessage["poster_thumb"]!)&width=1080"
-                //     os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "URL STRING: \(urlString)")
-                // }
+                    var urlString:String? = "\(connectionAddress!)/api/v2?apikey=\(deviceToken)&cmd=pms_image_proxy&app=true&img=\(jsonMessage["poster_thumb"]!)&width=1080"
+                    
+                    if let urlImageString = urlString as? String {
+                        urlString = urlImageString
+                    }
+
+                    if urlString != nil, let fileUrl = URL(string: urlString!) {
+                        print("fileUrl: \(fileUrl)")
+
+                        guard let imageData = NSData(contentsOf: fileUrl) else {
+                            return
+                        }
+                        guard let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: "image.jpg", data: imageData, options: nil) else {
+                            return
+                        }
+
+                        bestAttemptContent.attachments = [ attachment ]
+                    }
+                }
 
             }
             
@@ -151,5 +168,26 @@ class NotificationService: UNNotificationServiceExtension {
             os_log("%{public}@", log: OSLog(subsystem: "com.tautulli.tautulliRemote", category: "OneSignalNotificationServiceExtension"), type: OSLogType.debug, "FAILED TO DECRYPT: \(error)")
             return ["ERROR": error]
         }
+    }
+}
+
+extension UNNotificationAttachment {
+    
+    static func saveImageToDisk(fileIdentifier: String, data: NSData, options: [NSObject : AnyObject]?) -> UNNotificationAttachment? {
+        let fileManager = FileManager.default
+        let folderName = ProcessInfo.processInfo.globallyUniqueString
+        let folderURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(folderName, isDirectory: true)
+        
+        do {
+            try fileManager.createDirectory(at: folderURL!, withIntermediateDirectories: true, attributes: nil)
+            let fileURL = folderURL?.appendingPathComponent(fileIdentifier)
+            try data.write(to: fileURL!, options: [])
+            let attachment = try UNNotificationAttachment(identifier: fileIdentifier, url: fileURL!, options: options)
+            return attachment
+        } catch let error {
+            print("error \(error)")
+        }
+        
+        return nil
     }
 }
