@@ -146,7 +146,6 @@
     "logs_empty_filter_message": "所选过滤器没有日志。",
     "logs_empty_message": "未找到日志。",
     "logs_export_menu_item": "导出日志",
-    "logs_exported_snackbar_message": "日志已导出",
     "logs_failed_to_load_message": "日志加载失败。",
     "mask_senstivie_info_subtitle": "隐藏IP地址和其他敏感信息",
     "mask_senstivie_info_title": "遮蔽敏感信息",

@@ -51,7 +51,6 @@
     "logs_clear_menu_item": "Ryd logfiler",
     "logs_empty_message": "Ingen logfiler fundet.",
     "logs_export_menu_item": "Eksporter logfiler",
-    "logs_exported_snackbar_message": "Logfilerne er eksporteret",
     "logs_failed_to_load_message": "Fejl i indlæsning af logfiler.",
     "media_title": "Medie",
     "media_type_title": "Medietype",

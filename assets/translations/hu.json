@@ -60,7 +60,6 @@
     "logs_clear_menu_item": "Naplók törlése",
     "logs_empty_message": "Nem találhatók naplók.",
     "logs_export_menu_item": "Naplók exportálása",
-    "logs_exported_snackbar_message": "Naplók exportálva",
     "logs_failed_to_load_message": "Naplók betöltése sikertelen.",
     "mask_senstivie_info_title": "Szenzitív információk kitakarása",
     "media_title": "Média",

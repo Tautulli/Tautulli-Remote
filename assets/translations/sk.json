@@ -66,7 +66,6 @@
     "logs_clear_menu_item": "Vymazať logy",
     "logs_empty_message": "Nenašli sa žiadne logy.",
     "logs_export_menu_item": "Export logov",
-    "logs_exported_snackbar_message": "Logy exportované",
     "logs_failed_to_load_message": "Logy sa nepodarilo načítať.",
     "mask_senstivie_info_title": "Citlivé informácie o maske",
     "media_title": "Médiá",

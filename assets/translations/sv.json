@@ -97,7 +97,6 @@
     "logs_clear_menu_item": "Rensa loggar",
     "logs_empty_message": "Inga loggar hittades.",
     "logs_export_menu_item": "Exportera loggar",
-    "logs_exported_snackbar_message": "Loggar som exporteras",
     "logs_failed_to_load_message": "Loggar kunde inte laddas.",
     "mask_senstivie_info_title": "Maskera känslig information",
     "media_title": "Media",

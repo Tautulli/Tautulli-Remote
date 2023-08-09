@@ -156,7 +156,6 @@ abstract class  LocaleKeys {
   static const history_empty_message = 'history_empty_message';
   static const history_title = 'history_title';
   static const hours_title = 'hours_title';
-  static const how_to_access_logs_title = 'how_to_access_logs_title';
   static const hrs = 'hrs';
   static const ip_address_title = 'ip_address_title';
   static const integer_larger_than_1_message = 'integer_larger_than_1_message';
@@ -179,7 +178,6 @@ abstract class  LocaleKeys {
   static const logs_empty_message = 'logs_empty_message';
   static const logs_export_menu_item = 'logs_export_menu_item';
   static const logs_failed_to_load_message = 'logs_failed_to_load_message';
-  static const logs_exported_snackbar_message = 'logs_exported_snackbar_message';
   static const mask_senstivie_info_subtitle = 'mask_senstivie_info_subtitle';
   static const mask_senstivie_info_title = 'mask_senstivie_info_title';
   static const media_title = 'media_title';

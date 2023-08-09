@@ -65,7 +65,6 @@
     "logs_clear_menu_item": "Cancella log",
     "logs_empty_message": "Nessun log trovato.",
     "logs_export_menu_item": "Esporta log",
-    "logs_exported_snackbar_message": "Log esportati",
     "logs_failed_to_load_message": "Impossibile caricare i log.",
     "mask_senstivie_info_title": "Nascondi Informazioni Sensibili",
     "media_title": "Media",

@@ -133,7 +133,6 @@
     "logs_empty_filter_message": "Za izbrani filter ni dnevnikov.",
     "logs_empty_message": "Ni dnevnikov.",
     "logs_export_menu_item": "Izvoz dnevnikov",
-    "logs_exported_snackbar_message": "Dnevniki izvoženi",
     "logs_failed_to_load_message": "Dnevnikov ni bilo mogoče naložiti.",
     "mask_senstivie_info_subtitle": "Skrije naslove IP in druge občutljive informacije",
     "mask_senstivie_info_title": "Občutljive informacije (maskiraj)",
