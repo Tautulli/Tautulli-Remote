@@ -51,6 +51,8 @@ PODS:
     - Flutter
   - ReachabilitySwift (5.0.0)
   - RevenueCat (4.21.0)
+  - share_plus (0.0.1):
+    - Flutter
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -79,6 +81,7 @@ DEPENDENCIES:
   - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
   - quick_actions_ios (from `.symlinks/plugins/quick_actions_ios/ios`)
   - rate_my_app (from `.symlinks/plugins/rate_my_app/ios`)
+  - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
@@ -124,6 +127,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/quick_actions_ios/ios"
   rate_my_app:
     :path: ".symlinks/plugins/rate_my_app/ios"
+  share_plus:
+    :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sqflite:
@@ -145,7 +150,7 @@ SPEC CHECKSUMS:
   onesignal_flutter: b8ac01bc3ebe47e798d7d775455c3a9b5b84f1c5
   OneSignalXCFramework: 087934ab0d4d7445fcf1c015c7c782359e26c020
   package_info_plus: fd030dabf36271f146f1f3beacd48f564b0f17f7
-  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
+  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   permission_handler_apple: 8f116445eff3c0e7c65ad60f5fef5490aa94b4e4
   purchases_flutter: fce6a2e39538100d8637d13217819747ea3e595a
   PurchasesHybridCommon: 88fc5fef1cb121457b95d286f1738f81cf3ac148
@@ -153,6 +158,7 @@ SPEC CHECKSUMS:
   rate_my_app: 80fba94c4885cd31738231b7b1f51c1ad726f5c7
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   RevenueCat: 465a9dc1fff60b09f29792082e5d5d5aeed01122
+  share_plus: 599aa54e4ea31d4b4c0e9c911bcc26c55e791028
   shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196

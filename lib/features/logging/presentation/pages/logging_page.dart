@@ -6,8 +6,6 @@ import 'package:f_logs/model/flog/log_level.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../dependency_injection.dart' as di;
 import '../../../../core/pages/status_page.dart';
@@ -68,67 +66,44 @@ class _LoggingViewState extends State<LoggingView> {
 
             return _refreshCompleter.future;
           },
-          child: BlocListener<LoggingExportBloc, LoggingExportState>(
+          child: BlocConsumer<LoggingBloc, LoggingState>(
             listener: (context, state) {
-              if (state is LoggingExportSuccess) {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text(
-                      LocaleKeys.logs_exported_snackbar_message,
-                    ).tr(),
-                    action: SnackBarAction(
-                      label: LocaleKeys.how_to_access_logs_title.tr(),
-                      onPressed: () async {
-                        await launchUrlString(
-                          mode: LaunchMode.externalApplication,
-                          'https://github.com/Tautulli/Tautulli-Remote/wiki/Features#logs',
-                        );
-                      },
-                    ),
-                  ),
-                );
+              if (state is LoggingSuccess) {
+                _refreshCompleter.complete();
+                _refreshCompleter = Completer();
               }
             },
-            child: BlocConsumer<LoggingBloc, LoggingState>(
-              listener: (context, state) {
-                if (state is LoggingSuccess) {
-                  _refreshCompleter.complete();
-                  _refreshCompleter = Completer();
-                }
-              },
-              builder: (context, state) {
-                if (state is LoggingFailure) {
+            builder: (context, state) {
+              if (state is LoggingFailure) {
+                return StatusPage(
+                  scrollable: true,
+                  message: LocaleKeys.logs_failed_to_load_message.tr(),
+                );
+              }
+              if (state is LoggingSuccess) {
+                if (state.logs.isEmpty) {
                   return StatusPage(
                     scrollable: true,
-                    message: LocaleKeys.logs_failed_to_load_message.tr(),
+                    message: LocaleKeys.logs_empty_message.tr(),
                   );
-                }
-                if (state is LoggingSuccess) {
-                  if (state.logs.isEmpty) {
+                } else {
+                  List<Log> filteredLogs = _filterLogs(
+                    level: state.level,
+                    logs: state.logs,
+                  );
+
+                  if (filteredLogs.isEmpty) {
                     return StatusPage(
                       scrollable: true,
-                      message: LocaleKeys.logs_empty_message.tr(),
+                      message: LocaleKeys.logs_empty_filter_message.tr(),
                     );
-                  } else {
-                    List<Log> filteredLogs = _filterLogs(
-                      level: state.level,
-                      logs: state.logs,
-                    );
-
-                    if (filteredLogs.isEmpty) {
-                      return StatusPage(
-                        scrollable: true,
-                        message: LocaleKeys.logs_empty_filter_message.tr(),
-                      );
-                    }
-
-                    return LoggingTable(filteredLogs);
                   }
+
+                  return LoggingTable(filteredLogs);
                 }
-                return const SizedBox(height: 0, width: 0);
-              },
-            ),
+              }
+              return const SizedBox(height: 0, width: 0);
+            },
           ),
         ),
       ),
@@ -239,11 +214,12 @@ class _LoggingViewState extends State<LoggingView> {
           final loggingBloc = context.read<LoggingBloc>();
 
           if (value == 'export') {
-            if (await Permission.storage.request().isGranted) {
-              context.read<LoggingExportBloc>().add(
-                    LoggingExportStart(loggingBloc),
-                  );
-            }
+            context.read<LoggingExportBloc>().add(
+                  LoggingExportStart(
+                    context: context,
+                    loggingBloc: loggingBloc,
+                  ),
+                );
           }
           if (value == 'clear') {
             showDialog(
