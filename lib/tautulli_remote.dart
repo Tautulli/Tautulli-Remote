@@ -256,12 +256,6 @@ class TautulliRemoteState extends State<TautulliRemote> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle.dark.copyWith(
-        systemNavigationBarColor: TautulliColorPalette.midnight,
-      ),
-    );
-
     return BlocBuilder<SettingsBloc, SettingsState>(
       buildWhen: (previous, current) {
         if (previous is SettingsSuccess &&
@@ -279,11 +273,12 @@ class TautulliRemoteState extends State<TautulliRemote> {
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           title: 'Tautulli Remote',
-          theme: ThemeHelper.tautulli(
-            fontName: di.sl<Settings>().getUseAtkinsonHyperlegible()
-                ? 'Atkinson Hyperlegible'
-                : null,
-          ),
+          theme: ThemeHelper.test(),
+          // theme: ThemeHelper.tautulli(
+          //   fontName: di.sl<Settings>().getUseAtkinsonHyperlegible()
+          //       ? 'Atkinson Hyperlegible'
+          //       : null,
+          // ),
           builder: (context, child) {
             return BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, state) {

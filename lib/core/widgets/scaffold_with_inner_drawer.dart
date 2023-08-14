@@ -2,6 +2,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,6 +15,7 @@ import '../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../../translations/locale_keys.g.dart';
 import '../database/data/models/server_model.dart';
 import '../helpers/quick_actions_helper.dart';
+import '../helpers/theme_helper.dart';
 import 'double_back_to_exit.dart';
 import 'tautulli_logo_title.dart';
 
@@ -74,63 +76,69 @@ class _ScaffoldWithInnerDrawerState extends State<ScaffoldWithInnerDrawer> {
       return 0.4;
     }
 
-    return InnerDrawer(
-      key: innerDrawerKey,
-      onTapClose: true,
-      swipeChild: true,
-      offset: IDOffset.horizontal(calculateDrawerOffset()),
-      leftChild: Stack(
-        children: [
-          // Since the NavigationDrawer BorderRadius cannot be overwritten use stack to create a solid background to
-          // to hide these corners
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration:
-                  BoxDecoration(color: Theme.of(context).colorScheme.primary),
-            ),
-          ),
-          Positioned.fill(
-            child: _AppDrawer(innerDrawerKey: innerDrawerKey),
-          ),
-        ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        systemNavigationBarColor: Theme.of(context).colorScheme.background,
       ),
-      scaffold: Scaffold(
-        appBar: AppBar(
-          leading: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
-            builder: (context, announcementsState) {
-              return BlocBuilder<SettingsBloc, SettingsState>(
-                builder: (context, settingsState) {
-                  settingsState as SettingsSuccess;
-
-                  return IconButton(
-                    icon: badges.Badge(
-                      badgeAnimation: const badges.BadgeAnimation.fade(
-                        animationDuration: Duration(milliseconds: 400),
-                      ),
-                      badgeStyle: badges.BadgeStyle(
-                        badgeColor: Theme.of(context).colorScheme.secondary,
-                      ),
-                      position: badges.BadgePosition.topEnd(top: 1, end: -2),
-                      showBadge: (announcementsState is AnnouncementsSuccess &&
-                              announcementsState.unread) ||
-                          settingsState.appSettings.appUpdateAvailable,
-                      child: const Icon(Icons.menu),
-                    ),
-                    onPressed: () {
-                      innerDrawerKey.currentState?.open();
-                    },
-                  );
-                },
-              );
-            },
+      child: InnerDrawer(
+        key: innerDrawerKey,
+        onTapClose: true,
+        swipeChild: true,
+        offset: IDOffset.horizontal(calculateDrawerOffset()),
+        // Since the NavigationDrawer BorderRadius cannot be overwritten use stack to create a solid background to
+        // to hide these corners
+        backgroundDecoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              ThemeHelper.darkenedColor(
+                Theme.of(context).colorScheme.background,
+              ),
+              Theme.of(context).colorScheme.surface,
+            ],
           ),
-          title: widget.title,
-          actions: widget.actions,
         ),
-        body: SafeArea(
-          child: DoubleBackToExit(
-            innerDrawerKey: innerDrawerKey,
-            child: widget.body,
+        leftChild: _AppDrawer(innerDrawerKey: innerDrawerKey),
+        scaffold: Scaffold(
+          appBar: AppBar(
+            leading: BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
+              builder: (context, announcementsState) {
+                return BlocBuilder<SettingsBloc, SettingsState>(
+                  builder: (context, settingsState) {
+                    settingsState as SettingsSuccess;
+
+                    return IconButton(
+                      icon: badges.Badge(
+                        badgeAnimation: const badges.BadgeAnimation.fade(
+                          animationDuration: Duration(milliseconds: 400),
+                        ),
+                        badgeStyle: badges.BadgeStyle(
+                          badgeColor: Theme.of(context).colorScheme.secondary,
+                        ),
+                        position: badges.BadgePosition.topEnd(top: 1, end: -2),
+                        showBadge:
+                            (announcementsState is AnnouncementsSuccess &&
+                                    announcementsState.unread) ||
+                                settingsState.appSettings.appUpdateAvailable,
+                        child: const Icon(Icons.menu),
+                      ),
+                      onPressed: () {
+                        innerDrawerKey.currentState?.open();
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+            title: widget.title,
+            actions: widget.actions,
+          ),
+          body: SafeArea(
+            child: DoubleBackToExit(
+              innerDrawerKey: innerDrawerKey,
+              child: widget.body,
+            ),
           ),
         ),
       ),
@@ -258,12 +266,15 @@ class _AppDrawerState extends State<_AppDrawer> {
       context: context,
       removeTop: true,
       child: NavigationDrawer(
+        elevation: 0,
         onDestinationSelected: handleScreenChanged,
         selectedIndex: screenIndex,
         children: [
           Container(
             height: MediaQuery.of(context).viewPadding.top,
-            color: Theme.of(context).scaffoldBackgroundColor,
+            color: ThemeHelper.darkenedColor(
+              Theme.of(context).colorScheme.background,
+            ),
           ),
           if (height > 500) const _Logo(),
           const _ServerSelector(),
@@ -276,6 +287,14 @@ class _AppDrawerState extends State<_AppDrawer> {
                 size: 20,
               ),
             ),
+            selectedIcon: SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.tv,
+                size: 20,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+            ),
             label: const Text(LocaleKeys.activity_title).tr(),
           ),
           NavigationDrawerDestination(
@@ -285,6 +304,13 @@ class _AppDrawerState extends State<_AppDrawer> {
                 FontAwesomeIcons.clockRotateLeft,
               ),
             ),
+            selectedIcon: SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.clockRotateLeft,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+            ),
             label: const Text(LocaleKeys.history_title).tr(),
           ),
           NavigationDrawerDestination(
@@ -292,6 +318,13 @@ class _AppDrawerState extends State<_AppDrawer> {
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.clock,
+              ),
+            ),
+            selectedIcon: SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.clock,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
               ),
             ),
             label: const Text(LocaleKeys.recently_added_title).tr(),
@@ -304,6 +337,14 @@ class _AppDrawerState extends State<_AppDrawer> {
                 size: 20,
               ),
             ),
+            selectedIcon: SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.photoFilm,
+                size: 20,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+            ),
             label: const Text(LocaleKeys.libraries_title).tr(),
           ),
           NavigationDrawerDestination(
@@ -312,6 +353,14 @@ class _AppDrawerState extends State<_AppDrawer> {
               child: FaIcon(
                 FontAwesomeIcons.users,
                 size: 20,
+              ),
+            ),
+            selectedIcon: SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.users,
+                size: 20,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
               ),
             ),
             label: const Text(LocaleKeys.users_title).tr(),
@@ -323,6 +372,13 @@ class _AppDrawerState extends State<_AppDrawer> {
                 FontAwesomeIcons.listOl,
               ),
             ),
+            selectedIcon: SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.listOl,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+            ),
             label: const Text(LocaleKeys.statistics_title).tr(),
           ),
           NavigationDrawerDestination(
@@ -332,18 +388,31 @@ class _AppDrawerState extends State<_AppDrawer> {
                 FontAwesomeIcons.chartColumn,
               ),
             ),
+            selectedIcon: SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.chartColumn,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+            ),
             label: const Text(LocaleKeys.graphs_title).tr(),
           ),
-          Divider(
+          const Divider(
             indent: 8,
             endIndent: 8,
-            color: Theme.of(context).textTheme.titleSmall!.color,
           ),
           NavigationDrawerDestination(
             icon: const SizedBox(
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.bullhorn,
+              ),
+            ),
+            selectedIcon: SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.bullhorn,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
               ),
             ),
             label: Expanded(
@@ -388,6 +457,14 @@ class _AppDrawerState extends State<_AppDrawer> {
                 size: 21,
               ),
             ),
+            selectedIcon: SizedBox(
+              width: 25,
+              child: FaIcon(
+                FontAwesomeIcons.gears,
+                size: 21,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+            ),
             label: Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -427,7 +504,9 @@ class _Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: ThemeHelper.darkenedColor(
+          Theme.of(context).colorScheme.background,
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -436,7 +515,9 @@ class _Logo extends StatelessWidget {
           // Needed for space behind status bar
           Container(
             height: MediaQuery.of(context).padding.top,
-            color: Theme.of(context).scaffoldBackgroundColor,
+            color: ThemeHelper.darkenedColor(
+              Theme.of(context).colorScheme.background,
+            ),
           ),
           const Gap(8),
           // Logo section
@@ -489,13 +570,15 @@ class __ServerSelectorState extends State<_ServerSelector> {
               ExpansionPanel(
                 isExpanded: isOpen,
                 canTapOnHeader: true,
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                backgroundColor: ThemeHelper.darkenedColor(
+                  Theme.of(context).colorScheme.background,
+                ),
                 headerBuilder: (context, isExpanded) => ListTile(
                   tileColor: Colors.transparent,
                   leading: WebsafeSvg.asset(
                     'assets/logos/logo_flat.svg',
                     colorFilter: ColorFilter.mode(
-                      Theme.of(context).colorScheme.tertiary,
+                      Theme.of(context).colorScheme.onBackground,
                       BlendMode.srcIn,
                     ),
                     height: 30,
@@ -503,6 +586,9 @@ class __ServerSelectorState extends State<_ServerSelector> {
                   title: Text(
                     state.appSettings.activeServer.plexName,
                     overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
                   ),
                 ),
                 body: Column(
@@ -510,7 +596,9 @@ class __ServerSelectorState extends State<_ServerSelector> {
                   children: nonActiveServers.map(
                     (server) {
                       return ListTile(
-                        tileColor: Theme.of(context).scaffoldBackgroundColor,
+                        tileColor: ThemeHelper.darkenedColor(
+                          Theme.of(context).colorScheme.background,
+                        ),
                         leading: const SizedBox(width: 30),
                         title: Text(
                           server.plexName,

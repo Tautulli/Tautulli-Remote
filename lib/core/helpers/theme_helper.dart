@@ -1,9 +1,28 @@
+import 'package:flex_seed_scheme/flex_seed_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'color_palette_helper.dart';
 
 class ThemeHelper {
+  static ThemeData test() {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: SeedColorScheme.fromSeeds(
+        brightness: Brightness.dark,
+        primaryKey: Color.fromRGBO(189, 195, 255, 1),
+        // primaryKey: Colors.orange,
+      ),
+      cardTheme: const CardTheme().copyWith(
+        clipBehavior: Clip.antiAlias,
+      ),
+    );
+  }
+
+  static Color darkenedColor(Color color) {
+    return HSLColor.fromColor(color).withLightness(0.08).toColor();
+  }
+
   static ThemeData tautulli({String? fontName}) {
     return ThemeData(
       useMaterial3: true,

@@ -31,6 +31,7 @@ dependencies:
       ref: tautulli-remote
   filesize: ^2.0.1
   fl_chart: ^0.63.0
+  flex_seed_scheme: ^1.4.0
   flutter:
     sdk: flutter
   flutter_barcode_scanner:
