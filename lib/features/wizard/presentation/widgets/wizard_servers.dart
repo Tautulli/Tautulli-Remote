@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -42,7 +43,7 @@ class WizardServers extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Card(
+                      child: CardWithForcedTint(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -66,12 +67,15 @@ class WizardServers extends StatelessWidget {
                 const Gap(6),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).cardTheme.color,
+                    foregroundColor: Theme.of(context).colorScheme.onSurface,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const FaIcon(FontAwesomeIcons.language),
+                      FaIcon(
+                        FontAwesomeIcons.language,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                       const Gap(8),
                       const Text(LocaleKeys.change_language_title).tr(),
                     ],
@@ -88,9 +92,7 @@ class WizardServers extends StatelessWidget {
                     );
                   },
                 ),
-                Divider(
-                  color: Theme.of(context).textTheme.titleSmall!.color,
-                ),
+                const Divider(),
                 const ServersGroup(isWizard: true),
                 BlocBuilder<SettingsBloc, SettingsState>(
                   builder: (context, state) {
@@ -118,8 +120,7 @@ class WizardServers extends StatelessWidget {
 
                   return WizardStepper(
                     leftAction: const WizardExitButton(),
-                    rightAction: settingsState.serverList.isEmpty &&
-                            !wizardState.serversSkipped
+                    rightAction: settingsState.serverList.isEmpty && !wizardState.serversSkipped
                         ? const WizardSkipButton(skipType: SkipType.servers)
                         : const WizardNextButton(),
                   );

@@ -28,17 +28,17 @@ class LibraryCardDetails extends StatelessWidget {
           ),
           overflow: TextOverflow.ellipsis,
         ),
-        if (library.sectionType == SectionType.artist) _artistMediaCount(),
-        if (library.sectionType == SectionType.movie) _movieMediaCount(),
-        if (library.sectionType == SectionType.photo) _photoMediaCount(),
-        if (library.sectionType == SectionType.show) _showMediaCount(),
-        if (library.sectionType == SectionType.video) _videoMediaCount(),
-        if (library.sectionType != SectionType.photo) _playsAndDuration(),
+        if (library.sectionType == SectionType.artist) _artistMediaCount(context),
+        if (library.sectionType == SectionType.movie) _movieMediaCount(context),
+        if (library.sectionType == SectionType.photo) _photoMediaCount(context),
+        if (library.sectionType == SectionType.show) _showMediaCount(context),
+        if (library.sectionType == SectionType.video) _videoMediaCount(context),
+        if (library.sectionType != SectionType.photo) _playsAndDuration(context),
       ],
     );
   }
 
-  Widget _artistMediaCount() {
+  Widget _artistMediaCount(BuildContext context) {
     return RichText(
       text: TextSpan(
         children: [
@@ -48,10 +48,9 @@ class LibraryCardDetails extends StatelessWidget {
           ),
           TextSpan(
             text: library.count.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 13,
-              color: Colors.grey[200],
             ),
           ),
           const TextSpan(
@@ -63,10 +62,9 @@ class LibraryCardDetails extends StatelessWidget {
           ),
           TextSpan(
             text: library.parentCount.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 13,
-              color: Colors.grey[200],
             ),
           ),
           const TextSpan(
@@ -78,18 +76,20 @@ class LibraryCardDetails extends StatelessWidget {
           ),
           TextSpan(
             text: library.childCount.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 13,
-              color: Colors.grey[200],
             ),
           ),
         ],
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
     );
   }
 
-  Widget _movieMediaCount() {
+  Widget _movieMediaCount(BuildContext context) {
     return RichText(
       text: TextSpan(
         children: [
@@ -99,18 +99,20 @@ class LibraryCardDetails extends StatelessWidget {
           ),
           TextSpan(
             text: library.count.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 13,
-              color: Colors.grey[200],
             ),
           ),
         ],
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
     );
   }
 
-  Widget _photoMediaCount() {
+  Widget _photoMediaCount(BuildContext context) {
     return RichText(
       text: TextSpan(
         children: [
@@ -120,10 +122,9 @@ class LibraryCardDetails extends StatelessWidget {
           ),
           TextSpan(
             text: library.count.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 13,
-              color: Colors.grey[200],
             ),
           ),
           const TextSpan(
@@ -135,10 +136,9 @@ class LibraryCardDetails extends StatelessWidget {
           ),
           TextSpan(
             text: library.parentCount.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 13,
-              color: Colors.grey[200],
             ),
           ),
           const TextSpan(
@@ -150,18 +150,20 @@ class LibraryCardDetails extends StatelessWidget {
           ),
           TextSpan(
             text: library.childCount.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 13,
-              color: Colors.grey[200],
             ),
           ),
         ],
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
     );
   }
 
-  Widget _showMediaCount() {
+  Widget _showMediaCount(BuildContext context) {
     return RichText(
       text: TextSpan(
         children: [
@@ -171,10 +173,9 @@ class LibraryCardDetails extends StatelessWidget {
           ),
           TextSpan(
             text: library.count.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 13,
-              color: Colors.grey[200],
             ),
           ),
           const TextSpan(
@@ -186,10 +187,9 @@ class LibraryCardDetails extends StatelessWidget {
           ),
           TextSpan(
             text: library.parentCount.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 13,
-              color: Colors.grey[200],
             ),
           ),
           const TextSpan(
@@ -201,18 +201,20 @@ class LibraryCardDetails extends StatelessWidget {
           ),
           TextSpan(
             text: library.childCount.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 13,
-              color: Colors.grey[200],
             ),
           ),
         ],
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
     );
   }
 
-  Widget _videoMediaCount() {
+  Widget _videoMediaCount(BuildContext context) {
     return RichText(
       text: TextSpan(
         children: [
@@ -222,18 +224,20 @@ class LibraryCardDetails extends StatelessWidget {
           ),
           TextSpan(
             text: library.count.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 13,
-              color: Colors.grey[200],
             ),
           ),
         ],
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
     );
   }
 
-  Widget _playsAndDuration() {
+  Widget _playsAndDuration(BuildContext context) {
     Map<String, int> durationMap = TimeHelper.durationMap(
       Duration(seconds: library.duration?.inSeconds ?? 0),
     );
@@ -252,13 +256,15 @@ class LibraryCardDetails extends StatelessWidget {
               ),
               TextSpan(
                 text: library.plays.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,
-                  color: Colors.grey[200],
                 ),
               ),
             ],
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
         ),
         const Gap(6),
@@ -270,10 +276,7 @@ class LibraryCardDetails extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 text: TextSpan(
                   children: [
-                    if (durationMap['day']! > 1 ||
-                        durationMap['hour']! > 1 ||
-                        durationMap['min']! > 1 ||
-                        durationMap['sec']! > 1)
+                    if (durationMap['day']! > 1 || durationMap['hour']! > 1 || durationMap['min']! > 1 || durationMap['sec']! > 1)
                       TextSpan(
                         text: '${LocaleKeys.time_title.tr()} ',
                       ),
@@ -282,18 +285,16 @@ class LibraryCardDetails extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: durationMap['day'].toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
                           TextSpan(
                             text: ' ${LocaleKeys.days.tr()} ',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
                         ],
@@ -303,18 +304,17 @@ class LibraryCardDetails extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: durationMap['hour'].toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
                           TextSpan(
                             text: ' ${LocaleKeys.hrs.tr()} ',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
+                              // color: Colors.grey[200],
                             ),
                           ),
                         ],
@@ -324,47 +324,43 @@ class LibraryCardDetails extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: durationMap['min'].toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
                           TextSpan(
                             text: ' ${LocaleKeys.mins.tr()}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
                         ],
                       ),
-                    if (durationMap['day']! < 1 &&
-                        durationMap['hour']! < 1 &&
-                        durationMap['min']! < 1 &&
-                        durationMap['sec']! > 0)
+                    if (durationMap['day']! < 1 && durationMap['hour']! < 1 && durationMap['min']! < 1 && durationMap['sec']! > 0)
                       TextSpan(
                         children: [
                           TextSpan(
                             text: durationMap['sec'].toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
                           TextSpan(
                             text: ' ${LocaleKeys.secs.tr()}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
                         ],
                       ),
                   ],
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ),
             ],

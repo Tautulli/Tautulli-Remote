@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../translations/locale_keys.g.dart';
 
 class DonateHeadingCard extends StatelessWidget {
@@ -12,7 +13,7 @@ class DonateHeadingCard extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Card(
+        CardWithForcedTint(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(

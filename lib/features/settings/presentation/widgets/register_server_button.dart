@@ -10,6 +10,10 @@ class RegisterServerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
+      ),
       child: const Text(LocaleKeys.register_a_tautulli_server_title).tr(),
       onPressed: () async {
         await Navigator.of(context).push(

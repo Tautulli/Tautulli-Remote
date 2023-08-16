@@ -85,8 +85,7 @@ class _GraphsViewState extends State<GraphsView> {
     return BlocListener<SettingsBloc, SettingsState>(
       listenWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer !=
-              current.appSettings.activeServer) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
             return true;
           }
         }
@@ -180,9 +179,6 @@ class _GraphsViewState extends State<GraphsView> {
                       ),
                     ),
                     TabBar(
-                      // TabBarTheme does not appear to be applying divider color
-                      //TODO: Check if TabBarTheme is actually applying
-                      dividerColor: Colors.transparent,
                       tabs: [
                         Tab(
                           child: const Text(
@@ -227,13 +223,10 @@ class _GraphsViewState extends State<GraphsView> {
       BlocBuilder<GraphsBloc, GraphsState>(
         builder: (context, state) {
           return PopupMenuButton(
-            color: Theme.of(context).colorScheme.primary,
             tooltip: LocaleKeys.y_axis_title.tr(),
             icon: FaIcon(
-              _yAxis == PlayMetricType.plays
-                  ? FontAwesomeIcons.hashtag
-                  : FontAwesomeIcons.solidClock,
-              color: Theme.of(context).colorScheme.tertiary,
+              _yAxis == PlayMetricType.plays ? FontAwesomeIcons.hashtag : FontAwesomeIcons.solidClock,
+              color: Theme.of(context).colorScheme.onSurface,
               size: 20,
             ),
             onSelected: (PlayMetricType value) {
@@ -267,17 +260,13 @@ class _GraphsViewState extends State<GraphsView> {
                       FaIcon(
                         FontAwesomeIcons.hashtag,
                         size: 20,
-                        color: _yAxis == PlayMetricType.plays
-                            ? Theme.of(context).colorScheme.secondary
-                            : null,
+                        color: _yAxis == PlayMetricType.plays ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                       ),
                       const Gap(8),
                       Text(
                         LocaleKeys.play_count_title,
                         style: TextStyle(
-                          color: _yAxis == PlayMetricType.plays
-                              ? Theme.of(context).colorScheme.secondary
-                              : null,
+                          color: _yAxis == PlayMetricType.plays ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                         ),
                       ).tr(),
                     ],
@@ -290,17 +279,13 @@ class _GraphsViewState extends State<GraphsView> {
                       FaIcon(
                         FontAwesomeIcons.solidClock,
                         size: 20,
-                        color: _yAxis == PlayMetricType.time
-                            ? Theme.of(context).colorScheme.secondary
-                            : null,
+                        color: _yAxis == PlayMetricType.time ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                       ),
                       const Gap(8),
                       Text(
                         LocaleKeys.play_time_title,
                         style: TextStyle(
-                          color: _yAxis == PlayMetricType.time
-                              ? Theme.of(context).colorScheme.secondary
-                              : null,
+                          color: _yAxis == PlayMetricType.time ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                         ),
                       ).tr(),
                     ],
@@ -317,12 +302,11 @@ class _GraphsViewState extends State<GraphsView> {
             children: [
               Center(
                 child: PopupMenuButton(
-                  color: Theme.of(context).colorScheme.primary,
                   tooltip: LocaleKeys.time_range_title.tr(),
                   icon: FaIcon(
                     FontAwesomeIcons.solidCalendarDays,
-                    color: Theme.of(context).colorScheme.tertiary,
                     size: 20,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                   onSelected: (int value) async {
                     if (value > 0) {
@@ -380,9 +364,7 @@ class _GraphsViewState extends State<GraphsView> {
                         child: Text(
                           '7 ${LocaleKeys.days_title.tr()}',
                           style: TextStyle(
-                            color: _timeRange == 7
-                                ? Theme.of(context).colorScheme.secondary
-                                : null,
+                            color: _timeRange == 7 ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),
@@ -391,9 +373,7 @@ class _GraphsViewState extends State<GraphsView> {
                         child: Text(
                           '14 ${LocaleKeys.days_title.tr()}',
                           style: TextStyle(
-                            color: _timeRange == 14
-                                ? Theme.of(context).colorScheme.secondary
-                                : null,
+                            color: _timeRange == 14 ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),
@@ -402,9 +382,7 @@ class _GraphsViewState extends State<GraphsView> {
                         child: Text(
                           '30 ${LocaleKeys.days_title.tr()}',
                           style: TextStyle(
-                            color: _timeRange == 30
-                                ? Theme.of(context).colorScheme.secondary
-                                : null,
+                            color: _timeRange == 30 ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),
@@ -413,9 +391,7 @@ class _GraphsViewState extends State<GraphsView> {
                         child: Text(
                           'Custom',
                           style: TextStyle(
-                            color: ![7, 14, 30].contains(_timeRange)
-                                ? Theme.of(context).colorScheme.secondary
-                                : null,
+                            color: ![7, 14, 30].contains(_timeRange) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),
@@ -432,13 +408,14 @@ class _GraphsViewState extends State<GraphsView> {
                     child: Container(
                       height: 18,
                       width: 18,
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primary,
                       child: Center(
                         child: Text(
                           _timeRange < 100 ? _timeRange.toString() : '99+',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: _timeRange < 100 ? 10 : 8,
+                            color: Theme.of(context).colorScheme.onPrimary,
                           ),
                         ),
                       ),

@@ -70,8 +70,7 @@ class EpisodeMediaView extends StatelessWidget {
             return CachedNetworkImage(
               imageUrl: media.imageUri.toString(),
               httpHeaders: {
-                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                  headerModel.key: headerModel.value,
+                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
               },
               imageBuilder: (context, imageProvider) => ImageFiltered(
                 imageFilter: ImageFilter.blur(
@@ -98,9 +97,7 @@ class EpisodeMediaView extends StatelessWidget {
         pageTitle: media.title,
         itemTitle: media.grandparentTitle,
         itemSubtitle: media.title ?? '',
-        itemDetail: media.parentMediaIndex != null && media.mediaIndex != null
-            ? 'S${media.parentMediaIndex} • E${media.mediaIndex}'
-            : null,
+        itemDetail: media.parentMediaIndex != null && media.mediaIndex != null ? 'S${media.parentMediaIndex} • E${media.mediaIndex}' : null,
         tabs: [
           Tab(child: const Text(LocaleKeys.details_title).tr()),
           Tab(child: const Text(LocaleKeys.history_title).tr()),
@@ -128,9 +125,8 @@ class EpisodeMediaView extends StatelessWidget {
           return PopupMenuButton(
             icon: Icon(
               Icons.more_vert,
-              color: Theme.of(context).colorScheme.tertiary,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
-            color: Theme.of(context).colorScheme.primary,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(12),

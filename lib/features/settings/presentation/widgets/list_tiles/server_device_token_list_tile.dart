@@ -21,7 +21,7 @@ class ServerDeviceTokenListTile extends StatelessWidget {
       sensitive: true,
       leading: FaIcon(
         FontAwesomeIcons.key,
-        color: Theme.of(context).textTheme.titleSmall!.color,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
       ),
       title: LocaleKeys.device_token_title.tr(),
       subtitle: deviceToken,
@@ -30,9 +30,7 @@ class ServerDeviceTokenListTile extends StatelessWidget {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text(
-              LocaleKeys.device_token_edit_snackbar_message,
-            ).tr(),
+            content: const Text(LocaleKeys.device_token_edit_snackbar_message).tr(),
             action: SnackBarAction(
               label: LocaleKeys.learn_more_title.tr(),
               onPressed: () async {

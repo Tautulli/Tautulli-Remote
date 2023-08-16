@@ -168,16 +168,11 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  widget.sensitive
-                                                      ? LocaleKeys.hidden_message.tr()
-                                                      : widget.itemTitle ?? '',
+                                                  widget.sensitive ? LocaleKeys.hidden_message.tr() : widget.itemTitle ?? '',
                                                   style: const TextStyle(
                                                     fontSize: 18,
                                                   ),
-                                                  maxLines:
-                                                      tpItemTitle.didExceedMaxLines && tpItemSubtitle.didExceedMaxLines
-                                                          ? 1
-                                                          : 2,
+                                                  maxLines: tpItemTitle.didExceedMaxLines && tpItemSubtitle.didExceedMaxLines ? 1 : 2,
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                                 if (widget.itemSubtitle != null)
@@ -188,10 +183,7 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                                                 if (widget.itemDetail != null)
                                                   Text(
                                                     widget.itemDetail!,
-                                                    maxLines: tpItemTitle.didExceedMaxLines ||
-                                                            tpItemSubtitle.didExceedMaxLines
-                                                        ? 1
-                                                        : 2,
+                                                    maxLines: tpItemTitle.didExceedMaxLines || tpItemSubtitle.didExceedMaxLines ? 1 : 2,
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
                                               ],
@@ -212,9 +204,6 @@ class _MediaSliverTabbedDetailsStatePage extends State<SliverTabbedPosterDetails
                         ),
                       ),
                       bottom: TabBar(
-                        // TabBarTheme does not appear to be applying divider color
-                        //TODO: Check if TabBarTheme is actually applying
-                        dividerColor: Colors.transparent,
                         labelPadding: const EdgeInsets.symmetric(horizontal: 8),
                         tabs: widget.tabs,
                       ),

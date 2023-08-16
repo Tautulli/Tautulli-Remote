@@ -87,8 +87,7 @@ class _PosterRegular extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: uri.toString(),
                     httpHeaders: {
-                      for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                        headerModel.key: headerModel.value,
+                      for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
                     },
                     placeholder: (context, url) => Image.asset('assets/images/poster_fallback.png', fit: BoxFit.cover),
                     errorWidget: (context, url, error) => Image.asset(
@@ -98,8 +97,7 @@ class _PosterRegular extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                if (activityState != null && activityState != PlaybackState.playing)
-                  _PosterState(activityState: activityState!),
+                if (activityState != null && activityState != PlaybackState.playing) _PosterState(activityState: activityState!),
               ],
             );
           },
@@ -152,8 +150,7 @@ class _PosterSquare extends StatelessWidget {
                           child: CachedNetworkImage(
                             imageUrl: uri.toString(),
                             httpHeaders: {
-                              for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                                headerModel.key: headerModel.value,
+                              for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
                             },
                             placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
                             errorWidget: (context, url, error) => Image.asset('assets/images/cover_error.png'),
@@ -172,8 +169,7 @@ class _PosterSquare extends StatelessWidget {
                       child: CachedNetworkImage(
                         imageUrl: uri.toString(),
                         httpHeaders: {
-                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                            headerModel.key: headerModel.value,
+                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
                         },
                         placeholder: (context, url) => Image.asset('assets/images/cover_fallback.png'),
                         errorWidget: (context, url, error) => Image.asset('assets/images/cover_error.png'),
@@ -182,8 +178,7 @@ class _PosterSquare extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (activityState != null && activityState != PlaybackState.playing)
-                  _PosterState(activityState: activityState!),
+                if (activityState != null && activityState != PlaybackState.playing) _PosterState(activityState: activityState!),
               ],
             );
           },
@@ -215,6 +210,7 @@ class _PosterState extends StatelessWidget {
                           ? FontAwesomeIcons.circleExclamation
                           : FontAwesomeIcons.circleQuestion,
               size: 48,
+              color: Theme.of(context).colorScheme.onBackground,
             ),
           ),
         ],

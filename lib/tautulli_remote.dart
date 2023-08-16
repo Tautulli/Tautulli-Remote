@@ -3,18 +3,16 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:f_logs/f_logs.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:tautulli_remote/core/helpers/notification_helper.dart';
-import 'package:tautulli_remote/core/rate_app/rate_app.dart';
 
 import 'core/api/tautulli/models/register_device_model.dart';
 import 'core/database/data/models/server_model.dart';
 import 'core/error/failure.dart';
 import 'core/global_keys/global_keys.dart';
-import 'core/helpers/color_palette_helper.dart';
+import 'core/helpers/notification_helper.dart';
 import 'core/helpers/theme_helper.dart';
+import 'core/rate_app/rate_app.dart';
 import 'core/widgets/settings_not_loaded.dart';
 import 'dependency_injection.dart' as di;
 import 'features/activity/presentation/pages/activity_page.dart';
@@ -88,8 +86,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
       event.complete(event.notification);
     });
 
-    OneSignal.shared.setNotificationOpenedHandler(
-        (OSNotificationOpenedResult result) async {
+    OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult result) async {
       // Will be called whenever a notification is opened/button pressed
 
       // Find the action type in the notification and open a page accordingly
@@ -125,8 +122,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
       }
     });
 
-    OneSignal.shared
-        .setSubscriptionObserver((OSSubscriptionStateChanges changes) async {
+    OneSignal.shared.setSubscriptionObserver((OSSubscriptionStateChanges changes) async {
       // Will be called whenever the subscription changes
 
       // Only trigger new checks when userId or pushToken move from null to a value
@@ -135,17 +131,14 @@ class TautulliRemoteState extends State<TautulliRemote> {
         context.read<OneSignalHealthBloc>().add(OneSignalHealthCheck());
 
         if (changes.to.userId != null) {
-          final serversWithoutOneSignal =
-              await di.sl<Settings>().getAllServersWithoutOnesignalRegistered();
-          if (serversWithoutOneSignal != null &&
-              serversWithoutOneSignal.isNotEmpty) {
+          final serversWithoutOneSignal = await di.sl<Settings>().getAllServersWithoutOnesignalRegistered();
+          if (serversWithoutOneSignal != null && serversWithoutOneSignal.isNotEmpty) {
             di.sl<Logging>().info(
                   'OneSignal :: OneSignal registration changed, updating server registration',
                 );
 
             for (ServerModel server in serversWithoutOneSignal) {
-              final failureOrRegisterDevice =
-                  await updateServerRegistration(server);
+              final failureOrRegisterDevice = await updateServerRegistration(server);
 
               failureOrRegisterDevice.fold(
                 (failure) {
@@ -205,8 +198,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
             );
 
         for (ServerModel server in servers) {
-          final failureOrRegisterDevice =
-              await updateServerRegistration(server);
+          final failureOrRegisterDevice = await updateServerRegistration(server);
 
           failureOrRegisterDevice.fold(
             (failure) {
@@ -229,19 +221,12 @@ class TautulliRemoteState extends State<TautulliRemote> {
     }
   }
 
-  Future<dartz.Either<Failure, dartz.Tuple2<RegisterDeviceModel, bool>>>
-      updateServerRegistration(
+  Future<dartz.Either<Failure, dartz.Tuple2<RegisterDeviceModel, bool>>> updateServerRegistration(
     ServerModel server,
   ) async {
-    String connectionProtocol = server.primaryActive!
-        ? server.primaryConnectionProtocol
-        : server.secondaryConnectionProtocol!;
-    String connectionDomain = server.primaryActive!
-        ? server.primaryConnectionDomain
-        : server.secondaryConnectionDomain!;
-    String? connectionPath = server.primaryActive!
-        ? server.primaryConnectionPath
-        : server.secondaryConnectionPath;
+    String connectionProtocol = server.primaryActive! ? server.primaryConnectionProtocol : server.secondaryConnectionProtocol!;
+    String connectionDomain = server.primaryActive! ? server.primaryConnectionDomain : server.secondaryConnectionDomain!;
+    String? connectionPath = server.primaryActive! ? server.primaryConnectionPath : server.secondaryConnectionPath;
 
     final failureOrRegisterDevice = await di.sl<Settings>().registerDevice(
           connectionProtocol: connectionProtocol,
@@ -260,8 +245,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
       buildWhen: (previous, current) {
         if (previous is SettingsSuccess &&
             current is SettingsSuccess &&
-            previous.appSettings.useAtkinsonHyperlegible !=
-                current.appSettings.useAtkinsonHyperlegible) {
+            previous.appSettings.useAtkinsonHyperlegible != current.appSettings.useAtkinsonHyperlegible) {
           return true;
         }
         return false;
@@ -273,12 +257,9 @@ class TautulliRemoteState extends State<TautulliRemote> {
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           title: 'Tautulli Remote',
-          theme: ThemeHelper.test(),
-          // theme: ThemeHelper.tautulli(
-          //   fontName: di.sl<Settings>().getUseAtkinsonHyperlegible()
-          //       ? 'Atkinson Hyperlegible'
-          //       : null,
-          // ),
+          theme: ThemeHelper.material(
+            fontName: di.sl<Settings>().getUseAtkinsonHyperlegible() ? 'Atkinson Hyperlegible' : null,
+          ),
           builder: (context, child) {
             return BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, state) {
@@ -301,8 +282,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
             HistoryPage.routeName: (_) => const HistoryPage(),
             HelpTranslatePage.routeName: (_) => const HelpTranslatePage(),
             LibrariesPage.routeName: (_) => const LibrariesPage(),
-            OneSignalDataPrivacyPage.routeName: (_) =>
-                const OneSignalDataPrivacyPage(),
+            OneSignalDataPrivacyPage.routeName: (_) => const OneSignalDataPrivacyPage(),
             RecentlyAddedPage.routeName: (_) => const RecentlyAddedPage(),
             SettingsPage.routeName: (_) => const SettingsPage(),
             StatisticsPage.routeName: (_) => const StatisticsPage(),

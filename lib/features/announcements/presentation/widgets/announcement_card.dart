@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/announcement_model.dart';
 
@@ -20,8 +21,7 @@ class AnnouncementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
+    return CardWithForcedTint(
       child: InkWell(
         customBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -61,7 +61,7 @@ class AnnouncementCard extends StatelessWidget {
                           child: FaIcon(
                             FontAwesomeIcons.solidCircle,
                             size: 10,
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ),
@@ -78,18 +78,18 @@ class AnnouncementCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       '${LocaleKeys.published_title.tr()}: ${announcement.date}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: 13,
-                        color: Theme.of(context).textTheme.titleSmall!.color,
                       ),
                     ),
                   ),
                   if (announcement.actionUrl != null)
-                    const Padding(
-                      padding: EdgeInsets.only(left: 8),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
                       child: FaIcon(
                         FontAwesomeIcons.squareUpRight,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                 ],

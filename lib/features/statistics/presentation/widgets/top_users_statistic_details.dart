@@ -23,9 +23,7 @@ class TopUsersStatisticDetails extends StatelessWidget {
             state as SettingsSuccess;
 
             return Text(
-              state.appSettings.maskSensitiveInfo
-                  ? LocaleKeys.hidden_message.tr()
-                  : statData.friendlyName ?? 'name missing',
+              state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : statData.friendlyName ?? 'name missing',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
@@ -46,21 +44,23 @@ class TopUsersStatisticDetails extends StatelessWidget {
               ),
               TextSpan(
                 text: statData.totalPlays.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,
-                  color: Colors.grey[200],
                 ),
               ),
             ],
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
         ),
-        _duration(),
+        _duration(context),
       ],
     );
   }
 
-  Widget _duration() {
+  Widget _duration(BuildContext context) {
     Map<String, int> durationMap = TimeHelper.durationMap(
       statData.totalDuration ?? const Duration(seconds: 0),
     );
@@ -77,18 +77,16 @@ class TopUsersStatisticDetails extends StatelessWidget {
               children: [
                 TextSpan(
                   text: durationMap['day'].toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,
-                    color: Colors.grey[200],
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' days ',
                   style: TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,
-                    color: Colors.grey[200],
                   ),
                 ),
               ],
@@ -98,18 +96,16 @@ class TopUsersStatisticDetails extends StatelessWidget {
               children: [
                 TextSpan(
                   text: durationMap['hour'].toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,
-                    color: Colors.grey[200],
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' hrs ',
                   style: TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,
-                    color: Colors.grey[200],
                   ),
                 ),
               ],
@@ -119,18 +115,16 @@ class TopUsersStatisticDetails extends StatelessWidget {
               children: [
                 TextSpan(
                   text: durationMap['min'].toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,
-                    color: Colors.grey[200],
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' mins',
                   style: TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,
-                    color: Colors.grey[200],
                   ),
                 ),
               ],
@@ -140,23 +134,24 @@ class TopUsersStatisticDetails extends StatelessWidget {
               children: [
                 TextSpan(
                   text: durationMap['sec'].toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,
-                    color: Colors.grey[200],
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: ' secs',
                   style: TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,
-                    color: Colors.grey[200],
                   ),
                 ),
               ],
             ),
         ],
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
     );
   }

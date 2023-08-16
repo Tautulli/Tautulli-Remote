@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../core/widgets/permission_setting_dialog.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/pages/onesignal_data_privacy.dart';
@@ -41,7 +42,7 @@ class WizardOneSignal extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: Card(
+                          child: CardWithForcedTint(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -63,14 +64,12 @@ class WizardOneSignal extends StatelessWidget {
                       ],
                     ),
                     const Gap(8),
-                    Divider(
-                      color: Theme.of(context).textTheme.titleSmall!.color,
-                    ),
+                    const Divider(),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).cardTheme.color,
+                          foregroundColor: Theme.of(context).colorScheme.onSurface,
                         ),
                         child: const Text(
                           LocaleKeys.view_onesignal_privacy_title,
@@ -79,8 +78,7 @@ class WizardOneSignal extends StatelessWidget {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               fullscreenDialog: true,
-                              builder: (context) =>
-                                  const OneSignalDataPrivacyPage(
+                              builder: (context) => const OneSignalDataPrivacyPage(
                                 showToggle: false,
                               ),
                             ),
@@ -91,41 +89,33 @@ class WizardOneSignal extends StatelessWidget {
                     const Gap(8),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: Material(
-                        child: CheckboxSettingsListTile(
-                          titleIsTwoLines: true,
-                          leading: WebsafeSvg.asset(
-                            'assets/logos/onesignal.svg',
-                            colorFilter: ColorFilter.mode(
-                              Theme.of(context).colorScheme.tertiary,
-                              BlendMode.srcIn,
-                            ),
-                            height: 35,
+                      child: CheckboxSettingsListTile(
+                        titleIsTwoLines: true,
+                        leading: WebsafeSvg.asset(
+                          'assets/logos/onesignal.svg',
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.onSurface,
+                            BlendMode.srcIn,
                           ),
-                          title: LocaleKeys.wizard_onesignal_allow_title.tr(),
-                          value: state.oneSignalAllowed,
-                          onChanged: (_) async {
-                            if (await Permission.notification
-                                .request()
-                                .isGranted) {
-                              context.read<WizardBloc>().add(
-                                    WizardToggleOneSignal(),
-                                  );
-                            } else {
-                              await showDialog(
-                                context: context,
-                                builder: (context) => PermissionSettingDialog(
-                                  title: LocaleKeys
-                                      .notification_permission_dialog_title
-                                      .tr(),
-                                  content: LocaleKeys
-                                      .notification_permission_dialog_content
-                                      .tr(),
-                                ),
-                              );
-                            }
-                          },
+                          height: 35,
                         ),
+                        title: LocaleKeys.wizard_onesignal_allow_title.tr(),
+                        value: state.oneSignalAllowed,
+                        onChanged: (_) async {
+                          if (await Permission.notification.request().isGranted) {
+                            context.read<WizardBloc>().add(
+                                  WizardToggleOneSignal(),
+                                );
+                          } else {
+                            await showDialog(
+                              context: context,
+                              builder: (context) => PermissionSettingDialog(
+                                title: LocaleKeys.notification_permission_dialog_title.tr(),
+                                content: LocaleKeys.notification_permission_dialog_content.tr(),
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ),
                   ],

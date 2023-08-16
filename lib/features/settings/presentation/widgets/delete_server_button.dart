@@ -23,7 +23,10 @@ class DeleteServerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const FaIcon(FontAwesomeIcons.trash),
+      icon: FaIcon(
+        FontAwesomeIcons.trash,
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
       onPressed: () async {
         final result = await showDialog(
           context: context,

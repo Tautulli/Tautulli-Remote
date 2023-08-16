@@ -16,7 +16,8 @@ class WizardFinishButton extends StatelessWidget {
         state as WizardInitial;
 
         return FloatingActionButton(
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.green[700],
+          foregroundColor: Theme.of(context).colorScheme.onSurface,
           child: const FaIcon(
             FontAwesomeIcons.check,
           ),

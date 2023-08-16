@@ -17,14 +17,22 @@ class ServerOpenInBrowserListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: ElevationOverlay.applySurfaceTint(
+        Theme.of(context).colorScheme.surface,
+        Theme.of(context).colorScheme.surfaceTint,
+        1,
+      ),
       child: ListTile(
-        leading: const Column(
+        leading: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
               width: 35,
               child: Center(
-                child: FaIcon(FontAwesomeIcons.windowMaximize),
+                child: FaIcon(
+                  FontAwesomeIcons.windowMaximize,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             ),
           ],

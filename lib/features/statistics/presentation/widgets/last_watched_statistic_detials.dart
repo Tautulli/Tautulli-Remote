@@ -35,9 +35,7 @@ class LastWatchedStatisticDetails extends StatelessWidget {
             state as SettingsSuccess;
 
             return Text(
-              state.appSettings.maskSensitiveInfo
-                  ? LocaleKeys.hidden_message.tr()
-                  : statData.friendlyName ?? 'name missing',
+              state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : statData.friendlyName ?? 'name missing',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             );
@@ -54,13 +52,15 @@ class LastWatchedStatisticDetails extends StatelessWidget {
               ),
               TextSpan(
                 text: statData.lastWatch != null ? TimeHelper.moment(statData.lastWatch) : LocaleKeys.never.tr(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,
-                  color: Colors.grey[200],
                 ),
               ),
             ],
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
         ),
       ],

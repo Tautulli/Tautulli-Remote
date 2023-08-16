@@ -29,7 +29,8 @@ class ClearLoggingDialog extends StatelessWidget {
             Navigator.of(context).pop();
           },
           style: TextButton.styleFrom(
-            backgroundColor: Colors.red,
+            backgroundColor: Theme.of(context).colorScheme.errorContainer,
+            foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
           ),
           child: const Text(LocaleKeys.clear_title).tr(),
         ),

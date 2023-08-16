@@ -21,7 +21,10 @@ class ServerPrimaryConnectionListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomListTile(
       sensitive: true,
-      leading: const FaIcon(FontAwesomeIcons.networkWired),
+      leading: FaIcon(
+        FontAwesomeIcons.networkWired,
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
       title: LocaleKeys.primary_connection_title.tr(),
       subtitle: server.primaryConnectionAddress,
       trailing: server.primaryActive == true ? const ActiveConnectionIndicator() : null,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import 'card_with_forced_tint.dart';
+
 class IconCard extends StatelessWidget {
   final Widget? background;
   final Widget icon;
@@ -19,7 +21,7 @@ class IconCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).textScaleFactor > 1 ? 100 * MediaQuery.of(context).textScaleFactor : 100,
-      child: Card(
+      child: CardWithForcedTint(
         color: background != null ? Colors.transparent : null,
         child: Stack(
           children: [

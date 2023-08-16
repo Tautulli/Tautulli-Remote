@@ -116,13 +116,10 @@ class _LoggingViewState extends State<LoggingView> {
         builder: (context, state) {
           if (state is LoggingSuccess) {
             return PopupMenuButton(
-              color: Theme.of(context).colorScheme.primary,
               icon: FaIcon(
                 FontAwesomeIcons.filter,
                 size: 22,
-                color: state.level != LogLevel.ALL
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).colorScheme.tertiary,
+                color: state.level != LogLevel.ALL ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
               ),
               onSelected: (LogLevel value) {
                 context.read<LoggingBloc>().add(
@@ -141,9 +138,7 @@ class _LoggingViewState extends State<LoggingView> {
                     child: Text(
                       LocaleKeys.all_title.tr(),
                       style: TextStyle(
-                        color: state.level == LogLevel.ALL
-                            ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.tertiary,
+                        color: state.level == LogLevel.ALL ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -152,9 +147,7 @@ class _LoggingViewState extends State<LoggingView> {
                     child: Text(
                       'Debug',
                       style: TextStyle(
-                        color: state.level == LogLevel.DEBUG
-                            ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.tertiary,
+                        color: state.level == LogLevel.DEBUG ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -163,9 +156,7 @@ class _LoggingViewState extends State<LoggingView> {
                     child: Text(
                       'Info',
                       style: TextStyle(
-                        color: state.level == LogLevel.INFO
-                            ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.tertiary,
+                        color: state.level == LogLevel.INFO ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -174,9 +165,7 @@ class _LoggingViewState extends State<LoggingView> {
                     child: Text(
                       'Warning',
                       style: TextStyle(
-                        color: state.level == LogLevel.WARNING
-                            ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.tertiary,
+                        color: state.level == LogLevel.WARNING ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -185,9 +174,7 @@ class _LoggingViewState extends State<LoggingView> {
                     child: Text(
                       'Error',
                       style: TextStyle(
-                        color: state.level == LogLevel.ERROR
-                            ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.tertiary,
+                        color: state.level == LogLevel.ERROR ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -198,7 +185,7 @@ class _LoggingViewState extends State<LoggingView> {
           return IconButton(
             icon: FaIcon(
               FontAwesomeIcons.filter,
-              color: Theme.of(context).colorScheme.tertiary,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: null,
           );
@@ -207,9 +194,8 @@ class _LoggingViewState extends State<LoggingView> {
       PopupMenuButton(
         icon: Icon(
           Icons.more_vert,
-          color: Theme.of(context).colorScheme.tertiary,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
-        color: Theme.of(context).colorScheme.primary,
         onSelected: (value) async {
           final loggingBloc = context.read<LoggingBloc>();
 

@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/types/media_type.dart';
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../core/widgets/poster.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../settings/data/models/custom_header_model.dart';
@@ -55,127 +56,123 @@ class _ActivityCardState extends State<ActivityCard> {
 
     return SizedBox(
       height: MediaQuery.of(context).textScaleFactor > 1 ? 135 * MediaQuery.of(context).textScaleFactor : 135,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Card(
-          child: Stack(
-            children: [
-              if (widget.activity.imageUri != null)
-                Positioned.fill(
-                  child: BlocBuilder<SettingsBloc, SettingsState>(
-                    builder: (context, state) {
-                      state as SettingsSuccess;
+      child: CardWithForcedTint(
+        child: Stack(
+          children: [
+            if (widget.activity.imageUri != null)
+              Positioned.fill(
+                child: BlocBuilder<SettingsBloc, SettingsState>(
+                  builder: (context, state) {
+                    state as SettingsSuccess;
 
-                      return CachedNetworkImage(
-                        imageUrl: posterUri.toString(),
-                        httpHeaders: {
-                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                            headerModel.key: headerModel.value,
-                        },
-                        imageBuilder: (context, imageProvider) => DecoratedBox(
-                          position: DecorationPosition.foreground,
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.4),
-                          ),
-                          child: ImageFiltered(
-                            imageFilter: ImageFilter.blur(
-                              sigmaX: 25,
-                              sigmaY: 25,
-                              tileMode: TileMode.decal,
-                            ),
-                            child: Image(
-                              image: imageProvider,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
+                    return CachedNetworkImage(
+                      imageUrl: posterUri.toString(),
+                      httpHeaders: {
+                        for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
+                      },
+                      imageBuilder: (context, imageProvider) => DecoratedBox(
+                        position: DecorationPosition.foreground,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.4),
                         ),
-                        placeholder: (context, url) => ImageFiltered(
+                        child: ImageFiltered(
                           imageFilter: ImageFilter.blur(
                             sigmaX: 25,
                             sigmaY: 25,
                             tileMode: TileMode.decal,
                           ),
-                          child: Image.asset(
-                            'assets/images/poster_fallback.png',
-                            fit: BoxFit.cover,
+                          child: Image(
+                            image: imageProvider,
+                            fit: BoxFit.fill,
                           ),
                         ),
-                        errorWidget: (context, url, error) => ImageFiltered(
-                          imageFilter: ImageFilter.blur(
-                            sigmaX: 25,
-                            sigmaY: 25,
-                            tileMode: TileMode.decal,
+                      ),
+                      placeholder: (context, url) => ImageFiltered(
+                        imageFilter: ImageFilter.blur(
+                          sigmaX: 25,
+                          sigmaY: 25,
+                          tileMode: TileMode.decal,
+                        ),
+                        child: Image.asset(
+                          'assets/images/poster_fallback.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => ImageFiltered(
+                        imageFilter: ImageFilter.blur(
+                          sigmaX: 25,
+                          sigmaY: 25,
+                          tileMode: TileMode.decal,
+                        ),
+                        child: Image.asset(
+                          'assets/images/poster_error.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            Positioned.fill(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Poster(
+                            mediaType: widget.activity.mediaType,
+                            uri: posterUri,
+                            activityState: widget.activity.state,
                           ),
-                          child: Image.asset(
-                            'assets/images/poster_error.png',
-                            fit: BoxFit.cover,
+                          const Gap(8),
+                          Expanded(
+                            child: ActivityDetails(
+                              activity: widget.activity,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: ProgressBar(activity: widget.activity),
+                  ),
+                ],
+              ),
+            ),
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => showModalBottomSheet(
+                    context: context,
+                    constraints: const BoxConstraints(
+                      maxWidth: 500,
+                    ),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    isScrollControlled: true,
+                    builder: (context) {
+                      return BlocProvider.value(
+                        value: _activityBloc,
+                        child: BlocProvider(
+                          create: (context) => di.sl<TerminateStreamBloc>(),
+                          child: ActivityBottomSheet(
+                            server: widget.server,
+                            activity: widget.activity,
                           ),
                         ),
                       );
                     },
                   ),
                 ),
-              Positioned.fill(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Poster(
-                              mediaType: widget.activity.mediaType,
-                              uri: posterUri,
-                              activityState: widget.activity.state,
-                            ),
-                            const Gap(8),
-                            Expanded(
-                              child: ActivityDetails(
-                                activity: widget.activity,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: ProgressBar(activity: widget.activity),
-                    ),
-                  ],
-                ),
               ),
-              Positioned.fill(
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () => showModalBottomSheet(
-                      context: context,
-                      constraints: const BoxConstraints(
-                        maxWidth: 500,
-                      ),
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      isScrollControlled: true,
-                      builder: (context) {
-                        return BlocProvider.value(
-                          value: _activityBloc,
-                          child: BlocProvider(
-                            create: (context) => di.sl<TerminateStreamBloc>(),
-                            child: ActivityBottomSheet(
-                              server: widget.server,
-                              activity: widget.activity,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

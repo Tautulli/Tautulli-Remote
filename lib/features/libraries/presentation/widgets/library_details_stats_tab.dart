@@ -97,8 +97,7 @@ class _LibraryDetailsStatsTabState extends State<LibraryDetailsStatsTab> {
   }) {
     List<Widget> statList = [];
 
-    if (state.watchTimeStatsStatus != BlocStatus.initial ||
-        (state.watchTimeStatsStatus == BlocStatus.initial && state.watchTimeStatsList.isNotEmpty)) {
+    if (state.watchTimeStatsStatus != BlocStatus.initial || (state.watchTimeStatsStatus == BlocStatus.initial && state.watchTimeStatsList.isNotEmpty)) {
       statList.add(
         Padding(
           padding: const EdgeInsets.fromLTRB(4, 0, 8, 8),
@@ -127,23 +126,27 @@ class _LibraryDetailsStatsTabState extends State<LibraryDetailsStatsTab> {
           statList.add(
             IconCard(
               icon: watchTimeStat.queryDays == 1
-                  ? const FaIcon(
+                  ? FaIcon(
                       FontAwesomeIcons.solidClock,
                       size: 45,
+                      color: Theme.of(context).colorScheme.onSurface,
                     )
                   : watchTimeStat.queryDays == 7
-                      ? const FaIcon(
+                      ? FaIcon(
                           FontAwesomeIcons.calendarWeek,
                           size: 50,
+                          color: Theme.of(context).colorScheme.onSurface,
                         )
                       : watchTimeStat.queryDays == 30
-                          ? const FaIcon(
+                          ? FaIcon(
                               FontAwesomeIcons.solidCalendarDays,
                               size: 50,
+                              color: Theme.of(context).colorScheme.onSurface,
                             )
-                          : const FaIcon(
+                          : FaIcon(
                               FontAwesomeIcons.hourglass,
                               size: 50,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
               details: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -152,10 +155,18 @@ class _LibraryDetailsStatsTabState extends State<LibraryDetailsStatsTab> {
                   Text(
                     _determineWatchTimeStatTitle(watchTimeStat),
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 16),
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
-                  _playsRichText(totalPlays: watchTimeStat.totalPlays ?? 0),
-                  _timeRichText(totalTime: watchTimeStat.totalTime ?? 0),
+                  _playsRichText(
+                    context: context,
+                    totalPlays: watchTimeStat.totalPlays ?? 0,
+                  ),
+                  _timeRichText(
+                    context: context,
+                    totalTime: watchTimeStat.totalTime ?? 0,
+                  ),
                 ],
               ),
             ),
@@ -170,8 +181,7 @@ class _LibraryDetailsStatsTabState extends State<LibraryDetailsStatsTab> {
       }
     }
 
-    if (state.userStatsStatus != BlocStatus.initial ||
-        (state.userStatsStatus == BlocStatus.initial && state.userStatsList.isNotEmpty)) {
+    if (state.userStatsStatus != BlocStatus.initial || (state.userStatsStatus == BlocStatus.initial && state.userStatsList.isNotEmpty)) {
       statList.add(
         Padding(
           padding: const EdgeInsets.fromLTRB(4, 8, 8, 8),
@@ -251,6 +261,7 @@ String _determineWatchTimeStatTitle(LibraryWatchTimeStatModel watchTimeStat) {
 }
 
 RichText _playsRichText({
+  required BuildContext context,
   required int totalPlays,
 }) {
   return RichText(
@@ -265,17 +276,20 @@ RichText _playsRichText({
         const TextSpan(text: ' '),
         TextSpan(
           text: totalPlays.toString(),
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.w300,
-            color: Colors.grey[200],
           ),
         ),
       ],
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
     ),
   );
 }
 
 RichText _timeRichText({
+  required BuildContext context,
   required int totalTime,
 }) {
   final durationMap = TimeHelper.durationMap(
@@ -292,35 +306,26 @@ RichText _timeRichText({
           ),
         ),
         const TextSpan(text: ' '),
-        if (durationMap['day']! > 0)
-          _timeTextSpan(
-            '${durationMap['day'].toString()} ${LocaleKeys.days.tr()} ',
-          ),
-        if (durationMap['hour']! > 0)
-          _timeTextSpan(
-            '${durationMap['hour'].toString()} ${LocaleKeys.hrs.tr()} ',
-          ),
-        if (durationMap['min']! > 0)
-          _timeTextSpan(
-            '${durationMap['min'].toString()} ${LocaleKeys.mins.tr()}',
-          ),
+        if (durationMap['day']! > 0) _timeTextSpan(text: '${durationMap['day'].toString()} ${LocaleKeys.days.tr()} '),
+        if (durationMap['hour']! > 0) _timeTextSpan(text: '${durationMap['hour'].toString()} ${LocaleKeys.hrs.tr()} '),
+        if (durationMap['min']! > 0) _timeTextSpan(text: '${durationMap['min'].toString()} ${LocaleKeys.mins.tr()}'),
         if (durationMap['day']! < 1 && durationMap['hour']! < 1 && durationMap['min']! < 1 && durationMap['sec']! > 0)
-          _timeTextSpan(
-            '${durationMap['sec'].toString()} ${LocaleKeys.secs.tr()}',
-          ),
+          _timeTextSpan(text: '${durationMap['sec'].toString()} ${LocaleKeys.secs.tr()}'),
         if (durationMap['day']! < 1 && durationMap['hour']! < 1 && durationMap['min']! < 1 && durationMap['sec']! < 1)
-          _timeTextSpan('0 ${LocaleKeys.min.tr()}'),
+          _timeTextSpan(text: '0 ${LocaleKeys.min.tr()}'),
       ],
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
     ),
   );
 }
 
-TextSpan _timeTextSpan(String text) {
+TextSpan _timeTextSpan({required String text}) {
   return TextSpan(
     text: text,
-    style: TextStyle(
+    style: const TextStyle(
       fontWeight: FontWeight.w300,
-      color: Colors.grey[200],
     ),
   );
 }

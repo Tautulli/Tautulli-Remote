@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 import '../../features/settings/data/models/custom_header_model.dart';
 import '../../features/settings/presentation/bloc/settings_bloc.dart';
 import '../types/media_type.dart';
+import 'card_with_forced_tint.dart';
 import 'poster.dart';
 
 class PosterCard extends StatelessWidget {
@@ -30,7 +31,7 @@ class PosterCard extends StatelessWidget {
       height: MediaQuery.of(context).textScaleFactor > 1 ? 100 * MediaQuery.of(context).textScaleFactor : 100,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: Card(
+        child: CardWithForcedTint(
           child: Stack(
             children: [
               if (uri != null)
@@ -42,8 +43,7 @@ class PosterCard extends StatelessWidget {
                       return CachedNetworkImage(
                         imageUrl: uri.toString(),
                         httpHeaders: {
-                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                            headerModel.key: headerModel.value,
+                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
                         },
                         imageBuilder: (context, imageProvider) => DecoratedBox(
                           position: DecorationPosition.foreground,

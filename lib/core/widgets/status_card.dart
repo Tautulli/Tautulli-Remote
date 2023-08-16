@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../translations/locale_keys.g.dart';
+import 'card_with_forced_tint.dart';
 
 class StatusCard extends StatelessWidget {
   final bool isFailure;
@@ -19,7 +20,7 @@ class StatusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).textScaleFactor > 1 ? 100 * MediaQuery.of(context).textScaleFactor : 100,
-      child: Card(
+      child: CardWithForcedTint(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -32,14 +33,16 @@ class StatusCard extends StatelessWidget {
                     if (isFailure)
                       TextSpan(
                         text: '${LocaleKeys.failure_title.tr()}: ',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 15,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                     TextSpan(
                       text: message,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ],
@@ -48,8 +51,9 @@ class StatusCard extends StatelessWidget {
               if (suggestion != null && suggestion != '')
                 Text(
                   suggestion!,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w300,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                   textAlign: TextAlign.center,
                 ),

@@ -29,9 +29,7 @@ class UserDetails extends StatelessWidget {
             state as SettingsSuccess;
 
             return Text(
-              state.appSettings.maskSensitiveInfo
-                  ? LocaleKeys.hidden_message.tr()
-                  : user.friendlyName ?? 'name missing',
+              state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : user.friendlyName ?? 'name missing',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -51,21 +49,23 @@ class UserDetails extends StatelessWidget {
                 ),
                 TextSpan(
                   text: user.lastSeen != null ? TimeHelper.moment(user.lastSeen) : LocaleKeys.never.tr(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,
-                    color: Colors.grey[200],
                   ),
                 ),
               ],
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
-        _playsAndDuration(),
+        _playsAndDuration(context),
       ],
     );
   }
 
-  Widget _playsAndDuration() {
+  Widget _playsAndDuration(BuildContext context) {
     Map<String, int> durationMap = TimeHelper.durationMap(
       Duration(seconds: user.duration ?? 0),
     );
@@ -87,13 +87,15 @@ class UserDetails extends StatelessWidget {
                   ),
                   TextSpan(
                     text: user.plays.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w300,
                       fontSize: 13,
-                      color: Colors.grey[200],
                     ),
                   ),
                 ],
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             ),
           ],
@@ -106,10 +108,7 @@ class UserDetails extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   children: [
-                    if (durationMap['day']! > 1 ||
-                        durationMap['hour']! > 1 ||
-                        durationMap['min']! > 1 ||
-                        durationMap['sec']! > 1)
+                    if (durationMap['day']! > 1 || durationMap['hour']! > 1 || durationMap['min']! > 1 || durationMap['sec']! > 1)
                       TextSpan(
                         text: '${LocaleKeys.time_title.tr()} ',
                       ),
@@ -118,18 +117,16 @@ class UserDetails extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: durationMap['day'].toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: ' days ',
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
                         ],
@@ -139,18 +136,16 @@ class UserDetails extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: durationMap['hour'].toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: ' hrs ',
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
                         ],
@@ -160,47 +155,43 @@ class UserDetails extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: durationMap['min'].toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: ' mins',
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
                         ],
                       ),
-                    if (durationMap['day']! < 1 &&
-                        durationMap['hour']! < 1 &&
-                        durationMap['min']! < 1 &&
-                        durationMap['sec']! > 0)
+                    if (durationMap['day']! < 1 && durationMap['hour']! < 1 && durationMap['min']! < 1 && durationMap['sec']! > 0)
                       TextSpan(
                         children: [
                           TextSpan(
                             text: durationMap['sec'].toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: ' secs',
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13,
-                              color: Colors.grey[200],
                             ),
                           ),
                         ],
                       ),
                   ],
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ),
             ],

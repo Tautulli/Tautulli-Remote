@@ -102,8 +102,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
         body: BlocBuilder<RecentlyAddedBloc, RecentlyAddedState>(
           builder: (context, state) {
             return PageBody(
-              loading:
-                  state.status == BlocStatus.initial && !state.hasReachedMax,
+              loading: state.status == BlocStatus.initial && !state.hasReachedMax,
               child: ThemedRefreshIndicator(
                 onRefresh: () {
                   _recentlyAddedBloc.add(
@@ -139,10 +138,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax ||
-                              state.status == BlocStatus.initial
-                          ? state.recentlyAdded.length
-                          : state.recentlyAdded.length + 1,
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial ? state.recentlyAdded.length : state.recentlyAdded.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
                       itemBuilder: (context, index) {
                         if (index >= state.recentlyAdded.length) {
@@ -211,7 +207,6 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
   List<Widget> _appBarActions() {
     return [
       PopupMenuButton(
-        color: Theme.of(context).colorScheme.primary,
         tooltip: LocaleKeys.filter_recently_added_title.tr(),
         // Use BlocBuilder to update the state of the icon when server is
         // changed without closing the inner drawer.
@@ -219,9 +214,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
           builder: (context, state) {
             return FaIcon(
               FontAwesomeIcons.filter,
-              color: _mediaType != null
-                  ? Theme.of(context).colorScheme.secondary
-                  : Theme.of(context).colorScheme.tertiary,
+              color: _mediaType != null ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
               size: 20,
             );
           },
@@ -275,9 +268,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
               child: Text(
                 'All',
                 style: TextStyle(
-                  color: _mediaType == null
-                      ? Theme.of(context).colorScheme.secondary
-                      : null,
+                  color: _mediaType == null ? Theme.of(context).colorScheme.primary : null,
                 ),
               ),
             ),
@@ -286,9 +277,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
               child: Text(
                 'Movies',
                 style: TextStyle(
-                  color: _mediaType == MediaType.movie
-                      ? Theme.of(context).colorScheme.secondary
-                      : null,
+                  color: _mediaType == MediaType.movie ? Theme.of(context).colorScheme.primary : null,
                 ),
               ),
             ),
@@ -297,9 +286,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
               child: Text(
                 'TV Shows',
                 style: TextStyle(
-                  color: _mediaType == MediaType.show
-                      ? Theme.of(context).colorScheme.secondary
-                      : null,
+                  color: _mediaType == MediaType.show ? Theme.of(context).colorScheme.primary : null,
                 ),
               ),
             ),
@@ -308,9 +295,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
               child: Text(
                 'Music',
                 style: TextStyle(
-                  color: _mediaType == MediaType.artist
-                      ? Theme.of(context).colorScheme.secondary
-                      : null,
+                  color: _mediaType == MediaType.artist ? Theme.of(context).colorScheme.primary : null,
                 ),
               ),
             ),
@@ -319,9 +304,7 @@ class _RecentlyAddedViewState extends State<RecentlyAddedView> {
               child: Text(
                 'Videos',
                 style: TextStyle(
-                  color: _mediaType == MediaType.otherVideo
-                      ? Theme.of(context).colorScheme.secondary
-                      : null,
+                  color: _mediaType == MediaType.otherVideo ? Theme.of(context).colorScheme.primary : null,
                 ),
               ),
             ),

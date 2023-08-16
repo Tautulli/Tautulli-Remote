@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
-
 class ChangeTypeTag extends StatelessWidget {
   final String type;
 
@@ -18,19 +16,19 @@ class ChangeTypeTag extends StatelessWidget {
     switch (type) {
       case 'important':
         text = 'NOTE';
-        color = PlexColorPalette.cinnabar;
+        color = Theme.of(context).colorScheme.errorContainer;
         break;
       case 'new':
         text = 'NEW';
-        color = PlexColorPalette.gamboge;
+        color = Theme.of(context).colorScheme.primaryContainer;
         break;
       case 'improvement':
         text = 'IMPR';
-        color = PlexColorPalette.curiousBlue;
+        color = Theme.of(context).colorScheme.secondaryContainer;
         break;
       case 'fix':
         text = 'FIX';
-        color = Colors.green[600]!;
+        color = Theme.of(context).colorScheme.tertiaryContainer;
         break;
       default:
         text = '';

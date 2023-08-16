@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/device_info/device_info.dart';
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
 
@@ -13,20 +14,25 @@ class AppUpdateAlertBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialBanner(
-      backgroundColor: Theme.of(context).colorScheme.secondary,
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
       leading: const FaIcon(
         FontAwesomeIcons.download,
         size: 30,
+        color: TautulliColorPalette.notWhite,
       ),
       content: const Text(
         LocaleKeys.app_update_available_message,
         style: TextStyle(
           fontWeight: FontWeight.bold,
+          color: TautulliColorPalette.notWhite,
         ),
       ).tr(),
       actions: [
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: TautulliColorPalette.notWhite,
+          ),
           onPressed: () async {
             String platform = await di.sl<DeviceInfo>().platform;
 

@@ -13,8 +13,8 @@ class ThemedRefreshIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      color: Theme.of(context).colorScheme.tertiary,
+      // backgroundColor: Theme.of(context).colorScheme.primary,
+      // color: Theme.of(context).colorScheme.primary,
       onRefresh: onRefresh,
       child: child,
     );

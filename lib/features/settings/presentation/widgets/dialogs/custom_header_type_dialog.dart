@@ -20,19 +20,20 @@ class CustomHeaderTypeDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool authHeaderExists =
-        currentHeaders?.indexWhere((header) => header.key == 'Authorization') !=
-            -1;
+    final bool authHeaderExists = currentHeaders?.indexWhere((header) => header.key == 'Authorization') != -1;
 
     return SimpleDialog(
       clipBehavior: Clip.hardEdge,
       children: [
         ListTile(
           enabled: !authHeaderExists,
-          leading: const SizedBox(
+          leading: SizedBox(
             width: 35,
             child: Center(
-              child: FaIcon(FontAwesomeIcons.solidAddressCard),
+              child: FaIcon(
+                FontAwesomeIcons.solidAddressCard,
+                color: !authHeaderExists ? Theme.of(context).colorScheme.onSurface : Theme.of(context).disabledColor,
+              ),
             ),
           ),
           title: const Text(LocaleKeys.basic_authentication_title).tr(),
@@ -52,10 +53,13 @@ class CustomHeaderTypeDialog extends StatelessWidget {
           },
         ),
         ListTile(
-          leading: const SizedBox(
+          leading: SizedBox(
             width: 35,
             child: Center(
-              child: FaIcon(FontAwesomeIcons.addressCard),
+              child: FaIcon(
+                FontAwesomeIcons.addressCard,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
           title: const Text(LocaleKeys.custom_title).tr(),

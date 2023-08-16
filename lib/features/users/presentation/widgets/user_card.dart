@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../data/models/user_model.dart';
 import '../../data/models/user_table_model.dart';
 import '../pages/user_details_page.dart';
@@ -61,16 +62,14 @@ class _UserCardState extends State<UserCard> {
           color = snapshot.data as Color;
         }
 
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(12),
+        return CardWithForcedTint(
           child: SizedBox(
             height: MediaQuery.of(context).textScaleFactor > 1 ? 100 * MediaQuery.of(context).textScaleFactor : 100,
             child: Stack(
               children: [
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 400),
-                  child:
-                      color != null ? _DarkenedBackground(color: color) : Container(color: Theme.of(context).cardColor),
+                  child: color != null ? _DarkenedBackground(color: color) : null,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),

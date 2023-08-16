@@ -82,12 +82,10 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                             String formattedBitrate = '';
                             late String finalText;
 
-                            if (widget.activity.mediaType != MediaType.photo &&
-                                widget.activity.qualityProfile != 'Unknown') {
+                            if (widget.activity.mediaType != MediaType.photo && widget.activity.qualityProfile != 'Unknown') {
                               if (widget.activity.streamBitrate != null) {
                                 if (widget.activity.streamBitrate! > 1000) {
-                                  formattedBitrate =
-                                      '${(widget.activity.streamBitrate! / 1000).toStringAsFixed(1)} Mbps';
+                                  formattedBitrate = '${(widget.activity.streamBitrate! / 1000).toStringAsFixed(1)} Mbps';
                                 } else {
                                   formattedBitrate = '${widget.activity.streamBitrate} kbps';
                                 }
@@ -125,8 +123,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                               if (widget.activity.transcodeThrottled == true) {
                                 finalText = '${LocaleKeys.transcode_title.tr()} (${LocaleKeys.throttled_title.tr()})';
                               } else {
-                                finalText =
-                                    '${LocaleKeys.transcode_title.tr()} (${LocaleKeys.speed_title.tr()}: ${widget.activity.transcodeSpeed})';
+                                finalText = '${LocaleKeys.transcode_title.tr()} (${LocaleKeys.speed_title.tr()}: ${widget.activity.transcodeSpeed})';
                               }
                             } else if (widget.activity.transcodeDecision == StreamDecision.copy) {
                               finalText = LocaleKeys.direct_stream_title.tr();
@@ -151,17 +148,21 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                     text: TextSpan(
                                       children: [
                                         TextSpan(text: '${widget.activity.container?.toUpperCase()}'),
-                                        const WidgetSpan(
+                                        WidgetSpan(
                                           child: Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 5),
+                                            padding: const EdgeInsets.symmetric(horizontal: 5),
                                             child: FaIcon(
                                               FontAwesomeIcons.rightLong,
                                               size: 16,
+                                              color: Theme.of(context).colorScheme.onBackground,
                                             ),
                                           ),
                                         ),
                                         TextSpan(text: '${widget.activity.streamContainer?.toUpperCase()}'),
                                       ],
+                                      style: TextStyle(
+                                        color: Theme.of(context).colorScheme.onBackground,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -211,15 +212,15 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text:
-                                                  '${widget.activity.videoCodec?.toUpperCase()}$hwD ${widget.activity.videoFullResolution}$videoDynamicRange',
+                                              text: '${widget.activity.videoCodec?.toUpperCase()}$hwD ${widget.activity.videoFullResolution}$videoDynamicRange',
                                             ),
-                                            const WidgetSpan(
+                                            WidgetSpan(
                                               child: Padding(
-                                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                                padding: const EdgeInsets.symmetric(horizontal: 5),
                                                 child: FaIcon(
                                                   FontAwesomeIcons.rightLong,
                                                   size: 16,
+                                                  color: Theme.of(context).colorScheme.onBackground,
                                                 ),
                                               ),
                                             ),
@@ -228,6 +229,9 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                                   '${widget.activity.streamVideoCodec?.toUpperCase()}$hwE ${widget.activity.streamVideoFullResolution}$streamVideoDynamicRange',
                                             ),
                                           ],
+                                          style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onBackground,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -269,12 +273,13 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                               text:
                                                   '${widget.activity.audioLanguage} - ${widget.activity.audioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.audioChannelLayout!.split("(")[0])}',
                                             ),
-                                          const WidgetSpan(
+                                          WidgetSpan(
                                             child: Padding(
-                                              padding: EdgeInsets.symmetric(horizontal: 5),
+                                              padding: const EdgeInsets.symmetric(horizontal: 5),
                                               child: FaIcon(
                                                 FontAwesomeIcons.rightLong,
                                                 size: 16,
+                                                color: Theme.of(context).colorScheme.onBackground,
                                               ),
                                             ),
                                           ),
@@ -284,6 +289,9 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                                   '${widget.activity.streamAudioCodec?.toUpperCase()} ${StringHelper.capitalize(widget.activity.streamAudioChannelLayout!.split("(")[0])}',
                                             ),
                                         ],
+                                        style: TextStyle(
+                                          color: Theme.of(context).colorScheme.onBackground,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -321,15 +329,15 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text:
-                                                  '${widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()}',
+                                              text: '${widget.activity.subtitleLanguage} - ${widget.activity.subtitleCodec?.toUpperCase()}',
                                             ),
-                                            const WidgetSpan(
+                                            WidgetSpan(
                                               child: Padding(
-                                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                                padding: const EdgeInsets.symmetric(horizontal: 5),
                                                 child: FaIcon(
                                                   FontAwesomeIcons.rightLong,
                                                   size: 16,
+                                                  color: Theme.of(context).colorScheme.onBackground,
                                                 ),
                                               ),
                                             ),
@@ -337,6 +345,9 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                                               text: widget.activity.streamSubtitleCodec?.toUpperCase(),
                                             ),
                                           ],
+                                          style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onBackground,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -370,6 +381,7 @@ class _ActivityBottomSheetDetailsState extends State<ActivityBottomSheetDetails>
                               child: FaIcon(
                                 widget.activity.secure == true ? FontAwesomeIcons.lock : FontAwesomeIcons.lockOpen,
                                 size: 14,
+                                color: Theme.of(context).colorScheme.onBackground,
                               ),
                             ),
                             Expanded(
@@ -475,7 +487,7 @@ class _ItemRow extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,
-                    color: Colors.grey[500],
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                   textAlign: TextAlign.end,
                 ),

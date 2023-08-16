@@ -22,7 +22,8 @@ class RegistrationExitDialog extends StatelessWidget {
         ),
         TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.error,
+            backgroundColor: Theme.of(context).colorScheme.errorContainer,
+            foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
           ),
           onPressed: () {
             context.read<RegistrationHeadersBloc>().add(

@@ -1,10 +1,9 @@
 import 'dart:math';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../types/tautulli_types.dart';
-import 'color_palette_helper.dart';
 
 class IconHelper {
   static IconData mapStateToIcon(String state) {
@@ -59,13 +58,16 @@ class IconHelper {
     }
   }
 
-  static Widget mapWatchedStatusToIcon(WatchedStatus? watchedStatus) {
+  static Widget mapWatchedStatusToIcon({
+    required BuildContext context,
+    WatchedStatus? watchedStatus,
+  }) {
     const double size = 16;
-    const Color color = TautulliColorPalette.notWhite;
+    final Color color = Theme.of(context).colorScheme.onSurface;
 
     switch (watchedStatus) {
       case (WatchedStatus.high):
-        return const FaIcon(
+        return FaIcon(
           FontAwesomeIcons.solidCircle,
           color: color,
           size: size,
@@ -73,7 +75,7 @@ class IconHelper {
       case (WatchedStatus.medium):
         return Transform.rotate(
           angle: 180 * pi / 180,
-          child: const FaIcon(
+          child: FaIcon(
             FontAwesomeIcons.circleHalfStroke,
             color: color,
             size: size,
@@ -81,7 +83,7 @@ class IconHelper {
         );
       case (WatchedStatus.low):
       default:
-        return const FaIcon(
+        return FaIcon(
           FontAwesomeIcons.circle,
           color: color,
           size: size,

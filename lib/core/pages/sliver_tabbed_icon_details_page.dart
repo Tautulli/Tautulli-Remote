@@ -146,9 +146,6 @@ class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPag
                     ),
                   ),
                   bottom: TabBar(
-                    // TabBarTheme does not appear to be applying divider color
-                    //TODO: Check if TabBarTheme is actually applying
-                    dividerColor: Colors.transparent,
                     labelPadding: const EdgeInsets.symmetric(horizontal: 8),
                     tabs: widget.tabs,
                   ),

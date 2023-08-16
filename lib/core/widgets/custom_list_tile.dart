@@ -32,7 +32,11 @@ class CustomListTile extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
         return Material(
-          color: Theme.of(context).colorScheme.primary,
+          color: ElevationOverlay.applySurfaceTint(
+            Theme.of(context).colorScheme.surface,
+            Theme.of(context).colorScheme.surfaceTint,
+            1,
+          ),
           child: ListTile(
             leading: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -48,19 +52,17 @@ class CustomListTile extends StatelessWidget {
             title: Text(
               title,
               overflow: TextOverflow.ellipsis,
-              style: inactive
-                  ? TextStyle(
-                      color: Theme.of(context).textTheme.titleSmall!.color,
-                    )
-                  : null,
+              style: TextStyle(
+                color: inactive ? Theme.of(context).colorScheme.onSurfaceVariant : Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             subtitle: subtitle != null
                 ? Text(
-                    sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo
-                        ? LocaleKeys.hidden_message.tr()
-                        : subtitle!,
+                    sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : subtitle!,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleSmall,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                   )
                 : null,
             trailing: trailing,

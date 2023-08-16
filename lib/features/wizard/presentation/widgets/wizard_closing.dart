@@ -31,12 +31,18 @@ class WizardClosing extends StatelessWidget {
                   ).tr(),
                   const Gap(8),
                   NoticeCard(
-                    leading: const FaIcon(FontAwesomeIcons.bullhorn),
+                    leading: FaIcon(
+                      FontAwesomeIcons.bullhorn,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                     title: LocaleKeys.wizard_closing_announcements.tr(),
                   ),
                   const Gap(8),
                   NoticeCard(
-                    leading: const FaIcon(FontAwesomeIcons.handshakeSimple),
+                    leading: FaIcon(
+                      FontAwesomeIcons.handshakeSimple,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                     title: LocaleKeys.wizard_closing_support.tr(),
                   ),
                   BlocBuilder<WizardBloc, WizardState>(
@@ -49,7 +55,10 @@ class WizardClosing extends StatelessWidget {
                           children: [
                             const Gap(8),
                             NoticeCard(
-                              leading: const FaIcon(FontAwesomeIcons.solidBell),
+                              leading: FaIcon(
+                                FontAwesomeIcons.solidBell,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                               title: LocaleKeys.wizard_closing_notifications.tr(),
                             ),
                           ],
@@ -60,7 +69,10 @@ class WizardClosing extends StatelessWidget {
                   ),
                   const Gap(8),
                   NoticeCard(
-                    leading: const FaIcon(FontAwesomeIcons.language),
+                    leading: FaIcon(
+                      FontAwesomeIcons.language,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                     title: LocaleKeys.wizard_closing_translate.tr(),
                   ),
                 ],

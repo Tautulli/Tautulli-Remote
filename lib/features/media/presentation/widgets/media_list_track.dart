@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/helpers/time_helper.dart';
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../data/models/media_model.dart';
 
 class MediaListTrack extends StatelessWidget {
@@ -20,7 +21,7 @@ class MediaListTrack extends StatelessWidget {
       height: MediaQuery.of(context).textScaleFactor > 1 ? 50 * MediaQuery.of(context).textScaleFactor : 50,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: Card(
+        child: CardWithForcedTint(
           child: Stack(
             children: [
               Positioned.fill(

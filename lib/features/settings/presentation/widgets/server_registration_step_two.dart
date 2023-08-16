@@ -5,8 +5,10 @@ import 'package:gap/gap.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../core/qr_code_scanner/qr_code_scanner.dart';
+import '../../../../core/widgets/themed_text_form_field.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../../translations/locale_keys.g.dart';
+import 'dialogs/secondary_connection_address_info_dialog.dart';
 import 'registration_instruction.dart';
 
 class ServerRegistrationStepTwo extends StatefulWidget {
@@ -45,6 +47,10 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                foregroundColor: Theme.of(context).colorScheme.onSurface,
+              ),
               child: const Text(LocaleKeys.scan_qr_code_title).tr(),
               onPressed: () async {
                 try {
@@ -58,8 +64,11 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Theme.of(context).colorScheme.error,
-                      content: const Text(
+                      content: Text(
                         LocaleKeys.qr_code_scan_error_snackbar_message,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onError,
+                        ),
                       ).tr(),
                     ),
                   );
@@ -79,25 +88,10 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Gap(8),
-          TextFormField(
+          ThemedTextFormField(
             controller: widget.primaryController,
             focusNode: _primaryFocus,
-            autocorrect: false,
-            decoration: InputDecoration(
-              labelText: '${LocaleKeys.primary_connection_address_title.tr()}${!_primaryValid ? '*' : ''}',
-              labelStyle: TextStyle(
-                color: _primaryValid
-                    ? Theme.of(context).inputDecorationTheme.labelStyle!.color
-                    : Theme.of(context).colorScheme.error,
-              ),
-              floatingLabelStyle: TextStyle(
-                color: !_primaryValid
-                    ? Theme.of(context).colorScheme.error
-                    : _primaryFocus.hasFocus
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).inputDecorationTheme.enabledBorder!.borderSide.color,
-              ),
-            ),
+            labelText: '${LocaleKeys.primary_connection_address_title.tr()}${!_primaryValid ? '*' : ''}',
             onTap: () {
               setState(() {
                 FocusScope.of(context).requestFocus(_primaryFocus);
@@ -123,65 +117,26 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
             },
           ),
           const Gap(16),
-          TextFormField(
+          ThemedTextFormField(
             controller: widget.secondaryController,
             focusNode: _secondaryFocus,
-            autocorrect: false,
-            decoration: InputDecoration(
-              labelText: '${LocaleKeys.secondary_connection_address_title.tr()}${!_secondaryValid ? '*' : ''}',
-              labelStyle: TextStyle(
-                color: _secondaryValid
-                    ? Theme.of(context).inputDecorationTheme.labelStyle!.color
-                    : Theme.of(context).colorScheme.error,
-              ),
-              floatingLabelStyle: TextStyle(
-                color: !_secondaryValid
-                    ? Theme.of(context).colorScheme.error
-                    : _secondaryFocus.hasFocus
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).inputDecorationTheme.enabledBorder!.borderSide.color,
-              ),
-              suffixIcon: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Material(
-                  color: Colors.transparent,
-                  child: IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.solidCircleQuestion,
-                    ),
-                    onPressed: () async {
-                      await showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text(
-                              LocaleKeys.secondary_connection_address_title,
-                            ).tr(),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text(
-                                  LocaleKeys.secondary_connection_address_explanation_one,
-                                ).tr(),
-                                const Gap(8),
-                                const Text(
-                                  LocaleKeys.secondary_connection_address_explanation_two,
-                                ).tr(),
-                              ],
-                            ),
-                            actions: [
-                              TextButton(
-                                child: const Text(LocaleKeys.close_title).tr(),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
+            labelText: '${LocaleKeys.secondary_connection_address_title.tr()}${!_secondaryValid ? '*' : ''}',
+            suffixIcon: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Material(
+                color: Colors.transparent,
+                child: IconButton(
+                  icon: const FaIcon(
+                    FontAwesomeIcons.solidCircleQuestion,
                   ),
+                  onPressed: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const SecondaryConnectionAddressInfoDialog();
+                      },
+                    );
+                  },
                 ),
               ),
             ),
@@ -210,25 +165,10 @@ class ServerRegistrationStepTwoState extends State<ServerRegistrationStepTwo> {
             },
           ),
           const Gap(16),
-          TextFormField(
+          ThemedTextFormField(
             controller: widget.tokenController,
             focusNode: _tokenFocus,
-            autocorrect: false,
-            decoration: InputDecoration(
-              labelText: '${LocaleKeys.device_token_title.tr()}${!_tokenValid ? '*' : ''}',
-              labelStyle: TextStyle(
-                color: _tokenValid
-                    ? Theme.of(context).inputDecorationTheme.labelStyle!.color
-                    : Theme.of(context).colorScheme.error,
-              ),
-              floatingLabelStyle: TextStyle(
-                color: !_tokenValid
-                    ? Theme.of(context).colorScheme.error
-                    : _tokenFocus.hasFocus
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).inputDecorationTheme.enabledBorder!.borderSide.color,
-              ),
-            ),
+            labelText: '${LocaleKeys.device_token_title.tr()}${!_tokenValid ? '*' : ''}',
             onTap: () {
               setState(() {
                 FocusScope.of(context).requestFocus(_tokenFocus);

@@ -48,7 +48,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
   late ServerModel _server;
   late SearchHistoryBloc _searchHistoryBloc;
   late SettingsBloc _settingsBloc;
-  int? _userId;
+  int _userId = -1;
   bool _movieMediaType = false;
   bool _episodeMediaType = false;
   bool _trackMediaType = false;
@@ -102,9 +102,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                 return ListView.separated(
                   controller: _scrollController,
                   padding: const EdgeInsets.all(8),
-                  itemCount: searchState.hasReachedMax ||
-                          searchState.status == BlocStatus.initial ||
-                          searchState.status == BlocStatus.inProgress
+                  itemCount: searchState.hasReachedMax || searchState.status == BlocStatus.initial || searchState.status == BlocStatus.inProgress
                       ? searchState.history.length
                       : searchState.history.length + 1,
                   separatorBuilder: (context, index) => const Gap(8),
@@ -193,7 +191,6 @@ class _HistorySearchViewState extends State<HistorySearchView> {
           controller: _textController,
           focusNode: _focusNode,
           autofocus: true,
-          cursorColor: Theme.of(context).colorScheme.tertiary,
           style: const TextStyle(
             fontSize: 18,
           ),
@@ -212,9 +209,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
               child: IconButton(
                 icon: FaIcon(
                   FontAwesomeIcons.xmark,
-                  color: isNotEmpty(_textController.text)
-                      ? Theme.of(context).textTheme.titleSmall!.color!
-                      : Colors.transparent,
+                  color: isNotEmpty(_textController.text) ? Theme.of(context).colorScheme.onSurface : Colors.transparent,
                   size: 20,
                 ),
                 onPressed: isNotEmpty(_textController.text)
@@ -279,13 +274,10 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                   enabled: state.status == BlocStatus.success,
                   icon: FaIcon(
                     state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
-                    color: (_userId != -1 && _userId != null)
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).colorScheme.tertiary,
+                    color: (_userId != -1) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                     size: 20,
                   ),
                   tooltip: LocaleKeys.select_user_title.tr(),
-                  color: Theme.of(context).colorScheme.primary,
                   onSelected: (value) {
                     setState(() {
                       _userId = value as int;
@@ -324,11 +316,9 @@ class _HistorySearchViewState extends State<HistorySearchView> {
                                 state as SettingsSuccess;
 
                                 return Text(
-                                  state.appSettings.maskSensitiveInfo
-                                      ? LocaleKeys.hidden_message.tr()
-                                      : user.friendlyName ?? '',
+                                  state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : user.friendlyName ?? '',
                                   style: TextStyle(
-                                    color: _userId == user.userId! ? Theme.of(context).colorScheme.secondary : null,
+                                    color: _userId == user.userId! ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                                   ),
                                 );
                               },
@@ -357,29 +347,19 @@ class _HistorySearchViewState extends State<HistorySearchView> {
       // is changed.
       BlocBuilder<UsersBloc, UsersState>(
         builder: (context, state) {
-          return Theme(
-            data: Theme.of(context).copyWith(
-              dividerTheme: DividerThemeData(
-                color: Theme.of(context).colorScheme.tertiary,
+          return PopupMenuButton(
+            icon: FaIcon(
+              FontAwesomeIcons.filter,
+              color: _filterOptionSelected() ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+              size: 20,
+            ),
+            tooltip: LocaleKeys.filter_history_title.tr(),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
               ),
             ),
-            child: PopupMenuButton(
-              icon: FaIcon(
-                FontAwesomeIcons.filter,
-                color: _filterOptionSelected()
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).colorScheme.tertiary,
-                size: 20,
-              ),
-              tooltip: LocaleKeys.filter_history_title.tr(),
-              color: Theme.of(context).colorScheme.primary,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12),
-                ),
-              ),
-              itemBuilder: _filterOptions,
-            ),
+            itemBuilder: _filterOptions,
           );
         },
       ),
@@ -387,13 +367,7 @@ class _HistorySearchViewState extends State<HistorySearchView> {
   }
 
   bool _filterOptionSelected() {
-    return _movieMediaType ||
-        _episodeMediaType ||
-        _trackMediaType ||
-        _liveMediaType ||
-        _directPlayDecision ||
-        _directStreamDecision ||
-        _transcodeDecision;
+    return _movieMediaType || _episodeMediaType || _trackMediaType || _liveMediaType || _directPlayDecision || _directStreamDecision || _transcodeDecision;
   }
 
   List<PopupMenuEntry<Object?>> _filterOptions(BuildContext context) {

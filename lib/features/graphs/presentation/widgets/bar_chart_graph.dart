@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/device_info/device_info.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/graph_helper.dart';
 import '../../../../core/helpers/string_helper.dart';
+import '../../../../core/helpers/theme_helper.dart';
 import '../../../../core/types/graph_type.dart';
 import '../../../../core/types/play_metric_type.dart';
 import '../../../../dependency_injection.dart' as di;
@@ -41,6 +41,7 @@ class BarChartGraph extends StatelessWidget {
       textScaleFactor: MediaQuery.of(context).textScaleFactor,
     );
     final List<BarChartGroupData>? barGroups = GraphHelper.buildBarGroups(
+      context: context,
       graphData: graphData,
       screenWidth: MediaQuery.of(context).size.width,
     );
@@ -65,8 +66,8 @@ class BarChartGraph extends StatelessWidget {
                           )
                         : value.toStringAsFixed(0),
                     textAlign: TextAlign.end,
-                    style: const TextStyle(
-                      color: Colors.grey,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       fontSize: 12,
                     ),
                   ),
@@ -114,8 +115,8 @@ class BarChartGraph extends StatelessWidget {
                     quarterTurns: 3,
                     child: Text(
                       text,
-                      style: const TextStyle(
-                        color: Colors.grey,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         fontSize: 12,
                       ),
                     ),
@@ -128,8 +129,8 @@ class BarChartGraph extends StatelessWidget {
                     turns: const AlwaysStoppedAnimation(-40 / 360),
                     child: Text(
                       text,
-                      style: const TextStyle(
-                        color: Colors.grey,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         fontSize: 12,
                       ),
                     ),
@@ -143,14 +144,14 @@ class BarChartGraph extends StatelessWidget {
           topTitles: const AxisTitles(),
         ),
         borderData: FlBorderData(
-          border: const Border(
+          border: Border(
             top: BorderSide(
               width: 1,
-              color: Colors.white24,
+              color: Theme.of(context).colorScheme.outline,
             ),
             bottom: BorderSide(
               width: 1,
-              color: Colors.white24,
+              color: Theme.of(context).colorScheme.outline,
             ),
           ),
         ),
@@ -163,9 +164,9 @@ class BarChartGraph extends StatelessWidget {
           getDrawingVerticalLine: (value) => FlLine(
             color: Colors.white.withOpacity(0.03),
           ),
-          getDrawingHorizontalLine: (value) => const FlLine(
+          getDrawingHorizontalLine: (value) => FlLine(
             strokeWidth: 1,
-            color: Colors.white24,
+            color: Theme.of(context).colorScheme.outline,
           ),
         ),
         barTouchData: BarTouchData(
@@ -173,7 +174,7 @@ class BarChartGraph extends StatelessWidget {
             fitInsideHorizontally: true,
             fitInsideVertically: true,
             tooltipRoundedRadius: 12,
-            tooltipBgColor: TautulliColorPalette.midnight.withOpacity(0.9),
+            tooltipBgColor: ThemeHelper.darkenedColor(Theme.of(context).colorScheme.surface).withOpacity(0.9),
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               List<GraphSeriesDataModel> validItems = List.from(
                 graphData.seriesDataList.where(
@@ -193,8 +194,8 @@ class BarChartGraph extends StatelessWidget {
                 textSpanList.add(
                   TextSpan(
                     text: '${LocaleKeys.hidden_message.tr()}\n\n',
-                    style: const TextStyle(
-                      color: Colors.grey,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 );
@@ -202,8 +203,8 @@ class BarChartGraph extends StatelessWidget {
                 textSpanList.add(
                   TextSpan(
                     text: '${graphData.categories[groupIndex]}\n\n',
-                    style: const TextStyle(
-                      color: Colors.grey,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 );
@@ -213,8 +214,7 @@ class BarChartGraph extends StatelessWidget {
                 if (yAxis == PlayMetricType.plays) {
                   textSpanList.add(
                     TextSpan(
-                      text:
-                          '${StringHelper.mapSeriesTypeToString(validItems[i].seriesType)}: ${validItems[i].seriesData[groupIndex]}',
+                      text: '${StringHelper.mapSeriesTypeToString(validItems[i].seriesType)}: ${validItems[i].seriesData[groupIndex]}',
                       style: TextStyle(
                         color: sortedRodStackItems[i].color,
                       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import 'change_type_tag.dart';
 
 class ChangelogItem extends StatelessWidget {
@@ -18,8 +18,7 @@ class ChangelogItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: bottomPadding ? 8 : 0),
-      child: Card(
-        margin: const EdgeInsets.all(0),
+      child: CardWithForcedTint(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -36,7 +35,7 @@ class ChangelogItem extends StatelessWidget {
                   ),
                   Text(
                     release['date'],
-                    style: GoogleFonts.openSans(fontWeight: FontWeight.w300),
+                    style: const TextStyle(fontWeight: FontWeight.w300),
                   ),
                 ],
               ),
@@ -71,7 +70,7 @@ class ChangelogItem extends StatelessWidget {
                                     Text(
                                       change['additional'],
                                       style: TextStyle(
-                                        color: Theme.of(context).textTheme.titleSmall!.color,
+                                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                                         fontSize: 13,
                                         fontStyle: FontStyle.italic,
                                       ),

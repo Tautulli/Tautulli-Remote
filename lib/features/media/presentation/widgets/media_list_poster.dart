@@ -48,13 +48,14 @@ class MediaListPoster extends StatelessWidget {
                       height: 25,
                       color: Colors.black54,
                     ),
-                    const Positioned.fill(
+                    Positioned.fill(
                       child: Center(
                         child: Opacity(
                           opacity: 0.8,
                           child: FaIcon(
                             FontAwesomeIcons.solidFolderOpen,
                             size: 16,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),
@@ -76,13 +77,14 @@ class MediaListPoster extends StatelessWidget {
                       height: 25,
                       color: Colors.black54,
                     ),
-                    const Positioned.fill(
+                    Positioned.fill(
                       child: Center(
                         child: Opacity(
                           opacity: 0.8,
                           child: FaIcon(
                             FontAwesomeIcons.video,
                             size: 16,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),

@@ -29,6 +29,9 @@ class ChangelogView extends StatelessWidget {
         title: const Text(LocaleKeys.changelog_title).tr(),
         actions: [
           TextButton.icon(
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
+            ),
             onPressed: () async {
               await Navigator.of(context).push(
                 MaterialPageRoute(
@@ -52,10 +55,7 @@ class ChangelogView extends StatelessWidget {
         child: Scrollbar(
           child: ListView(
             padding: const EdgeInsets.all(8.0),
-            children: [
-              // const ChangelogNotice(),
-              ..._buildChangelogEntries(changelog['data']),
-            ],
+            children: _buildChangelogEntries(changelog['data']),
           ),
         ),
       ),

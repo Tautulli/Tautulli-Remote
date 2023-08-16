@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/device_info/device_info.dart';
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../core/widgets/heading.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../dependency_injection.dart' as di;
@@ -47,24 +48,35 @@ class DataDumpView extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(8),
           children: [
-            Card(
-              color: Theme.of(context).colorScheme.error,
+            CardWithForcedTint(
+              color: Theme.of(context).colorScheme.errorContainer,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    const FaIcon(FontAwesomeIcons.triangleExclamation),
+                    FaIcon(
+                      FontAwesomeIcons.triangleExclamation,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                     const Gap(16),
                     Expanded(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             LocaleKeys.data_dump_warning_line_1,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                           ).tr(),
-                          const Text(LocaleKeys.data_dump_warning_line_2).tr(),
+                          Text(
+                            LocaleKeys.data_dump_warning_line_2,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ).tr(),
                         ],
                       ),
                     ),
@@ -119,7 +131,7 @@ class _SettingDumpGroup extends StatelessWidget {
           child: Heading(text: title),
         ),
         const Gap(8),
-        Card(
+        CardWithForcedTint(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -163,9 +175,7 @@ class _DataDumpRow extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: children,
         ),
-        Divider(
-          color: Theme.of(context).textTheme.titleSmall!.color,
-        ),
+        const Divider(),
       ],
     );
   }
@@ -430,9 +440,7 @@ class _AnnouncementsDumpGroup extends StatelessWidget {
                   const Gap(16),
                   Expanded(
                     child: Text(
-                      (state.announcementList.length -
-                              state.filteredList.length)
-                          .toString(),
+                      (state.announcementList.length - state.filteredList.length).toString(),
                       textAlign: TextAlign.end,
                     ),
                   ),
@@ -588,11 +596,7 @@ class _ServerDumpGroup extends StatelessWidget {
                   ],
                 ),
                 _DataDumpRow(
-                  children: [
-                    const _DataDumpRowHeading('Secondary Protocol'),
-                    const Gap(16),
-                    Text(server.secondaryConnectionProtocol ?? '')
-                  ],
+                  children: [const _DataDumpRowHeading('Secondary Protocol'), const Gap(16), Text(server.secondaryConnectionProtocol ?? '')],
                 ),
                 _DataDumpRow(
                   children: [

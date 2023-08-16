@@ -26,15 +26,11 @@ class ServerSecondaryConnectionListTile extends StatelessWidget {
       sensitive: true,
       leading: FaIcon(
         FontAwesomeIcons.networkWired,
-        color: inactive ? Theme.of(context).textTheme.titleSmall!.color : null,
+        color: inactive ? Theme.of(context).colorScheme.onSurfaceVariant : Theme.of(context).colorScheme.onSurface,
       ),
       title: LocaleKeys.secondary_connection_title.tr(),
-      subtitle: inactive
-          ? LocaleKeys.not_configured_message.tr()
-          : server.secondaryConnectionAddress,
-      trailing: server.primaryActive != true
-          ? const ActiveConnectionIndicator()
-          : null,
+      subtitle: inactive ? LocaleKeys.not_configured_message.tr() : server.secondaryConnectionAddress,
+      trailing: server.primaryActive != true ? const ActiveConnectionIndicator() : null,
       onTap: () {
         showDialog(
           context: context,

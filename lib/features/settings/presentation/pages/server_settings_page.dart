@@ -99,8 +99,11 @@ class ServerSettingsView extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Theme.of(context).colorScheme.error,
-                      content: const Text(
+                      content: Text(
                         LocaleKeys.clear_tautulli_image_cache_failure_snackbar_message,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onError,
+                        ),
                       ).tr(args: [state.server!.plexName]),
                     ),
                   );
@@ -137,6 +140,10 @@ class ServerSettingsView extends StatelessWidget {
                   ),
                   if (server.customHeaders.isNotEmpty) const Gap(8),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                      foregroundColor: Theme.of(context).colorScheme.onSurface,
+                    ),
                     child: const Text(
                       LocaleKeys.add_custom_http_header_title,
                     ).tr(),
@@ -155,7 +162,10 @@ class ServerSettingsView extends StatelessWidget {
                     listTiles: [
                       ServerOpenInBrowserListTile(server: server),
                       CustomListTile(
-                        leading: const FaIcon(FontAwesomeIcons.eraser),
+                        leading: FaIcon(
+                          FontAwesomeIcons.eraser,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                         title: LocaleKeys.clear_tautulli_image_cache_title.tr(
                           args: [server.plexName],
                         ),

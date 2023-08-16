@@ -8,7 +8,6 @@ import '../../features/graphs/data/models/chart_data_model.dart';
 import '../../features/graphs/data/models/graph_data_model.dart';
 import '../../features/graphs/data/models/graph_series_data_model.dart';
 import '../types/tautulli_types.dart';
-import 'color_palette_helper.dart';
 
 class GraphHelper {
   static ChartDataModel buildBarChartDataModel({
@@ -112,6 +111,7 @@ class GraphHelper {
   }
 
   static List<BarChartGroupData>? buildBarGroups({
+    required BuildContext context,
     required GraphDataModel graphData,
     required double screenWidth,
   }) {
@@ -137,7 +137,7 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.live]! + barStart,
-            PlexColorPalette.curiousBlue,
+            Theme.of(context).colorScheme.secondary,
           ),
         );
 
@@ -149,7 +149,7 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.music]! + barStart,
-            PlexColorPalette.cinnabar,
+            Theme.of(context).colorScheme.error,
           ),
         );
 
@@ -161,7 +161,7 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.transcode]! + barStart,
-            PlexColorPalette.cinnabar,
+            Theme.of(context).colorScheme.error,
           ),
         );
 
@@ -173,7 +173,7 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.movies]! + barStart,
-            TautulliColorPalette.notWhite,
+            Theme.of(context).colorScheme.tertiary,
           ),
         );
 
@@ -185,7 +185,7 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.directStream]! + barStart,
-            TautulliColorPalette.notWhite,
+            Theme.of(context).colorScheme.tertiary,
           ),
         );
 
@@ -197,7 +197,7 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.tv]! + barStart,
-            PlexColorPalette.gamboge,
+            Theme.of(context).colorScheme.primary,
           ),
         );
 
@@ -209,7 +209,7 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.directPlay]! + barStart,
-            PlexColorPalette.gamboge,
+            Theme.of(context).colorScheme.primary,
           ),
         );
 
@@ -349,7 +349,10 @@ class GraphHelper {
     );
   }
 
-  static List<LineChartBarData>? buildLineBarsData(GraphDataModel graphData) {
+  static List<LineChartBarData>? buildLineBarsData({
+    required BuildContext context,
+    required GraphDataModel graphData,
+  }) {
     List<LineChartBarData> lineBarsData = [];
     Map<GraphSeriesType, List<FlSpot>> spotListMap = {};
 
@@ -375,12 +378,12 @@ class GraphHelper {
           preventCurveOverShooting: true,
           spots: spotListMap[seriesType] ?? [],
           color: [GraphSeriesType.tv, GraphSeriesType.directPlay].contains(seriesType)
-              ? PlexColorPalette.gamboge
+              ? Theme.of(context).colorScheme.primary
               : [GraphSeriesType.music, GraphSeriesType.transcode].contains(seriesType)
-                  ? PlexColorPalette.cinnabar
+                  ? Theme.of(context).colorScheme.error
                   : [GraphSeriesType.live].contains(seriesType)
-                      ? PlexColorPalette.curiousBlue
-                      : TautulliColorPalette.notWhite,
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).colorScheme.tertiary,
           dotData: const FlDotData(
             show: false,
           ),

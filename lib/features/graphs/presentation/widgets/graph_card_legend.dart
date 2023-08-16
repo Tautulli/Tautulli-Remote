@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/types/tautulli_types.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/graph_data_model.dart';
@@ -35,10 +34,10 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const FaIcon(
+                  FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: PlexColorPalette.gamboge,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.tv_title).tr(),
@@ -51,10 +50,10 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const FaIcon(
+                  FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: TautulliColorPalette.notWhite,
+                    color: Theme.of(context).colorScheme.tertiary,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.movies_title).tr(),
@@ -67,10 +66,10 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const FaIcon(
+                  FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: PlexColorPalette.cinnabar,
+                    color: Theme.of(context).colorScheme.error,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.music_title).tr(),
@@ -83,10 +82,10 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const FaIcon(
+                  FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: PlexColorPalette.curiousBlue,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.live_tv_title).tr(),
@@ -99,10 +98,10 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const FaIcon(
+                  FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: PlexColorPalette.gamboge,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.direct_play_title).tr(),
@@ -115,10 +114,10 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const FaIcon(
+                  FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: TautulliColorPalette.notWhite,
+                    color: Theme.of(context).colorScheme.tertiary,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.direct_stream_title).tr(),
@@ -131,10 +130,10 @@ class GraphCardLegend extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const FaIcon(
+                  FaIcon(
                     FontAwesomeIcons.solidCircle,
                     size: 12,
-                    color: PlexColorPalette.cinnabar,
+                    color: Theme.of(context).colorScheme.error,
                   ),
                   const Gap(4),
                   const Text(LocaleKeys.transcode_title).tr(),

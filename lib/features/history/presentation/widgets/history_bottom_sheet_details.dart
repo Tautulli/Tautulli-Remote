@@ -61,9 +61,7 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
                       _ItemRow(
                         title: LocaleKeys.user_title.tr(),
                         item: Text(
-                          settingsState.appSettings.maskSensitiveInfo
-                              ? LocaleKeys.hidden_message.tr()
-                              : widget.history.friendlyName ?? '',
+                          settingsState.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : widget.history.friendlyName ?? '',
                         ),
                       ),
                       _ItemRow(
@@ -95,9 +93,7 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
                       _ItemRow(
                         title: LocaleKeys.ip_address_title.tr(),
                         item: Text(
-                          settingsState.appSettings.maskSensitiveInfo
-                              ? LocaleKeys.hidden_message.tr()
-                              : widget.history.ipAddress ?? '',
+                          settingsState.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : widget.history.ipAddress ?? '',
                         ),
                       ),
                       if (widget.history.ipAddress != null && IpAddressHelper.isPublic(widget.history.ipAddress!))
@@ -224,7 +220,7 @@ class _ItemRow extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 13,
-                    color: Colors.grey[500],
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],

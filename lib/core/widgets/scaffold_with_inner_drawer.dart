@@ -32,8 +32,7 @@ class ScaffoldWithInnerDrawer extends StatefulWidget {
   });
 
   @override
-  State<ScaffoldWithInnerDrawer> createState() =>
-      _ScaffoldWithInnerDrawerState();
+  State<ScaffoldWithInnerDrawer> createState() => _ScaffoldWithInnerDrawerState();
 }
 
 class _ScaffoldWithInnerDrawerState extends State<ScaffoldWithInnerDrawer> {
@@ -47,8 +46,7 @@ class _ScaffoldWithInnerDrawerState extends State<ScaffoldWithInnerDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<InnerDrawerState> innerDrawerKey =
-        GlobalKey<InnerDrawerState>();
+    final GlobalKey<InnerDrawerState> innerDrawerKey = GlobalKey<InnerDrawerState>();
 
     double calculateDrawerOffset() {
       // Tested Virtual Devices Sizes
@@ -114,13 +112,10 @@ class _ScaffoldWithInnerDrawerState extends State<ScaffoldWithInnerDrawer> {
                           animationDuration: Duration(milliseconds: 400),
                         ),
                         badgeStyle: badges.BadgeStyle(
-                          badgeColor: Theme.of(context).colorScheme.secondary,
+                          badgeColor: Theme.of(context).colorScheme.primary,
                         ),
                         position: badges.BadgePosition.topEnd(top: 1, end: -2),
-                        showBadge:
-                            (announcementsState is AnnouncementsSuccess &&
-                                    announcementsState.unread) ||
-                                settingsState.appSettings.appUpdateAvailable,
+                        showBadge: (announcementsState is AnnouncementsSuccess && announcementsState.unread) || settingsState.appSettings.appUpdateAvailable,
                         child: const Icon(Icons.menu),
                       ),
                       onPressed: () {
@@ -428,7 +423,7 @@ class _AppDrawerState extends State<_AppDrawer> {
                           child: FaIcon(
                             FontAwesomeIcons.solidCircle,
                             size: 12,
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         );
                       }
@@ -472,8 +467,7 @@ class _AppDrawerState extends State<_AppDrawer> {
                   const Text(LocaleKeys.settings_title).tr(),
                   BlocBuilder<SettingsBloc, SettingsState>(
                     builder: (context, state) {
-                      if (state is SettingsSuccess &&
-                          state.appSettings.appUpdateAvailable) {
+                      if (state is SettingsSuccess && state.appSettings.appUpdateAvailable) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: FaIcon(
@@ -554,8 +548,7 @@ class __ServerSelectorState extends State<_ServerSelector> {
         if (state is SettingsSuccess && state.serverList.length > 1) {
           List<ServerModel> nonActiveServers = [...state.serverList];
           nonActiveServers.removeWhere(
-            (server) =>
-                server.tautulliId == state.appSettings.activeServer.tautulliId,
+            (server) => server.tautulliId == state.appSettings.activeServer.tautulliId,
           );
 
           return ExpansionPanelList(

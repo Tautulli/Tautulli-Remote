@@ -19,11 +19,13 @@ class AccessibilityGroup extends StatelessWidget {
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
-            final useAtkinsonHyperlegible =
-                state.appSettings.useAtkinsonHyperlegible;
+            final useAtkinsonHyperlegible = state.appSettings.useAtkinsonHyperlegible;
 
             return CheckboxSettingsListTile(
-              leading: const FaIcon(FontAwesomeIcons.font),
+              leading: FaIcon(
+                FontAwesomeIcons.font,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               title: LocaleKeys.use_atkinson_hyperlegibile_font_title.tr(),
               value: useAtkinsonHyperlegible,
               onChanged: (value) {

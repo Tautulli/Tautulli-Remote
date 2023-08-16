@@ -39,13 +39,15 @@ class PopularStatisticDetails extends StatelessWidget {
               ),
               TextSpan(
                 text: statData.usersWatched.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,
-                  color: Colors.grey[200],
                 ),
               ),
             ],
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
         ),
         RichText(
@@ -59,13 +61,15 @@ class PopularStatisticDetails extends StatelessWidget {
               ),
               TextSpan(
                 text: statData.lastPlay != null ? TimeHelper.moment(statData.lastPlay) : LocaleKeys.never.tr(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,
-                  color: Colors.grey[200],
                 ),
               ),
             ],
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
         ),
       ],

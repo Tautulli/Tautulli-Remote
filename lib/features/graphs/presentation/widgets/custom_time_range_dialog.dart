@@ -24,12 +24,12 @@ class CustomTimeRangeDialog extends StatelessWidget {
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.tertiary,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               errorBorder: UnderlineInputBorder(
@@ -64,10 +64,10 @@ class CustomTimeRangeDialog extends StatelessWidget {
           ),
         ),
         const Gap(8),
-        const Text(
+        Text(
           LocaleKeys.custom_time_range_dialog_content,
           style: TextStyle(
-            color: Colors.grey,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ).tr(),
       ]),

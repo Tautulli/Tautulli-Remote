@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../onesignal/presentation/bloc/onesignal_health_bloc.dart';
 import '../../../onesignal/presentation/bloc/onesignal_privacy_bloc.dart';
@@ -26,16 +27,25 @@ class SettingsAlertBanner extends StatelessWidget {
             title: LocaleKeys.onesignal_data_privacy_not_accepted_title.tr(),
             message: const Text(
               LocaleKeys.onesignal_data_privacy_not_accepted_content,
+              style: TextStyle(
+                color: TautulliColorPalette.notWhite,
+              ),
             ).tr(),
             buttonOne: TextButton(
-              child: const Text(LocaleKeys.dismiss_buttom).tr(),
+              style: TextButton.styleFrom(
+                foregroundColor: TautulliColorPalette.notWhite,
+              ),
               onPressed: () => settingsBloc.add(
                 const SettingsUpdateOneSignalBannerDismiss(true),
               ),
+              child: const Text(LocaleKeys.dismiss_buttom).tr(),
             ),
             buttonTwo: TextButton(
-              child: const Text(LocaleKeys.view_privacy_page_title).tr(),
+              style: TextButton.styleFrom(
+                foregroundColor: TautulliColorPalette.notWhite,
+              ),
               onPressed: () => Navigator.of(context).pushNamed('/onesignal_privacy'),
+              child: const Text(LocaleKeys.view_privacy_page_title).tr(),
             ),
           );
         }
@@ -49,12 +59,18 @@ class SettingsAlertBanner extends StatelessWidget {
                 title: LocaleKeys.onesignal_unreachable_title.tr(),
                 message: const Text(
                   LocaleKeys.onesignal_unreachable_content,
+                  style: TextStyle(
+                    color: TautulliColorPalette.notWhite,
+                  ),
                 ).tr(),
                 buttonOne: TextButton(
-                  child: const Text(LocaleKeys.check_again_title).tr(),
+                  style: TextButton.styleFrom(
+                    foregroundColor: TautulliColorPalette.notWhite,
+                  ),
                   onPressed: () => context.read<OneSignalHealthBloc>().add(
                         OneSignalHealthCheck(),
                       ),
+                  child: const Text(LocaleKeys.check_again_title).tr(),
                 ),
               );
             }
@@ -67,15 +83,23 @@ class SettingsAlertBanner extends StatelessWidget {
                   return _SettingsAlertBannerContent(
                     backgroundColor: Colors.deepOrange[900],
                     title: subState.title,
-                    message: Text(subState.message),
+                    message: Text(
+                      subState.message,
+                      style: const TextStyle(
+                        color: TautulliColorPalette.notWhite,
+                      ),
+                    ),
                     buttonOne: TextButton(
-                      child: const Text(LocaleKeys.learn_more_title).tr(),
+                      style: TextButton.styleFrom(
+                        foregroundColor: TautulliColorPalette.notWhite,
+                      ),
                       onPressed: () async {
                         await launchUrlString(
                           mode: LaunchMode.externalApplication,
                           'https://github.com/Tautulli/Tautulli-Remote/wiki/OneSignal#registering',
                         );
                       },
+                      child: const Text(LocaleKeys.learn_more_title).tr(),
                     ),
                   );
                 }
@@ -111,11 +135,12 @@ class _SettingsAlertBannerContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialBanner(
       forceActionsBelow: true,
-      backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.error,
+      backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.errorContainer,
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       leading: const FaIcon(
         FontAwesomeIcons.triangleExclamation,
         size: 30,
+        color: TautulliColorPalette.notWhite,
       ),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,6 +149,7 @@ class _SettingsAlertBannerContent extends StatelessWidget {
             title,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
+              color: TautulliColorPalette.notWhite,
             ),
           ),
           if (message != null) message!,

@@ -7,6 +7,7 @@ import '../../../../core/types/bloc_status.dart';
 import '../../../../core/types/graph_chart_type.dart';
 import '../../../../core/types/graph_type.dart';
 import '../../../../core/types/tautulli_types.dart';
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/graph_model.dart';
 import '../../data/models/graph_series_data_model.dart';
@@ -43,7 +44,7 @@ class GraphCard extends StatelessWidget {
       }
     }
 
-    return Card(
+    return CardWithForcedTint(
       child: SizedBox(
         height: 275,
         child: Builder(builder: (context) {
@@ -114,8 +115,8 @@ class GraphCard extends StatelessWidget {
                   graphData: graph.graphDataModel!,
                 ),
               graph.status == BlocStatus.initial
-                  ? LinearProgressIndicator(
-                      backgroundColor: Theme.of(context).cardColor,
+                  ? const LinearProgressIndicator(
+                      backgroundColor: Colors.transparent,
                     )
                   : const SizedBox(height: 4),
             ],

@@ -24,14 +24,13 @@ class WizardSkipButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       heroTag: 'skip',
+      foregroundColor: Theme.of(context).colorScheme.onSurface,
       child: const FaIcon(FontAwesomeIcons.forward),
       onPressed: () async {
         final result = await showDialog(
           context: context,
           builder: (context) => WizardSkipDialog(
-            message: skipType == SkipType.servers
-                ? LocaleKeys.wizard_skip_dialog_message_servers.tr()
-                : LocaleKeys.wizard_skip_dialog_message_onesignal.tr(),
+            message: skipType == SkipType.servers ? LocaleKeys.wizard_skip_dialog_message_servers.tr() : LocaleKeys.wizard_skip_dialog_message_onesignal.tr(),
           ),
         );
 

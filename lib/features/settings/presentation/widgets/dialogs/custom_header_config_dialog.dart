@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
+import 'package:tautulli_remote/core/widgets/themed_text_form_field.dart';
 
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/registration_headers_bloc.dart';
@@ -84,16 +85,13 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
       title: Row(
         children: [
           FaIcon(
-            widget.headerType == CustomHeaderType.basicAuth
-                ? FontAwesomeIcons.solidAddressCard
-                : FontAwesomeIcons.addressCard,
+            widget.headerType == CustomHeaderType.basicAuth ? FontAwesomeIcons.solidAddressCard : FontAwesomeIcons.addressCard,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
           const Gap(12),
           Expanded(
             child: Text(
-              widget.headerType == CustomHeaderType.basicAuth
-                  ? LocaleKeys.basic_authentication_title.tr()
-                  : LocaleKeys.custom_title.tr(),
+              widget.headerType == CustomHeaderType.basicAuth ? LocaleKeys.basic_authentication_title.tr() : LocaleKeys.custom_title.tr(),
             ),
           ),
         ],
@@ -103,27 +101,12 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextFormField(
+            ThemedTextFormField(
               controller: _keyController,
               focusNode: _keyFocus,
-              autocorrect: false,
-              decoration: InputDecoration(
-                labelText: widget.headerType == CustomHeaderType.basicAuth
-                    ? '${LocaleKeys.username_title.tr()}${!_keyValid ? '*' : ''}'
-                    : '${LocaleKeys.header_key_title.tr()}${!_keyValid ? '*' : ''}',
-                labelStyle: TextStyle(
-                  color: _keyValid
-                      ? Theme.of(context).inputDecorationTheme.labelStyle!.color
-                      : Theme.of(context).colorScheme.error,
-                ),
-                floatingLabelStyle: TextStyle(
-                  color: !_keyValid
-                      ? Theme.of(context).colorScheme.error
-                      : _keyFocus.hasFocus
-                          ? Theme.of(context).colorScheme.secondary
-                          : Theme.of(context).inputDecorationTheme.enabledBorder!.borderSide.color,
-                ),
-              ),
+              labelText: widget.headerType == CustomHeaderType.basicAuth
+                  ? '${LocaleKeys.username_title.tr()}${!_keyValid ? '*' : ''}'
+                  : '${LocaleKeys.header_key_title.tr()}${!_keyValid ? '*' : ''}',
               onTap: () {
                 setState(() {
                   _keyFocus.requestFocus();
@@ -143,27 +126,12 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
               },
             ),
             const Gap(16),
-            TextFormField(
+            ThemedTextFormField(
               controller: _valueController,
               focusNode: _valueFocus,
-              autocorrect: false,
-              decoration: InputDecoration(
-                labelText: widget.headerType == CustomHeaderType.basicAuth
-                    ? '${LocaleKeys.password_title.tr()}${!_valueValid ? '*' : ''}'
-                    : '${LocaleKeys.header_value_title.tr()}${!_valueValid ? '*' : ''}',
-                labelStyle: TextStyle(
-                  color: _valueValid
-                      ? Theme.of(context).inputDecorationTheme.labelStyle!.color
-                      : Theme.of(context).colorScheme.error,
-                ),
-                floatingLabelStyle: TextStyle(
-                  color: !_valueValid
-                      ? Theme.of(context).colorScheme.error
-                      : _valueFocus.hasFocus
-                          ? Theme.of(context).colorScheme.secondary
-                          : Theme.of(context).inputDecorationTheme.enabledBorder!.borderSide.color,
-                ),
-              ),
+              labelText: widget.headerType == CustomHeaderType.basicAuth
+                  ? '${LocaleKeys.password_title.tr()}${!_valueValid ? '*' : ''}'
+                  : '${LocaleKeys.header_value_title.tr()}${!_valueValid ? '*' : ''}',
               onTap: () {
                 setState(() {
                   _valueFocus.requestFocus();

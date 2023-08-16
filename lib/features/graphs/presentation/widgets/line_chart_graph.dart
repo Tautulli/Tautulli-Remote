@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../core/device_info/device_info.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/helpers/graph_helper.dart';
 import '../../../../core/helpers/string_helper.dart';
+import '../../../../core/helpers/theme_helper.dart';
 import '../../../../core/types/tautulli_types.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../data/models/chart_data_model.dart';
@@ -29,7 +29,8 @@ class LineChartGraph extends StatelessWidget {
       textScaleFactor: MediaQuery.of(context).textScaleFactor,
     );
     final List<LineChartBarData>? lineBarsData = GraphHelper.buildLineBarsData(
-      graphData,
+      context: context,
+      graphData: graphData,
     );
     int? lastTouchedIndex;
 
@@ -52,8 +53,8 @@ class LineChartGraph extends StatelessWidget {
                           )
                         : value.toStringAsFixed(0),
                     textAlign: TextAlign.end,
-                    style: const TextStyle(
-                      color: Colors.grey,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       fontSize: 12,
                     ),
                   ),
@@ -81,8 +82,8 @@ class LineChartGraph extends StatelessWidget {
                     turns: const AlwaysStoppedAnimation(-40 / 360),
                     child: Text(
                       GraphHelper.graphDate(graphData.categories[value.toInt()]),
-                      style: const TextStyle(
-                        color: Colors.grey,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         fontSize: 12,
                       ),
                     ),
@@ -96,14 +97,14 @@ class LineChartGraph extends StatelessWidget {
           topTitles: const AxisTitles(),
         ),
         borderData: FlBorderData(
-          border: const Border(
+          border: Border(
             top: BorderSide(
               width: 1,
-              color: Colors.white24,
+              color: Theme.of(context).colorScheme.outline,
             ),
             bottom: BorderSide(
               width: 1,
-              color: Colors.white24,
+              color: Theme.of(context).colorScheme.outline,
             ),
           ),
         ),
@@ -114,11 +115,11 @@ class LineChartGraph extends StatelessWidget {
           checkToShowVerticalLine: (value) => value % chartData.verticalLineStep == 0,
           drawVerticalLine: true,
           getDrawingVerticalLine: (value) => FlLine(
-            color: Colors.white.withOpacity(0.03),
+            color: Theme.of(context).colorScheme.outline.withOpacity(0.1),
           ),
-          getDrawingHorizontalLine: (value) => const FlLine(
+          getDrawingHorizontalLine: (value) => FlLine(
             strokeWidth: 1,
-            color: Colors.white24,
+            color: Theme.of(context).colorScheme.outline,
           ),
         ),
         lineTouchData: LineTouchData(
@@ -126,7 +127,7 @@ class LineChartGraph extends StatelessWidget {
             fitInsideHorizontally: true,
             fitInsideVertically: true,
             tooltipRoundedRadius: 12,
-            tooltipBgColor: TautulliColorPalette.midnight.withOpacity(0.9),
+            tooltipBgColor: ThemeHelper.darkenedColor(Theme.of(context).colorScheme.surface).withOpacity(0.9),
             getTooltipItems: (touchedSpots) {
               touchedSpots.sort(
                 (a, b) => a.barIndex.compareTo(b.barIndex),
@@ -140,16 +141,14 @@ class LineChartGraph extends StatelessWidget {
                   children: [
                     if (index == 0)
                       TextSpan(
-                        text:
-                            '${GraphHelper.graphDate(graphData.categories[touchedSpots[0].x.toInt()], includeWeekDay: true)}\n\n',
-                        style: const TextStyle(
-                          color: Colors.grey,
+                        text: '${GraphHelper.graphDate(graphData.categories[touchedSpots[0].x.toInt()], includeWeekDay: true)}\n\n',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                     if (yAxis == PlayMetricType.plays)
                       TextSpan(
-                        text:
-                            '${StringHelper.mapSeriesTypeToString(graphData.seriesDataList[index].seriesType)}: ${touchedSpots[index].y.toStringAsFixed(0)}',
+                        text: '${StringHelper.mapSeriesTypeToString(graphData.seriesDataList[index].seriesType)}: ${touchedSpots[index].y.toStringAsFixed(0)}',
                         style: TextStyle(
                           color: touchedSpots[index].bar.color,
                         ),

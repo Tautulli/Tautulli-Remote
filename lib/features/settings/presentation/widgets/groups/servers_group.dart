@@ -61,21 +61,18 @@ class ServersGroup extends StatelessWidget {
                             leading: WebsafeSvg.asset(
                               'assets/logos/logo_flat.svg',
                               colorFilter: ColorFilter.mode(
-                                Theme.of(context).colorScheme.tertiary,
+                                Theme.of(context).colorScheme.onSurface,
                                 BlendMode.srcIn,
                               ),
                               height: 35,
                             ),
                             title: server.plexName,
-                            subtitle: server.primaryActive!
-                                ? server.primaryConnectionAddress
-                                : server.secondaryConnectionAddress,
+                            subtitle: server.primaryActive! ? server.primaryConnectionAddress : server.secondaryConnectionAddress,
                             onTap: isWizard
                                 ? null
                                 : () => Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            ServerSettingsPage(
+                                        builder: (context) => ServerSettingsPage(
                                           serverId: server.id!,
                                         ),
                                       ),

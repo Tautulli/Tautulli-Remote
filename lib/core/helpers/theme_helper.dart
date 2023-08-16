@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'color_palette_helper.dart';
 
 class ThemeHelper {
-  static ThemeData test() {
+  static ThemeData material({String? fontName}) {
     return ThemeData(
       useMaterial3: true,
       colorScheme: SeedColorScheme.fromSeeds(
@@ -13,8 +13,48 @@ class ThemeHelper {
         primaryKey: Color.fromRGBO(189, 195, 255, 1),
         // primaryKey: Colors.orange,
       ),
+      appBarTheme: const AppBarTheme(
+        scrolledUnderElevation: 0,
+      ),
+      bannerTheme: const MaterialBannerThemeData(
+        elevation: 1,
+      ),
       cardTheme: const CardTheme().copyWith(
         clipBehavior: Clip.antiAlias,
+        elevation: 0,
+        margin: const EdgeInsets.all(0),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          textStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        extendedTextStyle: GoogleFonts.openSans(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      navigationDrawerTheme: const NavigationDrawerThemeData(
+        elevation: 0,
+      ),
+      snackBarTheme: const SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+      ),
+      tabBarTheme: const TabBarTheme(
+        dividerColor: Colors.transparent,
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          textStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      textTheme: GoogleFonts.getTextTheme(
+        fontName ?? 'Open Sans',
+        ThemeData.dark().textTheme,
       ),
     );
   }
@@ -23,7 +63,7 @@ class ThemeHelper {
     return HSLColor.fromColor(color).withLightness(0.08).toColor();
   }
 
-  static ThemeData tautulli({String? fontName}) {
+  static ThemeData tautulliOld({String? fontName}) {
     return ThemeData(
       useMaterial3: true,
       appBarTheme: AppBarTheme(
@@ -41,8 +81,7 @@ class ThemeHelper {
       bannerTheme: const MaterialBannerThemeData(
         elevation: 1,
       ),
-      cardColor: TautulliColorPalette
-          .gunmetal, //Flutter's 'About Licenses' page uses the cardColor
+      cardColor: TautulliColorPalette.gunmetal, //Flutter's 'About Licenses' page uses the cardColor
       cardTheme: const CardTheme(
         margin: EdgeInsets.all(0),
         elevation: 0,

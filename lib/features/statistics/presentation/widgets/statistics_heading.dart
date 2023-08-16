@@ -33,7 +33,7 @@ class StatisticsHeading extends StatelessWidget {
                 Expanded(
                   child: Heading(
                     text: StringHelper.mapStatIdTypeToString(stat.statIdType),
-                    color: Theme.of(context).colorScheme.tertiary,
+                    color: Theme.of(context).colorScheme.onBackground,
                   ),
                 ),
                 if (onTap != null)
@@ -42,9 +42,10 @@ class StatisticsHeading extends StatelessWidget {
                     children: [
                       const Text(LocaleKeys.more_title).tr(),
                       const Gap(4),
-                      const FaIcon(
+                      FaIcon(
                         FontAwesomeIcons.angleRight,
                         size: 16,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ],
                   ),

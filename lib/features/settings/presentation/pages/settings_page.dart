@@ -60,9 +60,7 @@ class _SettingsViewState extends State<SettingsView> {
           ),
           BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
-              if (state is SettingsSuccess &&
-                  (!state.appSettings.oneSignalBannerDismissed ||
-                      state.appSettings.oneSignalConsented)) {
+              if (state is SettingsSuccess && (!state.appSettings.oneSignalBannerDismissed || state.appSettings.oneSignalConsented)) {
                 return const SettingsAlertBanner();
               }
 

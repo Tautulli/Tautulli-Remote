@@ -123,8 +123,7 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
             return CachedNetworkImage(
               imageUrl: widget.libraryTableModel.backgroundUri.toString(),
               httpHeaders: {
-                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                  headerModel.key: headerModel.value,
+                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
               },
               imageBuilder: (context, imageProvider) => ImageFiltered(
                 imageFilter: ImageFilter.blur(
@@ -152,16 +151,16 @@ class _LibraryDetailsViewState extends State<LibraryDetailsView> {
                     TextSpan(text: LocaleKeys.last_streamed_title.tr()),
                     const TextSpan(text: ' '),
                     TextSpan(
-                      text: widget.libraryTableModel.lastAccessed != null
-                          ? TimeHelper.moment(widget.libraryTableModel.lastAccessed)
-                          : LocaleKeys.never.tr(),
-                      style: TextStyle(
+                      text: widget.libraryTableModel.lastAccessed != null ? TimeHelper.moment(widget.libraryTableModel.lastAccessed) : LocaleKeys.never.tr(),
+                      style: const TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 13,
-                        color: Colors.grey[200],
                       ),
                     ),
                   ],
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
                 ),
               ),
         tabs: [

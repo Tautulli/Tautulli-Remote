@@ -49,7 +49,7 @@ class ServerRegistrationView extends StatelessWidget {
         builder: (context, state) {
           return FloatingActionButton.extended(
             icon: const FaIcon(
-              FontAwesomeIcons.pen,
+              FontAwesomeIcons.solidClipboard,
               size: 20,
             ),
             label: const Text(LocaleKeys.register_server_title).tr(),
@@ -94,8 +94,11 @@ class ServerRegistrationView extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Colors.green[700],
-                      content: const Text(
+                      content: Text(
                         LocaleKeys.server_registration_updated_snackbar_message,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ).tr(args: [state.serverName]),
                     ),
                   );

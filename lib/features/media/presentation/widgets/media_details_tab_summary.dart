@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/media_model.dart';
 
@@ -27,28 +28,29 @@ class MediaDetailsTabSummary extends StatelessWidget {
           );
           tp.layout(maxWidth: constraints.maxWidth);
 
-          return Material(
-            color: Theme.of(context).cardColor,
+          return CardWithForcedTint(
             child: InkWell(
               onTap: tp.didExceedMaxLines
                   ? () async {
-                      await showDialog(
+                      return await showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
                           contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
-                          content: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              if (isNotBlank(metadata?.tagline))
-                                Text(
-                                  metadata!.tagline!,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
+                          content: SizedBox(
+                            width: double.maxFinite,
+                            child: ListView(
+                              children: [
+                                if (isNotBlank(metadata?.tagline))
+                                  Text(
+                                    metadata!.tagline!,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              if (isNotBlank(metadata?.tagline)) const Gap(4),
-                              Text(metadata!.summary!),
-                            ],
+                                if (isNotBlank(metadata?.tagline)) const Gap(4),
+                                Text(metadata!.summary!),
+                              ],
+                            ),
                           ),
                           actions: [
                             TextButton(

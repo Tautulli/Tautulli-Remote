@@ -17,7 +17,10 @@ class HelpAndSupportGroup extends StatelessWidget {
       heading: LocaleKeys.help_and_support_title.tr(),
       listTiles: [
         CustomListTile(
-          leading: const FaIcon(FontAwesomeIcons.github),
+          leading: FaIcon(
+            FontAwesomeIcons.github,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           title: LocaleKeys.wiki_title.tr(),
           onTap: () async {
             await launchUrlString(
@@ -27,9 +30,10 @@ class HelpAndSupportGroup extends StatelessWidget {
           },
         ),
         CustomListTile(
-          leading: const FaIcon(
+          leading: FaIcon(
             FontAwesomeIcons.discord,
             size: 22,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.discord_title.tr(),
           onTap: () async {
@@ -40,9 +44,10 @@ class HelpAndSupportGroup extends StatelessWidget {
           },
         ),
         CustomListTile(
-          leading: const FaIcon(
+          leading: FaIcon(
             FontAwesomeIcons.redditAlien,
             size: 28,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
           title: LocaleKeys.reddit_title.tr(),
           onTap: () async {
@@ -53,7 +58,10 @@ class HelpAndSupportGroup extends StatelessWidget {
           },
         ),
         CustomListTile(
-          leading: const FaIcon(FontAwesomeIcons.github),
+          leading: FaIcon(
+            FontAwesomeIcons.github,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           title: LocaleKeys.bugs_and_feature_requests_title.tr(),
           onTap: () async {
             await launchUrlString(
@@ -63,7 +71,10 @@ class HelpAndSupportGroup extends StatelessWidget {
           },
         ),
         CustomListTile(
-          leading: const FaIcon(FontAwesomeIcons.list),
+          leading: FaIcon(
+            FontAwesomeIcons.list,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           title: LocaleKeys.tautulli_remote_logs_title.tr(),
           onTap: () async {
             await Navigator.of(context).push(

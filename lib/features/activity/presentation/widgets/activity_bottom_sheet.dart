@@ -10,7 +10,6 @@ import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/types/media_type.dart';
 import '../../../../core/widgets/failure_alert_dialog.dart';
 import '../../../../core/widgets/gesture_pill.dart';
@@ -74,9 +73,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
             setState(() {
               // Update activity to most recent data and if the item no longer exists close the bottom sheet
               try {
-                final activityList = state.serverActivityList
-                    .firstWhere((server) => server.tautulliId == widget.server.tautulliId)
-                    .activityList;
+                final activityList = state.serverActivityList.firstWhere((server) => server.tautulliId == widget.server.tautulliId).activityList;
                 final item = activityList.firstWhere(
                   (item) => item.sessionId == activity.sessionId && item.sessionKey == activity.sessionKey,
                 );
@@ -94,7 +91,6 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  backgroundColor: Colors.green,
                   content: const Text(LocaleKeys.termination_request_sent_message).tr(),
                   action: SnackBarAction(
                     label: LocaleKeys.learn_more_title.tr(),
@@ -163,7 +159,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                               Positioned.fill(
                                 child: DecoratedBox(
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).cardColor,
+                                    color: Theme.of(context).colorScheme.surface,
                                   ),
                                 ),
                               ),
@@ -186,8 +182,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                         child: CachedNetworkImage(
                                           imageUrl: posterUri.toString(),
                                           httpHeaders: {
-                                            for (CustomHeaderModel headerModel
-                                                in state.appSettings.activeServer.customHeaders)
+                                            for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
                                               headerModel.key: headerModel.value,
                                           },
                                           placeholder: (context, url) => Image.asset(
@@ -245,9 +240,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
 
                                                     return Expanded(
                                                       child: Text(
-                                                        state.appSettings.maskSensitiveInfo
-                                                            ? LocaleKeys.hidden_message.tr()
-                                                            : activity.friendlyName ?? '',
+                                                        state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : activity.friendlyName ?? '',
                                                         overflow: TextOverflow.ellipsis,
                                                         style: const TextStyle(
                                                           fontSize: 13,
@@ -333,6 +326,10 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                         children: [
                           Expanded(
                             child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                                foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                              ),
                               onPressed: () {
                                 final user = UserModel(
                                   friendlyName: activity.friendlyName,
@@ -360,7 +357,8 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                 padding: const EdgeInsets.only(left: 8),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: PlexColorPalette.curiousBlue,
+                                    backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                                    foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
                                   ),
                                   onPressed: () {
                                     final media = MediaModel(
@@ -400,7 +398,8 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                   padding: const EdgeInsets.only(left: 8),
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Theme.of(context).colorScheme.error,
+                                      backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                                      foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
                                     ),
                                     onPressed: () async {
                                       final TextEditingController controller = TextEditingController();

@@ -25,9 +25,10 @@ class AppSettingsGroup extends StatelessWidget {
             final serverTimeout = state.appSettings.serverTimeout;
 
             return CustomListTile(
-              leading: const FaIcon(
+              leading: FaIcon(
                 FontAwesomeIcons.stopwatch,
                 size: 28,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
               title: LocaleKeys.server_timeout_title.tr(),
               subtitle: _serverTimeoutDisplay(serverTimeout),
@@ -46,7 +47,10 @@ class AppSettingsGroup extends StatelessWidget {
             final refreshRate = state.appSettings.refreshRate;
 
             return CustomListTile(
-              leading: const FaIcon(FontAwesomeIcons.solidClock),
+              leading: FaIcon(
+                FontAwesomeIcons.solidClock,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               title: LocaleKeys.activity_refresh_rate_title.tr(),
               subtitle: _activityRefreshRateDisplay(refreshRate),
               onTap: () async => await showDialog(
@@ -59,7 +63,10 @@ class AppSettingsGroup extends StatelessWidget {
           },
         ),
         CustomListTile(
-          leading: const FaIcon(FontAwesomeIcons.wrench),
+          leading: FaIcon(
+            FontAwesomeIcons.wrench,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           title: LocaleKeys.advanced_title.tr(),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(

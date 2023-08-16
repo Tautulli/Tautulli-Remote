@@ -16,16 +16,14 @@ class WizardNextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       heroTag: 'next',
-      backgroundColor: isDisabled ? Colors.grey : null,
+      backgroundColor: isDisabled ? Theme.of(context).disabledColor : null,
+      foregroundColor: isDisabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.onSurface,
       onPressed: isDisabled
           ? null
           : () {
               context.read<WizardBloc>().add(WizardNext());
             },
-      child: FaIcon(
-        FontAwesomeIcons.arrowRight,
-        color: isDisabled ? Colors.grey[350] : null,
-      ),
+      child: const FaIcon(FontAwesomeIcons.arrowRight),
     );
   }
 }

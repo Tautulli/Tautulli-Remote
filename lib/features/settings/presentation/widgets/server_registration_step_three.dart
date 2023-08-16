@@ -28,6 +28,10 @@ class ServerRegistrationStepThree extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                    foregroundColor: Theme.of(context).colorScheme.onSurface,
+                  ),
                   child: const Text(LocaleKeys.add_custom_http_header_title).tr(),
                   onPressed: () async => await showDialog(
                     context: context,

@@ -21,6 +21,11 @@ class OneSignalDataPrivacyListTile extends StatelessWidget {
     return BlocBuilder<OneSignalPrivacyBloc, OneSignalPrivacyState>(
       builder: (context, state) {
         return Material(
+          color: ElevationOverlay.applySurfaceTint(
+            Theme.of(context).colorScheme.surface,
+            Theme.of(context).colorScheme.surfaceTint,
+            1,
+          ),
           child: SwitchListTile(
             title: const Text(LocaleKeys.onesignal_consent_switch_title).tr(),
             subtitle: Padding(
@@ -45,12 +50,15 @@ class OneSignalDataPrivacyListTile extends StatelessWidget {
                     if (state is OneSignalPrivacySuccess)
                       TextSpan(
                         text: '${LocaleKeys.accepted_title.tr()} ✓',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w300,
-                          color: Colors.green,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                   ],
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ),
             ),

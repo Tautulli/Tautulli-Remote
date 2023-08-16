@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
-import '../../../../core/helpers/color_palette_helper.dart';
 import '../../../../core/widgets/gesture_pill.dart';
 import '../../../../core/widgets/poster.dart';
 import '../../../../translations/locale_keys.g.dart';
@@ -84,7 +83,7 @@ class HistoryBottomSheet extends StatelessWidget {
                             Positioned.fill(
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
+                                  color: Theme.of(context).colorScheme.surface,
                                 ),
                               ),
                             ),
@@ -107,17 +106,13 @@ class HistoryBottomSheet extends StatelessWidget {
                                       child: CachedNetworkImage(
                                         imageUrl: history.posterUri.toString(),
                                         httpHeaders: {
-                                          for (CustomHeaderModel headerModel
-                                              in state.appSettings.activeServer
-                                                  .customHeaders)
+                                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
                                             headerModel.key: headerModel.value,
                                         },
-                                        placeholder: (context, url) =>
-                                            Image.asset(
+                                        placeholder: (context, url) => Image.asset(
                                           'assets/images/poster_fallback.png',
                                         ),
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(
+                                        errorWidget: (context, url, error) => Image.asset(
                                           'assets/images/poster_error.png',
                                         ),
                                         fit: BoxFit.fill,
@@ -133,8 +128,7 @@ class HistoryBottomSheet extends StatelessWidget {
                                 children: [
                                   Positioned.fill(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         const Padding(
                                           padding: EdgeInsets.only(
@@ -200,6 +194,10 @@ class HistoryBottomSheet extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                            ),
                             onPressed: viewUserEnabled
                                 ? () {
                                     final user = UserModel(
@@ -227,21 +225,19 @@ class HistoryBottomSheet extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: PlexColorPalette.curiousBlue,
+                              backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                              foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
                             ),
                             onPressed: viewMediaEnabled
                                 ? () {
                                     final media = MediaModel(
-                                      grandparentRatingKey:
-                                          history.grandparentRatingKey,
-                                      grandparentTitle:
-                                          history.grandparentTitle,
+                                      grandparentRatingKey: history.grandparentRatingKey,
+                                      grandparentTitle: history.grandparentTitle,
                                       imageUri: history.posterUri,
                                       live: history.live,
                                       mediaIndex: history.mediaIndex,
                                       mediaType: history.mediaType,
-                                      parentMediaIndex:
-                                          history.parentMediaIndex,
+                                      parentMediaIndex: history.parentMediaIndex,
                                       parentRatingKey: history.parentRatingKey,
                                       parentTitle: history.parentTitle,
                                       ratingKey: history.ratingKey,

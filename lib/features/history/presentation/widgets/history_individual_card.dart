@@ -7,6 +7,7 @@ import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/helpers/icon_helper.dart';
 import '../../../../core/helpers/time_helper.dart';
 import '../../../../core/types/media_type.dart';
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../../geo_ip/presentation/bloc/geo_ip_bloc.dart';
 import '../../../settings/presentation/bloc/settings_bloc.dart';
@@ -31,106 +32,100 @@ class HistoryIndividualCard extends StatelessWidget {
 
     return SizedBox(
       height: MediaQuery.of(context).textScaleFactor > 1 ? height * MediaQuery.of(context).textScaleFactor : height,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Card(
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      UserIcon(
-                        disableHero: true,
-                        user: UserModel(
-                          userId: history.userId,
-                          userThumb: history.userThumb,
-                        ),
+      child: CardWithForcedTint(
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    UserIcon(
+                      disableHero: true,
+                      user: UserModel(
+                        userId: history.userId,
+                        userThumb: history.userThumb,
                       ),
-                      const Gap(8),
-                      Expanded(
-                        child: BlocBuilder<SettingsBloc, SettingsState>(
-                          builder: (context, state) {
-                            state as SettingsSuccess;
+                    ),
+                    const Gap(8),
+                    Expanded(
+                      child: BlocBuilder<SettingsBloc, SettingsState>(
+                        builder: (context, state) {
+                          state as SettingsSuccess;
 
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : history.friendlyName ?? '',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              if ([
+                                MediaType.episode,
+                                MediaType.track,
+                              ].contains(history.mediaType))
                                 Text(
-                                  state.appSettings.maskSensitiveInfo
-                                      ? LocaleKeys.hidden_message.tr()
-                                      : history.friendlyName ?? '',
+                                  history.title ?? '',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                if ([
-                                  MediaType.episode,
-                                  MediaType.track,
-                                ].contains(history.mediaType))
-                                  Text(
-                                    history.title ?? '',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                if ([MediaType.episode].contains(history.mediaType) &&
-                                    history.parentMediaIndex != null &&
-                                    history.mediaIndex != null)
-                                  Text('S${history.parentMediaIndex} • E${history.mediaIndex}'),
-                                if ([MediaType.track].contains(history.mediaType))
-                                  Text(
-                                    history.parentTitle ?? '',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                              if ([MediaType.episode].contains(history.mediaType) && history.parentMediaIndex != null && history.mediaIndex != null)
+                                Text('S${history.parentMediaIndex} • E${history.mediaIndex}'),
+                              if ([MediaType.track].contains(history.mediaType))
                                 Text(
-                                  TimeHelper.cleanDateTime(
-                                    history.date!,
-                                    dateFormat: state.appSettings.activeServer.dateFormat,
-                                    timeFormat: state.appSettings.activeServer.timeFormat,
-                                  ),
+                                  history.parentTitle ?? '',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ],
-                            );
-                          },
-                        ),
+                              Text(
+                                TimeHelper.cleanDateTime(
+                                  history.date!,
+                                  dateFormat: state.appSettings.activeServer.dateFormat,
+                                  timeFormat: state.appSettings.activeServer.timeFormat,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
-                      IconHelper.mapWatchedStatusToIcon(
-                        history.watchedStatus,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => showModalBottomSheet(
-                    context: context,
-                    constraints: const BoxConstraints(
-                      maxWidth: 500,
                     ),
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    isScrollControlled: true,
-                    builder: (context) {
-                      return BlocProvider.value(
-                        value: context.read<GeoIpBloc>(),
-                        child: HistoryBottomSheet(
-                          server: server,
-                          history: history,
-                          viewUserEnabled: true,
-                          viewMediaEnabled: false,
-                        ),
-                      );
-                    },
-                  ),
+                    IconHelper.mapWatchedStatusToIcon(
+                      context: context,
+                      watchedStatus: history.watchedStatus,
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => showModalBottomSheet(
+                  context: context,
+                  constraints: const BoxConstraints(
+                    maxWidth: 500,
+                  ),
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  isScrollControlled: true,
+                  builder: (context) {
+                    return BlocProvider.value(
+                      value: context.read<GeoIpBloc>(),
+                      child: HistoryBottomSheet(
+                        server: server,
+                        history: history,
+                        viewUserEnabled: true,
+                        viewMediaEnabled: false,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

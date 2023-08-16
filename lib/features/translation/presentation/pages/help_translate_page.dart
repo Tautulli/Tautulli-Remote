@@ -41,7 +41,7 @@ class HelpTranslateView extends StatelessWidget {
                   leading: WebsafeSvg.asset(
                     'assets/logos/weblate.svg',
                     colorFilter: ColorFilter.mode(
-                      Theme.of(context).colorScheme.tertiary,
+                      Theme.of(context).colorScheme.onSurface,
                       BlendMode.srcIn,
                     ),
                     height: 30,
@@ -56,7 +56,10 @@ class HelpTranslateView extends StatelessWidget {
                   },
                 ),
                 CustomListTile(
-                  leading: const FaIcon(FontAwesomeIcons.github),
+                  leading: FaIcon(
+                    FontAwesomeIcons.github,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                   title: LocaleKeys.request_a_new_language_title.tr(),
                   onTap: () async {
                     await launchUrlString(

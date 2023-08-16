@@ -21,7 +21,7 @@ class MoreGroup extends StatelessWidget {
           leading: WebsafeSvg.asset(
             'assets/logos/onesignal.svg',
             colorFilter: ColorFilter.mode(
-              Theme.of(context).colorScheme.tertiary,
+              Theme.of(context).colorScheme.onSurface,
               BlendMode.srcIn,
             ),
             height: 30,
@@ -32,21 +32,30 @@ class MoreGroup extends StatelessWidget {
           },
         ),
         CustomListTile(
-          leading: const FaIcon(FontAwesomeIcons.clipboardList),
+          leading: FaIcon(
+            FontAwesomeIcons.clipboardList,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           title: LocaleKeys.changelog_title.tr(),
           onTap: () {
             Navigator.of(context).pushNamed('/changelog');
           },
         ),
         CustomListTile(
-          leading: const FaIcon(FontAwesomeIcons.globe),
+          leading: FaIcon(
+            FontAwesomeIcons.globe,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           title: LocaleKeys.help_translate_title.tr(),
           onTap: () {
             Navigator.of(context).pushNamed('/help_translate');
           },
         ),
         CustomListTile(
-          leading: const FaIcon(FontAwesomeIcons.faucet),
+          leading: FaIcon(
+            FontAwesomeIcons.faucet,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           title: LocaleKeys.data_dump_title.tr(),
           onTap: () async {
             await Navigator.of(context).push(
@@ -58,7 +67,10 @@ class MoreGroup extends StatelessWidget {
           },
         ),
         CustomListTile(
-          leading: const FaIcon(FontAwesomeIcons.circleInfo),
+          leading: FaIcon(
+            FontAwesomeIcons.circleInfo,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           title: LocaleKeys.about_title.tr(),
           onTap: () async {
             showAboutDialog(

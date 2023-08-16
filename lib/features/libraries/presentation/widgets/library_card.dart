@@ -29,7 +29,7 @@ class LibraryCard extends StatelessWidget {
           Positioned.fill(
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
+                color: Theme.of(context).colorScheme.surface,
               ),
             ),
           ),
@@ -41,8 +41,7 @@ class LibraryCard extends StatelessWidget {
                 return CachedNetworkImage(
                   imageUrl: library.backgroundUri.toString(),
                   httpHeaders: {
-                    for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                      headerModel.key: headerModel.value,
+                    for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
                   },
                   imageBuilder: (context, imageProvider) => DecoratedBox(
                     position: DecorationPosition.foreground,

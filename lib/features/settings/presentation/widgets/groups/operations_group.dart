@@ -16,7 +16,10 @@ class OperationsGroup extends StatelessWidget {
       heading: LocaleKeys.operations_title.tr(),
       listTiles: [
         CustomListTile(
-          leading: const FaIcon(FontAwesomeIcons.eraser),
+          leading: FaIcon(
+            FontAwesomeIcons.eraser,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           title: LocaleKeys.clear_app_image_cache_title.tr(),
           subtitle: LocaleKeys.clear_app_image_cache_subtitle.tr(),
           onTap: () async {

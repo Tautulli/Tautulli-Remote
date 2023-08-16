@@ -28,7 +28,7 @@ class LibraryIcon extends StatelessWidget {
               return WebsafeSvg.asset(
                 AssetHelper.mapSectionTypeToPath(library.sectionType),
                 colorFilter: ColorFilter.mode(
-                  Theme.of(context).colorScheme.tertiary,
+                  Theme.of(context).colorScheme.onSurface,
                   BlendMode.srcIn,
                 ),
                 height: 50,
@@ -47,13 +47,13 @@ class LibraryIcon extends StatelessWidget {
                   right: 5,
                   child: FaIcon(
                     FontAwesomeIcons.solidCircle,
-                    color: Theme.of(context).colorScheme.tertiary,
+                    color: Theme.of(context).colorScheme.onSurface,
                     size: 14,
                   ),
                 ),
                 FaIcon(
                   FontAwesomeIcons.triangleExclamation,
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primaryContainer,
                   size: 24,
                 ),
               ],

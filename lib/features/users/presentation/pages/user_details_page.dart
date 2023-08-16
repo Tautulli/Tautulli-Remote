@@ -181,12 +181,14 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                                 : widget.fetchUser && state.status == BlocStatus.initial
                                     ? ''
                                     : LocaleKeys.never.tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.w300,
-                          color: Colors.grey[200],
                         ),
                       ),
                     ],
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                 );
               },

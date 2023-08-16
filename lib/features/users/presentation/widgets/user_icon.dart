@@ -40,9 +40,7 @@ class UserIcon extends StatelessWidget {
                 builder: (context, state) {
                   state as SettingsSuccess;
 
-                  if (!state.appSettings.maskSensitiveInfo &&
-                      user.userThumb != null &&
-                      user.userThumb!.startsWith('http')) {
+                  if (!state.appSettings.maskSensitiveInfo && user.userThumb != null && user.userThumb!.startsWith('http')) {
                     return CachedNetworkImage(
                       fadeInDuration: const Duration(milliseconds: 400),
                       fadeOutDuration: const Duration(milliseconds: 100),
@@ -83,13 +81,13 @@ class UserIcon extends StatelessWidget {
                       right: size == UserIconSize.normal ? 5 : 7,
                       child: FaIcon(
                         FontAwesomeIcons.solidCircle,
-                        color: Theme.of(context).colorScheme.tertiary,
+                        color: Theme.of(context).colorScheme.onSurface,
                         size: size == UserIconSize.normal ? 14 : 17,
                       ),
                     ),
                     FaIcon(
                       FontAwesomeIcons.triangleExclamation,
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primaryContainer,
                       size: size == UserIconSize.normal ? 24 : 32,
                     ),
                   ],

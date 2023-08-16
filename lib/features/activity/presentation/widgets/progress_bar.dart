@@ -23,11 +23,8 @@ class ProgressBar extends StatelessWidget {
     } else {
       // This is a more accurate way to identify transcode progress as Plex does some weird stuff with transcodeProgress
       // Only use transcodeProgress as a fall back
-      if (activity.transcodeMaxOffsetAvailable != null &&
-          activity.progressPercent != null &&
-          activity.duration != null) {
-        transcodeProgress =
-            (((activity.transcodeMaxOffsetAvailable! * 1000) / activity.duration!.inMilliseconds) * 100).floor();
+      if (activity.transcodeMaxOffsetAvailable != null && activity.progressPercent != null && activity.duration != null) {
+        transcodeProgress = (((activity.transcodeMaxOffsetAvailable! * 1000) / activity.duration!.inMilliseconds) * 100).floor();
       } else {
         if (activity.transcodeProgress != null && activity.transcodeProgress!.isNegative) {
           transcodeProgress = activity.transcodeProgress! * -1;
@@ -44,14 +41,14 @@ class ProgressBar extends StatelessWidget {
         LinearPercentIndicator(
           lineHeight: 5,
           backgroundColor: Colors.black26,
-          progressColor: Theme.of(context).textTheme.titleSmall!.color,
+          progressColor: Theme.of(context).colorScheme.onSurface,
           barRadius: const Radius.circular(4),
           percent: ((transcodeProgress) / 100).toDouble(),
         ),
         LinearPercentIndicator(
           lineHeight: 5,
           backgroundColor: Colors.transparent,
-          progressColor: Theme.of(context).colorScheme.secondary,
+          progressColor: Theme.of(context).colorScheme.primary,
           barRadius: const Radius.circular(4),
           percent: ((activity.live != true ? (progressPercent) : 100) / 100).toDouble(),
         ),

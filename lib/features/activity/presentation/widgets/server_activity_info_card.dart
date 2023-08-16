@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/helpers/data_unit_helper.dart';
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../../data/models/server_activity_model.dart';
 
@@ -17,14 +18,15 @@ class ServerActivityInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return CardWithForcedTint(
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(
           children: [
-            const FaIcon(
+            FaIcon(
               FontAwesomeIcons.circleInfo,
               size: 22,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
             const Gap(8),
             Expanded(

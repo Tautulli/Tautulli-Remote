@@ -24,6 +24,9 @@ class SettingsNotLoaded extends StatelessWidget {
           return StatusPage(
             message: LocaleKeys.settings_load_failed_message.tr(),
             action: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.onSurface,
+              ),
               onPressed: () async {
                 await launchUrlString(
                   mode: LaunchMode.externalApplication,
@@ -37,6 +40,9 @@ class SettingsNotLoaded extends StatelessWidget {
         return StatusPage(
           message: LocaleKeys.settings_load_error_message.tr(),
           action: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
+            ),
             onPressed: () async {
               await launchUrlString(
                 mode: LaunchMode.externalApplication,

@@ -47,11 +47,13 @@ class StreamIcons extends StatelessWidget {
         FaIcon(
           IconHelper.mapMediaTypeToIcon(activity.mediaType),
           size: mediaTypeIconSize,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
         const Gap(4),
         FaIcon(
           IconHelper.mapTranscodeDecisionToIcon(activity.transcodeDecision),
           size: transcodeDecisionIconSize,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
       ],
     );

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../core/widgets/heading.dart';
 import '../../../../translations/locale_keys.g.dart';
 
@@ -42,26 +43,17 @@ class RegistrationInstruction extends StatelessWidget {
               if (isOptional)
                 Text(
                   '(${LocaleKeys.optional.tr()})',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(context).textTheme.titleSmall!.color,
-                  ),
+                  style: const TextStyle(fontSize: 12),
                 ),
             ],
           ),
         ),
         if (action != null && actionOnTop) action!,
         if (child != null)
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Theme.of(context).dialogTheme.backgroundColor,
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(hasChildPadding ? 8.0 : 0),
-                child: child,
-              ),
+          CardWithForcedTint(
+            child: Padding(
+              padding: EdgeInsets.all(hasChildPadding ? 8.0 : 0),
+              child: child,
             ),
           ),
         if (action != null && !actionOnTop) action!

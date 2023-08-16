@@ -9,7 +9,7 @@ class LoggingTableHeaders extends StatelessWidget {
 
     return DecoratedBox(
       decoration: const BoxDecoration(
-        color: Colors.black26,
+        color: Colors.black54,
       ),
       child: Row(
         children: [

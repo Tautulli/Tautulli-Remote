@@ -62,11 +62,9 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                 separatorBuilder: (context, index) => const Gap(8),
                 itemBuilder: (context, index) {
                   final announcement = state.filteredList[index];
-                  return Card(
-                    child: AnnouncementCard(
-                      announcement: announcement,
-                      lastReadAnnouncementId: state.lastReadAnnouncementId,
-                    ),
+                  return AnnouncementCard(
+                    announcement: announcement,
+                    lastReadAnnouncementId: state.lastReadAnnouncementId,
                   );
                 },
               ),

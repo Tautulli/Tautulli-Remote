@@ -78,8 +78,7 @@ class _LibrariesViewState extends State<LibrariesView> {
       // Listen for active server change and run a fresh user fetch if it does
       listenWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer !=
-              current.appSettings.activeServer) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
             return true;
           }
         }
@@ -105,8 +104,7 @@ class _LibrariesViewState extends State<LibrariesView> {
         body: BlocBuilder<LibrariesBloc, LibrariesState>(
           builder: (context, state) {
             return PageBody(
-              loading:
-                  state.status == BlocStatus.initial && !state.hasReachedMax,
+              loading: state.status == BlocStatus.initial && !state.hasReachedMax,
               child: ThemedRefreshIndicator(
                 onRefresh: () {
                   _librariesBloc.add(
@@ -143,10 +141,7 @@ class _LibrariesViewState extends State<LibrariesView> {
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax ||
-                              state.status == BlocStatus.initial
-                          ? state.libraries.length
-                          : state.libraries.length + 1,
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial ? state.libraries.length : state.libraries.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
                       itemBuilder: (context, index) {
                         if (index >= state.libraries.length) {
@@ -216,161 +211,153 @@ class _LibrariesViewState extends State<LibrariesView> {
 
   List<Widget> _appBarActions() {
     return [
-      Theme(
-        data: Theme.of(context).copyWith(
-          dividerTheme: DividerThemeData(
-            color: Theme.of(context).colorScheme.tertiary,
+      PopupMenuButton(
+        icon: _currentSortIcon(),
+        tooltip: 'Sort libraries',
+        onSelected: (value) {
+          if (value != null) {
+            value as String;
+            List<String> values = value.split('|');
+
+            setState(() {
+              _orderColumn = values[0];
+              _orderDir = values[1];
+            });
+
+            _settingsBloc.add(SettingsUpdateLibrariesSort(value));
+            _librariesBloc.add(
+              LibrariesFetched(
+                server: _server,
+                orderColumn: _orderColumn,
+                orderDir: _orderDir,
+                freshFetch: true,
+                settingsBloc: _settingsBloc,
+              ),
+            );
+          }
+        },
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
           ),
         ),
-        child: PopupMenuButton(
-          icon: _currentSortIcon(),
-          tooltip: 'Sort libraries',
-          color: Theme.of(context).colorScheme.primary,
-          onSelected: (value) {
-            if (value != null) {
-              value as String;
-              List<String> values = value.split('|');
-
-              setState(() {
-                _orderColumn = values[0];
-                _orderDir = values[1];
-              });
-
-              _settingsBloc.add(SettingsUpdateLibrariesSort(value));
-              _librariesBloc.add(
-                LibrariesFetched(
-                  server: _server,
-                  orderColumn: _orderColumn,
-                  orderDir: _orderDir,
-                  freshFetch: true,
-                  settingsBloc: _settingsBloc,
-                ),
-              );
-            }
-          },
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(12),
-            ),
-          ),
-          itemBuilder: (context) {
-            return <PopupMenuEntry<dynamic>>[
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    _currentSortIcon(
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Text(
-                        _currentSortName(),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
+        itemBuilder: (context) {
+          return <PopupMenuEntry<dynamic>>[
+            PopupMenuItem(
+              child: Row(
+                children: [
+                  _currentSortIcon(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: Text(
+                      _currentSortName(),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const PopupMenuDivider(),
-              PopupMenuItem(
-                value: _orderColumn == 'section_name' && _orderDir == 'asc'
-                    ? 'section_name|desc'
-                    : 'section_name|asc',
-                child: Row(
-                  children: [
-                    _orderColumn == 'section_name' && _orderDir == 'asc'
-                        ? const FaIcon(
-                            FontAwesomeIcons.arrowDownZA,
-                            size: 20,
-                          )
-                        : const FaIcon(
-                            FontAwesomeIcons.arrowDownAZ,
-                            size: 20,
-                          ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: const Text(LocaleKeys.name_title).tr(),
-                    ),
-                  ],
-                ),
+            ),
+            const PopupMenuDivider(),
+            PopupMenuItem(
+              value: _orderColumn == 'section_name' && _orderDir == 'asc' ? 'section_name|desc' : 'section_name|asc',
+              child: Row(
+                children: [
+                  _orderColumn == 'section_name' && _orderDir == 'asc'
+                      ? FaIcon(
+                          FontAwesomeIcons.arrowDownZA,
+                          size: 20,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        )
+                      : FaIcon(
+                          FontAwesomeIcons.arrowDownAZ,
+                          size: 20,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: const Text(LocaleKeys.name_title).tr(),
+                  ),
+                ],
               ),
-              PopupMenuItem(
-                value: _orderColumn == 'count' && _orderDir == 'desc'
-                    ? 'count|asc'
-                    : 'count|desc',
-                child: Row(
-                  children: [
-                    _orderColumn == 'count' && _orderDir == 'desc'
-                        ? const FaIcon(
-                            FontAwesomeIcons.arrowDown19,
-                            size: 20,
-                          )
-                        : const FaIcon(
-                            FontAwesomeIcons.arrowDown91,
-                            size: 20,
-                          ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 5),
-                      child: Text('Count'),
-                    ),
-                  ],
-                ),
+            ),
+            PopupMenuItem(
+              value: _orderColumn == 'count' && _orderDir == 'desc' ? 'count|asc' : 'count|desc',
+              child: Row(
+                children: [
+                  _orderColumn == 'count' && _orderDir == 'desc'
+                      ? FaIcon(
+                          FontAwesomeIcons.arrowDown19,
+                          size: 20,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        )
+                      : FaIcon(
+                          FontAwesomeIcons.arrowDown91,
+                          size: 20,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Text('Count'),
+                  ),
+                ],
               ),
-              PopupMenuItem(
-                value: _orderColumn == 'duration' && _orderDir == 'desc'
-                    ? 'duration|asc'
-                    : 'duration|desc',
-                child: Row(
-                  children: [
-                    _orderColumn == 'duration' && _orderDir == 'desc'
-                        ? const FaIcon(
-                            FontAwesomeIcons.arrowDown19,
-                            size: 20,
-                          )
-                        : const FaIcon(
-                            FontAwesomeIcons.arrowDown91,
-                            size: 20,
-                          ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 5),
-                      child: Text('Time'),
-                    ),
-                  ],
-                ),
+            ),
+            PopupMenuItem(
+              value: _orderColumn == 'duration' && _orderDir == 'desc' ? 'duration|asc' : 'duration|desc',
+              child: Row(
+                children: [
+                  _orderColumn == 'duration' && _orderDir == 'desc'
+                      ? FaIcon(
+                          FontAwesomeIcons.arrowDown19,
+                          size: 20,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        )
+                      : FaIcon(
+                          FontAwesomeIcons.arrowDown91,
+                          size: 20,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Text('Time'),
+                  ),
+                ],
               ),
-              PopupMenuItem(
-                value: _orderColumn == 'plays' && _orderDir == 'desc'
-                    ? 'plays|asc'
-                    : 'plays|desc',
-                child: Row(
-                  children: [
-                    _orderColumn == 'plays' && _orderDir == 'desc'
-                        ? const FaIcon(
-                            FontAwesomeIcons.arrowDown19,
-                            size: 20,
-                          )
-                        : const FaIcon(
-                            FontAwesomeIcons.arrowDown91,
-                            size: 20,
-                          ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 5),
-                      child: Text('Plays'),
-                    ),
-                  ],
-                ),
+            ),
+            PopupMenuItem(
+              value: _orderColumn == 'plays' && _orderDir == 'desc' ? 'plays|asc' : 'plays|desc',
+              child: Row(
+                children: [
+                  _orderColumn == 'plays' && _orderDir == 'desc'
+                      ? FaIcon(
+                          FontAwesomeIcons.arrowDown19,
+                          size: 20,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        )
+                      : FaIcon(
+                          FontAwesomeIcons.arrowDown91,
+                          size: 20,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Text('Plays'),
+                  ),
+                ],
               ),
-            ];
-          },
-        ),
+            ),
+          ];
+        },
       ),
     ];
   }
 
   FaIcon _currentSortIcon({Color? color}) {
-    color ??= Theme.of(context).colorScheme.tertiary;
+    color ??= Theme.of(context).colorScheme.onSurface;
 
     if (_orderColumn == 'section_name') {
       if (_orderDir == 'asc') {

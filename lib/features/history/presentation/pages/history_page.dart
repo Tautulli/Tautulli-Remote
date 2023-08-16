@@ -123,8 +123,7 @@ class _HistoryViewState extends State<HistoryView> {
       // Listen for active server change and run a fresh user fetch if it does
       listenWhen: (previous, current) {
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer !=
-              current.appSettings.activeServer) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer) {
             return true;
           }
         }
@@ -170,8 +169,7 @@ class _HistoryViewState extends State<HistoryView> {
         body: BlocBuilder<HistoryBloc, HistoryState>(
           builder: (context, state) {
             return PageBody(
-              loading:
-                  state.status == BlocStatus.initial && !state.hasReachedMax,
+              loading: state.status == BlocStatus.initial && !state.hasReachedMax,
               child: ThemedRefreshIndicator(
                 onRefresh: () {
                   _historyBloc.add(
@@ -214,10 +212,7 @@ class _HistoryViewState extends State<HistoryView> {
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(8),
-                      itemCount: state.hasReachedMax ||
-                              state.status == BlocStatus.initial
-                          ? state.history.length
-                          : state.history.length + 1,
+                      itemCount: state.hasReachedMax || state.status == BlocStatus.initial ? state.history.length : state.history.length + 1,
                       separatorBuilder: (context, index) => const Gap(8),
                       itemBuilder: (context, index) {
                         if (index >= state.history.length) {
@@ -302,9 +297,10 @@ class _HistoryViewState extends State<HistoryView> {
     return [
       IconButton(
         tooltip: LocaleKeys.search_history_title.tr(),
-        icon: const FaIcon(
+        icon: FaIcon(
           FontAwesomeIcons.magnifyingGlass,
           size: 20,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
         onPressed: () {
           Navigator.of(context).push(
@@ -325,16 +321,11 @@ class _HistoryViewState extends State<HistoryView> {
                 child: PopupMenuButton(
                   enabled: state.status == BlocStatus.success,
                   icon: FaIcon(
-                    state.status == BlocStatus.failure
-                        ? FontAwesomeIcons.userSlash
-                        : FontAwesomeIcons.solidUser,
-                    color: (_userId != -1 && _userId != null)
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).colorScheme.tertiary,
+                    state.status == BlocStatus.failure ? FontAwesomeIcons.userSlash : FontAwesomeIcons.solidUser,
+                    color: (_userId != -1 && _userId != null) ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                     size: 20,
                   ),
                   tooltip: LocaleKeys.select_user_title.tr(),
-                  color: Theme.of(context).colorScheme.primary,
                   onSelected: (value) {
                     setState(() {
                       _userId = value as int;
@@ -371,15 +362,9 @@ class _HistoryViewState extends State<HistoryView> {
                                 state as SettingsSuccess;
 
                                 return Text(
-                                  state.appSettings.maskSensitiveInfo
-                                      ? LocaleKeys.hidden_message.tr()
-                                      : user.friendlyName ?? '',
+                                  state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : user.friendlyName ?? '',
                                   style: TextStyle(
-                                    color: _userId == user.userId!
-                                        ? Theme.of(context)
-                                            .colorScheme
-                                            .secondary
-                                        : null,
+                                    color: _userId == user.userId! ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
                                   ),
                                 );
                               },
@@ -408,29 +393,19 @@ class _HistoryViewState extends State<HistoryView> {
       // is changed.
       BlocBuilder<UsersBloc, UsersState>(
         builder: (context, state) {
-          return Theme(
-            data: Theme.of(context).copyWith(
-              dividerTheme: DividerThemeData(
-                color: Theme.of(context).colorScheme.tertiary,
+          return PopupMenuButton(
+            icon: FaIcon(
+              FontAwesomeIcons.filter,
+              color: _filterOptionSelected() ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+              size: 20,
+            ),
+            tooltip: LocaleKeys.filter_history_title.tr(),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
               ),
             ),
-            child: PopupMenuButton(
-              icon: FaIcon(
-                FontAwesomeIcons.filter,
-                color: _filterOptionSelected()
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).colorScheme.tertiary,
-                size: 20,
-              ),
-              tooltip: LocaleKeys.filter_history_title.tr(),
-              color: Theme.of(context).colorScheme.primary,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12),
-                ),
-              ),
-              itemBuilder: _filterOptions,
-            ),
+            itemBuilder: _filterOptions,
           );
         },
       ),
@@ -438,13 +413,7 @@ class _HistoryViewState extends State<HistoryView> {
   }
 
   bool _filterOptionSelected() {
-    return _movieMediaType ||
-        _episodeMediaType ||
-        _trackMediaType ||
-        _liveMediaType ||
-        _directPlayDecision ||
-        _directStreamDecision ||
-        _transcodeDecision;
+    return _movieMediaType || _episodeMediaType || _trackMediaType || _liveMediaType || _directPlayDecision || _directStreamDecision || _transcodeDecision;
   }
 
   List<PopupMenuEntry<Object?>> _filterOptions(BuildContext context) {

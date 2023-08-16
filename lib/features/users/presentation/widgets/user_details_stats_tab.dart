@@ -100,8 +100,7 @@ List<Widget> _buildUserStatList({
 }) {
   List<Widget> statList = [];
 
-  if (state.watchTimeStatsStatus != BlocStatus.initial ||
-      (state.watchTimeStatsStatus == BlocStatus.initial && state.watchTimeStatsList.isNotEmpty)) {
+  if (state.watchTimeStatsStatus != BlocStatus.initial || (state.watchTimeStatsStatus == BlocStatus.initial && state.watchTimeStatsList.isNotEmpty)) {
     statList.add(
       Padding(
         padding: const EdgeInsets.fromLTRB(4, 0, 8, 8),
@@ -130,23 +129,27 @@ List<Widget> _buildUserStatList({
         statList.add(
           IconCard(
             icon: watchTimeStat.queryDays == 1
-                ? const FaIcon(
+                ? FaIcon(
                     FontAwesomeIcons.solidClock,
                     size: 45,
+                    color: Theme.of(context).colorScheme.onSurface,
                   )
                 : watchTimeStat.queryDays == 7
-                    ? const FaIcon(
+                    ? FaIcon(
                         FontAwesomeIcons.calendarWeek,
                         size: 50,
+                        color: Theme.of(context).colorScheme.onSurface,
                       )
                     : watchTimeStat.queryDays == 30
-                        ? const FaIcon(
+                        ? FaIcon(
                             FontAwesomeIcons.solidCalendarDays,
                             size: 50,
+                            color: Theme.of(context).colorScheme.onSurface,
                           )
-                        : const FaIcon(
+                        : FaIcon(
                             FontAwesomeIcons.hourglass,
                             size: 50,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
             details: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -157,8 +160,14 @@ List<Widget> _buildUserStatList({
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 16),
                 ),
-                _playsRichText(totalPlays: watchTimeStat.totalPlays ?? 0),
-                _timeRichText(totalTime: watchTimeStat.totalTime ?? 0),
+                _playsRichText(
+                  context: context,
+                  totalPlays: watchTimeStat.totalPlays ?? 0,
+                ),
+                _timeRichText(
+                  context: context,
+                  totalTime: watchTimeStat.totalTime ?? 0,
+                ),
               ],
             ),
           ),
@@ -173,8 +182,7 @@ List<Widget> _buildUserStatList({
     }
   }
 
-  if (state.playerStatsStatus != BlocStatus.initial ||
-      (state.playerStatsStatus == BlocStatus.initial && state.playerStatsList.isNotEmpty)) {
+  if (state.playerStatsStatus != BlocStatus.initial || (state.playerStatsStatus == BlocStatus.initial && state.playerStatsList.isNotEmpty)) {
     statList.add(
       Padding(
         padding: const EdgeInsets.fromLTRB(4, 8, 8, 8),
@@ -225,6 +233,10 @@ List<Widget> _buildUserStatList({
               ),
               icon: WebsafeSvg.asset(
                 AssetHelper.mapPlatformToPath(playerStat.platformName!),
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.onSurface,
+                  BlendMode.srcIn,
+                ),
               ),
               details: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -235,8 +247,14 @@ List<Widget> _buildUserStatList({
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 16),
                   ),
-                  _playsRichText(totalPlays: playerStat.totalPlays ?? 0),
-                  _timeRichText(totalTime: playerStat.totalTime ?? 0),
+                  _playsRichText(
+                    context: context,
+                    totalPlays: playerStat.totalPlays ?? 0,
+                  ),
+                  _timeRichText(
+                    context: context,
+                    totalTime: playerStat.totalTime ?? 0,
+                  ),
                 ],
               ),
             ),
@@ -266,6 +284,7 @@ String _determineWatchTimeStatTitle(UserWatchTimeStatModel watchTimeStat) {
 }
 
 RichText _playsRichText({
+  required BuildContext context,
   required int totalPlays,
 }) {
   return RichText(
@@ -280,17 +299,20 @@ RichText _playsRichText({
         const TextSpan(text: ' '),
         TextSpan(
           text: totalPlays.toString(),
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.w300,
-            color: Colors.grey[200],
           ),
         ),
       ],
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
     ),
   );
 }
 
 RichText _timeRichText({
+  required BuildContext context,
   required int totalTime,
 }) {
   final durationMap = TimeHelper.durationMap(
@@ -302,8 +324,9 @@ RichText _timeRichText({
       children: [
         TextSpan(
           text: LocaleKeys.time_title.tr(),
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 15,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const TextSpan(text: ' '),
@@ -333,9 +356,8 @@ RichText _timeRichText({
 TextSpan _timeTextSpan(String text) {
   return TextSpan(
     text: text,
-    style: TextStyle(
+    style: const TextStyle(
       fontWeight: FontWeight.w300,
-      color: Colors.grey[200],
     ),
   );
 }

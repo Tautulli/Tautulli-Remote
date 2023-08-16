@@ -24,6 +24,10 @@ class PlatformIcon extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: WebsafeSvg.asset(
             AssetHelper.mapPlatformToPath(platformName),
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).colorScheme.onSurface,
+              BlendMode.srcIn,
+            ),
           ),
         ),
       ),

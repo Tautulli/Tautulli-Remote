@@ -36,7 +36,7 @@ class WizardStepper extends StatelessWidget {
                 dotRadius: 6,
                 spacing: 8,
                 indicatorDecoration: IndicatorDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                   strokeWidth: 0,
                 ),
                 fixedDotDecoration: const FixedDotDecoration(

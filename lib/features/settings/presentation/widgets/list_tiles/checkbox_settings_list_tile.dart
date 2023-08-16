@@ -23,7 +23,11 @@ class CheckboxSettingsListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.primary,
+      color: ElevationOverlay.applySurfaceTint(
+        Theme.of(context).colorScheme.surface,
+        Theme.of(context).colorScheme.surfaceTint,
+        1,
+      ),
       child: CheckboxListTile(
         secondary: Column(
           mainAxisAlignment: MainAxisAlignment.center,

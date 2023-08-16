@@ -66,8 +66,7 @@ class SeasonMediaView extends StatelessWidget {
             return CachedNetworkImage(
               imageUrl: media.imageUri.toString(),
               httpHeaders: {
-                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                  headerModel.key: headerModel.value,
+                for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
               },
               imageBuilder: (context, imageProvider) => ImageFiltered(
                 imageFilter: ImageFilter.blur(
@@ -130,9 +129,8 @@ class SeasonMediaView extends StatelessWidget {
           return PopupMenuButton(
             icon: Icon(
               Icons.more_vert,
-              color: Theme.of(context).colorScheme.tertiary,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
-            color: Theme.of(context).colorScheme.primary,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(12),

@@ -30,7 +30,10 @@ class AdvancedGroup extends StatelessWidget {
               final doubleBackToExit = state.appSettings.doubleBackToExit;
 
               return CheckboxSettingsListTile(
-                leading: const FaIcon(FontAwesomeIcons.anglesLeft),
+                leading: FaIcon(
+                  FontAwesomeIcons.anglesLeft,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
                 title: LocaleKeys.double_back_to_exit_title.tr(),
                 subtitle: LocaleKeys.double_back_to_exit_subtitle.tr(),
                 value: doubleBackToExit,
@@ -51,7 +54,10 @@ class AdvancedGroup extends StatelessWidget {
 
             return CheckboxSettingsListTile(
               subtitleIsTwoLines: true,
-              leading: const FaIcon(FontAwesomeIcons.solidEyeSlash),
+              leading: FaIcon(
+                FontAwesomeIcons.solidEyeSlash,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               title: LocaleKeys.mask_senstivie_info_title.tr(),
               subtitle: LocaleKeys.mask_senstivie_info_subtitle.tr(),
               value: maskSensitiveInfo,
@@ -72,7 +78,10 @@ class AdvancedGroup extends StatelessWidget {
 
             return CheckboxSettingsListTile(
               subtitleIsTwoLines: true,
-              leading: const FaIcon(FontAwesomeIcons.barsStaggered),
+              leading: FaIcon(
+                FontAwesomeIcons.barsStaggered,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               title: LocaleKeys.multiserver_activity_page_title.tr(),
               subtitle: LocaleKeys.multiserver_activity_page_subtitle.tr(),
               value: multiserverActivity,
@@ -89,12 +98,14 @@ class AdvancedGroup extends StatelessWidget {
         BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             state as SettingsSuccess;
-            final libraryMediaFullRefresh =
-                state.appSettings.libraryMediaFullRefresh;
+            final libraryMediaFullRefresh = state.appSettings.libraryMediaFullRefresh;
 
             return CheckboxSettingsListTile(
               subtitleIsTwoLines: true,
-              leading: const FaIcon(FontAwesomeIcons.arrowRotateRight),
+              leading: FaIcon(
+                FontAwesomeIcons.arrowRotateRight,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               title: LocaleKeys.library_media_full_refresh_title.tr(),
               subtitle: LocaleKeys.library_media_full_refresh_subtitle.tr(),
               value: libraryMediaFullRefresh,
@@ -109,7 +120,10 @@ class AdvancedGroup extends StatelessWidget {
           },
         ),
         CustomListTile(
-          leading: const FaIcon(FontAwesomeIcons.language),
+          leading: FaIcon(
+            FontAwesomeIcons.language,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           title: LocaleKeys.language_title.tr(),
           subtitle: TranslationHelper.localeToString(context.locale),
           onTap: () async {

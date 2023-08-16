@@ -94,9 +94,7 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(8.0),
-              itemCount: state.hasReachedMaxMap[widget.statIdType] == true
-                  ? statsListWidgets.length
-                  : statsListWidgets.length + 1,
+              itemCount: state.hasReachedMaxMap[widget.statIdType] == true ? statsListWidgets.length : statsListWidgets.length + 1,
               separatorBuilder: (context, index) => const Gap(8),
               itemBuilder: (context, index) {
                 if (index >= statsListWidgets.length) {
@@ -338,6 +336,10 @@ class _IndividualStatisticViewState extends State<IndividualStatisticView> {
                 ),
                 icon: WebsafeSvg.asset(
                   AssetHelper.mapPlatformToPath(statData.platformName!),
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.onSurface,
+                    BlendMode.srcIn,
+                  ),
                 ),
                 details: TopPlatformsStatisticDetails(statData: statData),
               ),

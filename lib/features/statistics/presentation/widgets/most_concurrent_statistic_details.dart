@@ -41,13 +41,15 @@ class MostConcurrentStatisticDetails extends StatelessWidget {
               ),
               TextSpan(
                 text: statData.count.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 13,
-                  color: Colors.grey[200],
                 ),
               ),
             ],
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
         ),
         BlocBuilder<SettingsBloc, SettingsState>(
@@ -60,10 +62,9 @@ class MostConcurrentStatisticDetails extends StatelessWidget {
                 dateFormat: state.appSettings.activeServer.dateFormat,
                 timeFormat: state.appSettings.activeServer.timeFormat,
               ),
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.w300,
                 fontSize: 13,
-                color: Colors.grey[200],
               ),
             );
           },

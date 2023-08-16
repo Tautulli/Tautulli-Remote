@@ -34,15 +34,23 @@ class CustomHeaderListTile extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
         return Material(
+          color: ElevationOverlay.applySurfaceTint(
+            Theme.of(context).colorScheme.surface,
+            Theme.of(context).colorScheme.surfaceTint,
+            1,
+          ),
           child: ListTile(
             leading: showLeading
-                ? const Column(
+                ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
                         width: 35,
                         child: Center(
-                          child: FaIcon(FontAwesomeIcons.solidAddressCard),
+                          child: FaIcon(
+                            FontAwesomeIcons.solidAddressCard,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                       ),
                     ],
@@ -50,19 +58,16 @@ class CustomHeaderListTile extends StatelessWidget {
                 : null,
             title: Text(title),
             subtitle: Text(
-              sensitive &&
-                      state is SettingsSuccess &&
-                      state.appSettings.maskSensitiveInfo
-                  ? LocaleKeys.hidden_message
-                  : subtitle,
+              sensitive && state is SettingsSuccess && state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message : subtitle,
               style: Theme.of(context).textTheme.titleSmall,
             ).tr(),
             trailing: GestureDetector(
-              child: const SizedBox(
+              child: SizedBox(
                 width: 35,
                 child: Center(
                   child: FaIcon(
                     FontAwesomeIcons.solidCircleXmark,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),
@@ -95,14 +100,11 @@ class CustomHeaderListTile extends StatelessWidget {
               },
             ),
             onTap: () async {
-              final bool isBasicAuth =
-                  title == 'Authorization' && subtitle.startsWith('Basic ');
+              final bool isBasicAuth = title == 'Authorization' && subtitle.startsWith('Basic ');
 
               if (isBasicAuth) {
                 try {
-                  final List<String> creds = utf8
-                      .decode(base64Decode(subtitle.substring(6)))
-                      .split(':');
+                  final List<String> creds = utf8.decode(base64Decode(subtitle.substring(6))).split(':');
 
                   await showDialog(
                     context: context,

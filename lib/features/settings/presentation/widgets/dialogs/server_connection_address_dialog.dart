@@ -5,6 +5,7 @@ import 'package:quiver/strings.dart';
 import 'package:validators/validators.dart';
 
 import '../../../../../core/database/data/models/server_model.dart';
+import '../../../../../core/widgets/themed_text_form_field.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/settings_bloc.dart';
 
@@ -36,15 +37,10 @@ class ServerConnectionAddressDialog extends StatelessWidget {
       ).tr(),
       content: Form(
         key: formKey,
-        child: TextFormField(
+        child: ThemedTextFormField(
           controller: controller,
-          autocorrect: false,
-          decoration: InputDecoration(
-            hintText: primary
-                ? LocaleKeys.primary_connection_address_hint.tr()
-                : LocaleKeys.secondary_connection_address_hint.tr(),
-            errorMaxLines: 2,
-          ),
+          hintText: primary ? LocaleKeys.primary_connection_address_hint.tr() : LocaleKeys.secondary_connection_address_hint.tr(),
+          errorMaxLines: 2,
           validator: (value) {
             bool validUrl = isURL(
               value,

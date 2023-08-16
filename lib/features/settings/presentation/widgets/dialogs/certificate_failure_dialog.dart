@@ -23,7 +23,8 @@ class CertificateFailureDialog extends StatelessWidget {
         ),
         TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.secondary,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
           ),
           onPressed: () {
             Navigator.of(context).pop();

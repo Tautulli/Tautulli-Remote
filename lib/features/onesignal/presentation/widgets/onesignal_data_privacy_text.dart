@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../core/widgets/card_with_forced_tint.dart';
 import '../../../../translations/locale_keys.g.dart';
 
 class OnesignalDataPrivacyText extends StatelessWidget {
@@ -10,27 +11,26 @@ class OnesignalDataPrivacyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textBlock1 =
-        LocaleKeys.onesignal_data_privacy_text_block_1.tr().split('%');
-    final textBlock2 =
-        LocaleKeys.onesignal_data_privacy_text_block_2.tr().split('%');
-    final textBlock3 =
-        LocaleKeys.onesignal_data_privacy_text_block_3.tr().split('%');
-    final textBlock4 =
-        LocaleKeys.onesignal_data_privacy_text_block_4.tr().split('%');
+    final textBlock1 = LocaleKeys.onesignal_data_privacy_text_block_1.tr().split('%');
+    final textBlock2 = LocaleKeys.onesignal_data_privacy_text_block_2.tr().split('%');
+    final textBlock3 = LocaleKeys.onesignal_data_privacy_text_block_3.tr().split('%');
+    final textBlock4 = LocaleKeys.onesignal_data_privacy_text_block_4.tr().split('%');
 
-    return Card(
+    return CardWithForcedTint(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: RichText(
           text: TextSpan(
-            style: const TextStyle(fontSize: 16),
+            style: TextStyle(
+              fontSize: 16,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             children: [
               TextSpan(text: textBlock1[0]),
               TextSpan(
                 text: textBlock1[1],
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                   decoration: TextDecoration.underline,
                 ),
                 recognizer: TapGestureRecognizer()
@@ -45,7 +45,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
               TextSpan(
                 text: '\n\n${textBlock2[1]}',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                   decoration: TextDecoration.underline,
                 ),
                 recognizer: TapGestureRecognizer()
@@ -60,7 +60,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
               TextSpan(
                 text: textBlock2[3],
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                   decoration: TextDecoration.underline,
                 ),
                 recognizer: TapGestureRecognizer()
@@ -78,7 +78,7 @@ class OnesignalDataPrivacyText extends StatelessWidget {
               TextSpan(
                 text: textBlock3[1],
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                   decoration: TextDecoration.underline,
                 ),
                 recognizer: TapGestureRecognizer()

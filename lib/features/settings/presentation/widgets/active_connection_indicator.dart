@@ -17,7 +17,7 @@ class ActiveConnectionIndicator extends StatelessWidget {
         child: Center(
           child: FaIcon(
             FontAwesomeIcons.solidCircle,
-            color: Theme.of(context).colorScheme.secondary,
+            color: Theme.of(context).colorScheme.primary,
             size: 12,
           ),
         ),

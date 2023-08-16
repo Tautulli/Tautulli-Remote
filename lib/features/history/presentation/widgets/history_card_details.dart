@@ -56,9 +56,7 @@ class HistoryCardDetails extends StatelessWidget {
                     ),
                   if (showUser)
                     Text(
-                      state.appSettings.maskSensitiveInfo
-                          ? LocaleKeys.hidden_message.tr()
-                          : history.friendlyName ?? '',
+                      state.appSettings.maskSensitiveInfo ? LocaleKeys.hidden_message.tr() : history.friendlyName ?? '',
                       overflow: TextOverflow.ellipsis,
                     ),
                   if (!showUser)
@@ -84,10 +82,12 @@ class HistoryCardDetails extends StatelessWidget {
                   children: [
                     MediaTypeIcon(
                       mediaType: history.mediaType,
+                      iconColor: Theme.of(context).colorScheme.onSurface,
                     ),
                     const SizedBox(width: 5),
                     IconHelper.mapWatchedStatusToIcon(
-                      history.watchedStatus,
+                      context: context,
+                      watchedStatus: history.watchedStatus,
                     ),
                   ],
                 ),
