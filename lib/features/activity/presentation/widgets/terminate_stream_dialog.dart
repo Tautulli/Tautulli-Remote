@@ -30,7 +30,7 @@ Future<bool> showTerminateSessionDialog({
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
                 focusedBorder: UnderlineInputBorder(
