@@ -146,6 +146,15 @@ class _SliverTabbedIconDetailsStatePage extends State<SliverTabbedIconDetailsPag
                     ),
                   ),
                   bottom: TabBar(
+                    overlayColor: MaterialStateProperty.resolveWith(
+                      (states) {
+                        if (states.contains(MaterialState.pressed)) {
+                          return Theme.of(context).colorScheme.onSurface.withOpacity(0.12);
+                        }
+                        return null;
+                      },
+                    ),
+                    labelColor: Theme.of(context).colorScheme.onSurface,
                     labelPadding: const EdgeInsets.symmetric(horizontal: 8),
                     tabs: widget.tabs,
                   ),
