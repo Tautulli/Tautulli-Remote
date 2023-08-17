@@ -74,8 +74,10 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
             return StatusPage(message: state.message);
           }
 
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
           );
         },
       ),

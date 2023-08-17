@@ -148,8 +148,10 @@ class _DonateViewState extends State<DonateView> {
           const DonateHeadingCard(),
           Expanded(
             child: _offerings == null
-                ? const Center(
-                    child: CircularProgressIndicator(),
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
                   )
                 : _offerings!.all.isNotEmpty
                     ? ListView(
