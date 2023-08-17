@@ -373,5 +373,13 @@
     "video_title": "Vidéo",
     "view_privacy_page_title": "Voir la page de confidentialité",
     "view_on_plex_title": "Voir sur Plex",
-    "written_by_title": "Écrit par"
+    "written_by_title": "Écrit par",
+    "dont_ask_again_message": "Ne plus demander",
+    "later_title": "Plus tard",
+    "rate_app_message": "Si vous appréciez Tautulli Remote, pensez à laisser un avis.",
+    "rate_app_title": "Vous aimez Tautulli Remote ?",
+    "review_title": "Avis",
+    "app_update_available_message": "Une mise à jour est disponible pour Tautulli Remote",
+    "update_title": "Mise à jour",
+    "accessibility_title": "Accessibilité"
 }
