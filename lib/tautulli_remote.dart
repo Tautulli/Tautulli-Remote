@@ -257,7 +257,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           title: 'Tautulli Remote',
-          theme: ThemeHelper.material(
+          theme: ThemeHelper.tautulli(
             fontName: di.sl<Settings>().getUseAtkinsonHyperlegible() ? 'Atkinson Hyperlegible' : null,
           ),
           builder: (context, child) {
