@@ -261,6 +261,7 @@ class _AppDrawerState extends State<_AppDrawer> {
       context: context,
       removeTop: true,
       child: NavigationDrawer(
+        indicatorColor: Theme.of(context).colorScheme.surfaceVariant,
         elevation: 0,
         onDestinationSelected: handleScreenChanged,
         selectedIndex: screenIndex,
@@ -275,146 +276,135 @@ class _AppDrawerState extends State<_AppDrawer> {
           const _ServerSelector(),
           const Gap(4),
           NavigationDrawerDestination(
-            icon: const SizedBox(
+            icon: SizedBox(
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.tv,
                 size: 20,
+                color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
-            selectedIcon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.tv,
-                size: 20,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+            label: Text(
+              LocaleKeys.activity_title,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
               ),
-            ),
-            label: const Text(LocaleKeys.activity_title).tr(),
+            ).tr(),
           ),
           NavigationDrawerDestination(
-            icon: const SizedBox(
+            icon: SizedBox(
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.clockRotateLeft,
+                color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
-            selectedIcon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.clockRotateLeft,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+            label: Text(
+              LocaleKeys.history_title,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
               ),
-            ),
-            label: const Text(LocaleKeys.history_title).tr(),
+            ).tr(),
           ),
           NavigationDrawerDestination(
-            icon: const SizedBox(
+            icon: SizedBox(
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.clock,
+                color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
-            selectedIcon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.clock,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+            label: Text(
+              LocaleKeys.recently_added_title,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
               ),
-            ),
-            label: const Text(LocaleKeys.recently_added_title).tr(),
+            ).tr(),
           ),
           NavigationDrawerDestination(
-            icon: const SizedBox(
+            icon: SizedBox(
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.photoFilm,
+                color: Theme.of(context).colorScheme.onBackground,
                 size: 20,
               ),
             ),
-            selectedIcon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.photoFilm,
-                size: 20,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+            label: Text(
+              LocaleKeys.libraries_title,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
               ),
-            ),
-            label: const Text(LocaleKeys.libraries_title).tr(),
+            ).tr(),
           ),
           NavigationDrawerDestination(
-            icon: const SizedBox(
+            icon: SizedBox(
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.users,
+                color: Theme.of(context).colorScheme.onBackground,
                 size: 20,
               ),
             ),
-            selectedIcon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.users,
-                size: 20,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+            label: Text(
+              LocaleKeys.users_title,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
               ),
-            ),
-            label: const Text(LocaleKeys.users_title).tr(),
+            ).tr(),
           ),
           NavigationDrawerDestination(
-            icon: const SizedBox(
+            icon: SizedBox(
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.listOl,
+                color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
-            selectedIcon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.listOl,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+            label: Text(
+              LocaleKeys.statistics_title,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
               ),
-            ),
-            label: const Text(LocaleKeys.statistics_title).tr(),
+            ).tr(),
           ),
           NavigationDrawerDestination(
-            icon: const SizedBox(
+            icon: SizedBox(
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.chartColumn,
+                color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
-            selectedIcon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.chartColumn,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+            label: Text(
+              LocaleKeys.graphs_title,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
               ),
-            ),
-            label: const Text(LocaleKeys.graphs_title).tr(),
+            ).tr(),
           ),
           const Divider(
             indent: 8,
             endIndent: 8,
           ),
           NavigationDrawerDestination(
-            icon: const SizedBox(
+            icon: SizedBox(
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.bullhorn,
-              ),
-            ),
-            selectedIcon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.bullhorn,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
             label: Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(LocaleKeys.announcements_title).tr(),
+                  Text(
+                    LocaleKeys.announcements_title,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ).tr(),
                   BlocBuilder<AnnouncementsBloc, AnnouncementsState>(
                     builder: (context, state) {
                       if (state is AnnouncementsSuccess && state.unread) {
@@ -442,29 +432,32 @@ class _AppDrawerState extends State<_AppDrawer> {
                 color: Colors.red,
               ),
             ),
-            label: const Text(LocaleKeys.donate_title).tr(),
+            label: Text(
+              LocaleKeys.donate_title,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+            ).tr(),
           ),
           NavigationDrawerDestination(
-            icon: const SizedBox(
+            icon: SizedBox(
               width: 25,
               child: FaIcon(
                 FontAwesomeIcons.gears,
                 size: 21,
-              ),
-            ),
-            selectedIcon: SizedBox(
-              width: 25,
-              child: FaIcon(
-                FontAwesomeIcons.gears,
-                size: 21,
-                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
             label: Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(LocaleKeys.settings_title).tr(),
+                  Text(
+                    LocaleKeys.settings_title,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ).tr(),
                   BlocBuilder<SettingsBloc, SettingsState>(
                     builder: (context, state) {
                       if (state is SettingsSuccess && state.appSettings.appUpdateAvailable) {
