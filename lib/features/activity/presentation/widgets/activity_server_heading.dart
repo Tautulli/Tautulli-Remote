@@ -29,7 +29,10 @@ class ActivityServerHeading extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(2),
-                      child: const LinearProgressIndicator(),
+                      child: LinearProgressIndicator(
+                        color: Theme.of(context).colorScheme.onBackground,
+                        backgroundColor: Colors.transparent,
+                      ),
                     ),
                   ),
                 if (!loading) const Gap(8),

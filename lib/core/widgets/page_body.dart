@@ -16,7 +16,11 @@ class PageBody extends StatelessWidget {
       child: Stack(
         children: [
           child,
-          if (loading) const LinearProgressIndicator(),
+          if (loading)
+            LinearProgressIndicator(
+              color: Theme.of(context).colorScheme.onBackground,
+              backgroundColor: Colors.transparent,
+            ),
         ],
       ),
     );

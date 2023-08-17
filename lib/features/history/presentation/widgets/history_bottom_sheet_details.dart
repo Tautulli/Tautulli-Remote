@@ -115,14 +115,17 @@ class _HistoryBottomSheetDetailsState extends State<HistoryBottomSheetDetails> {
                                   LocaleKeys.location_lookup_failed_message,
                                 ).tr();
                               } else {
-                                return const Padding(
-                                  padding: EdgeInsets.only(
+                                return Padding(
+                                  padding: const EdgeInsets.only(
                                     top: 8,
                                     bottom: 8,
                                   ),
                                   child: SizedBox(
                                     width: 130,
-                                    child: LinearProgressIndicator(),
+                                    child: LinearProgressIndicator(
+                                      color: Theme.of(context).colorScheme.onBackground,
+                                      backgroundColor: Colors.transparent,
+                                    ),
                                   ),
                                 );
                               }

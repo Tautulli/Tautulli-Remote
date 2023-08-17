@@ -376,13 +376,16 @@ class _HistoryViewState extends State<HistoryView> {
                 ),
               ),
               if (state.status == BlocStatus.initial)
-                const Positioned(
+                Positioned(
                   bottom: 12,
                   right: 10,
                   child: SizedBox(
                     height: 12,
                     width: 12,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
                   ),
                 ),
             ],

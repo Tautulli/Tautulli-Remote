@@ -24,7 +24,7 @@ class BottomLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return status != BlocStatus.failure
-        ? const SizedBox(
+        ? SizedBox(
             height: 50,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -32,7 +32,10 @@ class BottomLoader extends StatelessWidget {
                 SizedBox(
                   height: 24,
                   width: 24,
-                  child: CircularProgressIndicator(strokeWidth: 1.5),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1.5,
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
                 ),
               ],
             ),
