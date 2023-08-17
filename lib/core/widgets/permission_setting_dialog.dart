@@ -21,12 +21,18 @@ class PermissionSettingDialog extends StatelessWidget {
       content: Text(content),
       actions: [
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           onPressed: () {
             Navigator.of(context).pop();
           },
           child: const Text(LocaleKeys.cancel_title).tr(),
         ),
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           onPressed: () async {
             await openAppSettings().then(
               (value) {

@@ -20,12 +20,18 @@ class WizardSkipDialog extends StatelessWidget {
       ),
       actions: <Widget>[
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           child: const Text(LocaleKeys.cancel_title).tr(),
           onPressed: () {
             Navigator.of(context).pop(false);
           },
         ),
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           child: const Text(LocaleKeys.skip_title).tr(),
           onPressed: () {
             Navigator.of(context).pop(true);

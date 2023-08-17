@@ -14,6 +14,9 @@ class WizardQuitDialog extends StatelessWidget {
       title: const Text(LocaleKeys.wizard_quit_dialog_title).tr(),
       actions: [
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           child: const Text(LocaleKeys.cancel_title).tr(),
           onPressed: () {
             Navigator.of(context).pop(false);
@@ -22,7 +25,7 @@ class WizardQuitDialog extends StatelessWidget {
         TextButton(
           style: TextButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.errorContainer,
-            foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
           ),
           onPressed: () {
             context.read<SettingsBloc>().add(const SettingsUpdateWizardComplete(true));

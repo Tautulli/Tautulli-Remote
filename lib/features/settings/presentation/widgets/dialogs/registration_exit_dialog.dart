@@ -15,6 +15,9 @@ class RegistrationExitDialog extends StatelessWidget {
       content: const Text(LocaleKeys.server_registration_exit_dialog_content).tr(),
       actions: [
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           child: const Text(LocaleKeys.cancel_title).tr(),
           onPressed: () {
             Navigator.of(context).pop(false);
@@ -23,7 +26,7 @@ class RegistrationExitDialog extends StatelessWidget {
         TextButton(
           style: TextButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.errorContainer,
-            foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
           ),
           onPressed: () {
             context.read<RegistrationHeadersBloc>().add(

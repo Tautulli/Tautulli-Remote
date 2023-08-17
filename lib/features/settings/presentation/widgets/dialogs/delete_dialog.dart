@@ -17,6 +17,9 @@ class DeleteDialog extends StatelessWidget {
       title: title,
       actions: [
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           child: const Text(LocaleKeys.cancel_title).tr(),
           onPressed: () {
             Navigator.of(context).pop(false);
@@ -25,7 +28,7 @@ class DeleteDialog extends StatelessWidget {
         TextButton(
           style: TextButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.errorContainer,
-            foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
           ),
           onPressed: () {
             Navigator.of(context).pop(true);

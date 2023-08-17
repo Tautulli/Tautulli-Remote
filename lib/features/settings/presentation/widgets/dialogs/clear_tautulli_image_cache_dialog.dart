@@ -37,6 +37,9 @@ class ClearTautulliImageCacheDialog extends StatelessWidget {
           ),
           actions: [
             TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.onSurface,
+              ),
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
@@ -45,7 +48,7 @@ class ClearTautulliImageCacheDialog extends StatelessWidget {
             TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.errorContainer,
-                foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+                foregroundColor: Theme.of(context).colorScheme.onSurface,
               ),
               onPressed: () {
                 context.read<ClearTautulliImageCacheBloc>().add(

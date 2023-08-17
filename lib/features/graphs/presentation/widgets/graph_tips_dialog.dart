@@ -13,6 +13,9 @@ class GraphTipsDialog extends StatelessWidget {
       content: const Text(LocaleKeys.graphs_tips_dialog_content).tr(),
       actions: [
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           child: const Text(LocaleKeys.close_title).tr(),
           onPressed: () {
             Navigator.of(context).pop();

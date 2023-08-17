@@ -399,7 +399,7 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Theme.of(context).colorScheme.errorContainer,
-                                      foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+                                      foregroundColor: Theme.of(context).colorScheme.onSurface,
                                     ),
                                     onPressed: () async {
                                       final TextEditingController controller = TextEditingController();
@@ -423,35 +423,6 @@ class _ActivityBottomSheetState extends State<ActivityBottomSheet> {
                                       }
                                     },
                                     child: const FaIcon(FontAwesomeIcons.xmark),
-                                    // child: Builder(
-                                    //   builder: (context) {
-                                    //     if (state
-                                    //             is TerminateStreamInProgress &&
-                                    //         state.sessionId ==
-                                    //             activity.sessionId &&
-                                    //         state.sessionKey ==
-                                    //             activity.sessionKey) {
-                                    //       return const SizedBox(
-                                    //         width: 18,
-                                    //         height: 18,
-                                    //         child: CircularProgressIndicator(
-                                    //             strokeWidth: 2),
-                                    //       );
-                                    //     }
-
-                                    //     if (MediaQuery.of(context)
-                                    //             .size
-                                    //             .width <
-                                    //         350) {
-                                    //       return const FaIcon(
-                                    //           FontAwesomeIcons.xmark);
-                                    //     }
-
-                                    //     return const Text(
-                                    //             LocaleKeys.terminate_title)
-                                    //         .tr();
-                                    //   },
-                                    // ),
                                   ),
                                 );
                               },

@@ -43,8 +43,7 @@ class ActivityView extends StatefulWidget {
   State<ActivityView> createState() => _ActivityViewState();
 }
 
-class _ActivityViewState extends State<ActivityView>
-    with WidgetsBindingObserver {
+class _ActivityViewState extends State<ActivityView> with WidgetsBindingObserver {
   late ActivityBloc _activityBloc;
   late SettingsBloc _settingsBloc;
   late List<ServerModel> _serverList;
@@ -63,6 +62,9 @@ class _ActivityViewState extends State<ActivityView>
           message: LocaleKeys.rate_app_message.tr(),
           actionsBuilder: (context) => [
             TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.onSurface,
+              ),
               onPressed: () async {
                 await rateApp.callEvent(RateMyAppEventType.noButtonPressed);
                 Navigator.of(context).pop<RateMyAppDialogButton>(
@@ -72,6 +74,9 @@ class _ActivityViewState extends State<ActivityView>
               child: const Text(LocaleKeys.dont_ask_again_message).tr(),
             ),
             TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.onSurface,
+              ),
               onPressed: () async {
                 await rateApp.callEvent(RateMyAppEventType.laterButtonPressed);
                 Navigator.of(context).pop<RateMyAppDialogButton>(
@@ -81,6 +86,9 @@ class _ActivityViewState extends State<ActivityView>
               child: const Text(LocaleKeys.later_title).tr(),
             ),
             TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.onSurface,
+              ),
               onPressed: () async {
                 await rateApp.launchStore();
                 await rateApp.callEvent(RateMyAppEventType.rateButtonPressed);
@@ -146,9 +154,7 @@ class _ActivityViewState extends State<ActivityView>
       listenWhen: (previous, current) {
         // If active server is changed and multiserver is not set then trigger an ActivityFetched
         if (previous is SettingsSuccess && current is SettingsSuccess) {
-          if (previous.appSettings.activeServer !=
-                  current.appSettings.activeServer &&
-              !current.appSettings.multiserverActivity) {
+          if (previous.appSettings.activeServer != current.appSettings.activeServer && !current.appSettings.multiserverActivity) {
             return true;
           }
         }
@@ -188,11 +194,7 @@ class _ActivityViewState extends State<ActivityView>
               child: PageBody(
                 loading: !_multiserver &&
                         state.serverActivityList.isNotEmpty &&
-                        state.serverActivityList
-                                .firstWhere(
-                                    (s) => s.tautulliId == _activeServerId)
-                                .status ==
-                            BlocStatus.inProgress
+                        state.serverActivityList.firstWhere((s) => s.tautulliId == _activeServerId).status == BlocStatus.inProgress
                     ? true
                     : false,
                 child: Builder(
@@ -231,8 +233,7 @@ class _ActivityViewState extends State<ActivityView>
     }
 
     if (serverActivityModelList.isNotEmpty) {
-      final ServerActivityModel firstServer =
-          serverActivityModelList.firstWhere(
+      final ServerActivityModel firstServer = serverActivityModelList.firstWhere(
         (server) => server.tautulliId == _activeServerId,
       );
 
@@ -252,15 +253,12 @@ class _ActivityViewState extends State<ActivityView>
           serverActivityWidgets.add(
             ActivityCard(
               activity: activityModel,
-              server: _serverList.firstWhere(
-                  (server) => server.tautulliId == firstServer.tautulliId),
+              server: _serverList.firstWhere((server) => server.tautulliId == firstServer.tautulliId),
             ),
           );
         }
 
-        final int streamCount = firstServer.copyCount +
-            firstServer.directPlayCount +
-            firstServer.transcodeCount;
+        final int streamCount = firstServer.copyCount + firstServer.directPlayCount + firstServer.transcodeCount;
         late int crossAxisCount;
 
         if (screenWidth > 1000) {
@@ -277,18 +275,14 @@ class _ActivityViewState extends State<ActivityView>
               SliverPadding(
                 padding: const EdgeInsets.all(8),
                 sliver: SliverToBoxAdapter(
-                  child: ServerActivityInfoCard(
-                      serverActivity: serverActivityModelList[0]),
+                  child: ServerActivityInfoCard(serverActivity: serverActivityModelList[0]),
                 ),
               ),
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
               sliver: SliverGrid.count(
                 crossAxisCount: crossAxisCount,
-                childAspectRatio: (2 *
-                        MediaQuery.of(context).size.width /
-                        (360 * 0.85 * MediaQuery.of(context).textScaleFactor)) /
-                    crossAxisCount,
+                childAspectRatio: (2 * MediaQuery.of(context).size.width / (360 * 0.85 * MediaQuery.of(context).textScaleFactor)) / crossAxisCount,
                 mainAxisSpacing: 4,
                 crossAxisSpacing: 4,
                 children: serverActivityWidgets,
@@ -326,21 +320,17 @@ class _ActivityViewState extends State<ActivityView>
             ),
           );
         } else {
-          for (ActivityModel activityModel
-              in serverActivityModel.activityList) {
+          for (ActivityModel activityModel in serverActivityModel.activityList) {
             serverActivityList.add(
               ActivityCard(
                 activity: activityModel,
-                server: _serverList.firstWhere((server) =>
-                    server.tautulliId == serverActivityModel.tautulliId),
+                server: _serverList.firstWhere((server) => server.tautulliId == serverActivityModel.tautulliId),
               ),
             );
           }
         }
 
-        final int streamCount = serverActivityModel.copyCount +
-            serverActivityModel.directPlayCount +
-            serverActivityModel.transcodeCount;
+        final int streamCount = serverActivityModel.copyCount + serverActivityModel.directPlayCount + serverActivityModel.transcodeCount;
         late int crossAxisCount;
 
         if (screenWidth > 1000) {
@@ -365,19 +355,13 @@ class _ActivityViewState extends State<ActivityView>
                     if (streamCount > 0)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 4),
-                        child: ServerActivityInfoCard(
-                            serverActivity: serverActivityModel),
+                        child: ServerActivityInfoCard(serverActivity: serverActivityModel),
                       ),
                     GridView.count(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       crossAxisCount: crossAxisCount,
-                      childAspectRatio: (2 *
-                              MediaQuery.of(context).size.width /
-                              (360 *
-                                  0.85 *
-                                  MediaQuery.of(context).textScaleFactor)) /
-                          crossAxisCount,
+                      childAspectRatio: (2 * MediaQuery.of(context).size.width / (360 * 0.85 * MediaQuery.of(context).textScaleFactor)) / crossAxisCount,
                       mainAxisSpacing: 4,
                       crossAxisSpacing: 4,
                       children: serverActivityList,

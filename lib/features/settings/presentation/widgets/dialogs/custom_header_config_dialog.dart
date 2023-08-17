@@ -155,12 +155,18 @@ class _CustomHeaderConfigDialogState extends State<CustomHeaderConfigDialog> {
       ),
       actions: [
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           child: const Text(LocaleKeys.cancel_title).tr(),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           child: const Text(LocaleKeys.save_title).tr(),
           onPressed: () {
             if (_formKey.currentState!.validate()) {

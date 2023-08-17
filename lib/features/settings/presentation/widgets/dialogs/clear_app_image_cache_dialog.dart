@@ -15,6 +15,9 @@ class ClearAppImageCacheDialog extends StatelessWidget {
       content: const Text(LocaleKeys.clear_app_image_cache_dialog_content).tr(),
       actions: [
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           onPressed: () {
             Navigator.of(context).pop(false);
           },
@@ -23,7 +26,7 @@ class ClearAppImageCacheDialog extends StatelessWidget {
         TextButton(
           style: TextButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.errorContainer,
-            foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
           ),
           onPressed: () {
             context.read<SettingsBloc>().add(SettingsClearCache());

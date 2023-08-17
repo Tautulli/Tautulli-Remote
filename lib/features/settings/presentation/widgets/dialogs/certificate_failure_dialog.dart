@@ -16,6 +16,9 @@ class CertificateFailureDialog extends StatelessWidget {
       content: const Text(LocaleKeys.certificate_verification_failed_content).tr(),
       actions: [
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           child: const Text(LocaleKeys.no_title).tr(),
           onPressed: () {
             Navigator.of(context).pop();

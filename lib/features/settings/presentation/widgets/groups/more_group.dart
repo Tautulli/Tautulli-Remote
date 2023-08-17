@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide showAboutDialog;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../../../core/package_information/package_information.dart';
+import '../../../../../core/widgets/custom_about_dialog.dart';
 import '../../../../../core/widgets/custom_list_tile.dart';
 import '../../../../../core/widgets/list_tile_group.dart';
 import '../../../../../translations/locale_keys.g.dart';
