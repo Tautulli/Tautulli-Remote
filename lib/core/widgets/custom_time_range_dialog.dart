@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:quiver/strings.dart';
 
-import '../../../../translations/locale_keys.g.dart';
+import '../../translations/locale_keys.g.dart';
 
 class CustomTimeRangeDialog extends StatelessWidget {
   const CustomTimeRangeDialog({super.key});
@@ -24,7 +24,7 @@ class CustomTimeRangeDialog extends StatelessWidget {
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
               focusedBorder: UnderlineInputBorder(
@@ -73,12 +73,18 @@ class CustomTimeRangeDialog extends StatelessWidget {
       ]),
       actions: [
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           onPressed: () {
             Navigator.of(context).pop();
           },
           child: const Text(LocaleKeys.close_title).tr(),
         ),
         TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
           onPressed: () {
             if (formKey.currentState != null && formKey.currentState!.validate()) {
               Navigator.of(context).pop(int.parse(textController.value.text));
