@@ -2279,7 +2279,6 @@ static const Map<String,dynamic> en = {
   "tv_shows_title": "TV Shows",
   "unknown_title": "Unknown",
   "update_title": "Update",
-  "use_atkinson_hyperlegibile_font_title": "Use Atkinson Hyperlegible Font",
   "user_stats_empty_message": "No user stats found.",
   "user_stats_title": "User Stats",
   "user_title": "User",

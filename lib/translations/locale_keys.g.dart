@@ -364,7 +364,6 @@ abstract class  LocaleKeys {
   static const tv_shows_title = 'tv_shows_title';
   static const unknown_title = 'unknown_title';
   static const update_title = 'update_title';
-  static const use_atkinson_hyperlegibile_font_title = 'use_atkinson_hyperlegibile_font_title';
   static const user_stats_empty_message = 'user_stats_empty_message';
   static const user_stats_title = 'user_stats_title';
   static const user_title = 'user_title';
