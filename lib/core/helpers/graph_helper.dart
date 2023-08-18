@@ -173,7 +173,7 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.movies]! + barStart,
-            Theme.of(context).colorScheme.tertiary,
+            Theme.of(context).colorScheme.onSurface,
           ),
         );
 
@@ -185,7 +185,7 @@ class GraphHelper {
           BarChartRodStackItem(
             barStart,
             barValues[GraphSeriesType.directStream]! + barStart,
-            Theme.of(context).colorScheme.tertiary,
+            Theme.of(context).colorScheme.onSurface,
           ),
         );
 
@@ -383,7 +383,7 @@ class GraphHelper {
                   ? Theme.of(context).colorScheme.error
                   : [GraphSeriesType.live].contains(seriesType)
                       ? Theme.of(context).colorScheme.secondary
-                      : Theme.of(context).colorScheme.tertiary,
+                      : Theme.of(context).colorScheme.onSurface,
           dotData: const FlDotData(
             show: false,
           ),
