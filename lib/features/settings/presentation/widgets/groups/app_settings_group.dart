@@ -7,6 +7,7 @@ import '../../../../../core/widgets/custom_list_tile.dart';
 import '../../../../../core/widgets/list_tile_group.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../bloc/settings_bloc.dart';
+import '../../pages/accessibility_page.dart';
 import '../../pages/advanced_page.dart';
 import '../../pages/theme_page.dart';
 import '../dialogs/activity_refresh_rate_dialog.dart';
@@ -65,6 +66,18 @@ class AppSettingsGroup extends StatelessWidget {
         ),
         CustomListTile(
           leading: FaIcon(
+            FontAwesomeIcons.wrench,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+          title: LocaleKeys.advanced_title.tr(),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const AdvancedPage(),
+            ),
+          ),
+        ),
+        CustomListTile(
+          leading: FaIcon(
             FontAwesomeIcons.palette,
             color: Theme.of(context).colorScheme.onSurface,
           ),
@@ -77,13 +90,13 @@ class AppSettingsGroup extends StatelessWidget {
         ),
         CustomListTile(
           leading: FaIcon(
-            FontAwesomeIcons.wrench,
+            FontAwesomeIcons.universalAccess,
             color: Theme.of(context).colorScheme.onSurface,
           ),
-          title: LocaleKeys.advanced_title.tr(),
+          title: 'Accessibility',
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const AdvancedPage(),
+              builder: (context) => const AccessibilityPage(),
             ),
           ),
         ),

@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/widgets/page_body.dart';
 import '../../../../translations/locale_keys.g.dart';
-import '../widgets/groups/accessibility_group.dart';
 import '../widgets/groups/advanced_group.dart';
 import '../widgets/groups/operations_group.dart';
 
@@ -31,8 +30,6 @@ class AdvancedView extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           children: const [
             AdvancedGroup(),
-            Gap(8),
-            AccessibilityGroup(),
             Gap(8),
             OperationsGroup(),
           ],
