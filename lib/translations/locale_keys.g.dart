@@ -106,6 +106,7 @@ abstract class  LocaleKeys {
   static const dynamic_color_title = 'dynamic_color_title';
   static const dynamic_title = 'dynamic_title';
   static const dynamic_theme_subtitle = 'dynamic_theme_subtitle';
+  static const enhancements_title = 'enhancements_title';
   static const enter_an_integer_message = 'enter_an_integer_message';
   static const enter_time_range_in_days_message = 'enter_time_range_in_days_message';
   static const episode_title = 'episode_title';
@@ -157,6 +158,7 @@ abstract class  LocaleKeys {
   static const help_translate_heading_card_content = 'help_translate_heading_card_content';
   static const help_translate_title = 'help_translate_title';
   static const hidden_message = 'hidden_message';
+  static const high_contrast_title = 'high_contrast_title';
   static const history_empty_message = 'history_empty_message';
   static const history_title = 'history_title';
   static const hours_title = 'hours_title';
