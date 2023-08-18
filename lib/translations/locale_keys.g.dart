@@ -77,6 +77,7 @@ abstract class  LocaleKeys {
   static const direct_play_title = 'direct_play_title';
   static const direct_stream_title = 'direct_stream_title';
   static const directed_by_title = 'directed_by_title';
+  static const disable_image_backgrounds_title = 'disable_image_backgrounds_title';
   static const disabled_title = 'disabled_title';
   static const discard_title = 'discard_title';
   static const discord_title = 'discord_title';
@@ -142,6 +143,7 @@ abstract class  LocaleKeys {
   static const feature_not_yet_available_snackbar_message = 'feature_not_yet_available_snackbar_message';
   static const filter_history_title = 'filter_history_title';
   static const filter_recently_added_title = 'filter_recently_added_title';
+  static const font_title = 'font_title';
   static const genres_title = 'genres_title';
   static const global_stats_title = 'global_stats_title';
   static const go_to_album_title = 'go_to_album_title';
@@ -346,6 +348,7 @@ abstract class  LocaleKeys {
   static const terminate_stream_dialog_title = 'terminate_stream_dialog_title';
   static const termination_request_sent_message = 'termination_request_sent_message';
   static const terms_of_use_title = 'terms_of_use_title';
+  static const theme_title = 'theme_title';
   static const themes_title = 'themes_title';
   static const throttled_title = 'throttled_title';
   static const time_title = 'time_title';
@@ -374,6 +377,7 @@ abstract class  LocaleKeys {
   static const view_onesignal_privacy_title = 'view_onesignal_privacy_title';
   static const view_privacy_page_title = 'view_privacy_page_title';
   static const view_user_title = 'view_user_title';
+  static const visuals_title = 'visuals_title';
   static const password_title = 'password_title';
   static const qr_code_scan_error_snackbar_message = 'qr_code_scan_error_snackbar_message';
   static const view_on_plex_title = 'view_on_plex_title';
