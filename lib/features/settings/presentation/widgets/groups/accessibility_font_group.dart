@@ -26,7 +26,6 @@ class AccessibilityFontGroup extends StatelessWidget {
                 FontAwesomeIcons.font,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
-              // title: LocaleKeys.use_atkinson_hyperlegibile_font_title.tr(),
               title: 'Atkinson Hyperlegible',
               value: useAtkinsonHyperlegible,
               onChanged: (value) {
