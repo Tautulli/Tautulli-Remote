@@ -960,12 +960,10 @@ String _defaultApplicationName(BuildContext context) {
 }
 
 String _defaultApplicationVersion(BuildContext context) {
-  // TODO(ianh): Get this from the embedder somehow.
   return '';
 }
 
 Widget? _defaultApplicationIcon(BuildContext context) {
-  // TODO(ianh): Get this from the embedder somehow.
   return null;
 }
 
@@ -1467,7 +1465,6 @@ class _DetailView extends StatelessWidget {
       expand: false,
       builder: (BuildContext context, ScrollController controller) {
         return MouseRegion(
-          // TODO(TonicArtos): Remove MouseRegion workaround for pointer hover events passing through DraggableScrollableSheet once https://github.com/flutter/flutter/issues/59741 is resolved.
           child: Card(
             color: Theme.of(context).cardColor,
             elevation: _kCardElevation,
