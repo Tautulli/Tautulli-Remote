@@ -220,6 +220,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return await dataSource.setCustomCertHashList(certHashList);
   }
 
+  // Disable Image Backgrounds
+  @override
+  bool getDisableImageBackgrounds() {
+    return dataSource.getDisableImageBackgrounds();
+  }
+
+  @override
+  Future<bool> setDisableImageBackgrounds(bool value) {
+    return dataSource.setDisableImageBackgrounds(value);
+  }
+
   // Double Back To Exit
   @override
   bool getDoubleBackToExit() {

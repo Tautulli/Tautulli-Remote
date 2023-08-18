@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/widgets/card_with_forced_tint.dart';
+import '../../../settings/presentation/bloc/settings_bloc.dart';
 import '../../data/models/user_model.dart';
 import '../../data/models/user_table_model.dart';
 import '../pages/user_details_page.dart';
@@ -65,44 +67,51 @@ class _UserCardState extends State<UserCard> {
         return CardWithForcedTint(
           child: SizedBox(
             height: MediaQuery.of(context).textScaleFactor > 1 ? 100 * MediaQuery.of(context).textScaleFactor : 100,
-            child: Stack(
-              children: [
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 400),
-                  child: color != null ? _DarkenedBackground(color: color) : null,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      UserIcon(user: user),
-                      const Gap(8),
-                      Expanded(
-                        child: widget.details,
+            child: BlocBuilder<SettingsBloc, SettingsState>(
+              builder: (context, state) {
+                state as SettingsSuccess;
+
+                return Stack(
+                  children: [
+                    if (!state.appSettings.disableImageBackgrounds)
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 400),
+                        child: color != null ? _DarkenedBackground(color: color) : null,
                       ),
-                    ],
-                  ),
-                ),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return UserDetailsPage(
-                              server: widget.server,
-                              user: user,
-                              backgroundColor: color,
-                              fetchUser: widget.fetchUser,
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          UserIcon(user: user),
+                          const Gap(8),
+                          Expanded(
+                            child: widget.details,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return UserDetailsPage(
+                                  server: widget.server,
+                                  user: user,
+                                  backgroundColor: color,
+                                  fetchUser: widget.fetchUser,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         );

@@ -79,6 +79,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsUpdateGraphYAxis>(
       (event, emit) => _onSettingsUpdateGraphYAxis(event, emit),
     );
+    on<SettingsUpdateDisableImageBackgrounds>(
+      (event, emit) => _onSettingsUpdateDisableImageBackgrounds(event, emit),
+    );
     on<SettingsUpdateLibrariesSort>(
       (event, emit) => _onSettingsUpdateLibrariesSort(event, emit),
     );
@@ -353,6 +356,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
                 ? serverList.first
                 : blankServer,
         appUpdateAvailable: settings.getAppUpdateAvailable(),
+        disableImageBackgrounds: settings.getDisableImageBackgrounds(),
         doubleBackToExit: settings.getDoubleBackToExit(),
         graphTimeRange: settings.getGraphTimeRange(),
         graphTipsShown: settings.getGraphTipsShown(),
@@ -574,6 +578,26 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     emit(
       currentState.copyWith(serverList: updatedList),
+    );
+  }
+
+  void _onSettingsUpdateDisableImageBackgrounds(
+    SettingsUpdateDisableImageBackgrounds event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setDisableImageBackgrounds(event.disableImageBackgrounds);
+    logging.info(
+      'Settings :: Disable Image Backgrounds set to ${event.disableImageBackgrounds}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          disableImageBackgrounds: event.disableImageBackgrounds,
+        ),
+      ),
     );
   }
 
@@ -1094,7 +1118,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     await settings.setThemeCustomColor(event.color);
     logging.info(
-      'Settings :: Theme custom color set to ${event.color}',
+      'Settings :: Theme Custom Color set to ${event.color}',
     );
 
     emit(
@@ -1114,7 +1138,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     await settings.setThemeEnhancement(event.themeEnhancementType);
     logging.info(
-      'Settings :: Theme enhancement set to ${event.themeEnhancementType.name()}',
+      'Settings :: Theme Enhancement set to ${event.themeEnhancementType.name()}',
     );
 
     emit(
@@ -1134,7 +1158,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     await settings.setThemeUseSystemColor(event.useSystemColor);
     logging.info(
-      'Settings :: Theme system color set to ${event.useSystemColor}',
+      'Settings :: Theme System Color set to ${event.useSystemColor}',
     );
 
     emit(

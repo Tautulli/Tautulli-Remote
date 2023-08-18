@@ -57,15 +57,15 @@ class _ActivityCardState extends State<ActivityCard> {
     return SizedBox(
       height: MediaQuery.of(context).textScaleFactor > 1 ? 135 * MediaQuery.of(context).textScaleFactor : 135,
       child: CardWithForcedTint(
-        child: Stack(
-          children: [
-            if (widget.activity.imageUri != null)
-              Positioned.fill(
-                child: BlocBuilder<SettingsBloc, SettingsState>(
-                  builder: (context, state) {
-                    state as SettingsSuccess;
+        child: BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (context, state) {
+            state as SettingsSuccess;
 
-                    return CachedNetworkImage(
+            return Stack(
+              children: [
+                if (!state.appSettings.disableImageBackgrounds && widget.activity.imageUri != null)
+                  Positioned.fill(
+                    child: CachedNetworkImage(
                       imageUrl: posterUri.toString(),
                       httpHeaders: {
                         for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
@@ -109,70 +109,70 @@ class _ActivityCardState extends State<ActivityCard> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                    );
-                  },
+                    ),
+                  ),
+                Positioned.fill(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Poster(
+                                mediaType: widget.activity.mediaType,
+                                uri: posterUri,
+                                activityState: widget.activity.state,
+                              ),
+                              const Gap(8),
+                              Expanded(
+                                child: ActivityDetails(
+                                  activity: widget.activity,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: ProgressBar(activity: widget.activity),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            Positioned.fill(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Poster(
-                            mediaType: widget.activity.mediaType,
-                            uri: posterUri,
-                            activityState: widget.activity.state,
-                          ),
-                          const Gap(8),
-                          Expanded(
-                            child: ActivityDetails(
-                              activity: widget.activity,
+                Positioned.fill(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => showModalBottomSheet(
+                        context: context,
+                        constraints: const BoxConstraints(
+                          maxWidth: 500,
+                        ),
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                        isScrollControlled: true,
+                        builder: (context) {
+                          return BlocProvider.value(
+                            value: _activityBloc,
+                            child: BlocProvider(
+                              create: (context) => di.sl<TerminateStreamBloc>(),
+                              child: ActivityBottomSheet(
+                                server: widget.server,
+                                activity: widget.activity,
+                              ),
                             ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
-                    child: ProgressBar(activity: widget.activity),
-                  ),
-                ],
-              ),
-            ),
-            Positioned.fill(
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => showModalBottomSheet(
-                    context: context,
-                    constraints: const BoxConstraints(
-                      maxWidth: 500,
-                    ),
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    isScrollControlled: true,
-                    builder: (context) {
-                      return BlocProvider.value(
-                        value: _activityBloc,
-                        child: BlocProvider(
-                          create: (context) => di.sl<TerminateStreamBloc>(),
-                          child: ActivityBottomSheet(
-                            server: widget.server,
-                            activity: widget.activity,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
                 ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         ),
       ),
     );

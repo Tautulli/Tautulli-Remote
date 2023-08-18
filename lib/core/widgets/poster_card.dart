@@ -32,15 +32,15 @@ class PosterCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: CardWithForcedTint(
-          child: Stack(
-            children: [
-              if (uri != null)
-                Positioned.fill(
-                  child: BlocBuilder<SettingsBloc, SettingsState>(
-                    builder: (context, state) {
-                      state as SettingsSuccess;
+          child: BlocBuilder<SettingsBloc, SettingsState>(
+            builder: (context, state) {
+              state as SettingsSuccess;
 
-                      return CachedNetworkImage(
+              return Stack(
+                children: [
+                  if (!state.appSettings.disableImageBackgrounds && uri != null)
+                    Positioned.fill(
+                      child: CachedNetworkImage(
                         imageUrl: uri.toString(),
                         httpHeaders: {
                           for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders) headerModel.key: headerModel.value,
@@ -84,32 +84,32 @@ class PosterCard extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                         ),
-                      );
-                    },
+                      ),
+                    ),
+                  Positioned.fill(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Poster(mediaType: mediaType, uri: uri),
+                          const Gap(8),
+                          Expanded(child: details),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              Positioned.fill(
-                child: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Poster(mediaType: mediaType, uri: uri),
-                      const Gap(8),
-                      Expanded(child: details),
-                    ],
+                  Positioned.fill(
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: onTap,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Positioned.fill(
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: onTap,
-                  ),
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           ),
         ),
       ),

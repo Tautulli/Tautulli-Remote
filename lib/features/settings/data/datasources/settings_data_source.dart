@@ -88,6 +88,10 @@ abstract class SettingsDataSource {
   List<int> getCustomCertHashList();
   Future<bool> setCustomCertHashList(List<int> certHashList);
 
+  // Disable Image Backgrounds
+  bool getDisableImageBackgrounds();
+  Future<bool> setDisableImageBackgrounds(bool value);
+
   // Double Back To Exit
   bool getDoubleBackToExit();
   Future<bool> setDoubleBackToExit(bool value);
@@ -192,6 +196,7 @@ abstract class SettingsDataSource {
 const activeServerId = 'activeServerId';
 const appUpdateAvailable = 'appUpdateAvailable';
 const customCertHashList = 'customCertHashList';
+const disableImageBackgrounds = 'disableImageBackgrounds';
 const doubleBackToExit = 'doubleTapToExit';
 const graphTimeRange = 'graphTimeRange';
 const graphTipsShown = 'graphTipsShown';
@@ -430,6 +435,17 @@ class SettingsDataSourceImpl implements SettingsDataSource {
     final List<String> stringList = certHashList.map((i) => i.toString()).toList();
 
     return localStorage.setStringList(customCertHashList, stringList);
+  }
+
+  // Disable Image Backgrounds
+  @override
+  bool getDisableImageBackgrounds() {
+    return localStorage.getBool(disableImageBackgrounds) ?? false;
+  }
+
+  @override
+  Future<bool> setDisableImageBackgrounds(bool value) {
+    return localStorage.setBool(disableImageBackgrounds, value);
   }
 
   // Double Back To Exit

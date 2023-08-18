@@ -77,86 +77,87 @@ class HistoryBottomSheet extends StatelessWidget {
                       ),
                       child: SizedBox(
                         height: 110,
-                        child: Stack(
-                          children: [
-                            //* Background
-                            Positioned.fill(
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.surface,
-                                ),
-                              ),
-                            ),
-                            Positioned.fill(
-                              child: BlocBuilder<SettingsBloc, SettingsState>(
-                                builder: (context, state) {
-                                  state as SettingsSuccess;
+                        child: BlocBuilder<SettingsBloc, SettingsState>(
+                          builder: (context, state) {
+                            state as SettingsSuccess;
 
-                                  return DecoratedBox(
-                                    position: DecorationPosition.foreground,
+                            return Stack(
+                              children: [
+                                //* Background
+                                Positioned.fill(
+                                  child: DecoratedBox(
                                     decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.2),
-                                    ),
-                                    child: ImageFiltered(
-                                      imageFilter: ImageFilter.blur(
-                                        sigmaX: 25,
-                                        sigmaY: 25,
-                                        tileMode: TileMode.decal,
-                                      ),
-                                      child: CachedNetworkImage(
-                                        imageUrl: history.posterUri.toString(),
-                                        httpHeaders: {
-                                          for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
-                                            headerModel.key: headerModel.value,
-                                        },
-                                        placeholder: (context, url) => Image.asset(
-                                          'assets/images/poster_fallback.png',
-                                        ),
-                                        errorWidget: (context, url, error) => Image.asset(
-                                          'assets/images/poster_error.png',
-                                        ),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            //* Info Section
-                            Positioned.fill(
-                              child: Stack(
-                                children: [
-                                  Positioned.fill(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const Padding(
-                                          padding: EdgeInsets.only(
-                                            top: 4,
-                                            bottom: 2,
-                                          ),
-                                          child: Center(
-                                            child: GesturePill(),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 100,
-                                              right: 8,
-                                            ),
-                                            child: HistoryBottomSheetInfo(
-                                              history: history,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                      color: Theme.of(context).colorScheme.surface,
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ],
+                                ),
+                                if (!state.appSettings.disableImageBackgrounds)
+                                  Positioned.fill(
+                                    child: DecoratedBox(
+                                      position: DecorationPosition.foreground,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.2),
+                                      ),
+                                      child: ImageFiltered(
+                                        imageFilter: ImageFilter.blur(
+                                          sigmaX: 25,
+                                          sigmaY: 25,
+                                          tileMode: TileMode.decal,
+                                        ),
+                                        child: CachedNetworkImage(
+                                          imageUrl: history.posterUri.toString(),
+                                          httpHeaders: {
+                                            for (CustomHeaderModel headerModel in state.appSettings.activeServer.customHeaders)
+                                              headerModel.key: headerModel.value,
+                                          },
+                                          placeholder: (context, url) => Image.asset(
+                                            'assets/images/poster_fallback.png',
+                                          ),
+                                          errorWidget: (context, url, error) => Image.asset(
+                                            'assets/images/poster_error.png',
+                                          ),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                //* Info Section
+                                Positioned.fill(
+                                  child: Stack(
+                                    children: [
+                                      Positioned.fill(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Padding(
+                                              padding: EdgeInsets.only(
+                                                top: 4,
+                                                bottom: 2,
+                                              ),
+                                              child: Center(
+                                                child: GesturePill(),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 100,
+                                                  right: 8,
+                                                ),
+                                                child: HistoryBottomSheetInfo(
+                                                  history: history,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                       ),
                     ),

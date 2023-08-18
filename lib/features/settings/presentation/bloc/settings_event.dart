@@ -136,6 +136,15 @@ class SettingsUpdateCustomHeaders extends SettingsEvent {
   List<Object> get props => [tautulliId, title, subtitle, basicAuth];
 }
 
+class SettingsUpdateDisableImageBackgrounds extends SettingsEvent {
+  final bool disableImageBackgrounds;
+
+  const SettingsUpdateDisableImageBackgrounds(this.disableImageBackgrounds);
+
+  @override
+  List<Object> get props => [disableImageBackgrounds];
+}
+
 class SettingsUpdateDoubleBackToExit extends SettingsEvent {
   final bool doubleBackToExit;
 

@@ -80,6 +80,10 @@ abstract class SettingsRepository {
   List<int> getCustomCertHashList();
   Future<bool> setCustomCertHashList(List<int> certHashList);
 
+  // Disable Image Backgrounds
+  bool getDisableImageBackgrounds();
+  Future<bool> setDisableImageBackgrounds(bool value);
+
   // Double Back To Exit
   bool getDoubleBackToExit();
   Future<bool> setDoubleBackToExit(bool value);

@@ -248,6 +248,18 @@ class Settings {
     return await repository.setGraphYAxis(value);
   }
 
+  /// Returns if background images should be disabled.
+  ///
+  /// If no value is stored returns `false`.
+  bool getDisableImageBackgrounds() {
+    return repository.getDisableImageBackgrounds();
+  }
+
+  /// Sets if background images should be disabled.
+  Future<bool> setDisableImageBackgrounds(bool value) {
+    return repository.setDisableImageBackgrounds(value);
+  }
+
   /// Returns the app version from the last time the app was started.
   ///
   /// Used to determine if the changelog page should be displayed on start.

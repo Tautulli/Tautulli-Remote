@@ -13,6 +13,7 @@ class AppSettingsModel extends Equatable {
   final int graphTimeRange;
   final bool graphTipsShown;
   final PlayMetricType graphYAxis;
+  final bool disableImageBackgrounds;
   final String librariesSort;
   final bool libraryMediaFullRefresh;
   final bool maskSensitiveInfo;
@@ -35,6 +36,7 @@ class AppSettingsModel extends Equatable {
   const AppSettingsModel({
     required this.activeServer,
     required this.appUpdateAvailable,
+    required this.disableImageBackgrounds,
     required this.doubleBackToExit,
     required this.graphTimeRange,
     required this.graphTipsShown,
@@ -62,6 +64,7 @@ class AppSettingsModel extends Equatable {
   AppSettingsModel copyWith({
     ServerModel? activeServer,
     bool? appUpdateAvailable,
+    bool? disableImageBackgrounds,
     bool? doubleBackToExit,
     int? graphTimeRange,
     bool? graphTipsShown,
@@ -88,6 +91,7 @@ class AppSettingsModel extends Equatable {
     return AppSettingsModel(
       activeServer: activeServer ?? this.activeServer,
       appUpdateAvailable: appUpdateAvailable ?? this.appUpdateAvailable,
+      disableImageBackgrounds: disableImageBackgrounds ?? this.disableImageBackgrounds,
       doubleBackToExit: doubleBackToExit ?? this.doubleBackToExit,
       graphTimeRange: graphTimeRange ?? this.graphTimeRange,
       graphTipsShown: graphTipsShown ?? this.graphTipsShown,
@@ -117,6 +121,7 @@ class AppSettingsModel extends Equatable {
     return {
       'Active Server': '${activeServer.plexName} (${activeServer.id})',
       'App Update Available': appUpdateAvailable.toString(),
+      'Disable Image Backgrounds': disableImageBackgrounds.toString(),
       'Double Back To Exit': doubleBackToExit.toString(),
       'Graph Time Range': graphTimeRange.toString(),
       'Graph Tips Shown': graphTipsShown.toString(),
@@ -145,6 +150,7 @@ class AppSettingsModel extends Equatable {
   List<Object> get props => [
         activeServer,
         appUpdateAvailable,
+        disableImageBackgrounds,
         doubleBackToExit,
         graphTimeRange,
         graphTipsShown,
