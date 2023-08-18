@@ -302,7 +302,14 @@ class _AppSettings extends StatelessWidget {
               children: [
                 _DataDumpRowHeading(e.key),
                 const Gap(16),
-                Text(e.value),
+                Text(
+                  e.value,
+                  style: e.key == 'Theme Custom Color'
+                      ? TextStyle(
+                          color: settingsState.appSettings.themeCustomColor,
+                        )
+                      : null,
+                ),
               ],
             ),
           )
