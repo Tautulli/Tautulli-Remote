@@ -15,6 +15,7 @@ import 'core/global_keys/global_keys.dart';
 import 'core/helpers/notification_helper.dart';
 import 'core/helpers/theme_helper.dart';
 import 'core/rate_app/rate_app.dart';
+import 'core/types/theme_enhancement_type.dart';
 import 'core/types/theme_type.dart';
 import 'core/widgets/settings_not_loaded.dart';
 import 'dependency_injection.dart' as di;
@@ -252,8 +253,9 @@ class TautulliRemoteState extends State<TautulliRemote> {
           final bool themeChange = previous.appSettings.theme != current.appSettings.theme;
           final bool themeSystemColorChange = previous.appSettings.themeUseSystemColor != current.appSettings.themeUseSystemColor;
           final bool themeCustomColorChange = previous.appSettings.themeCustomColor != current.appSettings.themeCustomColor;
+          final bool themeEnhancementChange = previous.appSettings.themeEnhancement != current.appSettings.themeEnhancement;
 
-          if (fontChange || themeChange || (currentThemeIsDynamic && (themeSystemColorChange || themeCustomColorChange))) {
+          if (fontChange || themeChange || themeEnhancementChange || (currentThemeIsDynamic && (themeSystemColorChange || themeCustomColorChange))) {
             return true;
           }
         }
@@ -265,6 +267,7 @@ class TautulliRemoteState extends State<TautulliRemote> {
         final bool themeUseSystemColor = di.sl<Settings>().getThemeUseSystemColor();
         final Color themeCustomColor = di.sl<Settings>().getThemeCustomColor();
         final Color systemColor = SystemTheme.accentColor.accent;
+        final ThemeEnhancementType themeEnhancement = di.sl<Settings>().getThemeEnhancement();
 
         return MaterialApp(
           navigatorKey: navigatorKey,
@@ -272,14 +275,12 @@ class TautulliRemoteState extends State<TautulliRemote> {
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           title: 'Tautulli Remote',
-          theme: theme == ThemeType.dynamic
-              ? ThemeHelper.dynamic(
-                  color: (themeUseSystemColor && defaultTargetPlatform.supportsAccentColor) ? systemColor : themeCustomColor,
-                  fontName: useAtkinsonHyperLegible ? 'Atkinson Hyperlegible' : null,
-                )
-              : ThemeHelper.tautulli(
-                  fontName: useAtkinsonHyperLegible ? 'Atkinson Hyperlegible' : null,
-                ),
+          theme: ThemeHelper.themeSelector(
+            theme: theme,
+            color: (themeUseSystemColor && defaultTargetPlatform.supportsAccentColor) ? systemColor : themeCustomColor,
+            enhancement: themeEnhancement,
+            fontName: useAtkinsonHyperLegible ? 'Atkinson Hyperlegible' : null,
+          ),
           builder: (context, child) {
             return BlocBuilder<SettingsBloc, SettingsState>(
               builder: (context, state) {

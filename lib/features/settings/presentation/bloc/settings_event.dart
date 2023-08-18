@@ -373,6 +373,15 @@ class SettingsUpdateThemeCustomColor extends SettingsEvent {
   List<Object> get props => [color];
 }
 
+class SettingsUpdateThemeEnhancement extends SettingsEvent {
+  final ThemeEnhancementType themeEnhancementType;
+
+  const SettingsUpdateThemeEnhancement(this.themeEnhancementType);
+
+  @override
+  List<Object> get props => [themeEnhancementType];
+}
+
 class SettingsUpdateThemeUseSystemColor extends SettingsEvent {
   final bool useSystemColor;
 

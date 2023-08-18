@@ -2,49 +2,57 @@ import 'package:flex_seed_scheme/flex_seed_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../types/theme_enhancement_type.dart';
 import '../types/theme_type.dart';
 import 'color_palette_helper.dart';
 
 class ThemeHelper {
-  static ThemeType mapStringToTheme(String value) {
-    switch (value) {
-      case ('dynamic'):
-        return ThemeType.dynamic;
-      case ('tautulli'):
-      default:
-        return ThemeType.tautulli;
+  static ThemeData themeSelector({
+    required ThemeType theme,
+    required Color color,
+    required ThemeEnhancementType enhancement,
+    String? fontName,
+  }) {
+    switch (theme) {
+      case (ThemeType.tautulli):
+        return tautulli(enhancement: enhancement, fontName: fontName);
+      case (ThemeType.dynamic):
+        return dynamic(color: color, enhancement: enhancement, fontName: fontName);
     }
   }
 
-  static ThemeData tautulli({String? fontName}) {
+  static ThemeData tautulli({
+    required ThemeEnhancementType enhancement,
+    String? fontName,
+  }) {
     return ThemeData(
       useMaterial3: true,
       colorScheme: SeedColorScheme.fromSeeds(
         brightness: Brightness.dark,
-        primaryKey: PlexColorPalette.gamboge,
-        secondaryKey: PlexColorPalette.curiousBlue,
-        tertiaryKey: PlexColorPalette.atlantis,
-        primary: PlexColorPalette.gamboge,
-        onPrimary: TautulliColorPalette.notWhite,
+        primaryKey: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xfff4be48) : PlexColorPalette.gamboge,
+        secondaryKey: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xff3fb9e9) : PlexColorPalette.curiousBlue,
+        tertiaryKey: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xffc1de8c) : PlexColorPalette.atlantis,
+        primary: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xfff4be48) : PlexColorPalette.gamboge,
+        onPrimary: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xff0d0d0d) : TautulliColorPalette.notWhite,
         primaryContainer: const Color(0xffd5950c),
-        onPrimaryContainer: TautulliColorPalette.notWhite,
-        secondary: PlexColorPalette.curiousBlue,
-        onSecondary: TautulliColorPalette.notWhite,
+        onPrimaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
+        secondary: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xff3fb9e9) : PlexColorPalette.curiousBlue,
+        onSecondary: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xff0d0d0d) : TautulliColorPalette.notWhite,
         secondaryContainer: PlexColorPalette.curiousBlue,
-        onSecondaryContainer: TautulliColorPalette.notWhite,
-        tertiary: PlexColorPalette.atlantis,
-        onTertiary: TautulliColorPalette.notWhite,
+        onSecondaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
+        tertiary: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xffc1de8c) : PlexColorPalette.atlantis,
+        onTertiary: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xff0d0d0d) : TautulliColorPalette.notWhite,
         tertiaryContainer: PlexColorPalette.atlantis,
-        onTertiaryContainer: TautulliColorPalette.notWhite,
-        error: Colors.red[900],
-        onError: TautulliColorPalette.notWhite,
+        onTertiaryContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
+        error: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xffd82222) : Colors.red[900],
+        onError: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
         errorContainer: Colors.red[900],
-        onErrorContainer: TautulliColorPalette.notWhite,
-        background: TautulliColorPalette.midnight,
-        onBackground: TautulliColorPalette.notWhite,
-        surface: TautulliColorPalette.midnight,
-        onSurface: TautulliColorPalette.notWhite,
-        onSurfaceVariant: TautulliColorPalette.smoke,
+        onErrorContainer: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
+        background: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xff0d0d0d) : TautulliColorPalette.midnight,
+        onBackground: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
+        surface: enhancement == ThemeEnhancementType.ultraContrastDark ? const Color(0xff0d0d0d) : TautulliColorPalette.midnight,
+        onSurface: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.notWhite,
+        onSurfaceVariant: enhancement == ThemeEnhancementType.ultraContrastDark ? Colors.white : TautulliColorPalette.smoke,
         surfaceTint: TautulliColorPalette.notWhite,
       ),
       appBarTheme: const AppBarTheme(
@@ -95,12 +103,16 @@ class ThemeHelper {
 
   static ThemeData dynamic({
     required Color color,
+    required ThemeEnhancementType enhancement,
     String? fontName,
   }) {
+    final FlexTones? flexTones = (enhancement == ThemeEnhancementType.ultraContrastDark) ? FlexTones.ultraContrast(Brightness.dark) : null;
+
     return ThemeData(
       useMaterial3: true,
       colorScheme: SeedColorScheme.fromSeeds(
         brightness: Brightness.dark,
+        tones: flexTones,
         primaryKey: color,
       ),
       appBarTheme: const AppBarTheme(

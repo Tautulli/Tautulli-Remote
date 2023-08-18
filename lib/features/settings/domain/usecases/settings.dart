@@ -7,6 +7,7 @@ import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dar
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
 import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';
@@ -447,6 +448,18 @@ class Settings {
   /// Sets the custom color for the dynamic theme.
   Future<bool> setThemeCustomColor(Color color) {
     return repository.setThemeCustomColor(color);
+  }
+
+  /// Returns the ThemeEnhancementType to use with the app theme.
+  ///
+  /// If no value is stored returns null.
+  ThemeEnhancementType getThemeEnhancement() {
+    return repository.getThemeEnhancement();
+  }
+
+  /// Sets the ThemeEnhancementType to use with the app theme.
+  Future<bool> setThemeEnhancement(ThemeEnhancementType themeEnhancementType) {
+    return repository.setThemeEnhancement(themeEnhancementType);
   }
 
   /// Returns if the dynamic theme should use the system color.

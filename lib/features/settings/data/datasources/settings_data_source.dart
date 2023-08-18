@@ -11,11 +11,12 @@ import '../../../../core/database/data/datasources/database.dart';
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/device_info/device_info.dart';
 import '../../../../core/error/exception.dart';
-import '../../../../core/helpers/theme_helper.dart';
 import '../../../../core/local_storage/local_storage.dart';
 import '../../../../core/package_information/package_information.dart';
 import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
+import '../../../../core/utilities/cast.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../onesignal/data/datasources/onesignal_data_source.dart';
 import '../models/connection_address_model.dart';
@@ -171,6 +172,10 @@ abstract class SettingsDataSource {
   Color getThemeCustomColor();
   Future<bool> setThemeCustomColor(Color color);
 
+  // Theme Enhancement
+  ThemeEnhancementType getThemeEnhancement();
+  Future<bool> setThemeEnhancement(ThemeEnhancementType themeEnhancementType);
+
   // Theme Use System Color
   bool getThemeUseSystemColor();
   Future<bool> setThemeUseSystemColor(bool value);
@@ -207,6 +212,7 @@ const statisticsStatType = 'statisticsStatsType';
 const statisticsTimeRange = 'statisticsTimeRange';
 const theme = 'theme';
 const themeCustomColor = 'themeCustomColor';
+const themeEnhancement = 'themeEnhancement';
 const themeUseSystemColor = 'themeUseSystemColor';
 const useAtkinsonHyperlegible = 'userAtkinsonHyperlegible';
 const usersSort = 'usersSort';
@@ -633,7 +639,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   ThemeType getTheme() {
     final storedTheme = localStorage.getString(theme) ?? 'tautulli';
 
-    return ThemeHelper.mapStringToTheme(storedTheme);
+    return Cast.castStringToThemeType(storedTheme);
   }
 
   @override
@@ -652,6 +658,22 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   @override
   Future<bool> setThemeCustomColor(Color color) {
     return localStorage.setInt(themeCustomColor, color.value);
+  }
+
+  // Theme Enhancement
+  @override
+  ThemeEnhancementType getThemeEnhancement() {
+    return Cast.castStringToThemeEnhancementType(
+      localStorage.getString(themeEnhancement),
+    );
+  }
+
+  @override
+  Future<bool> setThemeEnhancement(ThemeEnhancementType themeEnhancementType) {
+    return localStorage.setString(
+      themeEnhancement,
+      Cast.castThemeEnhancementTypeToString(themeEnhancementType),
+    );
   }
 
   // Theme Use System Color

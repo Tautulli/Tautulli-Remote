@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import '../../../../core/widgets/page_body.dart';
 import '../../../../translations/locale_keys.g.dart';
 import '../widgets/groups/dynamic_color_group.dart';
+import '../widgets/groups/theme_enhancements_group.dart';
 import '../widgets/groups/themes_group.dart';
 
 class ThemePage extends StatelessWidget {
@@ -32,6 +33,8 @@ class ThemeView extends StatelessWidget {
             ThemesGroup(),
             Gap(8),
             DynamicColorGroup(),
+            Gap(8),
+            ThemeEnhancementsGroup(),
           ],
         ),
       ),

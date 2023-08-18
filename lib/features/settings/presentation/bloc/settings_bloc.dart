@@ -10,6 +10,7 @@ import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dar
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/manage_cache/manage_cache.dart';
 import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
 import '../../../logging/domain/usecases/logging.dart';
 import '../../data/models/app_settings_model.dart';
@@ -128,6 +129,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
     on<SettingsUpdateThemeCustomColor>(
       (event, emit) => _onSettingsUpdateThemeCustomColor(event, emit),
+    );
+    on<SettingsUpdateThemeEnhancement>(
+      (event, emit) => _onSettingsUpdateThemeEnhancement(event, emit),
     );
     on<SettingsUpdateThemeUseSystemColor>(
       (event, emit) => _onSettingsUpdateThemeUseSystemColor(event, emit),
@@ -366,6 +370,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         statisticsTimeRange: settings.getStatisticsTimeRange(),
         theme: settings.getTheme(),
         themeCustomColor: settings.getThemeCustomColor(),
+        themeEnhancement: settings.getThemeEnhancement(),
         themeUseSystemColor: settings.getThemeUseSystemColor(),
         useAtkinsonHyperlegible: settings.getUseAtkinsonHyperlegible(),
         usersSort: settings.getUsersSort(),
@@ -1069,7 +1074,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     await settings.setTheme(event.themeType);
     logging.info(
-      'Settings :: Theme set to ${event.themeType}',
+      'Settings :: Theme set to ${event.themeType.themeName()}',
     );
 
     emit(
@@ -1096,6 +1101,26 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       currentState.copyWith(
         appSettings: currentState.appSettings.copyWith(
           themeCustomColor: event.color,
+        ),
+      ),
+    );
+  }
+
+  void _onSettingsUpdateThemeEnhancement(
+    SettingsUpdateThemeEnhancement event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final currentState = state as SettingsSuccess;
+
+    await settings.setThemeEnhancement(event.themeEnhancementType);
+    logging.info(
+      'Settings :: Theme enhancement set to ${event.themeEnhancementType.name()}',
+    );
+
+    emit(
+      currentState.copyWith(
+        appSettings: currentState.appSettings.copyWith(
+          themeEnhancement: event.themeEnhancementType,
         ),
       ),
     );

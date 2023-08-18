@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
 
 class AppSettingsModel extends Equatable {
@@ -25,6 +26,7 @@ class AppSettingsModel extends Equatable {
   final int statisticsTimeRange;
   final ThemeType theme;
   final Color themeCustomColor;
+  final ThemeEnhancementType themeEnhancement;
   final bool themeUseSystemColor;
   final bool useAtkinsonHyperlegible;
   final String usersSort;
@@ -50,6 +52,7 @@ class AppSettingsModel extends Equatable {
     required this.statisticsTimeRange,
     required this.theme,
     required this.themeCustomColor,
+    required this.themeEnhancement,
     required this.themeUseSystemColor,
     required this.useAtkinsonHyperlegible,
     required this.usersSort,
@@ -76,6 +79,7 @@ class AppSettingsModel extends Equatable {
     int? statisticsTimeRange,
     ThemeType? theme,
     Color? themeCustomColor,
+    ThemeEnhancementType? themeEnhancement,
     bool? themeUseSystemColor,
     bool? useAtkinsonHyperlegible,
     String? usersSort,
@@ -101,6 +105,7 @@ class AppSettingsModel extends Equatable {
       statisticsTimeRange: statisticsTimeRange ?? this.statisticsTimeRange,
       theme: theme ?? this.theme,
       themeCustomColor: themeCustomColor ?? this.themeCustomColor,
+      themeEnhancement: themeEnhancement ?? this.themeEnhancement,
       themeUseSystemColor: themeUseSystemColor ?? this.themeUseSystemColor,
       useAtkinsonHyperlegible: useAtkinsonHyperlegible ?? this.useAtkinsonHyperlegible,
       usersSort: usersSort ?? this.usersSort,
@@ -126,8 +131,9 @@ class AppSettingsModel extends Equatable {
       'Server Timeout': serverTimeout.toString(),
       'Statistics Stat Type': statisticsStatType.toString(),
       'Statistics Time Range': statisticsTimeRange.toString(),
-      'Theme': theme.toString(),
+      'Theme': theme.themeName(),
       'Theme Custom Color': themeCustomColor.toString(),
+      'Theme Enhancement': themeEnhancement.name(),
       'Theme Use System Color': themeUseSystemColor.toString(),
       'Use Atkinson Hyperlegible Font': useAtkinsonHyperlegible.toString(),
       'Users Sort': usersSort,
@@ -156,6 +162,7 @@ class AppSettingsModel extends Equatable {
         statisticsTimeRange,
         theme,
         themeCustomColor,
+        themeEnhancement,
         themeUseSystemColor,
         useAtkinsonHyperlegible,
         usersSort,

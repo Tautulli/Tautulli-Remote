@@ -7,6 +7,7 @@ import '../../../../core/api/tautulli/models/tautulli_general_settings_model.dar
 import '../../../../core/database/data/models/server_model.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
 import '../../data/models/connection_address_model.dart';
 import '../../data/models/custom_header_model.dart';
@@ -158,6 +159,10 @@ abstract class SettingsRepository {
   // Theme Custom Color
   Color getThemeCustomColor();
   Future<bool> setThemeCustomColor(Color color);
+
+  // Theme Enhancement
+  ThemeEnhancementType getThemeEnhancement();
+  Future<bool> setThemeEnhancement(ThemeEnhancementType themeEnhancementType);
 
   // Theme Use System Color
   bool getThemeUseSystemColor();

@@ -2,9 +2,11 @@ import '../../dependency_injection.dart' as di;
 import '../../features/logging/domain/usecases/logging.dart';
 import '../types/section_type.dart';
 import '../types/tautulli_types.dart';
+import '../types/theme_enhancement_type.dart';
+import '../types/theme_type.dart';
 
 class Cast {
-  // Dart Types
+  //* Dart Types
 
   /// Casts value to a boolean.
   ///
@@ -109,7 +111,7 @@ class Cast {
     }
   }
 
-  // Tautulli Types
+  //* Tautulli Types
 
   /// Casts `String` to a `GraphSeriesType`.
   ///
@@ -362,6 +364,44 @@ class Cast {
               'Utilities :: Failed to cast $value to VideoDynamicRange',
             );
         return VideoDynamicRange.unknown;
+    }
+  }
+
+  //* Tautulli Remote Types
+
+  /// Casts `ThemeEnhancementType` to a `String`.
+  ///
+  /// Returns `none` if no match is found.
+  static String castThemeEnhancementTypeToString(ThemeEnhancementType themeEnhancementType) {
+    switch (themeEnhancementType) {
+      case (ThemeEnhancementType.ultraContrastDark):
+        return 'ultraContrastDark';
+      default:
+        return 'none';
+    }
+  }
+
+  /// Casts `String` to a `ThemeEnhancementType`.
+  ///
+  /// Returns `ThemeEnhancementType.none` if no match is found.
+  static ThemeEnhancementType castStringToThemeEnhancementType(String? value) {
+    switch (value) {
+      case ('ultraContrastDark'):
+        return ThemeEnhancementType.ultraContrastDark;
+      default:
+        return ThemeEnhancementType.none;
+    }
+  }
+
+  /// Casts `String` to a `ThemeType`.
+  ///
+  /// Returns `ThemeType.tautulli` if no match is found.
+  static ThemeType castStringToThemeType(String value) {
+    switch (value) {
+      case ('dynamic'):
+        return ThemeType.dynamic;
+      default:
+        return ThemeType.tautulli;
     }
   }
 }

@@ -9,6 +9,7 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/helpers/failure_helper.dart';
 import '../../../../core/network_info/network_info.dart';
 import '../../../../core/types/play_metric_type.dart';
+import '../../../../core/types/theme_enhancement_type.dart';
 import '../../../../core/types/theme_type.dart';
 import '../../../../core/utilities/cast.dart';
 import '../../domain/repositories/settings_repository.dart';
@@ -431,7 +432,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     return dataSource.setTheme(themeType);
   }
 
-  // Theme Custom Collor
+  // Theme Custom Color
   @override
   Color getThemeCustomColor() {
     return dataSource.getThemeCustomColor();
@@ -440,6 +441,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<bool> setThemeCustomColor(Color color) {
     return dataSource.setThemeCustomColor(color);
+  }
+
+  // Theme Enhancement
+  @override
+  ThemeEnhancementType getThemeEnhancement() {
+    return dataSource.getThemeEnhancement();
+  }
+
+  @override
+  Future<bool> setThemeEnhancement(ThemeEnhancementType themeEnhancementType) {
+    return dataSource.setThemeEnhancement(themeEnhancementType);
   }
 
   // Theme Use System Color
