@@ -52,6 +52,7 @@ abstract class  LocaleKeys {
   static const container_title = 'container_title';
   static const converting_title = 'converting_title';
   static const copied_to_clipboard_snackbar_message = 'copied_to_clipboard_snackbar_message';
+  static const custom_color_title = 'custom_color_title';
   static const custom_time_range_dialog_content = 'custom_time_range_dialog_content';
   static const custom_time_range_title = 'custom_time_range_title';
   static const custom_title = 'custom_title';
@@ -102,6 +103,9 @@ abstract class  LocaleKeys {
   static const double_back_to_exit_subtitle = 'double_back_to_exit_subtitle';
   static const double_back_to_exit_title = 'double_back_to_exit_title';
   static const duration_title = 'duration_title';
+  static const dynamic_color_title = 'dynamic_color_title';
+  static const dynamic_title = 'dynamic_title';
+  static const dynamic_theme_subtitle = 'dynamic_theme_subtitle';
   static const enter_an_integer_message = 'enter_an_integer_message';
   static const enter_time_range_in_days_message = 'enter_time_range_in_days_message';
   static const episode_title = 'episode_title';
@@ -290,6 +294,7 @@ abstract class  LocaleKeys {
   static const secondary_connection_title = 'secondary_connection_title';
   static const secondary_connection_address_hint = 'secondary_connection_address_hint';
   static const secondary_connection_address_title = 'secondary_connection_address_title';
+  static const select_title = 'select_title';
   static const select_user_title = 'select_user_title';
   static const server_connection_address_dialog_primary_validation = 'server_connection_address_dialog_primary_validation';
   static const server_connection_address_dialog_secondary_validation = 'server_connection_address_dialog_secondary_validation';
@@ -329,14 +334,17 @@ abstract class  LocaleKeys {
   static const streams_title = 'streams_title';
   static const studio_title = 'studio_title';
   static const subtitle_title = 'subtitle_title';
+  static const system_color_title = 'system_color_title';
   static const taken_title = 'taken_title';
   static const tautulli_remote_logs_title = 'tautulli_remote_logs_title';
+  static const tautulli_theme_subtitle = 'tautulli_theme_subtitle';
   static const terminate_title = 'terminate_title';
   static const terminate_message_title = 'terminate_message_title';
   static const terminate_stream_dialog_default_message = 'terminate_stream_dialog_default_message';
   static const terminate_stream_dialog_title = 'terminate_stream_dialog_title';
   static const termination_request_sent_message = 'termination_request_sent_message';
   static const terms_of_use_title = 'terms_of_use_title';
+  static const themes_title = 'themes_title';
   static const throttled_title = 'throttled_title';
   static const time_title = 'time_title';
   static const time_range_title = 'time_range_title';
