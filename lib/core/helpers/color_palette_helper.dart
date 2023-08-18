@@ -1,41 +1,9 @@
-import 'package:color/color.dart' hide Color;
 import 'package:flutter/material.dart';
 
 /// Provides access to official Plex colors.
 ///
 /// Creates a custom [MaterialColor] swatch with [createSwatch].
 class PlexColorPalette {
-  /// Returns a [MaterialColor] swatch based on Plex's `Shark` color
-  ///
-  /// Can take in a [r], [g], and [b] value to create a custom [MaterialColor] swatch.
-  static createSwatch({
-    int r = 40,
-    int g = 42,
-    int b = 45,
-  }) {
-    Map<int, Color> colorMap = {
-      50: Color.fromRGBO(r, g, b, 0.1),
-      100: Color.fromRGBO(r, g, b, 0.2),
-      200: Color.fromRGBO(r, g, b, 0.3),
-      300: Color.fromRGBO(r, g, b, 0.4),
-      400: Color.fromRGBO(r, g, b, 0.5),
-      500: Color.fromRGBO(r, g, b, 0.6),
-      600: Color.fromRGBO(r, g, b, 0.7),
-      700: Color.fromRGBO(r, g, b, 0.8),
-      800: Color.fromRGBO(r, g, b, 0.9),
-      900: Color.fromRGBO(r, g, b, 1.0),
-    };
-
-    // Uses Color package to convert RGB to HEX, append '0xff' with string interpolation, and parse as int for MaterialColor
-    int hexColor = int.parse(
-      '0xff${RgbColor(r, g, b).toHexColor().toString()}',
-    );
-
-    MaterialColor customSwatch = MaterialColor(hexColor, colorMap);
-
-    return customSwatch;
-  }
-
   // Primary Color Palette
   static const Color gamboge = Color.fromRGBO(229, 160, 13, 1.0);
   static const Color shark = Color.fromRGBO(40, 42, 45, 1.0);
@@ -59,37 +27,6 @@ class PlexColorPalette {
 
 /// Provides access to colors used by Tautulli.
 class TautulliColorPalette {
-  /// Returns a [MaterialColor] swatch based on Tautulli's `Gunmetal` color
-  ///
-  /// Can take in a [r], [g], and [b] value to create a custom [MaterialColor] swatch.
-  static createSwatch({
-    int r = 40,
-    int g = 40,
-    int b = 40,
-  }) {
-    Map<int, Color> colorMap = {
-      50: Color.fromRGBO(r, g, b, 0.1),
-      100: Color.fromRGBO(r, g, b, 0.2),
-      200: Color.fromRGBO(r, g, b, 0.3),
-      300: Color.fromRGBO(r, g, b, 0.4),
-      400: Color.fromRGBO(r, g, b, 0.5),
-      500: Color.fromRGBO(r, g, b, 0.6),
-      600: Color.fromRGBO(r, g, b, 0.7),
-      700: Color.fromRGBO(r, g, b, 0.8),
-      800: Color.fromRGBO(r, g, b, 0.9),
-      900: Color.fromRGBO(r, g, b, 1.0),
-    };
-
-    // Uses Color package to convert RGB to HEX, append '0xff' with string interpolation, and parse as int for MaterialColor
-    int hexColor = int.parse(
-      '0xff${RgbColor(r, g, b).toHexColor().toString()}',
-    );
-
-    MaterialColor customSwatch = MaterialColor(hexColor, colorMap);
-
-    return customSwatch;
-  }
-
   static const Color midnight = Color.fromRGBO(31, 31, 31, 1.0);
   static const Color gunmetal = Color.fromRGBO(40, 40, 40, 1.0);
   static const Color smoke = Color.fromRGBO(170, 170, 170, 1.0);
